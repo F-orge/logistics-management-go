@@ -1,0 +1,20 @@
+services:
+  logistics-management-system:
+    image: registry.marahuyo.dev/logistics-management-system:latest
+    networks:
+      - marahuyo.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.marahuyo-pocketbase.loadbalancer.server.port=80"
+      - "traefik.http.routers.marahuyo-pocketbase.rule=Host(`api.f-org-e.systems`)"
+      - "traefik.http.routers.marahuyo-pocketbase.entrypoints=web-secure"
+      - "traefik.http.routers.marahuyo-pocketbase.tls=true"
+      - "traefik.http.routers.marahuyo-pocketbase.tls.certresolver=cloudflare"
+    volumes:
+      - logistics-management-system-data:/app/pb_data
+
+volumes:
+  logistics-management-system-data:
+networks:
+  marahuyo.dev:
+    external: true
