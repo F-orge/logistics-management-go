@@ -8,13 +8,14 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+
+	_ "github.com/F-orge/logistics-management-go/migrations"
 )
 
 func main() {
 
 	app := pocketbase.New()
 
-	// migration command
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Automigrate: true,
 	})

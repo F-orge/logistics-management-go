@@ -5,9 +5,10 @@
   "scripts": {
     "frontend": "rsbuild dev",
     "backend": "go run cmd/main.go",
+    "publish": "bun run build && bun run push && bun run deploy",
     "push": "docker image push registry.marahuyo.dev/logistics-management-system:latest",
-    "deploy": "docker context use marahuyo-dev && docker compose -f .docker/compose.prod.yaml up -d && docker context use default",
-    "build": "docker context use default && docker build -t registry.marahuyo.dev/logistics-management-system:latest -f .docker/Dockerfile ."
+    "deploy": "docker context use marahuyo-dev && docker compose -f .docker/compose.prod.yaml pull && docker compose -f .docker/compose.prod.yaml up -d && docker context use default",
+    "build": "docker context use default && docker build --build-arg PUBLIC_DOMAIN_NAME=f-org-e.systems -t registry.marahuyo.dev/logistics-management-system:latest -f .docker/Dockerfile ."
   },
   "devDependencies": {
     "@rsbuild/core": "^1.2.19",

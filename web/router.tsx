@@ -29,14 +29,18 @@ const SystemRouting: Component<{}> = (props) => {
     >
       {/* WWW Site */}
       <Show
-        when={window.location.host.startsWith("www.localhost") ||
-          window.location.host.startsWith("localhost")}
+        when={window.location.host.startsWith(
+          `www.${import.meta.env.PUBLIC_DOMAIN_NAME}`,
+        ) ||
+          window.location.host.startsWith(import.meta.env.PUBLIC_DOMAIN_NAME!)}
       >
         <Route path={"/"} component={HomePage} />
       </Show>
       {/* Authentication site */}
       <Show
-        when={window.location.host.startsWith("auth.localhost")}
+        when={window.location.host.startsWith(
+          `auth.${import.meta.env.PUBLIC_DOMAIN_NAME}`,
+        )}
       >
         <AuthRouter />
       </Show>
