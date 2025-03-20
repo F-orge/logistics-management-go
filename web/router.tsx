@@ -35,13 +35,6 @@ const SystemRouting: Component<{}> = (props) => {
           window.location.host.startsWith(import.meta.env.PUBLIC_DOMAIN_NAME!)}
       >
         <Route path={"/"} component={HomePage} />
-      </Show>
-      {/* Authentication site */}
-      <Show
-        when={window.location.host.startsWith(
-          `auth.${import.meta.env.PUBLIC_DOMAIN_NAME}`,
-        )}
-      >
         <AuthRouter />
       </Show>
       <Route path={"*"} component={NotFoundPage} />

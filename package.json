@@ -3,6 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "generate:types": "bunx pocketbase-typegen --db ./pb_data/data.db --out web/lib/pocketbase-types.ts",
     "frontend": "rsbuild dev",
     "backend": "go run cmd/main.go",
     "publish": "bun run build && bun run push && bun run deploy",
@@ -11,6 +12,7 @@
     "build": "docker context use default && docker build --build-arg PUBLIC_DOMAIN_NAME=f-org-e.systems -t registry.marahuyo.dev/logistics-management-system:latest -f .docker/Dockerfile ."
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@rsbuild/core": "^1.2.19",
     "@rsbuild/plugin-babel": "^1.0.4",
     "@rsbuild/plugin-solid": "^1.0.5",
@@ -37,6 +39,7 @@
     "cmdk-solid": "^1.1.2",
     "embla-carousel-solid": "^8.5.2",
     "lucide-solid": "^0.483.0",
+    "pocketbase": "^0.25.2",
     "solid-js": "^1.9.5",
     "solid-sonner": "^0.2.8",
     "tailwind-merge": "^3.0.2",
