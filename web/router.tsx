@@ -34,10 +34,9 @@ const SystemRouting: Component<{}> = (props) => {
         ) ||
           window.location.host.startsWith(import.meta.env.PUBLIC_DOMAIN_NAME!)}
       >
-        <Route path={"/"} component={HomePage} />
         <AuthRouter />
       </Show>
-      <Route path={"*"} component={NotFoundPage} />
+      <Route path={"*"} component={() => <NotFoundPage href="/" />} />
     </Router>
   );
 };

@@ -7,13 +7,13 @@ services:
       - marahuyo.dev
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.marahuyo-pocketbase.loadbalancer.server.port=80"
-      - "traefik.http.routers.marahuyo-pocketbase.rule=Host(`api.f-org-e.systems`) || Host(`auth.f-org-e.systems`)"
-      - "traefik.http.routers.marahuyo-pocketbase.entrypoints=web-secure"
-      - "traefik.http.routers.marahuyo-pocketbase.tls=true"
-      - "traefik.http.routers.marahuyo-pocketbase.tls.certresolver=cloudflare"
+      - "traefik.http.services.logistics-management-system.loadbalancer.server.port=80"
+      - "traefik.http.routers.logistics-management-system.rule=Host(`api.f-org-e.systems`) || Host(`www.f-org-e.systems`) || Host(`f-org-e.systems`)"
+      - "traefik.http.routers.logistics-management-system.entrypoints=web-secure"
+      - "traefik.http.routers.logistics-management-system.tls=true"
+      - "traefik.http.routers.logistics-management-system.tls.certresolver=cloudflare"
     volumes:
-      - logistics-management-system-data:/app/pb_data
+      - logistics-management-system-data:/app/pb_data 
 
 volumes:
   logistics-management-system-data:
