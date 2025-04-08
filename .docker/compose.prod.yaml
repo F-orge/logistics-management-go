@@ -3,6 +3,7 @@ services:
     image: registry.marahuyo.dev/logistics-management-system:latest
     environment:
       - PUBLIC_DOMAIN_NAME=f-org-e.systems
+      - PUBLIC_BACKEND_URL=https://f-org-e.systems
     networks:
       - marahuyo.dev
     labels:
