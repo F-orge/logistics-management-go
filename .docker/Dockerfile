@@ -12,7 +12,7 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY . .
+COPY --exclude=web . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server ./cmd/main.go
 
