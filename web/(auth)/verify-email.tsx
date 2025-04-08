@@ -6,6 +6,8 @@ import { pb } from "~/lib/pocketbase";
 const VerifyEmailPage: Component<{}> = (props) => {
 	onMount(async () => {
 		try {
+			if (!pb.authStore.isValid) window.location.href = "/signin";
+
 			const userRecord = await pb
 				.collection("users")
 				.getOne(pb.authStore.record?.id || "");

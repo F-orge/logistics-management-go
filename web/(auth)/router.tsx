@@ -1,5 +1,6 @@
 import { Route } from "@solidjs/router";
 import { type Component, lazy } from "solid-js";
+import { pb } from "~/lib/pocketbase";
 
 const AuthLayout = lazy(() => import("~/components/layouts/auth"));
 const SignInPage = lazy(() => import("./signin"));
