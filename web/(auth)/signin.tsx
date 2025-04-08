@@ -9,21 +9,30 @@ import {
 import { action, redirect, useSubmission } from "@solidjs/router";
 import { pb } from "~/lib/pocketbase";
 import { toast } from "solid-sonner";
+import { ClientResponseError } from "pocketbase";
 
 const SignInAction = action(async (formData: FormData) => {
 	const email = formData.get("email")?.toString() || "";
 	const password = formData.get("password")?.toString() || "";
 
 	try {
-		await pb.collection("users").authWithPassword(email, password);
+		const authData = await pb
+			.collection("users")
+			.authWithPassword(email, password);
+
+		if (!authData.record.verified) {
+			throw redirect("/verify-email");
+		}
+
+		throw redirect("/");
 	} catch (e) {
-		toast("Authentication error", {
-			description: "invalid email or password",
-		});
+		if (e instanceof ClientResponseError) {
+			toast("Authentication error", {
+				description: "invalid email or password",
+			});
+		}
 		throw e;
 	}
-
-	throw redirect("/");
 });
 
 const SignInPage: Component<{}> = (props) => {
