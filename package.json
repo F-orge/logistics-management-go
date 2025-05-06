@@ -12,7 +12,7 @@
     "build": "docker context use default && docker build --build-arg PUBLIC_DOMAIN_NAME=f-org-e.systems -t registry.marahuyo.dev/logistics-management-system:latest -f .docker/Dockerfile ."
   },
   "devDependencies": {
-    "@faker-js/faker": "^9.6.0",
+    "@faker-js/faker": "^9.7.0",
     "@rsbuild/core": "^1.2.19",
     "@rsbuild/plugin-babel": "^1.0.4",
     "@rsbuild/plugin-solid": "^1.0.5",

@@ -14,8 +14,7 @@ export enum Collections {
 	ChatMessage = "chat_message",
 	Department = "department",
 	Employee = "employee",
-	MarketingServices = "marketing_services",
-	Notification = "notification",
+	Notifications = "notifications",
 	Shipment = "shipment",
 	ShipmentItem = "shipment_item",
 	Tasks = "tasks",
@@ -28,15 +27,20 @@ export type IsoDateString = string
 export type RecordIdString = string
 export type HTMLString = string
 
+type ExpandType<T> = unknown extends T
+	? T extends unknown
+		? { expand?: unknown }
+		: { expand: T }
+	: { expand: T }
+
 // System fields
-export type BaseSystemFields<T = never> = {
+export type BaseSystemFields<T = unknown> = {
 	id: RecordIdString
 	collectionId: string
 	collectionName: Collections
-	expand?: T
-}
+} & ExpandType<T>
 
-export type AuthSystemFields<T = never> = {
+export type AuthSystemFields<T = unknown> = {
 	email: string
 	emailVisibility: boolean
 	username: string
@@ -126,26 +130,12 @@ export type EmployeeRecord = {
 	user_id?: RecordIdString
 }
 
-export enum MarketingServicesLayoutStyleOptions {
-	"centered" = "centered",
-	"grid" = "grid",
-}
-export type MarketingServicesRecord = {
-	created?: IsoDateString
-	description: HTMLString
-	id: string
-	images?: string[]
-	layout_style: MarketingServicesLayoutStyleOptions
-	title: string
-	updated?: IsoDateString
-}
-
-export type NotificationRecord = {
+export type NotificationsRecord = {
 	created?: IsoDateString
 	id: string
 	link?: string
-	message?: string
-	title?: string
+	message: string
+	title: string
 	updated?: IsoDateString
 	user?: RecordIdString
 }
@@ -198,23 +188,23 @@ export enum ShipmentPaymentModeOptions {
 export type ShipmentRecord = {
 	address: HTMLString
 	attachments?: string[]
-	chat_messages: RecordIdString[]
+	chat_messages?: RecordIdString[]
 	created?: IsoDateString
 	delivery_attempts: number
-	documents: string[]
+	documents?: string[]
 	id: string
 	payment_mode: ShipmentPaymentModeOptions
 	payment_reference_id: string
 	price: number
 	price_currency: ShipmentPriceCurrencyOptions
-	priority: ShipmentPriorityOptions
-	proof_of_delivery: string[]
+	priority?: ShipmentPriorityOptions
+	proof_of_delivery?: string[]
 	receiver_name: string
 	return_attempts?: number
-	sender_id: RecordIdString
+	sender_name: string
 	shipment_type: ShipmentShipmentTypeOptions
 	status: ShipmentStatusOptions
-	transport_mode: ShipmentTransportModeOptions
+	transport_mode?: ShipmentTransportModeOptions
 	transport_reference_id: string
 	updated?: IsoDateString
 	weight: number
@@ -263,7 +253,7 @@ export type TasksMessagesRecord = {
 export enum UsersRoleOptions {
 	"admin" = "admin",
 	"employee" = "employee",
-	"customer" = "customer",
+	"manager" = "manager",
 }
 export type UsersRecord = {
 	address?: HTMLString
@@ -274,7 +264,7 @@ export type UsersRecord = {
 	id: string
 	name?: string
 	password: string
-	role?: UsersRoleOptions
+	role: UsersRoleOptions
 	tokenKey: string
 	updated?: IsoDateString
 	verified?: boolean
@@ -289,8 +279,7 @@ export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> &
 export type ChatMessageResponse<Texpand = unknown> = Required<ChatMessageRecord> & BaseSystemFields<Texpand>
 export type DepartmentResponse<Texpand = unknown> = Required<DepartmentRecord> & BaseSystemFields<Texpand>
 export type EmployeeResponse<Texpand = unknown> = Required<EmployeeRecord> & BaseSystemFields<Texpand>
-export type MarketingServicesResponse<Texpand = unknown> = Required<MarketingServicesRecord> & BaseSystemFields<Texpand>
-export type NotificationResponse<Texpand = unknown> = Required<NotificationRecord> & BaseSystemFields<Texpand>
+export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type ShipmentResponse<Texpand = unknown> = Required<ShipmentRecord> & BaseSystemFields<Texpand>
 export type ShipmentItemResponse<Texpand = unknown> = Required<ShipmentItemRecord> & BaseSystemFields<Texpand>
 export type TasksResponse<Texpand = unknown> = Required<TasksRecord> & BaseSystemFields<Texpand>
@@ -308,8 +297,7 @@ export type CollectionRecords = {
 	chat_message: ChatMessageRecord
 	department: DepartmentRecord
 	employee: EmployeeRecord
-	marketing_services: MarketingServicesRecord
-	notification: NotificationRecord
+	notifications: NotificationsRecord
 	shipment: ShipmentRecord
 	shipment_item: ShipmentItemRecord
 	tasks: TasksRecord
@@ -326,8 +314,7 @@ export type CollectionResponses = {
 	chat_message: ChatMessageResponse
 	department: DepartmentResponse
 	employee: EmployeeResponse
-	marketing_services: MarketingServicesResponse
-	notification: NotificationResponse
+	notifications: NotificationsResponse
 	shipment: ShipmentResponse
 	shipment_item: ShipmentItemResponse
 	tasks: TasksResponse
@@ -347,8 +334,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'chat_message'): RecordService<ChatMessageResponse>
 	collection(idOrName: 'department'): RecordService<DepartmentResponse>
 	collection(idOrName: 'employee'): RecordService<EmployeeResponse>
-	collection(idOrName: 'marketing_services'): RecordService<MarketingServicesResponse>
-	collection(idOrName: 'notification'): RecordService<NotificationResponse>
+	collection(idOrName: 'notifications'): RecordService<NotificationsResponse>
 	collection(idOrName: 'shipment'): RecordService<ShipmentResponse>
 	collection(idOrName: 'shipment_item'): RecordService<ShipmentItemResponse>
 	collection(idOrName: 'tasks'): RecordService<TasksResponse>
