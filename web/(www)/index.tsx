@@ -5,7 +5,6 @@ import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { pb } from "~/lib/pocketbase";
-import { MarketingServicesLayoutStyleOptions } from "~/lib/pocketbase-types";
 
 const HomePage: Component<{}> = (props) => {
 	const servicesConfig = createAsync(() =>
@@ -39,42 +38,6 @@ const HomePage: Component<{}> = (props) => {
 							)}
 						</For>
 					</TabsList>
-					<For each={servicesConfig()}>
-						{(item) => (
-							<TabsContent
-								value={item.title}
-								class="p-4 space-y-5 grid grid-cols-2"
-							>
-								<Switch>
-									<Match
-										when={
-											item.layout_style ===
-											MarketingServicesLayoutStyleOptions.grid
-										}
-									>
-										<div>
-											<h3 class="text-2xl font-bold">{item.title}</h3>
-											<div
-												class="text-muted-foreground"
-												innerHTML={item.description}
-											/>
-										</div>
-										<div class="grid grid-cols-2 gap-2.5">
-											<For each={item.images}>
-												{(image) => (
-													<img
-														class="rounded-md"
-														src={`${import.meta.env.PUBLIC_BACKEND_URL}/api/files/marketing_services/${item.id}/${image}`}
-														alt=""
-													/>
-												)}
-											</For>
-										</div>
-									</Match>
-								</Switch>
-							</TabsContent>
-						)}
-					</For>
 				</Tabs>
 			</section>
 			<section>Partners</section>

@@ -9,7 +9,7 @@ const SystemRouting = lazy(() => import("./router"));
 const root = document.getElementById("root");
 
 if (!root) {
-  throw new Error("Error initializing application");
+	throw new Error("Error initializing application");
 } else {
-  render(() => <SystemRouting />, root);
+	render(() => <SystemRouting />, root);
 }

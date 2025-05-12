@@ -1,5 +1,5 @@
 import { type Component, Show } from "solid-js";
-import { Route, Router } from "@solidjs/router";
+import { redirect, Route, Router } from "@solidjs/router";
 import { lazy } from "solid-js";
 import {
 	ColorModeProvider,
@@ -7,6 +7,8 @@ import {
 	createLocalStorageManager,
 } from "@kobalte/core";
 import { Toaster } from "~/components/ui/sonner";
+import ManagementRouter from "./(management)/router";
+import { pb } from "./lib/pocketbase";
 
 const AuthRouter = lazy(() => import("./(auth)/router"));
 const PublicSiteRouter = lazy(() => import("./(www)/router"));
@@ -27,19 +29,21 @@ const SystemRouting: Component<{}> = (props) => {
 				</>
 			)}
 		>
-			<Show
-				when={
-					window.location.host.startsWith(
-						`www.${import.meta.env.PUBLIC_DOMAIN_NAME}`,
-					) ||
-					window.location.host.startsWith(
-						import.meta.env.PUBLIC_DOMAIN_NAME || "",
-					)
-				}
-			>
+			<Route path="">
 				<PublicSiteRouter />
+			</Route>
+			<Route path="auth">
 				<AuthRouter />
-			</Show>
+			</Route>
+			<Route
+				preload={() => {
+					// checkc if the user is authenticated or not.
+					if (!pb.authStore.isValid) window.location.href = "/auth/signin";
+				}}
+				path="management"
+			>
+				<ManagementRouter />
+			</Route>
 			<Route path={"*"} component={() => <NotFoundPage href="/" />} />
 		</Router>
 	);

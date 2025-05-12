@@ -2,5 +2,5 @@ import Pocketbase from "pocketbase";
 import type { TypedPocketBase } from "./pocketbase-types";
 
 export const pb = new Pocketbase(
-	import.meta.env.PUBLIC_BACKEND_URL,
+	import.meta.env.PUBLIC_POCKETBASE_BACKEND_URL,
 ) as TypedPocketBase;
