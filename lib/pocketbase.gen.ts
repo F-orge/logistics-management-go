@@ -209,12 +209,25 @@ export type InvoicesRecord = {
 	updated?: IsoDateString
 }
 
+export enum NotificationsTypeOptions {
+	"new_task_assigned" = "new_task_assigned",
+	"task_updated" = "task_updated",
+	"order_status_updated" = "order_status_updated",
+	"shipment_alert" = "shipment_alert",
+	"new_chat_message" = "new_chat_message",
+	"system_announcement" = "system_announcement",
+	"mention" = "mention",
+	"task_comment" = "task_comment",
+}
 export type NotificationsRecord = {
 	created?: IsoDateString
 	id: string
+	is_read?: boolean
 	link?: string
 	message: string
+	read_at?: IsoDateString
 	title: string
+	type?: NotificationsTypeOptions
 	updated?: IsoDateString
 	user?: RecordIdString
 }
