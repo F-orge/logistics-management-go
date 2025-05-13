@@ -1,0 +1,125 @@
+name: "💡 Feature Request"
+description: Create a new ticket for a new feature request
+title: "💡 [REQUEST] - <title>"
+labels: [
+  "enhancement" # You might want to add a "feature" or "enhancement" label here too
+]
+body:
+  # Definition of Done Starts Here
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Definition of Done (DoD) Checklist
+        **Task State:** Ready to be moved to the "Done" column in GitHub Projects.
+
+  - type: markdown
+    attributes:
+      value: "### I. Development & Code Quality"
+  - type: checkboxes
+    id: dod_dev_quality
+    attributes:
+      label: "Development & Code Quality Checks"
+      options:
+        - label: "All acceptance criteria defined in the task/issue have been met."
+        - label: "Code is written following the team's established coding standards and best practices."
+        - label: "Code is self-documenting where possible, with clear inline comments for complex logic."
+        - label: "No known critical bugs introduced by the changes."
+
+  - type: markdown
+    attributes:
+      value: "### II. Branching & Version Control"
+  - type: checkboxes
+    id: dod_branching_vc
+    attributes:
+      label: "Branching & Version Control Checks"
+      options:
+        - label: "All work has been completed on a dedicated feature branch created from the `develop` branch."
+        - label: "The feature branch has been appropriately named according to team conventions."
+        - label: "The feature branch has been rebased/merged with the latest `develop` branch to resolve any conflicts before the Pull Request."
+        - label: "Commit messages are clear, concise, and follow the team's defined format."
+
+  - type: markdown
+    attributes:
+      value: |
+        ### III. Automated Testing (CI/CD Pipeline)
+        *This section assumes CI runs on the feature branch/PR before merging to `develop`.*
+  - type: checkboxes
+    id: dod_automated_testing
+    attributes:
+      label: "Automated Testing (CI/CD Pipeline) Checks"
+      options:
+        - label: "All linting checks pass successfully."
+        - label: "All unit tests pass successfully."
+        - label: "All integration tests pass successfully."
+        - label: "Test coverage meets the agreed-upon minimum of 70-80% (confirm specific target if it varies)."
+        - label: "The full CI/CD pipeline (linting, unit tests, integration tests) has passed successfully for the feature branch."
+
+  - type: markdown
+    attributes:
+      value: |
+        ### IV. Manual Testing
+        *(Performed in "Testing" column or during "Code Review")*
+  - type: checkboxes
+    id: dod_manual_testing
+    attributes:
+      label: "Manual Testing Checks"
+      options:
+        - label: "Manual testing (e.g., UI testing, exploratory testing for specific cases) as defined for the task has been completed by another developer or QA person."
+        - label: "All issues identified during manual testing have been addressed and re-verified."
+
+  - type: markdown
+    attributes:
+      value: "### V. Documentation"
+  - type: checkboxes
+    id: dod_documentation
+    attributes:
+      label: "Documentation Checks"
+      options:
+        - label: "`package.json` version has been updated appropriately (if applicable to the changes)."
+        - label: "`CHANGELOG.md` has been updated with a clear and concise description of the changes made."
+        - label: "Any other relevant technical documentation (e.g., READMEs, API documentation, configuration changes) stored in markdown files has been created or updated."
+
+  - type: markdown
+    attributes:
+      value: |
+        ### VI. Code Review
+        *(Performed in "Code Review" column)*
+  - type: checkboxes
+    id: dod_code_review
+    attributes:
+      label: "Code Review Checks"
+      options:
+        - label: "A Pull Request (PR) has been created targeting the `develop` branch."
+        - label: "PR description clearly explains: What changes were made."
+        - label: "PR description clearly explains: The problem or feature being addressed."
+        - label: "PR description clearly explains: How to test or verify the changes."
+        - label: "The PR has been reviewed and approved by at least one other developer or QA person as per team policy."
+        - label: "All comments, questions, and feedback from the code review have been addressed and resolved."
+
+  - type: markdown
+    attributes:
+      value: "### VII. Merge & Final Verification"
+  - type: checkboxes
+    id: dod_merge_final_verification
+    attributes:
+      label: "Merge & Final Verification Checks"
+      options:
+        - label: "The approved feature branch has been successfully merged into the `develop` branch."
+        - label: "The CI/CD pipeline has passed successfully on the `develop` branch after the merge. *(This confirms successful integration without breaking the `develop` branch).*"
+        - label: "The associated task/issue in GitHub Projects is now ready to be moved to the \"Done\" column."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### How to Use This DoD with Your Kanban Columns:
+
+        * **Todo (Backlog):** When an issue is created or picked up, this DoD checklist is part of the issue.
+        * **In Development:** The developer works on the task, aiming to satisfy the relevant DoD items.
+        * **Testing:** Automated tests run; manual testing by another developer/QA. CI/CD pipeline passes on feature branch.
+        * **Code Review:** PR submitted, reviewed, and feedback addressed.
+        * **Done:** All DoD checkboxes are ticked, branch merged to `develop`, CI passes on `develop`, card moved.
+
+        **Note on Merging to `main`:**
+        This DoD focuses on getting a task "Done" and integrated into your `develop` branch. The process of merging from `develop` to `main` can be considered a separate step, potentially part of a release process.

@@ -1,0 +1,15 @@
+services:
+  marahuyo-pocketbase-react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      ssh:
+        - default
+    image: marahuyo-pocketbase-react:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - marahuyo-pocketbase-react-data:/app/pb_data
+
+volumes:
+  marahuyo-pocketbase-react-data:
