@@ -10,11 +10,11 @@ import {
 } from '@marahuyo/react-ui/ui/card';
 import { Input } from '@marahuyo/react-ui/ui/input';
 import { Label } from '@marahuyo/react-ui/ui/label';
-import { useForm, type AnyFieldApi } from '@tanstack/react-form';
+import { type AnyFieldApi, useForm } from '@tanstack/react-form';
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { pb } from '../../lib/pocketbase';
 import { ClientResponseError } from 'pocketbase';
 import { toast } from 'sonner';
+import { pb } from '../../lib/pocketbase';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
