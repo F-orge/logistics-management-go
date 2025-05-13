@@ -16,11 +16,12 @@ export default defineConfig({
       ],
     },
   },
+  
   server: {
-    proxy: {
-      '/api': 'http://localhost:8090/api',
-    },
-  },
+		proxy: {
+			"/api": "http://localhost:8090/api",
+		},
+	},
   output: {
     distPath: {
       root: '.output/dist',
