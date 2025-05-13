@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root';
+import { Route as DashboardImport } from './routes/dashboard';
 import { Route as DashboardChatRoomidImport } from './routes/dashboard/chat/$room_id';
 import { Route as DashboardChatIndexImport } from './routes/dashboard/chat/index';
 import { Route as DashboardChatNewImport } from './routes/dashboard/chat/new';
@@ -106,6 +107,12 @@ const ForgotPasswordRoute = ForgotPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any);
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -113,458 +120,458 @@ const IndexRoute = IndexImport.update({
 } as any);
 
 const DashboardIndexRoute = DashboardIndexImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardSettingsRoute = DashboardSettingsImport.update({
-  id: '/dashboard/settings',
-  path: '/dashboard/settings',
-  getParentRoute: () => rootRoute,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardWarehousesIndexRoute = DashboardWarehousesIndexImport.update({
-  id: '/dashboard/warehouses/',
-  path: '/dashboard/warehouses/',
-  getParentRoute: () => rootRoute,
+  id: '/warehouses/',
+  path: '/warehouses/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardVehiclesIndexRoute = DashboardVehiclesIndexImport.update({
-  id: '/dashboard/vehicles/',
-  path: '/dashboard/vehicles/',
-  getParentRoute: () => rootRoute,
+  id: '/vehicles/',
+  path: '/vehicles/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardTasksIndexRoute = DashboardTasksIndexImport.update({
-  id: '/dashboard/tasks/',
-  path: '/dashboard/tasks/',
-  getParentRoute: () => rootRoute,
+  id: '/tasks/',
+  path: '/tasks/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardShipmentsIndexRoute = DashboardShipmentsIndexImport.update({
-  id: '/dashboard/shipments/',
-  path: '/dashboard/shipments/',
-  getParentRoute: () => rootRoute,
+  id: '/shipments/',
+  path: '/shipments/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardRoutesIndexRoute = DashboardRoutesIndexImport.update({
-  id: '/dashboard/routes/',
-  path: '/dashboard/routes/',
-  getParentRoute: () => rootRoute,
+  id: '/routes/',
+  path: '/routes/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
-  id: '/dashboard/profile/',
-  path: '/dashboard/profile/',
-  getParentRoute: () => rootRoute,
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardProductsIndexRoute = DashboardProductsIndexImport.update({
-  id: '/dashboard/products/',
-  path: '/dashboard/products/',
-  getParentRoute: () => rootRoute,
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardPaymentsIndexRoute = DashboardPaymentsIndexImport.update({
-  id: '/dashboard/payments/',
-  path: '/dashboard/payments/',
-  getParentRoute: () => rootRoute,
+  id: '/payments/',
+  path: '/payments/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardOrdersIndexRoute = DashboardOrdersIndexImport.update({
-  id: '/dashboard/orders/',
-  path: '/dashboard/orders/',
-  getParentRoute: () => rootRoute,
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardInvoicesIndexRoute = DashboardInvoicesIndexImport.update({
-  id: '/dashboard/invoices/',
-  path: '/dashboard/invoices/',
-  getParentRoute: () => rootRoute,
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardInventoryIndexRoute = DashboardInventoryIndexImport.update({
-  id: '/dashboard/inventory/',
-  path: '/dashboard/inventory/',
-  getParentRoute: () => rootRoute,
+  id: '/inventory/',
+  path: '/inventory/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardDepartmentsIndexRoute = DashboardDepartmentsIndexImport.update({
-  id: '/dashboard/departments/',
-  path: '/dashboard/departments/',
-  getParentRoute: () => rootRoute,
+  id: '/departments/',
+  path: '/departments/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardCompaniesIndexRoute = DashboardCompaniesIndexImport.update({
-  id: '/dashboard/companies/',
-  path: '/dashboard/companies/',
-  getParentRoute: () => rootRoute,
+  id: '/companies/',
+  path: '/companies/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardChatIndexRoute = DashboardChatIndexImport.update({
-  id: '/dashboard/chat/',
-  path: '/dashboard/chat/',
-  getParentRoute: () => rootRoute,
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardWarehousesNewRoute = DashboardWarehousesNewImport.update({
-  id: '/dashboard/warehouses/new',
-  path: '/dashboard/warehouses/new',
-  getParentRoute: () => rootRoute,
+  id: '/warehouses/new',
+  path: '/warehouses/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardVehiclesNewRoute = DashboardVehiclesNewImport.update({
-  id: '/dashboard/vehicles/new',
-  path: '/dashboard/vehicles/new',
-  getParentRoute: () => rootRoute,
+  id: '/vehicles/new',
+  path: '/vehicles/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardTasksNewRoute = DashboardTasksNewImport.update({
-  id: '/dashboard/tasks/new',
-  path: '/dashboard/tasks/new',
-  getParentRoute: () => rootRoute,
+  id: '/tasks/new',
+  path: '/tasks/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardTasksMyTasksRoute = DashboardTasksMyTasksImport.update({
-  id: '/dashboard/tasks/my-tasks',
-  path: '/dashboard/tasks/my-tasks',
-  getParentRoute: () => rootRoute,
+  id: '/tasks/my-tasks',
+  path: '/tasks/my-tasks',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardShipmentsNewRoute = DashboardShipmentsNewImport.update({
-  id: '/dashboard/shipments/new',
-  path: '/dashboard/shipments/new',
-  getParentRoute: () => rootRoute,
+  id: '/shipments/new',
+  path: '/shipments/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardRoutesNewRoute = DashboardRoutesNewImport.update({
-  id: '/dashboard/routes/new',
-  path: '/dashboard/routes/new',
-  getParentRoute: () => rootRoute,
+  id: '/routes/new',
+  path: '/routes/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardProductsNewRoute = DashboardProductsNewImport.update({
-  id: '/dashboard/products/new',
-  path: '/dashboard/products/new',
-  getParentRoute: () => rootRoute,
+  id: '/products/new',
+  path: '/products/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardPaymentsNewRoute = DashboardPaymentsNewImport.update({
-  id: '/dashboard/payments/new',
-  path: '/dashboard/payments/new',
-  getParentRoute: () => rootRoute,
+  id: '/payments/new',
+  path: '/payments/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardOrdersNewRoute = DashboardOrdersNewImport.update({
-  id: '/dashboard/orders/new',
-  path: '/dashboard/orders/new',
-  getParentRoute: () => rootRoute,
+  id: '/orders/new',
+  path: '/orders/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardInvoicesNewRoute = DashboardInvoicesNewImport.update({
-  id: '/dashboard/invoices/new',
-  path: '/dashboard/invoices/new',
-  getParentRoute: () => rootRoute,
+  id: '/invoices/new',
+  path: '/invoices/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardInventoryStockLevelsRoute =
   DashboardInventoryStockLevelsImport.update({
-    id: '/dashboard/inventory/stock-levels',
-    path: '/dashboard/inventory/stock-levels',
-    getParentRoute: () => rootRoute,
+    id: '/inventory/stock-levels',
+    path: '/inventory/stock-levels',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInventoryNewRoute = DashboardInventoryNewImport.update({
-  id: '/dashboard/inventory/new',
-  path: '/dashboard/inventory/new',
-  getParentRoute: () => rootRoute,
+  id: '/inventory/new',
+  path: '/inventory/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardInventoryAdjustmentsRoute =
   DashboardInventoryAdjustmentsImport.update({
-    id: '/dashboard/inventory/adjustments',
-    path: '/dashboard/inventory/adjustments',
-    getParentRoute: () => rootRoute,
+    id: '/inventory/adjustments',
+    path: '/inventory/adjustments',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardDepartmentsNewRoute = DashboardDepartmentsNewImport.update({
-  id: '/dashboard/departments/new',
-  path: '/dashboard/departments/new',
-  getParentRoute: () => rootRoute,
+  id: '/departments/new',
+  path: '/departments/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardCompaniesNewRoute = DashboardCompaniesNewImport.update({
-  id: '/dashboard/companies/new',
-  path: '/dashboard/companies/new',
-  getParentRoute: () => rootRoute,
+  id: '/companies/new',
+  path: '/companies/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardChatNewRoute = DashboardChatNewImport.update({
-  id: '/dashboard/chat/new',
-  path: '/dashboard/chat/new',
-  getParentRoute: () => rootRoute,
+  id: '/chat/new',
+  path: '/chat/new',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardChatRoomidRoute = DashboardChatRoomidImport.update({
-  id: '/dashboard/chat/$room_id',
-  path: '/dashboard/chat/$room_id',
-  getParentRoute: () => rootRoute,
+  id: '/chat/$room_id',
+  path: '/chat/$room_id',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardWarehousesWarehouseidIndexRoute =
   DashboardWarehousesWarehouseidIndexImport.update({
-    id: '/dashboard/warehouses/$warehouse_id/',
-    path: '/dashboard/warehouses/$warehouse_id/',
-    getParentRoute: () => rootRoute,
+    id: '/warehouses/$warehouse_id/',
+    path: '/warehouses/$warehouse_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardVehiclesLicenseplateIndexRoute =
   DashboardVehiclesLicenseplateIndexImport.update({
-    id: '/dashboard/vehicles/$license_plate/',
-    path: '/dashboard/vehicles/$license_plate/',
-    getParentRoute: () => rootRoute,
+    id: '/vehicles/$license_plate/',
+    path: '/vehicles/$license_plate/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardUsersUseridIndexRoute = DashboardUsersUseridIndexImport.update({
-  id: '/dashboard/users/$user_id/',
-  path: '/dashboard/users/$user_id/',
-  getParentRoute: () => rootRoute,
+  id: '/users/$user_id/',
+  path: '/users/$user_id/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardTasksTaskidIndexRoute = DashboardTasksTaskidIndexImport.update({
-  id: '/dashboard/tasks/$task_id/',
-  path: '/dashboard/tasks/$task_id/',
-  getParentRoute: () => rootRoute,
+  id: '/tasks/$task_id/',
+  path: '/tasks/$task_id/',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardShipmentsTrackingnumberIndexRoute =
   DashboardShipmentsTrackingnumberIndexImport.update({
-    id: '/dashboard/shipments/$tracking_number/',
-    path: '/dashboard/shipments/$tracking_number/',
-    getParentRoute: () => rootRoute,
+    id: '/shipments/$tracking_number/',
+    path: '/shipments/$tracking_number/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardRoutesRoutenameoridIndexRoute =
   DashboardRoutesRoutenameoridIndexImport.update({
-    id: '/dashboard/routes/$route_name_or_id/',
-    path: '/dashboard/routes/$route_name_or_id/',
-    getParentRoute: () => rootRoute,
+    id: '/routes/$route_name_or_id/',
+    path: '/routes/$route_name_or_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardProductsProductidIndexRoute =
   DashboardProductsProductidIndexImport.update({
-    id: '/dashboard/products/$product_id/',
-    path: '/dashboard/products/$product_id/',
-    getParentRoute: () => rootRoute,
+    id: '/products/$product_id/',
+    path: '/products/$product_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardPaymentsPaymentidIndexRoute =
   DashboardPaymentsPaymentidIndexImport.update({
-    id: '/dashboard/payments/$payment_id/',
-    path: '/dashboard/payments/$payment_id/',
-    getParentRoute: () => rootRoute,
+    id: '/payments/$payment_id/',
+    path: '/payments/$payment_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardOrdersOrderidcustomIndexRoute =
   DashboardOrdersOrderidcustomIndexImport.update({
-    id: '/dashboard/orders/$order_id_custom/',
-    path: '/dashboard/orders/$order_id_custom/',
-    getParentRoute: () => rootRoute,
+    id: '/orders/$order_id_custom/',
+    path: '/orders/$order_id_custom/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInventoryInventoryitemidIndexRoute =
   DashboardInventoryInventoryitemidIndexImport.update({
-    id: '/dashboard/inventory/$inventory_item_id/',
-    path: '/dashboard/inventory/$inventory_item_id/',
-    getParentRoute: () => rootRoute,
+    id: '/inventory/$inventory_item_id/',
+    path: '/inventory/$inventory_item_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardDepartmentsDepartmentidIndexRoute =
   DashboardDepartmentsDepartmentidIndexImport.update({
-    id: '/dashboard/departments/$department_id/',
-    path: '/dashboard/departments/$department_id/',
-    getParentRoute: () => rootRoute,
+    id: '/departments/$department_id/',
+    path: '/departments/$department_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardCompaniesCompanyidIndexRoute =
   DashboardCompaniesCompanyidIndexImport.update({
-    id: '/dashboard/companies/$company_id/',
-    path: '/dashboard/companies/$company_id/',
-    getParentRoute: () => rootRoute,
+    id: '/companies/$company_id/',
+    path: '/companies/$company_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardWarehousesWarehouseidEditRoute =
   DashboardWarehousesWarehouseidEditImport.update({
-    id: '/dashboard/warehouses/$warehouse_id/edit',
-    path: '/dashboard/warehouses/$warehouse_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/warehouses/$warehouse_id/edit',
+    path: '/warehouses/$warehouse_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardVehiclesLicenseplateMaintenanceLogRoute =
   DashboardVehiclesLicenseplateMaintenanceLogImport.update({
-    id: '/dashboard/vehicles/$license_plate/maintenance-log',
-    path: '/dashboard/vehicles/$license_plate/maintenance-log',
-    getParentRoute: () => rootRoute,
+    id: '/vehicles/$license_plate/maintenance-log',
+    path: '/vehicles/$license_plate/maintenance-log',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardVehiclesLicenseplateEditRoute =
   DashboardVehiclesLicenseplateEditImport.update({
-    id: '/dashboard/vehicles/$license_plate/edit',
-    path: '/dashboard/vehicles/$license_plate/edit',
-    getParentRoute: () => rootRoute,
+    id: '/vehicles/$license_plate/edit',
+    path: '/vehicles/$license_plate/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardUsersUseridEditRoute = DashboardUsersUseridEditImport.update({
-  id: '/dashboard/users/$user_id/edit',
-  path: '/dashboard/users/$user_id/edit',
-  getParentRoute: () => rootRoute,
+  id: '/users/$user_id/edit',
+  path: '/users/$user_id/edit',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardTasksTaskidEditRoute = DashboardTasksTaskidEditImport.update({
-  id: '/dashboard/tasks/$task_id/edit',
-  path: '/dashboard/tasks/$task_id/edit',
-  getParentRoute: () => rootRoute,
+  id: '/tasks/$task_id/edit',
+  path: '/tasks/$task_id/edit',
+  getParentRoute: () => DashboardRoute,
 } as any);
 
 const DashboardShipmentsTrackingnumberEditRoute =
   DashboardShipmentsTrackingnumberEditImport.update({
-    id: '/dashboard/shipments/$tracking_number/edit',
-    path: '/dashboard/shipments/$tracking_number/edit',
-    getParentRoute: () => rootRoute,
+    id: '/shipments/$tracking_number/edit',
+    path: '/shipments/$tracking_number/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardShipmentsTrackingnumberAssignToRouteRoute =
   DashboardShipmentsTrackingnumberAssignToRouteImport.update({
-    id: '/dashboard/shipments/$tracking_number/assign-to-route',
-    path: '/dashboard/shipments/$tracking_number/assign-to-route',
-    getParentRoute: () => rootRoute,
+    id: '/shipments/$tracking_number/assign-to-route',
+    path: '/shipments/$tracking_number/assign-to-route',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardRoutesRoutenameoridOptimizeRoute =
   DashboardRoutesRoutenameoridOptimizeImport.update({
-    id: '/dashboard/routes/$route_name_or_id/optimize',
-    path: '/dashboard/routes/$route_name_or_id/optimize',
-    getParentRoute: () => rootRoute,
+    id: '/routes/$route_name_or_id/optimize',
+    path: '/routes/$route_name_or_id/optimize',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardRoutesRoutenameoridEditRoute =
   DashboardRoutesRoutenameoridEditImport.update({
-    id: '/dashboard/routes/$route_name_or_id/edit',
-    path: '/dashboard/routes/$route_name_or_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/routes/$route_name_or_id/edit',
+    path: '/routes/$route_name_or_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardProductsProductidInventoryRoute =
   DashboardProductsProductidInventoryImport.update({
-    id: '/dashboard/products/$product_id/inventory',
-    path: '/dashboard/products/$product_id/inventory',
-    getParentRoute: () => rootRoute,
+    id: '/products/$product_id/inventory',
+    path: '/products/$product_id/inventory',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardProductsProductidEditRoute =
   DashboardProductsProductidEditImport.update({
-    id: '/dashboard/products/$product_id/edit',
-    path: '/dashboard/products/$product_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/products/$product_id/edit',
+    path: '/products/$product_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardPaymentsPaymentidEditRoute =
   DashboardPaymentsPaymentidEditImport.update({
-    id: '/dashboard/payments/$payment_id/edit',
-    path: '/dashboard/payments/$payment_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/payments/$payment_id/edit',
+    path: '/payments/$payment_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardOrdersOrderidcustomValidateRoute =
   DashboardOrdersOrderidcustomValidateImport.update({
-    id: '/dashboard/orders/$order_id_custom/validate',
-    path: '/dashboard/orders/$order_id_custom/validate',
-    getParentRoute: () => rootRoute,
+    id: '/orders/$order_id_custom/validate',
+    path: '/orders/$order_id_custom/validate',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardOrdersOrderidcustomEditRoute =
   DashboardOrdersOrderidcustomEditImport.update({
-    id: '/dashboard/orders/$order_id_custom/edit',
-    path: '/dashboard/orders/$order_id_custom/edit',
-    getParentRoute: () => rootRoute,
+    id: '/orders/$order_id_custom/edit',
+    path: '/orders/$order_id_custom/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardOrdersOrderidcustomCreateShipmentRoute =
   DashboardOrdersOrderidcustomCreateShipmentImport.update({
-    id: '/dashboard/orders/$order_id_custom/create-shipment',
-    path: '/dashboard/orders/$order_id_custom/create-shipment',
-    getParentRoute: () => rootRoute,
+    id: '/orders/$order_id_custom/create-shipment',
+    path: '/orders/$order_id_custom/create-shipment',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardOrdersOrderidcustomAllocateRoute =
   DashboardOrdersOrderidcustomAllocateImport.update({
-    id: '/dashboard/orders/$order_id_custom/allocate',
-    path: '/dashboard/orders/$order_id_custom/allocate',
-    getParentRoute: () => rootRoute,
+    id: '/orders/$order_id_custom/allocate',
+    path: '/orders/$order_id_custom/allocate',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInvoicesInvoicenumberSendRoute =
   DashboardInvoicesInvoicenumberSendImport.update({
-    id: '/dashboard/invoices/$invoice_number/send',
-    path: '/dashboard/invoices/$invoice_number/send',
-    getParentRoute: () => rootRoute,
+    id: '/invoices/$invoice_number/send',
+    path: '/invoices/$invoice_number/send',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInvoicesInvoicenumberRecordPaymentRoute =
   DashboardInvoicesInvoicenumberRecordPaymentImport.update({
-    id: '/dashboard/invoices/$invoice_number/record-payment',
-    path: '/dashboard/invoices/$invoice_number/record-payment',
-    getParentRoute: () => rootRoute,
+    id: '/invoices/$invoice_number/record-payment',
+    path: '/invoices/$invoice_number/record-payment',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInvoicesInvoicenumberEditRoute =
   DashboardInvoicesInvoicenumberEditImport.update({
-    id: '/dashboard/invoices/$invoice_number/edit',
-    path: '/dashboard/invoices/$invoice_number/edit',
-    getParentRoute: () => rootRoute,
+    id: '/invoices/$invoice_number/edit',
+    path: '/invoices/$invoice_number/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardInventoryInventoryitemidEditRoute =
   DashboardInventoryInventoryitemidEditImport.update({
-    id: '/dashboard/inventory/$inventory_item_id/edit',
-    path: '/dashboard/inventory/$inventory_item_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/inventory/$inventory_item_id/edit',
+    path: '/inventory/$inventory_item_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardDepartmentsDepartmentidEditRoute =
   DashboardDepartmentsDepartmentidEditImport.update({
-    id: '/dashboard/departments/$department_id/edit',
-    path: '/dashboard/departments/$department_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/departments/$department_id/edit',
+    path: '/departments/$department_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardCompaniesCompanyidEditRoute =
   DashboardCompaniesCompanyidEditImport.update({
-    id: '/dashboard/companies/$company_id/edit',
-    path: '/dashboard/companies/$company_id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/companies/$company_id/edit',
+    path: '/companies/$company_id/edit',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardTasksDepartmentDepartmentidIndexRoute =
   DashboardTasksDepartmentDepartmentidIndexImport.update({
-    id: '/dashboard/tasks/department/$department_id/',
-    path: '/dashboard/tasks/department/$department_id/',
-    getParentRoute: () => rootRoute,
+    id: '/tasks/department/$department_id/',
+    path: '/tasks/department/$department_id/',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardChatStartSupportCustomeridRoute =
   DashboardChatStartSupportCustomeridImport.update({
-    id: '/dashboard/chat/start/support/$customer_id',
-    path: '/dashboard/chat/start/support/$customer_id',
-    getParentRoute: () => rootRoute,
+    id: '/chat/start/support/$customer_id',
+    path: '/chat/start/support/$customer_id',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 const DashboardChatStartOrderOrderidRoute =
   DashboardChatStartOrderOrderidImport.update({
-    id: '/dashboard/chat/start/order/$order_id',
-    path: '/dashboard/chat/start/order/$order_id',
-    getParentRoute: () => rootRoute,
+    id: '/chat/start/order/$order_id',
+    path: '/chat/start/order/$order_id',
+    getParentRoute: () => DashboardRoute,
   } as any);
 
 // Populate the FileRoutesByPath interface
@@ -576,6 +583,13 @@ declare module '@tanstack/react-router' {
       path: '/';
       fullPath: '/';
       preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/dashboard': {
+      id: '/dashboard';
+      path: '/dashboard';
+      fullPath: '/dashboard';
+      preLoaderRoute: typeof DashboardImport;
       parentRoute: typeof rootRoute;
     };
     '/forgot-password': {
@@ -601,506 +615,681 @@ declare module '@tanstack/react-router' {
     };
     '/dashboard/settings': {
       id: '/dashboard/settings';
-      path: '/dashboard/settings';
+      path: '/settings';
       fullPath: '/dashboard/settings';
       preLoaderRoute: typeof DashboardSettingsImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/': {
       id: '/dashboard/';
-      path: '/dashboard';
-      fullPath: '/dashboard';
+      path: '/';
+      fullPath: '/dashboard/';
       preLoaderRoute: typeof DashboardIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/chat/$room_id': {
       id: '/dashboard/chat/$room_id';
-      path: '/dashboard/chat/$room_id';
+      path: '/chat/$room_id';
       fullPath: '/dashboard/chat/$room_id';
       preLoaderRoute: typeof DashboardChatRoomidImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/chat/new': {
       id: '/dashboard/chat/new';
-      path: '/dashboard/chat/new';
+      path: '/chat/new';
       fullPath: '/dashboard/chat/new';
       preLoaderRoute: typeof DashboardChatNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/companies/new': {
       id: '/dashboard/companies/new';
-      path: '/dashboard/companies/new';
+      path: '/companies/new';
       fullPath: '/dashboard/companies/new';
       preLoaderRoute: typeof DashboardCompaniesNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/departments/new': {
       id: '/dashboard/departments/new';
-      path: '/dashboard/departments/new';
+      path: '/departments/new';
       fullPath: '/dashboard/departments/new';
       preLoaderRoute: typeof DashboardDepartmentsNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/adjustments': {
       id: '/dashboard/inventory/adjustments';
-      path: '/dashboard/inventory/adjustments';
+      path: '/inventory/adjustments';
       fullPath: '/dashboard/inventory/adjustments';
       preLoaderRoute: typeof DashboardInventoryAdjustmentsImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/new': {
       id: '/dashboard/inventory/new';
-      path: '/dashboard/inventory/new';
+      path: '/inventory/new';
       fullPath: '/dashboard/inventory/new';
       preLoaderRoute: typeof DashboardInventoryNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/stock-levels': {
       id: '/dashboard/inventory/stock-levels';
-      path: '/dashboard/inventory/stock-levels';
+      path: '/inventory/stock-levels';
       fullPath: '/dashboard/inventory/stock-levels';
       preLoaderRoute: typeof DashboardInventoryStockLevelsImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/invoices/new': {
       id: '/dashboard/invoices/new';
-      path: '/dashboard/invoices/new';
+      path: '/invoices/new';
       fullPath: '/dashboard/invoices/new';
       preLoaderRoute: typeof DashboardInvoicesNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/new': {
       id: '/dashboard/orders/new';
-      path: '/dashboard/orders/new';
+      path: '/orders/new';
       fullPath: '/dashboard/orders/new';
       preLoaderRoute: typeof DashboardOrdersNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/payments/new': {
       id: '/dashboard/payments/new';
-      path: '/dashboard/payments/new';
+      path: '/payments/new';
       fullPath: '/dashboard/payments/new';
       preLoaderRoute: typeof DashboardPaymentsNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/products/new': {
       id: '/dashboard/products/new';
-      path: '/dashboard/products/new';
+      path: '/products/new';
       fullPath: '/dashboard/products/new';
       preLoaderRoute: typeof DashboardProductsNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/routes/new': {
       id: '/dashboard/routes/new';
-      path: '/dashboard/routes/new';
+      path: '/routes/new';
       fullPath: '/dashboard/routes/new';
       preLoaderRoute: typeof DashboardRoutesNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/shipments/new': {
       id: '/dashboard/shipments/new';
-      path: '/dashboard/shipments/new';
+      path: '/shipments/new';
       fullPath: '/dashboard/shipments/new';
       preLoaderRoute: typeof DashboardShipmentsNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/my-tasks': {
       id: '/dashboard/tasks/my-tasks';
-      path: '/dashboard/tasks/my-tasks';
+      path: '/tasks/my-tasks';
       fullPath: '/dashboard/tasks/my-tasks';
       preLoaderRoute: typeof DashboardTasksMyTasksImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/new': {
       id: '/dashboard/tasks/new';
-      path: '/dashboard/tasks/new';
+      path: '/tasks/new';
       fullPath: '/dashboard/tasks/new';
       preLoaderRoute: typeof DashboardTasksNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/vehicles/new': {
       id: '/dashboard/vehicles/new';
-      path: '/dashboard/vehicles/new';
+      path: '/vehicles/new';
       fullPath: '/dashboard/vehicles/new';
       preLoaderRoute: typeof DashboardVehiclesNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/warehouses/new': {
       id: '/dashboard/warehouses/new';
-      path: '/dashboard/warehouses/new';
+      path: '/warehouses/new';
       fullPath: '/dashboard/warehouses/new';
       preLoaderRoute: typeof DashboardWarehousesNewImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/chat/': {
       id: '/dashboard/chat/';
-      path: '/dashboard/chat';
+      path: '/chat';
       fullPath: '/dashboard/chat';
       preLoaderRoute: typeof DashboardChatIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/companies/': {
       id: '/dashboard/companies/';
-      path: '/dashboard/companies';
+      path: '/companies';
       fullPath: '/dashboard/companies';
       preLoaderRoute: typeof DashboardCompaniesIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/departments/': {
       id: '/dashboard/departments/';
-      path: '/dashboard/departments';
+      path: '/departments';
       fullPath: '/dashboard/departments';
       preLoaderRoute: typeof DashboardDepartmentsIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/': {
       id: '/dashboard/inventory/';
-      path: '/dashboard/inventory';
+      path: '/inventory';
       fullPath: '/dashboard/inventory';
       preLoaderRoute: typeof DashboardInventoryIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/invoices/': {
       id: '/dashboard/invoices/';
-      path: '/dashboard/invoices';
+      path: '/invoices';
       fullPath: '/dashboard/invoices';
       preLoaderRoute: typeof DashboardInvoicesIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/': {
       id: '/dashboard/orders/';
-      path: '/dashboard/orders';
+      path: '/orders';
       fullPath: '/dashboard/orders';
       preLoaderRoute: typeof DashboardOrdersIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/payments/': {
       id: '/dashboard/payments/';
-      path: '/dashboard/payments';
+      path: '/payments';
       fullPath: '/dashboard/payments';
       preLoaderRoute: typeof DashboardPaymentsIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/products/': {
       id: '/dashboard/products/';
-      path: '/dashboard/products';
+      path: '/products';
       fullPath: '/dashboard/products';
       preLoaderRoute: typeof DashboardProductsIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/profile/': {
       id: '/dashboard/profile/';
-      path: '/dashboard/profile';
+      path: '/profile';
       fullPath: '/dashboard/profile';
       preLoaderRoute: typeof DashboardProfileIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/routes/': {
       id: '/dashboard/routes/';
-      path: '/dashboard/routes';
+      path: '/routes';
       fullPath: '/dashboard/routes';
       preLoaderRoute: typeof DashboardRoutesIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/shipments/': {
       id: '/dashboard/shipments/';
-      path: '/dashboard/shipments';
+      path: '/shipments';
       fullPath: '/dashboard/shipments';
       preLoaderRoute: typeof DashboardShipmentsIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/': {
       id: '/dashboard/tasks/';
-      path: '/dashboard/tasks';
+      path: '/tasks';
       fullPath: '/dashboard/tasks';
       preLoaderRoute: typeof DashboardTasksIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/vehicles/': {
       id: '/dashboard/vehicles/';
-      path: '/dashboard/vehicles';
+      path: '/vehicles';
       fullPath: '/dashboard/vehicles';
       preLoaderRoute: typeof DashboardVehiclesIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/warehouses/': {
       id: '/dashboard/warehouses/';
-      path: '/dashboard/warehouses';
+      path: '/warehouses';
       fullPath: '/dashboard/warehouses';
       preLoaderRoute: typeof DashboardWarehousesIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/companies/$company_id/edit': {
       id: '/dashboard/companies/$company_id/edit';
-      path: '/dashboard/companies/$company_id/edit';
+      path: '/companies/$company_id/edit';
       fullPath: '/dashboard/companies/$company_id/edit';
       preLoaderRoute: typeof DashboardCompaniesCompanyidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/departments/$department_id/edit': {
       id: '/dashboard/departments/$department_id/edit';
-      path: '/dashboard/departments/$department_id/edit';
+      path: '/departments/$department_id/edit';
       fullPath: '/dashboard/departments/$department_id/edit';
       preLoaderRoute: typeof DashboardDepartmentsDepartmentidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/$inventory_item_id/edit': {
       id: '/dashboard/inventory/$inventory_item_id/edit';
-      path: '/dashboard/inventory/$inventory_item_id/edit';
+      path: '/inventory/$inventory_item_id/edit';
       fullPath: '/dashboard/inventory/$inventory_item_id/edit';
       preLoaderRoute: typeof DashboardInventoryInventoryitemidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/invoices/$invoice_number/edit': {
       id: '/dashboard/invoices/$invoice_number/edit';
-      path: '/dashboard/invoices/$invoice_number/edit';
+      path: '/invoices/$invoice_number/edit';
       fullPath: '/dashboard/invoices/$invoice_number/edit';
       preLoaderRoute: typeof DashboardInvoicesInvoicenumberEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/invoices/$invoice_number/record-payment': {
       id: '/dashboard/invoices/$invoice_number/record-payment';
-      path: '/dashboard/invoices/$invoice_number/record-payment';
+      path: '/invoices/$invoice_number/record-payment';
       fullPath: '/dashboard/invoices/$invoice_number/record-payment';
       preLoaderRoute: typeof DashboardInvoicesInvoicenumberRecordPaymentImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/invoices/$invoice_number/send': {
       id: '/dashboard/invoices/$invoice_number/send';
-      path: '/dashboard/invoices/$invoice_number/send';
+      path: '/invoices/$invoice_number/send';
       fullPath: '/dashboard/invoices/$invoice_number/send';
       preLoaderRoute: typeof DashboardInvoicesInvoicenumberSendImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/$order_id_custom/allocate': {
       id: '/dashboard/orders/$order_id_custom/allocate';
-      path: '/dashboard/orders/$order_id_custom/allocate';
+      path: '/orders/$order_id_custom/allocate';
       fullPath: '/dashboard/orders/$order_id_custom/allocate';
       preLoaderRoute: typeof DashboardOrdersOrderidcustomAllocateImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/$order_id_custom/create-shipment': {
       id: '/dashboard/orders/$order_id_custom/create-shipment';
-      path: '/dashboard/orders/$order_id_custom/create-shipment';
+      path: '/orders/$order_id_custom/create-shipment';
       fullPath: '/dashboard/orders/$order_id_custom/create-shipment';
       preLoaderRoute: typeof DashboardOrdersOrderidcustomCreateShipmentImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/$order_id_custom/edit': {
       id: '/dashboard/orders/$order_id_custom/edit';
-      path: '/dashboard/orders/$order_id_custom/edit';
+      path: '/orders/$order_id_custom/edit';
       fullPath: '/dashboard/orders/$order_id_custom/edit';
       preLoaderRoute: typeof DashboardOrdersOrderidcustomEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/$order_id_custom/validate': {
       id: '/dashboard/orders/$order_id_custom/validate';
-      path: '/dashboard/orders/$order_id_custom/validate';
+      path: '/orders/$order_id_custom/validate';
       fullPath: '/dashboard/orders/$order_id_custom/validate';
       preLoaderRoute: typeof DashboardOrdersOrderidcustomValidateImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/payments/$payment_id/edit': {
       id: '/dashboard/payments/$payment_id/edit';
-      path: '/dashboard/payments/$payment_id/edit';
+      path: '/payments/$payment_id/edit';
       fullPath: '/dashboard/payments/$payment_id/edit';
       preLoaderRoute: typeof DashboardPaymentsPaymentidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/products/$product_id/edit': {
       id: '/dashboard/products/$product_id/edit';
-      path: '/dashboard/products/$product_id/edit';
+      path: '/products/$product_id/edit';
       fullPath: '/dashboard/products/$product_id/edit';
       preLoaderRoute: typeof DashboardProductsProductidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/products/$product_id/inventory': {
       id: '/dashboard/products/$product_id/inventory';
-      path: '/dashboard/products/$product_id/inventory';
+      path: '/products/$product_id/inventory';
       fullPath: '/dashboard/products/$product_id/inventory';
       preLoaderRoute: typeof DashboardProductsProductidInventoryImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/routes/$route_name_or_id/edit': {
       id: '/dashboard/routes/$route_name_or_id/edit';
-      path: '/dashboard/routes/$route_name_or_id/edit';
+      path: '/routes/$route_name_or_id/edit';
       fullPath: '/dashboard/routes/$route_name_or_id/edit';
       preLoaderRoute: typeof DashboardRoutesRoutenameoridEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/routes/$route_name_or_id/optimize': {
       id: '/dashboard/routes/$route_name_or_id/optimize';
-      path: '/dashboard/routes/$route_name_or_id/optimize';
+      path: '/routes/$route_name_or_id/optimize';
       fullPath: '/dashboard/routes/$route_name_or_id/optimize';
       preLoaderRoute: typeof DashboardRoutesRoutenameoridOptimizeImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/shipments/$tracking_number/assign-to-route': {
       id: '/dashboard/shipments/$tracking_number/assign-to-route';
-      path: '/dashboard/shipments/$tracking_number/assign-to-route';
+      path: '/shipments/$tracking_number/assign-to-route';
       fullPath: '/dashboard/shipments/$tracking_number/assign-to-route';
       preLoaderRoute: typeof DashboardShipmentsTrackingnumberAssignToRouteImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/shipments/$tracking_number/edit': {
       id: '/dashboard/shipments/$tracking_number/edit';
-      path: '/dashboard/shipments/$tracking_number/edit';
+      path: '/shipments/$tracking_number/edit';
       fullPath: '/dashboard/shipments/$tracking_number/edit';
       preLoaderRoute: typeof DashboardShipmentsTrackingnumberEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/$task_id/edit': {
       id: '/dashboard/tasks/$task_id/edit';
-      path: '/dashboard/tasks/$task_id/edit';
+      path: '/tasks/$task_id/edit';
       fullPath: '/dashboard/tasks/$task_id/edit';
       preLoaderRoute: typeof DashboardTasksTaskidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/users/$user_id/edit': {
       id: '/dashboard/users/$user_id/edit';
-      path: '/dashboard/users/$user_id/edit';
+      path: '/users/$user_id/edit';
       fullPath: '/dashboard/users/$user_id/edit';
       preLoaderRoute: typeof DashboardUsersUseridEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/vehicles/$license_plate/edit': {
       id: '/dashboard/vehicles/$license_plate/edit';
-      path: '/dashboard/vehicles/$license_plate/edit';
+      path: '/vehicles/$license_plate/edit';
       fullPath: '/dashboard/vehicles/$license_plate/edit';
       preLoaderRoute: typeof DashboardVehiclesLicenseplateEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/vehicles/$license_plate/maintenance-log': {
       id: '/dashboard/vehicles/$license_plate/maintenance-log';
-      path: '/dashboard/vehicles/$license_plate/maintenance-log';
+      path: '/vehicles/$license_plate/maintenance-log';
       fullPath: '/dashboard/vehicles/$license_plate/maintenance-log';
       preLoaderRoute: typeof DashboardVehiclesLicenseplateMaintenanceLogImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/warehouses/$warehouse_id/edit': {
       id: '/dashboard/warehouses/$warehouse_id/edit';
-      path: '/dashboard/warehouses/$warehouse_id/edit';
+      path: '/warehouses/$warehouse_id/edit';
       fullPath: '/dashboard/warehouses/$warehouse_id/edit';
       preLoaderRoute: typeof DashboardWarehousesWarehouseidEditImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/companies/$company_id/': {
       id: '/dashboard/companies/$company_id/';
-      path: '/dashboard/companies/$company_id';
+      path: '/companies/$company_id';
       fullPath: '/dashboard/companies/$company_id';
       preLoaderRoute: typeof DashboardCompaniesCompanyidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/departments/$department_id/': {
       id: '/dashboard/departments/$department_id/';
-      path: '/dashboard/departments/$department_id';
+      path: '/departments/$department_id';
       fullPath: '/dashboard/departments/$department_id';
       preLoaderRoute: typeof DashboardDepartmentsDepartmentidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/inventory/$inventory_item_id/': {
       id: '/dashboard/inventory/$inventory_item_id/';
-      path: '/dashboard/inventory/$inventory_item_id';
+      path: '/inventory/$inventory_item_id';
       fullPath: '/dashboard/inventory/$inventory_item_id';
       preLoaderRoute: typeof DashboardInventoryInventoryitemidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/orders/$order_id_custom/': {
       id: '/dashboard/orders/$order_id_custom/';
-      path: '/dashboard/orders/$order_id_custom';
+      path: '/orders/$order_id_custom';
       fullPath: '/dashboard/orders/$order_id_custom';
       preLoaderRoute: typeof DashboardOrdersOrderidcustomIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/payments/$payment_id/': {
       id: '/dashboard/payments/$payment_id/';
-      path: '/dashboard/payments/$payment_id';
+      path: '/payments/$payment_id';
       fullPath: '/dashboard/payments/$payment_id';
       preLoaderRoute: typeof DashboardPaymentsPaymentidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/products/$product_id/': {
       id: '/dashboard/products/$product_id/';
-      path: '/dashboard/products/$product_id';
+      path: '/products/$product_id';
       fullPath: '/dashboard/products/$product_id';
       preLoaderRoute: typeof DashboardProductsProductidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/routes/$route_name_or_id/': {
       id: '/dashboard/routes/$route_name_or_id/';
-      path: '/dashboard/routes/$route_name_or_id';
+      path: '/routes/$route_name_or_id';
       fullPath: '/dashboard/routes/$route_name_or_id';
       preLoaderRoute: typeof DashboardRoutesRoutenameoridIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/shipments/$tracking_number/': {
       id: '/dashboard/shipments/$tracking_number/';
-      path: '/dashboard/shipments/$tracking_number';
+      path: '/shipments/$tracking_number';
       fullPath: '/dashboard/shipments/$tracking_number';
       preLoaderRoute: typeof DashboardShipmentsTrackingnumberIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/$task_id/': {
       id: '/dashboard/tasks/$task_id/';
-      path: '/dashboard/tasks/$task_id';
+      path: '/tasks/$task_id';
       fullPath: '/dashboard/tasks/$task_id';
       preLoaderRoute: typeof DashboardTasksTaskidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/users/$user_id/': {
       id: '/dashboard/users/$user_id/';
-      path: '/dashboard/users/$user_id';
+      path: '/users/$user_id';
       fullPath: '/dashboard/users/$user_id';
       preLoaderRoute: typeof DashboardUsersUseridIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/vehicles/$license_plate/': {
       id: '/dashboard/vehicles/$license_plate/';
-      path: '/dashboard/vehicles/$license_plate';
+      path: '/vehicles/$license_plate';
       fullPath: '/dashboard/vehicles/$license_plate';
       preLoaderRoute: typeof DashboardVehiclesLicenseplateIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/warehouses/$warehouse_id/': {
       id: '/dashboard/warehouses/$warehouse_id/';
-      path: '/dashboard/warehouses/$warehouse_id';
+      path: '/warehouses/$warehouse_id';
       fullPath: '/dashboard/warehouses/$warehouse_id';
       preLoaderRoute: typeof DashboardWarehousesWarehouseidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/chat/start/order/$order_id': {
       id: '/dashboard/chat/start/order/$order_id';
-      path: '/dashboard/chat/start/order/$order_id';
+      path: '/chat/start/order/$order_id';
       fullPath: '/dashboard/chat/start/order/$order_id';
       preLoaderRoute: typeof DashboardChatStartOrderOrderidImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/chat/start/support/$customer_id': {
       id: '/dashboard/chat/start/support/$customer_id';
-      path: '/dashboard/chat/start/support/$customer_id';
+      path: '/chat/start/support/$customer_id';
       fullPath: '/dashboard/chat/start/support/$customer_id';
       preLoaderRoute: typeof DashboardChatStartSupportCustomeridImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
     '/dashboard/tasks/department/$department_id/': {
       id: '/dashboard/tasks/department/$department_id/';
-      path: '/dashboard/tasks/department/$department_id';
+      path: '/tasks/department/$department_id';
       fullPath: '/dashboard/tasks/department/$department_id';
       preLoaderRoute: typeof DashboardTasksDepartmentDepartmentidIndexImport;
-      parentRoute: typeof rootRoute;
+      parentRoute: typeof DashboardImport;
     };
   }
 }
 
 // Create and export the route tree
 
+interface DashboardRouteChildren {
+  DashboardSettingsRoute: typeof DashboardSettingsRoute;
+  DashboardIndexRoute: typeof DashboardIndexRoute;
+  DashboardChatRoomidRoute: typeof DashboardChatRoomidRoute;
+  DashboardChatNewRoute: typeof DashboardChatNewRoute;
+  DashboardCompaniesNewRoute: typeof DashboardCompaniesNewRoute;
+  DashboardDepartmentsNewRoute: typeof DashboardDepartmentsNewRoute;
+  DashboardInventoryAdjustmentsRoute: typeof DashboardInventoryAdjustmentsRoute;
+  DashboardInventoryNewRoute: typeof DashboardInventoryNewRoute;
+  DashboardInventoryStockLevelsRoute: typeof DashboardInventoryStockLevelsRoute;
+  DashboardInvoicesNewRoute: typeof DashboardInvoicesNewRoute;
+  DashboardOrdersNewRoute: typeof DashboardOrdersNewRoute;
+  DashboardPaymentsNewRoute: typeof DashboardPaymentsNewRoute;
+  DashboardProductsNewRoute: typeof DashboardProductsNewRoute;
+  DashboardRoutesNewRoute: typeof DashboardRoutesNewRoute;
+  DashboardShipmentsNewRoute: typeof DashboardShipmentsNewRoute;
+  DashboardTasksMyTasksRoute: typeof DashboardTasksMyTasksRoute;
+  DashboardTasksNewRoute: typeof DashboardTasksNewRoute;
+  DashboardVehiclesNewRoute: typeof DashboardVehiclesNewRoute;
+  DashboardWarehousesNewRoute: typeof DashboardWarehousesNewRoute;
+  DashboardChatIndexRoute: typeof DashboardChatIndexRoute;
+  DashboardCompaniesIndexRoute: typeof DashboardCompaniesIndexRoute;
+  DashboardDepartmentsIndexRoute: typeof DashboardDepartmentsIndexRoute;
+  DashboardInventoryIndexRoute: typeof DashboardInventoryIndexRoute;
+  DashboardInvoicesIndexRoute: typeof DashboardInvoicesIndexRoute;
+  DashboardOrdersIndexRoute: typeof DashboardOrdersIndexRoute;
+  DashboardPaymentsIndexRoute: typeof DashboardPaymentsIndexRoute;
+  DashboardProductsIndexRoute: typeof DashboardProductsIndexRoute;
+  DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute;
+  DashboardRoutesIndexRoute: typeof DashboardRoutesIndexRoute;
+  DashboardShipmentsIndexRoute: typeof DashboardShipmentsIndexRoute;
+  DashboardTasksIndexRoute: typeof DashboardTasksIndexRoute;
+  DashboardVehiclesIndexRoute: typeof DashboardVehiclesIndexRoute;
+  DashboardWarehousesIndexRoute: typeof DashboardWarehousesIndexRoute;
+  DashboardCompaniesCompanyidEditRoute: typeof DashboardCompaniesCompanyidEditRoute;
+  DashboardDepartmentsDepartmentidEditRoute: typeof DashboardDepartmentsDepartmentidEditRoute;
+  DashboardInventoryInventoryitemidEditRoute: typeof DashboardInventoryInventoryitemidEditRoute;
+  DashboardInvoicesInvoicenumberEditRoute: typeof DashboardInvoicesInvoicenumberEditRoute;
+  DashboardInvoicesInvoicenumberRecordPaymentRoute: typeof DashboardInvoicesInvoicenumberRecordPaymentRoute;
+  DashboardInvoicesInvoicenumberSendRoute: typeof DashboardInvoicesInvoicenumberSendRoute;
+  DashboardOrdersOrderidcustomAllocateRoute: typeof DashboardOrdersOrderidcustomAllocateRoute;
+  DashboardOrdersOrderidcustomCreateShipmentRoute: typeof DashboardOrdersOrderidcustomCreateShipmentRoute;
+  DashboardOrdersOrderidcustomEditRoute: typeof DashboardOrdersOrderidcustomEditRoute;
+  DashboardOrdersOrderidcustomValidateRoute: typeof DashboardOrdersOrderidcustomValidateRoute;
+  DashboardPaymentsPaymentidEditRoute: typeof DashboardPaymentsPaymentidEditRoute;
+  DashboardProductsProductidEditRoute: typeof DashboardProductsProductidEditRoute;
+  DashboardProductsProductidInventoryRoute: typeof DashboardProductsProductidInventoryRoute;
+  DashboardRoutesRoutenameoridEditRoute: typeof DashboardRoutesRoutenameoridEditRoute;
+  DashboardRoutesRoutenameoridOptimizeRoute: typeof DashboardRoutesRoutenameoridOptimizeRoute;
+  DashboardShipmentsTrackingnumberAssignToRouteRoute: typeof DashboardShipmentsTrackingnumberAssignToRouteRoute;
+  DashboardShipmentsTrackingnumberEditRoute: typeof DashboardShipmentsTrackingnumberEditRoute;
+  DashboardTasksTaskidEditRoute: typeof DashboardTasksTaskidEditRoute;
+  DashboardUsersUseridEditRoute: typeof DashboardUsersUseridEditRoute;
+  DashboardVehiclesLicenseplateEditRoute: typeof DashboardVehiclesLicenseplateEditRoute;
+  DashboardVehiclesLicenseplateMaintenanceLogRoute: typeof DashboardVehiclesLicenseplateMaintenanceLogRoute;
+  DashboardWarehousesWarehouseidEditRoute: typeof DashboardWarehousesWarehouseidEditRoute;
+  DashboardCompaniesCompanyidIndexRoute: typeof DashboardCompaniesCompanyidIndexRoute;
+  DashboardDepartmentsDepartmentidIndexRoute: typeof DashboardDepartmentsDepartmentidIndexRoute;
+  DashboardInventoryInventoryitemidIndexRoute: typeof DashboardInventoryInventoryitemidIndexRoute;
+  DashboardOrdersOrderidcustomIndexRoute: typeof DashboardOrdersOrderidcustomIndexRoute;
+  DashboardPaymentsPaymentidIndexRoute: typeof DashboardPaymentsPaymentidIndexRoute;
+  DashboardProductsProductidIndexRoute: typeof DashboardProductsProductidIndexRoute;
+  DashboardRoutesRoutenameoridIndexRoute: typeof DashboardRoutesRoutenameoridIndexRoute;
+  DashboardShipmentsTrackingnumberIndexRoute: typeof DashboardShipmentsTrackingnumberIndexRoute;
+  DashboardTasksTaskidIndexRoute: typeof DashboardTasksTaskidIndexRoute;
+  DashboardUsersUseridIndexRoute: typeof DashboardUsersUseridIndexRoute;
+  DashboardVehiclesLicenseplateIndexRoute: typeof DashboardVehiclesLicenseplateIndexRoute;
+  DashboardWarehousesWarehouseidIndexRoute: typeof DashboardWarehousesWarehouseidIndexRoute;
+  DashboardChatStartOrderOrderidRoute: typeof DashboardChatStartOrderOrderidRoute;
+  DashboardChatStartSupportCustomeridRoute: typeof DashboardChatStartSupportCustomeridRoute;
+  DashboardTasksDepartmentDepartmentidIndexRoute: typeof DashboardTasksDepartmentDepartmentidIndexRoute;
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardChatRoomidRoute: DashboardChatRoomidRoute,
+  DashboardChatNewRoute: DashboardChatNewRoute,
+  DashboardCompaniesNewRoute: DashboardCompaniesNewRoute,
+  DashboardDepartmentsNewRoute: DashboardDepartmentsNewRoute,
+  DashboardInventoryAdjustmentsRoute: DashboardInventoryAdjustmentsRoute,
+  DashboardInventoryNewRoute: DashboardInventoryNewRoute,
+  DashboardInventoryStockLevelsRoute: DashboardInventoryStockLevelsRoute,
+  DashboardInvoicesNewRoute: DashboardInvoicesNewRoute,
+  DashboardOrdersNewRoute: DashboardOrdersNewRoute,
+  DashboardPaymentsNewRoute: DashboardPaymentsNewRoute,
+  DashboardProductsNewRoute: DashboardProductsNewRoute,
+  DashboardRoutesNewRoute: DashboardRoutesNewRoute,
+  DashboardShipmentsNewRoute: DashboardShipmentsNewRoute,
+  DashboardTasksMyTasksRoute: DashboardTasksMyTasksRoute,
+  DashboardTasksNewRoute: DashboardTasksNewRoute,
+  DashboardVehiclesNewRoute: DashboardVehiclesNewRoute,
+  DashboardWarehousesNewRoute: DashboardWarehousesNewRoute,
+  DashboardChatIndexRoute: DashboardChatIndexRoute,
+  DashboardCompaniesIndexRoute: DashboardCompaniesIndexRoute,
+  DashboardDepartmentsIndexRoute: DashboardDepartmentsIndexRoute,
+  DashboardInventoryIndexRoute: DashboardInventoryIndexRoute,
+  DashboardInvoicesIndexRoute: DashboardInvoicesIndexRoute,
+  DashboardOrdersIndexRoute: DashboardOrdersIndexRoute,
+  DashboardPaymentsIndexRoute: DashboardPaymentsIndexRoute,
+  DashboardProductsIndexRoute: DashboardProductsIndexRoute,
+  DashboardProfileIndexRoute: DashboardProfileIndexRoute,
+  DashboardRoutesIndexRoute: DashboardRoutesIndexRoute,
+  DashboardShipmentsIndexRoute: DashboardShipmentsIndexRoute,
+  DashboardTasksIndexRoute: DashboardTasksIndexRoute,
+  DashboardVehiclesIndexRoute: DashboardVehiclesIndexRoute,
+  DashboardWarehousesIndexRoute: DashboardWarehousesIndexRoute,
+  DashboardCompaniesCompanyidEditRoute: DashboardCompaniesCompanyidEditRoute,
+  DashboardDepartmentsDepartmentidEditRoute:
+    DashboardDepartmentsDepartmentidEditRoute,
+  DashboardInventoryInventoryitemidEditRoute:
+    DashboardInventoryInventoryitemidEditRoute,
+  DashboardInvoicesInvoicenumberEditRoute:
+    DashboardInvoicesInvoicenumberEditRoute,
+  DashboardInvoicesInvoicenumberRecordPaymentRoute:
+    DashboardInvoicesInvoicenumberRecordPaymentRoute,
+  DashboardInvoicesInvoicenumberSendRoute:
+    DashboardInvoicesInvoicenumberSendRoute,
+  DashboardOrdersOrderidcustomAllocateRoute:
+    DashboardOrdersOrderidcustomAllocateRoute,
+  DashboardOrdersOrderidcustomCreateShipmentRoute:
+    DashboardOrdersOrderidcustomCreateShipmentRoute,
+  DashboardOrdersOrderidcustomEditRoute: DashboardOrdersOrderidcustomEditRoute,
+  DashboardOrdersOrderidcustomValidateRoute:
+    DashboardOrdersOrderidcustomValidateRoute,
+  DashboardPaymentsPaymentidEditRoute: DashboardPaymentsPaymentidEditRoute,
+  DashboardProductsProductidEditRoute: DashboardProductsProductidEditRoute,
+  DashboardProductsProductidInventoryRoute:
+    DashboardProductsProductidInventoryRoute,
+  DashboardRoutesRoutenameoridEditRoute: DashboardRoutesRoutenameoridEditRoute,
+  DashboardRoutesRoutenameoridOptimizeRoute:
+    DashboardRoutesRoutenameoridOptimizeRoute,
+  DashboardShipmentsTrackingnumberAssignToRouteRoute:
+    DashboardShipmentsTrackingnumberAssignToRouteRoute,
+  DashboardShipmentsTrackingnumberEditRoute:
+    DashboardShipmentsTrackingnumberEditRoute,
+  DashboardTasksTaskidEditRoute: DashboardTasksTaskidEditRoute,
+  DashboardUsersUseridEditRoute: DashboardUsersUseridEditRoute,
+  DashboardVehiclesLicenseplateEditRoute:
+    DashboardVehiclesLicenseplateEditRoute,
+  DashboardVehiclesLicenseplateMaintenanceLogRoute:
+    DashboardVehiclesLicenseplateMaintenanceLogRoute,
+  DashboardWarehousesWarehouseidEditRoute:
+    DashboardWarehousesWarehouseidEditRoute,
+  DashboardCompaniesCompanyidIndexRoute: DashboardCompaniesCompanyidIndexRoute,
+  DashboardDepartmentsDepartmentidIndexRoute:
+    DashboardDepartmentsDepartmentidIndexRoute,
+  DashboardInventoryInventoryitemidIndexRoute:
+    DashboardInventoryInventoryitemidIndexRoute,
+  DashboardOrdersOrderidcustomIndexRoute:
+    DashboardOrdersOrderidcustomIndexRoute,
+  DashboardPaymentsPaymentidIndexRoute: DashboardPaymentsPaymentidIndexRoute,
+  DashboardProductsProductidIndexRoute: DashboardProductsProductidIndexRoute,
+  DashboardRoutesRoutenameoridIndexRoute:
+    DashboardRoutesRoutenameoridIndexRoute,
+  DashboardShipmentsTrackingnumberIndexRoute:
+    DashboardShipmentsTrackingnumberIndexRoute,
+  DashboardTasksTaskidIndexRoute: DashboardTasksTaskidIndexRoute,
+  DashboardUsersUseridIndexRoute: DashboardUsersUseridIndexRoute,
+  DashboardVehiclesLicenseplateIndexRoute:
+    DashboardVehiclesLicenseplateIndexRoute,
+  DashboardWarehousesWarehouseidIndexRoute:
+    DashboardWarehousesWarehouseidIndexRoute,
+  DashboardChatStartOrderOrderidRoute: DashboardChatStartOrderOrderidRoute,
+  DashboardChatStartSupportCustomeridRoute:
+    DashboardChatStartSupportCustomeridRoute,
+  DashboardTasksDepartmentDepartmentidIndexRoute:
+    DashboardTasksDepartmentDepartmentidIndexRoute,
+};
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+);
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
+  '/dashboard': typeof DashboardRouteWithChildren;
   '/forgot-password': typeof ForgotPasswordRoute;
   '/login': typeof LoginRoute;
   '/reset-password': typeof ResetPasswordRoute;
   '/dashboard/settings': typeof DashboardSettingsRoute;
-  '/dashboard': typeof DashboardIndexRoute;
+  '/dashboard/': typeof DashboardIndexRoute;
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute;
   '/dashboard/chat/new': typeof DashboardChatNewRoute;
   '/dashboard/companies/new': typeof DashboardCompaniesNewRoute;
@@ -1251,6 +1440,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   '/': typeof IndexRoute;
+  '/dashboard': typeof DashboardRouteWithChildren;
   '/forgot-password': typeof ForgotPasswordRoute;
   '/login': typeof LoginRoute;
   '/reset-password': typeof ResetPasswordRoute;
@@ -1330,11 +1520,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
     | '/dashboard/settings'
-    | '/dashboard'
+    | '/dashboard/'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
     | '/dashboard/companies/new'
@@ -1482,6 +1673,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
@@ -1560,180 +1752,18 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  DashboardRoute: typeof DashboardRouteWithChildren;
   ForgotPasswordRoute: typeof ForgotPasswordRoute;
   LoginRoute: typeof LoginRoute;
   ResetPasswordRoute: typeof ResetPasswordRoute;
-  DashboardSettingsRoute: typeof DashboardSettingsRoute;
-  DashboardIndexRoute: typeof DashboardIndexRoute;
-  DashboardChatRoomidRoute: typeof DashboardChatRoomidRoute;
-  DashboardChatNewRoute: typeof DashboardChatNewRoute;
-  DashboardCompaniesNewRoute: typeof DashboardCompaniesNewRoute;
-  DashboardDepartmentsNewRoute: typeof DashboardDepartmentsNewRoute;
-  DashboardInventoryAdjustmentsRoute: typeof DashboardInventoryAdjustmentsRoute;
-  DashboardInventoryNewRoute: typeof DashboardInventoryNewRoute;
-  DashboardInventoryStockLevelsRoute: typeof DashboardInventoryStockLevelsRoute;
-  DashboardInvoicesNewRoute: typeof DashboardInvoicesNewRoute;
-  DashboardOrdersNewRoute: typeof DashboardOrdersNewRoute;
-  DashboardPaymentsNewRoute: typeof DashboardPaymentsNewRoute;
-  DashboardProductsNewRoute: typeof DashboardProductsNewRoute;
-  DashboardRoutesNewRoute: typeof DashboardRoutesNewRoute;
-  DashboardShipmentsNewRoute: typeof DashboardShipmentsNewRoute;
-  DashboardTasksMyTasksRoute: typeof DashboardTasksMyTasksRoute;
-  DashboardTasksNewRoute: typeof DashboardTasksNewRoute;
-  DashboardVehiclesNewRoute: typeof DashboardVehiclesNewRoute;
-  DashboardWarehousesNewRoute: typeof DashboardWarehousesNewRoute;
-  DashboardChatIndexRoute: typeof DashboardChatIndexRoute;
-  DashboardCompaniesIndexRoute: typeof DashboardCompaniesIndexRoute;
-  DashboardDepartmentsIndexRoute: typeof DashboardDepartmentsIndexRoute;
-  DashboardInventoryIndexRoute: typeof DashboardInventoryIndexRoute;
-  DashboardInvoicesIndexRoute: typeof DashboardInvoicesIndexRoute;
-  DashboardOrdersIndexRoute: typeof DashboardOrdersIndexRoute;
-  DashboardPaymentsIndexRoute: typeof DashboardPaymentsIndexRoute;
-  DashboardProductsIndexRoute: typeof DashboardProductsIndexRoute;
-  DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute;
-  DashboardRoutesIndexRoute: typeof DashboardRoutesIndexRoute;
-  DashboardShipmentsIndexRoute: typeof DashboardShipmentsIndexRoute;
-  DashboardTasksIndexRoute: typeof DashboardTasksIndexRoute;
-  DashboardVehiclesIndexRoute: typeof DashboardVehiclesIndexRoute;
-  DashboardWarehousesIndexRoute: typeof DashboardWarehousesIndexRoute;
-  DashboardCompaniesCompanyidEditRoute: typeof DashboardCompaniesCompanyidEditRoute;
-  DashboardDepartmentsDepartmentidEditRoute: typeof DashboardDepartmentsDepartmentidEditRoute;
-  DashboardInventoryInventoryitemidEditRoute: typeof DashboardInventoryInventoryitemidEditRoute;
-  DashboardInvoicesInvoicenumberEditRoute: typeof DashboardInvoicesInvoicenumberEditRoute;
-  DashboardInvoicesInvoicenumberRecordPaymentRoute: typeof DashboardInvoicesInvoicenumberRecordPaymentRoute;
-  DashboardInvoicesInvoicenumberSendRoute: typeof DashboardInvoicesInvoicenumberSendRoute;
-  DashboardOrdersOrderidcustomAllocateRoute: typeof DashboardOrdersOrderidcustomAllocateRoute;
-  DashboardOrdersOrderidcustomCreateShipmentRoute: typeof DashboardOrdersOrderidcustomCreateShipmentRoute;
-  DashboardOrdersOrderidcustomEditRoute: typeof DashboardOrdersOrderidcustomEditRoute;
-  DashboardOrdersOrderidcustomValidateRoute: typeof DashboardOrdersOrderidcustomValidateRoute;
-  DashboardPaymentsPaymentidEditRoute: typeof DashboardPaymentsPaymentidEditRoute;
-  DashboardProductsProductidEditRoute: typeof DashboardProductsProductidEditRoute;
-  DashboardProductsProductidInventoryRoute: typeof DashboardProductsProductidInventoryRoute;
-  DashboardRoutesRoutenameoridEditRoute: typeof DashboardRoutesRoutenameoridEditRoute;
-  DashboardRoutesRoutenameoridOptimizeRoute: typeof DashboardRoutesRoutenameoridOptimizeRoute;
-  DashboardShipmentsTrackingnumberAssignToRouteRoute: typeof DashboardShipmentsTrackingnumberAssignToRouteRoute;
-  DashboardShipmentsTrackingnumberEditRoute: typeof DashboardShipmentsTrackingnumberEditRoute;
-  DashboardTasksTaskidEditRoute: typeof DashboardTasksTaskidEditRoute;
-  DashboardUsersUseridEditRoute: typeof DashboardUsersUseridEditRoute;
-  DashboardVehiclesLicenseplateEditRoute: typeof DashboardVehiclesLicenseplateEditRoute;
-  DashboardVehiclesLicenseplateMaintenanceLogRoute: typeof DashboardVehiclesLicenseplateMaintenanceLogRoute;
-  DashboardWarehousesWarehouseidEditRoute: typeof DashboardWarehousesWarehouseidEditRoute;
-  DashboardCompaniesCompanyidIndexRoute: typeof DashboardCompaniesCompanyidIndexRoute;
-  DashboardDepartmentsDepartmentidIndexRoute: typeof DashboardDepartmentsDepartmentidIndexRoute;
-  DashboardInventoryInventoryitemidIndexRoute: typeof DashboardInventoryInventoryitemidIndexRoute;
-  DashboardOrdersOrderidcustomIndexRoute: typeof DashboardOrdersOrderidcustomIndexRoute;
-  DashboardPaymentsPaymentidIndexRoute: typeof DashboardPaymentsPaymentidIndexRoute;
-  DashboardProductsProductidIndexRoute: typeof DashboardProductsProductidIndexRoute;
-  DashboardRoutesRoutenameoridIndexRoute: typeof DashboardRoutesRoutenameoridIndexRoute;
-  DashboardShipmentsTrackingnumberIndexRoute: typeof DashboardShipmentsTrackingnumberIndexRoute;
-  DashboardTasksTaskidIndexRoute: typeof DashboardTasksTaskidIndexRoute;
-  DashboardUsersUseridIndexRoute: typeof DashboardUsersUseridIndexRoute;
-  DashboardVehiclesLicenseplateIndexRoute: typeof DashboardVehiclesLicenseplateIndexRoute;
-  DashboardWarehousesWarehouseidIndexRoute: typeof DashboardWarehousesWarehouseidIndexRoute;
-  DashboardChatStartOrderOrderidRoute: typeof DashboardChatStartOrderOrderidRoute;
-  DashboardChatStartSupportCustomeridRoute: typeof DashboardChatStartSupportCustomeridRoute;
-  DashboardTasksDepartmentDepartmentidIndexRoute: typeof DashboardTasksDepartmentDepartmentidIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  DashboardSettingsRoute: DashboardSettingsRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
-  DashboardChatRoomidRoute: DashboardChatRoomidRoute,
-  DashboardChatNewRoute: DashboardChatNewRoute,
-  DashboardCompaniesNewRoute: DashboardCompaniesNewRoute,
-  DashboardDepartmentsNewRoute: DashboardDepartmentsNewRoute,
-  DashboardInventoryAdjustmentsRoute: DashboardInventoryAdjustmentsRoute,
-  DashboardInventoryNewRoute: DashboardInventoryNewRoute,
-  DashboardInventoryStockLevelsRoute: DashboardInventoryStockLevelsRoute,
-  DashboardInvoicesNewRoute: DashboardInvoicesNewRoute,
-  DashboardOrdersNewRoute: DashboardOrdersNewRoute,
-  DashboardPaymentsNewRoute: DashboardPaymentsNewRoute,
-  DashboardProductsNewRoute: DashboardProductsNewRoute,
-  DashboardRoutesNewRoute: DashboardRoutesNewRoute,
-  DashboardShipmentsNewRoute: DashboardShipmentsNewRoute,
-  DashboardTasksMyTasksRoute: DashboardTasksMyTasksRoute,
-  DashboardTasksNewRoute: DashboardTasksNewRoute,
-  DashboardVehiclesNewRoute: DashboardVehiclesNewRoute,
-  DashboardWarehousesNewRoute: DashboardWarehousesNewRoute,
-  DashboardChatIndexRoute: DashboardChatIndexRoute,
-  DashboardCompaniesIndexRoute: DashboardCompaniesIndexRoute,
-  DashboardDepartmentsIndexRoute: DashboardDepartmentsIndexRoute,
-  DashboardInventoryIndexRoute: DashboardInventoryIndexRoute,
-  DashboardInvoicesIndexRoute: DashboardInvoicesIndexRoute,
-  DashboardOrdersIndexRoute: DashboardOrdersIndexRoute,
-  DashboardPaymentsIndexRoute: DashboardPaymentsIndexRoute,
-  DashboardProductsIndexRoute: DashboardProductsIndexRoute,
-  DashboardProfileIndexRoute: DashboardProfileIndexRoute,
-  DashboardRoutesIndexRoute: DashboardRoutesIndexRoute,
-  DashboardShipmentsIndexRoute: DashboardShipmentsIndexRoute,
-  DashboardTasksIndexRoute: DashboardTasksIndexRoute,
-  DashboardVehiclesIndexRoute: DashboardVehiclesIndexRoute,
-  DashboardWarehousesIndexRoute: DashboardWarehousesIndexRoute,
-  DashboardCompaniesCompanyidEditRoute: DashboardCompaniesCompanyidEditRoute,
-  DashboardDepartmentsDepartmentidEditRoute:
-    DashboardDepartmentsDepartmentidEditRoute,
-  DashboardInventoryInventoryitemidEditRoute:
-    DashboardInventoryInventoryitemidEditRoute,
-  DashboardInvoicesInvoicenumberEditRoute:
-    DashboardInvoicesInvoicenumberEditRoute,
-  DashboardInvoicesInvoicenumberRecordPaymentRoute:
-    DashboardInvoicesInvoicenumberRecordPaymentRoute,
-  DashboardInvoicesInvoicenumberSendRoute:
-    DashboardInvoicesInvoicenumberSendRoute,
-  DashboardOrdersOrderidcustomAllocateRoute:
-    DashboardOrdersOrderidcustomAllocateRoute,
-  DashboardOrdersOrderidcustomCreateShipmentRoute:
-    DashboardOrdersOrderidcustomCreateShipmentRoute,
-  DashboardOrdersOrderidcustomEditRoute: DashboardOrdersOrderidcustomEditRoute,
-  DashboardOrdersOrderidcustomValidateRoute:
-    DashboardOrdersOrderidcustomValidateRoute,
-  DashboardPaymentsPaymentidEditRoute: DashboardPaymentsPaymentidEditRoute,
-  DashboardProductsProductidEditRoute: DashboardProductsProductidEditRoute,
-  DashboardProductsProductidInventoryRoute:
-    DashboardProductsProductidInventoryRoute,
-  DashboardRoutesRoutenameoridEditRoute: DashboardRoutesRoutenameoridEditRoute,
-  DashboardRoutesRoutenameoridOptimizeRoute:
-    DashboardRoutesRoutenameoridOptimizeRoute,
-  DashboardShipmentsTrackingnumberAssignToRouteRoute:
-    DashboardShipmentsTrackingnumberAssignToRouteRoute,
-  DashboardShipmentsTrackingnumberEditRoute:
-    DashboardShipmentsTrackingnumberEditRoute,
-  DashboardTasksTaskidEditRoute: DashboardTasksTaskidEditRoute,
-  DashboardUsersUseridEditRoute: DashboardUsersUseridEditRoute,
-  DashboardVehiclesLicenseplateEditRoute:
-    DashboardVehiclesLicenseplateEditRoute,
-  DashboardVehiclesLicenseplateMaintenanceLogRoute:
-    DashboardVehiclesLicenseplateMaintenanceLogRoute,
-  DashboardWarehousesWarehouseidEditRoute:
-    DashboardWarehousesWarehouseidEditRoute,
-  DashboardCompaniesCompanyidIndexRoute: DashboardCompaniesCompanyidIndexRoute,
-  DashboardDepartmentsDepartmentidIndexRoute:
-    DashboardDepartmentsDepartmentidIndexRoute,
-  DashboardInventoryInventoryitemidIndexRoute:
-    DashboardInventoryInventoryitemidIndexRoute,
-  DashboardOrdersOrderidcustomIndexRoute:
-    DashboardOrdersOrderidcustomIndexRoute,
-  DashboardPaymentsPaymentidIndexRoute: DashboardPaymentsPaymentidIndexRoute,
-  DashboardProductsProductidIndexRoute: DashboardProductsProductidIndexRoute,
-  DashboardRoutesRoutenameoridIndexRoute:
-    DashboardRoutesRoutenameoridIndexRoute,
-  DashboardShipmentsTrackingnumberIndexRoute:
-    DashboardShipmentsTrackingnumberIndexRoute,
-  DashboardTasksTaskidIndexRoute: DashboardTasksTaskidIndexRoute,
-  DashboardUsersUseridIndexRoute: DashboardUsersUseridIndexRoute,
-  DashboardVehiclesLicenseplateIndexRoute:
-    DashboardVehiclesLicenseplateIndexRoute,
-  DashboardWarehousesWarehouseidIndexRoute:
-    DashboardWarehousesWarehouseidIndexRoute,
-  DashboardChatStartOrderOrderidRoute: DashboardChatStartOrderOrderidRoute,
-  DashboardChatStartSupportCustomeridRoute:
-    DashboardChatStartSupportCustomeridRoute,
-  DashboardTasksDepartmentDepartmentidIndexRoute:
-    DashboardTasksDepartmentDepartmentidIndexRoute,
 };
 
 export const routeTree = rootRoute
@@ -1747,9 +1777,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/dashboard",
         "/forgot-password",
         "/login",
-        "/reset-password",
+        "/reset-password"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/dashboard": {
+      "filePath": "dashboard.tsx",
+      "children": [
         "/dashboard/settings",
         "/dashboard/",
         "/dashboard/chat/$room_id",
@@ -1822,9 +1861,6 @@ export const routeTree = rootRoute
         "/dashboard/tasks/department/$department_id/"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
     "/forgot-password": {
       "filePath": "forgot-password.tsx"
     },
@@ -1835,214 +1871,284 @@ export const routeTree = rootRoute
       "filePath": "reset-password.tsx"
     },
     "/dashboard/settings": {
-      "filePath": "dashboard/settings.tsx"
+      "filePath": "dashboard/settings.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/": {
-      "filePath": "dashboard/index.tsx"
+      "filePath": "dashboard/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/chat/$room_id": {
-      "filePath": "dashboard/chat/$room_id.tsx"
+      "filePath": "dashboard/chat/$room_id.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/chat/new": {
-      "filePath": "dashboard/chat/new.tsx"
+      "filePath": "dashboard/chat/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/companies/new": {
-      "filePath": "dashboard/companies/new.tsx"
+      "filePath": "dashboard/companies/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/departments/new": {
-      "filePath": "dashboard/departments/new.tsx"
+      "filePath": "dashboard/departments/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/adjustments": {
-      "filePath": "dashboard/inventory/adjustments.tsx"
+      "filePath": "dashboard/inventory/adjustments.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/new": {
-      "filePath": "dashboard/inventory/new.tsx"
+      "filePath": "dashboard/inventory/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/stock-levels": {
-      "filePath": "dashboard/inventory/stock-levels.tsx"
+      "filePath": "dashboard/inventory/stock-levels.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/invoices/new": {
-      "filePath": "dashboard/invoices/new.tsx"
+      "filePath": "dashboard/invoices/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/new": {
-      "filePath": "dashboard/orders/new.tsx"
+      "filePath": "dashboard/orders/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/payments/new": {
-      "filePath": "dashboard/payments/new.tsx"
+      "filePath": "dashboard/payments/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/products/new": {
-      "filePath": "dashboard/products/new.tsx"
+      "filePath": "dashboard/products/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/routes/new": {
-      "filePath": "dashboard/routes/new.tsx"
+      "filePath": "dashboard/routes/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/shipments/new": {
-      "filePath": "dashboard/shipments/new.tsx"
+      "filePath": "dashboard/shipments/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/my-tasks": {
-      "filePath": "dashboard/tasks/my-tasks.tsx"
+      "filePath": "dashboard/tasks/my-tasks.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/new": {
-      "filePath": "dashboard/tasks/new.tsx"
+      "filePath": "dashboard/tasks/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/vehicles/new": {
-      "filePath": "dashboard/vehicles/new.tsx"
+      "filePath": "dashboard/vehicles/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/warehouses/new": {
-      "filePath": "dashboard/warehouses/new.tsx"
+      "filePath": "dashboard/warehouses/new.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/chat/": {
-      "filePath": "dashboard/chat/index.tsx"
+      "filePath": "dashboard/chat/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/companies/": {
-      "filePath": "dashboard/companies/index.tsx"
+      "filePath": "dashboard/companies/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/departments/": {
-      "filePath": "dashboard/departments/index.tsx"
+      "filePath": "dashboard/departments/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/": {
-      "filePath": "dashboard/inventory/index.tsx"
+      "filePath": "dashboard/inventory/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/invoices/": {
-      "filePath": "dashboard/invoices/index.tsx"
+      "filePath": "dashboard/invoices/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/": {
-      "filePath": "dashboard/orders/index.tsx"
+      "filePath": "dashboard/orders/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/payments/": {
-      "filePath": "dashboard/payments/index.tsx"
+      "filePath": "dashboard/payments/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/products/": {
-      "filePath": "dashboard/products/index.tsx"
+      "filePath": "dashboard/products/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/profile/": {
-      "filePath": "dashboard/profile/index.tsx"
+      "filePath": "dashboard/profile/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/routes/": {
-      "filePath": "dashboard/routes/index.tsx"
+      "filePath": "dashboard/routes/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/shipments/": {
-      "filePath": "dashboard/shipments/index.tsx"
+      "filePath": "dashboard/shipments/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/": {
-      "filePath": "dashboard/tasks/index.tsx"
+      "filePath": "dashboard/tasks/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/vehicles/": {
-      "filePath": "dashboard/vehicles/index.tsx"
+      "filePath": "dashboard/vehicles/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/warehouses/": {
-      "filePath": "dashboard/warehouses/index.tsx"
+      "filePath": "dashboard/warehouses/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/companies/$company_id/edit": {
-      "filePath": "dashboard/companies/$company_id/edit.tsx"
+      "filePath": "dashboard/companies/$company_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/departments/$department_id/edit": {
-      "filePath": "dashboard/departments/$department_id/edit.tsx"
+      "filePath": "dashboard/departments/$department_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/$inventory_item_id/edit": {
-      "filePath": "dashboard/inventory/$inventory_item_id/edit.tsx"
+      "filePath": "dashboard/inventory/$inventory_item_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/invoices/$invoice_number/edit": {
-      "filePath": "dashboard/invoices/$invoice_number/edit.tsx"
+      "filePath": "dashboard/invoices/$invoice_number/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/invoices/$invoice_number/record-payment": {
-      "filePath": "dashboard/invoices/$invoice_number/record-payment.tsx"
+      "filePath": "dashboard/invoices/$invoice_number/record-payment.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/invoices/$invoice_number/send": {
-      "filePath": "dashboard/invoices/$invoice_number/send.tsx"
+      "filePath": "dashboard/invoices/$invoice_number/send.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/$order_id_custom/allocate": {
-      "filePath": "dashboard/orders/$order_id_custom/allocate.tsx"
+      "filePath": "dashboard/orders/$order_id_custom/allocate.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/$order_id_custom/create-shipment": {
-      "filePath": "dashboard/orders/$order_id_custom/create-shipment.tsx"
+      "filePath": "dashboard/orders/$order_id_custom/create-shipment.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/$order_id_custom/edit": {
-      "filePath": "dashboard/orders/$order_id_custom/edit.tsx"
+      "filePath": "dashboard/orders/$order_id_custom/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/$order_id_custom/validate": {
-      "filePath": "dashboard/orders/$order_id_custom/validate.tsx"
+      "filePath": "dashboard/orders/$order_id_custom/validate.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/payments/$payment_id/edit": {
-      "filePath": "dashboard/payments/$payment_id/edit.tsx"
+      "filePath": "dashboard/payments/$payment_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/products/$product_id/edit": {
-      "filePath": "dashboard/products/$product_id/edit.tsx"
+      "filePath": "dashboard/products/$product_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/products/$product_id/inventory": {
-      "filePath": "dashboard/products/$product_id/inventory.tsx"
+      "filePath": "dashboard/products/$product_id/inventory.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/routes/$route_name_or_id/edit": {
-      "filePath": "dashboard/routes/$route_name_or_id/edit.tsx"
+      "filePath": "dashboard/routes/$route_name_or_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/routes/$route_name_or_id/optimize": {
-      "filePath": "dashboard/routes/$route_name_or_id/optimize.tsx"
+      "filePath": "dashboard/routes/$route_name_or_id/optimize.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/shipments/$tracking_number/assign-to-route": {
-      "filePath": "dashboard/shipments/$tracking_number/assign-to-route.tsx"
+      "filePath": "dashboard/shipments/$tracking_number/assign-to-route.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/shipments/$tracking_number/edit": {
-      "filePath": "dashboard/shipments/$tracking_number/edit.tsx"
+      "filePath": "dashboard/shipments/$tracking_number/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/$task_id/edit": {
-      "filePath": "dashboard/tasks/$task_id/edit.tsx"
+      "filePath": "dashboard/tasks/$task_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/users/$user_id/edit": {
-      "filePath": "dashboard/users/$user_id/edit.tsx"
+      "filePath": "dashboard/users/$user_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/vehicles/$license_plate/edit": {
-      "filePath": "dashboard/vehicles/$license_plate/edit.tsx"
+      "filePath": "dashboard/vehicles/$license_plate/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/vehicles/$license_plate/maintenance-log": {
-      "filePath": "dashboard/vehicles/$license_plate/maintenance-log.tsx"
+      "filePath": "dashboard/vehicles/$license_plate/maintenance-log.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/warehouses/$warehouse_id/edit": {
-      "filePath": "dashboard/warehouses/$warehouse_id/edit.tsx"
+      "filePath": "dashboard/warehouses/$warehouse_id/edit.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/companies/$company_id/": {
-      "filePath": "dashboard/companies/$company_id/index.tsx"
+      "filePath": "dashboard/companies/$company_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/departments/$department_id/": {
-      "filePath": "dashboard/departments/$department_id/index.tsx"
+      "filePath": "dashboard/departments/$department_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/inventory/$inventory_item_id/": {
-      "filePath": "dashboard/inventory/$inventory_item_id/index.tsx"
+      "filePath": "dashboard/inventory/$inventory_item_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/orders/$order_id_custom/": {
-      "filePath": "dashboard/orders/$order_id_custom/index.tsx"
+      "filePath": "dashboard/orders/$order_id_custom/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/payments/$payment_id/": {
-      "filePath": "dashboard/payments/$payment_id/index.tsx"
+      "filePath": "dashboard/payments/$payment_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/products/$product_id/": {
-      "filePath": "dashboard/products/$product_id/index.tsx"
+      "filePath": "dashboard/products/$product_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/routes/$route_name_or_id/": {
-      "filePath": "dashboard/routes/$route_name_or_id/index.tsx"
+      "filePath": "dashboard/routes/$route_name_or_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/shipments/$tracking_number/": {
-      "filePath": "dashboard/shipments/$tracking_number/index.tsx"
+      "filePath": "dashboard/shipments/$tracking_number/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/$task_id/": {
-      "filePath": "dashboard/tasks/$task_id/index.tsx"
+      "filePath": "dashboard/tasks/$task_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/users/$user_id/": {
-      "filePath": "dashboard/users/$user_id/index.tsx"
+      "filePath": "dashboard/users/$user_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/vehicles/$license_plate/": {
-      "filePath": "dashboard/vehicles/$license_plate/index.tsx"
+      "filePath": "dashboard/vehicles/$license_plate/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/warehouses/$warehouse_id/": {
-      "filePath": "dashboard/warehouses/$warehouse_id/index.tsx"
+      "filePath": "dashboard/warehouses/$warehouse_id/index.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/chat/start/order/$order_id": {
-      "filePath": "dashboard/chat/start/order/$order_id.tsx"
+      "filePath": "dashboard/chat/start/order/$order_id.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/chat/start/support/$customer_id": {
-      "filePath": "dashboard/chat/start/support/$customer_id.tsx"
+      "filePath": "dashboard/chat/start/support/$customer_id.tsx",
+      "parent": "/dashboard"
     },
     "/dashboard/tasks/department/$department_id/": {
-      "filePath": "dashboard/tasks/department/$department_id/index.tsx"
+      "filePath": "dashboard/tasks/department/$department_id/index.tsx",
+      "parent": "/dashboard"
     }
   }
 }
