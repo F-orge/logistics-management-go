@@ -10,66 +10,312 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as IndexImport } from './routes/index';
+import { Route as rootRoute } from './routes/__root'
+import { Route as ResetPasswordImport } from './routes/reset-password'
+import { Route as LoginImport } from './routes/login'
+import { Route as ForgotPasswordImport } from './routes/forgot-password'
+import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardProfileIndexImport } from './routes/dashboard/profile/index'
+import { Route as DashboardCompaniesIndexImport } from './routes/dashboard/companies/index'
+import { Route as DashboardCompaniesNewImport } from './routes/dashboard/companies/new'
+import { Route as DashboardUsersIdIndexImport } from './routes/dashboard/users/$id/index'
+import { Route as DashboardCompaniesIdIndexImport } from './routes/dashboard/companies/$id/index'
+import { Route as DashboardUsersIdEditImport } from './routes/dashboard/users/$id/edit'
+import { Route as DashboardCompaniesIdEditImport } from './routes/dashboard/companies/$id/edit'
 
 // Create/Update Routes
+
+const ResetPasswordRoute = ResetPasswordImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ForgotPasswordRoute = ForgotPasswordImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const DashboardIndexRoute = DashboardIndexImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
+  id: '/dashboard/profile/',
+  path: '/dashboard/profile/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardCompaniesIndexRoute = DashboardCompaniesIndexImport.update({
+  id: '/dashboard/companies/',
+  path: '/dashboard/companies/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardCompaniesNewRoute = DashboardCompaniesNewImport.update({
+  id: '/dashboard/companies/new',
+  path: '/dashboard/companies/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardUsersIdIndexRoute = DashboardUsersIdIndexImport.update({
+  id: '/dashboard/users/$id/',
+  path: '/dashboard/users/$id/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardCompaniesIdIndexRoute = DashboardCompaniesIdIndexImport.update({
+  id: '/dashboard/companies/$id/',
+  path: '/dashboard/companies/$id/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardUsersIdEditRoute = DashboardUsersIdEditImport.update({
+  id: '/dashboard/users/$id/edit',
+  path: '/dashboard/users/$id/edit',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardCompaniesIdEditRoute = DashboardCompaniesIdEditImport.update({
+  id: '/dashboard/companies/$id/edit',
+  path: '/dashboard/companies/$id/edit',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/companies/new': {
+      id: '/dashboard/companies/new'
+      path: '/dashboard/companies/new'
+      fullPath: '/dashboard/companies/new'
+      preLoaderRoute: typeof DashboardCompaniesNewImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/companies/': {
+      id: '/dashboard/companies/'
+      path: '/dashboard/companies'
+      fullPath: '/dashboard/companies'
+      preLoaderRoute: typeof DashboardCompaniesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/profile/': {
+      id: '/dashboard/profile/'
+      path: '/dashboard/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/companies/$id/edit': {
+      id: '/dashboard/companies/$id/edit'
+      path: '/dashboard/companies/$id/edit'
+      fullPath: '/dashboard/companies/$id/edit'
+      preLoaderRoute: typeof DashboardCompaniesIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/users/$id/edit': {
+      id: '/dashboard/users/$id/edit'
+      path: '/dashboard/users/$id/edit'
+      fullPath: '/dashboard/users/$id/edit'
+      preLoaderRoute: typeof DashboardUsersIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/companies/$id/': {
+      id: '/dashboard/companies/$id/'
+      path: '/dashboard/companies/$id'
+      fullPath: '/dashboard/companies/$id'
+      preLoaderRoute: typeof DashboardCompaniesIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/users/$id/': {
+      id: '/dashboard/users/$id/'
+      path: '/dashboard/users/$id'
+      fullPath: '/dashboard/users/$id'
+      preLoaderRoute: typeof DashboardUsersIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
+  '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/companies/new': typeof DashboardCompaniesNewRoute
+  '/dashboard/companies': typeof DashboardCompaniesIndexRoute
+  '/dashboard/profile': typeof DashboardProfileIndexRoute
+  '/dashboard/companies/$id/edit': typeof DashboardCompaniesIdEditRoute
+  '/dashboard/users/$id/edit': typeof DashboardUsersIdEditRoute
+  '/dashboard/companies/$id': typeof DashboardCompaniesIdIndexRoute
+  '/dashboard/users/$id': typeof DashboardUsersIdIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
+  '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/companies/new': typeof DashboardCompaniesNewRoute
+  '/dashboard/companies': typeof DashboardCompaniesIndexRoute
+  '/dashboard/profile': typeof DashboardProfileIndexRoute
+  '/dashboard/companies/$id/edit': typeof DashboardCompaniesIdEditRoute
+  '/dashboard/users/$id/edit': typeof DashboardUsersIdEditRoute
+  '/dashboard/companies/$id': typeof DashboardCompaniesIdIndexRoute
+  '/dashboard/users/$id': typeof DashboardUsersIdIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  '/': typeof IndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/companies/new': typeof DashboardCompaniesNewRoute
+  '/dashboard/companies/': typeof DashboardCompaniesIndexRoute
+  '/dashboard/profile/': typeof DashboardProfileIndexRoute
+  '/dashboard/companies/$id/edit': typeof DashboardCompaniesIdEditRoute
+  '/dashboard/users/$id/edit': typeof DashboardUsersIdEditRoute
+  '/dashboard/companies/$id/': typeof DashboardCompaniesIdIndexRoute
+  '/dashboard/users/$id/': typeof DashboardUsersIdIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/';
-  id: '__root__' | '/';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/dashboard'
+    | '/dashboard/companies/new'
+    | '/dashboard/companies'
+    | '/dashboard/profile'
+    | '/dashboard/companies/$id/edit'
+    | '/dashboard/users/$id/edit'
+    | '/dashboard/companies/$id'
+    | '/dashboard/users/$id'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/dashboard'
+    | '/dashboard/companies/new'
+    | '/dashboard/companies'
+    | '/dashboard/profile'
+    | '/dashboard/companies/$id/edit'
+    | '/dashboard/users/$id/edit'
+    | '/dashboard/companies/$id'
+    | '/dashboard/users/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/dashboard/'
+    | '/dashboard/companies/new'
+    | '/dashboard/companies/'
+    | '/dashboard/profile/'
+    | '/dashboard/companies/$id/edit'
+    | '/dashboard/users/$id/edit'
+    | '/dashboard/companies/$id/'
+    | '/dashboard/users/$id/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
+  IndexRoute: typeof IndexRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardCompaniesNewRoute: typeof DashboardCompaniesNewRoute
+  DashboardCompaniesIndexRoute: typeof DashboardCompaniesIndexRoute
+  DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute
+  DashboardCompaniesIdEditRoute: typeof DashboardCompaniesIdEditRoute
+  DashboardUsersIdEditRoute: typeof DashboardUsersIdEditRoute
+  DashboardCompaniesIdIndexRoute: typeof DashboardCompaniesIdIndexRoute
+  DashboardUsersIdIndexRoute: typeof DashboardUsersIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-};
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardCompaniesNewRoute: DashboardCompaniesNewRoute,
+  DashboardCompaniesIndexRoute: DashboardCompaniesIndexRoute,
+  DashboardProfileIndexRoute: DashboardProfileIndexRoute,
+  DashboardCompaniesIdEditRoute: DashboardCompaniesIdEditRoute,
+  DashboardUsersIdEditRoute: DashboardUsersIdEditRoute,
+  DashboardCompaniesIdIndexRoute: DashboardCompaniesIdIndexRoute,
+  DashboardUsersIdIndexRoute: DashboardUsersIdIndexRoute,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -77,11 +323,55 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/forgot-password",
+        "/login",
+        "/reset-password",
+        "/dashboard/",
+        "/dashboard/companies/new",
+        "/dashboard/companies/",
+        "/dashboard/profile/",
+        "/dashboard/companies/$id/edit",
+        "/dashboard/users/$id/edit",
+        "/dashboard/companies/$id/",
+        "/dashboard/users/$id/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/forgot-password": {
+      "filePath": "forgot-password.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/reset-password": {
+      "filePath": "reset-password.tsx"
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx"
+    },
+    "/dashboard/companies/new": {
+      "filePath": "dashboard/companies/new.tsx"
+    },
+    "/dashboard/companies/": {
+      "filePath": "dashboard/companies/index.tsx"
+    },
+    "/dashboard/profile/": {
+      "filePath": "dashboard/profile/index.tsx"
+    },
+    "/dashboard/companies/$id/edit": {
+      "filePath": "dashboard/companies/$id/edit.tsx"
+    },
+    "/dashboard/users/$id/edit": {
+      "filePath": "dashboard/users/$id/edit.tsx"
+    },
+    "/dashboard/companies/$id/": {
+      "filePath": "dashboard/companies/$id/index.tsx"
+    },
+    "/dashboard/users/$id/": {
+      "filePath": "dashboard/users/$id/index.tsx"
     }
   }
 }
