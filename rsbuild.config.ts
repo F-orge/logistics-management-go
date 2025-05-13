@@ -16,7 +16,9 @@ export default defineConfig({
       ],
     },
   },
-
+  html: {
+    tags: [{ tag: 'body', attrs: { class: 'bg-background text-foreground' } }],
+  },
   server: {
     proxy: {
       '/api': 'http://localhost:8090/api',
