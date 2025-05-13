@@ -1,7 +1,6 @@
 import { Button } from '@marahuyo/react-ui/ui/button';
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -45,12 +44,12 @@ function RouteComponent() {
         await pb
           .collection('users')
           .authWithPassword(value.email, value.password);
+        window.location.href = '/dashboard';
       } catch (e) {
         if (e instanceof ClientResponseError) {
           toast(`Error ${e.status}`, { description: e.message });
         }
       }
-      window.location.href = '/dashboard';
     },
   });
 
@@ -74,6 +73,7 @@ function RouteComponent() {
                 <div className="flex flex-col gap-2.5">
                   <Label htmlFor={field.name}>Email</Label>
                   <Input
+                    type="email"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
@@ -89,6 +89,7 @@ function RouteComponent() {
                 <div className="flex flex-col gap-2.5">
                   <Label htmlFor={field.name}>Password</Label>
                   <Input
+                    type="password"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
