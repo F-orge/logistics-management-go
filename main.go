@@ -1,16 +1,23 @@
 package main
 
 import (
+	"embed"
 	"log"
-	"os"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 
+	"io/fs"
+
 	_ "github.com/F-orge/logistics-management-go/migrations"
 )
+
+//go:embed .output/dist
+var distDir embed.FS
+
+var DistDirFs, _ = fs.Sub(distDir, ".output/dist")
 
 func main() {
 	app := pocketbase.New()
@@ -20,7 +27,7 @@ func main() {
 	})
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		se.Router.GET("/{path...}", apis.Static(os.DirFS("./dist"), true))
+		se.Router.GET("/{path...}", apis.Static(DistDirFs, true))
 		return se.Next()
 	})
 

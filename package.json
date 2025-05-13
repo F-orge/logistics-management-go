@@ -11,7 +11,7 @@
     "dev:frontend": "rsbuild dev --open",
     "dev:backend": "go run main.go serve",
     "format": "biome format --write",
-    "preview": "rsbuild preview",
+    "preview": "./.output/server serve",
     "generate:pb-types": "bunx pocketbase-typegen --db ./pb_data/data.db -o lib/pocketbase.gen.ts",
     "local:ci": "bun run check && bun run format"
   },
