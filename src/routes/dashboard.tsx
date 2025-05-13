@@ -1,7 +1,7 @@
+import { SidebarInset, SidebarProvider } from '@marahuyo/react-ui/ui/sidebar';
 import { Outlet, redirect } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router';
 import { pb } from '../../lib/pocketbase';
-import { SidebarInset, SidebarProvider } from '@marahuyo/react-ui/ui/sidebar';
 import { AppSidebar } from '../components/app-sidebar';
 
 export const Route = createFileRoute('/dashboard')({

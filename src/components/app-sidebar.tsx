@@ -1,28 +1,33 @@
-'use client';
-
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map as MapIcon,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  Boxes,
+  BriefcaseBusiness,
+  ClipboardList,
+  Container,
+  CreditCard,
+  Forklift,
+  LayoutDashboard,
+  LogOut,
+  Logs,
+  MessageSquare,
+  QrCode,
+  ScrollText,
+  User,
+  UsersRound,
+  Warehouse,
+  Waypoints,
 } from 'lucide-react';
 
-import { NavMain } from './nav-main';
-import { NavProjects } from './nav-projects';
-import { NavUser } from './nav-user';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarRail,
 } from '@marahuyo/react-ui/ui/sidebar';
+import { pb } from '../../lib/pocketbase';
+import { useUserRecord } from '../hooks/userInfo';
+import { NavMain } from './nav-main';
+import { NavUser } from './nav-user';
+import UserProfile from './settings/user-profile';
 
 // This is sample data.
 const data = {
@@ -31,138 +36,146 @@ const data = {
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg',
   },
-  teams: [
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
   navMain: [
     {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
+      groupName: 'Overview',
       items: [
         {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
+          title: 'Dashboard',
+          url: '/dashboard',
+          icon: LayoutDashboard,
+          isActive: true,
         },
       ],
     },
     {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
+      groupName: 'Finance',
       items: [
         {
-          title: 'Genesis',
-          url: '#',
+          title: 'Invoices',
+          url: '/dashboard/invoices',
+          icon: ScrollText,
         },
         {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
+          title: 'Payments',
+          url: '/dashboard/payments',
+          icon: CreditCard,
         },
       ],
     },
     {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
+      groupName: 'Productivity',
       items: [
         {
-          title: 'Introduction',
-          url: '#',
+          title: 'Tasks',
+          url: '/dashboard/tasks/my-tasks',
+          icon: ClipboardList,
         },
         {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
+          title: 'Chat',
+          url: '/dashboard/chat/',
+          icon: MessageSquare,
         },
       ],
     },
     {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
+      groupName: 'Organization',
       items: [
         {
-          title: 'General',
-          url: '#',
+          title: 'Companies',
+          url: '/dashboard/companies',
+          icon: BriefcaseBusiness,
         },
         {
-          title: 'Team',
-          url: '#',
+          title: 'Departments',
+          url: '/dashboard/departments',
+          icon: UsersRound,
         },
         {
-          title: 'Billing',
-          url: '#',
+          title: 'Warehouses',
+          url: '/dashboard/warehouses',
+          icon: Warehouse,
+        },
+      ],
+    },
+    {
+      groupName: 'Inventory',
+      items: [
+        {
+          title: 'Products',
+          url: '/dashboard/products',
+          icon: QrCode,
         },
         {
-          title: 'Limits',
-          url: '#',
+          title: 'Inventory',
+          url: '/dashboard/inventory',
+          icon: Boxes,
+        },
+      ],
+    },
+    {
+      groupName: 'Operations',
+      items: [
+        {
+          title: 'Orders',
+          url: '/dashboard/orders',
+          icon: Logs,
+        },
+        {
+          title: 'Shipments',
+          url: '/dashboard/shipments',
+          icon: Container,
+        },
+        {
+          title: 'Routes',
+          url: '/dashboard/routes',
+          icon: Waypoints,
+        },
+        {
+          title: 'Vehicles',
+          url: '/dashboard/vehicles',
+          icon: Forklift,
         },
       ],
     },
   ],
-  projects: [
+  settings: [
     {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
+      id: 'profile-info',
+      icon: User,
+      text: 'Profile information',
+      pageComponent: <UserProfile />,
     },
     {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: MapIcon,
+      id: 'logout-trigger',
+      icon: LogOut,
+      text: 'Log out',
+      onClick: () => {
+        pb.authStore.clear();
+        window.location.reload();
+      },
+      pageComponent: <></>,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: userData } = useUserRecord();
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+      <SidebarContent className="no-scrollbar">
+        <NavMain groups={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            email: userData?.email || '',
+            name: userData?.name || '',
+            avatar: `/api/files/_pb_${userData?.collectionName}_auth_/${userData?.id}/${userData?.avatar}`,
+          }}
+          settings={data.settings}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
