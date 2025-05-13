@@ -17,7 +17,7 @@
     "local:ci": "bun run check && bun run format"
   },
   "dependencies": {
-    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#dbdd554",
+    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#efa575d",
     "@tanstack/react-form": "^1.11.1",
     "@tanstack/react-query": "^5.76.0",
     "@tanstack/react-router": "^1.120.3",

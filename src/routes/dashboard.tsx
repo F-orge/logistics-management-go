@@ -1,6 +1,8 @@
 import { Outlet, redirect } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router';
 import { pb } from '../../lib/pocketbase';
+import { SidebarInset, SidebarProvider } from '@marahuyo/react-ui/ui/sidebar';
+import { AppSidebar } from '../components/app-sidebar';
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -12,9 +14,14 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
   return (
     <main>
-      <article className="border">
-        <Outlet />
-      </article>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <article className="border h-screen p-2.5">
+            <Outlet />
+          </article>
+        </SidebarInset>
+      </SidebarProvider>
     </main>
   );
 }
