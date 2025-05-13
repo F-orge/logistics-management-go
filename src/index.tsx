@@ -6,6 +6,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
 import { ThemeProvider } from '@marahuyo/react-ui/ui/theme-provider';
+import { Toaster } from '@marahuyo/react-ui/ui/sonner';
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ if (rootEl) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </ThemeProvider>
       </QueryClientProvider>
     </React.StrictMode>,
