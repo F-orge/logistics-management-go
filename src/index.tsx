@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './globals.css';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 
+import { Toaster } from '@marahuyo/react-ui/ui/sonner';
+import { ThemeProvider } from '@marahuyo/react-ui/ui/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
-import { ThemeProvider } from '@marahuyo/react-ui/ui/theme-provider';
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ if (rootEl) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </ThemeProvider>
       </QueryClientProvider>
     </React.StrictMode>,
