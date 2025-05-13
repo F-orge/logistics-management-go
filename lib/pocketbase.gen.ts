@@ -14,8 +14,7 @@ export enum Collections {
 	ChatMessages = "chatMessages",
 	ChatRooms = "chatRooms",
 	Companies = "companies",
-	Department = "department",
-	Employee = "employee",
+	Departments = "departments",
 	InventoryItems = "inventoryItems",
 	Invoices = "invoices",
 	Notifications = "notifications",
@@ -25,11 +24,9 @@ export enum Collections {
 	Products = "products",
 	RouteSegments = "routeSegments",
 	Routes = "routes",
-	Shipment = "shipment",
-	ShipmentItem = "shipment_item",
 	Shipments = "shipments",
+	TaskMessages = "taskMessages",
 	Tasks = "tasks",
-	TasksMessages = "tasksMessages",
 	Users = "users",
 	Vehicles = "vehicles",
 	Warehouses = "warehouses",
@@ -157,7 +154,7 @@ export type CompaniesRecord = {
 	updated?: IsoDateString
 }
 
-export type DepartmentRecord = {
+export type DepartmentsRecord = {
 	avatar?: string
 	cover_photo?: string
 	created?: IsoDateString
@@ -166,17 +163,6 @@ export type DepartmentRecord = {
 	managers?: RecordIdString[]
 	name: string
 	updated?: IsoDateString
-}
-
-export type EmployeeRecord = {
-	created?: IsoDateString
-	first_name?: string
-	id: string
-	job_role?: string
-	last_name?: string
-	middle_name?: string
-	updated?: IsoDateString
-	user_id?: RecordIdString
 }
 
 export enum InventoryItemsStatusOptions {
@@ -353,91 +339,10 @@ export type RoutesRecord = {
 	planned_end_time?: IsoDateString
 	planned_start_time?: IsoDateString
 	route_name: string
-	shipments_on_route?: RecordIdString[]
+	shipments_on_route?: RecordIdString
 	status?: RoutesStatusOptions
 	updated?: IsoDateString
 	vehicle_assigned?: RecordIdString
-}
-
-export enum ShipmentTransportModeOptions {
-	"land" = "land",
-	"air" = "air",
-	"sea" = "sea",
-}
-
-export enum ShipmentPriorityOptions {
-	"highest" = "highest",
-	"high" = "high",
-	"medium" = "medium",
-	"low" = "low",
-}
-
-export enum ShipmentWeightTypeOptions {
-	"kgs" = "kgs",
-	"gs" = "gs",
-	"lbs" = "lbs",
-	"tons" = "tons",
-}
-
-export enum ShipmentShipmentTypeOptions {
-	"perishable" = "perishable",
-	"non-perishable" = "non-perishable",
-}
-
-export enum ShipmentStatusOptions {
-	"pending" = "pending",
-	"in-process" = "in-process",
-	"in-transit" = "in-transit",
-	"delivered" = "delivered",
-	"returned" = "returned",
-	"destroyed" = "destroyed",
-}
-
-export enum ShipmentPriceCurrencyOptions {
-	"php" = "php",
-	"usd" = "usd",
-	"euro" = "euro",
-}
-
-export enum ShipmentPaymentModeOptions {
-	"cash" = "cash",
-	"credit" = "credit",
-	"e-wallet" = "e-wallet",
-}
-export type ShipmentRecord = {
-	address: HTMLString
-	attachments?: string[]
-	chat_messages?: RecordIdString[]
-	created?: IsoDateString
-	delivery_attempts: number
-	documents?: string[]
-	id: string
-	payment_mode: ShipmentPaymentModeOptions
-	payment_reference_id: string
-	price: number
-	price_currency: ShipmentPriceCurrencyOptions
-	priority?: ShipmentPriorityOptions
-	proof_of_delivery?: string[]
-	receiver_name: string
-	return_attempts?: number
-	sender_name: string
-	shipment_type: ShipmentShipmentTypeOptions
-	status: ShipmentStatusOptions
-	transport_mode?: ShipmentTransportModeOptions
-	transport_reference_id: string
-	updated?: IsoDateString
-	weight: number
-	weight_type: ShipmentWeightTypeOptions
-}
-
-export type ShipmentItemRecord = {
-	created?: IsoDateString
-	description?: HTMLString
-	id: string
-	name?: string
-	product_photo?: string[]
-	shipment_id?: RecordIdString
-	updated?: IsoDateString
 }
 
 export enum ShipmentsStatusOptions {
@@ -462,6 +367,17 @@ export type ShipmentsRecord = {
 	proof_of_delivery?: string[]
 	status?: ShipmentsStatusOptions
 	tracking_number?: string
+	updated?: IsoDateString
+}
+
+export type TaskMessagesRecord = {
+	attachments?: string[]
+	content: HTMLString
+	created?: IsoDateString
+	id: string
+	read_by?: RecordIdString[]
+	sender: RecordIdString
+	task: RecordIdString
 	updated?: IsoDateString
 }
 
@@ -508,17 +424,6 @@ export type TasksRecord = {
 	status?: TasksStatusOptions
 	tags?: TasksTagsOptions
 	title?: string
-	updated?: IsoDateString
-}
-
-export type TasksMessagesRecord = {
-	attachments?: string[]
-	content: HTMLString
-	created?: IsoDateString
-	id: string
-	read_by?: RecordIdString[]
-	sender: RecordIdString
-	task: RecordIdString
 	updated?: IsoDateString
 }
 
@@ -591,8 +496,7 @@ export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> &
 export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> & BaseSystemFields<Texpand>
 export type ChatRoomsResponse<Texpand = unknown> = Required<ChatRoomsRecord> & BaseSystemFields<Texpand>
 export type CompaniesResponse<Texpand = unknown> = Required<CompaniesRecord> & BaseSystemFields<Texpand>
-export type DepartmentResponse<Texpand = unknown> = Required<DepartmentRecord> & BaseSystemFields<Texpand>
-export type EmployeeResponse<Texpand = unknown> = Required<EmployeeRecord> & BaseSystemFields<Texpand>
+export type DepartmentsResponse<Texpand = unknown> = Required<DepartmentsRecord> & BaseSystemFields<Texpand>
 export type InventoryItemsResponse<Texpand = unknown> = Required<InventoryItemsRecord> & BaseSystemFields<Texpand>
 export type InvoicesResponse<Texpand = unknown> = Required<InvoicesRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
@@ -602,11 +506,9 @@ export type PaymentsResponse<Texpand = unknown> = Required<PaymentsRecord> & Bas
 export type ProductsResponse<Texpand = unknown> = Required<ProductsRecord> & BaseSystemFields<Texpand>
 export type RouteSegmentsResponse<Texpand = unknown> = Required<RouteSegmentsRecord> & BaseSystemFields<Texpand>
 export type RoutesResponse<Texpand = unknown> = Required<RoutesRecord> & BaseSystemFields<Texpand>
-export type ShipmentResponse<Texpand = unknown> = Required<ShipmentRecord> & BaseSystemFields<Texpand>
-export type ShipmentItemResponse<Texpand = unknown> = Required<ShipmentItemRecord> & BaseSystemFields<Texpand>
 export type ShipmentsResponse<Texpand = unknown> = Required<ShipmentsRecord> & BaseSystemFields<Texpand>
+export type TaskMessagesResponse<Texpand = unknown> = Required<TaskMessagesRecord> & BaseSystemFields<Texpand>
 export type TasksResponse<Texpand = unknown> = Required<TasksRecord> & BaseSystemFields<Texpand>
-export type TasksMessagesResponse<Texpand = unknown> = Required<TasksMessagesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 export type VehiclesResponse<Texpand = unknown> = Required<VehiclesRecord> & BaseSystemFields<Texpand>
 export type WarehousesResponse<Texpand = unknown> = Required<WarehousesRecord> & BaseSystemFields<Texpand>
@@ -622,8 +524,7 @@ export type CollectionRecords = {
 	chatMessages: ChatMessagesRecord
 	chatRooms: ChatRoomsRecord
 	companies: CompaniesRecord
-	department: DepartmentRecord
-	employee: EmployeeRecord
+	departments: DepartmentsRecord
 	inventoryItems: InventoryItemsRecord
 	invoices: InvoicesRecord
 	notifications: NotificationsRecord
@@ -633,11 +534,9 @@ export type CollectionRecords = {
 	products: ProductsRecord
 	routeSegments: RouteSegmentsRecord
 	routes: RoutesRecord
-	shipment: ShipmentRecord
-	shipment_item: ShipmentItemRecord
 	shipments: ShipmentsRecord
+	taskMessages: TaskMessagesRecord
 	tasks: TasksRecord
-	tasksMessages: TasksMessagesRecord
 	users: UsersRecord
 	vehicles: VehiclesRecord
 	warehouses: WarehousesRecord
@@ -652,8 +551,7 @@ export type CollectionResponses = {
 	chatMessages: ChatMessagesResponse
 	chatRooms: ChatRoomsResponse
 	companies: CompaniesResponse
-	department: DepartmentResponse
-	employee: EmployeeResponse
+	departments: DepartmentsResponse
 	inventoryItems: InventoryItemsResponse
 	invoices: InvoicesResponse
 	notifications: NotificationsResponse
@@ -663,11 +561,9 @@ export type CollectionResponses = {
 	products: ProductsResponse
 	routeSegments: RouteSegmentsResponse
 	routes: RoutesResponse
-	shipment: ShipmentResponse
-	shipment_item: ShipmentItemResponse
 	shipments: ShipmentsResponse
+	taskMessages: TaskMessagesResponse
 	tasks: TasksResponse
-	tasksMessages: TasksMessagesResponse
 	users: UsersResponse
 	vehicles: VehiclesResponse
 	warehouses: WarehousesResponse
@@ -685,8 +581,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'chatMessages'): RecordService<ChatMessagesResponse>
 	collection(idOrName: 'chatRooms'): RecordService<ChatRoomsResponse>
 	collection(idOrName: 'companies'): RecordService<CompaniesResponse>
-	collection(idOrName: 'department'): RecordService<DepartmentResponse>
-	collection(idOrName: 'employee'): RecordService<EmployeeResponse>
+	collection(idOrName: 'departments'): RecordService<DepartmentsResponse>
 	collection(idOrName: 'inventoryItems'): RecordService<InventoryItemsResponse>
 	collection(idOrName: 'invoices'): RecordService<InvoicesResponse>
 	collection(idOrName: 'notifications'): RecordService<NotificationsResponse>
@@ -696,11 +591,9 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'products'): RecordService<ProductsResponse>
 	collection(idOrName: 'routeSegments'): RecordService<RouteSegmentsResponse>
 	collection(idOrName: 'routes'): RecordService<RoutesResponse>
-	collection(idOrName: 'shipment'): RecordService<ShipmentResponse>
-	collection(idOrName: 'shipment_item'): RecordService<ShipmentItemResponse>
 	collection(idOrName: 'shipments'): RecordService<ShipmentsResponse>
+	collection(idOrName: 'taskMessages'): RecordService<TaskMessagesResponse>
 	collection(idOrName: 'tasks'): RecordService<TasksResponse>
-	collection(idOrName: 'tasksMessages'): RecordService<TasksMessagesResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 	collection(idOrName: 'vehicles'): RecordService<VehiclesResponse>
 	collection(idOrName: 'warehouses'): RecordService<WarehousesResponse>
