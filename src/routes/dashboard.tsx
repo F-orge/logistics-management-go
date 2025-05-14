@@ -17,7 +17,7 @@ function RouteComponent() {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <article className="border h-screen p-2.5">
+          <article className="p-2.5">
             <Outlet />
           </article>
         </SidebarInset>

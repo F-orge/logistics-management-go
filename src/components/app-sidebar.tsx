@@ -9,6 +9,7 @@ import {
   LogOut,
   Logs,
   MessageSquare,
+  NotebookTabs,
   QrCode,
   ScrollText,
   User,
@@ -67,7 +68,12 @@ const data = {
       groupName: 'Productivity',
       items: [
         {
-          title: 'Tasks',
+          title: 'All Tasks',
+          url: '/dashboard/tasks',
+          icon: NotebookTabs,
+        },
+        {
+          title: 'My Tasks',
           url: '/dashboard/tasks/my-tasks',
           icon: ClipboardList,
         },
