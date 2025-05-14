@@ -6,7 +6,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -32,17 +31,29 @@ import {
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
 
-import { Checkbox } from '@marahuyo/react-ui/ui/checkbox';
+import type { useQuery } from '@tanstack/react-query';
+import type { ListResult } from 'pocketbase';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  query: ReturnType<typeof useQuery<ListResult<TData>>> & {
+    paginateControls: {
+      page: number;
+      setPage: React.Dispatch<React.SetStateAction<number>>;
+    };
+    filterControl: {
+      filterQuery: string;
+      setFilterQuery: React.Dispatch<React.SetStateAction<string>>;
+    };
+  };
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  query,
 }: DataTableProps<TData, TValue>) {
+  const { data, paginateControls, filterControl } = query;
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -54,10 +65,9 @@ export function DataTable<TData, TValue>({
     React.useState<VisibilityState>({});
 
   const table = useReactTable({
-    data,
+    data: data?.items || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -85,12 +95,11 @@ export function DataTable<TData, TValue>({
         <div className="flex gap-2.5 items-center">
           <Input
             placeholder={`Search by ${filterBy || '...'}`}
-            value={
-              (table.getColumn(filterBy)?.getFilterValue() as string) ?? ''
-            }
-            onChange={(event) =>
-              table.getColumn(filterBy)?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => {
+              filterControl.setFilterQuery(
+                `${filterBy} ~ ${JSON.stringify(event.target.value.trim())}`,
+              );
+            }}
             className="max-w-sm"
           />
           <DropdownMenu>
@@ -191,25 +200,27 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       <div className="flex items-center justify-end gap-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total found: {data?.totalItems}
         </div>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() =>
+            paginateControls.setPage((prev) => Math.max(prev - 1, 1))
+          }
+          disabled={paginateControls.page === 1}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => {
+            paginateControls.setPage((prev) => prev + 1);
+          }}
+          disabled={data?.items.length === 0}
         >
           Next
         </Button>

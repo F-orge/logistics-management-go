@@ -17,7 +17,7 @@ function RouteComponent() {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <article className="p-2.5">
+          <article className="p-2.5 no-scrollbar">
             <Outlet />
           </article>
         </SidebarInset>

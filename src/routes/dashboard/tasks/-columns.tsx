@@ -10,6 +10,10 @@ import type {
   TasksResponse,
   UsersRecord,
 } from '../../../../lib/pocketbase.gen';
+import React from 'react';
+import { Button } from '@marahuyo/react-ui/ui/button';
+import ViewTask from './-view';
+import { Sheet, SheetContent, SheetTrigger } from '@marahuyo/react-ui/ui/sheet';
 
 export const columns: ColumnDef<
   TasksResponse<{
@@ -21,15 +25,36 @@ export const columns: ColumnDef<
   }>
 >[] = [
   {
+    id: 'id',
     accessorKey: 'id',
-    header: 'ID',
+    header: 'Id',
+  },
+  {
+    accessorKey: 'title',
+    header: 'Title',
+    cell: ({ row }) => {
+      const [show, setShow] = React.useState<boolean>(false);
+      const title: string = row.getValue('title');
+      const id: string = row.getValue('id');
+      return (
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant={'link'} className="text-foreground">
+              {title}
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="overflow-y-auto p-0 !max-w-3/4 no-scrollbar">
+            <ViewTask id={id} />
+          </SheetContent>
+        </Sheet>
+      );
+    },
   },
   {
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
       const status: string = row.getValue('status');
-
       switch (status) {
         case 'cancelled':
           return <Badge variant={'destructive'}>{status}</Badge>;
@@ -39,10 +64,6 @@ export const columns: ColumnDef<
           return <Badge variant={'secondary'}>{status}</Badge>;
       }
     },
-  },
-  {
-    accessorKey: 'title',
-    header: 'Title',
   },
   {
     accessorKey: 'due_date',
