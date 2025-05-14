@@ -59,7 +59,6 @@ import { Route as DashboardRoutesRoutenameoridIndexImport } from './routes/dashb
 import { Route as DashboardRoutesRoutenameoridOptimizeImport } from './routes/dashboard/routes/$route_name_or_id/optimize';
 import { Route as DashboardRoutesIndexImport } from './routes/dashboard/routes/index';
 import { Route as DashboardRoutesNewImport } from './routes/dashboard/routes/new';
-import { Route as DashboardSettingsImport } from './routes/dashboard/settings';
 import { Route as DashboardShipmentsTrackingnumberAssignToRouteImport } from './routes/dashboard/shipments/$tracking_number/assign-to-route';
 import { Route as DashboardShipmentsTrackingnumberEditImport } from './routes/dashboard/shipments/$tracking_number/edit';
 import { Route as DashboardShipmentsTrackingnumberIndexImport } from './routes/dashboard/shipments/$tracking_number/index';
@@ -122,12 +121,6 @@ const IndexRoute = IndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DashboardRoute,
-} as any);
-
-const DashboardSettingsRoute = DashboardSettingsImport.update({
-  id: '/settings',
-  path: '/settings',
   getParentRoute: () => DashboardRoute,
 } as any);
 
@@ -612,13 +605,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password';
       preLoaderRoute: typeof ResetPasswordImport;
       parentRoute: typeof rootRoute;
-    };
-    '/dashboard/settings': {
-      id: '/dashboard/settings';
-      path: '/settings';
-      fullPath: '/dashboard/settings';
-      preLoaderRoute: typeof DashboardSettingsImport;
-      parentRoute: typeof DashboardImport;
     };
     '/dashboard/': {
       id: '/dashboard/';
@@ -1109,7 +1095,6 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteChildren {
-  DashboardSettingsRoute: typeof DashboardSettingsRoute;
   DashboardIndexRoute: typeof DashboardIndexRoute;
   DashboardChatRoomidRoute: typeof DashboardChatRoomidRoute;
   DashboardChatNewRoute: typeof DashboardChatNewRoute;
@@ -1182,7 +1167,6 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardChatRoomidRoute: DashboardChatRoomidRoute,
   DashboardChatNewRoute: DashboardChatNewRoute,
@@ -1288,7 +1272,6 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute;
   '/login': typeof LoginRoute;
   '/reset-password': typeof ResetPasswordRoute;
-  '/dashboard/settings': typeof DashboardSettingsRoute;
   '/dashboard/': typeof DashboardIndexRoute;
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute;
   '/dashboard/chat/new': typeof DashboardChatNewRoute;
@@ -1365,7 +1348,6 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute;
   '/login': typeof LoginRoute;
   '/reset-password': typeof ResetPasswordRoute;
-  '/dashboard/settings': typeof DashboardSettingsRoute;
   '/dashboard': typeof DashboardIndexRoute;
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute;
   '/dashboard/chat/new': typeof DashboardChatNewRoute;
@@ -1444,7 +1426,6 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute;
   '/login': typeof LoginRoute;
   '/reset-password': typeof ResetPasswordRoute;
-  '/dashboard/settings': typeof DashboardSettingsRoute;
   '/dashboard/': typeof DashboardIndexRoute;
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute;
   '/dashboard/chat/new': typeof DashboardChatNewRoute;
@@ -1524,7 +1505,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
@@ -1600,7 +1580,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/dashboard/settings'
     | '/dashboard'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
@@ -1677,7 +1656,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
@@ -1789,7 +1767,6 @@ export const routeTree = rootRoute
     "/dashboard": {
       "filePath": "dashboard.tsx",
       "children": [
-        "/dashboard/settings",
         "/dashboard/",
         "/dashboard/chat/$room_id",
         "/dashboard/chat/new",
@@ -1869,10 +1846,6 @@ export const routeTree = rootRoute
     },
     "/reset-password": {
       "filePath": "reset-password.tsx"
-    },
-    "/dashboard/settings": {
-      "filePath": "dashboard/settings.tsx",
-      "parent": "/dashboard"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
