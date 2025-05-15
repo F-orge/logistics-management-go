@@ -1,29 +1,20 @@
 import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import { Checkbox } from '@marahuyo/react-ui/ui/checkbox';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
+import { Route } from '.';
 import type {
   DepartmentsRecord,
   OrdersRecord,
   ShipmentsRecord,
-  TasksResponse,
+  TasksRecord,
   UsersRecord,
 } from '../../../../lib/pocketbase.gen';
-import React from 'react';
-import { Button } from '@marahuyo/react-ui/ui/button';
-import ViewTask from './-view';
-import { Sheet, SheetContent, SheetTrigger } from '@marahuyo/react-ui/ui/sheet';
+import type { ExpandedTaskResponse } from '../../../queries/tasks';
 
-export const columns: ColumnDef<
-  TasksResponse<{
-    assignees: UsersRecord[];
-    assigner: UsersRecord;
-    department?: DepartmentsRecord;
-    order_ref?: OrdersRecord;
-    related_shipment?: ShipmentsRecord;
-  }>
->[] = [
+export const columns: ColumnDef<ExpandedTaskResponse>[] = [
   {
     id: 'id',
     accessorKey: 'id',
@@ -33,20 +24,19 @@ export const columns: ColumnDef<
     accessorKey: 'title',
     header: 'Title',
     cell: ({ row }) => {
-      const [show, setShow] = React.useState<boolean>(false);
-      const title: string = row.getValue('title');
+      const title: string = row.getValue('');
       const id: string = row.getValue('id');
+
+      const navigate = useNavigate({ from: Route.fullPath });
+
       return (
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant={'link'} className="text-foreground">
-              {title}
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="overflow-y-auto p-0 !max-w-3/4 no-scrollbar">
-            <ViewTask id={id} />
-          </SheetContent>
-        </Sheet>
+        <Button
+          onClick={() => navigate({ search: (prev) => ({ ...prev, id: id }) })}
+          variant={'link'}
+          className="text-foreground"
+        >
+          {title}
+        </Button>
       );
     },
   },

@@ -1,13 +1,14 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import * as React from 'react';
 import { pb } from '../../lib/pocketbase';
 import type {
   DepartmentsRecord,
   OrdersRecord,
   ShipmentsRecord,
+  TaskMessagesResponse,
   TasksResponse,
   UsersRecord,
 } from '../../lib/pocketbase.gen';
-import * as React from 'react';
 
 export const useTasks = () => {
   const [page, setPage] = React.useState<number>(1);
@@ -64,5 +65,22 @@ export const useTaskKPI = () => {
   return useQuery({
     queryKey: ['useTaskKPI'],
     queryFn: () => pb.collection('tasksKPI').getOne('1'),
+  });
+};
+
+export const useTaskMessages = (taskId: string) => {
+  return useQuery({
+    queryKey: ['useTaskMessages'],
+    queryFn: () =>
+      pb.collection('taskMessages').getFullList<
+        TaskMessagesResponse<{
+          sender: UsersRecord;
+          read_by: UsersRecord[];
+        }>
+      >({
+        sort: '-created',
+        filter: `task = '${taskId}'`,
+        expand: 'sender,read_by',
+      }),
   });
 };

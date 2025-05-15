@@ -1,4 +1,3 @@
-Okay, here is the finalized set of SQL KPI queries in Markdown format. Please ensure that the string values used in `WHERE` clauses or `CASE` statements (e.g., for status fields) match the exact kebab-case or lowercase values stored in your database for these `select` type fields.
 
 ### 1\. `users` (Auth Collection)
 
