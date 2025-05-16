@@ -27,6 +27,7 @@ export enum Collections {
   Shipments = 'shipments',
   TaskMessages = 'taskMessages',
   Tasks = 'tasks',
+  TasksKPI = 'tasksKPI',
   Users = 'users',
   Vehicles = 'vehicles',
   Warehouses = 'warehouses',
@@ -422,22 +423,32 @@ export enum TasksTagsOptions {
   'finance-review' = 'finance-review',
 }
 export type TasksRecord = {
-  assignees?: RecordIdString[];
-  assigner?: RecordIdString;
+  assignees: RecordIdString[];
+  assigner: RecordIdString;
   attachments?: string[];
   created?: IsoDateString;
-  department?: RecordIdString;
+  department: RecordIdString;
   description?: HTMLString;
   due_date?: IsoDateString;
   id: string;
   kanban_order?: number;
   order_ref?: RecordIdString;
-  priority?: TasksPriorityOptions;
+  priority: TasksPriorityOptions;
   related_shipment?: RecordIdString;
-  status?: TasksStatusOptions;
-  tags?: TasksTagsOptions;
-  title?: string;
+  status: TasksStatusOptions;
+  tags: TasksTagsOptions;
+  title: string;
   updated?: IsoDateString;
+};
+
+export type TasksKPIRecord = {
+  blocked_tasks?: number;
+  completed_tasks?: number;
+  id: string;
+  in_progress_tasks?: number;
+  overdue_tasks?: number;
+  todo_tasks?: number;
+  total_tasks?: number;
 };
 
 export enum UsersRoleOptions {
@@ -543,6 +554,8 @@ export type TaskMessagesResponse<Texpand = unknown> =
   Required<TaskMessagesRecord> & BaseSystemFields<Texpand>;
 export type TasksResponse<Texpand = unknown> = Required<TasksRecord> &
   BaseSystemFields<Texpand>;
+export type TasksKPIResponse<Texpand = unknown> = Required<TasksKPIRecord> &
+  BaseSystemFields<Texpand>;
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> &
   AuthSystemFields<Texpand>;
 export type VehiclesResponse<Texpand = unknown> = Required<VehiclesRecord> &
@@ -574,6 +587,7 @@ export type CollectionRecords = {
   shipments: ShipmentsRecord;
   taskMessages: TaskMessagesRecord;
   tasks: TasksRecord;
+  tasksKPI: TasksKPIRecord;
   users: UsersRecord;
   vehicles: VehiclesRecord;
   warehouses: WarehousesRecord;
@@ -601,6 +615,7 @@ export type CollectionResponses = {
   shipments: ShipmentsResponse;
   taskMessages: TaskMessagesResponse;
   tasks: TasksResponse;
+  tasksKPI: TasksKPIResponse;
   users: UsersResponse;
   vehicles: VehiclesResponse;
   warehouses: WarehousesResponse;
@@ -631,6 +646,7 @@ export type TypedPocketBase = PocketBase & {
   collection(idOrName: 'shipments'): RecordService<ShipmentsResponse>;
   collection(idOrName: 'taskMessages'): RecordService<TaskMessagesResponse>;
   collection(idOrName: 'tasks'): RecordService<TasksResponse>;
+  collection(idOrName: 'tasksKPI'): RecordService<TasksKPIResponse>;
   collection(idOrName: 'users'): RecordService<UsersResponse>;
   collection(idOrName: 'vehicles'): RecordService<VehiclesResponse>;
   collection(idOrName: 'warehouses'): RecordService<WarehousesResponse>;

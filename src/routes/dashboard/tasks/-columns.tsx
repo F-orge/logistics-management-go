@@ -1,35 +1,50 @@
 import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import { Checkbox } from '@marahuyo/react-ui/ui/checkbox';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
+import { Route } from '.';
 import type {
   DepartmentsRecord,
   OrdersRecord,
   ShipmentsRecord,
-  TasksResponse,
+  TasksRecord,
   UsersRecord,
 } from '../../../../lib/pocketbase.gen';
+import type { ExpandedTaskResponse } from '../../../queries/tasks';
 
-export const columns: ColumnDef<
-  TasksResponse<{
-    assignees: UsersRecord[];
-    assigner: UsersRecord;
-    department?: DepartmentsRecord;
-    order_ref?: OrdersRecord;
-    related_shipment?: ShipmentsRecord;
-  }>
->[] = [
+export const columns: ColumnDef<ExpandedTaskResponse>[] = [
   {
+    id: 'id',
     accessorKey: 'id',
-    header: 'ID',
+    header: 'Id',
+  },
+  {
+    accessorKey: 'title',
+    header: 'Title',
+    cell: ({ row }) => {
+      const title: string = row.getValue('');
+      const id: string = row.getValue('id');
+
+      const navigate = useNavigate({ from: Route.fullPath });
+
+      return (
+        <Button
+          onClick={() => navigate({ search: (prev) => ({ ...prev, id: id }) })}
+          variant={'link'}
+          className="text-foreground"
+        >
+          {title}
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
       const status: string = row.getValue('status');
-
       switch (status) {
         case 'cancelled':
           return <Badge variant={'destructive'}>{status}</Badge>;
@@ -39,10 +54,6 @@ export const columns: ColumnDef<
           return <Badge variant={'secondary'}>{status}</Badge>;
       }
     },
-  },
-  {
-    accessorKey: 'title',
-    header: 'Title',
   },
   {
     accessorKey: 'due_date',

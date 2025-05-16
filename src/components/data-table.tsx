@@ -6,7 +6,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -32,17 +31,29 @@ import {
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
 
-import { Checkbox } from '@marahuyo/react-ui/ui/checkbox';
+import type { useQuery } from '@tanstack/react-query';
+import { useNavigate, useSearch } from '@tanstack/react-router';
+import type { ListResult } from 'pocketbase';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  query: ReturnType<typeof useQuery<ListResult<TData>>>;
+  routeMetadataPath: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data,
+  query,
+  routeMetadataPath,
 }: DataTableProps<TData, TValue>) {
+  //@ts-ignore
+  const navigate = useNavigate({ from: routeMetadataPath });
+  const routeSearch: { page: number; limit: number; filter?: string } =
+    //@ts-ignore
+    useSearch({ from: routeMetadataPath });
+
+  const { data, isFetching } = query;
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -54,10 +65,9 @@ export function DataTable<TData, TValue>({
     React.useState<VisibilityState>({});
 
   const table = useReactTable({
-    data,
+    data: data?.items || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -81,16 +91,29 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center pb-4">
         <div className="flex gap-2.5 items-center">
           <Input
             placeholder={`Search by ${filterBy || '...'}`}
-            value={
-              (table.getColumn(filterBy)?.getFilterValue() as string) ?? ''
-            }
-            onChange={(event) =>
-              table.getColumn(filterBy)?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => {
+              if (event.target.value !== '') {
+                navigate({
+                  // @ts-ignore: too complex to make a type
+                  search: (prev) => ({
+                    ...prev,
+                    filter: `${filterBy} ~ '${event.target.value}'`,
+                  }),
+                });
+              } else {
+                navigate({
+                  // @ts-ignore: too complex to make a type
+                  search: (prev) => ({
+                    ...prev,
+                    filter: undefined,
+                  }),
+                });
+              }
+            }}
             className="max-w-sm"
           />
           <DropdownMenu>
@@ -191,25 +214,33 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       <div className="flex items-center justify-end gap-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total found: {data?.totalItems}
         </div>
         <Button
+          onClick={() =>
+            navigate({
+              // @ts-ignore: too complex to make a type
+              search: (prev) => ({ ...prev, page: Math.max(prev.page - 1, 1) }),
+            })
+          }
+          disabled={routeSearch.page === 1 || isFetching}
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
         >
           Previous
         </Button>
         <Button
+          onClick={() =>
+            navigate({
+              // @ts-ignore: too complex to make a type
+              search: (prev) => ({ ...prev, page: prev.page + 1 }),
+            })
+          }
+          disabled={table.getRowModel().rows?.length === 0 || isFetching}
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
         >
           Next
         </Button>

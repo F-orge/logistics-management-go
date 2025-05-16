@@ -17,11 +17,12 @@
     "local:ci": "bun run check && bun run format"
   },
   "dependencies": {
-    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#efa575d",
+    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#65e6f32",
     "@tanstack/react-form": "^1.11.1",
     "@tanstack/react-query": "^5.76.0",
     "@tanstack/react-router": "^1.120.3",
     "@tanstack/react-table": "^8.21.3",
+    "@tanstack/zod-adapter": "^1.120.3",
     "pocketbase": "^0.26.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
