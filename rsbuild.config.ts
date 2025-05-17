@@ -17,7 +17,13 @@ export default defineConfig({
     },
   },
   html: {
-    tags: [{ tag: 'body', attrs: { class: 'bg-background text-foreground' } }],
+    tags: [
+      { tag: 'body', attrs: { class: 'bg-background text-foreground' } },
+      {
+        tag: 'link',
+        attrs: { rel: 'manifest', href: './manifest.json' },
+      },
+    ],
   },
   server: {
     proxy: {
