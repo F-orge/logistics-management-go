@@ -129,8 +129,34 @@ export const getTask = (id: string) =>
 
 export const useMutateUpdateTask = () =>
   useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: TasksRecord }) =>
-      pb.collection('tasks').update(id, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: Omit<UpdateRecord<TasksRecord>, 'attachments'>;
+    }) => pb.collection('tasks').update(id, payload),
+  });
+
+export const useMutateAddTaskAttachments = () =>
+  useMutation({
+    mutationFn: ({ id, attachments }: { id: string; attachments: File[] }) =>
+      pb.collection('tasks').update(id, { 'attachments+': attachments }),
+  });
+
+export const useMutateRemoveTaskTattachments = () =>
+  useMutation({
+    mutationFn: ({ id, attachments }: { id: string; attachments: string[] }) =>
+      pb.collection('tasks').update(id, { 'attachments-': attachments }),
+  });
+
+export const useMutateCreateTask = () =>
+  useMutation({
+    mutationFn: (
+      payload: Omit<InsertRecord<TasksRecord>, 'attachments'> & {
+        attachments?: File[];
+      },
+    ) => pb.collection('tasks').create(payload),
   });
 
 export const useMutateRemoveTask = () =>
