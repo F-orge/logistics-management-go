@@ -39,9 +39,16 @@ import {
   TooltipTrigger,
 } from '@marahuyo/react-ui/ui/tooltip';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  ExternalLink,
+  Plus,
+} from 'lucide-react';
 import {
   TasksStatusOptions,
+  type UsersRecord,
   type UsersResponse,
 } from '../../../../lib/pocketbase.gen';
 import { toast } from 'sonner';
@@ -136,8 +143,7 @@ export const columns: ColumnDef<ExpandedTaskResponse>[] = [
     cell: ({ row }) => {
       const navigate = useNavigate({ from: Route.fullPath });
 
-      const assignees: UsersResponse[] | undefined =
-        row.getValue('assignees.name');
+      const assignees: UsersResponse[] = row.getValue('assignees.name');
       const taskId = row.getValue('id') as string;
 
       return (
@@ -146,16 +152,22 @@ export const columns: ColumnDef<ExpandedTaskResponse>[] = [
             <Badge variant={'outline'}>Show Employees</Badge>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {assignees?.map((user) => (
-              <DropdownMenuItem key={user.email}>
-                <Link
-                  to="/dashboard/users/$user_id"
-                  params={{ user_id: user.id }}
-                >
-                  {user.email}
-                </Link>
-              </DropdownMenuItem>
-            ))}
+            {assignees ? (
+              assignees?.map((user) => (
+                <DropdownMenuItem key={user.email}>
+                  <Link
+                    to="/dashboard/users/$user_id"
+                    className="flex items-center gap-1.5"
+                    params={{ user_id: user.id }}
+                  >
+                    <ExternalLink className="size-3" />
+                    {user.email}
+                  </Link>
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <DropdownMenuLabel>No employee/s assigned</DropdownMenuLabel>
+            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() =>
@@ -175,6 +187,29 @@ export const columns: ColumnDef<ExpandedTaskResponse>[] = [
         </DropdownMenu>
       );
     },
+  },
+  {
+    accessorFn: (row) => row.expand.assigner,
+    id: 'assigner.name',
+    header: 'Assigner',
+    cell: ({ row }) => {
+      const assigner = row.getValue('assigner.name') as UsersRecord;
+      return (
+        <Link to="/dashboard/users/$user_id" params={{ user_id: assigner.id }}>
+          <Badge className="cursor-pointer" variant={'outline'}>
+            <ExternalLink />
+            {assigner?.name}
+          </Badge>
+        </Link>
+      );
+    },
+  },
+  {
+    accessorKey: 'priority',
+    header: 'Priority',
+    cell: ({ row }) => (
+      <Badge variant="outline">{row.getValue('priority') as string}</Badge>
+    ),
   },
 ];
 
