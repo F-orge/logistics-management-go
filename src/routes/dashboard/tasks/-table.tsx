@@ -47,6 +47,7 @@ import {
   Plus,
 } from 'lucide-react';
 import {
+  TasksPriorityOptions,
   TasksStatusOptions,
   type UsersRecord,
   type UsersResponse,
@@ -207,9 +208,45 @@ export const columns: ColumnDef<ExpandedTaskResponse>[] = [
   {
     accessorKey: 'priority',
     header: 'Priority',
-    cell: ({ row }) => (
-      <Badge variant="outline">{row.getValue('priority') as string}</Badge>
-    ),
+    cell: ({ row }) => {
+      const taskId = row.original.id;
+      const priority = row.getValue('priority') as string;
+      const mutation = useMutateUpdateTask();
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Badge className="cursor-pointer" variant="outline">
+              {row.getValue('priority') as string}
+            </Badge>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {Object.keys(TasksPriorityOptions).map((option) => (
+              <DropdownMenuCheckboxItem
+                onClick={async () => {
+                  try {
+                    await mutation.mutateAsync({
+                      id: taskId,
+                      payload: { priority: option as TasksPriorityOptions },
+                    });
+                    toast('Priority updated sucessfully');
+                  } catch (e) {
+                    if (e instanceof ClientResponseError) {
+                      toast(e.message);
+                    }
+                    throw e;
+                  }
+                }}
+                checked={option === priority}
+                key={option}
+              >
+                {option}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
 
