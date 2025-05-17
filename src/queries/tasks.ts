@@ -2,8 +2,9 @@ import {
   keepPreviousData,
   queryOptions,
   useMutation,
+  useQueryClient,
 } from '@tanstack/react-query';
-import { pb, type InsertRecord, type UpdateRecord } from '../../lib/pocketbase';
+import { type InsertRecord, type UpdateRecord, pb } from '../../lib/pocketbase';
 import type {
   DepartmentsResponse,
   OrdersResponse,
@@ -17,7 +18,7 @@ import type {
 } from '../../lib/pocketbase.gen';
 
 export type ExpandedTaskResponse = TasksResponse<{
-  assignees: UsersResponse[];
+  assignees?: UsersResponse[];
   assigner: UsersResponse;
   department?: DepartmentsResponse;
   order_ref?: OrdersResponse;
@@ -128,16 +129,24 @@ export const getTask = (id: string) =>
       }),
   });
 
-export const useMutateUpdateTask = () =>
-  useMutation({
+export const useMutateUpdateTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
     mutationFn: ({
       id,
       payload,
     }: {
       id: string;
-      payload: Omit<UpdateRecord<TasksRecord>, 'attachments'>;
+      payload: Omit<UpdateRecord<TasksRecord>, 'attachments' | 'assignees'> & {
+        'assignees+'?: string[];
+        'assignees-'?: string[];
+      };
     }) => pb.collection('tasks').update(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
   });
+};
 
 export const useMutateAddTaskAttachments = () =>
   useMutation({

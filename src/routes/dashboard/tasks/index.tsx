@@ -1,15 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { zodValidator } from '@tanstack/zod-adapter'
-import { querySchema } from './-schema'
-import { TaskTable } from './-table'
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import { querySchema } from './-schema';
+import { TaskTable } from './-table';
+import AssignTask from './-assign-task';
 
 export const Route = createFileRoute('/dashboard/tasks/')({
   component: RouteComponent,
-  validateSearch: zodValidator(querySchema)
-})
+  validateSearch: zodValidator(querySchema),
+});
 
 function RouteComponent() {
-  return <div>
-    <TaskTable />
-  </div>
+  return (
+    <div>
+      <TaskTable />
+      <AssignTask />
+    </div>
+  );
 }
