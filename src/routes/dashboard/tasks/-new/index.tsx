@@ -5,9 +5,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { NewTaskForm } from './form';
-import { Route } from '..';
 import { useNavigate } from '@tanstack/react-router';
+import { Route } from '..';
+import { NewTaskForm } from './form';
 
 const NewTask = () => {
   const { newTask } = Route.useSearch();
