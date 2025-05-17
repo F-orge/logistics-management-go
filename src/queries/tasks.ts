@@ -107,12 +107,13 @@ export class TaskRepository {
   }
 }
 
-export const getTasks = (page: number, perPage: number) =>
+export const getTasks = (page: number, perPage: number, filter?: string) =>
   queryOptions({
-    queryKey: ['tasks', page, perPage],
+    queryKey: ['tasks', page, perPage, filter],
     queryFn: () =>
       pb.collection('tasks').getList<ExpandedTaskResponse>(page, perPage, {
         expand: 'assignees,assigner,department,order_ref,related_shipment',
+        filter,
       }),
     enabled: !!page && !!perPage,
     placeholderData: keepPreviousData,
