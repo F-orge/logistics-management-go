@@ -1,4 +1,9 @@
-import type { InsertRecord, UpdateRecord } from '../../lib/pocketbase';
+import {
+  keepPreviousData,
+  queryOptions,
+  useMutation,
+} from '@tanstack/react-query';
+import { pb, type InsertRecord, type UpdateRecord } from '../../lib/pocketbase';
 import type {
   DepartmentsResponse,
   OrdersResponse,
@@ -101,3 +106,34 @@ export class TaskRepository {
     return await this.pb.collection('taskMessages').create(payload);
   }
 }
+
+export const getTasks = (page: number, perPage: number) =>
+  queryOptions({
+    queryKey: ['tasks', page, perPage],
+    queryFn: () =>
+      pb.collection('tasks').getList<ExpandedTaskResponse>(page, perPage, {
+        expand: 'assignees,assigner,department,order_ref,related_shipment',
+      }),
+    enabled: !!page && !!perPage,
+    placeholderData: keepPreviousData,
+  });
+
+export const getTask = (id: string) =>
+  queryOptions({
+    queryKey: ['tasks', id],
+    queryFn: () =>
+      pb.collection('tasks').getOne<ExpandedTaskResponse>(id, {
+        expand: 'assignees,assigner,department,order_ref,related_shipment',
+      }),
+  });
+
+export const useMutateUpdateTask = () =>
+  useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: TasksRecord }) =>
+      pb.collection('tasks').update(id, payload),
+  });
+
+export const useMutateRemoveTask = () =>
+  useMutation({
+    mutationFn: (id: string) => pb.collection('tasks').delete(id),
+  });
