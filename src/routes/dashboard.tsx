@@ -6,7 +6,7 @@ import { AppSidebar } from '../components/app-sidebar';
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
-  loader: () => {
+  beforeLoad: () => {
     if (!pb.authStore.isValid) throw redirect({ to: '/login' });
   },
 });

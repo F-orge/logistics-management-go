@@ -17,7 +17,7 @@ import { pb } from '../../lib/pocketbase';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
-  loader: async () => {
+  beforeLoad: async () => {
     if (pb.authStore.isValid) throw redirect({ to: '/dashboard' });
   },
 });
