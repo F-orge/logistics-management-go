@@ -20,6 +20,7 @@ import {
 } from '@marahuyo/react-ui/ui/select';
 import {
   TasksPriorityOptions,
+  TasksRecord,
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
@@ -39,7 +40,7 @@ const NewTask = () => {
   return (
     <Dialog open={newTaskDialog}>
       <DialogContent
-        className="!max-w-1/2 max-h-1/2 overflow-y-auto no-scrollbar"
+        className="!max-w-1/2 max-h-3/4 overflow-y-auto no-scrollbar"
         ref={(el) => {
           const closeBtn = el?.querySelector(
             'button > span.sr-only',
