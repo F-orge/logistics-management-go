@@ -23,6 +23,14 @@ import {
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@marahuyo/react-ui/ui/popover';
+import { Button } from '@marahuyo/react-ui/ui/button';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '@marahuyo/react-ui/ui/calendar';
 
 const NewTask = () => {
   const { newTaskDialog } = Route.useSearch();
@@ -134,18 +142,20 @@ const NewTask = () => {
           </div>
           <div className="flex flex-col gap-1.5 col-span-2">
             <Label>Due date</Label>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="e.g Low" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.keys(TasksPriorityOptions).map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover>
+              <PopoverTrigger className="w-full">
+                <Button
+                  variant={'outline'}
+                  className="justify-between w-full text-muted-foreground"
+                >
+                  <span>Pick a deadline</span>
+                  <CalendarIcon />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Calendar />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="flex flex-col gap-1.5 col-span-4">
             <Label>Order #</Label>
