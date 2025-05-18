@@ -3,6 +3,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { querySchema } from './-schema';
 import { TaskTable } from './-table';
 import AssignTask from './-assign-task';
+import NewTask from './-new';
 
 export const Route = createFileRoute('/dashboard/tasks/')({
   component: RouteComponent,
@@ -14,6 +15,7 @@ function RouteComponent() {
     <div>
       <TaskTable />
       <AssignTask />
+      <NewTask />
     </div>
   );
 }

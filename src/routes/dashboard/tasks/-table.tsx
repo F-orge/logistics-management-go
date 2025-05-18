@@ -311,9 +311,13 @@ export const TaskTable = () => {
             ))}
         </DropdownMenuContent>
       </DropdownMenu>
-
       <div className="col-start-10 col-span-3 flex flex-row-reverse gap-2.5">
-        <Button className="justify-start w-fit">
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, newTaskDialog: true }) })
+          }
+          className="justify-start w-fit"
+        >
           <Plus /> Task
         </Button>
         <Button variant={'outline'} className=" justify-start w-fit">

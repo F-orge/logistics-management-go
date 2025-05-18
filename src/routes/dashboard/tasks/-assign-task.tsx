@@ -75,7 +75,7 @@ const AssignTask = () => {
         });
       }
 
-      toast('Employee/s added sucessfully');
+      toast('Employee/s updated sucessfully');
     } catch (e) {
       if (e instanceof ClientResponseError) {
         console.error(e.data);
