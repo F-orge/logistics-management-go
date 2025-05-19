@@ -2,7 +2,7 @@
   "name": "@f-orge/logistics-management-go",
   "private": true,
   "type": "module",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "scripts": {
     "build": "bun run build:frontend && bun run build:backend",
     "build:frontend": "rsbuild build",

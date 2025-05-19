@@ -1,8 +1,9 @@
 import { SidebarInset, SidebarProvider } from '@marahuyo/react-ui/ui/sidebar';
-import { Outlet, redirect } from '@tanstack/react-router';
+import { Outlet, redirect, useLocation } from '@tanstack/react-router';
 import { createFileRoute } from '@tanstack/react-router';
 import { pb } from '../../lib/pocketbase';
 import { AppSidebar } from '../components/app-sidebar';
+import { TSRBreadCrumbs } from '../components/breadcrumbs';
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -18,6 +19,7 @@ function RouteComponent() {
         <AppSidebar />
         <SidebarInset>
           <article className="p-2.5 no-scrollbar">
+            <TSRBreadCrumbs />
             <Outlet />
           </article>
         </SidebarInset>
