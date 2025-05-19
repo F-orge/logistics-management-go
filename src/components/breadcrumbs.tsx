@@ -28,9 +28,8 @@ export function useTSRBreadCrumbs() {
 
 export function TSRBreadCrumbs() {
   const { breadcrumb_routes } = useTSRBreadCrumbs();
-  if (breadcrumb_routes.length < 2) return null;
   return (
-    <div className="gap-2.5 flex w-full flex-wrap mb-2.5 pb-2.5 border-b">
+    <div className="gap-2.5 flex w-full flex-wrap">
       <Breadcrumb>
         <BreadcrumbList>
           {breadcrumb_routes.map((crumb) => {
