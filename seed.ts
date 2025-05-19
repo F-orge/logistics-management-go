@@ -866,10 +866,7 @@ async function seedTasks(
       priority: randomEnumValue(TasksPriorityOptions),
       assigner: assigner.id,
       assignees,
-      department:
-        allDepartments.length > 0 && faker.datatype.boolean(0.6)
-          ? faker.helpers.arrayElement(allDepartments).id
-          : undefined,
+      department: faker.helpers.arrayElement(allDepartments).id,
       attachments: attachmentFiles as any,
       due_date: faker.datatype.boolean(0.7)
         ? faker.date.future().toISOString()

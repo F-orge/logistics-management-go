@@ -1,4 +1,10 @@
-import type { InsertRecord, UpdateRecord } from '../../lib/pocketbase';
+import {
+  keepPreviousData,
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { type InsertRecord, type UpdateRecord, pb } from '../../lib/pocketbase';
 import type {
   DepartmentsResponse,
   OrdersResponse,
@@ -12,7 +18,7 @@ import type {
 } from '../../lib/pocketbase.gen';
 
 export type ExpandedTaskResponse = TasksResponse<{
-  assignees: UsersResponse[];
+  assignees?: UsersResponse[];
   assigner: UsersResponse;
   department?: DepartmentsResponse;
   order_ref?: OrdersResponse;
@@ -24,80 +30,93 @@ export type ExpandedTaskMessageResponse = TaskMessagesResponse<{
   read_by: UsersResponse[];
 }>;
 
-export class TaskRepository {
-  private pb: TypedPocketBase;
-
-  constructor(pb: TypedPocketBase) {
-    this.pb = pb;
-  }
-
-  // task
-  async getTasks(page: number, limit: number, filter?: string) {
-    return await this.pb
-      .collection('tasks')
-      .getList<ExpandedTaskResponse>(page, limit, {
+export const getTasks = (page: number, perPage: number, filter?: string) =>
+  queryOptions({
+    queryKey: ['tasks', page, perPage, filter],
+    queryFn: () =>
+      pb.collection('tasks').getList<ExpandedTaskResponse>(page, perPage, {
         expand: 'assignees,assigner,department,order_ref,related_shipment',
         filter,
-      });
-  }
+      }),
+    enabled: !!page && !!perPage,
+    placeholderData: keepPreviousData,
+  });
 
-  async getTask(id: string) {
-    return await this.pb.collection('tasks').getOne<ExpandedTaskResponse>(id, {
-      expand: 'assignees,assigner,department,order_ref,related_shipment',
-    });
-  }
+export const getTask = (id: string) =>
+  queryOptions({
+    queryKey: ['tasks', id],
+    queryFn: () =>
+      pb.collection('tasks').getOne<ExpandedTaskResponse>(id, {
+        expand: 'assignees,assigner,department,order_ref,related_shipment',
+      }),
+  });
 
-  async createTask(
-    payload: Omit<InsertRecord<TasksRecord>, 'attachments'> & {
-      attachments?: File[];
+export const useMutateUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: Omit<UpdateRecord<TasksRecord>, 'attachments' | 'assignees'> & {
+        'assignees+'?: string[];
+        'assignees-'?: string[];
+      };
+    }) => pb.collection('tasks').update(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
-  ) {
-    return await this.pb.collection('tasks').create(payload);
-  }
+  });
+};
 
-  async uploadAttachments(id: string, payload: File[]) {
-    return await this.pb.collection('tasks').update(id, {
-      'attachments+': payload,
-    });
-  }
+export const useMutateAddTaskAttachments = () => {
+  const queryClient = useQueryClient();
 
-  async removeAttachments(id: string, payload: string[]) {
-    return await this.pb.collection('tasks').update(id, {
-      'attachments-': payload,
-    });
-  }
+  return useMutation({
+    mutationFn: ({ id, attachments }: { id: string; attachments: File[] }) =>
+      pb.collection('tasks').update(id, { 'attachments+': attachments }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
 
-  getAttachmentLink(id: string, file: string) {
-    return `/api/files/tasks/${id}/${file}`;
-  }
+export const useMutateRemoveTaskTattachments = () => {
+  const queryClient = useQueryClient();
 
-  async updateTask(
-    id: string,
-    payload: Omit<UpdateRecord<TasksRecord>, 'attachments'>,
-  ) {
-    return await this.pb.collection('tasks').update(id, payload);
-  }
+  return useMutation({
+    mutationFn: ({ id, attachments }: { id: string; attachments: string[] }) =>
+      pb.collection('tasks').update(id, { 'attachments-': attachments }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
 
-  async removeTask(id: string) {
-    return await this.pb.collection('tasks').delete(id);
-  }
+export const useMutateCreateTask = () => {
+  const queryClient = useQueryClient();
 
-  // task messages
-  async getMessages(taskId: string, page: number, limit: number) {
-    return await this.pb
-      .collection('taskMessages')
-      .getList<ExpandedTaskMessageResponse>(page, limit, {
-        filter: `task = '${taskId}'`,
-        expand: 'sender,read_by',
-      });
-  }
+  return useMutation({
+    mutationFn: (
+      payload: Omit<InsertRecord<TasksRecord>, 'attachments'> & {
+        attachments?: File[];
+      },
+    ) => pb.collection('tasks').create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
 
-  async sendMessage(
-    payload: Omit<
-      InsertRecord<TaskMessagesRecord>,
-      'attachments' | 'read_by'
-    > & { attachments: File[] },
-  ) {
-    return await this.pb.collection('taskMessages').create(payload);
-  }
-}
+export const useMutateRemoveTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => pb.collection('tasks').delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+};
