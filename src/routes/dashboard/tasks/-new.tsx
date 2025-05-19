@@ -1,3 +1,7 @@
+import { cn } from '@marahuyo/react-ui/lib/utils';
+import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
+import { Calendar } from '@marahuyo/react-ui/ui/calendar';
 import {
   Dialog,
   DialogContent,
@@ -5,12 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
 import { Input } from '@marahuyo/react-ui/ui/input';
 import { Label } from '@marahuyo/react-ui/ui/label';
-import { Textarea } from '@marahuyo/react-ui/ui/textarea';
-import { Badge } from '@marahuyo/react-ui/ui/badge';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@marahuyo/react-ui/ui/popover';
 import {
   Select,
   SelectContent,
@@ -20,23 +25,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@marahuyo/react-ui/ui/select';
+import { useAppForm } from '@marahuyo/react-ui/ui/tanstack-form';
+import { Textarea } from '@marahuyo/react-ui/ui/textarea';
+import { useNavigate } from '@tanstack/react-router';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { Route } from '.';
 import {
   TasksPriorityOptions,
   TasksRecord,
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@marahuyo/react-ui/ui/popover';
-import { Button } from '@marahuyo/react-ui/ui/button';
-import { CalendarIcon } from 'lucide-react';
-import { Calendar } from '@marahuyo/react-ui/ui/calendar';
-import { useAppForm } from '@marahuyo/react-ui/ui/tanstack-form';
-import { format } from 'date-fns';
-import { cn } from '@marahuyo/react-ui/lib/utils';
 
 const NewTask = () => {
   const { newTaskDialog } = Route.useSearch();
