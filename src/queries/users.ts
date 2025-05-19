@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import { type InsertRecord, pb, type UpdateRecord } from '../../lib/pocketbase';
+import { type InsertRecord, type UpdateRecord, pb } from '../../lib/pocketbase';
 import type {
   CompaniesResponse,
   DepartmentsResponse,
