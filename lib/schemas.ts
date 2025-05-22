@@ -60,8 +60,8 @@ export const ChatRoomsRecordSchema = BaseSystemFieldsSchema.extend({
 
 export const CompaniesRecordSchema = BaseSystemFieldsSchema.extend({
   address: z.string().optional(),
-  contact_email: z.string().optional(),
-  contact_phone: z.string().optional(),
+  contactEmail: z.string().optional(),
+  contactPhone: z.string().optional(),
   name: z.string(),
   type: z.nativeEnum(CompaniesTypeOptions),
 });

@@ -5,6 +5,14 @@ import { Label } from '@marahuyo/react-ui/ui/label';
 import { createFormHookContexts, createFormHook } from '@tanstack/react-form';
 import type React from 'react';
 import type { VariantProps } from 'class-variance-authority';
+import {
+  Select,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@marahuyo/react-ui/ui/select';
+import { Textarea } from '@marahuyo/react-ui/ui/textarea';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
@@ -38,6 +46,77 @@ export function TextInputField({
   );
 }
 
+export function TextAreaInputField({
+  labelProps,
+  containerProps,
+  textAreaProps,
+}: {
+  labelProps?: React.ComponentProps<'label'>;
+  textAreaProps?: React.ComponentProps<'textarea'>;
+  containerProps?: React.ComponentProps<'div'>;
+}) {
+  const field = useFieldContext<string>();
+  return (
+    <div
+      className={cn(
+        'grid w-full items-center gap-2.5',
+        containerProps?.className,
+      )}
+      {...containerProps}
+    >
+      <Label {...labelProps} />
+      <Textarea
+        {...textAreaProps}
+        value={field.state.value}
+        onChange={(e) => field.handleChange(e.target.value)}
+        onBlur={field.handleBlur}
+      />
+    </div>
+  );
+}
+
+export function SingleSelectField({
+  labelProps,
+  containerProps,
+  placeHolder,
+  options,
+}: {
+  labelProps?: React.ComponentProps<'label'>;
+  containerProps?: React.ComponentProps<'div'>;
+  options: { label: string; value: string }[];
+  placeHolder?: string;
+}) {
+  const field = useFieldContext<string>();
+
+  return (
+    <div
+      className={cn(
+        'grid w-full items-center gap-2.5',
+        containerProps?.className,
+      )}
+      {...containerProps}
+    >
+      <Label {...labelProps} />
+      <Select>
+        <SelectTrigger
+          name={field.name}
+          value={field.state.value}
+          defaultValue={field.state.value}
+        >
+          <SelectValue placeholder={placeHolder} />
+        </SelectTrigger>
+        <SelectGroup>
+          {options.map((option) => (
+            <SelectItem key={option.label} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </Select>
+    </div>
+  );
+}
+
 export function SubscribeButton({
   buttonProps,
 }: {
@@ -65,9 +144,9 @@ export function SubscribeButton({
   );
 }
 
-export const { useAppForm } = createFormHook({
+export const { useAppForm, withForm } = createFormHook({
   fieldContext,
   formContext,
-  fieldComponents: { TextInputField },
+  fieldComponents: { TextInputField, SingleSelectField, TextAreaInputField },
   formComponents: { SubscribeButton },
 });
