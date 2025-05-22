@@ -5,6 +5,38 @@ labels: [
   "enhancement" # You might want to add a "feature" or "enhancement" label here too
 ]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Please provide details about the feature you'd like to see implemented.
+        
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: Describe the feature you'd like to see and what problem it solves.
+      placeholder: I would like to see a feature that...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Please provide concrete examples of how you would use this feature.
+      placeholder: This feature would help me to...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: I've tried to solve this by...
+    validations:
+      required: false
   # Definition of Done Starts Here
   - type: markdown
     attributes:
