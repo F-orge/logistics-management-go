@@ -42,9 +42,8 @@ export const CreateCompanyForm = withForm({
     }
   },
   render: function Render({ form }) {
-    // TODO: please change me for better composability
     const users = useQuery({
-      queryKey: ['users'],
+      queryKey: ['companies'],
       queryFn: () => pb.collection('companies').getFullList(),
     });
 
