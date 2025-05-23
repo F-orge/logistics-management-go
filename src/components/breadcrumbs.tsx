@@ -1,5 +1,3 @@
-import { useLocation } from '@tanstack/react-router';
-import { Link } from '@tanstack/react-router';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,6 +5,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@marahuyo/react-ui/ui/breadcrumb';
+import { useLocation } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 
 export function useTSRBreadCrumbs() {
   const current = useLocation();

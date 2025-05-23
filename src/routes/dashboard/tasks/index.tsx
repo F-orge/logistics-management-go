@@ -1,11 +1,11 @@
+import { Dialog, DialogTrigger } from '@marahuyo/react-ui/ui/dialog';
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+import { useAppForm } from '../../../components/form';
 import AssignTask from './-assign-task';
+import { CreateTaskForm, CreateTaskFormOptions } from './-form';
 import { querySchema } from './-schema';
 import { TaskTable } from './-table';
-import { useAppForm } from '../../../components/form';
-import { CreateTaskForm, CreateTaskFormOptions } from './-form';
-import { Dialog, DialogTrigger } from '@marahuyo/react-ui/ui/dialog';
 
 export const Route = createFileRoute('/dashboard/tasks/')({
   component: RouteComponent,

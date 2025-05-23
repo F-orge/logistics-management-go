@@ -1,10 +1,3 @@
-import { z } from 'zod';
-import { withForm } from '../../../components/form';
-import {
-  TasksPriorityOptions,
-  TasksStatusOptions,
-  TasksTagsOptions,
-} from '../../../../lib/pocketbase.gen';
 import {
   DialogContent,
   DialogDescription,
@@ -13,9 +6,16 @@ import {
 } from '@marahuyo/react-ui/ui/dialog';
 import { formOptions } from '@tanstack/react-form';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { pb } from '../../../../lib/pocketbase';
 import { ClientResponseError } from 'pocketbase';
 import { toast } from 'sonner';
+import { z } from 'zod';
+import { pb } from '../../../../lib/pocketbase';
+import {
+  TasksPriorityOptions,
+  TasksStatusOptions,
+  TasksTagsOptions,
+} from '../../../../lib/pocketbase.gen';
+import { withForm } from '../../../components/form';
 
 const TaskSchema = z.object({
   title: z.string(),

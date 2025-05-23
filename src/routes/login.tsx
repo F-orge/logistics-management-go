@@ -9,9 +9,9 @@ import {
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { ClientResponseError } from 'pocketbase';
 import { toast } from 'sonner';
+import { z } from 'zod';
 import { pb } from '../../lib/pocketbase';
 import { useAppForm } from '../components/form';
-import { z } from 'zod';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
