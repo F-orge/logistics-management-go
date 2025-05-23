@@ -8,8 +8,12 @@ import { Toaster } from '@marahuyo/react-ui/ui/sonner';
 import { ThemeProvider } from '@marahuyo/react-ui/ui/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
+import NotFoundPage from './routes/-404';
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  defaultNotFoundComponent: NotFoundPage,
+});
 const queryClient = new QueryClient();
 
 declare module '@tanstack/react-router' {
