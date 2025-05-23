@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@marahuyo/react-ui/ui/table';
-import { flexRender, type Table as DataTableType } from '@tanstack/react-table';
+import { type Table as DataTableType, flexRender } from '@tanstack/react-table';
 
 type DataTableProps<T> = {
   table: DataTableType<T>;

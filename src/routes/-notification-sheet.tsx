@@ -8,10 +8,8 @@ import {
   SheetTrigger,
 } from '@marahuyo/react-ui/ui/sheet';
 
-import { Bell, ExternalLink } from 'lucide-react';
+import { cn } from '@marahuyo/react-ui/lib/utils';
 import { Button } from '@marahuyo/react-ui/ui/button';
-import { useQuery } from '@tanstack/react-query';
-import { pb } from '../../lib/pocketbase';
 import {
   Card,
   CardContent,
@@ -19,7 +17,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@marahuyo/react-ui/ui/card';
-import { cn } from '@marahuyo/react-ui/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { Bell, ExternalLink } from 'lucide-react';
+import { pb } from '../../lib/pocketbase';
 
 const NotificationSideSheet = () => {
   const notifications = useQuery({
