@@ -1,3 +1,9 @@
+"# Changelog"
+### df5e028: fix(changelog): update import order and add missing imports for consistency across components
+fix(package): update version to 0.10.1
+
+chore(package): rename changelog script for clarity and improve formatting
+
 ### 1c64acb: fix(package): update version to 0.10.1
 
 ### a32ed1e: fix(changelog): update import order and add missing imports for consistency across components
