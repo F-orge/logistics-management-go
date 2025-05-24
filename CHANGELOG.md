@@ -1,4 +1,12 @@
 "# Changelog"
+### 4a7c33f: fix(package): update version to 0.11.0
+
+### c24803e: feat(routes): add NotFoundPage component and integrate with router
+
+### a199afa: Merge pull request 41 from F-orge/40-improvement---improve-code-structure-at-task-management
+40 improvement  improve code structure at task management
+### b850046: fix(changelog): update changelog generation script for clarity and formatting
+
 ### df5e028: fix(changelog): update import order and add missing imports for consistency across components
 fix(package): update version to 0.10.1
 
