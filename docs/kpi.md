@@ -6,10 +6,10 @@
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_users,
-  count(case when verified = true then 1 end) as verified_users,
-  count(case when verified = false then 1 end) as unverified_users,
-  count(distinct role) as distinct_roles
+  count(*) as totalUsers,
+  count(case when verified = true then 1 end) as verifiedUsers,
+  count(case when verified = false then 1 end) as unverifiedUsers,
+  count(distinct role) as distinctRoles
 from users;
 ```
 
@@ -19,7 +19,7 @@ from users;
 select
   role as id,
   role,
-  count(*) as user_count_per_role
+  count(*) as userCountPerRole
 from users
 group by role;
 ```
@@ -29,8 +29,8 @@ group by role;
 ```sql
 select
   company as id,
-  company as company_id,
-  count(*) as user_count_per_company
+  company as companyId,
+  count(*) as userCountPerCompany
 from users
 where company is not null and company != ''
 group by company;
@@ -41,8 +41,8 @@ group by company;
 ```sql
 select
   department as id,
-  department as department_id,
-  count(*) as user_count_per_department
+  department as departmentId,
+  count(*) as userCountPerDepartment
 from users
 where department is not null and department != ''
 group by department;
@@ -57,8 +57,8 @@ group by department;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_companies,
-  count(distinct type) as distinct_company_types
+  count(*) as totalCompanies,
+  count(distinct type) as distinctCompanyTypes
 from companies;
 ```
 
@@ -68,7 +68,7 @@ from companies;
 select
   type as id,
   type,
-  count(*) as company_count_per_type
+  count(*) as companyCountPerType
 from companies
 group by type;
 ```
@@ -82,10 +82,10 @@ group by type;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_products,
-  avg(cost) as average_product_cost,
-  count(case when image is not null and image != '' then 1 end) as products_with_images,
-  count(case when image is null or image = '' then 1 end) as products_without_images
+  count(*) as totalProducts,
+  avg(cost) as averageProductCost,
+  count(case when image is not null and image != '' then 1 end) as productsWithImages,
+  count(case when image is null or image = '' then 1 end) as productsWithoutImages
 from products;
 ```
 
@@ -94,8 +94,8 @@ from products;
 ```sql
 select
   supplier as id,
-  supplier as supplier_id,
-  count(*) as product_count_per_supplier
+  supplier as supplierId,
+  count(*) as productCountPerSupplier
 from products
 where supplier is not null and supplier != ''
 group by supplier;
@@ -110,7 +110,7 @@ group by supplier;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_warehouses
+  count(*) as totalWarehouses
 from warehouses;
 ```
 
@@ -119,8 +119,8 @@ from warehouses;
 ```sql
 select
   manager as id,
-  manager as manager_id,
-  count(*) as warehouse_count_per_manager
+  manager as managerId,
+  count(*) as warehouseCountPerManager
 from warehouses
 where manager is not null and manager != ''
 group by manager;
@@ -135,13 +135,13 @@ group by manager;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_orders,
-  sum(total_amount) as total_revenue_from_orders,
-  avg(total_amount) as average_order_value,
-  count(case when status = 'delivered' then 1 end) as delivered_orders,
-  count(case when status = 'cancelled' then 1 end) as cancelled_orders,
-  count(case when status = 'pending-validation' then 1 end) as pending_validation_orders,
-  count(case when status = 'shipped' then 1 end) as shipped_orders
+  count(*) as totalOrders,
+  sum(total_amount) as totalRevenueFromOrders,
+  avg(total_amount) as averageOrderValue,
+  count(case when status = 'delivered' then 1 end) as deliveredOrders,
+  count(case when status = 'cancelled' then 1 end) as cancelledOrders,
+  count(case when status = 'pending-validation' then 1 end) as pendingValidationOrders,
+  count(case when status = 'shipped' then 1 end) as shippedOrders
 from orders;
 ```
 
@@ -151,8 +151,8 @@ from orders;
 select
   status as id,
   status,
-  count(*) as order_count_per_status,
-  sum(total_amount) as total_amount_for_status
+  count(*) as orderCountPerStatus,
+  sum(total_amount) as totalAmountPerStatus
 from orders
 group by status;
 ```
@@ -164,9 +164,9 @@ group by status;
 ```sql
 select
   customer as id,
-  customer as customer_id,
-  count(*) as order_count_per_customer,
-  sum(total_amount) as total_spent_by_customer
+  customer as customerId,
+  count(*) as orderCountPerCustomer,
+  sum(total_amount) as totalSpentByCustomer
 from orders
 group by customer;
 ```
@@ -176,12 +176,12 @@ group by customer;
 ```sql
 select
   strftime('%Y-%m', order_date) as id,
-  strftime('%Y-%m', order_date) as year_month,
-  count(*) as monthly_order_count,
-  sum(total_amount) as monthly_revenue
+  strftime('%Y-%m', order_date) as yearMonth,
+  count(*) as monthlyOrderCount,
+  sum(total_amount) as montlyRevenue
 from orders
-group by year_month
-order by year_month desc;
+group by yearMonth
+order by yearMonth desc;
 ```
 
 -----
@@ -193,11 +193,11 @@ order by year_month desc;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_line_items,
-  sum(quantity) as total_quantity_sold,
-  sum(subtotal) as total_subtotal_revenue,
-  avg(quantity) as average_quantity_per_line,
-  avg(price_per_unit) as average_price_per_unit
+  count(*) as totalLineItems,
+  sum(quantity) as totalQuantitySold,
+  sum(subtotal) as totalSubtotalRevenue,
+  avg(quantity) as averageQuantityPerLine,
+  avg(price_per_unit) as averagePricePerUnit
 from orderlineitems;
 ```
 
@@ -206,9 +206,9 @@ from orderlineitems;
 ```sql
 select
   product as id,
-  product as product_id,
-  sum(quantity) as total_quantity_sold,
-  sum(subtotal) as total_revenue_from_product
+  product as productId,
+  sum(quantity) as totalQuantitySold,
+  sum(subtotal) as totalRevenueFromProduct
 from orderlineitems
 group by product
 order by total_quantity_sold desc;
@@ -219,11 +219,11 @@ order by total_quantity_sold desc;
 ```sql
 select
   product as id,
-  product as product_id,
-  sum(subtotal) as revenue_per_product
+  product as productId,
+  sum(subtotal) as revenuePerProduct
 from orderlineitems
 group by product
-order by revenue_per_product desc;
+order by revenuePerProduct desc;
 ```
 
 -----
@@ -235,9 +235,9 @@ order by revenue_per_product desc;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_inventory_records,
-  sum(quantity_on_hand) as total_quantity_on_hand_all_products,
-  count(distinct product) as distinct_products_in_inventory
+  count(*) as totalInventoryRecords,
+  sum(quantity_on_hand) as totalQuantityOnHandAllProducts,
+  count(distinct product) as distinctProductInInventory
 from inventoryitems;
 ```
 
@@ -246,8 +246,8 @@ from inventoryitems;
 ```sql
 select
   product as id,
-  product as product_id,
-  sum(quantity_on_hand) as total_quantity_for_product
+  product as productId,
+  sum(quantity_on_hand) as totalQuantityforProduct
 from inventoryitems
 group by product;
 ```
@@ -282,8 +282,8 @@ group by status;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as items_expiring_soon_count,
-  sum(quantity_on_hand) as quantity_expiring_soon
+  count(*) as itemsExpiringSoonCount,
+  sum(quantity_on_hand) as quantityExpiringSoon
 from inventoryitems
 where expiry_date is not null
   and expiry_date between date('now') and date('now', '+30 days');
@@ -298,11 +298,11 @@ where expiry_date is not null
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_shipments,
-  count(case when status = 'delivered' then 1 end) as delivered_shipments,
-  count(case when status = 'in-transit' then 1 end) as shipments_in_transit,
-  count(case when status = 'exception' then 1 end) as shipment_exceptions,
-  count(case when proof_of_delivery is not null and proof_of_delivery != '' then 1 end) as shipments_with_pod
+  count(*) as totalShipments,
+  count(case when status = 'delivered' then 1 end) as deliveredShipments,
+  count(case when status = 'in-transit' then 1 end) as shipmentsInTransit,
+  count(case when status = 'exception' then 1 end) as shipmentExceptions,
+  count(case when proof_of_delivery is not null and proof_of_delivery != '' then 1 end) as shipmentWithPod
 from shipments;
 ```
 
@@ -312,7 +312,7 @@ from shipments;
 select
   status as id,
   status,
-  count(*) as shipment_count_per_status
+  count(*) as shipmentCountPerStatus
 from shipments
 group by status;
 ```
@@ -324,8 +324,8 @@ group by status;
 ```sql
 select
   carrier as id,
-  carrier as carrier_id,
-  count(*) as shipment_count_per_carrier
+  carrier as carrierId,
+  count(*) as shipmentCountPerCarrier
 from shipments
 where carrier is not null and carrier != ''
 group by carrier;
@@ -336,8 +336,8 @@ group by carrier;
 ```sql
 select
   driver as id,
-  driver as driver_id,
-  count(*) as shipment_count_per_driver
+  driver as driverId,
+  count(*) as shipmentCountPerDriver
 from shipments
 where driver is not null and driver != ''
 group by driver;
@@ -348,9 +348,9 @@ group by driver;
 ```sql
 select
   (row_number() over()) as id,
-  sum(case when actual_delivery_date is not null and estimated_delivery_date is not null and actual_delivery_date <= estimated_delivery_date then 1 else 0 end) as on_time_shipments,
-  count(case when status = 'delivered' and actual_delivery_date is not null and estimated_delivery_date is not null then 1 end) as total_comparable_delivered_shipments,
-  (sum(case when actual_delivery_date is not null and estimated_delivery_date is not null and actual_delivery_date <= estimated_delivery_date then 1.0 else 0.0 end) * 100.0 / count(case when status = 'delivered' and actual_delivery_date is not null and estimated_delivery_date is not null then 1 end)) as on_time_delivery_percentage
+  sum(case when actual_delivered_date is not null and estimated_delivered_date is not null and actual_delivered_date <= estimated_delivered_date then 1 else 0 end) as onTimeShipments,
+  count(case when status = 'delivered' and actual_delivered_date is not null and estimated_delivered_date is not null then 1 end) as totalComparableDeliveredShipments,
+  (sum(case when actual_delivered_date is not null and estimated_delivered_date is not null and actual_delivered_date <= estimated_delivered_date then 1.0 else 0.0 end) * 100.0 / count(case when status = 'delivered' and actual_delivered_date is not null and estimated_delivered_date is not null then 1 end)) as onTimeDeliveryPercentage
 from shipments
 where status = 'delivered';
 ```
@@ -364,12 +364,12 @@ where status = 'delivered';
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_vehicles,
-  avg(capacity_volume) as average_volume_capacity,
-  avg(capacity_weight) as average_weight_capacity,
-  count(case when status = 'available' then 1 end) as available_vehicles,
-  count(case when status = 'in-use' then 1 end) as vehicles_in_use,
-  count(case when status = 'maintenance' then 1 end) as vehicles_in_maintenance
+  count(*) as totalVehicles,
+  avg(capacity_volume) as averageVolumeCapacity,
+  avg(capacity_weight) as averageWeightCapacity,
+  count(case when status = 'available' then 1 end) as availableVehicles,
+  count(case when status = 'in-use' then 1 end) as vehiclesInUse,
+  count(case when status = 'maintenance' then 1 end) as vehiclesInMaintainance
 from vehicles;
 ```
 
@@ -379,7 +379,7 @@ from vehicles;
 select
   status as id,
   status,
-  count(*) as vehicle_count_per_status
+  count(*) as vehicleCountPerStatus
 from vehicles
 group by status;
 ```
@@ -407,10 +407,10 @@ group by type;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_routes,
-  count(case when status = 'completed' then 1 end) as completed_routes,
-  count(case when status = 'in-progress' then 1 end) as routes_in_progress,
-  count(case when status = 'planned' then 1 end) as planned_routes
+  count(*) as totalRoutes,
+  count(case when status = 'completed' then 1 end) as completedRoutes,
+  count(case when status = 'in-progress' then 1 end) as routesInProgress,
+  count(case when status = 'planned' then 1 end) as plannedRoutes
 from routes;
 ```
 
@@ -420,7 +420,7 @@ from routes;
 select
   status as id,
   status,
-  count(*) as route_count_per_status
+  count(*) as routeCountPerStatus
 from routes
 group by status;
 ```
@@ -432,8 +432,8 @@ group by status;
 ```sql
 select
   driver_assigned as id,
-  driver_assigned as driver_id,
-  count(*) as route_count_per_driver
+  driver_assigned as driverId,
+  count(*) as routeCountPerDriver
 from routes
 where driver_assigned is not null and driver_assigned != ''
 group by driver_assigned;
@@ -444,8 +444,8 @@ group by driver_assigned;
 ```sql
 select
   vehicle_assigned as id,
-  vehicle_assigned as vehicle_id,
-  count(*) as route_count_per_vehicle
+  vehicle_assigned as vehicleId,
+  count(*) as routeCountPerVehicle
 from routes
 where vehicle_assigned is not null and vehicle_assigned != ''
 group by vehicle_assigned;
@@ -460,8 +460,8 @@ group by vehicle_assigned;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_route_segments,
-  count(distinct route) as distinct_routes_with_segments
+  count(*) as totalRouteSegment,
+  count(distinct route) as distinctRoutesWithSegments
 from routesegments;
 ```
 
@@ -470,8 +470,8 @@ from routesegments;
 ```sql
 select
   segment_type as id,
-  segment_type,
-  count(*) as segment_count_per_type
+  segment_type as segmentType,
+  count(*) as segmentCountPerType
 from routesegments
 group by segment_type;
 ```
@@ -499,8 +499,8 @@ group by segment_type;
 ```sql
 select
   segment_type as id,
-  segment_type,
-  count(case when actual_arrival_time > estimated_arrival_time then 1 end) as delayed_segments_count
+  segment_type as segmentType,
+  count(case when actual_arrival_time > estimated_arrival_time then 1 end) as delayedSegmentsCount
 from routesegments
 where actual_arrival_time is not null and estimated_arrival_time is not null
 group by segment_type;
@@ -515,12 +515,12 @@ group by segment_type;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_invoices,
-  sum(total_amount) as total_invoiced_amount,
-  count(case when status = 'paid' then 1 end) as paid_invoices_count,
-  sum(case when status = 'paid' then total_amount else 0 end) as total_amount_from_paid_invoices,
-  count(case when status = 'overdue' then 1 end) as overdue_invoices_count,
-  sum(case when status = 'overdue' then total_amount else 0 end) as total_overdue_amount
+  count(*) as totalInvoices,
+  sum(total_amount) as totalInvoiceAmount,
+  count(case when status = 'paid' then 1 end) as paidInvoicesCount,
+  sum(case when status = 'paid' then total_amount else 0 end) as totalAmountFromPaidInvoice,
+  count(case when status = 'overdue' then 1 end) as overdueInvoicesCount,
+  sum(case when status = 'overdue' then total_amount else 0 end) as totalOverdueAmount
 from invoices;
 ```
 
@@ -530,8 +530,8 @@ from invoices;
 select
   status as id,
   status,
-  count(*) as invoice_count_per_status,
-  sum(total_amount) as total_amount_for_status
+  count(*) as invoiceCountPerStatus,
+  sum(total_amount) as totalAmountForStatus
 from invoices
 group by status;
 ```
@@ -543,9 +543,9 @@ group by status;
 ```sql
 select
   customer as id,
-  customer as customer_id,
-  count(*) as invoice_count_per_customer,
-  sum(total_amount) as total_invoiced_to_customer
+  customer as customerId,
+  count(*) as invoiceCountPerCustomer,
+  sum(total_amount) as totalInvoicedToCustomer
 from invoices
 group by customer;
 ```
@@ -573,9 +573,9 @@ from payments;
 ```sql
 select
   payment_method as id,
-  payment_method,
-  count(*) as payment_count_per_method,
-  sum(amount_paid) as total_amount_via_method
+  payment_method as paymentMethod,
+  count(*) as paymentCountPerMethod,
+  sum(amount_paid) as totalAmountByMethod
 from payments
 where payment_method is not null and payment_method != ''
 group by payment_method;
@@ -618,7 +618,7 @@ from chatrooms;
 select
   type as id,
   type,
-  count(*) as room_count_per_type
+  count(*) as roomCountPerType
 from chatrooms
 group by type;
 ```
@@ -630,7 +630,7 @@ group by type;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_order_chat_rooms
+  count(*) as totalOrderChatRooms
 from chatrooms
 where type = 'order-chat' and related_order is not null and related_order != '';
 ```
@@ -684,7 +684,7 @@ order by message_count_from_sender desc;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_departments
+  count(*) as totalDepartments
 from departments;
 ```
 
@@ -693,9 +693,9 @@ from departments;
 ```sql
 select
     d.id as id,
-    d.name as department_name,
-    count(distinct case when u.role = 'department_manager' then u.id end) as manager_count,
-    count(distinct case when u.role = 'department_employee' then u.id end) as employee_count
+    d.name as departmentName,
+    count(distinct case when u.role = 'department_manager' then u.id end) as managerCount,
+    count(distinct case when u.role = 'department_employee' then u.id end) as employeeCount
 from departments d
 left join users u on u.department = d.id
 group by d.id, d.name;
@@ -710,12 +710,12 @@ group by d.id, d.name;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_tasks,
-  count(case when status = 'done' then 1 end) as completed_tasks,
-  count(case when status = 'todo' then 1 end) as todo_tasks,
-  count(case when status = 'in-progress' then 1 end) as in_progress_tasks,
-  count(case when status = 'blocked' then 1 end) as blocked_tasks,
-  count(case when due_date < date('now') and status not in ('done', 'cancelled') then 1 end) as overdue_tasks
+  count(*) as totalTasks,
+  count(case when status = 'done' then 1 end) as completedTasks,
+  count(case when status = 'todo' then 1 end) as todoTasks,
+  count(case when status = 'in-progress' then 1 end) as in_progressTasks,
+  count(case when status = 'blocked' then 1 end) as blockedTasks,
+  count(case when due_date < date('now') and status not in ('done', 'cancelled') then 1 end) as overdueTasks
 from tasks;
 ```
 
@@ -725,7 +725,7 @@ from tasks;
 select
   status as id,
   status,
-  count(*) as task_count_per_status
+  count(*) as taskCountPerStatus
 from tasks
 group by status;
 ```
@@ -738,7 +738,7 @@ group by status;
 select
   priority as id,
   priority,
-  count(*) as task_count_per_priority
+  count(*) as taskCountPerPriority
 from tasks
 where priority is not null and priority != ''
 group by priority;
@@ -751,8 +751,8 @@ group by priority;
 ```sql
 select
   department as id,
-  department as department_id,
-  count(*) as task_count_per_department
+  department as departmentId,
+  count(*) as taskCountPerDepartment
 from tasks
 where department is not null and department != ''
 group by department;
@@ -762,11 +762,15 @@ group by department;
 
 ```sql
 select
-  (row_number() over()) as id,
-  'dispatch' as tag_name,
-  count(*) as tasks_with_tag_count
-from tasks, json_each(tasks.tags)
-where json_each.value = 'dispatch';
+  (row_number() over ()) as id,
+  'dispatch' as tagname,
+  count(*) as taskswithtagcount
+from
+  tasks,
+  json_each(tasks.tags) as tag_item
+where
+  json_valid(tasks.tags) = 1 and 
+  tag_item.value = 'dispatch';
 ```
 
 *(Ensure tag values like `dispatch`, `warehouse`, `customer-update`, `inventory-check`, `finance-review` are used in the `where` clause if querying specific tags, and that they are stored this way in the JSON array.)*
@@ -780,10 +784,10 @@ where json_each.value = 'dispatch';
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_task_messages,
-  count(distinct task) as tasks_with_messages,
-  count(distinct sender) as distinct_task_message_senders,
-  count(case when attachments is not null and attachments != '' then 1 end) as task_messages_with_attachments
+  count(*) as totalTaskMessages,
+  count(distinct task) as tasksWithMessages,
+  count(distinct sender) as distinctTaskMessageSenders,
+  count(case when attachments is not null and attachments != '' then 1 end) as taskMessagesWithAttachments
 from taskmessages;
 ```
 
@@ -792,11 +796,11 @@ from taskmessages;
 ```sql
 select
   task as id,
-  task as task_id,
-  count(*) as message_count_in_task
+  task as taskId,
+  count(*) as messageCountInTask
 from taskmessages
 group by task
-order by message_count_in_task desc;
+order by messageCountInTask desc;
 ```
 
 -----
@@ -808,10 +812,10 @@ order by message_count_in_task desc;
 ```sql
 select
   (row_number() over()) as id,
-  count(*) as total_notifications,
-  count(case when is_read = 1 then 1 end) as read_notifications,
-  count(case when is_read = 0 then 1 end) as unread_notifications,
-  count(distinct type) as distinct_notification_types
+  count(*) as totalNotifications,
+  count(case when isRead = 1 then 1 end) as readNotifications,
+  count(case when isRead = 0 then 1 end) as unreadNotifications,
+  count(distinct type) as distinctNotificationTypes
 from notifications;
 ```
 
@@ -833,12 +837,12 @@ group by type;
 ```sql
 select
   user_recipient as id,
-  user_recipient as user_id,
-  count(*) as unread_notification_count
+  user_recipient as userId,
+  count(*) as unreadNotificationCount
 from notifications
 where is_read = 0
 group by user_recipient
-order by unread_notification_count desc;
+order by unreadNotificationCount desc;
 ```
 
 **Notification Count by Priority:**
@@ -847,7 +851,7 @@ order by unread_notification_count desc;
 select
   priority as id,
   priority,
-  count(*) as notification_count_per_priority
+  count(*) as notificationCountPerPriority
 from notifications
 where priority is not null and priority != ''
 group by priority;
