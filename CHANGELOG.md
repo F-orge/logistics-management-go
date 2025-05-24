@@ -1,7 +1,69 @@
 "# Changelog"
+### 9720f21: chore(package): bump version to 0.12.0
+
+### 6edb2b8: feat(routes): update route imports for dashboard and related entities
+
+### 18673ce: 
+## Merge branch 'main' into 28-feature---add-view-table-in-pocketbase-for-kpis-key-performance-indicators
+
+
+### 6af3a00: feat(migrations): update various KPIs and notifications
+- Updated `tasksDepartmentKPI` to modify fields and view query for department task counts.
+- Updated `tasksSpecificTagKPI` to enhance tag counting logic and field definitions.
+- Refined `taskMessagesOverallKPI` to include detailed message statistics.
+- Enhanced `taskMessagesCountKPI` to track message counts per task with updated field names.
+- Improved `notificationsOverallKPI` to summarize notification statistics with distinct counts.
+- Created `notificationsUnreadKPI` to track unread notifications per user.
+- Updated `notifications` collection to add a priority field for notifications.
+- Created `notificationsPriorityKPI` to analyze notifications based on priority levels.
+
+### 7a99061: Merge pull request 43 from F-orge/36-feature---apply-proper-error-handling-and-not-found-page
+36 feature   apply proper error handling and not found page
+### 36fa9af: fix(changelog): update changelog entries for recent changes and improve formatting
+
 ### 4a7c33f: fix(package): update version to 0.11.0
 
 ### c24803e: feat(routes): add NotFoundPage component and integrate with router
+
+### f45f92c: added key performance indicators for notifications EXCEPTION for UnreadKPI (SQL logic error: no such column: user_recipient (1).) and PriorityKPI (SQL logic error: no such column: priority (1).)
+
+### 0cdf5f9: added key performance indicators for taskMessages collection
+
+### 42a85d3: added key performance indicators for tasks collection EXCEPTION for OverallKPI (SQL logic error: no such column: due_date (1).) and SpecificTagKPI (error when created)
+
+### 2f3cb6a: added key performance indicators for departments collection
+
+### d5796dc: added key performance indicators for chatMessages collection
+
+### 96655fe: added key performance indicators for chatrooms collection
+
+### 94ac985: added key performance indicators for payments collections EXCEPTION for Payment Count and Amount Method (value cannot contain 'via')
+
+### 2979589: added key performance indicators for invoices collection
+
+### e4f1a17: added key performance indicators for routeSegments collection
+
+### cf89fa6: added key performance indicators for routes collection
+
+### a2a3f91: added key performance indicators for vehicles collection
+
+### 33a54d3: added key performance indicators for shipments collection exception of On-Time Delivery Rate (SQL Logic Error)
+
+### 433efd3: added key performance indicators for inventoryItems collection
+
+### a1832cc: added key performance indicators for orderLineItems collection
+
+### 87186fe: added key performance indicators for orders collection
+
+### 5e8c1eb: added key performance indicators for warehouse collection
+
+### 50128eb: added key performance indicators for products collection
+
+### d081b39: added key performance indicators for companies
+
+### ca136b3: added key performance indicator for users collection
+
+### 8b21b69: add users KPI
 
 ### a199afa: Merge pull request 41 from F-orge/40-improvement---improve-code-structure-at-task-management
 40 improvement  improve code structure at task management
