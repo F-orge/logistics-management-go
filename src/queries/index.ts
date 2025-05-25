@@ -31,8 +31,13 @@ export const viewRecordsQuery = <T>(
   options?: RecordOptions,
 ) =>
   queryOptions({
-    queryKey: [collection, id],
-    queryFn: () => pb.collection(collection).getOne<T>(id || '', options),
+    queryKey: [collection, id, options],
+    queryFn: ({ queryKey }) => {
+      const [collection, id, options] = queryKey;
+      return pb
+        .collection(collection as string)
+        .getOne<T>(id as string, options as RecordOptions);
+    },
     enabled: !!id,
   });
 

@@ -255,7 +255,7 @@ const EditTaskForm = () => {
             {(field) => (
               <field.FileUploadField
                 labelProps={{
-                  htmlFor: 'shipmentRef',
+                  htmlFor: 'attachments',
                   children: 'Attachments',
                 }}
                 containerProps={{ className: 'col-span-4' }}
