@@ -1,4 +1,22 @@
 "# Changelog"
+### e8a1cb7: fix(task-form): set default status to 'todo' in CreateNewTaskForm
+
+### 5e7eb19: feat(migrations): update task messages, vehicles, user access, chat messages, and tasks collections with new fields and indexes
+- Updated task messages collection to change field name from "readBy" to "read_by".
+- Modified vehicles collection to add fields for capacity volume and weight, and updated license plate field name.
+- Created user access collection with fields for user relations and access control.
+- Updated user access collection to allow multiple selections for the field.
+- Updated chat messages collection to add an index on the content field.
+- Enhanced tasks collection to include file attachments with specified MIME types.
+- Refactored task edit and delete routes to improve user experience and data handling.
+- Implemented KPI components for tasks overview, priority, and department statistics.
+
+### 722e443: chore(package): bump version to 0.13.0 and update @marahuyo/react-ui dependency
+
+### 4b71a40: Merge pull request 44 from F-orge/28-feature---add-view-table-in-pocketbase-for-kpis-key-performance-indicators
+28 feature   add view table in pocketbase for kpis key performance indicators
+### ddb3a79: chore(changelog): update changelog with recent entries and improve formatting
+
 ### 9720f21: chore(package): bump version to 0.12.0
 
 ### 6edb2b8: feat(routes): update route imports for dashboard and related entities
