@@ -1,4 +1,27 @@
 "# Changelog"
+### 61807d4: chore(package): bump version to 0.14.0
+
+### 2e97bab: feat: enhance seed functionality and update migrations
+- Updated seed.ts to use Omit for records without 'id' field, ensuring proper data structure during seeding.
+- Improved product seeding logic to always assign a supplier.
+- Refactored various seed functions for consistency and clarity.
+- Added new fields to companies, departments, and routes collections in migrations to enforce required relationships.
+- Adjusted notifications seeding to include priority and type options.
+- Cleaned up imports in dashboard task components for better organization and readability.
+
+### f22a95e: feat(migrations): update product, route segments, routes, shipments, tasks, vehicles, and warehouses collections
+- Added new fields to products: weight, dimensions, cost, supplier, and image.
+- Updated route segments with new fields: sequenceNumber, segmentType, addressText, longitude, latitude, and relatedShipment.
+- Introduced status, longitude, and latitude fields to routes.
+- Enhanced shipments with trackingNumber, carrier, status, estimatedDeliveryDate, proofOfDelivery, driver, and departmentAssigned fields.
+- Modified tasks to remove kanbanOrder field and add an index.
+- Updated vehicles with make, model, type, capacityVolume, capacityWeight, and status fields.
+- Adjusted warehouses to include longitude, latitude, and manager fields with unique indexes.
+
+### 4487abd: Merge pull request 46 from F-orge/45-fix---finish-task-management-page
+45 fix   finish task management page
+### afd421e: chore(changelog): add detailed entries for recent task form and migration updates
+
 ### e8a1cb7: fix(task-form): set default status to 'todo' in CreateNewTaskForm
 
 ### 5e7eb19: feat(migrations): update task messages, vehicles, user access, chat messages, and tasks collections with new fields and indexes
