@@ -1,38 +1,84 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { z } from 'zod';
-import { useQuery } from '@tanstack/react-query';
-import { pb } from '../../../../lib/pocketbase';
-import type { ColumnDef } from '@tanstack/react-table';
-import {
-  Collections,
-  type DepartmentsRecord,
-  type TasksResponse,
-} from '../../../../lib/pocketbase.gen';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
-import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
-import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
-import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
-import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableActionBar } from '@marahuyo/react-ui/data-table/data-table-action-bar';
-import { MoreHorizontal, Text } from 'lucide-react';
-import { Button } from '@marahuyo/react-ui/ui/button';
+import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
+import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
+import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
+import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import { Dialog, DialogTrigger } from '@marahuyo/react-ui/ui/dialog';
-import CreateNewTaskForm from './-new';
-import { Suspense } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
-import EditTaskForm from './-edit';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import { MoreHorizontal, Text } from 'lucide-react';
+import { Suspense } from 'react';
+import { z } from 'zod';
+import { pb } from '../../../../lib/pocketbase';
+import {
+  Collections,
+  type DepartmentsRecord,
+  type TasksResponse,
+} from '../../../../lib/pocketbase.gen';
 import { listRecordsQuery } from '../../../queries';
 import DeleteTask from './-delete';
+import EditTaskForm from './-edit';
+import CreateNewTaskForm from './-new';
 
 const columns: ColumnDef<TasksResponse<{ department: DepartmentsRecord }>>[] = [
+  {
+    id: 'actions',
+    header: 'Action',
+    cell: ({ row }) => {
+      const navigate = useNavigate({ from: Route.fullPath });
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={'ghost'} size={'icon'}>
+              <MoreHorizontal className="size-4" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    id: row.original.id,
+                    editTask: true,
+                  }),
+                })
+              }
+            >
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    id: row.original.id,
+                    deleteTask: true,
+                  }),
+                })
+              }
+              variant="destructive"
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
   {
     id: 'id',
     accessorKey: 'id',
@@ -122,52 +168,6 @@ const columns: ColumnDef<TasksResponse<{ department: DepartmentsRecord }>>[] = [
     },
     enableColumnFilter: true,
     enableSorting: true,
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      const navigate = useNavigate({ from: Route.fullPath });
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant={'ghost'} size={'icon'}>
-              <MoreHorizontal className="size-4" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() =>
-                navigate({
-                  search: (prev) => ({
-                    ...prev,
-                    id: row.original.id,
-                    editTask: true,
-                  }),
-                })
-              }
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigate({
-                  search: (prev) => ({
-                    ...prev,
-                    id: row.original.id,
-                    deleteTask: true,
-                  }),
-                })
-              }
-              variant="destructive"
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
   },
 ];
 

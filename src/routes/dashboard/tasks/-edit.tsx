@@ -1,10 +1,14 @@
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { useQueries, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import { pb } from '../../../../lib/pocketbase';
 import {
   Collections,
   type DepartmentsRecord,
@@ -15,15 +19,11 @@ import {
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
-import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { pb } from '../../../../lib/pocketbase';
-import { Route } from '.';
-import { getTask } from '../../../queries/tasks';
-import { useNavigate } from '@tanstack/react-router';
 import {
   useMutateUpdateRecord,
   viewRecordsQuery as viewRecordQuery,
 } from '../../../queries';
+import { getTask } from '../../../queries/tasks';
 
 const EditTaskForm = () => {
   const searchQuery = Route.useSearch();

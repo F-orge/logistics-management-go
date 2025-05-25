@@ -1,3 +1,4 @@
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -5,18 +6,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { useQueries } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import { pb } from '../../../../lib/pocketbase';
 import {
   Collections,
   TasksPriorityOptions,
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
-import { useQueries } from '@tanstack/react-query';
-import { pb } from '../../../../lib/pocketbase';
 import { useMutateCreateRecord } from '../../../queries';
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
 
 const CreateNewTaskForm = () => {
   const searchQuery = Route.useSearch();

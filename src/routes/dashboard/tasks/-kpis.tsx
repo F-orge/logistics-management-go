@@ -1,18 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { pb } from '../../../../lib/pocketbase';
+import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
+import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
+import { Badge } from '@marahuyo/react-ui/ui/badge';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@marahuyo/react-ui/ui/card';
+import { useQuery } from '@tanstack/react-query';
 import type { ColumnDef } from '@tanstack/react-table';
+import { useMemo } from 'react';
+import { pb } from '../../../../lib/pocketbase';
 import type { TasksDepartmentKPIResponse } from '../../../../lib/pocketbase.gen';
-import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
-import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
-import { Badge } from '@marahuyo/react-ui/ui/badge';
 
 export const TasksOverAllKPI = () => {
   const kpi = useQuery({
