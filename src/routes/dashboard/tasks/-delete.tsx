@@ -8,14 +8,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@marahuyo/react-ui/ui/alert-dialog';
-import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
 import {
   Collections,
   type TasksResponse,
 } from '../../../../lib/pocketbase.gen';
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
+import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
 
 const DeleteTask = () => {
   const searchQuery = Route.useSearch();

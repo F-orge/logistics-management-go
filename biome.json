@@ -10,7 +10,7 @@
   },
   "formatter": {
     "indentStyle": "space",
-    "ignore": ["./src/routeTree.gen.ts", "seed.ts"]
+    "ignore": ["./src/routeTree.gen.ts"]
   },
   "javascript": {
     "formatter": {
