@@ -1,4 +1,5 @@
 import {
+  infiniteQueryOptions,
   keepPreviousData,
   queryOptions,
   useMutation,
@@ -9,11 +10,9 @@ import type {
   DepartmentsResponse,
   OrdersResponse,
   ShipmentsResponse,
-  TaskMessagesRecord,
   TaskMessagesResponse,
   TasksRecord,
   TasksResponse,
-  TypedPocketBase,
   UsersResponse,
 } from '../../lib/pocketbase.gen';
 
@@ -21,13 +20,13 @@ export type ExpandedTaskResponse = TasksResponse<{
   assignees?: UsersResponse[];
   assigner: UsersResponse;
   department?: DepartmentsResponse;
-  order_ref?: OrdersResponse;
-  related_shipment?: ShipmentsResponse;
+  orderRef?: OrdersResponse;
+  relatedShipment?: ShipmentsResponse;
 }>;
 
 export type ExpandedTaskMessageResponse = TaskMessagesResponse<{
   sender: UsersResponse;
-  read_by: UsersResponse[];
+  readBy: UsersResponse[];
 }>;
 
 export const getTasks = (page: number, perPage: number, filter?: string) =>
@@ -35,8 +34,9 @@ export const getTasks = (page: number, perPage: number, filter?: string) =>
     queryKey: ['tasks', page, perPage, filter],
     queryFn: () =>
       pb.collection('tasks').getList<ExpandedTaskResponse>(page, perPage, {
-        expand: 'assignees,assigner,department,order_ref,related_shipment',
+        expand: 'assignees,assigner,department,orderRef,relatedShipment',
         filter,
+        fields: '*,description:excerpt(32,true)',
       }),
     enabled: !!page && !!perPage,
     placeholderData: keepPreviousData,
@@ -47,8 +47,19 @@ export const getTask = (id: string) =>
     queryKey: ['tasks', id],
     queryFn: () =>
       pb.collection('tasks').getOne<ExpandedTaskResponse>(id, {
-        expand: 'assignees,assigner,department,order_ref,related_shipment',
+        expand: 'assignees,assigner,department,orderRef,relatedShipment',
       }),
+  });
+
+export const getTasksInfiniteQuery = (initialPage: number, perPage: number) =>
+  infiniteQueryOptions({
+    queryKey: ['tasks', initialPage, perPage],
+    queryFn: ({ pageParam }) =>
+      pb.collection('tasks').getList(pageParam, perPage, {
+        expand: 'assignees,assigner,department,orderRef,relatedShipment',
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, _) => lastPage.page + 1,
   });
 
 export const useMutateUpdateTask = () => {
@@ -85,7 +96,6 @@ export const useMutateAddTaskAttachments = () => {
 
 export const useMutateRemoveTaskTattachments = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: ({ id, attachments }: { id: string; attachments: string[] }) =>
       pb.collection('tasks').update(id, { 'attachments-': attachments }),
