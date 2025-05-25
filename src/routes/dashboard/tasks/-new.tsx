@@ -28,7 +28,7 @@ const CreateNewTaskForm = () => {
     defaultValues: {
       title: '',
       description: '',
-      status: '',
+      status: TasksStatusOptions.todo,
       assignees: [] as string[],
       assigner: pb.authStore.record?.id,
       department: '',
