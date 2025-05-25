@@ -193,7 +193,7 @@ async function seedUsers(
       verified: faker.datatype.boolean(0.9),
       role: randomEnumValue(UsersRoleOptions),
       avatar: avatarFile as any,
-      address: `<p>${faker.location.streetAddress(true)}</p>`,
+      address: faker.location.streetAddress(true),
       phone: faker.phone.number(),
       company:
         allCompanies.length > 0 && faker.datatype.boolean(0.3)
@@ -230,10 +230,10 @@ async function seedCompanies(
     const companyData: Partial<CompaniesRecord> = {
       name: faker.company.name(),
       type: randomEnumValue(CompaniesTypeOptions),
-      address: `<p>${faker.location.streetAddress(true)}</p>`,
-      contact_email: faker.internet.email(),
-      contact_phone: faker.phone.number(),
-      primary_contact_person:
+      address: faker.location.streetAddress(true),
+      contactEmail: faker.internet.email(),
+      contactPhone: faker.phone.number(),
+      primaryContactPerson:
         allUsers.length > 0 && faker.datatype.boolean(0.5)
           ? faker.helpers.arrayElement(allUsers).id
           : undefined,
@@ -263,7 +263,7 @@ async function seedWarehouses(
   for (let i = 0; i < NUM_WAREHOUSES; i++) {
     const warehouseData: Partial<WarehousesRecord> = {
       name: `Warehouse ${faker.company.buzzNoun()} ${faker.location.city()}`,
-      address: `<p>${faker.location.streetAddress(true)}</p>`,
+      address: faker.location.streetAddress(true),
       manager:
         allUsers.length > 0 && faker.datatype.boolean(0.7)
           ? faker.helpers.arrayElement(
@@ -323,7 +323,7 @@ async function seedDepartments(
     const departmentData: Partial<DepartmentsRecord> = {
       name: faker.commerce.department() + ` ${faker.company.buzzAdjective()}`,
       avatar: avatarFile as any,
-      cover_photo: coverFile as any,
+      coverPhoto: coverFile as any,
       managers:
         potentialManagers.length > 0
           ? faker.helpers
@@ -397,7 +397,7 @@ async function seedProducts(
     const productData: Partial<ProductsRecord> = {
       name: faker.commerce.productName(),
       sku: faker.string.alphanumeric(10).toUpperCase(),
-      description: `<p>${faker.commerce.productDescription()}</p>`,
+      description: faker.commerce.productDescription(),
       cost: Number.parseFloat(faker.commerce.price({ min: 5, max: 500 })),
       image: imageFiles as any,
       supplier:
@@ -435,17 +435,17 @@ async function seedVehicles(
 
   for (let i = 0; i < NUM_VEHICLES; i++) {
     const vehicleData: Partial<VehiclesRecord> = {
-      license_plate: faker.vehicle.vrm(),
+      licensePlate: faker.vehicle.vrm(),
       make: faker.vehicle.manufacturer(),
       model: faker.vehicle.model(),
       type: faker.vehicle.type(),
       status: randomEnumValue(VehiclesStatusOptions),
-      current_driver:
+      currentDriver:
         driverUsers.length > 0 && faker.datatype.boolean(0.7)
           ? faker.helpers.arrayElement(driverUsers).id
           : undefined,
-      capacity_weight: faker.number.int({ min: 500, max: 15000 }), // in kg
-      capacity_volume: faker.number.int({ min: 5, max: 80 }), // in m^3
+      capacityWeight: faker.number.int({ min: 500, max: 15000 }), // in kg
+      capacityVolume: faker.number.int({ min: 5, max: 80 }), // in m^3
     };
     try {
       const record = await pb
@@ -453,11 +453,11 @@ async function seedVehicles(
         .create<VehiclesResponse>(vehicleData);
       createdVehicles.push(record);
       console.log(
-        `Created vehicle: ${record.license_plate} (ID: ${record.id})`,
+        `Created vehicle: ${record.licensePlate} (ID: ${record.id})`,
       );
     } catch (error) {
       console.error(
-        `Failed to create vehicle ${vehicleData.license_plate}:`,
+        `Failed to create vehicle ${vehicleData.licensePlate}:`,
         (error as any)?.response?.data || error,
       );
     }
@@ -479,24 +479,24 @@ async function seedOrders(
 
   for (let i = 0; i < NUM_ORDERS; i++) {
     const orderData: Partial<OrdersRecord> = {
-      order_id_custom: `ORD-${faker.string.alphanumeric(8).toUpperCase()}`,
+      orderIdCustom: `ORD-${faker.string.alphanumeric(8).toUpperCase()}`,
       customer:
         customerCompanies.length > 0
           ? faker.helpers.arrayElement(customerCompanies).id
           : faker.helpers.arrayElement(allCompanies).id, // Fallback if no specific customers
-      order_date: faker.date.past({ years: 1 }).toISOString(),
+      orderDate: faker.date.past({ years: 1 }).toISOString(),
       status: randomEnumValue(OrdersStatusOptions),
-      billing_address: `<p>${faker.location.streetAddress(true)}</p>`,
-      shipping_address: `<p>${faker.location.streetAddress(true)}</p>`,
+      billingAddress: faker.location.streetAddress(true),
+      shippingAddress: faker.location.streetAddress(true),
       // total_amount will be calculated/updated after line items if desired, or faked here
-      total_amount: Number.parseFloat(
+      totalAmount: Number.parseFloat(
         faker.finance.amount({ min: 50, max: 5000 }),
       ),
-      created_by:
+      createdBy:
         allUsers.length > 0
           ? faker.helpers.arrayElement(allUsers).id
           : undefined,
-      assigned_warehouse:
+      assignedWarehouse:
         allWarehouses.length > 0 && faker.datatype.boolean(0.8)
           ? faker.helpers.arrayElement(allWarehouses).id
           : undefined,
@@ -507,11 +507,11 @@ async function seedOrders(
         .create<OrdersResponse>(orderData);
       createdOrders.push(record);
       console.log(
-        `Created order: ${record.order_id_custom} (ID: ${record.id})`,
+        `Created order: ${record.orderIdCustom} (ID: ${record.id})`,
       );
     } catch (error) {
       console.error(
-        `Failed to create order ${orderData.order_id_custom}:`,
+        `Failed to create order ${orderData.orderIdCustom}:`,
         (error as any)?.response?.data || error,
       );
     }
@@ -550,7 +550,7 @@ async function seedOrderLineItems(
         order: order.id,
         product: product.id,
         quantity,
-        price_per_unit,
+        pricePerUnit:price_per_unit,
         subtotal,
       };
       try {
@@ -615,8 +615,8 @@ async function seedShipments(
         }
         const status = randomEnumValue(ShipmentsStatusOptions);
         const shipmentData: Partial<ShipmentsRecord> = {
-          order_ref: order.id,
-          tracking_number: `TRK-${faker.string.alphanumeric(12).toUpperCase()}`,
+          orderRef: order.id,
+          trackingNumber: `TRK-${faker.string.alphanumeric(12).toUpperCase()}`,
           status,
           carrier:
             carrierCompanies.length > 0 && faker.datatype.boolean(0.8)
@@ -626,23 +626,23 @@ async function seedShipments(
             driverUsers.length > 0 && faker.datatype.boolean(0.6)
               ? faker.helpers.arrayElement(driverUsers).id
               : undefined,
-          department_assigned:
+          departmentAssigned:
             allDepartments.length > 0 && faker.datatype.boolean(0.5)
               ? faker.helpers.arrayElement(allDepartments).id
               : undefined,
-          estimated_delivered_date: faker.date
-            .soon({ days: 10, refDate: order.order_date })
+          estimatedDeliveryDate: faker.date
+            .soon({ days: 10, refDate: order.orderDate })
             .toISOString(),
-          actual_delivered_date:
+          actualDeliveryDate:
             status === ShipmentsStatusOptions.delivered
               ? faker.date
                   .recent({ days: 5, refDate: new Date() })
                   .toISOString()
               : undefined,
-          current_location_notes: faker.datatype.boolean(0.3)
+          currentLocationNotes: faker.datatype.boolean(0.3)
             ? faker.lorem.sentence()
             : undefined,
-          proof_of_delivery: proofFiles as any,
+          proofOfDelivery: proofFiles as any,
         };
 
         try {
@@ -651,7 +651,7 @@ async function seedShipments(
             .create<ShipmentsResponse>(shipmentData as ShipmentsRecord); // cast needed due to partial
           createdShipments.push(record);
           console.log(
-            `Created shipment ${record.tracking_number} for order ${order.id}`,
+            `Created shipment ${record.trackingNumber} for order ${order.id}`,
           );
         } catch (error) {
           console.error(
@@ -679,24 +679,24 @@ async function seedInvoices(
       // Most orders should have an invoice
       for (let i = 0; i < NUM_INVOICES_PER_ORDER; i++) {
         const invoicePdfFile = await createDummyFile(
-          `invoice_${order.order_id_custom}_`,
+          `invoice_${order.orderIdCustom}_`,
           'application/pdf',
         );
         const invoiceData: Partial<InvoicesRecord> = {
-          invoice_number: `INV-${faker.string.alphanumeric(7).toUpperCase()}`,
+          invoiceNumber: `INV-${faker.string.alphanumeric(7).toUpperCase()}`,
           customer: order.customer, // Use customer from order
-          order_ref: order.id,
-          invoice_date: faker.date
-            .between({ from: order.order_date, to: new Date() })
+          orderRef: order.id,
+          invoiceDate: faker.date
+            .between({ from: order.orderDate, to: new Date() })
             .toISOString(),
-          due_date: faker.date
-            .future({ years: 0.1, refDate: order.order_date })
+          dueDate: faker.date
+            .future({ years: 0.1, refDate: order.orderDate })
             .toISOString(),
-          total_amount:
-            order.total_amount ||
+          totalAmount:
+            order.totalAmount ||
             Number.parseFloat(faker.finance.amount({ min: 50, max: 5000 })),
           status: randomEnumValue(InvoicesStatusOptions),
-          invoice_pdf: invoicePdfFile as any,
+          invoicePdf: invoicePdfFile as any,
         };
         try {
           const record = await pb
@@ -704,7 +704,7 @@ async function seedInvoices(
             .create<InvoicesResponse>(invoiceData);
           createdInvoices.push(record);
           console.log(
-            `Created invoice ${record.invoice_number} for order ${order.id}`,
+            `Created invoice ${record.invoiceNumber} for order ${order.id}`,
           );
         } catch (error) {
           console.error(
@@ -741,7 +741,7 @@ async function seedPayments(
       let amountAlreadyPaid = 0;
       for (let i = 0; i < numPayments; i++) {
         let amount_paid = 0;
-        if (invoice.total_amount) {
+        if (invoice.totalAmount) {
           if (
             i === numPayments - 1 &&
             (invoice.status === InvoicesStatusOptions.paid ||
@@ -751,11 +751,11 @@ async function seedPayments(
             // last payment for paid or single partial
             amount_paid =
               invoice.status === InvoicesStatusOptions.paid
-                ? invoice.total_amount - amountAlreadyPaid
+                ? invoice.totalAmount - amountAlreadyPaid
                 : Number.parseFloat(
                     faker.finance.amount({
                       min: 1,
-                      max: (invoice.total_amount - amountAlreadyPaid) * 0.8,
+                      max: (invoice.totalAmount - amountAlreadyPaid) * 0.8,
                     }),
                   );
           } else {
@@ -763,13 +763,13 @@ async function seedPayments(
             amount_paid = Number.parseFloat(
               faker.finance.amount({
                 min: 10,
-                max: Math.max(10, (invoice.total_amount || 100) / numPayments),
+                max: Math.max(10, (invoice.totalAmount || 100) / numPayments),
               }),
             );
           }
           amount_paid = Math.max(
             0,
-            Math.min(amount_paid, invoice.total_amount - amountAlreadyPaid),
+            Math.min(amount_paid, invoice.totalAmount - amountAlreadyPaid),
           ); // ensure not overpaying
         } else {
           amount_paid = Number.parseFloat(
@@ -780,30 +780,30 @@ async function seedPayments(
 
         const paymentData: Partial<PaymentsRecord> = {
           invoice: invoice.id,
-          payment_date: faker.date
-            .between({ from: invoice.invoice_date, to: new Date() })
+          paymentDate: faker.date
+            .between({ from: invoice.invoiceDate, to: new Date() })
             .toISOString(),
-          amount_paid,
-          payment_method: randomEnumValue(PaymentsPaymentMethodOptions),
+          amountPaid:amount_paid,
+          paymentMethod: randomEnumValue(PaymentsPaymentMethodOptions),
           status:
             invoice.status === InvoicesStatusOptions.paid &&
             i === numPayments - 1
               ? PaymentsStatusOptions.completed
               : randomEnumValue(PaymentsStatusOptions),
-          transaction_id: faker.finance.ethereumAddress(), // Using ethereumAddress as a generic transaction ID
+          transactionId: faker.finance.ethereumAddress(), // Using ethereumAddress as a generic transaction ID
           notes: faker.datatype.boolean(0.2)
             ? faker.lorem.sentence()
             : undefined,
         };
 
-        if (paymentData.amount_paid && paymentData.amount_paid > 0) {
+        if (paymentData.amountPaid && paymentData.amountPaid > 0) {
           try {
             const record = await pb
               .collection(Collections.Payments)
               .create<PaymentsResponse>(paymentData);
             createdPayments.push(record);
             console.log(
-              `Created payment for invoice ${invoice.id} with amount ${paymentData.amount_paid}`,
+              `Created payment for invoice ${invoice.id} with amount ${paymentData.amountPaid}`,
             );
           } catch (error) {
             console.error(
@@ -861,28 +861,28 @@ async function seedTasks(
       title: faker.hacker
         .phrase()
         .replace(/^./, (match) => match.toUpperCase()),
-      description: `<p>${faker.lorem.paragraphs({ min: 1, max: 3 })}</p>`,
+      description: faker.lorem.paragraphs({ min: 1, max: 3 }),
       status: randomEnumValue(TasksStatusOptions),
       priority: randomEnumValue(TasksPriorityOptions),
       assigner: assigner.id,
       assignees,
       department: faker.helpers.arrayElement(allDepartments).id,
       attachments: attachmentFiles as any,
-      due_date: faker.datatype.boolean(0.7)
+      dueDate: faker.datatype.boolean(0.7)
         ? faker.date.future().toISOString()
         : undefined,
       tags: faker.datatype.boolean(0.5)
         ? randomEnumValue(TasksTagsOptions)
         : undefined, // single tag as per type
-      order_ref:
+      orderRef:
         allOrders.length > 0 && faker.datatype.boolean(0.2)
           ? faker.helpers.arrayElement(allOrders).id
           : undefined,
-      related_shipment:
+      relatedShipment:
         allShipments.length > 0 && faker.datatype.boolean(0.15)
           ? faker.helpers.arrayElement(allShipments).id
           : undefined,
-      kanban_order: faker.number.int({ min: 0, max: 1000 }),
+      kanbanOrder: faker.number.int({ min: 0, max: 1000 }),
     };
     try {
       const record = await pb
@@ -925,11 +925,11 @@ async function seedChatRooms(
           : undefined,
       participants,
       type: roomType,
-      related_order:
+      relatedOrder:
         roomType === ChatRoomsTypeOptions.order_chat && allOrders.length > 0
           ? faker.helpers.arrayElement(allOrders).id
           : undefined,
-      last_message_at: faker.date.recent({ days: 30 }).toISOString(), // Will be updated by messages
+      lastMessageAt: faker.date.recent({ days: 30 }).toISOString(), // Will be updated by messages
     };
 
     try {
@@ -991,9 +991,9 @@ async function seedChatMessages(
       const messageData: Partial<ChatMessagesRecord> = {
         room: room.id,
         sender: sender.id,
-        content: `<p>${faker.lorem.sentence()}</p>`,
+        content: faker.lorem.sentence(),
         attachments: attachmentFiles as any,
-        read_by: faker.helpers
+        readBy: faker.helpers
           .arrayElements(
             roomParticipants.filter((p) => p.id !== sender.id),
             { min: 0, max: roomParticipants.length - 1 },
@@ -1068,9 +1068,9 @@ async function seedTaskMessages(
       const messageData: Partial<TaskMessagesRecord> = {
         task: task.id,
         sender: sender.id,
-        content: `<p>${faker.lorem.sentence()}</p>`,
+        content: faker.lorem.sentence(),
         attachments: attachmentFiles as any,
-        read_by: faker.helpers
+        readBy: faker.helpers
           .arrayElements(
             taskParticipants.filter((p) => p.id !== sender.id),
             { min: 0, max: taskParticipants.length - 1 },
@@ -1110,21 +1110,21 @@ async function seedRoutes(
 
   for (let i = 0; i < NUM_ROUTES; i++) {
     const routeData: Partial<RoutesRecord> = {
-      route_name: `Route ${faker.string.alphanumeric(6).toUpperCase()}`,
-      driver_assigned:
+      routeName: `Route ${faker.string.alphanumeric(6).toUpperCase()}`,
+      driverAssigned:
         driverUsers.length > 0 && faker.datatype.boolean(0.8)
           ? faker.helpers.arrayElement(driverUsers).id
           : undefined,
-      vehicle_assigned:
+      vehicleAssigned:
         allVehicles.length > 0 && faker.datatype.boolean(0.8)
           ? faker.helpers.arrayElement(allVehicles).id
           : undefined,
-      planned_start_time: faker.date.soon({ days: 5 }).toISOString(),
-      planned_end_time: faker.date.soon({ days: 7 }).toISOString(), // Ensure end is after start
+      plannedStartTime: faker.date.soon({ days: 5 }).toISOString(),
+      plannedEndTime: faker.date.soon({ days: 7 }).toISOString(), // Ensure end is after start
       status: randomEnumValue(RoutesStatusOptions),
       // shipments_on_route is RecordIdString, so one shipment. Maybe primary one? Or handled by RouteSegments.
       // Let's assume it's an optional primary shipment defining the route's main purpose.
-      shipments_on_route:
+      shipmentsOnRoute:
         allShipments.length > 0 && faker.datatype.boolean(0.3)
           ? faker.helpers.arrayElement(allShipments).id
           : undefined,
@@ -1136,13 +1136,13 @@ async function seedRoutes(
         : undefined,
     };
     if (
-      routeData.planned_start_time &&
-      routeData.planned_end_time &&
-      new Date(routeData.planned_end_time) <
-        new Date(routeData.planned_start_time)
+      routeData.plannedStartTime &&
+      routeData.plannedEndTime &&
+      new Date(routeData.plannedEndTime) <
+        new Date(routeData.plannedStartTime)
     ) {
-      routeData.planned_end_time = faker.date
-        .future({ refDate: routeData.planned_start_time })
+      routeData.plannedEndTime = faker.date
+        .future({ refDate: routeData.plannedStartTime })
         .toISOString();
     }
 
@@ -1151,10 +1151,10 @@ async function seedRoutes(
         .collection(Collections.Routes)
         .create<RoutesResponse>(routeData);
       createdRoutes.push(record);
-      console.log(`Created route: ${record.route_name} (ID: ${record.id})`);
+      console.log(`Created route: ${record.routeName} (ID: ${record.id})`);
     } catch (error) {
       console.error(
-        `Failed to create route ${routeData.route_name}:`,
+        `Failed to create route ${routeData.routeName}:`,
         (error as any)?.response?.data || error,
       );
     }
@@ -1175,8 +1175,8 @@ async function seedRouteSegments(
       min: 2,
       max: NUM_ROUTE_SEGMENTS_PER_ROUTE_MAX,
     });
-    let lastTime = route.planned_start_time
-      ? new Date(route.planned_start_time)
+    let lastTime = route.plannedStartTime
+      ? new Date(route.plannedStartTime)
       : new Date();
 
     for (let i = 0; i < numSegments; i++) {
@@ -1190,20 +1190,20 @@ async function seedRouteSegments(
 
       const segmentData: Partial<RouteSegmentsRecord> = {
         route: route.id,
-        sequence_number: i + 1,
-        segment_type: segmentType,
-        address_text:
+        sequenceNumber: i + 1,
+        segmentType: segmentType,
+        addressText:
           segmentType !== RouteSegmentsSegmentTypeOptions.waypoint
-            ? `<p>${faker.location.streetAddress(true)}</p>`
+            ? faker.location.streetAddress(true)
             : undefined,
         latitude: faker.location.latitude().toString(),
         longitude: faker.location.longitude().toString(),
-        estimated_arrival_time: estArrival.toISOString(),
-        estimated_departure_time: estDeparture.toISOString(),
+        estimatedArrivalTime: estArrival.toISOString(),
+        estimatedDepartureTime: estDeparture.toISOString(),
         instructions: faker.datatype.boolean(0.4)
           ? faker.lorem.sentence()
           : undefined,
-        related_shipment:
+        relatedShipment:
           (segmentType === RouteSegmentsSegmentTypeOptions.pickup ||
             segmentType === RouteSegmentsSegmentTypeOptions.delivery) &&
           allShipments.length > 0 &&
@@ -1218,7 +1218,7 @@ async function seedRouteSegments(
           .create<RouteSegmentsResponse>(segmentData);
         createdSegments.push(record);
         console.log(
-          `Created route segment ${record.sequence_number} for route ${route.id}`,
+          `Created route segment ${record.sequenceNumber} for route ${route.id}`,
         );
       } catch (error) {
         console.error(
@@ -1255,19 +1255,19 @@ async function seedInventoryItems(
           const itemData: Partial<InventoryItemsRecord> = {
             product: product.id,
             warehouse: warehouse.id,
-            quantity_on_hand: faker.number.int({ min: 0, max: 500 }),
+            quantityOnHand: faker.number.int({ min: 0, max: 500 }),
             status: randomEnumValue(InventoryItemsStatusOptions),
-            lot_number: faker.datatype.boolean(0.6)
+            lotNumber: faker.datatype.boolean(0.6)
               ? faker.string.alphanumeric(10)
               : undefined,
-            serial_number: faker.datatype.boolean(0.3)
+            serialNumber: faker.datatype.boolean(0.3)
               ? faker.string.uuid()
               : undefined,
-            expiry_date: faker.datatype.boolean(0.2)
+            expiryDate: faker.datatype.boolean(0.2)
               ? faker.date.future({ years: 2 }).toISOString()
               : undefined,
-            last_counted_date: faker.date.recent({ days: 90 }).toISOString(),
-            storage_location_code: `LOC-${faker.string.alphanumeric(5).toUpperCase()}`,
+            lastCountedDate: faker.date.recent({ days: 90 }).toISOString(),
+            storageLocationCode: `LOC-${faker.string.alphanumeric(5).toUpperCase()}`,
           };
           try {
             const record = await pb
@@ -1306,8 +1306,8 @@ async function seedNotifications(
     const notificationData: Partial<NotificationsRecord> = {
       user: user.id,
       title: faker.company.catchPhrase(),
-      message: `<p>${faker.lorem.sentence()}</p>`, // Message is HTMLString in some definitions, ensure this
-      is_read: faker.datatype.boolean(0.3), // if you add an is_read field
+      message: faker.lorem.sentence(), // Message is HTMLString in some definitions, ensure this
+      isRead: faker.datatype.boolean(0.3), // if you add an is_read field
     };
     try {
       const record = await pb
@@ -1368,12 +1368,12 @@ async function seedDatabase() {
     // Update companies with primary contacts if any were missed or to use newly created users
     for (const company of companies) {
       if (
-        !company.primary_contact_person &&
+        !company.primaryContactPerson &&
         users.length > 0 &&
         faker.datatype.boolean(0.3)
       ) {
         await pb.collection(Collections.Companies).update(company.id, {
-          primary_contact_person: faker.helpers.arrayElement(users).id,
+          primaryContactPerson: faker.helpers.arrayElement(users).id,
         });
       }
     }
