@@ -110,7 +110,7 @@ const NewWarehouseForm = () => {
               {(field) => (
                 <field.SingleSelectField
                   containerProps={{ className: 'col-span-4' }}
-                  labelProps={{ children: '* Latitude' }}
+                  labelProps={{ children: '* Manager' }}
                   options={
                     users.data?.items.map((user) => ({
                       label: user.name,
