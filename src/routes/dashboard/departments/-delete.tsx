@@ -1,0 +1,78 @@
+import { Route } from '.';
+import { useNavigate } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
+import { Collections } from '../../../../lib/pocketbase.gen';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@marahuyo/react-ui/ui/alert-dialog';
+
+const DeleteDepartmentForm = () => {
+  const searchQuery = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  const deleteDepartmentMutation = useMutateRemoveRecord(
+    Collections.Departments,
+    searchQuery.id || '',
+  );
+
+  const department = useQuery(
+    viewRecordsQuery(Collections.Departments, searchQuery.id),
+  );
+
+  return (
+    <AlertDialog open={searchQuery.deleteDepartment}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            Are you sure you want to delete `{department.data?.name}`
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Deleting this company will be permanent
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction
+            onClick={async () => {
+              await deleteDepartmentMutation.mutateAsync(undefined, {
+                onSuccess: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      deleteDepartment: undefined,
+                      id: undefined,
+                    }),
+                  });
+                },
+              });
+            }}
+          >
+            Confirm
+          </AlertDialogAction>
+          <AlertDialogCancel
+            onClick={() =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  deleteDepartment: undefined,
+                  id: undefined,
+                }),
+              })
+            }
+          >
+            Cancel
+          </AlertDialogCancel>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+export default DeleteDepartmentForm;

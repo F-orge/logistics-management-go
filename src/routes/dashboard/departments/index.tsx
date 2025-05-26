@@ -16,6 +16,7 @@ import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort
 import { Button } from '@marahuyo/react-ui/ui/button';
 import NewDepartmentForm from './-new';
 import EditDepartmentForm from './-edit';
+import DeleteDepartmentForm from './-delete';
 
 export const Route = createFileRoute('/dashboard/departments/')({
   component: RouteComponent,
@@ -63,6 +64,7 @@ function RouteComponent() {
       </DataTable>
       {searchQuery.newDepartment && <NewDepartmentForm />}
       {searchQuery.editDepartment && <EditDepartmentForm />}
+      {searchQuery.deleteDepartment && <DeleteDepartmentForm />}
     </div>
   );
 }
