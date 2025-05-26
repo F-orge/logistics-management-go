@@ -650,7 +650,9 @@ export type ProductsRecord = {
 	cost: number
 	created?: IsoDateString
 	description?: HTMLString
-	dimensions: string
+	dimensionsHeight: number
+	dimensionsLength: number
+	dimensionsWidth: number
 	id: string
 	image: string[]
 	name: string
@@ -671,7 +673,7 @@ export type ProductsOverallKPIRecord<TaverageProductCost = unknown> = {
 export type ProductsSupplierKPIRecord = {
 	id: string
 	productCountPerSupplier?: number
-	supplierId?: RecordIdString
+	supplierId: RecordIdString
 }
 
 export enum RouteSegmentsSegmentTypeOptions {
@@ -1108,7 +1110,7 @@ export type WarehousesRecord = {
 
 export type WarehousesManagerKPIRecord = {
 	id: string
-	managerId?: RecordIdString
+	managerId: RecordIdString
 	warehouseCountPerManager?: number
 }
 
