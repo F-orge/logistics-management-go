@@ -32,13 +32,10 @@ const EditCompanyForm = () => {
 
   const [users, company] = useQueries({
     queries: [
-      listRecordsQuery<UsersResponse>(
-        Collections.Users,
-        { page: 1, perPage: 500 },
-        {
-          filter: "role = 'customer_rep'",
-        },
-      ),
+      listRecordsQuery<UsersResponse>(Collections.Users, {
+        page: 1,
+        perPage: 500,
+      }),
       viewRecordsQuery<CompaniesResponse>(
         Collections.Companies,
         searchQuery.id || '',
@@ -71,7 +68,7 @@ const EditCompanyForm = () => {
       }),
   });
 
-  if (company.isLoading) {
+  if (company.isLoading && users.isLoading) {
     return <>Loading...</>;
   }
 
@@ -162,6 +159,9 @@ const EditCompanyForm = () => {
                       value: user.id,
                     })) || []
                   }
+                  selectProps={{
+                    defaultValue: company.data?.primaryContactPerson,
+                  }}
                 />
               )}
             </form.AppField>

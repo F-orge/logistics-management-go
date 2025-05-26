@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route } from '.';
 import { useNavigate } from '@tanstack/react-router';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
@@ -12,7 +11,6 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import {
   listRecordsQuery,
-  useMutateCreateRecord,
   useMutateUpdateRecord,
   viewRecordsQuery,
 } from '../../../queries';
@@ -21,6 +19,8 @@ import {
   type UsersResponse,
 } from '../../../../lib/pocketbase.gen';
 import type { ExpandedDepartmentResponse } from './-columns';
+import { useFiles } from '../../../hooks/useFile';
+import { closeDialogButtonRef } from '../../../../lib/utils';
 
 const EditDepartmentForm = () => {
   const searchQuery = Route.useSearch();
@@ -31,15 +31,25 @@ const EditDepartmentForm = () => {
     searchQuery.id || '',
   );
 
-  const department = useQuery(
-    viewRecordsQuery<ExpandedDepartmentResponse>(
+  const department = useQuery({
+    ...viewRecordsQuery<ExpandedDepartmentResponse>(
       Collections.Departments,
       searchQuery.id,
       {
         expand: 'managers,employees',
       },
     ),
-  );
+    select: (data) => ({
+      ...data,
+      avatar: `/api/files/departments/${data.id}/${data.avatar}`,
+      coverPhoto: `/api/files/departments/${data.id}/${data.coverPhoto}`,
+    }),
+  });
+
+  const files = useFiles([
+    department.data?.avatar,
+    department.data?.coverPhoto,
+  ]);
 
   const users = useQuery(
     listRecordsQuery<UsersResponse>(Collections.Users, {
@@ -51,37 +61,52 @@ const EditDepartmentForm = () => {
   const form = useAppForm({
     defaultValues: {
       name: department.data?.name ?? '',
-      avatar: [department.data?.avatar].map(
-        (file) => `/api/files/departments/${searchQuery.id}/${file}`,
-      ),
-      coverPhoto: [department.data?.coverPhoto].map(
-        (file) => `/api/files/departments/${searchQuery.id}/${file}`,
-      ),
+      avatar: files.data ? [files.data[0]] : [],
+      coverPhoto: files.data ? [files.data[1]] : [],
       managers: department.data?.managers ?? [],
       employees: department.data?.employees ?? [],
     },
     onSubmit: async ({ value }) =>
       departmentsMutation.mutateAsync(
-        { ...value, avatar: value.avatar[0], coverPhoto: value.coverPhoto[0] },
+        {
+          ...value,
+        },
         {
           onSuccess: () =>
             navigate({
-              search: (prev) => ({ ...prev, editDepartment: undefined }),
+              search: (prev) => ({
+                ...prev,
+                editDepartment: undefined,
+                id: undefined,
+              }),
             }),
         },
       ),
   });
 
-  if (department.isLoading) {
+  if (department.isLoading || files.isLoading || users.isLoading) {
     return <>Loading...</>;
   }
 
   return (
     <Dialog open={searchQuery.editDepartment}>
-      <DialogContent className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar">
+      <DialogContent
+        ref={(e) =>
+          closeDialogButtonRef(e, () => {
+            navigate({
+              search: (prev) => ({
+                ...prev,
+                editDepartment: undefined,
+                id: undefined,
+              }),
+            });
+          })
+        }
+        className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
+      >
         <DialogHeader>
-          <DialogTitle>New Department</DialogTitle>
-          <DialogDescription>Create a new department</DialogDescription>
+          <DialogTitle>Edit Department</DialogTitle>
+          <DialogDescription>Edit department information</DialogDescription>
         </DialogHeader>
         <form
           className="grid grid-cols-4 gap-5"
@@ -129,6 +154,7 @@ const EditDepartmentForm = () => {
                       value: user.id,
                     })) || []
                   }
+                  multiSelectProps={{ defaultValue: department.data?.managers }}
                 />
               )}
             </form.AppField>
@@ -143,13 +169,16 @@ const EditDepartmentForm = () => {
                       value: user.id,
                     })) || []
                   }
+                  multiSelectProps={{
+                    defaultValue: department.data?.employees,
+                  }}
                 />
               )}
             </form.AppField>
             <form.SubscribeButton
               buttonProps={{
                 className: 'col-span-4',
-                children: 'Create Department',
+                children: 'Update Department',
               }}
             />
           </form.AppForm>
