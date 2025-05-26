@@ -1,5 +1,4 @@
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
-import { DataTableActionBar } from '@marahuyo/react-ui/data-table/data-table-action-bar';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
@@ -7,7 +6,6 @@ import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort
 import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { Badge } from '@marahuyo/react-ui/ui/badge';
 import { Button } from '@marahuyo/react-ui/ui/button';
-import { Dialog, DialogTrigger } from '@marahuyo/react-ui/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,9 +17,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
 import { zodValidator } from '@tanstack/zod-adapter';
 import { MoreHorizontal, Text } from 'lucide-react';
-import { Suspense } from 'react';
 import { z } from 'zod';
-import { pb } from '../../../../lib/pocketbase';
 import {
   Collections,
   type DepartmentsRecord,
@@ -241,13 +237,9 @@ function RouteComponent() {
           </Button>
         </DataTableAdvancedToolbar>
       </DataTable>
-      <Dialog open={searchQuery.editTask}>
-        <Suspense>
-          <EditTaskForm />
-        </Suspense>
-      </Dialog>
-      <DeleteTask />
-      <CreateNewTaskForm />
+      {searchQuery.editTask && <EditTaskForm />}
+      {searchQuery.newTask && <CreateNewTaskForm />}
+      {searchQuery.deleteTask && <DeleteTask />}
     </div>
   );
 }
