@@ -1,4 +1,29 @@
 "# Changelog"
+### b69f7a0: Merge pull request 50 from F-orge/49-feature---implement-crud-operation-for-companies-and-departments-collection
+49 feature   implement crud operation for companies and departments collection
+### 7dcf95c: feat: Refactor warehouse management with CRUD operations
+- Implemented new warehouse creation and editing forms with validation.
+- Added file handling for attachments in tasks and departments.
+- Enhanced user experience with loading states and improved dialog handling.
+- Removed unused warehouse routes and consolidated warehouse-related components.
+- Introduced utility functions for dialog management and file fetching.
+- Updated task and department forms to include multi-select options for users.
+- Improved data fetching logic using React Query for better performance.
+
+### d435819: Refactor dashboard routes for companies and departments
+- Removed old file-based routes for editing and viewing companies and departments.
+- Implemented new forms for creating, editing, and deleting companies and departments with improved UI components.
+- Introduced data tables for displaying companies and departments with sorting and filtering capabilities.
+- Updated query schemas for handling pagination and search parameters.
+- Added new migration for updating department collection rules.
+- Enhanced error handling and user feedback with toast notifications.
+
+### 2428309: chore(package): bump version to 0.15.0
+
+### 9171f1c: chore(changelog): update changelog with recent migration and seeding enhancements
+
+### 4983150: Merge pull request 48 from F-orge/47-improvement---improve-validation-for-all-collections
+47 improvement   improve validation for all collections
 ### 61807d4: chore(package): bump version to 0.14.0
 
 ### 2e97bab: feat: enhance seed functionality and update migrations
