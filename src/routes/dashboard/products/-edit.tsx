@@ -24,7 +24,7 @@ import { useFiles } from '../../../hooks/useFile';
 
 const EditProductForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const updateProductMutation = useMutateUpdateRecord(
     Collections.Products,

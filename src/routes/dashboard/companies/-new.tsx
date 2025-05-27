@@ -20,7 +20,7 @@ import { closeDialogButtonRef } from '../../../../lib/utils';
 
 const NewCompanyForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const companiesMutation = useMutateCreateRecord(Collections.Companies);
 

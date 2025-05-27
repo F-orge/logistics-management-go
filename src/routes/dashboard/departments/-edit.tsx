@@ -24,7 +24,7 @@ import { closeDialogButtonRef } from '../../../../lib/utils';
 
 const EditDepartmentForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const departmentsMutation = useMutateUpdateRecord(
     Collections.Departments,

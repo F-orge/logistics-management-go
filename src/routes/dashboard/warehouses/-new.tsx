@@ -19,7 +19,7 @@ import { newWarehouseFormSchema } from './-schema';
 
 const NewWarehouseForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const createWarehouseMutation = useMutateCreateRecord(Collections.Warehouses);
 

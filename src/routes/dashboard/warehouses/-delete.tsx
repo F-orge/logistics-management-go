@@ -16,7 +16,7 @@ import {
 
 const DeleteWarehouseForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const deleteWarehouseMutation = useMutateRemoveRecord(
     Collections.Warehouses,

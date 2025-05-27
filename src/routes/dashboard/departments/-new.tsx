@@ -18,7 +18,7 @@ import {
 
 const NewDepartmentForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const departmentsMutation = useMutateCreateRecord(Collections.Departments);
 

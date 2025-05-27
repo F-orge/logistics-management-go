@@ -33,7 +33,7 @@ const columns: ColumnDef<TasksResponse<{ department: DepartmentsRecord }>>[] = [
     id: 'actions',
     header: 'Action',
     cell: ({ row }) => {
-      const navigate = useNavigate({ from: Route.fullPath });
+      const navigate = Route.useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -194,7 +194,7 @@ export const Route = createFileRoute('/dashboard/tasks/')({
 
 function RouteComponent() {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const tasks = useQuery(
     listRecordsQuery<TasksResponse<{ department: DepartmentsRecord }>>(

@@ -16,7 +16,7 @@ import {
 
 const DeleteDepartmentForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const deleteDepartmentMutation = useMutateRemoveRecord(
     Collections.Departments,

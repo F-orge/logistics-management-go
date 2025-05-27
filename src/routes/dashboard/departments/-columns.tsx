@@ -26,7 +26,7 @@ export const columns: ColumnDef<ExpandedDepartmentResponse>[] = [
     id: 'actions',
     header: 'Action',
     cell: ({ row }) => {
-      const navigate = useNavigate({ from: Route.fullPath });
+      const navigate = Route.useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

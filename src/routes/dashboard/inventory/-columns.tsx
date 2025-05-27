@@ -1,11 +1,10 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import type {
-  UsersRecord,
-  WarehousesResponse,
+  InventoryItemsResponse,
+  ProductsRecord,
+  WarehousesRecord,
 } from '../../../../lib/pocketbase.gen';
 import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
-import { Badge } from '@marahuyo/react-ui/ui/badge';
-import { useNavigate } from '@tanstack/react-router';
 import { Route } from '.';
 import {
   DropdownMenu,
@@ -16,14 +15,19 @@ import {
 import { Button } from '@marahuyo/react-ui/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 
-export type ExpandedWarehouseResponse = WarehousesResponse<{
-  manager: UsersRecord;
+export type ExpandedInventoryItemsResponse = InventoryItemsResponse<{
+  product: ProductsRecord;
+  warehouse: WarehousesRecord;
 }>;
 
-export const columns: ColumnDef<ExpandedWarehouseResponse>[] = [
+export const columns: ColumnDef<ExpandedInventoryItemsResponse>[] = [
   {
     id: 'actions',
-    header: 'Action',
+    header: () => (
+      <Button variant={'ghost'} size={'sm'}>
+        Action
+      </Button>
+    ),
     cell: ({ row }) => {
       const navigate = Route.useNavigate();
       return (
@@ -41,7 +45,7 @@ export const columns: ColumnDef<ExpandedWarehouseResponse>[] = [
                   search: (prev) => ({
                     ...prev,
                     id: row.original.id,
-                    editWarehouse: true,
+                    editInventoryItem: true,
                   }),
                 })
               }
@@ -54,7 +58,7 @@ export const columns: ColumnDef<ExpandedWarehouseResponse>[] = [
                   search: (prev) => ({
                     ...prev,
                     id: row.original.id,
-                    deleteWarehouse: true,
+                    deleteInventoryItem: true,
                   }),
                 })
               }
@@ -72,75 +76,109 @@ export const columns: ColumnDef<ExpandedWarehouseResponse>[] = [
     accessorKey: 'id',
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
         title="ID"
       />
     ),
-    cell: ({ row }) => <Badge variant={'secondary'}>{row.original.id}</Badge>,
   },
   {
-    id: 'name',
-    accessorKey: 'name',
+    id: 'product',
+    accessorFn: (row) => row.expand.product.name,
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
-        title="Name"
+        title="Product"
       />
     ),
   },
   {
-    id: 'address',
-    accessorKey: 'address',
+    id: 'warehouse',
+    accessorFn: (row) => row.expand.warehouse.name,
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
-        title="Address"
+        title="Warehouse"
       />
     ),
   },
   {
-    id: 'longitude',
-    accessorKey: 'longitude',
+    id: 'quantityOnHand',
+    accessorKey: 'quantityOnHand',
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
-        title="Longitude"
+        title="Quantity on hand"
       />
-    ),
-    cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.longitude}</Badge>
     ),
   },
   {
-    id: 'latitude',
-    accessorKey: 'latitude',
+    id: 'lotNumber',
+    accessorKey: 'lotNumber',
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
-        title="Latitude"
+        title="Lot Number"
       />
-    ),
-    cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.latitude}</Badge>
     ),
   },
   {
-    id: 'manager',
+    id: 'serialNumber',
+    accessorKey: 'serialNumber',
     header: ({ column }) => (
       <DataTableColumnHeader
-        className="w-full justify-between"
+        className="justify-between w-full"
         column={column}
-        title="Manager"
+        title="Serial Number"
       />
     ),
-    accessorFn: (row) => row.expand.manager.name,
-    cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.expand.manager.name}</Badge>
+  },
+  {
+    id: 'status',
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-between w-full"
+        column={column}
+        title="Status"
+      />
+    ),
+  },
+  {
+    id: 'expiryDate',
+    accessorKey: 'expiryDate',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-between w-full"
+        column={column}
+        title="Expiry Date"
+      />
+    ),
+  },
+  {
+    id: 'storageLocationCode',
+    accessorKey: 'storageLocationCode',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-between w-full"
+        column={column}
+        title="Storage Location Code"
+      />
+    ),
+  },
+  {
+    id: 'lastCountedDate',
+    accessorKey: 'lastCountedDate',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-between w-full"
+        column={column}
+        title="Last Counted Date"
+      />
     ),
   },
 ];

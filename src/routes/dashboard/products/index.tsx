@@ -22,7 +22,7 @@ export const Route = createFileRoute('/dashboard/products/')({
 
 function RouteComponent() {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const products = useQuery(
     listRecordsQuery<ExpandedProductsResponse>(

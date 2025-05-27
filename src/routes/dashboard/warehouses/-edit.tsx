@@ -25,7 +25,7 @@ import { editWarehouseFormSchema } from './-schema';
 
 const EditWarehouseForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const updateWarehouseMutation = useMutateUpdateRecord(
     Collections.Warehouses,

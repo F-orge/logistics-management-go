@@ -19,7 +19,7 @@ import { closeDialogButtonRef } from '../../../../lib/utils';
 
 const NewProductForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const createProductMutation = useMutateCreateRecord(Collections.Products);
 

@@ -25,7 +25,7 @@ export const Route = createFileRoute('/dashboard/departments/')({
 
 function RouteComponent() {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const departments = useQuery(
     listRecordsQuery<ExpandedDepartmentResponse>(
@@ -47,8 +47,8 @@ function RouteComponent() {
   });
 
   return (
-    <div>
-      <DataTable table={table}>
+    <div className="grid grid-cols-12 gap-5">
+      <DataTable className="col-span-12" table={table}>
         <DataTableAdvancedToolbar table={table}>
           <DataTableFilterList table={table} />
           <DataTableSortList table={table} />
