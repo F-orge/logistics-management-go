@@ -1,17 +1,38 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { columns as routesColumn } from './-columns/routes';
-import { paginationConfig as routesPaginationConfig } from './-schemas/routes';
+import {
+  paginationConfig as routesPaginationConfig,
+  searchQuerySchema as routesSearchQuerySchema,
+} from './-schemas/routes';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import type React from 'react';
+import { useEffect, useMemo } from 'react';
 import { listRecordsQuery } from '../../../queries';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
+import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
+import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
+import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
+import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
+import type { ColumnDef } from '@tanstack/react-table';
+import type { ZodObject } from 'zod';
+import NewRouteForm from './-actions/routes/new';
 
 const collections = [
   {
     name: 'routes',
-    columns: routesColumn,
+    columns: routesColumn as ColumnDef<unknown>[],
     paginationConfig: routesPaginationConfig,
+    searchQueryConfig: routesSearchQuerySchema,
+    toolbarComponents: [<NewRouteForm key={1} />],
   },
-];
+] satisfies {
+  name: string;
+  columns: ColumnDef<unknown>[];
+  paginationConfig: { pageKey: string; perPageKey: string };
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  searchQueryConfig: ZodObject<any>;
+  toolbarComponents?: React.ReactNode[];
+}[];
 
 export const Route = createFileRoute('/dashboard/$collection/')({
   component: RouteComponent,
@@ -19,7 +40,8 @@ export const Route = createFileRoute('/dashboard/$collection/')({
 
 function RouteComponent() {
   const params = Route.useParams();
-  const searchQuery = Route.useSearch();
+  const searchQuery = Route.useSearch() as Record<string, unknown>;
+  const navigate = Route.useNavigate();
 
   const collectionMetadata = useMemo(
     () =>
@@ -27,9 +49,43 @@ function RouteComponent() {
     [params],
   );
 
+  useEffect(() => {
+    navigate({
+      search: (prev) => ({
+        ...collectionMetadata?.searchQueryConfig.parse({}),
+        ...prev,
+      }),
+    });
+  }, [navigate, collectionMetadata]);
+
   const collectionResponse = useQuery(
-    listRecordsQuery(collectionMetadata?.name, { page: 1, perPage: 500 }),
+    listRecordsQuery(collectionMetadata?.name || '', {
+      page: searchQuery[
+        collectionMetadata?.paginationConfig.pageKey || ''
+      ] as number,
+      perPage: searchQuery[
+        collectionMetadata?.paginationConfig.perPageKey || ''
+      ] as number,
+    }),
   );
 
-  return <div>{collectionMetadata?.name}</div>;
+  const { table } = useDataTable({
+    data: collectionResponse.data?.items || [],
+    columns: collectionMetadata?.columns || [],
+    pageCount: collectionResponse.data?.totalPages || 0,
+    pageKey: collectionMetadata?.paginationConfig.pageKey || '',
+    perPageKey: collectionMetadata?.paginationConfig.perPageKey || '',
+  });
+
+  return (
+    <div className="grid grid-cols-12">
+      <DataTable className="col-span-full" table={table}>
+        <DataTableAdvancedToolbar table={table}>
+          <DataTableFilterList table={table} />
+          <DataTableSortList table={table} />
+          {collectionMetadata?.toolbarComponents}
+        </DataTableAdvancedToolbar>
+      </DataTable>
+    </div>
+  );
 }

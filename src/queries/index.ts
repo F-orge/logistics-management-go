@@ -11,7 +11,7 @@ import { pb } from '../../lib/pocketbase';
 import type { Collections } from '../../lib/pocketbase.gen';
 
 export const listRecordsQuery = <T>(
-  collection: Collections,
+  collection: Collections | string,
   paginateOption: { page?: number; perPage?: number },
   options?: RecordOptions,
 ) =>
