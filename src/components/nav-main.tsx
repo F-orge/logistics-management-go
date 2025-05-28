@@ -21,28 +21,26 @@ export function NavMain(props: {
   }[];
 }) {
   return (
-    <>
-      <SidebarGroup>
-        {props.groups.map((group) => (
-          <div key={`sidebar-group-${group.groupName}`}>
-            <SidebarGroupLabel>{group.groupName}</SidebarGroupLabel>
-            <SidebarMenu>
-              {group.items.map((item) => (
-                <SidebarMenuItem
-                  key={`sidebar-group-${group.groupName}-${item.title}`}
-                >
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <Link to={item.url}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </div>
-        ))}
-      </SidebarGroup>
-    </>
+    <div className="overflow-y-auto overflow-x-hidden no-scrollbar">
+      {props.groups.map((group) => (
+        <SidebarGroup key={`sidebar-group-${group.groupName}`}>
+          <SidebarGroupLabel>{group.groupName}</SidebarGroupLabel>
+          <SidebarMenu>
+            {group.items.map((item) => (
+              <SidebarMenuItem
+                key={`sidebar-group-${group.groupName}-${item.title}`}
+              >
+                <SidebarMenuButton asChild tooltip={item.title}>
+                  <Link to={item.url}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      ))}
+    </div>
   );
 }

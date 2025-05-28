@@ -71,7 +71,7 @@ export const useMutateCreateRecord = <T>(
 
 export const useMutateUpdateRecord = <T>(
   collection: Collections,
-  id: string,
+  id?: string,
   options?: RecordOptions,
 ) => {
   const queryClient = useQueryClient();
@@ -82,7 +82,7 @@ export const useMutateUpdateRecord = <T>(
             [key: string]: unknown;
           }
         | FormData,
-    ) => pb.collection(collection).update<T>(id, payload, options),
+    ) => pb.collection(collection).update<T>(id || '', payload, options),
     onSuccess: () => {
       toast(`Collection \`${collection.toString()}\` updated successfully`);
       queryClient.invalidateQueries({ queryKey: [collection] });
