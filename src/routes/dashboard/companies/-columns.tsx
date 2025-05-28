@@ -3,7 +3,6 @@ import type {
   CompaniesResponse,
   UsersRecord,
 } from '../../../../lib/pocketbase.gen';
-import { useNavigate } from '@tanstack/react-router';
 import { Route } from '.';
 import {
   DropdownMenu,

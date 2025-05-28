@@ -794,12 +794,12 @@ export type ShipmentsRecord = {
 	created?: IsoDateString
 	currentLocationNotes?: string
 	departmentAssigned: RecordIdString
-	driver: RecordIdString
+	driver?: RecordIdString
 	estimatedDeliveryDate: IsoDateString
 	id: string
 	orderRef: RecordIdString
-	proofOfDelivery: string[]
-	status?: ShipmentsStatusOptions
+	proofOfDelivery?: string[]
+	status: ShipmentsStatusOptions
 	trackingNumber: string
 	updated?: IsoDateString
 }

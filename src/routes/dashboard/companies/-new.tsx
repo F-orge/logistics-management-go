@@ -59,7 +59,16 @@ const NewCompanyForm = () => {
 
   return (
     <Dialog open={searchQuery.newCompany}>
-      <DialogContent className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar">
+      <DialogContent
+        ref={(e) =>
+          closeDialogButtonRef(e, () =>
+            navigate({
+              search: (prev) => ({ ...prev, newCompany: undefined }),
+            }),
+          )
+        }
+        className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
+      >
         <DialogHeader>
           <DialogTitle>New Company</DialogTitle>
           <DialogDescription>Create new company</DialogDescription>
