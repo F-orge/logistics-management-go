@@ -142,6 +142,64 @@ const NewRouteForm = () => {
                 />
               )}
             </form.AppField>
+            <form.AppField name="plannedStartTime">
+              {(field) => (
+                <field.SingleDateInputField
+                  containerProps={{ className: 'col-span-2' }}
+                  labelProps={{ children: 'Planned start time' }}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="plannedEndTime">
+              {(field) => (
+                <field.SingleDateInputField
+                  containerProps={{ className: 'col-span-2' }}
+                  labelProps={{ children: 'Planned end time' }}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="status">
+              {(field) => (
+                <field.SingleSelectField
+                  containerProps={{ className: 'col-span-2' }}
+                  labelProps={{ children: '* Status' }}
+                  options={Object.keys(RoutesStatusOptions).map((option) => ({
+                    label: option,
+                    value: option,
+                  }))}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="longitude">
+              {(field) => (
+                <field.TextInputField
+                  containerProps={{ className: 'col-span-1' }}
+                  labelProps={{ children: '* Longitude' }}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="latitude">
+              {(field) => (
+                <field.TextInputField
+                  containerProps={{ className: 'col-span-1' }}
+                  labelProps={{ children: '* Latitude' }}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="shipmentsOnRoute">
+              {(field) => (
+                <field.MultiSelectField
+                  containerProps={{ className: 'col-span-4' }}
+                  labelProps={{ children: '* Shipments' }}
+                  options={
+                    shipments.data?.items.map((shipment) => ({
+                      label: shipment.trackingNumber,
+                      value: shipment.id,
+                    })) || []
+                  }
+                />
+              )}
+            </form.AppField>
             <form.SubscribeButton
               buttonProps={{
                 className: 'col-span-4',

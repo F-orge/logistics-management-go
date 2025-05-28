@@ -1,0 +1,247 @@
+import type { z } from 'zod';
+import { Route } from '../..';
+import type { searchQuerySchema } from '../../-schemas/routes';
+import {
+  listRecordsQuery,
+  useMutateCreateRecord,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../../../queries';
+import {
+  Collections,
+  type RoutesResponse,
+  RoutesStatusOptions,
+  type ShipmentsResponse,
+  type UsersResponse,
+  type VehiclesResponse,
+} from '../../../../../../lib/pocketbase.gen';
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { useQueries, useQueryClient } from '@tanstack/react-query';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@marahuyo/react-ui/ui/dialog';
+import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import { useEffect } from 'react';
+
+const EditRouteForm = () => {
+  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const navigate = Route.useNavigate();
+  const queryClient = useQueryClient();
+
+  const editRouteMutation = useMutateUpdateRecord(
+    Collections.Routes,
+    searchQuery.id,
+  );
+
+  const [route, vehicles, drivers, shipments] = useQueries({
+    queries: [
+      viewRecordsQuery<RoutesResponse>(Collections.Routes, searchQuery.id),
+      listRecordsQuery<VehiclesResponse>(Collections.Vehicles, {
+        page: 1,
+        perPage: 500,
+      }),
+      listRecordsQuery<UsersResponse>(
+        Collections.Users,
+        { page: 1, perPage: 500 },
+        { filter: "role = 'delivery_driver'" },
+      ),
+      listRecordsQuery<ShipmentsResponse>(Collections.Shipments, {
+        page: 1,
+        perPage: 500,
+      }),
+    ],
+  });
+
+  const form = useAppForm({
+    defaultValues: {
+      routeName: route.data?.routeName,
+      vehicleAssigned: route.data?.vehicleAssigned,
+      driverAssigned: route.data?.driverAssigned,
+      plannedStartTime: route.data?.plannedStartTime
+        ? new Date(route.data?.plannedStartTime)
+        : '',
+      plannedEndTime: route.data?.plannedEndTime
+        ? new Date(route.data?.plannedEndTime)
+        : '',
+      status: route.data?.status,
+      latitude: route.data?.latitude,
+      longitude: route.data?.longitude,
+      shipmentsOnRoute: route.data?.shipmentsOnRoute,
+    },
+    onSubmit: async ({ value }) =>
+      editRouteMutation.mutateAsync(value, {
+        onSuccess: () =>
+          navigate({
+            search: (prev) => ({
+              ...prev,
+              editRoute: undefined,
+              id: undefined,
+            }),
+          }),
+      }),
+  });
+
+  if (
+    vehicles.isLoading ||
+    drivers.isLoading ||
+    shipments.isLoading ||
+    route.isLoading
+  ) {
+    return <></>;
+  }
+
+  return (
+    <>
+      {searchQuery.editRoute && (
+        <Dialog open={searchQuery.editRoute}>
+          <DialogContent
+            className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
+            ref={(e) =>
+              closeDialogButtonRef(e, () =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    editRoute: undefined,
+                    id: undefined,
+                  }),
+                }),
+              )
+            }
+          >
+            <DialogHeader>
+              <DialogTitle>Edit Route</DialogTitle>
+              <DialogDescription>Edit route information</DialogDescription>
+            </DialogHeader>
+            <form
+              className="grid grid-cols-4 gap-5"
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
+            >
+              <form.AppForm>
+                <form.AppField name="routeName">
+                  {(field) => (
+                    <field.TextInputField
+                      containerProps={{ className: 'col-span-4' }}
+                      labelProps={{ children: '* Route name' }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="vehicleAssigned">
+                  {(field) => (
+                    <field.SingleSelectField
+                      containerProps={{ className: 'col-span-2' }}
+                      labelProps={{ children: '* Vehicle' }}
+                      options={
+                        vehicles.data?.items.map((vehicle) => ({
+                          label: vehicle.licensePlate,
+                          value: vehicle.id,
+                        })) || []
+                      }
+                      selectProps={{
+                        defaultValue: route.data?.vehicleAssigned,
+                      }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="driverAssigned">
+                  {(field) => (
+                    <field.SingleSelectField
+                      containerProps={{ className: 'col-span-2' }}
+                      labelProps={{ children: '* Driver' }}
+                      options={
+                        drivers.data?.items.map((driver) => ({
+                          label: driver.name,
+                          value: driver.id,
+                        })) || []
+                      }
+                      selectProps={{ defaultValue: route.data?.driverAssigned }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="plannedStartTime">
+                  {(field) => (
+                    <field.SingleDateInputField
+                      containerProps={{ className: 'col-span-2' }}
+                      labelProps={{ children: 'Planned start time' }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="plannedEndTime">
+                  {(field) => (
+                    <field.SingleDateInputField
+                      containerProps={{ className: 'col-span-2' }}
+                      labelProps={{ children: 'Planned end time' }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="status">
+                  {(field) => (
+                    <field.SingleSelectField
+                      containerProps={{ className: 'col-span-2' }}
+                      labelProps={{ children: '* Status' }}
+                      options={Object.keys(RoutesStatusOptions).map(
+                        (option) => ({
+                          label: option,
+                          value: option,
+                        }),
+                      )}
+                      selectProps={{ defaultValue: route.data?.status }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="longitude">
+                  {(field) => (
+                    <field.TextInputField
+                      containerProps={{ className: 'col-span-1' }}
+                      labelProps={{ children: '* Longitude' }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="latitude">
+                  {(field) => (
+                    <field.TextInputField
+                      containerProps={{ className: 'col-span-1' }}
+                      labelProps={{ children: '* Latitude' }}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="shipmentsOnRoute">
+                  {(field) => (
+                    <field.MultiSelectField
+                      containerProps={{ className: 'col-span-4' }}
+                      labelProps={{ children: '* Shipments' }}
+                      options={
+                        shipments.data?.items.map((shipment) => ({
+                          label: shipment.trackingNumber,
+                          value: shipment.id,
+                        })) || []
+                      }
+                      multiSelectProps={{
+                        defaultValue: route.data?.shipmentsOnRoute,
+                      }}
+                    />
+                  )}
+                </form.AppField>
+                <form.SubscribeButton
+                  buttonProps={{
+                    className: 'col-span-4',
+                    children: 'Create Route',
+                  }}
+                />
+              </form.AppForm>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+};
+
+export default EditRouteForm;

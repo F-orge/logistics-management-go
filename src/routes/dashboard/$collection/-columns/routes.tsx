@@ -1,8 +1,70 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import type { ExpandedRoutesResponse } from '../-schemas/routes';
 import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@marahuyo/react-ui/ui/dropdown-menu';
+import { Button } from '@marahuyo/react-ui/ui/button';
+import { MoreHorizontal } from 'lucide-react';
+import { Route } from '..';
+import EditRouteForm from '../-actions/routes/edit';
 
 export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
+  {
+    id: 'Actions',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="w-full justify-between"
+        column={column}
+        title="Actions"
+      />
+    ),
+    cell: ({ row }) => {
+      const navigate = Route.useNavigate();
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant={'ghost'} size={'icon'}>
+              <MoreHorizontal className="size-4" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              onClick={() =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    editRoute: true,
+                    id: row.original.id,
+                  }),
+                })
+              }
+            >
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    deleteRoute: true,
+                    id: row.original.id,
+                  }),
+                })
+              }
+              variant="destructive"
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
   {
     id: 'id',
     accessorKey: 'id',

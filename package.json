@@ -18,7 +18,7 @@
     "generate-changelog": "git log --date-order --pretty=format:'### %h: %s%n%b' | sed -E 's|Merge pull request #([0-9]*) from ([^/]*)/(.*)|Merge pull request \\1 from \\2/\\3|g' | sed -E 's/Merge branch (.*)/\\n## Merge branch \\1\\n/g' > temp_changelog.md && if [ ! -f \\\"CHANGELOG.md\\\" ]; then echo \\\"# Changelog\\\" > CHANGELOG.md; cat temp_changelog.md >> CHANGELOG.md; else echo \\\"\\\" >> CHANGELOG.md; cat temp_changelog.md >> CHANGELOG.md; fi && rm temp_changelog.md && echo \\\"CHANGELOG.md file generated successfully!\\\""
   },
   "dependencies": {
-    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#fe55ff3",
+    "@marahuyo/react-ui": "git+ssh://github.com/Marahuyo-Developers/ui.git#680d52b",
     "@tanstack/react-form": "^1.11.1",
     "@tanstack/react-query": "^5.76.0",
     "@tanstack/react-router": "^1.120.3",

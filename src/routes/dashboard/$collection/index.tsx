@@ -5,8 +5,7 @@ import {
   searchQuerySchema as routesSearchQuerySchema,
 } from './-schemas/routes';
 import { useQuery } from '@tanstack/react-query';
-import type React from 'react';
-import { useEffect, useMemo } from 'react';
+import { type JSX, useEffect, useMemo } from 'react';
 import { listRecordsQuery } from '../../../queries';
 import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
@@ -16,6 +15,8 @@ import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort
 import type { ColumnDef } from '@tanstack/react-table';
 import type { ZodObject } from 'zod';
 import NewRouteForm from './-actions/routes/new';
+import EditRouteForm from './-actions/routes/edit';
+import DeleteRouteForm from './-actions/routes/delete';
 
 const collections = [
   {
@@ -23,7 +24,19 @@ const collections = [
     columns: routesColumn as ColumnDef<unknown>[],
     paginationConfig: routesPaginationConfig,
     searchQueryConfig: routesSearchQuerySchema,
-    toolbarComponents: [<NewRouteForm key={1} />],
+    toolbarComponents: [
+      () => <NewRouteForm key={1} />,
+      () => {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        const searchQuery = Route.useSearch() as Record<string, any>;
+        return (
+          <>
+            {searchQuery.editRoute && <EditRouteForm key={2} />}
+            {searchQuery.deleteRoute && <DeleteRouteForm key={2} />}
+          </>
+        );
+      },
+    ],
   },
 ] satisfies {
   name: string;
@@ -31,7 +44,7 @@ const collections = [
   paginationConfig: { pageKey: string; perPageKey: string };
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   searchQueryConfig: ZodObject<any>;
-  toolbarComponents?: React.ReactNode[];
+  toolbarComponents?: (() => JSX.Element)[];
 }[];
 
 export const Route = createFileRoute('/dashboard/$collection/')({
@@ -83,7 +96,7 @@ function RouteComponent() {
         <DataTableAdvancedToolbar table={table}>
           <DataTableFilterList table={table} />
           <DataTableSortList table={table} />
-          {collectionMetadata?.toolbarComponents}
+          {collectionMetadata?.toolbarComponents.map((el) => el())}
         </DataTableAdvancedToolbar>
       </DataTable>
     </div>
