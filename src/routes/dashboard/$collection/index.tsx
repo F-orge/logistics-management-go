@@ -12,40 +12,7 @@ import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { ZodObject } from 'zod';
-import NewRouteForm from './-actions/routes/new';
-import EditRouteForm from './-actions/routes/edit';
-import DeleteRouteForm from './-actions/routes/delete';
-
-const collections = [
-  {
-    name: 'routes',
-    columns: routesColumn as ColumnDef<unknown>[],
-    paginationConfig: routesPaginationConfig,
-    searchQueryConfig: routesSearchQuerySchema,
-    toolbarComponents: [
-      () => <NewRouteForm key={1} />,
-      () => {
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const searchQuery = Route.useSearch() as Record<string, any>;
-        return (
-          <>
-            {searchQuery.editRoute && <EditRouteForm key={2} />}
-            {searchQuery.deleteRoute && <DeleteRouteForm key={2} />}
-          </>
-        );
-      },
-    ],
-  },
-] satisfies {
-  name: string;
-  columns: ColumnDef<unknown>[];
-  paginationConfig: { pageKey: string; perPageKey: string };
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  searchQueryConfig: ZodObject<any>;
-  toolbarComponents?: (() => JSX.Element)[];
-}[];
+import collections from './-collections';
 
 export const Route = createFileRoute('/dashboard/$collection/')({
   component: RouteComponent,
@@ -72,14 +39,18 @@ function RouteComponent() {
   }, [navigate, collectionMetadata]);
 
   const collectionResponse = useQuery(
-    listRecordsQuery(collectionMetadata?.name || '', {
-      page: searchQuery[
-        collectionMetadata?.paginationConfig.pageKey || ''
-      ] as number,
-      perPage: searchQuery[
-        collectionMetadata?.paginationConfig.perPageKey || ''
-      ] as number,
-    }),
+    listRecordsQuery(
+      collectionMetadata?.name || '',
+      {
+        page: searchQuery[
+          collectionMetadata?.paginationConfig.pageKey || ''
+        ] as number,
+        perPage: searchQuery[
+          collectionMetadata?.paginationConfig.perPageKey || ''
+        ] as number,
+      },
+      collectionMetadata?.recordOption,
+    ),
   );
 
   const { table } = useDataTable({

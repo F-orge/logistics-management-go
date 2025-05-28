@@ -10,7 +10,9 @@ import {
 import { Button } from '@marahuyo/react-ui/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import { Route } from '..';
-import EditRouteForm from '../-actions/routes/edit';
+import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { format } from 'date-fns';
+import { MultiSelect } from '@marahuyo/react-ui/ui/multi-select';
 
 export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
   {
@@ -75,6 +77,7 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         title="ID"
       />
     ),
+    cell: ({ row }) => <Badge variant={'outline'}>{row.original.id}</Badge>,
   },
   {
     id: 'routeName',
@@ -85,6 +88,9 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         column={column}
         title="Route Name"
       />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>{row.original.routeName}</Badge>
     ),
   },
   {
@@ -97,6 +103,11 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         title="Vehicle Assigned"
       />
     ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>
+        {row.original.expand.vehicleAssigned?.licensePlate || 'Not Available'}
+      </Badge>
+    ),
   },
   {
     id: 'driverAssigned',
@@ -107,6 +118,11 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         column={column}
         title="Driver Assigned"
       />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>
+        {row.original.expand.driverAssigned?.name || 'Not Available'}
+      </Badge>
     ),
   },
   {
@@ -119,6 +135,12 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         title="Planned Start Time"
       />
     ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>
+        {format(row.original.plannedStartTime, 'MM/dd/yyyy hh:mm aa') ??
+          'Not Available'}
+      </Badge>
+    ),
   },
   {
     id: 'plannedEndTime',
@@ -129,6 +151,12 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         column={column}
         title="Planned End time"
       />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>
+        {format(row.original.plannedEndTime, 'MM/dd/yyyy hh:mm aa') ??
+          'Not Available'}
+      </Badge>
     ),
   },
   {
@@ -141,6 +169,9 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         title="Status"
       />
     ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>{row.original.status}</Badge>
+    ),
   },
   {
     id: 'longitude',
@@ -151,6 +182,9 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         column={column}
         title="Longitude"
       />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>{row.original.longitude}</Badge>
     ),
   },
   {
@@ -163,16 +197,8 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
         title="Latitude"
       />
     ),
-  },
-  {
-    id: 'shipmentsOnRoute',
-    accessorKey: 'shipmentsOnRoute',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-full justify-between"
-        column={column}
-        title="Shipment On Route"
-      />
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>{row.original.latitude}</Badge>
     ),
   },
 ];

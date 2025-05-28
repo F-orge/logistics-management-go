@@ -9,7 +9,7 @@ import type {
 export type ExpandedRoutesResponse = RoutesResponse<{
   vehicleAssigned?: VehiclesRecord;
   driverAssigned?: UsersRecord;
-  shipmentsOnRoute?: ShipmentsRecord;
+  shipmentsOnRoute?: ShipmentsRecord[];
 }>;
 
 export const searchQuerySchema = z.object({
