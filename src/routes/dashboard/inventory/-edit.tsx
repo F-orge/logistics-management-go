@@ -56,9 +56,13 @@ const EditInventoryItemForm = () => {
       lotNumber: inventoryItem.data?.lotNumber,
       serialNumber: inventoryItem.data?.serialNumber,
       status: inventoryItem.data?.status,
-      expiryDate: inventoryItem.data?.expiryDate,
+      expiryDate: inventoryItem.data?.expiryDate
+        ? new Date(inventoryItem.data?.expiryDate)
+        : '',
       storageLocationCode: inventoryItem.data?.storageLocationCode,
-      lastCountedDate: inventoryItem.data?.lastCountedDate,
+      lastCountedDate: inventoryItem.data?.lastCountedDate
+        ? new Date(inventoryItem.data?.lastCountedDate)
+        : '',
     },
     onSubmit: async ({ value }) =>
       updateInventoryMutation.mutateAsync(value, {

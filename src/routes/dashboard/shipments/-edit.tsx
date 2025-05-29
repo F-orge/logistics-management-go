@@ -77,8 +77,12 @@ const EditShipmentForm = () => {
       trackingNumber: shipment.data?.trackingNumber,
       carrier: shipment.data?.carrier,
       status: shipment.data?.status,
-      estimatedDeliveryDate: shipment.data?.estimatedDeliveryDate,
-      actualDeliveryDate: shipment.data?.actualDeliveryDate,
+      estimatedDeliveryDate: shipment.data?.estimatedDeliveryDate
+        ? new Date(shipment.data?.estimatedDeliveryDate)
+        : '',
+      actualDeliveryDate: shipment.data?.actualDeliveryDate
+        ? new Date(shipment.data?.actualDeliveryDate)
+        : '',
       proofOfDelivery: proofOfDeliveryImages.data || [],
       driver: shipment.data?.driver,
       currentLocationNotes: shipment.data?.currentLocationNotes,
