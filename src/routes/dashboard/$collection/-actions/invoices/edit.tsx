@@ -15,7 +15,10 @@ import {
   InvoicesStatusOptions,
   type OrdersResponse,
 } from '../../../../../../lib/pocketbase.gen';
-import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  checkPermission,
+  closeDialogButtonRef,
+} from '../../../../../../lib/utils';
 import { useFiles } from '../../../../../hooks/useFile';
 import {
   listRecordsQuery,
@@ -82,7 +85,8 @@ const EditInvoiceForm = () => {
           customers.isLoading ||
           invoice.isLoading ||
           invoicePDFFile.isLoading
-        )
+        ) &&
+        checkPermission(['executive', 'finance_dept'])
       }
     >
       <DialogContent

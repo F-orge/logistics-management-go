@@ -9,7 +9,6 @@ export const closeDialogButtonRef = (
 import {
   Boxes,
   BriefcaseBusiness,
-  ClipboardList,
   Container,
   CreditCard,
   Forklift,
@@ -23,6 +22,11 @@ import {
   Waypoints,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { pb } from './pocketbase';
+
+export function checkPermission(roles: string[]) {
+  return roles.includes(pb.authStore.record?.role || '');
+}
 
 // Define all possible user roles
 export type UserRole =

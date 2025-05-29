@@ -16,7 +16,10 @@ import {
   InvoicesStatusOptions,
   type OrdersResponse,
 } from '../../../../../../lib/pocketbase.gen';
-import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  checkPermission,
+  closeDialogButtonRef,
+} from '../../../../../../lib/utils';
 import {
   listRecordsQuery,
   useMutateCreateRecord,
@@ -63,9 +66,7 @@ const NewInvoiceForm = () => {
 
   return (
     <Dialog open={searchQuery.new}>
-      {['executive', 'finance_dept'].includes(
-        pb.authStore.record?.role || '',
-      ) && (
+      {checkPermission(['executive', 'finance_dept']) && (
         <DialogTrigger asChild>
           <Button
             isLoading={orders.isLoading || customers.isLoading}
