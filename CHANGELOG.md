@@ -1,4 +1,76 @@
 "# Changelog"
+### 28d9f9c: Refactor dashboard routes to improve import organization and component structure
+- Reorganized imports in various dashboard components for better readability and maintainability.
+- Moved component imports to the top and grouped related imports together.
+- Ensured consistent import order across different files in the dashboard section.
+- Updated the structure of the dashboard routes for companies, departments, inventory, orders, products, shipments, tasks, and warehouses.
+- Removed unnecessary imports and streamlined the code for better performance.
+
+### a1af61d: feat: implement invoice and payment management forms with CRUD functionality
+
+### 4154d77: Refactor route search query handling and update dialog states
+- Updated search query keys in delete, edit, and new route forms to use consistent naming conventions.
+- Removed unnecessary type assertions for search queries in various route components.
+- Simplified navigation logic by standardizing search query parameters.
+- Removed unused pagination configurations from collections.
+- Added new columns and options for invoices and payments in the dashboard.
+- Introduced a new schema for search queries to streamline data handling.
+- Deleted unused invoice and payment route files to clean up the codebase.
+
+### 2845173: feat: add vehicle management functionality to dashboard
+- Introduced new vehicle actions: create, edit, and delete forms.
+- Implemented vehicle columns for the dashboard table.
+- Enhanced dashboard routing to support vehicle management.
+- Updated search query schema to handle vehicle-specific queries.
+- Improved date formatting for planned start and end times in routes.
+- Removed unused vehicle route files.
+
+### ae75df7: feat: add route collections management with CRUD forms and enhanced column definitions
+
+### 2bb3179: feat: enhance route management with new fields and delete functionality
+
+### 1c7b8b8: feat: implement new route management form and enhance route columns in dashboard
+
+### 1bf0c53: feat: add dashboard routes and CRUD functionality for orders and shipments
+- Implemented dashboard route for collections with dynamic routing.
+- Created columns definition for orders with actions for edit and delete.
+- Added delete functionality for orders with confirmation dialog.
+- Developed edit form for orders with data fetching and submission.
+- Implemented new order creation form with validation and submission.
+- Defined search query schema for orders.
+- Created columns definition for shipments with actions for edit and delete.
+- Added delete functionality for shipments with confirmation dialog.
+- Developed edit form for shipments with data fetching and submission.
+- Implemented new shipment creation form with validation and submission.
+- Defined search query schema for shipments.
+
+### 090805c: refactor: clean up sidebar sample data and enhance inventory item forms with dialog components
+
+### f7dc558: Refactor navigation hooks in dashboard routes to use Route.useNavigate()
+- Updated all instances of useNavigate({ from: Route.fullPath }) to Route.useNavigate() in the dashboard companies, departments, products, tasks, and warehouses routes.
+- Removed unused inventory routes and added new inventory item management components including forms for creating, editing, and deleting inventory items.
+- Introduced a new schema for inventory item search queries.
+- Added migration for updating inventory items collection rules.
+- Enhanced the inventory items table with appropriate columns and dropdown actions.
+
+### 683c57b: feat: implement delete product functionality with confirmation dialog
+
+### bd95dce: refactor: remove old product routes and implement new product management features
+- Deleted old product edit, index, inventory, and new routes.
+- Introduced a new product listing page with advanced data table features.
+- Added new forms for creating, editing, and deleting products.
+- Implemented search query validation using Zod.
+- Updated product schema in migrations to include new fields for dimensions.
+- Enhanced product columns to display additional information such as dimensions and supplier.
+
+### f68b4a7: feat: implement delete warehouse functionality with confirmation dialog
+
+### 0323443: chore: update version to 0.16.0 in package.json
+
+### 38f1b08: feat: add delete department functionality with confirmation dialog
+
+### b3fcd53: chore(changelog): update changelog with recent feature implementations and enhancements
+
 ### b69f7a0: Merge pull request 50 from F-orge/49-feature---implement-crud-operation-for-companies-and-departments-collection
 49 feature   implement crud operation for companies and departments collection
 ### 7dcf95c: feat: Refactor warehouse management with CRUD operations
