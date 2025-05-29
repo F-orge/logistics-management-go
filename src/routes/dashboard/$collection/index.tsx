@@ -13,60 +13,66 @@ import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-tab
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
 import collections from './-collections';
+import { zodValidator } from '@tanstack/zod-adapter';
+import { searchQuerySchema } from './-schema';
+import type { ColumnDef } from '@tanstack/react-table';
+import type { RecordOptions } from 'pocketbase';
 
 export const Route = createFileRoute('/dashboard/$collection/')({
   component: RouteComponent,
-  beforeLoad: (ctx) => {
-    const metadata = collections.find(
-      (collection) => collection.name === ctx.params.collection,
+  validateSearch: zodValidator(searchQuerySchema),
+  loader: async (ctx) => {
+    const {
+      columns,
+      options,
+    }: { columns: ColumnDef<unknown>[]; options: RecordOptions } = await import(
+      `./-columns/${ctx.params.collection}`
     );
-    ctx.search = metadata?.searchQueryConfig.parse({}) || {};
-  },
-  loader: (ctx) => {
-    const metadata = collections.find(
-      (collection) => collection.name === ctx.params.collection,
-    );
+
+    const NewComponent = (
+      await import(`./-actions/${ctx.params.collection}/new`)
+    ).default;
+
+    const EditComponent = (
+      await import(`./-actions/${ctx.params.collection}/edit`)
+    ).default;
+
+    const DeleteComponent = (
+      await import(`./-actions/${ctx.params.collection}/delete`)
+    ).default;
+
     return {
-      collectionMetadata: metadata,
+      columns,
+      options,
+      NewComponent,
+      EditComponent,
+      DeleteComponent,
     };
   },
 });
 
 function RouteComponent() {
-  const { collectionMetadata } = Route.useLoaderData();
-  const searchQuery = Route.useSearch() as Record<string, unknown>;
-  const navigate = Route.useNavigate();
+  const params = Route.useParams();
+  const searchQuery = Route.useSearch();
+
+  const { columns, options, NewComponent, EditComponent, DeleteComponent } =
+    Route.useLoaderData();
 
   const collectionResponse = useQuery(
     listRecordsQuery(
-      collectionMetadata?.name || '',
+      params.collection,
       {
-        page: searchQuery[
-          collectionMetadata?.paginationConfig.pageKey || ''
-        ] as number,
-        perPage: searchQuery[
-          collectionMetadata?.paginationConfig.perPageKey || ''
-        ] as number,
+        page: searchQuery.page,
+        perPage: searchQuery.perPage,
       },
-      collectionMetadata?.recordOption,
+      options,
     ),
   );
 
-  useEffect(() => {
-    navigate({
-      search: (prev) => ({
-        ...collectionMetadata?.searchQueryConfig.parse({}),
-        ...prev,
-      }),
-    });
-  }, [navigate, collectionMetadata]);
-
   const { table } = useDataTable({
     data: collectionResponse.data?.items || [],
-    columns: collectionMetadata?.columns || [],
+    columns,
     pageCount: collectionResponse.data?.totalPages || 0,
-    pageKey: collectionMetadata?.paginationConfig.pageKey || '',
-    perPageKey: collectionMetadata?.paginationConfig.perPageKey || '',
   });
 
   return (
@@ -75,7 +81,9 @@ function RouteComponent() {
         <DataTableAdvancedToolbar table={table}>
           <DataTableFilterList table={table} />
           <DataTableSortList table={table} />
-          {collectionMetadata?.toolbarComponents.map((el) => el())}
+          <NewComponent />
+          {searchQuery.edit && <EditComponent />}
+          {searchQuery.delete && <DeleteComponent />}
         </DataTableAdvancedToolbar>
       </DataTable>
     </div>

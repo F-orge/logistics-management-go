@@ -24,7 +24,6 @@ export default [
   {
     name: 'routes',
     columns: routesColumn as ColumnDef<unknown>[],
-    paginationConfig: routesPaginationConfig,
     searchQueryConfig: routesSearchQuerySchema,
     toolbarComponents: [
       () => <NewRouteForm key={1} />,
@@ -44,7 +43,6 @@ export default [
   {
     name: 'vehicles',
     columns: vehicleColumns as ColumnDef<unknown>[],
-    paginationConfig: vehiclePaginationConfig,
     searchQueryConfig: vehicleSearchQuerySchema,
     toolbarComponents: [
       () => <NewVehicleForm />,
@@ -64,7 +62,6 @@ export default [
 ] satisfies {
   name: string;
   columns: ColumnDef<unknown>[];
-  paginationConfig: { pageKey: string; perPageKey: string };
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   searchQueryConfig: ZodObject<any>;
   toolbarComponents?: (() => React.JSX.Element)[];

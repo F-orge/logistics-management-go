@@ -7,7 +7,6 @@ import {
 import {
   Collections,
   type VehiclesResponse,
-  type RoutesResponse,
 } from '../../../../../../lib/pocketbase.gen';
 import {
   AlertDialog,
@@ -19,11 +18,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@marahuyo/react-ui/ui/alert-dialog';
-import type { z } from 'zod';
-import type { searchQuerySchema } from '../../-schemas/vehicles';
 
 const DeleteVehicleForm = () => {
-  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const deleteVehicleMutation = useMutateRemoveRecord(
@@ -36,7 +33,7 @@ const DeleteVehicleForm = () => {
   );
 
   return (
-    <AlertDialog open={searchQuery.deleteVehicle}>
+    <AlertDialog open={searchQuery.delete}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
@@ -54,7 +51,7 @@ const DeleteVehicleForm = () => {
                   navigate({
                     search: (prev) => ({
                       ...prev,
-                      deleteVehicle: undefined,
+                      delete: undefined,
                       id: undefined,
                     }),
                   });
@@ -69,7 +66,7 @@ const DeleteVehicleForm = () => {
               navigate({
                 search: (prev) => ({
                   ...prev,
-                  deleteVehicle: undefined,
+                  delete: undefined,
                   id: undefined,
                 }),
               })

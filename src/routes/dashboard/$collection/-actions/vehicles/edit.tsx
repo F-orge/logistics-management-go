@@ -24,7 +24,7 @@ import {
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
 
 const EditVehicleForm = () => {
-  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const updateVehicleMutation = useMutateUpdateRecord(
@@ -60,7 +60,7 @@ const EditVehicleForm = () => {
           navigate({
             search: (prev) => ({
               ...prev,
-              editVehicle: undefined,
+              edit: undefined,
               id: undefined,
             }),
           }),
@@ -72,7 +72,7 @@ const EditVehicleForm = () => {
   }
 
   return (
-    <Dialog open={searchQuery.editVehicle}>
+    <Dialog open={searchQuery.edit}>
       <DialogContent
         className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
         ref={(e) =>
@@ -80,7 +80,7 @@ const EditVehicleForm = () => {
             navigate({
               search: (prev) => ({
                 ...prev,
-                editVehicle: undefined,
+                edit: undefined,
                 id: undefined,
               }),
             }),

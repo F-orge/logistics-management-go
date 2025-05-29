@@ -22,7 +22,7 @@ import type { z } from 'zod';
 import type { searchQuerySchema } from '../../-schemas/routes';
 
 const DeleteRouteForm = () => {
-  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const deleteRouteMutation = useMutateRemoveRecord(
@@ -35,7 +35,7 @@ const DeleteRouteForm = () => {
   );
 
   return (
-    <AlertDialog open={searchQuery.deleteRoute}>
+    <AlertDialog open={searchQuery.delete}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
@@ -53,7 +53,7 @@ const DeleteRouteForm = () => {
                   navigate({
                     search: (prev) => ({
                       ...prev,
-                      deleteRoute: undefined,
+                      delete: undefined,
                       id: undefined,
                     }),
                   });
@@ -68,7 +68,7 @@ const DeleteRouteForm = () => {
               navigate({
                 search: (prev) => ({
                   ...prev,
-                  deleteRoute: undefined,
+                  delete: undefined,
                   id: undefined,
                 }),
               })

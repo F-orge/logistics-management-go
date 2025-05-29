@@ -63,19 +63,9 @@ const data = {
       groupName: 'Productivity',
       items: [
         {
-          title: 'All Tasks',
+          title: 'Tasks',
           url: '/dashboard/tasks',
           icon: NotebookTabs,
-        },
-        {
-          title: 'My Tasks',
-          url: '/dashboard/tasks/my-tasks',
-          icon: ClipboardList,
-        },
-        {
-          title: 'Chat',
-          url: '/dashboard/chat/',
-          icon: MessageSquare,
         },
       ],
     },

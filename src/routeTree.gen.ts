@@ -22,26 +22,17 @@ import { Route as DashboardTasksIndexImport } from './routes/dashboard/tasks/ind
 import { Route as DashboardShipmentsIndexImport } from './routes/dashboard/shipments/index'
 import { Route as DashboardProfileIndexImport } from './routes/dashboard/profile/index'
 import { Route as DashboardProductsIndexImport } from './routes/dashboard/products/index'
-import { Route as DashboardPaymentsIndexImport } from './routes/dashboard/payments/index'
 import { Route as DashboardOrdersIndexImport } from './routes/dashboard/orders/index'
-import { Route as DashboardInvoicesIndexImport } from './routes/dashboard/invoices/index'
 import { Route as DashboardInventoryIndexImport } from './routes/dashboard/inventory/index'
 import { Route as DashboardDepartmentsIndexImport } from './routes/dashboard/departments/index'
 import { Route as DashboardCompaniesIndexImport } from './routes/dashboard/companies/index'
 import { Route as DashboardChatIndexImport } from './routes/dashboard/chat/index'
 import { Route as DashboardCollectionIndexImport } from './routes/dashboard/$collection/index'
 import { Route as DashboardTasksMyTasksImport } from './routes/dashboard/tasks/my-tasks'
-import { Route as DashboardPaymentsNewImport } from './routes/dashboard/payments/new'
-import { Route as DashboardInvoicesNewImport } from './routes/dashboard/invoices/new'
 import { Route as DashboardChatNewImport } from './routes/dashboard/chat/new'
 import { Route as DashboardChatRoomidImport } from './routes/dashboard/chat/$room_id'
 import { Route as DashboardUsersUseridIndexImport } from './routes/dashboard/users/$user_id/index'
-import { Route as DashboardPaymentsPaymentidIndexImport } from './routes/dashboard/payments/$payment_id/index'
 import { Route as DashboardUsersUseridEditImport } from './routes/dashboard/users/$user_id/edit'
-import { Route as DashboardPaymentsPaymentidEditImport } from './routes/dashboard/payments/$payment_id/edit'
-import { Route as DashboardInvoicesInvoicenumberSendImport } from './routes/dashboard/invoices/$invoice_number/send'
-import { Route as DashboardInvoicesInvoicenumberRecordPaymentImport } from './routes/dashboard/invoices/$invoice_number/record-payment'
-import { Route as DashboardInvoicesInvoicenumberEditImport } from './routes/dashboard/invoices/$invoice_number/edit'
 import { Route as DashboardTasksDepartmentDepartmentidIndexImport } from './routes/dashboard/tasks/department/$department_id/index'
 import { Route as DashboardChatStartSupportCustomeridImport } from './routes/dashboard/chat/start/support/$customer_id'
 import { Route as DashboardChatStartOrderOrderidImport } from './routes/dashboard/chat/start/order/$order_id'
@@ -114,21 +105,9 @@ const DashboardProductsIndexRoute = DashboardProductsIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardPaymentsIndexRoute = DashboardPaymentsIndexImport.update({
-  id: '/payments/',
-  path: '/payments/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
 const DashboardOrdersIndexRoute = DashboardOrdersIndexImport.update({
   id: '/orders/',
   path: '/orders/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardInvoicesIndexRoute = DashboardInvoicesIndexImport.update({
-  id: '/invoices/',
-  path: '/invoices/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -168,18 +147,6 @@ const DashboardTasksMyTasksRoute = DashboardTasksMyTasksImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardPaymentsNewRoute = DashboardPaymentsNewImport.update({
-  id: '/payments/new',
-  path: '/payments/new',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardInvoicesNewRoute = DashboardInvoicesNewImport.update({
-  id: '/invoices/new',
-  path: '/invoices/new',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
 const DashboardChatNewRoute = DashboardChatNewImport.update({
   id: '/chat/new',
   path: '/chat/new',
@@ -198,46 +165,11 @@ const DashboardUsersUseridIndexRoute = DashboardUsersUseridIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardPaymentsPaymentidIndexRoute =
-  DashboardPaymentsPaymentidIndexImport.update({
-    id: '/payments/$payment_id/',
-    path: '/payments/$payment_id/',
-    getParentRoute: () => DashboardRoute,
-  } as any)
-
 const DashboardUsersUseridEditRoute = DashboardUsersUseridEditImport.update({
   id: '/users/$user_id/edit',
   path: '/users/$user_id/edit',
   getParentRoute: () => DashboardRoute,
 } as any)
-
-const DashboardPaymentsPaymentidEditRoute =
-  DashboardPaymentsPaymentidEditImport.update({
-    id: '/payments/$payment_id/edit',
-    path: '/payments/$payment_id/edit',
-    getParentRoute: () => DashboardRoute,
-  } as any)
-
-const DashboardInvoicesInvoicenumberSendRoute =
-  DashboardInvoicesInvoicenumberSendImport.update({
-    id: '/invoices/$invoice_number/send',
-    path: '/invoices/$invoice_number/send',
-    getParentRoute: () => DashboardRoute,
-  } as any)
-
-const DashboardInvoicesInvoicenumberRecordPaymentRoute =
-  DashboardInvoicesInvoicenumberRecordPaymentImport.update({
-    id: '/invoices/$invoice_number/record-payment',
-    path: '/invoices/$invoice_number/record-payment',
-    getParentRoute: () => DashboardRoute,
-  } as any)
-
-const DashboardInvoicesInvoicenumberEditRoute =
-  DashboardInvoicesInvoicenumberEditImport.update({
-    id: '/invoices/$invoice_number/edit',
-    path: '/invoices/$invoice_number/edit',
-    getParentRoute: () => DashboardRoute,
-  } as any)
 
 const DashboardTasksDepartmentDepartmentidIndexRoute =
   DashboardTasksDepartmentDepartmentidIndexImport.update({
@@ -320,20 +252,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardChatNewImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/invoices/new': {
-      id: '/dashboard/invoices/new'
-      path: '/invoices/new'
-      fullPath: '/dashboard/invoices/new'
-      preLoaderRoute: typeof DashboardInvoicesNewImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/payments/new': {
-      id: '/dashboard/payments/new'
-      path: '/payments/new'
-      fullPath: '/dashboard/payments/new'
-      preLoaderRoute: typeof DashboardPaymentsNewImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/tasks/my-tasks': {
       id: '/dashboard/tasks/my-tasks'
       path: '/tasks/my-tasks'
@@ -376,25 +294,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardInventoryIndexImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/invoices/': {
-      id: '/dashboard/invoices/'
-      path: '/invoices'
-      fullPath: '/dashboard/invoices'
-      preLoaderRoute: typeof DashboardInvoicesIndexImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/orders/': {
       id: '/dashboard/orders/'
       path: '/orders'
       fullPath: '/dashboard/orders'
       preLoaderRoute: typeof DashboardOrdersIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/payments/': {
-      id: '/dashboard/payments/'
-      path: '/payments'
-      fullPath: '/dashboard/payments'
-      preLoaderRoute: typeof DashboardPaymentsIndexImport
       parentRoute: typeof DashboardImport
     }
     '/dashboard/products/': {
@@ -432,46 +336,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWarehousesIndexImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/invoices/$invoice_number/edit': {
-      id: '/dashboard/invoices/$invoice_number/edit'
-      path: '/invoices/$invoice_number/edit'
-      fullPath: '/dashboard/invoices/$invoice_number/edit'
-      preLoaderRoute: typeof DashboardInvoicesInvoicenumberEditImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/invoices/$invoice_number/record-payment': {
-      id: '/dashboard/invoices/$invoice_number/record-payment'
-      path: '/invoices/$invoice_number/record-payment'
-      fullPath: '/dashboard/invoices/$invoice_number/record-payment'
-      preLoaderRoute: typeof DashboardInvoicesInvoicenumberRecordPaymentImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/invoices/$invoice_number/send': {
-      id: '/dashboard/invoices/$invoice_number/send'
-      path: '/invoices/$invoice_number/send'
-      fullPath: '/dashboard/invoices/$invoice_number/send'
-      preLoaderRoute: typeof DashboardInvoicesInvoicenumberSendImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/payments/$payment_id/edit': {
-      id: '/dashboard/payments/$payment_id/edit'
-      path: '/payments/$payment_id/edit'
-      fullPath: '/dashboard/payments/$payment_id/edit'
-      preLoaderRoute: typeof DashboardPaymentsPaymentidEditImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/users/$user_id/edit': {
       id: '/dashboard/users/$user_id/edit'
       path: '/users/$user_id/edit'
       fullPath: '/dashboard/users/$user_id/edit'
       preLoaderRoute: typeof DashboardUsersUseridEditImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/payments/$payment_id/': {
-      id: '/dashboard/payments/$payment_id/'
-      path: '/payments/$payment_id'
-      fullPath: '/dashboard/payments/$payment_id'
-      preLoaderRoute: typeof DashboardPaymentsPaymentidIndexImport
       parentRoute: typeof DashboardImport
     }
     '/dashboard/users/$user_id/': {
@@ -511,28 +380,19 @@ interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardChatRoomidRoute: typeof DashboardChatRoomidRoute
   DashboardChatNewRoute: typeof DashboardChatNewRoute
-  DashboardInvoicesNewRoute: typeof DashboardInvoicesNewRoute
-  DashboardPaymentsNewRoute: typeof DashboardPaymentsNewRoute
   DashboardTasksMyTasksRoute: typeof DashboardTasksMyTasksRoute
   DashboardCollectionIndexRoute: typeof DashboardCollectionIndexRoute
   DashboardChatIndexRoute: typeof DashboardChatIndexRoute
   DashboardCompaniesIndexRoute: typeof DashboardCompaniesIndexRoute
   DashboardDepartmentsIndexRoute: typeof DashboardDepartmentsIndexRoute
   DashboardInventoryIndexRoute: typeof DashboardInventoryIndexRoute
-  DashboardInvoicesIndexRoute: typeof DashboardInvoicesIndexRoute
   DashboardOrdersIndexRoute: typeof DashboardOrdersIndexRoute
-  DashboardPaymentsIndexRoute: typeof DashboardPaymentsIndexRoute
   DashboardProductsIndexRoute: typeof DashboardProductsIndexRoute
   DashboardProfileIndexRoute: typeof DashboardProfileIndexRoute
   DashboardShipmentsIndexRoute: typeof DashboardShipmentsIndexRoute
   DashboardTasksIndexRoute: typeof DashboardTasksIndexRoute
   DashboardWarehousesIndexRoute: typeof DashboardWarehousesIndexRoute
-  DashboardInvoicesInvoicenumberEditRoute: typeof DashboardInvoicesInvoicenumberEditRoute
-  DashboardInvoicesInvoicenumberRecordPaymentRoute: typeof DashboardInvoicesInvoicenumberRecordPaymentRoute
-  DashboardInvoicesInvoicenumberSendRoute: typeof DashboardInvoicesInvoicenumberSendRoute
-  DashboardPaymentsPaymentidEditRoute: typeof DashboardPaymentsPaymentidEditRoute
   DashboardUsersUseridEditRoute: typeof DashboardUsersUseridEditRoute
-  DashboardPaymentsPaymentidIndexRoute: typeof DashboardPaymentsPaymentidIndexRoute
   DashboardUsersUseridIndexRoute: typeof DashboardUsersUseridIndexRoute
   DashboardChatStartOrderOrderidRoute: typeof DashboardChatStartOrderOrderidRoute
   DashboardChatStartSupportCustomeridRoute: typeof DashboardChatStartSupportCustomeridRoute
@@ -543,31 +403,19 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardChatRoomidRoute: DashboardChatRoomidRoute,
   DashboardChatNewRoute: DashboardChatNewRoute,
-  DashboardInvoicesNewRoute: DashboardInvoicesNewRoute,
-  DashboardPaymentsNewRoute: DashboardPaymentsNewRoute,
   DashboardTasksMyTasksRoute: DashboardTasksMyTasksRoute,
   DashboardCollectionIndexRoute: DashboardCollectionIndexRoute,
   DashboardChatIndexRoute: DashboardChatIndexRoute,
   DashboardCompaniesIndexRoute: DashboardCompaniesIndexRoute,
   DashboardDepartmentsIndexRoute: DashboardDepartmentsIndexRoute,
   DashboardInventoryIndexRoute: DashboardInventoryIndexRoute,
-  DashboardInvoicesIndexRoute: DashboardInvoicesIndexRoute,
   DashboardOrdersIndexRoute: DashboardOrdersIndexRoute,
-  DashboardPaymentsIndexRoute: DashboardPaymentsIndexRoute,
   DashboardProductsIndexRoute: DashboardProductsIndexRoute,
   DashboardProfileIndexRoute: DashboardProfileIndexRoute,
   DashboardShipmentsIndexRoute: DashboardShipmentsIndexRoute,
   DashboardTasksIndexRoute: DashboardTasksIndexRoute,
   DashboardWarehousesIndexRoute: DashboardWarehousesIndexRoute,
-  DashboardInvoicesInvoicenumberEditRoute:
-    DashboardInvoicesInvoicenumberEditRoute,
-  DashboardInvoicesInvoicenumberRecordPaymentRoute:
-    DashboardInvoicesInvoicenumberRecordPaymentRoute,
-  DashboardInvoicesInvoicenumberSendRoute:
-    DashboardInvoicesInvoicenumberSendRoute,
-  DashboardPaymentsPaymentidEditRoute: DashboardPaymentsPaymentidEditRoute,
   DashboardUsersUseridEditRoute: DashboardUsersUseridEditRoute,
-  DashboardPaymentsPaymentidIndexRoute: DashboardPaymentsPaymentidIndexRoute,
   DashboardUsersUseridIndexRoute: DashboardUsersUseridIndexRoute,
   DashboardChatStartOrderOrderidRoute: DashboardChatStartOrderOrderidRoute,
   DashboardChatStartSupportCustomeridRoute:
@@ -589,28 +437,19 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute
   '/dashboard/chat/new': typeof DashboardChatNewRoute
-  '/dashboard/invoices/new': typeof DashboardInvoicesNewRoute
-  '/dashboard/payments/new': typeof DashboardPaymentsNewRoute
   '/dashboard/tasks/my-tasks': typeof DashboardTasksMyTasksRoute
   '/dashboard/$collection': typeof DashboardCollectionIndexRoute
   '/dashboard/chat': typeof DashboardChatIndexRoute
   '/dashboard/companies': typeof DashboardCompaniesIndexRoute
   '/dashboard/departments': typeof DashboardDepartmentsIndexRoute
   '/dashboard/inventory': typeof DashboardInventoryIndexRoute
-  '/dashboard/invoices': typeof DashboardInvoicesIndexRoute
   '/dashboard/orders': typeof DashboardOrdersIndexRoute
-  '/dashboard/payments': typeof DashboardPaymentsIndexRoute
   '/dashboard/products': typeof DashboardProductsIndexRoute
   '/dashboard/profile': typeof DashboardProfileIndexRoute
   '/dashboard/shipments': typeof DashboardShipmentsIndexRoute
   '/dashboard/tasks': typeof DashboardTasksIndexRoute
   '/dashboard/warehouses': typeof DashboardWarehousesIndexRoute
-  '/dashboard/invoices/$invoice_number/edit': typeof DashboardInvoicesInvoicenumberEditRoute
-  '/dashboard/invoices/$invoice_number/record-payment': typeof DashboardInvoicesInvoicenumberRecordPaymentRoute
-  '/dashboard/invoices/$invoice_number/send': typeof DashboardInvoicesInvoicenumberSendRoute
-  '/dashboard/payments/$payment_id/edit': typeof DashboardPaymentsPaymentidEditRoute
   '/dashboard/users/$user_id/edit': typeof DashboardUsersUseridEditRoute
-  '/dashboard/payments/$payment_id': typeof DashboardPaymentsPaymentidIndexRoute
   '/dashboard/users/$user_id': typeof DashboardUsersUseridIndexRoute
   '/dashboard/chat/start/order/$order_id': typeof DashboardChatStartOrderOrderidRoute
   '/dashboard/chat/start/support/$customer_id': typeof DashboardChatStartSupportCustomeridRoute
@@ -625,28 +464,19 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute
   '/dashboard/chat/new': typeof DashboardChatNewRoute
-  '/dashboard/invoices/new': typeof DashboardInvoicesNewRoute
-  '/dashboard/payments/new': typeof DashboardPaymentsNewRoute
   '/dashboard/tasks/my-tasks': typeof DashboardTasksMyTasksRoute
   '/dashboard/$collection': typeof DashboardCollectionIndexRoute
   '/dashboard/chat': typeof DashboardChatIndexRoute
   '/dashboard/companies': typeof DashboardCompaniesIndexRoute
   '/dashboard/departments': typeof DashboardDepartmentsIndexRoute
   '/dashboard/inventory': typeof DashboardInventoryIndexRoute
-  '/dashboard/invoices': typeof DashboardInvoicesIndexRoute
   '/dashboard/orders': typeof DashboardOrdersIndexRoute
-  '/dashboard/payments': typeof DashboardPaymentsIndexRoute
   '/dashboard/products': typeof DashboardProductsIndexRoute
   '/dashboard/profile': typeof DashboardProfileIndexRoute
   '/dashboard/shipments': typeof DashboardShipmentsIndexRoute
   '/dashboard/tasks': typeof DashboardTasksIndexRoute
   '/dashboard/warehouses': typeof DashboardWarehousesIndexRoute
-  '/dashboard/invoices/$invoice_number/edit': typeof DashboardInvoicesInvoicenumberEditRoute
-  '/dashboard/invoices/$invoice_number/record-payment': typeof DashboardInvoicesInvoicenumberRecordPaymentRoute
-  '/dashboard/invoices/$invoice_number/send': typeof DashboardInvoicesInvoicenumberSendRoute
-  '/dashboard/payments/$payment_id/edit': typeof DashboardPaymentsPaymentidEditRoute
   '/dashboard/users/$user_id/edit': typeof DashboardUsersUseridEditRoute
-  '/dashboard/payments/$payment_id': typeof DashboardPaymentsPaymentidIndexRoute
   '/dashboard/users/$user_id': typeof DashboardUsersUseridIndexRoute
   '/dashboard/chat/start/order/$order_id': typeof DashboardChatStartOrderOrderidRoute
   '/dashboard/chat/start/support/$customer_id': typeof DashboardChatStartSupportCustomeridRoute
@@ -663,28 +493,19 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/chat/$room_id': typeof DashboardChatRoomidRoute
   '/dashboard/chat/new': typeof DashboardChatNewRoute
-  '/dashboard/invoices/new': typeof DashboardInvoicesNewRoute
-  '/dashboard/payments/new': typeof DashboardPaymentsNewRoute
   '/dashboard/tasks/my-tasks': typeof DashboardTasksMyTasksRoute
   '/dashboard/$collection/': typeof DashboardCollectionIndexRoute
   '/dashboard/chat/': typeof DashboardChatIndexRoute
   '/dashboard/companies/': typeof DashboardCompaniesIndexRoute
   '/dashboard/departments/': typeof DashboardDepartmentsIndexRoute
   '/dashboard/inventory/': typeof DashboardInventoryIndexRoute
-  '/dashboard/invoices/': typeof DashboardInvoicesIndexRoute
   '/dashboard/orders/': typeof DashboardOrdersIndexRoute
-  '/dashboard/payments/': typeof DashboardPaymentsIndexRoute
   '/dashboard/products/': typeof DashboardProductsIndexRoute
   '/dashboard/profile/': typeof DashboardProfileIndexRoute
   '/dashboard/shipments/': typeof DashboardShipmentsIndexRoute
   '/dashboard/tasks/': typeof DashboardTasksIndexRoute
   '/dashboard/warehouses/': typeof DashboardWarehousesIndexRoute
-  '/dashboard/invoices/$invoice_number/edit': typeof DashboardInvoicesInvoicenumberEditRoute
-  '/dashboard/invoices/$invoice_number/record-payment': typeof DashboardInvoicesInvoicenumberRecordPaymentRoute
-  '/dashboard/invoices/$invoice_number/send': typeof DashboardInvoicesInvoicenumberSendRoute
-  '/dashboard/payments/$payment_id/edit': typeof DashboardPaymentsPaymentidEditRoute
   '/dashboard/users/$user_id/edit': typeof DashboardUsersUseridEditRoute
-  '/dashboard/payments/$payment_id/': typeof DashboardPaymentsPaymentidIndexRoute
   '/dashboard/users/$user_id/': typeof DashboardUsersUseridIndexRoute
   '/dashboard/chat/start/order/$order_id': typeof DashboardChatStartOrderOrderidRoute
   '/dashboard/chat/start/support/$customer_id': typeof DashboardChatStartSupportCustomeridRoute
@@ -702,28 +523,19 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
-    | '/dashboard/invoices/new'
-    | '/dashboard/payments/new'
     | '/dashboard/tasks/my-tasks'
     | '/dashboard/$collection'
     | '/dashboard/chat'
     | '/dashboard/companies'
     | '/dashboard/departments'
     | '/dashboard/inventory'
-    | '/dashboard/invoices'
     | '/dashboard/orders'
-    | '/dashboard/payments'
     | '/dashboard/products'
     | '/dashboard/profile'
     | '/dashboard/shipments'
     | '/dashboard/tasks'
     | '/dashboard/warehouses'
-    | '/dashboard/invoices/$invoice_number/edit'
-    | '/dashboard/invoices/$invoice_number/record-payment'
-    | '/dashboard/invoices/$invoice_number/send'
-    | '/dashboard/payments/$payment_id/edit'
     | '/dashboard/users/$user_id/edit'
-    | '/dashboard/payments/$payment_id'
     | '/dashboard/users/$user_id'
     | '/dashboard/chat/start/order/$order_id'
     | '/dashboard/chat/start/support/$customer_id'
@@ -737,28 +549,19 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
-    | '/dashboard/invoices/new'
-    | '/dashboard/payments/new'
     | '/dashboard/tasks/my-tasks'
     | '/dashboard/$collection'
     | '/dashboard/chat'
     | '/dashboard/companies'
     | '/dashboard/departments'
     | '/dashboard/inventory'
-    | '/dashboard/invoices'
     | '/dashboard/orders'
-    | '/dashboard/payments'
     | '/dashboard/products'
     | '/dashboard/profile'
     | '/dashboard/shipments'
     | '/dashboard/tasks'
     | '/dashboard/warehouses'
-    | '/dashboard/invoices/$invoice_number/edit'
-    | '/dashboard/invoices/$invoice_number/record-payment'
-    | '/dashboard/invoices/$invoice_number/send'
-    | '/dashboard/payments/$payment_id/edit'
     | '/dashboard/users/$user_id/edit'
-    | '/dashboard/payments/$payment_id'
     | '/dashboard/users/$user_id'
     | '/dashboard/chat/start/order/$order_id'
     | '/dashboard/chat/start/support/$customer_id'
@@ -773,28 +576,19 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/chat/$room_id'
     | '/dashboard/chat/new'
-    | '/dashboard/invoices/new'
-    | '/dashboard/payments/new'
     | '/dashboard/tasks/my-tasks'
     | '/dashboard/$collection/'
     | '/dashboard/chat/'
     | '/dashboard/companies/'
     | '/dashboard/departments/'
     | '/dashboard/inventory/'
-    | '/dashboard/invoices/'
     | '/dashboard/orders/'
-    | '/dashboard/payments/'
     | '/dashboard/products/'
     | '/dashboard/profile/'
     | '/dashboard/shipments/'
     | '/dashboard/tasks/'
     | '/dashboard/warehouses/'
-    | '/dashboard/invoices/$invoice_number/edit'
-    | '/dashboard/invoices/$invoice_number/record-payment'
-    | '/dashboard/invoices/$invoice_number/send'
-    | '/dashboard/payments/$payment_id/edit'
     | '/dashboard/users/$user_id/edit'
-    | '/dashboard/payments/$payment_id/'
     | '/dashboard/users/$user_id/'
     | '/dashboard/chat/start/order/$order_id'
     | '/dashboard/chat/start/support/$customer_id'
@@ -844,28 +638,19 @@ export const routeTree = rootRoute
         "/dashboard/",
         "/dashboard/chat/$room_id",
         "/dashboard/chat/new",
-        "/dashboard/invoices/new",
-        "/dashboard/payments/new",
         "/dashboard/tasks/my-tasks",
         "/dashboard/$collection/",
         "/dashboard/chat/",
         "/dashboard/companies/",
         "/dashboard/departments/",
         "/dashboard/inventory/",
-        "/dashboard/invoices/",
         "/dashboard/orders/",
-        "/dashboard/payments/",
         "/dashboard/products/",
         "/dashboard/profile/",
         "/dashboard/shipments/",
         "/dashboard/tasks/",
         "/dashboard/warehouses/",
-        "/dashboard/invoices/$invoice_number/edit",
-        "/dashboard/invoices/$invoice_number/record-payment",
-        "/dashboard/invoices/$invoice_number/send",
-        "/dashboard/payments/$payment_id/edit",
         "/dashboard/users/$user_id/edit",
-        "/dashboard/payments/$payment_id/",
         "/dashboard/users/$user_id/",
         "/dashboard/chat/start/order/$order_id",
         "/dashboard/chat/start/support/$customer_id",
@@ -893,14 +678,6 @@ export const routeTree = rootRoute
       "filePath": "dashboard/chat/new.tsx",
       "parent": "/dashboard"
     },
-    "/dashboard/invoices/new": {
-      "filePath": "dashboard/invoices/new.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/payments/new": {
-      "filePath": "dashboard/payments/new.tsx",
-      "parent": "/dashboard"
-    },
     "/dashboard/tasks/my-tasks": {
       "filePath": "dashboard/tasks/my-tasks.tsx",
       "parent": "/dashboard"
@@ -925,16 +702,8 @@ export const routeTree = rootRoute
       "filePath": "dashboard/inventory/index.tsx",
       "parent": "/dashboard"
     },
-    "/dashboard/invoices/": {
-      "filePath": "dashboard/invoices/index.tsx",
-      "parent": "/dashboard"
-    },
     "/dashboard/orders/": {
       "filePath": "dashboard/orders/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/payments/": {
-      "filePath": "dashboard/payments/index.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/products/": {
@@ -957,28 +726,8 @@ export const routeTree = rootRoute
       "filePath": "dashboard/warehouses/index.tsx",
       "parent": "/dashboard"
     },
-    "/dashboard/invoices/$invoice_number/edit": {
-      "filePath": "dashboard/invoices/$invoice_number/edit.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/invoices/$invoice_number/record-payment": {
-      "filePath": "dashboard/invoices/$invoice_number/record-payment.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/invoices/$invoice_number/send": {
-      "filePath": "dashboard/invoices/$invoice_number/send.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/payments/$payment_id/edit": {
-      "filePath": "dashboard/payments/$payment_id/edit.tsx",
-      "parent": "/dashboard"
-    },
     "/dashboard/users/$user_id/edit": {
       "filePath": "dashboard/users/$user_id/edit.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/payments/$payment_id/": {
-      "filePath": "dashboard/payments/$payment_id/index.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/users/$user_id/": {

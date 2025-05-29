@@ -1,6 +1,4 @@
-import type { z } from 'zod';
 import { Route } from '../..';
-import type { searchQuerySchema } from '../../-schemas/routes';
 import {
   listRecordsQuery,
   useMutateCreateRecord,
@@ -26,7 +24,7 @@ import { Button } from '@marahuyo/react-ui/ui/button';
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
 
 const NewRouteForm = () => {
-  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const createRouteMutation = useMutateCreateRecord(Collections.Routes);
@@ -64,32 +62,29 @@ const NewRouteForm = () => {
     onSubmit: async ({ value }) =>
       createRouteMutation.mutateAsync(value, {
         onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, newRoute: undefined }) }),
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
       }),
   });
 
-  if (vehicles.isLoading || drivers.isLoading || shipments.isLoading) {
-    return (
-      <Button size={'sm'} disabled>
-        Create Route
-      </Button>
-    );
-  }
-
   return (
-    <Dialog open={searchQuery.newRoute}>
+    <Dialog open={searchQuery.new}>
       <DialogTrigger
-        onClick={() =>
-          navigate({ search: (prev) => ({ ...prev, newRoute: true }) })
-        }
+        onClick={() => navigate({ search: (prev) => ({ ...prev, new: true }) })}
       >
-        <Button size={'sm'}>Create Route</Button>
+        <Button
+          isLoading={
+            vehicles.isLoading || drivers.isLoading || shipments.isLoading
+          }
+          size={'sm'}
+        >
+          Create Route
+        </Button>
       </DialogTrigger>
       <DialogContent
         className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
         ref={(e) =>
           closeDialogButtonRef(e, () =>
-            navigate({ search: (prev) => ({ ...prev, newRoute: undefined }) }),
+            navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
           )
         }
       >

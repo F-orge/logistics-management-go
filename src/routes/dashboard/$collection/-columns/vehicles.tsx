@@ -12,6 +12,7 @@ import { Route } from '..';
 import { Badge } from '@marahuyo/react-ui/ui/badge';
 import { format } from 'date-fns';
 import type { ExpandedVehiclesResponse } from '../-schemas/vehicles';
+import type { RecordOptions } from 'pocketbase';
 
 export const columns: ColumnDef<ExpandedVehiclesResponse>[] = [
   {
@@ -39,7 +40,7 @@ export const columns: ColumnDef<ExpandedVehiclesResponse>[] = [
                 navigate({
                   search: (prev) => ({
                     ...prev,
-                    editVehicle: true,
+                    edit: true,
                     id: row.original.id,
                   }),
                 })
@@ -52,7 +53,7 @@ export const columns: ColumnDef<ExpandedVehiclesResponse>[] = [
                 navigate({
                   search: (prev) => ({
                     ...prev,
-                    deleteVehicle: true,
+                    delete: true,
                     id: row.original.id,
                   }),
                 })
@@ -205,3 +206,7 @@ export const columns: ColumnDef<ExpandedVehiclesResponse>[] = [
     ),
   },
 ];
+
+export const options: RecordOptions = {
+  expand: 'currentDriver',
+};

@@ -24,7 +24,7 @@ import { Button } from '@marahuyo/react-ui/ui/button';
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
 
 const NewVehicleForm = () => {
-  const searchQuery = Route.useSearch() as z.infer<typeof searchQuerySchema>;
+  const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const createVehicleMutation = useMutateCreateRecord(Collections.Vehicles);
@@ -53,18 +53,16 @@ const NewVehicleForm = () => {
     onSubmit: async ({ value }) =>
       createVehicleMutation.mutateAsync(value, {
         onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, newVehicle: undefined }) }),
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
       }),
   });
 
   return (
-    <Dialog open={searchQuery.newVehicle}>
+    <Dialog open={searchQuery.new}>
       <DialogTrigger
-        onClick={() =>
-          navigate({ search: (prev) => ({ ...prev, newVehicle: true }) })
-        }
+        onClick={() => navigate({ search: (prev) => ({ ...prev, new: true }) })}
       >
-        <Button disabled={drivers.isLoading} size={'sm'}>
+        <Button isLoading={drivers.isLoading} size={'sm'}>
           Create Vehicle
         </Button>
       </DialogTrigger>
@@ -73,7 +71,7 @@ const NewVehicleForm = () => {
         ref={(e) =>
           closeDialogButtonRef(e, () =>
             navigate({
-              search: (prev) => ({ ...prev, newVehicle: undefined }),
+              search: (prev) => ({ ...prev, new: undefined }),
             }),
           )
         }
