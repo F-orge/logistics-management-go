@@ -404,7 +404,9 @@ async function seedProducts(
       image: imageFiles as any,
       supplier: faker.helpers.arrayElement(supplierCompanies).id,
       weight: faker.number.float({ min: 0.1, max: 50 }),
-      dimensions: `${faker.number.int({ min: 1, max: 100 })}x${faker.number.int({ min: 1, max: 100 })}x${faker.number.int({ min: 1, max: 100 })} cm`,
+      dimensionsHeight: faker.number.int({ min: 1, max: 100 }),
+      dimensionsLength: faker.number.int({ min: 1, max: 100 }),
+      dimensionsWidth: faker.number.int({ min: 1, max: 100 }),
     };
     try {
       const record = await pb

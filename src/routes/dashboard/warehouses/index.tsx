@@ -1,19 +1,19 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { searchQuerySchema } from './-schema';
-import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery } from '../../../queries';
-import { Collections } from '../../../../lib/pocketbase.gen';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
-import { columns, type ExpandedWarehouseResponse } from './-columns';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { Button } from '@marahuyo/react-ui/ui/button';
-import NewWarehouseForm from './-new';
-import EditWarehouseForm from './-edit';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import { Collections } from '../../../../lib/pocketbase.gen';
+import { listRecordsQuery } from '../../../queries';
+import { type ExpandedWarehouseResponse, columns } from './-columns';
 import DeleteWarehouseForm from './-delete';
+import EditWarehouseForm from './-edit';
+import NewWarehouseForm from './-new';
+import { searchQuerySchema } from './-schema';
 
 export const Route = createFileRoute('/dashboard/warehouses/')({
   component: RouteComponent,
@@ -22,7 +22,7 @@ export const Route = createFileRoute('/dashboard/warehouses/')({
 
 function RouteComponent() {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const warehouses = useQuery(
     listRecordsQuery<ExpandedWarehouseResponse>(
@@ -42,8 +42,8 @@ function RouteComponent() {
   });
 
   return (
-    <div>
-      <DataTable table={table}>
+    <div className="grid grid-cols-12 gap-5">
+      <DataTable className="col-span-12" table={table}>
         <DataTableAdvancedToolbar table={table}>
           <DataTableFilterList table={table} />
           <DataTableSortList table={table} />

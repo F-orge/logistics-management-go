@@ -32,11 +32,6 @@ import UserProfile from './settings/user-profile';
 
 // This is sample data.
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   navMain: [
     {
       groupName: 'Overview',
@@ -68,19 +63,9 @@ const data = {
       groupName: 'Productivity',
       items: [
         {
-          title: 'All Tasks',
+          title: 'Tasks',
           url: '/dashboard/tasks',
           icon: NotebookTabs,
-        },
-        {
-          title: 'My Tasks',
-          url: '/dashboard/tasks/my-tasks',
-          icon: ClipboardList,
-        },
-        {
-          title: 'Chat',
-          url: '/dashboard/chat/',
-          icon: MessageSquare,
         },
       ],
     },

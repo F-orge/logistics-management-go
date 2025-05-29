@@ -1,17 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
-import { Route } from '.';
-import { useQuery } from '@tanstack/react-query';
-import {
-  listRecordsQuery,
-  useMutateCreateRecord,
-  useMutateUpdateRecord,
-  viewRecordsQuery,
-} from '../../../queries';
-import {
-  Collections,
-  type WarehousesResponse,
-  type UsersResponse,
-} from '../../../../lib/pocketbase.gen';
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -19,13 +6,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import {
+  Collections,
+  type UsersResponse,
+  type WarehousesResponse,
+} from '../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../lib/utils';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import {
+  listRecordsQuery,
+  useMutateCreateRecord,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../queries';
 import { editWarehouseFormSchema } from './-schema';
 
 const EditWarehouseForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const updateWarehouseMutation = useMutateUpdateRecord(
     Collections.Warehouses,

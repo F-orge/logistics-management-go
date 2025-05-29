@@ -8,6 +8,7 @@ import {
 } from '@marahuyo/react-ui/ui/dialog';
 import { useQueries } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { Route } from '.';
 import { pb } from '../../../../lib/pocketbase';
 import {
@@ -20,17 +21,16 @@ import {
   TasksStatusOptions,
   TasksTagsOptions,
 } from '../../../../lib/pocketbase.gen';
+import { closeDialogButtonRef } from '../../../../lib/utils';
+import { useFiles } from '../../../hooks/useFile';
 import {
   useMutateUpdateRecord,
   viewRecordsQuery as viewRecordQuery,
 } from '../../../queries';
-import { closeDialogButtonRef } from '../../../../lib/utils';
-import { useEffect } from 'react';
-import { useFiles } from '../../../hooks/useFile';
 
 const EditTaskForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const taskMutation = useMutateUpdateRecord(
     Collections.Tasks,

@@ -1,3 +1,4 @@
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -5,22 +6,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { Route } from '.';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { toast } from 'sonner';
+import { Route } from '.';
 import {
   Collections,
   CompaniesTypeOptions,
   type UsersResponse,
 } from '../../../../lib/pocketbase.gen';
-import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
-import { toast } from 'sonner';
 import { closeDialogButtonRef } from '../../../../lib/utils';
+import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
 
 const NewCompanyForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const companiesMutation = useMutateCreateRecord(Collections.Companies);
 
@@ -59,7 +59,16 @@ const NewCompanyForm = () => {
 
   return (
     <Dialog open={searchQuery.newCompany}>
-      <DialogContent className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar">
+      <DialogContent
+        ref={(e) =>
+          closeDialogButtonRef(e, () =>
+            navigate({
+              search: (prev) => ({ ...prev, newCompany: undefined }),
+            }),
+          )
+        }
+        className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
+      >
         <DialogHeader>
           <DialogTitle>New Company</DialogTitle>
           <DialogDescription>Create new company</DialogDescription>

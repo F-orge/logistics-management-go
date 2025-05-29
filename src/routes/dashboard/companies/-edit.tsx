@@ -1,3 +1,4 @@
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -5,16 +6,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { Route } from '.';
+import { useQueries } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { Route } from '.';
 import {
   Collections,
   type CompaniesResponse,
   CompaniesTypeOptions,
   type UsersResponse,
 } from '../../../../lib/pocketbase.gen';
-import { useQueries } from '@tanstack/react-query';
 import {
   listRecordsQuery,
   useMutateUpdateRecord,
@@ -23,7 +23,7 @@ import {
 
 const EditCompanyForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const companiesMutation = useMutateUpdateRecord(
     Collections.Companies,

@@ -1,5 +1,3 @@
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
@@ -9,22 +7,24 @@ import {
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import {
+  Collections,
+  type UsersResponse,
+} from '../../../../lib/pocketbase.gen';
+import { closeDialogButtonRef } from '../../../../lib/utils';
+import { useFiles } from '../../../hooks/useFile';
 import {
   listRecordsQuery,
   useMutateUpdateRecord,
   viewRecordsQuery,
 } from '../../../queries';
-import {
-  Collections,
-  type UsersResponse,
-} from '../../../../lib/pocketbase.gen';
 import type { ExpandedDepartmentResponse } from './-columns';
-import { useFiles } from '../../../hooks/useFile';
-import { closeDialogButtonRef } from '../../../../lib/utils';
 
 const EditDepartmentForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const departmentsMutation = useMutateUpdateRecord(
     Collections.Departments,

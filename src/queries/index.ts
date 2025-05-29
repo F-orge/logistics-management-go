@@ -11,7 +11,7 @@ import { pb } from '../../lib/pocketbase';
 import type { Collections } from '../../lib/pocketbase.gen';
 
 export const listRecordsQuery = <T>(
-  collection: Collections,
+  collection: Collections | string,
   paginateOption: { page?: number; perPage?: number },
   options?: RecordOptions,
 ) =>
@@ -71,7 +71,7 @@ export const useMutateCreateRecord = <T>(
 
 export const useMutateUpdateRecord = <T>(
   collection: Collections,
-  id: string,
+  id?: string,
   options?: RecordOptions,
 ) => {
   const queryClient = useQueryClient();
@@ -82,7 +82,7 @@ export const useMutateUpdateRecord = <T>(
             [key: string]: unknown;
           }
         | FormData,
-    ) => pb.collection(collection).update<T>(id, payload, options),
+    ) => pb.collection(collection).update<T>(id || '', payload, options),
     onSuccess: () => {
       toast(`Collection \`${collection.toString()}\` updated successfully`);
       queryClient.invalidateQueries({ queryKey: [collection] });
@@ -99,13 +99,13 @@ export const useMutateUpdateRecord = <T>(
 
 export const useMutateRemoveRecord = (
   collection: Collections,
-  id: string,
+  id?: string,
   options?: RecordOptions,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => pb.collection(collection).delete(id, options),
+    mutationFn: () => pb.collection(collection).delete(id || '', options),
     onSuccess: () => {
       toast(`Collection \`${collection.toString()}\` removed successfully`);
       queryClient.invalidateQueries({ queryKey: [collection] });

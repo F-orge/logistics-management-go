@@ -20,7 +20,7 @@ import { useMutateCreateRecord } from '../../../queries';
 
 const CreateNewTaskForm = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const tasksMutation = useMutateCreateRecord(Collections.Tasks);
 

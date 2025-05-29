@@ -19,7 +19,7 @@ import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
 
 const DeleteTask = () => {
   const searchQuery = Route.useSearch();
-  const navigate = useNavigate({ from: Route.fullPath });
+  const navigate = Route.useNavigate();
 
   const task = useQuery(
     viewRecordsQuery<TasksResponse>(Collections.Tasks, searchQuery.id || ''),
