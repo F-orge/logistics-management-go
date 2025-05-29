@@ -99,13 +99,13 @@ export const useMutateUpdateRecord = <T>(
 
 export const useMutateRemoveRecord = (
   collection: Collections,
-  id: string,
+  id?: string,
   options?: RecordOptions,
 ) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => pb.collection(collection).delete(id, options),
+    mutationFn: () => pb.collection(collection).delete(id || '', options),
     onSuccess: () => {
       toast(`Collection \`${collection.toString()}\` removed successfully`);
       queryClient.invalidateQueries({ queryKey: [collection] });

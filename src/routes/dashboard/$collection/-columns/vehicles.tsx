@@ -1,5 +1,4 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { ExpandedRoutesResponse } from '../-schemas/routes';
 import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
 import {
   DropdownMenu,
@@ -12,9 +11,9 @@ import { MoreHorizontal } from 'lucide-react';
 import { Route } from '..';
 import { Badge } from '@marahuyo/react-ui/ui/badge';
 import { format } from 'date-fns';
-import { MultiSelect } from '@marahuyo/react-ui/ui/multi-select';
+import type { ExpandedVehiclesResponse } from '../-schemas/vehicles';
 
-export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
+export const columns: ColumnDef<ExpandedVehiclesResponse>[] = [
   {
     id: 'Actions',
     header: ({ column }) => (
@@ -40,7 +39,7 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
                 navigate({
                   search: (prev) => ({
                     ...prev,
-                    editRoute: true,
+                    editVehicle: true,
                     id: row.original.id,
                   }),
                 })
@@ -53,7 +52,7 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
                 navigate({
                   search: (prev) => ({
                     ...prev,
-                    deleteRoute: true,
+                    deleteVehicle: true,
                     id: row.original.id,
                   }),
                 })
@@ -80,84 +79,96 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
     cell: ({ row }) => <Badge variant={'outline'}>{row.original.id}</Badge>,
   },
   {
-    id: 'routeName',
-    accessorKey: 'routeName',
+    id: 'licensePlate',
+    accessorKey: 'licensePlate',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Route Name"
+        title="License Plate"
       />
     ),
     cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.routeName}</Badge>
+      <Badge variant={'secondary'}>{row.original.licensePlate}</Badge>
     ),
   },
   {
-    id: 'vehicleAssigned',
-    accessorKey: 'vehicleAssigned',
+    id: 'make',
+    accessorKey: 'make',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Vehicle Assigned"
+        title="Vehicle Manufacturer"
       />
     ),
     cell: ({ row }) => (
       <Badge variant={'secondary'}>
-        {row.original.expand.vehicleAssigned?.licensePlate || 'Not Available'}
+        {row.original.make || 'Not Available'}
       </Badge>
     ),
   },
   {
-    id: 'driverAssigned',
-    accessorKey: 'driverAssigned',
+    id: 'model',
+    accessorKey: 'model',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Driver Assigned"
+        title="Model"
       />
     ),
     cell: ({ row }) => (
       <Badge variant={'secondary'}>
-        {row.original.expand.driverAssigned?.name || 'Not Available'}
+        {row.original.model || 'Not Available'}
       </Badge>
     ),
   },
   {
-    id: 'plannedStartTime',
-    accessorKey: 'plannedStartTime',
+    id: 'type',
+    accessorKey: 'type',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Planned Start Time"
+        title="Type"
       />
     ),
     cell: ({ row }) => (
       <Badge variant={'secondary'}>
-        {row.original.plannedStartTime
-          ? format(row.original.plannedStartTime, 'MM/dd/yyyy hh:mm aa')
-          : 'Not Available'}
+        {row.original.type || 'Not Available'}
       </Badge>
     ),
   },
   {
-    id: 'plannedEndTime',
-    accessorKey: 'plannedEndTime',
+    id: 'capacityVolume',
+    accessorKey: 'capacityVolume',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Planned End time"
+        title="Capacity Volume"
       />
     ),
     cell: ({ row }) => (
       <Badge variant={'secondary'}>
-        {row.original.plannedEndTime
-          ? format(row.original.plannedEndTime, 'MM/dd/yyyy hh:mm aa')
-          : 'Not Available'}
+        {`${row.original.capacityVolume} liters` || 'Not Available'}
+      </Badge>
+    ),
+  },
+  {
+    id: 'capacityWeight',
+    accessorKey: 'capacityWeight',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="w-full justify-between"
+        column={column}
+        title="Capacity Weight"
+      />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={'secondary'}>
+        {`${row.original.capacityWeight} kg` || 'Not Available'}
       </Badge>
     ),
   },
@@ -172,35 +183,25 @@ export const columns: ColumnDef<ExpandedRoutesResponse>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.status}</Badge>
+      <Badge variant={'secondary'}>
+        {row.original.status || 'Not Available'}
+      </Badge>
     ),
   },
   {
-    id: 'longitude',
-    accessorKey: 'longitude',
+    id: 'currentDriver',
+    accessorKey: 'currentDriver',
     header: ({ column }) => (
       <DataTableColumnHeader
         className="w-full justify-between"
         column={column}
-        title="Longitude"
+        title="Current Driver"
       />
     ),
     cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.longitude}</Badge>
-    ),
-  },
-  {
-    id: 'latitude',
-    accessorKey: 'latitude',
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="w-full justify-between"
-        column={column}
-        title="Latitude"
-      />
-    ),
-    cell: ({ row }) => (
-      <Badge variant={'secondary'}>{row.original.latitude}</Badge>
+      <Badge variant={'secondary'}>
+        {row.original.expand.currentDriver?.name || 'Not Available'}
+      </Badge>
     ),
   },
 ];

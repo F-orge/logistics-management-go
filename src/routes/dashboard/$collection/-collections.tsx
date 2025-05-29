@@ -11,6 +11,14 @@ import { Route } from '.';
 import EditRouteForm from './-actions/routes/edit';
 import DeleteRouteForm from './-actions/routes/delete';
 import type { RecordOptions } from 'pocketbase';
+import { columns as vehicleColumns } from './-columns/vehicles';
+import {
+  paginationConfig as vehiclePaginationConfig,
+  searchQuerySchema as vehicleSearchQuerySchema,
+} from './-schemas/vehicles';
+import NewVehicleForm from './-actions/vehicles/new';
+import EditVehicleForm from './-actions/vehicles/edit';
+import DeleteVehicleForm from './-actions/vehicles/delete';
 
 export default [
   {
@@ -32,6 +40,26 @@ export default [
       },
     ],
     recordOption: { expand: 'vehicleAssigned,driverAssigned,shipmentsOnRoute' },
+  },
+  {
+    name: 'vehicles',
+    columns: vehicleColumns as ColumnDef<unknown>[],
+    paginationConfig: vehiclePaginationConfig,
+    searchQueryConfig: vehicleSearchQuerySchema,
+    toolbarComponents: [
+      () => <NewVehicleForm />,
+      () => {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        const searchQuery = Route.useSearch() as Record<string, any>;
+        return (
+          <>
+            {searchQuery.editVehicle && <EditVehicleForm />}
+            {searchQuery.deleteVehicle && <DeleteVehicleForm />}
+          </>
+        );
+      },
+    ],
+    recordOption: { expand: 'currentDriver' },
   },
 ] satisfies {
   name: string;

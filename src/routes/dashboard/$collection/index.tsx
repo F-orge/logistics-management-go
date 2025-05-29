@@ -16,27 +16,26 @@ import collections from './-collections';
 
 export const Route = createFileRoute('/dashboard/$collection/')({
   component: RouteComponent,
+  beforeLoad: (ctx) => {
+    const metadata = collections.find(
+      (collection) => collection.name === ctx.params.collection,
+    );
+    ctx.search = metadata?.searchQueryConfig.parse({}) || {};
+  },
+  loader: (ctx) => {
+    const metadata = collections.find(
+      (collection) => collection.name === ctx.params.collection,
+    );
+    return {
+      collectionMetadata: metadata,
+    };
+  },
 });
 
 function RouteComponent() {
-  const params = Route.useParams();
+  const { collectionMetadata } = Route.useLoaderData();
   const searchQuery = Route.useSearch() as Record<string, unknown>;
   const navigate = Route.useNavigate();
-
-  const collectionMetadata = useMemo(
-    () =>
-      collections.find((collection) => collection.name === params.collection),
-    [params],
-  );
-
-  useEffect(() => {
-    navigate({
-      search: (prev) => ({
-        ...collectionMetadata?.searchQueryConfig.parse({}),
-        ...prev,
-      }),
-    });
-  }, [navigate, collectionMetadata]);
 
   const collectionResponse = useQuery(
     listRecordsQuery(
@@ -52,6 +51,15 @@ function RouteComponent() {
       collectionMetadata?.recordOption,
     ),
   );
+
+  useEffect(() => {
+    navigate({
+      search: (prev) => ({
+        ...collectionMetadata?.searchQueryConfig.parse({}),
+        ...prev,
+      }),
+    });
+  }, [navigate, collectionMetadata]);
 
   const { table } = useDataTable({
     data: collectionResponse.data?.items || [],
