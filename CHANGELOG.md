@@ -1,4 +1,25 @@
 "# Changelog"
+### f25143c: feat: update version to 0.17.0 in package.json
+
+### 7f790a1: feat: add permission check for executive and finance roles in invoice forms
+
+### 56c80e4: feat: Implement role-based navigation for user access control
+- Added user role definitions and navigation item types in utils.ts.
+- Defined all navigation items with their respective access roles.
+- Created a function to filter navigation items based on user roles.
+- Updated AppSidebar component to utilize the new role-based navigation.
+- Restricted access to "Create Invoice" and "Create Payment" buttons based on user roles.
+- Updated invoice and payment edit forms to disable fields appropriately.
+- Added migrations to update collection rules for various user roles.
+
+### 2a19ed9: feat: update access control for invoices; enhance edit form with disabled fields for non-editable data
+
+### 670fdeb: feat: update date handling in inventory, orders, and shipments forms; add role field to user migration
+
+### ceb06a3: Merge pull request 60 from F-orge/51-feature---apply-crud-operation-to-all-tables
+51 feature   apply crud operation to all tables
+### 573eb48: chore(changelog): update changelog with recent feature implementations and enhancements
+
 ### 28d9f9c: Refactor dashboard routes to improve import organization and component structure
 - Reorganized imports in various dashboard components for better readability and maintainability.
 - Moved component imports to the top and grouped related imports together.
