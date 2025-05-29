@@ -11,7 +11,7 @@
 ## Tables
   - invoices
     - create: executive,finance-dep
-    - read: executive,finance-dep
+    - read: executive,finance-dep,customer-rep (only its own invoices)
     - update: executive,finance-dep
       - due-date, total-amount, status
     - delete: n/a

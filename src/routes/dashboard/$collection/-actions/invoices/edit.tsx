@@ -96,8 +96,8 @@ const EditInvoiceForm = () => {
         }
       >
         <DialogHeader>
-          <DialogTitle>New Invoice</DialogTitle>
-          <DialogDescription>Create a new invoice</DialogDescription>
+          <DialogTitle>Edit Invoice</DialogTitle>
+          <DialogDescription>Edit invoice information</DialogDescription>
         </DialogHeader>
         <form
           className="grid grid-cols-4 gap-5"
@@ -113,6 +113,7 @@ const EditInvoiceForm = () => {
                 <field.TextInputField
                   containerProps={{ className: 'col-span-4' }}
                   labelProps={{ children: '* Invoice Number' }}
+                  inputProps={{ disabled: true }}
                 />
               )}
             </form.AppField>
@@ -127,7 +128,10 @@ const EditInvoiceForm = () => {
                       value: order.id,
                     })) || []
                   }
-                  selectProps={{ defaultValue: invoice.data?.orderRef }}
+                  selectProps={{
+                    defaultValue: invoice.data?.orderRef,
+                    disabled: true,
+                  }}
                 />
               )}
             </form.AppField>
@@ -142,7 +146,10 @@ const EditInvoiceForm = () => {
                       value: customer.id,
                     })) || []
                   }
-                  selectProps={{ defaultValue: invoice.data?.customer }}
+                  selectProps={{
+                    defaultValue: invoice.data?.customer,
+                    disabled: true,
+                  }}
                 />
               )}
             </form.AppField>
@@ -151,6 +158,7 @@ const EditInvoiceForm = () => {
                 <field.SingleDateInputField
                   containerProps={{ className: 'col-span-1' }}
                   labelProps={{ children: '* Invoice Date' }}
+                  calendarProps={{ disabled: true }}
                 />
               )}
             </form.AppField>
@@ -188,7 +196,7 @@ const EditInvoiceForm = () => {
                 <field.FileUploadField
                   containerProps={{ className: 'col-span-4' }}
                   labelProps={{ children: '* Invoice PDF' }}
-                  fileUploadProps={{ maxFiles: 1 }}
+                  fileUploadProps={{ maxFiles: 1, disabled: true }}
                 />
               )}
             </form.AppField>
