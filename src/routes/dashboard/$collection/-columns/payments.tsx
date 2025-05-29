@@ -49,27 +49,13 @@ export const columns: ColumnDef<ExpandedPaymentsResponse>[] = [
                 navigate({
                   search: (prev) => ({
                     ...prev,
-                    editVehicle: true,
+                    edit: true,
                     id: row.original.id,
                   }),
                 })
               }
             >
               Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                navigate({
-                  search: (prev) => ({
-                    ...prev,
-                    deleteVehicle: true,
-                    id: row.original.id,
-                  }),
-                })
-              }
-              variant="destructive"
-            >
-              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
