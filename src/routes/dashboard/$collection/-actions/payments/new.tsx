@@ -21,6 +21,7 @@ import {
   listRecordsQuery,
   useMutateCreateRecord,
 } from '../../../../../queries';
+import { pb } from '../../../../../../lib/pocketbase';
 
 const NewPaymentForm = () => {
   const searchQuery = Route.useSearch();
@@ -56,17 +57,21 @@ const NewPaymentForm = () => {
 
   return (
     <Dialog open={searchQuery.new}>
-      <DialogTrigger asChild>
-        <Button
-          isLoading={invoices.isLoading}
-          onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, new: true }) })
-          }
-          size={'sm'}
-        >
-          Create Payment
-        </Button>
-      </DialogTrigger>
+      {['executive', 'finance_dept'].includes(
+        pb.authStore.record?.role || '',
+      ) && (
+        <DialogTrigger asChild>
+          <Button
+            isLoading={invoices.isLoading}
+            onClick={() =>
+              navigate({ search: (prev) => ({ ...prev, new: true }) })
+            }
+            size={'sm'}
+          >
+            Create Payment
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent
         className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
         ref={(e) =>

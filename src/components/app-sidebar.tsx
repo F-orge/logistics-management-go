@@ -29,107 +29,9 @@ import { useUserRecord } from '../hooks/userInfo';
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import UserProfile from './settings/user-profile';
+import { getNavigationByRole } from '../../lib/utils';
 
-// This is sample data.
 const data = {
-  navMain: [
-    {
-      groupName: 'Overview',
-      items: [
-        {
-          title: 'Dashboard',
-          url: '/dashboard',
-          icon: LayoutDashboard,
-          isActive: true,
-        },
-      ],
-    },
-    {
-      groupName: 'Finance',
-      items: [
-        {
-          title: 'Invoices',
-          url: '/dashboard/invoices',
-          icon: ScrollText,
-        },
-        {
-          title: 'Payments',
-          url: '/dashboard/payments',
-          icon: CreditCard,
-        },
-      ],
-    },
-    {
-      groupName: 'Productivity',
-      items: [
-        {
-          title: 'Tasks',
-          url: '/dashboard/tasks',
-          icon: NotebookTabs,
-        },
-      ],
-    },
-    {
-      groupName: 'Organization',
-      items: [
-        {
-          title: 'Companies',
-          url: '/dashboard/companies',
-          icon: BriefcaseBusiness,
-        },
-        {
-          title: 'Departments',
-          url: '/dashboard/departments',
-          icon: UsersRound,
-        },
-        {
-          title: 'Warehouses',
-          url: '/dashboard/warehouses',
-          icon: Warehouse,
-        },
-      ],
-    },
-    {
-      groupName: 'Inventory',
-      items: [
-        {
-          title: 'Products',
-          url: '/dashboard/products',
-          icon: QrCode,
-        },
-        {
-          title: 'Inventory',
-          url: '/dashboard/inventory',
-          icon: Boxes,
-        },
-      ],
-    },
-    {
-      groupName: 'Operations',
-      items: [
-        {
-          title: 'Orders',
-          url: '/dashboard/orders',
-          icon: Logs,
-        },
-        {
-          title: 'Shipments',
-          url: '/dashboard/shipments',
-          icon: Container,
-        },
-        {
-          title: 'Routes',
-          url: '/dashboard/routes',
-          icon: Waypoints,
-        },
-        {
-          title: 'Vehicles',
-          url: '/dashboard/vehicles',
-          icon: Forklift,
-        },
-      ],
-    },
-  ],
   settings: [
     {
       id: 'profile-info',
@@ -153,10 +55,14 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useUserRecord();
 
+  const userRole = pb.authStore.record?.role || '';
+
+  const navItems = getNavigationByRole(userRole);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent className="no-scrollbar">
-        <NavMain groups={data.navMain} />
+        <NavMain groups={navItems} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser

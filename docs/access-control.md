@@ -6,7 +6,7 @@
   - delivery-driver
   - customer-service-rep
   - customer-rep
-  - finance-dep (accountant)
+  - finance-dept (accountant)
 
 ## Tables
   - invoices
@@ -23,7 +23,7 @@
     - delete: n/a
   - tasks
     - create: executive, manager
-    - read: executive, manager, employee
+    - read: all
     - update:
       - executive,manager: title, status, description, priority, due-date, tags, assigned-employees, reference-order, reference-shipment
       - executive: department
