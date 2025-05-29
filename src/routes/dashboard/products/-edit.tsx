@@ -1,16 +1,3 @@
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import {
-  listRecordsQuery,
-  useMutateUpdateRecord,
-  viewRecordsQuery,
-} from '../../../queries';
-import {
-  Collections,
-  type ProductsRecord,
-  type CompaniesResponse,
-} from '../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
@@ -19,8 +6,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import {
+  Collections,
+  type CompaniesResponse,
+  type ProductsRecord,
+} from '../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../lib/utils';
 import { useFiles } from '../../../hooks/useFile';
+import {
+  listRecordsQuery,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../queries';
 
 const EditProductForm = () => {
   const searchQuery = Route.useSearch();

@@ -1,17 +1,5 @@
-import { Route } from '../..';
-import {
-  listRecordsQuery,
-  useMutateCreateRecord,
-} from '../../../../../queries';
-import {
-  Collections,
-  RoutesStatusOptions,
-  type ShipmentsResponse,
-  type UsersResponse,
-  type VehiclesResponse,
-} from '../../../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
-import { useQueries } from '@tanstack/react-query';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -20,8 +8,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@marahuyo/react-ui/ui/dialog';
-import { Button } from '@marahuyo/react-ui/ui/button';
+import { useQueries } from '@tanstack/react-query';
+import { Route } from '../..';
+import {
+  Collections,
+  RoutesStatusOptions,
+  type ShipmentsResponse,
+  type UsersResponse,
+  type VehiclesResponse,
+} from '../../../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  listRecordsQuery,
+  useMutateCreateRecord,
+} from '../../../../../queries';
 
 const NewRouteForm = () => {
   const searchQuery = Route.useSearch();

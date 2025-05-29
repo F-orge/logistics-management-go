@@ -1,19 +1,19 @@
-import type { ColumnDef } from '@tanstack/react-table';
-import type {
-  CompaniesResponse,
-  UsersRecord,
-} from '../../../../lib/pocketbase.gen';
-import { Route } from '.';
+import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
+import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
-import { Button } from '@marahuyo/react-ui/ui/button';
+import type { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import { DataTableColumnHeader } from '@marahuyo/react-ui/data-table/data-table-column-header';
-import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Route } from '.';
+import type {
+  CompaniesResponse,
+  UsersRecord,
+} from '../../../../lib/pocketbase.gen';
 
 export const columns: ColumnDef<
   CompaniesResponse<{ primaryContactPerson?: UsersRecord }>

@@ -1,11 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
-import { Route } from '.';
-import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
-import {
-  Collections,
-  type UsersResponse,
-} from '../../../../lib/pocketbase.gen';
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -13,8 +6,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import {
+  Collections,
+  type UsersResponse,
+} from '../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../lib/utils';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
 import { newWarehouseFormSchema } from './-schema';
 
 const NewWarehouseForm = () => {

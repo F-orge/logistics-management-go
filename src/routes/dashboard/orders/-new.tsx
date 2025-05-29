@@ -1,13 +1,4 @@
-import { Route } from '.';
-import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
-import {
-  Collections,
-  type CompaniesResponse,
-  OrdersStatusOptions,
-  type WarehousesResponse,
-} from '../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
-import { useQueries } from '@tanstack/react-query';
 import {
   Dialog,
   DialogContent,
@@ -15,8 +6,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { closeDialogButtonRef } from '../../../../lib/utils';
+import { useQueries } from '@tanstack/react-query';
+import { Route } from '.';
 import { pb } from '../../../../lib/pocketbase';
+import {
+  Collections,
+  type CompaniesResponse,
+  OrdersStatusOptions,
+  type WarehousesResponse,
+} from '../../../../lib/pocketbase.gen';
+import { closeDialogButtonRef } from '../../../../lib/utils';
+import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
 
 const NewOrderForm = () => {
   const searchQuery = Route.useSearch();

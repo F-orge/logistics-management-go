@@ -1,19 +1,4 @@
-import type { z } from 'zod';
-import { Route } from '../..';
-import type { searchQuerySchema } from '../../-schemas/vehicles';
-import {
-  listRecordsQuery,
-  useMutateUpdateRecord,
-  viewRecordsQuery,
-} from '../../../../../queries';
-import {
-  Collections,
-  type VehiclesResponse,
-  VehiclesStatusOptions,
-  type UsersResponse,
-} from '../../../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
-import { useQueries } from '@tanstack/react-query';
 import {
   Dialog,
   DialogContent,
@@ -21,7 +6,22 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
+import { useQueries } from '@tanstack/react-query';
+import type { z } from 'zod';
+import { Route } from '../..';
+import type { searchQuerySchema } from '../../-schemas/vehicles';
+import {
+  Collections,
+  type UsersResponse,
+  type VehiclesResponse,
+  VehiclesStatusOptions,
+} from '../../../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  listRecordsQuery,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../../../queries';
 
 const EditVehicleForm = () => {
   const searchQuery = Route.useSearch();

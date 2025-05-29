@@ -1,20 +1,20 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { searchQuerySchema } from './-schema';
-import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery } from '../../../queries';
-import { Collections } from '../../../../lib/pocketbase.gen';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
-import { columns, type ExpandedInventoryItemsResponse } from './-columns';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { Button } from '@marahuyo/react-ui/ui/button';
-import NewInventoryItemForm from './-new';
-import EditInventoryItemForm from './-edit';
-import DeleteInventoryItemForm from './-delete';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { Suspense } from 'react';
+import { Collections } from '../../../../lib/pocketbase.gen';
+import { listRecordsQuery } from '../../../queries';
+import { type ExpandedInventoryItemsResponse, columns } from './-columns';
+import DeleteInventoryItemForm from './-delete';
+import EditInventoryItemForm from './-edit';
+import NewInventoryItemForm from './-new';
+import { searchQuerySchema } from './-schema';
 
 export const Route = createFileRoute('/dashboard/inventory/')({
   component: RouteComponent,

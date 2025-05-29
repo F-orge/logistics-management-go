@@ -1,8 +1,3 @@
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
-import { Collections } from '../../../../lib/pocketbase.gen';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +8,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@marahuyo/react-ui/ui/alert-dialog';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Route } from '.';
+import { Collections } from '../../../../lib/pocketbase.gen';
+import { useMutateRemoveRecord, viewRecordsQuery } from '../../../queries';
 
 const DeleteDepartmentForm = () => {
   const searchQuery = Route.useSearch();

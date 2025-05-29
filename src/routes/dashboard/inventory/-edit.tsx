@@ -1,17 +1,4 @@
-import { Route } from '.';
-import {
-  listRecordsQuery,
-  useMutateUpdateRecord,
-  viewRecordsQuery,
-} from '../../../queries';
-import {
-  Collections,
-  type InventoryItemsResponse,
-  InventoryItemsStatusOptions,
-  type ProductsResponse,
-  type WarehousesResponse,
-} from '../../../../lib/pocketbase.gen';
-import { useQueries } from '@tanstack/react-query';
+import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
   DialogContent,
@@ -19,8 +6,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { useAppForm } from '@marahuyo/react-ui/forms/index';
+import { useQueries } from '@tanstack/react-query';
+import { Route } from '.';
+import {
+  Collections,
+  type InventoryItemsResponse,
+  InventoryItemsStatusOptions,
+  type ProductsResponse,
+  type WarehousesResponse,
+} from '../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../lib/utils';
+import {
+  listRecordsQuery,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../queries';
 
 const EditInventoryItemForm = () => {
   const searchQuery = Route.useSearch();

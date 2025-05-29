@@ -1,13 +1,3 @@
-import React from 'react';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useQueries } from '@tanstack/react-query';
-import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
-import {
-  Collections,
-  InventoryItemsStatusOptions,
-  type ProductsResponse,
-  type WarehousesResponse,
-} from '../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
@@ -16,8 +6,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
-import { closeDialogButtonRef } from '../../../../lib/utils';
+import { useQueries } from '@tanstack/react-query';
+import { useNavigate, useSearch } from '@tanstack/react-router';
+import React from 'react';
 import { Route } from '.';
+import {
+  Collections,
+  InventoryItemsStatusOptions,
+  type ProductsResponse,
+  type WarehousesResponse,
+} from '../../../../lib/pocketbase.gen';
+import { closeDialogButtonRef } from '../../../../lib/utils';
+import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
 
 const NewInventoryItemForm = () => {
   const searchQuery = Route.useSearch();

@@ -1,22 +1,22 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { columns as routesColumn } from './-columns/routes';
-import {
-  paginationConfig as routesPaginationConfig,
-  searchQuerySchema as routesSearchQuerySchema,
-} from './-schemas/routes';
-import { useQuery } from '@tanstack/react-query';
-import { type JSX, useEffect, useMemo } from 'react';
-import { listRecordsQuery } from '../../../queries';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
-import collections from './-collections';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { searchQuerySchema } from './-schema';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
+import { zodValidator } from '@tanstack/zod-adapter';
 import type { RecordOptions } from 'pocketbase';
+import { type JSX, useEffect, useMemo } from 'react';
+import { listRecordsQuery } from '../../../queries';
+import collections from './-collections';
+import { columns as routesColumn } from './-columns/routes';
+import { searchQuerySchema } from './-schema';
+import {
+  paginationConfig as routesPaginationConfig,
+  searchQuerySchema as routesSearchQuerySchema,
+} from './-schemas/routes';
 
 export const Route = createFileRoute('/dashboard/$collection/')({
   component: RouteComponent,

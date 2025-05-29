@@ -1,18 +1,3 @@
-import { Route } from '../..';
-import { useQueries } from '@tanstack/react-query';
-import {
-  listRecordsQuery,
-  useMutateCreateRecord,
-  useMutateUpdateRecord,
-  viewRecordsQuery,
-} from '../../../../../queries';
-import {
-  Collections,
-  type InvoicesResponse,
-  PaymentsStatusOptions,
-  PaymentsPaymentMethodOptions,
-  type PaymentsResponse,
-} from '../../../../../../lib/pocketbase.gen';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
@@ -21,7 +6,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
+import { useQueries } from '@tanstack/react-query';
+import { Route } from '../..';
+import {
+  Collections,
+  type InvoicesResponse,
+  PaymentsPaymentMethodOptions,
+  type PaymentsResponse,
+  PaymentsStatusOptions,
+} from '../../../../../../lib/pocketbase.gen';
 import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  listRecordsQuery,
+  useMutateUpdateRecord,
+  viewRecordsQuery,
+} from '../../../../../queries';
 
 const EditPaymentForm = () => {
   const searchQuery = Route.useSearch();

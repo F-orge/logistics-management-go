@@ -1,13 +1,3 @@
-import { Route } from '../..';
-import { useQuery } from '@tanstack/react-query';
-import {
-  useMutateRemoveRecord,
-  viewRecordsQuery,
-} from '../../../../../queries';
-import {
-  Collections,
-  type VehiclesResponse,
-} from '../../../../../../lib/pocketbase.gen';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +8,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@marahuyo/react-ui/ui/alert-dialog';
+import { useQuery } from '@tanstack/react-query';
+import { Route } from '../..';
+import {
+  Collections,
+  type VehiclesResponse,
+} from '../../../../../../lib/pocketbase.gen';
+import {
+  useMutateRemoveRecord,
+  viewRecordsQuery,
+} from '../../../../../queries';
 
 const DeleteVehicleForm = () => {
   const searchQuery = Route.useSearch();

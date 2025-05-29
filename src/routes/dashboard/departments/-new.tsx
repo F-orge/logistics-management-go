@@ -1,6 +1,3 @@
-import React from 'react';
-import { Route } from '.';
-import { useNavigate } from '@tanstack/react-router';
 import { useAppForm } from '@marahuyo/react-ui/forms/index';
 import {
   Dialog,
@@ -10,11 +7,14 @@ import {
   DialogTitle,
 } from '@marahuyo/react-ui/ui/dialog';
 import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
+import { useNavigate } from '@tanstack/react-router';
+import React from 'react';
+import { Route } from '.';
 import {
   Collections,
   type UsersResponse,
 } from '../../../../lib/pocketbase.gen';
+import { listRecordsQuery, useMutateCreateRecord } from '../../../queries';
 
 const NewDepartmentForm = () => {
   const searchQuery = Route.useSearch();

@@ -1,19 +1,19 @@
-import type { ColumnDef } from '@tanstack/react-table';
-import type {
-  CompaniesRecord,
-  ProductsResponse,
-} from '../../../../lib/pocketbase.gen';
 import { Badge } from '@marahuyo/react-ui/ui/badge';
-import { useNavigate } from '@tanstack/react-router';
-import { Route } from '.';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
-import { Button } from '@marahuyo/react-ui/ui/button';
+import { useNavigate } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
+import { Route } from '.';
+import type {
+  CompaniesRecord,
+  ProductsResponse,
+} from '../../../../lib/pocketbase.gen';
 
 export type ExpandedProductsResponse = ProductsResponse<{
   supplier: CompaniesRecord;

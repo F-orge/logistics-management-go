@@ -1,24 +1,24 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import type { ZodObject } from 'zod';
+import type { RecordOptions } from 'pocketbase';
 import type React from 'react';
+import type { ZodObject } from 'zod';
+import { Route } from '.';
+import DeleteRouteForm from './-actions/routes/delete';
+import EditRouteForm from './-actions/routes/edit';
+import NewRouteForm from './-actions/routes/new';
+import DeleteVehicleForm from './-actions/vehicles/delete';
+import EditVehicleForm from './-actions/vehicles/edit';
+import NewVehicleForm from './-actions/vehicles/new';
 import { columns as routesColumn } from './-columns/routes';
+import { columns as vehicleColumns } from './-columns/vehicles';
 import {
   paginationConfig as routesPaginationConfig,
   searchQuerySchema as routesSearchQuerySchema,
 } from './-schemas/routes';
-import NewRouteForm from './-actions/routes/new';
-import { Route } from '.';
-import EditRouteForm from './-actions/routes/edit';
-import DeleteRouteForm from './-actions/routes/delete';
-import type { RecordOptions } from 'pocketbase';
-import { columns as vehicleColumns } from './-columns/vehicles';
 import {
   paginationConfig as vehiclePaginationConfig,
   searchQuerySchema as vehicleSearchQuerySchema,
 } from './-schemas/vehicles';
-import NewVehicleForm from './-actions/vehicles/new';
-import EditVehicleForm from './-actions/vehicles/edit';
-import DeleteVehicleForm from './-actions/vehicles/delete';
 
 export default [
   {

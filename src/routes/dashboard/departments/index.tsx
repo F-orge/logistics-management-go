@@ -1,22 +1,22 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { searchQuerySchema } from './-query';
-import { useQuery } from '@tanstack/react-query';
-import { listRecordsQuery } from '../../../queries';
-import {
-  Collections,
-  DepartmentsResponse,
-} from '../../../../lib/pocketbase.gen';
-import { columns, type ExpandedDepartmentResponse } from './-columns';
-import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { DataTable } from '@marahuyo/react-ui/data-table/data-table';
 import { DataTableAdvancedToolbar } from '@marahuyo/react-ui/data-table/data-table-advanced-toolbar';
 import { DataTableFilterList } from '@marahuyo/react-ui/data-table/data-table-filter-list';
 import { DataTableSortList } from '@marahuyo/react-ui/data-table/data-table-sort-list';
+import { useDataTable } from '@marahuyo/react-ui/hooks/use-data-table';
 import { Button } from '@marahuyo/react-ui/ui/button';
-import NewDepartmentForm from './-new';
-import EditDepartmentForm from './-edit';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  Collections,
+  DepartmentsResponse,
+} from '../../../../lib/pocketbase.gen';
+import { listRecordsQuery } from '../../../queries';
+import { type ExpandedDepartmentResponse, columns } from './-columns';
 import DeleteDepartmentForm from './-delete';
+import EditDepartmentForm from './-edit';
+import NewDepartmentForm from './-new';
+import { searchQuerySchema } from './-query';
 
 export const Route = createFileRoute('/dashboard/departments/')({
   component: RouteComponent,

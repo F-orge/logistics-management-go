@@ -1,20 +1,20 @@
-import type { ColumnDef } from '@tanstack/react-table';
-import type {
-  DepartmentsResponse,
-  UsersRecord,
-} from '../../../../lib/pocketbase.gen';
-import { useNavigate } from '@tanstack/react-router';
-import { Route } from '.';
+import { Avatar, AvatarImage } from '@marahuyo/react-ui/ui/avatar';
+import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Button } from '@marahuyo/react-ui/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@marahuyo/react-ui/ui/dropdown-menu';
-import { Button } from '@marahuyo/react-ui/ui/button';
+import { useNavigate } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
-import { Avatar, AvatarImage } from '@marahuyo/react-ui/ui/avatar';
-import { Badge } from '@marahuyo/react-ui/ui/badge';
+import { Route } from '.';
+import type {
+  DepartmentsResponse,
+  UsersRecord,
+} from '../../../../lib/pocketbase.gen';
 
 export type ExpandedDepartmentResponse = DepartmentsResponse<{
   employees?: UsersRecord[];
