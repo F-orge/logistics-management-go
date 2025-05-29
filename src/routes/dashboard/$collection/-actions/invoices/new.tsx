@@ -16,11 +16,15 @@ import {
   InvoicesStatusOptions,
   type OrdersResponse,
 } from '../../../../../../lib/pocketbase.gen';
-import { closeDialogButtonRef } from '../../../../../../lib/utils';
+import {
+  checkPermission,
+  closeDialogButtonRef,
+} from '../../../../../../lib/utils';
 import {
   listRecordsQuery,
   useMutateCreateRecord,
 } from '../../../../../queries';
+import { pb } from '../../../../../../lib/pocketbase';
 
 const NewInvoiceForm = () => {
   const searchQuery = Route.useSearch();
@@ -62,17 +66,19 @@ const NewInvoiceForm = () => {
 
   return (
     <Dialog open={searchQuery.new}>
-      <DialogTrigger asChild>
-        <Button
-          isLoading={orders.isLoading || customers.isLoading}
-          onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, new: true }) })
-          }
-          size={'sm'}
-        >
-          Create Invoice
-        </Button>
-      </DialogTrigger>
+      {checkPermission(['executive', 'finance_dept']) && (
+        <DialogTrigger asChild>
+          <Button
+            isLoading={orders.isLoading || customers.isLoading}
+            onClick={() =>
+              navigate({ search: (prev) => ({ ...prev, new: true }) })
+            }
+            size={'sm'}
+          >
+            Create Invoice
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent
         className="!max-w-3/4 max-h-3/4 overflow-y-auto no-scrollbar"
         ref={(e) =>

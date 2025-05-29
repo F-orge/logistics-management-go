@@ -17,6 +17,7 @@ import type {
   OrdersRecord,
   UsersRecord,
 } from '../../../../../lib/pocketbase.gen';
+import { pb } from '../../../../../lib/pocketbase';
 
 export type ExpandedInvoicesResponse = InvoicesResponse<{
   orderRef?: OrdersRecord;
@@ -44,19 +45,23 @@ export const columns: ColumnDef<ExpandedInvoicesResponse>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem
-              onClick={() =>
-                navigate({
-                  search: (prev) => ({
-                    ...prev,
-                    edit: true,
-                    id: row.original.id,
-                  }),
-                })
-              }
-            >
-              Edit
-            </DropdownMenuItem>
+            {['executive', 'finance_dept'].includes(
+              pb.authStore.record?.role || '',
+            ) && (
+              <DropdownMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                Edit
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -1,0 +1,86 @@
+
+## Roles
+  - executive
+  - warehouse-manager
+  - dispatch-coordinator
+  - delivery-driver
+  - customer-service-rep
+  - customer-rep
+  - finance-dept (accountant)
+
+## Tables
+  - invoices
+    - create: executive,finance-dep
+    - read: executive,finance-dep,customer-rep (only its own invoices)
+    - update: executive,finance-dep
+      - due-date, total-amount, status
+    - delete: n/a
+  - payments
+    - create: executive,finance-dep
+    - read: executive,finance-dep
+    - update: executive,finance-dep
+      - status
+    - delete: n/a
+  - tasks
+    - create: executive, manager
+    - read: all
+    - update:
+      - executive,manager: title, status, description, priority, due-date, tags, assigned-employees, reference-order, reference-shipment
+      - executive: department
+      - employee: status
+    - delete: executive, manager
+  - companies
+    - create: executive
+    - read: all
+    - update: executive
+    - delete: executive
+  - departments
+    - create: executive
+    - read: all
+    - update: executive
+    - delete: executive
+  - warehouses
+    - create: executive
+    - read: all
+    - update: executive, warehouse-manager
+      - executive: manager
+    - delete: executive
+  - products
+    - create: executive, warehouse-manager,
+    - read: all
+    - update: executive, warehouse-manager
+    - delete: executive
+  - inventory
+    - create: executive, warehouse-manager, dispatch-manager
+    - read: all
+    - update: executive, warehouse-manager, dispatch-manager
+    - delete: executive, warehouse-manager, dispatch-manager
+  - orders
+    - create: executive, customer-rep
+    - read: all
+    - update: 
+      - executive: all, except order-id-custom, warehouse,
+      - dispatch-manager: status
+      - customer-rep: status (but cancelled only)
+    - delete: executive
+  - shipments
+    - create: executive, dispatch-manager
+    - read: all
+    - update:
+      executive: all, except tracking-number, actual-delivery-date, proof-of-delivery
+      dispatch-manager: all, except tracking-number
+      driver: actual-delivery-date, proof-of-delivery
+    - delete: none
+  - routes
+    - create: executive, dispatch-manager
+    - read: all
+    - update: 
+      - executive,dispatch-manager: all
+      - delivery-driver: status
+    - delete: executive, dispatch-manager but only cancelled
+  - vehicles
+    - create: executive, dispatch-manager
+    - read: all
+    - update: 
+      - executive: all except status
+      - dispatch-manager: all

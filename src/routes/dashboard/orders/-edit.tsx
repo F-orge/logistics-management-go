@@ -57,7 +57,7 @@ const EditOrderForm = () => {
     defaultValues: {
       orderIdCustom: order.data?.orderIdCustom,
       customer: order.data?.customer,
-      orderDate: order.data?.orderDate,
+      orderDate: order.data?.orderDate ? new Date(order.data?.orderDate) : '',
       status: order.data?.status,
       totalAmount: order.data?.totalAmount,
       createdBy: order.data?.createdBy,

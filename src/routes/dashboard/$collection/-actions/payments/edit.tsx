@@ -96,7 +96,10 @@ const EditPaymentForm = () => {
                       value: invoice.id,
                     })) || []
                   }
-                  selectProps={{ defaultValue: payment.data?.invoice }}
+                  selectProps={{
+                    defaultValue: payment.data?.invoice,
+                    disabled: true,
+                  }}
                 />
               )}
             </form.AppField>
@@ -105,6 +108,7 @@ const EditPaymentForm = () => {
                 <field.TextInputField
                   containerProps={{ className: 'col-span-4' }}
                   labelProps={{ children: '* Transaction ID' }}
+                  inputProps={{ disabled: true }}
                 />
               )}
             </form.AppField>
@@ -113,6 +117,7 @@ const EditPaymentForm = () => {
                 <field.SingleDateInputField
                   containerProps={{ className: 'col-span-1' }}
                   labelProps={{ children: '* Payment Date' }}
+                  calendarProps={{ disabled: true }}
                 />
               )}
             </form.AppField>
@@ -121,7 +126,7 @@ const EditPaymentForm = () => {
                 <field.TextInputField
                   containerProps={{ className: 'col-span-1' }}
                   labelProps={{ children: '* Amount Paid' }}
-                  inputProps={{ type: 'number' }}
+                  inputProps={{ type: 'number', disabled: true }}
                 />
               )}
             </form.AppField>
@@ -136,7 +141,10 @@ const EditPaymentForm = () => {
                       value: option,
                     }),
                   )}
-                  selectProps={{ defaultValue: payment.data?.paymentMethod }}
+                  selectProps={{
+                    defaultValue: payment.data?.paymentMethod,
+                    disabled: true,
+                  }}
                 />
               )}
             </form.AppField>
@@ -153,7 +161,6 @@ const EditPaymentForm = () => {
                 />
               )}
             </form.AppField>
-
             <form.AppField name="notes">
               {(field) => (
                 <field.TextAreaInputField
