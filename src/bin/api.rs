@@ -1,6 +1,7 @@
 use axum::Router;
 use axum_embed::ServeEmbed;
 use rust_embed::RustEmbed;
+use sea_orm::Database;
 use sqlx::PgPool;
 use tokio::net::TcpListener;
 
@@ -20,6 +21,8 @@ async fn main() -> anyhow::Result<()> {
     let db = PgPool::connect(db_url).await?;
 
     _ = sqlx::migrate!("./migrations").run(&db).await?;
+
+    let db = Database::connect(db_url).await?;
 
     let api = Router::new()
         .nest("/api", api::router().layer(AddExtensionLayer::new(db)))

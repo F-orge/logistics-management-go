@@ -44,3 +44,5 @@ tracing-subscriber = { version = "0.3.19", features = ["json", "env-filter"] }
 ts-rs = "11.0.1"
 uuid = { version = "1.17.0", features = ["v4"] }
 validator = "0.20.0"
+entity = { path = "entity" }
+serde_json = "1.0.140"

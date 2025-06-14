@@ -7,13 +7,13 @@ use sea_orm::{
     ActiveModelBehavior, ActiveValue::Set, DbErr, IntoActiveModel,
     prelude::async_trait::async_trait,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
 
 pub use crate::_generated::users::*;
 
-#[derive(Debug, Serialize, TS)]
+#[derive(Debug, Deserialize, TS)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct CreateUserModel {
@@ -29,7 +29,7 @@ impl CreateUserModel {
     }
 }
 
-#[derive(Debug, Serialize, TS)]
+#[derive(Debug, Deserialize, TS)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 #[ts(optional_fields)]
@@ -105,4 +105,12 @@ impl Model {
             .verify_password(password.as_bytes(), &hash)
             .is_ok()
     }
+}
+
+#[derive(Debug, Deserialize, TS)]
+#[serde(rename_all = "camelCase")]
+#[ts(export)]
+pub struct AuthenticateUserModel {
+    pub email: String,
+    pub password: String,
 }
