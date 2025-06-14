@@ -8,7 +8,10 @@
     "check": "biome check --write",
     "dev": "rsbuild dev --open",
     "format": "biome format --write",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "migrate:latest":"sqlx migrate run",
+    "migrate:reset":"sqlx database reset -y && bun database:generate",
+    "database:generate":"sea-orm-cli generate entity --serde-skip-deserializing-primary-key --with-serde deserialize --expanded-format --serde-skip-hidden-column -o entity/src/_generated --model-extra-derives ts_rs::TS --model-extra-attributes 'serde(rename_all = \"camelCase\")','ts(export)','ts(rename = stringcase::pascal_case(module_path!().rsplit_once(\"::\").unwrap().1))' --with-prelude none && cargo test -p entity"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

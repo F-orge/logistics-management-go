@@ -15,9 +15,8 @@ dist/
 !.vscode/extensions.json
 .idea
 
-
 .tanstack
-
+.env
 
 # Added by cargo
 

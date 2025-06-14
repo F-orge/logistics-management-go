@@ -2,3 +2,4 @@
 SERVER_PORT = "8080"
 SERVER_HOST = "0.0.0.0"
 DATABASE_URL = "postgres://postgres:postgres@localhost:5432/postgres"
+TS_RS_EXPORT_DIR = { value = "./bindings", relative = true }
