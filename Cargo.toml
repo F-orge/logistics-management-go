@@ -16,9 +16,11 @@ ts-rs = { version = "11.0.1", features = ["uuid-impl", "chrono-impl"] }
 uuid = { version = "1.17.0", features = ["v4"] }
 chrono = "0.4.41"
 stringcase = "0.4.0"
+argon2 = "0.5.3"
 
 [dependencies]
 anyhow = "1.0.98"
+
 axum = { version = "0.8.4", features = ["macros"] }
 axum-embed = "0.1.0"
 chrono = "0.4.41"

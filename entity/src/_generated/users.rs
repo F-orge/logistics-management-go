@@ -72,5 +72,3 @@ impl RelationTrait for Relation {
         panic!("No RelationDef")
     }
 }
-
-impl ActiveModelBehavior for ActiveModel {}
