@@ -1,5 +1,5 @@
 use argon2::{
-    Argon2,
+    Argon2, PasswordHash,
     password_hash::{PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng},
 };
 use chrono::Utc;
@@ -91,5 +91,18 @@ impl ActiveModelBehavior for ActiveModel {
             .to_string());
 
         Ok(self)
+    }
+}
+
+impl Model {
+    pub fn verify_password(&self, password: &str) -> bool {
+        let hash = match PasswordHash::new(&self.password) {
+            Ok(val) => val,
+            Err(_) => return false,
+        };
+
+        Argon2::default()
+            .verify_password(password.as_bytes(), &hash)
+            .is_ok()
     }
 }
