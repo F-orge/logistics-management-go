@@ -6,6 +6,7 @@ use sea_orm::{
 };
 use serde::Serialize;
 use ts_rs::TS;
+use validator::Validate;
 
 use crate::api::error::{APIError, APIResult};
 
@@ -44,6 +45,10 @@ async fn login(
     Extension(db): Extension<DatabaseConnection>,
     Form(payload): Form<AuthenticateUserModel>,
 ) -> APIResult<TokenResponse> {
+    if let Err(err) = payload.validate() {
+        return Err(APIError::Validator(err));
+    }
+
     let model = Entity::find()
         .filter(Column::Email.eq(payload.email))
         .one(&db)

@@ -1,7 +1,7 @@
 import type { APIErrorResponse } from '@/bindings/APIErrorResponse';
 import type { TokenResponse } from '@/bindings/TokenResponse';
 import { useAppForm } from '@/components/ui/form';
-import { client } from '@/lib/api';
+import { client, type ValidationError } from '@/lib/api';
 import { createFileRoute } from '@tanstack/react-router';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -34,7 +34,11 @@ function RouteComponent() {
           const err = e.response?.data;
 
           if (e.status === 400) {
-            form.setErrorMap(err?.data as Record<string, string>);
+            form.setErrorMap({
+              onSubmit: {
+                fields: err?.data as ValidationError,
+              },
+            });
           }
 
           toast.error('Authentication failed', { description: err?.message });

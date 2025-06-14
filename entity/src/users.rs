@@ -10,6 +10,7 @@ use sea_orm::{
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use uuid::Uuid;
+use validator::Validate;
 
 pub use crate::_generated::users::*;
 
@@ -107,10 +108,12 @@ impl Model {
     }
 }
 
-#[derive(Debug, Deserialize, TS)]
+#[derive(Debug, Deserialize, TS, Validate)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct AuthenticateUserModel {
+    #[validate(email(message = "Invalid email format"))]
     pub email: String,
+    #[validate(length(min = 10, message = "Minimum password characters is 10"))]
     pub password: String,
 }

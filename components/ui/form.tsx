@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './select';
+import type { ValidationError } from '@/lib/api';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
@@ -65,10 +66,12 @@ export const TextField = ({
           </Button>
         )}
       </div>
-      {field.state.meta.errorMap.onSubmit && (
-        <Label className="text-destructive">
-          {field.state.meta.errorMap.onSubmit.message}
-        </Label>
+      {field.state.meta.errorMap?.onSubmit?.map(
+        (item: ValidationError[string][number]) => (
+          <Label key={item.message} className="text-destructive">
+            {item.message}
+          </Label>
+        ),
       )}
     </div>
   );
@@ -120,10 +123,12 @@ export const SelectField = ({
           </SelectContent>
         </Select>
       )}
-      {field.state.meta.errorMap.onSubmit && (
-        <Label className="text-destructive">
-          {field.state.meta.errorMap.onSubmit.message}
-        </Label>
+      {field.state.meta.errorMap?.onSubmit?.map(
+        (item: ValidationError[string][number]) => (
+          <Label key={item.message} className="text-destructive">
+            {item.message}
+          </Label>
+        ),
       )}
     </div>
   );
