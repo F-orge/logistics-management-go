@@ -1,15 +1,29 @@
-# logistics-management-go
+# Rsbuild project
 
-To install dependencies:
+## Setup
 
-```bash
-bun install
-```
-
-To run:
+Install the dependencies:
 
 ```bash
-bun run index.ts
+pnpm install
 ```
 
-This project was created using `bun init` in bun v1.2.2. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Get started
+
+Start the dev server:
+
+```bash
+pnpm dev
+```
+
+Build the app for production:
+
+```bash
+pnpm build
+```
+
+Preview the production build locally:
+
+```bash
+pnpm preview
+```

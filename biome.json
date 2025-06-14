@@ -9,8 +9,7 @@
     "useIgnoreFile": true
   },
   "formatter": {
-    "indentStyle": "space",
-    "ignore": ["./src/routeTree.gen.ts"]
+    "indentStyle": "space"
   },
   "javascript": {
     "formatter": {
@@ -27,6 +26,6 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["./src/routeTree.gen.ts", "seed.ts"]
+    "ignore":["./src/routeTree.gen.ts"]
   }
 }

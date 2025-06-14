@@ -1,27 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import type { HealthCheckResponse } from '@/bindings/HealthCheckResponse';
+import { client } from '@/lib/api';
 import { createFileRoute } from '@tanstack/react-router';
-import { pb } from '../../lib/pocketbase';
+import type { AxiosError } from 'axios';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
+  loader: async () => {
+    const res = await client.get<HealthCheckResponse>('/health');
+    return { data: res.data };
+  },
+  onError: (err: AxiosError<{ code: number }>) => {
+    console.error(err);
+  },
 });
 
 function RouteComponent() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['healthCheck'],
-    queryFn: () => pb.health.check(),
-  });
+  const { data } = Route.useLoaderData();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold">Static Site Template</h1>
-      {isLoading ? (
-        'Loading'
-      ) : (
-        <p>
-          Server status: {data?.code} - {data?.message}
-        </p>
-      )}
+    <div>
+      {data.code} - {data.message}
     </div>
   );
 }

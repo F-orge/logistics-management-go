@@ -1,0 +1,32 @@
+[package]
+name = "rust-react-template"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = ["entity"]
+
+[dependencies]
+anyhow = "1.0.98"
+axum = { version = "0.8.4", features = ["macros"] }
+axum-embed = "0.1.0"
+chrono = "0.4.41"
+lettre = "0.11.17"
+rust-embed = "8.7.2"
+sea-orm = { version = "1.1.12", features = [
+  "runtime-tokio-native-tls",
+  "sqlx-postgres",
+] }
+serde = { version = "1.0.219", features = ["derive"] }
+sqlx = { version = "0.8.6", features = [
+  "postgres",
+  "migrate",
+  "runtime-tokio-native-tls",
+] }
+tokio = { version = "1.45.1", features = ["full"] }
+tower-http = { version = "0.6.6", features = ["add-extension", "fs"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["json", "env-filter"] }
+ts-rs = "11.0.1"
+uuid = { version = "1.17.0", features = ["v4"] }
+validator = "0.20.0"

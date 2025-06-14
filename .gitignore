@@ -7,13 +7,18 @@
 node_modules
 dist/
 
+# Profile
+.rspack-profile-*/
+
 # IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
 
-# pocketbase
-.output
-pb_data
 
-.env
+.tanstack
+
+
+# Added by cargo
+
+/target

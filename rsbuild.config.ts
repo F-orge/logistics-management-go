@@ -1,38 +1,34 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
+import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 import tailwindcss from '@tailwindcss/postcss';
-import { TanStackRouterRspack } from '@tanstack/router-plugin/rspack';
+
 export default defineConfig({
   plugins: [pluginReact()],
   tools: {
+    rspack: {
+      plugins: [
+        tanstackRouter({
+          target: 'react',
+          autoCodeSplitting: true,
+        }),
+      ],
+    },
+    //@ts-ignore
     postcss: {
       postcssOptions: {
         plugins: [tailwindcss],
       },
     },
-    rspack: {
-      plugins: [
-        TanStackRouterRspack({ target: 'react', autoCodeSplitting: true }),
-      ],
-    },
-  },
-  html: {
-    tags: [
-      { tag: 'body', attrs: { class: 'bg-background text-foreground' } },
-      {
-        tag: 'link',
-        attrs: { rel: 'manifest', href: './manifest.json' },
-      },
-    ],
-  },
-  server: {
-    proxy: {
-      '/api': 'http://localhost:8090',
-    },
   },
   output: {
     distPath: {
-      root: '.output/dist',
+      root: 'target/frontend-dist',
+    },
+  },
+  server: {
+    proxy: {
+      '/api': 'http://localhost:8080',
     },
   },
 });
