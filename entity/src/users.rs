@@ -1,26 +1,41 @@
 use chrono::Utc;
-use fake::Dummy;
 use password_auth::{generate_hash, verify_password};
 use sea_orm::{
     ActiveModelBehavior, ActiveValue::Set, DbErr, IntoActiveModel,
     prelude::async_trait::async_trait,
 };
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use ts_rs::TS;
 use uuid::Uuid;
 use validator::Validate;
 
 pub use crate::_generated::users::*;
 
-#[derive(Debug, Deserialize, TS, fake::Dummy)]
+#[derive(Debug, Deserialize, TS, fake::Dummy, Validate)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct CreateUserModel {
+    #[validate(length(min = 3))]
     #[dummy(faker = "fake::faker::name::en::Name()")]
     pub name: String,
+    #[validate(email(message = "Invalid email format"))]
     #[dummy(faker = "fake::faker::internet::en::SafeEmail()")]
     pub email: String,
+    #[validate(
+        length(min = 10, message = "Minimum password characters is 10"),
+        must_match(
+            other = "confirm_password",
+            message = "Both Password and Confirm Password must match"
+        )
+    )]
     pub password: String,
+    #[validate(
+        length(min = 10, message = "Minimum password characters is 10"),
+        must_match(
+            other = "password",
+            message = "Both Password and Confirm Password must match"
+        )
+    )]
     pub confirm_password: String,
 }
 

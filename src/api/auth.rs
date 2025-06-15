@@ -22,6 +22,10 @@ async fn register(
     Extension(db): Extension<DatabaseConnection>,
     Form(payload): Form<CreateUserModel>,
 ) -> APIResult<TokenResponse> {
+    if let Err(err) = payload.validate() {
+        return Err(APIError::Validator(err));
+    }
+
     let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
 
     // todo: validate
