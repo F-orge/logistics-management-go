@@ -9,9 +9,9 @@
     "dev": "rsbuild dev --open",
     "format": "biome format --write",
     "preview": "rsbuild preview",
-    "migrate:latest":"sqlx migrate run",
-    "migrate:reset":"sqlx database reset -y -f && bun database:generate",
-    "database:generate":"sea-orm-cli generate entity --serde-skip-deserializing-primary-key --with-serde deserialize --expanded-format --serde-skip-hidden-column -o entity/src/_generated --model-extra-derives ts_rs::TS --model-extra-attributes 'serde(rename_all = \"camelCase\")','ts(export)','ts(rename = stringcase::pascal_case(module_path!().rsplit_once(\"::\").unwrap().1))' --impl-active-model-behavior=false --with-prelude none && cargo test --workspace"
+    "migrate:latest": "sqlx migrate run",
+    "migrate:reset": "sqlx database reset -y -f && bun database:generate",
+    "database:generate": "sea-orm-cli generate entity --serde-skip-deserializing-primary-key --with-serde deserialize --expanded-format --serde-skip-hidden-column -o entity/src/_generated --model-extra-derives ts_rs::TS --model-extra-attributes 'serde(rename_all = \"camelCase\")','ts(export_to = \"./rust-bindings.ts\")','ts(rename = stringcase::pascal_case(module_path!().rsplit_once(\"::\").unwrap().1))' --impl-active-model-behavior=false --with-prelude none --enum-extra-derives 'ts_rs::TS' --enum-extra-attributes 'ts(export_to = \"./rust-bindings.ts\")','serde(rename_all = \"camelCase\")' && cargo test --workspace"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -61,6 +61,7 @@
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.4",
+    "typescript-result": "^3.1.1",
     "vaul": "^1.1.2",
     "zod": "^3.25.64"
   },

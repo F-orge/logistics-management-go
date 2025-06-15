@@ -1,6 +1,6 @@
-use entity::users::CreateUserModel;
+use entity::users::{self, CreateUserModel};
 use fake::{Fake, Faker};
-use sea_orm::{ActiveModelTrait, Database, IntoActiveModel};
+use sea_orm::{ActiveModelTrait, Database, EntityTrait, IntoActiveModel, sea_query::OnConflict};
 use sqlx::PgPool;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -32,14 +32,23 @@ async fn main() -> anyhow::Result<()> {
         tracing::warn!("Test user exists. skipping...");
     }
 
+    let mut fake_users = vec![];
+
     // fake users
     for _ in 0..1000 {
         let user = Faker.fake::<CreateUserModel>();
-        match user.into_active_model().insert(&db).await {
-            Ok(model) => tracing::info!("User created {}", model.name),
-            Err(_) => continue,
-        };
+        tracing::info!("Adding {}", user.name);
+        fake_users.push(user.into_active_model());
     }
+
+    _ = users::Entity::insert_many(fake_users)
+        .on_conflict(
+            OnConflict::column(users::Column::Email)
+                .do_nothing()
+                .to_owned(),
+        )
+        .exec(&db)
+        .await?;
 
     Ok(())
 }

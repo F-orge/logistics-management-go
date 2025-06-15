@@ -45,14 +45,19 @@ impl CreateUserModel {
     }
 }
 
-#[derive(Debug, Deserialize, TS)]
+#[derive(Debug, Deserialize, TS, Validate)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 #[ts(optional_fields)]
 pub struct UpdateUserModel {
     pub id: Uuid,
+    #[validate(length(min = 3))]
     pub name: Option<String>,
+    #[validate(email(message = "Invalid email format"))]
     pub email: Option<String>,
+    pub role_id: Option<Uuid>,
+    // note: separate this for better handling
+    pub old_password: Option<String>,
     pub password: Option<String>,
     pub confirm_password: Option<String>,
 }
@@ -60,12 +65,12 @@ pub struct UpdateUserModel {
 impl IntoActiveModel<ActiveModel> for CreateUserModel {
     fn into_active_model(self) -> ActiveModel {
         let now = Utc::now();
-
         ActiveModel {
             id: Set(Uuid::new_v4()),
             name: Set(self.name),
             email: Set(self.email),
             password: Set(self.password),
+            role_id: sea_orm::ActiveValue::NotSet,
             created: Set(now.fixed_offset()),
             updated: Set(now.fixed_offset()),
         }
@@ -80,6 +85,9 @@ impl IntoActiveModel<ActiveModel> for UpdateUserModel {
             name: self.name.map_or(sea_orm::ActiveValue::NotSet, Set),
             email: self.email.map_or(sea_orm::ActiveValue::NotSet, Set),
             password: self.password.map_or(sea_orm::ActiveValue::NotSet, Set),
+            role_id: self
+                .role_id
+                .map_or(sea_orm::ActiveValue::NotSet, |v| Set(Some(v))),
             created: sea_orm::ActiveValue::NotSet,
             updated: Set(now.fixed_offset()),
         }

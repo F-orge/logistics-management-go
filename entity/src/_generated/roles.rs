@@ -8,7 +8,7 @@ pub struct Entity;
 
 impl EntityName for Entity {
     fn table_name(&self) -> &str {
-        "users"
+        "roles"
     }
 }
 
@@ -20,24 +20,18 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: Uuid,
     pub name: String,
-    pub email: String,
-    #[serde(skip)]
-    pub password: String,
+    pub description: Option<String>,
     pub created: DateTimeWithTimeZone,
     pub updated: DateTimeWithTimeZone,
-    pub role_id: Option<Uuid>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
 pub enum Column {
     Id,
     Name,
-    Email,
-    #[sea_orm(column_name = "_password")]
-    Password,
+    Description,
     Created,
     Updated,
-    RoleId,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
@@ -54,7 +48,8 @@ impl PrimaryKeyTrait for PrimaryKey {
 
 #[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    Roles,
+    RolePermissions,
+    Users,
 }
 
 impl ColumnTrait for Column {
@@ -62,12 +57,10 @@ impl ColumnTrait for Column {
     fn def(&self) -> ColumnDef {
         match self {
             Self::Id => ColumnType::Uuid.def(),
-            Self::Name => ColumnType::Text.def(),
-            Self::Email => ColumnType::Text.def().unique(),
-            Self::Password => ColumnType::Text.def(),
+            Self::Name => ColumnType::Text.def().unique(),
+            Self::Description => ColumnType::Text.def().null(),
             Self::Created => ColumnType::TimestampWithTimeZone.def(),
             Self::Updated => ColumnType::TimestampWithTimeZone.def(),
-            Self::RoleId => ColumnType::Uuid.def().null(),
         }
     }
 }
@@ -75,16 +68,20 @@ impl ColumnTrait for Column {
 impl RelationTrait for Relation {
     fn def(&self) -> RelationDef {
         match self {
-            Self::Roles => Entity::belongs_to(super::roles::Entity)
-                .from(Column::RoleId)
-                .to(super::roles::Column::Id)
-                .into(),
+            Self::RolePermissions => Entity::has_many(super::role_permissions::Entity).into(),
+            Self::Users => Entity::has_many(super::users::Entity).into(),
         }
     }
 }
 
-impl Related<super::roles::Entity> for Entity {
+impl Related<super::role_permissions::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Roles.def()
+        Relation::RolePermissions.def()
+    }
+}
+
+impl Related<super::users::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Users.def()
     }
 }

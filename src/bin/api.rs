@@ -14,7 +14,11 @@ struct Assets;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let serve_assets = ServeEmbed::<Assets>::new();
+    let serve_assets = ServeEmbed::<Assets>::with_parameters(
+        Some("index.html".into()),
+        axum_embed::FallbackBehavior::NotFound,
+        Some("index.html".into()),
+    );
 
     let db_url = env!("DATABASE_URL");
 

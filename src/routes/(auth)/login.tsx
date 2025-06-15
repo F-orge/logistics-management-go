@@ -2,12 +2,16 @@ import type { APIErrorResponse } from '@/lib/bindings/APIErrorResponse';
 import type { TokenResponse } from '@/lib/bindings/TokenResponse';
 import { useAppForm } from '@/components/ui/form';
 import { client, type ValidationError } from '@/lib/api';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
 export const Route = createFileRoute('/(auth)/login')({
   component: RouteComponent,
+  beforeLoad: () => {
+    if (window.localStorage.getItem('lms-token'))
+      throw redirect({ to: '/admin' });
+  },
 });
 
 function RouteComponent() {
@@ -79,6 +83,7 @@ function RouteComponent() {
               <field.TextField
                 label="Password"
                 required
+                type="password"
                 className="col-span-full"
               />
             )}
