@@ -53,8 +53,6 @@ pub struct UpdateUserModel {
     pub name: Option<String>,
     #[validate(email(message = "Invalid email format"))]
     pub email: Option<String>,
-    pub role_id: Option<Uuid>,
-    // note: separate this for better handling
     pub old_password: Option<String>,
     pub password: Option<String>,
     pub confirm_password: Option<String>,
@@ -68,7 +66,6 @@ impl IntoActiveModel<ActiveModel> for CreateUserModel {
             name: ActiveValue::Set(self.name),
             email: ActiveValue::Set(self.email),
             password: ActiveValue::Set(self.password),
-            role_id: sea_orm::ActiveValue::NotSet,
             created: ActiveValue::Set(now.fixed_offset()),
             updated: ActiveValue::Set(now.fixed_offset()),
         }
@@ -89,9 +86,6 @@ impl IntoActiveModel<ActiveModel> for UpdateUserModel {
             password: self
                 .password
                 .map_or(sea_orm::ActiveValue::NotSet, ActiveValue::Set),
-            role_id: self
-                .role_id
-                .map_or(sea_orm::ActiveValue::NotSet, |v| ActiveValue::Set(Some(v))),
             created: sea_orm::ActiveValue::NotSet,
             updated: ActiveValue::Set(now.fixed_offset()),
         }

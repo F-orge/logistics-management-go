@@ -27,7 +27,6 @@ pub struct Model {
     pub password: String,
     pub created: DateTimeWithTimeZone,
     pub updated: DateTimeWithTimeZone,
-    pub role_id: Option<Uuid>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
@@ -39,7 +38,6 @@ pub enum Column {
     Password,
     Created,
     Updated,
-    RoleId,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
@@ -56,7 +54,7 @@ impl PrimaryKeyTrait for PrimaryKey {
 
 #[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    Roles,
+    UserRoles,
 }
 
 impl ColumnTrait for Column {
@@ -69,7 +67,6 @@ impl ColumnTrait for Column {
             Self::Password => ColumnType::Text.def(),
             Self::Created => ColumnType::TimestampWithTimeZone.def(),
             Self::Updated => ColumnType::TimestampWithTimeZone.def(),
-            Self::RoleId => ColumnType::Uuid.def().null(),
         }
     }
 }
@@ -77,16 +74,13 @@ impl ColumnTrait for Column {
 impl RelationTrait for Relation {
     fn def(&self) -> RelationDef {
         match self {
-            Self::Roles => Entity::belongs_to(super::roles::Entity)
-                .from(Column::RoleId)
-                .to(super::roles::Column::Id)
-                .into(),
+            Self::UserRoles => Entity::has_many(super::user_roles::Entity).into(),
         }
     }
 }
 
-impl Related<super::roles::Entity> for Entity {
+impl Related<super::user_roles::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Roles.def()
+        Relation::UserRoles.def()
     }
 }
