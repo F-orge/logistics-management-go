@@ -1,4 +1,21 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+} from '@/components/ui/sidebar';
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  redirect,
+} from '@tanstack/react-router';
+import { ShieldUser, Users } from 'lucide-react';
 
 export const Route = createFileRoute('/admin')({
   component: RouteComponent,
@@ -10,8 +27,36 @@ export const Route = createFileRoute('/admin')({
 
 function RouteComponent() {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Administrator</SidebarGroupLabel>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild size={'sm'}>
+                  <Link to="/admin/users">
+                    <Users />
+                    User Management
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild size={'sm'}>
+                  <Link to="/admin/access-control">
+                    <ShieldUser />
+                    Access Control
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarRail />
+      </Sidebar>
+      <main className="p-4 h-full w-full">
+        <Outlet />
+      </main>
+    </SidebarProvider>
   );
 }

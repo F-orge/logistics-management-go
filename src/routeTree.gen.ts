@@ -12,8 +12,24 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as AdminPermissionsIndexRouteImport } from './routes/admin/permissions/index'
+import { Route as AdminWarehousesRouteRouteImport } from './routes/admin/warehouses/route'
+import { Route as AdminShipmentsRouteRouteImport } from './routes/admin/shipments/route'
+import { Route as AdminProductsRouteRouteImport } from './routes/admin/products/route'
+import { Route as AdminOrdersRouteRouteImport } from './routes/admin/orders/route'
+import { Route as AdminInventoryRouteRouteImport } from './routes/admin/inventory/route'
+import { Route as AdminDepartmentsRouteRouteImport } from './routes/admin/departments/route'
+import { Route as AdminCompaniesRouteRouteImport } from './routes/admin/companies/route'
+import { Route as AdminAccessControlRouteRouteImport } from './routes/admin/access-control/route'
+import { Route as AdminWarehousesIndexRouteImport } from './routes/admin/warehouses/index'
+import { Route as AdminShipmentsIndexRouteImport } from './routes/admin/shipments/index'
+import { Route as AdminProductsIndexRouteImport } from './routes/admin/products/index'
+import { Route as AdminOrdersIndexRouteImport } from './routes/admin/orders/index'
+import { Route as AdminInventoryIndexRouteImport } from './routes/admin/inventory/index'
+import { Route as AdminDepartmentsIndexRouteImport } from './routes/admin/departments/index'
+import { Route as AdminCompaniesIndexRouteImport } from './routes/admin/companies/index'
+import { Route as AdminAccessControlIndexRouteImport } from './routes/admin/access-control/index'
 
 const AdminRouteRoute = AdminRouteRouteImport.update({
   id: '/admin',
@@ -30,50 +46,219 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminPermissionsIndexRoute = AdminPermissionsIndexRouteImport.update({
-  id: '/permissions/',
-  path: '/permissions/',
+const AdminWarehousesRouteRoute = AdminWarehousesRouteRouteImport.update({
+  id: '/warehouses',
+  path: '/warehouses',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminShipmentsRouteRoute = AdminShipmentsRouteRouteImport.update({
+  id: '/shipments',
+  path: '/shipments',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProductsRouteRoute = AdminProductsRouteRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminOrdersRouteRoute = AdminOrdersRouteRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminInventoryRouteRoute = AdminInventoryRouteRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminDepartmentsRouteRoute = AdminDepartmentsRouteRouteImport.update({
+  id: '/departments',
+  path: '/departments',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCompaniesRouteRoute = AdminCompaniesRouteRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAccessControlRouteRoute = AdminAccessControlRouteRouteImport.update({
+  id: '/access-control',
+  path: '/access-control',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminWarehousesIndexRoute = AdminWarehousesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminWarehousesRouteRoute,
+} as any)
+const AdminShipmentsIndexRoute = AdminShipmentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminShipmentsRouteRoute,
+} as any)
+const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminProductsRouteRoute,
+} as any)
+const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminOrdersRouteRoute,
+} as any)
+const AdminInventoryIndexRoute = AdminInventoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminInventoryRouteRoute,
+} as any)
+const AdminDepartmentsIndexRoute = AdminDepartmentsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminDepartmentsRouteRoute,
+} as any)
+const AdminCompaniesIndexRoute = AdminCompaniesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminCompaniesRouteRoute,
+} as any)
+const AdminAccessControlIndexRoute = AdminAccessControlIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAccessControlRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/admin/access-control': typeof AdminAccessControlRouteRouteWithChildren
+  '/admin/companies': typeof AdminCompaniesRouteRouteWithChildren
+  '/admin/departments': typeof AdminDepartmentsRouteRouteWithChildren
+  '/admin/inventory': typeof AdminInventoryRouteRouteWithChildren
+  '/admin/orders': typeof AdminOrdersRouteRouteWithChildren
+  '/admin/products': typeof AdminProductsRouteRouteWithChildren
+  '/admin/shipments': typeof AdminShipmentsRouteRouteWithChildren
+  '/admin/warehouses': typeof AdminWarehousesRouteRouteWithChildren
   '/login': typeof authLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
-  '/admin/permissions': typeof AdminPermissionsIndexRoute
+  '/admin/access-control/': typeof AdminAccessControlIndexRoute
+  '/admin/companies/': typeof AdminCompaniesIndexRoute
+  '/admin/departments/': typeof AdminDepartmentsIndexRoute
+  '/admin/inventory/': typeof AdminInventoryIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/shipments/': typeof AdminShipmentsIndexRoute
+  '/admin/warehouses/': typeof AdminWarehousesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof authLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
-  '/admin/permissions': typeof AdminPermissionsIndexRoute
+  '/admin/access-control': typeof AdminAccessControlIndexRoute
+  '/admin/companies': typeof AdminCompaniesIndexRoute
+  '/admin/departments': typeof AdminDepartmentsIndexRoute
+  '/admin/inventory': typeof AdminInventoryIndexRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
+  '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/shipments': typeof AdminShipmentsIndexRoute
+  '/admin/warehouses': typeof AdminWarehousesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
+  '/admin/access-control': typeof AdminAccessControlRouteRouteWithChildren
+  '/admin/companies': typeof AdminCompaniesRouteRouteWithChildren
+  '/admin/departments': typeof AdminDepartmentsRouteRouteWithChildren
+  '/admin/inventory': typeof AdminInventoryRouteRouteWithChildren
+  '/admin/orders': typeof AdminOrdersRouteRouteWithChildren
+  '/admin/products': typeof AdminProductsRouteRouteWithChildren
+  '/admin/shipments': typeof AdminShipmentsRouteRouteWithChildren
+  '/admin/warehouses': typeof AdminWarehousesRouteRouteWithChildren
   '/(auth)/login': typeof authLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
-  '/admin/permissions/': typeof AdminPermissionsIndexRoute
+  '/admin/access-control/': typeof AdminAccessControlIndexRoute
+  '/admin/companies/': typeof AdminCompaniesIndexRoute
+  '/admin/departments/': typeof AdminDepartmentsIndexRoute
+  '/admin/inventory/': typeof AdminInventoryIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/shipments/': typeof AdminShipmentsIndexRoute
+  '/admin/warehouses/': typeof AdminWarehousesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/login' | '/admin/' | '/admin/permissions'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/access-control'
+    | '/admin/companies'
+    | '/admin/departments'
+    | '/admin/inventory'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/shipments'
+    | '/admin/warehouses'
+    | '/login'
+    | '/admin/users'
+    | '/admin/'
+    | '/admin/access-control/'
+    | '/admin/companies/'
+    | '/admin/departments/'
+    | '/admin/inventory/'
+    | '/admin/orders/'
+    | '/admin/products/'
+    | '/admin/shipments/'
+    | '/admin/warehouses/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/admin' | '/admin/permissions'
+  to:
+    | '/'
+    | '/login'
+    | '/admin/users'
+    | '/admin'
+    | '/admin/access-control'
+    | '/admin/companies'
+    | '/admin/departments'
+    | '/admin/inventory'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/shipments'
+    | '/admin/warehouses'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/admin/access-control'
+    | '/admin/companies'
+    | '/admin/departments'
+    | '/admin/inventory'
+    | '/admin/orders'
+    | '/admin/products'
+    | '/admin/shipments'
+    | '/admin/warehouses'
     | '/(auth)/login'
+    | '/admin/users'
     | '/admin/'
-    | '/admin/permissions/'
+    | '/admin/access-control/'
+    | '/admin/companies/'
+    | '/admin/departments/'
+    | '/admin/inventory/'
+    | '/admin/orders/'
+    | '/admin/products/'
+    | '/admin/shipments/'
+    | '/admin/warehouses/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/(auth)/login': {
       id: '/(auth)/login'
       path: '/login'
@@ -112,24 +304,238 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/permissions/': {
-      id: '/admin/permissions/'
-      path: '/permissions'
-      fullPath: '/admin/permissions'
-      preLoaderRoute: typeof AdminPermissionsIndexRouteImport
+    '/admin/warehouses': {
+      id: '/admin/warehouses'
+      path: '/warehouses'
+      fullPath: '/admin/warehouses'
+      preLoaderRoute: typeof AdminWarehousesRouteRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/shipments': {
+      id: '/admin/shipments'
+      path: '/shipments'
+      fullPath: '/admin/shipments'
+      preLoaderRoute: typeof AdminShipmentsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/inventory': {
+      id: '/admin/inventory'
+      path: '/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AdminInventoryRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/departments': {
+      id: '/admin/departments'
+      path: '/departments'
+      fullPath: '/admin/departments'
+      preLoaderRoute: typeof AdminDepartmentsRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/companies': {
+      id: '/admin/companies'
+      path: '/companies'
+      fullPath: '/admin/companies'
+      preLoaderRoute: typeof AdminCompaniesRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/access-control': {
+      id: '/admin/access-control'
+      path: '/access-control'
+      fullPath: '/admin/access-control'
+      preLoaderRoute: typeof AdminAccessControlRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/warehouses/': {
+      id: '/admin/warehouses/'
+      path: '/'
+      fullPath: '/admin/warehouses/'
+      preLoaderRoute: typeof AdminWarehousesIndexRouteImport
+      parentRoute: typeof AdminWarehousesRouteRoute
+    }
+    '/admin/shipments/': {
+      id: '/admin/shipments/'
+      path: '/'
+      fullPath: '/admin/shipments/'
+      preLoaderRoute: typeof AdminShipmentsIndexRouteImport
+      parentRoute: typeof AdminShipmentsRouteRoute
+    }
+    '/admin/products/': {
+      id: '/admin/products/'
+      path: '/'
+      fullPath: '/admin/products/'
+      preLoaderRoute: typeof AdminProductsIndexRouteImport
+      parentRoute: typeof AdminProductsRouteRoute
+    }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminOrdersIndexRouteImport
+      parentRoute: typeof AdminOrdersRouteRoute
+    }
+    '/admin/inventory/': {
+      id: '/admin/inventory/'
+      path: '/'
+      fullPath: '/admin/inventory/'
+      preLoaderRoute: typeof AdminInventoryIndexRouteImport
+      parentRoute: typeof AdminInventoryRouteRoute
+    }
+    '/admin/departments/': {
+      id: '/admin/departments/'
+      path: '/'
+      fullPath: '/admin/departments/'
+      preLoaderRoute: typeof AdminDepartmentsIndexRouteImport
+      parentRoute: typeof AdminDepartmentsRouteRoute
+    }
+    '/admin/companies/': {
+      id: '/admin/companies/'
+      path: '/'
+      fullPath: '/admin/companies/'
+      preLoaderRoute: typeof AdminCompaniesIndexRouteImport
+      parentRoute: typeof AdminCompaniesRouteRoute
+    }
+    '/admin/access-control/': {
+      id: '/admin/access-control/'
+      path: '/'
+      fullPath: '/admin/access-control/'
+      preLoaderRoute: typeof AdminAccessControlIndexRouteImport
+      parentRoute: typeof AdminAccessControlRouteRoute
     }
   }
 }
 
+interface AdminAccessControlRouteRouteChildren {
+  AdminAccessControlIndexRoute: typeof AdminAccessControlIndexRoute
+}
+
+const AdminAccessControlRouteRouteChildren: AdminAccessControlRouteRouteChildren =
+  {
+    AdminAccessControlIndexRoute: AdminAccessControlIndexRoute,
+  }
+
+const AdminAccessControlRouteRouteWithChildren =
+  AdminAccessControlRouteRoute._addFileChildren(
+    AdminAccessControlRouteRouteChildren,
+  )
+
+interface AdminCompaniesRouteRouteChildren {
+  AdminCompaniesIndexRoute: typeof AdminCompaniesIndexRoute
+}
+
+const AdminCompaniesRouteRouteChildren: AdminCompaniesRouteRouteChildren = {
+  AdminCompaniesIndexRoute: AdminCompaniesIndexRoute,
+}
+
+const AdminCompaniesRouteRouteWithChildren =
+  AdminCompaniesRouteRoute._addFileChildren(AdminCompaniesRouteRouteChildren)
+
+interface AdminDepartmentsRouteRouteChildren {
+  AdminDepartmentsIndexRoute: typeof AdminDepartmentsIndexRoute
+}
+
+const AdminDepartmentsRouteRouteChildren: AdminDepartmentsRouteRouteChildren = {
+  AdminDepartmentsIndexRoute: AdminDepartmentsIndexRoute,
+}
+
+const AdminDepartmentsRouteRouteWithChildren =
+  AdminDepartmentsRouteRoute._addFileChildren(
+    AdminDepartmentsRouteRouteChildren,
+  )
+
+interface AdminInventoryRouteRouteChildren {
+  AdminInventoryIndexRoute: typeof AdminInventoryIndexRoute
+}
+
+const AdminInventoryRouteRouteChildren: AdminInventoryRouteRouteChildren = {
+  AdminInventoryIndexRoute: AdminInventoryIndexRoute,
+}
+
+const AdminInventoryRouteRouteWithChildren =
+  AdminInventoryRouteRoute._addFileChildren(AdminInventoryRouteRouteChildren)
+
+interface AdminOrdersRouteRouteChildren {
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
+}
+
+const AdminOrdersRouteRouteChildren: AdminOrdersRouteRouteChildren = {
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
+}
+
+const AdminOrdersRouteRouteWithChildren =
+  AdminOrdersRouteRoute._addFileChildren(AdminOrdersRouteRouteChildren)
+
+interface AdminProductsRouteRouteChildren {
+  AdminProductsIndexRoute: typeof AdminProductsIndexRoute
+}
+
+const AdminProductsRouteRouteChildren: AdminProductsRouteRouteChildren = {
+  AdminProductsIndexRoute: AdminProductsIndexRoute,
+}
+
+const AdminProductsRouteRouteWithChildren =
+  AdminProductsRouteRoute._addFileChildren(AdminProductsRouteRouteChildren)
+
+interface AdminShipmentsRouteRouteChildren {
+  AdminShipmentsIndexRoute: typeof AdminShipmentsIndexRoute
+}
+
+const AdminShipmentsRouteRouteChildren: AdminShipmentsRouteRouteChildren = {
+  AdminShipmentsIndexRoute: AdminShipmentsIndexRoute,
+}
+
+const AdminShipmentsRouteRouteWithChildren =
+  AdminShipmentsRouteRoute._addFileChildren(AdminShipmentsRouteRouteChildren)
+
+interface AdminWarehousesRouteRouteChildren {
+  AdminWarehousesIndexRoute: typeof AdminWarehousesIndexRoute
+}
+
+const AdminWarehousesRouteRouteChildren: AdminWarehousesRouteRouteChildren = {
+  AdminWarehousesIndexRoute: AdminWarehousesIndexRoute,
+}
+
+const AdminWarehousesRouteRouteWithChildren =
+  AdminWarehousesRouteRoute._addFileChildren(AdminWarehousesRouteRouteChildren)
+
 interface AdminRouteRouteChildren {
+  AdminAccessControlRouteRoute: typeof AdminAccessControlRouteRouteWithChildren
+  AdminCompaniesRouteRoute: typeof AdminCompaniesRouteRouteWithChildren
+  AdminDepartmentsRouteRoute: typeof AdminDepartmentsRouteRouteWithChildren
+  AdminInventoryRouteRoute: typeof AdminInventoryRouteRouteWithChildren
+  AdminOrdersRouteRoute: typeof AdminOrdersRouteRouteWithChildren
+  AdminProductsRouteRoute: typeof AdminProductsRouteRouteWithChildren
+  AdminShipmentsRouteRoute: typeof AdminShipmentsRouteRouteWithChildren
+  AdminWarehousesRouteRoute: typeof AdminWarehousesRouteRouteWithChildren
+  AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  AdminPermissionsIndexRoute: typeof AdminPermissionsIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAccessControlRouteRoute: AdminAccessControlRouteRouteWithChildren,
+  AdminCompaniesRouteRoute: AdminCompaniesRouteRouteWithChildren,
+  AdminDepartmentsRouteRoute: AdminDepartmentsRouteRouteWithChildren,
+  AdminInventoryRouteRoute: AdminInventoryRouteRouteWithChildren,
+  AdminOrdersRouteRoute: AdminOrdersRouteRouteWithChildren,
+  AdminProductsRouteRoute: AdminProductsRouteRouteWithChildren,
+  AdminShipmentsRouteRoute: AdminShipmentsRouteRouteWithChildren,
+  AdminWarehousesRouteRoute: AdminWarehousesRouteRouteWithChildren,
+  AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
-  AdminPermissionsIndexRoute: AdminPermissionsIndexRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

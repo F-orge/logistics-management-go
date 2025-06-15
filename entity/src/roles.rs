@@ -48,7 +48,6 @@ impl IntoActiveModel<ActiveModel> for CreateRoleModel {
 impl IntoActiveModel<ActiveModel> for UpdateRoleModel {
     fn into_active_model(self) -> ActiveModel {
         let now = Utc::now().fixed_offset();
-
         ActiveModel {
             id: ActiveValue::NotSet,
             name: self.name.map_or(ActiveValue::NotSet, ActiveValue::Set),
