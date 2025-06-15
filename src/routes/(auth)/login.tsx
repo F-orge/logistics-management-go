@@ -20,10 +20,17 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) => {
       try {
-        const res = await client.post<TokenResponse>('/auth/login', value, {
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        });
-        window.localStorage.setItem('lms-token', JSON.stringify(res.data));
+        const data = await toast
+          .promise(
+            client.post<TokenResponse>('/auth/login', value, {
+              headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            }),
+            {
+              success: (_) => ({ message: 'Login sucessful. redirecting...' }),
+            },
+          )
+          .unwrap();
+        window.localStorage.setItem('lms-token', JSON.stringify(data.data));
         navigate({ to: '/admin' });
       } catch (e) {
         if (isAxiosError<APIErrorResponse>(e)) {

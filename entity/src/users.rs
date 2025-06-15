@@ -1,8 +1,6 @@
-use argon2::{
-    Argon2, PasswordHash,
-    password_hash::{PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng},
-};
 use chrono::Utc;
+use fake::Dummy;
+use password_auth::{generate_hash, verify_password};
 use sea_orm::{
     ActiveModelBehavior, ActiveValue::Set, DbErr, IntoActiveModel,
     prelude::async_trait::async_trait,
@@ -14,11 +12,13 @@ use validator::Validate;
 
 pub use crate::_generated::users::*;
 
-#[derive(Debug, Deserialize, TS)]
+#[derive(Debug, Deserialize, TS, fake::Dummy)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct CreateUserModel {
+    #[dummy(faker = "fake::faker::name::en::Name()")]
     pub name: String,
+    #[dummy(faker = "fake::faker::internet::en::SafeEmail()")]
     pub email: String,
     pub password: String,
     pub confirm_password: String,
@@ -77,19 +77,12 @@ impl ActiveModelBehavior for ActiveModel {
     where
         C: sea_orm::ConnectionTrait,
     {
-        let salt = SaltString::generate(&mut OsRng);
+        let pass = self
+            .password
+            .take()
+            .ok_or(DbErr::AttrNotSet("password".into()))?;
 
-        self.password = Set(Argon2::default()
-            .hash_password(
-                self.password
-                    .into_value()
-                    .ok_or(DbErr::AttrNotSet("password".into()))?
-                    .to_string()
-                    .as_bytes(),
-                &salt,
-            )
-            .map_err(|_| DbErr::RecordNotUpdated)?
-            .to_string());
+        self.password = Set(generate_hash(pass));
 
         Ok(self)
     }
@@ -97,14 +90,7 @@ impl ActiveModelBehavior for ActiveModel {
 
 impl Model {
     pub fn verify_password(&self, password: &str) -> bool {
-        let hash = match PasswordHash::new(&self.password) {
-            Ok(val) => val,
-            Err(_) => return false,
-        };
-
-        Argon2::default()
-            .verify_password(password.as_bytes(), &hash)
-            .is_ok()
+        verify_password(password, &self.password).is_ok()
     }
 }
 

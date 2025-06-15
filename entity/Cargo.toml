@@ -10,5 +10,6 @@ ts-rs = { workspace = true }
 uuid = { workspace = true }
 chrono = { workspace = true }
 stringcase = { workspace = true }
-argon2 = { workspace = true }
 validator = { workspace = true }
+fake = { workspace = true }
+password-auth = { workspace = true }
