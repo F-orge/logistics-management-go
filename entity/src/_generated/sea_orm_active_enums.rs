@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
     Deserialize,
     ts_rs :: TS,
     Hash,
+    fake :: Dummy,
 )]
 #[sea_orm(
     rs_type = "String",

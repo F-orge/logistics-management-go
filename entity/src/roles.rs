@@ -1,4 +1,5 @@
 use chrono::Utc;
+use fake::Dummy;
 use sea_orm::{ActiveModelBehavior, ActiveValue, IntoActiveModel};
 use serde::Deserialize;
 use ts_rs::TS;
@@ -7,13 +8,15 @@ use validator::Validate;
 
 pub use crate::_generated::roles::*;
 
-#[derive(Debug, Deserialize, TS, Validate)]
+#[derive(Debug, Deserialize, TS, Validate, Dummy)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct CreateRoleModel {
+    #[dummy(faker = "fake::faker::company::en::Profession()")]
     #[validate(length(min = 3, message = "name is too short"))]
     name: String,
     #[validate(length(min = 10, message = "description is too short"))]
+    #[dummy(faker = "fake::faker::lorem::en::Paragraph(1..2)")]
     description: Option<String>,
 }
 

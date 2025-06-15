@@ -1,6 +1,13 @@
-use entity::users::{self, CreateUserModel};
+use entity::{
+    _generated::sea_orm_active_enums::TablePermissionEnum,
+    role_permissions::{self, CreateRolePermissionModel},
+    roles::{self, CreateRoleModel},
+    users::{self, CreateUserModel},
+};
 use fake::{Fake, Faker};
-use sea_orm::{ActiveModelTrait, Database, EntityTrait, IntoActiveModel, sea_query::OnConflict};
+use sea_orm::{
+    ActiveModelTrait, ActiveValue, Database, EntityTrait, IntoActiveModel, sea_query::OnConflict,
+};
 use sqlx::PgPool;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -47,6 +54,40 @@ async fn main() -> anyhow::Result<()> {
                 .do_nothing()
                 .to_owned(),
         )
+        .exec(&db)
+        .await?;
+
+    let mut batch_insert_roles = vec![];
+
+    for _ in 0..100 {
+        let role = Faker.fake::<CreateRoleModel>();
+        batch_insert_roles.push(role.into_active_model());
+    }
+
+    let roles = roles::Entity::insert_many(batch_insert_roles)
+        .on_conflict(
+            OnConflict::column(roles::Column::Name)
+                .do_nothing()
+                .to_owned(),
+        )
+        .exec_with_returning_keys(&db)
+        .await?;
+
+    let mut batch_insert_permissions = vec![];
+
+    for role in roles {
+        let mut table_permission = CreateRolePermissionModel {
+            target_table: entity::role_permissions::Tables::Users,
+            permission: vec![TablePermissionEnum::Read],
+        }
+        .into_active_model();
+
+        table_permission.role_id = ActiveValue::Set(role);
+
+        batch_insert_permissions.push(table_permission);
+    }
+
+    _ = role_permissions::Entity::insert_many(batch_insert_permissions)
         .exec(&db)
         .await?;
 

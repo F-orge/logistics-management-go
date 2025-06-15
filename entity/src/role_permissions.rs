@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use chrono::Utc;
+use fake::Dummy;
 use sea_orm::{
     ActiveEnum, ActiveModelBehavior, ActiveValue, DeriveActiveEnum, EnumIter, IntoActiveModel,
 };
@@ -12,7 +13,7 @@ use validator::{Validate, ValidationError};
 pub use crate::_generated::role_permissions::*;
 use crate::_generated::sea_orm_active_enums::TablePermissionEnum;
 
-#[derive(Debug, Deserialize, TS, DeriveActiveEnum, EnumIter)]
+#[derive(Debug, Deserialize, TS, DeriveActiveEnum, EnumIter, Dummy)]
 #[serde(rename_all = "PascalCase")]
 #[sea_orm(rs_type = "String", db_type = "Text", enum_name = "Tables")]
 #[ts(export)]
@@ -25,7 +26,7 @@ pub enum Tables {
     RolePermissions,
 }
 
-#[derive(Debug, Deserialize, TS, Validate)]
+#[derive(Debug, Deserialize, TS, Validate, Dummy)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 pub struct CreateRolePermissionModel {
