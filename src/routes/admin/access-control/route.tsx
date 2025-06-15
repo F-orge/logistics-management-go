@@ -6,8 +6,8 @@ export const Route = createFileRoute('/admin/access-control')({
 
 function RouteComponent() {
   return (
-    <div>
+    <>
       <Outlet />
-    </div>
+    </>
   );
 }

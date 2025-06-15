@@ -54,7 +54,7 @@ function RouteComponent() {
         </SidebarContent>
         <SidebarRail />
       </Sidebar>
-      <main className="p-4 h-full w-full">
+      <main className="p-4 h-full w-full grid grid-cols-12 gap-5 container mx-auto max-w-6xl">
         <Outlet />
       </main>
     </SidebarProvider>

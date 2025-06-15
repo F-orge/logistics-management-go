@@ -34,6 +34,7 @@
         "@tanstack/react-form": "^1.12.3",
         "@tanstack/react-router": "^1.121.12",
         "@tanstack/react-table": "^8.21.3",
+        "@tanstack/zod-adapter": "^1.121.12",
         "axios": "^1.10.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -432,6 +433,8 @@
     "@tanstack/table-core": ["@tanstack/table-core@8.21.3", "", {}, "sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg=="],
 
     "@tanstack/virtual-file-routes": ["@tanstack/virtual-file-routes@1.120.17", "", {}, "sha512-Ssi+yKcjG9ru02ieCpUBF7QQBEKGB7WQS1R9va3GHu+Oq9WjzmJ4rifzdugjTeKD3yfT7d1I+pOxRhoWog6CHw=="],
+
+    "@tanstack/zod-adapter": ["@tanstack/zod-adapter@1.121.12", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "zod": "^3.23.8" } }, "sha512-7nAp7tlr5j5rVF1l+Ctba9zzTj35PbBOozoUjhxAR4NMk7kpUKzlAEwvf5Uc3tbw+PoJVXaAwvku+cIpGhmyog=="],
 
     "@types/d3-array": ["@types/d3-array@3.2.1", "", {}, "sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg=="],
 
