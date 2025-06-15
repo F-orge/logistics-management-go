@@ -4,12 +4,12 @@ use axum::{
     routing::{delete, get, patch, post},
 };
 use entity::{
-    role_permissions::{self, CreateRolePermissionModel},
+    role_permissions::{self, CreateRolePermissionModel, UpdateRolePermissionModel},
     roles::{self, CreateRoleModel, UpdateRoleModel},
 };
 use sea_orm::{
-    ActiveModelTrait, ActiveValue, DatabaseConnection, EntityTrait, IntoActiveModel, LoaderTrait,
-    PaginatorTrait, TransactionTrait,
+    ActiveModelTrait, ActiveValue, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
+    LoaderTrait, ModelTrait, PaginatorTrait, QueryFilter, TransactionTrait,
 };
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
@@ -115,22 +115,167 @@ async fn list_roles(
 async fn view_role(
     Extension(db): Extension<DatabaseConnection>,
     Path(id): Path<Uuid>,
-) -> APIResult<()> {
-    unimplemented!()
+) -> APIResult<RolePermissionResponseModel> {
+    let role = roles::Entity::find_by_id(id)
+        .one(&db)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(id.into())))?;
+
+    let permissions = role_permissions::Entity::find()
+        .filter(role_permissions::Column::RoleId.eq(id))
+        .all(&db)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(RolePermissionResponseModel { role, permissions }))
 }
 
-async fn add_permission() {}
+async fn add_permission(
+    Extension(db): Extension<DatabaseConnection>,
+    Path(id): Path<Uuid>,
+    Form(payload): Form<CreateRolePermissionModel>,
+) -> APIResult<RolePermissionResponseModel> {
+    if let Err(err) = payload.validate() {
+        return Err(APIError::Validator(err));
+    }
 
-async fn update_permission() {}
+    let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
 
-async fn remove_permission() {}
+    let role = roles::Entity::find_by_id(id)
+        .one(&db)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(id.into())))?;
+
+    let mut permission_active_record = payload.into_active_model();
+
+    permission_active_record.role_id = ActiveValue::Set(role.id.clone());
+
+    _ = permission_active_record
+        .insert(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    // get all permissions
+    let permissions = role_permissions::Entity::find()
+        .filter(role_permissions::Column::RoleId.eq(role.id))
+        .all(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    _ = trx.commit().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(RolePermissionResponseModel { role, permissions }))
+}
+
+async fn update_permission(
+    Extension(db): Extension<DatabaseConnection>,
+    Path((role_id, permission_id)): Path<(Uuid, Uuid)>,
+    Form(payload): Form<UpdateRolePermissionModel>,
+) -> APIResult<RolePermissionResponseModel> {
+    if let Err(err) = payload.validate() {
+        return Err(APIError::Validator(err));
+    }
+
+    let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    let role = roles::Entity::find_by_id(role_id)
+        .one(&db)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(
+            role_id.into(),
+        )))?;
+
+    let mut permission_active_model = payload.into_active_model();
+
+    permission_active_model.id = ActiveValue::Set(permission_id);
+    permission_active_model.role_id = ActiveValue::Set(role_id);
+
+    _ = permission_active_model
+        .update(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    let permissions = role_permissions::Entity::find()
+        .filter(role_permissions::Column::RoleId.eq(role_id))
+        .all(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    _ = trx.commit().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(RolePermissionResponseModel { role, permissions }))
+}
+
+async fn remove_permission(
+    Extension(db): Extension<DatabaseConnection>,
+    Path((role_id, permission_id)): Path<(Uuid, Uuid)>,
+) -> APIResult<RolePermissionResponseModel> {
+    let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    let role = roles::Entity::find_by_id(role_id)
+        .one(&db)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(
+            role_id.into(),
+        )))?;
+
+    _ = role_permissions::Entity::find()
+        .filter(role_permissions::Column::Id.eq(permission_id))
+        .one(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(
+            permission_id.into(),
+        )))?
+        .delete(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    let permissions = role_permissions::Entity::find()
+        .filter(role_permissions::Column::RoleId.eq(role_id))
+        .all(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    _ = trx.commit().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(RolePermissionResponseModel { role, permissions }))
+}
 
 #[axum::debug_handler]
 async fn update_role(
     Extension(db): Extension<DatabaseConnection>,
+    Path(id): Path<Uuid>,
     Form(payload): Form<UpdateRoleModel>,
-) -> APIResult<()> {
-    unimplemented!()
+) -> APIResult<RolePermissionResponseModel> {
+    if let Err(err) = payload.validate() {
+        return Err(APIError::Validator(err));
+    }
+
+    let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    let mut role_active_record = payload.into_active_model();
+
+    role_active_record.id = ActiveValue::Set(id);
+
+    let role = role_active_record
+        .update(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    let permissions = role_permissions::Entity::find()
+        .filter(role_permissions::Column::RoleId.eq(id))
+        .all(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    _ = trx.commit().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(RolePermissionResponseModel { role, permissions }))
 }
 
 #[axum::debug_handler]
@@ -138,7 +283,20 @@ async fn delete_role(
     Extension(db): Extension<DatabaseConnection>,
     Path(id): Path<Uuid>,
 ) -> APIResult<()> {
-    unimplemented!()
+    let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    let _ = roles::Entity::find_by_id(id)
+        .one(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?
+        .ok_or(APIError::SeaOrm(sea_orm::DbErr::RecordNotFound(id.into())))?
+        .delete(&trx)
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    _ = trx.commit().await.map_err(|err| APIError::SeaOrm(err))?;
+
+    Ok(Json(()))
 }
 
 pub fn router() -> Router {
