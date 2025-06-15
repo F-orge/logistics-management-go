@@ -15,7 +15,7 @@ impl EntityName for Entity {
 
 #[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, Deserialize, ts_rs :: TS)]
 #[serde(rename_all = "camelCase")]
-#[ts(export_to = "./rust-bindings.ts")]
+#[ts(export)]
 # [ts (rename = stringcase :: pascal_case (module_path ! () . rsplit_once ("::") . unwrap () . 1))]
 pub struct Model {
     #[serde(skip_deserializing)]

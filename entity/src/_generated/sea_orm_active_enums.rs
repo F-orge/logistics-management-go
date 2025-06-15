@@ -3,13 +3,24 @@
 use sea_orm::entity::prelude::*;
 use serde::Deserialize;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Deserialize, ts_rs :: TS)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Deserialize,
+    ts_rs :: TS,
+    Hash,
+    serde :: Serialize,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
     enum_name = "table_permission_enum"
 )]
-#[ts(export_to = "./rust-bindings.ts")]
+#[ts(export)]
 #[serde(rename_all = "camelCase")]
 pub enum TablePermissionEnum {
     #[sea_orm(string_value = "read")]
