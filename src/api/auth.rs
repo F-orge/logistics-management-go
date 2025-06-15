@@ -1,4 +1,5 @@
 use axum::{Extension, Form, Json, Router, routing::post};
+use chrono::Duration;
 use entity::users::{AuthenticateUserModel, Column, CreateUserModel, Entity};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
@@ -8,7 +9,10 @@ use serde::Serialize;
 use ts_rs::TS;
 use validator::Validate;
 
-use crate::api::error::{APIError, APIResult};
+use crate::{
+    api::error::{APIError, APIResult},
+    utils::JWTClaims,
+};
 
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]
@@ -28,20 +32,24 @@ async fn register(
 
     let trx = db.begin().await.map_err(|err| APIError::SeaOrm(err))?;
 
-    // todo: validate
-
-    let _ = payload
+    let record = payload
         .into_active_model()
         .insert(&trx)
         .await
         .map_err(|err| APIError::SeaOrm(err))?;
 
-    let token = "random-token";
+    let claims = JWTClaims::new(
+        record,
+        Duration::seconds(3600),
+        "staging-lms.marahuyo.dev",
+        "staging-lms.marahuyo.dev",
+    );
 
-    Ok(Json(TokenResponse {
-        token: token.into(),
-        exp: 3600,
-    }))
+    let token = claims
+        .sign("secret-key")
+        .map_err(|err| APIError::Anyhow(err))?;
+
+    Ok(Json(TokenResponse { token, exp: 3600 }))
 }
 
 #[axum::debug_handler]
@@ -53,7 +61,7 @@ async fn login(
         return Err(APIError::Validator(err));
     }
 
-    let model = Entity::find()
+    let record = Entity::find()
         .filter(Column::Email.eq(payload.email))
         .one(&db)
         .await
@@ -62,19 +70,24 @@ async fn login(
             "Invalid email or password".into(),
         ))?;
 
-    if !model.verify_password(&payload.password) {
+    if !record.verify_password(&payload.password) {
         return Err(APIError::InvalidCredentials(
             "Invalid email or password".into(),
         ));
     }
 
-    // todo: implement jwt
-    let token = "random-token";
+    let claims = JWTClaims::new(
+        record,
+        Duration::seconds(3600),
+        "staging-lms.marahuyo.dev",
+        "staging-lms.marahuyo.dev",
+    );
 
-    Ok(Json(TokenResponse {
-        token: token.into(),
-        exp: 3600,
-    }))
+    let token = claims
+        .sign("secret-key")
+        .map_err(|err| APIError::Anyhow(err))?;
+
+    Ok(Json(TokenResponse { token, exp: 3600 }))
 }
 
 pub fn router() -> Router {

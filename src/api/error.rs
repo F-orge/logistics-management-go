@@ -16,8 +16,10 @@ pub struct APIErrorResponse {
 #[derive(Debug)]
 pub enum APIError {
     InvalidCredentials(String),
+    StatusCode((StatusCode, String)),
     SeaOrm(DbErr),
     Validator(ValidationErrors),
+    Anyhow(anyhow::Error),
 }
 
 impl IntoResponse for APIError {
@@ -44,6 +46,16 @@ impl IntoResponse for APIError {
                 code: 400,
                 message: "Validation error".into(),
                 data: serde_json::to_value(err).ok(),
+            },
+            Self::Anyhow(_) => APIErrorResponse {
+                code: 500,
+                message: "Something went wrong".into(),
+                data: None,
+            },
+            Self::StatusCode((code, message)) => APIErrorResponse {
+                code: code.as_u16(),
+                message,
+                data: None,
             },
         };
 
