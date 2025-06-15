@@ -1,5 +1,5 @@
-import type { APIErrorResponse } from '@/bindings/APIErrorResponse';
-import type { TokenResponse } from '@/bindings/TokenResponse';
+import type { APIErrorResponse } from '@/lib/bindings/APIErrorResponse';
+import type { TokenResponse } from '@/lib/bindings/TokenResponse';
 import { useAppForm } from '@/components/ui/form';
 import { client, type ValidationError } from '@/lib/api';
 import { createFileRoute } from '@tanstack/react-router';
