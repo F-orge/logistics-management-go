@@ -2,7 +2,7 @@
 
 use super::sea_orm_active_enums::TablePermissionEnum;
 use sea_orm::entity::prelude::*;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Copy, Clone, Default, Debug, DeriveEntity)]
 pub struct Entity;
@@ -13,7 +13,9 @@ impl EntityName for Entity {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, Deserialize, ts_rs :: TS)]
+#[derive(
+    Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, Serialize, Deserialize, ts_rs :: TS,
+)]
 #[serde(rename_all = "camelCase")]
 #[ts(export)]
 # [ts (rename = stringcase :: pascal_case (module_path ! () . rsplit_once ("::") . unwrap () . 1))]

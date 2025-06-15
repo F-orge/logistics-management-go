@@ -1,8 +1,7 @@
 use chrono::Utc;
 use password_auth::{generate_hash, verify_password};
 use sea_orm::{
-    ActiveModelBehavior, ActiveValue::Set, DbErr, IntoActiveModel,
-    prelude::async_trait::async_trait,
+    ActiveModelBehavior, ActiveValue, DbErr, IntoActiveModel, prelude::async_trait::async_trait,
 };
 use serde::Deserialize;
 use ts_rs::TS;
@@ -50,7 +49,6 @@ impl CreateUserModel {
 #[ts(export)]
 #[ts(optional_fields)]
 pub struct UpdateUserModel {
-    pub id: Uuid,
     #[validate(length(min = 3))]
     pub name: Option<String>,
     #[validate(email(message = "Invalid email format"))]
@@ -66,13 +64,13 @@ impl IntoActiveModel<ActiveModel> for CreateUserModel {
     fn into_active_model(self) -> ActiveModel {
         let now = Utc::now();
         ActiveModel {
-            id: Set(Uuid::new_v4()),
-            name: Set(self.name),
-            email: Set(self.email),
-            password: Set(self.password),
+            id: ActiveValue::Set(Uuid::new_v4()),
+            name: ActiveValue::Set(self.name),
+            email: ActiveValue::Set(self.email),
+            password: ActiveValue::Set(self.password),
             role_id: sea_orm::ActiveValue::NotSet,
-            created: Set(now.fixed_offset()),
-            updated: Set(now.fixed_offset()),
+            created: ActiveValue::Set(now.fixed_offset()),
+            updated: ActiveValue::Set(now.fixed_offset()),
         }
     }
 }
@@ -81,15 +79,21 @@ impl IntoActiveModel<ActiveModel> for UpdateUserModel {
     fn into_active_model(self) -> ActiveModel {
         let now = Utc::now();
         ActiveModel {
-            id: Set(self.id),
-            name: self.name.map_or(sea_orm::ActiveValue::NotSet, Set),
-            email: self.email.map_or(sea_orm::ActiveValue::NotSet, Set),
-            password: self.password.map_or(sea_orm::ActiveValue::NotSet, Set),
+            id: sea_orm::ActiveValue::NotSet,
+            name: self
+                .name
+                .map_or(sea_orm::ActiveValue::NotSet, ActiveValue::Set),
+            email: self
+                .email
+                .map_or(sea_orm::ActiveValue::NotSet, ActiveValue::Set),
+            password: self
+                .password
+                .map_or(sea_orm::ActiveValue::NotSet, ActiveValue::Set),
             role_id: self
                 .role_id
-                .map_or(sea_orm::ActiveValue::NotSet, |v| Set(Some(v))),
+                .map_or(sea_orm::ActiveValue::NotSet, |v| ActiveValue::Set(Some(v))),
             created: sea_orm::ActiveValue::NotSet,
-            updated: Set(now.fixed_offset()),
+            updated: ActiveValue::Set(now.fixed_offset()),
         }
     }
 }
@@ -105,7 +109,7 @@ impl ActiveModelBehavior for ActiveModel {
             .take()
             .ok_or(DbErr::AttrNotSet("password".into()))?;
 
-        self.password = Set(generate_hash(pass));
+        self.password = ActiveValue::Set(generate_hash(pass));
 
         Ok(self)
     }

@@ -11,7 +11,7 @@
     "preview": "rsbuild preview",
     "migrate:latest": "sqlx migrate run",
     "migrate:reset": "sqlx database reset -y -f && bun database:generate",
-    "database:generate": "sea-orm-cli generate entity --serde-skip-deserializing-primary-key --with-serde deserialize --expanded-format --serde-skip-hidden-column -o entity/src/_generated --model-extra-derives ts_rs::TS --model-extra-attributes 'serde(rename_all = \"camelCase\")','ts(export)','ts(rename = stringcase::pascal_case(module_path!().rsplit_once(\"::\").unwrap().1))' --impl-active-model-behavior=false --with-prelude none --enum-extra-derives 'ts_rs::TS','Hash','serde::Serialize' --enum-extra-attributes 'ts(export)','serde(rename_all = \"camelCase\")' && cargo test --workspace"
+    "database:generate": "sea-orm-cli generate entity --serde-skip-deserializing-primary-key --with-serde both --expanded-format --serde-skip-hidden-column -o entity/src/_generated --model-extra-derives ts_rs::TS --model-extra-attributes 'serde(rename_all = \"camelCase\")','ts(export)','ts(rename = stringcase::pascal_case(module_path!().rsplit_once(\"::\").unwrap().1))' --impl-active-model-behavior=false --with-prelude none --enum-extra-derives 'ts_rs::TS','Hash' --enum-extra-attributes 'ts(export)','serde(rename_all = \"camelCase\")' && cargo test --workspace"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

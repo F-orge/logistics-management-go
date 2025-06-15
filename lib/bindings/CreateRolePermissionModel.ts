@@ -2,4 +2,4 @@
 import type { TablePermissionEnum } from "./TablePermissionEnum";
 import type { Tables } from "./Tables";
 
-export type CreateRolePermissionModel = { roleId: string, targetTable: Tables, permission: Array<TablePermissionEnum>, };
+export type CreateRolePermissionModel = { targetTable: Tables, permission: Array<TablePermissionEnum>, };

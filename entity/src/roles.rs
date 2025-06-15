@@ -22,7 +22,6 @@ pub struct CreateRoleModel {
 #[ts(export)]
 #[ts(optional_fields)]
 pub struct UpdateRoleModel {
-    pub id: Uuid,
     #[validate(length(min = 3, message = "Role name is too short"))]
     name: Option<String>,
     #[validate(length(min = 10, message = "description is too short"))]
@@ -48,7 +47,7 @@ impl IntoActiveModel<ActiveModel> for UpdateRoleModel {
         let now = Utc::now().fixed_offset();
 
         ActiveModel {
-            id: ActiveValue::Set(self.id),
+            id: ActiveValue::NotSet,
             name: self.name.map_or(ActiveValue::NotSet, ActiveValue::Set),
             description: self
                 .description
