@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from './select';
 import type { ValidationError } from '@/lib/api';
+import { Textarea } from './textarea';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
@@ -65,6 +66,47 @@ export const TextField = ({
             {inputType === 'password' ? <Eye /> : <EyeClosed />}
           </Button>
         )}
+      </div>
+      {field.state.meta.errorMap?.onSubmit?.map(
+        (item: ValidationError[string][number]) => (
+          <Label key={item.message} className="text-destructive">
+            {item.message}
+          </Label>
+        ),
+      )}
+    </div>
+  );
+};
+
+export const TextAreaField = ({
+  className,
+  label,
+  ...props
+}: React.ComponentProps<'textarea'> & {
+  label?: string;
+}) => {
+  const field = useFieldContext<string>();
+
+  return (
+    <div className={cn('grid gap-2.5', className)}>
+      {label && (
+        <Label
+          className={cn(
+            field.state.meta.errorMap.onSubmit && 'text-destructive',
+          )}
+          htmlFor={props.id}
+        >
+          {label}
+        </Label>
+      )}
+      <div className="flex gap-2.5">
+        <Textarea
+          aria-invalid={!!field.state.meta.errorMap.onSubmit}
+          value={field.state.value}
+          onChange={(e) => field.handleChange(e.target.value)}
+          id={props.id}
+          {...props}
+        />
       </div>
       {field.state.meta.errorMap?.onSubmit?.map(
         (item: ValidationError[string][number]) => (
@@ -149,6 +191,6 @@ export const SubmitButton = ({ ...props }: React.ComponentProps<'button'>) => {
 export const { useAppForm, withForm } = createFormHook({
   fieldContext,
   formContext,
-  fieldComponents: { TextField, SelectField },
+  fieldComponents: { TextField, TextAreaField, SelectField },
   formComponents: { SubmitButton },
 });

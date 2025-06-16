@@ -88,9 +88,18 @@ async fn list_roles(
     Extension(db): Extension<DatabaseConnection>,
     Query(paginate): Query<PaginateQuery>,
 ) -> APIResult<ListResult<RolePermissionResponseModel>> {
-    let roles: Vec<roles::Model> = roles::Entity::find()
-        .paginate(&db, paginate.limit.unwrap_or(25))
-        .fetch_page(paginate.page.unwrap_or(0))
+    let page = paginate.page.unwrap_or(0);
+    let per_page = paginate.limit.unwrap_or(25);
+
+    let paginator = roles::Entity::find().paginate(&db, per_page);
+
+    let total_items_and_page = paginator
+        .num_items_and_pages()
+        .await
+        .map_err(|err| APIError::SeaOrm(err))?;
+
+    let roles: Vec<roles::Model> = paginator
+        .fetch_page(page)
         .await
         .map_err(|err| APIError::SeaOrm(err))?;
 
@@ -106,7 +115,10 @@ async fn list_roles(
         .collect();
 
     Ok(Json(ListResult {
-        total: items.len(),
+        page,
+        per_page,
+        total_items: total_items_and_page.number_of_items,
+        total_pages: total_items_and_page.number_of_pages,
         items,
     }))
 }

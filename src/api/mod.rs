@@ -25,6 +25,9 @@ pub struct PaginateQuery {
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]
 pub struct ListResult<T> {
-    pub total: usize,
+    pub page: u64,
+    pub per_page: u64,
+    pub total_items: u64,
+    pub total_pages: u64,
     pub items: Vec<T>,
 }
