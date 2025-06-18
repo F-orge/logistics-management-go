@@ -41,6 +41,8 @@ type DepartmentMember struct {
 	DepartmentID pgtype.UUID
 	UserID       pgtype.UUID
 	Role         string
+	Created      pgtype.Timestamptz
+	Updated      pgtype.Timestamptz
 }
 
 type InventoryItem struct {

@@ -11,7 +11,9 @@ create table departments(
 create table department_members(
   department_id uuid not null references departments(id),
   user_id uuid not null references auth.users(id),
-  role text not null check (role in ('employee','manager'))
+  role text not null check (role in ('employee','manager')),
+  created timestamptz not null default now(),
+  updated timestamptz not null default now()
 );
 
 create table shipments (

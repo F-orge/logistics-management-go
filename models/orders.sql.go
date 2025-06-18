@@ -296,51 +296,6 @@ func (q *Queries) GetOrderLineItemsByProduct(ctx context.Context, arg GetOrderLi
 	return items, nil
 }
 
-const getOrderLineItemsByQuantityRange = `-- name: GetOrderLineItemsByQuantityRange :many
-select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where quantity >= $1 and quantity <= $2 order by created desc offset $3 limit $4
-`
-
-type GetOrderLineItemsByQuantityRangeParams struct {
-	Quantity   int32
-	Quantity_2 int32
-	Offset     int32
-	Limit      int32
-}
-
-func (q *Queries) GetOrderLineItemsByQuantityRange(ctx context.Context, arg GetOrderLineItemsByQuantityRangeParams) ([]OrderLineItem, error) {
-	rows, err := q.db.Query(ctx, getOrderLineItemsByQuantityRange,
-		arg.Quantity,
-		arg.Quantity_2,
-		arg.Offset,
-		arg.Limit,
-	)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []OrderLineItem
-	for rows.Next() {
-		var i OrderLineItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Order,
-			&i.Product,
-			&i.Quantity,
-			&i.PricePerUnit,
-			&i.SubTotal,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const getOrders = `-- name: GetOrders :many
 select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc offset $1 limit $2
 `
