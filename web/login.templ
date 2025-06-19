@@ -1,0 +1,79 @@
+package web 
+
+import "github.com/jackc/pgx/v5"
+import "github.com/labstack/echo/v4"
+import "github.com/karlrobeck/echo-react-template/models"
+import "net/http"
+
+type (
+	AuthHandler struct {
+		DBConn *pgx.Conn
+	}
+
+	LoginPayload struct {
+		Email    string `form:"email" validate:"email"`
+		Password string `form:"password"`
+	}
+)
+
+func (a *AuthHandler) loginAction(ctx echo.Context) error {
+
+	payload := new(LoginPayload)
+
+	if err := ctx.Bind(payload); err != nil {
+		return err
+	}
+
+	queries := models.New(a.DBConn)
+
+	dbUser, err := queries.AuthenticateUser(ctx.Request().Context(), models.AuthenticateUserParams{
+		Email:    payload.Email,
+		Password: payload.Password,
+	})
+
+	if err != nil {
+		return ctx.String(http.StatusUnauthorized, "Invalid email or password")
+	}
+
+	ctx.SetCookie(&http.Cookie{
+		Name:  "id",
+		Value: dbUser.ID.String(),
+	})
+
+	ctx.Response().Header().Set("HX-Redirect", "/dashboard/companies/")
+
+	return ctx.String(http.StatusOK, "Login Successful")
+}
+
+func (a *AuthHandler) show(ctx echo.Context) error {
+	return Render(ctx, 200, a.Page(ctx))
+}
+
+templ (a *AuthHandler) metadata() {
+	<title>Login</title>
+}
+
+templ (a *AuthHandler) Page(ctx echo.Context) {
+	@Html(
+		a.metadata(),
+	) {
+		<main class="flex justify-center items-center h-screen">
+			<form hx-post="/auth/login" class="grid grid-cols-4 gap-2.5">
+				<div class="flex flex-col gap-1.5 col-span-full">
+					<label class="label" for="email">Email</label>
+					<input class="input" type="email" name="email" required/>
+				</div>
+				<div class="flex flex-col gap-1.5 col-span-full">
+					<label class="label" for="password">Password</label>
+					<input class="input" type="password" name="password" required/>
+				</div>
+				<button class="btn btn-default btn-default-size">Sign in</button>
+			</form>
+		</main>
+	}
+}
+
+func (a *AuthHandler) Bind(server *echo.Group) {
+	server.GET("/login", a.show)
+	server.POST("/login", a.loginAction)
+}

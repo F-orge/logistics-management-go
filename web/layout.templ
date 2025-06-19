@@ -1,0 +1,99 @@
+package web
+
+templ SidebarNav() {
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Finance</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/invoices">
+					Invoice
+				</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/payments">Payments</a>
+			</li>
+		</ul>
+	</div>
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Organization</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/departments">Departments</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/warehouses">Warehouses</a>
+			</li>
+		</ul>
+	</div>
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Clients</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/companies">Companies</a>
+			</li>
+		</ul>
+	</div>
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Inventory</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/products">Products</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/inventory">Inventory</a>
+			</li>
+		</ul>
+	</div>
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Operations</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/orders">Orders</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/shipments">Shipments</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/routes">Routes</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/vehicles">Vehicles</a>
+			</li>
+		</ul>
+	</div>
+	<div class="flex flex-col gap-1.5">
+		<span class="text-sm text-muted-foreground">Administrator</span>
+		<ul>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/users">User Management</a>
+			</li>
+			<li>
+				<a class="btn btn-ghost btn-default-size w-full !justify-start" href="/dashboard/access-control">Access Control</a>
+			</li>
+		</ul>
+	</div>
+}
+
+templ DashboardLayout(header templ.Component) {
+	@Html(
+		header,
+	) {
+		<main class="grid grid-cols-12 h-screen" x-data="{sidebarToggle:true}">
+			<aside class="col-span-2 p-4  h-full bg-sidebar overflow-y-auto no-scrollbar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col" x-show="sidebarToggle ">
+				<div class="h-full bg-sidebar pb-8 text-sidebar-foreground w-(--sidebar-width) [&>button]:hidden">
+					<div class="flex h-full w-full flex-col gap-5">
+						@SidebarNav()
+					</div>
+				</div>
+			</aside>
+			<div class="col-span-10" :class="{'col-span-full':!sidebarToggle}">
+				<div class="p-4 border-b border-border w-full">
+					<button x-on:click="sidebarToggle = !sidebarToggle">Click</button>
+				</div>
+				<div class="px-4">
+					{ children... }
+				</div>
+			</div>
+		</main>
+	}
+}

@@ -1,0 +1,89 @@
+package web
+
+import "github.com/jackc/pgx/v5"
+import "github.com/labstack/echo/v4"
+import "net/http"
+import "github.com/karlrobeck/echo-react-template/models"
+
+type (
+	RegisterHandler struct {
+		DBConn *pgx.Conn
+	}
+	RegisterPayload struct {
+		Name     string `form:"name"`
+		Email    string `form:"email"`
+		Password string `form:"password"`
+	}
+)
+
+func (r *RegisterHandler) registerAction(ctx echo.Context) error {
+
+	payload := new(RegisterPayload)
+
+	if err := ctx.Bind(payload); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
+	}
+
+	trx, err := r.DBConn.Begin(ctx.Request().Context())
+
+	if err != nil {
+		return err
+	}
+
+	defer trx.Rollback(ctx.Request().Context())
+
+	queries := models.New(r.DBConn)
+
+	qtx := queries.WithTx(trx)
+
+	if _, err := qtx.CreateUser(ctx.Request().Context(), models.CreateUserParams{
+		Name:     payload.Name,
+		Email:    payload.Email,
+		Password: payload.Password,
+	}); err != nil {
+		return err
+	}
+
+	if err := trx.Commit(ctx.Request().Context()); err != nil {
+		return err
+	}
+
+	return ctx.String(400, "ok")
+}
+
+func (r *RegisterHandler) show(ctx echo.Context) error {
+	return Render(ctx, 200, r.page())
+}
+
+templ (r *RegisterHandler) metadata() {
+	<title>Register</title>
+}
+
+templ (r *RegisterHandler) page() {
+	@Html(
+		r.metadata(),
+	) {
+		<main class="flex justify-center items-center h-screen">
+			<form hx-post="/auth/register" class="grid grid-cols-4 gap-2.5">
+				<div class="flex flex-col gap-1.5 col-span-full">
+					<label class="label" for="name">Name</label>
+					<input class="input" type="text" name="name" required/>
+				</div>
+				<div class="flex flex-col gap-1.5 col-span-full">
+					<label class="label" for="email">Email</label>
+					<input class="input" type="email" name="email" required/>
+				</div>
+				<div class="flex flex-col gap-1.5 col-span-full">
+					<label class="label" for="password">Password</label>
+					<input class="input" type="password" name="password" required/>
+				</div>
+				<button class="btn btn-default btn-default-size">Sign in</button>
+			</form>
+		</main>
+	}
+}
+
+func (r *RegisterHandler) Bind(server *echo.Group) {
+	server.GET("/register", r.show)
+	server.POST("/register", r.registerAction)
+}
