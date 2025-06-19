@@ -119,7 +119,7 @@ func (a *AuthHandler) Page(ctx echo.Context) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"flex justify-center items-center h-screen\"><form hx-post=\"/auth/login\" class=\"grid grid-cols-4 gap-2.5\"><div class=\"flex flex-col gap-1.5 col-span-full\"><label class=\"label\" for=\"email\">Email</label> <input class=\"input\" type=\"email\" name=\"email\" required></div><div class=\"flex flex-col gap-1.5 col-span-full\"><label class=\"label\" for=\"password\">Password</label> <input class=\"input\" type=\"password\" name=\"password\" required></div><button class=\"btn btn-default btn-default-size\">Sign in</button></form></main>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"flex justify-center items-center h-screen\"><div data-component=\"card\"><div data-component=\"card-header\"><div data-component=\"card-title\">Sign in</div><div data-component=\"card-description\">Sign in with your credentials</div></div><div data-component=\"card-content\"><form hx-post=\"/auth/login\" class=\"grid grid-cols-4 gap-2.5\"><div class=\"flex flex-col gap-1.5 col-span-full\"><label data-component=\"label\" for=\"email\">Email</label> <input data-component=\"input\" type=\"email\" name=\"email\" required></div><div class=\"flex flex-col gap-1.5 col-span-full\"><label data-component=\"label\" for=\"password\">Password</label> <input data-component=\"input\" type=\"password\" name=\"password\" required></div><button data-component=\"button\" data-variant=\"default\" data-size=\"default\">Sign in</button></form></div></div></main>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
