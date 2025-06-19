@@ -1,6 +1,9 @@
 -- name: CreateUser :one
 insert into auth.users (name,email,password) values ($1,$2,$3) returning *;
 
+-- name: GetUsers :many
+select * from auth.users;
+
 -- name: GetUserByID :one
 select * from auth.users where id = $1;
 

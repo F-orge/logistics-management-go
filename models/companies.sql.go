@@ -70,16 +70,11 @@ func (q *Queries) DeleteCompany(ctx context.Context, id pgtype.UUID) (Company, e
 }
 
 const getCompanies = `-- name: GetCompanies :many
-select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc offset $1 limit $2
+select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc
 `
 
-type GetCompaniesParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetCompanies(ctx context.Context, arg GetCompaniesParams) ([]Company, error) {
-	rows, err := q.db.Query(ctx, getCompanies, arg.Offset, arg.Limit)
+func (q *Queries) GetCompanies(ctx context.Context) ([]Company, error) {
+	rows, err := q.db.Query(ctx, getCompanies)
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +130,45 @@ select id, name, type, address, contact_email, contact_phone, primary_contact_pe
 
 func (q *Queries) GetCompanyByType(ctx context.Context, type_ string) ([]Company, error) {
 	rows, err := q.db.Query(ctx, getCompanyByType, type_)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Company
+	for rows.Next() {
+		var i Company
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Type,
+			&i.Address,
+			&i.ContactEmail,
+			&i.ContactPhone,
+			&i.PrimaryContactPerson,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateCompanies = `-- name: PaginateCompanies :many
+select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc offset $1 limit $2
+`
+
+type PaginateCompaniesParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateCompanies(ctx context.Context, arg PaginateCompaniesParams) ([]Company, error) {
+	rows, err := q.db.Query(ctx, paginateCompanies, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

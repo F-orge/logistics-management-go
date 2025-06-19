@@ -60,18 +60,29 @@ templ (a *AuthHandler) Page(ctx echo.Context) {
 		<main class="flex justify-center items-center h-screen">
 			<div data-component="card">
 				<div data-component="card-header">
-					<div data-component="card-title">Sign in</div>
-					<div data-component="card-description">Sign in with your credentials</div>
+					<div data-component="card-title">Login to your account</div>
+					<div data-component="card-description">Enter your email below to login to your account</div>
 				</div>
 				<div data-component="card-content">
 					<form hx-post="/auth/login" class="grid grid-cols-4 gap-2.5">
-						<div class="flex flex-col gap-1.5 col-span-full">
-							<label data-component="label" for="email">Email</label>
-							<input data-component="input" type="email" name="email" required/>
+						<div data-component="form-item" class="col-span-full">
+							<label data-component="form-label" for="email">Email</label>
+							<input data-component="input" type="email" name="email" placeholder="m@email.com" required/>
+							<span data-component="form-message"></span>
 						</div>
-						<div class="flex flex-col gap-1.5 col-span-full">
-							<label data-component="label" for="password">Password</label>
-							<input data-component="input" type="password" name="password" required/>
+						<div data-component="form-item" class="col-span-full">
+							<div class="flex items-center justify-between">
+								<label data-component="form-label" for="password">Password</label>
+								<a
+									data-component="button"
+									data-variant="link"
+									data-size="default"
+									class="px-0"
+									href="/auth/forgot-password"
+								>Forgot your password?</a>
+							</div>
+							<input data-component="input" type="password" name="password" placeholder="**********" required/>
+							<span data-component="form-message"></span>
 						</div>
 						<button data-component="button" data-variant="default" data-size="default">Sign in</button>
 					</form>

@@ -103,6 +103,37 @@ func (q *Queries) GetUserByID(ctx context.Context, id pgtype.UUID) (AuthUser, er
 	return i, err
 }
 
+const getUsers = `-- name: GetUsers :many
+select id, name, email, password, created, updated from auth.users
+`
+
+func (q *Queries) GetUsers(ctx context.Context) ([]AuthUser, error) {
+	rows, err := q.db.Query(ctx, getUsers)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AuthUser
+	for rows.Next() {
+		var i AuthUser
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.Password,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateUserEmail = `-- name: UpdateUserEmail :one
 update auth.users set email = $1::text where email = $2::text and id = $3::uuid returning id, name, email, password, created, updated
 `
