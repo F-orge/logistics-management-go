@@ -108,16 +108,11 @@ func (q *Queries) GetProductByID(ctx context.Context, id pgtype.UUID) (Product, 
 }
 
 const getProducts = `-- name: GetProducts :many
-select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc offset $1 limit $2
+select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc
 `
 
-type GetProductsParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetProducts(ctx context.Context, arg GetProductsParams) ([]Product, error) {
-	rows, err := q.db.Query(ctx, getProducts, arg.Offset, arg.Limit)
+func (q *Queries) GetProducts(ctx context.Context) ([]Product, error) {
+	rows, err := q.db.Query(ctx, getProducts)
 	if err != nil {
 		return nil, err
 	}
@@ -161,6 +156,48 @@ type GetProductsBySupplierParams struct {
 
 func (q *Queries) GetProductsBySupplier(ctx context.Context, arg GetProductsBySupplierParams) ([]Product, error) {
 	rows, err := q.db.Query(ctx, getProductsBySupplier, arg.Supplier, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Product
+	for rows.Next() {
+		var i Product
+		if err := rows.Scan(
+			&i.ID,
+			&i.Sku,
+			&i.Name,
+			&i.Description,
+			&i.Width,
+			&i.Height,
+			&i.Length,
+			&i.Cost,
+			&i.Supplier,
+			&i.ImageUrl,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateProducts = `-- name: PaginateProducts :many
+select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc offset $1 limit $2
+`
+
+type PaginateProductsParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateProducts(ctx context.Context, arg PaginateProductsParams) ([]Product, error) {
+	rows, err := q.db.Query(ctx, paginateProducts, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

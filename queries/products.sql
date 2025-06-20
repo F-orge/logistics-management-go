@@ -5,6 +5,9 @@ values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 returning *;
 
 -- name: GetProducts :many
+select * from products order by created desc;
+
+-- name: PaginateProducts :many
 select * from products order by created desc offset $1 limit $2;
 
 -- name: GetProductByID :one

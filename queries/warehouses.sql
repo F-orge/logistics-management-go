@@ -5,6 +5,9 @@ values ($1, $2, $3, $4, $5)
 returning *;
 
 -- name: GetWarehouses :many
+select * from warehouses order by created desc;
+
+-- name: PaginateWarehouses :many 
 select * from warehouses order by created desc offset $1 limit $2;
 
 -- name: GetWarehouseByID :one

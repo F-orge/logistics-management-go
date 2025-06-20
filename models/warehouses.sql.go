@@ -88,16 +88,11 @@ func (q *Queries) GetWarehouseByID(ctx context.Context, id pgtype.UUID) (Warehou
 }
 
 const getWarehouses = `-- name: GetWarehouses :many
-select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc offset $1 limit $2
+select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc
 `
 
-type GetWarehousesParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetWarehouses(ctx context.Context, arg GetWarehousesParams) ([]Warehouse, error) {
-	rows, err := q.db.Query(ctx, getWarehouses, arg.Offset, arg.Limit)
+func (q *Queries) GetWarehouses(ctx context.Context) ([]Warehouse, error) {
+	rows, err := q.db.Query(ctx, getWarehouses)
 	if err != nil {
 		return nil, err
 	}
@@ -182,6 +177,44 @@ type GetWarehousesByManagerParams struct {
 
 func (q *Queries) GetWarehousesByManager(ctx context.Context, arg GetWarehousesByManagerParams) ([]Warehouse, error) {
 	rows, err := q.db.Query(ctx, getWarehousesByManager, arg.Manager, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Warehouse
+	for rows.Next() {
+		var i Warehouse
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Address,
+			&i.Longitude,
+			&i.Latitude,
+			&i.Manager,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateWarehouses = `-- name: PaginateWarehouses :many
+select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc offset $1 limit $2
+`
+
+type PaginateWarehousesParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateWarehouses(ctx context.Context, arg PaginateWarehousesParams) ([]Warehouse, error) {
+	rows, err := q.db.Query(ctx, paginateWarehouses, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

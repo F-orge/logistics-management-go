@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -83,17 +84,16 @@ to quickly create a Cobra application.`,
 			fmt.Println(i, "New company", newCompany.Name)
 		}
 
-		// products
 		companies, err := queries.GetCompanies(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		for _, company := range companies {
+		for i, company := range companies {
 
 			// create 100 items per company
-			for i := range 100 {
+			for j := range 100 {
 				newProduct, err := queries.CreateProduct(cmd.Context(), models.CreateProductParams{
 					Sku:         fmt.Sprintf("%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
 					Name:        fake.Pokemon().English(),
@@ -119,7 +119,7 @@ to quickly create a Cobra application.`,
 					continue
 				}
 
-				fmt.Println(i, "New product", newProduct.Sku)
+				fmt.Println(i, j, "New product", newProduct.Sku)
 			}
 
 		}
@@ -160,6 +160,117 @@ to quickly create a Cobra application.`,
 			}
 
 			fmt.Println(i, "New Warehouse", newWarehouse.Name)
+		}
+
+		warehouses, err := queries.GetWarehouses(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		products, err := queries.GetProducts(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		for i, product := range products {
+
+			orderStatus := []string{"pending-validation", "validated", "allocated", "picking", "packing", "ready-for-shipment", "shipped", "delivered", "cancelled", "on-hold"}
+
+			randomStatus := orderStatus[fake.Int16Between(0, int16(len(orderStatus))-1)]
+			randomCompany := companies[fake.Int16Between(0, int16(len(companies))-1)]
+			randomWarehouse := warehouses[fake.Int16Between(0, int16(len(warehouses))-1)]
+			randomQuantity := fake.Int32()
+
+			newOrder, err := queries.CreateOrder(cmd.Context(), models.CreateOrderParams{
+				CustomID:  fmt.Sprintf("ORDER-%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
+				Customer:  randomCompany.ID,
+				OrderDate: pgtype.Timestamptz{Time: time.Now(), Valid: true},
+				CreatedBy: randomCompany.PrimaryContactPerson,
+				Status:    randomStatus,
+				TotalAmount: func() pgtype.Numeric {
+					val := fake.Numerify("###.##")
+					var num pgtype.Numeric
+					err := num.Scan(val)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+				ShippingAddress:   fake.Address().Address(),
+				BillingAddress:    fake.Address().Address(),
+				AssignedWarehouse: randomWarehouse.ID,
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			if _, err := queries.CreateOrderLineItem(cmd.Context(), models.CreateOrderLineItemParams{
+				Order:    newOrder.ID,
+				Product:  product.ID,
+				Quantity: randomQuantity,
+				PricePerUnit: func() pgtype.Numeric {
+					val := fake.Numerify("###.##")
+					var num pgtype.Numeric
+					err := num.Scan(val)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+			}); err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			if _, err := queries.CreateInventoryItem(cmd.Context(), models.CreateInventoryItemParams{
+				Product:             product.ID,
+				Warehouse:           randomWarehouse.ID,
+				QuantityOnHand:      randomQuantity,
+				LotNumber:           fake.Lexify("LOT-????-????"),
+				SerialNumber:        fake.Lexify("SERIAL-????-????"),
+				StorageLocationCode: fake.Lexify("SERIAL-????-????"),
+				Status:              "available",
+			}); err != nil {
+				fmt.Println(err)
+				continue
+			}
+			fmt.Println(i, "New Order", newOrder.CustomID)
+		}
+
+		// departments
+		for range 50 {
+			newDepartment, err := queries.CreateDepartment(cmd.Context(), models.CreateDepartmentParams{
+				Name:        fake.Company().Name(),
+				Description: pgtype.Text{String: fake.Company().CatchPhrase(), Valid: true},
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			for _, user := range users {
+
+				departmentRoles := []string{"manager", "employee"}
+
+				randomRole := departmentRoles[fake.Int16Between(0, int16(len(departmentRoles))-1)]
+
+				if _, err := queries.AssignUserToDepartment(cmd.Context(), models.AssignUserToDepartmentParams{
+					DepartmentID: newDepartment.ID,
+					UserID:       user.ID,
+					Role:         randomRole,
+				}); err != nil {
+					fmt.Println(err)
+					continue
+				}
+
+			}
+
+			fmt.Println("New Department", newDepartment.Name)
 		}
 
 	},
