@@ -5,6 +5,9 @@ values ($1, $2)
 returning *;
 
 -- name: GetDepartments :many
+select * from departments order by created desc; 
+
+-- name: PaginateDepartment :many 
 select * from departments order by created desc offset $1 limit $2; 
 
 -- name: GetDepartmentByID :one

@@ -4,6 +4,9 @@ insert into orders (custom_id, customer, order_date, status, total_amount, creat
 returning *;
 
 -- name: GetOrders :many
+select * from orders order by created desc;
+
+-- name: PaginateOrders :many
 select * from orders order by created desc offset $1 limit $2;
 
 -- name: GetOrderByID :one

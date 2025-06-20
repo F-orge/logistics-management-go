@@ -12,8 +12,8 @@ import (
 )
 
 const createVehicle = `-- name: CreateVehicle :one
-insert into vehicles (license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+insert into vehicles (license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver)
+values ($1, $2, $3, $4, $5, $6, $7, $8)
 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
@@ -26,8 +26,6 @@ type CreateVehicleParams struct {
 	CapacityWeight pgtype.Numeric
 	Status         string
 	CurrentDriver  pgtype.UUID
-	Created        pgtype.Timestamptz
-	Updated        pgtype.Timestamptz
 }
 
 func (q *Queries) CreateVehicle(ctx context.Context, arg CreateVehicleParams) (Vehicle, error) {
@@ -40,8 +38,6 @@ func (q *Queries) CreateVehicle(ctx context.Context, arg CreateVehicleParams) (V
 		arg.CapacityWeight,
 		arg.Status,
 		arg.CurrentDriver,
-		arg.Created,
-		arg.Updated,
 	)
 	var i Vehicle
 	err := row.Scan(

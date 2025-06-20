@@ -297,16 +297,11 @@ func (q *Queries) GetOrderLineItemsByProduct(ctx context.Context, arg GetOrderLi
 }
 
 const getOrders = `-- name: GetOrders :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc offset $1 limit $2
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc
 `
 
-type GetOrdersParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetOrders(ctx context.Context, arg GetOrdersParams) ([]Order, error) {
-	rows, err := q.db.Query(ctx, getOrders, arg.Offset, arg.Limit)
+func (q *Queries) GetOrders(ctx context.Context) ([]Order, error) {
+	rows, err := q.db.Query(ctx, getOrders)
 	if err != nil {
 		return nil, err
 	}
@@ -485,6 +480,48 @@ type GetOrdersByWarehouseParams struct {
 
 func (q *Queries) GetOrdersByWarehouse(ctx context.Context, arg GetOrdersByWarehouseParams) ([]Order, error) {
 	rows, err := q.db.Query(ctx, getOrdersByWarehouse, arg.AssignedWarehouse, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Order
+	for rows.Next() {
+		var i Order
+		if err := rows.Scan(
+			&i.ID,
+			&i.CustomID,
+			&i.Customer,
+			&i.OrderDate,
+			&i.Status,
+			&i.TotalAmount,
+			&i.CreatedBy,
+			&i.ShippingAddress,
+			&i.BillingAddress,
+			&i.AssignedWarehouse,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateOrders = `-- name: PaginateOrders :many
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc offset $1 limit $2
+`
+
+type PaginateOrdersParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateOrders(ctx context.Context, arg PaginateOrdersParams) ([]Order, error) {
+	rows, err := q.db.Query(ctx, paginateOrders, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

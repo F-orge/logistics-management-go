@@ -232,7 +232,7 @@ to quickly create a Cobra application.`,
 				QuantityOnHand:      randomQuantity,
 				LotNumber:           fake.Lexify("LOT-????-????"),
 				SerialNumber:        fake.Lexify("SERIAL-????-????"),
-				StorageLocationCode: fake.Lexify("SERIAL-????-????"),
+				StorageLocationCode: fake.Lexify("STORAGE-????-????"),
 				Status:              "available",
 			}); err != nil {
 				fmt.Println(err)
@@ -272,6 +272,123 @@ to quickly create a Cobra application.`,
 
 			fmt.Println("New Department", newDepartment.Name)
 		}
+
+		// shipments
+		orders, err := queries.GetOrders(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		departments, err := queries.GetDepartments(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		for i, order := range orders {
+
+			shipmentStatuses := []string{"label-created", "pending-pickup", "in-transit", "out-for-delivery", "delivered", "exception", "returned"}
+
+			randomCompany := companies[fake.Int16Between(0, int16(len(companies))-1)]
+			randomDriver := users[fake.Int16Between(0, int16(len(users))-1)]
+			randomDepartment := departments[fake.Int16Between(0, int16(len(departments))-1)]
+			randomStatus := shipmentStatuses[fake.Int16Between(0, int16(len(shipmentStatuses))-1)]
+
+			newShipment, err := queries.CreateShipment(cmd.Context(), models.CreateShipmentParams{
+				Order:              order.ID,
+				TrackingNumber:     fake.Lexify("SHIPMENT-????-???-????"),
+				Carrier:            randomCompany.ID,
+				Status:             randomStatus,
+				Driver:             randomDriver.ID,
+				DepartmentAssigned: randomDepartment.ID,
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			fmt.Println(i, "New Shipment", newShipment.TrackingNumber)
+
+		}
+
+		for i := range 50 {
+
+			vehicleStatuses := []string{"available", "in-use", "maintenance", "out-of-service"}
+			randomDriver := users[fake.Int16Between(0, int16(len(users))-1)]
+			randomStatus := vehicleStatuses[fake.Int16Between(0, int16(len(vehicleStatuses))-1)]
+
+			newVehicle, err := queries.CreateVehicle(cmd.Context(), models.CreateVehicleParams{
+				LicensePlate:  fake.Lexify("???-????"),
+				Make:          fake.Company().Name(),
+				Model:         fake.Gamer().Tag(),
+				Type:          fake.Lorem().Sentence(20),
+				CurrentDriver: randomDriver.ID,
+				CapacityVolume: func() pgtype.Numeric {
+					val := fake.Numerify("###.##")
+					var num pgtype.Numeric
+					err := num.Scan(val)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+				CapacityWeight: func() pgtype.Numeric {
+					val := fake.Numerify("###.##")
+					var num pgtype.Numeric
+					err := num.Scan(val)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+				Status: randomStatus,
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			fmt.Println(i, "New Vehicle", newVehicle.LicensePlate)
+		}
+
+		shipments, err := queries.GetShipments(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		routeStatuses := []string{"planned", "in-progress", "completed", "delayed", "cancelled"}
+
+		randomStatus := routeStatuses[fake.Int16Between(0, int16(len(routeStatuses))-1)]
+
+		newRoute, err := queries.CreateRoute(
+			cmd.Context(),
+			models.CreateRouteParams{
+				Name:   fake.Address().City(),
+				Status: randomStatus,
+			},
+		)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		for i, shipment := range shipments {
+			newShipmentForRoute, err := queries.AddShipmentToRoute(cmd.Context(), models.AddShipmentToRouteParams{
+				Route:    newRoute.ID,
+				Shipment: shipment.ID,
+			})
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			fmt.Println(i, "New shipment for route", newShipmentForRoute.Route, newShipmentForRoute.Shipment)
+		}
+
+		fmt.Println("New Route", newRoute.Name)
 
 	},
 }

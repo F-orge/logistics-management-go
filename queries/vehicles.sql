@@ -1,7 +1,7 @@
 
 -- name: CreateVehicle :one
-insert into vehicles (license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+insert into vehicles (license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver)
+values ($1, $2, $3, $4, $5, $6, $7, $8)
 returning *;
 
 -- name: GetVehicles :many

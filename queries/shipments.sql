@@ -5,6 +5,9 @@ values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 returning *;
 
 -- name: GetShipments :many
+select * from shipments order by created desc;
+
+-- name: PaginateShipments :many
 select * from shipments order by created desc offset $1 limit $2;
 
 -- name: GetShipmentByID :one

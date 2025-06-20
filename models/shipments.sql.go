@@ -113,16 +113,11 @@ func (q *Queries) GetShipmentByID(ctx context.Context, id pgtype.UUID) (Shipment
 }
 
 const getShipments = `-- name: GetShipments :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments order by created desc offset $1 limit $2
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments order by created desc
 `
 
-type GetShipmentsParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetShipments(ctx context.Context, arg GetShipmentsParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipments, arg.Offset, arg.Limit)
+func (q *Queries) GetShipments(ctx context.Context) ([]Shipment, error) {
+	rows, err := q.db.Query(ctx, getShipments)
 	if err != nil {
 		return nil, err
 	}
@@ -343,6 +338,49 @@ type GetShipmentsByStatusParams struct {
 
 func (q *Queries) GetShipmentsByStatus(ctx context.Context, arg GetShipmentsByStatusParams) ([]Shipment, error) {
 	rows, err := q.db.Query(ctx, getShipmentsByStatus, arg.Status, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Shipment
+	for rows.Next() {
+		var i Shipment
+		if err := rows.Scan(
+			&i.ID,
+			&i.Order,
+			&i.TrackingNumber,
+			&i.Carrier,
+			&i.Status,
+			&i.EstimatedDeliveryDate,
+			&i.ActualDeliveryDate,
+			&i.ProofOfDeliveryImageUrl,
+			&i.Driver,
+			&i.CurrentLocationNotes,
+			&i.DepartmentAssigned,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateShipments = `-- name: PaginateShipments :many
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments order by created desc offset $1 limit $2
+`
+
+type PaginateShipmentsParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateShipments(ctx context.Context, arg PaginateShipmentsParams) ([]Shipment, error) {
+	rows, err := q.db.Query(ctx, paginateShipments, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

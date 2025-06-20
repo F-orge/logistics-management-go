@@ -146,16 +146,46 @@ func (q *Queries) GetDepartmentMembers(ctx context.Context, arg GetDepartmentMem
 }
 
 const getDepartments = `-- name: GetDepartments :many
+select id, name, description, created, updated from departments order by created desc
+`
+
+func (q *Queries) GetDepartments(ctx context.Context) ([]Department, error) {
+	rows, err := q.db.Query(ctx, getDepartments)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Department
+	for rows.Next() {
+		var i Department
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateDepartment = `-- name: PaginateDepartment :many
 select id, name, description, created, updated from departments order by created desc offset $1 limit $2
 `
 
-type GetDepartmentsParams struct {
+type PaginateDepartmentParams struct {
 	Offset int32
 	Limit  int32
 }
 
-func (q *Queries) GetDepartments(ctx context.Context, arg GetDepartmentsParams) ([]Department, error) {
-	rows, err := q.db.Query(ctx, getDepartments, arg.Offset, arg.Limit)
+func (q *Queries) PaginateDepartment(ctx context.Context, arg PaginateDepartmentParams) ([]Department, error) {
+	rows, err := q.db.Query(ctx, paginateDepartment, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
