@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -389,6 +390,48 @@ to quickly create a Cobra application.`,
 		}
 
 		fmt.Println("New Route", newRoute.Name)
+
+		for i := range 50 {
+
+			segmentType := []string{"start-point", "pickup", "waypoint", "delivery", "end-point"}
+
+			randomType := segmentType[fake.Int16Between(0, int16(len(segmentType))-1)]
+
+			newRouteSegment, err := queries.CreateRouteSegment(cmd.Context(), models.CreateRouteSegmentParams{
+				Route:          newRoute.ID,
+				SequenceNumber: int32(i),
+				SegmentType:    randomType,
+				Address:        pgtype.Text{String: fake.Address().Address(), Valid: true},
+				Longitude: func() pgtype.Numeric {
+					val := fake.Address().Longitude()
+					valString := strconv.FormatFloat(val, 'f', -1, 64)
+					var num pgtype.Numeric
+					err := num.Scan(valString)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+				Latitude: func() pgtype.Numeric {
+					val := fake.Address().Latitude()
+					valString := strconv.FormatFloat(val, 'f', -1, 64)
+					var num pgtype.Numeric
+					err := num.Scan(valString)
+					if err != nil {
+						fmt.Println(err.Error())
+					}
+					return num
+				}(),
+				Instructions: pgtype.Text{String: fake.Lorem().Paragraph(5)},
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			fmt.Println(i, "New route segment", newRouteSegment.Address)
+		}
 
 	},
 }
