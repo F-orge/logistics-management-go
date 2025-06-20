@@ -95,7 +95,7 @@ to quickly create a Cobra application.`,
 			// create 100 items per company
 			for i := range 100 {
 				newProduct, err := queries.CreateProduct(cmd.Context(), models.CreateProductParams{
-					Sku:         fmt.Sprintf("SKU-%06d", fake.IntBetween(100000, 999999)),
+					Sku:         fmt.Sprintf("%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
 					Name:        fake.Pokemon().English(),
 					Description: pgtype.Text{String: fake.Lorem().Paragraph(5), Valid: true},
 					Width:       fake.Numerify("##.##"),
@@ -122,6 +122,44 @@ to quickly create a Cobra application.`,
 				fmt.Println(i, "New product", newProduct.Sku)
 			}
 
+		}
+
+		managers, err := queries.GetUsers(cmd.Context())
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		for i, manager := range managers {
+
+			newWarehouse, err := queries.CreateWarehouse(cmd.Context(), models.CreateWarehouseParams{
+				Name:    fake.Address().BuildingNumber(),
+				Address: fake.Address().Address(),
+				Longitude: func() pgtype.Numeric {
+					var num pgtype.Numeric
+					err := num.Scan(fmt.Sprintf("%f", fake.Address().Longitude()))
+					if err != nil {
+						fmt.Println("Longitude conversion error:", err)
+					}
+					return num
+				}(),
+				Latitude: func() pgtype.Numeric {
+					var num pgtype.Numeric
+					err := num.Scan(fmt.Sprintf("%f", fake.Address().Latitude()))
+					if err != nil {
+						fmt.Println("Latitude conversion error:", err)
+					}
+					return num
+				}(),
+				Manager: manager.ID,
+			})
+
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			fmt.Println(i, "New Warehouse", newWarehouse.Name)
 		}
 
 	},
