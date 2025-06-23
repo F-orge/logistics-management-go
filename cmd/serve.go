@@ -4,10 +4,13 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/f-orge/logistics-management-go/internal/handlers"
 	"github.com/jackc/pgx/v5"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
 )
@@ -24,11 +27,17 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
+		err := godotenv.Load()
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
 		server := echo.New()
 		server.HideBanner = true
-		server.Static("/dist", "dist")
+		server.Static("/web", "dist")
 
-		conn, err := pgx.Connect(cmd.Context(), "postgres://postgres:postgres@localhost:5432/postgres")
+		conn, err := pgx.Connect(cmd.Context(), os.Getenv("DATABASE_URL"))
 
 		if err != nil {
 			log.Fatalln(err)
@@ -37,7 +46,7 @@ to quickly create a Cobra application.`,
 		handlers.NewCompanyHandler(handlers.CompanyHandler{DBConn: conn}, server)
 		handlers.NewAuthHandler(handlers.AuthHandler{DBConn: conn}, server)
 
-		if err := server.Start(":8080"); err != nil {
+		if err := server.Start(fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))); err != nil {
 			server.Logger.Fatal(err)
 		}
 

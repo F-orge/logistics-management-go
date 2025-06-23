@@ -19,3 +19,6 @@ dev:
 
 build:
 	bun build --splitting --target=browser --outdir=dist/js ./web/js/* --minify
+	templ generate
+	tailwindcss -i ./web/globals.css -o ./dist/out.css --minify
+	go build -o ./.out/main .

@@ -6,8 +6,14 @@ type CompanyPageProps struct {
 	Companies []repository.Company
 }
 
+templ CompanyPageMetadata() {
+	<title>Company page</title>
+}
+
 templ CompanyPage(props CompanyPageProps) {
-	@BaseHTML() {
+	@BaseHTML(BaseHTMLProps{
+		header: CompanyPageMetadata(),
+	}) {
 		<table data-component="table">
 			<thead data-component="table-header">
 				<tr data-component="table-row">

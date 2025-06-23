@@ -1,27 +1,43 @@
 package views
 
+templ LoginPageMetadata() {
+	<title>Login Page</title>
+}
+
 templ LoginPage() {
-	@BaseHTML() {
+	@BaseHTML(BaseHTMLProps{
+		header: LoginPageMetadata(),
+	}) {
 		<main class="h-screen flex justify-center items-center">
-			<div data-component="card">
-				<div data-component="card-header">
-					<h4 data-component="card-title">Sign in</h4>
-					<span data-component="card-description">Enter your credentials to continue</span>
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Sign in</h4>
+					<span class="card-description">Enter your credentials to continue</span>
 				</div>
 				<form action="/login" method="post">
-					<div data-component="card-content" class="grid grid-cols-4 gap-5">
-						<div data-component="form-item" class="col-span-full">
-							<label data-component="form-label" for="email">Email</label>
-							<input id="email" data-component="input" name="email" type="email" required/>
+					<div class="card-content grid grid-cols-4 gap-5">
+						<div class="form-item col-span-full">
+							<label class="form-label" for="email">Email</label>
+							<input
+								id="email"
+								class="input"
+								name="email"
+								type="email"
+								required
+							/>
 						</div>
-						<div data-component="form-item" class="col-span-full">
-							<label data-component="form-label" for="password">Password</label>
-							<input id="password" data-component="input" type="password" required name="password"/>
+						<div class="form-item col-span-full">
+							<label class="form-label" for="password">Password</label>
+							<input
+								id="password"
+								class="input"
+								type="password"
+								required
+								name="password"
+							/>
 						</div>
 						<button
-							data-component="button"
-							data-variant="default"
-							data-size="default"
+							class="btn btn-default btn-size-default"
 						>
 							Sign in
 						</button>

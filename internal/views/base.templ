@@ -1,11 +1,16 @@
 package views
 
-templ BaseHTML() {
+type BaseHTMLProps struct {
+	header templ.Component
+}
+
+templ BaseHTML(props BaseHTMLProps) {
 	<!DOCTYPE HTML>
 	<html lang="en">
 		<head>
-			<title>Hello</title>
-			<link rel="stylesheet" href="/dist/out.css"/>
+			<link rel="stylesheet" href="/web/out.css"/>
+			<script defer src="/web/js/index.js"></script>
+			@props.header
 		</head>
 		<body>
 			{ children... }
