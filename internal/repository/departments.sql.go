@@ -13,7 +13,7 @@ import (
 
 const assignUserToDepartment = `-- name: AssignUserToDepartment :one
 insert into department_members (department_id, user_id, role)
-values ($1, $2, $3)
+values ($1::uuid, $2::uuid, $3::text)
 returning department_id, user_id, role, created, updated
 `
 
@@ -38,13 +38,13 @@ func (q *Queries) AssignUserToDepartment(ctx context.Context, arg AssignUserToDe
 
 const createDepartment = `-- name: CreateDepartment :one
 insert into departments (name, description)
-values ($1, $2)
+values ($1::text, $2::text)
 returning id, name, description, created, updated
 `
 
 type CreateDepartmentParams struct {
 	Name        string
-	Description pgtype.Text
+	Description string
 }
 
 func (q *Queries) CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error) {
@@ -61,7 +61,7 @@ func (q *Queries) CreateDepartment(ctx context.Context, arg CreateDepartmentPara
 }
 
 const deleteDepartment = `-- name: DeleteDepartment :one
-delete from departments where id = $1 returning id, name, description, created, updated
+delete from departments where id = $1::uuid returning id, name, description, created, updated
 `
 
 func (q *Queries) DeleteDepartment(ctx context.Context, id pgtype.UUID) (Department, error) {
@@ -77,8 +77,38 @@ func (q *Queries) DeleteDepartment(ctx context.Context, id pgtype.UUID) (Departm
 	return i, err
 }
 
+const getAllDepartments = `-- name: GetAllDepartments :many
+select id, name, description, created, updated from departments order by created desc
+`
+
+func (q *Queries) GetAllDepartments(ctx context.Context) ([]Department, error) {
+	rows, err := q.db.Query(ctx, getAllDepartments)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Department
+	for rows.Next() {
+		var i Department
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getDepartmentByID = `-- name: GetDepartmentByID :one
-select id, name, description, created, updated from departments where id = $1
+select id, name, description, created, updated from departments where id = $1::uuid
 `
 
 func (q *Queries) GetDepartmentByID(ctx context.Context, id pgtype.UUID) (Department, error) {
@@ -95,30 +125,27 @@ func (q *Queries) GetDepartmentByID(ctx context.Context, id pgtype.UUID) (Depart
 }
 
 const getDepartmentMembers = `-- name: GetDepartmentMembers :many
-select dm.department_id, dm.user_id, dm.role, dm.created, dm.updated, u.email, u.name from department_members dm
+select u.id, dm.role, u.email, u.name from department_members dm
 join auth.users u on dm.user_id = u.id
-where dm.department_id = $1
-order by dm.created desc offset $2 limit $3
+where dm.department_id = $1::uuid
+order by dm.created desc offset $2::integer limit $3::integer
 `
 
 type GetDepartmentMembersParams struct {
 	DepartmentID pgtype.UUID
-	Offset       int32
-	Limit        int32
+	Page         int32
+	PerPage      int32
 }
 
 type GetDepartmentMembersRow struct {
-	DepartmentID pgtype.UUID
-	UserID       pgtype.UUID
-	Role         string
-	Created      pgtype.Timestamptz
-	Updated      pgtype.Timestamptz
-	Email        string
-	Name         string
+	ID    pgtype.UUID
+	Role  string
+	Email string
+	Name  string
 }
 
 func (q *Queries) GetDepartmentMembers(ctx context.Context, arg GetDepartmentMembersParams) ([]GetDepartmentMembersRow, error) {
-	rows, err := q.db.Query(ctx, getDepartmentMembers, arg.DepartmentID, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getDepartmentMembers, arg.DepartmentID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -127,11 +154,8 @@ func (q *Queries) GetDepartmentMembers(ctx context.Context, arg GetDepartmentMem
 	for rows.Next() {
 		var i GetDepartmentMembersRow
 		if err := rows.Scan(
-			&i.DepartmentID,
-			&i.UserID,
+			&i.ID,
 			&i.Role,
-			&i.Created,
-			&i.Updated,
 			&i.Email,
 			&i.Name,
 		); err != nil {
@@ -145,12 +169,17 @@ func (q *Queries) GetDepartmentMembers(ctx context.Context, arg GetDepartmentMem
 	return items, nil
 }
 
-const getDepartments = `-- name: GetDepartments :many
-select id, name, description, created, updated from departments order by created desc
+const paginateDepartment = `-- name: PaginateDepartment :many
+select id, name, description, created, updated from departments order by created desc offset $1::integer limit $2::integer
 `
 
-func (q *Queries) GetDepartments(ctx context.Context) ([]Department, error) {
-	rows, err := q.db.Query(ctx, getDepartments)
+type PaginateDepartmentParams struct {
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) PaginateDepartment(ctx context.Context, arg PaginateDepartmentParams) ([]Department, error) {
+	rows, err := q.db.Query(ctx, paginateDepartment, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -175,30 +204,51 @@ func (q *Queries) GetDepartments(ctx context.Context) ([]Department, error) {
 	return items, nil
 }
 
-const paginateDepartment = `-- name: PaginateDepartment :many
-select id, name, description, created, updated from departments order by created desc offset $1 limit $2
+const searchDepartmentMembers = `-- name: SearchDepartmentMembers :many
+select u.id, dm.role, u.email, u.name from department_members dm
+join auth.users u on dm.user_id = u.id
+where dm.department_id = $1::uuid 
+and (
+  u.email ilike '%' || $2::text || '%' 
+  or u.name ilike '%' || $2::text || '%'
+  or dm.role ilike '%' || $2::text || '%'
+)
+order by dm.created desc offset $3::integer limit $4::integer
 `
 
-type PaginateDepartmentParams struct {
-	Offset int32
-	Limit  int32
+type SearchDepartmentMembersParams struct {
+	DepartmentID pgtype.UUID
+	SearchText   string
+	Page         int32
+	PerPage      int32
 }
 
-func (q *Queries) PaginateDepartment(ctx context.Context, arg PaginateDepartmentParams) ([]Department, error) {
-	rows, err := q.db.Query(ctx, paginateDepartment, arg.Offset, arg.Limit)
+type SearchDepartmentMembersRow struct {
+	ID    pgtype.UUID
+	Role  string
+	Email string
+	Name  string
+}
+
+func (q *Queries) SearchDepartmentMembers(ctx context.Context, arg SearchDepartmentMembersParams) ([]SearchDepartmentMembersRow, error) {
+	rows, err := q.db.Query(ctx, searchDepartmentMembers,
+		arg.DepartmentID,
+		arg.SearchText,
+		arg.Page,
+		arg.PerPage,
+	)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Department
+	var items []SearchDepartmentMembersRow
 	for rows.Next() {
-		var i Department
+		var i SearchDepartmentMembersRow
 		if err := rows.Scan(
 			&i.ID,
+			&i.Role,
+			&i.Email,
 			&i.Name,
-			&i.Description,
-			&i.Created,
-			&i.Updated,
 		); err != nil {
 			return nil, err
 		}
@@ -248,11 +298,11 @@ func (q *Queries) SearchDepartments(ctx context.Context, arg SearchDepartmentsPa
 }
 
 const updateDepartmentDescription = `-- name: UpdateDepartmentDescription :one
-update departments set description = $1 where id = $2 returning id, name, description, created, updated
+update departments set description = $1::text where id = $2::uuid returning id, name, description, created, updated
 `
 
 type UpdateDepartmentDescriptionParams struct {
-	Description pgtype.Text
+	Description string
 	ID          pgtype.UUID
 }
 
@@ -270,7 +320,7 @@ func (q *Queries) UpdateDepartmentDescription(ctx context.Context, arg UpdateDep
 }
 
 const updateDepartmentName = `-- name: UpdateDepartmentName :one
-update departments set name = $1 where id = $2 returning id, name, description, created, updated
+update departments set name = $1::text where id = $2::uuid returning id, name, description, created, updated
 `
 
 type UpdateDepartmentNameParams struct {

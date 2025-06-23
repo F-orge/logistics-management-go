@@ -4,7 +4,7 @@ insert into warehouses (name, address, longitude, latitude, manager)
 values ($1, $2, $3, $4, $5)
 returning *;
 
--- name: GetWarehouses :many
+-- name: GetAllWarehouses :many
 select * from warehouses order by created desc;
 
 -- name: PaginateWarehouses :many 

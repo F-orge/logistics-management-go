@@ -15,6 +15,7 @@ type AuthUser struct {
 	Password string
 	Created  pgtype.Timestamptz
 	Updated  pgtype.Timestamptz
+	IsAdmin  pgtype.Bool
 }
 
 type Company struct {

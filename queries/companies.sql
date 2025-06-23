@@ -8,41 +8,46 @@ insert into companies (
   contact_phone,
   primary_contact_person
 ) values (
-  $1,$2,$3,$4,$5,$6
+  @name::text,
+  @type::text,
+  @address::text,
+  @contact_email::text,
+  @contact_phone::text,
+  @primary_contact_person::uuid
 ) returning *;
 
--- name: GetCompanies :many
+-- name: GetAllCompanies :many
 select * from companies order by created desc;
 
 -- name: PaginateCompanies :many 
-select * from companies order by created desc offset $1 limit $2;
+select * from companies order by created desc offset @page::integer limit @per_page::integer;
 
 -- name: GetCompanyByType :many
-select * from companies where type = $1;
+select * from companies where type = @type::text offset @page::integer limit @per_page::integer;
 
 -- name: GetCompanyByID :one
-select * from companies where id = $1;
+select * from companies where id = @id::uuid;
 
 -- name: UpdateCompanyName :one
-update companies set name = $1 where id = $2 returning *;
+update companies set name = @name::text where id = @id::uuid returning *;
 
 -- name: UpdateCompanyType :one
-update companies set type = $1 where id = $2 returning *;
+update companies set type = @type::text where id = @id::uuid returning *;
 
 -- name: UpdateCompanyAddress :one
-update companies set address = $1 where id = $2 returning *;
+update companies set address = @address::text where id = @id::uuid returning *;
 
 -- name: UpdateCompanyEmail :one
-update companies set contact_email = $1 where id = $2 returning *;
+update companies set contact_email = @contact_email::text where id = @id::uuid returning *;
 
 -- name: UpdateCompanyPhone :one
-update companies set contact_phone = $1 where id = $2 returning *;
+update companies set contact_phone = @contact_phone::text where id = @id::uuid returning *;
 
 -- name: UpdateCompanyPrimaryContact :one
-update companies set primary_contact_person = $1 where id = $2 returning *;
+update companies set primary_contact_person = @primary_contact_person::uuid where id = @id::uuid returning *;
 
 -- name: DeleteCompany :one
-delete from companies where id = $1 returning *;
+delete from companies where id = @id::uuid returning *;
 
 -- name: SearchCompanies :many
 select * from companies where name ilike '%' || @search_text::text || '%' or address ilike '%' || @search_text::text || '%' or contact_email ilike '%' || @search_text::text || '%' or contact_phone ilike '%' || @search_text::text || '%' order by created desc offset @page::integer limit @per_page::integer;

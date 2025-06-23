@@ -12,15 +12,29 @@ import (
 )
 
 const createCompany = `-- name: CreateCompany :one
-insert into companies (name,type,address,contact_email,contact_phone,primary_contact_person) values ($1,$2,$3,$4,$5,$6) returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+insert into companies (
+  name,
+  type,
+  address,
+  contact_email,
+  contact_phone,
+  primary_contact_person
+) values (
+  $1::text,
+  $2::text,
+  $3::text,
+  $4::text,
+  $5::text,
+  $6::uuid
+) returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type CreateCompanyParams struct {
 	Name                 string
 	Type                 string
-	Address              pgtype.Text
-	ContactEmail         pgtype.Text
-	ContactPhone         pgtype.Text
+	Address              string
+	ContactEmail         string
+	ContactPhone         string
 	PrimaryContactPerson pgtype.UUID
 }
 
@@ -49,7 +63,7 @@ func (q *Queries) CreateCompany(ctx context.Context, arg CreateCompanyParams) (C
 }
 
 const deleteCompany = `-- name: DeleteCompany :one
-delete from companies where id = $1 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+delete from companies where id = $1::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 func (q *Queries) DeleteCompany(ctx context.Context, id pgtype.UUID) (Company, error) {
@@ -69,12 +83,12 @@ func (q *Queries) DeleteCompany(ctx context.Context, id pgtype.UUID) (Company, e
 	return i, err
 }
 
-const getCompanies = `-- name: GetCompanies :many
+const getAllCompanies = `-- name: GetAllCompanies :many
 select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc
 `
 
-func (q *Queries) GetCompanies(ctx context.Context) ([]Company, error) {
-	rows, err := q.db.Query(ctx, getCompanies)
+func (q *Queries) GetAllCompanies(ctx context.Context) ([]Company, error) {
+	rows, err := q.db.Query(ctx, getAllCompanies)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +118,7 @@ func (q *Queries) GetCompanies(ctx context.Context) ([]Company, error) {
 }
 
 const getCompanyByID = `-- name: GetCompanyByID :one
-select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies where id = $1
+select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies where id = $1::uuid
 `
 
 func (q *Queries) GetCompanyByID(ctx context.Context, id pgtype.UUID) (Company, error) {
@@ -125,11 +139,17 @@ func (q *Queries) GetCompanyByID(ctx context.Context, id pgtype.UUID) (Company, 
 }
 
 const getCompanyByType = `-- name: GetCompanyByType :many
-select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies where type = $1
+select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies where type = $1::text offset $2::integer limit $3::integer
 `
 
-func (q *Queries) GetCompanyByType(ctx context.Context, type_ string) ([]Company, error) {
-	rows, err := q.db.Query(ctx, getCompanyByType, type_)
+type GetCompanyByTypeParams struct {
+	Type    string
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) GetCompanyByType(ctx context.Context, arg GetCompanyByTypeParams) ([]Company, error) {
+	rows, err := q.db.Query(ctx, getCompanyByType, arg.Type, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -159,16 +179,16 @@ func (q *Queries) GetCompanyByType(ctx context.Context, type_ string) ([]Company
 }
 
 const paginateCompanies = `-- name: PaginateCompanies :many
-select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc offset $1 limit $2
+select id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated from companies order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateCompaniesParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateCompanies(ctx context.Context, arg PaginateCompaniesParams) ([]Company, error) {
-	rows, err := q.db.Query(ctx, paginateCompanies, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateCompanies, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -238,11 +258,11 @@ func (q *Queries) SearchCompanies(ctx context.Context, arg SearchCompaniesParams
 }
 
 const updateCompanyAddress = `-- name: UpdateCompanyAddress :one
-update companies set address = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set address = $1::text where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyAddressParams struct {
-	Address pgtype.Text
+	Address string
 	ID      pgtype.UUID
 }
 
@@ -264,11 +284,11 @@ func (q *Queries) UpdateCompanyAddress(ctx context.Context, arg UpdateCompanyAdd
 }
 
 const updateCompanyEmail = `-- name: UpdateCompanyEmail :one
-update companies set contact_email = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set contact_email = $1::text where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyEmailParams struct {
-	ContactEmail pgtype.Text
+	ContactEmail string
 	ID           pgtype.UUID
 }
 
@@ -290,7 +310,7 @@ func (q *Queries) UpdateCompanyEmail(ctx context.Context, arg UpdateCompanyEmail
 }
 
 const updateCompanyName = `-- name: UpdateCompanyName :one
-update companies set name = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set name = $1::text where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyNameParams struct {
@@ -316,11 +336,11 @@ func (q *Queries) UpdateCompanyName(ctx context.Context, arg UpdateCompanyNamePa
 }
 
 const updateCompanyPhone = `-- name: UpdateCompanyPhone :one
-update companies set contact_phone = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set contact_phone = $1::text where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyPhoneParams struct {
-	ContactPhone pgtype.Text
+	ContactPhone string
 	ID           pgtype.UUID
 }
 
@@ -342,7 +362,7 @@ func (q *Queries) UpdateCompanyPhone(ctx context.Context, arg UpdateCompanyPhone
 }
 
 const updateCompanyPrimaryContact = `-- name: UpdateCompanyPrimaryContact :one
-update companies set primary_contact_person = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set primary_contact_person = $1::uuid where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyPrimaryContactParams struct {
@@ -368,7 +388,7 @@ func (q *Queries) UpdateCompanyPrimaryContact(ctx context.Context, arg UpdateCom
 }
 
 const updateCompanyType = `-- name: UpdateCompanyType :one
-update companies set type = $1 where id = $2 returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
+update companies set type = $1::text where id = $2::uuid returning id, name, type, address, contact_email, contact_phone, primary_contact_person, created, updated
 `
 
 type UpdateCompanyTypeParams struct {

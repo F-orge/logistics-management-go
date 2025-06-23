@@ -12,7 +12,7 @@ import (
 )
 
 const authenticateUser = `-- name: AuthenticateUser :one
-select id, name, email, password, created, updated from auth.users where email = $1::text and password = $2::text
+select id, name, email, password, created, updated, is_admin from auth.users where email = $1::text and password = $2::text
 `
 
 type AuthenticateUserParams struct {
@@ -30,12 +30,13 @@ func (q *Queries) AuthenticateUser(ctx context.Context, arg AuthenticateUserPara
 		&i.Password,
 		&i.Created,
 		&i.Updated,
+		&i.IsAdmin,
 	)
 	return i, err
 }
 
 const createUser = `-- name: CreateUser :one
-insert into auth.users (name,email,password) values ($1,$2,$3) returning id, name, email, password, created, updated
+insert into auth.users (name,email,password) values ($1::text,$2::text,$3::text) returning id, name, email, password, created, updated, is_admin
 `
 
 type CreateUserParams struct {
@@ -54,12 +55,13 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (AuthUse
 		&i.Password,
 		&i.Created,
 		&i.Updated,
+		&i.IsAdmin,
 	)
 	return i, err
 }
 
 const deleteUser = `-- name: DeleteUser :exec
-delete from auth.users where id = $1
+delete from auth.users where id = $1::uuid
 `
 
 func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) error {
@@ -67,48 +69,12 @@ func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) error {
 	return err
 }
 
-const getUserByEmail = `-- name: GetUserByEmail :one
-select id, name, email, password, created, updated from auth.users where email = $1
+const getAllUsers = `-- name: GetAllUsers :many
+select id, name, email, password, created, updated, is_admin from auth.users order by created desc
 `
 
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (AuthUser, error) {
-	row := q.db.QueryRow(ctx, getUserByEmail, email)
-	var i AuthUser
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Email,
-		&i.Password,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getUserByID = `-- name: GetUserByID :one
-select id, name, email, password, created, updated from auth.users where id = $1
-`
-
-func (q *Queries) GetUserByID(ctx context.Context, id pgtype.UUID) (AuthUser, error) {
-	row := q.db.QueryRow(ctx, getUserByID, id)
-	var i AuthUser
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Email,
-		&i.Password,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getUsers = `-- name: GetUsers :many
-select id, name, email, password, created, updated from auth.users
-`
-
-func (q *Queries) GetUsers(ctx context.Context) ([]AuthUser, error) {
-	rows, err := q.db.Query(ctx, getUsers)
+func (q *Queries) GetAllUsers(ctx context.Context) ([]AuthUser, error) {
+	rows, err := q.db.Query(ctx, getAllUsers)
 	if err != nil {
 		return nil, err
 	}
@@ -123,6 +89,101 @@ func (q *Queries) GetUsers(ctx context.Context) ([]AuthUser, error) {
 			&i.Password,
 			&i.Created,
 			&i.Updated,
+			&i.IsAdmin,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getUserByID = `-- name: GetUserByID :one
+select id, name, email, password, created, updated, is_admin from auth.users where id = $1::uuid
+`
+
+func (q *Queries) GetUserByID(ctx context.Context, id pgtype.UUID) (AuthUser, error) {
+	row := q.db.QueryRow(ctx, getUserByID, id)
+	var i AuthUser
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.Password,
+		&i.Created,
+		&i.Updated,
+		&i.IsAdmin,
+	)
+	return i, err
+}
+
+const paginateUsers = `-- name: PaginateUsers :many
+select id, name, email, password, created, updated, is_admin from auth.users order by created desc offset $1::integer limit $2::integer
+`
+
+type PaginateUsersParams struct {
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) PaginateUsers(ctx context.Context, arg PaginateUsersParams) ([]AuthUser, error) {
+	rows, err := q.db.Query(ctx, paginateUsers, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AuthUser
+	for rows.Next() {
+		var i AuthUser
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.Password,
+			&i.Created,
+			&i.Updated,
+			&i.IsAdmin,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const searchUsers = `-- name: SearchUsers :many
+select id, name, email, password, created, updated, is_admin from auth.users where email ilike '%' || $1::text || '%' or name ilike '%' || $1::text || '%' order by created desc offset $2::integer limit $3::integer
+`
+
+type SearchUsersParams struct {
+	SearchText string
+	Page       int32
+	PerPage    int32
+}
+
+func (q *Queries) SearchUsers(ctx context.Context, arg SearchUsersParams) ([]AuthUser, error) {
+	rows, err := q.db.Query(ctx, searchUsers, arg.SearchText, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []AuthUser
+	for rows.Next() {
+		var i AuthUser
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.Password,
+			&i.Created,
+			&i.Updated,
+			&i.IsAdmin,
 		); err != nil {
 			return nil, err
 		}
@@ -135,7 +196,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]AuthUser, error) {
 }
 
 const updateUserEmail = `-- name: UpdateUserEmail :one
-update auth.users set email = $1::text where email = $2::text and id = $3::uuid returning id, name, email, password, created, updated
+update auth.users set email = $1::text where email = $2::text and id = $3::uuid returning id, name, email, password, created, updated, is_admin
 `
 
 type UpdateUserEmailParams struct {
@@ -154,12 +215,13 @@ func (q *Queries) UpdateUserEmail(ctx context.Context, arg UpdateUserEmailParams
 		&i.Password,
 		&i.Created,
 		&i.Updated,
+		&i.IsAdmin,
 	)
 	return i, err
 }
 
 const updateUserPassword = `-- name: UpdateUserPassword :one
-update auth.users set password = $1::text where password = $2::text and id = $3::uuid returning id, name, email, password, created, updated
+update auth.users set password = $1::text where password = $2::text and id = $3::uuid returning id, name, email, password, created, updated, is_admin
 `
 
 type UpdateUserPasswordParams struct {
@@ -178,6 +240,7 @@ func (q *Queries) UpdateUserPassword(ctx context.Context, arg UpdateUserPassword
 		&i.Password,
 		&i.Created,
 		&i.Updated,
+		&i.IsAdmin,
 	)
 	return i, err
 }
