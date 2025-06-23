@@ -15,7 +15,7 @@ dev-go:
 	air serve
 
 dev:
-	make -j dev-tailwind dev-templ dev-go
+	make -j dev-tailwind dev-templ dev-go dev-bun
 
 build:
 	bun build --splitting --target=browser --outdir=dist/js ./web/js/* --minify
