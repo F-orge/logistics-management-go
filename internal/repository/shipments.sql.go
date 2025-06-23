@@ -11,37 +11,93 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const addShipmentProofOfDeliveryImage = `-- name: AddShipmentProofOfDeliveryImage :one
+update shipments 
+set proof_of_delivery_image_url = 
+  array_append(proof_of_delivery_image_url, $1::text)
+where id = $2::uuid 
+returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+`
+
+type AddShipmentProofOfDeliveryImageParams struct {
+	ProofOfDeliveryImageUrl string
+	ID                      pgtype.UUID
+}
+
+func (q *Queries) AddShipmentProofOfDeliveryImage(ctx context.Context, arg AddShipmentProofOfDeliveryImageParams) (Shipment, error) {
+	row := q.db.QueryRow(ctx, addShipmentProofOfDeliveryImage, arg.ProofOfDeliveryImageUrl, arg.ID)
+	var i Shipment
+	err := row.Scan(
+		&i.ID,
+		&i.Order,
+		&i.TrackingNumber,
+		&i.Carrier,
+		&i.Status,
+		&i.EstimatedDeliveryDate,
+		&i.ActualDeliveryDate,
+		&i.ProofOfDeliveryImageUrl,
+		&i.Driver,
+		&i.CurrentLocationNotes,
+		&i.DepartmentAssigned,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
+}
+
 const createShipment = `-- name: CreateShipment :one
-insert into shipments ("order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+insert into shipments (
+  "order", 
+  tracking_number, 
+  carrier, 
+  status, 
+  estimated_delivery_date, 
+  actual_delivery_date, 
+  proof_of_delivery_image_url, 
+  driver, 
+  current_location_notes, 
+  department_assigned
+)
+values (
+  $1::uuid, 
+  $2::text, 
+  $3::uuid, 
+  $4::text, 
+  $5::timestamptz, 
+  $6::timestamptz, 
+  $7::text, 
+  $8::uuid, 
+  $9::text, 
+  $10::uuid
+)
 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type CreateShipmentParams struct {
-	Order                   pgtype.UUID
+	OrderID                 pgtype.UUID
 	TrackingNumber          string
 	Carrier                 pgtype.UUID
 	Status                  string
 	EstimatedDeliveryDate   pgtype.Timestamptz
 	ActualDeliveryDate      pgtype.Timestamptz
-	ProofOfDeliveryImageUrl []string
-	Driver                  pgtype.UUID
-	CurrentLocationNotes    pgtype.Text
-	DepartmentAssigned      pgtype.UUID
+	ProofOfDeliveryImageUrl string
+	DriverID                pgtype.UUID
+	CurrentLocationNotes    string
+	DepartmentID            pgtype.UUID
 }
 
 func (q *Queries) CreateShipment(ctx context.Context, arg CreateShipmentParams) (Shipment, error) {
 	row := q.db.QueryRow(ctx, createShipment,
-		arg.Order,
+		arg.OrderID,
 		arg.TrackingNumber,
 		arg.Carrier,
 		arg.Status,
 		arg.EstimatedDeliveryDate,
 		arg.ActualDeliveryDate,
 		arg.ProofOfDeliveryImageUrl,
-		arg.Driver,
+		arg.DriverID,
 		arg.CurrentLocationNotes,
-		arg.DepartmentAssigned,
+		arg.DepartmentID,
 	)
 	var i Shipment
 	err := row.Scan(
@@ -63,7 +119,7 @@ func (q *Queries) CreateShipment(ctx context.Context, arg CreateShipmentParams) 
 }
 
 const deleteShipment = `-- name: DeleteShipment :one
-delete from shipments where id = $1 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+delete from shipments where id = $1::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 func (q *Queries) DeleteShipment(ctx context.Context, id pgtype.UUID) (Shipment, error) {
@@ -88,7 +144,7 @@ func (q *Queries) DeleteShipment(ctx context.Context, id pgtype.UUID) (Shipment,
 }
 
 const getShipmentByID = `-- name: GetShipmentByID :one
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where id = $1
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where id = $1::uuid
 `
 
 func (q *Queries) GetShipmentByID(ctx context.Context, id pgtype.UUID) (Shipment, error) {
@@ -151,17 +207,17 @@ func (q *Queries) GetShipments(ctx context.Context) ([]Shipment, error) {
 }
 
 const getShipmentsByCarrier = `-- name: GetShipmentsByCarrier :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where carrier = $1 order by created desc offset $2 limit $3
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where carrier = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsByCarrierParams struct {
-	Carrier pgtype.UUID
-	Offset  int32
-	Limit   int32
+	Carrier string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetShipmentsByCarrier(ctx context.Context, arg GetShipmentsByCarrierParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsByCarrier, arg.Carrier, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsByCarrier, arg.Carrier, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -195,17 +251,17 @@ func (q *Queries) GetShipmentsByCarrier(ctx context.Context, arg GetShipmentsByC
 }
 
 const getShipmentsByDepartment = `-- name: GetShipmentsByDepartment :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where department_assigned = $1 order by created desc offset $2 limit $3
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where department_assigned = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsByDepartmentParams struct {
-	DepartmentAssigned pgtype.UUID
-	Offset             int32
-	Limit              int32
+	DepartmentAssigned string
+	Page               int32
+	PerPage            int32
 }
 
 func (q *Queries) GetShipmentsByDepartment(ctx context.Context, arg GetShipmentsByDepartmentParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsByDepartment, arg.DepartmentAssigned, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsByDepartment, arg.DepartmentAssigned, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -239,17 +295,17 @@ func (q *Queries) GetShipmentsByDepartment(ctx context.Context, arg GetShipments
 }
 
 const getShipmentsByDriver = `-- name: GetShipmentsByDriver :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where driver = $1 order by created desc offset $2 limit $3
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where driver = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsByDriverParams struct {
-	Driver pgtype.UUID
-	Offset int32
-	Limit  int32
+	DriverID pgtype.UUID
+	Page     int32
+	PerPage  int32
 }
 
 func (q *Queries) GetShipmentsByDriver(ctx context.Context, arg GetShipmentsByDriverParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsByDriver, arg.Driver, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsByDriver, arg.DriverID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -283,17 +339,17 @@ func (q *Queries) GetShipmentsByDriver(ctx context.Context, arg GetShipmentsByDr
 }
 
 const getShipmentsByOrder = `-- name: GetShipmentsByOrder :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where "order" = $1 order by created desc offset $2 limit $3
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where "order" = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsByOrderParams struct {
-	Order  pgtype.UUID
-	Offset int32
-	Limit  int32
+	OrderID pgtype.UUID
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetShipmentsByOrder(ctx context.Context, arg GetShipmentsByOrderParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsByOrder, arg.Order, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsByOrder, arg.OrderID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -327,17 +383,17 @@ func (q *Queries) GetShipmentsByOrder(ctx context.Context, arg GetShipmentsByOrd
 }
 
 const getShipmentsByStatus = `-- name: GetShipmentsByStatus :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where status = $1 order by created desc offset $2 limit $3
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetShipmentsByStatus(ctx context.Context, arg GetShipmentsByStatusParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -371,16 +427,16 @@ func (q *Queries) GetShipmentsByStatus(ctx context.Context, arg GetShipmentsBySt
 }
 
 const paginateShipments = `-- name: PaginateShipments :many
-select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments order by created desc offset $1 limit $2
+select id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated from shipments order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateShipmentsParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateShipments(ctx context.Context, arg PaginateShipmentsParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, paginateShipments, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateShipments, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -411,6 +467,40 @@ func (q *Queries) PaginateShipments(ctx context.Context, arg PaginateShipmentsPa
 		return nil, err
 	}
 	return items, nil
+}
+
+const removeShipmentProofOfDeliveryImage = `-- name: RemoveShipmentProofOfDeliveryImage :one
+update shipments 
+set proof_of_delivery_image_url = 
+  array_remove(proof_of_delivery_image_url, $1::text) 
+where id = $2::uuid 
+returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+`
+
+type RemoveShipmentProofOfDeliveryImageParams struct {
+	ProofOfDeliveryImageUrl string
+	ID                      pgtype.UUID
+}
+
+func (q *Queries) RemoveShipmentProofOfDeliveryImage(ctx context.Context, arg RemoveShipmentProofOfDeliveryImageParams) (Shipment, error) {
+	row := q.db.QueryRow(ctx, removeShipmentProofOfDeliveryImage, arg.ProofOfDeliveryImageUrl, arg.ID)
+	var i Shipment
+	err := row.Scan(
+		&i.ID,
+		&i.Order,
+		&i.TrackingNumber,
+		&i.Carrier,
+		&i.Status,
+		&i.EstimatedDeliveryDate,
+		&i.ActualDeliveryDate,
+		&i.ProofOfDeliveryImageUrl,
+		&i.Driver,
+		&i.CurrentLocationNotes,
+		&i.DepartmentAssigned,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
 }
 
 const searchShipments = `-- name: SearchShipments :many
@@ -459,7 +549,7 @@ func (q *Queries) SearchShipments(ctx context.Context, arg SearchShipmentsParams
 }
 
 const updateShipmentActualDeliveryDate = `-- name: UpdateShipmentActualDeliveryDate :one
-update shipments set actual_delivery_date = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+update shipments set actual_delivery_date = $1::timestamptz where id = $2::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type UpdateShipmentActualDeliveryDateParams struct {
@@ -489,11 +579,11 @@ func (q *Queries) UpdateShipmentActualDeliveryDate(ctx context.Context, arg Upda
 }
 
 const updateShipmentCurrentLocationNotes = `-- name: UpdateShipmentCurrentLocationNotes :one
-update shipments set current_location_notes = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+update shipments set current_location_notes = $1::text where id = $2::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type UpdateShipmentCurrentLocationNotesParams struct {
-	CurrentLocationNotes pgtype.Text
+	CurrentLocationNotes string
 	ID                   pgtype.UUID
 }
 
@@ -519,11 +609,11 @@ func (q *Queries) UpdateShipmentCurrentLocationNotes(ctx context.Context, arg Up
 }
 
 const updateShipmentDepartmentAssigned = `-- name: UpdateShipmentDepartmentAssigned :one
-update shipments set department_assigned = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+update shipments set department_assigned = $1::text where id = $2::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type UpdateShipmentDepartmentAssignedParams struct {
-	DepartmentAssigned pgtype.UUID
+	DepartmentAssigned string
 	ID                 pgtype.UUID
 }
 
@@ -549,7 +639,7 @@ func (q *Queries) UpdateShipmentDepartmentAssigned(ctx context.Context, arg Upda
 }
 
 const updateShipmentEstimatedDeliveryDate = `-- name: UpdateShipmentEstimatedDeliveryDate :one
-update shipments set estimated_delivery_date = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+update shipments set estimated_delivery_date = $1::timestamptz where id = $2::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type UpdateShipmentEstimatedDeliveryDateParams struct {
@@ -578,38 +668,8 @@ func (q *Queries) UpdateShipmentEstimatedDeliveryDate(ctx context.Context, arg U
 	return i, err
 }
 
-const updateShipmentProofOfDeliveryImageURL = `-- name: UpdateShipmentProofOfDeliveryImageURL :one
-update shipments set proof_of_delivery_image_url = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
-`
-
-type UpdateShipmentProofOfDeliveryImageURLParams struct {
-	ProofOfDeliveryImageUrl []string
-	ID                      pgtype.UUID
-}
-
-func (q *Queries) UpdateShipmentProofOfDeliveryImageURL(ctx context.Context, arg UpdateShipmentProofOfDeliveryImageURLParams) (Shipment, error) {
-	row := q.db.QueryRow(ctx, updateShipmentProofOfDeliveryImageURL, arg.ProofOfDeliveryImageUrl, arg.ID)
-	var i Shipment
-	err := row.Scan(
-		&i.ID,
-		&i.Order,
-		&i.TrackingNumber,
-		&i.Carrier,
-		&i.Status,
-		&i.EstimatedDeliveryDate,
-		&i.ActualDeliveryDate,
-		&i.ProofOfDeliveryImageUrl,
-		&i.Driver,
-		&i.CurrentLocationNotes,
-		&i.DepartmentAssigned,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
 const updateShipmentStatus = `-- name: UpdateShipmentStatus :one
-update shipments set status = $1 where id = $2 returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
+update shipments set status = $1::text where id = $2::uuid returning id, "order", tracking_number, carrier, status, estimated_delivery_date, actual_delivery_date, proof_of_delivery_image_url, driver, current_location_notes, department_assigned, created, updated
 `
 
 type UpdateShipmentStatusParams struct {

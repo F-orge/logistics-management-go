@@ -12,8 +12,20 @@ import (
 )
 
 const createWarehouse = `-- name: CreateWarehouse :one
-insert into warehouses (name, address, longitude, latitude, manager)
-values ($1, $2, $3, $4, $5)
+insert into warehouses (
+  name, 
+  address, 
+  longitude, 
+  latitude, 
+  manager
+)
+values (
+  $1::text, 
+  $2::text, 
+  $3::decimal, 
+  $4::decimal, 
+  $5::uuid
+)
 returning id, name, address, longitude, latitude, manager, created, updated
 `
 
@@ -22,7 +34,7 @@ type CreateWarehouseParams struct {
 	Address   string
 	Longitude pgtype.Numeric
 	Latitude  pgtype.Numeric
-	Manager   pgtype.UUID
+	ManagerID pgtype.UUID
 }
 
 func (q *Queries) CreateWarehouse(ctx context.Context, arg CreateWarehouseParams) (Warehouse, error) {
@@ -31,7 +43,7 @@ func (q *Queries) CreateWarehouse(ctx context.Context, arg CreateWarehouseParams
 		arg.Address,
 		arg.Longitude,
 		arg.Latitude,
-		arg.Manager,
+		arg.ManagerID,
 	)
 	var i Warehouse
 	err := row.Scan(
@@ -48,7 +60,7 @@ func (q *Queries) CreateWarehouse(ctx context.Context, arg CreateWarehouseParams
 }
 
 const deleteWarehouse = `-- name: DeleteWarehouse :one
-delete from warehouses where id = $1 returning id, name, address, longitude, latitude, manager, created, updated
+delete from warehouses where id = $1::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 func (q *Queries) DeleteWarehouse(ctx context.Context, id pgtype.UUID) (Warehouse, error) {
@@ -67,32 +79,12 @@ func (q *Queries) DeleteWarehouse(ctx context.Context, id pgtype.UUID) (Warehous
 	return i, err
 }
 
-const getWarehouseByID = `-- name: GetWarehouseByID :one
-select id, name, address, longitude, latitude, manager, created, updated from warehouses where id = $1
-`
-
-func (q *Queries) GetWarehouseByID(ctx context.Context, id pgtype.UUID) (Warehouse, error) {
-	row := q.db.QueryRow(ctx, getWarehouseByID, id)
-	var i Warehouse
-	err := row.Scan(
-		&i.ID,
-		&i.Name,
-		&i.Address,
-		&i.Longitude,
-		&i.Latitude,
-		&i.Manager,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getWarehouses = `-- name: GetWarehouses :many
+const getAllWarehouses = `-- name: GetAllWarehouses :many
 select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc
 `
 
-func (q *Queries) GetWarehouses(ctx context.Context) ([]Warehouse, error) {
-	rows, err := q.db.Query(ctx, getWarehouses)
+func (q *Queries) GetAllWarehouses(ctx context.Context) ([]Warehouse, error) {
+	rows, err := q.db.Query(ctx, getAllWarehouses)
 	if err != nil {
 		return nil, err
 	}
@@ -120,23 +112,43 @@ func (q *Queries) GetWarehouses(ctx context.Context) ([]Warehouse, error) {
 	return items, nil
 }
 
+const getWarehouseByID = `-- name: GetWarehouseByID :one
+select id, name, address, longitude, latitude, manager, created, updated from warehouses where id = $1::uuid
+`
+
+func (q *Queries) GetWarehouseByID(ctx context.Context, id pgtype.UUID) (Warehouse, error) {
+	row := q.db.QueryRow(ctx, getWarehouseByID, id)
+	var i Warehouse
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Address,
+		&i.Longitude,
+		&i.Latitude,
+		&i.Manager,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
+}
+
 const getWarehousesByLocation = `-- name: GetWarehousesByLocation :many
-select id, name, address, longitude, latitude, manager, created, updated from warehouses where longitude = $1 and latitude = $2 order by created desc offset $3 limit $4
+select id, name, address, longitude, latitude, manager, created, updated from warehouses where longitude = $1::decimal and latitude = $2::decimal order by created desc offset $3::integer limit $4::integer
 `
 
 type GetWarehousesByLocationParams struct {
 	Longitude pgtype.Numeric
 	Latitude  pgtype.Numeric
-	Offset    int32
-	Limit     int32
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetWarehousesByLocation(ctx context.Context, arg GetWarehousesByLocationParams) ([]Warehouse, error) {
 	rows, err := q.db.Query(ctx, getWarehousesByLocation,
 		arg.Longitude,
 		arg.Latitude,
-		arg.Offset,
-		arg.Limit,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -166,17 +178,17 @@ func (q *Queries) GetWarehousesByLocation(ctx context.Context, arg GetWarehouses
 }
 
 const getWarehousesByManager = `-- name: GetWarehousesByManager :many
-select id, name, address, longitude, latitude, manager, created, updated from warehouses where manager = $1 order by created desc offset $2 limit $3
+select id, name, address, longitude, latitude, manager, created, updated from warehouses where manager = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetWarehousesByManagerParams struct {
-	Manager pgtype.UUID
-	Offset  int32
-	Limit   int32
+	ManagerID pgtype.UUID
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetWarehousesByManager(ctx context.Context, arg GetWarehousesByManagerParams) ([]Warehouse, error) {
-	rows, err := q.db.Query(ctx, getWarehousesByManager, arg.Manager, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getWarehousesByManager, arg.ManagerID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -205,16 +217,16 @@ func (q *Queries) GetWarehousesByManager(ctx context.Context, arg GetWarehousesB
 }
 
 const paginateWarehouses = `-- name: PaginateWarehouses :many
-select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc offset $1 limit $2
+select id, name, address, longitude, latitude, manager, created, updated from warehouses order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateWarehousesParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateWarehouses(ctx context.Context, arg PaginateWarehousesParams) ([]Warehouse, error) {
-	rows, err := q.db.Query(ctx, paginateWarehouses, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateWarehouses, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -282,7 +294,7 @@ func (q *Queries) SearchWarehouses(ctx context.Context, arg SearchWarehousesPara
 }
 
 const updateWarehouseAddress = `-- name: UpdateWarehouseAddress :one
-update warehouses set address = $1 where id = $2 returning id, name, address, longitude, latitude, manager, created, updated
+update warehouses set address = $1::text where id = $2::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 type UpdateWarehouseAddressParams struct {
@@ -307,7 +319,7 @@ func (q *Queries) UpdateWarehouseAddress(ctx context.Context, arg UpdateWarehous
 }
 
 const updateWarehouseLatitude = `-- name: UpdateWarehouseLatitude :one
-update warehouses set latitude = $1 where id = $2 returning id, name, address, longitude, latitude, manager, created, updated
+update warehouses set latitude = $1::decimal where id = $2::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 type UpdateWarehouseLatitudeParams struct {
@@ -332,7 +344,7 @@ func (q *Queries) UpdateWarehouseLatitude(ctx context.Context, arg UpdateWarehou
 }
 
 const updateWarehouseLongitude = `-- name: UpdateWarehouseLongitude :one
-update warehouses set longitude = $1 where id = $2 returning id, name, address, longitude, latitude, manager, created, updated
+update warehouses set longitude = $1::decimal where id = $2::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 type UpdateWarehouseLongitudeParams struct {
@@ -357,16 +369,16 @@ func (q *Queries) UpdateWarehouseLongitude(ctx context.Context, arg UpdateWareho
 }
 
 const updateWarehouseManager = `-- name: UpdateWarehouseManager :one
-update warehouses set manager = $1 where id = $2 returning id, name, address, longitude, latitude, manager, created, updated
+update warehouses set manager = $1::uuid where id = $2::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 type UpdateWarehouseManagerParams struct {
-	Manager pgtype.UUID
-	ID      pgtype.UUID
+	ManagerID pgtype.UUID
+	ID        pgtype.UUID
 }
 
 func (q *Queries) UpdateWarehouseManager(ctx context.Context, arg UpdateWarehouseManagerParams) (Warehouse, error) {
-	row := q.db.QueryRow(ctx, updateWarehouseManager, arg.Manager, arg.ID)
+	row := q.db.QueryRow(ctx, updateWarehouseManager, arg.ManagerID, arg.ID)
 	var i Warehouse
 	err := row.Scan(
 		&i.ID,
@@ -382,7 +394,7 @@ func (q *Queries) UpdateWarehouseManager(ctx context.Context, arg UpdateWarehous
 }
 
 const updateWarehouseName = `-- name: UpdateWarehouseName :one
-update warehouses set name = $1 where id = $2 returning id, name, address, longitude, latitude, manager, created, updated
+update warehouses set name = $1::text where id = $2::uuid returning id, name, address, longitude, latitude, manager, created, updated
 `
 
 type UpdateWarehouseNameParams struct {

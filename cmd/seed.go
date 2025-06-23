@@ -98,10 +98,34 @@ to quickly create a Cobra application.`,
 				newProduct, err := queries.CreateProduct(cmd.Context(), repository.CreateProductParams{
 					Sku:         fmt.Sprintf("%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
 					Name:        fake.Pokemon().English(),
-					Description: pgtype.Text{String: fake.Lorem().Paragraph(5), Valid: true},
-					Width:       fake.Numerify("##.##"),
-					Height:      fake.Numerify("##.##"),
-					Length:      fake.Numerify("##.##"),
+					Description: fake.Lorem().Paragraph(5),
+					Width: func() pgtype.Numeric {
+						val := fake.Numerify("###.##")
+						var num pgtype.Numeric
+						err := num.Scan(val)
+						if err != nil {
+							fmt.Println(err.Error())
+						}
+						return num
+					}(),
+					Height: func() pgtype.Numeric {
+						val := fake.Numerify("###.##")
+						var num pgtype.Numeric
+						err := num.Scan(val)
+						if err != nil {
+							fmt.Println(err.Error())
+						}
+						return num
+					}(),
+					Length: func() pgtype.Numeric {
+						val := fake.Numerify("###.##")
+						var num pgtype.Numeric
+						err := num.Scan(val)
+						if err != nil {
+							fmt.Println(err.Error())
+						}
+						return num
+					}(),
 					Cost: func() pgtype.Numeric {
 						val := fake.Numerify("###.##")
 						var num pgtype.Numeric
@@ -112,7 +136,7 @@ to quickly create a Cobra application.`,
 						return num
 					}(),
 					Supplier: company.ID,
-					ImageUrl: pgtype.Text{String: "https://placehold.co/600x400"},
+					ImageUrl: "https://placehold.co/600x400",
 				})
 
 				if err != nil {
@@ -152,7 +176,7 @@ to quickly create a Cobra application.`,
 					}
 					return num
 				}(),
-				Manager: manager.ID,
+				ManagerID: manager.ID,
 			})
 
 			if err != nil {
@@ -163,13 +187,13 @@ to quickly create a Cobra application.`,
 			fmt.Println(i, "New Warehouse", newWarehouse.Name)
 		}
 
-		warehouses, err := queries.GetWarehouses(cmd.Context())
+		warehouses, err := queries.GetAllWarehouses(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		products, err := queries.GetProducts(cmd.Context())
+		products, err := queries.GetAllProducts(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
@@ -185,11 +209,11 @@ to quickly create a Cobra application.`,
 			randomQuantity := fake.Int32()
 
 			newOrder, err := queries.CreateOrder(cmd.Context(), repository.CreateOrderParams{
-				CustomID:  fmt.Sprintf("ORDER-%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
-				Customer:  randomCompany.ID,
-				OrderDate: pgtype.Timestamptz{Time: time.Now(), Valid: true},
-				CreatedBy: randomCompany.PrimaryContactPerson,
-				Status:    randomStatus,
+				CustomID:   fmt.Sprintf("ORDER-%04d-%03d-%04d", fake.IntBetween(1000, 9999), fake.IntBetween(100, 999), fake.IntBetween(1000, 9999)),
+				CustomerID: randomCompany.ID,
+				OrderDate:  pgtype.Timestamptz{Time: time.Now(), Valid: true},
+				CreatedBy:  randomCompany.PrimaryContactPerson,
+				Status:     randomStatus,
 				TotalAmount: func() pgtype.Numeric {
 					val := fake.Numerify("###.##")
 					var num pgtype.Numeric
@@ -210,9 +234,9 @@ to quickly create a Cobra application.`,
 			}
 
 			if _, err := queries.CreateOrderLineItem(cmd.Context(), repository.CreateOrderLineItemParams{
-				Order:    newOrder.ID,
-				Product:  product.ID,
-				Quantity: randomQuantity,
+				OrderID:   newOrder.ID,
+				ProductID: product.ID,
+				Quantity:  randomQuantity,
 				PricePerUnit: func() pgtype.Numeric {
 					val := fake.Numerify("###.##")
 					var num pgtype.Numeric
@@ -228,8 +252,8 @@ to quickly create a Cobra application.`,
 			}
 
 			if _, err := queries.CreateInventoryItem(cmd.Context(), repository.CreateInventoryItemParams{
-				Product:             product.ID,
-				Warehouse:           randomWarehouse.ID,
+				ProductID:           product.ID,
+				WarehouseID:         randomWarehouse.ID,
 				QuantityOnHand:      randomQuantity,
 				LotNumber:           fake.Lexify("LOT-????-????"),
 				SerialNumber:        fake.Lexify("SERIAL-????-????"),
@@ -275,7 +299,7 @@ to quickly create a Cobra application.`,
 		}
 
 		// shipments
-		orders, err := queries.GetOrders(cmd.Context())
+		orders, err := queries.GetAllOrders(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
@@ -297,12 +321,12 @@ to quickly create a Cobra application.`,
 			randomStatus := shipmentStatuses[fake.Int16Between(0, int16(len(shipmentStatuses))-1)]
 
 			newShipment, err := queries.CreateShipment(cmd.Context(), repository.CreateShipmentParams{
-				Order:              order.ID,
-				TrackingNumber:     fake.Lexify("SHIPMENT-????-???-????"),
-				Carrier:            randomCompany.ID,
-				Status:             randomStatus,
-				Driver:             randomDriver.ID,
-				DepartmentAssigned: randomDepartment.ID,
+				OrderID:        order.ID,
+				TrackingNumber: fake.Lexify("SHIPMENT-????-???-????"),
+				Carrier:        randomCompany.ID,
+				Status:         randomStatus,
+				DriverID:       randomDriver.ID,
+				DepartmentID:   randomDepartment.ID,
 			})
 
 			if err != nil {
@@ -321,11 +345,11 @@ to quickly create a Cobra application.`,
 			randomStatus := vehicleStatuses[fake.Int16Between(0, int16(len(vehicleStatuses))-1)]
 
 			newVehicle, err := queries.CreateVehicle(cmd.Context(), repository.CreateVehicleParams{
-				LicensePlate:  fake.Lexify("???-????"),
-				Make:          fake.Company().Name(),
-				Model:         fake.Gamer().Tag(),
-				Type:          fake.Lorem().Sentence(20),
-				CurrentDriver: randomDriver.ID,
+				LicensePlate:    fake.Lexify("???-????"),
+				Make:            fake.Company().Name(),
+				Model:           fake.Gamer().Tag(),
+				Type:            fake.Lorem().Sentence(20),
+				CurrentDriverID: randomDriver.ID,
 				CapacityVolume: func() pgtype.Numeric {
 					val := fake.Numerify("###.##")
 					var num pgtype.Numeric
@@ -401,7 +425,7 @@ to quickly create a Cobra application.`,
 				Route:          newRoute.ID,
 				SequenceNumber: int32(i),
 				SegmentType:    randomType,
-				Address:        pgtype.Text{String: fake.Address().Address(), Valid: true},
+				Address:        fake.Address().Address(),
 				Longitude: func() pgtype.Numeric {
 					val := fake.Address().Longitude()
 					valString := strconv.FormatFloat(val, 'f', -1, 64)
@@ -422,7 +446,7 @@ to quickly create a Cobra application.`,
 					}
 					return num
 				}(),
-				Instructions: pgtype.Text{String: fake.Lorem().Paragraph(5)},
+				Instructions: fake.Lorem().Paragraph(5),
 			})
 
 			if err != nil {
@@ -441,8 +465,8 @@ to quickly create a Cobra application.`,
 
 			newInvoice, err := queries.CreateInvoice(cmd.Context(), repository.CreateInvoiceParams{
 				InvoiceNumber: fake.Lexify("????-???-????-?????"),
-				Order:         order.ID,
-				Customer:      order.Customer,
+				OrderID:       order.ID,
+				CustomerID:    order.Customer,
 				InvoiceDate:   pgtype.Timestamptz{Time: time.Now(), Valid: true},
 				DueDate:       pgtype.Timestamptz{Time: time.Now().Add(24 * time.Hour), Valid: true},
 				TotalAmount: func() pgtype.Numeric {
@@ -455,7 +479,7 @@ to quickly create a Cobra application.`,
 					return num
 				}(),
 				Status:        randomInvoiceStatus,
-				InvoicePdfUrl: pgtype.Text{String: ""},
+				InvoicePdfUrl: "",
 			})
 
 			if err != nil {
@@ -481,9 +505,9 @@ to quickly create a Cobra application.`,
 			randomPaymentStatus := paymentStatus[fake.Int16Between(0, int16(len(paymentStatus))-1)]
 
 			newPayment, err := queries.CreatePayment(cmd.Context(), repository.CreatePaymentParams{
-				Invoice:       invoice.ID,
+				InvoiceID:     invoice.ID,
 				TransactionID: fake.Lexify("???-????-????"),
-				Notes:         pgtype.Text{String: fake.Lorem().Paragraph(20), Valid: true},
+				Notes:         fake.Lorem().Paragraph(20),
 				PaymentDate:   pgtype.Timestamptz{Time: time.Now(), Valid: true},
 				AmountPaid: func() pgtype.Numeric {
 					val := fake.Numerify("###.##")

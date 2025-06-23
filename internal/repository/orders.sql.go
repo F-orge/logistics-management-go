@@ -12,13 +12,33 @@ import (
 )
 
 const createOrder = `-- name: CreateOrder :one
-insert into orders (custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+insert into orders (
+  custom_id, 
+  customer, 
+  order_date, 
+  status, 
+  total_amount, 
+  created_by, 
+  shipping_address, 
+  billing_address, 
+  assigned_warehouse
+) values (
+  $1::text,
+  $2::uuid,
+  $3::timestamptz,
+  $4::text,
+  $5::numeric,
+  $6::uuid,
+  $7::text,
+  $8::text,
+  $9::uuid
+)
 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type CreateOrderParams struct {
 	CustomID          string
-	Customer          pgtype.UUID
+	CustomerID        pgtype.UUID
 	OrderDate         pgtype.Timestamptz
 	Status            string
 	TotalAmount       pgtype.Numeric
@@ -31,7 +51,7 @@ type CreateOrderParams struct {
 func (q *Queries) CreateOrder(ctx context.Context, arg CreateOrderParams) (Order, error) {
 	row := q.db.QueryRow(ctx, createOrder,
 		arg.CustomID,
-		arg.Customer,
+		arg.CustomerID,
 		arg.OrderDate,
 		arg.Status,
 		arg.TotalAmount,
@@ -59,21 +79,31 @@ func (q *Queries) CreateOrder(ctx context.Context, arg CreateOrderParams) (Order
 }
 
 const createOrderLineItem = `-- name: CreateOrderLineItem :one
-insert into order_line_items ("order", product, quantity, price_per_unit) values ($1, $2, $3, $4)
+insert into order_line_items (
+  "order", 
+  product, 
+  quantity, 
+  price_per_unit
+) values (
+  $1::uuid, 
+  $2::uuid, 
+  $3::integer, 
+  $4::numeric
+)
 returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
 `
 
 type CreateOrderLineItemParams struct {
-	Order        pgtype.UUID
-	Product      pgtype.UUID
+	OrderID      pgtype.UUID
+	ProductID    pgtype.UUID
 	Quantity     int32
 	PricePerUnit pgtype.Numeric
 }
 
 func (q *Queries) CreateOrderLineItem(ctx context.Context, arg CreateOrderLineItemParams) (OrderLineItem, error) {
 	row := q.db.QueryRow(ctx, createOrderLineItem,
-		arg.Order,
-		arg.Product,
+		arg.OrderID,
+		arg.ProductID,
 		arg.Quantity,
 		arg.PricePerUnit,
 	)
@@ -92,7 +122,7 @@ func (q *Queries) CreateOrderLineItem(ctx context.Context, arg CreateOrderLineIt
 }
 
 const deleteOrder = `-- name: DeleteOrder :one
-delete from orders where id = $1 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+delete from orders where id = $1::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 func (q *Queries) DeleteOrder(ctx context.Context, id pgtype.UUID) (Order, error) {
@@ -116,7 +146,7 @@ func (q *Queries) DeleteOrder(ctx context.Context, id pgtype.UUID) (Order, error
 }
 
 const deleteOrderLineItem = `-- name: DeleteOrderLineItem :one
-delete from order_line_items where id = $1 returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
+delete from order_line_items where id = $1::uuid returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
 `
 
 func (q *Queries) DeleteOrderLineItem(ctx context.Context, id pgtype.UUID) (OrderLineItem, error) {
@@ -135,173 +165,12 @@ func (q *Queries) DeleteOrderLineItem(ctx context.Context, id pgtype.UUID) (Orde
 	return i, err
 }
 
-const getOrderByID = `-- name: GetOrderByID :one
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where id = $1
-`
-
-func (q *Queries) GetOrderByID(ctx context.Context, id pgtype.UUID) (Order, error) {
-	row := q.db.QueryRow(ctx, getOrderByID, id)
-	var i Order
-	err := row.Scan(
-		&i.ID,
-		&i.CustomID,
-		&i.Customer,
-		&i.OrderDate,
-		&i.Status,
-		&i.TotalAmount,
-		&i.CreatedBy,
-		&i.ShippingAddress,
-		&i.BillingAddress,
-		&i.AssignedWarehouse,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getOrderLineItemByID = `-- name: GetOrderLineItemByID :one
-select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where id = $1
-`
-
-func (q *Queries) GetOrderLineItemByID(ctx context.Context, id pgtype.UUID) (OrderLineItem, error) {
-	row := q.db.QueryRow(ctx, getOrderLineItemByID, id)
-	var i OrderLineItem
-	err := row.Scan(
-		&i.ID,
-		&i.Order,
-		&i.Product,
-		&i.Quantity,
-		&i.PricePerUnit,
-		&i.SubTotal,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getOrderLineItems = `-- name: GetOrderLineItems :many
-select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where "order" = $1 order by created desc offset $2 limit $3
-`
-
-type GetOrderLineItemsParams struct {
-	Order  pgtype.UUID
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetOrderLineItems(ctx context.Context, arg GetOrderLineItemsParams) ([]OrderLineItem, error) {
-	rows, err := q.db.Query(ctx, getOrderLineItems, arg.Order, arg.Offset, arg.Limit)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []OrderLineItem
-	for rows.Next() {
-		var i OrderLineItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Order,
-			&i.Product,
-			&i.Quantity,
-			&i.PricePerUnit,
-			&i.SubTotal,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getOrderLineItemsByOrder = `-- name: GetOrderLineItemsByOrder :many
-select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where "order" = $1 order by created desc offset $2 limit $3
-`
-
-type GetOrderLineItemsByOrderParams struct {
-	Order  pgtype.UUID
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetOrderLineItemsByOrder(ctx context.Context, arg GetOrderLineItemsByOrderParams) ([]OrderLineItem, error) {
-	rows, err := q.db.Query(ctx, getOrderLineItemsByOrder, arg.Order, arg.Offset, arg.Limit)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []OrderLineItem
-	for rows.Next() {
-		var i OrderLineItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Order,
-			&i.Product,
-			&i.Quantity,
-			&i.PricePerUnit,
-			&i.SubTotal,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getOrderLineItemsByProduct = `-- name: GetOrderLineItemsByProduct :many
-select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where product = $1 order by created desc offset $2 limit $3
-`
-
-type GetOrderLineItemsByProductParams struct {
-	Product pgtype.UUID
-	Offset  int32
-	Limit   int32
-}
-
-func (q *Queries) GetOrderLineItemsByProduct(ctx context.Context, arg GetOrderLineItemsByProductParams) ([]OrderLineItem, error) {
-	rows, err := q.db.Query(ctx, getOrderLineItemsByProduct, arg.Product, arg.Offset, arg.Limit)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []OrderLineItem
-	for rows.Next() {
-		var i OrderLineItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Order,
-			&i.Product,
-			&i.Quantity,
-			&i.PricePerUnit,
-			&i.SubTotal,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getOrders = `-- name: GetOrders :many
+const getAllOrders = `-- name: GetAllOrders :many
 select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc
 `
 
-func (q *Queries) GetOrders(ctx context.Context) ([]Order, error) {
-	rows, err := q.db.Query(ctx, getOrders)
+func (q *Queries) GetAllOrders(ctx context.Context) ([]Order, error) {
+	rows, err := q.db.Query(ctx, getAllOrders)
 	if err != nil {
 		return nil, err
 	}
@@ -333,18 +202,179 @@ func (q *Queries) GetOrders(ctx context.Context) ([]Order, error) {
 	return items, nil
 }
 
+const getOrderByID = `-- name: GetOrderByID :one
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where id = $1::uuid
+`
+
+func (q *Queries) GetOrderByID(ctx context.Context, id pgtype.UUID) (Order, error) {
+	row := q.db.QueryRow(ctx, getOrderByID, id)
+	var i Order
+	err := row.Scan(
+		&i.ID,
+		&i.CustomID,
+		&i.Customer,
+		&i.OrderDate,
+		&i.Status,
+		&i.TotalAmount,
+		&i.CreatedBy,
+		&i.ShippingAddress,
+		&i.BillingAddress,
+		&i.AssignedWarehouse,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
+}
+
+const getOrderLineItemByID = `-- name: GetOrderLineItemByID :one
+select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where id = $1::uuid
+`
+
+func (q *Queries) GetOrderLineItemByID(ctx context.Context, id pgtype.UUID) (OrderLineItem, error) {
+	row := q.db.QueryRow(ctx, getOrderLineItemByID, id)
+	var i OrderLineItem
+	err := row.Scan(
+		&i.ID,
+		&i.Order,
+		&i.Product,
+		&i.Quantity,
+		&i.PricePerUnit,
+		&i.SubTotal,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
+}
+
+const getOrderLineItems = `-- name: GetOrderLineItems :many
+select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where "order" = $1::uuid order by created desc offset $2::integer limit $3::integer
+`
+
+type GetOrderLineItemsParams struct {
+	OrderID pgtype.UUID
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) GetOrderLineItems(ctx context.Context, arg GetOrderLineItemsParams) ([]OrderLineItem, error) {
+	rows, err := q.db.Query(ctx, getOrderLineItems, arg.OrderID, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []OrderLineItem
+	for rows.Next() {
+		var i OrderLineItem
+		if err := rows.Scan(
+			&i.ID,
+			&i.Order,
+			&i.Product,
+			&i.Quantity,
+			&i.PricePerUnit,
+			&i.SubTotal,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getOrderLineItemsByOrder = `-- name: GetOrderLineItemsByOrder :many
+select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where "order" = $1::uuid order by created desc offset $2::integer limit $3::integer
+`
+
+type GetOrderLineItemsByOrderParams struct {
+	OrderID pgtype.UUID
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) GetOrderLineItemsByOrder(ctx context.Context, arg GetOrderLineItemsByOrderParams) ([]OrderLineItem, error) {
+	rows, err := q.db.Query(ctx, getOrderLineItemsByOrder, arg.OrderID, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []OrderLineItem
+	for rows.Next() {
+		var i OrderLineItem
+		if err := rows.Scan(
+			&i.ID,
+			&i.Order,
+			&i.Product,
+			&i.Quantity,
+			&i.PricePerUnit,
+			&i.SubTotal,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getOrderLineItemsByProduct = `-- name: GetOrderLineItemsByProduct :many
+select id, "order", product, quantity, price_per_unit, sub_total, created, updated from order_line_items where product = $1::uuid order by created desc offset $2::integer limit $3::integer
+`
+
+type GetOrderLineItemsByProductParams struct {
+	ProductID pgtype.UUID
+	Page      int32
+	PerPage   int32
+}
+
+func (q *Queries) GetOrderLineItemsByProduct(ctx context.Context, arg GetOrderLineItemsByProductParams) ([]OrderLineItem, error) {
+	rows, err := q.db.Query(ctx, getOrderLineItemsByProduct, arg.ProductID, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []OrderLineItem
+	for rows.Next() {
+		var i OrderLineItem
+		if err := rows.Scan(
+			&i.ID,
+			&i.Order,
+			&i.Product,
+			&i.Quantity,
+			&i.PricePerUnit,
+			&i.SubTotal,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getOrdersByCustomer = `-- name: GetOrdersByCustomer :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where customer = $1 order by created desc offset $2 limit $3
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where customer = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetOrdersByCustomerParams struct {
-	Customer pgtype.UUID
-	Offset   int32
-	Limit    int32
+	CustomerID pgtype.UUID
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetOrdersByCustomer(ctx context.Context, arg GetOrdersByCustomerParams) ([]Order, error) {
-	rows, err := q.db.Query(ctx, getOrdersByCustomer, arg.Customer, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getOrdersByCustomer, arg.CustomerID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -377,22 +407,22 @@ func (q *Queries) GetOrdersByCustomer(ctx context.Context, arg GetOrdersByCustom
 }
 
 const getOrdersByDateRange = `-- name: GetOrdersByDateRange :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where order_date >= $1 and order_date <= $2 order by created desc offset $3 limit $4
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where order_date >= $1::timestamptz and order_date <= $2::timestamptz order by created desc offset $3::integer limit $4::integer
 `
 
 type GetOrdersByDateRangeParams struct {
-	OrderDate   pgtype.Timestamptz
-	OrderDate_2 pgtype.Timestamptz
-	Offset      int32
-	Limit       int32
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetOrdersByDateRange(ctx context.Context, arg GetOrdersByDateRangeParams) ([]Order, error) {
 	rows, err := q.db.Query(ctx, getOrdersByDateRange,
-		arg.OrderDate,
-		arg.OrderDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -426,17 +456,17 @@ func (q *Queries) GetOrdersByDateRange(ctx context.Context, arg GetOrdersByDateR
 }
 
 const getOrdersByStatus = `-- name: GetOrdersByStatus :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where status = $1 order by created desc offset $2 limit $3
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetOrdersByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetOrdersByStatus(ctx context.Context, arg GetOrdersByStatusParams) ([]Order, error) {
-	rows, err := q.db.Query(ctx, getOrdersByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getOrdersByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -469,17 +499,17 @@ func (q *Queries) GetOrdersByStatus(ctx context.Context, arg GetOrdersByStatusPa
 }
 
 const getOrdersByWarehouse = `-- name: GetOrdersByWarehouse :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where assigned_warehouse = $1 order by created desc offset $2 limit $3
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders where assigned_warehouse = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetOrdersByWarehouseParams struct {
-	AssignedWarehouse pgtype.UUID
-	Offset            int32
-	Limit             int32
+	WarehouseID pgtype.UUID
+	Page        int32
+	PerPage     int32
 }
 
 func (q *Queries) GetOrdersByWarehouse(ctx context.Context, arg GetOrdersByWarehouseParams) ([]Order, error) {
-	rows, err := q.db.Query(ctx, getOrdersByWarehouse, arg.AssignedWarehouse, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getOrdersByWarehouse, arg.WarehouseID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -512,16 +542,16 @@ func (q *Queries) GetOrdersByWarehouse(ctx context.Context, arg GetOrdersByWareh
 }
 
 const paginateOrders = `-- name: PaginateOrders :many
-select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc offset $1 limit $2
+select id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated from orders order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateOrdersParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateOrders(ctx context.Context, arg PaginateOrdersParams) ([]Order, error) {
-	rows, err := q.db.Query(ctx, paginateOrders, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateOrders, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -597,7 +627,7 @@ func (q *Queries) SearchOrders(ctx context.Context, arg SearchOrdersParams) ([]O
 }
 
 const updateOrderAssignedWarehouse = `-- name: UpdateOrderAssignedWarehouse :one
-update orders set assigned_warehouse = $1 where id = $2 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+update orders set assigned_warehouse = $1::uuid where id = $2::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type UpdateOrderAssignedWarehouseParams struct {
@@ -626,7 +656,7 @@ func (q *Queries) UpdateOrderAssignedWarehouse(ctx context.Context, arg UpdateOr
 }
 
 const updateOrderBillingAddress = `-- name: UpdateOrderBillingAddress :one
-update orders set billing_address = $1 where id = $2 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+update orders set billing_address = $1::text where id = $2::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type UpdateOrderBillingAddressParams struct {
@@ -655,7 +685,7 @@ func (q *Queries) UpdateOrderBillingAddress(ctx context.Context, arg UpdateOrder
 }
 
 const updateOrderLineItemPricePerUnit = `-- name: UpdateOrderLineItemPricePerUnit :one
-update order_line_items set price_per_unit = $1 where id = $2 returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
+update order_line_items set price_per_unit = $1::numeric where id = $2::uuid returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
 `
 
 type UpdateOrderLineItemPricePerUnitParams struct {
@@ -680,7 +710,7 @@ func (q *Queries) UpdateOrderLineItemPricePerUnit(ctx context.Context, arg Updat
 }
 
 const updateOrderLineItemQuantity = `-- name: UpdateOrderLineItemQuantity :one
-update order_line_items set quantity = $1 where id = $2 returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
+update order_line_items set quantity = $1::integer where id = $2::uuid returning id, "order", product, quantity, price_per_unit, sub_total, created, updated
 `
 
 type UpdateOrderLineItemQuantityParams struct {
@@ -705,7 +735,7 @@ func (q *Queries) UpdateOrderLineItemQuantity(ctx context.Context, arg UpdateOrd
 }
 
 const updateOrderShippingAddress = `-- name: UpdateOrderShippingAddress :one
-update orders set shipping_address = $1 where id = $2 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+update orders set shipping_address = $1::text where id = $2::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type UpdateOrderShippingAddressParams struct {
@@ -734,7 +764,7 @@ func (q *Queries) UpdateOrderShippingAddress(ctx context.Context, arg UpdateOrde
 }
 
 const updateOrderStatus = `-- name: UpdateOrderStatus :one
-update orders set status = $1 where id = $2 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+update orders set status = $1::text where id = $2::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type UpdateOrderStatusParams struct {
@@ -763,7 +793,7 @@ func (q *Queries) UpdateOrderStatus(ctx context.Context, arg UpdateOrderStatusPa
 }
 
 const updateOrderTotalAmount = `-- name: UpdateOrderTotalAmount :one
-update orders set total_amount = $1 where id = $2 returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
+update orders set total_amount = $1::numeric where id = $2::uuid returning id, custom_id, customer, order_date, status, total_amount, created_by, shipping_address, billing_address, assigned_warehouse, created, updated
 `
 
 type UpdateOrderTotalAmountParams struct {

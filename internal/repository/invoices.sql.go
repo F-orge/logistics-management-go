@@ -12,28 +12,45 @@ import (
 )
 
 const createInvoice = `-- name: CreateInvoice :one
-insert into invoices (invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url)
-values ($1, $2, $3, $4, $5, $6,
-  $7, $8)
+insert into invoices (
+  invoice_number, 
+  "order", 
+  customer, 
+  invoice_date, 
+  due_date, 
+  total_amount, 
+  status, 
+  invoice_pdf_url
+)
+values (
+  $1::text, 
+  $2::uuid, 
+  $3::uuid, 
+  $4::timestamptz, 
+  $5::timestamptz, 
+  $6::numeric, 
+  $7::text, 
+  $8::text
+)
 returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
 `
 
 type CreateInvoiceParams struct {
 	InvoiceNumber string
-	Order         pgtype.UUID
-	Customer      pgtype.UUID
+	OrderID       pgtype.UUID
+	CustomerID    pgtype.UUID
 	InvoiceDate   pgtype.Timestamptz
 	DueDate       pgtype.Timestamptz
 	TotalAmount   pgtype.Numeric
 	Status        string
-	InvoicePdfUrl pgtype.Text
+	InvoicePdfUrl string
 }
 
 func (q *Queries) CreateInvoice(ctx context.Context, arg CreateInvoiceParams) (Invoice, error) {
 	row := q.db.QueryRow(ctx, createInvoice,
 		arg.InvoiceNumber,
-		arg.Order,
-		arg.Customer,
+		arg.OrderID,
+		arg.CustomerID,
 		arg.InvoiceDate,
 		arg.DueDate,
 		arg.TotalAmount,
@@ -58,7 +75,7 @@ func (q *Queries) CreateInvoice(ctx context.Context, arg CreateInvoiceParams) (I
 }
 
 const deleteInvoice = `-- name: DeleteInvoice :one
-delete from invoices where id = $1 returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
+delete from invoices where id = $1::uuid returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
 `
 
 func (q *Queries) DeleteInvoice(ctx context.Context, id pgtype.UUID) (Invoice, error) {
@@ -81,7 +98,7 @@ func (q *Queries) DeleteInvoice(ctx context.Context, id pgtype.UUID) (Invoice, e
 }
 
 const getInvoiceByID = `-- name: GetInvoiceByID :one
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where id = $1
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where id = $1::uuid
 `
 
 func (q *Queries) GetInvoiceByID(ctx context.Context, id pgtype.UUID) (Invoice, error) {
@@ -140,17 +157,17 @@ func (q *Queries) GetInvoices(ctx context.Context) ([]Invoice, error) {
 }
 
 const getInvoicesByCustomer = `-- name: GetInvoicesByCustomer :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1 order by created desc offset $2 limit $3
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetInvoicesByCustomerParams struct {
-	Customer pgtype.UUID
-	Offset   int32
-	Limit    int32
+	CustomerID pgtype.UUID
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetInvoicesByCustomer(ctx context.Context, arg GetInvoicesByCustomerParams) ([]Invoice, error) {
-	rows, err := q.db.Query(ctx, getInvoicesByCustomer, arg.Customer, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getInvoicesByCustomer, arg.CustomerID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -182,25 +199,25 @@ func (q *Queries) GetInvoicesByCustomer(ctx context.Context, arg GetInvoicesByCu
 }
 
 const getInvoicesByCustomerAndDateRange = `-- name: GetInvoicesByCustomerAndDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1 and invoice_date >= $2 and invoice_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1::uuid and invoice_date >= $2::timestamptz and invoice_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetInvoicesByCustomerAndDateRangeParams struct {
-	Customer      pgtype.UUID
-	InvoiceDate   pgtype.Timestamptz
-	InvoiceDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	CustomerID pgtype.UUID
+	StartDate  pgtype.Timestamptz
+	EndDate    pgtype.Timestamptz
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetInvoicesByCustomerAndDateRange(ctx context.Context, arg GetInvoicesByCustomerAndDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByCustomerAndDateRange,
-		arg.Customer,
-		arg.InvoiceDate,
-		arg.InvoiceDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.CustomerID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -233,25 +250,25 @@ func (q *Queries) GetInvoicesByCustomerAndDateRange(ctx context.Context, arg Get
 }
 
 const getInvoicesByCustomerAndDueDateRange = `-- name: GetInvoicesByCustomerAndDueDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1 and due_date >= $2 and due_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1::uuid and due_date >= $2::timestamptz and due_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetInvoicesByCustomerAndDueDateRangeParams struct {
-	Customer  pgtype.UUID
-	DueDate   pgtype.Timestamptz
-	DueDate_2 pgtype.Timestamptz
-	Offset    int32
-	Limit     int32
+	CustomerID pgtype.UUID
+	StartDate  pgtype.Timestamptz
+	EndDate    pgtype.Timestamptz
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetInvoicesByCustomerAndDueDateRange(ctx context.Context, arg GetInvoicesByCustomerAndDueDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByCustomerAndDueDateRange,
-		arg.Customer,
-		arg.DueDate,
-		arg.DueDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.CustomerID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -284,23 +301,23 @@ func (q *Queries) GetInvoicesByCustomerAndDueDateRange(ctx context.Context, arg 
 }
 
 const getInvoicesByCustomerAndStatus = `-- name: GetInvoicesByCustomerAndStatus :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1 and status = $2
-order by created desc offset $3 limit $4
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1::uuid and status = $2::text
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetInvoicesByCustomerAndStatusParams struct {
-	Customer pgtype.UUID
-	Status   string
-	Offset   int32
-	Limit    int32
+	CustomerID pgtype.UUID
+	Status     string
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetInvoicesByCustomerAndStatus(ctx context.Context, arg GetInvoicesByCustomerAndStatusParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByCustomerAndStatus,
-		arg.Customer,
+		arg.CustomerID,
 		arg.Status,
-		arg.Offset,
-		arg.Limit,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -333,27 +350,27 @@ func (q *Queries) GetInvoicesByCustomerAndStatus(ctx context.Context, arg GetInv
 }
 
 const getInvoicesByCustomerAndStatusAndDateRange = `-- name: GetInvoicesByCustomerAndStatusAndDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1 and status = $2 and invoice_date >= $3 and invoice_date <= $4
-order by created desc offset $5 limit $6
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where customer = $1::uuid and status = $2::text and invoice_date >= $3::timestamptz and invoice_date <= $4::timestamptz
+order by created desc offset $5::integer limit $6::integer
 `
 
 type GetInvoicesByCustomerAndStatusAndDateRangeParams struct {
-	Customer      pgtype.UUID
-	Status        string
-	InvoiceDate   pgtype.Timestamptz
-	InvoiceDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	CustomerID pgtype.UUID
+	Status     string
+	StartDate  pgtype.Timestamptz
+	EndDate    pgtype.Timestamptz
+	Page       int32
+	PerPage    int32
 }
 
 func (q *Queries) GetInvoicesByCustomerAndStatusAndDateRange(ctx context.Context, arg GetInvoicesByCustomerAndStatusAndDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByCustomerAndStatusAndDateRange,
-		arg.Customer,
+		arg.CustomerID,
 		arg.Status,
-		arg.InvoiceDate,
-		arg.InvoiceDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -386,23 +403,23 @@ func (q *Queries) GetInvoicesByCustomerAndStatusAndDateRange(ctx context.Context
 }
 
 const getInvoicesByDateRange = `-- name: GetInvoicesByDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where invoice_date >= $1 and invoice_date <= $2
-order by created desc offset $3 limit $4
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where invoice_date >= $1::timestamptz and invoice_date <= $2::timestamptz
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetInvoicesByDateRangeParams struct {
-	InvoiceDate   pgtype.Timestamptz
-	InvoiceDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetInvoicesByDateRange(ctx context.Context, arg GetInvoicesByDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByDateRange,
-		arg.InvoiceDate,
-		arg.InvoiceDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -435,23 +452,23 @@ func (q *Queries) GetInvoicesByDateRange(ctx context.Context, arg GetInvoicesByD
 }
 
 const getInvoicesByDueDateRange = `-- name: GetInvoicesByDueDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where due_date >= $1 and due_date <= $2
-order by created desc offset $3 limit $4
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where due_date >= $1::timestamptz and due_date <= $2::timestamptz
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetInvoicesByDueDateRangeParams struct {
-	DueDate   pgtype.Timestamptz
-	DueDate_2 pgtype.Timestamptz
-	Offset    int32
-	Limit     int32
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetInvoicesByDueDateRange(ctx context.Context, arg GetInvoicesByDueDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByDueDateRange,
-		arg.DueDate,
-		arg.DueDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -484,17 +501,17 @@ func (q *Queries) GetInvoicesByDueDateRange(ctx context.Context, arg GetInvoices
 }
 
 const getInvoicesByOrder = `-- name: GetInvoicesByOrder :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1 order by created desc offset $2 limit $3
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetInvoicesByOrderParams struct {
-	Order  pgtype.UUID
-	Offset int32
-	Limit  int32
+	OrderID pgtype.UUID
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetInvoicesByOrder(ctx context.Context, arg GetInvoicesByOrderParams) ([]Invoice, error) {
-	rows, err := q.db.Query(ctx, getInvoicesByOrder, arg.Order, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getInvoicesByOrder, arg.OrderID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -526,25 +543,25 @@ func (q *Queries) GetInvoicesByOrder(ctx context.Context, arg GetInvoicesByOrder
 }
 
 const getInvoicesByOrderAndDateRange = `-- name: GetInvoicesByOrderAndDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1 and invoice_date >= $2 and invoice_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1::uuid and invoice_date >= $2::timestamptz and invoice_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetInvoicesByOrderAndDateRangeParams struct {
-	Order         pgtype.UUID
-	InvoiceDate   pgtype.Timestamptz
-	InvoiceDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	OrderID   pgtype.UUID
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetInvoicesByOrderAndDateRange(ctx context.Context, arg GetInvoicesByOrderAndDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByOrderAndDateRange,
-		arg.Order,
-		arg.InvoiceDate,
-		arg.InvoiceDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.OrderID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -577,25 +594,25 @@ func (q *Queries) GetInvoicesByOrderAndDateRange(ctx context.Context, arg GetInv
 }
 
 const getInvoicesByOrderAndDueDateRange = `-- name: GetInvoicesByOrderAndDueDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1 and due_date >= $2 and due_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1::uuid and due_date >= $2::timestamptz and due_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetInvoicesByOrderAndDueDateRangeParams struct {
-	Order     pgtype.UUID
-	DueDate   pgtype.Timestamptz
-	DueDate_2 pgtype.Timestamptz
-	Offset    int32
-	Limit     int32
+	OrderID   pgtype.UUID
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetInvoicesByOrderAndDueDateRange(ctx context.Context, arg GetInvoicesByOrderAndDueDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByOrderAndDueDateRange,
-		arg.Order,
-		arg.DueDate,
-		arg.DueDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.OrderID,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -628,23 +645,23 @@ func (q *Queries) GetInvoicesByOrderAndDueDateRange(ctx context.Context, arg Get
 }
 
 const getInvoicesByOrderAndStatus = `-- name: GetInvoicesByOrderAndStatus :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1 and status = $2
-order by created desc offset $3 limit $4
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1::uuid and status = $2::text
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetInvoicesByOrderAndStatusParams struct {
-	Order  pgtype.UUID
-	Status string
-	Offset int32
-	Limit  int32
+	OrderID pgtype.UUID
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetInvoicesByOrderAndStatus(ctx context.Context, arg GetInvoicesByOrderAndStatusParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByOrderAndStatus,
-		arg.Order,
+		arg.OrderID,
 		arg.Status,
-		arg.Offset,
-		arg.Limit,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -677,27 +694,27 @@ func (q *Queries) GetInvoicesByOrderAndStatus(ctx context.Context, arg GetInvoic
 }
 
 const getInvoicesByOrderAndStatusAndDateRange = `-- name: GetInvoicesByOrderAndStatusAndDateRange :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1 and status = $2 and invoice_date >= $3 and invoice_date <= $4
-order by created desc offset $5 limit $6
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where "order" = $1::uuid and status = $2::text and invoice_date >= $3::timestamptz and invoice_date <= $4::timestamptz
+order by created desc offset $5::integer limit $6::integer
 `
 
 type GetInvoicesByOrderAndStatusAndDateRangeParams struct {
-	Order         pgtype.UUID
-	Status        string
-	InvoiceDate   pgtype.Timestamptz
-	InvoiceDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	OrderID   pgtype.UUID
+	Status    string
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetInvoicesByOrderAndStatusAndDateRange(ctx context.Context, arg GetInvoicesByOrderAndStatusAndDateRangeParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByOrderAndStatusAndDateRange,
-		arg.Order,
+		arg.OrderID,
 		arg.Status,
-		arg.InvoiceDate,
-		arg.InvoiceDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -730,17 +747,17 @@ func (q *Queries) GetInvoicesByOrderAndStatusAndDateRange(ctx context.Context, a
 }
 
 const getInvoicesByStatus = `-- name: GetInvoicesByStatus :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where status = $1 order by created desc offset $2 limit $3
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetInvoicesByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetInvoicesByStatus(ctx context.Context, arg GetInvoicesByStatusParams) ([]Invoice, error) {
-	rows, err := q.db.Query(ctx, getInvoicesByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getInvoicesByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -772,16 +789,16 @@ func (q *Queries) GetInvoicesByStatus(ctx context.Context, arg GetInvoicesByStat
 }
 
 const paginateInvoices = `-- name: PaginateInvoices :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices order by created desc offset $1 limit $2
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateInvoicesParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateInvoices(ctx context.Context, arg PaginateInvoicesParams) ([]Invoice, error) {
-	rows, err := q.db.Query(ctx, paginateInvoices, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateInvoices, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -858,7 +875,7 @@ func (q *Queries) SearchInvoices(ctx context.Context, arg SearchInvoicesParams) 
 }
 
 const updateInvoiceDueDate = `-- name: UpdateInvoiceDueDate :one
-update invoices set due_date = $1 where id = $2 returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
+update invoices set due_date = $1::timestamptz where id = $2::uuid returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
 `
 
 type UpdateInvoiceDueDateParams struct {
@@ -886,7 +903,7 @@ func (q *Queries) UpdateInvoiceDueDate(ctx context.Context, arg UpdateInvoiceDue
 }
 
 const updateInvoiceStatus = `-- name: UpdateInvoiceStatus :one
-update invoices set status = $1 where id = $2 returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
+update invoices set status = $1::text where id = $2::uuid returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
 `
 
 type UpdateInvoiceStatusParams struct {
@@ -914,7 +931,7 @@ func (q *Queries) UpdateInvoiceStatus(ctx context.Context, arg UpdateInvoiceStat
 }
 
 const updateInvoiceTotalAmount = `-- name: UpdateInvoiceTotalAmount :one
-update invoices set total_amount = $1 where id = $2 returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
+update invoices set total_amount = $1::numeric where id = $2::uuid returning id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated
 `
 
 type UpdateInvoiceTotalAmountParams struct {

@@ -12,24 +12,40 @@ import (
 )
 
 const createPayment = `-- name: CreatePayment :one
-insert into payments (invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes)
-values ($1, $2, $3, $4, $5, $6, $7)
+insert into payments (
+  invoice, 
+  payment_date, 
+  amount_paid, 
+  payment_method, 
+  transaction_id, 
+  status, 
+  notes
+)
+values (
+  $1::uuid, 
+  $2::timestamptz, 
+  $3::numeric, 
+  $4::text, 
+  $5::text, 
+  $6::text, 
+  $7::text
+)
 returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
 `
 
 type CreatePaymentParams struct {
-	Invoice       pgtype.UUID
+	InvoiceID     pgtype.UUID
 	PaymentDate   pgtype.Timestamptz
 	AmountPaid    pgtype.Numeric
 	PaymentMethod string
 	TransactionID string
 	Status        string
-	Notes         pgtype.Text
+	Notes         string
 }
 
 func (q *Queries) CreatePayment(ctx context.Context, arg CreatePaymentParams) (Payment, error) {
 	row := q.db.QueryRow(ctx, createPayment,
-		arg.Invoice,
+		arg.InvoiceID,
 		arg.PaymentDate,
 		arg.AmountPaid,
 		arg.PaymentMethod,
@@ -54,7 +70,7 @@ func (q *Queries) CreatePayment(ctx context.Context, arg CreatePaymentParams) (P
 }
 
 const getPaymentByID = `-- name: GetPaymentByID :one
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where id = $1
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where id = $1::uuid
 `
 
 func (q *Queries) GetPaymentByID(ctx context.Context, id pgtype.UUID) (Payment, error) {
@@ -76,16 +92,16 @@ func (q *Queries) GetPaymentByID(ctx context.Context, id pgtype.UUID) (Payment, 
 }
 
 const getPayments = `-- name: GetPayments :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments order by created desc offset $1 limit $2
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments order by created desc offset $1::integer limit $2::integer
 `
 
 type GetPaymentsParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetPayments(ctx context.Context, arg GetPaymentsParams) ([]Payment, error) {
-	rows, err := q.db.Query(ctx, getPayments, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getPayments, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -116,23 +132,23 @@ func (q *Queries) GetPayments(ctx context.Context, arg GetPaymentsParams) ([]Pay
 }
 
 const getPaymentsByDateRange = `-- name: GetPaymentsByDateRange :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_date >= $1 and payment_date <= $2
-order by created desc offset $3 limit $4
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_date >= $1::timestamptz and payment_date <= $2::timestamptz
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetPaymentsByDateRangeParams struct {
-	PaymentDate   pgtype.Timestamptz
-	PaymentDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetPaymentsByDateRange(ctx context.Context, arg GetPaymentsByDateRangeParams) ([]Payment, error) {
 	rows, err := q.db.Query(ctx, getPaymentsByDateRange,
-		arg.PaymentDate,
-		arg.PaymentDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -164,17 +180,17 @@ func (q *Queries) GetPaymentsByDateRange(ctx context.Context, arg GetPaymentsByD
 }
 
 const getPaymentsByInvoice = `-- name: GetPaymentsByInvoice :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1 order by created desc offset $2 limit $3
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetPaymentsByInvoiceParams struct {
 	Invoice pgtype.UUID
-	Offset  int32
-	Limit   int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetPaymentsByInvoice(ctx context.Context, arg GetPaymentsByInvoiceParams) ([]Payment, error) {
-	rows, err := q.db.Query(ctx, getPaymentsByInvoice, arg.Invoice, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getPaymentsByInvoice, arg.Invoice, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -205,25 +221,25 @@ func (q *Queries) GetPaymentsByInvoice(ctx context.Context, arg GetPaymentsByInv
 }
 
 const getPaymentsByInvoiceAndDateRange = `-- name: GetPaymentsByInvoiceAndDateRange :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1 and payment_date >= $2 and payment_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1::uuid and payment_date >= $2::timestamptz and payment_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetPaymentsByInvoiceAndDateRangeParams struct {
-	Invoice       pgtype.UUID
-	PaymentDate   pgtype.Timestamptz
-	PaymentDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	Invoice   pgtype.UUID
+	StartDate pgtype.Timestamptz
+	EndDate   pgtype.Timestamptz
+	Page      int32
+	PerPage   int32
 }
 
 func (q *Queries) GetPaymentsByInvoiceAndDateRange(ctx context.Context, arg GetPaymentsByInvoiceAndDateRangeParams) ([]Payment, error) {
 	rows, err := q.db.Query(ctx, getPaymentsByInvoiceAndDateRange,
 		arg.Invoice,
-		arg.PaymentDate,
-		arg.PaymentDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -255,23 +271,23 @@ func (q *Queries) GetPaymentsByInvoiceAndDateRange(ctx context.Context, arg GetP
 }
 
 const getPaymentsByInvoiceAndStatus = `-- name: GetPaymentsByInvoiceAndStatus :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1 and status = $2
-order by created desc offset $3 limit $4
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where invoice = $1::uuid and status = $2::text
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetPaymentsByInvoiceAndStatusParams struct {
 	Invoice pgtype.UUID
 	Status  string
-	Offset  int32
-	Limit   int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetPaymentsByInvoiceAndStatus(ctx context.Context, arg GetPaymentsByInvoiceAndStatusParams) ([]Payment, error) {
 	rows, err := q.db.Query(ctx, getPaymentsByInvoiceAndStatus,
 		arg.Invoice,
 		arg.Status,
-		arg.Offset,
-		arg.Limit,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -303,17 +319,17 @@ func (q *Queries) GetPaymentsByInvoiceAndStatus(ctx context.Context, arg GetPaym
 }
 
 const getPaymentsByMethod = `-- name: GetPaymentsByMethod :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1 order by created desc offset $2 limit $3
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetPaymentsByMethodParams struct {
 	PaymentMethod string
-	Offset        int32
-	Limit         int32
+	Page          int32
+	PerPage       int32
 }
 
 func (q *Queries) GetPaymentsByMethod(ctx context.Context, arg GetPaymentsByMethodParams) ([]Payment, error) {
-	rows, err := q.db.Query(ctx, getPaymentsByMethod, arg.PaymentMethod, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getPaymentsByMethod, arg.PaymentMethod, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -344,25 +360,25 @@ func (q *Queries) GetPaymentsByMethod(ctx context.Context, arg GetPaymentsByMeth
 }
 
 const getPaymentsByMethodAndDateRange = `-- name: GetPaymentsByMethodAndDateRange :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1 and payment_date >= $2 and payment_date <= $3
-order by created desc offset $4 limit $5
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1::text and payment_date >= $2::timestamptz and payment_date <= $3::timestamptz
+order by created desc offset $4::integer limit $5::integer
 `
 
 type GetPaymentsByMethodAndDateRangeParams struct {
 	PaymentMethod string
-	PaymentDate   pgtype.Timestamptz
-	PaymentDate_2 pgtype.Timestamptz
-	Offset        int32
-	Limit         int32
+	StartDate     pgtype.Timestamptz
+	EndDate       pgtype.Timestamptz
+	Page          int32
+	PerPage       int32
 }
 
 func (q *Queries) GetPaymentsByMethodAndDateRange(ctx context.Context, arg GetPaymentsByMethodAndDateRangeParams) ([]Payment, error) {
 	rows, err := q.db.Query(ctx, getPaymentsByMethodAndDateRange,
 		arg.PaymentMethod,
-		arg.PaymentDate,
-		arg.PaymentDate_2,
-		arg.Offset,
-		arg.Limit,
+		arg.StartDate,
+		arg.EndDate,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -394,23 +410,23 @@ func (q *Queries) GetPaymentsByMethodAndDateRange(ctx context.Context, arg GetPa
 }
 
 const getPaymentsByMethodAndStatus = `-- name: GetPaymentsByMethodAndStatus :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1 and status = $2
-order by created desc offset $3 limit $4
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where payment_method = $1::text and status = $2::text
+order by created desc offset $3::integer limit $4::integer
 `
 
 type GetPaymentsByMethodAndStatusParams struct {
 	PaymentMethod string
 	Status        string
-	Offset        int32
-	Limit         int32
+	Page          int32
+	PerPage       int32
 }
 
 func (q *Queries) GetPaymentsByMethodAndStatus(ctx context.Context, arg GetPaymentsByMethodAndStatusParams) ([]Payment, error) {
 	rows, err := q.db.Query(ctx, getPaymentsByMethodAndStatus,
 		arg.PaymentMethod,
 		arg.Status,
-		arg.Offset,
-		arg.Limit,
+		arg.Page,
+		arg.PerPage,
 	)
 	if err != nil {
 		return nil, err
@@ -442,17 +458,17 @@ func (q *Queries) GetPaymentsByMethodAndStatus(ctx context.Context, arg GetPayme
 }
 
 const getPaymentsByStatus = `-- name: GetPaymentsByStatus :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where status = $1 order by created desc offset $2 limit $3
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetPaymentsByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetPaymentsByStatus(ctx context.Context, arg GetPaymentsByStatusParams) ([]Payment, error) {
-	rows, err := q.db.Query(ctx, getPaymentsByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getPaymentsByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -483,17 +499,17 @@ func (q *Queries) GetPaymentsByStatus(ctx context.Context, arg GetPaymentsByStat
 }
 
 const getPaymentsByTransactionID = `-- name: GetPaymentsByTransactionID :many
-select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where transaction_id = $1 order by created desc offset $2 limit $3
+select id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated from payments where transaction_id = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetPaymentsByTransactionIDParams struct {
 	TransactionID string
-	Offset        int32
-	Limit         int32
+	Page          int32
+	PerPage       int32
 }
 
 func (q *Queries) GetPaymentsByTransactionID(ctx context.Context, arg GetPaymentsByTransactionIDParams) ([]Payment, error) {
-	rows, err := q.db.Query(ctx, getPaymentsByTransactionID, arg.TransactionID, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getPaymentsByTransactionID, arg.TransactionID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -568,7 +584,7 @@ func (q *Queries) SearchPayments(ctx context.Context, arg SearchPaymentsParams) 
 }
 
 const updatePaymentAmount = `-- name: UpdatePaymentAmount :one
-update payments set amount_paid = $1 where id = $2 returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
+update payments set amount_paid = $1::numeric where id = $2::uuid returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
 `
 
 type UpdatePaymentAmountParams struct {
@@ -595,11 +611,11 @@ func (q *Queries) UpdatePaymentAmount(ctx context.Context, arg UpdatePaymentAmou
 }
 
 const updatePaymentNotes = `-- name: UpdatePaymentNotes :one
-update payments set notes = $1 where id = $2 returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
+update payments set notes = $1::text where id = $2::uuid returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
 `
 
 type UpdatePaymentNotesParams struct {
-	Notes pgtype.Text
+	Notes string
 	ID    pgtype.UUID
 }
 
@@ -622,7 +638,7 @@ func (q *Queries) UpdatePaymentNotes(ctx context.Context, arg UpdatePaymentNotes
 }
 
 const updatePaymentStatus = `-- name: UpdatePaymentStatus :one
-update payments set status = $1 where id = $2 returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
+update payments set status = $1::text where id = $2::uuid returning id, invoice, payment_date, amount_paid, payment_method, transaction_id, status, notes, created, updated
 `
 
 type UpdatePaymentStatusParams struct {

@@ -38,7 +38,10 @@ func (q *Queries) AssignUserToDepartment(ctx context.Context, arg AssignUserToDe
 
 const createDepartment = `-- name: CreateDepartment :one
 insert into departments (name, description)
-values ($1::text, $2::text)
+values (
+  $1::text, 
+  $2::text
+)
 returning id, name, description, created, updated
 `
 

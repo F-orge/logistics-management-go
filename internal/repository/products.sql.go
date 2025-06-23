@@ -12,21 +12,41 @@ import (
 )
 
 const createProduct = `-- name: CreateProduct :one
-insert into products (sku, name, description, width, height, length, cost, supplier, image_url)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+insert into products (
+  sku, 
+  name, 
+  description, 
+  width, 
+  height, 
+  length, 
+  cost, 
+  supplier, 
+  image_url
+)
+values (
+  $1::text, 
+  $2::text, 
+  $3::text, 
+  $4::numeric, 
+  $5::numeric, 
+  $6::numeric, 
+  $7::numeric, 
+  $8::uuid, 
+  $9::text
+)
 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type CreateProductParams struct {
 	Sku         string
 	Name        string
-	Description pgtype.Text
-	Width       string
-	Height      string
-	Length      string
+	Description string
+	Width       pgtype.Numeric
+	Height      pgtype.Numeric
+	Length      pgtype.Numeric
 	Cost        pgtype.Numeric
 	Supplier    pgtype.UUID
-	ImageUrl    pgtype.Text
+	ImageUrl    string
 }
 
 func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (Product, error) {
@@ -60,7 +80,7 @@ func (q *Queries) CreateProduct(ctx context.Context, arg CreateProductParams) (P
 }
 
 const deleteProduct = `-- name: DeleteProduct :one
-delete from products where id = $1 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+delete from products where id = $1::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 func (q *Queries) DeleteProduct(ctx context.Context, id pgtype.UUID) (Product, error) {
@@ -83,36 +103,12 @@ func (q *Queries) DeleteProduct(ctx context.Context, id pgtype.UUID) (Product, e
 	return i, err
 }
 
-const getProductByID = `-- name: GetProductByID :one
-select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products where id = $1
-`
-
-func (q *Queries) GetProductByID(ctx context.Context, id pgtype.UUID) (Product, error) {
-	row := q.db.QueryRow(ctx, getProductByID, id)
-	var i Product
-	err := row.Scan(
-		&i.ID,
-		&i.Sku,
-		&i.Name,
-		&i.Description,
-		&i.Width,
-		&i.Height,
-		&i.Length,
-		&i.Cost,
-		&i.Supplier,
-		&i.ImageUrl,
-		&i.Created,
-		&i.Updated,
-	)
-	return i, err
-}
-
-const getProducts = `-- name: GetProducts :many
+const getAllProducts = `-- name: GetAllProducts :many
 select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc
 `
 
-func (q *Queries) GetProducts(ctx context.Context) ([]Product, error) {
-	rows, err := q.db.Query(ctx, getProducts)
+func (q *Queries) GetAllProducts(ctx context.Context) ([]Product, error) {
+	rows, err := q.db.Query(ctx, getAllProducts)
 	if err != nil {
 		return nil, err
 	}
@@ -144,18 +140,42 @@ func (q *Queries) GetProducts(ctx context.Context) ([]Product, error) {
 	return items, nil
 }
 
+const getProductByID = `-- name: GetProductByID :one
+select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products where id = $1::uuid
+`
+
+func (q *Queries) GetProductByID(ctx context.Context, id pgtype.UUID) (Product, error) {
+	row := q.db.QueryRow(ctx, getProductByID, id)
+	var i Product
+	err := row.Scan(
+		&i.ID,
+		&i.Sku,
+		&i.Name,
+		&i.Description,
+		&i.Width,
+		&i.Height,
+		&i.Length,
+		&i.Cost,
+		&i.Supplier,
+		&i.ImageUrl,
+		&i.Created,
+		&i.Updated,
+	)
+	return i, err
+}
+
 const getProductsBySupplier = `-- name: GetProductsBySupplier :many
-select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products where supplier = $1 order by created desc offset $2 limit $3
+select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products where supplier = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetProductsBySupplierParams struct {
 	Supplier pgtype.UUID
-	Offset   int32
-	Limit    int32
+	Page     int32
+	PerPage  int32
 }
 
 func (q *Queries) GetProductsBySupplier(ctx context.Context, arg GetProductsBySupplierParams) ([]Product, error) {
-	rows, err := q.db.Query(ctx, getProductsBySupplier, arg.Supplier, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getProductsBySupplier, arg.Supplier, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -188,16 +208,16 @@ func (q *Queries) GetProductsBySupplier(ctx context.Context, arg GetProductsBySu
 }
 
 const paginateProducts = `-- name: PaginateProducts :many
-select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc offset $1 limit $2
+select id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated from products order by created desc offset $1::integer limit $2::integer
 `
 
 type PaginateProductsParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) PaginateProducts(ctx context.Context, arg PaginateProductsParams) ([]Product, error) {
-	rows, err := q.db.Query(ctx, paginateProducts, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, paginateProducts, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -273,7 +293,7 @@ func (q *Queries) SearchProducts(ctx context.Context, arg SearchProductsParams) 
 }
 
 const updateProductCost = `-- name: UpdateProductCost :one
-update products set cost = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set cost = $1::numeric where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductCostParams struct {
@@ -302,11 +322,11 @@ func (q *Queries) UpdateProductCost(ctx context.Context, arg UpdateProductCostPa
 }
 
 const updateProductDescription = `-- name: UpdateProductDescription :one
-update products set description = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set description = $1::text where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductDescriptionParams struct {
-	Description pgtype.Text
+	Description string
 	ID          pgtype.UUID
 }
 
@@ -331,11 +351,11 @@ func (q *Queries) UpdateProductDescription(ctx context.Context, arg UpdateProduc
 }
 
 const updateProductHeight = `-- name: UpdateProductHeight :one
-update products set height = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set height = $1::numeric where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductHeightParams struct {
-	Height string
+	Height pgtype.Numeric
 	ID     pgtype.UUID
 }
 
@@ -360,11 +380,11 @@ func (q *Queries) UpdateProductHeight(ctx context.Context, arg UpdateProductHeig
 }
 
 const updateProductImageURL = `-- name: UpdateProductImageURL :one
-update products set image_url = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set image_url = $1::text where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductImageURLParams struct {
-	ImageUrl pgtype.Text
+	ImageUrl string
 	ID       pgtype.UUID
 }
 
@@ -389,11 +409,11 @@ func (q *Queries) UpdateProductImageURL(ctx context.Context, arg UpdateProductIm
 }
 
 const updateProductLength = `-- name: UpdateProductLength :one
-update products set length = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set length = $1::numeric where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductLengthParams struct {
-	Length string
+	Length pgtype.Numeric
 	ID     pgtype.UUID
 }
 
@@ -418,7 +438,7 @@ func (q *Queries) UpdateProductLength(ctx context.Context, arg UpdateProductLeng
 }
 
 const updateProductName = `-- name: UpdateProductName :one
-update products set name = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set name = $1::text where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductNameParams struct {
@@ -447,7 +467,7 @@ func (q *Queries) UpdateProductName(ctx context.Context, arg UpdateProductNamePa
 }
 
 const updateProductSupplier = `-- name: UpdateProductSupplier :one
-update products set supplier = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set supplier = $1::uuid where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductSupplierParams struct {
@@ -476,11 +496,11 @@ func (q *Queries) UpdateProductSupplier(ctx context.Context, arg UpdateProductSu
 }
 
 const updateProductWidth = `-- name: UpdateProductWidth :one
-update products set width = $1 where id = $2 returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
+update products set width = $1::numeric where id = $2::uuid returning id, sku, name, description, width, height, length, cost, supplier, image_url, created, updated
 `
 
 type UpdateProductWidthParams struct {
-	Width string
+	Width pgtype.Numeric
 	ID    pgtype.UUID
 }
 

@@ -12,14 +12,34 @@ import (
 )
 
 const createInventoryItem = `-- name: CreateInventoryItem :one
-insert into inventory_items (product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+insert into inventory_items (
+  product, 
+  warehouse, 
+  quantity_on_hand, 
+  lot_number, 
+  serial_number, 
+  status, 
+  expiry_date, 
+  storage_location_code, 
+  last_counted_date
+)
+values (
+  $1::uuid,
+  $2::uuid, 
+  $3::integer,
+  $4::text,
+  $5::text, 
+  $6::text, 
+  $7::timestamptz, 
+  $8::text, 
+  $9::timestamptz
+)
 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 type CreateInventoryItemParams struct {
-	Product             pgtype.UUID
-	Warehouse           pgtype.UUID
+	ProductID           pgtype.UUID
+	WarehouseID         pgtype.UUID
 	QuantityOnHand      int32
 	LotNumber           string
 	SerialNumber        string
@@ -31,8 +51,8 @@ type CreateInventoryItemParams struct {
 
 func (q *Queries) CreateInventoryItem(ctx context.Context, arg CreateInventoryItemParams) (InventoryItem, error) {
 	row := q.db.QueryRow(ctx, createInventoryItem,
-		arg.Product,
-		arg.Warehouse,
+		arg.ProductID,
+		arg.WarehouseID,
 		arg.QuantityOnHand,
 		arg.LotNumber,
 		arg.SerialNumber,
@@ -60,7 +80,7 @@ func (q *Queries) CreateInventoryItem(ctx context.Context, arg CreateInventoryIt
 }
 
 const deleteInventoryItem = `-- name: DeleteInventoryItem :one
-delete from inventory_items where id = $1 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+delete from inventory_items where id = $1::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 func (q *Queries) DeleteInventoryItem(ctx context.Context, id pgtype.UUID) (InventoryItem, error) {
@@ -83,8 +103,45 @@ func (q *Queries) DeleteInventoryItem(ctx context.Context, id pgtype.UUID) (Inve
 	return i, err
 }
 
+const getAllInventoryItems = `-- name: GetAllInventoryItems :many
+select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items order by created desc
+`
+
+func (q *Queries) GetAllInventoryItems(ctx context.Context) ([]InventoryItem, error) {
+	rows, err := q.db.Query(ctx, getAllInventoryItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []InventoryItem
+	for rows.Next() {
+		var i InventoryItem
+		if err := rows.Scan(
+			&i.ID,
+			&i.Product,
+			&i.Warehouse,
+			&i.QuantityOnHand,
+			&i.LotNumber,
+			&i.SerialNumber,
+			&i.Status,
+			&i.ExpiryDate,
+			&i.StorageLocationCode,
+			&i.LastCountedDate,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getInventoryItemByID = `-- name: GetInventoryItemByID :one
-select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items where id = $1
+select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items where id = $1::uuid
 `
 
 func (q *Queries) GetInventoryItemByID(ctx context.Context, id pgtype.UUID) (InventoryItem, error) {
@@ -105,91 +162,6 @@ func (q *Queries) GetInventoryItemByID(ctx context.Context, id pgtype.UUID) (Inv
 		&i.Updated,
 	)
 	return i, err
-}
-
-const getInventoryItems = `-- name: GetInventoryItems :many
-select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items order by created desc offset $1 limit $2
-`
-
-type GetInventoryItemsParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetInventoryItems(ctx context.Context, arg GetInventoryItemsParams) ([]InventoryItem, error) {
-	rows, err := q.db.Query(ctx, getInventoryItems, arg.Offset, arg.Limit)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []InventoryItem
-	for rows.Next() {
-		var i InventoryItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Product,
-			&i.Warehouse,
-			&i.QuantityOnHand,
-			&i.LotNumber,
-			&i.SerialNumber,
-			&i.Status,
-			&i.ExpiryDate,
-			&i.StorageLocationCode,
-			&i.LastCountedDate,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getInventoryItemsByProduct = `-- name: GetInventoryItemsByProduct :many
-select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items where product = $1 order by created desc offset $2 limit $3
-`
-
-type GetInventoryItemsByProductParams struct {
-	Product pgtype.UUID
-	Offset  int32
-	Limit   int32
-}
-
-func (q *Queries) GetInventoryItemsByProduct(ctx context.Context, arg GetInventoryItemsByProductParams) ([]InventoryItem, error) {
-	rows, err := q.db.Query(ctx, getInventoryItemsByProduct, arg.Product, arg.Offset, arg.Limit)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []InventoryItem
-	for rows.Next() {
-		var i InventoryItem
-		if err := rows.Scan(
-			&i.ID,
-			&i.Product,
-			&i.Warehouse,
-			&i.QuantityOnHand,
-			&i.LotNumber,
-			&i.SerialNumber,
-			&i.Status,
-			&i.ExpiryDate,
-			&i.StorageLocationCode,
-			&i.LastCountedDate,
-			&i.Created,
-			&i.Updated,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
 }
 
 const getInventoryItemsByStatus = `-- name: GetInventoryItemsByStatus :many
@@ -278,6 +250,48 @@ func (q *Queries) GetInventoryItemsByWarehouse(ctx context.Context, arg GetInven
 	return items, nil
 }
 
+const paginateInventoryItems = `-- name: PaginateInventoryItems :many
+select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items order by created desc offset $1::integer limit $2::integer
+`
+
+type PaginateInventoryItemsParams struct {
+	Page    int32
+	PerPage int32
+}
+
+func (q *Queries) PaginateInventoryItems(ctx context.Context, arg PaginateInventoryItemsParams) ([]InventoryItem, error) {
+	rows, err := q.db.Query(ctx, paginateInventoryItems, arg.Page, arg.PerPage)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []InventoryItem
+	for rows.Next() {
+		var i InventoryItem
+		if err := rows.Scan(
+			&i.ID,
+			&i.Product,
+			&i.Warehouse,
+			&i.QuantityOnHand,
+			&i.LotNumber,
+			&i.SerialNumber,
+			&i.Status,
+			&i.ExpiryDate,
+			&i.StorageLocationCode,
+			&i.LastCountedDate,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const searchInventoryItems = `-- name: SearchInventoryItems :many
 select id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated from inventory_items where lot_number ilike '%' || $1::text || '%' or serial_number ilike '%' || $1::text || '%'
 order by created desc offset $2::integer limit $3::integer
@@ -323,7 +337,7 @@ func (q *Queries) SearchInventoryItems(ctx context.Context, arg SearchInventoryI
 }
 
 const updateInventoryItemExpiryDate = `-- name: UpdateInventoryItemExpiryDate :one
-update inventory_items set expiry_date = $1 where id = $2 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+update inventory_items set expiry_date = $1::timestamptz where id = $2::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 type UpdateInventoryItemExpiryDateParams struct {
@@ -352,16 +366,11 @@ func (q *Queries) UpdateInventoryItemExpiryDate(ctx context.Context, arg UpdateI
 }
 
 const updateInventoryItemLastCountedDate = `-- name: UpdateInventoryItemLastCountedDate :one
-update inventory_items set last_counted_date = $1 where id = $2 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+update inventory_items set last_counted_date = now() where id = $1::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
-type UpdateInventoryItemLastCountedDateParams struct {
-	LastCountedDate pgtype.Timestamptz
-	ID              pgtype.UUID
-}
-
-func (q *Queries) UpdateInventoryItemLastCountedDate(ctx context.Context, arg UpdateInventoryItemLastCountedDateParams) (InventoryItem, error) {
-	row := q.db.QueryRow(ctx, updateInventoryItemLastCountedDate, arg.LastCountedDate, arg.ID)
+func (q *Queries) UpdateInventoryItemLastCountedDate(ctx context.Context, id pgtype.UUID) (InventoryItem, error) {
+	row := q.db.QueryRow(ctx, updateInventoryItemLastCountedDate, id)
 	var i InventoryItem
 	err := row.Scan(
 		&i.ID,
@@ -381,7 +390,7 @@ func (q *Queries) UpdateInventoryItemLastCountedDate(ctx context.Context, arg Up
 }
 
 const updateInventoryItemQuantity = `-- name: UpdateInventoryItemQuantity :one
-update inventory_items set quantity_on_hand = $1 where id = $2 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+update inventory_items set quantity_on_hand = $1::integer where id = $2::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 type UpdateInventoryItemQuantityParams struct {
@@ -410,7 +419,7 @@ func (q *Queries) UpdateInventoryItemQuantity(ctx context.Context, arg UpdateInv
 }
 
 const updateInventoryItemStatus = `-- name: UpdateInventoryItemStatus :one
-update inventory_items set status = $1 where id = $2 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+update inventory_items set status = $1::text where id = $2::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 type UpdateInventoryItemStatusParams struct {
@@ -439,7 +448,7 @@ func (q *Queries) UpdateInventoryItemStatus(ctx context.Context, arg UpdateInven
 }
 
 const updateInventoryItemStorageLocationCode = `-- name: UpdateInventoryItemStorageLocationCode :one
-update inventory_items set storage_location_code = $1 where id = $2 returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
+update inventory_items set storage_location_code = $1::text where id = $2::uuid returning id, product, warehouse, quantity_on_hand, lot_number, serial_number, status, expiry_date, storage_location_code, last_counted_date, created, updated
 `
 
 type UpdateInventoryItemStorageLocationCodeParams struct {

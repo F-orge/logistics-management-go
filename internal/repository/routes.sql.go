@@ -12,8 +12,10 @@ import (
 )
 
 const addShipmentToRoute = `-- name: AddShipmentToRoute :one
-insert into shipments_on_route (route, shipment)
-values ($1, $2)
+insert into shipments_on_route (
+  route, shipment
+)
+values ($1::uuid, $2::uuid)
 returning route, shipment
 `
 
@@ -30,8 +32,18 @@ func (q *Queries) AddShipmentToRoute(ctx context.Context, arg AddShipmentToRoute
 }
 
 const createRoute = `-- name: CreateRoute :one
-insert into routes (name, planned_start_time, planned_end_time, status)
-values ($1, $2, $3, $4)
+insert into routes (
+  name, 
+  planned_start_time, 
+  planned_end_time, 
+  status
+)
+values (
+  $1::text,
+  $2::timestamptz,
+  $3::timestamptz,
+  $4::text
+)
 returning id, name, planned_start_time, planned_end_time, status, created, updated
 `
 
@@ -65,7 +77,19 @@ func (q *Queries) CreateRoute(ctx context.Context, arg CreateRouteParams) (Route
 const createRouteSegment = `-- name: CreateRouteSegment :one
 insert into route_segments (route, sequence_number, segment_type, address, longitude, latitude,
   instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+values (
+  $1::uuid, 
+  $2::integer, 
+  $3::text, 
+  $4::text, 
+  $5::numeric, 
+  $6::numeric,
+  $7::text, 
+  $8::timestamptz, 
+  $9::timestamptz, 
+  $10::timestamptz, 
+  $11::timestamptz
+)
 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
@@ -73,10 +97,10 @@ type CreateRouteSegmentParams struct {
 	Route                  pgtype.UUID
 	SequenceNumber         int32
 	SegmentType            string
-	Address                pgtype.Text
+	Address                string
 	Longitude              pgtype.Numeric
 	Latitude               pgtype.Numeric
-	Instructions           pgtype.Text
+	Instructions           string
 	EstimatedArrivalTime   pgtype.Timestamptz
 	ActualArrivalTime      pgtype.Timestamptz
 	EstimatedDepartureTime pgtype.Timestamptz
@@ -118,7 +142,7 @@ func (q *Queries) CreateRouteSegment(ctx context.Context, arg CreateRouteSegment
 }
 
 const deleteRoute = `-- name: DeleteRoute :one
-delete from routes where id = $1 returning id, name, planned_start_time, planned_end_time, status, created, updated
+delete from routes where id = $1::uuid returning id, name, planned_start_time, planned_end_time, status, created, updated
 `
 
 func (q *Queries) DeleteRoute(ctx context.Context, id pgtype.UUID) (Route, error) {
@@ -137,7 +161,7 @@ func (q *Queries) DeleteRoute(ctx context.Context, id pgtype.UUID) (Route, error
 }
 
 const deleteRouteSegment = `-- name: DeleteRouteSegment :one
-delete from route_segments where id = $1 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+delete from route_segments where id = $1::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 func (q *Queries) DeleteRouteSegment(ctx context.Context, id pgtype.UUID) (RouteSegment, error) {
@@ -163,7 +187,7 @@ func (q *Queries) DeleteRouteSegment(ctx context.Context, id pgtype.UUID) (Route
 }
 
 const getRouteByID = `-- name: GetRouteByID :one
-select id, name, planned_start_time, planned_end_time, status, created, updated from routes where id = $1
+select id, name, planned_start_time, planned_end_time, status, created, updated from routes where id = $1::uuid
 `
 
 func (q *Queries) GetRouteByID(ctx context.Context, id pgtype.UUID) (Route, error) {
@@ -182,7 +206,7 @@ func (q *Queries) GetRouteByID(ctx context.Context, id pgtype.UUID) (Route, erro
 }
 
 const getRouteSegmentByID = `-- name: GetRouteSegmentByID :one
-select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where id = $1
+select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where id = $1::uuid
 `
 
 func (q *Queries) GetRouteSegmentByID(ctx context.Context, id pgtype.UUID) (RouteSegment, error) {
@@ -208,17 +232,17 @@ func (q *Queries) GetRouteSegmentByID(ctx context.Context, id pgtype.UUID) (Rout
 }
 
 const getRouteSegments = `-- name: GetRouteSegments :many
-select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where route = $1 order by sequence_number asc offset $2 limit $3
+select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where route = $1::uuid order by sequence_number asc offset $2::integer limit $3::integer
 `
 
 type GetRouteSegmentsParams struct {
-	Route  pgtype.UUID
-	Offset int32
-	Limit  int32
+	Route   pgtype.UUID
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetRouteSegments(ctx context.Context, arg GetRouteSegmentsParams) ([]RouteSegment, error) {
-	rows, err := q.db.Query(ctx, getRouteSegments, arg.Route, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getRouteSegments, arg.Route, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -253,17 +277,17 @@ func (q *Queries) GetRouteSegments(ctx context.Context, arg GetRouteSegmentsPara
 }
 
 const getRouteSegmentsByType = `-- name: GetRouteSegmentsByType :many
-select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where segment_type = $1 order by sequence_number asc, created desc offset $2 limit $3
+select id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated from route_segments where segment_type = $1::text order by sequence_number asc, created desc offset $2::integer limit $3::integer
 `
 
 type GetRouteSegmentsByTypeParams struct {
 	SegmentType string
-	Offset      int32
-	Limit       int32
+	Page        int32
+	PerPage     int32
 }
 
 func (q *Queries) GetRouteSegmentsByType(ctx context.Context, arg GetRouteSegmentsByTypeParams) ([]RouteSegment, error) {
-	rows, err := q.db.Query(ctx, getRouteSegmentsByType, arg.SegmentType, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getRouteSegmentsByType, arg.SegmentType, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -298,16 +322,16 @@ func (q *Queries) GetRouteSegmentsByType(ctx context.Context, arg GetRouteSegmen
 }
 
 const getRoutes = `-- name: GetRoutes :many
-select id, name, planned_start_time, planned_end_time, status, created, updated from routes order by created desc offset $1 limit $2
+select id, name, planned_start_time, planned_end_time, status, created, updated from routes order by created desc offset $1::integer limit $2::integer
 `
 
 type GetRoutesParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetRoutes(ctx context.Context, arg GetRoutesParams) ([]Route, error) {
-	rows, err := q.db.Query(ctx, getRoutes, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getRoutes, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -337,18 +361,18 @@ func (q *Queries) GetRoutes(ctx context.Context, arg GetRoutesParams) ([]Route, 
 const getRoutesByShipment = `-- name: GetRoutesByShipment :many
 select r.id, r.name, r.planned_start_time, r.planned_end_time, r.status, r.created, r.updated from shipments_on_route sor
 join routes r on sor.route = r.id
-where sor.shipment = $1
-order by r.created desc offset $2 limit $3
+where sor.shipment = $1::uuid
+order by r.created desc offset $2::integer limit $3::integer
 `
 
 type GetRoutesByShipmentParams struct {
 	Shipment pgtype.UUID
-	Offset   int32
-	Limit    int32
+	Page     int32
+	PerPage  int32
 }
 
 func (q *Queries) GetRoutesByShipment(ctx context.Context, arg GetRoutesByShipmentParams) ([]Route, error) {
-	rows, err := q.db.Query(ctx, getRoutesByShipment, arg.Shipment, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getRoutesByShipment, arg.Shipment, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -376,17 +400,17 @@ func (q *Queries) GetRoutesByShipment(ctx context.Context, arg GetRoutesByShipme
 }
 
 const getRoutesByStatus = `-- name: GetRoutesByStatus :many
-select id, name, planned_start_time, planned_end_time, status, created, updated from routes where status = $1 order by created desc offset $2 limit $3
+select id, name, planned_start_time, planned_end_time, status, created, updated from routes where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetRoutesByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetRoutesByStatus(ctx context.Context, arg GetRoutesByStatusParams) ([]Route, error) {
-	rows, err := q.db.Query(ctx, getRoutesByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getRoutesByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -416,18 +440,18 @@ func (q *Queries) GetRoutesByStatus(ctx context.Context, arg GetRoutesByStatusPa
 const getShipmentsOnRoute = `-- name: GetShipmentsOnRoute :many
 select s.id, s."order", s.tracking_number, s.carrier, s.status, s.estimated_delivery_date, s.actual_delivery_date, s.proof_of_delivery_image_url, s.driver, s.current_location_notes, s.department_assigned, s.created, s.updated from shipments_on_route sor
 join shipments s on sor.shipment = s.id
-where sor.route = $1
-order by s.created desc offset $2 limit $3
+where sor.route = $1::uuid
+order by s.created desc offset $2::integer limit $3::integer
 `
 
 type GetShipmentsOnRouteParams struct {
-	Route  pgtype.UUID
-	Offset int32
-	Limit  int32
+	Route   pgtype.UUID
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetShipmentsOnRoute(ctx context.Context, arg GetShipmentsOnRouteParams) ([]Shipment, error) {
-	rows, err := q.db.Query(ctx, getShipmentsOnRoute, arg.Route, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getShipmentsOnRoute, arg.Route, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -461,7 +485,7 @@ func (q *Queries) GetShipmentsOnRoute(ctx context.Context, arg GetShipmentsOnRou
 }
 
 const removeShipmentFromRoute = `-- name: RemoveShipmentFromRoute :one
-delete from shipments_on_route where route = $1 and shipment = $2 returning route, shipment
+delete from shipments_on_route where route = $1::uuid and shipment = $2::uuid returning route, shipment
 `
 
 type RemoveShipmentFromRouteParams struct {
@@ -563,7 +587,7 @@ func (q *Queries) SearchRoutes(ctx context.Context, arg SearchRoutesParams) ([]R
 }
 
 const updateRoutePlannedEndTime = `-- name: UpdateRoutePlannedEndTime :one
-update routes set planned_end_time = $1 where id = $2 returning id, name, planned_start_time, planned_end_time, status, created, updated
+update routes set planned_end_time = $1::timestamptz where id = $2::uuid returning id, name, planned_start_time, planned_end_time, status, created, updated
 `
 
 type UpdateRoutePlannedEndTimeParams struct {
@@ -587,7 +611,7 @@ func (q *Queries) UpdateRoutePlannedEndTime(ctx context.Context, arg UpdateRoute
 }
 
 const updateRoutePlannedStartTime = `-- name: UpdateRoutePlannedStartTime :one
-update routes set planned_start_time = $1 where id = $2 returning id, name, planned_start_time, planned_end_time, status, created, updated
+update routes set planned_start_time = $1::timestamptz where id = $2::uuid returning id, name, planned_start_time, planned_end_time, status, created, updated
 `
 
 type UpdateRoutePlannedStartTimeParams struct {
@@ -611,7 +635,7 @@ func (q *Queries) UpdateRoutePlannedStartTime(ctx context.Context, arg UpdateRou
 }
 
 const updateRouteSegmentActualArrivalTime = `-- name: UpdateRouteSegmentActualArrivalTime :one
-update route_segments set actual_arrival_time = $1 where id = $2 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+update route_segments set actual_arrival_time = $1::timestamptz where id = $2::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 type UpdateRouteSegmentActualArrivalTimeParams struct {
@@ -642,7 +666,7 @@ func (q *Queries) UpdateRouteSegmentActualArrivalTime(ctx context.Context, arg U
 }
 
 const updateRouteSegmentActualDepartureTime = `-- name: UpdateRouteSegmentActualDepartureTime :one
-update route_segments set actual_departure_time = $1 where id = $2 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+update route_segments set actual_departure_time = $1::timestamptz where id = $2::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 type UpdateRouteSegmentActualDepartureTimeParams struct {
@@ -673,7 +697,7 @@ func (q *Queries) UpdateRouteSegmentActualDepartureTime(ctx context.Context, arg
 }
 
 const updateRouteSegmentEstimatedArrivalTime = `-- name: UpdateRouteSegmentEstimatedArrivalTime :one
-update route_segments set estimated_arrival_time = $1 where id = $2 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+update route_segments set estimated_arrival_time = $1::timestamptz where id = $2::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 type UpdateRouteSegmentEstimatedArrivalTimeParams struct {
@@ -704,7 +728,7 @@ func (q *Queries) UpdateRouteSegmentEstimatedArrivalTime(ctx context.Context, ar
 }
 
 const updateRouteSegmentEstimatedDepartureTime = `-- name: UpdateRouteSegmentEstimatedDepartureTime :one
-update route_segments set estimated_departure_time = $1 where id = $2 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+update route_segments set estimated_departure_time = $1::timestamptz where id = $2::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 type UpdateRouteSegmentEstimatedDepartureTimeParams struct {
@@ -735,11 +759,11 @@ func (q *Queries) UpdateRouteSegmentEstimatedDepartureTime(ctx context.Context, 
 }
 
 const updateRouteSegmentInstructions = `-- name: UpdateRouteSegmentInstructions :one
-update route_segments set instructions = $1 where id = $2 returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
+update route_segments set instructions = $1::text where id = $2::uuid returning id, route, sequence_number, segment_type, address, longitude, latitude, instructions, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created, updated
 `
 
 type UpdateRouteSegmentInstructionsParams struct {
-	Instructions pgtype.Text
+	Instructions string
 	ID           pgtype.UUID
 }
 
@@ -766,7 +790,7 @@ func (q *Queries) UpdateRouteSegmentInstructions(ctx context.Context, arg Update
 }
 
 const updateRouteStatus = `-- name: UpdateRouteStatus :one
-update routes set status = $1 where id = $2 returning id, name, planned_start_time, planned_end_time, status, created, updated
+update routes set status = $1::text where id = $2::uuid returning id, name, planned_start_time, planned_end_time, status, created, updated
 `
 
 type UpdateRouteStatusParams struct {

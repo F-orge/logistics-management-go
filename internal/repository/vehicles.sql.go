@@ -12,20 +12,38 @@ import (
 )
 
 const createVehicle = `-- name: CreateVehicle :one
-insert into vehicles (license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver)
-values ($1, $2, $3, $4, $5, $6, $7, $8)
+insert into vehicles (
+  license_plate, 
+  make, 
+  model, 
+  type, 
+  capacity_volume, 
+  capacity_weight, 
+  status, 
+  current_driver
+)
+values (
+  $1::text, 
+  $2::text, 
+  $3::text, 
+  $4::text, 
+  $5::decimal, 
+  $6::decimal, 
+  $7::text, 
+  $8::uuid
+)
 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
 type CreateVehicleParams struct {
-	LicensePlate   string
-	Make           string
-	Model          string
-	Type           string
-	CapacityVolume pgtype.Numeric
-	CapacityWeight pgtype.Numeric
-	Status         string
-	CurrentDriver  pgtype.UUID
+	LicensePlate    string
+	Make            string
+	Model           string
+	Type            string
+	CapacityVolume  pgtype.Numeric
+	CapacityWeight  pgtype.Numeric
+	Status          string
+	CurrentDriverID pgtype.UUID
 }
 
 func (q *Queries) CreateVehicle(ctx context.Context, arg CreateVehicleParams) (Vehicle, error) {
@@ -37,7 +55,7 @@ func (q *Queries) CreateVehicle(ctx context.Context, arg CreateVehicleParams) (V
 		arg.CapacityVolume,
 		arg.CapacityWeight,
 		arg.Status,
-		arg.CurrentDriver,
+		arg.CurrentDriverID,
 	)
 	var i Vehicle
 	err := row.Scan(
@@ -57,7 +75,7 @@ func (q *Queries) CreateVehicle(ctx context.Context, arg CreateVehicleParams) (V
 }
 
 const deleteVehicle = `-- name: DeleteVehicle :one
-delete from vehicles where id = $1 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
+delete from vehicles where id = $1::uuid returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
 func (q *Queries) DeleteVehicle(ctx context.Context, id pgtype.UUID) (Vehicle, error) {
@@ -80,7 +98,7 @@ func (q *Queries) DeleteVehicle(ctx context.Context, id pgtype.UUID) (Vehicle, e
 }
 
 const getVehicleByID = `-- name: GetVehicleByID :one
-select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where id = $1
+select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where id = $1::uuid
 `
 
 func (q *Queries) GetVehicleByID(ctx context.Context, id pgtype.UUID) (Vehicle, error) {
@@ -103,16 +121,16 @@ func (q *Queries) GetVehicleByID(ctx context.Context, id pgtype.UUID) (Vehicle, 
 }
 
 const getVehicles = `-- name: GetVehicles :many
-select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles order by created desc offset $1 limit $2
+select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles order by created desc offset $1::integer limit $2::integer
 `
 
 type GetVehiclesParams struct {
-	Offset int32
-	Limit  int32
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetVehicles(ctx context.Context, arg GetVehiclesParams) ([]Vehicle, error) {
-	rows, err := q.db.Query(ctx, getVehicles, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getVehicles, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -144,17 +162,17 @@ func (q *Queries) GetVehicles(ctx context.Context, arg GetVehiclesParams) ([]Veh
 }
 
 const getVehiclesByDriver = `-- name: GetVehiclesByDriver :many
-select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where current_driver = $1 order by created desc offset $2 limit $3
+select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where current_driver = $1::uuid order by created desc offset $2::integer limit $3::integer
 `
 
 type GetVehiclesByDriverParams struct {
-	CurrentDriver pgtype.UUID
-	Offset        int32
-	Limit         int32
+	DriverID pgtype.UUID
+	Page     int32
+	PerPage  int32
 }
 
 func (q *Queries) GetVehiclesByDriver(ctx context.Context, arg GetVehiclesByDriverParams) ([]Vehicle, error) {
-	rows, err := q.db.Query(ctx, getVehiclesByDriver, arg.CurrentDriver, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getVehiclesByDriver, arg.DriverID, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -186,17 +204,17 @@ func (q *Queries) GetVehiclesByDriver(ctx context.Context, arg GetVehiclesByDriv
 }
 
 const getVehiclesByStatus = `-- name: GetVehiclesByStatus :many
-select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where status = $1 order by created desc offset $2 limit $3
+select id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated from vehicles where status = $1::text order by created desc offset $2::integer limit $3::integer
 `
 
 type GetVehiclesByStatusParams struct {
-	Status string
-	Offset int32
-	Limit  int32
+	Status  string
+	Page    int32
+	PerPage int32
 }
 
 func (q *Queries) GetVehiclesByStatus(ctx context.Context, arg GetVehiclesByStatusParams) ([]Vehicle, error) {
-	rows, err := q.db.Query(ctx, getVehiclesByStatus, arg.Status, arg.Offset, arg.Limit)
+	rows, err := q.db.Query(ctx, getVehiclesByStatus, arg.Status, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -274,7 +292,7 @@ func (q *Queries) SearchVehicles(ctx context.Context, arg SearchVehiclesParams) 
 }
 
 const updateVehicleCapacity = `-- name: UpdateVehicleCapacity :one
-update vehicles set capacity_volume = $1, capacity_weight = $2 where id = $3
+update vehicles set capacity_volume = $1::decimal, capacity_weight = $2::decimal where id = $3::uuid
 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
@@ -304,16 +322,16 @@ func (q *Queries) UpdateVehicleCapacity(ctx context.Context, arg UpdateVehicleCa
 }
 
 const updateVehicleCurrentDriver = `-- name: UpdateVehicleCurrentDriver :one
-update vehicles set current_driver = $1 where id = $2 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
+update vehicles set current_driver = $1::uuid where id = $2::uuid returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
 type UpdateVehicleCurrentDriverParams struct {
-	CurrentDriver pgtype.UUID
-	ID            pgtype.UUID
+	CurrentDriverID pgtype.UUID
+	ID              pgtype.UUID
 }
 
 func (q *Queries) UpdateVehicleCurrentDriver(ctx context.Context, arg UpdateVehicleCurrentDriverParams) (Vehicle, error) {
-	row := q.db.QueryRow(ctx, updateVehicleCurrentDriver, arg.CurrentDriver, arg.ID)
+	row := q.db.QueryRow(ctx, updateVehicleCurrentDriver, arg.CurrentDriverID, arg.ID)
 	var i Vehicle
 	err := row.Scan(
 		&i.ID,
@@ -332,7 +350,7 @@ func (q *Queries) UpdateVehicleCurrentDriver(ctx context.Context, arg UpdateVehi
 }
 
 const updateVehicleStatus = `-- name: UpdateVehicleStatus :one
-update vehicles set status = $1 where id = $2 returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
+update vehicles set status = $1::text where id = $2::uuid returning id, license_plate, make, model, type, capacity_volume, capacity_weight, status, current_driver, created, updated
 `
 
 type UpdateVehicleStatusParams struct {
