@@ -1,0 +1,17 @@
+{
+  "name": "logistics-management-go-rework",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/alpinejs": "^3.13.11",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "alpinejs": "^3.14.9",
+    "htmx.org": "2.0.5"
+  }
+}

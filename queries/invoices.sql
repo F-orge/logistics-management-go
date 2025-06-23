@@ -6,6 +6,9 @@ values ($1, $2, $3, $4, $5, $6,
 returning *;
 
 -- name: GetInvoices :many
+select * from invoices order by created desc;
+
+-- name: PaginateInvoices :many
 select * from invoices order by created desc offset $1 limit $2;
 
 -- name: GetInvoiceByID :one

@@ -1,0 +1,33 @@
+package views
+
+templ LoginPage() {
+	@BaseHTML() {
+		<main class="h-screen flex justify-center items-center">
+			<div data-component="card">
+				<div data-component="card-header">
+					<h4 data-component="card-title">Sign in</h4>
+					<span data-component="card-description">Enter your credentials to continue</span>
+				</div>
+				<form action="/login" method="post">
+					<div data-component="card-content" class="grid grid-cols-4 gap-5">
+						<div data-component="form-item" class="col-span-full">
+							<label data-component="form-label" for="email">Email</label>
+							<input id="email" data-component="input" name="email" type="email" required/>
+						</div>
+						<div data-component="form-item" class="col-span-full">
+							<label data-component="form-label" for="password">Password</label>
+							<input id="password" data-component="input" type="password" required name="password"/>
+						</div>
+						<button
+							data-component="button"
+							data-variant="default"
+							data-size="default"
+						>
+							Sign in
+						</button>
+					</div>
+				</form>
+			</div>
+		</main>
+	}
+}

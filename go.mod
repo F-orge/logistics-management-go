@@ -1,4 +1,4 @@
-module github.com/karlrobeck/echo-react-template
+module github.com/f-orge/logistics-management-go
 
 go 1.24.2
 

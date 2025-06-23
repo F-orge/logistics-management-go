@@ -1,6 +1,15 @@
 
 -- name: CreateCompany :one
-insert into companies (name,type,address,contact_email,contact_phone,primary_contact_person) values ($1,$2,$3,$4,$5,$6) returning *;
+insert into companies (
+  name,
+  type,
+  address,
+  contact_email,
+  contact_phone,
+  primary_contact_person
+) values (
+  $1,$2,$3,$4,$5,$6
+) returning *;
 
 -- name: GetCompanies :many
 select * from companies order by created desc;

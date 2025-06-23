@@ -3,7 +3,7 @@
 //   sqlc v1.29.0
 // source: invoices.sql
 
-package models
+package repository
 
 import (
 	"context"
@@ -104,16 +104,11 @@ func (q *Queries) GetInvoiceByID(ctx context.Context, id pgtype.UUID) (Invoice, 
 }
 
 const getInvoices = `-- name: GetInvoices :many
-select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices order by created desc offset $1 limit $2
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices order by created desc
 `
 
-type GetInvoicesParams struct {
-	Offset int32
-	Limit  int32
-}
-
-func (q *Queries) GetInvoices(ctx context.Context, arg GetInvoicesParams) ([]Invoice, error) {
-	rows, err := q.db.Query(ctx, getInvoices, arg.Offset, arg.Limit)
+func (q *Queries) GetInvoices(ctx context.Context) ([]Invoice, error) {
+	rows, err := q.db.Query(ctx, getInvoices)
 	if err != nil {
 		return nil, err
 	}
@@ -746,6 +741,47 @@ type GetInvoicesByStatusParams struct {
 
 func (q *Queries) GetInvoicesByStatus(ctx context.Context, arg GetInvoicesByStatusParams) ([]Invoice, error) {
 	rows, err := q.db.Query(ctx, getInvoicesByStatus, arg.Status, arg.Offset, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Invoice
+	for rows.Next() {
+		var i Invoice
+		if err := rows.Scan(
+			&i.ID,
+			&i.InvoiceNumber,
+			&i.Order,
+			&i.Customer,
+			&i.InvoiceDate,
+			&i.DueDate,
+			&i.TotalAmount,
+			&i.Status,
+			&i.InvoicePdfUrl,
+			&i.Created,
+			&i.Updated,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const paginateInvoices = `-- name: PaginateInvoices :many
+select id, invoice_number, "order", customer, invoice_date, due_date, total_amount, status, invoice_pdf_url, created, updated from invoices order by created desc offset $1 limit $2
+`
+
+type PaginateInvoicesParams struct {
+	Offset int32
+	Limit  int32
+}
+
+func (q *Queries) PaginateInvoices(ctx context.Context, arg PaginateInvoicesParams) ([]Invoice, error) {
+	rows, err := q.db.Query(ctx, paginateInvoices, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

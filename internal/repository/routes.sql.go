@@ -3,7 +3,7 @@
 //   sqlc v1.29.0
 // source: routes.sql
 
-package models
+package repository
 
 import (
 	"context"

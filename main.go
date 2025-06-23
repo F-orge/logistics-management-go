@@ -1,6 +1,6 @@
 package main
 
-import "github.com/karlrobeck/echo-react-template/cmd"
+import "github.com/f-orge/logistics-management-go/cmd"
 
 func main() {
 	cmd.Execute()

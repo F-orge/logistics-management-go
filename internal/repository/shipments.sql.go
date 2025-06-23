@@ -3,7 +3,7 @@
 //   sqlc v1.29.0
 // source: shipments.sql
 
-package models
+package repository
 
 import (
 	"context"

@@ -2,5 +2,20 @@
 migrate-latest:
 	sqlx migrate run
 
-tailwind-dev:
+dev-tailwind:
 	tailwindcss -i ./web/globals.css -o ./dist/out.css -w
+
+dev-templ:
+	templ generate -watch
+
+dev-bun:
+	bun build --target=browser --outdir=dist/js ./web/js/* --watch
+
+dev-go:
+	air serve
+
+dev:
+	make -j dev-tailwind dev-templ dev-go
+
+build:
+	bun build --splitting --target=browser --outdir=dist/js ./web/js/* --minify

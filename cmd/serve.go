@@ -1,12 +1,14 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"log"
 
+	"github.com/f-orge/logistics-management-go/internal/handlers"
+	"github.com/jackc/pgx/v5"
+	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +23,24 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serve called")
+
+		server := echo.New()
+		server.HideBanner = true
+		server.Static("/dist", "dist")
+
+		conn, err := pgx.Connect(cmd.Context(), "postgres://postgres:postgres@localhost:5432/postgres")
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		handlers.NewCompanyHandler(handlers.CompanyHandler{DBConn: conn}, server)
+		handlers.NewAuthHandler(handlers.AuthHandler{DBConn: conn}, server)
+
+		if err := server.Start(":8080"); err != nil {
+			server.Logger.Fatal(err)
+		}
+
 	},
 }
 

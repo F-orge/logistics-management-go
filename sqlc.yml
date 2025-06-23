@@ -5,6 +5,6 @@ sql:
     schema: "migrations"
     gen:
       go:
-        package: "models"
-        out: "models"
+        package: "repository"
+        out: "internal/repository"
         sql_package: "pgx/v5"

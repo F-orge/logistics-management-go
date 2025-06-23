@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@layer components {
+  *[data-component="table"] {
+    @apply w-full caption-bottom text-sm
+  }
+
+  *[data-component="table-header"] {
+    @apply [&_tr]:border-b
+  }
+
+  *[data-component="table-body"] {
+    @apply [&_tr:last-child]:border-0
+  }
+
+  *[data-component="table-footer"] {
+    @apply bg-muted/50 border-t font-medium [&>tr]:last:border-b-0
+  }
+
+  *[data-component="table-row"] {
+    @apply hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors
+  }
+
+  *[data-component="table-head"] {
+    @apply text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]
+  }
+
+  *[data-component="table-cell"] {
+    @apply p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px];
+  }
+
+  *[data-component="table-caption"] {
+    @apply text-muted-foreground mt-4 text-sm
+  }
+}
