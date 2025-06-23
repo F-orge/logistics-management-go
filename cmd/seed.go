@@ -55,7 +55,7 @@ to quickly create a Cobra application.`,
 			fmt.Println(i, newUser.Name)
 		}
 
-		users, err := queries.GetUsers(cmd.Context())
+		users, err := queries.GetAllUsers(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
@@ -73,9 +73,9 @@ to quickly create a Cobra application.`,
 			newCompany, err := queries.CreateCompany(cmd.Context(), repository.CreateCompanyParams{
 				Name:                 fakeCompany.Name(),
 				Type:                 randomType,
-				Address:              pgtype.Text{String: fake.Address().Address(), Valid: true},
-				ContactEmail:         pgtype.Text{String: user.Email, Valid: true},
-				ContactPhone:         pgtype.Text{String: fake.Person().Contact().Phone, Valid: true},
+				Address:              fake.Address().Address(),
+				ContactEmail:         user.Email,
+				ContactPhone:         fake.Person().Contact().Phone,
 				PrimaryContactPerson: user.ID,
 			})
 			if err != nil {
@@ -85,7 +85,7 @@ to quickly create a Cobra application.`,
 			fmt.Println(i, "New company", newCompany.Name)
 		}
 
-		companies, err := queries.GetCompanies(cmd.Context())
+		companies, err := queries.GetAllCompanies(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
@@ -125,7 +125,7 @@ to quickly create a Cobra application.`,
 
 		}
 
-		managers, err := queries.GetUsers(cmd.Context())
+		managers, err := queries.GetAllUsers(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)
@@ -246,7 +246,7 @@ to quickly create a Cobra application.`,
 		for range 50 {
 			newDepartment, err := queries.CreateDepartment(cmd.Context(), repository.CreateDepartmentParams{
 				Name:        fake.Company().Name(),
-				Description: pgtype.Text{String: fake.Company().CatchPhrase(), Valid: true},
+				Description: fake.Company().CatchPhrase(),
 			})
 
 			if err != nil {
@@ -281,7 +281,7 @@ to quickly create a Cobra application.`,
 			log.Fatalln(err)
 		}
 
-		departments, err := queries.GetDepartments(cmd.Context())
+		departments, err := queries.GetAllDepartments(cmd.Context())
 
 		if err != nil {
 			log.Fatalln(err)

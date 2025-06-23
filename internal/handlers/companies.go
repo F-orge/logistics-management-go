@@ -16,7 +16,7 @@ func (c *CompanyHandler) Show(ctx echo.Context) error {
 
 	repo := repository.New(c.DBConn)
 
-	companies, _ := repo.GetCompanies(ctx.Request().Context())
+	companies, _ := repo.GetAllCompanies(ctx.Request().Context())
 
 	return views.CompanyPage(views.CompanyPageProps{Companies: companies}).Render(ctx.Request().Context(), ctx.Response().Writer)
 }
