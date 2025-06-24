@@ -19,7 +19,7 @@ values (
   @status::text, 
   @estimated_delivery_date::timestamptz, 
   @actual_delivery_date::timestamptz, 
-  @proof_of_delivery_image_url::text, 
+  @proof_of_delivery_image_url::text[], 
   @driver_id::uuid, 
   @current_location_notes::text, 
   @department_id::uuid

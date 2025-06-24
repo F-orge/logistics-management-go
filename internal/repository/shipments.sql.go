@@ -65,7 +65,7 @@ values (
   $4::text, 
   $5::timestamptz, 
   $6::timestamptz, 
-  $7::text, 
+  $7::text[], 
   $8::uuid, 
   $9::text, 
   $10::uuid
@@ -80,7 +80,7 @@ type CreateShipmentParams struct {
 	Status                  string
 	EstimatedDeliveryDate   pgtype.Timestamptz
 	ActualDeliveryDate      pgtype.Timestamptz
-	ProofOfDeliveryImageUrl string
+	ProofOfDeliveryImageUrl []string
 	DriverID                pgtype.UUID
 	CurrentLocationNotes    string
 	DepartmentID            pgtype.UUID
