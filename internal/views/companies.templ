@@ -11,24 +11,15 @@ templ CompanyPageMetadata() {
 }
 
 templ CompanyPage(props CompanyPageProps) {
-	@BaseHTML(BaseHTMLProps{
-		header: CompanyPageMetadata(),
+	@DashboardLayout(DashboardLayoutProps{
+		head: CompanyPageMetadata(),
 	}) {
-		<table data-component="table">
-			<thead data-component="table-header">
-				<tr data-component="table-row">
-					<th data-component="table-head">Name</th>
-					<th data-component="table-head">Type</th>
-				</tr>
-			</thead>
-			<tbody data-component="table-body">
-				for _,company := range props.Companies {
-					<tr data-component="table-row">
-						<td data-component="table-cell">{ company.Name }</td>
-						<td data-component="table-cell">{ company.Type }</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+		<div>
+			<button
+				x-on:click="sidebarOpen = !sidebarOpen"
+				type="button"
+				class="btn btn-default btn-size-default"
+			>Click to toggle sidebar</button>
+		</div>
 	}
 }
