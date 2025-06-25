@@ -1,5 +1,18 @@
-tmp
-.env
+# Local
+.DS_Store
+*.local
+*.log*
+
+# Dist
 node_modules
-dist
-.out
+dist/
+
+# Profile
+.rspack-profile-*/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+.tanstack
