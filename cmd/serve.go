@@ -46,6 +46,7 @@ to quickly create a Cobra application.`,
 		handlers.NewAuthHandler(handlers.AuthHandler{DBConn: conn}, server)
 		handlers.NewUserHandler(handlers.UserHandler{DBConn: conn}, server)
 		handlers.NewCompanyHandler(handlers.CompanyHandler{DBConn: conn}, server)
+		handlers.NewDepartmentHandler(handlers.DepartmentHandler{DBConn: conn}, server)
 
 		if err := server.Start(fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))); err != nil {
 			server.Logger.Fatal(err)

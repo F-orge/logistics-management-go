@@ -1,5 +1,60 @@
 package views
 
-templ DepartmentsPage() {
-  
+import "github.com/f-orge/logistics-management-go/internal/repository"
+
+type (
+	DepartmentsPageProps struct {
+		Departments []repository.Department
+	}
+	DepartmentsTableProps struct {
+		Departments []repository.Department
+	}
+	DepartmentsTableRowProps struct {
+		Department repository.Department
+	}
+)
+
+templ DepartmentsPageMetadata() {
+	<title>Departments</title>
+}
+
+templ DepartmentsPage(props DepartmentsPageProps) {
+	@DashboardLayout(DashboardLayoutProps{
+		head: DepartmentsPageMetadata(),
+	}) {
+		@DepartmentsTable(DepartmentsTableProps{
+			Departments: props.Departments,
+		})
+	}
+}
+
+templ DepartmentsTable(props DepartmentsTableProps) {
+	<div class="border col-span-full overflow-auto rounded-md">
+		<table class="table">
+			<thead class="table-header">
+				<tr class="table-row">
+					<th class="table-head">Name</th>
+					<th class="table-head">Description</th>
+					<th class="table-head">Created</th>
+					<th class="table-head">Updated</th>
+				</tr>
+			</thead>
+			<tbody class="table-body">
+				for _,department := range props.Departments {
+					@DepartmentsTableRow(DepartmentsTableRowProps{
+						Department: department,
+					})
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ DepartmentsTableRow(props DepartmentsTableRowProps) {
+	<tr class="table-row">
+		<td class="table-cell">{ props.Department.Name }</td>
+		<td class="table-cell">{ props.Department.Description.String }</td>
+		<td class="table-cell">{ props.Department.Created.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+		<td class="table-cell">{ props.Department.Updated.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+	</tr>
 }
