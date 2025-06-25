@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @layer components {
-  *[data-component="table"] {
+  .table {
     @apply w-full caption-bottom text-sm
   }
 
-  *[data-component="table-header"] {
+  .table-header {
     @apply [&_tr]:border-b
   }
 
-  *[data-component="table-body"] {
+  .table-body {
     @apply [&_tr:last-child]:border-0
   }
 
-  *[data-component="table-footer"] {
+  .table-footer {
     @apply bg-muted/50 border-t font-medium [&>tr]:last:border-b-0
   }
 
-  *[data-component="table-row"] {
+  .table-row {
     @apply hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors
   }
 
-  *[data-component="table-head"] {
+  .table-head {
     @apply text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]
   }
 
-  *[data-component="table-cell"] {
+  .table-cell {
     @apply p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px];
   }
 
-  *[data-component="table-caption"] {
+  .table-caption {
     @apply text-muted-foreground mt-4 text-sm
   }
 }

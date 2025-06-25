@@ -31,10 +31,12 @@ templ DashboardLayout(props DashboardLayoutProps) {
 			class="flex h-screen"
 		>
 			<aside
+				x-cloak
 				:class="sidebarOpen ? 'w-1/6 p-4' : 'w-0'"
-				class="bg-sidebar text-sidebar-foreground h-full flex flex-col shadow-lg overflow-hidden transition-[width,padding] duration-200 ease-in-out"
+				class="bg-sidebar text-sidebar-foreground h-full flex flex-col shadow-lg overflow-hidden transition-[width,padding] duration-150 ease-in-out"
 			>
 				<div
+					x-cloak
 					x-transition:enter="transition-all duration-200 ease-in-out"
 					x-transition:enter-start="opacity-0"
 					x-transition:enter-end="opacity-100"
@@ -47,7 +49,7 @@ templ DashboardLayout(props DashboardLayoutProps) {
 					Sidebar
 				</div>
 			</aside>
-			<div class="flex-1 p-4">
+			<div class="grid p-4 grid-cols-12">
 				{ children... }
 			</div>
 		</main>

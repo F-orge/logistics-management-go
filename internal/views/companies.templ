@@ -2,9 +2,17 @@ package views
 
 import "github.com/f-orge/logistics-management-go/internal/repository"
 
-type CompanyPageProps struct {
-	Companies []repository.Company
-}
+type (
+	CompanyPageProps struct {
+		Companies []repository.Company
+	}
+	CompaniesTableProps struct {
+		Companies []repository.Company
+	}
+	CompaniesTableRowProps struct {
+		Company repository.Company
+	}
+)
 
 templ CompanyPageMetadata() {
 	<title>Company page</title>
@@ -14,12 +22,45 @@ templ CompanyPage(props CompanyPageProps) {
 	@DashboardLayout(DashboardLayoutProps{
 		head: CompanyPageMetadata(),
 	}) {
-		<div>
-			<button
-				x-on:click="sidebarOpen = !sidebarOpen"
-				type="button"
-				class="btn btn-default btn-size-default"
-			>Click to toggle sidebar</button>
-		</div>
+		@CompaniesTable(CompaniesTableProps{Companies: props.Companies})
 	}
+}
+
+templ CompaniesTable(props CompaniesTableProps) {
+	<div class="border col-span-full overflow-auto rounded-md">
+		<table class="table">
+			<thead class="table-header">
+				<tr class="table-row">
+					<th class="table-head">Name</th>
+					<th class="table-head">Type</th>
+					<th class="table-head">Address</th>
+					<th class="table-head">Email</th>
+					<th class="table-head">Phone</th>
+					<th class="table-head">Primary Contact Person</th>
+					<th class="table-head">Created</th>
+					<th class="table-head">Updated</th>
+				</tr>
+			</thead>
+			<tbody class="table-body">
+				for _, company := range props.Companies {
+					@CompaniesTableRow(CompaniesTableRowProps{
+						Company: company,
+					})
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ CompaniesTableRow(props CompaniesTableRowProps) {
+	<tr class="table-row">
+		<td class="table-cell">{ props.Company.Name }</td>
+		<td class="table-cell">{ props.Company.Type }</td>
+		<td class="table-cell">{ props.Company.Address.String }</td>
+		<td class="table-cell">{ props.Company.ContactEmail.String }</td>
+		<td class="table-cell">{ props.Company.ContactPhone.String }</td>
+		<td class="table-cell">{ props.Company.PrimaryContactPerson.String() }</td>
+		<td class="table-cell">{ props.Company.Created.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+		<td class="table-cell">{ props.Company.Updated.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+	</tr>
 }

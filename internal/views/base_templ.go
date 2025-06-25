@@ -94,7 +94,7 @@ func DashboardLayout(props DashboardLayoutProps) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<main x-data=\"{ sidebarOpen: false }\" class=\"flex h-screen\"><aside :class=\"sidebarOpen ? &#39;w-1/6 p-4&#39; : &#39;w-0&#39;\" class=\"bg-sidebar text-sidebar-foreground h-full flex flex-col shadow-lg overflow-hidden transition-[width,padding] duration-200 ease-in-out\"><div x-transition:enter=\"transition-all duration-200 ease-in-out\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition-all duration-200 ease-in-out\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" x-show=\"sidebarOpen\" class=\"w-full h-full\">Sidebar</div></aside><div class=\"flex-1 p-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<main x-data=\"{ sidebarOpen: false }\" class=\"flex h-screen\"><aside x-cloak :class=\"sidebarOpen ? &#39;w-1/6 p-4&#39; : &#39;w-0&#39;\" class=\"bg-sidebar text-sidebar-foreground h-full flex flex-col shadow-lg overflow-hidden transition-[width,padding] duration-150 ease-in-out\"><div x-cloak x-transition:enter=\"transition-all duration-200 ease-in-out\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition-all duration-200 ease-in-out\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" x-show=\"sidebarOpen\" class=\"w-full h-full\">Sidebar</div></aside><div class=\"grid p-4 grid-cols-12\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
