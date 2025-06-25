@@ -1,4 +1,68 @@
 package views
 
-templ InventoryPage() {
+import "github.com/f-orge/logistics-management-go/internal/repository"
+
+type (
+	InventoryPageProps struct {
+		InventoryItems []repository.InventoryItem
+	}
+	InventoryTableProps struct {
+		InventoryItems []repository.InventoryItem
+	}
+	InventoryTableRowProps struct {
+		InventoryItem repository.InventoryItem
+	}
+)
+
+templ InventoryPageMetadata() {
+	<title>Inventory</title>
+}
+
+templ InventoryPage(props InventoryPageProps) {
+	@DashboardLayout(DashboardLayoutProps{
+		head: InventoryPageMetadata(),
+	}) {
+		@InventoryTable(InventoryTableProps{InventoryItems: props.InventoryItems})
+	}
+}
+
+templ InventoryTable(props InventoryTableProps) {
+	<div class="border col-span-full overflow-auto rounded-md">
+		<table class="table">
+			<thead class="table-header">
+				<tr class="table-row">
+					<th class="table-head">Product</th>
+					<th class="table-head">Warehouse</th>
+					<th class="table-head">Quantity on hand</th>
+					<th class="table-head">Lot Number</th>
+					<th class="table-head">Serial Number</th>
+					<th class="table-head">Status</th>
+					<th class="table-head">Expiry Date</th>
+					<th class="table-head">Storage Location Code</th>
+					<th class="table-head">Last Counted Date</th>
+					<th class="table-head">Created</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _,item := range props.InventoryItems {
+					@InventoryTableRow(InventoryTableRowProps{InventoryItem: item})
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ InventoryTableRow(props InventoryTableRowProps) {
+	<tr class="table-row">
+		<td class="table-cell">{ props.InventoryItem.Product.String() }</td>
+		<td class="table-cell">{ props.InventoryItem.Warehouse.String() }</td>
+		<td class="table-cell">{ props.InventoryItem.QuantityOnHand }</td>
+		<td class="table-cell">{ props.InventoryItem.LotNumber }</td>
+		<td class="table-cell">{ props.InventoryItem.SerialNumber }</td>
+		<td class="table-cell">{ props.InventoryItem.Status }</td>
+		<td class="table-cell">{ props.InventoryItem.ExpiryDate.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+		<td class="table-cell">{ props.InventoryItem.StorageLocationCode } </td>
+		<td class="table-cell">{ props.InventoryItem.LastCountedDate.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+		<td class="table-cell">{ props.InventoryItem.Created.Time.Format("Jan 2, 2006 3:04 PM") }</td>
+	</tr>
 }
