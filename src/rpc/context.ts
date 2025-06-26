@@ -4,7 +4,7 @@ import type { DB } from 'kysely-codegen';
 
 export const createGlobalContext = (db: Kysely<DB>) => {
   return async ({ req, info, resHeaders }: FetchCreateContextFnOptions) => {
-    return { req, info, resHeaders, db };
+    return { req, info, resHeaders, db, jwtKey: 'secret-key' };
   };
 };
 
