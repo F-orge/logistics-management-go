@@ -7,6 +7,8 @@
     "build": "rsbuild build",
     "check": "biome check --write",
     "dev:frontend": "rsbuild dev --open --environment web",
+    "dev:backend":"bun --hot src/server.ts",
+    "dev":"concurrently 'bun run dev:frontend' 'bun run dev:backend' -n frontend,backend",
     "format": "biome format --write",
     "preview": "rsbuild preview"
   },
