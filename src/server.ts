@@ -1,7 +1,7 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { rpcRouter } from './rpc/router';
-import { createGlobalContext } from './rpc/context';
 import { db } from './rpc';
+import { createGlobalContext } from './rpc/context';
+import { rpcRouter } from './rpc/router';
 
 Bun.serve({
   hostname: '0.0.0.0',

@@ -1,9 +1,9 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { Pool } from 'pg';
-import type { GlobalContext } from './context';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 import { Kysely, PostgresDialect } from 'kysely';
 import type { DB } from 'kysely-codegen';
-import jwt, { type JwtPayload } from 'jsonwebtoken';
+import { Pool } from 'pg';
+import type { GlobalContext } from './context';
 
 const trpc = initTRPC.context<GlobalContext>().create();
 

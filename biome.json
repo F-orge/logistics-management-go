@@ -29,6 +29,7 @@
     "enabled": true,
     "rules": {
       "recommended": true
-    }
+    },
+    "includes": ["!src/routeTree.gen.ts"]
   }
 }

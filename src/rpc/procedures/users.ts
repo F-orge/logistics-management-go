@@ -1,6 +1,6 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { authenticatedProcedures, router } from '../.';
-import { TRPCError } from '@trpc/server';
 
 export const userRouter = router({
   me: authenticatedProcedures.query(async ({ ctx }) => {

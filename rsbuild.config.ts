@@ -1,16 +1,17 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 import tailwindcss from '@tailwindcss/postcss';
+import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 
 export default defineConfig({
   environments: {
     web: {
       plugins: [pluginReact()],
       tools: {
-        postcss: (_, { addPlugins }) => {
-          //@ts-expect-error
-          addPlugins(tailwindcss);
+        postcss: {
+          postcssOptions: {
+            plugins: [tailwindcss],
+          },
         },
         rspack: {
           plugins: [

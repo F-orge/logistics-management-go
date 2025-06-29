@@ -8,141 +8,141 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as appRouteRouteImport } from './routes/(app)/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as appWarehousesRouteImport } from './routes/(app)/warehouses'
-import { Route as appVehiclesRouteImport } from './routes/(app)/vehicles'
-import { Route as appUsersRouteImport } from './routes/(app)/users'
-import { Route as appShipmentsRouteImport } from './routes/(app)/shipments'
-import { Route as appRoutesRouteImport } from './routes/(app)/routes'
-import { Route as appProductsRouteImport } from './routes/(app)/products'
-import { Route as appPaymentsRouteImport } from './routes/(app)/payments'
-import { Route as appOrdersRouteImport } from './routes/(app)/orders'
-import { Route as appInvoicesRouteImport } from './routes/(app)/invoices'
-import { Route as appInventoryRouteImport } from './routes/(app)/inventory'
-import { Route as appCompaniesRouteImport } from './routes/(app)/companies'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as appCompaniesRouteImport } from './routes/(app)/companies';
+import { Route as appInventoryRouteImport } from './routes/(app)/inventory';
+import { Route as appInvoicesRouteImport } from './routes/(app)/invoices';
+import { Route as appOrdersRouteImport } from './routes/(app)/orders';
+import { Route as appPaymentsRouteImport } from './routes/(app)/payments';
+import { Route as appProductsRouteImport } from './routes/(app)/products';
+import { Route as appRouteRouteImport } from './routes/(app)/route';
+import { Route as appRoutesRouteImport } from './routes/(app)/routes';
+import { Route as appShipmentsRouteImport } from './routes/(app)/shipments';
+import { Route as appUsersRouteImport } from './routes/(app)/users';
+import { Route as appVehiclesRouteImport } from './routes/(app)/vehicles';
+import { Route as appWarehousesRouteImport } from './routes/(app)/warehouses';
+import { Route as authLoginRouteImport } from './routes/(auth)/login';
+import { Route as IndexRouteImport } from './routes/index';
 
 const appRouteRoute = appRouteRouteImport.update({
   id: '/(app)',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const appWarehousesRoute = appWarehousesRouteImport.update({
   id: '/warehouses',
   path: '/warehouses',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appVehiclesRoute = appVehiclesRouteImport.update({
   id: '/vehicles',
   path: '/vehicles',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appUsersRoute = appUsersRouteImport.update({
   id: '/users',
   path: '/users',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appShipmentsRoute = appShipmentsRouteImport.update({
   id: '/shipments',
   path: '/shipments',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appRoutesRoute = appRoutesRouteImport.update({
   id: '/routes',
   path: '/routes',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appProductsRoute = appProductsRouteImport.update({
   id: '/products',
   path: '/products',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appPaymentsRoute = appPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appOrdersRoute = appOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appInvoicesRoute = appInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appInventoryRoute = appInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 const appCompaniesRoute = appCompaniesRouteImport.update({
   id: '/companies',
   path: '/companies',
   getParentRoute: () => appRouteRoute,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof appRouteRouteWithChildren
-  '/companies': typeof appCompaniesRoute
-  '/inventory': typeof appInventoryRoute
-  '/invoices': typeof appInvoicesRoute
-  '/orders': typeof appOrdersRoute
-  '/payments': typeof appPaymentsRoute
-  '/products': typeof appProductsRoute
-  '/routes': typeof appRoutesRoute
-  '/shipments': typeof appShipmentsRoute
-  '/users': typeof appUsersRoute
-  '/vehicles': typeof appVehiclesRoute
-  '/warehouses': typeof appWarehousesRoute
-  '/login': typeof authLoginRoute
+  '/': typeof appRouteRouteWithChildren;
+  '/companies': typeof appCompaniesRoute;
+  '/inventory': typeof appInventoryRoute;
+  '/invoices': typeof appInvoicesRoute;
+  '/orders': typeof appOrdersRoute;
+  '/payments': typeof appPaymentsRoute;
+  '/products': typeof appProductsRoute;
+  '/routes': typeof appRoutesRoute;
+  '/shipments': typeof appShipmentsRoute;
+  '/users': typeof appUsersRoute;
+  '/vehicles': typeof appVehiclesRoute;
+  '/warehouses': typeof appWarehousesRoute;
+  '/login': typeof authLoginRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof appRouteRouteWithChildren
-  '/companies': typeof appCompaniesRoute
-  '/inventory': typeof appInventoryRoute
-  '/invoices': typeof appInvoicesRoute
-  '/orders': typeof appOrdersRoute
-  '/payments': typeof appPaymentsRoute
-  '/products': typeof appProductsRoute
-  '/routes': typeof appRoutesRoute
-  '/shipments': typeof appShipmentsRoute
-  '/users': typeof appUsersRoute
-  '/vehicles': typeof appVehiclesRoute
-  '/warehouses': typeof appWarehousesRoute
-  '/login': typeof authLoginRoute
+  '/': typeof appRouteRouteWithChildren;
+  '/companies': typeof appCompaniesRoute;
+  '/inventory': typeof appInventoryRoute;
+  '/invoices': typeof appInvoicesRoute;
+  '/orders': typeof appOrdersRoute;
+  '/payments': typeof appPaymentsRoute;
+  '/products': typeof appProductsRoute;
+  '/routes': typeof appRoutesRoute;
+  '/shipments': typeof appShipmentsRoute;
+  '/users': typeof appUsersRoute;
+  '/vehicles': typeof appVehiclesRoute;
+  '/warehouses': typeof appWarehousesRoute;
+  '/login': typeof authLoginRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/(app)': typeof appRouteRouteWithChildren
-  '/(app)/companies': typeof appCompaniesRoute
-  '/(app)/inventory': typeof appInventoryRoute
-  '/(app)/invoices': typeof appInvoicesRoute
-  '/(app)/orders': typeof appOrdersRoute
-  '/(app)/payments': typeof appPaymentsRoute
-  '/(app)/products': typeof appProductsRoute
-  '/(app)/routes': typeof appRoutesRoute
-  '/(app)/shipments': typeof appShipmentsRoute
-  '/(app)/users': typeof appUsersRoute
-  '/(app)/vehicles': typeof appVehiclesRoute
-  '/(app)/warehouses': typeof appWarehousesRoute
-  '/(auth)/login': typeof authLoginRoute
+  __root__: typeof rootRouteImport;
+  '/': typeof IndexRoute;
+  '/(app)': typeof appRouteRouteWithChildren;
+  '/(app)/companies': typeof appCompaniesRoute;
+  '/(app)/inventory': typeof appInventoryRoute;
+  '/(app)/invoices': typeof appInvoicesRoute;
+  '/(app)/orders': typeof appOrdersRoute;
+  '/(app)/payments': typeof appPaymentsRoute;
+  '/(app)/products': typeof appProductsRoute;
+  '/(app)/routes': typeof appRoutesRoute;
+  '/(app)/shipments': typeof appShipmentsRoute;
+  '/(app)/users': typeof appUsersRoute;
+  '/(app)/vehicles': typeof appVehiclesRoute;
+  '/(app)/warehouses': typeof appWarehousesRoute;
+  '/(auth)/login': typeof authLoginRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
     | '/companies'
@@ -156,8 +156,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/vehicles'
     | '/warehouses'
-    | '/login'
-  fileRoutesByTo: FileRoutesByTo
+    | '/login';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
     | '/companies'
@@ -171,7 +171,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/vehicles'
     | '/warehouses'
-    | '/login'
+    | '/login';
   id:
     | '__root__'
     | '/'
@@ -187,130 +187,130 @@ export interface FileRouteTypes {
     | '/(app)/users'
     | '/(app)/vehicles'
     | '/(app)/warehouses'
-    | '/(auth)/login'
-  fileRoutesById: FileRoutesById
+    | '/(auth)/login';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  appRouteRoute: typeof appRouteRouteWithChildren
-  authLoginRoute: typeof authLoginRoute
+  IndexRoute: typeof IndexRoute;
+  appRouteRoute: typeof appRouteRouteWithChildren;
+  authLoginRoute: typeof authLoginRoute;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/(app)': {
-      id: '/(app)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof appRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/(app)';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof appRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/(auth)/login';
+      path: '/login';
+      fullPath: '/login';
+      preLoaderRoute: typeof authLoginRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/(app)/warehouses': {
-      id: '/(app)/warehouses'
-      path: '/warehouses'
-      fullPath: '/warehouses'
-      preLoaderRoute: typeof appWarehousesRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/warehouses';
+      path: '/warehouses';
+      fullPath: '/warehouses';
+      preLoaderRoute: typeof appWarehousesRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/vehicles': {
-      id: '/(app)/vehicles'
-      path: '/vehicles'
-      fullPath: '/vehicles'
-      preLoaderRoute: typeof appVehiclesRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/vehicles';
+      path: '/vehicles';
+      fullPath: '/vehicles';
+      preLoaderRoute: typeof appVehiclesRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/users': {
-      id: '/(app)/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof appUsersRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/users';
+      path: '/users';
+      fullPath: '/users';
+      preLoaderRoute: typeof appUsersRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/shipments': {
-      id: '/(app)/shipments'
-      path: '/shipments'
-      fullPath: '/shipments'
-      preLoaderRoute: typeof appShipmentsRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/shipments';
+      path: '/shipments';
+      fullPath: '/shipments';
+      preLoaderRoute: typeof appShipmentsRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/routes': {
-      id: '/(app)/routes'
-      path: '/routes'
-      fullPath: '/routes'
-      preLoaderRoute: typeof appRoutesRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/routes';
+      path: '/routes';
+      fullPath: '/routes';
+      preLoaderRoute: typeof appRoutesRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/products': {
-      id: '/(app)/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof appProductsRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/products';
+      path: '/products';
+      fullPath: '/products';
+      preLoaderRoute: typeof appProductsRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/payments': {
-      id: '/(app)/payments'
-      path: '/payments'
-      fullPath: '/payments'
-      preLoaderRoute: typeof appPaymentsRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/payments';
+      path: '/payments';
+      fullPath: '/payments';
+      preLoaderRoute: typeof appPaymentsRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/orders': {
-      id: '/(app)/orders'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof appOrdersRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/orders';
+      path: '/orders';
+      fullPath: '/orders';
+      preLoaderRoute: typeof appOrdersRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/invoices': {
-      id: '/(app)/invoices'
-      path: '/invoices'
-      fullPath: '/invoices'
-      preLoaderRoute: typeof appInvoicesRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/invoices';
+      path: '/invoices';
+      fullPath: '/invoices';
+      preLoaderRoute: typeof appInvoicesRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/inventory': {
-      id: '/(app)/inventory'
-      path: '/inventory'
-      fullPath: '/inventory'
-      preLoaderRoute: typeof appInventoryRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/inventory';
+      path: '/inventory';
+      fullPath: '/inventory';
+      preLoaderRoute: typeof appInventoryRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
     '/(app)/companies': {
-      id: '/(app)/companies'
-      path: '/companies'
-      fullPath: '/companies'
-      preLoaderRoute: typeof appCompaniesRouteImport
-      parentRoute: typeof appRouteRoute
-    }
+      id: '/(app)/companies';
+      path: '/companies';
+      fullPath: '/companies';
+      preLoaderRoute: typeof appCompaniesRouteImport;
+      parentRoute: typeof appRouteRoute;
+    };
   }
 }
 
 interface appRouteRouteChildren {
-  appCompaniesRoute: typeof appCompaniesRoute
-  appInventoryRoute: typeof appInventoryRoute
-  appInvoicesRoute: typeof appInvoicesRoute
-  appOrdersRoute: typeof appOrdersRoute
-  appPaymentsRoute: typeof appPaymentsRoute
-  appProductsRoute: typeof appProductsRoute
-  appRoutesRoute: typeof appRoutesRoute
-  appShipmentsRoute: typeof appShipmentsRoute
-  appUsersRoute: typeof appUsersRoute
-  appVehiclesRoute: typeof appVehiclesRoute
-  appWarehousesRoute: typeof appWarehousesRoute
+  appCompaniesRoute: typeof appCompaniesRoute;
+  appInventoryRoute: typeof appInventoryRoute;
+  appInvoicesRoute: typeof appInvoicesRoute;
+  appOrdersRoute: typeof appOrdersRoute;
+  appPaymentsRoute: typeof appPaymentsRoute;
+  appProductsRoute: typeof appProductsRoute;
+  appRoutesRoute: typeof appRoutesRoute;
+  appShipmentsRoute: typeof appShipmentsRoute;
+  appUsersRoute: typeof appUsersRoute;
+  appVehiclesRoute: typeof appVehiclesRoute;
+  appWarehousesRoute: typeof appWarehousesRoute;
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
@@ -325,17 +325,17 @@ const appRouteRouteChildren: appRouteRouteChildren = {
   appUsersRoute: appUsersRoute,
   appVehiclesRoute: appVehiclesRoute,
   appWarehousesRoute: appWarehousesRoute,
-}
+};
 
 const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
   appRouteRouteChildren,
-)
+);
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   appRouteRoute: appRouteRouteWithChildren,
   authLoginRoute: authLoginRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

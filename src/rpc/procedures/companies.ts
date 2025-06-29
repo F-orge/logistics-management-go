@@ -1,6 +1,6 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod/v4';
 import { authenticatedProcedures, router } from '..';
-import { TRPCError } from '@trpc/server';
 
 export const companySchema = z.object({
   id: z.uuid(),
@@ -29,7 +29,7 @@ export const companyRouter = router({
 
       if (!newCompany) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-      return await companySchema.parseAsync(newCompany);
+      return newCompany;
     }),
   list: authenticatedProcedures
     .input(
@@ -48,7 +48,7 @@ export const companyRouter = router({
         .limit(input.limit)
         .execute();
 
-      return await z.array(companySchema).parseAsync(companies);
+      return companies;
     }),
   view: authenticatedProcedures
     .input(z.object({ id: z.uuid() }))
@@ -63,7 +63,7 @@ export const companyRouter = router({
 
       if (!company) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      return await companySchema.parseAsync(company);
+      return company;
     }),
   update: authenticatedProcedures
     .input(
@@ -87,7 +87,7 @@ export const companyRouter = router({
       if (!updatedCompany)
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
-      return await companySchema.parseAsync(updatedCompany);
+      return updatedCompany;
     }),
   delete: authenticatedProcedures
     .input(z.object({ id: z.uuid() }))
