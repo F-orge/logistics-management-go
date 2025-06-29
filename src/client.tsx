@@ -2,9 +2,19 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './globals.css';
+import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import { routeTree } from './routeTree.gen';
+import type { RpcRouter } from './rpc/router';
 
 const router = createRouter({ routeTree });
+
+export const client = createTRPCClient<RpcRouter>({
+  links: [
+    httpBatchLink({
+      url: '/trpc',
+    }),
+  ],
+});
 
 declare module '@tanstack/react-router' {
   interface Register {
