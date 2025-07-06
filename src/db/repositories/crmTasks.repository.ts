@@ -22,7 +22,7 @@ export class KyselyCrmTasksRepository implements ICrmTasksRepository {
       .selectFrom("crm.tasks")
       .selectAll()
       .where("id", "=", id)
-      .where("deleted", "is", null)
+      .where("deleted", "=", false)
       .executeTakeFirst();
   }
 
@@ -30,7 +30,7 @@ export class KyselyCrmTasksRepository implements ICrmTasksRepository {
     return await this.db
       .selectFrom("crm.tasks")
       .selectAll()
-      .where("deleted", "is", null)
+      .where("deleted", "=", false)
       .execute();
   }
 
@@ -60,7 +60,7 @@ export class KyselyCrmTasksRepository implements ICrmTasksRepository {
         updated: new Date(),
       })
       .where("id", "=", id)
-      .where("deleted", "is", null)
+      .where("deleted", "=", false)
       .returningAll()
       .executeTakeFirstOrThrow();
   }

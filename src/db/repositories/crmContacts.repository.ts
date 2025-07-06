@@ -28,7 +28,7 @@ export class KyselyCrmContactsRepository implements CrmContactsRepository {
     return this.db
       .selectFrom("crm.contacts")
       .selectAll()
-      .where("deleted", "is", null);
+      .where("deleted", "=", false);
   }
 
   async findById(id: string): Promise<Selectable<CrmContacts> | undefined> {
@@ -65,7 +65,7 @@ export class KyselyCrmContactsRepository implements CrmContactsRepository {
         updated: new Date(),
       })
       .where("id", "=", id)
-      .where("deleted", "is", null)
+      .where("deleted", "=", false)
       .returningAll()
       .executeTakeFirstOrThrow();
   }
