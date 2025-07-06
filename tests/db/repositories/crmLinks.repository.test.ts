@@ -45,14 +45,16 @@ const testContact: Insertable<CrmContacts> = {
 describe("KyselyCrmLinksRepository", () => {
   beforeEach(async () => {
     repository = new KyselyCrmLinksRepository(globalThis.testDb);
-    companiesRepository = new KyselyCrmCompaniesRepository(
-      globalThis.testDb,
-      new KyselyCrmContactsRepository(globalThis.testDb),
-      new KyselyCrmActivitiesRepository(globalThis.testDb),
-    );
     contactsRepository = new KyselyCrmContactsRepository(globalThis.testDb);
 
+    companiesRepository = new KyselyCrmCompaniesRepository(
+      globalThis.testDb,
+      contactsRepository,
+      new KyselyCrmActivitiesRepository(globalThis.testDb),
+    );
+
     const createdCompany = await companiesRepository.create(testCompany);
+
     const createdContact = await contactsRepository.create({
       ...testContact,
       companyId: createdCompany.id,
