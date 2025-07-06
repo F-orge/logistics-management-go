@@ -1,28 +1,44 @@
 import type { Insertable, Selectable, Updateable } from "kysely";
 import { Kysely } from "kysely";
-import type { CrmCompanies, CrmContacts, DB } from "../types";
+import type { CrmActivities, CrmCompanies, CrmContacts, DB } from "../types";
 import { type ICrmContactsRepository } from "./crmContacts.repository";
+import type { ICrmActivitiesRepository } from "./crmActivities.repository";
 
 export interface ICrmCompaniesRepository {
   findById(id: string): Promise<Selectable<CrmCompanies> | undefined>;
+
   findByEmail(email: string): Promise<Selectable<CrmCompanies> | undefined>;
+
   paginate(offset: number, limit: number): Promise<Selectable<CrmCompanies>[]>;
+
+  addActivity(
+    companyID: string,
+    activity: Insertable<CrmActivities>,
+    repository: ICrmActivitiesRepository,
+  ): Promise<Selectable<CrmActivities>>;
+
   create(company: Insertable<CrmCompanies>): Promise<Selectable<CrmCompanies>>;
+
   update(
     id: string,
     updates: Updateable<CrmCompanies>,
   ): Promise<Selectable<CrmCompanies>>;
+
   delete(id: string): Promise<void>;
+
   softDelete(id: string): Promise<void>;
+
   addContactByID(
     companyID: string,
     contactID: string,
     contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>>;
+
   addContact(
     contact: Insertable<CrmContacts>,
     contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>>;
+
   addContacts(
     contacts: Insertable<CrmContacts>[],
     contactRepository: ICrmContactsRepository,
@@ -127,5 +143,13 @@ export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
     contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>[]> {
     return await contactRepository.batchCreate(contacts);
+  }
+
+  async addActivity(
+    companyID: string,
+    activity: Insertable<CrmActivities>,
+    repository: ICrmActivitiesRepository,
+  ): Promise<Selectable<CrmActivities>> {
+    return await repository.create({ ...activity, companyId: companyID });
   }
 }

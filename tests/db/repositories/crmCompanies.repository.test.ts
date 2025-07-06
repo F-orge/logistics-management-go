@@ -1,12 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { KyselyCrmCompaniesRepository } from "../../../src/db/repositories/crmCompanies.repository";
 import { KyselyCrmContactsRepository } from "../../../src/db/repositories/crmContacts.repository";
+import { KyselyCrmActivitiesRepository } from "../../../src/db/repositories/crmActivities.repository";
 import { Insertable } from "kysely";
-import { CrmCompanies, CrmContacts } from "../../../src/db/types";
+import {
+  CrmActivities,
+  CrmCompanies,
+  CrmContacts,
+} from "../../../src/db/types";
 
 describe("KyselyCrmCompaniesRepository", () => {
   let companiesRepository: KyselyCrmCompaniesRepository;
   let contactsRepository: KyselyCrmContactsRepository;
+  let activitiesRepository: KyselyCrmActivitiesRepository;
 
   const testCompany: Insertable<CrmCompanies> = {
     name: "Test Company",
@@ -20,9 +26,11 @@ describe("KyselyCrmCompaniesRepository", () => {
   beforeEach(() => {
     companiesRepository = new KyselyCrmCompaniesRepository(globalThis.testDb);
     contactsRepository = new KyselyCrmContactsRepository(globalThis.testDb);
+    activitiesRepository = new KyselyCrmActivitiesRepository(globalThis.testDb);
   });
 
   afterEach(async () => {
+    await globalThis.testDb.deleteFrom("crm.activities").execute();
     await globalThis.testDb.deleteFrom("crm.contacts").execute();
     await globalThis.testDb.deleteFrom("crm.companies").execute();
   });
@@ -163,5 +171,27 @@ describe("KyselyCrmCompaniesRepository", () => {
     );
 
     expect(updatedContact.companyId).toBe(createdCompany.id);
+  });
+
+  it("should add an activity to a company", async () => {
+    const createdCompany = await companiesRepository.create(testCompany);
+
+    const activity: Insertable<CrmActivities> = {
+      type: "Follow-up",
+      description: "Call the client to discuss project updates",
+      created: new Date(),
+      updated: new Date(),
+      deleted: false,
+    };
+
+    const newActivity = await companiesRepository.addActivity(
+      createdCompany.id,
+      activity,
+      activitiesRepository,
+    );
+
+    expect(newActivity).toBeDefined();
+    expect(newActivity.type).toBe(activity.type);
+    expect(newActivity.companyId).toBe(createdCompany.id);
   });
 });
