@@ -5,6 +5,22 @@ import type { CrmActivities, DB } from "../types";
 export interface ICrmActivitiesRepository {
   findById(id: string): Promise<Selectable<CrmActivities> | undefined>;
   findAll(): Promise<Selectable<CrmActivities>[]>;
+  findByType(
+    type: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]>;
+  findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]>;
+  findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]>;
+  paginate(offset: number, limit: number): Promise<Selectable<CrmActivities>[]>;
   create(
     activity: Insertable<CrmActivities>,
   ): Promise<Selectable<CrmActivities>>;
@@ -19,21 +35,67 @@ export interface ICrmActivitiesRepository {
 export class KyselyCrmActivitiesRepository implements ICrmActivitiesRepository {
   constructor(private db: Kysely<DB>) {}
 
-  async findById(id: string): Promise<Selectable<CrmActivities> | undefined> {
-    return await this.db
+  private baseQuery() {
+    return this.db
       .selectFrom("crm.activities")
       .selectAll()
+      .where("deleted", "=", false);
+  }
+
+  async findByType(
+    type: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]> {
+    return await this.baseQuery()
+      .where("type", "like", `%${type}%`)
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
+  async findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]> {
+    return await this.baseQuery()
+      .where("companyId", "=", companyID)
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
+  async findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]> {
+    return await this.baseQuery()
+      .where("contactId", "=", contactID)
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
+  async paginate(
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmActivities>[]> {
+    return await this.baseQuery()
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
+  async findById(id: string): Promise<Selectable<CrmActivities> | undefined> {
+    return await this.baseQuery()
       .where("id", "=", id)
-      .where("deleted", "=", false)
       .executeTakeFirst();
   }
 
   async findAll(): Promise<Selectable<CrmActivities>[]> {
-    return await this.db
-      .selectFrom("crm.activities")
-      .selectAll()
-      .where("deleted", "=", false)
-      .execute();
+    return await this.baseQuery().execute();
   }
 
   async create(
