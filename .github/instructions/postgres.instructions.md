@@ -214,25 +214,6 @@ drop table if exists posts;
 - SQLx tracks applied migrations in `_sqlx_migrations` table
 - Always test both up and down migrations
 
-### Index Management
-```sql
--- Create indexes concurrently for production safety
-create index concurrently if not exists idx_users_email on users(email);
-create index concurrently if not exists idx_users_status on users(status);
-create index concurrently if not exists idx_users_created_at on users(created_at);
-
--- Compound indexes for multi-column queries
-create index concurrently if not exists idx_users_status_created_at 
-on users(status, created_at);
-
--- Partial indexes for filtered queries
-create index concurrently if not exists idx_users_active_email 
-on users(email) where status = 'active';
-
--- Expression indexes for computed values
-create index concurrently if not exists idx_users_lower_email 
-on users(lower(email));
-
 -- Drop unused indexes
 drop index if exists idx_users_old_index;
 ```
@@ -338,19 +319,6 @@ alter table large_table alter column new_field set default 'default_value';
 alter table large_table drop column if exists new_field;
 ```
 
-### Index Creation with SQLx
-Always use `concurrently` for production safety:
-
-**Up Migration:**
-```sql
-create index concurrently idx_large_table_new_column on large_table(new_column);
-```
-
-**Down Migration:**
-```sql
-drop index if exists idx_large_table_new_column;
-```
-
 ### Migration Testing Workflow
 ```bash
 # 1. Create migration
@@ -423,7 +391,6 @@ sqlx migrate info
 - Run migrations during maintenance windows
 - Monitor for long-running operations
 - Have rollback plan ready
-- Use `concurrently` for index operations
 
 ## Common SQLx Migration Anti-Patterns
 
@@ -436,7 +403,6 @@ sqlx migrate info
 ### SQLx-Specific Pitfalls
 - ❌ Forgetting `if exists` / `if not exists` clauses
 - ❌ Not considering transaction boundaries
-- ❌ Creating indexes without `concurrently` in production
 - ❌ Down migrations that don't exactly reverse up migrations
 
 ### Migration Ordering Issues
@@ -470,9 +436,6 @@ export DATABASE_URL="postgres://user:pass@localhost/dbname"
 echo "DATABASE_URL=postgres://user:pass@localhost/dbname" > .env
 ```
 
-Remember: Focus on schema design and evolution using SQLx migrations. Every operation should be safe, reversible, and tested with both up and down migrations. Always consider the impact on production systems and use appropriate safety measures like `concurrently` for index operations.);
-```
-
 **File: `001_create_users_table.down.sql`**
 ```sql
 drop table if exists users;
@@ -489,23 +452,6 @@ alter table users add column birth_date date;
 ```sql
 alter table users drop column if exists birth_date;
 alter table users drop column if exists phone;
-```
-
-### Creating Indexes
-**File: `003_add_user_indexes.up.sql`**
-```sql
-create index concurrently idx_users_email on users(email);
-create index concurrently idx_users_status on users(status);
-create index concurrently idx_users_created_at on users(created_at);
-create index concurrently idx_users_status_created_at on users(status, created_at);
-```
-
-**File: `003_add_user_indexes.down.sql`**
-```sql
-drop index if exists idx_users_status_created_at;
-drop index if exists idx_users_created_at;
-drop index if exists idx_users_status;
-drop index if exists idx_users_email;
 ```
 
 ## Database Schema Design
@@ -573,29 +519,6 @@ alter table users rename column old_name to new_name;
 
 -- Changing column types (be very careful)
 alter table users alter column phone type varchar(30);
-```
-
-### Index Management
-```sql
--- Create indexes concurrently for production safety
-create index concurrently if not exists idx_users_email on users(email);
-create index concurrently if not exists idx_users_status on users(status);
-create index concurrently if not exists idx_users_created_at on users(created_at);
-
--- Compound indexes for multi-column queries
-create index concurrently if not exists idx_users_status_created_at 
-on users(status, created_at);
-
--- Partial indexes for filtered queries
-create index concurrently if not exists idx_users_active_email 
-on users(email) where status = 'active';
-
--- Expression indexes for computed values
-create index concurrently if not exists idx_users_lower_email 
-on users(lower(email));
-
--- Drop unused indexes
-drop index if exists idx_users_old_index;
 ```
 
 ### Foreign Key Constraints
@@ -700,15 +623,6 @@ create table new_large_table (like large_table including all);
 -- Rename tables atomically
 ```
 
-### Index Creation Strategy
-```sql
--- Always use concurrently for production
-create index concurrently idx_large_table_new_column on large_table(new_column);
-
--- If concurrent creation fails, clean up invalid indexes
-drop index if exists idx_large_table_new_column;
-```
-
 ## Schema Evolution Patterns
 
 ### Renaming Operations
@@ -746,7 +660,6 @@ alter table users alter column phone drop not null;
 - Plan rollback strategy
 
 ### During Migration
-- Use `concurrently` for index operations
 - Monitor long-running operations
 - Be prepared to cancel if issues arise
 
@@ -760,7 +673,6 @@ alter table users alter column phone drop not null;
 
 ### Dangerous Operations
 - Adding `not null` columns without defaults to large tables
-- Creating indexes without `concurrently` in production
 - Dropping columns without verifying no dependencies
 - Changing primary key columns
 - Renaming heavily-used tables without coordination

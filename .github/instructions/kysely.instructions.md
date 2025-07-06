@@ -1,5 +1,5 @@
 ---
-applyTo: '{src,tests}/{db,repositories}/*.repository.{test.ts,ts}'
+applyTo: '{src,tests}/db/*.repository.{test.ts,ts}'
 ---
 
 # Copilot Database Instructions
