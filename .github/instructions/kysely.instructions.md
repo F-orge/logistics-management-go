@@ -157,6 +157,107 @@ export class KyselyUserRepository implements IUserRepository {
 }
 ```
 
+## Using Other Repositories
+
+In some cases, a repository may need to interact with other repositories to fulfill its responsibilities. For example, when implementing complex business logic that spans multiple domain entities, you can inject and use other repositories as dependencies. This approach ensures separation of concerns and promotes reusability.
+
+### Example: Using Other Repositories
+```typescript
+// repositories/order.repository.ts
+import { Kysely } from 'kysely';
+import { Database } from '../db/config';
+import { IProductRepository } from './product.repository';
+
+export interface IOrderRepository {
+  createOrderWithProducts(orderData: Insertable<Order>, products: Insertable<Product>[]): Promise<void>;
+}
+
+export class KyselyOrderRepository implements IOrderRepository {
+  constructor(
+    private db: Kysely<Database>,
+    private productRepository: IProductRepository // Injecting another repository
+  ) {}
+
+  async createOrderWithProducts(orderData: Insertable<Order>, products: Insertable<Product>[]): Promise<void> {
+    await this.db.transaction().execute(async (trx) => {
+      // Create the order
+      const order = await trx
+        .insertInto('orders')
+        .values(orderData)
+        .returningAll()
+        .executeTakeFirstOrThrow();
+
+      // Use the product repository to add products to the order
+      for (const product of products) {
+        await this.productRepository.addProductToOrder(order.id, product, trx);
+      }
+    });
+  }
+}
+```
+
+### Guidelines for Using Other Repositories
+- **Dependency Injection**: Always inject other repositories as dependencies to ensure testability and maintainability.
+- **Transaction Management**: Use the same transaction instance (`trx`) when performing operations across multiple repositories.
+- **Avoid Circular Dependencies**: Ensure that repositories do not depend on each other in a circular manner.
+- **Interface Usage**: Always use repository interfaces for dependency injection to decouple implementation details.
+
+### Testing Repositories with Dependencies
+When testing repositories that depend on other repositories, ensure that you:
+
+- **Use the Repository Implementation**: Always use the actual repository implementation instead of duplicating logic in tests. This ensures consistency and reduces maintenance overhead.
+- **Mock Dependencies**: For repositories that depend on other repositories, mock the dependent repository interfaces to isolate the test scope.
+- **Leverage Shared Test Utilities**: Create shared test utilities or fixtures for common setup tasks, such as creating test data or initializing repositories.
+
+### Example: Testing with Repository Dependencies
+```typescript
+// tests/repositories/order.repository.test.ts
+import { describe, it, expect, beforeEach, afterEach } from 'bun:test';
+import { KyselyOrderRepository } from '../../repositories/order.repository';
+import { KyselyProductRepository } from '../../repositories/product.repository';
+
+describe('OrderRepository', () => {
+  let orderRepository: KyselyOrderRepository;
+  let productRepository: KyselyProductRepository;
+
+  beforeEach(() => {
+    // Initialize the repositories with the global test database instance
+    productRepository = new KyselyProductRepository(globalThis.testDb);
+    orderRepository = new KyselyOrderRepository(globalThis.testDb, productRepository);
+  });
+
+  afterEach(async () => {
+    // Cleanup test data after each test
+    await globalThis.testDb.deleteFrom('orders').execute();
+    await globalThis.testDb.deleteFrom('products').execute();
+  });
+
+  it('should create an order with products', async () => {
+    const orderData = { /* order details */ };
+    const products = [ /* product details */ ];
+
+    await orderRepository.createOrderWithProducts(orderData, products);
+
+    // Verify that the order and products were created
+    const createdOrder = await globalThis.testDb
+      .selectFrom('orders')
+      .selectAll()
+      .where('id', '=', orderData.id)
+      .executeTakeFirst();
+
+    expect(createdOrder).toBeDefined();
+
+    const createdProducts = await globalThis.testDb
+      .selectFrom('products')
+      .selectAll()
+      .where('orderId', '=', orderData.id)
+      .execute();
+
+    expect(createdProducts).toHaveLength(products.length);
+  });
+});
+```
+
 ## Database Operation Guidelines
 
 ### Query Construction

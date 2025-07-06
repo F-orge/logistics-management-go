@@ -2,7 +2,7 @@ import type { Insertable, Selectable, Updateable } from "kysely";
 import { Kysely } from "kysely";
 import type { CrmContacts, DB } from "../types";
 
-export interface CrmContactsRepository {
+export interface ICrmContactsRepository {
   findById(id: string): Promise<Selectable<CrmContacts> | undefined>;
   findAll(): Promise<Selectable<CrmContacts>[]>;
   create(contact: Insertable<CrmContacts>): Promise<Selectable<CrmContacts>>;
@@ -24,7 +24,7 @@ export interface CrmContactsRepository {
   findByEmail(email: string): Promise<Selectable<CrmContacts> | undefined>;
 }
 
-export class KyselyCrmContactsRepository implements CrmContactsRepository {
+export class KyselyCrmContactsRepository implements ICrmContactsRepository {
   constructor(private db: Kysely<DB>) {}
 
   private baseQuery() {
