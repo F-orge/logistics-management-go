@@ -17,24 +17,21 @@ export interface ICrmCompaniesRepository {
 export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
   constructor(private db: Kysely<DB>) {}
 
-  async findById(id: string): Promise<Selectable<CrmCompanies> | undefined> {
-    return await this.db
+  private baseQuery() {
+    return this.db
       .selectFrom("crm.companies")
       .selectAll()
-      .where("id", "=", id)
-      .where("deleted", "is", null)
-      .executeTakeFirst();
+      .where("deleted", "=", false);
+  }
+
+  async findById(id: string): Promise<Selectable<CrmCompanies> | undefined> {
+    return await this.baseQuery().where("id", "=", id).executeTakeFirst();
   }
 
   async findByEmail(
     email: string,
   ): Promise<Selectable<CrmCompanies> | undefined> {
-    return await this.db
-      .selectFrom("crm.companies")
-      .selectAll()
-      .where("email", "=", email)
-      .where("deleted", "is", null)
-      .executeTakeFirst();
+    return await this.baseQuery().where("email", "=", email).executeTakeFirst();
   }
 
   async create(
@@ -63,7 +60,7 @@ export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
         updated: new Date(),
       })
       .where("id", "=", id)
-      .where("deleted", "is", null)
+      .where("deleted", "=", false)
       .returningAll()
       .executeTakeFirstOrThrow();
   }

@@ -12,26 +12,31 @@ export interface CrmContactsRepository {
   ): Promise<Selectable<CrmContacts>>;
   delete(id: string): Promise<void>;
   softDelete(id: string): Promise<void>;
+  paginate(limit: number, offset: number): Promise<Selectable<CrmContacts>[]>;
+  searchByName(name: string): Promise<Selectable<CrmContacts>[]>;
+  findByPhoneNumber(
+    phone: string,
+  ): Promise<Selectable<CrmContacts> | undefined>;
+  findByCompany(companyId: string): Promise<Selectable<CrmContacts>[]>;
+  findByEmail(email: string): Promise<Selectable<CrmContacts> | undefined>;
 }
 
 export class KyselyCrmContactsRepository implements CrmContactsRepository {
   constructor(private db: Kysely<DB>) {}
 
-  async findById(id: string): Promise<Selectable<CrmContacts> | undefined> {
-    return (await this.db
+  private baseQuery() {
+    return this.db
       .selectFrom("crm.contacts")
       .selectAll()
-      .where("id", "=", id)
-      .where("deleted", "is", null)
-      .executeTakeFirst());
+      .where("deleted", "is", null);
+  }
+
+  async findById(id: string): Promise<Selectable<CrmContacts> | undefined> {
+    return await this.baseQuery().where("id", "=", id).executeTakeFirst();
   }
 
   async findAll(): Promise<Selectable<CrmContacts>[]> {
-    return await this.db
-      .selectFrom("crm.contacts")
-      .selectAll()
-      .where("deleted", "is", null)
-      .execute();
+    return await this.baseQuery().execute();
   }
 
   async create(
@@ -81,5 +86,32 @@ export class KyselyCrmContactsRepository implements CrmContactsRepository {
       })
       .where("id", "=", id)
       .execute();
+  }
+
+  async paginate(
+    limit: number,
+    offset: number,
+  ): Promise<Selectable<CrmContacts>[]> {
+    return await this.baseQuery().limit(limit).offset(offset).execute();
+  }
+
+  async searchByName(name: string): Promise<Selectable<CrmContacts>[]> {
+    return await this.baseQuery().where("name", "like", `%${name}%`).execute();
+  }
+
+  async findByPhoneNumber(
+    phone: string,
+  ): Promise<Selectable<CrmContacts> | undefined> {
+    return await this.baseQuery().where("phone", "=", phone).executeTakeFirst();
+  }
+
+  async findByCompany(companyId: string): Promise<Selectable<CrmContacts>[]> {
+    return await this.baseQuery().where("companyId", "=", companyId).execute();
+  }
+
+  async findByEmail(
+    email: string,
+  ): Promise<Selectable<CrmContacts> | undefined> {
+    return await this.baseQuery().where("email", "=", email).executeTakeFirst();
   }
 }

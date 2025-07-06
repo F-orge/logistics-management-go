@@ -4,27 +4,13 @@ import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
 import { DB } from "../../../src/db/types";
 
-let db: Kysely<DB>;
-let repository: KyselyAuthUsersRepository;
+describe("KyselyAuthUsersRepository", () => {
+  let repository: KyselyAuthUsersRepository;
 
-beforeEach(() => {
-  db = new Kysely<DB>({
-    dialect: new PostgresDialect({
-      pool: new Pool({
-        connectionString: process.env.TEST_DATABASE_URL,
-      }),
-    }),
-    plugins: [new CamelCasePlugin()],
+  beforeEach(() => {
+    repository = new KyselyAuthUsersRepository(testDb);
   });
 
-  repository = new KyselyAuthUsersRepository(db);
-});
-
-afterEach(async () => {
-  await db.destroy();
-});
-
-describe("KyselyAuthUsersRepository", () => {
   it("should create a user successfully", async () => {
     const userData = {
       email: "test@example.com",

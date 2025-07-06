@@ -252,8 +252,13 @@ import { describe, it, expect, beforeEach, afterEach } from 'bun:test'
 import { KyselyUserRepository } from '../../repositories/user.repository'
 
 describe('UserRepository', () => {
+  const testData = {
+    email: 'test@example.com',
+    name: 'Test User',
+  }
+
   let repository: KyselyUserRepository
-  
+
   beforeEach(async () => {
     // Use the global test database instance
     repository = new KyselyUserRepository(globalThis.testDb)
@@ -266,42 +271,29 @@ describe('UserRepository', () => {
   })
 
   it('should create a user successfully', async () => {
-    const userData = {
-      email: 'test@example.com',
-      name: 'Test User',
-    }
-
-    const user = await repository.create(userData)
+    const user = await repository.create(testData)
 
     expect(user).toBeDefined()
-    expect(user.email).toBe(userData.email)
+    expect(user.email).toBe(testData.email)
     expect(user.id).toBeDefined()
     expect(user.createdAt).toBeDefined()
   })
 
   it('should find user by id', async () => {
     // Create test user first
-    const userData = {
-      email: 'test@example.com',
-      name: 'Test User',
-    }
-    const createdUser = await repository.create(userData)
+    const createdUser = await repository.create(testData)
 
     // Test finding by ID
     const foundUser = await repository.findById(createdUser.id)
 
     expect(foundUser).toBeDefined()
     expect(foundUser?.id).toBe(createdUser.id)
-    expect(foundUser?.email).toBe(userData.email)
+    expect(foundUser?.email).toBe(testData.email)
   })
 
   it('should soft delete user', async () => {
     // Create test user
-    const userData = {
-      email: 'test@example.com',
-      name: 'Test User',
-    }
-    const createdUser = await repository.create(userData)
+    const createdUser = await repository.create(testData)
 
     // Soft delete the user
     await repository.softDelete(createdUser.id)
@@ -313,9 +305,8 @@ describe('UserRepository', () => {
 
   it('should find all users with pagination', async () => {
     // Create test users
-    const userData1 = { email: 'user1@example.com', name: 'User One' }
     const userData2 = { email: 'user2@example.com', name: 'User Two' }
-    await repository.create(userData1)
+    await repository.create(testData)
     await repository.create(userData2)
 
     // Find all users with pagination
@@ -323,7 +314,7 @@ describe('UserRepository', () => {
     const usersPage2 = await repository.findAllPaginated(1, 1)
 
     expect(usersPage1).toHaveLength(1)
-    expect(usersPage1[0].email).toBe(userData1.email)
+    expect(usersPage1[0].email).toBe(testData.email)
 
     expect(usersPage2).toHaveLength(1)
     expect(usersPage2[0].email).toBe(userData2.email)
