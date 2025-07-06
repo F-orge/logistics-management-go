@@ -24,9 +24,13 @@ describe("KyselyCrmCompaniesRepository", () => {
   };
 
   beforeEach(() => {
-    companiesRepository = new KyselyCrmCompaniesRepository(globalThis.testDb);
     contactsRepository = new KyselyCrmContactsRepository(globalThis.testDb);
     activitiesRepository = new KyselyCrmActivitiesRepository(globalThis.testDb);
+    companiesRepository = new KyselyCrmCompaniesRepository(
+      globalThis.testDb,
+      contactsRepository,
+      activitiesRepository,
+    );
   });
 
   afterEach(async () => {
@@ -108,7 +112,6 @@ describe("KyselyCrmCompaniesRepository", () => {
 
     const newContact = await companiesRepository.addContact(
       contact,
-      contactsRepository,
     );
 
     expect(newContact.name).toBe("Jane Doe");
@@ -141,7 +144,6 @@ describe("KyselyCrmCompaniesRepository", () => {
 
     const newContacts = await companiesRepository.addContacts(
       contacts,
-      contactsRepository,
     );
 
     expect(newContacts).toHaveLength(2);
@@ -167,7 +169,6 @@ describe("KyselyCrmCompaniesRepository", () => {
     const updatedContact = await companiesRepository.addContactByID(
       createdCompany.id,
       createdContact.id,
-      contactsRepository,
     );
 
     expect(updatedContact.companyId).toBe(createdCompany.id);
@@ -187,7 +188,6 @@ describe("KyselyCrmCompaniesRepository", () => {
     const newActivity = await companiesRepository.addActivity(
       createdCompany.id,
       activity,
-      activitiesRepository,
     );
 
     expect(newActivity).toBeDefined();

@@ -31,22 +31,23 @@ export interface ICrmCompaniesRepository {
   addContactByID(
     companyID: string,
     contactID: string,
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>>;
 
   addContact(
     contact: Insertable<CrmContacts>,
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>>;
 
   addContacts(
     contacts: Insertable<CrmContacts>[],
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>[]>;
 }
 
 export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
-  constructor(private db: Kysely<DB>) {}
+  constructor(
+    private db: Kysely<DB>,
+    private contactsRepository: ICrmContactsRepository,
+    private activitiesRepository: ICrmActivitiesRepository,
+  ) {}
 
   private baseQuery() {
     return this.db
@@ -124,32 +125,31 @@ export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
   async addContactByID(
     companyID: string,
     contactID: string,
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>> {
-    return await contactRepository.update(contactID, {
+    return await this.contactsRepository.update(contactID, {
       companyId: companyID,
     });
   }
 
   async addContact(
     contact: Insertable<CrmContacts>,
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>> {
-    return await contactRepository.create(contact);
+    return await this.contactsRepository.create(contact);
   }
 
   async addContacts(
     contacts: Insertable<CrmContacts>[],
-    contactRepository: ICrmContactsRepository,
   ): Promise<Selectable<CrmContacts>[]> {
-    return await contactRepository.batchCreate(contacts);
+    return await this.contactsRepository.batchCreate(contacts);
   }
 
   async addActivity(
     companyID: string,
     activity: Insertable<CrmActivities>,
-    repository: ICrmActivitiesRepository,
   ): Promise<Selectable<CrmActivities>> {
-    return await repository.create({ ...activity, companyId: companyID });
+    return await this.activitiesRepository.create({
+      ...activity,
+      companyId: companyID,
+    });
   }
 }

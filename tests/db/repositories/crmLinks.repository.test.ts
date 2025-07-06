@@ -8,6 +8,7 @@ import type {
   CrmContacts,
   CrmLinks,
 } from "../../../src/db/types";
+import { KyselyCrmActivitiesRepository } from "../../../src/db/repositories/crmActivities.repository";
 
 let repository: KyselyCrmLinksRepository;
 let companiesRepository: KyselyCrmCompaniesRepository;
@@ -44,7 +45,11 @@ const testContact: Insertable<CrmContacts> = {
 describe("KyselyCrmLinksRepository", () => {
   beforeEach(async () => {
     repository = new KyselyCrmLinksRepository(globalThis.testDb);
-    companiesRepository = new KyselyCrmCompaniesRepository(globalThis.testDb);
+    companiesRepository = new KyselyCrmCompaniesRepository(
+      globalThis.testDb,
+      new KyselyCrmContactsRepository(globalThis.testDb),
+      new KyselyCrmActivitiesRepository(globalThis.testDb),
+    );
     contactsRepository = new KyselyCrmContactsRepository(globalThis.testDb);
 
     const createdCompany = await companiesRepository.create(testCompany);
