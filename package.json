@@ -10,7 +10,7 @@
     "dev:backend": "bun --hot src/server.ts",
     "dev": "concurrently 'bun run dev:frontend' 'bun run dev:backend' -n frontend,backend",
     "format": "biome format --write",
-    "generate-types":"kysely-codegen --exclude-pattern _* --out-file src/db/types.ts --camel-case",
+    "generate-types": "kysely-codegen --exclude-pattern _* --out-file src/db/types.ts --camel-case --date-parser string",
     "preview": "rsbuild preview"
   },
   "dependencies": {

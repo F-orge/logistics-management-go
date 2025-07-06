@@ -27,6 +27,7 @@ applyTo: '{src,tests}/db/*.repository.{test.ts,ts}'
 - Implement proper error handling and connection management
 - Use compiled queries for frequently executed operations
 - Leverage Kysely's built-in SQL injection protection
+- Return `undefined` instead of `null` when no record is found in repository methods
 
 ### 3. Database Schema Design
 - Database columns use snake_case (e.g., `created_at`, `user_id`, `first_name`)
@@ -80,24 +81,25 @@ Each repository should be in a single file following the naming convention: `<na
 
 ```typescript
 // repositories/user.repository.ts
-import { Kysely } from 'kysely'
+import { Kysely, Selectable, Updateable, Insertable } from 'kysely'
 import { Database } from '../db/config'
 
 // Repository interface
-export interface UserRepository {
-  findById(id: string): Promise<User | null>
-  findByEmail(email: string): Promise<User | null>
-  create(user: CreateUserInput): Promise<User>
-  update(id: string, updates: UpdateUserInput): Promise<User>
+export interface IUserRepository {
+  findById(id: string): Promise<Selectable<User> | undefined>
+  findByEmail(email: string): Promise<Selectable<User> | undefined>
+  create(user: Insertable<User>): Promise<Selectable<User>>
+  update(id: string, updates: Updateable<User>): Promise<Selectable<User>>
   delete(id: string): Promise<void>
   softDelete(id: string): Promise<void>
+  findAllPaginated(limit: number, offset: number): Promise<Selectable<User>[]>
 }
 
 // Repository implementation
-export class KyselyUserRepository implements UserRepository {
+export class KyselyUserRepository implements IUserRepository {
   constructor(private db: Kysely<Database>) {}
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: string): Promise<Selectable<User> | undefined> {
     return await this.db
       .selectFrom('users')
       .selectAll()
@@ -106,7 +108,7 @@ export class KyselyUserRepository implements UserRepository {
       .executeTakeFirst()
   }
 
-  async create(user: CreateUserInput): Promise<User> {
+  async create(user: Insertable<User>): Promise<Selectable<User>> {
     return await this.db
       .insertInto('users')
       .values({
@@ -119,7 +121,7 @@ export class KyselyUserRepository implements UserRepository {
       .executeTakeFirstOrThrow()
   }
 
-  async update(id: string, updates: UpdateUserInput): Promise<User> {
+  async update(id: string, updates: Updateable<User>): Promise<Selectable<User>> {
     return await this.db
       .updateTable('users')
       .set({
@@ -141,6 +143,16 @@ export class KyselyUserRepository implements UserRepository {
       })
       .where('id', '=', id)
       .execute()
+  }
+
+  async findAllPaginated(limit: number, offset: number): Promise<Selectable<User>[]> {
+    return await this.db
+      .selectFrom('users')
+      .selectAll()
+      .where('deletedAt', 'is', null) // Exclude soft-deleted records
+      .limit(limit)
+      .offset(offset)
+      .execute();
   }
 }
 ```
@@ -188,37 +200,22 @@ async transferFunds(fromId: string, toId: string, amount: number): Promise<void>
 ## Testing with bun:test
 
 ### Test Setup Configuration
-The testing environment uses a global setup file that manages database and third-party services:
+The testing environment uses a global setup file that manages database connections:
 
 ```typescript
 // tests/setup.ts
 import { beforeAll, afterAll } from 'bun:test'
-import { GenericContainer, StartedTestContainer } from 'testcontainers'
 import { Kysely, PostgresDialect, CamelCasePlugin } from 'kysely'
 import { Pool } from 'pg'
 import { DB } from '../db/types'
 
 // Global test setup - runs once before all tests
 beforeAll(async () => {
-  // Start test containers for database and other services
-  const postgresContainer = await new GenericContainer('postgres:17.4-alpine3.20')
-    .withEnvironment({
-      POSTGRES_USER: 'test',
-      POSTGRES_PASSWORD: 'test',
-      POSTGRES_DB: 'test',
-    })
-    .withExposedPorts(5432)
-    .start()
-
-  // Attach container and database connection to globalThis
-  globalThis.testPostgresContainer = postgresContainer
-  globalThis.testDatabaseUrl = `postgresql://test:test@${postgresContainer.getHost()}:${postgresContainer.getMappedPort(5432)}/test`
-  
-  // Create test database instance
+  // Create test database instance using environment variable
   globalThis.testDb = new Kysely<DB>({
     dialect: new PostgresDialect({
       pool: new Pool({
-        connectionString: globalThis.testDatabaseUrl,
+        connectionString: process.env.TEST_DB_URL,
       }),
     }),
     plugins: [new CamelCasePlugin()],
@@ -234,17 +231,10 @@ afterAll(async () => {
   if (globalThis.testDb) {
     await globalThis.testDb.destroy()
   }
-
-  // Stop test containers
-  if (globalThis.testPostgresContainer) {
-    await globalThis.testPostgresContainer.stop()
-  }
 })
 
 // Extend globalThis type for TypeScript
 declare global {
-  var testPostgresContainer: StartedTestContainer
-  var testDatabaseUrl: string
   var testDb: Kysely<DB>
 }
 ```
@@ -319,6 +309,24 @@ describe('UserRepository', () => {
     // Verify user is not found (soft deleted)
     const foundUser = await repository.findById(createdUser.id)
     expect(foundUser).toBeNull()
+  })
+
+  it('should find all users with pagination', async () => {
+    // Create test users
+    const userData1 = { email: 'user1@example.com', name: 'User One' }
+    const userData2 = { email: 'user2@example.com', name: 'User Two' }
+    await repository.create(userData1)
+    await repository.create(userData2)
+
+    // Find all users with pagination
+    const usersPage1 = await repository.findAllPaginated(1, 0)
+    const usersPage2 = await repository.findAllPaginated(1, 1)
+
+    expect(usersPage1).toHaveLength(1)
+    expect(usersPage1[0].email).toBe(userData1.email)
+
+    expect(usersPage2).toHaveLength(1)
+    expect(usersPage2[0].email).toBe(userData2.email)
   })
 })
 ```
