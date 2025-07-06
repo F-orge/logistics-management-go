@@ -816,3 +816,4 @@ drop schema if exists old_schema cascade;
 ```
 
 Remember: Focus on schema design and evolution. All DDL operations should be safe, reversible, and well-documented. Always test migrations on production-like environments before deployment.
+
