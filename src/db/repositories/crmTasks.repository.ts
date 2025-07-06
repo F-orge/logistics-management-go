@@ -1,9 +1,34 @@
 import type { Insertable, Selectable, Updateable } from "kysely";
 import { Kysely } from "kysely";
-import type { CrmTasks, DB } from "../types";
+import type { CrmTasks, DB, TaskStatus } from "../types";
 
 export interface ICrmTasksRepository {
   findById(id: string): Promise<Selectable<CrmTasks> | undefined>;
+  findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]>;
+  findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]>;
+  findByDueDate(
+    dueDate: Date,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]>;
+  findByStatus(
+    status: TaskStatus,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]>;
+  searchByTitle(
+    query: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]>;
   findAll(): Promise<Selectable<CrmTasks>[]>;
   create(task: Insertable<CrmTasks>): Promise<Selectable<CrmTasks>>;
   update(
@@ -17,34 +42,89 @@ export interface ICrmTasksRepository {
 export class KyselyCrmTasksRepository implements ICrmTasksRepository {
   constructor(private db: Kysely<DB>) {}
 
+  private baseQuery() {
+    return this.db.selectFrom("crm.tasks").selectAll().where(
+      "deleted",
+      "=",
+      false,
+    );
+  }
+
   async findById(id: string): Promise<Selectable<CrmTasks> | undefined> {
-    return await this.db
-      .selectFrom("crm.tasks")
-      .selectAll()
+    return this.baseQuery()
       .where("id", "=", id)
-      .where("deleted", "=", false)
       .executeTakeFirst();
   }
 
-  async findAll(): Promise<Selectable<CrmTasks>[]> {
-    return await this.db
-      .selectFrom("crm.tasks")
-      .selectAll()
-      .where("deleted", "=", false)
+  async findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .where("companyId", "=", companyID)
+      .offset(offset)
+      .limit(limit)
       .execute();
   }
 
-  async create(
-    task: Insertable<CrmTasks>,
-  ): Promise<Selectable<CrmTasks>> {
-    return await this.db
+  async findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .where("contactId", "=", contactID)
+      .offset(offset)
+      .limit(limit)
+      .execute();
+  }
+
+  async findByDueDate(
+    dueDate: Date,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .where("dueDate", "=", dueDate)
+      .offset(offset)
+      .limit(limit)
+      .execute();
+  }
+
+  async findByStatus(
+    status: TaskStatus,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .where("status", "=", status)
+      .offset(offset)
+      .limit(limit)
+      .execute();
+  }
+
+  async searchByTitle(
+    query: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .where("title", "like", `%${query}%`)
+      .offset(offset)
+      .limit(limit)
+      .execute();
+  }
+
+  async findAll(): Promise<Selectable<CrmTasks>[]> {
+    return this.baseQuery()
+      .execute();
+  }
+
+  async create(task: Insertable<CrmTasks>): Promise<Selectable<CrmTasks>> {
+    return this.db
       .insertInto("crm.tasks")
-      .values({
-        ...task,
-        id: crypto.randomUUID(),
-        created: new Date(),
-        updated: new Date(),
-      })
+      .values(task)
       .returningAll()
       .executeTakeFirstOrThrow();
   }
@@ -53,32 +133,23 @@ export class KyselyCrmTasksRepository implements ICrmTasksRepository {
     id: string,
     updates: Updateable<CrmTasks>,
   ): Promise<Selectable<CrmTasks>> {
-    return await this.db
+    return this.db
       .updateTable("crm.tasks")
-      .set({
-        ...updates,
-        updated: new Date(),
-      })
+      .set(updates)
       .where("id", "=", id)
-      .where("deleted", "=", false)
+      .where("deleted", "is", false)
       .returningAll()
       .executeTakeFirstOrThrow();
   }
 
   async delete(id: string): Promise<void> {
-    await this.db
-      .deleteFrom("crm.tasks")
-      .where("id", "=", id)
-      .execute();
+    await this.db.deleteFrom("crm.tasks").where("id", "=", id).execute();
   }
 
   async softDelete(id: string): Promise<void> {
     await this.db
       .updateTable("crm.tasks")
-      .set({
-        deleted: true,
-        updated: new Date(),
-      })
+      .set({ deleted: true, updated: new Date() })
       .where("id", "=", id)
       .execute();
   }

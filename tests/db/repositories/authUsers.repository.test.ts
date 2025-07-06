@@ -1,8 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+import { beforeEach, describe, expect, it } from "bun:test";
 import { KyselyAuthUsersRepository } from "../../../src/db/repositories/authUsers.repository";
-import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
-import { Pool } from "pg";
-import { DB } from "../../../src/db/types";
 
 describe("KyselyAuthUsersRepository", () => {
   let repository: KyselyAuthUsersRepository;

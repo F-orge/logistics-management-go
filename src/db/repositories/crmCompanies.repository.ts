@@ -1,8 +1,6 @@
 import type { Insertable, Selectable, Updateable } from "kysely";
 import { Kysely } from "kysely";
-import type { CrmActivities, CrmCompanies, CrmContacts, DB } from "../types";
-import { type ICrmContactsRepository } from "./crmContacts.repository";
-import type { ICrmActivitiesRepository } from "./crmActivities.repository";
+import type { CrmCompanies, DB } from "../types";
 
 export interface ICrmCompaniesRepository {
   findById(id: string): Promise<Selectable<CrmCompanies> | undefined>;
@@ -10,12 +8,6 @@ export interface ICrmCompaniesRepository {
   findByEmail(email: string): Promise<Selectable<CrmCompanies> | undefined>;
 
   paginate(offset: number, limit: number): Promise<Selectable<CrmCompanies>[]>;
-
-  addActivity(
-    companyID: string,
-    activity: Insertable<CrmActivities>,
-    repository: ICrmActivitiesRepository,
-  ): Promise<Selectable<CrmActivities>>;
 
   create(company: Insertable<CrmCompanies>): Promise<Selectable<CrmCompanies>>;
 
@@ -27,26 +19,11 @@ export interface ICrmCompaniesRepository {
   delete(id: string): Promise<void>;
 
   softDelete(id: string): Promise<void>;
-
-  addContactByID(
-    companyID: string,
-    contactID: string,
-  ): Promise<Selectable<CrmContacts>>;
-
-  addContact(
-    contact: Insertable<CrmContacts>,
-  ): Promise<Selectable<CrmContacts>>;
-
-  addContacts(
-    contacts: Insertable<CrmContacts>[],
-  ): Promise<Selectable<CrmContacts>[]>;
 }
 
 export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
   constructor(
     private db: Kysely<DB>,
-    private contactsRepository: ICrmContactsRepository,
-    private activitiesRepository: ICrmActivitiesRepository,
   ) {}
 
   private baseQuery() {
@@ -120,36 +97,5 @@ export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
     limit: number,
   ): Promise<Selectable<CrmCompanies>[]> {
     return await this.baseQuery().limit(limit).offset(offset).execute();
-  }
-
-  async addContactByID(
-    companyID: string,
-    contactID: string,
-  ): Promise<Selectable<CrmContacts>> {
-    return await this.contactsRepository.update(contactID, {
-      companyId: companyID,
-    });
-  }
-
-  async addContact(
-    contact: Insertable<CrmContacts>,
-  ): Promise<Selectable<CrmContacts>> {
-    return await this.contactsRepository.create(contact);
-  }
-
-  async addContacts(
-    contacts: Insertable<CrmContacts>[],
-  ): Promise<Selectable<CrmContacts>[]> {
-    return await this.contactsRepository.batchCreate(contacts);
-  }
-
-  async addActivity(
-    companyID: string,
-    activity: Insertable<CrmActivities>,
-  ): Promise<Selectable<CrmActivities>> {
-    return await this.activitiesRepository.create({
-      ...activity,
-      companyId: companyID,
-    });
   }
 }

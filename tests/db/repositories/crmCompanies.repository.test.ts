@@ -28,8 +28,6 @@ describe("KyselyCrmCompaniesRepository", () => {
     activitiesRepository = new KyselyCrmActivitiesRepository(globalThis.testDb);
     companiesRepository = new KyselyCrmCompaniesRepository(
       globalThis.testDb,
-      contactsRepository,
-      activitiesRepository,
     );
   });
 
@@ -95,103 +93,5 @@ describe("KyselyCrmCompaniesRepository", () => {
 
     const foundCompany = await companiesRepository.findById(createdCompany.id);
     expect(foundCompany).toBeUndefined();
-  });
-
-  it("should add a single contact", async () => {
-    const createdCompany = await companiesRepository.create(testCompany);
-
-    const contact: Insertable<CrmContacts> = {
-      name: "Jane Doe",
-      email: "jane.doe@example.com",
-      phone: "0987654321",
-      companyId: createdCompany.id,
-      created: new Date(),
-      updated: new Date(),
-      deleted: false,
-    };
-
-    const newContact = await companiesRepository.addContact(
-      contact,
-    );
-
-    expect(newContact.name).toBe("Jane Doe");
-    expect(newContact.companyId).toBe(createdCompany.id);
-  });
-
-  it("should add multiple contacts", async () => {
-    const createdCompany = await companiesRepository.create(testCompany);
-
-    const contacts: Insertable<CrmContacts>[] = [
-      {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        phone: "1234567890",
-        companyId: createdCompany.id,
-        created: new Date(),
-        updated: new Date(),
-        deleted: false,
-      },
-      {
-        name: "Jane Smith",
-        email: "jane.smith@example.com",
-        phone: "0987654321",
-        companyId: createdCompany.id,
-        created: new Date(),
-        updated: new Date(),
-        deleted: false,
-      },
-    ];
-
-    const newContacts = await companiesRepository.addContacts(
-      contacts,
-    );
-
-    expect(newContacts).toHaveLength(2);
-    expect(newContacts[0].name).toBe("John Doe");
-    expect(newContacts[1].name).toBe("Jane Smith");
-  });
-
-  it("should add a contact by ID", async () => {
-    const createdCompany = await companiesRepository.create(testCompany);
-
-    const contact: Insertable<CrmContacts> = {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "1234567890",
-      companyId: null,
-      created: new Date(),
-      updated: new Date(),
-      deleted: false,
-    };
-
-    const createdContact = await contactsRepository.create(contact);
-
-    const updatedContact = await companiesRepository.addContactByID(
-      createdCompany.id,
-      createdContact.id,
-    );
-
-    expect(updatedContact.companyId).toBe(createdCompany.id);
-  });
-
-  it("should add an activity to a company", async () => {
-    const createdCompany = await companiesRepository.create(testCompany);
-
-    const activity: Insertable<CrmActivities> = {
-      type: "Follow-up",
-      description: "Call the client to discuss project updates",
-      created: new Date(),
-      updated: new Date(),
-      deleted: false,
-    };
-
-    const newActivity = await companiesRepository.addActivity(
-      createdCompany.id,
-      activity,
-    );
-
-    expect(newActivity).toBeDefined();
-    expect(newActivity.type).toBe(activity.type);
-    expect(newActivity.companyId).toBe(createdCompany.id);
   });
 });

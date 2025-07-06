@@ -6,7 +6,7 @@ import {
 } from "kysely";
 import type { AuthUsers, DB } from "../types";
 
-export interface AuthUsersRepository {
+export interface IAuthUsersRepository {
   findById(id: string): Promise<Selectable<AuthUsers> | undefined>;
   findByEmail(email: string): Promise<Selectable<AuthUsers> | undefined>;
   create(user: Insertable<AuthUsers>): Promise<Selectable<AuthUsers>>;
@@ -18,7 +18,7 @@ export interface AuthUsersRepository {
   softDelete(id: string): Promise<void>;
 }
 
-export class KyselyAuthUsersRepository implements AuthUsersRepository {
+export class KyselyAuthUsersRepository implements IAuthUsersRepository {
   constructor(private db: Kysely<DB>) {}
 
   async findById(id: string): Promise<Selectable<AuthUsers> | undefined> {
