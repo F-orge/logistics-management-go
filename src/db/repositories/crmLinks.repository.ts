@@ -4,34 +4,53 @@ import type { CrmLinks, DB } from "../types";
 
 export interface ICrmLinksRepository {
   findById(id: string): Promise<Selectable<CrmLinks> | undefined>;
-  findAll(): Promise<Selectable<CrmLinks>[]>;
-  create(link: Insertable<CrmLinks>): Promise<Selectable<CrmLinks>>;
+
+  findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]>;
+
+  findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]>;
+
+  create(
+    link: Insertable<CrmLinks>,
+  ): Promise<Selectable<CrmLinks>>;
+
   update(
     id: string,
     updates: Updateable<CrmLinks>,
   ): Promise<Selectable<CrmLinks>>;
+
   delete(id: string): Promise<void>;
+
   softDelete(id: string): Promise<void>;
+
+  paginate(
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]>;
 }
 
 export class KyselyCrmLinksRepository implements ICrmLinksRepository {
   constructor(private db: Kysely<DB>) {}
 
-  async findById(id: string): Promise<Selectable<CrmLinks> | undefined> {
-    return await this.db
-      .selectFrom("crm.links")
-      .selectAll()
-      .where("id", "=", id)
-      .where("deleted", "=", false)
-      .executeTakeFirst();
+  private baseQuery() {
+    return this.db.selectFrom("crm.links").selectAll().where(
+      "deleted",
+      "=",
+      false,
+    );
   }
 
-  async findAll(): Promise<Selectable<CrmLinks>[]> {
-    return await this.db
-      .selectFrom("crm.links")
-      .selectAll()
-      .where("deleted", "=", false)
-      .execute();
+  async findById(id: string): Promise<Selectable<CrmLinks> | undefined> {
+    return await this.baseQuery()
+      .where("id", "=", id)
+      .executeTakeFirst();
   }
 
   async create(
@@ -41,7 +60,6 @@ export class KyselyCrmLinksRepository implements ICrmLinksRepository {
       .insertInto("crm.links")
       .values({
         ...link,
-        id: crypto.randomUUID(),
         created: new Date(),
         updated: new Date(),
       })
@@ -60,7 +78,6 @@ export class KyselyCrmLinksRepository implements ICrmLinksRepository {
         updated: new Date(),
       })
       .where("id", "=", id)
-      .where("deleted", "=", false)
       .returningAll()
       .executeTakeFirstOrThrow();
   }
@@ -81,5 +98,35 @@ export class KyselyCrmLinksRepository implements ICrmLinksRepository {
       })
       .where("id", "=", id)
       .execute();
+  }
+
+  async paginate(
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]> {
+    return await this.baseQuery()
+      .limit(limit)
+      .offset(offset)
+      .execute();
+  }
+
+  async findByContactID(
+    contactID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]> {
+    return await this.baseQuery().where("contactId", "=", contactID).offset(
+      offset,
+    ).limit(limit).execute();
+  }
+
+  async findByCompanyID(
+    companyID: string,
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmLinks>[]> {
+    throw await this.baseQuery().where("companyId", "=", companyID).offset(
+      offset,
+    ).limit(limit).execute();
   }
 }
