@@ -1,10 +1,12 @@
 import type { Insertable, Selectable, Updateable } from "kysely";
 import { Kysely } from "kysely";
-import type { CrmCompanies, DB } from "../types";
+import type { CrmCompanies, CrmContacts, DB } from "../types";
+import { KyselyCrmContactsRepository } from "./crmContacts.repository";
 
 export interface ICrmCompaniesRepository {
   findById(id: string): Promise<Selectable<CrmCompanies> | undefined>;
   findByEmail(email: string): Promise<Selectable<CrmCompanies> | undefined>;
+  paginate(offset: number, limit: number): Promise<Selectable<CrmCompanies>[]>;
   create(company: Insertable<CrmCompanies>): Promise<Selectable<CrmCompanies>>;
   update(
     id: string,
@@ -12,6 +14,16 @@ export interface ICrmCompaniesRepository {
   ): Promise<Selectable<CrmCompanies>>;
   delete(id: string): Promise<void>;
   softDelete(id: string): Promise<void>;
+  addContactByID(
+    companyID: string,
+    contactID: string,
+  ): Promise<Selectable<CrmContacts>>;
+  addContact(
+    contact: Insertable<CrmContacts>,
+  ): Promise<Selectable<CrmContacts>>;
+  addContacts(
+    contacts: Insertable<CrmContacts>[],
+  ): Promise<Selectable<CrmContacts>[]>;
 }
 
 export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
@@ -81,5 +93,45 @@ export class KyselyCrmCompaniesRepository implements ICrmCompaniesRepository {
       })
       .where("id", "=", id)
       .execute();
+  }
+
+  async paginate(
+    offset: number,
+    limit: number,
+  ): Promise<Selectable<CrmCompanies>[]> {
+    return await this.baseQuery().limit(limit).offset(offset).execute();
+  }
+
+  async addContactByID(
+    companyID: string,
+    contactID: string,
+  ): Promise<Selectable<CrmContacts>> {
+    const contactRepository = new KyselyCrmContactsRepository(this.db);
+
+    const updatedContact = await contactRepository.update(contactID, {
+      companyId: companyID,
+    });
+
+    return updatedContact;
+  }
+
+  async addContact(
+    contact: Insertable<CrmContacts>,
+  ): Promise<Selectable<CrmContacts>> {
+    const contactRepository = new KyselyCrmContactsRepository(this.db);
+
+    const newContact = await contactRepository.create(contact);
+
+    return newContact;
+  }
+
+  async addContacts(
+    contacts: Insertable<CrmContacts>[],
+  ): Promise<Selectable<CrmContacts>[]> {
+    const contactRepository = new KyselyCrmContactsRepository(this.db);
+
+    const newContacts = await contactRepository.batchCreate(contacts);
+
+    return newContacts;
   }
 }

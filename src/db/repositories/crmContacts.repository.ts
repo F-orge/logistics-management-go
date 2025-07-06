@@ -6,6 +6,9 @@ export interface CrmContactsRepository {
   findById(id: string): Promise<Selectable<CrmContacts> | undefined>;
   findAll(): Promise<Selectable<CrmContacts>[]>;
   create(contact: Insertable<CrmContacts>): Promise<Selectable<CrmContacts>>;
+  batchCreate(
+    contacts: Insertable<CrmContacts>[],
+  ): Promise<Selectable<CrmContacts>[]>;
   update(
     id: string,
     updates: Updateable<CrmContacts>,
@@ -113,5 +116,20 @@ export class KyselyCrmContactsRepository implements CrmContactsRepository {
     email: string,
   ): Promise<Selectable<CrmContacts> | undefined> {
     return await this.baseQuery().where("email", "=", email).executeTakeFirst();
+  }
+
+  async batchCreate(
+    contacts: Insertable<CrmContacts>[],
+  ): Promise<Selectable<CrmContacts>[]> {
+    return this.db.transaction().execute(async (trx) => {
+      const createdContacts = [];
+      for (const contact of contacts) {
+        createdContacts.push(
+          trx.insertInto("crm.contacts").values(contact).returningAll()
+            .executeTakeFirstOrThrow(),
+        );
+      }
+      return await Promise.all(createdContacts);
+    });
   }
 }

@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { KyselyCrmContactsRepository } from "../../../src/db/repositories/crmContacts.repository";
 import { KyselyCrmCompaniesRepository } from "../../../src/db/repositories/crmCompanies.repository";
+import { Insertable } from "kysely";
+import { CrmContacts } from "../../../src/db/types";
 
 // Mock data for testing
 const mockContact = {
@@ -118,5 +120,36 @@ describe("KyselyCrmContactsRepository", () => {
 
     expect(foundContact).toBeDefined();
     expect(foundContact?.email).toBe(mockContact.email);
+  });
+
+  it("should batch create multiple contacts successfully", async () => {
+    const contacts: Insertable<CrmContacts>[] = [
+      {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        phone: "1234567890",
+        companyId: mockContact.companyId,
+        created: new Date(),
+        updated: new Date(),
+        deleted: false,
+      },
+      {
+        name: "Jane Smith",
+        email: "jane.smith@example.com",
+        phone: "0987654321",
+        companyId: mockContact.companyId,
+        created: new Date(),
+        updated: new Date(),
+        deleted: false,
+      },
+    ];
+
+    const createdContacts = await repository.batchCreate(contacts);
+
+    expect(createdContacts).toHaveLength(2);
+    expect(createdContacts[0].name).toBe("John Doe");
+    expect(createdContacts[0].email).toBe("john.doe@example.com");
+    expect(createdContacts[1].name).toBe("Jane Smith");
+    expect(createdContacts[1].email).toBe("jane.smith@example.com");
   });
 });
