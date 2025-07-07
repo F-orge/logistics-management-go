@@ -18,7 +18,9 @@ export const CrmDealsBaseSchema = z.object({
     .max(999999999.99, "Deal amount cannot exceed $999,999,999.99")
     .multipleOf(0.01, "Deal amount must have at most 2 decimal places")
     .describe("Total value of the deal in USD"),
-  status: z.enum(["open", "won", "lost"]).describe(
+  status: z.enum(["open", "won", "lost"], {
+    error: "Status must be open, won, or lost",
+  }).describe(
     "Current status of the deal",
   ),
   companyId: z.string()

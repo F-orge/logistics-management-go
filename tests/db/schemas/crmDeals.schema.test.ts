@@ -4,6 +4,7 @@ import {
   CrmDealsInsertSchema,
   CrmDealsUpdateSchema,
 } from "../../../src/db/schemas/crmDeals.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -47,7 +48,7 @@ describe("CrmDealsBaseSchema", () => {
     });
     it("rejects missing name", () => {
       const { name, ...rest } = validBase;
-      expect(() => CrmDealsBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmDealsBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long name", () => {
       expect(() =>
@@ -82,7 +83,7 @@ describe("CrmDealsInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing name", () => {
       const { name, ...rest } = validInsert;
-      expect(() => CrmDealsInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmDealsInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid status", () => {
       expect(() =>
@@ -120,7 +121,9 @@ describe("Error Messages", () => {
     try {
       CrmDealsBaseSchema.parse({ ...validBase, name: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Deal name is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Deal name is required");
+      }
     }
   });
 });

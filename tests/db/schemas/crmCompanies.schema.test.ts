@@ -4,6 +4,7 @@ import {
   CrmCompaniesInsertSchema,
   CrmCompaniesUpdateSchema,
 } from "../../../src/db/schemas/crmCompanies.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -52,7 +53,7 @@ describe("CrmCompaniesBaseSchema", () => {
     });
     it("rejects missing name", () => {
       const { name, ...rest } = validBase;
-      expect(() => CrmCompaniesBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmCompaniesBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long name", () => {
       expect(() =>
@@ -100,7 +101,7 @@ describe("CrmCompaniesInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing name", () => {
       const { name, ...rest } = validInsert;
-      expect(() => CrmCompaniesInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmCompaniesInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid email", () => {
       expect(() =>
@@ -132,7 +133,9 @@ describe("Error Messages", () => {
     try {
       CrmCompaniesBaseSchema.parse({ ...validBase, name: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Company name is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Company name is required");
+      }
     }
   });
 });

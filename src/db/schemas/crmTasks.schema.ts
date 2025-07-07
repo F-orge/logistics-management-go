@@ -18,7 +18,9 @@ export const CrmTasksBaseSchema = z.object({
     .nullable()
     .optional()
     .describe("Detailed description of the task"),
-  status: z.enum(["pending", "in-progress", "completed"]).default("pending")
+  status: z.enum(["pending", "in-progress", "completed"], {
+    error: "Status must be pending, in-progress, or completed",
+  }).default("pending")
     .describe("Current status of the task"),
   dueDate: z.coerce.date()
     .nullable()

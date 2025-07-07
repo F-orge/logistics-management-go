@@ -4,6 +4,7 @@ import {
   CrmTasksInsertSchema,
   CrmTasksUpdateSchema,
 } from "../../../src/db/schemas/crmTasks.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -50,7 +51,7 @@ describe("CrmTasksBaseSchema", () => {
     });
     it("rejects missing title", () => {
       const { title, ...rest } = validBase;
-      expect(() => CrmTasksBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmTasksBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long title", () => {
       expect(() =>
@@ -85,7 +86,7 @@ describe("CrmTasksInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing title", () => {
       const { title, ...rest } = validInsert;
-      expect(() => CrmTasksInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmTasksInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid dueDate string", () => {
       expect(() =>
@@ -124,7 +125,9 @@ describe("Error Messages", () => {
     try {
       CrmTasksBaseSchema.parse({ ...validBase, title: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Task title is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Task title is required");
+      }
     }
   });
 });

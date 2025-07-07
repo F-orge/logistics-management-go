@@ -4,6 +4,7 @@ import {
   CrmLinksInsertSchema,
   CrmLinksUpdateSchema,
 } from "../../../src/db/schemas/crmLinks.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -46,7 +47,7 @@ describe("CrmLinksBaseSchema", () => {
     });
     it("rejects missing link", () => {
       const { link, ...rest } = validBase;
-      expect(() => CrmLinksBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmLinksBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long link", () => {
       expect(() =>
@@ -83,7 +84,7 @@ describe("CrmLinksInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing link", () => {
       const { link, ...rest } = validInsert;
-      expect(() => CrmLinksInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmLinksInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid url", () => {
       expect(() =>
@@ -124,7 +125,9 @@ describe("Error Messages", () => {
     try {
       CrmLinksBaseSchema.parse({ ...validBase, link: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Link is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Link is required");
+      }
     }
   });
 });

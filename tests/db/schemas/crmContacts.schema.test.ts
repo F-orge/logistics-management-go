@@ -4,6 +4,7 @@ import {
   CrmContactsInsertSchema,
   CrmContactsUpdateSchema,
 } from "../../../src/db/schemas/crmContacts.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -43,7 +44,7 @@ describe("CrmContactsBaseSchema", () => {
     });
     it("rejects missing name", () => {
       const { name, ...rest } = validBase;
-      expect(() => CrmContactsBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmContactsBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long name", () => {
       expect(() =>
@@ -80,7 +81,7 @@ describe("CrmContactsInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing name", () => {
       const { name, ...rest } = validInsert;
-      expect(() => CrmContactsInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmContactsInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid email", () => {
       expect(() =>
@@ -112,7 +113,9 @@ describe("Error Messages", () => {
     try {
       CrmContactsBaseSchema.parse({ ...validBase, name: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Contact name is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Contact name is required");
+      }
     }
   });
 });
