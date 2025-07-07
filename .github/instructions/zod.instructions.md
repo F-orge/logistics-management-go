@@ -23,6 +23,7 @@ applyTo: 'src/db/schemas/*.ts'
 - **Descriptions**: Every field must have a `.describe()` with a clear explanation of the field's purpose
 - **String Max Length**: All string fields must have a maximum length constraint for security and database compatibility
 - **Validation Context**: Error messages should provide context about what went wrong and how to fix it
+- **Nullable Fields**: If a field is nullable, you may also add `.optional()` to allow the field to be omitted from the input object. This is especially useful for PATCH/update operations or when the field is not always present in API payloads.
 
 ### 4. Field Documentation Standards
 ```typescript
@@ -232,6 +233,7 @@ completedAt: z.date()
 // Nullable date
 lastLogin: z.date()
   .nullable()
+  .optional() // Allows the field to be omitted entirely
   .describe("Timestamp of the user's last login")
 ```
 
