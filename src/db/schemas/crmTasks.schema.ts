@@ -1,5 +1,4 @@
-import { z } from "zod";
-import type { CrmTasks } from "../types";
+import { z } from "zod/v4";
 
 /**
  * Base schema for CrmTasks table
@@ -19,11 +18,7 @@ export const CrmTasksBaseSchema = z.object({
     .nullable()
     .optional()
     .describe("Detailed description of the task"),
-  status: z.enum(["pending", "in-progress", "completed"], {
-    errorMap: () => ({
-      message: "Status must be pending, in-progress, or completed",
-    }),
-  }).default("pending")
+  status: z.enum(["pending", "in-progress", "completed"]).default("pending")
     .describe("Current status of the task"),
   dueDate: z.coerce.date()
     .nullable()

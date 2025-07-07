@@ -1,5 +1,4 @@
-import { z } from "zod";
-import type { CrmContacts } from "../types";
+import { z } from "zod/v4";
 
 /**
  * Base schema for CrmContacts table

@@ -1,5 +1,4 @@
-import { z } from "zod";
-import type { CrmLinks } from "../types";
+import { z } from "zod/v4";
 
 /**
  * Base schema for CrmLinks table

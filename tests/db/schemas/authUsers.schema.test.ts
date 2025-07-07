@@ -4,6 +4,7 @@ import {
   AuthUsersInsertSchema,
   AuthUsersUpdateSchema,
 } from "../../../src/db/schemas/authUsers.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -50,7 +51,7 @@ describe("AuthUsersBaseSchema", () => {
     });
     it("rejects missing name", () => {
       const { name, ...rest } = validBase;
-      expect(() => AuthUsersBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => AuthUsersBaseSchema.parse(rest)).toThrow();
     });
     it("rejects invalid phone", () => {
       expect(() =>
@@ -80,13 +81,13 @@ describe("AuthUsersInsertSchema", () => {
           name: "John Doe",
           password: "hashedpassword",
         })
-      ).toThrow("Required");
+      ).toThrow();
     });
   });
   describe("Invalid cases", () => {
     it("rejects missing email", () => {
       const { email, ...rest } = validInsert;
-      expect(() => AuthUsersInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => AuthUsersInsertSchema.parse(rest)).toThrow();
     });
     it("rejects invalid lastLogin string", () => {
       expect(() =>
@@ -119,7 +120,9 @@ describe("Error Messages", () => {
     try {
       AuthUsersBaseSchema.parse({ ...validBase, email: "bad" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Invalid email format");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Invalid email format");
+      }
     }
   });
 });

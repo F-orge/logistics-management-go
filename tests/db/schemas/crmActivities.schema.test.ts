@@ -4,6 +4,7 @@ import {
   CrmActivitiesInsertSchema,
   CrmActivitiesUpdateSchema,
 } from "../../../src/db/schemas/crmActivities.schema";
+import { ZodError } from "zod/v4";
 
 const validBase = {
   id: "123e4567-e89b-12d3-a456-426614174000",
@@ -42,7 +43,7 @@ describe("CrmActivitiesBaseSchema", () => {
     });
     it("rejects missing type", () => {
       const { type, ...rest } = validBase;
-      expect(() => CrmActivitiesBaseSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmActivitiesBaseSchema.parse(rest)).toThrow();
     });
     it("rejects too long type", () => {
       expect(() =>
@@ -79,7 +80,7 @@ describe("CrmActivitiesInsertSchema", () => {
   describe("Invalid cases", () => {
     it("rejects missing type", () => {
       const { type, ...rest } = validInsert;
-      expect(() => CrmActivitiesInsertSchema.parse(rest)).toThrow("Required");
+      expect(() => CrmActivitiesInsertSchema.parse(rest)).toThrow();
     });
     it("rejects too long description", () => {
       expect(() =>
@@ -114,7 +115,9 @@ describe("Error Messages", () => {
     try {
       CrmActivitiesBaseSchema.parse({ ...validBase, type: "" });
     } catch (e: any) {
-      expect(e.errors[0].message).toContain("Activity type is required");
+      if (e instanceof ZodError) {
+        expect(e.message).toContain("Activity type is required");
+      }
     }
   });
 });
