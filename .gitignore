@@ -16,5 +16,3 @@ dist/
 .idea
 
 .tanstack
-.env
-.next
