@@ -3,9 +3,9 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
-export type DealStatus = 'lost' | 'open' | 'won';
+export type DealStatus = "lost" | "open" | "won";
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
@@ -13,32 +13,14 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 
 export type Numeric = ColumnType<string, number | string, number | string>;
 
-export type TaskStatus = 'completed' | 'in-progress' | 'pending';
+export type TaskStatus = "completed" | "in-progress" | "pending";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
-
-export interface AuthUsers {
-  created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
-  deletedAt: Timestamp | null;
-  email: string;
-  emailVerified: Generated<boolean>;
-  id: Generated<string>;
-  isAdmin: Generated<boolean>;
-  lastLogin: Timestamp | null;
-  name: string;
-  password: string;
-  phone: string | null;
-  profilePictureUrl: string | null;
-  status: Generated<string>;
-  updated: Generated<Timestamp>;
-}
 
 export interface CrmActivities {
   companyId: string | null;
   contactId: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   description: string | null;
   id: Generated<string>;
   type: string;
@@ -49,7 +31,6 @@ export interface CrmCompanies {
   address: string;
   billingAddress: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   email: string;
   id: Generated<string>;
   industry: string | null;
@@ -67,7 +48,6 @@ export interface CrmContacts {
   birthday: string | null;
   companyId: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   email: string;
   id: Generated<string>;
   name: string;
@@ -81,7 +61,6 @@ export interface CrmDeals {
   companyId: string | null;
   contactId: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   id: Generated<string>;
   name: string;
   status: DealStatus;
@@ -92,7 +71,6 @@ export interface CrmLinks {
   companyId: string | null;
   contactId: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   description: string | null;
   id: Generated<string>;
   link: string;
@@ -103,7 +81,6 @@ export interface CrmTasks {
   companyId: string | null;
   contactId: string | null;
   created: Generated<Timestamp>;
-  deleted: Generated<boolean | null>;
   description: string | null;
   dueDate: Timestamp | null;
   id: Generated<string>;
@@ -113,11 +90,10 @@ export interface CrmTasks {
 }
 
 export interface DB {
-  'auth.users': AuthUsers;
-  'crm.activities': CrmActivities;
-  'crm.companies': CrmCompanies;
-  'crm.contacts': CrmContacts;
-  'crm.deals': CrmDeals;
-  'crm.links': CrmLinks;
-  'crm.tasks': CrmTasks;
+  "crm.activities": CrmActivities;
+  "crm.companies": CrmCompanies;
+  "crm.contacts": CrmContacts;
+  "crm.deals": CrmDeals;
+  "crm.links": CrmLinks;
+  "crm.tasks": CrmTasks;
 }

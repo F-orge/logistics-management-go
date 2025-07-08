@@ -49,8 +49,6 @@ describe("KyselyCrmLinksRepository", () => {
 
     companiesRepository = new KyselyCrmCompaniesRepository(
       globalThis.testDb,
-      contactsRepository,
-      new KyselyCrmActivitiesRepository(globalThis.testDb),
     );
 
     const createdCompany = await companiesRepository.create(testCompany);

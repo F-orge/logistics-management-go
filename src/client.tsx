@@ -5,6 +5,8 @@ import './globals.css';
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import { routeTree } from './routeTree.gen';
 import type { RpcRouter } from './rpc/router';
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 const router = createRouter({ routeTree });
 
@@ -32,6 +34,9 @@ const root = ReactDOM.createRoot(rootEl);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider defaultTheme="dark" storageKey="sys-theme">
+      <RouterProvider router={router} />
+      <Toaster />
+    </ThemeProvider>
   </React.StrictMode>,
 );

@@ -1,7 +1,7 @@
-import { router } from '.';
-import { authRouter } from './procedures/auth';
-import { companyRouter } from './procedures/companies';
-import { userRouter } from './procedures/users';
+import { createCallerFactory, router } from ".";
+import { authRouter } from "./procedures/auth";
+import { companyRouter } from "./procedures/companies";
+import { userRouter } from "./procedures/users";
 
 export type RpcRouter = typeof rpcRouter;
 
