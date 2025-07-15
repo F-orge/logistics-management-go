@@ -1,16 +1,36 @@
 -- Add down migration script here
-drop table org.department_user_permissions;
+drop index if exists idx_department_user_permissions_user_id;
 
-drop table org.department_users;
+drop index if exists idx_department_users_is_active;
 
-drop table org.department_permissions;
+drop index if exists idx_department_users_user_id;
 
-drop type org.permission_status;
+drop index if exists idx_department_users_dept_id;
 
-drop table org.department_transport_modes;
+drop index if exists idx_department_permissions_dept_id;
 
-alter table auth.users drop column department_id;
+drop index if exists idx_department_transport_modes_is_primary;
 
-drop table org.departments;
+drop index if exists idx_department_transport_modes_dept_id;
 
-drop schema org;
+drop index if exists idx_departments_is_active;
+
+drop index if exists idx_departments_manager_id;
+
+drop table if exists org.department_user_permissions;
+
+drop table if exists org.department_users;
+
+drop table if exists org.department_permissions;
+
+drop type if exists org.permission_status;
+
+drop table if exists org.department_transport_modes;
+
+alter table auth.users
+  drop column if exists department_id;
+
+drop table if exists org.departments;
+
+drop schema if exists org;
+
