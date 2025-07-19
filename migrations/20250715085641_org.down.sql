@@ -27,9 +27,6 @@ drop type if exists org.permission_status;
 
 drop table if exists org.department_transport_modes;
 
-alter table auth.users
-  drop column if exists department_id;
-
 drop table if exists org.departments;
 
 drop schema if exists org;

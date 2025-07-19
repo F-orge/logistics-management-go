@@ -10,7 +10,7 @@ create table auth.users(
   name varchar(128) not null,
   email varchar(128) not null unique,
   email_verified boolean not null default false,
-  password_hash text not null,
+  _password_hash text not null,
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
 );
@@ -23,7 +23,7 @@ comment on column auth.users.email is 'Unique email address for authentication';
 
 comment on column auth.users.email_verified is 'Whether the email address has been verified';
 
-comment on column auth.users.password_hash is 'Hashed password using bcrypt or similar - never store plaintext';
+comment on column auth.users._password_hash is 'Hashed password using bcrypt or similar - never store plaintext';
 
 comment on column auth.users.created is 'Timestamp when user was created';
 

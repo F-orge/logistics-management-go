@@ -30,9 +30,6 @@ comment on column org.departments.manager_id is 'Department manager user referen
 
 comment on column org.departments.budget is 'Department budget allocation';
 
-alter table auth.users
-  add column department_id uuid references org.departments(id);
-
 create table org.department_transport_modes(
   id uuid not null primary key default gen_random_uuid(),
   department_id uuid not null references org.departments(id),

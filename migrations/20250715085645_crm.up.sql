@@ -11,9 +11,6 @@ create table crm.companies(
   website varchar(500),
   industry varchar(100),
   phone_number varchar(20),
-  city varchar(100),
-  state varchar(100),
-  zip_code varchar(20),
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
 );
@@ -29,12 +26,6 @@ comment on column crm.companies.website is 'Company website URL';
 comment on column crm.companies.industry is 'Business industry classification';
 
 comment on column crm.companies.phone_number is 'Primary contact phone number';
-
-comment on column crm.companies.city is 'Company city location';
-
-comment on column crm.companies.state is 'Company state/province location';
-
-comment on column crm.companies.zip_code is 'Postal/ZIP code';
 
 comment on column crm.companies.description is 'Detailed company description';
 

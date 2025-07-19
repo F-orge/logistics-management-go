@@ -116,7 +116,7 @@ create type lms.performance_metric_type as enum(
   'customer_satisfaction'
 );
 
-create type lms.invoice_status as enum(
+create type crm.invoice_status as enum(
   'draft',
   'sent',
   'paid',
@@ -124,7 +124,15 @@ create type lms.invoice_status as enum(
   'cancelled'
 );
 
-create type lms.notification_type as enum(
+create type lms.provider_invoice_status as enum(
+  'draft',
+  'sent',
+  'paid',
+  'overdue',
+  'cancelled'
+);
+
+create type crm.notification_type as enum(
   'pickup_scheduled',
   'in_transit',
   'out_for_delivery',
@@ -133,14 +141,14 @@ create type lms.notification_type as enum(
   'delayed'
 );
 
-create type lms.notification_channel as enum(
+create type crm.notification_channel as enum(
   'email',
   'sms',
   'push',
   'webhook'
 );
 
-create type lms.notification_delivery_status as enum(
+create type crm.notification_delivery_status as enum(
   'pending',
   'sent',
   'delivered',
@@ -187,7 +195,7 @@ comment on type lms.warehouse_type is 'Categories of warehouse operations';
 
 comment on type lms.provider_type is 'Types of transportation providers';
 
-comment on type lms.invoice_status is 'Payment statuses for invoices';
+comment on type lms.provider_invoice_status is 'Payment statuses for invoices';
 
 comment on type org.driver_status is 'Employment statuses for drivers';
 
@@ -725,7 +733,7 @@ create table lms.provider_invoices(
   tax_amount decimal(10, 2) default 0.00 check (tax_amount >= 0),
   total_amount decimal(10, 2) not null check (total_amount >= 0),
   currency varchar(3) not null default 'PHP',
-  status lms.invoice_status not null,
+  status lms.provider_invoice_status not null,
   payment_date date,
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now(),
@@ -777,7 +785,7 @@ create table crm.invoices(
   tax_amount decimal(10, 2) not null default 0.00 check (tax_amount >= 0),
   total_amount decimal(10, 2) not null check (total_amount >= 0),
   currency varchar(3) not null default 'PHP',
-  status lms.invoice_status not null,
+  status crm.invoice_status not null,
   payment_terms varchar(100),
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
@@ -823,13 +831,13 @@ create table crm.notifications(
   id uuid not null primary key default gen_random_uuid(),
   shipment_id uuid not null references lms.shipments(id),
   contact_id uuid not null references crm.contacts(id),
-  notification_type lms.notification_type not null,
-  channel lms.notification_channel not null,
+  notification_type crm.notification_type not null,
+  channel crm.notification_channel not null,
   recipient varchar(320) not null,
   subject varchar(200),
   message text not null,
   sent_at timestamptz,
-  delivery_status lms.notification_delivery_status not null,
+  delivery_status crm.notification_delivery_status not null,
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
 );

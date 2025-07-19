@@ -16,3 +16,7 @@ dist/
 .idea
 
 .tanstack
+
+# Added by cargo
+
+/target

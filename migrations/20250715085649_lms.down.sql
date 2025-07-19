@@ -124,13 +124,15 @@ alter table crm.companies
 drop table if exists lms.addresses;
 
 -- Drop all ENUMs in reverse dependency order
-drop type if exists lms.notification_delivery_status;
+drop type if exists crm.notification_delivery_status;
 
-drop type if exists lms.notification_channel;
+drop type if exists crm.notification_channel;
 
-drop type if exists lms.notification_type;
+drop type if exists crm.notification_type;
 
-drop type if exists lms.invoice_status;
+drop type if exists crm.invoice_status;
+
+drop type if exists lms.provider_invoice_status;
 
 drop type if exists lms.performance_metric_type;
 

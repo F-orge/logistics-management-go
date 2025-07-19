@@ -1,0 +1,17 @@
+[env]
+RUST_LOG = "INFO"
+# server configuration
+SERVER_HOST = "0.0.0.0"
+SERVER_PORT = "8080"
+# database configuration
+DATABASE_URL = "postgres://postgres:postgres@localhost:5432/postgres"
+# mail configuration
+MAIL_HOST = "localhost"
+MAIL_PORT = "1025"
+MAIL_USER = "user"
+MAIL_PASSWORD = "password"
+# minio configuration
+MINIO_ENDPOINT = "localhost:9000"
+MINIO_ACCESS = "minioadmin"
+MINIO_SECRET = "minioadmin"
+MINIO_BUCKET = "mybucket"
