@@ -1,11 +1,9 @@
 use async_graphql::InputObject;
 use chrono::Utc;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::invoices::*;
-use super::_generated::sea_orm_active_enums::InvoiceStatus;
+use crate::entities::_generated::crm_invoices::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmInvoiceStatus;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateInvoice {
@@ -18,7 +16,7 @@ pub struct CreateInvoice {
     pub tax_amount: Decimal,
     pub total_amount: Decimal,
     pub currency: String,
-    pub status: InvoiceStatus,
+    pub status: CrmInvoiceStatus,
     pub payment_terms: Option<String>,
 }
 
@@ -54,7 +52,7 @@ pub struct UpdateInvoice {
     pub tax_amount: Option<Decimal>,
     pub total_amount: Option<Decimal>,
     pub currency: Option<String>,
-    pub status: Option<InvoiceStatus>,
+    pub status: Option<CrmInvoiceStatus>,
     pub payment_terms: Option<Option<String>>,
 }
 

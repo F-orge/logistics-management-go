@@ -1,9 +1,8 @@
-use super::_generated::departments::*;
 use async_graphql::InputObject;
 use chrono::Utc;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
+
+use crate::entities::_generated::org_departments::*;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateDepartment {

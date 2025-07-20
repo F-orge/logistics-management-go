@@ -1,15 +1,15 @@
-use super::_generated::sea_orm_active_enums::{VehicleStatus, VehicleType};
-use super::_generated::vehicles::*;
 use async_graphql::InputObject;
 use chrono::Utc;
-use sea_orm::IntoActiveModel;
-use sea_orm::{ActiveValue::Set, entity::prelude::*};
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
+
+use crate::entities::_generated::org_vehicles::*;
+use crate::entities::_generated::sea_orm_active_enums::{OrgVehicleStatus, OrgVehicleType};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateVehicle {
     pub vehicle_number: String,
     pub license_plate: String,
-    pub vehicle_type: VehicleType,
+    pub vehicle_type: OrgVehicleType,
     pub make: String,
     pub model: String,
     pub year: i32,
@@ -17,7 +17,7 @@ pub struct CreateVehicle {
     pub capacity_volume: Option<Decimal>,
     pub department_id: Option<Uuid>,
     pub warehouse_id: Option<Uuid>,
-    pub status: VehicleStatus,
+    pub status: OrgVehicleStatus,
 }
 
 impl IntoActiveModel<ActiveModel> for CreateVehicle {
@@ -45,7 +45,7 @@ pub struct UpdateVehicle {
     pub id: Uuid,
     pub vehicle_number: Option<String>,
     pub license_plate: Option<String>,
-    pub vehicle_type: Option<VehicleType>,
+    pub vehicle_type: Option<OrgVehicleType>,
     pub make: Option<String>,
     pub model: Option<String>,
     pub year: Option<i32>,
@@ -53,7 +53,7 @@ pub struct UpdateVehicle {
     pub capacity_volume: Option<Option<Decimal>>,
     pub department_id: Option<Option<Uuid>>,
     pub warehouse_id: Option<Option<Uuid>>,
-    pub status: Option<VehicleStatus>,
+    pub status: Option<OrgVehicleStatus>,
 }
 
 impl IntoActiveModel<ActiveModel> for UpdateVehicle {

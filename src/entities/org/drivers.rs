@@ -1,4 +1,3 @@
-use super::_generated::drivers::*;
 use async_graphql::InputObject;
 use chrono::Utc;
 use sea_orm::{
@@ -6,7 +5,8 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-use crate::entities::org::_generated::sea_orm_active_enums::DriverStatus;
+use crate::entities::_generated::org_drivers::*;
+use crate::entities::_generated::sea_orm_active_enums::OrgDriverStatus;
 
 #[derive(Debug, Clone, PartialEq, Eq, InputObject)]
 pub struct CreateDriver {
@@ -17,7 +17,7 @@ pub struct CreateDriver {
     pub phone_number: String,
     pub email: String,
     pub hire_date: DateTimeWithTimeZone,
-    pub status: DriverStatus,
+    pub status: OrgDriverStatus,
 }
 
 impl IntoActiveModel<ActiveModel> for CreateDriver {
@@ -47,7 +47,7 @@ pub struct UpdateDriver {
     pub phone_number: Option<String>,
     pub email: Option<String>,
     pub hire_date: Option<DateTimeWithTimeZone>,
-    pub status: Option<DriverStatus>,
+    pub status: Option<OrgDriverStatus>,
 }
 
 impl IntoActiveModel<ActiveModel> for UpdateDriver {

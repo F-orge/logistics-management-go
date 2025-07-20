@@ -1,16 +1,15 @@
 use async_graphql::InputObject;
 use chrono::Utc;
-use sea_orm::ActiveValue::Set;
-use sea_orm::{IntoActiveModel, entity::prelude::*};
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::department_permissions::*;
-use super::_generated::sea_orm_active_enums::PermissionStatus;
+use crate::entities::_generated::org_department_permissions::*;
+use crate::entities::_generated::sea_orm_active_enums::OrgPermissionStatus;
 
 #[derive(Clone, Debug, InputObject)]
 pub struct CreateDepartmentPermission {
     pub department_id: Uuid,
     pub resource: String,
-    pub action: PermissionStatus,
+    pub action: OrgPermissionStatus,
 }
 
 impl IntoActiveModel<ActiveModel> for CreateDepartmentPermission {
@@ -30,7 +29,7 @@ pub struct UpdateDepartmentPermission {
     pub id: Uuid,
     pub department_id: Option<Uuid>,
     pub resource: Option<String>,
-    pub action: Option<PermissionStatus>,
+    pub action: Option<OrgPermissionStatus>,
 }
 
 impl IntoActiveModel<ActiveModel> for UpdateDepartmentPermission {

@@ -1,7 +1,8 @@
-use super::_generated::companies::*;
 use async_graphql::InputObject;
 use sea_orm::{ActiveModelBehavior, ActiveValue::Set, IntoActiveModel};
 use uuid::Uuid;
+
+use crate::entities::_generated::crm_companies::*;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateCompany {

@@ -1,19 +1,19 @@
 use async_graphql::InputObject;
 use chrono::Utc;
-use sea_orm::ActiveValue::Set;
-use sea_orm::prelude::DateTimeWithTimeZone;
-use sea_orm::{ActiveModelBehavior, IntoActiveModel};
+use sea_orm::{
+    ActiveModelBehavior, ActiveValue::Set, IntoActiveModel, prelude::DateTimeWithTimeZone,
+};
 use uuid::Uuid;
 
-use super::_generated::cases::*;
-use super::_generated::sea_orm_active_enums::{CasePriority, CaseStatus};
+use crate::entities::_generated::crm_cases::*;
+use crate::entities::_generated::sea_orm_active_enums::{CrmCasePriority, CrmCaseStatus};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateCase {
     pub subject: String,
     pub description: String,
-    pub status: CaseStatus,
-    pub priority: CasePriority,
+    pub status: CrmCaseStatus,
+    pub priority: CrmCasePriority,
     pub contact_id: Option<Uuid>,
     pub closed_at: Option<DateTimeWithTimeZone>,
 }
@@ -41,8 +41,8 @@ pub struct UpdateCase {
     pub id: Uuid,
     pub subject: Option<String>,
     pub description: Option<String>,
-    pub status: Option<CaseStatus>,
-    pub priority: Option<CasePriority>,
+    pub status: Option<CrmCaseStatus>,
+    pub priority: Option<CrmCasePriority>,
     pub contact_id: Option<Uuid>,
     pub closed_at: Option<DateTimeWithTimeZone>,
 }

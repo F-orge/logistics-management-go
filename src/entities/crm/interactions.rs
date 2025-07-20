@@ -2,12 +2,12 @@ use async_graphql::InputObject;
 use chrono::Utc;
 use sea_orm::{ActiveValue::Set, IntoActiveModel, prelude::*};
 
-use super::_generated::interactions::*;
-use super::_generated::sea_orm_active_enums::InteractionType;
+use crate::entities::_generated::crm_interactions::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmInteractionType;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateInteraction {
-    pub r#type: InteractionType,
+    pub r#type: CrmInteractionType,
     pub subject: Option<String>,
     pub description: Option<String>,
     pub interaction_date: DateTimeWithTimeZone,
@@ -33,7 +33,7 @@ impl IntoActiveModel<ActiveModel> for CreateInteraction {
 #[derive(Debug, Clone, InputObject)]
 pub struct UpdateInteraction {
     pub id: Uuid,
-    pub r#type: Option<InteractionType>,
+    pub r#type: Option<CrmInteractionType>,
     pub subject: Option<Option<String>>,
     pub description: Option<Option<String>>,
     pub interaction_date: Option<DateTimeWithTimeZone>,

@@ -1,9 +1,7 @@
 use async_graphql::InputObject;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::products::*;
+use crate::entities::_generated::crm_products::*;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateProduct {

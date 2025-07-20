@@ -1,8 +1,8 @@
-use async_graphql::{Context, Object, SimpleObject};
+use async_graphql::{Context, Object};
 use sea_orm::{ActiveModelTrait, DatabaseConnection, IntoActiveModel};
 use uuid::Uuid;
 
-use crate::entities::crm::_generated::contacts::Model as ContactModel;
+use crate::entities::_generated::crm_contacts::Model as ContactModel;
 use crate::entities::crm::contacts::{CreateContact, UpdateContact};
 
 #[derive(Default)]

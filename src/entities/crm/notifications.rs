@@ -1,24 +1,22 @@
 use async_graphql::InputObject;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::notifications::*;
-use super::_generated::sea_orm_active_enums::{
-    NotificationChannel, NotificationDeliveryStatus, NotificationType,
+use crate::entities::_generated::crm_notifications::*;
+use crate::entities::_generated::sea_orm_active_enums::{
+    CrmNotificationChannel, CrmNotificationDeliveryStatus, CrmNotificationType,
 };
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateNotification {
     pub shipment_id: Uuid,
     pub contact_id: Uuid,
-    pub notification_type: NotificationType,
-    pub channel: NotificationChannel,
+    pub notification_type: CrmNotificationType,
+    pub channel: CrmNotificationChannel,
     pub recipient: String,
     pub subject: Option<String>,
     pub message: String,
     pub sent_at: Option<DateTimeWithTimeZone>,
-    pub delivery_status: NotificationDeliveryStatus,
+    pub delivery_status: CrmNotificationDeliveryStatus,
 }
 
 impl IntoActiveModel<ActiveModel> for CreateNotification {
@@ -44,13 +42,13 @@ pub struct UpdateNotification {
     pub id: Uuid,
     pub shipment_id: Option<Uuid>,
     pub contact_id: Option<Uuid>,
-    pub notification_type: Option<NotificationType>,
-    pub channel: Option<NotificationChannel>,
+    pub notification_type: Option<CrmNotificationType>,
+    pub channel: Option<CrmNotificationChannel>,
     pub recipient: Option<String>,
     pub subject: Option<Option<String>>,
     pub message: Option<String>,
     pub sent_at: Option<Option<DateTimeWithTimeZone>>,
-    pub delivery_status: Option<NotificationDeliveryStatus>,
+    pub delivery_status: Option<CrmNotificationDeliveryStatus>,
 }
 
 impl IntoActiveModel<ActiveModel> for UpdateNotification {

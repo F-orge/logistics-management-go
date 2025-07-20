@@ -1,10 +1,9 @@
 use async_graphql::InputObject;
-use sea_orm::ActiveValue::Set;
-use sea_orm::{ActiveModelBehavior, IntoActiveModel};
+use sea_orm::{ActiveModelBehavior, ActiveValue::Set, IntoActiveModel};
 use uuid::Uuid;
 
-use super::_generated::contacts::*;
-use super::_generated::sea_orm_active_enums::ContactStatus;
+use crate::entities::_generated::crm_contacts::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmContactStatus;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateContact {
@@ -14,7 +13,7 @@ pub struct CreateContact {
     pub phone_number: Option<String>,
     pub job_title: Option<String>,
     pub lead_source: Option<String>,
-    pub status: ContactStatus,
+    pub status: CrmContactStatus,
     pub birth_date: Option<chrono::NaiveDate>,
     pub company_id: Option<Uuid>,
     pub address_id: Option<Uuid>,
@@ -48,7 +47,7 @@ pub struct UpdateContact {
     pub phone_number: Option<Option<String>>,
     pub job_title: Option<Option<String>>,
     pub lead_source: Option<Option<String>>,
-    pub status: Option<ContactStatus>,
+    pub status: Option<CrmContactStatus>,
     pub birth_date: Option<Option<chrono::NaiveDate>>,
     pub company_id: Option<Option<Uuid>>,
     pub address_id: Option<Option<Uuid>>,

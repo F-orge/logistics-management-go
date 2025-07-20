@@ -1,10 +1,8 @@
 use async_graphql::InputObject;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::leads::*;
-use super::_generated::sea_orm_active_enums::LeadStatus;
+use crate::entities::_generated::crm_leads::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmLeadStatus;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateLead {
@@ -14,7 +12,7 @@ pub struct CreateLead {
     pub phone_number: Option<String>,
     pub company_name: Option<String>,
     pub lead_source: Option<String>,
-    pub lead_status: LeadStatus,
+    pub lead_status: CrmLeadStatus,
     pub lead_score: i32,
     pub converted_to_contact_id: Option<Uuid>,
 }
@@ -46,7 +44,7 @@ pub struct UpdateLead {
     pub phone_number: Option<Option<String>>,
     pub company_name: Option<Option<String>>,
     pub lead_source: Option<Option<String>>,
-    pub lead_status: Option<LeadStatus>,
+    pub lead_status: Option<CrmLeadStatus>,
     pub lead_score: Option<i32>,
     pub converted_to_contact_id: Option<Option<Uuid>>,
 }

@@ -1,5 +1,5 @@
-use super::_generated::campaigns::*;
-use super::_generated::sea_orm_active_enums::CampaignStatus;
+use crate::entities::_generated::crm_campaigns::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmCampaignStatus;
 use async_graphql::InputObject;
 use chrono::Utc;
 use sea_orm::ActiveValue::Set;
@@ -14,7 +14,7 @@ pub struct CreateCampaign {
     pub start_date: NaiveDate,
     pub end_date: Option<NaiveDate>,
     pub budget: Option<Decimal>,
-    pub status: CampaignStatus,
+    pub status: CrmCampaignStatus,
 }
 
 impl IntoActiveModel<ActiveModel> for CreateCampaign {
@@ -40,7 +40,7 @@ pub struct UpdateCampaign {
     pub start_date: Option<NaiveDate>,
     pub end_date: Option<NaiveDate>,
     pub budget: Option<Decimal>,
-    pub status: Option<CampaignStatus>,
+    pub status: Option<CrmCampaignStatus>,
 }
 
 impl IntoActiveModel<ActiveModel> for UpdateCampaign {

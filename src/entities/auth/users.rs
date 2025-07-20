@@ -1,4 +1,4 @@
-use super::_generated::users::*;
+use crate::entities::_generated::auth_users::*;
 use async_graphql::InputObject;
 use chrono::Utc;
 use sea_orm::{ActiveModelBehavior, ActiveValue::Set, IntoActiveModel};

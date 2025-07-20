@@ -1,7 +1,8 @@
-use super::_generated::department_transport_modes::*;
 use async_graphql::InputObject;
 use sea_orm::{ActiveModelBehavior, ActiveValue::Set, IntoActiveModel};
 use uuid::Uuid;
+
+use crate::entities::_generated::org_department_transport_modes::*;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateDepartmentTransportMode {

@@ -2,7 +2,7 @@ use chrono::Utc;
 use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 use uuid::Uuid;
 
-use super::_generated::invoice_line_items::*;
+use crate::entities::_generated::crm_invoice_line_items::*;
 
 pub struct CreateInvoiceLineItem {
     pub invoice_id: Uuid,

@@ -1,17 +1,15 @@
 use async_graphql::InputObject;
-use sea_orm::ActiveValue::Set;
-use sea_orm::IntoActiveModel;
-use sea_orm::entity::prelude::*;
+use sea_orm::{ActiveValue::Set, IntoActiveModel, entity::prelude::*};
 
-use super::_generated::opportunities::*;
-use super::_generated::sea_orm_active_enums::OpportunityStage;
+use crate::entities::_generated::crm_opportunities::*;
+use crate::entities::_generated::sea_orm_active_enums::CrmOpportunityStage;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateOpportunity {
     pub name: String,
     pub company_id: Option<Uuid>,
     pub primary_contact_id: Option<Uuid>,
-    pub stage: OpportunityStage,
+    pub stage: CrmOpportunityStage,
     pub amount: Decimal,
     pub close_date: Option<Date>,
     pub probability: Decimal,
@@ -39,7 +37,7 @@ pub struct UpdateOpportunity {
     pub name: Option<String>,
     pub company_id: Option<Option<Uuid>>,
     pub primary_contact_id: Option<Option<Uuid>>,
-    pub stage: Option<OpportunityStage>,
+    pub stage: Option<CrmOpportunityStage>,
     pub amount: Option<Decimal>,
     pub close_date: Option<Option<Date>>,
     pub probability: Option<Decimal>,
