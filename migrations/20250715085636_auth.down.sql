@@ -1,11 +1,9 @@
 -- Add down migration script here
-drop function if exists auth.current_user;
+drop function if exists public.auth_current_user;
 
-drop index if exists auth.idx_auth_users_email;
+drop index if exists public.auth_idx_auth_users_email;
 
-drop table if exists auth.users;
-
-drop schema if exists auth;
+drop table if exists public.auth_users cascade;
 
 drop extension pgcrypto;
 
