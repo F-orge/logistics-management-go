@@ -248,7 +248,7 @@ create table public.lms_shipping_services(
   description text,
   service_type public.lms_service_type not null,
   max_weight decimal(10, 2),
-  max_dimensions jsonb,
+  -- max_dimensions moved to junction table
   delivery_time_min integer,
   delivery_time_max integer,
   is_active boolean not null default true,
@@ -266,7 +266,23 @@ comment on column public.lms_shipping_services.service_type is 'Service category
 
 comment on column public.lms_shipping_services.max_weight is 'Maximum package weight in kg';
 
-comment on column public.lms_shipping_services.max_dimensions is 'Maximum dimensions as JSON {length, width, height} in cm';
+-- Junction table for max dimensions
+create table public.lms_shipping_service_max_dimensions(
+  id uuid primary key default gen_random_uuid(),
+  shipping_service_id uuid not null references public.lms_shipping_services(id) on delete cascade,
+  length decimal(10, 2),
+  width decimal(10, 2),
+  height decimal(10, 2),
+  created timestamp with time zone not null default now()
+);
+
+comment on table public.lms_shipping_service_max_dimensions is 'Maximum dimensions for shipping services';
+
+comment on column public.lms_shipping_service_max_dimensions.length is 'Length in cm';
+
+comment on column public.lms_shipping_service_max_dimensions.width is 'Width in cm';
+
+comment on column public.lms_shipping_service_max_dimensions.height is 'Height in cm';
 
 comment on column public.lms_shipping_services.delivery_time_min is 'Minimum delivery time in hours';
 
@@ -276,7 +292,7 @@ create table public.lms_pricing_zones(
   id uuid not null primary key default gen_random_uuid(),
   name varchar(100) not null,
   zone_code varchar(10) not null unique,
-  countries jsonb not null,
+  -- countries moved to junction table
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
 );
@@ -287,7 +303,17 @@ comment on column public.lms_pricing_zones.name is 'Zone display name';
 
 comment on column public.lms_pricing_zones.zone_code is 'Short code for zone identification';
 
-comment on column public.lms_pricing_zones.countries is 'Array of ISO country codes in this zone';
+-- Junction table for pricing zone countries
+create table public.lms_pricing_zone_countries(
+  id uuid primary key default gen_random_uuid(),
+  pricing_zone_id uuid not null references public.lms_pricing_zones(id) on delete cascade,
+  country_code varchar(3) not null,
+  created timestamp with time zone not null default now()
+);
+
+comment on table public.lms_pricing_zone_countries is 'Countries included in a pricing zone';
+
+comment on column public.lms_pricing_zone_countries.country_code is 'ISO 3166-1 alpha-3 country code';
 
 create table public.lms_pricing_rates(
   id uuid not null primary key default gen_random_uuid(),
@@ -516,10 +542,9 @@ create table public.lms_provider_services(
   service_name varchar(100) not null,
   service_type public.lms_service_type not null,
   transport_mode public.lms_transport_mode not null,
-  origin_countries jsonb,
-  destination_countries jsonb,
+  -- origin_countries and destination_countries moved to junction tables
   max_weight decimal(10, 2),
-  max_dimensions jsonb,
+  -- max_dimensions moved to junction table
   transit_time_min integer,
   transit_time_max integer,
   cutoff_time time,
@@ -536,11 +561,49 @@ comment on column public.lms_provider_services.service_name is 'Provider-specifi
 
 comment on column public.lms_provider_services.service_type is 'Type of service offered';
 
+-- Junction table for origin countries
+create table public.lms_provider_service_origin_countries(
+  id uuid primary key default gen_random_uuid(),
+  provider_service_id uuid not null references public.lms_provider_services(id) on delete cascade,
+  country_code varchar(3) not null,
+  created timestamp with time zone not null default now()
+);
+
+comment on table public.lms_provider_service_origin_countries is 'Origin countries for provider services';
+
+comment on column public.lms_provider_service_origin_countries.country_code is 'ISO 3166-1 alpha-3 country code';
+
+-- Junction table for destination countries
+create table public.lms_provider_service_destination_countries(
+  id uuid primary key default gen_random_uuid(),
+  provider_service_id uuid not null references public.lms_provider_services(id) on delete cascade,
+  country_code varchar(3) not null,
+  created timestamp with time zone not null default now()
+);
+
+comment on table public.lms_provider_service_destination_countries is 'Destination countries for provider services';
+
+comment on column public.lms_provider_service_destination_countries.country_code is 'ISO 3166-1 alpha-3 country code';
+
+-- Junction table for max dimensions
+create table public.lms_provider_service_max_dimensions(
+  id uuid primary key default gen_random_uuid(),
+  provider_service_id uuid not null references public.lms_provider_services(id) on delete cascade,
+  length decimal(10, 2),
+  width decimal(10, 2),
+  height decimal(10, 2),
+  created timestamp with time zone not null default now()
+);
+
+comment on table public.lms_provider_service_max_dimensions is 'Maximum dimensions for provider services';
+
+comment on column public.lms_provider_service_max_dimensions.length is 'Length in cm';
+
+comment on column public.lms_provider_service_max_dimensions.width is 'Width in cm';
+
+comment on column public.lms_provider_service_max_dimensions.height is 'Height in cm';
+
 comment on column public.lms_provider_services.transport_mode is 'Mode of transportation';
-
-comment on column public.lms_provider_services.origin_countries is 'Countries where service originates';
-
-comment on column public.lms_provider_services.destination_countries is 'Countries service delivers to';
 
 comment on column public.lms_provider_services.cutoff_time is 'Daily cutoff time for pickups';
 
@@ -727,7 +790,7 @@ create table public.lms_provider_invoices(
   due_date date not null,
   subtotal decimal(10, 2) not null check (subtotal >= 0),
   tax_amount decimal(10, 2) default 0.00 check (tax_amount >= 0),
-  total_amount decimal(10, 2) not null check (total_amount >= 0),
+  total_amount decimal(10, 2) check (total_amount >= 0) generated always as (subtotal + tax_amount) stored,
   currency varchar(3) not null default 'PHP',
   status public.lms_provider_invoice_status not null,
   payment_date date,
@@ -755,7 +818,7 @@ create table public.lms_provider_invoice_line_items(
   description varchar(500) not null,
   quantity integer not null default 1 check (quantity > 0),
   unit_price decimal(10, 2) not null check (unit_price >= 0),
-  line_total decimal(10, 2) not null check (line_total >= 0),
+  line_total decimal(10, 2) check (line_total >= 0) generated always as (unit_price * quantity) stored,
   created timestamp with time zone not null default now(),
   updated timestamp with time zone not null default now()
 );

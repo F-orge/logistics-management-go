@@ -31,10 +31,7 @@ pub struct Model {
     pub service_name: String,
     pub service_type: LmsServiceType,
     pub transport_mode: LmsTransportMode,
-    pub origin_countries: Option<Json>,
-    pub destination_countries: Option<Json>,
     pub max_weight: Option<Decimal>,
-    pub max_dimensions: Option<Json>,
     pub transit_time_min: Option<i32>,
     pub transit_time_max: Option<i32>,
     pub cutoff_time: Option<Time>,
@@ -52,10 +49,7 @@ pub enum Column {
     ServiceName,
     ServiceType,
     TransportMode,
-    OriginCountries,
-    DestinationCountries,
     MaxWeight,
-    MaxDimensions,
     TransitTimeMin,
     TransitTimeMax,
     CutoffTime,
@@ -81,6 +75,9 @@ impl PrimaryKeyTrait for PrimaryKey {
 #[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
     LmsProviderRates,
+    LmsProviderServiceDestinationCountries,
+    LmsProviderServiceMaxDimensions,
+    LmsProviderServiceOriginCountries,
     LmsTransportLegs,
     LmsTransportationProviders,
 }
@@ -97,10 +94,7 @@ impl ColumnTrait for Column {
                 .get_column_type()
                 .to_owned()
                 .def(),
-            Self::OriginCountries => ColumnType::JsonBinary.def().null(),
-            Self::DestinationCountries => ColumnType::JsonBinary.def().null(),
             Self::MaxWeight => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
-            Self::MaxDimensions => ColumnType::JsonBinary.def().null(),
             Self::TransitTimeMin => ColumnType::Integer.def().null(),
             Self::TransitTimeMax => ColumnType::Integer.def().null(),
             Self::CutoffTime => ColumnType::Time.def().null(),
@@ -117,6 +111,15 @@ impl RelationTrait for Relation {
     fn def(&self) -> RelationDef {
         match self {
             Self::LmsProviderRates => Entity::has_many(super::lms_provider_rates::Entity).into(),
+            Self::LmsProviderServiceDestinationCountries => {
+                Entity::has_many(super::lms_provider_service_destination_countries::Entity).into()
+            }
+            Self::LmsProviderServiceMaxDimensions => {
+                Entity::has_many(super::lms_provider_service_max_dimensions::Entity).into()
+            }
+            Self::LmsProviderServiceOriginCountries => {
+                Entity::has_many(super::lms_provider_service_origin_countries::Entity).into()
+            }
             Self::LmsTransportLegs => Entity::has_many(super::lms_transport_legs::Entity).into(),
             Self::LmsTransportationProviders => {
                 Entity::belongs_to(super::lms_transportation_providers::Entity)
@@ -131,6 +134,24 @@ impl RelationTrait for Relation {
 impl Related<super::lms_provider_rates::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::LmsProviderRates.def()
+    }
+}
+
+impl Related<super::lms_provider_service_destination_countries::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::LmsProviderServiceDestinationCountries.def()
+    }
+}
+
+impl Related<super::lms_provider_service_max_dimensions::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::LmsProviderServiceMaxDimensions.def()
+    }
+}
+
+impl Related<super::lms_provider_service_origin_countries::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::LmsProviderServiceOriginCountries.def()
     }
 }
 

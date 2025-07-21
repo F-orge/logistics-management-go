@@ -30,7 +30,6 @@ pub struct Model {
     pub description: Option<String>,
     pub service_type: LmsServiceType,
     pub max_weight: Option<Decimal>,
-    pub max_dimensions: Option<Json>,
     pub delivery_time_min: Option<i32>,
     pub delivery_time_max: Option<i32>,
     pub is_active: bool,
@@ -45,7 +44,6 @@ pub enum Column {
     Description,
     ServiceType,
     MaxWeight,
-    MaxDimensions,
     DeliveryTimeMin,
     DeliveryTimeMax,
     IsActive,
@@ -69,6 +67,7 @@ impl PrimaryKeyTrait for PrimaryKey {
 pub enum Relation {
     LmsPricingRates,
     LmsShipments,
+    LmsShippingServiceMaxDimensions,
 }
 
 impl ColumnTrait for Column {
@@ -80,7 +79,6 @@ impl ColumnTrait for Column {
             Self::Description => ColumnType::Text.def().null(),
             Self::ServiceType => LmsServiceType::db_type().get_column_type().to_owned().def(),
             Self::MaxWeight => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
-            Self::MaxDimensions => ColumnType::JsonBinary.def().null(),
             Self::DeliveryTimeMin => ColumnType::Integer.def().null(),
             Self::DeliveryTimeMax => ColumnType::Integer.def().null(),
             Self::IsActive => ColumnType::Boolean.def(),
@@ -95,6 +93,9 @@ impl RelationTrait for Relation {
         match self {
             Self::LmsPricingRates => Entity::has_many(super::lms_pricing_rates::Entity).into(),
             Self::LmsShipments => Entity::has_many(super::lms_shipments::Entity).into(),
+            Self::LmsShippingServiceMaxDimensions => {
+                Entity::has_many(super::lms_shipping_service_max_dimensions::Entity).into()
+            }
         }
     }
 }
@@ -108,6 +109,12 @@ impl Related<super::lms_pricing_rates::Entity> for Entity {
 impl Related<super::lms_shipments::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::LmsShipments.def()
+    }
+}
+
+impl Related<super::lms_shipping_service_max_dimensions::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::LmsShippingServiceMaxDimensions.def()
     }
 }
 

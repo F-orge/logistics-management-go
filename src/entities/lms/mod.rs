@@ -1,1 +1,23 @@
-
+pub mod addresses;
+pub mod packages;
+pub mod pricing_rates;
+pub mod pricing_zone_countries;
+pub mod pricing_zones;
+pub mod provider_invoice_line_items;
+pub mod provider_invoices;
+pub mod provider_performance;
+pub mod provider_rates;
+pub mod provider_service_destination_countries;
+pub mod provider_service_max_dimensions;
+pub mod provider_service_origin_countries;
+pub mod provider_services;
+pub mod route_shipments;
+pub mod routes;
+pub mod shipments;
+pub mod shipping_service_max_dimensions;
+pub mod shipping_services;
+pub mod tracking_events;
+pub mod transport_legs;
+pub mod transportation_providers;
+pub mod warehouse_inventories;
+pub mod warehouses;

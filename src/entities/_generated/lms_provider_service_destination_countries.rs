@@ -8,7 +8,7 @@ pub struct Entity;
 
 impl EntityName for Entity {
     fn table_name(&self) -> &str {
-        "lms_pricing_zones"
+        "lms_provider_service_destination_countries"
     }
 }
 
@@ -25,19 +25,17 @@ impl EntityName for Entity {
 pub struct Model {
     #[serde(skip_deserializing)]
     pub id: Uuid,
-    pub name: String,
-    pub zone_code: String,
+    pub provider_service_id: Uuid,
+    pub country_code: String,
     pub created: DateTimeWithTimeZone,
-    pub updated: DateTimeWithTimeZone,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
 pub enum Column {
     Id,
-    Name,
-    ZoneCode,
+    ProviderServiceId,
+    CountryCode,
     Created,
-    Updated,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
@@ -54,7 +52,7 @@ impl PrimaryKeyTrait for PrimaryKey {
 
 #[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    LmsPricingZoneCountries,
+    LmsProviderServices,
 }
 
 impl ColumnTrait for Column {
@@ -62,10 +60,9 @@ impl ColumnTrait for Column {
     fn def(&self) -> ColumnDef {
         match self {
             Self::Id => ColumnType::Uuid.def(),
-            Self::Name => ColumnType::String(StringLen::N(100u32)).def(),
-            Self::ZoneCode => ColumnType::String(StringLen::N(10u32)).def().unique(),
+            Self::ProviderServiceId => ColumnType::Uuid.def(),
+            Self::CountryCode => ColumnType::String(StringLen::N(3u32)).def(),
             Self::Created => ColumnType::TimestampWithTimeZone.def(),
-            Self::Updated => ColumnType::TimestampWithTimeZone.def(),
         }
     }
 }
@@ -73,16 +70,17 @@ impl ColumnTrait for Column {
 impl RelationTrait for Relation {
     fn def(&self) -> RelationDef {
         match self {
-            Self::LmsPricingZoneCountries => {
-                Entity::has_many(super::lms_pricing_zone_countries::Entity).into()
-            }
+            Self::LmsProviderServices => Entity::belongs_to(super::lms_provider_services::Entity)
+                .from(Column::ProviderServiceId)
+                .to(super::lms_provider_services::Column::Id)
+                .into(),
         }
     }
 }
 
-impl Related<super::lms_pricing_zone_countries::Entity> for Entity {
+impl Related<super::lms_provider_services::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::LmsPricingZoneCountries.def()
+        Relation::LmsProviderServices.def()
     }
 }
 

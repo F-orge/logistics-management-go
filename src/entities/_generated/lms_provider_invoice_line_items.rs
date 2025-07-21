@@ -30,7 +30,7 @@ pub struct Model {
     pub description: String,
     pub quantity: i32,
     pub unit_price: Decimal,
-    pub line_total: Decimal,
+    pub line_total: Option<Decimal>,
     pub created: DateTimeWithTimeZone,
     pub updated: DateTimeWithTimeZone,
 }
@@ -76,7 +76,7 @@ impl ColumnTrait for Column {
             Self::Description => ColumnType::String(StringLen::N(500u32)).def(),
             Self::Quantity => ColumnType::Integer.def(),
             Self::UnitPrice => ColumnType::Decimal(Some((10u32, 2u32))).def(),
-            Self::LineTotal => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::LineTotal => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
             Self::Created => ColumnType::TimestampWithTimeZone.def(),
             Self::Updated => ColumnType::TimestampWithTimeZone.def(),
         }

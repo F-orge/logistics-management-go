@@ -32,7 +32,7 @@ pub struct Model {
     pub due_date: Date,
     pub subtotal: Decimal,
     pub tax_amount: Option<Decimal>,
-    pub total_amount: Decimal,
+    pub total_amount: Option<Decimal>,
     pub currency: String,
     pub status: LmsProviderInvoiceStatus,
     pub payment_date: Option<Date>,
@@ -86,7 +86,7 @@ impl ColumnTrait for Column {
             Self::DueDate => ColumnType::Date.def(),
             Self::Subtotal => ColumnType::Decimal(Some((10u32, 2u32))).def(),
             Self::TaxAmount => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
-            Self::TotalAmount => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::TotalAmount => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
             Self::Currency => ColumnType::String(StringLen::N(3u32)).def(),
             Self::Status => LmsProviderInvoiceStatus::db_type()
                 .get_column_type()
