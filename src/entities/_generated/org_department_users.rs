@@ -22,6 +22,7 @@ impl EntityName for Entity {
     Deserialize,
     async_graphql :: SimpleObject,
 )]
+#[graphql(name = "OrgDepartmentUsersModel")]
 pub struct Model {
     #[serde(skip_deserializing)]
     pub id: Uuid,
@@ -35,6 +36,7 @@ pub struct Model {
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn, PartialEq, Eq, async_graphql::Enum)]
+#[graphql(name = "OrgDepartmentUsersColumn")]
 pub enum Column {
     Id,
     DepartmentId,

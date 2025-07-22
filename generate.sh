@@ -20,10 +20,53 @@ DELIMITER='|'
 
 echo "Searching for files and performing replacement in '$(pwd)'..."
 
-if [[ $(uname) == "Darwin" ]]; then
-  find . -type f -name "*.rs" -print0 | xargs -0 sed -i '' "s${DELIMITER}${ESCAPED_OLD_DERIVE_MACRO}${DELIMITER}${NEW_DERIVE_MACRO}${DELIMITER}g"
-else
-  find . -type f -name "*.rs" -print0 | xargs -0 sed -i "s${DELIMITER}${ESCAPED_OLD_DERIVE_MACRO}${DELIMITER}${NEW_DERIVE_MACRO}${DELIMITER}g"
-fi
+find . -type f -name "*.rs" | while read -r file; do
+    # Get the base filename without the .rs extension (e.g., "./my_file" -> "my_file")
+    base_filename=$(basename "$file" .rs)
 
-echo "✅ Script finished successfully. Derive macros have been updated."
+    # Convert snake_case filename to PascalCase for the graphql macro name.
+    pascal_case_name=$(echo "$base_filename" | perl -pe 's/(^|_)([a-z])/\u$2/g')
+
+    # --- Task 1: Update the `enum Column` ---
+    enum_graphql_macro="#[graphql(name = \"${pascal_case_name}Column\")]"
+
+    # Check if the enum is already updated.
+    if grep -qF "$enum_graphql_macro" "$file"; then
+        echo "  ⚪️ Skipped Enum (already updated): $(basename "$file")"
+    else
+        echo "  ⏳ Updating Enum in: $(basename "$file")"
+        # Use awk to replace the old macro and insert the new one.
+        awk -v old="$OLD_DERIVE_MACRO" \
+            -v new="$NEW_DERIVE_MACRO" \
+            -v gql="$enum_graphql_macro" \
+            '
+            $0 == old {
+                print new
+                print gql
+                next
+            }
+            { print }
+            ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+        echo "  ✅ Updated Enum in: $(basename "$file")"
+    fi
+
+    # --- Task 2: Update the `struct Model` ---
+    model_graphql_macro="#[graphql(name = \"${pascal_case_name}Model\")]"
+
+    # Check if the struct is already updated.
+    if grep -qF "$model_graphql_macro" "$file"; then
+        echo "  ⚪️ Skipped Model (already updated): $(basename "$file")"
+    else
+        echo "  ⏳ Updating Model in: $(basename "$file")"
+        # Use awk to insert the new macro before `pub struct Model {`
+        awk -v gql_model="$model_graphql_macro" '
+        /^\s*pub struct Model \{/ {
+            print gql_model
+        }
+        { print }
+        ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+        echo "  ✅ Updated Model in: $(basename "$file")"
+    fi
+done
+
+echo "✅ Script finished successfully."
