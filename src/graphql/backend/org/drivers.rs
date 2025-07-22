@@ -1,81 +1,45 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
-    QueryFilter, QueryOrder,
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
+    PaginatorTrait, QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_cases::{
-    Column as CaseColumn, Entity as CaseEntity, Model as CaseModel,
+use crate::entities::_generated::org_drivers::{
+    Column as DriverColumn, Entity as DriverEntity, Model as DriverModel,
 };
-use crate::entities::crm::cases::{CreateCase, UpdateCase};
+use crate::entities::org::drivers::{CreateDriver, UpdateDriver};
 use crate::entities::{FilterOperator, SortOrder};
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CasesSort {
-    pub column: CaseColumn,
+pub struct DriversSort {
+    pub column: DriverColumn,
     pub order: SortOrder,
 }
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CaseFilter {
-    pub column: CaseColumn,
+pub struct DriverFilter {
+    pub column: DriverColumn,
     pub operator: FilterOperator,
     pub value: String,
 }
 
 #[derive(Default)]
-pub struct CasesQuery;
-
-pub struct CaseNode {
-    pub model: CaseModel,
-}
+pub struct DriversQuery;
 
 #[Object]
-impl CaseNode {
-    async fn id(&self) -> Uuid {
-        self.model.id
-    }
-    async fn subject(&self) -> &str {
-        &self.model.subject
-    }
-    async fn description(&self) -> &str {
-        &self.model.description
-    }
-    async fn status(&self) -> &crate::entities::_generated::sea_orm_active_enums::CrmCaseStatus {
-        &self.model.status
-    }
-    async fn priority(
-        &self,
-    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmCasePriority {
-        &self.model.priority
-    }
-    async fn contact_id(&self) -> Option<Uuid> {
-        self.model.contact_id
-    }
-    async fn closed_at(&self) -> Option<chrono::DateTime<chrono::FixedOffset>> {
-        self.model.closed_at
-    }
-    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
-        self.model.created
-    }
-    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
-        self.model.updated
-    }
-}
-
-#[Object]
-impl CasesQuery {
+impl DriversQuery {
     async fn list(
         &self,
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<CasesSort>>,
-        filter_by: Option<Vec<CaseFilter>>,
-    ) -> async_graphql::Result<Vec<CaseNode>> {
+        sort_by: Option<Vec<DriversSort>>,
+        filter_by: Option<Vec<DriverFilter>>,
+    ) -> async_graphql::Result<Vec<DriverNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let mut query = CaseEntity::find();
+        let mut query = DriverEntity::find();
+
         if let Some(sorts) = sort_by {
             for sort in sorts {
                 let order = match sort.order {
@@ -85,6 +49,7 @@ impl CasesQuery {
                 query = query.order_by(sort.column, order);
             }
         }
+
         if let Some(filters) = filter_by {
             for filter in filters {
                 query = match filter.operator {
@@ -111,52 +76,107 @@ impl CasesQuery {
                 };
             }
         }
-        let cases = query
+        let drivers = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
             .await?;
-        Ok(cases.into_iter().map(|model| CaseNode { model }).collect())
+
+        Ok(drivers
+            .into_iter()
+            .map(|driver| DriverNode { model: driver })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Option<CaseNode>> {
+
+    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Option<DriverNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let case = CaseEntity::find_by_id(id).one(db).await?;
-        Ok(case.map(|model| CaseNode { model }))
+        let driver = DriverEntity::find_by_id(id).one(db).await?;
+        Ok(driver.map(|model| DriverNode { model }))
+    }
+}
+
+pub struct DriverNode {
+    pub model: DriverModel,
+}
+
+#[Object]
+impl DriverNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+
+    async fn employee_id(&self) -> &str {
+        &self.model.employee_id
+    }
+
+    async fn first_name(&self) -> &str {
+        &self.model.first_name
+    }
+
+    async fn last_name(&self) -> &str {
+        &self.model.last_name
+    }
+
+    async fn license_number(&self) -> &str {
+        &self.model.license_number
+    }
+
+    async fn phone_number(&self) -> &str {
+        &self.model.phone_number
+    }
+
+    async fn email(&self) -> &str {
+        &self.model.email
+    }
+
+    async fn hire_date(&self) -> &sea_orm::prelude::Date {
+        &self.model.hire_date
+    }
+
+    async fn status(&self) -> &crate::entities::_generated::sea_orm_active_enums::OrgDriverStatus {
+        &self.model.status
+    }
+
+    async fn created(&self) -> &sea_orm::prelude::DateTimeWithTimeZone {
+        &self.model.created
+    }
+
+    async fn updated(&self) -> &sea_orm::prelude::DateTimeWithTimeZone {
+        &self.model.updated
     }
 }
 
 #[derive(Default)]
-pub struct CasesMutation;
+pub struct DriversMutation;
 
 #[Object]
-impl CasesMutation {
+impl DriversMutation {
     async fn create(
         &self,
         ctx: &Context<'_>,
-        payload: CreateCase,
-    ) -> async_graphql::Result<CaseNode> {
+        payload: CreateDriver,
+    ) -> async_graphql::Result<DriverNode> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let case = payload.into_active_model();
-        let case = case.insert(db).await?;
-        Ok(CaseNode { model: case })
+        let driver = payload.into_active_model();
+        let driver = driver.insert(db).await?;
+        Ok(DriverNode { model: driver })
     }
+
     async fn update(
         &self,
         ctx: &Context<'_>,
-        payload: UpdateCase,
-    ) -> async_graphql::Result<CaseNode> {
+        payload: UpdateDriver,
+    ) -> async_graphql::Result<DriverNode> {
         let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
-        let updated_case = active_model.update(db).await?;
-        Ok(CaseNode {
-            model: updated_case,
+        let updated_driver = active_model.update(db).await?;
+        Ok(DriverNode {
+            model: updated_driver,
         })
     }
+
     async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
         let db = ctx.data::<DatabaseConnection>()?;
-        CaseEntity::delete_by_id(id)
-            .exec(db)
-            .await
-            .map_err(|e| anyhow::anyhow!("Failed to delete case: {}", e))?;
-        Ok(format!("Deleted case with ID: {}", id))
+        DriverEntity::delete_by_id(id).exec(db).await?;
+        Ok(format!("Deleted driver with ID: {}", id))
     }
 }

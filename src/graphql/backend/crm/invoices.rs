@@ -1,4 +1,5 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::entity::prelude::Decimal;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
     PaginatorTrait, QueryFilter, QueryOrder,
@@ -27,6 +28,56 @@ pub struct InvoiceFilter {
 #[derive(Default)]
 pub struct InvoicesQuery;
 
+pub struct InvoiceNode {
+    pub model: InvoiceModel,
+}
+
+#[Object]
+impl InvoiceNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn invoice_number(&self) -> &str {
+        &self.model.invoice_number
+    }
+    async fn company_id(&self) -> Option<Uuid> {
+        self.model.company_id
+    }
+    async fn contact_id(&self) -> Option<Uuid> {
+        self.model.contact_id
+    }
+    async fn invoice_date(&self) -> chrono::NaiveDate {
+        self.model.invoice_date
+    }
+    async fn due_date(&self) -> chrono::NaiveDate {
+        self.model.due_date
+    }
+    async fn subtotal(&self) -> &Decimal {
+        &self.model.subtotal
+    }
+    async fn tax_amount(&self) -> &Decimal {
+        &self.model.tax_amount
+    }
+    async fn total_amount(&self) -> &Decimal {
+        &self.model.total_amount
+    }
+    async fn currency(&self) -> &str {
+        &self.model.currency
+    }
+    async fn status(&self) -> &crate::entities::_generated::sea_orm_active_enums::CrmInvoiceStatus {
+        &self.model.status
+    }
+    async fn payment_terms(&self) -> Option<&str> {
+        self.model.payment_terms.as_deref()
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl InvoicesQuery {
     async fn list(
@@ -36,8 +87,8 @@ impl InvoicesQuery {
         limit: u64,
         sort_by: Option<Vec<InvoicesSort>>,
         filter_by: Option<Vec<InvoiceFilter>>,
-    ) -> Vec<InvoiceModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<InvoiceNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = InvoiceEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,14 +128,20 @@ impl InvoicesQuery {
         let invoices = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        invoices
+            .await?;
+        Ok(invoices
+            .into_iter()
+            .map(|model| InvoiceNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<InvoiceModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let invoice = InvoiceEntity::find_by_id(id).one(db).await.unwrap_or(None);
-        invoice
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<InvoiceNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let invoice = InvoiceEntity::find_by_id(id).one(db).await?;
+        Ok(invoice.map(|model| InvoiceNode { model }))
     }
 }
 
@@ -97,24 +154,26 @@ impl InvoicesMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateInvoice,
-    ) -> anyhow::Result<InvoiceModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InvoiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let invoice = payload.into_active_model();
         let invoice = invoice.insert(db).await?;
-        Ok(invoice)
+        Ok(InvoiceNode { model: invoice })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateInvoice,
-    ) -> anyhow::Result<InvoiceModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InvoiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_invoice = active_model.update(db).await?;
-        Ok(updated_invoice)
+        Ok(InvoiceNode {
+            model: updated_invoice,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         InvoiceEntity::delete_by_id(id)
             .exec(db)
             .await

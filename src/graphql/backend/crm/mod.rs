@@ -19,7 +19,6 @@ pub struct CrmQuery {
     companies: companies::CompaniesQuery,
     cases: cases::CasesQuery,
     interactions: interactions::InteractionsQuery,
-    invoice_line_items: invoice_line_items::InvoiceLineItemsQuery,
     invoices: invoices::InvoicesQuery,
     leads: leads::LeadsQuery,
     notifications: notifications::NotificationsQuery,

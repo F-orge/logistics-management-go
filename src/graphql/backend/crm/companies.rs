@@ -1,7 +1,7 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
@@ -27,6 +27,44 @@ pub struct CompanyFilter {
 #[derive(Default)]
 pub struct CompaniesQuery;
 
+pub struct CompanyNode {
+    pub model: CompanyModel,
+}
+
+#[Object]
+impl CompanyNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn name(&self) -> &str {
+        &self.model.name
+    }
+    async fn description(&self) -> Option<&str> {
+        self.model.description.as_deref()
+    }
+    async fn email(&self) -> Option<&str> {
+        self.model.email.as_deref()
+    }
+    async fn website(&self) -> Option<&str> {
+        self.model.website.as_deref()
+    }
+    async fn industry(&self) -> Option<&str> {
+        self.model.industry.as_deref()
+    }
+    async fn phone_number(&self) -> Option<&str> {
+        self.model.phone_number.as_deref()
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+    async fn address_id(&self) -> Option<Uuid> {
+        self.model.address_id
+    }
+}
+
 #[Object]
 impl CompaniesQuery {
     async fn list(
@@ -36,8 +74,8 @@ impl CompaniesQuery {
         limit: u64,
         sort_by: Option<Vec<CompaniesSort>>,
         filter_by: Option<Vec<CompanyFilter>>,
-    ) -> Vec<CompanyModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<CompanyNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = CompanyEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,14 +115,20 @@ impl CompaniesQuery {
         let companies = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        companies
+            .await?;
+        Ok(companies
+            .into_iter()
+            .map(|model| CompanyNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<CompanyModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let company = CompanyEntity::find_by_id(id).one(db).await.unwrap_or(None);
-        company
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<CompanyNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let company = CompanyEntity::find_by_id(id).one(db).await?;
+        Ok(company.map(|model| CompanyNode { model }))
     }
 }
 
@@ -97,24 +141,26 @@ impl CompaniesMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateCompany,
-    ) -> anyhow::Result<CompanyModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<CompanyNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let company = payload.into_active_model();
         let company = company.insert(db).await?;
-        Ok(company)
+        Ok(CompanyNode { model: company })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateCompany,
-    ) -> anyhow::Result<CompanyModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<CompanyNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_company = active_model.update(db).await?;
-        Ok(updated_company)
+        Ok(CompanyNode {
+            model: updated_company,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         CompanyEntity::delete_by_id(id)
             .exec(db)
             .await

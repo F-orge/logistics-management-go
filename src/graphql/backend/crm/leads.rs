@@ -27,6 +27,52 @@ pub struct LeadFilter {
 #[derive(Default)]
 pub struct LeadsQuery;
 
+pub struct LeadNode {
+    pub model: LeadModel,
+}
+
+#[Object]
+impl LeadNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn first_name(&self) -> &str {
+        &self.model.first_name
+    }
+    async fn last_name(&self) -> &str {
+        &self.model.last_name
+    }
+    async fn email(&self) -> &str {
+        &self.model.email
+    }
+    async fn phone_number(&self) -> Option<&str> {
+        self.model.phone_number.as_deref()
+    }
+    async fn company_name(&self) -> Option<&str> {
+        self.model.company_name.as_deref()
+    }
+    async fn lead_source(&self) -> Option<&str> {
+        self.model.lead_source.as_deref()
+    }
+    async fn lead_status(
+        &self,
+    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmLeadStatus {
+        &self.model.lead_status
+    }
+    async fn lead_score(&self) -> i32 {
+        self.model.lead_score
+    }
+    async fn converted_to_contact_id(&self) -> Option<Uuid> {
+        self.model.converted_to_contact_id
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl LeadsQuery {
     async fn list(
@@ -36,8 +82,8 @@ impl LeadsQuery {
         limit: u64,
         sort_by: Option<Vec<LeadsSort>>,
         filter_by: Option<Vec<LeadFilter>>,
-    ) -> Vec<LeadModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<LeadNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = LeadEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,14 +123,13 @@ impl LeadsQuery {
         let leads = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        leads
+            .await?;
+        Ok(leads.into_iter().map(|model| LeadNode { model }).collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<LeadModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let lead = LeadEntity::find_by_id(id).one(db).await.unwrap_or(None);
-        lead
+    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Option<LeadNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let lead = LeadEntity::find_by_id(id).one(db).await?;
+        Ok(lead.map(|model| LeadNode { model }))
     }
 }
 
@@ -93,20 +138,30 @@ pub struct LeadsMutation;
 
 #[Object]
 impl LeadsMutation {
-    async fn create(&self, ctx: &Context<'_>, payload: CreateLead) -> anyhow::Result<LeadModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn create(
+        &self,
+        ctx: &Context<'_>,
+        payload: CreateLead,
+    ) -> async_graphql::Result<LeadNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let lead = payload.into_active_model();
         let lead = lead.insert(db).await?;
-        Ok(lead)
+        Ok(LeadNode { model: lead })
     }
-    async fn update(&self, ctx: &Context<'_>, payload: UpdateLead) -> anyhow::Result<LeadModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn update(
+        &self,
+        ctx: &Context<'_>,
+        payload: UpdateLead,
+    ) -> async_graphql::Result<LeadNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_lead = active_model.update(db).await?;
-        Ok(updated_lead)
+        Ok(LeadNode {
+            model: updated_lead,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         LeadEntity::delete_by_id(id)
             .exec(db)
             .await

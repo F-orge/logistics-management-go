@@ -28,6 +28,53 @@ pub struct ContactFilter {
 #[derive(Default)]
 pub struct ContactsQuery;
 
+pub struct ContactNode {
+    pub model: ContactModel,
+}
+
+#[Object]
+impl ContactNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn first_name(&self) -> &str {
+        &self.model.first_name
+    }
+    async fn last_name(&self) -> &str {
+        &self.model.last_name
+    }
+    async fn email(&self) -> &str {
+        &self.model.email
+    }
+    async fn phone_number(&self) -> Option<&str> {
+        self.model.phone_number.as_deref()
+    }
+    async fn job_title(&self) -> Option<&str> {
+        self.model.job_title.as_deref()
+    }
+    async fn lead_source(&self) -> Option<&str> {
+        self.model.lead_source.as_deref()
+    }
+    async fn status(&self) -> &crate::entities::_generated::sea_orm_active_enums::CrmContactStatus {
+        &self.model.status
+    }
+    async fn birth_date(&self) -> Option<chrono::NaiveDate> {
+        self.model.birth_date
+    }
+    async fn company_id(&self) -> Option<Uuid> {
+        self.model.company_id
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+    async fn address_id(&self) -> Option<Uuid> {
+        self.model.address_id
+    }
+}
+
 #[Object]
 impl ContactsQuery {
     async fn list(
@@ -37,11 +84,9 @@ impl ContactsQuery {
         limit: u64,
         sort_by: Option<Vec<ContactsSort>>,
         filter_by: Option<Vec<ContactFilter>>,
-    ) -> Vec<ContactModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-
+    ) -> async_graphql::Result<Vec<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = ContactEntity::find();
-
         if let Some(sorts) = sort_by {
             for sort in sorts {
                 let order = match sort.order {
@@ -51,7 +96,6 @@ impl ContactsQuery {
                 query = query.order_by(sort.column, order);
             }
         }
-
         if let Some(filters) = filter_by {
             for filter in filters {
                 query = match filter.operator {
@@ -78,21 +122,23 @@ impl ContactsQuery {
                 };
             }
         }
-
         let contacts = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-
-        contacts
+            .await?;
+        Ok(contacts
+            .into_iter()
+            .map(|model| ContactNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<ContactModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-
-        let contact = ContactEntity::find_by_id(id).one(db).await.unwrap_or(None);
-
-        contact
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let contact = ContactEntity::find_by_id(id).one(db).await?;
+        Ok(contact.map(|model| ContactNode { model }))
     }
 }
 
@@ -105,36 +151,30 @@ impl ContactsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateContact,
-    ) -> anyhow::Result<ContactModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-
+    ) -> async_graphql::Result<ContactNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let contact = payload.into_active_model();
-
         let contact = contact.insert(db).await?;
-
-        Ok(contact)
+        Ok(ContactNode { model: contact })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateContact,
-    ) -> anyhow::Result<ContactModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-
+    ) -> async_graphql::Result<ContactNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
-
         let updated_contact = active_model.update(db).await?;
-
-        Ok(updated_contact)
+        Ok(ContactNode {
+            model: updated_contact,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         ContactEntity::delete_by_id(id)
             .exec(db)
             .await
             .map_err(|e| anyhow::anyhow!("Failed to delete contact: {}", e))?;
-
         Ok(format!("Deleted contact with ID: {}", id))
     }
 }

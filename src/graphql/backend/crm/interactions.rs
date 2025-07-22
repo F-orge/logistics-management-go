@@ -27,6 +27,43 @@ pub struct InteractionFilter {
 #[derive(Default)]
 pub struct InteractionsQuery;
 
+pub struct InteractionNode {
+    pub model: InteractionModel,
+}
+
+#[Object]
+impl InteractionNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn r#type(
+        &self,
+    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmInteractionType {
+        &self.model.r#type
+    }
+    async fn subject(&self) -> Option<&str> {
+        self.model.subject.as_deref()
+    }
+    async fn description(&self) -> Option<&str> {
+        self.model.description.as_deref()
+    }
+    async fn interaction_date(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.interaction_date
+    }
+    async fn contact_id(&self) -> Option<Uuid> {
+        self.model.contact_id
+    }
+    async fn opportunity_id(&self) -> Option<Uuid> {
+        self.model.opportunity_id
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl InteractionsQuery {
     async fn list(
@@ -36,8 +73,8 @@ impl InteractionsQuery {
         limit: u64,
         sort_by: Option<Vec<InteractionsSort>>,
         filter_by: Option<Vec<InteractionFilter>>,
-    ) -> Vec<InteractionModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<InteractionNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = InteractionEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,17 +114,20 @@ impl InteractionsQuery {
         let interactions = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        interactions
+            .await?;
+        Ok(interactions
+            .into_iter()
+            .map(|model| InteractionNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<InteractionModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let interaction = InteractionEntity::find_by_id(id)
-            .one(db)
-            .await
-            .unwrap_or(None);
-        interaction
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<InteractionNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let interaction = InteractionEntity::find_by_id(id).one(db).await?;
+        Ok(interaction.map(|model| InteractionNode { model }))
     }
 }
 
@@ -100,24 +140,26 @@ impl InteractionsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateInteraction,
-    ) -> anyhow::Result<InteractionModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InteractionNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let interaction = payload.into_active_model();
         let interaction = interaction.insert(db).await?;
-        Ok(interaction)
+        Ok(InteractionNode { model: interaction })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateInteraction,
-    ) -> anyhow::Result<InteractionModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InteractionNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_interaction = active_model.update(db).await?;
-        Ok(updated_interaction)
+        Ok(InteractionNode {
+            model: updated_interaction,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         InteractionEntity::delete_by_id(id)
             .exec(db)
             .await

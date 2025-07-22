@@ -1,4 +1,5 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::entity::prelude::Decimal;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
     PaginatorTrait, QueryFilter, QueryOrder,
@@ -27,6 +28,35 @@ pub struct ProductFilter {
 #[derive(Default)]
 pub struct ProductsQuery;
 
+pub struct ProductNode {
+    pub model: ProductModel,
+}
+
+#[Object]
+impl ProductNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn name(&self) -> &str {
+        &self.model.name
+    }
+    async fn description(&self) -> Option<&str> {
+        self.model.description.as_deref()
+    }
+    async fn price(&self) -> &Decimal {
+        &self.model.price
+    }
+    async fn sku(&self) -> Option<&str> {
+        self.model.sku.as_deref()
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl ProductsQuery {
     async fn list(
@@ -36,8 +66,8 @@ impl ProductsQuery {
         limit: u64,
         sort_by: Option<Vec<ProductsSort>>,
         filter_by: Option<Vec<ProductFilter>>,
-    ) -> Vec<ProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<ProductNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = ProductEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,14 +107,20 @@ impl ProductsQuery {
         let products = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        products
+            .await?;
+        Ok(products
+            .into_iter()
+            .map(|model| ProductNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<ProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let product = ProductEntity::find_by_id(id).one(db).await.unwrap_or(None);
-        product
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<ProductNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let product = ProductEntity::find_by_id(id).one(db).await?;
+        Ok(product.map(|model| ProductNode { model }))
     }
 }
 
@@ -97,24 +133,26 @@ impl ProductsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateProduct,
-    ) -> anyhow::Result<ProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<ProductNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let product = payload.into_active_model();
         let product = product.insert(db).await?;
-        Ok(product)
+        Ok(ProductNode { model: product })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateProduct,
-    ) -> anyhow::Result<ProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<ProductNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_product = active_model.update(db).await?;
-        Ok(updated_product)
+        Ok(ProductNode {
+            model: updated_product,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         ProductEntity::delete_by_id(id)
             .exec(db)
             .await

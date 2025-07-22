@@ -1,7 +1,7 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    PaginatorTrait, QueryFilter, QueryOrder, entity::prelude::Decimal,
 };
 use uuid::Uuid;
 
@@ -24,70 +24,38 @@ pub struct InvoiceLineItemFilter {
     pub value: String,
 }
 
-#[derive(Default)]
-pub struct InvoiceLineItemsQuery;
+pub struct InvoiceLineItemNode {
+    pub model: InvoiceLineItemModel,
+}
 
 #[Object]
-impl InvoiceLineItemsQuery {
-    async fn list(
-        &self,
-        ctx: &Context<'_>,
-        page: u64,
-        limit: u64,
-        sort_by: Option<Vec<InvoiceLineItemsSort>>,
-        filter_by: Option<Vec<InvoiceLineItemFilter>>,
-    ) -> Vec<InvoiceLineItemModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let mut query = InvoiceLineItemEntity::find();
-        if let Some(sorts) = sort_by {
-            for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
-            }
-        }
-        if let Some(filters) = filter_by {
-            for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
-            }
-        }
-        let items = query
-            .paginate(db, limit as u64)
-            .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        items
+impl InvoiceLineItemNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<InvoiceLineItemModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let item = InvoiceLineItemEntity::find_by_id(id)
-            .one(db)
-            .await
-            .unwrap_or(None);
-        item
+    async fn invoice_id(&self) -> Uuid {
+        self.model.invoice_id
+    }
+    async fn shipment_id(&self) -> Option<Uuid> {
+        self.model.shipment_id
+    }
+    async fn description(&self) -> &str {
+        &self.model.description
+    }
+    async fn quantity(&self) -> Decimal {
+        self.model.quantity
+    }
+    async fn unit_price(&self) -> Decimal {
+        self.model.unit_price
+    }
+    async fn line_total(&self) -> Option<Decimal> {
+        self.model.line_total
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
     }
 }
 
@@ -100,24 +68,26 @@ impl InvoiceLineItemsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateInvoiceLineItem,
-    ) -> anyhow::Result<InvoiceLineItemModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InvoiceLineItemNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let item = payload.into_active_model();
         let item = item.insert(db).await?;
-        Ok(item)
+        Ok(InvoiceLineItemNode { model: item })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateInvoiceLineItem,
-    ) -> anyhow::Result<InvoiceLineItemModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<InvoiceLineItemNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_item = active_model.update(db).await?;
-        Ok(updated_item)
+        Ok(InvoiceLineItemNode {
+            model: updated_item,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         InvoiceLineItemEntity::delete_by_id(id)
             .exec(db)
             .await

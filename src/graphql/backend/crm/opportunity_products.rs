@@ -1,4 +1,5 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::entity::prelude::Decimal;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
     PaginatorTrait, QueryFilter, QueryOrder,
@@ -30,6 +31,38 @@ pub struct OpportunityProductFilter {
 #[derive(Default)]
 pub struct OpportunityProductsQuery;
 
+pub struct OpportunityProductNode {
+    pub model: OpportunityProductModel,
+}
+
+#[Object]
+impl OpportunityProductNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn opportunity_id(&self) -> Uuid {
+        self.model.opportunity_id
+    }
+    async fn product_id(&self) -> Uuid {
+        self.model.product_id
+    }
+    async fn quantity(&self) -> Decimal {
+        self.model.quantity
+    }
+    async fn unit_price(&self) -> Decimal {
+        self.model.unit_price
+    }
+    async fn total_price(&self) -> Option<Decimal> {
+        self.model.total_price
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl OpportunityProductsQuery {
     async fn list(
@@ -39,8 +72,8 @@ impl OpportunityProductsQuery {
         limit: u64,
         sort_by: Option<Vec<OpportunityProductsSort>>,
         filter_by: Option<Vec<OpportunityProductFilter>>,
-    ) -> Vec<OpportunityProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<OpportunityProductNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = OpportunityProductEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -80,17 +113,20 @@ impl OpportunityProductsQuery {
         let opportunity_products = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        opportunity_products
+            .await?;
+        Ok(opportunity_products
+            .into_iter()
+            .map(|model| OpportunityProductNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<OpportunityProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let opportunity_product = OpportunityProductEntity::find_by_id(id)
-            .one(db)
-            .await
-            .unwrap_or(None);
-        opportunity_product
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<OpportunityProductNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let opportunity_product = OpportunityProductEntity::find_by_id(id).one(db).await?;
+        Ok(opportunity_product.map(|model| OpportunityProductNode { model }))
     }
 }
 
@@ -103,24 +139,28 @@ impl OpportunityProductsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateOpportunityProduct,
-    ) -> anyhow::Result<OpportunityProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<OpportunityProductNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let opportunity_product = payload.into_active_model();
         let opportunity_product = opportunity_product.insert(db).await?;
-        Ok(opportunity_product)
+        Ok(OpportunityProductNode {
+            model: opportunity_product,
+        })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateOpportunityProduct,
-    ) -> anyhow::Result<OpportunityProductModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<OpportunityProductNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_opportunity_product = active_model.update(db).await?;
-        Ok(updated_opportunity_product)
+        Ok(OpportunityProductNode {
+            model: updated_opportunity_product,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         OpportunityProductEntity::delete_by_id(id)
             .exec(db)
             .await

@@ -1,5 +1,6 @@
 mod auth;
 mod crm;
+mod org;
 
 use async_graphql::SimpleObject;
 
@@ -7,10 +8,12 @@ use async_graphql::SimpleObject;
 pub struct Query {
     pub auth: auth::AuthQuery,
     pub crm: crm::CrmQuery,
+    pub org: org::OrgQuery,
 }
 
 #[derive(SimpleObject, Default)]
 pub struct Mutation {
     pub auth: auth::AuthMutation,
     pub crm: crm::CrmMutation,
+    pub org: org::OrgMutation,
 }

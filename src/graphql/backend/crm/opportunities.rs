@@ -1,4 +1,5 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::entity::prelude::Decimal;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
     PaginatorTrait, QueryFilter, QueryOrder,
@@ -27,6 +28,46 @@ pub struct OpportunityFilter {
 #[derive(Default)]
 pub struct OpportunitiesQuery;
 
+pub struct OpportunityNode {
+    pub model: OpportunityModel,
+}
+
+#[Object]
+impl OpportunityNode {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn name(&self) -> &str {
+        &self.model.name
+    }
+    async fn company_id(&self) -> Option<Uuid> {
+        self.model.company_id
+    }
+    async fn primary_contact_id(&self) -> Option<Uuid> {
+        self.model.primary_contact_id
+    }
+    async fn stage(
+        &self,
+    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmOpportunityStage {
+        &self.model.stage
+    }
+    async fn amount(&self) -> Decimal {
+        self.model.amount
+    }
+    async fn close_date(&self) -> Option<chrono::NaiveDate> {
+        self.model.close_date
+    }
+    async fn probability(&self) -> Decimal {
+        self.model.probability
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
+    }
+}
+
 #[Object]
 impl OpportunitiesQuery {
     async fn list(
@@ -36,8 +77,8 @@ impl OpportunitiesQuery {
         limit: u64,
         sort_by: Option<Vec<OpportunitiesSort>>,
         filter_by: Option<Vec<OpportunityFilter>>,
-    ) -> Vec<OpportunityModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<Vec<OpportunityNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let mut query = OpportunityEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
@@ -77,17 +118,20 @@ impl OpportunitiesQuery {
         let opportunities = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
-            .await
-            .unwrap_or_default();
-        opportunities
+            .await?;
+        Ok(opportunities
+            .into_iter()
+            .map(|model| OpportunityNode { model })
+            .collect())
     }
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> Option<OpportunityModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
-        let opportunity = OpportunityEntity::find_by_id(id)
-            .one(db)
-            .await
-            .unwrap_or(None);
-        opportunity
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<OpportunityNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let opportunity = OpportunityEntity::find_by_id(id).one(db).await?;
+        Ok(opportunity.map(|model| OpportunityNode { model }))
     }
 }
 
@@ -100,24 +144,26 @@ impl OpportunitiesMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateOpportunity,
-    ) -> anyhow::Result<OpportunityModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<OpportunityNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let opportunity = payload.into_active_model();
         let opportunity = opportunity.insert(db).await?;
-        Ok(opportunity)
+        Ok(OpportunityNode { model: opportunity })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateOpportunity,
-    ) -> anyhow::Result<OpportunityModel> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    ) -> async_graphql::Result<OpportunityNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_opportunity = active_model.update(db).await?;
-        Ok(updated_opportunity)
+        Ok(OpportunityNode {
+            model: updated_opportunity,
+        })
     }
-    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> anyhow::Result<String> {
-        let db = ctx.data::<DatabaseConnection>().unwrap();
+    async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+        let db = ctx.data::<DatabaseConnection>()?;
         OpportunityEntity::delete_by_id(id)
             .exec(db)
             .await

@@ -5,90 +5,47 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_notifications::{
-    Column as NotificationColumn, Entity as NotificationEntity, Model as NotificationModel,
+use crate::entities::_generated::org_department_transport_modes::{
+    Column as DepartmentTransportModeColumn, Entity as DepartmentTransportModeEntity,
+    Model as DepartmentTransportModeModel,
 };
-use crate::entities::crm::notifications::{CreateNotification, UpdateNotification};
+use crate::entities::org::department_transport_modes::{
+    CreateDepartmentTransportMode, UpdateDepartmentTransportMode,
+};
 use crate::entities::{FilterOperator, SortOrder};
 
 #[derive(Debug, Clone, InputObject)]
-pub struct NotificationsSort {
-    pub column: NotificationColumn,
+pub struct DepartmentTransportModesSort {
+    pub column: DepartmentTransportModeColumn,
     pub order: SortOrder,
 }
 
 #[derive(Debug, Clone, InputObject)]
-pub struct NotificationFilter {
-    pub column: NotificationColumn,
+pub struct DepartmentTransportModeFilter {
+    pub column: DepartmentTransportModeColumn,
     pub operator: FilterOperator,
     pub value: String,
 }
 
-#[derive(Default)]
-pub struct NotificationsQuery;
-
-pub struct NotificationNode {
-    pub model: NotificationModel,
+pub struct DepartmentTransportModesQuery {
+    pub department_id: Uuid,
 }
 
 #[Object]
-impl NotificationNode {
-    async fn id(&self) -> Uuid {
-        self.model.id
-    }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
-    }
-    async fn contact_id(&self) -> Uuid {
-        self.model.contact_id
-    }
-    async fn notification_type(
-        &self,
-    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmNotificationType {
-        &self.model.notification_type
-    }
-    async fn channel(
-        &self,
-    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmNotificationChannel {
-        &self.model.channel
-    }
-    async fn recipient(&self) -> &str {
-        &self.model.recipient
-    }
-    async fn subject(&self) -> Option<&str> {
-        self.model.subject.as_deref()
-    }
-    async fn message(&self) -> &str {
-        &self.model.message
-    }
-    async fn sent_at(&self) -> Option<chrono::DateTime<chrono::FixedOffset>> {
-        self.model.sent_at
-    }
-    async fn delivery_status(
-        &self,
-    ) -> &crate::entities::_generated::sea_orm_active_enums::CrmNotificationDeliveryStatus {
-        &self.model.delivery_status
-    }
-    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
-        self.model.created
-    }
-    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
-        self.model.updated
-    }
-}
-
-#[Object]
-impl NotificationsQuery {
+impl DepartmentTransportModesQuery {
     async fn list(
         &self,
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<NotificationsSort>>,
-        filter_by: Option<Vec<NotificationFilter>>,
-    ) -> async_graphql::Result<Vec<NotificationNode>> {
+        sort_by: Option<Vec<DepartmentTransportModesSort>>,
+        filter_by: Option<Vec<DepartmentTransportModeFilter>>,
+    ) -> async_graphql::Result<Vec<DepartmentTransportModesNodes>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let mut query = NotificationEntity::find();
+        let mut query = DepartmentTransportModeEntity::find().filter(
+            sea_orm::sea_query::Expr::col(DepartmentTransportModeColumn::DepartmentId)
+                .eq(self.department_id),
+        );
         if let Some(sorts) = sort_by {
             for sort in sorts {
                 let order = match sort.order {
@@ -124,61 +81,89 @@ impl NotificationsQuery {
                 };
             }
         }
-        let notifications = query
+        let department_transport_modes = query
             .paginate(db, limit as u64)
             .fetch_page(page as u64)
             .await?;
-        Ok(notifications
+        Ok(department_transport_modes
             .into_iter()
-            .map(|model| NotificationNode { model })
+            .map(|dtm| DepartmentTransportModesNodes { model: dtm })
             .collect())
     }
     async fn view(
         &self,
         ctx: &Context<'_>,
         id: Uuid,
-    ) -> async_graphql::Result<Option<NotificationNode>> {
+    ) -> async_graphql::Result<Option<DepartmentTransportModesNodes>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let notification = NotificationEntity::find_by_id(id).one(db).await?;
-        Ok(notification.map(|model| NotificationNode { model }))
+        let department_transport_mode = DepartmentTransportModeEntity::find_by_id(id)
+            .one(db)
+            .await?;
+        Ok(department_transport_mode.map(|model| DepartmentTransportModesNodes { model }))
+    }
+}
+
+pub struct DepartmentTransportModesNodes {
+    pub model: DepartmentTransportModeModel,
+}
+
+#[Object]
+impl DepartmentTransportModesNodes {
+    async fn id(&self) -> Uuid {
+        self.model.id
+    }
+    async fn department_id(&self) -> Uuid {
+        self.model.department_id
+    }
+    async fn transport_mode(&self) -> &str {
+        &self.model.transport_mode
+    }
+    async fn is_primary(&self) -> bool {
+        self.model.is_primary
+    }
+    async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.created
+    }
+    async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
+        self.model.updated
     }
 }
 
 #[derive(Default)]
-pub struct NotificationsMutation;
+pub struct DepartmentTransportModesMutation;
 
 #[Object]
-impl NotificationsMutation {
+impl DepartmentTransportModesMutation {
     async fn create(
         &self,
         ctx: &Context<'_>,
-        payload: CreateNotification,
-    ) -> async_graphql::Result<NotificationNode> {
+        payload: CreateDepartmentTransportMode,
+    ) -> async_graphql::Result<DepartmentTransportModesNodes> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let notification = payload.into_active_model();
-        let notification = notification.insert(db).await?;
-        Ok(NotificationNode {
-            model: notification,
+        let department_transport_mode = payload.into_active_model();
+        let department_transport_mode = department_transport_mode.insert(db).await?;
+        Ok(DepartmentTransportModesNodes {
+            model: department_transport_mode,
         })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
-        payload: UpdateNotification,
-    ) -> async_graphql::Result<NotificationNode> {
+        payload: UpdateDepartmentTransportMode,
+    ) -> async_graphql::Result<DepartmentTransportModesNodes> {
         let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
-        let updated_notification = active_model.update(db).await?;
-        Ok(NotificationNode {
-            model: updated_notification,
+        let updated_department_transport_mode = active_model.update(db).await?;
+        Ok(DepartmentTransportModesNodes {
+            model: updated_department_transport_mode,
         })
     }
     async fn delete(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
         let db = ctx.data::<DatabaseConnection>()?;
-        NotificationEntity::delete_by_id(id)
+        DepartmentTransportModeEntity::delete_by_id(id)
             .exec(db)
             .await
-            .map_err(|e| anyhow::anyhow!("Failed to delete notification: {}", e))?;
-        Ok(format!("Deleted notification with ID: {}", id))
+            .map_err(|e| anyhow::anyhow!("Failed to delete department transport mode: {}", e))?;
+        Ok(format!("Deleted department transport mode with ID: {}", id))
     }
 }
