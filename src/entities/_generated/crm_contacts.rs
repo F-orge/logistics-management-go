@@ -40,7 +40,7 @@ pub struct Model {
     pub address_id: Option<Uuid>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn, PartialEq, Eq, async_graphql::Enum)]
 pub enum Column {
     Id,
     FirstName,

@@ -32,7 +32,7 @@ pub struct Model {
     pub created: DateTimeWithTimeZone,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn, PartialEq, Eq, async_graphql::Enum)]
 pub enum Column {
     Id,
     ProviderServiceId,

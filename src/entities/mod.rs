@@ -3,7 +3,17 @@ pub mod auth;
 pub mod crm;
 pub mod lms;
 pub mod org;
-pub use super::*;
-pub use super::*;
-pub use super::*;
-pub use super::*;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, async_graphql::Enum)]
+pub enum SortOrder {
+    Asc,
+    Desc,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, async_graphql::Enum)]
+pub enum FilterOperator {
+    Equals,
+    Contains,
+    StartsWith,
+    EndsWith,
+}

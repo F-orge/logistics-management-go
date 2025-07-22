@@ -45,7 +45,7 @@ pub struct Model {
     pub updated: DateTimeWithTimeZone,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn, PartialEq, Eq, async_graphql::Enum)]
 pub enum Column {
     Id,
     CompanyName,
