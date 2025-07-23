@@ -1,4 +1,4 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
 use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
@@ -7,29 +7,15 @@ use sea_orm::{
 use uuid::Uuid;
 
 use crate::entities::_generated::crm_invoice_line_items::{
-    Column as InvoiceLineItemColumn, Entity as InvoiceLineItemEntity, Model as InvoiceLineItemModel,
+    Entity as InvoiceLineItemEntity, Model as InvoiceLineItemModel,
 };
 use crate::entities::_generated::crm_invoices::{Column as InvoiceColumn, Entity as InvoiceEntity};
 use crate::entities::_generated::lms_shipments::{
     Column as ShipmentColumn, Entity as ShipmentEntity,
 };
 use crate::entities::crm::invoice_line_items::{CreateInvoiceLineItem, UpdateInvoiceLineItem};
-use crate::entities::{FilterOperator, SortOrder};
 use crate::graphql::backend::crm::invoices::InvoiceNode;
 use crate::graphql::backend::lms::shipments::ShipmentNode;
-
-#[derive(Debug, Clone, InputObject)]
-pub struct InvoiceLineItemsSort {
-    pub column: InvoiceLineItemColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct InvoiceLineItemFilter {
-    pub column: InvoiceLineItemColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
 
 pub struct InvoiceLineItemNode {
     pub model: InvoiceLineItemModel,

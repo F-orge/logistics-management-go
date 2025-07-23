@@ -1,30 +1,23 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
     QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::org_departments::Entity as DepartmentEntity;
-use crate::entities::_generated::org_vehicles::{
-    Column as VehicleColumn, Entity as VehicleEntity, Model as VehicleModel,
+use crate::entities::_generated::org_departments::{
+    Column as DepartmentColumn, Entity as DepartmentEntity,
 };
+use crate::entities::_generated::{
+    lms_warehouses::{Column as WarehouseColumn, Entity as WarehouseEntity},
+    org_vehicles::{Column as VehicleColumn, Entity as VehicleEntity, Model as VehicleModel},
+};
+
 use crate::entities::org::vehicles::{CreateVehicle, UpdateVehicle};
-use crate::entities::{FilterOperator, SortOrder};
+use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::warehouses::WarehouseNode;
 use crate::graphql::backend::org::departments::DepartmentsNode;
-
-#[derive(Debug, Clone, InputObject)]
-pub struct VehiclesSort {
-    pub column: VehicleColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct VehicleFilter {
-    pub column: VehicleColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
 
 #[derive(Default)]
 pub struct VehiclesQuery;
@@ -36,44 +29,20 @@ impl VehiclesQuery {
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<VehiclesSort>>,
-        filter_by: Option<Vec<VehicleFilter>>,
+        sort_by: Option<Vec<SortGeneric<VehicleColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<VehicleColumn>>>,
     ) -> async_graphql::Result<Vec<VehicleNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = VehicleEntity::find();
         if let Some(sorts) = sort_by {
             for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
             }
         }
         if let Some(filters) = filter_by {
             for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
+                query = query.filter(filter.filter());
             }
         }
         let vehicles = query
@@ -157,18 +126,25 @@ impl VehicleNode {
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<DepartmentsNode>> {
-        // TODO: Use DataLoader for department lookup to avoid N+1 queries
         let db = ctx.data::<DatabaseConnection>()?;
-        if let Some(dept_id) = self.model.department_id {
-            let department = DepartmentEntity::find_by_id(dept_id).one(db).await?;
-            Ok(department.map(|model| DepartmentsNode { model }))
-        } else {
-            Ok(None)
-        }
+
+        let department = DepartmentEntity::find()
+            .filter(Expr::col(DepartmentColumn::Id).eq(self.model.department_id))
+            .one(db)
+            .await?;
+
+        Ok(department.map(|model| DepartmentsNode { model }))
     }
 
-    async fn warehouse(&self) -> Option<String> {
-        Some("implement later".into())
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<WarehouseNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let warehouse = WarehouseEntity::find()
+            .filter(Expr::col(WarehouseColumn::Id).eq(self.model.warehouse_id))
+            .one(db)
+            .await?;
+
+        Ok(warehouse.map(|model| WarehouseNode { model }))
     }
 }
 

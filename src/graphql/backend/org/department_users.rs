@@ -1,34 +1,15 @@
-use async_graphql::{Context, InputObject, Object};
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, LoaderTrait,
-    PaginatorTrait, QueryFilter, QueryOrder,
-};
+use async_graphql::{Context, Object};
+use sea_orm::{ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel};
 use uuid::Uuid;
 
-use crate::entities::_generated::auth_users::{Entity as AuthUsers, Model as AuthUsersModel};
-use crate::entities::_generated::org_department_users::{
-    Column as DepartmentUserColumn, Entity as DepartmentUserEntity, Model as DepartmentUserModel,
-};
-use crate::entities::_generated::prelude::{
-    OrgDepartmentPermissions, OrgDepartmentUserPermissions,
+use crate::entities::_generated::auth_users::Entity as AuthUsers;
+use crate::entities::_generated::{
+    org_department_users::{Entity as DepartmentUserEntity, Model as DepartmentUserModel},
+    org_departments::Entity as OrgDepartmentEntity,
 };
 use crate::entities::org::department_users::{CreateDepartmentUser, UpdateDepartmentUser};
-use crate::entities::{FilterOperator, SortOrder};
 use crate::graphql::backend::auth::AuthUsersNodes;
-use crate::graphql::backend::org::department_permissions::DepartmentPermissionsNodes;
-
-#[derive(Debug, Clone, InputObject)]
-pub struct DepartmentUsersSort {
-    pub column: DepartmentUserColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct DepartmentUserFilter {
-    pub column: DepartmentUserColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::graphql::backend::org::departments::DepartmentsNode;
 
 pub struct DepartmentUsersNodes {
     pub model: DepartmentUserModel,
@@ -40,34 +21,33 @@ impl DepartmentUsersNodes {
         self.model.clone()
     }
 
+    async fn role(&self) -> &str {
+        &self.model.role
+    }
+
+    async fn assigned_date(&self) -> chrono::NaiveDate {
+        self.model.assigned_date
+    }
+
+    async fn is_active(&self) -> bool {
+        self.model.is_active
+    }
+
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentsNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let department = OrgDepartmentEntity::find_by_id(self.model.department_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Department not found"))?;
+
+        Ok(DepartmentsNode { model: department })
+    }
+
     async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AuthUsersNodes>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let user = AuthUsers::find_by_id(self.model.user_id).one(db).await?;
         Ok(user.map(|u| AuthUsersNodes { model: u }))
-    }
-
-    async fn permissions(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Vec<DepartmentPermissionsNodes>> {
-        let db = ctx.data::<DatabaseConnection>()?;
-
-        let department_user_permissions = OrgDepartmentUserPermissions::find()
-            .filter(
-                sea_orm::sea_query::Expr::col(DepartmentUserColumn::UserId).eq(self.model.user_id),
-            )
-            .all(db)
-            .await?;
-
-        let permissions = department_user_permissions
-            .load_one(OrgDepartmentPermissions, db)
-            .await?;
-
-        Ok(permissions
-            .into_iter()
-            .flatten()
-            .map(|permission| DepartmentPermissionsNodes { model: permission })
-            .collect())
     }
 }
 

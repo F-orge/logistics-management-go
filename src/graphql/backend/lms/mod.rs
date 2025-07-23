@@ -21,7 +21,7 @@ mod tracking_events;
 mod transport_legs;
 mod transportation_providers;
 mod warehouse_inventories;
-mod warehouses;
+pub mod warehouses;
 
 #[derive(SimpleObject, Default)]
 pub struct LmsQuery {
