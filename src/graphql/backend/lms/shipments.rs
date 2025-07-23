@@ -8,8 +8,12 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_shipments::{
     Column as ShipmentColumn, Entity as ShipmentEntity, Model as ShipmentModel,
 };
+use crate::entities::_generated::prelude::{
+    AuthUsers, CrmCompanies, CrmContacts, LmsAddresses, LmsShippingServices, OrgDepartments,
+};
 use crate::entities::lms::shipments::{CreateShipment, UpdateShipment};
 use crate::entities::{FilterGeneric, SortGeneric};
+use sea_orm::prelude::Expr;
 
 pub struct ShipmentNode {
     pub model: ShipmentModel,
@@ -22,30 +26,6 @@ impl ShipmentNode {
     }
     async fn tracking_number(&self) -> &str {
         &self.model.tracking_number
-    }
-    async fn sender_company_id(&self) -> Option<Uuid> {
-        self.model.sender_company_id
-    }
-    async fn sender_contact_id(&self) -> Option<Uuid> {
-        self.model.sender_contact_id
-    }
-    async fn sender_address_id(&self) -> Uuid {
-        self.model.sender_address_id
-    }
-    async fn receiver_company_id(&self) -> Option<Uuid> {
-        self.model.receiver_company_id
-    }
-    async fn receiver_contact_id(&self) -> Option<Uuid> {
-        self.model.receiver_contact_id
-    }
-    async fn receiver_address_id(&self) -> Uuid {
-        self.model.receiver_address_id
-    }
-    async fn service_id(&self) -> Uuid {
-        self.model.service_id
-    }
-    async fn assigned_department_id(&self) -> Option<Uuid> {
-        self.model.assigned_department_id
     }
     async fn primary_transport_mode(
         &self,
@@ -98,14 +78,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::crm_companies::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.sender_company_id {
-            Some(id) => Ok(
-                crate::entities::_generated::crm_companies::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let company = CrmCompanies::find()
+            .filter(
+                Expr::col(crate::entities::_generated::crm_companies::Column::Id)
+                    .eq(self.model.sender_company_id),
+            )
+            .one(db)
+            .await?;
+        Ok(company)
     }
 
     async fn sender_contact(
@@ -113,14 +93,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::crm_contacts::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.sender_contact_id {
-            Some(id) => Ok(
-                crate::entities::_generated::crm_contacts::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let contact = CrmContacts::find()
+            .filter(
+                Expr::col(crate::entities::_generated::crm_contacts::Column::Id)
+                    .eq(self.model.sender_contact_id),
+            )
+            .one(db)
+            .await?;
+        Ok(contact)
     }
 
     async fn sender_address(
@@ -128,13 +108,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::lms_addresses::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(
-            crate::entities::_generated::lms_addresses::Entity::find_by_id(
-                self.model.sender_address_id,
+        let address = LmsAddresses::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_addresses::Column::Id)
+                    .eq(self.model.sender_address_id),
             )
             .one(db)
-            .await?,
-        )
+            .await?;
+        Ok(address)
     }
 
     async fn receiver_company(
@@ -142,14 +123,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::crm_companies::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.receiver_company_id {
-            Some(id) => Ok(
-                crate::entities::_generated::crm_companies::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let company = CrmCompanies::find()
+            .filter(
+                Expr::col(crate::entities::_generated::crm_companies::Column::Id)
+                    .eq(self.model.receiver_company_id),
+            )
+            .one(db)
+            .await?;
+        Ok(company)
     }
 
     async fn receiver_contact(
@@ -157,14 +138,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::crm_contacts::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.receiver_contact_id {
-            Some(id) => Ok(
-                crate::entities::_generated::crm_contacts::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let contact = CrmContacts::find()
+            .filter(
+                Expr::col(crate::entities::_generated::crm_contacts::Column::Id)
+                    .eq(self.model.receiver_contact_id),
+            )
+            .one(db)
+            .await?;
+        Ok(contact)
     }
 
     async fn receiver_address(
@@ -172,13 +153,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::lms_addresses::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(
-            crate::entities::_generated::lms_addresses::Entity::find_by_id(
-                self.model.receiver_address_id,
+        let address = LmsAddresses::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_addresses::Column::Id)
+                    .eq(self.model.receiver_address_id),
             )
             .one(db)
-            .await?,
-        )
+            .await?;
+        Ok(address)
     }
 
     async fn service(
@@ -187,13 +169,14 @@ impl ShipmentNode {
     ) -> async_graphql::Result<Option<crate::entities::_generated::lms_shipping_services::Model>>
     {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(
-            crate::entities::_generated::lms_shipping_services::Entity::find_by_id(
-                self.model.service_id,
+        let service = LmsShippingServices::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_shipping_services::Column::Id)
+                    .eq(self.model.service_id),
             )
             .one(db)
-            .await?,
-        )
+            .await?;
+        Ok(service)
     }
 
     async fn assigned_department(
@@ -201,14 +184,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::org_departments::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.assigned_department_id {
-            Some(id) => Ok(
-                crate::entities::_generated::org_departments::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let dept = OrgDepartments::find()
+            .filter(
+                Expr::col(crate::entities::_generated::org_departments::Column::Id)
+                    .eq(self.model.assigned_department_id),
+            )
+            .one(db)
+            .await?;
+        Ok(dept)
     }
 
     async fn created_by_user(
@@ -216,14 +199,14 @@ impl ShipmentNode {
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<crate::entities::_generated::auth_users::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.created_by {
-            Some(id) => Ok(
-                crate::entities::_generated::auth_users::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let user = AuthUsers::find()
+            .filter(
+                Expr::col(crate::entities::_generated::auth_users::Column::Id)
+                    .eq(self.model.created_by),
+            )
+            .one(db)
+            .await?;
+        Ok(user)
     }
 }
 

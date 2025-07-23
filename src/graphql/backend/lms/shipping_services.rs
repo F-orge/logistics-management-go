@@ -1,13 +1,14 @@
 use async_graphql::{Context, Object};
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
-    QueryFilter, QueryOrder,
+    QueryFilter, QueryOrder, entity::prelude::Decimal,
 };
 use uuid::Uuid;
 
 use crate::entities::_generated::lms_shipping_services::{
     Column as ShippingServiceColumn, Entity as ShippingServiceEntity, Model as ShippingServiceModel,
 };
+use crate::entities::_generated::sea_orm_active_enums::LmsServiceType;
 use crate::entities::lms::shipping_services::{CreateShippingService, UpdateShippingService};
 use crate::entities::{FilterGeneric, SortGeneric};
 
@@ -25,6 +26,21 @@ impl ShippingServiceNode {
     }
     async fn description(&self) -> Option<&str> {
         self.model.description.as_deref()
+    }
+    async fn service_type(&self) -> &LmsServiceType {
+        &self.model.service_type
+    }
+    async fn max_weight(&self) -> Option<&Decimal> {
+        self.model.max_weight.as_ref()
+    }
+    async fn delivery_time_min(&self) -> Option<i32> {
+        self.model.delivery_time_min
+    }
+    async fn delivery_time_max(&self) -> Option<i32> {
+        self.model.delivery_time_max
+    }
+    async fn is_active(&self) -> bool {
+        self.model.is_active
     }
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created

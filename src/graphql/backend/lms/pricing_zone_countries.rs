@@ -1,29 +1,13 @@
-use async_graphql::{Context, InputObject, Object};
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
-};
+use async_graphql::{Context, Object};
+use sea_orm::{ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel};
 use uuid::Uuid;
 
 use crate::entities::_generated::lms_pricing_zone_countries::{
-    Column as PricingZoneCountryColumn, Entity as PricingZoneCountryEntity,
-    Model as PricingZoneCountryModel,
+    Entity as PricingZoneCountryEntity, Model as PricingZoneCountryModel,
 };
+use crate::entities::_generated::prelude::LmsPricingZones;
 use crate::entities::lms::pricing_zone_countries::CreatePricingZoneCountry;
-use crate::entities::{FilterOperator, SortOrder};
-
-#[derive(Debug, Clone, InputObject)]
-pub struct PricingZoneCountriesSort {
-    pub column: PricingZoneCountryColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct PricingZoneCountryFilter {
-    pub column: PricingZoneCountryColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::graphql::backend::lms::pricing_zones::PricingZoneNode;
 
 pub struct PricingZoneCountryNode {
     pub model: PricingZoneCountryModel,
@@ -34,8 +18,13 @@ impl PricingZoneCountryNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn pricing_zone_id(&self) -> Uuid {
-        self.model.pricing_zone_id
+    async fn pricing_zone(&self, ctx: &Context<'_>) -> async_graphql::Result<PricingZoneNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let zone = LmsPricingZones::find_by_id(self.model.pricing_zone_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Pricing zone not found"))?;
+        Ok(PricingZoneNode { model: zone })
     }
     async fn country_code(&self) -> &str {
         &self.model.country_code

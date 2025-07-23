@@ -8,8 +8,10 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_packages::{
     Column as PackageColumn, Entity as PackageEntity, Model as PackageModel,
 };
+use crate::entities::_generated::prelude::LmsShipments;
 use crate::entities::lms::packages::{CreatePackage, UpdatePackage};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::shipments::ShipmentNode;
 
 pub struct PackageNode {
     pub model: PackageModel,
@@ -20,29 +22,42 @@ impl PackageNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
+
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<ShipmentNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let shipment = LmsShipments::find_by_id(self.model.shipment_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipment not found"))?;
+        Ok(ShipmentNode { model: shipment })
     }
+
     async fn package_number(&self) -> &str {
         &self.model.package_number
     }
+
     async fn weight(&self) -> Decimal {
         self.model.weight
     }
+
     async fn length(&self) -> Option<Decimal> {
         self.model.length
     }
+
     async fn width(&self) -> Option<Decimal> {
         self.model.width
     }
+
     async fn height(&self) -> Option<Decimal> {
         self.model.height
     }
+
     async fn package_type(
         &self,
     ) -> crate::entities::_generated::sea_orm_active_enums::LmsPackageType {
         self.model.package_type
     }
+
     async fn contents_description(&self) -> Option<&str> {
         self.model.contents_description.as_deref()
     }
@@ -56,18 +71,7 @@ impl PackageNode {
         self.model.updated
     }
 
-    // Relations
-    async fn shipment(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::lms_shipments::Model>> {
-        let db = ctx.data::<DatabaseConnection>()?;
-        Ok(
-            crate::entities::_generated::lms_shipments::Entity::find_by_id(self.model.shipment_id)
-                .one(db)
-                .await?,
-        )
-    }
+    // ...existing code...
 }
 
 #[derive(Default)]

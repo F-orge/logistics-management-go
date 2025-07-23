@@ -8,8 +8,11 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_pricing_rates::{
     Column as PricingRateColumn, Entity as PricingRateEntity, Model as PricingRateModel,
 };
+use crate::entities::_generated::prelude::{LmsPricingZones, LmsShippingServices};
 use crate::entities::lms::pricing_rates::{CreatePricingRate, UpdatePricingRate};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::pricing_zones::PricingZoneNode;
+use crate::graphql::backend::lms::shipping_services::ShippingServiceNode;
 
 pub struct PricingRateNode {
     pub model: PricingRateModel,
@@ -20,14 +23,29 @@ impl PricingRateNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn service_id(&self) -> Uuid {
-        self.model.service_id
+    async fn service(&self, ctx: &Context<'_>) -> async_graphql::Result<ShippingServiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let service = LmsShippingServices::find_by_id(self.model.service_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipping service not found"))?;
+        Ok(ShippingServiceNode { model: service })
     }
-    async fn origin_zone_id(&self) -> Uuid {
-        self.model.origin_zone_id
+    async fn origin_zone(&self, ctx: &Context<'_>) -> async_graphql::Result<PricingZoneNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let zone = LmsPricingZones::find_by_id(self.model.origin_zone_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Origin pricing zone not found"))?;
+        Ok(PricingZoneNode { model: zone })
     }
-    async fn destination_zone_id(&self) -> Uuid {
-        self.model.destination_zone_id
+    async fn destination_zone(&self, ctx: &Context<'_>) -> async_graphql::Result<PricingZoneNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let zone = LmsPricingZones::find_by_id(self.model.destination_zone_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Destination pricing zone not found"))?;
+        Ok(PricingZoneNode { model: zone })
     }
     async fn weight_min(&self) -> Decimal {
         self.model.weight_min

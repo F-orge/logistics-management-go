@@ -8,8 +8,11 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_route_shipments::{
     Column as RouteShipmentColumn, Entity as RouteShipmentEntity, Model as RouteShipmentModel,
 };
+use crate::entities::_generated::prelude::{LmsRoutes, LmsShipments};
 use crate::entities::lms::route_shipments::{CreateRouteShipment, UpdateRouteShipment};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::routes::RouteNode;
+use crate::graphql::backend::lms::shipments::ShipmentNode;
 
 pub struct RouteShipmentNode {
     pub model: RouteShipmentModel,
@@ -20,11 +23,21 @@ impl RouteShipmentNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn route_id(&self) -> Uuid {
-        self.model.route_id
+    async fn route(&self, ctx: &Context<'_>) -> async_graphql::Result<RouteNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let route = LmsRoutes::find_by_id(self.model.route_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Route not found"))?;
+        Ok(RouteNode { model: route })
     }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<ShipmentNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let shipment = LmsShipments::find_by_id(self.model.shipment_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipment not found"))?;
+        Ok(ShipmentNode { model: shipment })
     }
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created

@@ -8,8 +8,10 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_provider_services::{
     Column as ProviderServiceColumn, Entity as ProviderServiceEntity, Model as ProviderServiceModel,
 };
+use crate::entities::_generated::prelude::LmsTransportationProviders;
 use crate::entities::lms::provider_services::{CreateProviderService, UpdateProviderService};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::transportation_providers::TransportationProviderNode;
 
 pub struct ProviderServiceNode {
     pub model: ProviderServiceModel,
@@ -20,8 +22,16 @@ impl ProviderServiceNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn provider_id(&self) -> Uuid {
-        self.model.provider_id
+    async fn provider(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<TransportationProviderNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let provider = LmsTransportationProviders::find_by_id(self.model.provider_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Transportation provider not found"))?;
+        Ok(TransportationProviderNode { model: provider })
     }
     async fn service_name(&self) -> &str {
         &self.model.service_name

@@ -31,7 +31,7 @@ use crate::graphql::backend::org::department_users::DepartmentUsersNodes;
 pub struct DepartmentsQuery;
 
 #[derive(Clone)]
-pub struct DepartmentsNode {
+pub struct DepartmentNode {
     pub model: DepartmentModel,
 }
 
@@ -44,7 +44,7 @@ impl DepartmentsQuery {
         limit: u64,
         sort_by: Option<Vec<SortGeneric<DepartmentColumn>>>,
         filter_by: Option<Vec<FilterGeneric<DepartmentColumn>>>,
-    ) -> async_graphql::Result<Vec<DepartmentsNode>> {
+    ) -> async_graphql::Result<Vec<DepartmentNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = DepartmentEntity::find();
         if let Some(sorts) = sort_by {
@@ -64,22 +64,22 @@ impl DepartmentsQuery {
             .await?;
         Ok(departments
             .into_iter()
-            .map(|d| DepartmentsNode { model: d })
+            .map(|d| DepartmentNode { model: d })
             .collect())
     }
     async fn view(
         &self,
         ctx: &Context<'_>,
         id: Uuid,
-    ) -> async_graphql::Result<Option<DepartmentsNode>> {
+    ) -> async_graphql::Result<Option<DepartmentNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let department = DepartmentEntity::find_by_id(id).one(db).await?;
-        Ok(department.map(|model| DepartmentsNode { model }))
+        Ok(department.map(|model| DepartmentNode { model }))
     }
 }
 
 #[Object]
-impl DepartmentsNode {
+impl DepartmentNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
@@ -203,21 +203,21 @@ impl DepartmentsMutation {
         &self,
         ctx: &Context<'_>,
         payload: CreateDepartment,
-    ) -> async_graphql::Result<DepartmentsNode> {
+    ) -> async_graphql::Result<DepartmentNode> {
         let db = ctx.data::<DatabaseConnection>()?;
         let department = payload.into_active_model();
         let department = department.insert(db).await?;
-        Ok(DepartmentsNode { model: department })
+        Ok(DepartmentNode { model: department })
     }
     async fn update(
         &self,
         ctx: &Context<'_>,
         payload: UpdateDepartment,
-    ) -> async_graphql::Result<DepartmentsNode> {
+    ) -> async_graphql::Result<DepartmentNode> {
         let db = ctx.data::<DatabaseConnection>()?;
         let active_model = payload.into_active_model();
         let updated_department = active_model.update(db).await?;
-        Ok(DepartmentsNode {
+        Ok(DepartmentNode {
             model: updated_department,
         })
     }

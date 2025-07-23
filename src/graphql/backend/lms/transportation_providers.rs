@@ -1,7 +1,10 @@
+use sea_orm::prelude::Expr;
+use crate::entities::_generated::prelude::LmsAddresses;
+use crate::graphql::backend::lms::addresses::AddressNode;
 use async_graphql::{Context, Object};
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
-    QueryFilter, QueryOrder,
+    QueryFilter, QueryOrder, entity::prelude::Decimal,
 };
 use uuid::Uuid;
 
@@ -39,6 +42,41 @@ impl TransportationProviderNode {
     }
     async fn phone_number(&self) -> Option<&str> {
         self.model.phone_number.as_deref()
+    }
+    async fn address(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AddressNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let address = LmsAddresses::find()
+            .filter(Expr::col(crate::entities::_generated::lms_addresses::Column::Id).eq(self.model.address_id))
+            .one(db)
+            .await?;
+        Ok(address.map(|model| AddressNode { model }))
+    }
+    async fn preferred_by_department_id(&self) -> Option<Uuid> {
+        self.model.preferred_by_department_id
+    }
+    async fn api_endpoint(&self) -> Option<&str> {
+        self.model.api_endpoint.as_deref()
+    }
+    async fn api_key(&self) -> Option<&str> {
+        self.model.api_key.as_deref()
+    }
+    async fn contract_start_date(&self) -> Option<chrono::NaiveDate> {
+        self.model.contract_start_date
+    }
+    async fn contract_end_date(&self) -> Option<chrono::NaiveDate> {
+        self.model.contract_end_date
+    }
+    async fn payment_terms(&self) -> Option<&str> {
+        self.model.payment_terms.as_deref()
+    }
+    async fn insurance_coverage(&self) -> Option<Decimal> {
+        self.model.insurance_coverage
+    }
+    async fn performance_rating(&self) -> Option<Decimal> {
+        self.model.performance_rating
+    }
+    async fn is_active(&self) -> bool {
+        self.model.is_active
     }
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created

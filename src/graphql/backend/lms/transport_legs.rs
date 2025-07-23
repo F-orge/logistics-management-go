@@ -8,8 +8,19 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_transport_legs::{
     Column as TransportLegColumn, Entity as TransportLegEntity, Model as TransportLegModel,
 };
+use crate::entities::_generated::prelude::{
+    LmsProviderServices, LmsShipments, LmsTransportationProviders, LmsWarehouses, OrgDrivers,
+    OrgVehicles,
+};
 use crate::entities::lms::transport_legs::{CreateTransportLeg, UpdateTransportLeg};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::provider_services::ProviderServiceNode;
+use crate::graphql::backend::lms::shipments::ShipmentNode;
+use crate::graphql::backend::lms::transportation_providers::TransportationProviderNode;
+use crate::graphql::backend::lms::warehouses::WarehouseNode;
+use crate::graphql::backend::org::drivers::DriverNode;
+use crate::graphql::backend::org::vehicles::VehicleNode;
+use sea_orm::prelude::Expr;
 
 pub struct TransportLegNode {
     pub model: TransportLegModel,
@@ -20,8 +31,16 @@ impl TransportLegNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<ShipmentNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let shipment = LmsShipments::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_shipments::Column::Id)
+                    .eq(self.model.shipment_id),
+            )
+            .one(db)
+            .await?;
+        Ok(shipment.map(|model| ShipmentNode { model }))
     }
     async fn leg_sequence(&self) -> i32 {
         self.model.leg_sequence
@@ -31,26 +50,86 @@ impl TransportLegNode {
     ) -> crate::entities::_generated::sea_orm_active_enums::LmsTransportLegType {
         self.model.transport_type
     }
-    async fn provider_id(&self) -> Option<Uuid> {
-        self.model.provider_id
+    async fn provider(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<TransportationProviderNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let provider = LmsTransportationProviders::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_transportation_providers::Column::Id)
+                    .eq(self.model.provider_id),
+            )
+            .one(db)
+            .await?;
+        Ok(provider.map(|model| TransportationProviderNode { model }))
     }
-    async fn provider_service_id(&self) -> Option<Uuid> {
-        self.model.provider_service_id
+    async fn provider_service(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<ProviderServiceNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let service = LmsProviderServices::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_provider_services::Column::Id)
+                    .eq(self.model.provider_service_id),
+            )
+            .one(db)
+            .await?;
+        Ok(service.map(|model| ProviderServiceNode { model }))
     }
     async fn provider_tracking_number(&self) -> Option<String> {
         self.model.provider_tracking_number.clone()
     }
-    async fn vehicle_id(&self) -> Option<Uuid> {
-        self.model.vehicle_id
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<VehicleNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let vehicle = OrgVehicles::find()
+            .filter(
+                Expr::col(crate::entities::_generated::org_vehicles::Column::Id)
+                    .eq(self.model.vehicle_id),
+            )
+            .one(db)
+            .await?;
+        Ok(vehicle.map(|model| VehicleNode { model }))
     }
-    async fn driver_id(&self) -> Option<Uuid> {
-        self.model.driver_id
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<DriverNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let driver = OrgDrivers::find()
+            .filter(
+                Expr::col(crate::entities::_generated::org_drivers::Column::Id)
+                    .eq(self.model.driver_id),
+            )
+            .one(db)
+            .await?;
+        Ok(driver.map(|model| DriverNode { model }))
     }
-    async fn origin_warehouse_id(&self) -> Option<Uuid> {
-        self.model.origin_warehouse_id
+    async fn origin_warehouse(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<WarehouseNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let warehouse = LmsWarehouses::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_warehouses::Column::Id)
+                    .eq(self.model.origin_warehouse_id),
+            )
+            .one(db)
+            .await?;
+        Ok(warehouse.map(|model| WarehouseNode { model }))
     }
-    async fn destination_warehouse_id(&self) -> Option<Uuid> {
-        self.model.destination_warehouse_id
+    async fn destination_warehouse(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<WarehouseNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let warehouse = LmsWarehouses::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_warehouses::Column::Id)
+                    .eq(self.model.destination_warehouse_id),
+            )
+            .one(db)
+            .await?;
+        Ok(warehouse.map(|model| WarehouseNode { model }))
     }
     async fn origin_address_id(&self) -> Option<Uuid> {
         self.model.origin_address_id

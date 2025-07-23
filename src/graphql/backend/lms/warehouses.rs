@@ -1,4 +1,10 @@
+use crate::entities::_generated::prelude::LmsAddresses;
+use crate::entities::_generated::prelude::{AuthUsers, OrgDepartments};
+use crate::graphql::backend::auth::AuthUsersNodes;
+use crate::graphql::backend::lms::addresses::AddressNode;
+use crate::graphql::backend::org::departments::DepartmentNode;
 use async_graphql::{Context, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
     QueryFilter, QueryOrder,
@@ -26,8 +32,16 @@ impl WarehouseNode {
     async fn code(&self) -> &str {
         &self.model.code
     }
-    async fn address_id(&self) -> Uuid {
-        self.model.address_id
+    async fn address(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AddressNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let address = LmsAddresses::find()
+            .filter(
+                Expr::col(crate::entities::_generated::lms_addresses::Column::Id)
+                    .eq(self.model.address_id),
+            )
+            .one(db)
+            .await?;
+        Ok(address.map(|model| AddressNode { model }))
     }
     async fn warehouse_type(
         &self,
@@ -54,46 +68,29 @@ impl WarehouseNode {
     }
 
     // Relations
-    async fn address(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::lms_addresses::Model>> {
+
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<DepartmentNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(
-            crate::entities::_generated::lms_addresses::Entity::find_by_id(self.model.address_id)
-                .one(db)
-                .await?,
-        )
+        let department = OrgDepartments::find()
+            .filter(
+                Expr::col(crate::entities::_generated::org_departments::Column::Id)
+                    .eq(self.model.department_id),
+            )
+            .one(db)
+            .await?;
+        Ok(department.map(|model| DepartmentNode { model }))
     }
 
-    async fn department(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::org_departments::Model>> {
+    async fn manager(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AuthUsersNodes>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.department_id {
-            Some(id) => Ok(
-                crate::entities::_generated::org_departments::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
-    }
-
-    async fn manager(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::auth_users::Model>> {
-        let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.manager_id {
-            Some(id) => Ok(
-                crate::entities::_generated::auth_users::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+        let user = AuthUsers::find()
+            .filter(
+                Expr::col(crate::entities::_generated::auth_users::Column::Id)
+                    .eq(self.model.manager_id),
+            )
+            .one(db)
+            .await?;
+        Ok(user.map(|model| AuthUsersNodes { model }))
     }
 }
 

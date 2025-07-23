@@ -13,11 +13,16 @@ use crate::entities::_generated::crm_invoices::{
 use crate::entities::_generated::{
     crm_companies::{Column as CompanyColumn, Entity as CompanyEntity},
     crm_contacts::{Column as ContactColumn, Entity as ContactEntity},
+    crm_invoice_line_items::{
+        Column as InvoiceLineItemColumn, Entity as InvoiceLineItemEntity,
+        Model as InvoiceLineItemModel,
+    },
 };
 use crate::entities::crm::invoices::{CreateInvoice, UpdateInvoice};
 use crate::entities::{FilterGeneric, SortGeneric};
 use crate::graphql::backend::crm::companies::CompanyNode;
 use crate::graphql::backend::crm::contacts::ContactNode;
+use crate::graphql::backend::crm::invoice_line_items::InvoiceLineItemNode;
 
 #[derive(Default)]
 pub struct InvoicesQuery;
@@ -79,6 +84,21 @@ impl InvoiceNode {
     }
     async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.updated
+    }
+
+    async fn line_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<InvoiceLineItemNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let line_items = InvoiceLineItemEntity::find()
+            .filter(Expr::col(InvoiceLineItemColumn::InvoiceId).eq(self.model.id))
+            .all(db)
+            .await?;
+        Ok(line_items
+            .into_iter()
+            .map(|model| InvoiceLineItemNode { model })
+            .collect())
     }
 }
 

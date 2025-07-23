@@ -9,8 +9,10 @@ use crate::entities::_generated::lms_shipping_service_max_dimensions::{
     Column as ShippingServiceMaxDimensionColumn, Entity as ShippingServiceMaxDimensionEntity,
     Model as ShippingServiceMaxDimensionModel,
 };
+use crate::entities::_generated::prelude::LmsShippingServices;
 use crate::entities::lms::shipping_service_max_dimensions::CreateShippingServiceMaxDimension;
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::shipping_services::ShippingServiceNode;
 
 pub struct ShippingServiceMaxDimensionNode {
     pub model: ShippingServiceMaxDimensionModel,
@@ -21,8 +23,22 @@ impl ShippingServiceMaxDimensionNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn shipping_service_id(&self) -> Uuid {
-        self.model.shipping_service_id
+    async fn shipping_service(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<ShippingServiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let service = LmsShippingServices::find()
+            .filter(
+                sea_orm::prelude::Expr::col(
+                    crate::entities::_generated::lms_shipping_services::Column::Id,
+                )
+                .eq(self.model.shipping_service_id),
+            )
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipping service not found"))?;
+        Ok(ShippingServiceNode { model: service })
     }
     async fn length(&self) -> Option<Decimal> {
         self.model.length

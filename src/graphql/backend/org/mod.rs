@@ -2,9 +2,9 @@ use async_graphql::SimpleObject;
 mod department_permissions;
 mod department_transport_modes;
 mod department_users;
-mod departments;
-mod drivers;
-mod vehicles;
+pub mod departments;
+pub mod drivers;
+pub mod vehicles;
 
 #[derive(Default, SimpleObject)]
 pub struct OrgQuery {

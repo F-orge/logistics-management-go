@@ -9,7 +9,7 @@ use crate::entities::_generated::{
 };
 use crate::entities::org::department_users::{CreateDepartmentUser, UpdateDepartmentUser};
 use crate::graphql::backend::auth::AuthUsersNodes;
-use crate::graphql::backend::org::departments::DepartmentsNode;
+use crate::graphql::backend::org::departments::DepartmentNode;
 
 pub struct DepartmentUsersNodes {
     pub model: DepartmentUserModel,
@@ -33,7 +33,7 @@ impl DepartmentUsersNodes {
         self.model.is_active
     }
 
-    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentsNode> {
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentNode> {
         let db = ctx.data::<DatabaseConnection>()?;
 
         let department = OrgDepartmentEntity::find_by_id(self.model.department_id)
@@ -41,7 +41,7 @@ impl DepartmentUsersNodes {
             .await?
             .ok_or_else(|| async_graphql::Error::new("Department not found"))?;
 
-        Ok(DepartmentsNode { model: department })
+        Ok(DepartmentNode { model: department })
     }
 
     async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AuthUsersNodes>> {

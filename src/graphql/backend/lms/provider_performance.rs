@@ -1,4 +1,5 @@
-use async_graphql::{Context, ID, Object, Result};
+use async_graphql::{Context, Object, Result};
+use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
     QueryFilter, QueryOrder,
@@ -14,15 +15,12 @@ use crate::entities::lms::provider_performance::{
 };
 use crate::entities::{FilterGeneric, SortGeneric};
 
-use crate::entities::_generated::lms_shipments::{
-    Entity as ShipmentEntity, Model as ShipmentModel,
-};
-use crate::entities::_generated::lms_transport_legs::{
-    Entity as TransportLegEntity, Model as TransportLegModel,
-};
-use crate::entities::_generated::lms_transportation_providers::{
-    Entity as ProviderEntity, Model as ProviderModel,
-};
+use crate::entities::_generated::lms_shipments::Entity as ShipmentEntity;
+use crate::entities::_generated::lms_transport_legs::{Entity as TransportLegEntity, Column as TransportLegColumn};
+use crate::entities::_generated::lms_transportation_providers::Entity as ProviderEntity;
+use crate::graphql::backend::lms::shipments::ShipmentNode;
+use crate::graphql::backend::lms::transport_legs::TransportLegNode;
+use crate::graphql::backend::lms::transportation_providers::TransportationProviderNode;
 
 pub struct ProviderPerformanceNode {
     pub model: ProviderPerformanceModel,
@@ -32,15 +30,6 @@ pub struct ProviderPerformanceNode {
 impl ProviderPerformanceNode {
     async fn id(&self) -> Uuid {
         self.model.id
-    }
-    async fn provider_id(&self) -> Uuid {
-        self.model.provider_id
-    }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
-    }
-    async fn transport_leg_id(&self) -> Option<Uuid> {
-        self.model.transport_leg_id
     }
     async fn metric_type(
         &self,
@@ -64,24 +53,29 @@ impl ProviderPerformanceNode {
     }
 
     // Relations
-    async fn provider(&self, ctx: &Context<'_>) -> Result<Option<ProviderModel>> {
+    async fn provider(&self, ctx: &Context<'_>) -> Result<Option<TransportationProviderNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(ProviderEntity::find_by_id(self.model.provider_id)
+        let provider = ProviderEntity::find_by_id(self.model.provider_id)
             .one(db)
-            .await?)
+            .await?;
+        Ok(provider.map(|model| TransportationProviderNode { model }))
     }
-    async fn shipment(&self, ctx: &Context<'_>) -> Result<Option<ShipmentModel>> {
+    async fn shipment(&self, ctx: &Context<'_>) -> Result<Option<ShipmentNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(ShipmentEntity::find_by_id(self.model.shipment_id)
+        let shipment = ShipmentEntity::find_by_id(self.model.shipment_id)
             .one(db)
-            .await?)
+            .await?;
+        Ok(shipment.map(|model| ShipmentNode { model }))
     }
-    async fn transport_leg(&self, ctx: &Context<'_>) -> Result<Option<TransportLegModel>> {
+    async fn transport_leg(&self, ctx: &Context<'_>) -> Result<Option<TransportLegNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.transport_leg_id {
-            Some(id) => Ok(TransportLegEntity::find_by_id(id).one(db).await?),
-            None => Ok(None),
-        }
+
+        let leg = TransportLegEntity::find()
+            .filter(Expr::col(TransportLegColumn::Id).eq(self.model.transport_leg_id))
+            .one(db)
+            .await?;
+
+        Ok(leg.map(|model| TransportLegNode { model }))
     }
 }
 

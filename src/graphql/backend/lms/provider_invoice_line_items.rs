@@ -1,7 +1,6 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder, entity::prelude::Decimal,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, entity::prelude::Decimal,
 };
 use uuid::Uuid;
 
@@ -9,10 +8,12 @@ use crate::entities::_generated::lms_provider_invoice_line_items::{
     Column as ProviderInvoiceLineItemColumn, Entity as ProviderInvoiceLineItemEntity,
     Model as ProviderInvoiceLineItemModel,
 };
+use crate::entities::_generated::prelude::LmsProviderInvoices;
 use crate::entities::lms::provider_invoice_line_items::{
     CreateProviderInvoiceLineItem, UpdateProviderInvoiceLineItem,
 };
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::lms::provider_invoices::ProviderInvoiceNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct ProviderInvoiceLineItemsSort {
@@ -36,8 +37,16 @@ impl ProviderInvoiceLineItemNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn provider_invoice_id(&self) -> Uuid {
-        self.model.provider_invoice_id
+    async fn provider_invoice(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<ProviderInvoiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let invoice = LmsProviderInvoices::find_by_id(self.model.provider_invoice_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Provider invoice not found"))?;
+        Ok(ProviderInvoiceNode { model: invoice })
     }
     async fn description(&self) -> &str {
         &self.model.description

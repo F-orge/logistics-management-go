@@ -17,7 +17,7 @@ use crate::entities::_generated::{
 use crate::entities::org::vehicles::{CreateVehicle, UpdateVehicle};
 use crate::entities::{FilterGeneric, SortGeneric};
 use crate::graphql::backend::lms::warehouses::WarehouseNode;
-use crate::graphql::backend::org::departments::DepartmentsNode;
+use crate::graphql::backend::org::departments::DepartmentNode;
 
 #[derive(Default)]
 pub struct VehiclesQuery;
@@ -122,10 +122,7 @@ impl VehicleNode {
         &self.model.updated
     }
 
-    async fn department(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<DepartmentsNode>> {
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<DepartmentNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
 
         let department = DepartmentEntity::find()
@@ -133,7 +130,7 @@ impl VehicleNode {
             .one(db)
             .await?;
 
-        Ok(department.map(|model| DepartmentsNode { model }))
+        Ok(department.map(|model| DepartmentNode { model }))
     }
 
     async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<WarehouseNode>> {

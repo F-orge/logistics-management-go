@@ -18,7 +18,7 @@ use crate::entities::org::department_permissions::{
 };
 use crate::entities::{FilterGeneric, SortGeneric};
 use crate::graphql::backend::auth::AuthUsersNodes;
-use crate::graphql::backend::org::departments::DepartmentsNode;
+use crate::graphql::backend::org::departments::DepartmentNode;
 
 pub struct DepartmentPermissionsQuery {
     pub department_id: Uuid,
@@ -85,7 +85,7 @@ impl DepartmentPermissionsNodes {
         self.model.id
     }
 
-    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentsNode> {
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentNode> {
         let db = ctx.data::<DatabaseConnection>()?;
 
         let department = OrgDepartments::find_by_id(self.model.department_id)
@@ -93,7 +93,7 @@ impl DepartmentPermissionsNodes {
             .await?
             .ok_or_else(|| async_graphql::Error::new("Department not found"))?;
 
-        Ok(DepartmentsNode { model: department })
+        Ok(DepartmentNode { model: department })
     }
 
     async fn resource(&self) -> &str {

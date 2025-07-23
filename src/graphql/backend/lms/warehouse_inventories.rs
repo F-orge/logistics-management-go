@@ -1,3 +1,6 @@
+use sea_orm::prelude::Expr;
+use crate::entities::_generated::prelude::LmsWarehouses;
+use crate::graphql::backend::lms::warehouses::WarehouseNode;
 use async_graphql::{Context, Object};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -23,8 +26,13 @@ impl WarehouseInventoryNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn warehouse_id(&self) -> Uuid {
-        self.model.warehouse_id
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<WarehouseNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let warehouse = LmsWarehouses::find()
+            .filter(Expr::col(crate::entities::_generated::lms_warehouses::Column::Id).eq(self.model.warehouse_id))
+            .one(db)
+            .await?;
+        Ok(warehouse.map(|model| WarehouseNode { model }))
     }
     async fn shipment_id(&self) -> Uuid {
         self.model.shipment_id

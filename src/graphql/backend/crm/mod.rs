@@ -23,7 +23,6 @@ pub struct CrmQuery {
     leads: leads::LeadsQuery,
     notifications: notifications::NotificationsQuery,
     opportunities: opportunities::OpportunitiesQuery,
-    opportunity_products: opportunity_products::OpportunityProductsQuery,
     products: products::ProductsQuery,
 }
 

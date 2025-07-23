@@ -1,4 +1,5 @@
 use async_graphql::{Context, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
     QueryFilter, QueryOrder,
@@ -8,8 +9,11 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_routes::{
     Column as RouteColumn, Entity as RouteEntity, Model as RouteModel,
 };
+use crate::entities::_generated::prelude::{OrgDrivers, OrgVehicles};
 use crate::entities::lms::routes::{CreateRoute, UpdateRoute};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::org::drivers::DriverNode;
+use crate::graphql::backend::org::vehicles::VehicleNode;
 
 pub struct RouteNode {
     pub model: RouteModel,
@@ -22,12 +26,6 @@ impl RouteNode {
     }
     async fn route_name(&self) -> &str {
         &self.model.route_name
-    }
-    async fn driver_id(&self) -> Option<Uuid> {
-        self.model.driver_id
-    }
-    async fn vehicle_id(&self) -> Option<Uuid> {
-        self.model.vehicle_id
     }
     async fn route_date(&self) -> chrono::NaiveDate {
         self.model.route_date
@@ -55,34 +53,26 @@ impl RouteNode {
     }
 
     // Relations
-    async fn driver(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::org_drivers::Model>> {
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<DriverNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.driver_id {
-            Some(id) => Ok(
-                crate::entities::_generated::org_drivers::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+
+        let driver = OrgDrivers::find()
+            .filter(Expr::col(RouteColumn::DriverId).eq(self.model.driver_id))
+            .one(db)
+            .await?;
+
+        Ok(driver.map(|model| DriverNode { model }))
     }
 
-    async fn vehicle(
-        &self,
-        ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<crate::entities::_generated::org_vehicles::Model>> {
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<VehicleNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        match self.model.vehicle_id {
-            Some(id) => Ok(
-                crate::entities::_generated::org_vehicles::Entity::find_by_id(id)
-                    .one(db)
-                    .await?,
-            ),
-            None => Ok(None),
-        }
+
+        let vehicle = OrgVehicles::find()
+            .filter(Expr::col(RouteColumn::VehicleId).eq(self.model.vehicle_id))
+            .one(db)
+            .await?;
+
+        Ok(vehicle.map(|model| VehicleNode { model }))
     }
 }
 

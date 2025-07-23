@@ -8,8 +8,10 @@ use uuid::Uuid;
 use crate::entities::_generated::lms_tracking_events::{
     Column as TrackingEventColumn, Entity as TrackingEventEntity, Model as TrackingEventModel,
 };
+use crate::entities::_generated::prelude::LmsShipments;
 use crate::entities::lms::tracking_events::{CreateTrackingEvent, UpdateTrackingEvent};
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::shipments::ShipmentNode;
 
 pub struct TrackingEventNode {
     pub model: TrackingEventModel,
@@ -20,8 +22,17 @@ impl TrackingEventNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<ShipmentNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let shipment = LmsShipments::find()
+            .filter(
+                sea_orm::prelude::Expr::col(crate::entities::_generated::lms_shipments::Column::Id)
+                    .eq(self.model.shipment_id),
+            )
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipment not found"))?;
+        Ok(ShipmentNode { model: shipment })
     }
     async fn event_type(
         &self,

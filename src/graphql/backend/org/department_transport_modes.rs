@@ -9,10 +9,12 @@ use crate::entities::_generated::org_department_transport_modes::{
     Column as DepartmentTransportModeColumn, Entity as DepartmentTransportModeEntity,
     Model as DepartmentTransportModeModel,
 };
+use crate::entities::_generated::prelude::OrgDepartments;
 use crate::entities::org::department_transport_modes::{
     CreateDepartmentTransportMode, UpdateDepartmentTransportMode,
 };
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::org::departments::DepartmentNode;
 
 pub struct DepartmentTransportModesQuery {
     pub department_id: Uuid,
@@ -75,8 +77,13 @@ impl DepartmentTransportModesNodes {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn department_id(&self) -> Uuid {
-        self.model.department_id
+    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<DepartmentNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let department = OrgDepartments::find_by_id(self.model.department_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Department not found"))?;
+        Ok(DepartmentNode { model: department })
     }
     async fn transport_mode(&self) -> &str {
         &self.model.transport_mode

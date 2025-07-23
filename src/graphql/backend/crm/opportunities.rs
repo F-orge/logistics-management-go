@@ -13,12 +13,17 @@ use crate::entities::_generated::{
     crm_opportunities::{
         Column as OpportunityColumn, Entity as OpportunityEntity, Model as OpportunityModel,
     },
+    crm_opportunity_products::{
+        Column as OpportunityProductColumn, Entity as OpportunityProductEntity,
+        Model as OpportunityProductModel,
+    },
 };
 use crate::entities::{FilterGeneric, SortGeneric};
 
 use crate::entities::crm::opportunities::{CreateOpportunity, UpdateOpportunity};
 use crate::graphql::backend::crm::companies::CompanyNode;
 use crate::graphql::backend::crm::contacts::ContactNode;
+use crate::graphql::backend::crm::opportunity_products::OpportunityProductNode;
 
 #[derive(Default)]
 pub struct OpportunitiesQuery;
@@ -77,6 +82,23 @@ impl OpportunityNode {
     }
     async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.updated
+    }
+
+    async fn products(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<OpportunityProductNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let products = OpportunityProductEntity::find()
+            .filter(Expr::col(OpportunityProductColumn::OpportunityId).eq(self.model.id))
+            .all(db)
+            .await?;
+
+        Ok(products
+            .into_iter()
+            .map(|model| OpportunityProductNode { model })
+            .collect())
     }
 }
 

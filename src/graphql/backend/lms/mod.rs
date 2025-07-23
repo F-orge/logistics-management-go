@@ -27,26 +27,64 @@ pub mod warehouses;
 pub struct LmsQuery {
     addresses: addresses::AddressesQuery,
     packages: packages::PackagesQuery,
-    pricing_rates: pricing_rates::PricingRatesQuery,
-    pricing_zones: pricing_zones::PricingZonesQuery,
-    provider_invoices: provider_invoices::ProviderInvoicesQuery,
-    provider_performance: provider_performance::ProviderPerformancesQuery,
-    provider_rates: provider_rates::ProviderRatesQuery,
-    provider_service_destination_countries:
+    pricing: PricingQuery,
+    provider: ProviderQuery,
+    route: routes::RoutesQuery,
+    shipment: shipments::ShipmentsQuery,
+    shipping: ShippingServiceQuery,
+    tracking: tracking_events::TrackingEventsQuery,
+    transport: TransportQuery,
+    warehouse: WarehouseQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct PricingQuery {
+    pub rates: pricing_rates::PricingRatesQuery,
+    pub zones: pricing_zones::PricingZonesQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct ProviderQuery {
+    pub invoices: provider_invoices::ProviderInvoicesQuery,
+    pub performance: provider_performance::ProviderPerformancesQuery,
+    pub rates: provider_rates::ProviderRatesQuery,
+    pub service: ProviderServiceQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct ProviderServiceQuery {
+    pub destination_countries:
         provider_service_destination_countries::ProviderServiceDestinationCountriesQuery,
-    provider_service_max_dimensions:
-        provider_service_max_dimensions::ProviderServiceMaxDimensionsQuery,
-    provider_service_origin_countries:
-        provider_service_origin_countries::ProviderServiceOriginCountriesQuery,
-    provider_services: provider_services::ProviderServicesQuery,
-    routes: routes::RoutesQuery,
-    shipments: shipments::ShipmentsQuery,
-    shipping_service_max_dimensions:
-        shipping_service_max_dimensions::ShippingServiceMaxDimensionsQuery,
-    tracking_events: tracking_events::TrackingEventsQuery,
-    transport_legs: transport_legs::TransportLegsQuery,
-    transportation_providers: transportation_providers::TransportationProvidersQuery,
-    warehouses: warehouses::WarehousesQuery,
+    pub max_dimensions: provider_service_max_dimensions::ProviderServiceMaxDimensionsQuery,
+    pub origin_countries: provider_service_origin_countries::ProviderServiceOriginCountriesQuery,
+    pub services: provider_services::ProviderServicesQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct ShipmentQuery {
+    pub shipments: shipments::ShipmentsQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct ShippingServiceQuery {
+    pub services: shipping_services::ShippingServicesQuery,
+    pub max_dimensions: shipping_service_max_dimensions::ShippingServiceMaxDimensionsQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct TrackingQuery {
+    pub tracking_events: tracking_events::TrackingEventsQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct TransportQuery {
+    pub transport_legs: transport_legs::TransportLegsQuery,
+    pub providers: transportation_providers::TransportationProvidersQuery,
+}
+
+#[derive(SimpleObject, Default)]
+pub struct WarehouseQuery {
+    pub warehouses: warehouses::WarehousesQuery,
 }
 
 #[derive(Default, SimpleObject)]

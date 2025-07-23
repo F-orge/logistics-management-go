@@ -9,8 +9,10 @@ use crate::entities::_generated::lms_provider_service_origin_countries::{
     Column as ProviderServiceOriginCountryColumn, Entity as ProviderServiceOriginCountryEntity,
     Model as ProviderServiceOriginCountryModel,
 };
+use crate::entities::_generated::prelude::LmsProviderServices;
 use crate::entities::lms::provider_service_origin_countries::CreateProviderServiceOriginCountry;
 use crate::entities::{FilterGeneric, SortGeneric};
+use crate::graphql::backend::lms::provider_services::ProviderServiceNode;
 
 pub struct ProviderServiceOriginCountryNode {
     pub model: ProviderServiceOriginCountryModel,
@@ -21,8 +23,16 @@ impl ProviderServiceOriginCountryNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn provider_service_id(&self) -> Uuid {
-        self.model.provider_service_id
+    async fn provider_service(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<ProviderServiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let service = LmsProviderServices::find_by_id(self.model.provider_service_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Provider service not found"))?;
+        Ok(ProviderServiceNode { model: service })
     }
     async fn country_code(&self) -> &str {
         &self.model.country_code
