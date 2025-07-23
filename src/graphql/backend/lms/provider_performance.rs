@@ -1,7 +1,7 @@
-use async_graphql::{Context, ID, InputObject, Object, Result};
+use async_graphql::{Context, ID, Object, Result};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
@@ -12,7 +12,7 @@ use crate::entities::_generated::lms_provider_performance::{
 use crate::entities::lms::provider_performance::{
     CreateProviderPerformance, UpdateProviderPerformance,
 };
-use crate::entities::{FilterOperator, SortOrder};
+use crate::entities::{FilterGeneric, SortGeneric};
 
 use crate::entities::_generated::lms_shipments::{
     Entity as ShipmentEntity, Model as ShipmentModel,
@@ -23,19 +23,6 @@ use crate::entities::_generated::lms_transport_legs::{
 use crate::entities::_generated::lms_transportation_providers::{
     Entity as ProviderEntity, Model as ProviderModel,
 };
-
-#[derive(Debug, Clone, InputObject)]
-pub struct ProviderPerformancesSort {
-    pub column: ProviderPerformanceColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct ProviderPerformanceFilter {
-    pub column: ProviderPerformanceColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
 
 pub struct ProviderPerformanceNode {
     pub model: ProviderPerformanceModel,
@@ -114,8 +101,8 @@ impl ProviderPerformancesQuery {
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<ProviderPerformancesSort>>,
-        filter_by: Option<Vec<ProviderPerformanceFilter>>,
+        sort_by: Option<Vec<SortGeneric<ProviderPerformanceColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<ProviderPerformanceColumn>>>,
     ) -> Result<Vec<ProviderPerformanceNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = ProviderPerformanceEntity::find();
@@ -123,39 +110,15 @@ impl ProviderPerformancesQuery {
         // Sorting
         if let Some(sorts) = sort_by {
             for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
             }
         }
 
         // Filtering
         if let Some(filters) = filter_by {
             for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
+                query = query.filter(filter.filter());
             }
         }
 

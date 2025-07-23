@@ -1,7 +1,7 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
@@ -12,20 +12,7 @@ use crate::entities::_generated::lms_transportation_providers::{
 use crate::entities::lms::transportation_providers::{
     CreateTransportationProvider, UpdateTransportationProvider,
 };
-use crate::entities::{FilterOperator, SortOrder};
-
-#[derive(Debug, Clone, InputObject)]
-pub struct TransportationProvidersSort {
-    pub column: TransportationProviderColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct TransportationProviderFilter {
-    pub column: TransportationProviderColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::entities::{FilterGeneric, SortGeneric};
 
 pub struct TransportationProviderNode {
     pub model: TransportationProviderModel,
@@ -81,8 +68,8 @@ impl TransportationProvidersQuery {
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<TransportationProvidersSort>>,
-        filter_by: Option<Vec<TransportationProviderFilter>>,
+        sort_by: Option<Vec<SortGeneric<TransportationProviderColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<TransportationProviderColumn>>>,
     ) -> async_graphql::Result<Vec<TransportationProviderNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = TransportationProviderEntity::find();
@@ -90,39 +77,15 @@ impl TransportationProvidersQuery {
         // Sorting
         if let Some(sorts) = sort_by {
             for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
             }
         }
 
         // Filtering
         if let Some(filters) = filter_by {
             for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
+                query = query.filter(filter.filter());
             }
         }
 

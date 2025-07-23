@@ -1,7 +1,7 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
@@ -9,20 +9,7 @@ use crate::entities::_generated::lms_routes::{
     Column as RouteColumn, Entity as RouteEntity, Model as RouteModel,
 };
 use crate::entities::lms::routes::{CreateRoute, UpdateRoute};
-use crate::entities::{FilterOperator, SortOrder};
-
-#[derive(Debug, Clone, InputObject)]
-pub struct RoutesSort {
-    pub column: RouteColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct RouteFilter {
-    pub column: RouteColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::entities::{FilterGeneric, SortGeneric};
 
 pub struct RouteNode {
     pub model: RouteModel,
@@ -68,18 +55,32 @@ impl RouteNode {
     }
 
     // Relations
-    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::org_drivers::Model>> {
+    async fn driver(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::org_drivers::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         match self.model.driver_id {
-            Some(id) => Ok(crate::entities::_generated::org_drivers::Entity::find_by_id(id).one(db).await?),
+            Some(id) => Ok(
+                crate::entities::_generated::org_drivers::Entity::find_by_id(id)
+                    .one(db)
+                    .await?,
+            ),
             None => Ok(None),
         }
     }
 
-    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::org_vehicles::Model>> {
+    async fn vehicle(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::org_vehicles::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         match self.model.vehicle_id {
-            Some(id) => Ok(crate::entities::_generated::org_vehicles::Entity::find_by_id(id).one(db).await?),
+            Some(id) => Ok(
+                crate::entities::_generated::org_vehicles::Entity::find_by_id(id)
+                    .one(db)
+                    .await?,
+            ),
             None => Ok(None),
         }
     }
@@ -101,8 +102,8 @@ impl RoutesQuery {
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<RoutesSort>>,
-        filter_by: Option<Vec<RouteFilter>>,
+        sort_by: Option<Vec<SortGeneric<RouteColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<RouteColumn>>>,
     ) -> async_graphql::Result<Vec<RouteNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = RouteEntity::find();
@@ -110,47 +111,20 @@ impl RoutesQuery {
         // Sorting
         if let Some(sorts) = sort_by {
             for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
             }
         }
 
         // Filtering
         if let Some(filters) = filter_by {
             for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
+                query = query.filter(filter.filter());
             }
         }
 
         let items = query.paginate(db, limit).fetch_page(page).await?;
-        Ok(items
-            .into_iter()
-            .map(|m| RouteNode { model: m })
-            .collect())
+        Ok(items.into_iter().map(|m| RouteNode { model: m }).collect())
     }
 }
 

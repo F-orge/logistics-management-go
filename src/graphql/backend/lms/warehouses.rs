@@ -1,7 +1,7 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
@@ -9,20 +9,7 @@ use crate::entities::_generated::lms_warehouses::{
     Column as WarehouseColumn, Entity as WarehouseEntity, Model as WarehouseModel,
 };
 use crate::entities::lms::warehouses::{CreateWarehouse, UpdateWarehouse};
-use crate::entities::{FilterOperator, SortOrder};
-
-#[derive(Debug, Clone, InputObject)]
-pub struct WarehousesSort {
-    pub column: WarehouseColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct WarehouseFilter {
-    pub column: WarehouseColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::entities::{FilterGeneric, SortGeneric};
 
 pub struct WarehouseNode {
     pub model: WarehouseModel,
@@ -67,23 +54,44 @@ impl WarehouseNode {
     }
 
     // Relations
-    async fn address(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::lms_addresses::Model>> {
+    async fn address(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::lms_addresses::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        Ok(crate::entities::_generated::lms_addresses::Entity::find_by_id(self.model.address_id).one(db).await?)
+        Ok(
+            crate::entities::_generated::lms_addresses::Entity::find_by_id(self.model.address_id)
+                .one(db)
+                .await?,
+        )
     }
 
-    async fn department(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::org_departments::Model>> {
+    async fn department(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::org_departments::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         match self.model.department_id {
-            Some(id) => Ok(crate::entities::_generated::org_departments::Entity::find_by_id(id).one(db).await?),
+            Some(id) => Ok(
+                crate::entities::_generated::org_departments::Entity::find_by_id(id)
+                    .one(db)
+                    .await?,
+            ),
             None => Ok(None),
         }
     }
 
-    async fn manager(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::auth_users::Model>> {
+    async fn manager(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::auth_users::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         match self.model.manager_id {
-            Some(id) => Ok(crate::entities::_generated::auth_users::Entity::find_by_id(id).one(db).await?),
+            Some(id) => Ok(
+                crate::entities::_generated::auth_users::Entity::find_by_id(id)
+                    .one(db)
+                    .await?,
+            ),
             None => Ok(None),
         }
     }
@@ -94,7 +102,11 @@ pub struct WarehousesQuery;
 
 #[Object]
 impl WarehousesQuery {
-    async fn view(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Option<WarehouseNode>> {
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<WarehouseNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let model = WarehouseEntity::find_by_id(id).one(db).await?;
         Ok(model.map(|m| WarehouseNode { model: m }))
@@ -105,8 +117,8 @@ impl WarehousesQuery {
         ctx: &Context<'_>,
         page: u64,
         limit: u64,
-        sort_by: Option<Vec<WarehousesSort>>,
-        filter_by: Option<Vec<WarehouseFilter>>,
+        sort_by: Option<Vec<SortGeneric<WarehouseColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<WarehouseColumn>>>,
     ) -> async_graphql::Result<Vec<WarehouseNode>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let mut query = WarehouseEntity::find();
@@ -114,39 +126,15 @@ impl WarehousesQuery {
         // Sorting
         if let Some(sorts) = sort_by {
             for sort in sorts {
-                let order = match sort.order {
-                    SortOrder::Asc => sea_orm::Order::Asc,
-                    SortOrder::Desc => sea_orm::Order::Desc,
-                };
-                query = query.order_by(sort.column, order);
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
             }
         }
 
         // Filtering
         if let Some(filters) = filter_by {
             for filter in filters {
-                query = match filter.operator {
-                    FilterOperator::Equals => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .eq(filter.value.clone()),
-                    ),
-                    FilterOperator::Contains => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}%", filter.value)),
-                    ),
-                    FilterOperator::StartsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("{}%", filter.value)),
-                    ),
-                    FilterOperator::EndsWith => query.filter(
-                        sea_orm::sea_query::Expr::col(filter.column)
-                            .cast_as(sea_orm::sea_query::Alias::new("text"))
-                            .like(format!("%{}", filter.value)),
-                    ),
-                };
+                query = query.filter(filter.filter());
             }
         }
 

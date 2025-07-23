@@ -1,4 +1,4 @@
-use async_graphql::{Context, InputObject, Object};
+use async_graphql::{Context, Object};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
     PaginatorTrait, QueryFilter, QueryOrder,
@@ -12,20 +12,7 @@ use crate::entities::_generated::lms_warehouse_inventories::{
 use crate::entities::lms::warehouse_inventories::{
     CreateWarehouseInventory, UpdateWarehouseInventory,
 };
-use crate::entities::{FilterOperator, SortOrder};
-
-#[derive(Debug, Clone, InputObject)]
-pub struct WarehouseInventoriesSort {
-    pub column: WarehouseInventoryColumn,
-    pub order: SortOrder,
-}
-
-#[derive(Debug, Clone, InputObject)]
-pub struct WarehouseInventoryFilter {
-    pub column: WarehouseInventoryColumn,
-    pub operator: FilterOperator,
-    pub value: String,
-}
+use crate::entities::{FilterGeneric, SortGeneric};
 
 pub struct WarehouseInventoryNode {
     pub model: WarehouseInventoryModel,
@@ -101,5 +88,54 @@ impl WarehouseInventoriesMutation {
             .await
             .map_err(|e| anyhow::anyhow!("Failed to delete warehouse inventory: {}", e))?;
         Ok(format!("Deleted warehouse inventory with ID: {}", id))
+    }
+}
+
+#[derive(Default)]
+pub struct WarehouseInventoriesQuery;
+
+#[Object]
+impl WarehouseInventoriesQuery {
+    async fn view(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<WarehouseInventoryNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let model = WarehouseInventoryEntity::find_by_id(id).one(db).await?;
+        Ok(model.map(|m| WarehouseInventoryNode { model: m }))
+    }
+
+    async fn list(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+        sort_by: Option<Vec<SortGeneric<WarehouseInventoryColumn>>>,
+        filter_by: Option<Vec<FilterGeneric<WarehouseInventoryColumn>>>,
+    ) -> async_graphql::Result<Vec<WarehouseInventoryNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let mut query = WarehouseInventoryEntity::find();
+
+        // Sorting
+        if let Some(sorts) = sort_by {
+            for sort in sorts {
+                let (column, order) = sort.sort();
+                query = query.order_by(column, order);
+            }
+        }
+
+        // Filtering
+        if let Some(filters) = filter_by {
+            for filter in filters {
+                query = query.filter(filter.filter());
+            }
+        }
+
+        let items = query.paginate(db, limit).fetch_page(page).await?;
+        Ok(items
+            .into_iter()
+            .map(|m| WarehouseInventoryNode { model: m })
+            .collect())
     }
 }
