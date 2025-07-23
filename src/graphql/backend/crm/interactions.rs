@@ -1,15 +1,22 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
+use crate::entities::_generated::crm_contacts::{Column as ContactColumn, Entity as ContactEntity};
 use crate::entities::_generated::crm_interactions::{
     Column as InteractionColumn, Entity as InteractionEntity, Model as InteractionModel,
 };
+use crate::entities::_generated::crm_opportunities::{
+    Column as OpportunityColumn, Entity as OpportunityEntity,
+};
 use crate::entities::crm::interactions::{CreateInteraction, UpdateInteraction};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::contacts::ContactNode;
+use crate::graphql::backend::crm::opportunities::OpportunityNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InteractionsSort {
@@ -50,12 +57,32 @@ impl InteractionNode {
     async fn interaction_date(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.interaction_date
     }
-    async fn contact_id(&self) -> Option<Uuid> {
-        self.model.contact_id
+
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let contact = ContactEntity::find()
+            .filter(Expr::col(ContactColumn::Id).eq(self.model.contact_id))
+            .one(db)
+            .await?;
+
+        Ok(contact.map(|model| ContactNode { model }))
     }
-    async fn opportunity_id(&self) -> Option<Uuid> {
-        self.model.opportunity_id
+
+    async fn opportunity(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<OpportunityNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let opportunity = OpportunityEntity::find()
+            .filter(Expr::col(OpportunityColumn::Id).eq(self.model.opportunity_id))
+            .one(db)
+            .await?;
+
+        Ok(opportunity.map(|model| OpportunityNode { model }))
     }
+
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created
     }

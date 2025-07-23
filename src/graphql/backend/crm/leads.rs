@@ -1,15 +1,19 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder, prelude::Expr,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_leads::{
-    Column as LeadColumn, Entity as LeadEntity, Model as LeadModel,
-};
 use crate::entities::crm::leads::{CreateLead, UpdateLead};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::{
+    entities::_generated::{
+        crm_contacts::{Column as ContactColumn, Entity as ContactEntity},
+        crm_leads::{Column as LeadColumn, Entity as LeadEntity, Model as LeadModel},
+    },
+    graphql::backend::crm::contacts::ContactNode,
+};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct LeadsSort {
@@ -62,8 +66,18 @@ impl LeadNode {
     async fn lead_score(&self) -> i32 {
         self.model.lead_score
     }
-    async fn converted_to_contact_id(&self) -> Option<Uuid> {
-        self.model.converted_to_contact_id
+    async fn converted_to_contact(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let contact = ContactEntity::find()
+            .filter(Expr::col(ContactColumn::Id).eq(self.model.converted_to_contact_id))
+            .one(db)
+            .await?;
+
+        Ok(contact.map(|model| ContactNode { model }))
     }
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created

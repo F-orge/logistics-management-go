@@ -1,4 +1,5 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
     QueryFilter, QueryOrder,
@@ -8,8 +9,12 @@ use uuid::Uuid;
 use crate::entities::_generated::crm_companies::{
     Column as CompanyColumn, Entity as CompanyEntity, Model as CompanyModel,
 };
+use crate::entities::_generated::lms_addresses::{
+    Column as AddressColumn, Entity as AddressEntity,
+};
 use crate::entities::crm::companies::{CreateCompany, UpdateCompany};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::lms::addresses::AddressNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CompaniesSort {
@@ -60,8 +65,15 @@ impl CompanyNode {
     async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.updated
     }
-    async fn address_id(&self) -> Option<Uuid> {
-        self.model.address_id
+    async fn address(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AddressNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let address = AddressEntity::find()
+            .filter(Expr::col(AddressColumn::Id).eq(self.model.id))
+            .one(db)
+            .await?;
+
+        Ok(address.map(|model| AddressNode { model }))
     }
 }
 

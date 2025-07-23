@@ -1,19 +1,27 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::entity::prelude::Decimal;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_opportunity_products::{
-    Column as OpportunityProductColumn, Entity as OpportunityProductEntity,
-    Model as OpportunityProductModel,
+use crate::entities::_generated::{
+    crm_opportunities::Entity as OpportunityEntity,
+    crm_opportunity_products::{
+        Column as OpportunityProductColumn, Entity as OpportunityProductEntity,
+        Model as OpportunityProductModel,
+    },
+    crm_products::Entity as ProductEntity,
 };
+
 use crate::entities::crm::opportunity_products::{
     CreateOpportunityProduct, UpdateOpportunityProduct,
 };
+
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::opportunities::OpportunityNode;
+use crate::graphql::backend::crm::products::ProductNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct OpportunityProductsSort {
@@ -40,11 +48,25 @@ impl OpportunityProductNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn opportunity_id(&self) -> Uuid {
-        self.model.opportunity_id
+    async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<OpportunityNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let opportunity = OpportunityEntity::find_by_id(self.model.opportunity_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Opportunity not found"))?;
+
+        Ok(OpportunityNode { model: opportunity })
     }
-    async fn product_id(&self) -> Uuid {
-        self.model.product_id
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<ProductNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let product = ProductEntity::find_by_id(self.model.product_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Product not found"))?;
+
+        Ok(ProductNode { model: product })
     }
     async fn quantity(&self) -> Decimal {
         self.model.quantity

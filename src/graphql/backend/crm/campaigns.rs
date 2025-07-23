@@ -1,7 +1,7 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder, entity::prelude::Decimal,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder, entity::prelude::Decimal,
 };
 use uuid::Uuid;
 

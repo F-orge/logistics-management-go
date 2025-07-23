@@ -1,15 +1,22 @@
 use async_graphql::{Context, InputObject, Object};
+use sea_orm::prelude::Expr;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder, entity::prelude::Decimal,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
+    entity::prelude::Decimal,
 };
 use uuid::Uuid;
 
 use crate::entities::_generated::crm_invoice_line_items::{
     Column as InvoiceLineItemColumn, Entity as InvoiceLineItemEntity, Model as InvoiceLineItemModel,
 };
+use crate::entities::_generated::crm_invoices::{Column as InvoiceColumn, Entity as InvoiceEntity};
+use crate::entities::_generated::lms_shipments::{
+    Column as ShipmentColumn, Entity as ShipmentEntity,
+};
 use crate::entities::crm::invoice_line_items::{CreateInvoiceLineItem, UpdateInvoiceLineItem};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::invoices::InvoiceNode;
+use crate::graphql::backend::lms::shipments::ShipmentNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InvoiceLineItemsSort {
@@ -33,27 +40,50 @@ impl InvoiceLineItemNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn invoice_id(&self) -> Uuid {
-        self.model.invoice_id
+
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<InvoiceNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let invoice = InvoiceEntity::find()
+            .filter(Expr::col(InvoiceColumn::Id).eq(self.model.invoice_id))
+            .one(db)
+            .await?
+            .ok_or(anyhow::anyhow!("Invoice not found"))?;
+
+        Ok(InvoiceNode { model: invoice })
     }
-    async fn shipment_id(&self) -> Option<Uuid> {
-        self.model.shipment_id
+
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<ShipmentNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let shipment = ShipmentEntity::find()
+            .filter(Expr::col(ShipmentColumn::Id).eq(self.model.shipment_id))
+            .one(db)
+            .await?;
+
+        Ok(shipment.map(|model| ShipmentNode { model }))
     }
+
     async fn description(&self) -> &str {
         &self.model.description
     }
+
     async fn quantity(&self) -> Decimal {
         self.model.quantity
     }
+
     async fn unit_price(&self) -> Decimal {
         self.model.unit_price
     }
+
     async fn line_total(&self) -> Option<Decimal> {
         self.model.line_total
     }
+
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created
     }
+
     async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.updated
     }

@@ -1,5 +1,5 @@
 use async_graphql::{Object, SimpleObject};
-mod addresses;
+pub mod addresses;
 mod packages;
 mod pricing_rates;
 mod pricing_zone_countries;
@@ -14,7 +14,7 @@ mod provider_service_origin_countries;
 mod provider_services;
 mod route_shipments;
 mod routes;
-mod shipments;
+pub mod shipments;
 mod shipping_service_max_dimensions;
 mod shipping_services;
 mod tracking_events;
@@ -23,7 +23,7 @@ mod transportation_providers;
 mod warehouse_inventories;
 mod warehouses;
 
-#[derive(SimpleObject)]
+#[derive(SimpleObject, Default)]
 pub struct LmsQuery {
     addresses: addresses::AddressesQuery,
     packages: packages::PackagesQuery,

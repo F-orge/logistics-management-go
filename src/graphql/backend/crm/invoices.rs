@@ -1,16 +1,23 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::entity::prelude::Decimal;
+use sea_orm::prelude::Expr;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
 use crate::entities::_generated::crm_invoices::{
     Column as InvoiceColumn, Entity as InvoiceEntity, Model as InvoiceModel,
 };
+use crate::entities::_generated::{
+    crm_companies::{Column as CompanyColumn, Entity as CompanyEntity},
+    crm_contacts::{Column as ContactColumn, Entity as ContactEntity},
+};
 use crate::entities::crm::invoices::{CreateInvoice, UpdateInvoice};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::companies::CompanyNode;
+use crate::graphql::backend::crm::contacts::ContactNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InvoicesSort {
@@ -40,11 +47,21 @@ impl InvoiceNode {
     async fn invoice_number(&self) -> &str {
         &self.model.invoice_number
     }
-    async fn company_id(&self) -> Option<Uuid> {
-        self.model.company_id
+    async fn company(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<CompanyNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let company = CompanyEntity::find()
+            .filter(Expr::col(CompanyColumn::Id).eq(self.model.company_id))
+            .one(db)
+            .await?;
+        Ok(company.map(|model| CompanyNode { model }))
     }
-    async fn contact_id(&self) -> Option<Uuid> {
-        self.model.contact_id
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let contact = ContactEntity::find()
+            .filter(Expr::col(ContactColumn::Id).eq(self.model.contact_id))
+            .one(db)
+            .await?;
+        Ok(contact.map(|model| ContactNode { model }))
     }
     async fn invoice_date(&self) -> chrono::NaiveDate {
         self.model.invoice_date

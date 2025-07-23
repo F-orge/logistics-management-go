@@ -1,16 +1,24 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::entity::prelude::Decimal;
+use sea_orm::prelude::Expr;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_opportunities::{
-    Column as OpportunityColumn, Entity as OpportunityEntity, Model as OpportunityModel,
+use crate::entities::_generated::{
+    crm_companies::{Column as CompanyColumn, Entity as CompanyEntity},
+    crm_contacts::{Column as ContactColumn, Entity as ContactEntity},
+    crm_opportunities::{
+        Column as OpportunityColumn, Entity as OpportunityEntity, Model as OpportunityModel,
+    },
 };
+
 use crate::entities::crm::opportunities::{CreateOpportunity, UpdateOpportunity};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::companies::CompanyNode;
+use crate::graphql::backend::crm::contacts::ContactNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct OpportunitiesSort {
@@ -40,11 +48,28 @@ impl OpportunityNode {
     async fn name(&self) -> &str {
         &self.model.name
     }
-    async fn company_id(&self) -> Option<Uuid> {
-        self.model.company_id
+    async fn company(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<CompanyNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let company = CompanyEntity::find()
+            .filter(Expr::col(CompanyColumn::Id).eq(self.model.company_id))
+            .one(db)
+            .await?;
+
+        Ok(company.map(|model| CompanyNode { model }))
     }
-    async fn primary_contact_id(&self) -> Option<Uuid> {
-        self.model.primary_contact_id
+    async fn primary_contact(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let contact = ContactEntity::find()
+            .filter(Expr::col(ContactColumn::Id).eq(self.model.primary_contact_id))
+            .one(db)
+            .await?;
+
+        Ok(contact.map(|model| ContactNode { model }))
     }
     async fn stage(
         &self,

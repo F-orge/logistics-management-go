@@ -1,15 +1,21 @@
 use async_graphql::{Context, InputObject, Object};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::crm_notifications::{
-    Column as NotificationColumn, Entity as NotificationEntity, Model as NotificationModel,
+use crate::entities::_generated::lms_shipments::Entity as ShipmentEntity;
+use crate::entities::_generated::{
+    crm_contacts::Entity as ContactEntity,
+    crm_notifications::{
+        Column as NotificationColumn, Entity as NotificationEntity, Model as NotificationModel,
+    },
 };
 use crate::entities::crm::notifications::{CreateNotification, UpdateNotification};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::contacts::ContactNode;
+use crate::graphql::backend::lms::shipments::ShipmentNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct NotificationsSort {
@@ -36,11 +42,27 @@ impl NotificationNode {
     async fn id(&self) -> Uuid {
         self.model.id
     }
-    async fn shipment_id(&self) -> Uuid {
-        self.model.shipment_id
+
+    async fn shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<ShipmentNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let shipment = ShipmentEntity::find_by_id(self.model.shipment_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Shipment not found"))?;
+
+        Ok(ShipmentNode { model: shipment })
     }
-    async fn contact_id(&self) -> Uuid {
-        self.model.contact_id
+
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<ContactNode> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let contact = ContactEntity::find_by_id(self.model.contact_id)
+            .one(db)
+            .await?
+            .ok_or_else(|| async_graphql::Error::new("Contact not found"))?;
+
+        Ok(ContactNode { model: contact })
     }
     async fn notification_type(
         &self,

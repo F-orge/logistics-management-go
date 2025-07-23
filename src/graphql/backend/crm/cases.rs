@@ -8,8 +8,10 @@ use uuid::Uuid;
 use crate::entities::_generated::crm_cases::{
     Column as CaseColumn, Entity as CaseEntity, Model as CaseModel,
 };
+use crate::entities::_generated::crm_contacts::Entity as ContactEntity;
 use crate::entities::crm::cases::{CreateCase, UpdateCase};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::contacts::ContactNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CasesSort {
@@ -50,8 +52,18 @@ impl CaseNode {
     ) -> &crate::entities::_generated::sea_orm_active_enums::CrmCasePriority {
         &self.model.priority
     }
-    async fn contact_id(&self) -> Option<Uuid> {
-        self.model.contact_id
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<ContactNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        if self.model.contact_id.is_none() {
+            return Ok(None);
+        }
+
+        let contact = ContactEntity::find_by_id(self.model.contact_id.unwrap())
+            .one(db)
+            .await?;
+
+        Ok(contact.map(|model| ContactNode { model }))
     }
     async fn closed_at(&self) -> Option<chrono::DateTime<chrono::FixedOffset>> {
         self.model.closed_at

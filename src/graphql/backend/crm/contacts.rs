@@ -1,16 +1,25 @@
 use async_graphql::{Context, InputObject, Object};
-use sea_orm::sea_query::Func;
+use sea_orm::prelude::Expr;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, Iden, IntoActiveModel,
-    PaginatorTrait, QueryFilter, QueryOrder,
+    ActiveModelTrait, DatabaseConnection, EntityTrait, IntoActiveModel, PaginatorTrait,
+    QueryFilter, QueryOrder,
 };
 use uuid::Uuid;
 
+use crate::entities::_generated::crm_companies::{
+    Column as CompanyColumn, Entity as CompanyEntity,
+};
 use crate::entities::_generated::crm_contacts::{
     Column as ContactColumn, Entity as ContactEntity, Model as ContactModel,
 };
+use crate::entities::_generated::lms_addresses::{
+    Column as AddressColumn, Entity as AddressEntity,
+};
+
 use crate::entities::crm::contacts::{CreateContact, UpdateContact};
 use crate::entities::{FilterOperator, SortOrder};
+use crate::graphql::backend::crm::companies::CompanyNode;
+use crate::graphql::backend::lms::addresses::AddressNode;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct ContactsSort {
@@ -61,17 +70,34 @@ impl ContactNode {
     async fn birth_date(&self) -> Option<chrono::NaiveDate> {
         self.model.birth_date
     }
-    async fn company_id(&self) -> Option<Uuid> {
-        self.model.company_id
+
+    async fn company(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<CompanyNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let company = CompanyEntity::find()
+            .filter(Expr::col(CompanyColumn::Id).eq(self.model.company_id))
+            .one(db)
+            .await?;
+
+        Ok(company.map(|model| CompanyNode { model }))
     }
+
     async fn created(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.created
     }
     async fn updated(&self) -> chrono::DateTime<chrono::FixedOffset> {
         self.model.updated
     }
-    async fn address_id(&self) -> Option<Uuid> {
-        self.model.address_id
+
+    async fn address(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<AddressNode>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let address = AddressEntity::find()
+            .filter(Expr::col(AddressColumn::Id).eq(self.model.address_id))
+            .one(db)
+            .await?;
+
+        Ok(address.map(|model| AddressNode { model }))
     }
 }
 

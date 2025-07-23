@@ -10,6 +10,7 @@ pub struct Query {
     pub auth: auth::AuthQuery,
     pub crm: crm::CrmQuery,
     pub org: org::OrgQuery,
+    pub lms: lms::LmsQuery,
 }
 
 #[derive(SimpleObject, Default)]
@@ -17,4 +18,5 @@ pub struct Mutation {
     pub auth: auth::AuthMutation,
     pub crm: crm::CrmMutation,
     pub org: org::OrgMutation,
+    pub lms: lms::LmsMutation,
 }
