@@ -1,7 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "vcs": {
     "enabled": true,
@@ -9,8 +13,7 @@
     "useIgnoreFile": true
   },
   "formatter": {
-    "indentStyle": "space",
-    "ignore": ["./src/routeTree.gen.ts"]
+    "indentStyle": "space"
   },
   "javascript": {
     "formatter": {
@@ -26,7 +29,6 @@
     "enabled": true,
     "rules": {
       "recommended": true
-    },
-    "ignore": ["./src/routeTree.gen.ts", "seed.ts"]
+    }
   }
 }

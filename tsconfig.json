@@ -9,14 +9,25 @@
 
     /* modules */
     "module": "ESNext",
-    "isolatedModules": true,
-    "resolveJsonModule": true,
+    "moduleDetection": "force",
     "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
+    "noUncheckedSideEffectImports": true,
 
     /* type checking */
     "strict": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
-  }
+    "noUnusedParameters": true,
+    
+    /* path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": ["src"]
 }

@@ -1,41 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './globals.css';
-import '../public/manifest.json';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { NuqsAdapter } from 'nuqs/adapters/react';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
+import "./styles/globals.css";
 
-import { Toaster } from '@marahuyo/react-ui/ui/sonner';
-import { ThemeProvider } from '@marahuyo/react-ui/ui/theme-provider';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { routeTree } from './routeTree.gen';
-import NotFoundPage from './routes/-404';
+const router = createRouter({ routeTree });
 
-const router = createRouter({
-  routeTree,
-  defaultNotFoundComponent: NotFoundPage,
-});
-const queryClient = new QueryClient();
-
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }
 }
 
-const rootEl = document.getElementById('root');
+const rootEl = document.getElementById("root");
+
 if (rootEl) {
   const root = ReactDOM.createRoot(rootEl);
   root.render(
-    <NuqsAdapter>
-      <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <RouterProvider router={router} />
-            <Toaster />
-          </ThemeProvider>
-        </QueryClientProvider>
-      </React.StrictMode>
-    </NuqsAdapter>,
+    <React.StrictMode>
+      <ThemeProvider defaultTheme="dark" storageKey="pocketbase-template-theme">
+        <RouterProvider router={router} />
+        <Toaster />
+      </ThemeProvider>
+    </React.StrictMode>,
   );
 }

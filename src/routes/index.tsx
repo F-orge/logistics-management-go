@@ -1,27 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
-import { pb } from '../../lib/pocketbase';
+import { pb } from "@/pocketbase";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: RouteComponent,
+  loader: async () => {
+    const healthCheck = await pb.health.check();
+
+    return { healthCheck };
+  },
 });
 
 function RouteComponent() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['healthCheck'],
-    queryFn: () => pb.health.check(),
-  });
+  const { healthCheck } = Route.useLoaderData();
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold">Static Site Template</h1>
-      {isLoading ? (
-        'Loading'
-      ) : (
-        <p>
-          Server status: {data?.code} - {data?.message}
-        </p>
-      )}
-    </div>
-  );
+  return <div>{healthCheck.message} - {healthCheck.code}</div>;
 }

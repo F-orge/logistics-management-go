@@ -7,11 +7,17 @@
 node_modules
 dist/
 
+# Profile
+.rspack-profile-*/
+
 # IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
-
-# pocketbase
-.output
+.env
+.env.*
 pb_data
+.tanstack
+Dockerfile
+justfile
+README.md
