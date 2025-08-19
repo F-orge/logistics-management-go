@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	_ "github.com/f-orge/logistics-management-system/migrations"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"

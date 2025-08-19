@@ -11,6 +11,10 @@ export enum Collections {
 	Mfas = "_mfas",
 	Otps = "_otps",
 	Superusers = "_superusers",
+	OrgOrganization = "org_organization",
+	OrgRoles = "org_roles",
+	OrgTeamMembers = "org_team_members",
+	OrgTeams = "org_teams",
 	Users = "users",
 }
 
@@ -90,6 +94,40 @@ export type SuperusersRecord = {
 	verified?: boolean
 }
 
+export type OrgOrganizationRecord = {
+	created?: IsoDateString
+	id: string
+	name: string
+	owner: RecordIdString
+	updated?: IsoDateString
+}
+
+export type OrgRolesRecord = {
+	created?: IsoDateString
+	description?: HTMLString
+	id: string
+	name: string
+	organization?: RecordIdString
+	updated?: IsoDateString
+}
+
+export type OrgTeamMembersRecord = {
+	created?: IsoDateString
+	id: string
+	team: RecordIdString
+	updated?: IsoDateString
+	user: RecordIdString
+}
+
+export type OrgTeamsRecord = {
+	created?: IsoDateString
+	description: HTMLString
+	id: string
+	name: string
+	organization: RecordIdString
+	updated?: IsoDateString
+}
+
 export type UsersRecord = {
 	avatar?: string
 	created?: IsoDateString
@@ -109,6 +147,10 @@ export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRec
 export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
+export type OrgOrganizationResponse<Texpand = unknown> = Required<OrgOrganizationRecord> & BaseSystemFields<Texpand>
+export type OrgRolesResponse<Texpand = unknown> = Required<OrgRolesRecord> & BaseSystemFields<Texpand>
+export type OrgTeamMembersResponse<Texpand = unknown> = Required<OrgTeamMembersRecord> & BaseSystemFields<Texpand>
+export type OrgTeamsResponse<Texpand = unknown> = Required<OrgTeamsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -119,6 +161,10 @@ export type CollectionRecords = {
 	_mfas: MfasRecord
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
+	org_organization: OrgOrganizationRecord
+	org_roles: OrgRolesRecord
+	org_team_members: OrgTeamMembersRecord
+	org_teams: OrgTeamsRecord
 	users: UsersRecord
 }
 
@@ -128,6 +174,10 @@ export type CollectionResponses = {
 	_mfas: MfasResponse
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
+	org_organization: OrgOrganizationResponse
+	org_roles: OrgRolesResponse
+	org_team_members: OrgTeamMembersResponse
+	org_teams: OrgTeamsResponse
 	users: UsersResponse
 }
 
@@ -140,5 +190,9 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: '_mfas'): RecordService<MfasResponse>
 	collection(idOrName: '_otps'): RecordService<OtpsResponse>
 	collection(idOrName: '_superusers'): RecordService<SuperusersResponse>
+	collection(idOrName: 'org_organization'): RecordService<OrgOrganizationResponse>
+	collection(idOrName: 'org_roles'): RecordService<OrgRolesResponse>
+	collection(idOrName: 'org_team_members'): RecordService<OrgTeamMembersResponse>
+	collection(idOrName: 'org_teams'): RecordService<OrgTeamsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }
