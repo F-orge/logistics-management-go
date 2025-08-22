@@ -8,9 +8,15 @@
     "url": "https://github.com/karlrobeck"
   },
   "contributors": [
-    { "name": "Mhell Bergonio" },
-    { "name": "Vien Kendrick Morfe" },
-    { "name": "Andrei Barlaan" }
+    {
+      "name": "Mhell Bergonio"
+    },
+    {
+      "name": "Vien Kendrick Morfe"
+    },
+    {
+      "name": "Andrei Barlaan"
+    }
   ],
   "type": "module",
   "dependencies": {
