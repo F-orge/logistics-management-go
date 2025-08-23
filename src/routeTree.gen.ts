@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardTmsVehiclesRouteImport } from './routes/dashboard/tms/vehicles'
@@ -34,6 +35,11 @@ import { Route as DashboardCrmCompaniesRouteImport } from './routes/dashboard/cr
 import { Route as DashboardCrmCasesRouteImport } from './routes/dashboard/crm/cases'
 import { Route as DashboardCrmCampaignsRouteImport } from './routes/dashboard/crm/campaigns'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -161,6 +167,7 @@ const DashboardCrmCampaignsRoute = DashboardCrmCampaignsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
   '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
   '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/login': typeof LoginRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
   '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/login'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
     | '/dashboard/crm/companies'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/login'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
     | '/dashboard/crm/companies'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/login'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
     | '/dashboard/crm/companies'
@@ -321,10 +333,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -553,6 +573,7 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
