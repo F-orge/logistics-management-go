@@ -1,0 +1,84 @@
+{
+  "crm_campaign_contacts": { "domain": "crm", "file": "campaign_contacts" },
+  "crm_campaigns": { "domain": "crm", "file": "campaigns" },
+  "crm_cases": { "domain": "crm", "file": "cases" },
+  "crm_companies": { "domain": "crm", "file": "companies" },
+  "crm_contacts": { "domain": "crm", "file": "contacts" },
+  "crm_interactions": { "domain": "crm", "file": "interactions" },
+  "crm_invoice_line_items": { "domain": "crm", "file": "invoice_line_items" },
+  "crm_invoices": { "domain": "crm", "file": "invoices" },
+  "crm_leads": { "domain": "crm", "file": "leads" },
+  "crm_opportunities": { "domain": "crm", "file": "opportunities" },
+  "crm_opportunity_products": {
+    "domain": "crm",
+    "file": "opportunity_products"
+  },
+  "crm_products": { "domain": "crm", "file": "products" },
+
+  "lms_addresses": { "domain": "lms", "file": "addresses" },
+  "lms_packages": { "domain": "lms", "file": "packages" },
+  "lms_pricing_rates": { "domain": "lms", "file": "pricing_rates" },
+  "lms_pricing_zone_countries": {
+    "domain": "lms",
+    "file": "pricing_zone_countries"
+  },
+  "lms_pricing_zones": { "domain": "lms", "file": "pricing_zones" },
+  "lms_shipments": { "domain": "lms", "file": "shipments" },
+  "lms_shipping_service_max_dimensions": {
+    "domain": "lms",
+    "file": "shipping_service_max_dimensions"
+  },
+  "lms_shipping_services": { "domain": "lms", "file": "shipping_services" },
+  "lms_tracking_events": { "domain": "lms", "file": "tracking_events" },
+  "lms_transport_provider_invoice_line_items": {
+    "domain": "lms",
+    "file": "transport_provider_invoice_line_items"
+  },
+  "lms_transport_provider_invoices": {
+    "domain": "lms",
+    "file": "transport_provider_invoices"
+  },
+  "lms_transport_provider_performance": {
+    "domain": "lms",
+    "file": "transport_provider_performance"
+  },
+  "lms_transport_provider_rates": {
+    "domain": "lms",
+    "file": "transport_provider_rates"
+  },
+  "lms_transport_provider_service_destination_countries": {
+    "domain": "lms",
+    "file": "transport_provider_service_destination_countries"
+  },
+  "lms_transport_provider_service_max_dimensions": {
+    "domain": "lms",
+    "file": "transport_provider_service_max_dimensions"
+  },
+  "lms_transport_provider_service_origin_countries": {
+    "domain": "lms",
+    "file": "transport_provider_service_origin_countries"
+  },
+  "lms_transport_provider_services": {
+    "domain": "lms",
+    "file": "transport_provider_services"
+  },
+  "lms_transport_providers": { "domain": "lms", "file": "transport_providers" },
+  "lms_warehouse_inventories": {
+    "domain": "lms",
+    "file": "warehouse_inventories"
+  },
+  "lms_warehouses": { "domain": "lms", "file": "warehouses" },
+
+  "org_organization": { "domain": "org", "file": "organization" },
+  "org_role_actions": { "domain": "org", "file": "role_actions" },
+  "org_roles": { "domain": "org", "file": "roles" },
+  "org_team_members": { "domain": "org", "file": "team_members" },
+  "org_team_resources": { "domain": "org", "file": "team_resources" },
+  "org_team_roles": { "domain": "org", "file": "team_roles" },
+  "org_teams": { "domain": "org", "file": "teams" },
+
+  "tms_drivers": { "domain": "tms", "file": "drivers" },
+  "tms_vehicles": { "domain": "tms", "file": "vehicles" },
+
+  "users": { "domain": "users", "file": "users" }
+}

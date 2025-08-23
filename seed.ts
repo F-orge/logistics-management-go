@@ -1505,7 +1505,7 @@ class Seeder {
     const createdProviderServices = [];
     for (const service of providerServices) {
       const result = await this.createOrUpdate(
-        "lms_provider_services",
+        "lms_transport_provider_services",
         `provider = "${service.provider}" && name = "${service.name}"`,
         service,
       );
@@ -1769,7 +1769,7 @@ class Seeder {
     const createdPerformance = [];
     for (const record of performanceRecords) {
       const result = await this.createOrUpdate(
-        "lms_provider_performance",
+        "lms_transport_provider_performance",
         `provider = "${record.provider}" && shipment = "${record.shipment}"`,
         record,
       );
@@ -2052,7 +2052,7 @@ class Seeder {
     const createdInvoices = [];
     for (const invoice of invoices) {
       const result = await this.createOrUpdate(
-        "lms_provider_invoices",
+        "lms_transport_provider_invoices",
         `invoice_number = "${invoice.invoice_number}"`,
         invoice,
       );
@@ -2119,7 +2119,7 @@ class Seeder {
     const createdLineItems = [];
     for (const item of lineItems) {
       const result = await this.createOrUpdate(
-        "lms_provider_invoice_line_items",
+        "lms_transport_provider_invoice_line_items",
         `provider_invoice = "${item.provider_invoice}" && line_number = ${item.line_number}`,
         item,
       );
@@ -2172,12 +2172,12 @@ class Seeder {
       "lms_pricing_zones",
       "lms_pricing_zone_countries",
       "lms_pricing_rates",
-      "lms_provider_services",
+      "lms_transport_provider_services",
       "lms_tracking_events",
       "lms_warehouse_inventories",
-      "lms_provider_performance",
-      "lms_provider_invoices",
-      "lms_provider_invoice_line_items",
+      "lms_transport_provider_performance",
+      "lms_transport_provider_invoices",
+      "lms_transport_provider_invoice_line_items",
 
       // Transport Collections
       "tms_drivers",
@@ -2209,10 +2209,10 @@ class Seeder {
         "tms_vehicles",
         "lms_transport_providers",
         "lms_tracking_events",
-        "lms_provider_performance",
-        "lms_provider_services",
-        "lms_provider_invoices",
-        "lms_provider_invoice_line_items",
+        "lms_transport_provider_performance",
+        "lms_transport_provider_services",
+        "lms_transport_provider_invoices",
+        "lms_transport_provider_invoice_line_items",
       ],
       "Warehouse Team": [
         "lms_warehouses",
@@ -2309,7 +2309,7 @@ class Seeder {
     const createdRates = [];
     for (const rate of rates) {
       const created = await this.createOrUpdate(
-        "lms_provider_rates",
+        "lms_transport_provider_rates",
         `provider-${rate.provider}-origin-${rate.origin_zone}-dest-${rate.destination_zones}`,
         rate,
       );
@@ -2353,7 +2353,7 @@ class Seeder {
     const createdOriginCountries = [];
     for (const origin of originCountries) {
       const created = await this.createOrUpdate(
-        "lms_provider_service_origin_countries",
+        "lms_transport_provider_service_origin_countries",
         `provider-${origin.provider}-origin-${origin.country_code}`,
         origin,
       );
@@ -2399,7 +2399,7 @@ class Seeder {
     const createdDestinationCountries = [];
     for (const destination of destinationCountries) {
       const created = await this.createOrUpdate(
-        "lms_provider_service_destination_countries",
+        "lms_transport_provider_service_destination_countries",
         `provider-${destination.provider}-dest-${destination.country_code}`,
         destination,
       );
@@ -2436,7 +2436,7 @@ class Seeder {
     const createdDimensions = [];
     for (const dimension of dimensions) {
       const created = await this.createOrUpdate(
-        "lms_provider_service_max_dimensions",
+        "lms_transport_provider_service_max_dimensions",
         `provider-${dimension.provider}`,
         dimension,
       );
@@ -2563,7 +2563,9 @@ class Seeder {
       const zoneCountries = await this.pb.collection(
         "lms_pricing_zone_countries",
       ).getFullList();
-      const providerServices = await this.pb.collection("lms_provider_services")
+      const providerServices = await this.pb.collection(
+        "lms_transport_provider_services",
+      )
         .getFullList();
       await this.seedProviderRates(providerServices, zones);
       await this.seedProviderServiceOriginCountries(
