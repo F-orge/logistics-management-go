@@ -1,6 +1,7 @@
 import { LoginForm } from "@/components/forms/auth";
 import { useAppForm } from "@/components/ui/form";
 import { pb } from "@/pocketbase";
+import type { UsersLogin } from "@/pocketbase/schemas/users";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import { ClientResponseError } from "pocketbase";
@@ -17,7 +18,7 @@ function RouteComponent() {
   const navigate = useNavigate({ from: "/login" });
 
   const form = useAppForm({
-    defaultValues: {} as { email: string; password: string },
+    defaultValues: {} as UsersLogin,
     onSubmit: async ({ value }) => {
       await toast.promise(
         pb.collection("users").authWithPassword(

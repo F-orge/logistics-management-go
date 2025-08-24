@@ -16,4 +16,10 @@ export const usersSchema = z.object({
   verified: z.boolean().optional(),
 });
 
+export const usersLoginSchema = usersSchema.pick({
+  email: true,
+  password: true,
+});
+
 export type Users = z.infer<typeof usersSchema>;
+export type UsersLogin = z.infer<typeof usersLoginSchema>;

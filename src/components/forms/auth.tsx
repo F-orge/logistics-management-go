@@ -1,12 +1,8 @@
-import { toast } from "sonner";
+import type { UsersLogin } from "@/pocketbase/schemas/users";
 import { withForm } from "../ui/form";
-import { pb } from "@/pocketbase";
-import { useNavigate } from "@tanstack/react-router";
-import { ClientResponseError } from "pocketbase";
 
 export const LoginForm = withForm({
-  defaultValues: {} as { email: string; password: string },
-
+  defaultValues: {} as UsersLogin,
   render: function ({ form }) {
     return (
       <>
