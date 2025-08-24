@@ -1,5 +1,5 @@
-const ViewPage = () => {
-  return <div>ViewPage</div>;
+const ViewLeadDialog = () => {
+  return <div>ViewLeadDialog</div>;
 };
 
-export default ViewPage;
+export default ViewLeadDialog;
