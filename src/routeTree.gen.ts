@@ -27,13 +27,13 @@ import { Route as DashboardLmsInventoriesRouteImport } from './routes/dashboard/
 import { Route as DashboardLmsAddressesRouteImport } from './routes/dashboard/lms/addresses'
 import { Route as DashboardCrmProductsRouteImport } from './routes/dashboard/crm/products'
 import { Route as DashboardCrmOpportunitiesRouteImport } from './routes/dashboard/crm/opportunities'
-import { Route as DashboardCrmLeadsRouteImport } from './routes/dashboard/crm/leads'
 import { Route as DashboardCrmInvoicesRouteImport } from './routes/dashboard/crm/invoices'
 import { Route as DashboardCrmInteractionsRouteImport } from './routes/dashboard/crm/interactions'
 import { Route as DashboardCrmContactsRouteImport } from './routes/dashboard/crm/contacts'
 import { Route as DashboardCrmCompaniesRouteImport } from './routes/dashboard/crm/companies'
 import { Route as DashboardCrmCasesRouteImport } from './routes/dashboard/crm/cases'
 import { Route as DashboardCrmCampaignsRouteImport } from './routes/dashboard/crm/campaigns'
+import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -127,11 +127,6 @@ const DashboardCrmOpportunitiesRoute =
     path: '/crm/opportunities',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardCrmLeadsRoute = DashboardCrmLeadsRouteImport.update({
-  id: '/crm/leads',
-  path: '/crm/leads',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
 const DashboardCrmInvoicesRoute = DashboardCrmInvoicesRouteImport.update({
   id: '/crm/invoices',
   path: '/crm/invoices',
@@ -163,6 +158,11 @@ const DashboardCrmCampaignsRoute = DashboardCrmCampaignsRouteImport.update({
   path: '/crm/campaigns',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
+  id: '/crm/leads/',
+  path: '/crm/leads/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -174,7 +174,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsRoute
   '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
   '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
@@ -190,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -201,7 +201,6 @@ export interface FileRoutesByTo {
   '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsRoute
   '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
   '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
@@ -217,6 +216,7 @@ export interface FileRoutesByTo {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -229,7 +229,6 @@ export interface FileRoutesById {
   '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsRoute
   '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
   '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
@@ -245,6 +244,7 @@ export interface FileRoutesById {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -258,7 +258,6 @@ export interface FileRouteTypes {
     | '/dashboard/crm/contacts'
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
-    | '/dashboard/crm/leads'
     | '/dashboard/crm/opportunities'
     | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
@@ -274,6 +273,7 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/leads'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -285,7 +285,6 @@ export interface FileRouteTypes {
     | '/dashboard/crm/contacts'
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
-    | '/dashboard/crm/leads'
     | '/dashboard/crm/opportunities'
     | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
@@ -301,6 +300,7 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/leads'
   id:
     | '__root__'
     | '/'
@@ -312,7 +312,6 @@ export interface FileRouteTypes {
     | '/dashboard/crm/contacts'
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
-    | '/dashboard/crm/leads'
     | '/dashboard/crm/opportunities'
     | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
@@ -328,6 +327,7 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/leads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -464,13 +464,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCrmOpportunitiesRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/crm/leads': {
-      id: '/dashboard/crm/leads'
-      path: '/crm/leads'
-      fullPath: '/dashboard/crm/leads'
-      preLoaderRoute: typeof DashboardCrmLeadsRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
     '/dashboard/crm/invoices': {
       id: '/dashboard/crm/invoices'
       path: '/crm/invoices'
@@ -513,6 +506,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCrmCampaignsRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/crm/leads/': {
+      id: '/dashboard/crm/leads/'
+      path: '/crm/leads'
+      fullPath: '/dashboard/crm/leads'
+      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
@@ -523,7 +523,6 @@ interface DashboardRouteRouteChildren {
   DashboardCrmContactsRoute: typeof DashboardCrmContactsRoute
   DashboardCrmInteractionsRoute: typeof DashboardCrmInteractionsRoute
   DashboardCrmInvoicesRoute: typeof DashboardCrmInvoicesRoute
-  DashboardCrmLeadsRoute: typeof DashboardCrmLeadsRoute
   DashboardCrmOpportunitiesRoute: typeof DashboardCrmOpportunitiesRoute
   DashboardCrmProductsRoute: typeof DashboardCrmProductsRoute
   DashboardLmsAddressesRoute: typeof DashboardLmsAddressesRoute
@@ -539,6 +538,7 @@ interface DashboardRouteRouteChildren {
   DashboardOrgTeamsRoute: typeof DashboardOrgTeamsRoute
   DashboardTmsDriversRoute: typeof DashboardTmsDriversRoute
   DashboardTmsVehiclesRoute: typeof DashboardTmsVehiclesRoute
+  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -548,7 +548,6 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmContactsRoute: DashboardCrmContactsRoute,
   DashboardCrmInteractionsRoute: DashboardCrmInteractionsRoute,
   DashboardCrmInvoicesRoute: DashboardCrmInvoicesRoute,
-  DashboardCrmLeadsRoute: DashboardCrmLeadsRoute,
   DashboardCrmOpportunitiesRoute: DashboardCrmOpportunitiesRoute,
   DashboardCrmProductsRoute: DashboardCrmProductsRoute,
   DashboardLmsAddressesRoute: DashboardLmsAddressesRoute,
@@ -564,6 +563,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardOrgTeamsRoute: DashboardOrgTeamsRoute,
   DashboardTmsDriversRoute: DashboardTmsDriversRoute,
   DashboardTmsVehiclesRoute: DashboardTmsVehiclesRoute,
+  DashboardCrmLeadsIndexRoute: DashboardCrmLeadsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
