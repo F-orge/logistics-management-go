@@ -1,12 +1,48 @@
-import { LoginForm } from "@/components/login-form";
-import { createFileRoute } from "@tanstack/react-router";
+import { LoginForm } from "@/components/forms/auth";
+import { useAppForm } from "@/components/ui/form";
+import { pb } from "@/pocketbase";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
+import { ClientResponseError } from "pocketbase";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
+  beforeLoad: () => {
+    if (pb.authStore.isValid) throw redirect({ to: "/dashboard/crm/leads" });
+  },
 });
 
 function RouteComponent() {
+  const navigate = useNavigate({ from: "/login" });
+
+  const form = useAppForm({
+    defaultValues: {} as { email: string; password: string },
+    onSubmit: async ({ value }) => {
+      await toast.promise(
+        pb.collection("users").authWithPassword(
+          value.email,
+          value.password,
+        ),
+        {
+          success: "Login Successful",
+          error: (err) => {
+            if (err instanceof ClientResponseError) {
+              switch (err.status) {
+                case 400:
+                  return "Invalid email or password";
+                default:
+                  return "Internal server error";
+              }
+            }
+          },
+        },
+      ).unwrap();
+
+      navigate({ to: "/dashboard/crm/leads" });
+    },
+  });
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -19,8 +55,19 @@ function RouteComponent() {
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <LoginForm />
+          <div className="flex flex-col gap-2.5 w-full max-w-xs">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
+            >
+              <form.AppForm>
+                <LoginForm form={form} />
+                <form.SubmitButton>Sign in</form.SubmitButton>
+              </form.AppForm>
+            </form>
           </div>
         </div>
       </div>
