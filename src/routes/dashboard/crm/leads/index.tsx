@@ -35,6 +35,8 @@ export const Route = createFileRoute("/dashboard/crm/leads/")({
 });
 
 function RouteComponent() {
+  const searchParams = Route.useSearch();
+
   const leads = Route.useLoaderData();
 
   return (
@@ -54,7 +56,7 @@ function RouteComponent() {
       </section>
       <section>
         {/* Action dialogs */}
-        <NewLeadsDialog />
+        {searchParams.newLead && <NewLeadsDialog />}
       </section>
     </article>
   );
