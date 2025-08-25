@@ -41,7 +41,7 @@ export const SelectField = ({
       {multiple
         ? (
           <MultiSelect>
-            <MultiSelectTrigger>
+            <MultiSelectTrigger className="w-full">
               <MultiSelectValue placeholder={placeholder} />
             </MultiSelectTrigger>
             <MultiSelectContent>
@@ -60,7 +60,7 @@ export const SelectField = ({
             onValueChange={field.handleChange}
             value={field.state.value as string}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>

@@ -5,6 +5,7 @@ import { columns } from "./-table";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod";
 import DataTable from "@/components/ui/kibo-ui/table/data-table";
+import NewLeadsDialog from "./-actions/new";
 
 export const Route = createFileRoute("/dashboard/crm/leads/")({
   component: RouteComponent,
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/dashboard/crm/leads/")({
     z.object({
       page: z.number().nonnegative().default(1).catch(1),
       perPage: z.number().nonnegative().default(10).catch(10),
+      newLead: z.boolean().optional(),
     }),
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -20,6 +22,9 @@ export const Route = createFileRoute("/dashboard/crm/leads/")({
     pb.collection("crm_leads").getList(
       context.search.page,
       context.search.perPage,
+      {
+        sort: "-created",
+      },
     ),
 });
 
@@ -43,6 +48,7 @@ function RouteComponent() {
       </section>
       <section>
         {/* Action dialogs */}
+        <NewLeadsDialog />
       </section>
     </article>
   );
