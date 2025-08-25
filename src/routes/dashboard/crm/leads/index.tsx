@@ -15,6 +15,11 @@ export const Route = createFileRoute("/dashboard/crm/leads/")({
       page: z.number().nonnegative().default(1).catch(1),
       perPage: z.number().nonnegative().default(10).catch(10),
       newLead: z.boolean().optional(),
+      editLead: z.boolean().optional(),
+      deleteLead: z.boolean().optional(),
+      id: z.string().optional(),
+      sort: z.array(z.string()).default(["-created"]),
+      filter: z.array(z.string()).optional(),
     }),
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -23,7 +28,8 @@ export const Route = createFileRoute("/dashboard/crm/leads/")({
       context.search.page,
       context.search.perPage,
       {
-        sort: "-created",
+        sort: context.search.sort.join(" "),
+        filter: context.search.filter?.join(" "),
       },
     ),
 });
