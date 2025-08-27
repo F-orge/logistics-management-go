@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for org_role_actions (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { OrgRoleActionsActionOptions } from "../../types";
+import { z } from 'zod';
+import { OrgRoleActionsActionOptions } from '../../types';
 
 export const roleActionsSchema = z.object({
   action: z.enum(OrgRoleActionsActionOptions),

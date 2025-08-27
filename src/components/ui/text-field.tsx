@@ -1,28 +1,28 @@
-import type React from "react";
-import { useFieldContext } from "./form.tsx";
-import { Input } from "./input.tsx";
-import { Label } from "./label.tsx";
-import { useState } from "react";
-import { cn } from "@/lib/utils.ts";
-import { Button } from "./button.tsx";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed } from 'lucide-react';
+import type React from 'react';
+import { useState } from 'react';
+import { cn } from '@/lib/utils.ts';
+import { Button } from './button.tsx';
+import { useFieldContext } from './form.tsx';
+import { Input } from './input.tsx';
+import { Label } from './label.tsx';
 
 export const TextField = ({
   className,
   label,
   ...props
-}: React.ComponentProps<"input"> & {
+}: React.ComponentProps<'input'> & {
   label?: string;
 }) => {
   const field = useFieldContext<string>();
   const [inputType, setInputType] = useState<string | undefined>(props.type);
 
   return (
-    <div className={cn("grid gap-2.5", className)}>
+    <div className={cn('grid gap-2.5', className)}>
       {label && (
         <Label
           className={cn(
-            field.state.meta.errorMap.onSubmit && "text-destructive",
+            field.state.meta.errorMap.onSubmit && 'text-destructive',
           )}
           htmlFor={props.id}
         >
@@ -38,20 +38,20 @@ export const TextField = ({
           {...props}
           type={inputType}
         />
-        {props.type === "password" && (
+        {props.type === 'password' && (
           <Button
             onClick={() => {
-              if (inputType === "password") {
-                setInputType("text");
+              if (inputType === 'password') {
+                setInputType('text');
               } else {
-                setInputType("password");
+                setInputType('password');
               }
             }}
             type="button"
-            variant={"outline"}
-            size={"icon"}
+            variant={'outline'}
+            size={'icon'}
           >
-            {inputType === "password" ? <Eye /> : <EyeClosed />}
+            {inputType === 'password' ? <Eye /> : <EyeClosed />}
           </Button>
         )}
       </div>

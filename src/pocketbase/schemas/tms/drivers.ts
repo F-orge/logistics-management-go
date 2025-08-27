@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for tms_drivers (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { TmsDriversStatusOptions } from "../../types";
+import { z } from 'zod';
+import { TmsDriversStatusOptions } from '../../types';
 
 export const driversSchema = z.object({
   created: z.iso.datetime().optional(),

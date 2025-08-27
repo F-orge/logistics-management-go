@@ -1,11 +1,11 @@
 /**
  * Generated Zod schema for lms_transport_provider_services (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 import {
   LmsTransportProviderServicesTransportModeOptions,
   LmsTransportProviderServicesTypeOptions,
-} from "../../types";
+} from '../../types';
 
 export const transportProviderServicesSchema = z.object({
   created: z.iso.datetime().optional(),

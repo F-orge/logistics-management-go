@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for org_organization (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const organizationSchema = z.object({
   created: z.iso.datetime().optional(),

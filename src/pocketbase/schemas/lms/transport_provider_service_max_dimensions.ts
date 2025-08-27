@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for lms_transport_provider_service_max_dimensions (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const transportProviderServiceMaxDimensionsSchema = z.object({
   created: z.iso.datetime().optional(),

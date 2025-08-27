@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for lms_pricing_zone_countries (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const pricingZoneCountriesSchema = z.object({
   country_code: z.string(),

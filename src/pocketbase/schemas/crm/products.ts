@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for crm_products (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const productsSchema = z.object({
   created: z.iso.datetime().optional(),

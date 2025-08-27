@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for lms_pricing_zones (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const pricingZonesSchema = z.object({
   created: z.iso.datetime().optional(),

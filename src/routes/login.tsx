@@ -1,46 +1,45 @@
-import { LoginForm } from "@/components/forms/auth";
-import { useAppForm } from "@/components/ui/form";
-import { pb } from "@/pocketbase";
-import type { UsersLogin } from "@/pocketbase/schemas/users";
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { GalleryVerticalEnd } from "lucide-react";
-import { ClientResponseError } from "pocketbase";
-import { toast } from "sonner";
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { GalleryVerticalEnd } from 'lucide-react';
+import { ClientResponseError } from 'pocketbase';
+import { toast } from 'sonner';
+import { LoginForm } from '@/components/forms/auth';
+import { useAppForm } from '@/components/ui/form';
+import { pb } from '@/pocketbase';
+import type { UsersLogin } from '@/pocketbase/schemas/users';
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute('/login')({
   component: RouteComponent,
   beforeLoad: () => {
-    if (pb.authStore.isValid) throw redirect({ to: "/dashboard/crm/leads" });
+    if (pb.authStore.isValid) throw redirect({ to: '/dashboard/crm/leads' });
   },
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/login" });
+  const navigate = useNavigate({ from: '/login' });
 
   const form = useAppForm({
     defaultValues: {} as UsersLogin,
     onSubmit: async ({ value }) => {
-      await toast.promise(
-        pb.collection("users").authWithPassword(
-          value.email,
-          value.password,
-        ),
-        {
-          success: "Login Successful",
-          error: (err) => {
-            if (err instanceof ClientResponseError) {
-              switch (err.status) {
-                case 400:
-                  return "Invalid email or password";
-                default:
-                  return "Internal server error";
+      await toast
+        .promise(
+          pb.collection('users').authWithPassword(value.email, value.password),
+          {
+            success: 'Login Successful',
+            error: (err) => {
+              if (err instanceof ClientResponseError) {
+                switch (err.status) {
+                  case 400:
+                    return 'Invalid email or password';
+                  default:
+                    return 'Internal server error';
+                }
               }
-            }
+            },
           },
-        },
-      ).unwrap();
+        )
+        .unwrap();
 
-      navigate({ to: "/dashboard/crm/leads" });
+      navigate({ to: '/dashboard/crm/leads' });
     },
   });
 

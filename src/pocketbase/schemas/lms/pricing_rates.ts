@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for lms_pricing_rates (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const pricingRatesSchema = z.object({
   base_rate: z.number(),

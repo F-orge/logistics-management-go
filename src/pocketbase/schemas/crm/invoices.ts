@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_invoices (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmInvoicesStatusOptions } from "../../types";
+import { z } from 'zod';
+import { CrmInvoicesStatusOptions } from '../../types';
 
 export const invoicesSchema = z.object({
   company: z.string(),

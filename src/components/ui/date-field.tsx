@@ -1,21 +1,23 @@
-import { cn } from "@/lib/utils";
-import { useFieldContext } from "./form";
-import { Label } from "./label";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { Button } from "./button";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { Calendar } from "./calendar";
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from './button';
+import { Calendar } from './calendar';
+import { useFieldContext } from './form';
+import { Label } from './label';
+import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
-export const DateField = (
-  { className, label, ...props }: React.ComponentProps<"input"> & {
-    label?: string;
-  },
-) => {
+export const DateField = ({
+  className,
+  label,
+  ...props
+}: React.ComponentProps<'input'> & {
+  label?: string;
+}) => {
   const field = useFieldContext<Date>();
 
   return (
-    <div className={cn("grid gap-2.5", className)}>
+    <div className={cn('grid gap-2.5', className)}>
       {label && <Label htmlFor={props.id}>{label}</Label>}
       <Popover>
         <PopoverTrigger asChild>
@@ -25,9 +27,11 @@ export const DateField = (
             className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
           >
             <CalendarIcon />
-            {field.state.value
-              ? format(field.state.value, "PPP")
-              : <span>Pick a date</span>}
+            {field.state.value ? (
+              format(field.state.value, 'PPP')
+            ) : (
+              <span>Pick a date</span>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">

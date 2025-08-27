@@ -27,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src","seed.ts"]
+  "include": ["src", "seed.ts"]
 }

@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for lms_transport_provider_service_origin_countries (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const transportProviderServiceOriginCountriesSchema = z.object({
   country_code: z.string(),

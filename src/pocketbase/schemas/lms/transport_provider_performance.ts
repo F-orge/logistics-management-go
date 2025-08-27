@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for lms_transport_provider_performance (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { LmsTransportProviderPerformanceMetricTypeOptions } from "../../types";
+import { z } from 'zod';
+import { LmsTransportProviderPerformanceMetricTypeOptions } from '../../types';
 
 export const transportProviderPerformanceSchema = z.object({
   created: z.iso.datetime().optional(),

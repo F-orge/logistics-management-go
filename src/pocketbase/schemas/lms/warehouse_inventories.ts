@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for lms_warehouse_inventories (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { LmsWarehouseInventoriesStatusOptions } from "../../types";
+import { z } from 'zod';
+import { LmsWarehouseInventoriesStatusOptions } from '../../types';
 
 export const warehouseInventoriesSchema = z.object({
   arrived_at: z.iso.datetime().optional(),

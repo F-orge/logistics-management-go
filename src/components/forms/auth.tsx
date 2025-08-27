@@ -1,5 +1,5 @@
-import type { UsersLogin } from "@/pocketbase/schemas/users";
-import { withForm } from "../ui/form";
+import type { UsersLogin } from '@/pocketbase/schemas/users';
+import { withForm } from '../ui/form';
 
 export const LoginForm = withForm({
   defaultValues: {} as UsersLogin,

@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_leads (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmLeadsLeadStatusOptions } from "../../types";
+import { z } from 'zod';
+import { CrmLeadsLeadStatusOptions } from '../../types';
 
 export const leadsSchema = z.object({
   company_name: z.string().optional(),

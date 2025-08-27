@@ -1,6 +1,6 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
-import * as React from "react";
-import NotFound from "./-not-found";
+import { createRootRoute, Outlet } from '@tanstack/react-router';
+import * as React from 'react';
+import NotFound from './-not-found';
 
 export const Route = createRootRoute({
   component: RootComponent,

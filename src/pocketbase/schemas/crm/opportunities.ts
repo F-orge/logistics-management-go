@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_opportunities (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmOpportunitiesStageOptions } from "../../types";
+import { z } from 'zod';
+import { CrmOpportunitiesStageOptions } from '../../types';
 
 export const opportunitiesSchema = z.object({
   amount: z.number(),

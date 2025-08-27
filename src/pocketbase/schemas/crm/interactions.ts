@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_interactions (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmInteractionsTypeOptions } from "../../types";
+import { z } from 'zod';
+import { CrmInteractionsTypeOptions } from '../../types';
 
 export const interactionsSchema = z.object({
   contact: z.string().optional(),

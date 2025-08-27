@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { useFieldContext } from "./form";
-import { Label } from "./label";
+import { cn } from '@/lib/utils';
+import { useFieldContext } from './form';
+import { Label } from './label';
 import {
   MultiSelect,
   MultiSelectContent,
@@ -8,14 +8,14 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "./multi-select";
+} from './multi-select';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from './select';
 
 export const SelectField = ({
   className,
@@ -24,7 +24,7 @@ export const SelectField = ({
   options,
   placeholder,
   ...props
-}: React.ComponentProps<"input"> & {
+}: React.ComponentProps<'input'> & {
   label?: string;
   multiple?: boolean;
   options: {
@@ -36,42 +36,40 @@ export const SelectField = ({
   const field = useFieldContext<string | string[]>();
 
   return (
-    <div className={cn("grid gap-2.5", className)}>
+    <div className={cn('grid gap-2.5', className)}>
       {label && <Label htmlFor={props.id}>{label}</Label>}
-      {multiple
-        ? (
-          <MultiSelect>
-            <MultiSelectTrigger className="w-full">
-              <MultiSelectValue placeholder={placeholder} />
-            </MultiSelectTrigger>
-            <MultiSelectContent>
-              <MultiSelectGroup>
-                {options.map((option) => (
-                  <MultiSelectItem value={option.value}>
-                    {option.icon && <option.icon />} {option.label}
-                  </MultiSelectItem>
-                ))}
-              </MultiSelectGroup>
-            </MultiSelectContent>
-          </MultiSelect>
-        )
-        : (
-          <Select
-            onValueChange={field.handleChange}
-            value={field.state.value as string}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
-            <SelectContent>
+      {multiple ? (
+        <MultiSelect>
+          <MultiSelectTrigger className="w-full">
+            <MultiSelectValue placeholder={placeholder} />
+          </MultiSelectTrigger>
+          <MultiSelectContent>
+            <MultiSelectGroup>
               {options.map((option) => (
-                <SelectItem value={option.value}>
+                <MultiSelectItem value={option.value}>
                   {option.icon && <option.icon />} {option.label}
-                </SelectItem>
+                </MultiSelectItem>
               ))}
-            </SelectContent>
-          </Select>
-        )}
+            </MultiSelectGroup>
+          </MultiSelectContent>
+        </MultiSelect>
+      ) : (
+        <Select
+          onValueChange={field.handleChange}
+          value={field.state.value as string}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem value={option.value}>
+                {option.icon && <option.icon />} {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       {field.state.meta.errorMap.onSubmit && (
         <Label className="text-destructive">
           {field.state.meta.errorMap.onSubmit.message}

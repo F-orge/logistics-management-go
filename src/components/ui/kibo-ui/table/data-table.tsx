@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   TableBody,
   TableCell,
@@ -7,23 +7,21 @@ import {
   TableHeaderGroup,
   TableProvider,
   TableRow,
-} from ".";
+} from '.';
 
 export function DataTable<TData, TValue>(
-  props:
-    & Omit<
-      React.ComponentProps<typeof TableProvider<TData, TValue>>,
-      "children" | "data"
-    >
-    & {
-      data: {
-        page: number;
-        perPage: number;
-        totalItems: number;
-        totalPages: number;
-        items: TData[];
-      };
-    },
+  props: Omit<
+    React.ComponentProps<typeof TableProvider<TData, TValue>>,
+    'children' | 'data'
+  > & {
+    data: {
+      page: number;
+      perPage: number;
+      totalItems: number;
+      totalPages: number;
+      items: TData[];
+    };
+  },
 ) {
   return (
     <TableProvider

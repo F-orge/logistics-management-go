@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_contacts (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmContactsStatusOptions } from "../../types";
+import { z } from 'zod';
+import { CrmContactsStatusOptions } from '../../types';
 
 export const contactsSchema = z.object({
   birth_date: z.iso.datetime().optional(),

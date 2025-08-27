@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for lms_warehouses (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { LmsWarehousesTypeOptions } from "../../types";
+import { z } from 'zod';
+import { LmsWarehousesTypeOptions } from '../../types';
 
 export const warehousesSchema = z.object({
   address: z.string(),

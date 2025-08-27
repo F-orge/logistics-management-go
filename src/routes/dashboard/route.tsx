@@ -1,4 +1,5 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { AppSidebar } from '@/components/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,20 +7,19 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { pb } from "@/pocketbase";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+} from '@/components/ui/sidebar';
+import { pb } from '@/pocketbase';
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
   beforeLoad: () => {
-    if (!pb.authStore.isValid) throw redirect({ to: "/login" });
+    if (!pb.authStore.isValid) throw redirect({ to: '/login' });
   },
 });
 

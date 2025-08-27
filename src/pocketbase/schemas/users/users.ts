@@ -1,7 +1,7 @@
 /**
  * Generated Zod schema for users (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 
 export const usersSchema = z.object({
   avatar: z.string().optional(),

@@ -1,11 +1,11 @@
 /**
  * Generated Zod schema for tms_vehicles (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
+import { z } from 'zod';
 import {
   TmsVehiclesStatusOptions,
   TmsVehiclesVehicleTypeOptions,
-} from "../../types";
+} from '../../types';
 
 export const vehiclesSchema = z.object({
   capacity_volume: z.number().optional(),

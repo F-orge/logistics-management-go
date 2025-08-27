@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_cases (from src/pocketbase/types.ts)
  */
-import { z } from "zod";
-import { CrmCasesPriorityOptions, CrmCasesStatusOptions } from "../../types";
+import { z } from 'zod';
+import { CrmCasesPriorityOptions, CrmCasesStatusOptions } from '../../types';
 
 export const casesSchema = z.object({
   closed_at: z.iso.datetime().optional(),
