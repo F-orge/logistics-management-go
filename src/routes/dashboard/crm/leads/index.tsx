@@ -1,16 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import z from 'zod';
-import { Button } from '@/components/ui/button';
-import DataTable from '@/components/ui/kibo-ui/table/data-table';
-import { pb } from '@/pocketbase';
-import DeleteLeadDialog from './-actions/delete';
-import EditLeadDialog from './-actions/edit';
-import NewLeadsDialog from './-actions/new';
-import LoadingPage from './-loading';
-import { columns } from './-table';
+import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import z from "zod";
+import { Button } from "@/components/ui/button";
+import DataTable from "@/components/ui/kibo-ui/table/data-table";
+import { pb } from "@/pocketbase";
+import DeleteLeadDialog from "./-actions/delete";
+import EditLeadDialog from "./-actions/edit";
+import NewLeadsDialog from "./-actions/new";
+import LoadingPage from "./-loading";
+import { columns } from "./-table";
 
-export const Route = createFileRoute('/dashboard/crm/leads/')({
+export const Route = createFileRoute("/dashboard/crm/leads/")({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute('/dashboard/crm/leads/')({
       editLead: z.boolean().optional(),
       deleteLead: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(['-created']),
+      sort: z.array(z.string()).default(["-created"]),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,10 +29,10 @@ export const Route = createFileRoute('/dashboard/crm/leads/')({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection('crm_leads')
+      .collection("crm_leads")
       .getList(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(' '),
-        filter: context.search.filter?.join(' '),
+        sort: context.search.sort.join(" "),
+        filter: context.search.filter?.join(" "),
       }),
 });
 
@@ -44,7 +44,7 @@ function RouteComponent() {
   const leads = Route.useLoaderData();
 
   return (
-    <article className="grid grid-cols-12 gap-5">
+    <article className="grid grid-cols-12 gap-2.5">
       <section className="col-span-full">
         {/* Heading */}
         <h1 className="text-3xl font-medium border-b pb-4">Leads</h1>
@@ -54,9 +54,8 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newLead: true }) })
-          }
-          variant={'outline'}
+            navigate({ search: (prev) => ({ ...prev, newLead: true }) })}
+          variant={"outline"}
         >
           Create Lead
         </Button>

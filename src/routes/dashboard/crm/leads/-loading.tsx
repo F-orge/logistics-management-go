@@ -1,5 +1,7 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
 const LoadingPage = () => {
-  return <div>LoadingPage</div>;
+  return <Skeleton className="w-full h-full rounded-lg" />;
 };
 
 export default LoadingPage;
