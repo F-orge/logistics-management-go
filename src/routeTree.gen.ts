@@ -25,15 +25,15 @@ import { Route as DashboardLmsPricingRouteImport } from './routes/dashboard/lms/
 import { Route as DashboardLmsPackagesRouteImport } from './routes/dashboard/lms/packages'
 import { Route as DashboardLmsInventoriesRouteImport } from './routes/dashboard/lms/inventories'
 import { Route as DashboardLmsAddressesRouteImport } from './routes/dashboard/lms/addresses'
-import { Route as DashboardCrmProductsRouteImport } from './routes/dashboard/crm/products'
-import { Route as DashboardCrmOpportunitiesRouteImport } from './routes/dashboard/crm/opportunities'
-import { Route as DashboardCrmInvoicesRouteImport } from './routes/dashboard/crm/invoices'
-import { Route as DashboardCrmInteractionsRouteImport } from './routes/dashboard/crm/interactions'
-import { Route as DashboardCrmContactsRouteImport } from './routes/dashboard/crm/contacts'
-import { Route as DashboardCrmCompaniesRouteImport } from './routes/dashboard/crm/companies'
-import { Route as DashboardCrmCasesRouteImport } from './routes/dashboard/crm/cases'
-import { Route as DashboardCrmCampaignsRouteImport } from './routes/dashboard/crm/campaigns'
+import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index'
+import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index'
 import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
+import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
+import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
+import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index'
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
+import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
+import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -116,66 +116,63 @@ const DashboardLmsAddressesRoute = DashboardLmsAddressesRouteImport.update({
   path: '/lms/addresses',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const DashboardCrmProductsRoute = DashboardCrmProductsRouteImport.update({
-  id: '/crm/products',
-  path: '/crm/products',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardCrmOpportunitiesRoute =
-  DashboardCrmOpportunitiesRouteImport.update({
-    id: '/crm/opportunities',
-    path: '/crm/opportunities',
+const DashboardCrmProductsIndexRoute =
+  DashboardCrmProductsIndexRouteImport.update({
+    id: '/crm/products/',
+    path: '/crm/products/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardCrmInvoicesRoute = DashboardCrmInvoicesRouteImport.update({
-  id: '/crm/invoices',
-  path: '/crm/invoices',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardCrmInteractionsRoute =
-  DashboardCrmInteractionsRouteImport.update({
-    id: '/crm/interactions',
-    path: '/crm/interactions',
+const DashboardCrmOpportunitiesIndexRoute =
+  DashboardCrmOpportunitiesIndexRouteImport.update({
+    id: '/crm/opportunities/',
+    path: '/crm/opportunities/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardCrmContactsRoute = DashboardCrmContactsRouteImport.update({
-  id: '/crm/contacts',
-  path: '/crm/contacts',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardCrmCompaniesRoute = DashboardCrmCompaniesRouteImport.update({
-  id: '/crm/companies',
-  path: '/crm/companies',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardCrmCasesRoute = DashboardCrmCasesRouteImport.update({
-  id: '/crm/cases',
-  path: '/crm/cases',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardCrmCampaignsRoute = DashboardCrmCampaignsRouteImport.update({
-  id: '/crm/campaigns',
-  path: '/crm/campaigns',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
 const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
   id: '/crm/leads/',
   path: '/crm/leads/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardCrmInvoicesIndexRoute =
+  DashboardCrmInvoicesIndexRouteImport.update({
+    id: '/crm/invoices/',
+    path: '/crm/invoices/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardCrmInteractionsIndexRoute =
+  DashboardCrmInteractionsIndexRouteImport.update({
+    id: '/crm/interactions/',
+    path: '/crm/interactions/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardCrmContactsIndexRoute =
+  DashboardCrmContactsIndexRouteImport.update({
+    id: '/crm/contacts/',
+    path: '/crm/contacts/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardCrmCompaniesIndexRoute =
+  DashboardCrmCompaniesIndexRouteImport.update({
+    id: '/crm/companies/',
+    path: '/crm/companies/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardCrmCasesIndexRoute = DashboardCrmCasesIndexRouteImport.update({
+  id: '/crm/cases/',
+  path: '/crm/cases/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmCampaignsIndexRoute =
+  DashboardCrmCampaignsIndexRouteImport.update({
+    id: '/crm/campaigns/',
+    path: '/crm/campaigns/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
-  '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
-  '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
   '/dashboard/lms/inventories': typeof DashboardLmsInventoriesRoute
   '/dashboard/lms/packages': typeof DashboardLmsPackagesRoute
@@ -189,20 +186,20 @@ export interface FileRoutesByFullPath {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
-  '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
-  '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
   '/dashboard/lms/inventories': typeof DashboardLmsInventoriesRoute
   '/dashboard/lms/packages': typeof DashboardLmsPackagesRoute
@@ -216,21 +213,21 @@ export interface FileRoutesByTo {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsRoute
-  '/dashboard/crm/cases': typeof DashboardCrmCasesRoute
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesRoute
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsRoute
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsRoute
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesRoute
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesRoute
-  '/dashboard/crm/products': typeof DashboardCrmProductsRoute
   '/dashboard/lms/addresses': typeof DashboardLmsAddressesRoute
   '/dashboard/lms/inventories': typeof DashboardLmsInventoriesRoute
   '/dashboard/lms/packages': typeof DashboardLmsPackagesRoute
@@ -244,7 +241,15 @@ export interface FileRoutesById {
   '/dashboard/org/teams': typeof DashboardOrgTeamsRoute
   '/dashboard/tms/drivers': typeof DashboardTmsDriversRoute
   '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesRoute
+  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -252,14 +257,6 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/login'
-    | '/dashboard/crm/campaigns'
-    | '/dashboard/crm/cases'
-    | '/dashboard/crm/companies'
-    | '/dashboard/crm/contacts'
-    | '/dashboard/crm/interactions'
-    | '/dashboard/crm/invoices'
-    | '/dashboard/crm/opportunities'
-    | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
     | '/dashboard/lms/inventories'
     | '/dashboard/lms/packages'
@@ -273,20 +270,20 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/campaigns'
+    | '/dashboard/crm/cases'
+    | '/dashboard/crm/companies'
+    | '/dashboard/crm/contacts'
+    | '/dashboard/crm/interactions'
+    | '/dashboard/crm/invoices'
     | '/dashboard/crm/leads'
+    | '/dashboard/crm/opportunities'
+    | '/dashboard/crm/products'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
     | '/login'
-    | '/dashboard/crm/campaigns'
-    | '/dashboard/crm/cases'
-    | '/dashboard/crm/companies'
-    | '/dashboard/crm/contacts'
-    | '/dashboard/crm/interactions'
-    | '/dashboard/crm/invoices'
-    | '/dashboard/crm/opportunities'
-    | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
     | '/dashboard/lms/inventories'
     | '/dashboard/lms/packages'
@@ -300,20 +297,20 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/campaigns'
+    | '/dashboard/crm/cases'
+    | '/dashboard/crm/companies'
+    | '/dashboard/crm/contacts'
+    | '/dashboard/crm/interactions'
+    | '/dashboard/crm/invoices'
     | '/dashboard/crm/leads'
+    | '/dashboard/crm/opportunities'
+    | '/dashboard/crm/products'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/login'
-    | '/dashboard/crm/campaigns'
-    | '/dashboard/crm/cases'
-    | '/dashboard/crm/companies'
-    | '/dashboard/crm/contacts'
-    | '/dashboard/crm/interactions'
-    | '/dashboard/crm/invoices'
-    | '/dashboard/crm/opportunities'
-    | '/dashboard/crm/products'
     | '/dashboard/lms/addresses'
     | '/dashboard/lms/inventories'
     | '/dashboard/lms/packages'
@@ -327,7 +324,15 @@ export interface FileRouteTypes {
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
     | '/dashboard/tms/vehicles'
+    | '/dashboard/crm/campaigns/'
+    | '/dashboard/crm/cases/'
+    | '/dashboard/crm/companies/'
+    | '/dashboard/crm/contacts/'
+    | '/dashboard/crm/interactions/'
+    | '/dashboard/crm/invoices/'
     | '/dashboard/crm/leads/'
+    | '/dashboard/crm/opportunities/'
+    | '/dashboard/crm/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -450,60 +455,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLmsAddressesRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/crm/products': {
-      id: '/dashboard/crm/products'
+    '/dashboard/crm/products/': {
+      id: '/dashboard/crm/products/'
       path: '/crm/products'
       fullPath: '/dashboard/crm/products'
-      preLoaderRoute: typeof DashboardCrmProductsRouteImport
+      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/crm/opportunities': {
-      id: '/dashboard/crm/opportunities'
+    '/dashboard/crm/opportunities/': {
+      id: '/dashboard/crm/opportunities/'
       path: '/crm/opportunities'
       fullPath: '/dashboard/crm/opportunities'
-      preLoaderRoute: typeof DashboardCrmOpportunitiesRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/invoices': {
-      id: '/dashboard/crm/invoices'
-      path: '/crm/invoices'
-      fullPath: '/dashboard/crm/invoices'
-      preLoaderRoute: typeof DashboardCrmInvoicesRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/interactions': {
-      id: '/dashboard/crm/interactions'
-      path: '/crm/interactions'
-      fullPath: '/dashboard/crm/interactions'
-      preLoaderRoute: typeof DashboardCrmInteractionsRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/contacts': {
-      id: '/dashboard/crm/contacts'
-      path: '/crm/contacts'
-      fullPath: '/dashboard/crm/contacts'
-      preLoaderRoute: typeof DashboardCrmContactsRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/companies': {
-      id: '/dashboard/crm/companies'
-      path: '/crm/companies'
-      fullPath: '/dashboard/crm/companies'
-      preLoaderRoute: typeof DashboardCrmCompaniesRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/cases': {
-      id: '/dashboard/crm/cases'
-      path: '/crm/cases'
-      fullPath: '/dashboard/crm/cases'
-      preLoaderRoute: typeof DashboardCrmCasesRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/dashboard/crm/campaigns': {
-      id: '/dashboard/crm/campaigns'
-      path: '/crm/campaigns'
-      fullPath: '/dashboard/crm/campaigns'
-      preLoaderRoute: typeof DashboardCrmCampaignsRouteImport
+      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/crm/leads/': {
@@ -513,18 +476,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/crm/invoices/': {
+      id: '/dashboard/crm/invoices/'
+      path: '/crm/invoices'
+      fullPath: '/dashboard/crm/invoices'
+      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/interactions/': {
+      id: '/dashboard/crm/interactions/'
+      path: '/crm/interactions'
+      fullPath: '/dashboard/crm/interactions'
+      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/contacts/': {
+      id: '/dashboard/crm/contacts/'
+      path: '/crm/contacts'
+      fullPath: '/dashboard/crm/contacts'
+      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/companies/': {
+      id: '/dashboard/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/dashboard/crm/companies'
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/cases/': {
+      id: '/dashboard/crm/cases/'
+      path: '/crm/cases'
+      fullPath: '/dashboard/crm/cases'
+      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/campaigns/': {
+      id: '/dashboard/crm/campaigns/'
+      path: '/crm/campaigns'
+      fullPath: '/dashboard/crm/campaigns'
+      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface DashboardRouteRouteChildren {
-  DashboardCrmCampaignsRoute: typeof DashboardCrmCampaignsRoute
-  DashboardCrmCasesRoute: typeof DashboardCrmCasesRoute
-  DashboardCrmCompaniesRoute: typeof DashboardCrmCompaniesRoute
-  DashboardCrmContactsRoute: typeof DashboardCrmContactsRoute
-  DashboardCrmInteractionsRoute: typeof DashboardCrmInteractionsRoute
-  DashboardCrmInvoicesRoute: typeof DashboardCrmInvoicesRoute
-  DashboardCrmOpportunitiesRoute: typeof DashboardCrmOpportunitiesRoute
-  DashboardCrmProductsRoute: typeof DashboardCrmProductsRoute
   DashboardLmsAddressesRoute: typeof DashboardLmsAddressesRoute
   DashboardLmsInventoriesRoute: typeof DashboardLmsInventoriesRoute
   DashboardLmsPackagesRoute: typeof DashboardLmsPackagesRoute
@@ -538,18 +535,18 @@ interface DashboardRouteRouteChildren {
   DashboardOrgTeamsRoute: typeof DashboardOrgTeamsRoute
   DashboardTmsDriversRoute: typeof DashboardTmsDriversRoute
   DashboardTmsVehiclesRoute: typeof DashboardTmsVehiclesRoute
+  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
+  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
+  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute
+  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
+  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
   DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
+  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute
+  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardCrmCampaignsRoute: DashboardCrmCampaignsRoute,
-  DashboardCrmCasesRoute: DashboardCrmCasesRoute,
-  DashboardCrmCompaniesRoute: DashboardCrmCompaniesRoute,
-  DashboardCrmContactsRoute: DashboardCrmContactsRoute,
-  DashboardCrmInteractionsRoute: DashboardCrmInteractionsRoute,
-  DashboardCrmInvoicesRoute: DashboardCrmInvoicesRoute,
-  DashboardCrmOpportunitiesRoute: DashboardCrmOpportunitiesRoute,
-  DashboardCrmProductsRoute: DashboardCrmProductsRoute,
   DashboardLmsAddressesRoute: DashboardLmsAddressesRoute,
   DashboardLmsInventoriesRoute: DashboardLmsInventoriesRoute,
   DashboardLmsPackagesRoute: DashboardLmsPackagesRoute,
@@ -563,7 +560,15 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardOrgTeamsRoute: DashboardOrgTeamsRoute,
   DashboardTmsDriversRoute: DashboardTmsDriversRoute,
   DashboardTmsVehiclesRoute: DashboardTmsVehiclesRoute,
+  DashboardCrmCampaignsIndexRoute: DashboardCrmCampaignsIndexRoute,
+  DashboardCrmCasesIndexRoute: DashboardCrmCasesIndexRoute,
+  DashboardCrmCompaniesIndexRoute: DashboardCrmCompaniesIndexRoute,
+  DashboardCrmContactsIndexRoute: DashboardCrmContactsIndexRoute,
+  DashboardCrmInteractionsIndexRoute: DashboardCrmInteractionsIndexRoute,
+  DashboardCrmInvoicesIndexRoute: DashboardCrmInvoicesIndexRoute,
   DashboardCrmLeadsIndexRoute: DashboardCrmLeadsIndexRoute,
+  DashboardCrmOpportunitiesIndexRoute: DashboardCrmOpportunitiesIndexRoute,
+  DashboardCrmProductsIndexRoute: DashboardCrmProductsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
