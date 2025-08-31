@@ -1,7 +1,7 @@
-import { getRouteApi } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getRouteApi } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,23 +10,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableColumnHeader } from "@/components/ui/kibo-ui/table";
-import type { CrmCampaignsResponse } from "@/pocketbase/types";
+} from '@/components/ui/dropdown-menu';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
+import type { CrmCampaignsResponse } from '@/pocketbase/types';
 
 export const columns: ColumnDef<CrmCampaignsResponse>[] = [
   {
-    accessorKey: "id",
-    header: "Action",
+    accessorKey: 'id',
+    header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi("/dashboard/crm/campaigns/");
+      const route = getRouteApi('/dashboard/crm/campaigns/');
 
       const navigate = route.useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -42,7 +42,8 @@ export const columns: ColumnDef<CrmCampaignsResponse>[] = [
                       editCampaign: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Edit
               </DropdownMenuItem>
@@ -55,7 +56,8 @@ export const columns: ColumnDef<CrmCampaignsResponse>[] = [
                       deleteCampaign: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Delete
               </DropdownMenuItem>
@@ -66,46 +68,44 @@ export const columns: ColumnDef<CrmCampaignsResponse>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => <TableColumnHeader column={column} title="Name" />,
   },
   {
-    accessorKey: "status",
-    header: ({ column }) => <TableColumnHeader
-      column={column}
-      title="Status"
-    />,
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Status" />
+    ),
   },
   {
-    accessorKey: "start_date",
+    accessorKey: 'start_date',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Start Date" />
     ),
     cell: ({ row }) => {
-      const date = new Date(row.getValue("start_date"));
+      const date = new Date(row.getValue('start_date'));
       return <div>{date.toLocaleDateString()}</div>;
     },
   },
   {
-    accessorKey: "end_date",
+    accessorKey: 'end_date',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="End Date" />
     ),
     cell: ({ row }) => {
-      const endDate = row.getValue("end_date");
+      const endDate = row.getValue('end_date');
       if (!endDate) return <div>-</div>;
       const date = new Date(endDate as string);
       return <div>{date.toLocaleDateString()}</div>;
     },
   },
   {
-    accessorKey: "budget",
-    header: ({ column }) => <TableColumnHeader
-      column={column}
-      title="Budget"
-    />,
+    accessorKey: 'budget',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Budget" />
+    ),
     cell: ({ row }) => {
-      const budget = row.getValue("budget");
+      const budget = row.getValue('budget');
       if (!budget) return <div>-</div>;
       return <div>${(budget as number).toLocaleString()}</div>;
     },

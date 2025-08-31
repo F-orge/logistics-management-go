@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmCompaniesRecord,
   type CrmContactsRecord,
   type CrmOpportunitiesRecord,
   CrmOpportunitiesStageOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewOpportunityForm = withForm({
   defaultValues: {} as CreateRecord<CrmOpportunitiesRecord>,
@@ -39,8 +39,8 @@ export const NewOpportunityForm = withForm({
           {(field) => (
             <field.SelectField
               options={Object.keys(CrmOpportunitiesStageOptions).map((val) => ({
-                label: val.charAt(0).toUpperCase() +
-                  val.slice(1).replace("-", " "),
+                label:
+                  val.charAt(0).toUpperCase() + val.slice(1).replace('-', ' '),
                 value: val,
               }))}
               label="Stage"
@@ -51,11 +51,7 @@ export const NewOpportunityForm = withForm({
         </form.AppField>
         <form.AppField name="amount">
           {(field) => (
-            <field.TextField
-              label="Amount"
-              required
-              className="col-span-2"
-            />
+            <field.TextField label="Amount" required className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="probability">
@@ -106,27 +102,27 @@ export const NewOpportunityForm = withForm({
 });
 
 const NewOpportunityDialog = () => {
-  const route = getRouteApi("/dashboard/crm/opportunities/");
+  const route = getRouteApi('/dashboard/crm/opportunities/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const { data: companies } = useSuspenseQuery({
-    queryKey: ["crm_companies"],
-    queryFn: () => pb.collection("crm_companies").getList(1, 50),
+    queryKey: ['crm_companies'],
+    queryFn: () => pb.collection('crm_companies').getList(1, 50),
   });
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["crm_contacts"],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['crm_contacts'],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const form = useAppForm({
     defaultValues: {} as CreateRecord<CrmOpportunitiesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_opportunities").create(value), {
-          success: "Successfully created an opportunity",
-          error: "An error occurred when creating an opportunity",
+        .promise(pb.collection('crm_opportunities').create(value), {
+          success: 'Successfully created an opportunity',
+          error: 'An error occurred when creating an opportunity',
         })
         .unwrap();
 
@@ -140,7 +136,8 @@ const NewOpportunityDialog = () => {
       onOpenChange={(_) =>
         navigate({
           search: (prev) => ({ ...prev, newOpportunity: undefined }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>

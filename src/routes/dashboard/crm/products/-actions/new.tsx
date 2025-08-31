@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
-import { type CrmProductsRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
+import { type CrmProductsRecord } from '@/pocketbase/types';
 
 export const NewProductForm = withForm({
   defaultValues: {} as CreateRecord<CrmProductsRecord>,
@@ -47,10 +47,7 @@ export const NewProductForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -59,7 +56,7 @@ export const NewProductForm = withForm({
 });
 
 const NewProductDialog = () => {
-  const route = getRouteApi("/dashboard/crm/products/");
+  const route = getRouteApi('/dashboard/crm/products/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -67,9 +64,9 @@ const NewProductDialog = () => {
     defaultValues: {} as CreateRecord<CrmProductsRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_products").create(value), {
-          success: "Successfully created a product",
-          error: "An error occurred when creating a product",
+        .promise(pb.collection('crm_products').create(value), {
+          success: 'Successfully created a product',
+          error: 'An error occurred when creating a product',
         })
         .unwrap();
 
@@ -81,7 +78,8 @@ const NewProductDialog = () => {
     <Dialog
       open={params.newProduct}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, newProduct: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newProduct: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

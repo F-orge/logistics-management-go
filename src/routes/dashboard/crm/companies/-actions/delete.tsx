@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteCompanyDialog = () => {
-  const route = getRouteApi("/dashboard/crm/companies/");
+  const route = getRouteApi('/dashboard/crm/companies/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteCompanyDialog = () => {
             deleteCompany: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -49,7 +50,8 @@ const DeleteCompanyDialog = () => {
                   deleteCompany: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -57,10 +59,10 @@ const DeleteCompanyDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_companies").delete(searchParams.id ?? ""),
+                  pb.collection('crm_companies').delete(searchParams.id ?? ''),
                   {
-                    success: "Company deleted successfully",
-                    error: "An error occurred when deleting company",
+                    success: 'Company deleted successfully',
+                    error: 'An error occurred when deleting company',
                   },
                 )
                 .unwrap();

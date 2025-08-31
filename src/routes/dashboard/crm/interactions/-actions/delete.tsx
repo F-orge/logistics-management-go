@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteInteractionDialog = () => {
-  const route = getRouteApi("/dashboard/crm/interactions/");
+  const route = getRouteApi('/dashboard/crm/interactions/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteInteractionDialog = () => {
             deleteInteraction: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -48,7 +49,8 @@ const DeleteInteractionDialog = () => {
                   deleteInteraction: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -56,12 +58,12 @@ const DeleteInteractionDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_interactions").delete(
-                    searchParams.id ?? "",
-                  ),
+                  pb
+                    .collection('crm_interactions')
+                    .delete(searchParams.id ?? ''),
                   {
-                    success: "Interaction deleted successfully",
-                    error: "An error occurred when deleting interaction",
+                    success: 'Interaction deleted successfully',
+                    error: 'An error occurred when deleting interaction',
                   },
                 )
                 .unwrap();

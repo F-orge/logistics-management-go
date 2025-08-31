@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteContactDialog = () => {
-  const route = getRouteApi("/dashboard/crm/contacts/");
+  const route = getRouteApi('/dashboard/crm/contacts/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteContactDialog = () => {
             deleteContact: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -48,7 +49,8 @@ const DeleteContactDialog = () => {
                   deleteContact: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -56,10 +58,10 @@ const DeleteContactDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_contacts").delete(searchParams.id ?? ""),
+                  pb.collection('crm_contacts').delete(searchParams.id ?? ''),
                   {
-                    success: "Contact deleted successfully",
-                    error: "An error occurred when deleting contact",
+                    success: 'Contact deleted successfully',
+                    error: 'An error occurred when deleting contact',
                   },
                 )
                 .unwrap();

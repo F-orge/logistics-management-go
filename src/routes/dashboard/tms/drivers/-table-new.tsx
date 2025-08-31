@@ -12,24 +12,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
-import type {
-  CrmContactsRecord,
-  CrmInteractionsResponse,
-  CrmOpportunitiesRecord,
-} from '@/pocketbase/types';
+import type { TmsDriversResponse } from '@/pocketbase/types';
 
-export const columns: ColumnDef<
-  CrmInteractionsResponse<{
-    contact: CrmContactsRecord;
-    opportunity: CrmOpportunitiesRecord;
-  }>
->[] = [
+export const columns: ColumnDef<TmsDriversResponse>[] = [
   {
     accessorKey: 'id',
     header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi('/dashboard/crm/interactions/');
-
+      const route = getRouteApi('/dashboard/tms/drivers/');
       const navigate = route.useNavigate();
 
       return (
@@ -48,7 +38,7 @@ export const columns: ColumnDef<
                   navigate({
                     search: (prev) => ({
                       ...prev,
-                      editInteraction: true,
+                      editDriver: true,
                       id: row.original.id,
                     }),
                   })
@@ -62,7 +52,7 @@ export const columns: ColumnDef<
                   navigate({
                     search: (prev) => ({
                       ...prev,
-                      deleteInteraction: true,
+                      deleteDriver: true,
                       id: row.original.id,
                     }),
                   })
@@ -77,51 +67,69 @@ export const columns: ColumnDef<
     },
   },
   {
-    accessorKey: 'type',
-    header: ({ column }) => <TableColumnHeader column={column} title="Type" />,
-    cell: ({ row }) => {
-      const type = row.getValue('type') as string;
-      return <span className="capitalize">{type}</span>;
-    },
-  },
-  {
-    accessorKey: 'subject',
+    accessorKey: 'employee_id',
     header: ({ column }) => (
-      <TableColumnHeader column={column} title="Subject" />
+      <TableColumnHeader column={column} title="Employee ID" />
     ),
   },
   {
-    accessorKey: 'interaction_date',
-    header: ({ column }) => <TableColumnHeader column={column} title="Date" />,
-    cell: ({ row }) => {
-      const date = new Date(row.getValue('interaction_date'));
-      return <div>{date.toLocaleDateString()}</div>;
-    },
+    accessorKey: 'email',
+    header: ({ column }) => <TableColumnHeader column={column} title="Email" />,
   },
   {
-    accessorKey: 'contact',
+    accessorKey: 'first_name',
     header: ({ column }) => (
-      <TableColumnHeader column={column} title="Contact" />
+      <TableColumnHeader column={column} title="First Name" />
+    ),
+  },
+  {
+    accessorKey: 'last_name',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Last Name" />
+    ),
+  },
+  {
+    accessorKey: 'hire_date',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Hire Date" />
+    ),
+  },
+  {
+    accessorKey: 'license_number',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="License Number" />
+    ),
+  },
+  {
+    accessorKey: 'phone_number',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Phone Number" />
+    ),
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const contact = row.original.expand?.contact;
-      if (!contact) return <div>-</div>;
+      const status = row.getValue('status') as string;
+      const statusColors = {
+        active: 'bg-green-100 text-green-800',
+        inactive: 'bg-gray-100 text-gray-800',
+        on_leave: 'bg-yellow-100 text-yellow-800',
+        terminated: 'bg-red-100 text-red-800',
+      };
+
       return (
-        <div>
-          {contact.first_name} {contact.last_name}
-        </div>
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            statusColors[status as keyof typeof statusColors] ||
+            'bg-gray-100 text-gray-800'
+          }`}
+        >
+          {status.replace('_', ' ')}
+        </span>
       );
-    },
-  },
-  {
-    accessorKey: 'opportunity',
-    header: ({ column }) => (
-      <TableColumnHeader column={column} title="Opportunity" />
-    ),
-    cell: ({ row }) => {
-      const opportunity = row.original.expand?.opportunity;
-      if (!opportunity) return <div>-</div>;
-      return <div>{opportunity.name}</div>;
     },
   },
 ];

@@ -1,7 +1,7 @@
-import { getRouteApi } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getRouteApi } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,23 +10,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableColumnHeader } from "@/components/ui/kibo-ui/table";
-import type { CrmProductsResponse } from "@/pocketbase/types";
+} from '@/components/ui/dropdown-menu';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
+import type { CrmProductsResponse } from '@/pocketbase/types';
 
 export const columns: ColumnDef<CrmProductsResponse>[] = [
   {
-    accessorKey: "id",
-    header: "Action",
+    accessorKey: 'id',
+    header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi("/dashboard/crm/products/");
+      const route = getRouteApi('/dashboard/crm/products/');
 
       const navigate = route.useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -42,7 +42,8 @@ export const columns: ColumnDef<CrmProductsResponse>[] = [
                       editProduct: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Edit
               </DropdownMenuItem>
@@ -55,7 +56,8 @@ export const columns: ColumnDef<CrmProductsResponse>[] = [
                       deleteProduct: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Delete
               </DropdownMenuItem>
@@ -66,44 +68,49 @@ export const columns: ColumnDef<CrmProductsResponse>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Product Name" />
     ),
   },
   {
-    accessorKey: "sku",
+    accessorKey: 'sku',
     header: ({ column }) => <TableColumnHeader column={column} title="SKU" />,
     cell: ({ row }) => {
-      const sku = row.getValue("sku");
+      const sku = row.getValue('sku');
       if (!sku) return <div>-</div>;
       return <div className="font-mono text-sm">{sku as string}</div>;
     },
   },
   {
-    accessorKey: "price",
+    accessorKey: 'price',
     header: ({ column }) => <TableColumnHeader column={column} title="Price" />,
     cell: ({ row }) => {
-      const price = row.getValue("price");
+      const price = row.getValue('price');
       if (!price) return <div>-</div>;
       return <div>${(price as number).toLocaleString()}</div>;
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: 'description',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => {
-      const description = row.getValue("description");
+      const description = row.getValue('description');
       if (!description) return <div>-</div>;
       const text = description as string;
       // Strip HTML tags and truncate
-      const plainText = text.replace(/<[^>]*>/g, "");
-      const truncated = plainText.length > 100
-        ? plainText.substring(0, 100) + "..."
-        : plainText;
-      return <div className="max-w-xs" title={plainText}>{truncated}</div>;
+      const plainText = text.replace(/<[^>]*>/g, '');
+      const truncated =
+        plainText.length > 100
+          ? plainText.substring(0, 100) + '...'
+          : plainText;
+      return (
+        <div className="max-w-xs" title={plainText}>
+          {truncated}
+        </div>
+      );
     },
   },
 ];

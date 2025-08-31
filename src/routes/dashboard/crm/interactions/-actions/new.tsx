@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmContactsRecord,
   type CrmInteractionsRecord,
   CrmInteractionsTypeOptions,
   type CrmOpportunitiesRecord,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewInteractionForm = withForm({
   defaultValues: {} as CreateRecord<CrmInteractionsRecord>,
@@ -50,10 +50,7 @@ export const NewInteractionForm = withForm({
         </form.AppField>
         <form.AppField name="subject">
           {(field) => (
-            <field.TextField
-              label="Subject"
-              className="col-span-full"
-            />
+            <field.TextField label="Subject" className="col-span-full" />
           )}
         </form.AppField>
         <form.AppField name="contact">
@@ -82,10 +79,7 @@ export const NewInteractionForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -94,27 +88,27 @@ export const NewInteractionForm = withForm({
 });
 
 const NewInteractionDialog = () => {
-  const route = getRouteApi("/dashboard/crm/interactions/");
+  const route = getRouteApi('/dashboard/crm/interactions/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["crm_contacts"],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['crm_contacts'],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const { data: opportunities } = useSuspenseQuery({
-    queryKey: ["crm_opportunities"],
-    queryFn: () => pb.collection("crm_opportunities").getList(1, 50),
+    queryKey: ['crm_opportunities'],
+    queryFn: () => pb.collection('crm_opportunities').getList(1, 50),
   });
 
   const form = useAppForm({
     defaultValues: {} as CreateRecord<CrmInteractionsRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_interactions").create(value), {
-          success: "Successfully created an interaction",
-          error: "An error occurred when creating an interaction",
+        .promise(pb.collection('crm_interactions').create(value), {
+          success: 'Successfully created an interaction',
+          error: 'An error occurred when creating an interaction',
         })
         .unwrap();
 
@@ -128,7 +122,8 @@ const NewInteractionDialog = () => {
       onOpenChange={(_) =>
         navigate({
           search: (prev) => ({ ...prev, newInteraction: undefined }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>

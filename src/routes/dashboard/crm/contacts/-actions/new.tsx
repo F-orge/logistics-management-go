@@ -1,20 +1,20 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmCompaniesRecord,
   type CrmContactsRecord,
   CrmContactsStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewContactForm = withForm({
   defaultValues: {} as CreateRecord<CrmContactsRecord>,
@@ -42,11 +42,7 @@ export const NewContactForm = withForm({
         </form.AppField>
         <form.AppField name="email">
           {(field) => (
-            <field.TextField
-              label="Email"
-              required
-              className="col-span-full"
-            />
+            <field.TextField label="Email" required className="col-span-full" />
           )}
         </form.AppField>
         <form.AppField name="phone_number">
@@ -99,22 +95,22 @@ export const NewContactForm = withForm({
 });
 
 const NewContactDialog = () => {
-  const route = getRouteApi("/dashboard/crm/contacts/");
+  const route = getRouteApi('/dashboard/crm/contacts/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const { data: companies } = useSuspenseQuery({
-    queryKey: ["crm_companies"],
-    queryFn: () => pb.collection("crm_companies").getList(1, 50),
+    queryKey: ['crm_companies'],
+    queryFn: () => pb.collection('crm_companies').getList(1, 50),
   });
 
   const form = useAppForm({
     defaultValues: {} as CreateRecord<CrmContactsRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_contacts").create(value), {
-          success: "Successfully created a contact",
-          error: "An error occurred when creating a contact",
+        .promise(pb.collection('crm_contacts').create(value), {
+          success: 'Successfully created a contact',
+          error: 'An error occurred when creating a contact',
         })
         .unwrap();
 
@@ -126,7 +122,8 @@ const NewContactDialog = () => {
     <Dialog
       open={params.newContact}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, newContact: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newContact: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

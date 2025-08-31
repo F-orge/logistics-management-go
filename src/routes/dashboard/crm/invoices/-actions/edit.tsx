@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
 import {
   type CrmCompaniesRecord,
   type CrmContactsRecord,
   type CrmInvoicesRecord,
   CrmInvoicesStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const EditInvoiceForm = withForm({
   defaultValues: {} as UpdateRecord<CrmInvoicesRecord>,
@@ -83,11 +83,7 @@ export const EditInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="due_date">
           {(field) => (
-            <field.DateField
-              label="Due Date"
-              required
-              className="col-span-2"
-            />
+            <field.DateField label="Due Date" required className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="currency">
@@ -102,11 +98,7 @@ export const EditInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="subtotal">
           {(field) => (
-            <field.TextField
-              label="Subtotal"
-              required
-              className="col-span-1"
-            />
+            <field.TextField label="Subtotal" required className="col-span-1" />
           )}
         </form.AppField>
         <form.AppField name="tax_amount">
@@ -120,10 +112,7 @@ export const EditInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="payment_terms">
           {(field) => (
-            <field.TextField
-              label="Payment Terms"
-              className="col-span-full"
-            />
+            <field.TextField label="Payment Terms" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -132,24 +121,24 @@ export const EditInvoiceForm = withForm({
 });
 
 const EditInvoiceDialog = () => {
-  const route = getRouteApi("/dashboard/crm/invoices/");
+  const route = getRouteApi('/dashboard/crm/invoices/');
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: invoice } = useSuspenseQuery({
-    queryKey: ["invoices", searchParams.id],
-    queryFn: () => pb.collection("crm_invoices").getOne(searchParams.id ?? ""),
+    queryKey: ['invoices', searchParams.id],
+    queryFn: () => pb.collection('crm_invoices').getOne(searchParams.id ?? ''),
   });
 
   const { data: companies } = useSuspenseQuery({
-    queryKey: ["companies", searchParams.id],
-    queryFn: () => pb.collection("crm_companies").getList(1, 50),
+    queryKey: ['companies', searchParams.id],
+    queryFn: () => pb.collection('crm_companies').getList(1, 50),
   });
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["contacts", searchParams.id],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['contacts', searchParams.id],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const form = useAppForm({
@@ -157,10 +146,10 @@ const EditInvoiceDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection("crm_invoices").update(searchParams.id ?? "", value),
+          pb.collection('crm_invoices').update(searchParams.id ?? '', value),
           {
-            success: "Invoice Updated Successfully",
-            error: "An Error Occurred when updating the record",
+            success: 'Invoice Updated Successfully',
+            error: 'An Error Occurred when updating the record',
           },
         )
         .unwrap();
@@ -181,7 +170,8 @@ const EditInvoiceDialog = () => {
             editInvoice: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>

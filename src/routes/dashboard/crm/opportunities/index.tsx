@@ -1,21 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteOpportunityDialog from "./-actions/delete";
-import EditOpportunityDialog from "./-actions/edit";
-import NewOpportunityDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
 import type {
   CrmCompaniesRecord,
   CrmContactsRecord,
   CrmOpportunitiesResponse,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
+import DeleteOpportunityDialog from './-actions/delete';
+import EditOpportunityDialog from './-actions/edit';
+import NewOpportunityDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns } from './-table';
 
-export const Route = createFileRoute("/dashboard/crm/opportunities/")({
+export const Route = createFileRoute('/dashboard/crm/opportunities/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/dashboard/crm/opportunities/")({
       editOpportunity: z.boolean().optional(),
       deleteOpportunity: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -34,15 +34,16 @@ export const Route = createFileRoute("/dashboard/crm/opportunities/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("crm_opportunities")
+      .collection('crm_opportunities')
       .getList<
-        CrmOpportunitiesResponse<
-          { company: CrmCompaniesRecord; primary_contact: CrmContactsRecord }
-        >
+        CrmOpportunitiesResponse<{
+          company: CrmCompaniesRecord;
+          primary_contact: CrmContactsRecord;
+        }>
       >(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(" "),
-        filter: context.search.filter?.join(" "),
-        expand: "company,primary_contact",
+        sort: context.search.sort.join(' '),
+        filter: context.search.filter?.join(' '),
+        expand: 'company,primary_contact',
       }),
 });
 
@@ -64,8 +65,9 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newOpportunity: true }) })}
-          variant={"outline"}
+            navigate({ search: (prev) => ({ ...prev, newOpportunity: true }) })
+          }
+          variant={'outline'}
         >
           Create Opportunity
         </Button>

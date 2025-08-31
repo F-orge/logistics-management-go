@@ -1,21 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteInteractionDialog from "./-actions/delete";
-import EditInteractionDialog from "./-actions/edit";
-import NewInteractionDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
 import type {
   CrmContactsRecord,
   CrmInteractionsResponse,
   CrmOpportunitiesRecord,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
+import DeleteInteractionDialog from './-actions/delete';
+import EditInteractionDialog from './-actions/edit';
+import NewInteractionDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns } from './-table';
 
-export const Route = createFileRoute("/dashboard/crm/interactions/")({
+export const Route = createFileRoute('/dashboard/crm/interactions/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/dashboard/crm/interactions/")({
       editInteraction: z.boolean().optional(),
       deleteInteraction: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -34,15 +34,16 @@ export const Route = createFileRoute("/dashboard/crm/interactions/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("crm_interactions")
+      .collection('crm_interactions')
       .getList<
-        CrmInteractionsResponse<
-          { contact: CrmContactsRecord; opportunity: CrmOpportunitiesRecord }
-        >
+        CrmInteractionsResponse<{
+          contact: CrmContactsRecord;
+          opportunity: CrmOpportunitiesRecord;
+        }>
       >(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(" "),
-        filter: context.search.filter?.join(" "),
-        expand: "contact,opportunity",
+        sort: context.search.sort.join(' '),
+        filter: context.search.filter?.join(' '),
+        expand: 'contact,opportunity',
       }),
 });
 
@@ -64,8 +65,9 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newInteraction: true }) })}
-          variant={"outline"}
+            navigate({ search: (prev) => ({ ...prev, newInteraction: true }) })
+          }
+          variant={'outline'}
         >
           Create Interaction
         </Button>

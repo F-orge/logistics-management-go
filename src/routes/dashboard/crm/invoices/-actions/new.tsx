@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmCompaniesRecord,
   type CrmContactsRecord,
   type CrmInvoicesRecord,
   CrmInvoicesStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewInvoiceForm = withForm({
   defaultValues: {} as CreateRecord<CrmInvoicesRecord>,
@@ -83,11 +83,7 @@ export const NewInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="due_date">
           {(field) => (
-            <field.DateField
-              label="Due Date"
-              required
-              className="col-span-2"
-            />
+            <field.DateField label="Due Date" required className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="currency">
@@ -102,11 +98,7 @@ export const NewInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="subtotal">
           {(field) => (
-            <field.TextField
-              label="Subtotal"
-              required
-              className="col-span-1"
-            />
+            <field.TextField label="Subtotal" required className="col-span-1" />
           )}
         </form.AppField>
         <form.AppField name="tax_amount">
@@ -120,10 +112,7 @@ export const NewInvoiceForm = withForm({
         </form.AppField>
         <form.AppField name="payment_terms">
           {(field) => (
-            <field.TextField
-              label="Payment Terms"
-              className="col-span-full"
-            />
+            <field.TextField label="Payment Terms" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -132,27 +121,27 @@ export const NewInvoiceForm = withForm({
 });
 
 const NewInvoiceDialog = () => {
-  const route = getRouteApi("/dashboard/crm/invoices/");
+  const route = getRouteApi('/dashboard/crm/invoices/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const { data: companies } = useSuspenseQuery({
-    queryKey: ["crm_companies"],
-    queryFn: () => pb.collection("crm_companies").getList(1, 50),
+    queryKey: ['crm_companies'],
+    queryFn: () => pb.collection('crm_companies').getList(1, 50),
   });
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["crm_contacts"],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['crm_contacts'],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const form = useAppForm({
     defaultValues: {} as CreateRecord<CrmInvoicesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_invoices").create(value), {
-          success: "Successfully created an invoice",
-          error: "An error occurred when creating an invoice",
+        .promise(pb.collection('crm_invoices').create(value), {
+          success: 'Successfully created an invoice',
+          error: 'An error occurred when creating an invoice',
         })
         .unwrap();
 
@@ -164,7 +153,8 @@ const NewInvoiceDialog = () => {
     <Dialog
       open={params.newInvoice}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, newInvoice: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newInvoice: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

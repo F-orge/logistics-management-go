@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
-import { type CrmCompaniesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
+import { type CrmCompaniesRecord } from '@/pocketbase/types';
 
 export const NewCompanyForm = withForm({
   defaultValues: {} as CreateRecord<CrmCompaniesRecord>,
@@ -28,10 +28,7 @@ export const NewCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="industry">
           {(field) => (
-            <field.TextField
-              label="Industry"
-              className="col-span-2"
-            />
+            <field.TextField label="Industry" className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="email">
@@ -45,10 +42,7 @@ export const NewCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="phone_number">
           {(field) => (
-            <field.TextField
-              label="Phone Number"
-              className="col-span-2"
-            />
+            <field.TextField label="Phone Number" className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="website">
@@ -62,10 +56,7 @@ export const NewCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -74,7 +65,7 @@ export const NewCompanyForm = withForm({
 });
 
 const NewCompanyDialog = () => {
-  const route = getRouteApi("/dashboard/crm/companies/");
+  const route = getRouteApi('/dashboard/crm/companies/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -82,9 +73,9 @@ const NewCompanyDialog = () => {
     defaultValues: {} as CreateRecord<CrmCompaniesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_companies").create(value), {
-          success: "Successfully created a company",
-          error: "An error occurred when creating a company",
+        .promise(pb.collection('crm_companies').create(value), {
+          success: 'Successfully created a company',
+          error: 'An error occurred when creating a company',
         })
         .unwrap();
 
@@ -96,7 +87,8 @@ const NewCompanyDialog = () => {
     <Dialog
       open={params.newCompany}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, newCompany: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newCompany: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

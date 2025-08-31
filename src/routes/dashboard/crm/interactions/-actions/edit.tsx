@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
 import {
   type CrmContactsRecord,
   type CrmInteractionsRecord,
   CrmInteractionsTypeOptions,
   type CrmOpportunitiesRecord,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const EditInteractionForm = withForm({
   defaultValues: {} as UpdateRecord<CrmInteractionsRecord>,
@@ -50,10 +50,7 @@ export const EditInteractionForm = withForm({
         </form.AppField>
         <form.AppField name="subject">
           {(field) => (
-            <field.TextField
-              label="Subject"
-              className="col-span-full"
-            />
+            <field.TextField label="Subject" className="col-span-full" />
           )}
         </form.AppField>
         <form.AppField name="contact">
@@ -82,10 +79,7 @@ export const EditInteractionForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -94,25 +88,25 @@ export const EditInteractionForm = withForm({
 });
 
 const EditInteractionDialog = () => {
-  const route = getRouteApi("/dashboard/crm/interactions/");
+  const route = getRouteApi('/dashboard/crm/interactions/');
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: interaction } = useSuspenseQuery({
-    queryKey: ["interactions", searchParams.id],
+    queryKey: ['interactions', searchParams.id],
     queryFn: () =>
-      pb.collection("crm_interactions").getOne(searchParams.id ?? ""),
+      pb.collection('crm_interactions').getOne(searchParams.id ?? ''),
   });
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["contacts", searchParams.id],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['contacts', searchParams.id],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const { data: opportunities } = useSuspenseQuery({
-    queryKey: ["opportunities", searchParams.id],
-    queryFn: () => pb.collection("crm_opportunities").getList(1, 50),
+    queryKey: ['opportunities', searchParams.id],
+    queryFn: () => pb.collection('crm_opportunities').getList(1, 50),
   });
 
   const form = useAppForm({
@@ -120,13 +114,12 @@ const EditInteractionDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection("crm_interactions").update(
-            searchParams.id ?? "",
-            value,
-          ),
+          pb
+            .collection('crm_interactions')
+            .update(searchParams.id ?? '', value),
           {
-            success: "Interaction Updated Successfully",
-            error: "An Error Occurred when updating the record",
+            success: 'Interaction Updated Successfully',
+            error: 'An Error Occurred when updating the record',
           },
         )
         .unwrap();
@@ -151,14 +144,15 @@ const EditInteractionDialog = () => {
             editInteraction: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Interaction Information</DialogTitle>
           <DialogDescription>
-            Change the information for:{" "}
-            {interaction.subject || "this interaction"}
+            Change the information for:{' '}
+            {interaction.subject || 'this interaction'}
           </DialogDescription>
         </DialogHeader>
         <form

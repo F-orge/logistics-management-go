@@ -1,18 +1,18 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmCampaignsRecord,
   CrmCampaignsStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewCampaignForm = withForm({
   defaultValues: {} as CreateRecord<CrmCampaignsRecord>,
@@ -31,10 +31,7 @@ export const NewCampaignForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
         <form.AppField name="status">
@@ -50,12 +47,7 @@ export const NewCampaignForm = withForm({
           )}
         </form.AppField>
         <form.AppField name="budget">
-          {(field) => (
-            <field.TextField
-              label="Budget"
-              className="col-span-2"
-            />
-          )}
+          {(field) => <field.TextField label="Budget" className="col-span-2" />}
         </form.AppField>
         <form.AppField name="start_date">
           {(field) => (
@@ -68,10 +60,7 @@ export const NewCampaignForm = withForm({
         </form.AppField>
         <form.AppField name="end_date">
           {(field) => (
-            <field.DateField
-              label="End Date"
-              className="col-span-2"
-            />
+            <field.DateField label="End Date" className="col-span-2" />
           )}
         </form.AppField>
       </>
@@ -80,7 +69,7 @@ export const NewCampaignForm = withForm({
 });
 
 const NewCampaignDialog = () => {
-  const route = getRouteApi("/dashboard/crm/campaigns/");
+  const route = getRouteApi('/dashboard/crm/campaigns/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -88,9 +77,9 @@ const NewCampaignDialog = () => {
     defaultValues: {} as CreateRecord<CrmCampaignsRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_campaigns").create(value), {
-          success: "Successfully created a campaign",
-          error: "An error occurred when creating a campaign",
+        .promise(pb.collection('crm_campaigns').create(value), {
+          success: 'Successfully created a campaign',
+          error: 'An error occurred when creating a campaign',
         })
         .unwrap();
 
@@ -102,7 +91,8 @@ const NewCampaignDialog = () => {
     <Dialog
       open={params.newCampaign}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, newCampaign: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newCampaign: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

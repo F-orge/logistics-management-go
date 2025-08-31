@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteContactDialog from "./-actions/delete";
-import EditContactDialog from "./-actions/edit";
-import NewContactDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import DeleteContactDialog from './-actions/delete';
+import EditContactDialog from './-actions/edit';
+import NewContactDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns } from './-table';
 
-export const Route = createFileRoute("/dashboard/crm/contacts/")({
+export const Route = createFileRoute('/dashboard/crm/contacts/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dashboard/crm/contacts/")({
       editContact: z.boolean().optional(),
       deleteContact: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,10 +29,10 @@ export const Route = createFileRoute("/dashboard/crm/contacts/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("crm_contacts")
+      .collection('crm_contacts')
       .getList(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(" "),
-        filter: context.search.filter?.join(" "),
+        sort: context.search.sort.join(' '),
+        filter: context.search.filter?.join(' '),
       }),
 });
 
@@ -54,8 +54,9 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newContact: true }) })}
-          variant={"outline"}
+            navigate({ search: (prev) => ({ ...prev, newContact: true }) })
+          }
+          variant={'outline'}
         >
           Create Contact
         </Button>

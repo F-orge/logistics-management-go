@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteInvoiceDialog = () => {
-  const route = getRouteApi("/dashboard/crm/invoices/");
+  const route = getRouteApi('/dashboard/crm/invoices/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteInvoiceDialog = () => {
             deleteInvoice: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -49,7 +50,8 @@ const DeleteInvoiceDialog = () => {
                   deleteInvoice: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -57,10 +59,10 @@ const DeleteInvoiceDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_invoices").delete(searchParams.id ?? ""),
+                  pb.collection('crm_invoices').delete(searchParams.id ?? ''),
                   {
-                    success: "Invoice deleted successfully",
-                    error: "An error occurred when deleting invoice",
+                    success: 'Invoice deleted successfully',
+                    error: 'An error occurred when deleting invoice',
                   },
                 )
                 .unwrap();

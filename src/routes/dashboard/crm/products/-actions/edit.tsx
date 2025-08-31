@@ -1,16 +1,16 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
-import { type CrmProductsRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
+import { type CrmProductsRecord } from '@/pocketbase/types';
 
 export const EditProductForm = withForm({
   defaultValues: {} as UpdateRecord<CrmProductsRecord>,
@@ -48,10 +48,7 @@ export const EditProductForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -60,14 +57,14 @@ export const EditProductForm = withForm({
 });
 
 const EditProductDialog = () => {
-  const route = getRouteApi("/dashboard/crm/products/");
+  const route = getRouteApi('/dashboard/crm/products/');
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: product } = useSuspenseQuery({
-    queryKey: ["products", searchParams.id],
-    queryFn: () => pb.collection("crm_products").getOne(searchParams.id ?? ""),
+    queryKey: ['products', searchParams.id],
+    queryFn: () => pb.collection('crm_products').getOne(searchParams.id ?? ''),
   });
 
   const form = useAppForm({
@@ -75,10 +72,10 @@ const EditProductDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection("crm_products").update(searchParams.id ?? "", value),
+          pb.collection('crm_products').update(searchParams.id ?? '', value),
           {
-            success: "Product Updated Successfully",
-            error: "An Error Occurred when updating the record",
+            success: 'Product Updated Successfully',
+            error: 'An Error Occurred when updating the record',
           },
         )
         .unwrap();
@@ -99,7 +96,8 @@ const EditProductDialog = () => {
             editProduct: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>

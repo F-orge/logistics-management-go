@@ -1,16 +1,16 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
-import { type CrmCompaniesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
+import { type CrmCompaniesRecord } from '@/pocketbase/types';
 
 export const EditCompanyForm = withForm({
   defaultValues: {} as UpdateRecord<CrmCompaniesRecord>,
@@ -29,10 +29,7 @@ export const EditCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="industry">
           {(field) => (
-            <field.TextField
-              label="Industry"
-              className="col-span-2"
-            />
+            <field.TextField label="Industry" className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="email">
@@ -46,10 +43,7 @@ export const EditCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="phone_number">
           {(field) => (
-            <field.TextField
-              label="Phone Number"
-              className="col-span-2"
-            />
+            <field.TextField label="Phone Number" className="col-span-2" />
           )}
         </form.AppField>
         <form.AppField name="website">
@@ -63,10 +57,7 @@ export const EditCompanyForm = withForm({
         </form.AppField>
         <form.AppField name="description">
           {(field) => (
-            <field.TextField
-              label="Description"
-              className="col-span-full"
-            />
+            <field.TextField label="Description" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -75,14 +66,14 @@ export const EditCompanyForm = withForm({
 });
 
 const EditCompanyDialog = () => {
-  const route = getRouteApi("/dashboard/crm/companies/");
+  const route = getRouteApi('/dashboard/crm/companies/');
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: company } = useSuspenseQuery({
-    queryKey: ["companies", searchParams.id],
-    queryFn: () => pb.collection("crm_companies").getOne(searchParams.id ?? ""),
+    queryKey: ['companies', searchParams.id],
+    queryFn: () => pb.collection('crm_companies').getOne(searchParams.id ?? ''),
   });
 
   const form = useAppForm({
@@ -90,10 +81,10 @@ const EditCompanyDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection("crm_companies").update(searchParams.id ?? "", value),
+          pb.collection('crm_companies').update(searchParams.id ?? '', value),
           {
-            success: "Company Updated Successfully",
-            error: "An Error Occurred when updating the record",
+            success: 'Company Updated Successfully',
+            error: 'An Error Occurred when updating the record',
           },
         )
         .unwrap();
@@ -114,7 +105,8 @@ const EditCompanyDialog = () => {
             editCompany: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>

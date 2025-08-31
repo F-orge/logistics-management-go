@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteCampaignDialog = () => {
-  const route = getRouteApi("/dashboard/crm/campaigns/");
+  const route = getRouteApi('/dashboard/crm/campaigns/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteCampaignDialog = () => {
             deleteCampaign: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -48,7 +49,8 @@ const DeleteCampaignDialog = () => {
                   deleteCampaign: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -56,10 +58,10 @@ const DeleteCampaignDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_campaigns").delete(searchParams.id ?? ""),
+                  pb.collection('crm_campaigns').delete(searchParams.id ?? ''),
                   {
-                    success: "Campaign deleted successfully",
-                    error: "An error occurred when deleting campaign",
+                    success: 'Campaign deleted successfully',
+                    error: 'An error occurred when deleting campaign',
                   },
                 )
                 .unwrap();

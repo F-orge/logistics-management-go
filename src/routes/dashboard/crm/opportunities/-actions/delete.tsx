@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteOpportunityDialog = () => {
-  const route = getRouteApi("/dashboard/crm/opportunities/");
+  const route = getRouteApi('/dashboard/crm/opportunities/');
 
   const navigate = route.useNavigate();
 
@@ -29,7 +29,8 @@ const DeleteOpportunityDialog = () => {
             deleteOpportunity: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -49,7 +50,8 @@ const DeleteOpportunityDialog = () => {
                   deleteOpportunity: undefined,
                   id: undefined,
                 }),
-              })}
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>
@@ -57,12 +59,12 @@ const DeleteOpportunityDialog = () => {
             onClick={async () => {
               await toast
                 .promise(
-                  pb.collection("crm_opportunities").delete(
-                    searchParams.id ?? "",
-                  ),
+                  pb
+                    .collection('crm_opportunities')
+                    .delete(searchParams.id ?? ''),
                   {
-                    success: "Opportunity deleted successfully",
-                    error: "An error occurred when deleting opportunity",
+                    success: 'Opportunity deleted successfully',
+                    error: 'An error occurred when deleting opportunity',
                   },
                 )
                 .unwrap();

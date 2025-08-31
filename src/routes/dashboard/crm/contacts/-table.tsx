@@ -1,7 +1,7 @@
-import { getRouteApi } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getRouteApi } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,23 +10,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableColumnHeader } from "@/components/ui/kibo-ui/table";
-import type { CrmContactsResponse } from "@/pocketbase/types";
+} from '@/components/ui/dropdown-menu';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
+import type { CrmContactsResponse } from '@/pocketbase/types';
 
 export const columns: ColumnDef<CrmContactsResponse>[] = [
   {
-    accessorKey: "id",
-    header: "Action",
+    accessorKey: 'id',
+    header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi("/dashboard/crm/contacts/");
+      const route = getRouteApi('/dashboard/crm/contacts/');
 
       const navigate = route.useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -42,7 +42,8 @@ export const columns: ColumnDef<CrmContactsResponse>[] = [
                       editContact: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Edit
               </DropdownMenuItem>
@@ -55,7 +56,8 @@ export const columns: ColumnDef<CrmContactsResponse>[] = [
                       deleteContact: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Delete
               </DropdownMenuItem>
@@ -66,42 +68,41 @@ export const columns: ColumnDef<CrmContactsResponse>[] = [
     },
   },
   {
-    accessorKey: "first_name",
+    accessorKey: 'first_name',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="First Name" />
     ),
   },
   {
-    accessorKey: "last_name",
+    accessorKey: 'last_name',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Last Name" />
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: 'email',
     header: ({ column }) => <TableColumnHeader column={column} title="Email" />,
   },
   {
-    accessorKey: "phone_number",
+    accessorKey: 'phone_number',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Phone Number" />
     ),
   },
   {
-    accessorKey: "job_title",
+    accessorKey: 'job_title',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Job Title" />
     ),
   },
   {
-    accessorKey: "status",
-    header: ({ column }) => <TableColumnHeader
-      column={column}
-      title="Status"
-    />,
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Status" />
+    ),
   },
   {
-    accessorKey: "lead_source",
+    accessorKey: 'lead_source',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Lead Source" />
     ),

@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteProductDialog from "./-actions/delete";
-import EditProductDialog from "./-actions/edit";
-import NewProductDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import DeleteProductDialog from './-actions/delete';
+import EditProductDialog from './-actions/edit';
+import NewProductDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns } from './-table';
 
-export const Route = createFileRoute("/dashboard/crm/products/")({
+export const Route = createFileRoute('/dashboard/crm/products/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dashboard/crm/products/")({
       editProduct: z.boolean().optional(),
       deleteProduct: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,10 +29,10 @@ export const Route = createFileRoute("/dashboard/crm/products/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("crm_products")
+      .collection('crm_products')
       .getList(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(" "),
-        filter: context.search.filter?.join(" "),
+        sort: context.search.sort.join(' '),
+        filter: context.search.filter?.join(' '),
       }),
 });
 
@@ -54,8 +54,9 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newProduct: true }) })}
-          variant={"outline"}
+            navigate({ search: (prev) => ({ ...prev, newProduct: true }) })
+          }
+          variant={'outline'}
         >
           Create Product
         </Button>

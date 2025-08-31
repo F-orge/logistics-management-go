@@ -1,20 +1,20 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
 import {
   type CrmCompaniesRecord,
   type CrmContactsRecord,
   CrmContactsStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const EditContactForm = withForm({
   defaultValues: {} as UpdateRecord<CrmContactsRecord>,
@@ -42,11 +42,7 @@ export const EditContactForm = withForm({
         </form.AppField>
         <form.AppField name="email">
           {(field) => (
-            <field.TextField
-              label="Email"
-              required
-              className="col-span-full"
-            />
+            <field.TextField label="Email" required className="col-span-full" />
           )}
         </form.AppField>
         <form.AppField name="phone_number">
@@ -99,19 +95,19 @@ export const EditContactForm = withForm({
 });
 
 const EditContactDialog = () => {
-  const route = getRouteApi("/dashboard/crm/contacts/");
+  const route = getRouteApi('/dashboard/crm/contacts/');
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: contact } = useSuspenseQuery({
-    queryKey: ["contacts", searchParams.id],
-    queryFn: () => pb.collection("crm_contacts").getOne(searchParams.id ?? ""),
+    queryKey: ['contacts', searchParams.id],
+    queryFn: () => pb.collection('crm_contacts').getOne(searchParams.id ?? ''),
   });
 
   const { data: companies } = useSuspenseQuery({
-    queryKey: ["companies", searchParams.id],
-    queryFn: () => pb.collection("crm_companies").getList(1, 50),
+    queryKey: ['companies', searchParams.id],
+    queryFn: () => pb.collection('crm_companies').getList(1, 50),
   });
 
   const form = useAppForm({
@@ -119,10 +115,10 @@ const EditContactDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection("crm_contacts").update(searchParams.id ?? "", value),
+          pb.collection('crm_contacts').update(searchParams.id ?? '', value),
           {
-            success: "Contact Updated Successfully",
-            error: "An Error Occurred when updating the record",
+            success: 'Contact Updated Successfully',
+            error: 'An Error Occurred when updating the record',
           },
         )
         .unwrap();
@@ -143,7 +139,8 @@ const EditContactDialog = () => {
             editContact: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>
