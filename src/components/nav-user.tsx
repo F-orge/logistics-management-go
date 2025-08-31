@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
+import { useRouter } from '@tanstack/react-router';
 import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
-} from "lucide-react";
-import * as React from "react";
-import { useRouter } from "@tanstack/react-router";
+} from 'lucide-react';
+import * as React from 'react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,15 +19,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { pb } from "@/pocketbase";
-import { type UsersResponse } from "@/pocketbase/types";
+} from '@/components/ui/sidebar';
+import { pb } from '@/pocketbase';
+import { type UsersResponse } from '@/pocketbase/types';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -52,9 +52,9 @@ export function NavUser() {
     try {
       pb.authStore.clear();
       // Navigate to login page
-      router.navigate({ to: "/login" });
+      router.navigate({ to: '/login' });
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error);
     }
   };
 
@@ -65,7 +65,12 @@ export function NavUser() {
 
   // Generate avatar fallback from name or email
   const avatarFallback = user.name
-    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
     : user.email.slice(0, 2).toUpperCase();
 
   return (
@@ -79,9 +84,9 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={user.avatar
-                    ? pb.files.getUrl(user, user.avatar)
-                    : undefined}
+                  src={
+                    user.avatar ? pb.files.getUrl(user, user.avatar) : undefined
+                  }
                   alt={user.name || user.email}
                 />
                 <AvatarFallback className="rounded-lg">
@@ -90,7 +95,7 @@ export function NavUser() {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {user.name || "User"}
+                  {user.name || 'User'}
                 </span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
@@ -99,7 +104,7 @@ export function NavUser() {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -107,9 +112,11 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user.avatar
-                      ? pb.files.getUrl(user, user.avatar)
-                      : undefined}
+                    src={
+                      user.avatar
+                        ? pb.files.getUrl(user, user.avatar)
+                        : undefined
+                    }
                     alt={user.name || user.email}
                   />
                   <AvatarFallback className="rounded-lg">
@@ -118,7 +125,7 @@ export function NavUser() {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {user.name || "User"}
+                    {user.name || 'User'}
                   </span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>

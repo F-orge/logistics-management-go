@@ -1,4 +1,4 @@
-import { getRouteApi, useRouterState } from "@tanstack/react-router";
+import { getRouteApi, useRouterState } from '@tanstack/react-router';
 import {
   Boxes,
   // CRM icons
@@ -31,17 +31,17 @@ import {
   Users,
   UsersRound,
   Warehouse,
-} from "lucide-react";
-import * as React from "react";
+} from 'lucide-react';
+import * as React from 'react';
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from '@/components/nav-main';
+import { NavUser } from '@/components/nav-user';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -51,10 +51,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
 // Get route API for dashboard to access current route information
-const dashboardRouteApi = getRouteApi("/dashboard");
+const dashboardRouteApi = getRouteApi('/dashboard');
 
 // Domain configuration
 type Domain = {
@@ -71,83 +71,76 @@ type Domain = {
 
 const domains: Domain[] = [
   {
-    key: "crm",
-    name: "CRM",
+    key: 'crm',
+    name: 'CRM',
     icon: Users,
-    description: "Customer Relations",
+    description: 'Customer Relations',
     resources: [
-      { title: "Companies", url: "/dashboard/crm/companies", icon: Building },
-      { title: "Contacts", url: "/dashboard/crm/contacts", icon: Contact },
-      { title: "Leads", url: "/dashboard/crm/leads", icon: UserPlus },
+      { title: 'Companies', url: '/dashboard/crm/companies', icon: Building },
+      { title: 'Contacts', url: '/dashboard/crm/contacts', icon: Contact },
+      { title: 'Leads', url: '/dashboard/crm/leads', icon: UserPlus },
       {
-        title: "Opportunities",
-        url: "/dashboard/crm/opportunities",
+        title: 'Opportunities',
+        url: '/dashboard/crm/opportunities',
         icon: Target,
       },
-      { title: "Cases", url: "/dashboard/crm/cases", icon: FileText },
-      { title: "Products", url: "/dashboard/crm/products", icon: ShoppingBag },
-      { title: "Campaigns", url: "/dashboard/crm/campaigns", icon: Megaphone },
+      { title: 'Cases', url: '/dashboard/crm/cases', icon: FileText },
+      { title: 'Products', url: '/dashboard/crm/products', icon: ShoppingBag },
+      { title: 'Campaigns', url: '/dashboard/crm/campaigns', icon: Megaphone },
       {
-        title: "Interactions",
-        url: "/dashboard/crm/interactions",
+        title: 'Interactions',
+        url: '/dashboard/crm/interactions',
         icon: MessageCircle,
       },
-      { title: "Invoices", url: "/dashboard/crm/invoices", icon: Receipt },
+      { title: 'Invoices', url: '/dashboard/crm/invoices', icon: Receipt },
     ],
   },
   {
-    key: "tms",
-    name: "TMS",
+    key: 'tms',
+    name: 'TMS',
     icon: Truck,
-    description: "Transportation",
+    description: 'Transportation',
     resources: [
-      { title: "Drivers", url: "/dashboard/tms/drivers", icon: User },
-      { title: "Vehicles", url: "/dashboard/tms/vehicles", icon: Car },
+      { title: 'Drivers', url: '/dashboard/tms/drivers', icon: User },
+      { title: 'Vehicles', url: '/dashboard/tms/vehicles', icon: Car },
     ],
   },
   {
-    key: "org",
-    name: "Organization",
+    key: 'org',
+    name: 'Organization',
     icon: Building2,
-    description: "Org Management",
+    description: 'Org Management',
     resources: [
       {
-        title: "Organization",
-        url: "/dashboard/org/organization",
+        title: 'Organization',
+        url: '/dashboard/org/organization',
         icon: Settings,
       },
-      { title: "Teams", url: "/dashboard/org/teams", icon: UsersRound },
-      { title: "Roles", url: "/dashboard/org/roles", icon: Shield },
+      { title: 'Teams', url: '/dashboard/org/teams', icon: UsersRound },
+      { title: 'Roles', url: '/dashboard/org/roles', icon: Shield },
     ],
   },
   {
-    key: "lms",
-    name: "LMS",
+    key: 'lms',
+    name: 'LMS',
     icon: Package,
-    description: "Logistics",
+    description: 'Logistics',
     resources: [
-      { title: "Shipments", url: "/dashboard/lms/shipments", icon: Ship },
-      { title: "Packages", url: "/dashboard/lms/packages", icon: Package2 },
-      { title: "Addresses", url: "/dashboard/lms/addresses", icon: MapPin },
+      { title: 'Shipments', url: '/dashboard/lms/shipments', icon: Ship },
+      { title: 'Packages', url: '/dashboard/lms/packages', icon: Package2 },
+      { title: 'Addresses', url: '/dashboard/lms/addresses', icon: MapPin },
       {
-        title: "Warehouses",
-        url: "/dashboard/lms/warehouses",
+        title: 'Warehouses',
+        url: '/dashboard/lms/warehouses',
         icon: Warehouse,
       },
-      { title: "Inventories", url: "/dashboard/lms/inventories", icon: Boxes },
-      { title: "Providers", url: "/dashboard/lms/providers", icon: Plane },
-      { title: "Shipping", url: "/dashboard/lms/shipping", icon: Truck },
-      { title: "Pricing", url: "/dashboard/lms/pricing", icon: DollarSign },
+      { title: 'Inventories', url: '/dashboard/lms/inventories', icon: Boxes },
+      { title: 'Providers', url: '/dashboard/lms/providers', icon: Plane },
+      { title: 'Shipping', url: '/dashboard/lms/shipping', icon: Truck },
+      { title: 'Pricing', url: '/dashboard/lms/pricing', icon: DollarSign },
     ],
   },
 ];
-
-// This is sample data for user.
-const userData = {
-  name: "Admin User",
-  email: "admin@example.com",
-  avatar: "/avatars/admin.jpg",
-};
 
 function DomainSwitcher({
   domains,
@@ -159,13 +152,13 @@ function DomainSwitcher({
   const navigate = dashboardRouteApi.useNavigate();
 
   // Get the correct active domain based on currentDomain prop
-  const activeDomain = domains.find((domain) => domain.key === currentDomain) ||
-    domains[0];
+  const activeDomain =
+    domains.find((domain) => domain.key === currentDomain) || domains[0];
 
   console.log(
-    "🎯 DomainSwitcher - currentDomain:",
+    '🎯 DomainSwitcher - currentDomain:',
     currentDomain,
-    "activeDomain:",
+    'activeDomain:',
     activeDomain.key,
   );
 
@@ -240,12 +233,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const currentPath = routerState.location.pathname;
 
   // Extract domain from path immediately (no state delay)
-  const pathParts = currentPath.split("/");
-  const currentDomain = pathParts[2] || "crm";
+  const pathParts = currentPath.split('/');
+  const currentDomain = pathParts[2] || 'crm';
 
   // Debug: Log every render
-  console.log("🔄 AppSidebar render - currentPath:", currentPath);
-  console.log("📍 Path calculation:", {
+  console.log('🔄 AppSidebar render - currentPath:', currentPath);
+  console.log('📍 Path calculation:', {
     currentPath,
     pathParts,
     currentDomain,
