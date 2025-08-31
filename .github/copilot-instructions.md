@@ -18,6 +18,7 @@ Short, actionable guidance for AI coding agents working in this repo so they can
 - `package.json`, `bun.lock`, `tsconfig.json`, `src/` — frontend build and dev server (Bun runtime). 
 - `rsbuild.config.ts` — Rsbuild configuration for React app with TanStack Router.
 - `biome.json` — Biome configuration for code formatting and linting.
+- `src/routes/dashboard/<domain>/<resource>/` — domain-driven frontend routing structure (see Frontend Structure below).
 - `Dockerfile` — containerization hints and environment expectations.
 - `seed.ts` — placeholder for seeding logic (currently empty); if you need to create data seeds, they tend to be TypeScript scripts that use the PocketBase JS client.
 
@@ -51,6 +52,44 @@ Short, actionable guidance for AI coding agents working in this repo so they can
 - Side-effect imports: `migrations` is imported for registration. When adding new top-level initialization, prefer the same pattern (package init side-effects inside `migrations/`).
 - Seeding: `seed.ts` exists but is empty — the common pattern is to use the PocketBase JS client in a TypeScript script to create initial records. Keep seeds idempotent if possible.
 
+## Frontend Structure (Domain-Driven Routing)
+
+The frontend follows a domain-driven architecture pattern under `src/routes/dashboard/`:
+
+### Domain Structure
+- `src/routes/dashboard/<domain>/<resource>/` — where `<domain>` represents business domains and `<resource>` represents specific entities
+- Current implemented domains:
+  - `crm/` — Customer Relationship Management (companies, contacts, leads, opportunities, cases, products, campaigns, interactions, invoices)
+  - `tms/` — Transportation Management System (drivers, vehicles)
+  - `org/` — Organization management (roles, teams, organization)
+  - `lms/` — Logistics Management System (planned, not yet implemented)
+
+### Resource Structure Pattern
+Each resource directory follows a consistent pattern:
+```
+src/routes/dashboard/<domain>/<resource>/
+├── index.tsx              # Main route component and data fetching
+├── -table.tsx            # Data table component (optional)
+├── -loading.tsx          # Loading state component (optional)
+└── -actions/             # CRUD action components (optional)
+    ├── new.tsx           # Create new entity form
+    ├── edit.tsx          # Edit existing entity form
+    └── delete.tsx        # Delete entity confirmation
+```
+
+### Resource Examples
+- **CRM Companies**: `src/routes/dashboard/crm/companies/` (full CRUD with table, actions)
+- **CRM Cases**: `src/routes/dashboard/crm/cases/` (minimal setup, just index.tsx)
+- **TMS Drivers**: `src/routes/dashboard/tms/drivers/` (full CRUD with table, actions)
+- **Org Roles**: `src/routes/dashboard/org/roles/` (minimal setup, just index.tsx)
+
+### Frontend Development Guidelines
+- Follow the established domain/resource pattern when adding new features
+- Include `-table.tsx` for list views with complex data presentation
+- Include `-loading.tsx` for resources with async data loading
+- Use `-actions/` subdirectory for CRUD operations (new, edit, delete)
+- Resources may have minimal implementation (just `index.tsx`) or full implementation with all components
+
 ## Integration points & external dependencies
 
 - PocketBase (Go) — core server and DB. Check `go.mod` for version (`github.com/pocketbase/pocketbase`).
@@ -68,6 +107,8 @@ Short, actionable guidance for AI coding agents working in this repo so they can
 
 - Add a new migration: create a new file in `migrations/` named like `$(unix_ts)_description.go` and follow existing file patterns.
 - Run full-stack locally: build frontend `bun rsbuild build`, then run backend `go run main.go` so the backend serves `./dist`.
+- Add a new frontend resource: create directory `src/routes/dashboard/<domain>/<resource>/` with at minimum an `index.tsx` file, following the established pattern.
+- Add CRUD actions to resource: create `-actions/` subdirectory with `new.tsx`, `edit.tsx`, `delete.tsx` components.
 
 ## Files to inspect when troubleshooting
 

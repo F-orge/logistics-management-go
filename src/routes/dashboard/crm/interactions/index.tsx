@@ -33,18 +33,16 @@ export const Route = createFileRoute('/dashboard/crm/interactions/')({
   beforeLoad: ({ search }) => ({ search }),
   preload: true,
   loader: ({ context }) =>
-    pb
-      .collection('crm_interactions')
-      .getList<
-        CrmInteractionsResponse<{
-          contact: CrmContactsRecord;
-          opportunity: CrmOpportunitiesRecord;
-        }>
-      >(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(' '),
-        filter: context.search.filter?.join(' '),
-        expand: 'contact,opportunity',
-      }),
+    pb.collection('crm_interactions').getList<
+      CrmInteractionsResponse<{
+        contact: CrmContactsRecord;
+        opportunity: CrmOpportunitiesRecord;
+      }>
+    >(context.search.page, context.search.perPage, {
+      sort: context.search.sort.join(' '),
+      filter: context.search.filter?.join(' '),
+      expand: 'contact,opportunity',
+    }),
 });
 
 function RouteComponent() {
