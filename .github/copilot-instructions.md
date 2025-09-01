@@ -18,6 +18,8 @@ Short, actionable guidance for AI coding agents working in this repo so they can
 - `package.json`, `bun.lock`, `tsconfig.json`, `src/` — frontend build and dev server (Bun runtime). 
 - `rsbuild.config.ts` — Rsbuild configuration for React app with TanStack Router.
 - `biome.json` — Biome configuration for code formatting and linting.
+- `components.json` — shadcn/ui configuration with "new-york" style, path aliases, and Lucide icons.
+- `src/components/ui/` — shadcn/ui component library (buttons, forms, dialogs, etc.).
 - `src/routes/dashboard/<domain>/<resource>/` — domain-driven frontend routing structure (see Frontend Structure below).
 - `Dockerfile` — containerization hints and environment expectations.
 - `seed.ts` — placeholder for seeding logic (currently empty); if you need to create data seeds, they tend to be TypeScript scripts that use the PocketBase JS client.
@@ -39,11 +41,13 @@ Short, actionable guidance for AI coding agents working in this repo so they can
 
 - Backend development
   - Run locally: `go run main.go serve` (or `just dev-go`)
-  - The backend serves `./dist` at runtime. For full-stack dev you can either run frontend dev server + backend separately, or build the frontend and let backend serve `./dist`.
+  - The backend serves `./dist` at runtime via `apis.Static(os.DirFS("./dist"), true)` mounted on `/{path...}`.
+  - For full-stack dev you can either run frontend dev server + backend separately, or build the frontend and let backend serve `./dist`.
 
 - Migrations
-  - The repo uses PocketBase migrations. `migratecmd.MustRegister(..., Automigrate: true)` means migrations are registered with the app CLI. To inspect/run migrations, run the built binary with the migration subcommand (the plugin registers a `migrate` command on the app root command).
+  - The repo uses PocketBase migrations. `migratecmd.MustRegister(..., Automigrate: true)` means migrations are registered with the app CLI and auto-applied on startup.
   - Conventions: add new migration files under `migrations/` with a timestamp prefix. Do NOT edit historical migration files — create new ones.
+  - Migration format: Go files with JSON schema definitions for PocketBase collections. Use `m.Register()` function with collection configuration.
 
 ## Project-specific conventions & patterns
 
@@ -62,7 +66,7 @@ The frontend follows a domain-driven architecture pattern under `src/routes/dash
   - `crm/` — Customer Relationship Management (companies, contacts, leads, opportunities, cases, products, campaigns, interactions, invoices)
   - `tms/` — Transportation Management System (drivers, vehicles)
   - `org/` — Organization management (roles, teams, organization)
-  - `lms/` — Logistics Management System (planned, not yet implemented)
+  - `lms/` — Logistics Management System (addresses, inventories, packages, pricing, providers, shipments, shipping, warehouses)
 
 ### Resource Structure Pattern
 Each resource directory follows a consistent pattern:
@@ -81,6 +85,7 @@ src/routes/dashboard/<domain>/<resource>/
 - **CRM Companies**: `src/routes/dashboard/crm/companies/` (full CRUD with table, actions)
 - **CRM Cases**: `src/routes/dashboard/crm/cases/` (minimal setup, just index.tsx)
 - **TMS Drivers**: `src/routes/dashboard/tms/drivers/` (full CRUD with table, actions)
+- **LMS Shipments**: `src/routes/dashboard/lms/shipments/` (minimal setup, just index.tsx)
 - **Org Roles**: `src/routes/dashboard/org/roles/` (minimal setup, just index.tsx)
 
 ### Frontend Development Guidelines
@@ -88,12 +93,17 @@ src/routes/dashboard/<domain>/<resource>/
 - Include `-table.tsx` for list views with complex data presentation
 - Include `-loading.tsx` for resources with async data loading
 - Use `-actions/` subdirectory for CRUD operations (new, edit, delete)
+- For forms, use the TanStack React Form composition from `src/components/ui/form.tsx` with `useAppForm`, `withForm`, and predefined field components
+- When creating new resources, reference existing patterns from other domains/resources (e.g., examine `src/routes/dashboard/crm/companies/` for full CRUD implementation examples)
 - Resources may have minimal implementation (just `index.tsx`) or full implementation with all components
 
 ## Integration points & external dependencies
 
 - PocketBase (Go) — core server and DB. Check `go.mod` for version (`github.com/pocketbase/pocketbase`).
-- Frontend dependencies are managed with Bun (see `package.json`). The frontend uses Rsbuild + React + Tailwind.
+- Frontend dependencies are managed with Bun (see `package.json`). The frontend uses Rsbuild + React + TanStack Router + TanStack React Form + Tailwind CSS + Radix UI components + shadcn/ui.
+- UI Components: Uses shadcn/ui components (see `components.json` config) located in `src/components/ui/` with "new-york" style and Lucide icons.
+- Forms: Uses `@tanstack/react-form` with custom form composition setup at `src/components/ui/form.tsx` including field components (TextField, SelectField, DateField, CheckBoxField) and form components (SubmitButton).
+- API proxy: Frontend dev server proxies `/api` requests to `http://localhost:8090` (PocketBase default port).
 - Persistent DB lives in `pb_data/` (SQLite via modernc.org/sqlite in `go.mod`).
 
 ## Safe editing rules for AI agents (must-follow)
@@ -118,6 +128,7 @@ src/routes/dashboard/<domain>/<resource>/
 
 - Do you want a database migration or a data seed? (migrations -> `migrations/`; seeds -> `seed.ts` or a new script)
 - Is this a frontend-only change (edit `src/` + `bun rsbuild dev`) or full-stack (also edit Go backend)?
+- When creating new resources, examine existing patterns in similar domains (e.g., check `crm/companies/` for full CRUD patterns, `crm/cases/` for minimal patterns)
 
 ---
 

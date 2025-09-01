@@ -2,21 +2,25 @@
 
 [ ] - basic crud operation
 
-- [ ] Customer relation management
-  - [ ] campaign management
-  - [ ] cases management
-  - [ ] companies management
-  - [ ] contact management
-  - [ ] opportunity management
-  - [ ] interaction management
+- [x] Customer relation management
+  - [x] campaign management
+  - [x] cases management
+  - [x] companies management
+  - [x] contact management
+  - [x] opportunity management
+  - [x] interaction management
 - [x] Transport management system
   - [x] Driver management
   - [x] Vehicle management
 - [ ] Logistics management system
-  - [ ] Warehouse management
+  - [x] Warehouse management
   - [ ] Inventory management
-  - [ ] Address management
+  - [x] Address management
   - [ ] package management
   - [ ] pricing management
   - [ ] providers management
   - [ ] shipment management
+
+[ ] - filter support
+
+[ ] - sorting support
