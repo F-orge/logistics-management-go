@@ -1,38 +1,35 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import z from 'zod';
-import { Button } from '@/components/ui/button';
-import DataTable from '@/components/ui/kibo-ui/table/data-table';
-import { pb } from '@/pocketbase';
-import DeleteCampaignDialog from './-actions/delete';
-import EditCampaignDialog from './-actions/edit';
-import NewCampaignDialog from './-actions/new';
-import LoadingPage from './-loading';
-import { columns } from './-table';
+import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import z from "zod";
+import { Button } from "@/components/ui/button";
+import DataTable from "@/components/ui/kibo-ui/table/data-table";
+import { pb } from "@/pocketbase";
+import DeleteCampaignDialog from "./-actions/delete";
+import EditCampaignDialog from "./-actions/edit";
+import NewCampaignDialog from "./-actions/new";
+import LoadingPage from "./-loading";
+import { columns } from "./-table";
+import { searchParams } from "@/lib/utils";
+import { campaignsSchema } from "@/pocketbase/schemas/crm";
+import { Collections } from "@/pocketbase/types";
 
-export const Route = createFileRoute('/dashboard/crm/campaigns/')({
+export const Route = createFileRoute("/dashboard/crm/campaigns/")({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
-    z.object({
-      page: z.number().nonnegative().default(1).catch(1),
-      perPage: z.number().nonnegative().default(10).catch(10),
-      newCampaign: z.boolean().optional(),
-      editCampaign: z.boolean().optional(),
-      deleteCampaign: z.boolean().optional(),
-      id: z.string().optional(),
-      sort: z.array(z.string()).default(['-created']),
-      filter: z.array(z.string()).optional(),
-    }),
+    searchParams(campaignsSchema.keyof()),
   ),
   beforeLoad: ({ search }) => ({ search }),
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection('crm_campaigns')
+      .collection(Collections.CrmCampaigns)
       .getList(context.search.page, context.search.perPage, {
-        sort: context.search.sort.join(' '),
-        filter: context.search.filter?.join(' '),
+        sort: context.search.sort?.map((args) => `${args.order}${args.field}`)
+          .join(","),
+        filter: context.search.filter?.map((args) =>
+          `${args.field} ${args.operator} ${args.value}`
+        ).join(" && "),
       }),
 });
 
@@ -54,9 +51,8 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newCampaign: true }) })
-          }
-          variant={'outline'}
+            navigate({ search: (prev) => ({ ...prev, insert: true }) })}
+          variant={"outline"}
         >
           Create Campaign
         </Button>
@@ -66,9 +62,9 @@ function RouteComponent() {
       </section>
       <section>
         {/* Action dialogs */}
-        {searchParams.newCampaign && <NewCampaignDialog />}
-        {searchParams.editCampaign && <EditCampaignDialog />}
-        {searchParams.deleteCampaign && <DeleteCampaignDialog />}
+        {searchParams.insert && <NewCampaignDialog />}
+        {searchParams.edit && <EditCampaignDialog />}
+        {searchParams.delete && <DeleteCampaignDialog />}
       </section>
     </article>
   );

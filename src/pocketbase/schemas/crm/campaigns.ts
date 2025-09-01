@@ -1,8 +1,8 @@
 /**
  * Generated Zod schema for crm_campaigns (from src/pocketbase/types.ts)
  */
-import { z } from 'zod';
-import { CrmCampaignsStatusOptions } from '../../types';
+import { z } from "zod";
+import { CrmCampaignsStatusOptions } from "../../types";
 
 export const campaignsSchema = z.object({
   budget: z.number().optional(),

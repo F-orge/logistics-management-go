@@ -1,19 +1,19 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { getRouteApi } from '@tanstack/react-router';
-import { toast } from 'sonner';
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getRouteApi } from "@tanstack/react-router";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { useAppForm, withForm } from '@/components/ui/form';
-import { pb, type UpdateRecord } from '@/pocketbase';
+} from "@/components/ui/dialog";
+import { useAppForm, withForm } from "@/components/ui/form";
+import { pb, type UpdateRecord } from "@/pocketbase";
 import {
   type CrmCampaignsRecord,
   CrmCampaignsStatusOptions,
-} from '@/pocketbase/types';
+} from "@/pocketbase/types";
 
 export const EditCampaignForm = withForm({
   defaultValues: {} as UpdateRecord<CrmCampaignsRecord>,
@@ -70,14 +70,14 @@ export const EditCampaignForm = withForm({
 });
 
 const EditCampaignDialog = () => {
-  const route = getRouteApi('/dashboard/crm/campaigns/');
+  const route = getRouteApi("/dashboard/crm/campaigns/");
 
   const navigate = route.useNavigate();
   const searchParams = route.useSearch();
 
   const { data: campaign } = useSuspenseQuery({
-    queryKey: ['campaigns', searchParams.id],
-    queryFn: () => pb.collection('crm_campaigns').getOne(searchParams.id ?? ''),
+    queryKey: ["campaigns", searchParams.id],
+    queryFn: () => pb.collection("crm_campaigns").getOne(searchParams.id ?? ""),
   });
 
   const form = useAppForm({
@@ -85,32 +85,31 @@ const EditCampaignDialog = () => {
     onSubmit: async ({ value }) => {
       await toast
         .promise(
-          pb.collection('crm_campaigns').update(searchParams.id ?? '', value),
+          pb.collection("crm_campaigns").update(searchParams.id ?? "", value),
           {
-            success: 'Campaign Updated Successfully',
-            error: 'An Error Occurred when updating the record',
+            success: "Campaign Updated Successfully",
+            error: "An Error Occurred when updating the record",
           },
         )
         .unwrap();
 
       navigate({
-        search: (prev) => ({ ...prev, editCampaign: undefined, id: undefined }),
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
       });
     },
   });
 
   return (
     <Dialog
-      open={searchParams.editCampaign}
+      open={searchParams.edit}
       onOpenChange={() =>
         navigate({
           search: (prev) => ({
             ...prev,
-            editCampaign: undefined,
+            edit: undefined,
             id: undefined,
           }),
-        })
-      }
+        })}
     >
       <DialogContent>
         <DialogHeader>
