@@ -16,10 +16,10 @@
   - [x] Warehouse management
   - [ ] Inventory management
   - [x] Address management
-  - [ ] package management
+  - [x] package management
   - [ ] pricing management
   - [ ] providers management
-  - [ ] shipment management
+  - [x] shipment management
 
 [ ] - filter support
 
