@@ -1,3 +1,5 @@
+# Logistics Management System Documentation
+
 ## Overview
 
 The Logistics Management System is a comprehensive, modular platform designed to
@@ -22,38 +24,97 @@ The target audience for this project is third-party logistics (3PL) providers,
 freight forwarders, and other shipping businesses that manage inventory,
 transportation, and delivery on behalf of their clients.
 
-## Sub-systems and User Stories
+## Documentation Structure
 
-This project is broken down into several core sub-systems. Each sub-system has a
-dedicated set of user stories that define its features and functionality.
+This documentation is organized into several sections to help you understand and
+work with the system:
 
-- **[Customer Relationship Management (CRM)](./stories/crm.md):** Manages all
-  interactions with clients, from leads and opportunities to ongoing customer
-  support. It serves as the single source of truth for all client data.
+### User Stories
 
-- **[Transportation Management System (TMS)](./stories/tms.md):** Handles the
-  high-level planning and management of the transportation network. This
-  includes managing the internal fleet of drivers and vehicles as well as
-  coordinating with third-party carriers.
+Each sub-system has detailed user stories that define its features and
+functionality from the end-user perspective. These stories follow agile
+development principles and include acceptance criteria.
 
-- **[Inventory Management System (IMS)](./stories/ims.md):** Manages the
-  inventory that clients store within the warehouse. This includes processing
-  inbound shipments (ASNs), tracking stock levels in real-time, and integrating
-  with the CRM for client data.
+### Data Models & Diagrams
 
-- **[Delivery Management System (DMS)](./stories/dms.md):** Focuses on the
-  "last-mile" delivery process. This involves optimizing delivery routes,
-  assigning tasks to drivers via a mobile app, and providing real-time tracking
-  for end customers.
+Entity Relationship Diagrams (ERDs) and system architecture diagrams are
+provided for each sub-system to illustrate data structures and relationships.
 
-- **[Warehouse Management System (WMS)](./stories/wms.md):** Manages the
-  physical operations within the warehouse, such as picking, packing, and
-  shipping workflows.
+### Additional Resources
 
-- **[Billing & Invoicing](./stories/billing.md):** Handles all financial
-  transactions, including upfront quoting, recurring service billing, and
-  integration with payment gateways.
+- **[Project Checklist](../checklist.md):** Current implementation status and
+  development progress
+- **[Setup Instructions](../README.md):** Technical setup and development
+  environment configuration
 
-- **[Client Self-Service Portal](./stories/portal.md):** Provides a unified
-  interface for clients to manage their inventory, track shipments, and pay
-  invoices.
+## Sub-systems
+
+Each sub-system is documented with both user stories and technical diagrams:
+
+### **Customer Relationship Management (CRM)**
+
+- **[User Stories](./stories/crm.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/crm.md):** Database schema and entity relationships
+
+Manages all interactions with clients, from leads and opportunities to ongoing
+customer support. It serves as the single source of truth for all client data.
+
+### **Transportation Management System (TMS)**
+
+- **[User Stories](./stories/tms.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/tms.md):** Database schema and entity relationships
+
+Handles the high-level planning and management of the transportation network.
+This includes managing the internal fleet of drivers and vehicles as well as
+coordinating with third-party carriers.
+
+### **Inventory Management System (IMS)**
+
+- **[User Stories](./stories/ims.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/ims.md):** Database schema and entity relationships
+
+Manages the inventory that clients store within the warehouse. This includes
+processing inbound shipments (ASNs), tracking stock levels in real-time, and
+integrating with the CRM for client data.
+
+### **Delivery Management System (DMS)**
+
+- **[User Stories](./stories/dms.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/dms.md):** Database schema and entity relationships
+
+Focuses on the "last-mile" delivery process. This involves optimizing delivery
+routes, assigning tasks to drivers via a mobile app, and providing real-time
+tracking for end customers.
+
+### **Warehouse Management System (WMS)**
+
+- **[User Stories](./stories/wms.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/wms.md):** Database schema and entity relationships
+
+Manages the physical operations within the warehouse, such as picking, packing,
+and shipping workflows.
+
+### **Billing & Invoicing**
+
+- **[User Stories](./stories/billing.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/billing.md):** Database schema and entity
+  relationships
+
+Handles all financial transactions, including upfront quoting, recurring service
+billing, and integration with payment gateways.
+
+### **Client Self-Service Portal**
+
+- **[User Stories](./stories/portal.md):** Feature requirements and user
+  interactions
+- **[Data Model](./diagrams/portal.md):** Database schema and entity
+  relationships
+
+Provides a unified interface for clients to manage their inventory, track
+shipments, and pay invoices.
