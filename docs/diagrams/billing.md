@@ -96,7 +96,16 @@ erDiagram
     }
 
     billing_invoice_line_items {
-// ... existing code ...
+        string id PK
+        string invoice_id FK
+        string source_record_id "e.g., shipment_id, storage_period_id"
+        string source_record_type
+        string description
+        int quantity
+        decimal unit_price
+        decimal total_price
+    }
+
     billing_payments {
         string id PK
         string invoice_id FK
@@ -108,21 +117,14 @@ erDiagram
     }
 
     billing_disputes {
-// ... existing code ...
-    %% Relationships
-    billing_rate_cards              ||--|{ billing_rate_rules : "has"
-    crm_companies                   ||--o{ billing_quotes : "requests"
-    billing_quotes                  |o--o{ billing_invoices : "can generate"
-    crm_companies                   ||--o{ billing_client_accounts : "has"
-    billing_client_accounts         ||--|{ billing_account_transactions : "has"
-    crm_companies                   ||--|{ billing_invoices : "receives"
-    billing_invoices                ||--|{ billing_invoice_line_items : "contains"
-    billing_invoices                ||--|{ billing_payments : "has"
-    billing_invoices                ||--o{ billing_credit_notes : "can have"
-    billing_invoice_line_items      ||--o{ billing_disputes : "can be"
-    billing_disputes                |o--o{ billing_credit_notes : "can result in"
-    lms_shipments                   |o--o{ billing_documents : "has"
-    billing_invoices                |o--o{ billing_documents : "has"
+        string id PK
+        string line_item_id FK
+        string client_id FK
+        string reason
+        string status "e.g., open, under_review, approved, denied"
+        datetime created_at
+        datetime updated_at
+    }
 
     billing_credit_notes {
         string id PK
@@ -156,6 +158,7 @@ erDiagram
     %% Relationships
     billing_rate_cards              ||--|{ billing_rate_rules : "has"
     crm_companies                   ||--o{ billing_quotes : "requests"
+    billing_quotes                  |o--o{ billing_invoices : "can generate"
     crm_companies                   ||--o{ billing_client_accounts : "has"
     billing_client_accounts         ||--|{ billing_account_transactions : "has"
     crm_companies                   ||--|{ billing_invoices : "receives"
@@ -165,4 +168,5 @@ erDiagram
     billing_invoice_line_items      ||--o{ billing_disputes : "can be"
     billing_disputes                |o--o{ billing_credit_notes : "can result in"
     lms_shipments                   |o--o{ billing_documents : "has"
+    billing_invoices                |o--o{ billing_documents : "has"
 ```
