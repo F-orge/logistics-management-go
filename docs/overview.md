@@ -37,8 +37,12 @@ development principles and include acceptance criteria.
 
 ### Data Models & Diagrams
 
-Entity Relationship Diagrams (ERDs) and system architecture diagrams are
-provided for each sub-system to illustrate data structures and relationships.
+This documentation includes several types of diagrams to explain the system:
+
+- **Entity Relationship Diagrams (ERDs):** Illustrate database schemas and
+  entity relationships for each sub-system.
+- **Data Flow Diagrams:** Provide a visual representation of how data moves
+  through each sub-system.
 
 ### Additional Resources
 
@@ -56,6 +60,7 @@ Each sub-system is documented with both user stories and technical diagrams:
 - **[User Stories](./stories/crm.md):** Feature requirements and user
   interactions
 - **[Data Model](./diagrams/crm.md):** Database schema and entity relationships
+- **[Data Flow](./dataflow/crm.md):** Visual representation of data processes
 
 Manages all interactions with clients, from leads and opportunities to ongoing
 customer support. It serves as the single source of truth for all client data.
@@ -65,6 +70,7 @@ customer support. It serves as the single source of truth for all client data.
 - **[User Stories](./stories/tms.md):** Feature requirements and user
   interactions
 - **[Data Model](./diagrams/tms.md):** Database schema and entity relationships
+- **[Data Flow](./dataflow/tms.md):** Visual representation of data processes
 
 Handles the high-level planning and management of the transportation network.
 This includes managing the internal fleet of drivers and vehicles as well as
@@ -75,6 +81,7 @@ coordinating with third-party carriers.
 - **[User Stories](./stories/ims.md):** Feature requirements and user
   interactions
 - **[Data Model](./diagrams/ims.md):** Database schema and entity relationships
+- **[Data Flow](./dataflow/ims.md):** Visual representation of data processes
 
 Manages the inventory that clients store within the warehouse. This includes
 processing inbound shipments (ASNs), tracking stock levels in real-time, and
@@ -95,6 +102,7 @@ tracking for end customers.
 - **[User Stories](./stories/wms.md):** Feature requirements and user
   interactions
 - **[Data Model](./diagrams/wms.md):** Database schema and entity relationships
+- **[Data Flow](./dataflow/wms.md):** Visual representation of data processes
 
 Manages the physical operations within the warehouse, such as picking, packing,
 and shipping workflows.
@@ -105,6 +113,8 @@ and shipping workflows.
   interactions
 - **[Data Model](./diagrams/billing.md):** Database schema and entity
   relationships
+- **[Data Flow](./dataflow/billing.md):** Visual representation of data
+  processes
 
 Handles all financial transactions, including upfront quoting, recurring service
 billing, and integration with payment gateways.
@@ -115,6 +125,7 @@ billing, and integration with payment gateways.
   interactions
 - **[Data Model](./diagrams/portal.md):** Database schema and entity
   relationships
+- **[Data Flow](./dataflow/portal.md):** Visual representation of data processes
 
 Provides a unified interface for clients to manage their inventory, track
 shipments, and pay invoices.
