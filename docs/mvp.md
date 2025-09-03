@@ -25,13 +25,13 @@ It will provide a single source of truth for inventory data.
   - Product catalog management (adding, editing, viewing products).
   - Real-time inventory level tracking for each product in the warehouse.
   - Manual entry for stock updates (in/out).
-- **Related Documents:**
-  - **User Stories:** [Inventory Management](./stories/ims.md),
-    [Warehouse Management](./stories/wms.md)
-  - **Dataflow:** [Inventory Management](./dataflow/ims.md),
-    [Warehouse Management](./dataflow/wms.md)
-  - **Diagrams:** [Inventory Management](./diagrams/ims.md),
-    [Warehouse Management](./diagrams/wms.md)
+- **User Stories to Implement:**
+  - [Inventory Management Stories](./stories/ims.md)
+  - [Warehouse Management Stories](./stories/wms.md)
+- **Related Dataflow:** [Inventory Management](./dataflow/ims.md),
+  [Warehouse Management](./dataflow/wms.md)
+- **Related Diagrams:** [Inventory Management](./diagrams/ims.md),
+  [Warehouse Management](./diagrams/wms.md)
 
 ### 2. Customer Management & Online Portal
 
@@ -42,13 +42,13 @@ will be developed.
   - Customer account creation and management.
   - A simple interface for customers to browse products and place reservations.
   - Customers can view their order history and current status.
-- **Related Documents:**
-  - **User Stories:** [CRM](./stories/crm.md),
-    [Customer Portal](./stories/portal.md)
-  - **Dataflow:** [CRM](./dataflow/crm.md),
-    [Customer Portal](./dataflow/portal.md)
-  - **Diagrams:** [CRM](./diagrams/crm.md),
-    [Customer Portal](./diagrams/portal.md)
+- **User Stories to Implement:**
+  - [Customer Relationship Management Stories](./stories/crm.md)
+  - [Customer Portal Stories](./stories/portal.md)
+- **Related Dataflow:** [CRM](./dataflow/crm.md),
+  [Customer Portal](./dataflow/portal.md)
+- **Related Diagrams:** [CRM](./diagrams/crm.md),
+  [Customer Portal](./diagrams/portal.md)
 
 ### 3. Basic Transportation Management
 
@@ -60,10 +60,10 @@ be implemented.
   - Manually update shipment status and add tracking numbers from external
     carriers.
   - Customers can view the status of their shipments via the online portal.
-- **Related Documents:**
-  - **User Stories:** [Transportation Management](./stories/tms.md)
-  - **Dataflow:** [Transportation Management](./dataflow/tms.md)
-  - **Diagrams:** [Transportation Management](./diagrams/tms.md)
+- **User Stories to Implement:**
+  - [Transportation Management Stories](./stories/tms.md)
+- **Related Dataflow:** [Transportation Management](./dataflow/tms.md)
+- **Related Diagrams:** [Transportation Management](./diagrams/tms.md)
 
 ### 4. System-Wide Features
 
@@ -76,7 +76,8 @@ These features are essential for the security and usability of the system.
     security, as requested in the problem statement.
 - **Document Management:**
   - A centralized place to manage documents related to shipments and orders.
-  - **User Stories:** [DMS](./stories/dms.md)
+  - **User Stories to Implement:**
+    - [Document Management Stories](./stories/dms.md)
   - **Dataflow:** [DMS](./dataflow/dms.md)
   - **Diagrams:** [DMS](./diagrams/dms.md)
 
@@ -88,10 +89,10 @@ implemented.
 - **Features:**
   - Generate unique QR codes for products and shipments.
   - Use a mobile device to scan QR codes for quick stock updates and tracking.
-- **Related Documents:**
-  - **User Stories:** [Inventory Management](./stories/ims.md)
-  - **Dataflow:** [Inventory Management](./dataflow/ims.md)
-  - **Diagrams:** [Inventory Management](./diagrams/ims.md)
+- **User Stories to Implement:**
+  - [Inventory Management Stories (for QR functionality)](./stories/ims.md)
+- **Related Dataflow:** [Inventory Management](./dataflow/ims.md)
+- **Related Diagrams:** [Inventory Management](./diagrams/ims.md)
 
 ### 6. Automated Pricing & Billing
 
@@ -102,23 +103,24 @@ included.
   - Automated pricing engine based on product type, destination, and other
     variables.
   - Generate invoices and manage billing for customers.
-- **Related Documents:**
-  - **User Stories:** [Billing](./stories/billing.md)
-  - **Dataflow:** [Billing](./dataflow/billing.md)
-  - **Diagrams:** [Billing](./diagrams/billing.md)
+- **User Stories to Implement:**
+  - [Billing Stories](./stories/billing.md)
+- **Related Dataflow:** [Billing](./dataflow/billing.md)
+- **Related Diagrams:** [Billing](./diagrams/billing.md)
 
 ### 7. Automated Notifications
 
 To improve customer communication, automated notifications will be integrated.
 
-- **Features:**
-  - Automatic email/SMS notifications for order confirmation, shipment status
-    changes, and delivery updates.
+- **User Stories to Implement:**
+  - [Customer Portal Stories (for notifications)](./stories/portal.md)
+  - [CRM Stories (for notifications)](./stories/crm.md)
 
 ### 8. Reporting and Analytics
 
 To provide insights into the business operations, a basic reporting dashboard
 will be available.
 
-- **Features:**
-  - View key metrics like order volume, inventory levels, and sales trends.
+- **User Stories to Implement:**
+  - User stories for reporting and analytics should be defined across all
+    relevant domains (e.g., IMS, CRM, TMS) to provide comprehensive insights.
