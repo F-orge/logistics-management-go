@@ -16,7 +16,6 @@ erDiagram
     portal_users {
         string id PK
         string contact_id FK "crm_contacts.id"
-        string password_hash
         datetime last_login_at
         boolean is_active
         datetime created_at
@@ -94,13 +93,13 @@ erDiagram
 ## Portal Domain Explanation
 
 The Portal System provides secure client access to the logistics platform
-through a web-based interface. It manages user authentication, authorization,
-and personalized experiences for clients to interact with their logistics data.
-The portal serves as the primary customer-facing interface where clients can
-track shipments, view invoices, manage their accounts, and access various
-logistics services. The portal integrates closely with the Customer Relationship
-Management ([CRM](./crm.md)) system for client information and connects to all
-other domains to provide comprehensive access to logistics data.
+through a web-based interface. It manages authorization and personalized
+experiences for clients to interact with their logistics data. The portal serves
+as the primary customer-facing interface where clients can track shipments, view
+invoices, manage their accounts, and access various logistics services. The
+portal integrates closely with the Customer Relationship Management
+([CRM](./crm.md)) system for client information and connects to all other
+domains to provide comprehensive access to logistics data.
 
 Actors involved in this system include client administrators, company employees,
 billing managers, logistics coordinators, and end customers. These roles
@@ -116,7 +115,6 @@ redundant fields `id`, `created_at`, and `updated_at`).
 Represents client users who have access to the web portal interface.
 
 - `contact_id`: Reference to the contact record in the CRM system.
-- `password_hash`: Securely hashed password for authentication.
 - `last_login_at`: Timestamp of the user's most recent login.
 - `is_active`: Whether the user account is currently enabled.
 

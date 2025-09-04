@@ -14,6 +14,30 @@ erDiagram
         string industry
     }
 
+  %% WMS-owned entities (referenced here instead of redefining IMS-local tables)
+  wms_locations {
+    string id PK
+    string warehouse_id FK
+    string name "e.g., A-01-B-03"
+    string barcode
+    string type "e.g., receiving_dock, pick_bin"
+    float max_weight
+    float max_volume
+    datetime created_at
+    datetime updated_at
+  }
+
+  wms_inventory_stock {
+    string id PK
+    string location_id FK
+    string product_id FK
+    string batch_id FK "nullable"
+    int quantity
+    string status "e.g., available, allocated, damaged"
+    datetime created_at
+    datetime updated_at
+  }
+
     %% IMS (Inventory Management System)
 
     ims_products {
@@ -35,43 +59,13 @@ erDiagram
     }
 
     ims_suppliers {
-        string id PK
-        string name
-        string contact_person
-        string email
-        string phone_number
-        datetime created_at
-        datetime updated_at
-    }
-
-    ims_warehouses {
-        string id PK
-        string name
-        string address
-        datetime created_at
-        datetime updated_at
-    }
-
-    ims_warehouse_locations {
-        string id PK
-        string warehouse_id FK
-        string name "e.g., A-01-B-03"
-        string barcode
-        datetime created_at
-        datetime updated_at
-    }
-
-    ims_inventory_levels {
-        string id PK
-        string product_id FK
-        string warehouse_id FK
-        string location_id FK "optional, for non-located inventory"
-        string batch_id FK "optional, for batch-tracked items"
-        int quantity_on_hand
-        int quantity_committed
-        int quantity_available "calculated: on_hand - committed"
-        datetime created_at
-        datetime updated_at
+      string id PK
+      string name
+      string contact_person
+      string email
+      string phone_number
+      datetime created_at
+      datetime updated_at
     }
 
     ims_inventory_batches {
@@ -182,22 +176,22 @@ erDiagram
     %% IMS Relationships
     companies           ||--o{ ims_products : "is client for"
     ims_suppliers       ||--o{ ims_products : "supplies"
-    ims_products        ||--|{ ims_inventory_levels : "has"
+    ims_products        ||--|{ wms_inventory_stock : "has"
     ims_products        ||--|{ ims_inventory_batches : "has"
     ims_products        ||--|{ ims_inventory_adjustments : "is adjusted"
     ims_products        ||--|{ ims_reorder_points : "has"
     ims_products        ||--|{ ims_inbound_shipment_items : "is in"
     ims_products        ||--|{ ims_stock_transfers : "is transferred"
-    ims_warehouses      ||--|{ ims_warehouse_locations : "has"
-    ims_warehouses      ||--|{ ims_inventory_levels : "stores"
-    ims_warehouses      ||--|{ ims_inbound_shipments : "receives at"
-    ims_warehouse_locations ||--o{ ims_inventory_levels : "is location for"
-    ims_inventory_batches ||--o{ ims_inventory_levels : "is batch for"
+    wms_warehouses      ||--o{ wms_locations : "has"
+    wms_warehouses      ||--|{ wms_inventory_stock : "stores"
+    wms_warehouses      ||--|{ ims_inbound_shipments : "receives at"
+    wms_locations ||--o{ wms_inventory_stock : "is location for"
+    ims_inventory_batches ||--o{ wms_inventory_stock : "is batch for"
     users               ||--o{ ims_inventory_adjustments : "performs"
     companies           ||--o{ ims_inbound_shipments : "sends"
     ims_inbound_shipments ||--|{ ims_inbound_shipment_items : "contains"
-    ims_warehouses      ||--o{ ims_stock_transfers : "is source for"
-    ims_warehouses      ||--o{ ims_stock_transfers : "is destination for"
+    wms_warehouses      ||--o{ ims_stock_transfers : "is source for"
+    wms_warehouses      ||--o{ ims_stock_transfers : "is destination for"
 
     %% Outbound Relationships
     companies           ||--o{ ims_sales_orders : "places"
@@ -207,7 +201,7 @@ erDiagram
     ims_outbound_shipments ||--|{ ims_outbound_shipment_items : "contains"
     ims_sales_order_items ||--o{ ims_outbound_shipment_items : "is fulfilled in"
     ims_inventory_batches ||--o{ ims_outbound_shipment_items : "is shipped in"
-    ims_warehouses      ||--o{ ims_outbound_shipments : "ships from"
+    wms_warehouses      ||--o{ ims_outbound_shipments : "ships from"
 
     %% Reverse Logistics (Returns)
     ims_returns {
@@ -250,11 +244,17 @@ from receiving inbound shipments and managing stock levels to fulfilling
 outbound orders and processing returns.
 
 The IMS is tightly integrated with other domains. It pulls client and sales
-order data from the [CRM](./crm.md), ensuring that customer information is
-synchronized and that sales are directly linked to inventory fulfillment. It
-provides the foundational data needed by the **WMS (Warehouse Management
-System)** for optimizing storage and picking operations, and by the **TMS
-(Transportation Management System)** for planning shipments.
+order data from the [CRM](./crm.md), ensuring customer information and orders
+are synchronized with inventory processes. IMS owns the product master, batches,
+inventory adjustments, reorder points, and the high-level inbound/ outbound
+shipment records used for planning and accounting.
+
+The WMS (Warehouse Management System) is authoritative for physical storage and
+per-location inventory (location hierarchy, bin capacity, and location-level
+stock). See [WMS](./wms.md) for the canonical WMS schema and operational
+details. IMS provides the foundational data the WMS consumes to optimize
+putaway, picking, replenishment and to feed the **TMS (Transportation Management
+System)** for shipment execution.
 
 Key actors in this domain include:
 
@@ -305,30 +305,24 @@ Represents the physical warehouse facilities where inventory is stored.
 - `name`: The name of the warehouse (e.g., "West Coast Distribution Center").
 - `address`: The physical address of the warehouse.
 
-### ims_warehouse_locations
+### Warehouse locations & per-location inventory (WMS-owned)
 
-Defines specific storage locations (bins, shelves, racks) within a warehouse.
+Location hierarchy and per-location inventory are owned and managed by the
+Warehouse Management System (WMS). The IMS domain references those canonical
+entities rather than redefining them. See `docs/diagrams/wms.md` for the full
+schema and operational details.
 
-- `warehouse_id`: A reference to the parent warehouse.
-- `name`: The unique identifier for the location (e.g., "A-01-B-03").
-- `barcode`: A scannable barcode for the location to facilitate accurate picking
-  and put-away.
+- `wms_locations`: canonical representation of physical storage locations
+  (hierarchy, barcode, type, capacity limits, etc.).
+- `wms_inventory_stock`: per-location stock records (location_id, product_id,
+  batch_id, quantity, status) used for real-time location-level inventory.
 
-### ims_inventory_levels
-
-Tracks the quantity of a specific product at a specific location. This is the
-core table for real-time stock information.
-
-- `product_id`: The product being tracked.
-- `warehouse_id`: The warehouse where the product is stored.
-- `location_id`: The specific bin or location within the warehouse (optional).
-- `batch_id`: A reference to the batch/lot if the product is batch-tracked
-  (optional).
-- `quantity_on_hand`: The total physical quantity of the item present.
-- `quantity_committed`: The quantity reserved for open sales orders that have
-  not yet shipped.
-- `quantity_available`: The calculated quantity available for sale (`on_hand` -
-  `committed`).
+In this documentation, any references to "warehouse locations" or "inventory
+levels" should be interpreted as references to the WMS entities above. IMS
+continues to own product master data, batches, adjustments, reorder points,
+inbound/outbound shipments, and higher-level inventory concepts (aggregates,
+adjustments, transfers), while the WMS is authoritative for location-level
+placement and operational stock.
 
 ### ims_inventory_batches
 

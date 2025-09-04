@@ -1,42 +1,5 @@
 ```mermaid
 erDiagram
-    users {
-        string id PK
-        string name
-        string email
-        string phone_number
-        string status "e.g., active, inactive"
-        datetime last_login_at
-        string role_id FK
-        string manager_id FK "self-referencing"
-        datetime created_at
-        datetime updated_at
-    }
-
-    roles {
-        string id PK
-        string name
-        datetime created_at
-        datetime updated_at
-    }
-
-    role_actions {
-        string role_id PK, FK
-        string action
-        string resource
-    }
-
-    teams {
-        string id PK
-        string name
-        datetime created_at
-        datetime updated_at
-    }
-
-    team_members {
-        string team_id PK, FK
-        string user_id PK, FK
-    }
 
     companies {
         string id PK
@@ -212,17 +175,6 @@ erDiagram
         string record_type "polymorphic"
     }
 
-    users ||--o{ roles : "has"
-    users ||--o{ users : "manages"
-    roles ||--|{ role_actions : "defines"
-    teams ||--|{ team_members : "has"
-    users ||--|{ team_members : "is in"
-    users ||--|{ companies : "owns"
-    users ||--|{ contacts : "owns"
-    users ||--|{ opportunities : "owns"
-    users ||--|{ leads : "owns"
-    users ||--|{ cases : "owns"
-    users ||--|{ interactions : "performs"
     companies ||--|{ contacts : "has"
     contacts ||--|{ interactions : "has"
     contacts ||--|{ opportunities : "has"
@@ -239,7 +191,6 @@ erDiagram
     opportunities ||--o{ invoices : "generates"
     invoices ||--|{ invoice_items : "has"
     products ||--|{ invoice_items : "details"
-    users ||--|{ notifications : "receives"
     tags ||--|{ taggings : "applies to"
 ```
 

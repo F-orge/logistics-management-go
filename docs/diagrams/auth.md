@@ -8,6 +8,10 @@ erDiagram
         text image
         timestamp createdAt
         timestamp updatedAt
+        text role
+        boolean banned
+        text banReason
+        timestamp banExpires
     }
 
     session {
@@ -19,6 +23,7 @@ erDiagram
         text ipAddress
         text userAgent
         text userId FK
+        text impersonatedBy
     }
 
     account {
@@ -65,6 +70,12 @@ Represents a user in the system.
 - `emailVerified`: A boolean flag to indicate if the user has verified their
   email address.
 - `image`: A URL to the user's profile picture.
+- `createdAt`: Timestamp when the user was created.
+- `updatedAt`: Timestamp when the user was last updated.
+- `role`: The user's role (optional).
+- `banned`: Boolean flag indicating if the user is banned (default: false).
+- `banReason`: Reason for banning the user (optional).
+- `banExpires`: Timestamp when the ban expires (optional).
 
 ### session
 
@@ -73,9 +84,12 @@ Stores session information for logged-in users.
 - `id`: Unique identifier for the session.
 - `expiresAt`: The timestamp when the session expires.
 - `token`: The unique token for the session.
+- `createdAt`: Timestamp when the session was created.
+- `updatedAt`: Timestamp when the session was last updated.
 - `ipAddress`: The IP address from which the session was created.
 - `userAgent`: The user agent of the client.
 - `userId`: A foreign key referencing the `user` table.
+- `impersonatedBy`: The user ID of the impersonator (optional).
 
 ### account
 
@@ -94,6 +108,8 @@ Google, GitHub).
 - `refreshTokenExpiresAt`: The expiration timestamp for the refresh token.
 - `scope`: The scope of permissions granted by the provider.
 - `password`: The hashed password for credentials-based authentication.
+- `createdAt`: Timestamp when the account was created.
+- `updatedAt`: Timestamp when the account was last updated.
 
 ### verification
 
@@ -103,3 +119,5 @@ Stores tokens for email verification or password reset.
 - `identifier`: The identifier for the verification (e.g., email address).
 - `value`: The verification token.
 - `expiresAt`: The timestamp when the verification token expires.
+- `createdAt`: Timestamp when the verification record was created.
+- `updatedAt`: Timestamp when the verification record was last updated.

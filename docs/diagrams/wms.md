@@ -145,6 +145,14 @@ erDiagram
     ims_products            ||--|{ wms_inventory_stock : "is instance of"
     ims_inventory_batches   ||--o{ wms_inventory_stock : "is batch of"
 
+    wms_warehouses {
+        string id PK
+        string name
+        string address
+        datetime created_at
+        datetime updated_at
+    }
+
     %% Task & Workflow Relationships
     wms_tasks               ||--|{ wms_task_items : "consists of"
     wms_locations           ||--o{ wms_task_items : "is source for"
@@ -163,6 +171,11 @@ erDiagram
     ims_inbound_shipments   ||--o{ wms_tasks : "triggers putaway"
     wms_bin_thresholds      ||--o{ wms_tasks : "triggers replenishment"
     ims_returns             ||--o{ wms_tasks : "triggers returns processing"
+    
+    %% WMS <-> Warehouse Relationships
+    wms_warehouses         ||--o{ wms_locations : "has"
+    wms_warehouses         ||--|{ wms_inventory_stock : "stores"
+    wms_warehouses         ||--o{ ims_inbound_shipments : "receives at"
 ```
 
 ## WMS Domain Explanation
@@ -200,6 +213,14 @@ hierarchical structure.
   packing_station, cross_dock_area).
 - `max_weight`: Maximum weight capacity for the location.
 - `max_volume`: Maximum volume capacity for the location.
+
+### WMS Warehouses
+
+Represents the physical warehouse facilities where inventory and locations are
+organized and managed by the WMS.
+
+- `name`: The name of the warehouse (e.g., "West Coast Distribution Center").
+- `address`: The physical address of the warehouse.
 
 ### WMS Inventory Stock
 

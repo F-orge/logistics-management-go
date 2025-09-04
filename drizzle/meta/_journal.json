@@ -8,6 +8,34 @@
       "when": 1756974347280,
       "tag": "0000_nappy_network",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757005561997,
+      "tag": "0001_simple_chameleon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757006255806,
+      "tag": "0002_graceful_unicorn",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757006768807,
+      "tag": "0003_bizarre_barracuda",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757007928239,
+      "tag": "0004_tense_runaways",
+      "breakpoints": true
     }
   ]
 }
