@@ -1,13 +1,13 @@
-import { beforeAll, afterAll } from 'bun:test';
-import { Wait } from 'testcontainers';
+import { afterAll, beforeAll } from 'bun:test';
 import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
 } from '@testcontainers/postgresql';
-import type { db } from '@/db';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { authFactory } from '@/lib/auth';
 import { sleep } from 'bun';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Wait } from 'testcontainers';
+import type { db } from '@/db';
+import { authFactory } from '@/lib/auth';
 
 declare global {
   var container: StartedPostgreSqlContainer;

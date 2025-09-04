@@ -4,6 +4,6 @@ import type { GlobalVariables } from '@/server';
 
 export default implement(signOut)
   .$context<GlobalVariables>()
-  .handler(({ context }) =>
+  .handler(async ({ context }) =>
     context.auth.api.signOut({ headers: context.request.headers }),
   );

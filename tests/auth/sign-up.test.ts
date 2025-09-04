@@ -1,5 +1,5 @@
-import api from '@/api';
 import { describe, expect, it } from 'bun:test';
+import api from '@/api';
 
 describe('Better auth sign up', () => {
   it('should register a new user', async () => {
