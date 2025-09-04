@@ -255,8 +255,8 @@ processes such as invoicing, lead conversion, and support case management are
 aligned with overall operational logistics.
 
 Actors involved in this system include sales managers, marketing managers,
-customer support agents, account managers, sales development representatives,
-and administrators. These roles interact with the CRM to perform tasks such as
+customer support agents, account managers, and sales development
+representatives. These roles interact with the CRM to perform tasks such as
 tracking sales opportunities, managing campaigns, logging interactions, and
 generating invoices. The attached user stories in `docs/stories/crm.md` provide
 detailed scenarios that highlight these interactions and demonstrate the value
@@ -265,47 +265,6 @@ experience and operational efficiency.
 
 Below is a detailed explanation of each entity and its key fields (excluding the
 redundant fields `id`, `created_at`, and `updated_at`).
-
-### Users
-
-Represents system users, including sales reps, managers, and support agents, who
-interact with the CRM.
-
-- `name`: Full name of the user.
-- `email`: User's email address.
-- `phone_number`: Contact phone number.
-- `status`: Account status (e.g., active/inactive).
-- `last_login_at`: Timestamp of the last login.
-- `role_id`: Reference to the user's role.
-- `manager_id`: Reference to the user's manager (self-referencing).
-
-### Roles
-
-Defines user roles to manage permissions and access control within the system.
-
-- `name`: Designation of the role (e.g., Sales Manager, Support Agent).
-
-### Role Actions
-
-Maps specific actions (e.g., create, read, update, delete) to roles for
-different resources, enabling fine-grained permission control.
-
-- `action`: Permitted action for the role (e.g., read, write).
-- `resource`: Resource or entity the action applies to.
-
-### Teams
-
-Groups users together, typically for sales or support functions, to facilitate
-collaboration and reporting.
-
-- `name`: Name of the team.
-
-### Team Members
-
-Associates users with one or more teams.
-
-- `team_id`: Identifier for the team.
-- `user_id`: Identifier for the user in the team.
 
 ### Companies
 

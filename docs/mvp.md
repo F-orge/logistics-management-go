@@ -69,6 +69,14 @@ be implemented.
 
 These features are essential for the security and usability of the system.
 
+- **Authentication:**
+  - Secure user registration and login.
+  - Session management to protect against unauthorized access.
+- **User Stories to Implement:**
+  - [Authentication Stories](./stories/auth.md)
+- **Related Dataflow:** [Authentication](./dataflow/auth.md)
+- **Related Diagrams:** [Authentication](./diagrams/auth.md)
+
 - **Role-Based Access Control (RBAC):**
   - Define roles for different types of employees (e.g., Admin, Warehouse Staff,
     Sales).

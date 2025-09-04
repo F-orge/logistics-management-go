@@ -1,28 +1,15 @@
 ## CRM Data Flow Explanation
 
 This data flow diagram illustrates the interactions between different user roles
-(actors) and the core data entities within the Customer Relationship Management
-(CRM) domain. The flow is organized by functional areas, such as Marketing,
-Sales, Customer Support, and Billing, showing how each actor contributes to the
-overall lifecycle of customer data.
+(actors) and the core data entities within the Cus **Cases** and logging
+**Interactions**.
 
-### Administrator Flow
-
-```mermaid
-graph TD
-    subgraph "Administrator"
-        direction LR
-        Admin[Administrator] --> Admin_ManageRoles[Manages Roles & Permissions]
-        Admin_ManageRoles --> Roles[(Roles)]
-        Admin_ManageRoles --> RoleActions[(Role Actions)]
-    end
-    class Admin actor;
-```
-
-- **Administrator**: This user is responsible for system setup and security.
-  They manage user access by creating and defining **Roles** and assigning
-  specific permissions (**Role Actions**) to them. This ensures that other users
-  can only access the data and functionality relevant to their position.
+This interconnected flow ensures that customer information is shared seamlessly
+across departments, from initial contact to billing and support, creating a
+unified view of the customer journey. lationship Management (CRM) domain. The
+flow is organized by functional areas, such as Marketing, Sales, Customer
+Support, and Billing, showing how each actor contributes to the overall
+lifecycle of customer data.
 
 ### Marketing Flow
 
