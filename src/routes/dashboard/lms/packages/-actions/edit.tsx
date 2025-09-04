@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
-import { type LmsPackagesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
+import { type LmsPackagesRecord } from '@/pocketbase/types';
 
 export const EditPackageForm = withForm({
   defaultValues: {} as UpdateRecord<LmsPackagesRecord>,
@@ -45,12 +45,12 @@ export const EditPackageForm = withForm({
               required
               className="col-span-1"
               options={[
-                { value: "box", label: "Box" },
-                { value: "envelope", label: "Envelope" },
-                { value: "tube", label: "Tube" },
-                { value: "pallet", label: "Pallet" },
-                { value: "crate", label: "Crate" },
-                { value: "bag", label: "Bag" },
+                { value: 'box', label: 'Box' },
+                { value: 'envelope', label: 'Envelope' },
+                { value: 'tube', label: 'Tube' },
+                { value: 'pallet', label: 'Pallet' },
+                { value: 'crate', label: 'Crate' },
+                { value: 'bag', label: 'Bag' },
               ]}
             />
           )}
@@ -114,14 +114,12 @@ export const EditPackageForm = withForm({
 });
 
 const EditPackageDialog = () => {
-  const route = getRouteApi("/dashboard/lms/packages/");
+  const route = getRouteApi('/dashboard/lms/packages/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const packages = route.useLoaderData();
-  const packageRecord = packages.items.find(
-    (pkg) => pkg.id === params.id,
-  );
+  const packageRecord = packages.items.find((pkg) => pkg.id === params.id);
 
   const form = useAppForm({
     defaultValues: packageRecord as UpdateRecord<LmsPackagesRecord>,
@@ -129,10 +127,10 @@ const EditPackageDialog = () => {
       if (!packageRecord?.id) return;
       await toast
         .promise(
-          pb.collection("lms_packages").update(packageRecord.id, value),
+          pb.collection('lms_packages').update(packageRecord.id, value),
           {
-            success: "Successfully updated package",
-            error: "An error occurred when updating package",
+            success: 'Successfully updated package',
+            error: 'An error occurred when updating package',
           },
         )
         .unwrap();
@@ -148,7 +146,8 @@ const EditPackageDialog = () => {
     <Dialog
       open={params.editPackage}
       onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, editPackage: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, editPackage: undefined }) })
+      }
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>

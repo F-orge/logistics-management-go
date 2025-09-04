@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
-import { type LmsWarehousesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
+import { type LmsWarehousesRecord } from '@/pocketbase/types';
 
 export const NewWarehouseForm = withForm({
   defaultValues: {} as CreateRecord<LmsWarehousesRecord>,
@@ -43,11 +43,11 @@ export const NewWarehouseForm = withForm({
               required
               className="col-span-2"
               options={[
-                { value: "distribution", label: "Distribution" },
-                { value: "fulfillment", label: "Fulfillment" },
-                { value: "cross_dock", label: "Cross Dock" },
-                { value: "cold_storage", label: "Cold Storage" },
-                { value: "bonded", label: "Bonded" },
+                { value: 'distribution', label: 'Distribution' },
+                { value: 'fulfillment', label: 'Fulfillment' },
+                { value: 'cross_dock', label: 'Cross Dock' },
+                { value: 'cold_storage', label: 'Cold Storage' },
+                { value: 'bonded', label: 'Bonded' },
               ]}
             />
           )}
@@ -85,10 +85,7 @@ export const NewWarehouseForm = withForm({
         </form.AppField>
         <form.AppField name="is_active">
           {(field) => (
-            <field.CheckBoxField
-              label="Is Active"
-              className="col-span-full"
-            />
+            <field.CheckBoxField label="Is Active" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -97,7 +94,7 @@ export const NewWarehouseForm = withForm({
 });
 
 const NewWarehouseDialog = () => {
-  const route = getRouteApi("/dashboard/lms/warehouses/");
+  const route = getRouteApi('/dashboard/lms/warehouses/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -105,9 +102,9 @@ const NewWarehouseDialog = () => {
     defaultValues: {} as CreateRecord<LmsWarehousesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("lms_warehouses").create(value), {
-          success: "Successfully created warehouse",
-          error: "An error occurred when creating warehouse",
+        .promise(pb.collection('lms_warehouses').create(value), {
+          success: 'Successfully created warehouse',
+          error: 'An error occurred when creating warehouse',
         })
         .unwrap();
       navigate({ search: (prev) => ({ ...prev, newWarehouse: undefined }) });
@@ -118,7 +115,8 @@ const NewWarehouseDialog = () => {
     <Dialog
       open={params.newWarehouse}
       onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, newWarehouse: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newWarehouse: undefined }) })
+      }
     >
       <DialogContent className="max-w-4xl">
         <DialogHeader>

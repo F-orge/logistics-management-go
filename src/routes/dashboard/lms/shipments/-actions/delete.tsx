@@ -1,5 +1,5 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +9,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { pb } from "@/pocketbase";
+} from '@/components/ui/alert-dialog';
+import { pb } from '@/pocketbase';
 
 const DeleteShipmentDialog = () => {
-  const route = getRouteApi("/dashboard/lms/shipments/");
+  const route = getRouteApi('/dashboard/lms/shipments/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -26,9 +26,9 @@ const DeleteShipmentDialog = () => {
     if (!shipment?.id) return;
 
     await toast
-      .promise(pb.collection("lms_shipments").delete(shipment.id), {
-        success: "Successfully deleted shipment",
-        error: "An error occurred when deleting shipment",
+      .promise(pb.collection('lms_shipments').delete(shipment.id), {
+        success: 'Successfully deleted shipment',
+        error: 'An error occurred when deleting shipment',
       })
       .unwrap();
 
@@ -45,22 +45,25 @@ const DeleteShipmentDialog = () => {
       onOpenChange={() =>
         navigate({
           search: (prev) => ({ ...prev, deleteShipment: undefined }),
-        })}
+        })
+      }
     >
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Shipment</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete the shipment "{shipment
-              .tracking_number}"? This action cannot be undone and may affect
-            related packages and tracking records.
+            Are you sure you want to delete the shipment "
+            {shipment.tracking_number}"? This action cannot be undone and may
+            affect related packages and tracking records.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel
-            onClick={() => navigate({
-              search: (prev) => ({ ...prev, deleteShipment: undefined }),
-            })}
+            onClick={() =>
+              navigate({
+                search: (prev) => ({ ...prev, deleteShipment: undefined }),
+              })
+            }
           >
             Cancel
           </AlertDialogCancel>

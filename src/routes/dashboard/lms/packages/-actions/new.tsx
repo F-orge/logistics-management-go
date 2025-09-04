@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
-import { type LmsPackagesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
+import { type LmsPackagesRecord } from '@/pocketbase/types';
 
 export const NewPackageForm = withForm({
   defaultValues: {} as CreateRecord<LmsPackagesRecord>,
@@ -45,12 +45,12 @@ export const NewPackageForm = withForm({
               required
               className="col-span-1"
               options={[
-                { value: "box", label: "Box" },
-                { value: "envelope", label: "Envelope" },
-                { value: "tube", label: "Tube" },
-                { value: "pallet", label: "Pallet" },
-                { value: "crate", label: "Crate" },
-                { value: "bag", label: "Bag" },
+                { value: 'box', label: 'Box' },
+                { value: 'envelope', label: 'Envelope' },
+                { value: 'tube', label: 'Tube' },
+                { value: 'pallet', label: 'Pallet' },
+                { value: 'crate', label: 'Crate' },
+                { value: 'bag', label: 'Bag' },
               ]}
             />
           )}
@@ -114,7 +114,7 @@ export const NewPackageForm = withForm({
 });
 
 const NewPackageDialog = () => {
-  const route = getRouteApi("/dashboard/lms/packages/");
+  const route = getRouteApi('/dashboard/lms/packages/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -122,9 +122,9 @@ const NewPackageDialog = () => {
     defaultValues: {} as CreateRecord<LmsPackagesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("lms_packages").create(value), {
-          success: "Successfully created package",
-          error: "An error occurred when creating package",
+        .promise(pb.collection('lms_packages').create(value), {
+          success: 'Successfully created package',
+          error: 'An error occurred when creating package',
         })
         .unwrap();
       navigate({ search: (prev) => ({ ...prev, newPackage: undefined }) });
@@ -135,7 +135,8 @@ const NewPackageDialog = () => {
     <Dialog
       open={params.newPackage}
       onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, newPackage: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, newPackage: undefined }) })
+      }
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>

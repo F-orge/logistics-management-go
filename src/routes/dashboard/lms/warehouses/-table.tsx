@@ -1,8 +1,8 @@
-import { getRouteApi } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { getRouteApi } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,13 +11,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableColumnHeader } from "@/components/ui/kibo-ui/table";
+} from '@/components/ui/dropdown-menu';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
 import type {
   LmsAddressesResponse,
   LmsWarehousesResponse,
   UsersResponse,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 // Define the expanded warehouse type
 export type WarehouseWithExpands = LmsWarehousesResponse<{
@@ -27,17 +27,17 @@ export type WarehouseWithExpands = LmsWarehousesResponse<{
 
 export const columns: ColumnDef<WarehouseWithExpands>[] = [
   {
-    accessorKey: "id",
-    header: "Action",
+    accessorKey: 'id',
+    header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi("/dashboard/lms/warehouses/");
+      const route = getRouteApi('/dashboard/lms/warehouses/');
 
       const navigate = route.useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -53,7 +53,8 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
                       editWarehouse: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Edit
               </DropdownMenuItem>
@@ -66,7 +67,8 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
                       deleteWarehouse: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Delete
               </DropdownMenuItem>
@@ -77,24 +79,24 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
     },
   },
   {
-    accessorKey: "code",
+    accessorKey: 'code',
     header: ({ column }) => <TableColumnHeader column={column} title="Code" />,
   },
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => <TableColumnHeader column={column} title="Name" />,
   },
   {
-    accessorKey: "type",
+    accessorKey: 'type',
     header: ({ column }) => <TableColumnHeader column={column} title="Type" />,
     cell: ({ row }) => {
-      const type = row.getValue("type") as string;
+      const type = row.getValue('type') as string;
       const typeLabels = {
-        distribution: "Distribution",
-        fulfillment: "Fulfillment",
-        cross_dock: "Cross Dock",
-        cold_storage: "Cold Storage",
-        bonded: "Bonded",
+        distribution: 'Distribution',
+        fulfillment: 'Fulfillment',
+        cross_dock: 'Cross Dock',
+        cold_storage: 'Cold Storage',
+        bonded: 'Bonded',
       };
       return (
         <Badge variant="secondary">
@@ -104,18 +106,18 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
     },
   },
   {
-    accessorKey: "capacity",
+    accessorKey: 'capacity',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Capacity" />
     ),
     cell: ({ row }) => {
-      const capacity = row.getValue("capacity") as number;
+      const capacity = row.getValue('capacity') as number;
       if (!capacity) return <div>-</div>;
       return <div>{capacity.toLocaleString()} units</div>;
     },
   },
   {
-    accessorKey: "expand.address",
+    accessorKey: 'expand.address',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Address" />
     ),
@@ -130,7 +132,7 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
     },
   },
   {
-    accessorKey: "expand.manager",
+    accessorKey: 'expand.manager',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Manager" />
     ),
@@ -141,29 +143,26 @@ export const columns: ColumnDef<WarehouseWithExpands>[] = [
     },
   },
   {
-    accessorKey: "is_active",
+    accessorKey: 'is_active',
     header: ({ column }) => (
-      <TableColumnHeader
-        column={column}
-        title="Status"
-      />
+      <TableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const isActive = row.getValue("is_active") as boolean;
+      const isActive = row.getValue('is_active') as boolean;
       return (
-        <Badge variant={isActive ? "default" : "secondary"}>
-          {isActive ? "Active" : "Inactive"}
+        <Badge variant={isActive ? 'default' : 'secondary'}>
+          {isActive ? 'Active' : 'Inactive'}
         </Badge>
       );
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: 'created',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Created" />
     ),
     cell: ({ row }) => {
-      const created = row.getValue("created") as string;
+      const created = row.getValue('created') as string;
       return <div>{new Date(created).toLocaleDateString()}</div>;
     },
   },

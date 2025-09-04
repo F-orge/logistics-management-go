@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
-import { type LmsShipmentsRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
+import { type LmsShipmentsRecord } from '@/pocketbase/types';
 
 export const EditShipmentForm = withForm({
   defaultValues: {} as UpdateRecord<LmsShipmentsRecord>,
@@ -34,13 +34,13 @@ export const EditShipmentForm = withForm({
               required
               className="col-span-1"
               options={[
-                { value: "created", label: "Created" },
-                { value: "picked_up", label: "Picked Up" },
-                { value: "in_transit", label: "In Transit" },
-                { value: "out_for_delivery", label: "Out for Delivery" },
-                { value: "delivered", label: "Delivered" },
-                { value: "exception", label: "Exception" },
-                { value: "cancelled", label: "Cancelled" },
+                { value: 'created', label: 'Created' },
+                { value: 'picked_up', label: 'Picked Up' },
+                { value: 'in_transit', label: 'In Transit' },
+                { value: 'out_for_delivery', label: 'Out for Delivery' },
+                { value: 'delivered', label: 'Delivered' },
+                { value: 'exception', label: 'Exception' },
+                { value: 'cancelled', label: 'Cancelled' },
               ]}
             />
           )}
@@ -52,10 +52,10 @@ export const EditShipmentForm = withForm({
               required
               className="col-span-1"
               options={[
-                { value: "air", label: "Air" },
-                { value: "sea", label: "Sea" },
-                { value: "road", label: "Road" },
-                { value: "rail", label: "Rail" },
+                { value: 'air', label: 'Air' },
+                { value: 'sea', label: 'Sea' },
+                { value: 'road', label: 'Road' },
+                { value: 'rail', label: 'Rail' },
               ]}
             />
           )}
@@ -191,10 +191,7 @@ export const EditShipmentForm = withForm({
         </form.AppField>
         <form.AppField name="pickup_date">
           {(field) => (
-            <field.DateField
-              label="Pickup Date"
-              className="col-span-1"
-            />
+            <field.DateField label="Pickup Date" className="col-span-1" />
           )}
         </form.AppField>
         <form.AppField name="estimated_delivery_date">
@@ -220,7 +217,7 @@ export const EditShipmentForm = withForm({
 });
 
 const EditShipmentDialog = () => {
-  const route = getRouteApi("/dashboard/lms/shipments/");
+  const route = getRouteApi('/dashboard/lms/shipments/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -234,9 +231,9 @@ const EditShipmentDialog = () => {
     onSubmit: async ({ value }) => {
       if (!shipment?.id) return;
       await toast
-        .promise(pb.collection("lms_shipments").update(shipment.id, value), {
-          success: "Successfully updated shipment",
-          error: "An error occurred when updating shipment",
+        .promise(pb.collection('lms_shipments').update(shipment.id, value), {
+          success: 'Successfully updated shipment',
+          error: 'An error occurred when updating shipment',
         })
         .unwrap();
       navigate({ search: (prev) => ({ ...prev, editShipment: undefined }) });
@@ -251,7 +248,8 @@ const EditShipmentDialog = () => {
     <Dialog
       open={params.editShipment}
       onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, editShipment: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, editShipment: undefined }) })
+      }
     >
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>

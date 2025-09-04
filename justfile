@@ -5,11 +5,17 @@ APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
 # database specific
+drizzle-generate:
+  @bun drizzle-kit generate
+
+drizzle-migrate:
+  @bun drizzle-kit migrate
+
 drizzle-studio:
   @bun drizzle-kit studio --port=3002
 
 auth-generate:
-  @bunx @better-auth/cli@latest generate --output src/db/schemas/auth.schema.ts
+  @bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth.sql.ts
 
 start-postgres:
   @docker compose -f dev.compose.yaml up -d

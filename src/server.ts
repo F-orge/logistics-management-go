@@ -3,9 +3,10 @@ import { Hono } from 'hono';
 import api from './api';
 import { auth } from './lib/auth';
 
-type GlobalVariables = {
+export type GlobalVariables = {
   user: typeof auth.$Infer.Session.user | null;
   session: typeof auth.$Infer.Session.session | null;
+  request: Request;
 };
 
 const app = new Hono<{ Variables: GlobalVariables }>();
@@ -34,6 +35,7 @@ app.use('/api/orpc/*', async (c, next) => {
     context: {
       user: c.get('user'),
       session: c.get('session'),
+      request: c.req.raw,
     },
   });
 

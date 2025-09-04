@@ -1,20 +1,20 @@
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Checkbox } from "./checkbox";
-import { useFieldContext } from "./form";
-import { Label } from "./label";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { Checkbox } from './checkbox';
+import { useFieldContext } from './form';
+import { Label } from './label';
 
 const CheckBoxField = ({
   className,
   label,
   ...props
-}: React.ComponentProps<"input"> & {
+}: React.ComponentProps<'input'> & {
   label?: string;
 }) => {
   const field = useFieldContext<boolean>();
 
   return (
-    <div className={cn("flex flex-row gap-2.5", className)}>
+    <div className={cn('flex flex-row gap-2.5', className)}>
       <div className="flex gap-2.5">
         <Checkbox
           checked={field.state.value}
@@ -24,7 +24,7 @@ const CheckBoxField = ({
       {label && (
         <Label
           className={cn(
-            field.state.meta.errorMap.onSubmit && "text-destructive",
+            field.state.meta.errorMap.onSubmit && 'text-destructive',
           )}
           htmlFor={props.id}
         >

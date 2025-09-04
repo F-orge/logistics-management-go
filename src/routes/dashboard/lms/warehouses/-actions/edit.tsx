@@ -1,15 +1,15 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
-import { type LmsWarehousesRecord } from "@/pocketbase/types";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
+import { type LmsWarehousesRecord } from '@/pocketbase/types';
 
 export const EditWarehouseForm = withForm({
   defaultValues: {} as UpdateRecord<LmsWarehousesRecord>,
@@ -43,11 +43,11 @@ export const EditWarehouseForm = withForm({
               required
               className="col-span-2"
               options={[
-                { value: "distribution", label: "Distribution" },
-                { value: "fulfillment", label: "Fulfillment" },
-                { value: "cross_dock", label: "Cross Dock" },
-                { value: "cold_storage", label: "Cold Storage" },
-                { value: "bonded", label: "Bonded" },
+                { value: 'distribution', label: 'Distribution' },
+                { value: 'fulfillment', label: 'Fulfillment' },
+                { value: 'cross_dock', label: 'Cross Dock' },
+                { value: 'cold_storage', label: 'Cold Storage' },
+                { value: 'bonded', label: 'Bonded' },
               ]}
             />
           )}
@@ -85,10 +85,7 @@ export const EditWarehouseForm = withForm({
         </form.AppField>
         <form.AppField name="is_active">
           {(field) => (
-            <field.CheckBoxField
-              label="Is Active"
-              className="col-span-full"
-            />
+            <field.CheckBoxField label="Is Active" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -97,7 +94,7 @@ export const EditWarehouseForm = withForm({
 });
 
 const EditWarehouseDialog = () => {
-  const route = getRouteApi("/dashboard/lms/warehouses/");
+  const route = getRouteApi('/dashboard/lms/warehouses/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -111,9 +108,9 @@ const EditWarehouseDialog = () => {
     onSubmit: async ({ value }) => {
       if (!warehouse?.id) return;
       await toast
-        .promise(pb.collection("lms_warehouses").update(warehouse.id, value), {
-          success: "Successfully updated warehouse",
-          error: "An error occurred when updating warehouse",
+        .promise(pb.collection('lms_warehouses').update(warehouse.id, value), {
+          success: 'Successfully updated warehouse',
+          error: 'An error occurred when updating warehouse',
         })
         .unwrap();
       navigate({
@@ -140,7 +137,8 @@ const EditWarehouseDialog = () => {
             editWarehouse: undefined,
             id: undefined,
           }),
-        })}
+        })
+      }
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
