@@ -19,22 +19,8 @@
     {
       "idx": 2,
       "version": "7",
-      "when": 1757006255806,
-      "tag": "0002_graceful_unicorn",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1757006768807,
-      "tag": "0003_bizarre_barracuda",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1757007928239,
-      "tag": "0004_tense_runaways",
+      "when": 1757008351192,
+      "tag": "0002_fresh_zarek",
       "breakpoints": true
     }
   ]
