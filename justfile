@@ -20,6 +20,9 @@ auth-generate:
 start-postgres:
   @docker compose -f dev.compose.yaml up -d
 
+test:
+  @bun test --preload tests/setup.ts
+
 check:
   @bun biome check --write
 

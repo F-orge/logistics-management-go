@@ -3,7 +3,7 @@ import z from 'zod';
 import { user } from './better-auth.sql';
 
 export const emailSignUpSchema = createInsertSchema(user, {
-  image: z.string().optional(),
+  image: z.url().optional(),
 })
   .pick({ email: true, name: true, image: true })
   .extend({

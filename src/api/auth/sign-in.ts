@@ -1,7 +1,9 @@
 import { implement } from '@orpc/server';
 import signIn from '@/contracts/auth/sign-in';
-import { auth } from '@/lib/auth';
+import type { GlobalVariables } from '@/server';
 
-export default implement(signIn).handler(({ input }) =>
-  auth.api.signInEmail({ body: input }),
-);
+export default implement(signIn)
+  .$context<GlobalVariables>()
+  .handler(({ context, input }) =>
+    context.auth.api.signInEmail({ body: input }),
+  );
