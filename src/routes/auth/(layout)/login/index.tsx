@@ -25,6 +25,7 @@ function RouteComponent() {
       if (result!.redirect) navigate({ to: result!.url });
 
       localStorage.setItem("orpc-jwt-token", result!.token);
+      localStorage.setItem("orpc-jwt-user", JSON.stringify(result!.user));
 
       navigate({ to: "/dashboard/crm/leads" });
     },
