@@ -1,8 +1,8 @@
-import { getRouteApi } from "@tanstack/react-router";
-import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { getRouteApi } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
+import { MoreHorizontal } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +11,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { TableColumnHeader } from "@/components/ui/kibo-ui/table";
+} from '@/components/ui/dropdown-menu';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
 import type {
   LmsPackagesResponse,
   LmsShipmentsResponse,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 // Define the expanded package type
 export type PackageWithExpands = LmsPackagesResponse<{
@@ -25,17 +25,17 @@ export type PackageWithExpands = LmsPackagesResponse<{
 
 export const columns: ColumnDef<PackageWithExpands>[] = [
   {
-    accessorKey: "id",
-    header: "Action",
+    accessorKey: 'id',
+    header: 'Action',
     cell: ({ row }) => {
-      const route = getRouteApi("/dashboard/lms/packages/");
+      const route = getRouteApi('/dashboard/lms/packages/');
 
       const navigate = route.useNavigate();
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
+            <Button variant={'ghost'}>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
@@ -51,7 +51,8 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
                       editPackage: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Edit
               </DropdownMenuItem>
@@ -64,7 +65,8 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
                       deletePackage: true,
                       id: row.original.id,
                     }),
-                  })}
+                  })
+                }
               >
                 Delete
               </DropdownMenuItem>
@@ -75,13 +77,13 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
     },
   },
   {
-    accessorKey: "package_number",
+    accessorKey: 'package_number',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Package Number" />
     ),
   },
   {
-    accessorKey: "expand.shipment",
+    accessorKey: 'expand.shipment',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Shipment" />
     ),
@@ -96,17 +98,17 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
     },
   },
   {
-    accessorKey: "type",
+    accessorKey: 'type',
     header: ({ column }) => <TableColumnHeader column={column} title="Type" />,
     cell: ({ row }) => {
-      const type = row.getValue("type") as string;
+      const type = row.getValue('type') as string;
       const typeLabels = {
-        box: "Box",
-        envelope: "Envelope",
-        tube: "Tube",
-        pallet: "Pallet",
-        crate: "Crate",
-        bag: "Bag",
+        box: 'Box',
+        envelope: 'Envelope',
+        tube: 'Tube',
+        pallet: 'Pallet',
+        crate: 'Crate',
+        bag: 'Bag',
       };
       return (
         <Badge variant="secondary">
@@ -116,22 +118,19 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
     },
   },
   {
-    accessorKey: "weight",
+    accessorKey: 'weight',
     header: ({ column }) => (
-      <TableColumnHeader
-        column={column}
-        title="Weight"
-      />
+      <TableColumnHeader column={column} title="Weight" />
     ),
     cell: ({ row }) => {
-      const weight = row.getValue("weight") as number;
+      const weight = row.getValue('weight') as number;
       if (!weight) return <div>-</div>;
       return <div>{weight} kg</div>;
     },
   },
   {
-    accessorKey: "dimensions",
-    header: "Dimensions (L×H)",
+    accessorKey: 'dimensions',
+    header: 'Dimensions (L×H)',
     cell: ({ row }) => {
       const length = row.original.length;
       const height = row.original.height;
@@ -142,30 +141,30 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
       if (length) dimensions.push(`${length}cm`);
       if (height) dimensions.push(`${height}cm`);
 
-      return <div>{dimensions.join(" × ") || "-"}</div>;
+      return <div>{dimensions.join(' × ') || '-'}</div>;
     },
   },
   {
-    accessorKey: "declared_value",
+    accessorKey: 'declared_value',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Declared Value" />
     ),
     cell: ({ row }) => {
-      const value = row.getValue("declared_value") as number;
+      const value = row.getValue('declared_value') as number;
       if (!value) return <div>-</div>;
       return <div>${value.toFixed(2)}</div>;
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: 'description',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => {
-      const description = row.getValue("description") as string;
+      const description = row.getValue('description') as string;
       if (!description) return <div>-</div>;
       // Strip HTML tags for display
-      const textContent = description.replace(/<[^>]*>/g, "");
+      const textContent = description.replace(/<[^>]*>/g, '');
       return (
         <div className="max-w-[200px] truncate" title={textContent}>
           {textContent}
@@ -174,12 +173,12 @@ export const columns: ColumnDef<PackageWithExpands>[] = [
     },
   },
   {
-    accessorKey: "created",
+    accessorKey: 'created',
     header: ({ column }) => (
       <TableColumnHeader column={column} title="Created" />
     ),
     cell: ({ row }) => {
-      const created = row.getValue("created") as string;
+      const created = row.getValue('created') as string;
       return <div>{new Date(created).toLocaleDateString()}</div>;
     },
   },

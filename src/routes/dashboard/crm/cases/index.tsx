@@ -1,17 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import type { CrmCasesResponse, CrmContactsRecord } from "@/pocketbase/types";
-import DeleteCaseDialog from "./-actions/delete";
-import EditCaseDialog from "./-actions/edit";
-import NewCaseDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import type { CrmCasesResponse, CrmContactsRecord } from '@/pocketbase/types';
+import DeleteCaseDialog from './-actions/delete';
+import EditCaseDialog from './-actions/edit';
+import NewCaseDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns } from './-table';
 
-export const Route = createFileRoute("/dashboard/crm/cases/")({
+export const Route = createFileRoute('/dashboard/crm/cases/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -22,21 +22,21 @@ export const Route = createFileRoute("/dashboard/crm/cases/")({
       editCase: z.boolean().optional(),
       deleteCase: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
   beforeLoad: ({ search }) => ({ search }),
   preload: true,
   loader: ({ context }) =>
-    pb.collection("crm_cases").getList<
+    pb.collection('crm_cases').getList<
       CrmCasesResponse<{
         contact: CrmContactsRecord;
       }>
     >(context.search.page, context.search.perPage, {
-      sort: context.search.sort.join(" "),
-      filter: context.search.filter?.join(" "),
-      expand: "contact",
+      sort: context.search.sort.join(' '),
+      filter: context.search.filter?.join(' '),
+      expand: 'contact',
     }),
 });
 
@@ -58,8 +58,9 @@ function RouteComponent() {
         {/* Table actions */}
         <Button
           onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, newCase: true }) })}
-          variant={"outline"}
+            navigate({ search: (prev) => ({ ...prev, newCase: true }) })
+          }
+          variant={'outline'}
         >
           Create Case
         </Button>

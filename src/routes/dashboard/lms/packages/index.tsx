@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeletePackageDialog from "./-actions/delete";
-import EditPackageDialog from "./-actions/edit";
-import NewPackageDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns, type PackageWithExpands } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import DeletePackageDialog from './-actions/delete';
+import EditPackageDialog from './-actions/edit';
+import NewPackageDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns, type PackageWithExpands } from './-table';
 
-export const Route = createFileRoute("/dashboard/lms/packages/")({
+export const Route = createFileRoute('/dashboard/lms/packages/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dashboard/lms/packages/")({
       editPackage: z.boolean().optional(),
       deletePackage: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,14 +29,14 @@ export const Route = createFileRoute("/dashboard/lms/packages/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("lms_packages")
+      .collection('lms_packages')
       .getList<PackageWithExpands>(
         context.search.page,
         context.search.perPage,
         {
-          sort: context.search.sort.join(" "),
-          filter: context.search.filter?.join(" "),
-          expand: "shipment",
+          sort: context.search.sort.join(' '),
+          filter: context.search.filter?.join(' '),
+          expand: 'shipment',
         },
       ),
 });
@@ -59,8 +59,9 @@ function RouteComponent() {
           onClick={() =>
             navigate({
               search: (prev) => ({ ...prev, newPackage: true }),
-            })}
-          variant={"outline"}
+            })
+          }
+          variant={'outline'}
         >
           Create Package
         </Button>

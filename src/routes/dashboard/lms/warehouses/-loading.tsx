@@ -3,8 +3,7 @@ export default function LoadingPage() {
     <article className="grid grid-cols-12 gap-2.5">
       <section className="col-span-full">
         {/* Heading skeleton */}
-        <div className="h-9 w-48 bg-gray-200 rounded animate-pulse border-b pb-4">
-        </div>
+        <div className="h-9 w-48 bg-gray-200 rounded animate-pulse border-b pb-4"></div>
       </section>
       <section className="flex flex-row justify-end col-span-full">
         {/* Button skeleton */}
@@ -18,8 +17,7 @@ export default function LoadingPage() {
             <div
               key={i}
               className="h-16 w-full bg-gray-100 rounded animate-pulse"
-            >
-            </div>
+            ></div>
           ))}
         </div>
       </section>

@@ -1,21 +1,21 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { pb, type UpdateRecord } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { pb, type UpdateRecord } from '@/pocketbase';
 import {
   CrmCasesPriorityOptions,
   type CrmCasesRecord,
   CrmCasesStatusOptions,
   type CrmContactsRecord,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const EditCaseForm = withForm({
   defaultValues: {} as UpdateRecord<CrmCasesRecord>,
@@ -47,8 +47,8 @@ export const EditCaseForm = withForm({
           {(field) => (
             <field.SelectField
               options={Object.keys(CrmCasesStatusOptions).map((val) => ({
-                label: val.charAt(0).toUpperCase() +
-                  val.slice(1).replace("_", " "),
+                label:
+                  val.charAt(0).toUpperCase() + val.slice(1).replace('_', ' '),
                 value: val,
               }))}
               label="Status"
@@ -83,10 +83,7 @@ export const EditCaseForm = withForm({
         </form.AppField>
         <form.AppField name="closed_at">
           {(field) => (
-            <field.DateField
-              label="Closed Date"
-              className="col-span-full"
-            />
+            <field.DateField label="Closed Date" className="col-span-full" />
           )}
         </form.AppField>
       </>
@@ -95,27 +92,27 @@ export const EditCaseForm = withForm({
 });
 
 const EditCaseDialog = () => {
-  const route = getRouteApi("/dashboard/crm/cases/");
+  const route = getRouteApi('/dashboard/crm/cases/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
   const { data: contacts } = useSuspenseQuery({
-    queryKey: ["crm_contacts"],
-    queryFn: () => pb.collection("crm_contacts").getList(1, 50),
+    queryKey: ['crm_contacts'],
+    queryFn: () => pb.collection('crm_contacts').getList(1, 50),
   });
 
   const { data: caseData } = useSuspenseQuery({
-    queryKey: ["crm_cases", params.id],
-    queryFn: () => pb.collection("crm_cases").getOne(params.id!),
+    queryKey: ['crm_cases', params.id],
+    queryFn: () => pb.collection('crm_cases').getOne(params.id!),
   });
 
   const form = useAppForm({
     defaultValues: caseData as UpdateRecord<CrmCasesRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_cases").update(params.id!, value), {
-          success: "Successfully updated the case",
-          error: "An error occurred when updating the case",
+        .promise(pb.collection('crm_cases').update(params.id!, value), {
+          success: 'Successfully updated the case',
+          error: 'An error occurred when updating the case',
         })
         .unwrap();
 
@@ -131,7 +128,8 @@ const EditCaseDialog = () => {
       onOpenChange={(_) =>
         navigate({
           search: (prev) => ({ ...prev, editCase: undefined, id: undefined }),
-        })}
+        })
+      }
     >
       <DialogContent>
         <DialogHeader>
@@ -147,10 +145,7 @@ const EditCaseDialog = () => {
           }}
         >
           <form.AppForm>
-            <EditCaseForm
-              contacts={contacts.items}
-              form={form}
-            />
+            <EditCaseForm contacts={contacts.items} form={form} />
             <form.SubmitButton className="col-start-4">
               Update Case
             </form.SubmitButton>

@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteWarehouseDialog from "./-actions/delete";
-import EditWarehouseDialog from "./-actions/edit";
-import NewWarehouseDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns, type WarehouseWithExpands } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import DeleteWarehouseDialog from './-actions/delete';
+import EditWarehouseDialog from './-actions/edit';
+import NewWarehouseDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns, type WarehouseWithExpands } from './-table';
 
-export const Route = createFileRoute("/dashboard/lms/warehouses/")({
+export const Route = createFileRoute('/dashboard/lms/warehouses/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dashboard/lms/warehouses/")({
       editWarehouse: z.boolean().optional(),
       deleteWarehouse: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,14 +29,14 @@ export const Route = createFileRoute("/dashboard/lms/warehouses/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("lms_warehouses")
+      .collection('lms_warehouses')
       .getList<WarehouseWithExpands>(
         context.search.page,
         context.search.perPage,
         {
-          sort: context.search.sort.join(" "),
-          filter: context.search.filter?.join(" "),
-          expand: "address,manager",
+          sort: context.search.sort.join(' '),
+          filter: context.search.filter?.join(' '),
+          expand: 'address,manager',
         },
       ),
 });
@@ -59,8 +59,9 @@ function RouteComponent() {
           onClick={() =>
             navigate({
               search: (prev) => ({ ...prev, newWarehouse: true }),
-            })}
-          variant={"outline"}
+            })
+          }
+          variant={'outline'}
         >
           Create Warehouse
         </Button>

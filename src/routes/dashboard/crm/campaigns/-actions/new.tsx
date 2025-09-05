@@ -1,18 +1,18 @@
-import { getRouteApi } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { getRouteApi } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useAppForm, withForm } from "@/components/ui/form";
-import { type CreateRecord, pb } from "@/pocketbase";
+} from '@/components/ui/dialog';
+import { useAppForm, withForm } from '@/components/ui/form';
+import { type CreateRecord, pb } from '@/pocketbase';
 import {
   type CrmCampaignsRecord,
   CrmCampaignsStatusOptions,
-} from "@/pocketbase/types";
+} from '@/pocketbase/types';
 
 export const NewCampaignForm = withForm({
   defaultValues: {} as CreateRecord<CrmCampaignsRecord>,
@@ -69,7 +69,7 @@ export const NewCampaignForm = withForm({
 });
 
 const NewCampaignDialog = () => {
-  const route = getRouteApi("/dashboard/crm/campaigns/");
+  const route = getRouteApi('/dashboard/crm/campaigns/');
   const navigate = route.useNavigate();
   const params = route.useSearch();
 
@@ -77,9 +77,9 @@ const NewCampaignDialog = () => {
     defaultValues: {} as CreateRecord<CrmCampaignsRecord>,
     onSubmit: async ({ value }) => {
       await toast
-        .promise(pb.collection("crm_campaigns").create(value), {
-          success: "Successfully created a campaign",
-          error: "An error occurred when creating a campaign",
+        .promise(pb.collection('crm_campaigns').create(value), {
+          success: 'Successfully created a campaign',
+          error: 'An error occurred when creating a campaign',
         })
         .unwrap();
 
@@ -91,7 +91,8 @@ const NewCampaignDialog = () => {
     <Dialog
       open={params.insert}
       onOpenChange={(_) =>
-        navigate({ search: (prev) => ({ ...prev, insert: undefined }) })}
+        navigate({ search: (prev) => ({ ...prev, insert: undefined }) })
+      }
     >
       <DialogContent>
         <DialogHeader>

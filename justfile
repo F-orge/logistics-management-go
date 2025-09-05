@@ -4,24 +4,44 @@ APP_NAME := `cat package.json | jq -r '.name'`
 APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
+# database specific
+drizzle-generate:
+  @bun drizzle-kit generate
+
+drizzle-migrate:
+  @bun drizzle-kit migrate
+
+drizzle-studio:
+  @bun drizzle-kit studio --port=3002
+
+auth-generate:
+  @bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth.sql.ts
+
+start-postgres:
+  @docker compose -f dev.compose.yaml up -d
+
+test:
+  @bun test --preload tests/setup.ts
+
 check:
   @bun biome check --write
 
 setup:
   @go mod tidy
   @bun install --frozen-lockfile
+  @just auth-generate
 
 introspect:
   @bunx pocketbase-typegen --db ./pb_data/data.db -o src/pocketbase/types.ts
 
-dev-go:
-  @go run main.go serve
+dev-backend:
+  @bun --hot run src/server.ts
 
 dev-frontend:
   @bun rsbuild dev --open
 
-dev:
-  @bun concurrently 'just dev-go' 'just dev-frontend' -n 'pocketbase,rsbuild'
+dev: start-postgres
+  @bun concurrently 'just drizzle-studio' 'just dev-backend' 'just dev-frontend' -n 'drizzle-studio,backend,frontend'
 
 docker-build:
   @if docker manifest inspect ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \

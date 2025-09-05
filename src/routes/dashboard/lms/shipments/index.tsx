@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod";
-import { Button } from "@/components/ui/button";
-import DataTable from "@/components/ui/kibo-ui/table/data-table";
-import { pb } from "@/pocketbase";
-import DeleteShipmentDialog from "./-actions/delete";
-import EditShipmentDialog from "./-actions/edit";
-import NewShipmentDialog from "./-actions/new";
-import LoadingPage from "./-loading";
-import { columns, type ShipmentWithExpands } from "./-table";
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { Button } from '@/components/ui/button';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { pb } from '@/pocketbase';
+import DeleteShipmentDialog from './-actions/delete';
+import EditShipmentDialog from './-actions/edit';
+import NewShipmentDialog from './-actions/new';
+import LoadingPage from './-loading';
+import { columns, type ShipmentWithExpands } from './-table';
 
-export const Route = createFileRoute("/dashboard/lms/shipments/")({
+export const Route = createFileRoute('/dashboard/lms/shipments/')({
   component: RouteComponent,
   pendingComponent: LoadingPage,
   validateSearch: zodValidator(
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/dashboard/lms/shipments/")({
       editShipment: z.boolean().optional(),
       deleteShipment: z.boolean().optional(),
       id: z.string().optional(),
-      sort: z.array(z.string()).default(["-created"]),
+      sort: z.array(z.string()).default(['-created']),
       filter: z.array(z.string()).optional(),
     }),
   ),
@@ -29,15 +29,15 @@ export const Route = createFileRoute("/dashboard/lms/shipments/")({
   preload: true,
   loader: ({ context }) =>
     pb
-      .collection("lms_shipments")
+      .collection('lms_shipments')
       .getList<ShipmentWithExpands>(
         context.search.page,
         context.search.perPage,
         {
-          sort: context.search.sort.join(" "),
-          filter: context.search.filter?.join(" "),
+          sort: context.search.sort.join(' '),
+          filter: context.search.filter?.join(' '),
           expand:
-            "sender_company,sender_contact,sender_address,receiver_company,receiver_contact,receiver_address,shipping_service,created_by",
+            'sender_company,sender_contact,sender_address,receiver_company,receiver_contact,receiver_address,shipping_service,created_by',
         },
       ),
 });
@@ -60,8 +60,9 @@ function RouteComponent() {
           onClick={() =>
             navigate({
               search: (prev) => ({ ...prev, newShipment: true }),
-            })}
-          variant={"outline"}
+            })
+          }
+          variant={'outline'}
         >
           Create Shipment
         </Button>

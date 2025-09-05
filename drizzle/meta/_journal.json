@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1756974347280,
+      "tag": "0000_nappy_network",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757005561997,
+      "tag": "0001_simple_chameleon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757008351192,
+      "tag": "0002_fresh_zarek",
+      "breakpoints": true
+    }
+  ]
+}
