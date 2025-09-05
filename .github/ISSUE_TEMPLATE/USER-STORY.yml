@@ -7,19 +7,6 @@ body:
     attributes:
       value: "Please fill out the details below based on the output. This ensures all necessary information is captured for the development team."
 
-  - type: dropdown
-    id: priority
-    attributes:
-      label: "Priority"
-      description: "Select the priority level determined during the planning phase."
-      options:
-        - "P1 - Critical (MVP)"
-        - "P2 - High (MVP)"
-        - "P3 - Medium (Post-MVP)"
-        - "P4 - Low (Post-MVP)"
-    validations:
-      required: true
-
   - type: input
     id: epic
     attributes:
