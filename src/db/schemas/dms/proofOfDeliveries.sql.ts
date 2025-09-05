@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_proof_of_deliveries
-import { uuid, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const proofOfDeliveries = dmsSchema.table('proof_of_deliveries', {

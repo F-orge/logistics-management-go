@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_customer_tracking_links
-import { uuid, varchar, boolean, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const customerTrackingLinks = dmsSchema.table(

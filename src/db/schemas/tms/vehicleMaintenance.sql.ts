@@ -1,11 +1,11 @@
 // Drizzle ORM schema for tms_vehicle_maintenance
 import {
-  uuid,
   date,
-  varchar,
   decimal,
   text,
   timestamp,
+  uuid,
+  varchar,
 } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 

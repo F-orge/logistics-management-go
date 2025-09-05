@@ -1,11 +1,11 @@
 // Drizzle ORM schema for tms_expenses
 import {
+  decimal,
+  integer,
+  real,
+  timestamp,
   uuid,
   varchar,
-  decimal,
-  real,
-  integer,
-  timestamp,
 } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 

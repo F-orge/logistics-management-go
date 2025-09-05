@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_account_transactions
-import { uuid, varchar, decimal, timestamp } from 'drizzle-orm/pg-core';
+import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const accountTransactions = billingSchema.table('account_transactions', {

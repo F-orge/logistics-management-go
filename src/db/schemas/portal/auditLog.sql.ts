@@ -1,5 +1,5 @@
 // Drizzle ORM schema for portal_audit_log
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { portalSchema } from './index';
 
 export const auditLog = portalSchema.table('audit_log', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_trip_stops
-import { uuid, integer, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { integer, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const tripStops = tmsSchema.table('trip_stops', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_vehicles
-import { uuid, varchar, real, timestamp } from 'drizzle-orm/pg-core';
+import { real, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const vehicles = tmsSchema.table('vehicles', {

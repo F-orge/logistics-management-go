@@ -1,5 +1,5 @@
 // Drizzle ORM schema for portal_notifications
-import { uuid, varchar, boolean, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { portalSchema } from './index';
 
 export const notifications = portalSchema.table('notifications', {

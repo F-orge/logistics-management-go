@@ -1,21 +1,21 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { pb } from '@/pocketbase';
+import { createFileRoute } from "@tanstack/react-router";
+import { orpcSafeClient } from "..";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: RouteComponent,
   loader: async () => {
-    const healthCheck = await pb.health.check();
+    const [_, healthCheckMessage] = await orpcSafeClient.health();
 
-    return { healthCheck };
+    return { healthCheckMessage };
   },
 });
 
 function RouteComponent() {
-  const { healthCheck } = Route.useLoaderData();
+  const { healthCheckMessage } = Route.useLoaderData();
 
   return (
     <div>
-      {healthCheck.message} - {healthCheck.code}
+      {healthCheckMessage}
     </div>
   );
 }

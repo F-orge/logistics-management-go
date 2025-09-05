@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_delivery_tasks
-import { uuid, integer, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { integer, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const deliveryTasks = dmsSchema.table('delivery_tasks', {

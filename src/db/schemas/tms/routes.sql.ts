@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_routes
-import { uuid, text, real, timestamp } from 'drizzle-orm/pg-core';
+import { real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const routes = tmsSchema.table('routes', {

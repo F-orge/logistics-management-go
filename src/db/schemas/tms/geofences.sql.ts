@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_geofences
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const geofences = tmsSchema.table('geofences', {

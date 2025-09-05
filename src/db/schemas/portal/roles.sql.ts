@@ -1,5 +1,5 @@
 // Drizzle ORM schema for portal_roles
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { portalSchema } from './index';
 
 export const roles = portalSchema.table('roles', {

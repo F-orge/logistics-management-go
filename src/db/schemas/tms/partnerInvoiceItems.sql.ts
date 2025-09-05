@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_partner_invoice_items
-import { uuid, decimal } from 'drizzle-orm/pg-core';
+import { decimal, uuid } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const partnerInvoiceItems = tmsSchema.table('partner_invoice_items', {

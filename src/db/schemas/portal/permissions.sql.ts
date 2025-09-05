@@ -1,5 +1,5 @@
 // Drizzle ORM schema for portal_permissions
-import { uuid, varchar, text } from 'drizzle-orm/pg-core';
+import { text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { portalSchema } from './index';
 
 export const permissions = portalSchema.table('permissions', {

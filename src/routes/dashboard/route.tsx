@@ -3,9 +3,9 @@ import {
   Outlet,
   redirect,
   useRouterState,
-} from '@tanstack/react-router';
-import React from 'react';
-import { AppSidebar } from '@/components/app-sidebar';
+} from "@tanstack/react-router";
+import React from "react";
+import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,60 +13,62 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from '@/components/ui/sidebar';
-import { pb } from '@/pocketbase';
+} from "@/components/ui/sidebar";
 
-export const Route = createFileRoute('/dashboard')({
+export const Route = createFileRoute("/dashboard")({
   component: RouteComponent,
   beforeLoad: () => {
-    if (!pb.authStore.isValid) throw redirect({ to: '/login' });
+    // todo: test if we can get the user info by the token first before we remove it
+    if (!localStorage.getItem("orpc-jwt-token")) {
+      throw redirect({ to: "/auth/login" });
+    }
   },
 });
 
 // Domain configuration for breadcrumbs
 const domainLabels: Record<string, string> = {
-  crm: 'CRM',
-  tms: 'TMS',
-  org: 'Organization',
-  lms: 'LMS',
+  crm: "CRM",
+  tms: "TMS",
+  org: "Organization",
+  lms: "LMS",
 };
 
 const resourceLabels: Record<string, string> = {
   // CRM resources
-  companies: 'Companies',
-  contacts: 'Contacts',
-  leads: 'Leads',
-  opportunities: 'Opportunities',
-  cases: 'Cases',
-  products: 'Products',
-  campaigns: 'Campaigns',
-  interactions: 'Interactions',
-  invoices: 'Invoices',
+  companies: "Companies",
+  contacts: "Contacts",
+  leads: "Leads",
+  opportunities: "Opportunities",
+  cases: "Cases",
+  products: "Products",
+  campaigns: "Campaigns",
+  interactions: "Interactions",
+  invoices: "Invoices",
 
   // TMS resources
-  drivers: 'Drivers',
-  vehicles: 'Vehicles',
+  drivers: "Drivers",
+  vehicles: "Vehicles",
 
   // Organization resources
-  organization: 'Organization',
-  teams: 'Teams',
-  roles: 'Roles',
+  organization: "Organization",
+  teams: "Teams",
+  roles: "Roles",
 
   // LMS resources
-  shipments: 'Shipments',
-  packages: 'Packages',
-  addresses: 'Addresses',
-  warehouses: 'Warehouses',
-  inventories: 'Inventories',
-  providers: 'Providers',
-  shipping: 'Shipping',
-  pricing: 'Pricing',
+  shipments: "Shipments",
+  packages: "Packages",
+  addresses: "Addresses",
+  warehouses: "Warehouses",
+  inventories: "Inventories",
+  providers: "Providers",
+  shipping: "Shipping",
+  pricing: "Pricing",
 };
 
 function DynamicBreadcrumb() {
@@ -74,14 +76,14 @@ function DynamicBreadcrumb() {
   const pathname = routerState.location.pathname;
 
   // Parse the pathname to extract segments
-  const pathSegments = pathname.split('/').filter(Boolean);
+  const pathSegments = pathname.split("/").filter(Boolean);
 
   // Build breadcrumb items
   const breadcrumbItems = React.useMemo(() => {
     const items: Array<{ label: string; href?: string; isLast: boolean }> = [];
 
     // Always start with Dashboard
-    items.push({ label: 'Dashboard', href: '/dashboard', isLast: false });
+    items.push({ label: "Dashboard", href: "/dashboard", isLast: false });
 
     if (pathSegments.length > 1) {
       // Add domain (e.g., /dashboard/crm)
@@ -96,10 +98,9 @@ function DynamicBreadcrumb() {
       if (pathSegments.length > 2) {
         // Add resource (e.g., /dashboard/crm/companies)
         const resource = pathSegments[2];
-        const resourceLabel =
-          resourceLabels[resource] ||
+        const resourceLabel = resourceLabels[resource] ||
           resource.charAt(0).toUpperCase() + resource.slice(1);
-        const resourceHref = `/${pathSegments.slice(0, 3).join('/')}`;
+        const resourceHref = `/${pathSegments.slice(0, 3).join("/")}`;
         items.push({
           label: resourceLabel,
           href: resourceHref,
@@ -112,18 +113,18 @@ function DynamicBreadcrumb() {
 
           // Handle specific action labels
           let actionLabel = action;
-          if (action === 'new') actionLabel = 'New';
-          else if (action === 'edit') actionLabel = 'Edit';
-          else if (action === 'delete') actionLabel = 'Delete';
+          if (action === "new") actionLabel = "New";
+          else if (action === "edit") actionLabel = "Edit";
+          else if (action === "delete") actionLabel = "Delete";
           else if (action.match(/^\d+$/)) {
             // If it's an ID, show as "View Details"
-            actionLabel = 'View Details';
+            actionLabel = "View Details";
 
             // Check if there's another segment after the ID (like edit/delete)
             if (pathSegments.length > 4) {
               const subAction = pathSegments[4];
-              if (subAction === 'edit') actionLabel = 'Edit';
-              else if (subAction === 'delete') actionLabel = 'Delete';
+              if (subAction === "edit") actionLabel = "Edit";
+              else if (subAction === "delete") actionLabel = "Delete";
             }
           }
 
@@ -154,18 +155,16 @@ function DynamicBreadcrumb() {
       <BreadcrumbList>
         {breadcrumbItems.map((item, index) => (
           <React.Fragment key={index}>
-            <BreadcrumbItem className={index === 0 ? 'hidden md:block' : ''}>
-              {item.isLast ? (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
-              ) : item.href ? (
-                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
-              ) : (
-                <span className="text-muted-foreground">{item.label}</span>
-              )}
+            <BreadcrumbItem className={index === 0 ? "hidden md:block" : ""}>
+              {item.isLast
+                ? <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                : item.href
+                ? <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                : <span className="text-muted-foreground">{item.label}</span>}
             </BreadcrumbItem>
             {!item.isLast && (
               <BreadcrumbSeparator
-                className={index === 0 ? 'hidden md:block' : ''}
+                className={index === 0 ? "hidden md:block" : ""}
               />
             )}
           </React.Fragment>

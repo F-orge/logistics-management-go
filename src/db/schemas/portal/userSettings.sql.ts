@@ -1,5 +1,5 @@
 // Drizzle ORM schema for portal_user_settings
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { portalSchema } from './index';
 
 export const userSettings = portalSchema.table('user_settings', {
