@@ -1,7 +1,9 @@
-import { createInsertSchema } from 'drizzle-zod';
+import { createSelectSchema } from 'drizzle-zod';
 import { interactions } from './interactions.sql';
 
-export const insertInteractionSchema = createInsertSchema(interactions).omit({
+export const interactionSchema = createSelectSchema(interactions);
+
+export const insertInteractionSchema = interactionSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,

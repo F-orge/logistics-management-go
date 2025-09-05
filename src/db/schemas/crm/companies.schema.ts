@@ -1,11 +1,13 @@
-import { createInsertSchema } from 'drizzle-zod';
+import { createSelectSchema } from 'drizzle-zod';
 import { companies } from './companies.sql';
 import z from 'zod';
 
-export const insertCompanySchema = createInsertSchema(companies, {
+export const companySchema = createSelectSchema(companies, {
   phoneNumber: z.e164(),
   website: z.url(),
-}).omit({
+});
+
+export const insertCompanySchema = companySchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,

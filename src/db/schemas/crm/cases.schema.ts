@@ -1,7 +1,9 @@
-import { createInsertSchema } from 'drizzle-zod';
+import { createSelectSchema } from 'drizzle-zod';
 import { cases } from './cases.sql';
 
-export const insertCaseSchema = createInsertSchema(cases, {}).omit({
+export const caseSchema = createSelectSchema(cases);
+
+export const insertCaseSchema = caseSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
