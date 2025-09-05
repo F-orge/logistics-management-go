@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_gps_pings
-import { uuid, real, timestamp } from 'drizzle-orm/pg-core';
+import { real, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const gpsPings = tmsSchema.table('gps_pings', {

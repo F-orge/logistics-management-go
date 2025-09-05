@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_task_events
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const taskEvents = dmsSchema.table('task_events', {

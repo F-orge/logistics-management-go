@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_driver_locations
-import { uuid, real, timestamp } from 'drizzle-orm/pg-core';
+import { real, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const driverLocations = dmsSchema.table('driver_locations', {

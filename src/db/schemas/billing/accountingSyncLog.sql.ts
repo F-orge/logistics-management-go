@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_accounting_sync_log
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const accountingSyncLog = billingSchema.table('accounting_sync_log', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_quotes
-import { uuid, varchar, decimal, text, timestamp } from 'drizzle-orm/pg-core';
+import { decimal, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const quotes = billingSchema.table('quotes', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_rate_rules
-import { uuid, varchar, decimal, timestamp } from 'drizzle-orm/pg-core';
+import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const rateRules = billingSchema.table('rate_rules', {

@@ -35,6 +35,7 @@ function createServer(authClient: typeof auth) {
   // orpc integration
   app.use('/api/orpc/*', async (c, next) => {
     const { matched, response } = await orpcHandler.handle(c.req.raw, {
+      prefix: '/api/orpc',
       context: {
         user: c.get('user'),
         session: c.get('session'),

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_partner_invoices
-import { uuid, varchar, decimal, date, timestamp } from 'drizzle-orm/pg-core';
+import { date, decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const partnerInvoices = tmsSchema.table('partner_invoices', {

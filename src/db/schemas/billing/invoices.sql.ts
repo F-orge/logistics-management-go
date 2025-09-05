@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_invoices
-import { uuid, varchar, decimal, date, timestamp } from 'drizzle-orm/pg-core';
+import { date, decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const invoices = billingSchema.table('invoices', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_rate_cards
-import { uuid, varchar, boolean, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const rateCards = billingSchema.table('rate_cards', {

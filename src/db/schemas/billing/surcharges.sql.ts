@@ -1,10 +1,10 @@
 // Drizzle ORM schema for billing_surcharges
 import {
+  boolean,
+  decimal,
+  timestamp,
   uuid,
   varchar,
-  decimal,
-  boolean,
-  timestamp,
 } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 

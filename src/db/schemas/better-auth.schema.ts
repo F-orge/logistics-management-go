@@ -22,4 +22,9 @@ export const emailSignInSchema = emailSignUpSchema
 
 export const userSchema = createSelectSchema(user, {
   image: (schema) => schema.optional(),
+}).omit({
+  role: true,
+  banned: true,
+  banReason: true,
+  banExpires: true,
 });

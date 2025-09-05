@@ -1,5 +1,5 @@
 // Drizzle ORM schema for dms_delivery_routes
-import { uuid, date, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { date, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { dmsSchema } from './index';
 
 export const deliveryRoutes = dmsSchema.table('delivery_routes', {

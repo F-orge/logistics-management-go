@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_disputes
-import { uuid, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const disputes = billingSchema.table('disputes', {

@@ -1,5 +1,5 @@
 // Drizzle ORM schema for billing_invoice_line_items
-import { uuid, varchar, decimal, integer } from 'drizzle-orm/pg-core';
+import { decimal, integer, uuid, varchar } from 'drizzle-orm/pg-core';
 import { billingSchema } from './index';
 
 export const invoiceLineItems = billingSchema.table('invoice_line_items', {

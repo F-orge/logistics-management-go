@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_carrier_rates
-import { uuid, varchar, decimal, timestamp } from 'drizzle-orm/pg-core';
+import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const carrierRates = tmsSchema.table('carrier_rates', {

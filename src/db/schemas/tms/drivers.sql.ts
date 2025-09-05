@@ -1,5 +1,5 @@
 // Drizzle ORM schema for tms_drivers
-import { uuid, varchar, date, timestamp } from 'drizzle-orm/pg-core';
+import { date, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { tmsSchema } from './index';
 
 export const drivers = tmsSchema.table('drivers', {
