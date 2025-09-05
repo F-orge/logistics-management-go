@@ -3,8 +3,8 @@ import { campaigns } from './campaigns.sql';
 import z from 'zod';
 
 export const campaignSchema = createSelectSchema(campaigns, {
-  startDate: z.date(),
-  endDate: z.date(),
+  startDate: z.date().nullable().optional(),
+  endDate: z.date().nullable().optional(),
 });
 
 export const insertCampaignSchema = campaignSchema.omit({

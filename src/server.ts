@@ -1,23 +1,29 @@
 import { RPCHandler } from '@orpc/server/fetch';
 import { Hono } from 'hono';
 import api from './api';
-import { auth } from './lib/auth';
+import { auth, authFactory } from './lib/auth';
+import { db } from './db';
 
-export type GlobalVariables = {
-  user: typeof auth.$Infer.Session.user | null;
-  session: typeof auth.$Infer.Session.session | null;
-  request: Request;
-  auth: typeof auth;
-};
+declare global {
+  export type GlobalVariables = {
+    user: typeof auth.$Infer.Session.user | null;
+    session: typeof auth.$Infer.Session.session | null;
+    request: Request;
+    auth: typeof auth;
+    db: typeof db;
+  };
+}
 
-function createServer(authClient: typeof auth) {
+function createServer(dbClient: typeof db) {
+  const betterAuth = authFactory(dbClient);
+
   const app = new Hono<{ Variables: GlobalVariables }>();
 
   const orpcHandler = new RPCHandler(api);
 
   // better auth integration
   app.use('*', async (c, next) => {
-    const session = await authClient.api.getSession({
+    const session = await betterAuth.api.getSession({
       headers: c.req.raw.headers,
     });
     if (!session) {
@@ -30,7 +36,7 @@ function createServer(authClient: typeof auth) {
     return next();
   });
 
-  app.on(['POST', 'GET'], '/api/auth/*', (c) => authClient.handler(c.req.raw));
+  app.on(['POST', 'GET'], '/api/auth/*', (c) => betterAuth.handler(c.req.raw));
 
   // orpc integration
   app.use('/api/orpc/*', async (c, next) => {
@@ -40,7 +46,8 @@ function createServer(authClient: typeof auth) {
         user: c.get('user'),
         session: c.get('session'),
         request: c.req.raw,
-        auth,
+        auth: betterAuth,
+        db: dbClient,
       },
     });
 
@@ -56,5 +63,5 @@ function createServer(authClient: typeof auth) {
 
 Bun.serve({
   port: '3001',
-  fetch: createServer(auth).fetch,
+  fetch: createServer(db).fetch,
 });

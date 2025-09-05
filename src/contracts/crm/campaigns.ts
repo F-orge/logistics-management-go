@@ -8,7 +8,7 @@ import z from 'zod';
 
 export const create = oc.input(insertCampaignSchema).output(campaignSchema);
 
-export const list = oc.output(campaignSchema);
+export const list = oc.output(z.array(campaignSchema));
 
 export const view = oc.input(z.uuid()).output(campaignSchema);
 
