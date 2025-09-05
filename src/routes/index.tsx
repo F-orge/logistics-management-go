@@ -5,7 +5,6 @@ export const Route = createFileRoute("/")({
   component: RouteComponent,
   loader: async () => {
     const [_, healthCheckMessage] = await orpcSafeClient.health();
-
     return { healthCheckMessage };
   },
 });

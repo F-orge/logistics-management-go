@@ -1,6 +1,7 @@
 // Drizzle ORM schema for crm_companies
-import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { decimal, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { crmSchema } from './index';
+import { user } from '../better-auth.sql';
 
 export const companies = crmSchema.table('companies', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -14,7 +15,7 @@ export const companies = crmSchema.table('companies', {
   industry: varchar('industry', { length: 64 }),
   website: varchar('website', { length: 128 }),
   annualRevenue: decimal('annual_revenue', { precision: 16, scale: 2 }),
-  ownerId: uuid('owner_id'), // FK to users
+  ownerId: text('owner_id').references(() => user.id), // FK to users
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
