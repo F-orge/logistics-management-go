@@ -1,6 +1,6 @@
 import { createSelectSchema } from 'drizzle-zod';
-import { opportunities } from './opportunities.sql';
 import z from 'zod';
+import { opportunities } from './opportunities.sql';
 
 export const opportunitySchema = createSelectSchema(opportunities, {
   expectedCloseDate: z.coerce.date().nullable().optional(),

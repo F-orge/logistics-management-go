@@ -1,7 +1,7 @@
 import { implement, ORPCError } from '@orpc/server';
+import { eq } from 'drizzle-orm';
 import * as contactContracts from '@/contracts/crm/contacts';
 import { contacts } from '@/db/schemas';
-import { eq } from 'drizzle-orm';
 
 export const create = implement(contactContracts.create)
   .$context<GlobalVariables>()

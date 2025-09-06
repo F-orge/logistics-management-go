@@ -1,6 +1,6 @@
 import { createSelectSchema } from 'drizzle-zod';
-import { invoices } from './invoices.sql';
 import z from 'zod';
+import { invoices } from './invoices.sql';
 
 export const invoiceSchema = createSelectSchema(invoices, {
   issueDate: z.date().nullable().optional(),

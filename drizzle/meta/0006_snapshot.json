@@ -94,12 +94,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -176,12 +172,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -191,9 +183,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -282,9 +272,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1286,12 +1274,8 @@
           "name": "cases_owner_id_user_id_fk",
           "tableFrom": "cases",
           "tableTo": "user",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1300,12 +1284,8 @@
           "tableFrom": "cases",
           "tableTo": "contacts",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "contact_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contact_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1414,12 +1394,8 @@
           "name": "companies_owner_id_user_id_fk",
           "tableFrom": "companies",
           "tableTo": "user",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1499,12 +1475,8 @@
           "tableFrom": "contacts",
           "tableTo": "companies",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["company_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1512,12 +1484,8 @@
           "name": "contacts_owner_id_user_id_fk",
           "tableFrom": "contacts",
           "tableTo": "user",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1604,12 +1572,8 @@
           "tableFrom": "interactions",
           "tableTo": "contacts",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "contact_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contact_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1617,12 +1581,8 @@
           "name": "interactions_user_id_user_id_fk",
           "tableFrom": "interactions",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1631,12 +1591,8 @@
           "tableFrom": "interactions",
           "tableTo": "cases",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "case_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["case_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1786,12 +1742,8 @@
           "tableFrom": "invoices",
           "tableTo": "opportunities",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "opportunity_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["opportunity_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1902,12 +1854,8 @@
           "name": "leads_owner_id_user_id_fk",
           "tableFrom": "leads",
           "tableTo": "user",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1916,12 +1864,8 @@
           "tableFrom": "leads",
           "tableTo": "campaigns",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "campaign_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["campaign_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1930,12 +1874,8 @@
           "tableFrom": "leads",
           "tableTo": "contacts",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "converted_contact_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["converted_contact_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1944,12 +1884,8 @@
           "tableFrom": "leads",
           "tableTo": "companies",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "converted_company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["converted_company_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1958,12 +1894,8 @@
           "tableFrom": "leads",
           "tableTo": "opportunities",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "converted_opportunity_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["converted_opportunity_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2072,12 +2004,8 @@
           "name": "opportunities_owner_id_user_id_fk",
           "tableFrom": "opportunities",
           "tableTo": "user",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2086,12 +2014,8 @@
           "tableFrom": "opportunities",
           "tableTo": "contacts",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "contact_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contact_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2100,12 +2024,8 @@
           "tableFrom": "opportunities",
           "tableTo": "companies",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["company_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2114,12 +2034,8 @@
           "tableFrom": "opportunities",
           "tableTo": "campaigns",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "campaign_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["campaign_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -2160,12 +2076,8 @@
           "tableFrom": "opportunity_products",
           "tableTo": "opportunities",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "opportunity_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["opportunity_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -2174,12 +2086,8 @@
           "tableFrom": "opportunity_products",
           "tableTo": "products",
           "schemaTo": "crm",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -5317,30 +5225,17 @@
     "crm.case_priority": {
       "name": "case_priority",
       "schema": "crm",
-      "values": [
-        "high",
-        "medium",
-        "low"
-      ]
+      "values": ["high", "medium", "low"]
     },
     "crm.case_status": {
       "name": "case_status",
       "schema": "crm",
-      "values": [
-        "active",
-        "resolved",
-        "cancelled"
-      ]
+      "values": ["active", "resolved", "cancelled"]
     },
     "crm.interaction_type": {
       "name": "interaction_type",
       "schema": "crm",
-      "values": [
-        "call",
-        "meeting",
-        "text",
-        "email"
-      ]
+      "values": ["call", "meeting", "text", "email"]
     },
     "crm.lead_status": {
       "name": "lead_status",

@@ -1,8 +1,8 @@
 import { oc } from '@orpc/contract';
 import z from 'zod';
 import {
-  opportunitySchema,
   insertOpportunitySchema,
+  opportunitySchema,
   updateOpportunitySchema,
 } from '@/db/schemas/crm/opportunities.schema';
 

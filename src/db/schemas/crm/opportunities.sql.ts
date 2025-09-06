@@ -8,11 +8,11 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { crmSchema } from './index';
-import { contacts } from './contacts.sql';
-import { companies } from './companies.sql';
-import { campaigns } from './campaigns.sql';
 import { user } from '../better-auth.sql';
+import { campaigns } from './campaigns.sql';
+import { companies } from './companies.sql';
+import { contacts } from './contacts.sql';
+import { crmSchema } from './index';
 
 export const opportunities = crmSchema.table('opportunities', {
   id: uuid('id').primaryKey().defaultRandom(),
