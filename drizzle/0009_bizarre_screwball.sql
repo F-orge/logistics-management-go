@@ -1,0 +1,2 @@
+CREATE TYPE "wms"."location_type" AS ENUM('zone', 'aisle', 'rack', 'bin');--> statement-breakpoint
+ALTER TABLE "wms"."locations" ALTER COLUMN "type" SET DATA TYPE "wms"."location_type" USING "type"::"wms"."location_type";

@@ -12,6 +12,8 @@ import * as crmOpportunities from './crm/opportunities';
 import * as crmProducts from './crm/products';
 import * as imsProducts from './ims/products';
 import * as imsInventoryLevel from './ims/inventory_levels';
+import * as wmsWarehouse from './wms/warehouse';
+import * as wmsLocations from './wms/locations';
 import health from './health';
 
 export default {
@@ -35,5 +37,9 @@ export default {
   ims: {
     products: imsProducts,
     inventoryLevel: imsInventoryLevel,
+  },
+  wms: {
+    warehouse: wmsWarehouse,
+    locations: wmsLocations,
   },
 };
