@@ -1,19 +1,28 @@
 // Drizzle ORM schema for ims_inventory_adjustments
 import { integer, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { imsSchema } from './index';
+import { imsProducts } from './products.sql';
+import { warehouses } from '../wms/warehouse.sql';
+import { user } from '../better-auth.sql';
 
 export const inventoryAdjustments = imsSchema.table('inventory_adjustments', {
   id: uuid('id').primaryKey().defaultRandom(),
-  product_id: uuid('product_id').notNull(), // FK to ims_products
-  warehouse_id: uuid('warehouse_id').notNull(), // FK to ims_warehouses
-  user_id: uuid('user_id').notNull(), // FK to users
-  quantity_change: integer('quantity_change').notNull(),
+  productId: uuid('product_id')
+    .references(() => imsProducts.id)
+    .notNull(), // FK to ims_products
+  warehouseId: uuid('warehouse_id')
+    .references(() => warehouses.id)
+    .notNull(), // FK to ims_warehouses
+  userId: text('user_id')
+    .references(() => user.id)
+    .notNull(), // FK to users
+  quantityChange: integer('quantity_change').notNull(),
   reason: varchar('reason', { length: 64 }).notNull(), // e.g., cycle_count, damaged_goods
   notes: text('notes'),
-  created_at: timestamp('created_at', { withTimezone: true })
+  createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
-  updated_at: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
 });

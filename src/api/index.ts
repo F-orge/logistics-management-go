@@ -14,6 +14,7 @@ import * as imsProducts from './ims/products';
 import * as imsInventoryLevel from './ims/inventory_levels';
 import * as wmsWarehouse from './wms/warehouse';
 import * as wmsLocations from './wms/locations';
+import * as imsInventoryAdjustment from './ims/inventory_adjustments';
 import health from './health';
 
 export default {
@@ -37,6 +38,7 @@ export default {
   ims: {
     products: imsProducts,
     inventoryLevel: imsInventoryLevel,
+    adjustments: imsInventoryAdjustment,
   },
   wms: {
     warehouse: wmsWarehouse,
