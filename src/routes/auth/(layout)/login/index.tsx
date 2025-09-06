@@ -1,11 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { GalleryVerticalEnd } from "lucide-react";
-import { toast } from "sonner";
-import { LoginForm } from "./-form";
-import { useAppForm } from "@/components/ui/form";
-import { orpcSafeClient } from "@/index";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { GalleryVerticalEnd } from 'lucide-react';
+import { toast } from 'sonner';
+import { useAppForm } from '@/components/ui/form';
+import { orpcSafeClient } from '@/index';
+import { LoginForm } from './-form';
 
-export const Route = createFileRoute("/auth/(layout)/login/")({
+export const Route = createFileRoute('/auth/(layout)/login/')({
   component: RouteComponent,
   // beforeLoad: () => {
   //   if (pb.authStore.isValid) throw redirect({ to: '/dashboard/crm/leads' });
@@ -13,10 +13,10 @@ export const Route = createFileRoute("/auth/(layout)/login/")({
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/auth/login" });
+  const navigate = useNavigate({ from: '/auth/login' });
 
   const form = useAppForm({
-    defaultValues: {} as ORPCInputs["auth"]["signIn"],
+    defaultValues: {} as ORPCInputs['auth']['signIn'],
     onSubmit: async ({ value }) => {
       const [error, result] = await orpcSafeClient.auth.signIn(value);
 
@@ -24,10 +24,10 @@ function RouteComponent() {
 
       if (result!.redirect) navigate({ to: result!.url });
 
-      localStorage.setItem("orpc-jwt-token", result!.token);
-      localStorage.setItem("orpc-jwt-user", JSON.stringify(result!.user));
+      localStorage.setItem('orpc-jwt-token', result!.token);
+      localStorage.setItem('orpc-jwt-user', JSON.stringify(result!.user));
 
-      navigate({ to: "/dashboard/crm/leads" });
+      navigate({ to: '/dashboard/crm/leads' });
     },
   });
 
@@ -42,9 +42,7 @@ function RouteComponent() {
     >
       <form.AppForm>
         <LoginForm form={form} />
-        <form.SubmitButton className="col-span-full">
-          Sign in
-        </form.SubmitButton>
+        <form.SubmitButton className="col-span-full">Sign in</form.SubmitButton>
       </form.AppForm>
     </form>
   );

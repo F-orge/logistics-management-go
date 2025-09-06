@@ -1,13 +1,13 @@
 // Drizzle ORM schema for crm_campaigns
-import { date, decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { crmSchema } from './index';
 
 export const campaigns = crmSchema.table('campaigns', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 128 }).notNull(),
   budget: decimal('budget', { precision: 16, scale: 2 }),
-  startDate: date('start_date'),
-  endDate: date('end_date'),
+  startDate: timestamp('start_date', { withTimezone: true }),
+  endDate: timestamp('end_date', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

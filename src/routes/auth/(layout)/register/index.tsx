@@ -1,26 +1,26 @@
-import { useAppForm } from "@/components/ui/form";
-import { orpcSafeClient } from "@/index";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
-import { RegisterForm } from "./-form";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import { useAppForm } from '@/components/ui/form';
+import { orpcSafeClient } from '@/index';
+import { RegisterForm } from './-form';
 
-export const Route = createFileRoute("/auth/(layout)/register/")({
+export const Route = createFileRoute('/auth/(layout)/register/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/auth/register" });
+  const navigate = useNavigate({ from: '/auth/register' });
 
   const form = useAppForm({
-    defaultValues: {} as ORPCInputs["auth"]["signUp"] & {
+    defaultValues: {} as ORPCInputs['auth']['signUp'] & {
       confirmPassword: string;
     },
     onSubmit: async ({ value }) => {
       const [error, result] = await orpcSafeClient.auth.signUp(value);
 
       if (value.password !== value.confirmPassword) {
-        toast.error("Invalid Input", {
-          description: "Password does not match",
+        toast.error('Invalid Input', {
+          description: 'Password does not match',
         });
       }
 
@@ -28,10 +28,10 @@ function RouteComponent() {
 
       // if we have token redirect directly to dashboard
       if (result!.token) {
-        localStorage.setItem("orpc-jwt-token", result!.token);
-        navigate({ to: "/dashboard" });
+        localStorage.setItem('orpc-jwt-token', result!.token);
+        navigate({ to: '/dashboard' });
       } else {
-        navigate({ to: "/auth/login" });
+        navigate({ to: '/auth/login' });
       }
     },
   });

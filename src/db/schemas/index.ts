@@ -31,7 +31,6 @@ export * from './crm/interactions.sql.ts';
 export * from './crm/invoiceItems.sql.ts';
 export * from './crm/invoices.sql.ts';
 export * from './crm/leads.sql.ts';
-export * from './crm/notifications.sql.ts';
 export * from './crm/opportunities.sql.ts';
 export * from './crm/opportunityProducts.sql.ts';
 export * from './crm/products.sql.ts';

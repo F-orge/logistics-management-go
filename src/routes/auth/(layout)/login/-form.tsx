@@ -1,7 +1,7 @@
-import { withForm } from "@/components/ui/form";
+import { withForm } from '@/components/ui/form';
 
 export const LoginForm = withForm({
-  defaultValues: {} as ORPCInputs["auth"]["signIn"],
+  defaultValues: {} as ORPCInputs['auth']['signIn'],
   render: function ({ form }) {
     return (
       <>

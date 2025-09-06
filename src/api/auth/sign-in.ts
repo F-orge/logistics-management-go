@@ -1,7 +1,7 @@
 import { implement, ORPCError } from '@orpc/server';
+import { APIError } from 'better-auth';
 import signIn from '@/contracts/auth/sign-in';
 import type { GlobalVariables } from '@/server';
-import { APIError } from 'better-auth';
 
 export default implement(signIn)
   .$context<GlobalVariables>()

@@ -8,279 +8,279 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as AuthRouteRouteImport } from './routes/auth/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardTmsVehiclesIndexRouteImport } from './routes/dashboard/tms/vehicles/index'
-import { Route as DashboardTmsDriversIndexRouteImport } from './routes/dashboard/tms/drivers/index'
-import { Route as DashboardOrgTeamsIndexRouteImport } from './routes/dashboard/org/teams/index'
-import { Route as DashboardOrgRolesIndexRouteImport } from './routes/dashboard/org/roles/index'
-import { Route as DashboardOrgOrganizationIndexRouteImport } from './routes/dashboard/org/organization/index'
-import { Route as DashboardLmsWarehousesIndexRouteImport } from './routes/dashboard/lms/warehouses/index'
-import { Route as DashboardLmsShippingIndexRouteImport } from './routes/dashboard/lms/shipping/index'
-import { Route as DashboardLmsShipmentsIndexRouteImport } from './routes/dashboard/lms/shipments/index'
-import { Route as DashboardLmsProvidersIndexRouteImport } from './routes/dashboard/lms/providers/index'
-import { Route as DashboardLmsPricingIndexRouteImport } from './routes/dashboard/lms/pricing/index'
-import { Route as DashboardLmsPackagesIndexRouteImport } from './routes/dashboard/lms/packages/index'
-import { Route as DashboardLmsInventoriesIndexRouteImport } from './routes/dashboard/lms/inventories/index'
-import { Route as DashboardLmsAddressesIndexRouteImport } from './routes/dashboard/lms/addresses/index'
-import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index'
-import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index'
-import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
-import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
-import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
-import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index'
-import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
-import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
-import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
-import { Route as AuthlayoutRegisterIndexRouteImport } from './routes/auth/(layout)/register/index'
-import { Route as AuthlayoutLoginIndexRouteImport } from './routes/auth/(layout)/login/index'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as AuthlayoutLoginIndexRouteImport } from './routes/auth/(layout)/login/index';
+import { Route as AuthlayoutRegisterIndexRouteImport } from './routes/auth/(layout)/register/index';
+import { Route as AuthRouteRouteImport } from './routes/auth/route';
+import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index';
+import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index';
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index';
+import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index';
+import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index';
+import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index';
+import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index';
+import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index';
+import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index';
+import { Route as DashboardLmsAddressesIndexRouteImport } from './routes/dashboard/lms/addresses/index';
+import { Route as DashboardLmsInventoriesIndexRouteImport } from './routes/dashboard/lms/inventories/index';
+import { Route as DashboardLmsPackagesIndexRouteImport } from './routes/dashboard/lms/packages/index';
+import { Route as DashboardLmsPricingIndexRouteImport } from './routes/dashboard/lms/pricing/index';
+import { Route as DashboardLmsProvidersIndexRouteImport } from './routes/dashboard/lms/providers/index';
+import { Route as DashboardLmsShipmentsIndexRouteImport } from './routes/dashboard/lms/shipments/index';
+import { Route as DashboardLmsShippingIndexRouteImport } from './routes/dashboard/lms/shipping/index';
+import { Route as DashboardLmsWarehousesIndexRouteImport } from './routes/dashboard/lms/warehouses/index';
+import { Route as DashboardOrgOrganizationIndexRouteImport } from './routes/dashboard/org/organization/index';
+import { Route as DashboardOrgRolesIndexRouteImport } from './routes/dashboard/org/roles/index';
+import { Route as DashboardOrgTeamsIndexRouteImport } from './routes/dashboard/org/teams/index';
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route';
+import { Route as DashboardTmsDriversIndexRouteImport } from './routes/dashboard/tms/drivers/index';
+import { Route as DashboardTmsVehiclesIndexRouteImport } from './routes/dashboard/tms/vehicles/index';
+import { Route as IndexRouteImport } from './routes/index';
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const DashboardTmsVehiclesIndexRoute =
   DashboardTmsVehiclesIndexRouteImport.update({
     id: '/tms/vehicles/',
     path: '/tms/vehicles/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardTmsDriversIndexRoute =
   DashboardTmsDriversIndexRouteImport.update({
     id: '/tms/drivers/',
     path: '/tms/drivers/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardOrgTeamsIndexRoute = DashboardOrgTeamsIndexRouteImport.update({
   id: '/org/teams/',
   path: '/org/teams/',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
+} as any);
 const DashboardOrgRolesIndexRoute = DashboardOrgRolesIndexRouteImport.update({
   id: '/org/roles/',
   path: '/org/roles/',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
+} as any);
 const DashboardOrgOrganizationIndexRoute =
   DashboardOrgOrganizationIndexRouteImport.update({
     id: '/org/organization/',
     path: '/org/organization/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsWarehousesIndexRoute =
   DashboardLmsWarehousesIndexRouteImport.update({
     id: '/lms/warehouses/',
     path: '/lms/warehouses/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsShippingIndexRoute =
   DashboardLmsShippingIndexRouteImport.update({
     id: '/lms/shipping/',
     path: '/lms/shipping/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsShipmentsIndexRoute =
   DashboardLmsShipmentsIndexRouteImport.update({
     id: '/lms/shipments/',
     path: '/lms/shipments/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsProvidersIndexRoute =
   DashboardLmsProvidersIndexRouteImport.update({
     id: '/lms/providers/',
     path: '/lms/providers/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsPricingIndexRoute =
   DashboardLmsPricingIndexRouteImport.update({
     id: '/lms/pricing/',
     path: '/lms/pricing/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsPackagesIndexRoute =
   DashboardLmsPackagesIndexRouteImport.update({
     id: '/lms/packages/',
     path: '/lms/packages/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsInventoriesIndexRoute =
   DashboardLmsInventoriesIndexRouteImport.update({
     id: '/lms/inventories/',
     path: '/lms/inventories/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardLmsAddressesIndexRoute =
   DashboardLmsAddressesIndexRouteImport.update({
     id: '/lms/addresses/',
     path: '/lms/addresses/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmProductsIndexRoute =
   DashboardCrmProductsIndexRouteImport.update({
     id: '/crm/products/',
     path: '/crm/products/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmOpportunitiesIndexRoute =
   DashboardCrmOpportunitiesIndexRouteImport.update({
     id: '/crm/opportunities/',
     path: '/crm/opportunities/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
   id: '/crm/leads/',
   path: '/crm/leads/',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
+} as any);
 const DashboardCrmInvoicesIndexRoute =
   DashboardCrmInvoicesIndexRouteImport.update({
     id: '/crm/invoices/',
     path: '/crm/invoices/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmInteractionsIndexRoute =
   DashboardCrmInteractionsIndexRouteImport.update({
     id: '/crm/interactions/',
     path: '/crm/interactions/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmContactsIndexRoute =
   DashboardCrmContactsIndexRouteImport.update({
     id: '/crm/contacts/',
     path: '/crm/contacts/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmCompaniesIndexRoute =
   DashboardCrmCompaniesIndexRouteImport.update({
     id: '/crm/companies/',
     path: '/crm/companies/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const DashboardCrmCasesIndexRoute = DashboardCrmCasesIndexRouteImport.update({
   id: '/crm/cases/',
   path: '/crm/cases/',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
+} as any);
 const DashboardCrmCampaignsIndexRoute =
   DashboardCrmCampaignsIndexRouteImport.update({
     id: '/crm/campaigns/',
     path: '/crm/campaigns/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any)
+  } as any);
 const AuthlayoutRegisterIndexRoute = AuthlayoutRegisterIndexRouteImport.update({
   id: '/(layout)/register/',
   path: '/register/',
   getParentRoute: () => AuthRouteRoute,
-} as any)
+} as any);
 const AuthlayoutLoginIndexRoute = AuthlayoutLoginIndexRouteImport.update({
   id: '/(layout)/login/',
   path: '/login/',
   getParentRoute: () => AuthRouteRoute,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/auth/login': typeof AuthlayoutLoginIndexRoute
-  '/auth/register': typeof AuthlayoutRegisterIndexRoute
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
-  '/dashboard/lms/addresses': typeof DashboardLmsAddressesIndexRoute
-  '/dashboard/lms/inventories': typeof DashboardLmsInventoriesIndexRoute
-  '/dashboard/lms/packages': typeof DashboardLmsPackagesIndexRoute
-  '/dashboard/lms/pricing': typeof DashboardLmsPricingIndexRoute
-  '/dashboard/lms/providers': typeof DashboardLmsProvidersIndexRoute
-  '/dashboard/lms/shipments': typeof DashboardLmsShipmentsIndexRoute
-  '/dashboard/lms/shipping': typeof DashboardLmsShippingIndexRoute
-  '/dashboard/lms/warehouses': typeof DashboardLmsWarehousesIndexRoute
-  '/dashboard/org/organization': typeof DashboardOrgOrganizationIndexRoute
-  '/dashboard/org/roles': typeof DashboardOrgRolesIndexRoute
-  '/dashboard/org/teams': typeof DashboardOrgTeamsIndexRoute
-  '/dashboard/tms/drivers': typeof DashboardTmsDriversIndexRoute
-  '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesIndexRoute
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteRouteWithChildren;
+  '/dashboard': typeof DashboardRouteRouteWithChildren;
+  '/auth/login': typeof AuthlayoutLoginIndexRoute;
+  '/auth/register': typeof AuthlayoutRegisterIndexRoute;
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
+  '/dashboard/lms/addresses': typeof DashboardLmsAddressesIndexRoute;
+  '/dashboard/lms/inventories': typeof DashboardLmsInventoriesIndexRoute;
+  '/dashboard/lms/packages': typeof DashboardLmsPackagesIndexRoute;
+  '/dashboard/lms/pricing': typeof DashboardLmsPricingIndexRoute;
+  '/dashboard/lms/providers': typeof DashboardLmsProvidersIndexRoute;
+  '/dashboard/lms/shipments': typeof DashboardLmsShipmentsIndexRoute;
+  '/dashboard/lms/shipping': typeof DashboardLmsShippingIndexRoute;
+  '/dashboard/lms/warehouses': typeof DashboardLmsWarehousesIndexRoute;
+  '/dashboard/org/organization': typeof DashboardOrgOrganizationIndexRoute;
+  '/dashboard/org/roles': typeof DashboardOrgRolesIndexRoute;
+  '/dashboard/org/teams': typeof DashboardOrgTeamsIndexRoute;
+  '/dashboard/tms/drivers': typeof DashboardTmsDriversIndexRoute;
+  '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/auth/login': typeof AuthlayoutLoginIndexRoute
-  '/auth/register': typeof AuthlayoutRegisterIndexRoute
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
-  '/dashboard/lms/addresses': typeof DashboardLmsAddressesIndexRoute
-  '/dashboard/lms/inventories': typeof DashboardLmsInventoriesIndexRoute
-  '/dashboard/lms/packages': typeof DashboardLmsPackagesIndexRoute
-  '/dashboard/lms/pricing': typeof DashboardLmsPricingIndexRoute
-  '/dashboard/lms/providers': typeof DashboardLmsProvidersIndexRoute
-  '/dashboard/lms/shipments': typeof DashboardLmsShipmentsIndexRoute
-  '/dashboard/lms/shipping': typeof DashboardLmsShippingIndexRoute
-  '/dashboard/lms/warehouses': typeof DashboardLmsWarehousesIndexRoute
-  '/dashboard/org/organization': typeof DashboardOrgOrganizationIndexRoute
-  '/dashboard/org/roles': typeof DashboardOrgRolesIndexRoute
-  '/dashboard/org/teams': typeof DashboardOrgTeamsIndexRoute
-  '/dashboard/tms/drivers': typeof DashboardTmsDriversIndexRoute
-  '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesIndexRoute
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteRouteWithChildren;
+  '/dashboard': typeof DashboardRouteRouteWithChildren;
+  '/auth/login': typeof AuthlayoutLoginIndexRoute;
+  '/auth/register': typeof AuthlayoutRegisterIndexRoute;
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
+  '/dashboard/lms/addresses': typeof DashboardLmsAddressesIndexRoute;
+  '/dashboard/lms/inventories': typeof DashboardLmsInventoriesIndexRoute;
+  '/dashboard/lms/packages': typeof DashboardLmsPackagesIndexRoute;
+  '/dashboard/lms/pricing': typeof DashboardLmsPricingIndexRoute;
+  '/dashboard/lms/providers': typeof DashboardLmsProvidersIndexRoute;
+  '/dashboard/lms/shipments': typeof DashboardLmsShipmentsIndexRoute;
+  '/dashboard/lms/shipping': typeof DashboardLmsShippingIndexRoute;
+  '/dashboard/lms/warehouses': typeof DashboardLmsWarehousesIndexRoute;
+  '/dashboard/org/organization': typeof DashboardOrgOrganizationIndexRoute;
+  '/dashboard/org/roles': typeof DashboardOrgRolesIndexRoute;
+  '/dashboard/org/teams': typeof DashboardOrgTeamsIndexRoute;
+  '/dashboard/tms/drivers': typeof DashboardTmsDriversIndexRoute;
+  '/dashboard/tms/vehicles': typeof DashboardTmsVehiclesIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/auth/(layout)/login/': typeof AuthlayoutLoginIndexRoute
-  '/auth/(layout)/register/': typeof AuthlayoutRegisterIndexRoute
-  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
-  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
-  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
-  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute
-  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
-  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
-  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
-  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute
-  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute
-  '/dashboard/lms/addresses/': typeof DashboardLmsAddressesIndexRoute
-  '/dashboard/lms/inventories/': typeof DashboardLmsInventoriesIndexRoute
-  '/dashboard/lms/packages/': typeof DashboardLmsPackagesIndexRoute
-  '/dashboard/lms/pricing/': typeof DashboardLmsPricingIndexRoute
-  '/dashboard/lms/providers/': typeof DashboardLmsProvidersIndexRoute
-  '/dashboard/lms/shipments/': typeof DashboardLmsShipmentsIndexRoute
-  '/dashboard/lms/shipping/': typeof DashboardLmsShippingIndexRoute
-  '/dashboard/lms/warehouses/': typeof DashboardLmsWarehousesIndexRoute
-  '/dashboard/org/organization/': typeof DashboardOrgOrganizationIndexRoute
-  '/dashboard/org/roles/': typeof DashboardOrgRolesIndexRoute
-  '/dashboard/org/teams/': typeof DashboardOrgTeamsIndexRoute
-  '/dashboard/tms/drivers/': typeof DashboardTmsDriversIndexRoute
-  '/dashboard/tms/vehicles/': typeof DashboardTmsVehiclesIndexRoute
+  __root__: typeof rootRouteImport;
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteRouteWithChildren;
+  '/dashboard': typeof DashboardRouteRouteWithChildren;
+  '/auth/(layout)/login/': typeof AuthlayoutLoginIndexRoute;
+  '/auth/(layout)/register/': typeof AuthlayoutRegisterIndexRoute;
+  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute;
+  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute;
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute;
+  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute;
+  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute;
+  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute;
+  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute;
+  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute;
+  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute;
+  '/dashboard/lms/addresses/': typeof DashboardLmsAddressesIndexRoute;
+  '/dashboard/lms/inventories/': typeof DashboardLmsInventoriesIndexRoute;
+  '/dashboard/lms/packages/': typeof DashboardLmsPackagesIndexRoute;
+  '/dashboard/lms/pricing/': typeof DashboardLmsPricingIndexRoute;
+  '/dashboard/lms/providers/': typeof DashboardLmsProvidersIndexRoute;
+  '/dashboard/lms/shipments/': typeof DashboardLmsShipmentsIndexRoute;
+  '/dashboard/lms/shipping/': typeof DashboardLmsShippingIndexRoute;
+  '/dashboard/lms/warehouses/': typeof DashboardLmsWarehousesIndexRoute;
+  '/dashboard/org/organization/': typeof DashboardOrgOrganizationIndexRoute;
+  '/dashboard/org/roles/': typeof DashboardOrgRolesIndexRoute;
+  '/dashboard/org/teams/': typeof DashboardOrgTeamsIndexRoute;
+  '/dashboard/tms/drivers/': typeof DashboardTmsDriversIndexRoute;
+  '/dashboard/tms/vehicles/': typeof DashboardTmsVehiclesIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
     | '/auth'
@@ -308,8 +308,8 @@ export interface FileRouteTypes {
     | '/dashboard/org/roles'
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
-    | '/dashboard/tms/vehicles'
-  fileRoutesByTo: FileRoutesByTo
+    | '/dashboard/tms/vehicles';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
     | '/auth'
@@ -337,7 +337,7 @@ export interface FileRouteTypes {
     | '/dashboard/org/roles'
     | '/dashboard/org/teams'
     | '/dashboard/tms/drivers'
-    | '/dashboard/tms/vehicles'
+    | '/dashboard/tms/vehicles';
   id:
     | '__root__'
     | '/'
@@ -366,246 +366,246 @@ export interface FileRouteTypes {
     | '/dashboard/org/roles/'
     | '/dashboard/org/teams/'
     | '/dashboard/tms/drivers/'
-    | '/dashboard/tms/vehicles/'
-  fileRoutesById: FileRoutesById
+    | '/dashboard/tms/vehicles/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  IndexRoute: typeof IndexRoute;
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren;
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/dashboard';
+      path: '/dashboard';
+      fullPath: '/dashboard';
+      preLoaderRoute: typeof DashboardRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/auth';
+      path: '/auth';
+      fullPath: '/auth';
+      preLoaderRoute: typeof AuthRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/dashboard/tms/vehicles/': {
-      id: '/dashboard/tms/vehicles/'
-      path: '/tms/vehicles'
-      fullPath: '/dashboard/tms/vehicles'
-      preLoaderRoute: typeof DashboardTmsVehiclesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/tms/vehicles/';
+      path: '/tms/vehicles';
+      fullPath: '/dashboard/tms/vehicles';
+      preLoaderRoute: typeof DashboardTmsVehiclesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/tms/drivers/': {
-      id: '/dashboard/tms/drivers/'
-      path: '/tms/drivers'
-      fullPath: '/dashboard/tms/drivers'
-      preLoaderRoute: typeof DashboardTmsDriversIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/tms/drivers/';
+      path: '/tms/drivers';
+      fullPath: '/dashboard/tms/drivers';
+      preLoaderRoute: typeof DashboardTmsDriversIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/org/teams/': {
-      id: '/dashboard/org/teams/'
-      path: '/org/teams'
-      fullPath: '/dashboard/org/teams'
-      preLoaderRoute: typeof DashboardOrgTeamsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/org/teams/';
+      path: '/org/teams';
+      fullPath: '/dashboard/org/teams';
+      preLoaderRoute: typeof DashboardOrgTeamsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/org/roles/': {
-      id: '/dashboard/org/roles/'
-      path: '/org/roles'
-      fullPath: '/dashboard/org/roles'
-      preLoaderRoute: typeof DashboardOrgRolesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/org/roles/';
+      path: '/org/roles';
+      fullPath: '/dashboard/org/roles';
+      preLoaderRoute: typeof DashboardOrgRolesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/org/organization/': {
-      id: '/dashboard/org/organization/'
-      path: '/org/organization'
-      fullPath: '/dashboard/org/organization'
-      preLoaderRoute: typeof DashboardOrgOrganizationIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/org/organization/';
+      path: '/org/organization';
+      fullPath: '/dashboard/org/organization';
+      preLoaderRoute: typeof DashboardOrgOrganizationIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/warehouses/': {
-      id: '/dashboard/lms/warehouses/'
-      path: '/lms/warehouses'
-      fullPath: '/dashboard/lms/warehouses'
-      preLoaderRoute: typeof DashboardLmsWarehousesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/warehouses/';
+      path: '/lms/warehouses';
+      fullPath: '/dashboard/lms/warehouses';
+      preLoaderRoute: typeof DashboardLmsWarehousesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/shipping/': {
-      id: '/dashboard/lms/shipping/'
-      path: '/lms/shipping'
-      fullPath: '/dashboard/lms/shipping'
-      preLoaderRoute: typeof DashboardLmsShippingIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/shipping/';
+      path: '/lms/shipping';
+      fullPath: '/dashboard/lms/shipping';
+      preLoaderRoute: typeof DashboardLmsShippingIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/shipments/': {
-      id: '/dashboard/lms/shipments/'
-      path: '/lms/shipments'
-      fullPath: '/dashboard/lms/shipments'
-      preLoaderRoute: typeof DashboardLmsShipmentsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/shipments/';
+      path: '/lms/shipments';
+      fullPath: '/dashboard/lms/shipments';
+      preLoaderRoute: typeof DashboardLmsShipmentsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/providers/': {
-      id: '/dashboard/lms/providers/'
-      path: '/lms/providers'
-      fullPath: '/dashboard/lms/providers'
-      preLoaderRoute: typeof DashboardLmsProvidersIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/providers/';
+      path: '/lms/providers';
+      fullPath: '/dashboard/lms/providers';
+      preLoaderRoute: typeof DashboardLmsProvidersIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/pricing/': {
-      id: '/dashboard/lms/pricing/'
-      path: '/lms/pricing'
-      fullPath: '/dashboard/lms/pricing'
-      preLoaderRoute: typeof DashboardLmsPricingIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/pricing/';
+      path: '/lms/pricing';
+      fullPath: '/dashboard/lms/pricing';
+      preLoaderRoute: typeof DashboardLmsPricingIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/packages/': {
-      id: '/dashboard/lms/packages/'
-      path: '/lms/packages'
-      fullPath: '/dashboard/lms/packages'
-      preLoaderRoute: typeof DashboardLmsPackagesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/packages/';
+      path: '/lms/packages';
+      fullPath: '/dashboard/lms/packages';
+      preLoaderRoute: typeof DashboardLmsPackagesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/inventories/': {
-      id: '/dashboard/lms/inventories/'
-      path: '/lms/inventories'
-      fullPath: '/dashboard/lms/inventories'
-      preLoaderRoute: typeof DashboardLmsInventoriesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/inventories/';
+      path: '/lms/inventories';
+      fullPath: '/dashboard/lms/inventories';
+      preLoaderRoute: typeof DashboardLmsInventoriesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/lms/addresses/': {
-      id: '/dashboard/lms/addresses/'
-      path: '/lms/addresses'
-      fullPath: '/dashboard/lms/addresses'
-      preLoaderRoute: typeof DashboardLmsAddressesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/lms/addresses/';
+      path: '/lms/addresses';
+      fullPath: '/dashboard/lms/addresses';
+      preLoaderRoute: typeof DashboardLmsAddressesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/products/': {
-      id: '/dashboard/crm/products/'
-      path: '/crm/products'
-      fullPath: '/dashboard/crm/products'
-      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/products/';
+      path: '/crm/products';
+      fullPath: '/dashboard/crm/products';
+      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/opportunities/': {
-      id: '/dashboard/crm/opportunities/'
-      path: '/crm/opportunities'
-      fullPath: '/dashboard/crm/opportunities'
-      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/opportunities/';
+      path: '/crm/opportunities';
+      fullPath: '/dashboard/crm/opportunities';
+      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/leads/': {
-      id: '/dashboard/crm/leads/'
-      path: '/crm/leads'
-      fullPath: '/dashboard/crm/leads'
-      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/leads/';
+      path: '/crm/leads';
+      fullPath: '/dashboard/crm/leads';
+      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/invoices/': {
-      id: '/dashboard/crm/invoices/'
-      path: '/crm/invoices'
-      fullPath: '/dashboard/crm/invoices'
-      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/invoices/';
+      path: '/crm/invoices';
+      fullPath: '/dashboard/crm/invoices';
+      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/interactions/': {
-      id: '/dashboard/crm/interactions/'
-      path: '/crm/interactions'
-      fullPath: '/dashboard/crm/interactions'
-      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/interactions/';
+      path: '/crm/interactions';
+      fullPath: '/dashboard/crm/interactions';
+      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/contacts/': {
-      id: '/dashboard/crm/contacts/'
-      path: '/crm/contacts'
-      fullPath: '/dashboard/crm/contacts'
-      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/contacts/';
+      path: '/crm/contacts';
+      fullPath: '/dashboard/crm/contacts';
+      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/companies/': {
-      id: '/dashboard/crm/companies/'
-      path: '/crm/companies'
-      fullPath: '/dashboard/crm/companies'
-      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/companies/';
+      path: '/crm/companies';
+      fullPath: '/dashboard/crm/companies';
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/cases/': {
-      id: '/dashboard/crm/cases/'
-      path: '/crm/cases'
-      fullPath: '/dashboard/crm/cases'
-      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/cases/';
+      path: '/crm/cases';
+      fullPath: '/dashboard/crm/cases';
+      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/dashboard/crm/campaigns/': {
-      id: '/dashboard/crm/campaigns/'
-      path: '/crm/campaigns'
-      fullPath: '/dashboard/crm/campaigns'
-      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
+      id: '/dashboard/crm/campaigns/';
+      path: '/crm/campaigns';
+      fullPath: '/dashboard/crm/campaigns';
+      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
     '/auth/(layout)/register/': {
-      id: '/auth/(layout)/register/'
-      path: '/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthlayoutRegisterIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
+      id: '/auth/(layout)/register/';
+      path: '/register';
+      fullPath: '/auth/register';
+      preLoaderRoute: typeof AuthlayoutRegisterIndexRouteImport;
+      parentRoute: typeof AuthRouteRoute;
+    };
     '/auth/(layout)/login/': {
-      id: '/auth/(layout)/login/'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthlayoutLoginIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
+      id: '/auth/(layout)/login/';
+      path: '/login';
+      fullPath: '/auth/login';
+      preLoaderRoute: typeof AuthlayoutLoginIndexRouteImport;
+      parentRoute: typeof AuthRouteRoute;
+    };
   }
 }
 
 interface AuthRouteRouteChildren {
-  AuthlayoutLoginIndexRoute: typeof AuthlayoutLoginIndexRoute
-  AuthlayoutRegisterIndexRoute: typeof AuthlayoutRegisterIndexRoute
+  AuthlayoutLoginIndexRoute: typeof AuthlayoutLoginIndexRoute;
+  AuthlayoutRegisterIndexRoute: typeof AuthlayoutRegisterIndexRoute;
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthlayoutLoginIndexRoute: AuthlayoutLoginIndexRoute,
   AuthlayoutRegisterIndexRoute: AuthlayoutRegisterIndexRoute,
-}
+};
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
-)
+);
 
 interface DashboardRouteRouteChildren {
-  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
-  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
-  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
-  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute
-  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
-  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
-  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
-  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute
-  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute
-  DashboardLmsAddressesIndexRoute: typeof DashboardLmsAddressesIndexRoute
-  DashboardLmsInventoriesIndexRoute: typeof DashboardLmsInventoriesIndexRoute
-  DashboardLmsPackagesIndexRoute: typeof DashboardLmsPackagesIndexRoute
-  DashboardLmsPricingIndexRoute: typeof DashboardLmsPricingIndexRoute
-  DashboardLmsProvidersIndexRoute: typeof DashboardLmsProvidersIndexRoute
-  DashboardLmsShipmentsIndexRoute: typeof DashboardLmsShipmentsIndexRoute
-  DashboardLmsShippingIndexRoute: typeof DashboardLmsShippingIndexRoute
-  DashboardLmsWarehousesIndexRoute: typeof DashboardLmsWarehousesIndexRoute
-  DashboardOrgOrganizationIndexRoute: typeof DashboardOrgOrganizationIndexRoute
-  DashboardOrgRolesIndexRoute: typeof DashboardOrgRolesIndexRoute
-  DashboardOrgTeamsIndexRoute: typeof DashboardOrgTeamsIndexRoute
-  DashboardTmsDriversIndexRoute: typeof DashboardTmsDriversIndexRoute
-  DashboardTmsVehiclesIndexRoute: typeof DashboardTmsVehiclesIndexRoute
+  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute;
+  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute;
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute;
+  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute;
+  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute;
+  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute;
+  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute;
+  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute;
+  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute;
+  DashboardLmsAddressesIndexRoute: typeof DashboardLmsAddressesIndexRoute;
+  DashboardLmsInventoriesIndexRoute: typeof DashboardLmsInventoriesIndexRoute;
+  DashboardLmsPackagesIndexRoute: typeof DashboardLmsPackagesIndexRoute;
+  DashboardLmsPricingIndexRoute: typeof DashboardLmsPricingIndexRoute;
+  DashboardLmsProvidersIndexRoute: typeof DashboardLmsProvidersIndexRoute;
+  DashboardLmsShipmentsIndexRoute: typeof DashboardLmsShipmentsIndexRoute;
+  DashboardLmsShippingIndexRoute: typeof DashboardLmsShippingIndexRoute;
+  DashboardLmsWarehousesIndexRoute: typeof DashboardLmsWarehousesIndexRoute;
+  DashboardOrgOrganizationIndexRoute: typeof DashboardOrgOrganizationIndexRoute;
+  DashboardOrgRolesIndexRoute: typeof DashboardOrgRolesIndexRoute;
+  DashboardOrgTeamsIndexRoute: typeof DashboardOrgTeamsIndexRoute;
+  DashboardTmsDriversIndexRoute: typeof DashboardTmsDriversIndexRoute;
+  DashboardTmsVehiclesIndexRoute: typeof DashboardTmsVehiclesIndexRoute;
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -631,17 +631,17 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardOrgTeamsIndexRoute: DashboardOrgTeamsIndexRoute,
   DashboardTmsDriversIndexRoute: DashboardTmsDriversIndexRoute,
   DashboardTmsVehiclesIndexRoute: DashboardTmsVehiclesIndexRoute,
-}
+};
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
-)
+);
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

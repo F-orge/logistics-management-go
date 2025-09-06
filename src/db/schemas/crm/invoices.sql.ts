@@ -1,14 +1,15 @@
 // Drizzle ORM schema for crm_invoices
-import { date, decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { decimal, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { crmSchema } from './index';
+import { opportunities } from './opportunities.sql';
 
 export const invoices = crmSchema.table('invoices', {
   id: uuid('id').primaryKey().defaultRandom(),
-  opportunityId: uuid('opportunity_id'), // FK to opportunities
+  opportunityId: uuid('opportunity_id').references(() => opportunities.id), // FK to opportunities
   status: varchar('status', { length: 32 }),
   total: decimal('total', { precision: 16, scale: 2 }),
-  issueDate: date('issue_date'),
-  dueDate: date('due_date'),
+  issueDate: timestamp('issue_date', { withTimezone: true }),
+  dueDate: timestamp('due_date', { withTimezone: true }),
   sentAt: timestamp('sent_at', { withTimezone: true }),
   paidAt: timestamp('paid_at', { withTimezone: true }),
   paymentMethod: varchar('payment_method', { length: 32 }),

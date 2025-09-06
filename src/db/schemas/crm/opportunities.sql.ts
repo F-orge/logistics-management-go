@@ -8,6 +8,10 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { user } from '../better-auth.sql';
+import { campaigns } from './campaigns.sql';
+import { companies } from './companies.sql';
+import { contacts } from './contacts.sql';
 import { crmSchema } from './index';
 
 export const opportunities = crmSchema.table('opportunities', {
@@ -19,10 +23,10 @@ export const opportunities = crmSchema.table('opportunities', {
   expectedCloseDate: date('expected_close_date'),
   lostReason: text('lost_reason'),
   source: varchar('source', { length: 64 }),
-  ownerId: uuid('owner_id'), // FK to users
-  contactId: uuid('contact_id'), // FK to contacts
-  companyId: uuid('company_id'), // FK to companies
-  campaignId: uuid('campaign_id'), // FK to campaigns
+  ownerId: text('owner_id').references(() => user.id), // FK to users
+  contactId: uuid('contact_id').references(() => contacts.id), // FK to contacts
+  companyId: uuid('company_id').references(() => companies.id), // FK to companies
+  campaignId: uuid('campaign_id').references(() => campaigns.id), // FK to campaigns
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

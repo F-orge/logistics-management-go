@@ -1,0 +1,17 @@
+services:
+  integration-postgres:
+    image: postgres:17.2-alpine3.20
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  # end-to-end-postgres:
+  #   image: postgres:17.2-alpine3.20
+  #   ports:
+  #     - 5433:5432
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=test_postgres
