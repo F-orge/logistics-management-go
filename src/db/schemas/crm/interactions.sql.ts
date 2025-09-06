@@ -1,9 +1,9 @@
 // Drizzle ORM schema for crm_interactions
 import { text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { crmSchema } from './index';
-import { contacts } from './contacts.sql';
 import { user } from '../better-auth.sql';
 import { cases } from './cases.sql';
+import { contacts } from './contacts.sql';
+import { crmSchema } from './index';
 
 export const interactionType = crmSchema.enum('interaction_type', [
   'call',

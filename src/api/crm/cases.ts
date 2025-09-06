@@ -1,13 +1,13 @@
 import { implement, ORPCError } from '@orpc/server';
 import { eq } from 'drizzle-orm';
-import * as campaignContracts from '@/contracts/crm/campaigns';
-import { campaigns } from '@/db/schemas';
+import * as caseContracts from '@/contracts/crm/cases';
+import { cases } from '@/db/schemas';
 
-export const create = implement(campaignContracts.create)
+export const create = implement(caseContracts.create)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .insert(campaigns)
+      .insert(cases)
       .values({
         ...input,
       })
@@ -16,27 +16,26 @@ export const create = implement(campaignContracts.create)
 
     if (!result.length)
       throw new ORPCError('INTERNAL_SERVER_ERROR', {
-        message: 'Unable to create campaign',
+        message: 'Unable to create case',
       });
 
     return result[0]!;
   });
 
-export const list = implement(campaignContracts.list)
+export const list = implement(caseContracts.list)
   .$context<GlobalVariables>()
   .handler(async ({ context }) => {
-    const results = await context.db.select().from(campaigns).execute();
-
+    const results = await context.db.select().from(cases).execute();
     return results;
   });
 
-export const view = implement(campaignContracts.view)
+export const view = implement(caseContracts.view)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
       .select()
-      .from(campaigns)
-      .where(eq(campaigns.id, input))
+      .from(cases)
+      .where(eq(cases.id, input))
       .execute();
 
     if (!result.length)
@@ -45,13 +44,13 @@ export const view = implement(campaignContracts.view)
     return result[0];
   });
 
-export const update = implement(campaignContracts.update)
+export const update = implement(caseContracts.update)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .update(campaigns)
+      .update(cases)
       .set(input.value)
-      .where(eq(campaigns.id, input.id))
+      .where(eq(cases.id, input.id))
       .returning()
       .execute();
 
@@ -61,12 +60,12 @@ export const update = implement(campaignContracts.update)
     return result[0];
   });
 
-export const remove = implement(campaignContracts.remove)
+export const remove = implement(caseContracts.remove)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .delete(campaigns)
-      .where(eq(campaigns.id, input))
+      .delete(cases)
+      .where(eq(cases.id, input))
       .returning()
       .execute();
 

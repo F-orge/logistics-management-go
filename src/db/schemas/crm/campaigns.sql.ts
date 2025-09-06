@@ -6,8 +6,8 @@ export const campaigns = crmSchema.table('campaigns', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 128 }).notNull(),
   budget: decimal('budget', { precision: 16, scale: 2 }),
-  startDate: timestamp('start_date'),
-  endDate: timestamp('end_date'),
+  startDate: timestamp('start_date', { withTimezone: true }),
+  endDate: timestamp('end_date', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

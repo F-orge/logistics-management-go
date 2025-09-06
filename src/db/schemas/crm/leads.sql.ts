@@ -7,11 +7,11 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { crmSchema } from './index';
 import { user } from '../better-auth.sql';
 import { campaigns } from './campaigns.sql';
-import { contacts } from './contacts.sql';
 import { companies } from './companies.sql';
+import { contacts } from './contacts.sql';
+import { crmSchema } from './index';
 import { opportunities } from './opportunities.sql';
 
 export const leadStatus = crmSchema.enum('lead_status', [

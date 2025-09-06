@@ -1,9 +1,9 @@
 import { createSelectSchema } from 'drizzle-zod';
-import { leads } from './leads.sql';
 import z from 'zod';
+import { leads } from './leads.sql';
 
 export const leadSchema = createSelectSchema(leads, {
-  email: z.email(),
+  email: z.email().nullable().optional(),
 });
 
 export const insertLeadSchema = leadSchema.omit({

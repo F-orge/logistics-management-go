@@ -1,6 +1,6 @@
-import { createSelectSchema } from 'drizzle-zod';
-import { campaigns } from './campaigns.sql';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import z from 'zod';
+import { campaigns } from './campaigns.sql';
 
 export const campaignSchema = createSelectSchema(campaigns, {
   startDate: z.date().nullable().optional(),

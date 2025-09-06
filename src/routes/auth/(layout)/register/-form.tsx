@@ -1,7 +1,7 @@
-import { withForm } from "@/components/ui/form";
+import { withForm } from '@/components/ui/form';
 
 export const RegisterForm = withForm({
-  defaultValues: {} as ORPCInputs["auth"]["signUp"] & {
+  defaultValues: {} as ORPCInputs['auth']['signUp'] & {
     confirmPassword: string;
   },
   render: function ({ form }) {

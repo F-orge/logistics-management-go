@@ -1,8 +1,8 @@
 import { RPCHandler } from '@orpc/server/fetch';
 import { Hono } from 'hono';
 import api from './api';
-import { auth, authFactory } from './lib/auth';
 import { db } from './db';
+import { auth, authFactory } from './lib/auth';
 
 declare global {
   export type GlobalVariables = {

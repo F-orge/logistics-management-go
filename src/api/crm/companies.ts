@@ -1,77 +1,66 @@
 import { implement, ORPCError } from '@orpc/server';
+import * as companyContracts from '@/contracts/crm/companies';
+import { companies } from '@/db/schemas';
 import { eq } from 'drizzle-orm';
-import * as campaignContracts from '@/contracts/crm/campaigns';
-import { campaigns } from '@/db/schemas';
 
-export const create = implement(campaignContracts.create)
+export const create = implement(companyContracts.create)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .insert(campaigns)
-      .values({
-        ...input,
-      })
+      .insert(companies)
+      .values({ ...input })
       .returning()
       .execute();
-
     if (!result.length)
       throw new ORPCError('INTERNAL_SERVER_ERROR', {
-        message: 'Unable to create campaign',
+        message: 'Unable to create company',
       });
-
     return result[0]!;
   });
 
-export const list = implement(campaignContracts.list)
+export const list = implement(companyContracts.list)
   .$context<GlobalVariables>()
   .handler(async ({ context }) => {
-    const results = await context.db.select().from(campaigns).execute();
-
+    const results = await context.db.select().from(companies).execute();
     return results;
   });
 
-export const view = implement(campaignContracts.view)
+export const view = implement(companyContracts.view)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
       .select()
-      .from(campaigns)
-      .where(eq(campaigns.id, input))
+      .from(companies)
+      .where(eq(companies.id, input))
       .execute();
-
     if (!result.length)
       throw new ORPCError('NOT_FOUND', { message: 'resource not found' });
-
     return result[0];
   });
 
-export const update = implement(campaignContracts.update)
+export const update = implement(companyContracts.update)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .update(campaigns)
+      .update(companies)
       .set(input.value)
-      .where(eq(campaigns.id, input.id))
+      .where(eq(companies.id, input.id))
       .returning()
       .execute();
-
     if (!result.length)
       throw new ORPCError('NOT_FOUND', { message: 'resource not found' });
-
     return result[0];
   });
 
-export const remove = implement(campaignContracts.remove)
+export const remove = implement(companyContracts.remove)
   .$context<GlobalVariables>()
   .handler(async ({ input, context }) => {
     const result = await context.db
-      .delete(campaigns)
-      .where(eq(campaigns.id, input))
+      .delete(companies)
+      .where(eq(companies.id, input))
       .returning()
       .execute();
-
     if (!result.length)
       throw new ORPCError('NOT_FOUND', { message: 'resource not found' });
-
     return { success: true };
   });

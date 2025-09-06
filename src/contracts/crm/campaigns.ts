@@ -1,10 +1,10 @@
+import { oc } from '@orpc/contract';
+import z from 'zod';
 import {
   campaignSchema,
   insertCampaignSchema,
   updateCampaignSchema,
 } from '@/db/schemas/crm/campaigns.schema';
-import { oc } from '@orpc/contract';
-import z from 'zod';
 
 export const create = oc.input(insertCampaignSchema).output(campaignSchema);
 
