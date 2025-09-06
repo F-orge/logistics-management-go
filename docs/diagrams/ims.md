@@ -1,6 +1,6 @@
 ```mermaid
 erDiagram
-    %% Shared Entities (Defined in crm.md)
+    %% Shared Entities (Defined in crm.md and auth.md)
     users {
         string id PK
         string name
@@ -14,29 +14,29 @@ erDiagram
         string industry
     }
 
-  %% WMS-owned entities (referenced here instead of redefining IMS-local tables)
-  wms_locations {
-    string id PK
-    string warehouse_id FK
-    string name "e.g., A-01-B-03"
-    string barcode
-    string type "e.g., receiving_dock, pick_bin"
-    float max_weight
-    float max_volume
-    datetime created_at
-    datetime updated_at
-  }
+    %% WMS-owned entities (referenced here instead of redefining IMS-local tables)
+    wms_locations {
+      string id PK
+      string warehouse_id FK
+      string name "e.g., A-01-B-03"
+      string barcode
+      string type "e.g., receiving_dock, pick_bin"
+      float max_weight
+      float max_volume
+      datetime created_at
+      datetime updated_at
+    }
 
-  wms_inventory_stock {
-    string id PK
-    string location_id FK
-    string product_id FK
-    string batch_id FK "nullable"
-    int quantity
-    string status "e.g., available, allocated, damaged"
-    datetime created_at
-    datetime updated_at
-  }
+    wms_inventory_stock {
+      string id PK
+      string location_id FK
+      string product_id FK
+      string batch_id FK "nullable"
+      int quantity
+      string status "e.g., available, allocated, damaged"
+      datetime created_at
+      datetime updated_at
+    }
 
     %% IMS (Inventory Management System)
 
@@ -297,13 +297,6 @@ Stores information about the suppliers who provide the products.
 - `contact_person`: The primary contact at the supplier.
 - `email`: The supplier's contact email.
 - `phone_number`: The supplier's contact phone number.
-
-### ims_warehouses
-
-Represents the physical warehouse facilities where inventory is stored.
-
-- `name`: The name of the warehouse (e.g., "West Coast Distribution Center").
-- `address`: The physical address of the warehouse.
 
 ### Warehouse locations & per-location inventory (WMS-owned)
 

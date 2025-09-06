@@ -1,0 +1,4 @@
+ALTER TABLE "ims"."inventory_levels" ADD CONSTRAINT "inventory_levels_product_id_products_id_fk" FOREIGN KEY ("product_id") REFERENCES "ims"."products"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "ims"."inventory_levels" ADD CONSTRAINT "inventory_levels_warehouse_id_warehouses_id_fk" FOREIGN KEY ("warehouse_id") REFERENCES "wms"."warehouses"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "ims"."inventory_levels" ADD CONSTRAINT "inventory_levels_location_id_locations_id_fk" FOREIGN KEY ("location_id") REFERENCES "wms"."locations"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "ims"."inventory_levels" ADD CONSTRAINT "inventory_levels_batch_id_inventory_batches_id_fk" FOREIGN KEY ("batch_id") REFERENCES "ims"."inventory_batches"("id") ON DELETE no action ON UPDATE no action;

@@ -10,6 +10,8 @@ import * as crmInvoices from './crm/invoices';
 import * as crmLeads from './crm/leads';
 import * as crmOpportunities from './crm/opportunities';
 import * as crmProducts from './crm/products';
+import * as imsProducts from './ims/products';
+import * as imsInventoryLevel from './ims/inventory_levels';
 import health from './health';
 
 export default {
@@ -29,5 +31,9 @@ export default {
     products: crmProducts,
     opportunities: crmOpportunities,
     invoices: crmInvoices,
+  },
+  ims: {
+    products: imsProducts,
+    inventoryLevel: imsInventoryLevel,
   },
 };

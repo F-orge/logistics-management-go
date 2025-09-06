@@ -3,20 +3,28 @@
 import { integer, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { imsSchema } from './index';
+import { imsProducts } from './products.sql';
+import { warehouses } from '../wms/warehouse.sql';
+import { inventoryBatches } from './inventory_batches.sql';
+import { locations } from '../wms/locations.sql';
 
 export const inventoryLevels = imsSchema.table('inventory_levels', {
   id: uuid('id').primaryKey().defaultRandom(),
-  product_id: uuid('product_id').notNull(), // FK to ims_products
-  warehouse_id: uuid('warehouse_id').notNull(), // FK to ims_warehouses
-  location_id: uuid('location_id'), // FK to ims_warehouse_locations (optional)
-  batch_id: uuid('batch_id'), // FK to ims_inventory_batches (optional)
-  quantity_on_hand: integer('quantity_on_hand').notNull(),
-  quantity_committed: integer('quantity_committed').notNull(),
-  quantity_available: integer('quantity_available').notNull(), // calculated: on_hand - committed
-  created_at: timestamp('created_at', { withTimezone: true })
+  productId: uuid('product_id')
+    .notNull()
+    .references(() => imsProducts.id), // FK to ims_products
+  warehouseId: uuid('warehouse_id')
+    .notNull()
+    .references(() => warehouses.id), // FK to wms_warehouses
+  locationId: uuid('location_id').references(() => locations.id), // FK to wms_locations (optional)
+  batchId: uuid('batch_id').references(() => inventoryBatches.id), // FK to ims_inventory_batches (optional)
+  quantityOnHand: integer('quantity_on_hand').notNull(),
+  quantityCommitted: integer('quantity_committed').notNull(),
+  quantityAvailable: integer('quantity_available').notNull(), // calculated: on_hand - committed
+  createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
-  updated_at: timestamp('updated_at', { withTimezone: true })
+  updatedAt: timestamp('updated_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
 });

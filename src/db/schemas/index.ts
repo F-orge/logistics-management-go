@@ -53,7 +53,7 @@ export * from './ims/inventory_batches.sql.ts';
 export * from './ims/inventory_levels.sql.ts';
 export * from './ims/outbound_shipment_items.sql.ts';
 export * from './ims/outbound_shipments.sql.ts';
-export * as imsProducts from './ims/products.sql.ts';
+export * from './ims/products.sql.ts';
 export * from './ims/reorder_points.sql.ts';
 export * from './ims/return_items.sql.ts';
 export * from './ims/returns.sql.ts';
