@@ -33,26 +33,23 @@ describe('Better auth sign out', () => {
     expect(response.success).toBeTrue();
   });
 
-  it.todo(
-    "should throw if the user sign's out without logging in",
-    async () => {
-      const signOutRequest = new Request('http://example.com', {
-        headers: {
-          Authorization: `Bearer wrongtoken`,
+  it("should throw if the user sign's out without logging in", async () => {
+    const signOutRequest = new Request('http://example.com', {
+      headers: {
+        Authorization: `Bearer wrongtoken`,
+      },
+    });
+
+    const response = () =>
+      api.auth.signOut.callable({
+        context: {
+          auth: globalThis.betterAuth,
+          request: signOutRequest,
+          user: null,
+          session: null,
         },
-      });
+      })();
 
-      const response = () =>
-        api.auth.signOut.callable({
-          context: {
-            auth: globalThis.betterAuth,
-            request: signOutRequest,
-            user: null,
-            session: null,
-          },
-        })();
-
-      expect(response).toThrowError();
-    },
-  );
+    expect(response).toThrowError();
+  });
 });
