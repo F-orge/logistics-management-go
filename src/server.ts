@@ -9,7 +9,7 @@ declare global {
     user: typeof auth.$Infer.Session.user | null;
     session: typeof auth.$Infer.Session.session | null;
     request: Request;
-    auth: typeof auth;
+    auth: typeof auth.api;
     db: typeof db;
   };
 }
@@ -46,7 +46,7 @@ function createServer(dbClient: typeof db) {
         user: c.get('user'),
         session: c.get('session'),
         request: c.req.raw,
-        auth: betterAuth,
+        auth: betterAuth.api,
         db: dbClient,
       },
     });
