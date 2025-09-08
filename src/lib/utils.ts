@@ -18,6 +18,16 @@ export const pocketbaseEnumOperators = z.enum([
   '!~',
 ]);
 
+export function listParams<Type extends z.ZodType>(fields: Type) {
+  return z.object({
+    page: z.number().nonnegative().default(1).catch(1),
+    perPage: z.number().nonnegative().default(10).catch(10),
+    sort: z
+      .array(z.object({ field: fields, order: z.enum(['-', '+']) }))
+      .optional(),
+  });
+}
+
 export function searchParams(fields: z.ZodEnum) {
   return z.object({
     page: z.number().nonnegative().default(1).catch(1),

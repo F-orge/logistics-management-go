@@ -18,3 +18,7 @@ dist/
 .env.*
 pb_data
 .tanstack
+
+# Added by cargo
+
+/target
