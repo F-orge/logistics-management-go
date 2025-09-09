@@ -43,8 +43,9 @@ validator = { version = "0.20.0", features = ["derive"] }
 hmac = "0.12.1"
 jwt = "0.16.0"
 sha2 = "0.10.9"
+rstest = "0.26.1"
+chrono = { version = "0.4.42", features = ["serde"] }
+uuid = { version = "1.18.1", features = ["serde", "v4"] }
+url = { version = "2.5.7", features = ["serde"] }
 
 [dependencies]
-
-[workspace.dev-dependencies]
-rstest = "0.26.1"
