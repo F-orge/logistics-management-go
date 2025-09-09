@@ -117,10 +117,7 @@ impl From<UpdateUserInput> for sea_query::UpdateStatement {
 
 #[cfg(test)]
 mod sqlx_test {
-    use sea_query::{
-        ConditionalStatement, Expr, InsertStatement, PostgresQueryBuilder, Query,
-        QueryStatementWriter, UpdateStatement,
-    };
+    use sea_query::{Expr, InsertStatement, PostgresQueryBuilder, Query, UpdateStatement};
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
     use validator::Validate;

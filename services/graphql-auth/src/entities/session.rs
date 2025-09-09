@@ -1,0 +1,242 @@
+use sea_query::Iden;
+
+use chrono::{DateTime, Utc};
+use sqlx::prelude::FromRow;
+use uuid::Uuid;
+
+use sea_query::{Alias, Query};
+use validator::Validate;
+
+#[derive(Clone, Debug, FromRow)]
+pub struct SessionTable {
+    pub id: Uuid,
+    pub expires_at: DateTime<Utc>,
+    pub token: String,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+    pub ip_address: Option<String>,
+    pub user_agent: Option<String>,
+    pub user_id: Uuid,
+    pub impersonated_by: Option<Uuid>,
+}
+
+#[derive(Clone, Debug, Validate)]
+pub struct InsertSessionInput {
+    pub expires_at: DateTime<Utc>,
+    #[validate(length(min = 1))]
+    pub token: String,
+    pub ip_address: Option<String>,
+    pub user_agent: Option<String>,
+    pub user_id: Uuid,
+    pub impersonated_by: Option<Uuid>,
+}
+
+impl From<InsertSessionInput> for sea_query::InsertStatement {
+    fn from(value: InsertSessionInput) -> Self {
+        Query::insert()
+            .into_table((Alias::new("auth"), Session::Table))
+            .columns([
+                Session::ExpiresAt,
+                Session::Token,
+                Session::IpAddress,
+                Session::UserAgent,
+                Session::UserId,
+                Session::ImpersonatedBy,
+            ])
+            .values([
+                value.expires_at.into(),
+                value.token.into(),
+                value.ip_address.into(),
+                value.user_agent.into(),
+                value.user_id.into(),
+                value.impersonated_by.into(),
+            ])
+            .expect("Failed to convert session input to sea-query")
+            .to_owned()
+    }
+}
+
+#[derive(Clone, Debug, Validate)]
+pub struct UpdateSessionInput {
+    pub expires_at: Option<DateTime<Utc>>,
+    #[validate(length(min = 1))]
+    pub token: Option<String>,
+    pub ip_address: Option<Option<String>>,
+    pub user_agent: Option<Option<String>>,
+    pub user_id: Option<Uuid>,
+    pub impersonated_by: Option<Option<Uuid>>,
+}
+
+impl From<UpdateSessionInput> for sea_query::UpdateStatement {
+    fn from(value: UpdateSessionInput) -> Self {
+        Query::update()
+            .from((Alias::new("auth"), Session::Table))
+            .values([
+                (Session::ExpiresAt, value.expires_at.into()),
+                (Session::Token, value.token.into()),
+                (Session::IpAddress, value.ip_address.flatten().into()),
+                (Session::UserAgent, value.user_agent.flatten().into()),
+                (Session::UserId, value.user_id.into()),
+                (
+                    Session::ImpersonatedBy,
+                    value.impersonated_by.flatten().into(),
+                ),
+            ])
+            .to_owned()
+    }
+}
+
+#[derive(Iden)]
+#[iden(rename = "session")]
+pub enum Session {
+    Table,
+    Id,
+    ExpiresAt,
+    Token,
+    CreatedAt,
+    UpdatedAt,
+    IpAddress,
+    UserAgent,
+    UserId,
+    ImpersonatedBy,
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::entities::user::{InsertUserInput, User};
+
+    use super::*;
+    use chrono::Utc;
+    use rstest::rstest;
+    use sea_query::{InsertStatement, PostgresQueryBuilder, Query, UpdateStatement};
+    use sqlx::{Executor, PgPool};
+    use uuid::Uuid;
+
+    #[rstest::fixture]
+    #[once]
+    fn dummy_user() -> InsertStatement {
+        InsertStatement::from(InsertUserInput {
+            name: "john doe".into(),
+            email: "johndoe@email.com".into(),
+            email_verified: false,
+            image: None,
+            role: None,
+            banned: false,
+            ban_reason: None,
+            ban_expires: None,
+        })
+        .returning(Query::returning().column(User::Id))
+        .to_owned()
+    }
+
+    #[rstest]
+    #[case::basic(InsertSessionInput {
+        expires_at: Utc::now(),
+        token: "sessiontoken123".to_string(),
+        ip_address: Some("127.0.0.1".to_string()),
+        user_agent: Some("Mozilla/5.0".to_string()),
+        user_id: Uuid::new_v4(),
+        impersonated_by: None,
+    }, true)]
+    #[case::invalid_token(InsertSessionInput {
+        expires_at: Utc::now(),
+        token: "".to_string(),
+        ip_address: None,
+        user_agent: None,
+        user_id: Uuid::new_v4(),
+        impersonated_by: None,
+    }, false)]
+    #[sqlx::test(migrations = "../../migrations")]
+    async fn test_insert_session(
+        dummy_user: &InsertStatement,
+        #[case] mut input: InsertSessionInput,
+        #[case] success: bool,
+        #[ignore] pool: PgPool,
+    ) -> anyhow::Result<()> {
+        let (id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
+            .fetch_one(&pool)
+            .await?;
+
+        input.user_id = id;
+
+        if input.validate().is_ok() == success {
+            return Ok(());
+        }
+
+        let sql = InsertStatement::from(input).to_string(PostgresQueryBuilder);
+
+        let result = pool.execute(&*sql).await;
+
+        assert_eq!(result.is_ok(), success, "{}", result.unwrap_err());
+
+        Ok(())
+    }
+
+    #[rstest::fixture]
+    fn dummy_session() -> InsertSessionInput {
+        InsertSessionInput {
+            expires_at: Utc::now(),
+            token: "sessiontoken123".to_string(),
+            ip_address: Some("127.0.0.1".to_string()),
+            user_agent: Some("Mozilla/5.0".to_string()),
+            user_id: Uuid::new_v4(),
+            impersonated_by: None,
+        }
+    }
+
+    #[rstest]
+    #[case::basic(UpdateSessionInput {
+        expires_at: Some(Utc::now()),
+        token: Some("updatedtoken456".to_string()),
+        ip_address: Some(Some("192.168.1.1".to_string())),
+        user_agent: Some(Some("Chrome/100.0".to_string())),
+        user_id: Some(Uuid::new_v4()),
+        impersonated_by: Some(None),
+    }, true)]
+    #[case::invalid_token(UpdateSessionInput {
+        expires_at: Some(Utc::now()),
+        token: Some("".to_string()),
+        ip_address: None,
+        user_agent: None,
+        user_id: None,
+        impersonated_by: None,
+    }, false)]
+    #[sqlx::test(migrations = "../../migrations")]
+    async fn test_update_session(
+        dummy_user: &InsertStatement,
+        mut dummy_session: InsertSessionInput,
+        #[case] input: UpdateSessionInput,
+        #[case] success: bool,
+        #[ignore] pool: PgPool,
+    ) -> anyhow::Result<()> {
+        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
+            .fetch_one(&pool)
+            .await?;
+
+        dummy_session.user_id = user_id;
+
+        let mut dummy_session = InsertStatement::from(dummy_session.clone());
+
+        let dummy_session = dummy_session.returning(Query::returning().column(Session::Id));
+
+        let (id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_session.to_string(PostgresQueryBuilder))
+            .fetch_one(&pool)
+            .await?;
+
+        if input.validate().is_ok() == success {
+            return Ok(());
+        }
+
+        let mut sql: UpdateStatement = From::<UpdateStatement>::from(input.into());
+
+        let sql = sql
+            .and_where(sea_query::Expr::col(Session::Id).eq(id))
+            .to_string(PostgresQueryBuilder);
+
+        let result = pool.execute(&*sql).await;
+
+        assert_eq!(result.is_ok(), success, "{}", result.unwrap_err());
+
+        Ok(())
+    }
+}
