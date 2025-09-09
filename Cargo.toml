@@ -1,6 +1,50 @@
 [package]
 name = "logistics-management-go"
+
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
+authors = [
+  "karl robeck alferez",
+  "vien kendrick morfe",
+  "mhell bergonio",
+  "andrei barlaan",
+]
+
+[workspace]
+members = ["services/*"]
+
+[workspace.dependencies]
+anyhow = "1.0.99"
+async-graphql = { version = "7.0.17", features = ["dataloader"] }
+axum = { version = "0.8.4", features = ["macros"] }
+clap = { version = "4.5.47", features = ["derive"] }
+sea-query = { version = "0.32.7", features = [
+  "thread-safe",
+  "backend-postgres",
+  "with-uuid",
+  "with-json",
+  "with-chrono",
+] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+sqlx = { version = "0.8.6", features = [
+  "postgres",
+  "runtime-tokio-native-tls",
+  "json",
+  "uuid",
+  "chrono",
+  "macros",
+] }
+tokio = { version = "1.47.1", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
+validator = { version = "0.20.0", features = ["derive"] }
+hmac = "0.12.1"
+jwt = "0.16.0"
+sha2 = "0.10.9"
 
 [dependencies]
+
+[workspace.dev-dependencies]
+rstest = "0.26.1"
