@@ -146,6 +146,38 @@ mod tests {
         user_id: Uuid::new_v4(),
         impersonated_by: None,
     }, false)]
+    #[case::null_optionals(InsertSessionInput {
+        expires_at: Utc::now(),
+        token: "tokennullopt".to_string(),
+        ip_address: None,
+        user_agent: None,
+        user_id: Uuid::new_v4(),
+        impersonated_by: None,
+    }, true)]
+    #[case::long_token(InsertSessionInput {
+        expires_at: Utc::now(),
+        token: "a".repeat(256),
+        ip_address: Some("10.0.0.1".to_string()),
+        user_agent: Some("TestAgent/1.0".to_string()),
+        user_id: Uuid::new_v4(),
+        impersonated_by: None,
+    }, true)]
+    #[case::impersonated(InsertSessionInput {
+        expires_at: Utc::now(),
+        token: "impersonatedtoken".to_string(),
+        ip_address: Some("192.168.0.1".to_string()),
+        user_agent: Some("Impersonator/2.0".to_string()),
+        user_id: Uuid::new_v4(),
+        impersonated_by: Some(Uuid::new_v4()),
+    }, true)]
+    #[case::expired(InsertSessionInput {
+        expires_at: Utc::now() - chrono::Duration::days(1),
+        token: "expiredtoken".to_string(),
+        ip_address: Some("8.8.8.8".to_string()),
+        user_agent: Some("ExpiredAgent".to_string()),
+        user_id: Uuid::new_v4(),
+        impersonated_by: None,
+    }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_insert_session(
         dummy_user: &InsertStatement,
@@ -201,6 +233,38 @@ mod tests {
         user_id: None,
         impersonated_by: None,
     }, false)]
+    #[case::null_optionals(UpdateSessionInput {
+        expires_at: None,
+        token: Some("nulloptupdate".to_string()),
+        ip_address: Some(None),
+        user_agent: Some(None),
+        user_id: None,
+        impersonated_by: None,
+    }, true)]
+    #[case::long_token(UpdateSessionInput {
+        expires_at: Some(Utc::now()),
+        token: Some("b".repeat(256)),
+        ip_address: Some(Some("172.16.0.1".to_string())),
+        user_agent: Some(Some("LongAgent/3.0".to_string())),
+        user_id: Some(Uuid::new_v4()),
+        impersonated_by: Some(None),
+    }, true)]
+    #[case::impersonated(UpdateSessionInput {
+        expires_at: Some(Utc::now()),
+        token: Some("impersonatedupdate".to_string()),
+        ip_address: Some(Some("10.10.10.10".to_string())),
+        user_agent: Some(Some("ImpersonatorUpdate/4.0".to_string())),
+        user_id: Some(Uuid::new_v4()),
+        impersonated_by: Some(Some(Uuid::new_v4())),
+    }, true)]
+    #[case::expired(UpdateSessionInput {
+        expires_at: Some(Utc::now() - chrono::Duration::days(2)),
+        token: Some("expiredupdate".to_string()),
+        ip_address: Some(Some("9.9.9.9".to_string())),
+        user_agent: Some(Some("ExpiredUpdateAgent".to_string())),
+        user_id: Some(Uuid::new_v4()),
+        impersonated_by: Some(None),
+    }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_update_session(
         dummy_user: &InsertStatement,
