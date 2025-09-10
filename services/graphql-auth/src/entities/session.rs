@@ -69,20 +69,27 @@ pub struct UpdateSessionInput {
 
 impl From<UpdateSessionInput> for sea_query::UpdateStatement {
     fn from(value: UpdateSessionInput) -> Self {
-        Query::update()
-            .from((Alias::new("auth"), Session::Table))
-            .values([
-                (Session::ExpiresAt, value.expires_at.into()),
-                (Session::Token, value.token.into()),
-                (Session::IpAddress, value.ip_address.flatten().into()),
-                (Session::UserAgent, value.user_agent.flatten().into()),
-                (Session::UserId, value.user_id.into()),
-                (
-                    Session::ImpersonatedBy,
-                    value.impersonated_by.flatten().into(),
-                ),
-            ])
-            .to_owned()
+        let mut stmt = Query::update();
+        stmt.table((Alias::new("auth"), Session::Table));
+        if let Some(expires_at) = value.expires_at {
+            stmt.value(Session::ExpiresAt, expires_at);
+        }
+        if let Some(token) = value.token {
+            stmt.value(Session::Token, token);
+        }
+        if let Some(ip_address) = value.ip_address.flatten() {
+            stmt.value(Session::IpAddress, ip_address);
+        }
+        if let Some(user_agent) = value.user_agent.flatten() {
+            stmt.value(Session::UserAgent, user_agent);
+        }
+        if let Some(user_id) = value.user_id {
+            stmt.value(Session::UserId, user_id);
+        }
+        if let Some(impersonated_by) = value.impersonated_by.flatten() {
+            stmt.value(Session::ImpersonatedBy, impersonated_by);
+        }
+        stmt.to_owned()
     }
 }
 

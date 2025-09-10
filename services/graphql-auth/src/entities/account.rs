@@ -111,27 +111,39 @@ pub struct UpdateAccountInput {
 
 impl From<UpdateAccountInput> for sea_query::UpdateStatement {
     fn from(value: UpdateAccountInput) -> Self {
-        Query::update()
-            .from((Alias::new("auth"), Account::Table))
-            .values([
-                (Account::AccountId, value.account_id.into()),
-                (Account::ProviderId, value.provider_id.into()),
-                (Account::UserId, value.user_id.into()),
-                (Account::AccessToken, value.access_token.flatten().into()),
-                (Account::RefreshToken, value.refresh_token.flatten().into()),
-                (Account::IdToken, value.id_token.flatten().into()),
-                (
-                    Account::AccessTokenExpiresAt,
-                    value.access_token_expires_at.flatten().into(),
-                ),
-                (
-                    Account::RefreshTokenExpiresAt,
-                    value.refresh_token_expires_at.flatten().into(),
-                ),
-                (Account::Scope, value.scope.flatten().into()),
-                (Account::Password, value.password.flatten().into()),
-            ])
-            .to_owned()
+        let mut stmt = Query::update();
+        stmt.table((Alias::new("auth"), Account::Table));
+        if let Some(account_id) = value.account_id {
+            stmt.value(Account::AccountId, account_id);
+        }
+        if let Some(provider_id) = value.provider_id {
+            stmt.value(Account::ProviderId, provider_id);
+        }
+        if let Some(user_id) = value.user_id {
+            stmt.value(Account::UserId, user_id);
+        }
+        if let Some(access_token) = value.access_token.flatten() {
+            stmt.value(Account::AccessToken, access_token);
+        }
+        if let Some(refresh_token) = value.refresh_token.flatten() {
+            stmt.value(Account::RefreshToken, refresh_token);
+        }
+        if let Some(id_token) = value.id_token.flatten() {
+            stmt.value(Account::IdToken, id_token);
+        }
+        if let Some(access_token_expires_at) = value.access_token_expires_at.flatten() {
+            stmt.value(Account::AccessTokenExpiresAt, access_token_expires_at);
+        }
+        if let Some(refresh_token_expires_at) = value.refresh_token_expires_at.flatten() {
+            stmt.value(Account::RefreshTokenExpiresAt, refresh_token_expires_at);
+        }
+        if let Some(scope) = value.scope.flatten() {
+            stmt.value(Account::Scope, scope);
+        }
+        if let Some(password) = value.password.flatten() {
+            stmt.value(Account::Password, password);
+        }
+        stmt.to_owned()
     }
 }
 

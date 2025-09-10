@@ -67,14 +67,18 @@ impl From<InsertVerificationInput> for sea_query::InsertStatement {
 
 impl From<UpdateVerificationInput> for sea_query::UpdateStatement {
     fn from(value: UpdateVerificationInput) -> Self {
-        Query::update()
-            .from((Alias::new("auth"), Verification::Table))
-            .values([
-                (Verification::Identifier, value.identifier.into()),
-                (Verification::Value, value.value.into()),
-                (Verification::ExpiresAt, value.expires_at.into()),
-            ])
-            .to_owned()
+        let mut stmt = Query::update();
+        stmt.table((Alias::new("auth"), Verification::Table));
+        if let Some(identifier) = value.identifier {
+            stmt.value(Verification::Identifier, identifier);
+        }
+        if let Some(val) = value.value {
+            stmt.value(Verification::Value, val);
+        }
+        if let Some(expires_at) = value.expires_at {
+            stmt.value(Verification::ExpiresAt, expires_at);
+        }
+        stmt.to_owned()
     }
 }
 

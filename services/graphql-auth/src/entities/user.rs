@@ -96,22 +96,33 @@ pub struct UpdateUserInput {
 
 impl From<UpdateUserInput> for sea_query::UpdateStatement {
     fn from(value: UpdateUserInput) -> Self {
-        Query::update()
-            .from((Alias::new("auth"), User::Table))
-            .values([
-                (User::Name, value.name.into()),
-                (User::Email, value.email.into()),
-                (User::EmailVerified, value.email_verified.into()),
-                (
-                    User::Image,
-                    value.image.flatten().map(|url| url.to_string()).into(),
-                ),
-                (User::Role, value.role.flatten().into()),
-                (User::Banned, value.banned.into()),
-                (User::BanReason, value.ban_reason.flatten().into()),
-                (User::BanExpires, value.ban_expires.flatten().into()),
-            ])
-            .to_owned()
+        let mut stmt = Query::update();
+        stmt.table((Alias::new("auth"), User::Table));
+        if let Some(name) = value.name {
+            stmt.value(User::Name, name);
+        }
+        if let Some(email) = value.email {
+            stmt.value(User::Email, email);
+        }
+        if let Some(email_verified) = value.email_verified {
+            stmt.value(User::EmailVerified, email_verified);
+        }
+        if let Some(image) = value.image.flatten() {
+            stmt.value(User::Image, image.to_string());
+        }
+        if let Some(role) = value.role.flatten() {
+            stmt.value(User::Role, role);
+        }
+        if let Some(banned) = value.banned {
+            stmt.value(User::Banned, banned);
+        }
+        if let Some(ban_reason) = value.ban_reason.flatten() {
+            stmt.value(User::BanReason, ban_reason);
+        }
+        if let Some(ban_expires) = value.ban_expires.flatten() {
+            stmt.value(User::BanExpires, ban_expires);
+        }
+        stmt.to_owned()
     }
 }
 
