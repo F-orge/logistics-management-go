@@ -5,17 +5,14 @@ APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
 # database specific
-drizzle-generate:
-  @bun drizzle-kit generate
-
-drizzle-migrate:
-  @bun drizzle-kit migrate
-
-drizzle-studio:
-  @bun drizzle-kit studio --port=3002
-
-auth-generate:
-  @bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth.sql.ts
+sea-orm-generate:
+  sea-orm-cli generate entity -s auth -o services/graphql-auth/src/entities/_generated
+  sea-orm-cli generate entity -s crm -o services/graphql-crm/src/entities/_generated
+  sea-orm-cli generate entity -s tms -o services/graphql-tms/src/entities/_generated
+  sea-orm-cli generate entity -s ims -o services/graphql-ims/src/entities/_generated
+  sea-orm-cli generate entity -s wms -o services/graphql-wms/src/entities/_generated
+  sea-orm-cli generate entity -s dms -o services/graphql-dms/src/entities/_generated
+  sea-orm-cli generate entity -s billing -o services/graphql-billing/src/entities/_generated
 
 start-postgres:
   @docker compose -f dev.compose.yaml up -d
