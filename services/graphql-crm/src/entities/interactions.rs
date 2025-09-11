@@ -1,8 +1,24 @@
 use chrono::{DateTime, Utc};
 use sea_query::{Alias, Iden, InsertStatement, Query, UpdateStatement};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use uuid::Uuid;
 use validator::Validate;
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.opportunity_source", rename_all = "kebab-case")]
+pub enum OpportunitySource {
+    Website,
+    Referral,
+    SocialMedia,
+    EmailCampaign,
+    ColdCall,
+    Event,
+    Advertisement,
+    Partner,
+    ExistingCustomer,
+    Other,
+}
 
 #[derive(Iden)]
 #[iden(rename = "interactions")]

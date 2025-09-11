@@ -1,9 +1,32 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use rust_decimal::Decimal;
 use sea_query::{Alias, Iden, InsertStatement, Query, UpdateStatement};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use uuid::Uuid;
 use validator::Validate;
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.invoice_status", rename_all = "kebab-case")]
+pub enum InvoiceStatus {
+    Draft,
+    Sent,
+    Paid,
+    Overdue,
+    Cancelled,
+}
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.payment_method", rename_all = "kebab-case")]
+pub enum InvoicePaymentMethod {
+    CreditCard,
+    BankTransfer,
+    Cash,
+    Check,
+    Paypal,
+    Stripe,
+    WireTransfer,
+}
 
 #[derive(Iden)]
 #[iden(rename = "invoices")]
@@ -26,13 +49,13 @@ pub enum Invoices {
 pub struct InvoicesTable {
     pub id: Uuid,
     pub opportunity_id: Option<Uuid>,
-    pub status: String,
+    pub status: InvoiceStatus,
     pub total: Option<Decimal>,
     pub issue_date: Option<NaiveDate>,
     pub due_date: Option<NaiveDate>,
     pub sent_at: Option<DateTime<Utc>>,
     pub paid_at: Option<DateTime<Utc>>,
-    pub payment_method: Option<String>,
+    pub payment_method: Option<InvoicePaymentMethod>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
@@ -40,25 +63,25 @@ pub struct InvoicesTable {
 #[derive(Clone, Debug, Validate)]
 pub struct InsertInvoicesInput {
     pub opportunity_id: Option<Uuid>,
-    pub status: Option<String>,
+    pub status: Option<InvoiceStatus>,
     pub total: Option<Decimal>,
     pub issue_date: Option<NaiveDate>,
     pub due_date: Option<NaiveDate>,
     pub sent_at: Option<DateTime<Utc>>,
     pub paid_at: Option<DateTime<Utc>>,
-    pub payment_method: Option<String>,
+    pub payment_method: Option<InvoicePaymentMethod>,
 }
 
 #[derive(Clone, Debug, Validate)]
 pub struct UpdateInvoicesInput {
     pub opportunity_id: Option<Option<Uuid>>,
-    pub status: Option<String>,
+    pub status: Option<InvoiceStatus>,
     pub total: Option<Option<Decimal>>,
     pub issue_date: Option<Option<NaiveDate>>,
     pub due_date: Option<Option<NaiveDate>>,
     pub sent_at: Option<Option<DateTime<Utc>>>,
     pub paid_at: Option<Option<DateTime<Utc>>>,
-    pub payment_method: Option<Option<String>>,
+    pub payment_method: Option<Option<InvoicePaymentMethod>>,
 }
 
 impl From<InsertInvoicesInput> for InsertStatement {
@@ -77,13 +100,13 @@ impl From<InsertInvoicesInput> for InsertStatement {
             ])
             .values([
                 value.opportunity_id.into(),
-                value.status.into(),
-                value.total.map(|d| d.to_string()).into(),
+                value.status.map(|v| v.to_string()).into(),
+                value.total.into(),
                 value.issue_date.into(),
                 value.due_date.into(),
                 value.sent_at.into(),
                 value.paid_at.into(),
-                value.payment_method.into(),
+                value.payment_method.map(|v| v.to_string()).into(),
             ])
             .expect("Failed to convert invoices input to sea-query")
             .to_owned()
@@ -100,10 +123,10 @@ impl From<UpdateInvoicesInput> for UpdateStatement {
             stmt = stmt.value(Invoices::OpportunityId, opportunity_id);
         }
         if let Some(status) = value.status {
-            stmt = stmt.value(Invoices::Status, status);
+            stmt = stmt.value(Invoices::Status, status.to_string());
         }
         if let Some(total) = value.total.flatten() {
-            stmt = stmt.value(Invoices::Total, total.to_string());
+            stmt = stmt.value(Invoices::Total, total);
         }
         if let Some(issue_date) = value.issue_date.flatten() {
             stmt = stmt.value(Invoices::IssueDate, issue_date);
@@ -118,7 +141,7 @@ impl From<UpdateInvoicesInput> for UpdateStatement {
             stmt = stmt.value(Invoices::PaidAt, paid_at);
         }
         if let Some(payment_method) = value.payment_method.flatten() {
-            stmt = stmt.value(Invoices::PaymentMethod, payment_method);
+            stmt = stmt.value(Invoices::PaymentMethod, payment_method.to_string());
         }
 
         stmt.to_owned()

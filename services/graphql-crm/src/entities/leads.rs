@@ -1,8 +1,33 @@
 use chrono::{DateTime, Utc};
 use sea_query::{Alias, Iden, InsertStatement, Query, UpdateStatement};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use uuid::Uuid;
 use validator::Validate;
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.lead_status", rename_all = "kebab-case")]
+pub enum LeadStatus {
+    New,
+    Contacted,
+    Qualified,
+    UnQualified,
+    Converted,
+}
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.lead_source", rename_all = "kebab-case")]
+pub enum LeadSource {
+    Website,
+    Referral,
+    SocialMedia,
+    EmailCampaign,
+    ColdCall,
+    Event,
+    Advertisement,
+    Partner,
+    Other,
+}
 
 #[derive(Iden)]
 #[iden(rename = "leads")]
@@ -30,7 +55,7 @@ pub struct LeadsTable {
     pub name: String,
     pub email: String,
     pub lead_source: Option<String>,
-    pub status: String,
+    pub status: LeadStatus,
     pub lead_score: Option<i32>,
     pub owner_id: Uuid,
     pub campaign_id: Option<Uuid>,
@@ -49,7 +74,7 @@ pub struct InsertLeadsInput {
     #[validate(email)]
     pub email: String,
     pub lead_source: Option<String>,
-    pub status: Option<String>,
+    pub status: Option<LeadStatus>,
     pub lead_score: Option<i32>,
     pub owner_id: Uuid,
     pub campaign_id: Option<Uuid>,
@@ -62,7 +87,7 @@ pub struct UpdateLeadsInput {
     #[validate(email)]
     pub email: Option<String>,
     pub lead_source: Option<Option<String>>,
-    pub status: Option<String>,
+    pub status: Option<LeadStatus>,
     pub lead_score: Option<Option<i32>>,
     pub owner_id: Option<Uuid>,
     pub campaign_id: Option<Option<Uuid>>,
@@ -89,7 +114,7 @@ impl From<InsertLeadsInput> for InsertStatement {
                 value.name.into(),
                 value.email.into(),
                 value.lead_source.into(),
-                value.status.into(),
+                value.status.map(|v| v.to_string()).into(),
                 value.lead_score.into(),
                 value.owner_id.into(),
                 value.campaign_id.into(),
@@ -115,7 +140,7 @@ impl From<UpdateLeadsInput> for UpdateStatement {
             stmt = stmt.value(Leads::LeadSource, lead_source);
         }
         if let Some(status) = value.status {
-            stmt = stmt.value(Leads::Status, status);
+            stmt = stmt.value(Leads::Status, status.to_string());
         }
         if let Some(lead_score) = value.lead_score.flatten() {
             stmt = stmt.value(Leads::LeadScore, lead_score);

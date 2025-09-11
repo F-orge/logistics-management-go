@@ -1,9 +1,19 @@
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use sea_query::{Alias, Iden, InsertStatement, Query, UpdateStatement};
+use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use uuid::Uuid;
 use validator::Validate;
+
+#[derive(Clone, Debug, sqlx::Type, Iden, Deserialize, Serialize)]
+#[sqlx(type_name = "crm.product_type", rename_all = "kebab-case")]
+pub enum ProductType {
+    Service,
+    Good,
+    Digital,
+    Subscription,
+}
 
 #[derive(Iden)]
 #[iden(rename = "products")]
@@ -25,7 +35,7 @@ pub struct ProductsTable {
     pub name: String,
     pub sku: Option<String>,
     pub price: Decimal,
-    pub r#type: String,
+    pub r#type: ProductType,
     pub description: Option<String>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
@@ -37,7 +47,7 @@ pub struct InsertProductsInput {
     pub name: String,
     pub sku: Option<String>,
     pub price: Decimal,
-    pub r#type: Option<String>,
+    pub r#type: Option<ProductType>,
     pub description: Option<String>,
 }
 
@@ -47,7 +57,7 @@ pub struct UpdateProductsInput {
     pub name: Option<String>,
     pub sku: Option<Option<String>>,
     pub price: Option<Decimal>,
-    pub r#type: Option<String>,
+    pub r#type: Option<ProductType>,
     pub description: Option<Option<String>>,
 }
 
@@ -66,7 +76,7 @@ impl From<InsertProductsInput> for InsertStatement {
                 value.name.into(),
                 value.sku.into(),
                 value.price.to_string().into(),
-                value.r#type.into(),
+                value.r#type.map(|v| v.to_string()).into(),
                 value.description.into(),
             ])
             .expect("Failed to convert products input to sea-query")
@@ -90,7 +100,7 @@ impl From<UpdateProductsInput> for UpdateStatement {
             stmt = stmt.value(Products::Price, price.to_string());
         }
         if let Some(r#type) = value.r#type {
-            stmt = stmt.value(Products::Type, r#type);
+            stmt = stmt.value(Products::Type, r#type.to_string());
         }
         if let Some(description) = value.description.flatten() {
             stmt = stmt.value(Products::Description, description);
