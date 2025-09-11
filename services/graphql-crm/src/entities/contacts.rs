@@ -117,12 +117,13 @@ impl From<UpdateContactsInput> for UpdateStatement {
 mod tests {
     use super::*;
     use crate::entities::companies::{Companies, InsertCompaniesInput};
-    use chrono::Utc;
     use graphql_auth::entities::user::{InsertUserInput, User};
     use rstest::{fixture, rstest};
     use sea_query::{InsertStatement, PostgresQueryBuilder, Query};
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
+
+    use graphql_auth::utils::dummy_user;
 
     #[fixture]
     fn dummy_owner() -> InsertStatement {
@@ -204,14 +205,18 @@ mod tests {
     }, false)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_insert_contacts(
-        dummy_owner: InsertStatement,
+        dummy_user: InsertUserInput,
         mut dummy_company: InsertCompaniesInput,
         #[case] mut input: InsertContactsInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         // 1. Create the owner and get its ID
-        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_owner.to_string(PostgresQueryBuilder))
+        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;
 
@@ -275,15 +280,19 @@ mod tests {
     }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_update_contacts(
-        dummy_owner: InsertStatement,
+        dummy_user: InsertUserInput,
         mut dummy_company: InsertCompaniesInput,
         mut dummy_contact: InsertContactsInput,
         #[case] input: UpdateContactsInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         // 1. Create the owner and get its ID
-        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_owner.to_string(PostgresQueryBuilder))
+        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;
 

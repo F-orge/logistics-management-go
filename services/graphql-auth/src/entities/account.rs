@@ -157,37 +157,7 @@ mod tests {
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
 
-    #[rstest::fixture]
-    fn dummy_user() -> InsertStatement {
-        InsertStatement::from(InsertUserInput {
-            name: "john doe".into(),
-            email: "johndoe@email.com".into(),
-            email_verified: false,
-            image: None,
-            role: None,
-            banned: false,
-            ban_reason: None,
-            ban_expires: None,
-        })
-        .returning(Query::returning().column(User::Id))
-        .to_owned()
-    }
-
-    #[rstest::fixture]
-    fn dummy_account() -> InsertAccountInput {
-        InsertAccountInput {
-            account_id: "acc_123".to_string(),
-            provider_id: "provider_abc".to_string(),
-            user_id: Uuid::new_v4(),
-            access_token: Some("access_token_value".to_string()),
-            refresh_token: Some("refresh_token_value".to_string()),
-            id_token: Some("id_token_value".to_string()),
-            access_token_expires_at: Some(Utc::now() + chrono::Duration::days(1)),
-            refresh_token_expires_at: Some(Utc::now() + chrono::Duration::days(2)),
-            scope: Some("read write".to_string()),
-            password: Some("supersecretpassword".to_string()),
-        }
-    }
+    use crate::utils::{dummy_account, dummy_user};
 
     #[rstest]
     #[case::basic(InsertAccountInput {
@@ -264,11 +234,15 @@ mod tests {
     }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_insert_account(
-        dummy_user: InsertStatement,
+        dummy_user: InsertUserInput,
         #[case] mut input: InsertAccountInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;
@@ -375,24 +349,28 @@ mod tests {
     }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_update_account(
-        dummy_user: InsertStatement,
+        dummy_user: InsertUserInput,
         mut dummy_account: InsertAccountInput,
         #[case] input: UpdateAccountInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;
 
         dummy_account.user_id = user_id;
 
-        let mut dummy_account = InsertStatement::from(dummy_account);
-
-        let dummy_account_stmt = dummy_account.returning(Query::returning().column(Account::Id));
+        let dummy_account = InsertStatement::from(dummy_account)
+            .returning(Query::returning().column(Account::Id))
+            .to_owned();
 
         let (account_id,) =
-            sqlx::query_as::<_, (Uuid,)>(&dummy_account_stmt.to_string(PostgresQueryBuilder))
+            sqlx::query_as::<_, (Uuid,)>(&dummy_account.to_string(PostgresQueryBuilder))
                 .fetch_one(&pool)
                 .await?;
 

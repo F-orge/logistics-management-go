@@ -101,7 +101,7 @@ impl From<InsertInvoicesInput> for InsertStatement {
             .values([
                 value.opportunity_id.into(),
                 value.status.map(|v| v.to_string()).into(),
-                value.total.into(),
+                value.total.map(|d| d.to_string()).into(),
                 value.issue_date.into(),
                 value.due_date.into(),
                 value.sent_at.into(),
@@ -126,7 +126,7 @@ impl From<UpdateInvoicesInput> for UpdateStatement {
             stmt = stmt.value(Invoices::Status, status.to_string());
         }
         if let Some(total) = value.total.flatten() {
-            stmt = stmt.value(Invoices::Total, total);
+            stmt = stmt.value(Invoices::Total, total.to_string());
         }
         if let Some(issue_date) = value.issue_date.flatten() {
             stmt = stmt.value(Invoices::IssueDate, issue_date);

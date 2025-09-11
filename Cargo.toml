@@ -52,4 +52,4 @@ url = { version = "2.5.7", features = ["serde"] }
 rust_decimal = "1.37.2"
 
 [dependencies]
-sea-query = { workspace = true, features = ["with-rust_decimal"] }
+sea-query = { workspace = true, features = ["derive", "with-rust_decimal"] }

@@ -86,18 +86,11 @@ impl From<UpdateVerificationInput> for sea_query::UpdateStatement {
 mod tests {
     use super::*;
     use chrono::Utc;
-    use rstest::{fixture, rstest};
+    use rstest::rstest;
     use sea_query::{Expr, InsertStatement, PostgresQueryBuilder, UpdateStatement};
     use sqlx::{Executor, PgPool};
 
-    #[fixture]
-    fn dummy_verification() -> InsertVerificationInput {
-        InsertVerificationInput {
-            identifier: "dummy@email.com".to_string(),
-            value: "dummytoken".to_string(),
-            expires_at: Utc::now() + chrono::Duration::hours(1),
-        }
-    }
+    use crate::utils::dummy_verification;
 
     #[rstest]
     #[case::basic(InsertVerificationInput {

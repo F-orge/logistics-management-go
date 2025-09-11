@@ -127,7 +127,7 @@ impl From<UpdateUserInput> for sea_query::UpdateStatement {
 }
 
 #[cfg(test)]
-mod sqlx_test {
+pub mod test {
     use sea_query::{Expr, InsertStatement, PostgresQueryBuilder, Query, UpdateStatement};
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
@@ -226,9 +226,8 @@ mod sqlx_test {
     }
 
     #[rstest::fixture]
-    #[once]
-    fn dummy_user() -> InsertStatement {
-        InsertStatement::from(InsertUserInput {
+    pub fn dummy_user() -> InsertUserInput {
+        InsertUserInput {
             name: "john doe".into(),
             email: "johndoe@email.com".into(),
             email_verified: false,
@@ -237,9 +236,7 @@ mod sqlx_test {
             banned: false,
             ban_reason: None,
             ban_expires: None,
-        })
-        .returning(Query::returning().column(User::Id))
-        .to_owned()
+        }
     }
 
     #[rstest::rstest]
@@ -325,11 +322,15 @@ mod sqlx_test {
     },true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_update_operations(
-        dummy_user: &InsertStatement,
+        dummy_user: InsertUserInput,
         #[case] input: UpdateUserInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         let (id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;

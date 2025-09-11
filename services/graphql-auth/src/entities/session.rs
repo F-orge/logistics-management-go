@@ -119,22 +119,7 @@ mod tests {
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
 
-    #[rstest::fixture]
-    #[once]
-    fn dummy_user() -> InsertStatement {
-        InsertStatement::from(InsertUserInput {
-            name: "john doe".into(),
-            email: "johndoe@email.com".into(),
-            email_verified: false,
-            image: None,
-            role: None,
-            banned: false,
-            ban_reason: None,
-            ban_expires: None,
-        })
-        .returning(Query::returning().column(User::Id))
-        .to_owned()
-    }
+    use crate::utils::{dummy_session, dummy_user};
 
     #[rstest]
     #[case::basic(InsertSessionInput {
@@ -187,11 +172,15 @@ mod tests {
     }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_insert_session(
-        dummy_user: &InsertStatement,
+        dummy_user: InsertUserInput,
         #[case] mut input: InsertSessionInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         let (id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;
@@ -209,18 +198,6 @@ mod tests {
         assert_eq!(result.is_ok(), success, "{}", result.unwrap_err());
 
         Ok(())
-    }
-
-    #[rstest::fixture]
-    fn dummy_session() -> InsertSessionInput {
-        InsertSessionInput {
-            expires_at: Utc::now(),
-            token: "sessiontoken123".to_string(),
-            ip_address: Some("127.0.0.1".to_string()),
-            user_agent: Some("Mozilla/5.0".to_string()),
-            user_id: Uuid::new_v4(),
-            impersonated_by: None,
-        }
     }
 
     #[rstest]
@@ -274,12 +251,16 @@ mod tests {
     }, true)]
     #[sqlx::test(migrations = "../../migrations")]
     async fn test_update_session(
-        dummy_user: &InsertStatement,
+        dummy_user: InsertUserInput,
         mut dummy_session: InsertSessionInput,
         #[case] input: UpdateSessionInput,
         #[case] success: bool,
         #[ignore] pool: PgPool,
     ) -> anyhow::Result<()> {
+        let dummy_user = InsertStatement::from(dummy_user)
+            .returning(Query::returning().column(User::Id))
+            .to_owned();
+
         let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_user.to_string(PostgresQueryBuilder))
             .fetch_one(&pool)
             .await?;

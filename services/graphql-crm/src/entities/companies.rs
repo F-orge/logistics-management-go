@@ -172,13 +172,10 @@ impl From<UpdateCompaniesInput> for UpdateStatement {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::Utc;
     use graphql_auth::entities::user::{InsertUserInput, User};
     use rstest::{fixture, rstest};
     use rust_decimal::Decimal;
-    use sea_query::{
-        InsertStatement, PostgresQueryBuilder, Query, QueryStatementWriter, UpdateStatement,
-    };
+    use sea_query::{InsertStatement, PostgresQueryBuilder, Query, UpdateStatement};
     use sqlx::{Executor, PgPool};
     use uuid::Uuid;
 

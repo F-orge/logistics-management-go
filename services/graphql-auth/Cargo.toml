@@ -15,5 +15,4 @@ sea-query.workspace = true
 url.workspace = true
 anyhow.workspace = true
 validator.workspace = true
-[dev-dependencies]
 rstest.workspace = true
