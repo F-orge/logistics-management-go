@@ -1,4 +1,4 @@
-use sea_query::{Alias, Iden, InsertStatement, Query, UpdateStatement};
+use sea_query::{Alias, Iden, InsertStatement, Query};
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
 use uuid::Uuid;
