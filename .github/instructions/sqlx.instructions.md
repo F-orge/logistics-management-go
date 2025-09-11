@@ -1,6 +1,4 @@
----
-applyTo: '**/*.rs'
----
+
 
 # SQLx Entity Generation Instruction
 

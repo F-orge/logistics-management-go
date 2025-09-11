@@ -168,3 +168,209 @@ impl From<UpdateCompaniesInput> for UpdateStatement {
         stmt.to_owned()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::Utc;
+    use graphql_auth::entities::user::{InsertUserInput, User};
+    use rstest::{fixture, rstest};
+    use rust_decimal::Decimal;
+    use sea_query::{
+        InsertStatement, PostgresQueryBuilder, Query, QueryStatementWriter, UpdateStatement,
+    };
+    use sqlx::{Executor, PgPool};
+    use uuid::Uuid;
+
+    #[fixture]
+    fn dummy_owner() -> InsertStatement {
+        InsertStatement::from(InsertUserInput {
+            name: "john doe".into(),
+            email: "johndoe@email.com".into(),
+            email_verified: false,
+            image: None,
+            role: None,
+            banned: false,
+            ban_reason: None,
+            ban_expires: None,
+        })
+        .returning(Query::returning().column(User::Id))
+        .to_owned()
+    }
+
+    #[fixture]
+    fn dummy_company() -> InsertCompaniesInput {
+        InsertCompaniesInput {
+            name: "Acme Corp".to_string(),
+            street: "123 Main St".to_string(),
+            city: "Metropolis".to_string(),
+            state: "NY".to_string(),
+            postal_code: "10001".to_string(),
+            country: "USA".to_string(),
+            phone_number: "555-1234".to_string(),
+            industry: "Manufacturing".to_string(),
+            website: "https://acme.com".to_string(),
+            annual_revenue: Decimal::new(1000000, 2),
+            owner_id: Uuid::new_v4(),
+        }
+    }
+
+    #[rstest]
+    #[case::minimal(InsertCompaniesInput {
+        name: "A".to_string(),
+        street: "B".to_string(),
+        city: "C".to_string(),
+        state: "D".to_string(),
+        postal_code: "E".to_string(),
+        country: "F".to_string(),
+        phone_number: "G".to_string(),
+        industry: "H".to_string(),
+        website: "https://a.com".to_string(),
+        annual_revenue: Decimal::new(1, 0),
+        owner_id: Uuid::new_v4(),
+    }, true)]
+    #[case::all_fields(dummy_company(), true)]
+    #[case::empty_name(InsertCompaniesInput {
+        name: "".to_string(),
+        street: "B".to_string(),
+        city: "C".to_string(),
+        state: "D".to_string(),
+        postal_code: "E".to_string(),
+        country: "F".to_string(),
+        phone_number: "G".to_string(),
+        industry: "H".to_string(),
+        website: "https://a.com".to_string(),
+        annual_revenue: Decimal::new(1, 0),
+        owner_id: Uuid::new_v4(),
+    }, false)]
+    #[case::invalid_website(InsertCompaniesInput {
+        name: "A".to_string(),
+        street: "B".to_string(),
+        city: "C".to_string(),
+        state: "D".to_string(),
+        postal_code: "E".to_string(),
+        country: "F".to_string(),
+        phone_number: "G".to_string(),
+        industry: "H".to_string(),
+        website: "not-a-url".to_string(),
+        annual_revenue: Decimal::new(1, 0),
+        owner_id: Uuid::new_v4(),
+    }, false)]
+    #[sqlx::test(migrations = "../../migrations")]
+    async fn test_insert_companies(
+        dummy_owner: InsertStatement,
+        #[case] mut input: InsertCompaniesInput,
+        #[case] success: bool,
+        #[ignore] pool: PgPool,
+    ) -> anyhow::Result<()> {
+        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_owner.to_string(PostgresQueryBuilder))
+            .fetch_one(&pool)
+            .await?;
+
+        input.owner_id = user_id;
+
+        if input.validate().is_ok() == success {
+            return Ok(());
+        }
+
+        let sql = InsertStatement::from(input).to_string(PostgresQueryBuilder);
+
+        let result = pool.execute(&*sql).await;
+
+        assert_eq!(result.is_ok(), success, "{}", result.unwrap_err());
+
+        Ok(())
+    }
+
+    #[rstest]
+    #[case::minimal(UpdateCompaniesInput {
+        name: Some("A".to_string()),
+        street: Some("B".to_string()),
+        city: Some("C".to_string()),
+        state: Some("D".to_string()),
+        postal_code: Some("E".to_string()),
+        country: Some("F".to_string()),
+        phone_number: Some("G".to_string()),
+        industry: Some("H".to_string()),
+        website: Some("https://a.com".to_string()),
+        annual_revenue: Some(Decimal::new(1, 0)),
+        owner_id: Some(Uuid::new_v4()),
+    }, true)]
+    #[case::empty_name(UpdateCompaniesInput {
+        name: Some("".to_string()),
+        street: None,
+        city: None,
+        state: None,
+        postal_code: None,
+        country: None,
+        phone_number: None,
+        industry: None,
+        website: None,
+        annual_revenue: None,
+        owner_id: None,
+    }, false)]
+    #[case::invalid_website(UpdateCompaniesInput {
+        name: Some("A".to_string()),
+        street: None,
+        city: None,
+        state: None,
+        postal_code: None,
+        country: None,
+        phone_number: None,
+        industry: None,
+        website: Some("not-a-url".to_string()),
+        annual_revenue: None,
+        owner_id: None,
+    }, false)]
+    #[case::nulls(UpdateCompaniesInput {
+        name: None,
+        street: None,
+        city: None,
+        state: None,
+        postal_code: None,
+        country: None,
+        phone_number: None,
+        industry: None,
+        website: None,
+        annual_revenue: None,
+        owner_id: None,
+    }, true)]
+    #[sqlx::test(migrations = "../../migrations")]
+    async fn test_update_companies(
+        dummy_owner: InsertStatement,
+        mut dummy_company: InsertCompaniesInput,
+        #[case] input: UpdateCompaniesInput,
+        #[case] success: bool,
+        #[ignore] pool: PgPool,
+    ) -> anyhow::Result<()> {
+        let (user_id,) = sqlx::query_as::<_, (Uuid,)>(&dummy_owner.to_string(PostgresQueryBuilder))
+            .fetch_one(&pool)
+            .await?;
+
+        dummy_company.owner_id = user_id;
+
+        let insert_sql = InsertStatement::from(dummy_company)
+            .returning(Query::returning().column(Companies::Id))
+            .to_string(PostgresQueryBuilder);
+
+        let (id,) = sqlx::query_as::<_, (Uuid,)>(&insert_sql)
+            .fetch_one(&pool)
+            .await?;
+
+        if input.validate().is_ok() == success {
+            return Ok(());
+        }
+
+        let mut stmt: UpdateStatement = input.into();
+
+        let sql = stmt
+            .and_where(sea_query::Expr::col(Companies::Id).eq(id))
+            .to_string(PostgresQueryBuilder);
+
+        let result = pool.execute(&*sql).await;
+
+        assert_eq!(result.is_ok(), success, "{}", result.unwrap_err());
+
+        Ok(())
+    }
+}
