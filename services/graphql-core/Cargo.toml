@@ -1,0 +1,9 @@
+[package]
+name = "graphql-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+async-graphql.workspace = true
+sea-orm.workspace = true

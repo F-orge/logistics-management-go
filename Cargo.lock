@@ -99,6 +99,7 @@ dependencies = [
  "async-trait",
  "base64",
  "bytes",
+ "chrono",
  "fast_chemail",
  "fnv",
  "futures-channel",
@@ -119,6 +120,8 @@ dependencies = [
  "static_assertions_next",
  "tempfile",
  "thiserror 1.0.69",
+ "url",
+ "uuid",
 ]
 
 [[package]]
@@ -820,6 +823,7 @@ dependencies = [
  "anyhow",
  "async-graphql",
  "chrono",
+ "graphql-core",
  "rstest",
  "sea-orm",
  "serde",
@@ -847,6 +851,14 @@ dependencies = [
  "url",
  "uuid",
  "validator",
+]
+
+[[package]]
+name = "graphql-core"
+version = "0.1.0"
+dependencies = [
+ "async-graphql",
+ "sea-orm",
 ]
 
 [[package]]
@@ -1315,6 +1327,9 @@ checksum = "34080505efa8e45a4b816c349525ebe327ceaa8559756f0356cba97ef3bf7432"
 [[package]]
 name = "logistics-management-go"
 version = "0.0.0"
+dependencies = [
+ "async-graphql",
+]
 
 [[package]]
 name = "lru"

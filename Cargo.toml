@@ -53,3 +53,4 @@ sea-orm = { version = "1.1.16", features = [
 ] }
 
 [dependencies]
+async-graphql = { workspace = true, features = ["uuid", "chrono", "url"] }
