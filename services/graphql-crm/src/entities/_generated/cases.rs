@@ -5,44 +5,109 @@ use super::sea_orm_active_enums::CaseStatus;
 use super::sea_orm_active_enums::CaseType;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "cases")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "cases"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(unique)]
     pub case_number: String,
     pub status: Option<CaseStatus>,
     pub priority: Option<CasePriority>,
     pub r#type: Option<CaseType>,
     pub owner_id: Uuid,
     pub contact_id: Option<Uuid>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub created_at: Option<DateTimeWithTimeZone>,
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    CaseNumber,
+    Status,
+    Priority,
+    Type,
+    OwnerId,
+    ContactId,
+    Description,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::contacts::Entity",
-        from = "Column::ContactId",
-        to = "super::contacts::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Contacts,
-    #[sea_orm(has_many = "super::interactions::Entity")]
     Interactions,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::OwnerId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::CaseNumber => ColumnType::String(StringLen::N(50u32)).def().unique(),
+            Self::Status => CaseStatus::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Priority => CasePriority::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Type => CaseType::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::OwnerId => ColumnType::Uuid.def(),
+            Self::ContactId => ColumnType::Uuid.def().null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Contacts => Entity::belongs_to(super::contacts::Entity)
+                .from(Column::ContactId)
+                .to(super::contacts::Column::Id)
+                .into(),
+            Self::Interactions => Entity::has_many(super::interactions::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::OwnerId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::contacts::Entity> for Entity {

@@ -16,3 +16,5 @@ anyhow.workspace = true
 validator.workspace = true
 rstest.workspace = true
 sea-orm.workspace = true
+graphql-auth = { path = "../graphql-auth" }
+graphql-crm = { path = "../graphql-crm" }

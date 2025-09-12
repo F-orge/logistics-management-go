@@ -2,10 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "ims", table_name = "outbound_shipment_items")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("ims")
+    }
+    fn table_name(&self) -> &str {
+        "outbound_shipment_items"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub outbound_shipment_id: Uuid,
     pub sales_order_item_id: Uuid,
@@ -16,40 +26,75 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    OutboundShipmentId,
+    SalesOrderItemId,
+    ProductId,
+    BatchId,
+    QuantityShipped,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::inventory_batches::Entity",
-        from = "Column::BatchId",
-        to = "super::inventory_batches::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     InventoryBatches,
-    #[sea_orm(
-        belongs_to = "super::outbound_shipments::Entity",
-        from = "Column::OutboundShipmentId",
-        to = "super::outbound_shipments::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     OutboundShipments,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
-    #[sea_orm(
-        belongs_to = "super::sales_order_items::Entity",
-        from = "Column::SalesOrderItemId",
-        to = "super::sales_order_items::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     SalesOrderItems,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::OutboundShipmentId => ColumnType::Uuid.def(),
+            Self::SalesOrderItemId => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::BatchId => ColumnType::Uuid.def().null(),
+            Self::QuantityShipped => ColumnType::Integer.def(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::InventoryBatches => Entity::belongs_to(super::inventory_batches::Entity)
+                .from(Column::BatchId)
+                .to(super::inventory_batches::Column::Id)
+                .into(),
+            Self::OutboundShipments => Entity::belongs_to(super::outbound_shipments::Entity)
+                .from(Column::OutboundShipmentId)
+                .to(super::outbound_shipments::Column::Id)
+                .into(),
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+            Self::SalesOrderItems => Entity::belongs_to(super::sales_order_items::Entity)
+                .from(Column::SalesOrderItemId)
+                .to(super::sales_order_items::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::inventory_batches::Entity> for Entity {

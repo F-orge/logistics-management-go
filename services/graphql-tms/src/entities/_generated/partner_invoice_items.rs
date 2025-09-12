@@ -2,35 +2,77 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "partner_invoice_items")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "partner_invoice_items"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub partner_invoice_id: Uuid,
     pub shipment_leg_id: Uuid,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))")]
     pub amount: Decimal,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    PartnerInvoiceId,
+    ShipmentLegId,
+    Amount,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::partner_invoices::Entity",
-        from = "Column::PartnerInvoiceId",
-        to = "super::partner_invoices::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     PartnerInvoices,
-    #[sea_orm(
-        belongs_to = "super::shipment_legs::Entity",
-        from = "Column::ShipmentLegId",
-        to = "super::shipment_legs::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     ShipmentLegs,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::PartnerInvoiceId => ColumnType::Uuid.def(),
+            Self::ShipmentLegId => ColumnType::Uuid.def(),
+            Self::Amount => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::PartnerInvoices => Entity::belongs_to(super::partner_invoices::Entity)
+                .from(Column::PartnerInvoiceId)
+                .to(super::partner_invoices::Column::Id)
+                .into(),
+            Self::ShipmentLegs => Entity::belongs_to(super::shipment_legs::Entity)
+                .from(Column::ShipmentLegId)
+                .to(super::shipment_legs::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::partner_invoices::Entity> for Entity {

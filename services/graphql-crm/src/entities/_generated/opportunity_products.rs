@@ -2,34 +2,75 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "opportunity_products")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "opportunity_products"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub opportunity_id: Uuid,
-    #[sea_orm(primary_key, auto_increment = false)]
     pub product_id: Uuid,
     pub quantity: i32,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    OpportunityId,
+    ProductId,
+    Quantity,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    OpportunityId,
+    ProductId,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = (Uuid, Uuid);
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::opportunities::Entity",
-        from = "Column::OpportunityId",
-        to = "super::opportunities::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Opportunities,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::OpportunityId => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::Quantity => ColumnType::Integer.def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Opportunities => Entity::belongs_to(super::opportunities::Entity)
+                .from(Column::OpportunityId)
+                .to(super::opportunities::Column::Id)
+                .into(),
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::opportunities::Entity> for Entity {

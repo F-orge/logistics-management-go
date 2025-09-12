@@ -2,55 +2,109 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "credit_notes")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "credit_notes"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub invoice_id: Uuid,
     pub dispute_id: Option<Uuid>,
-    #[sea_orm(unique)]
     pub credit_note_number: String,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))")]
     pub amount: Decimal,
-    #[sea_orm(column_type = "Text")]
     pub reason: String,
     pub issue_date: Date,
     pub applied_at: Option<DateTime>,
     pub currency: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
     pub created_by_user_id: Option<Uuid>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    InvoiceId,
+    DisputeId,
+    CreditNoteNumber,
+    Amount,
+    Reason,
+    IssueDate,
+    AppliedAt,
+    Currency,
+    Notes,
+    CreatedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::disputes::Entity",
-        from = "Column::DisputeId",
-        to = "super::disputes::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Disputes,
-    #[sea_orm(
-        belongs_to = "super::invoices::Entity",
-        from = "Column::InvoiceId",
-        to = "super::invoices::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Invoices,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::CreatedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::InvoiceId => ColumnType::Uuid.def(),
+            Self::DisputeId => ColumnType::Uuid.def().null(),
+            Self::CreditNoteNumber => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::Amount => ColumnType::Decimal(Some((12u32, 2u32))).def(),
+            Self::Reason => ColumnType::Text.def(),
+            Self::IssueDate => ColumnType::Date.def(),
+            Self::AppliedAt => ColumnType::DateTime.def().null(),
+            Self::Currency => ColumnType::String(StringLen::N(3u32)).def().null(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::CreatedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Disputes => Entity::belongs_to(super::disputes::Entity)
+                .from(Column::DisputeId)
+                .to(super::disputes::Column::Id)
+                .into(),
+            Self::Invoices => Entity::belongs_to(super::invoices::Entity)
+                .from(Column::InvoiceId)
+                .to(super::invoices::Column::Id)
+                .into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::CreatedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::disputes::Entity> for Entity {

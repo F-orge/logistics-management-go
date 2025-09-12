@@ -2,40 +2,92 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "ims", table_name = "inbound_shipment_items")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("ims")
+    }
+    fn table_name(&self) -> &str {
+        "inbound_shipment_items"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub inbound_shipment_id: Uuid,
     pub product_id: Uuid,
     pub expected_quantity: i32,
     pub received_quantity: Option<i32>,
     pub discrepancy_quantity: Option<i32>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub discrepancy_notes: Option<String>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    InboundShipmentId,
+    ProductId,
+    ExpectedQuantity,
+    ReceivedQuantity,
+    DiscrepancyQuantity,
+    DiscrepancyNotes,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::inbound_shipments::Entity",
-        from = "Column::InboundShipmentId",
-        to = "super::inbound_shipments::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     InboundShipments,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::InboundShipmentId => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::ExpectedQuantity => ColumnType::Integer.def(),
+            Self::ReceivedQuantity => ColumnType::Integer.def().null(),
+            Self::DiscrepancyQuantity => ColumnType::Integer.def().null(),
+            Self::DiscrepancyNotes => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::InboundShipments => Entity::belongs_to(super::inbound_shipments::Entity)
+                .from(Column::InboundShipmentId)
+                .to(super::inbound_shipments::Column::Id)
+                .into(),
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::inbound_shipments::Entity> for Entity {

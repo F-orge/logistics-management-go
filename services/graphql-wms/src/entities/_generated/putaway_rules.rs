@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::LocationTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "wms", table_name = "putaway_rules")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "putaway_rules"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub product_id: Uuid,
     pub client_id: Option<Uuid>,
@@ -16,9 +26,7 @@ pub struct Model {
     pub priority: i32,
     pub min_quantity: Option<i32>,
     pub max_quantity: Option<i32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub weight_threshold: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub volume_threshold: Option<f32>,
     pub requires_temperature_control: Option<bool>,
     pub requires_hazmat_approval: Option<bool>,
@@ -27,40 +35,95 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ProductId,
+    ClientId,
+    WarehouseId,
+    PreferredLocationId,
+    LocationType,
+    Priority,
+    MinQuantity,
+    MaxQuantity,
+    WeightThreshold,
+    VolumeThreshold,
+    RequiresTemperatureControl,
+    RequiresHazmatApproval,
+    IsActive,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ClientId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(
-        belongs_to = "super::locations::Entity",
-        from = "Column::PreferredLocationId",
-        to = "super::locations::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Locations,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
-    #[sea_orm(
-        belongs_to = "super::warehouses::Entity",
-        from = "Column::WarehouseId",
-        to = "super::warehouses::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Warehouses,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::ClientId => ColumnType::Uuid.def().null(),
+            Self::WarehouseId => ColumnType::Uuid.def(),
+            Self::PreferredLocationId => ColumnType::Uuid.def().null(),
+            Self::LocationType => LocationTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Priority => ColumnType::Integer.def(),
+            Self::MinQuantity => ColumnType::Integer.def().null(),
+            Self::MaxQuantity => ColumnType::Integer.def().null(),
+            Self::WeightThreshold => ColumnType::Float.def().null(),
+            Self::VolumeThreshold => ColumnType::Float.def().null(),
+            Self::RequiresTemperatureControl => ColumnType::Boolean.def().null(),
+            Self::RequiresHazmatApproval => ColumnType::Boolean.def().null(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ClientId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::Locations => Entity::belongs_to(super::locations::Entity)
+                .from(Column::PreferredLocationId)
+                .to(super::locations::Column::Id)
+                .into(),
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+            Self::Warehouses => Entity::belongs_to(super::warehouses::Entity)
+                .from(Column::WarehouseId)
+                .to(super::warehouses::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::companies::Entity> for Entity {

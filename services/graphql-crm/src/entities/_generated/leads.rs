@@ -4,10 +4,20 @@ use super::sea_orm_active_enums::LeadSource;
 use super::sea_orm_active_enums::LeadStatus;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "leads")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "leads"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
     pub email: String,
@@ -24,48 +34,100 @@ pub struct Model {
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Email,
+    LeadSource,
+    Status,
+    LeadScore,
+    OwnerId,
+    CampaignId,
+    ConvertedAt,
+    ConvertedContactId,
+    ConvertedCompanyId,
+    ConvertedOpportunityId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::campaigns::Entity",
-        from = "Column::CampaignId",
-        to = "super::campaigns::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Campaigns,
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ConvertedCompanyId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(
-        belongs_to = "super::contacts::Entity",
-        from = "Column::ConvertedContactId",
-        to = "super::contacts::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Contacts,
-    #[sea_orm(
-        belongs_to = "super::opportunities::Entity",
-        from = "Column::ConvertedOpportunityId",
-        to = "super::opportunities::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Opportunities,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::OwnerId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Email => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::LeadSource => LeadSource::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Status => LeadStatus::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::LeadScore => ColumnType::Integer.def().null(),
+            Self::OwnerId => ColumnType::Uuid.def(),
+            Self::CampaignId => ColumnType::Uuid.def().null(),
+            Self::ConvertedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::ConvertedContactId => ColumnType::Uuid.def().null(),
+            Self::ConvertedCompanyId => ColumnType::Uuid.def().null(),
+            Self::ConvertedOpportunityId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Campaigns => Entity::belongs_to(super::campaigns::Entity)
+                .from(Column::CampaignId)
+                .to(super::campaigns::Column::Id)
+                .into(),
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ConvertedCompanyId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::Contacts => Entity::belongs_to(super::contacts::Entity)
+                .from(Column::ConvertedContactId)
+                .to(super::contacts::Column::Id)
+                .into(),
+            Self::Opportunities => Entity::belongs_to(super::opportunities::Entity)
+                .from(Column::ConvertedOpportunityId)
+                .to(super::opportunities::Column::Id)
+                .into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::OwnerId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::campaigns::Entity> for Entity {

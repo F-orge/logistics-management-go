@@ -5,19 +5,27 @@ use super::sea_orm_active_enums::ExpenseStatusEnum;
 use super::sea_orm_active_enums::ExpenseTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "tms", table_name = "expenses")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "expenses"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub trip_id: Option<Uuid>,
     pub driver_id: Option<Uuid>,
     pub r#type: Option<ExpenseTypeEnum>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))")]
     pub amount: Decimal,
     pub currency: Option<CurrencyEnum>,
     pub receipt_url: Option<String>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub fuel_quantity: Option<f32>,
     pub odometer_reading: Option<i32>,
     pub status: Option<ExpenseStatusEnum>,
@@ -25,24 +33,85 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    TripId,
+    DriverId,
+    Type,
+    Amount,
+    Currency,
+    ReceiptUrl,
+    FuelQuantity,
+    OdometerReading,
+    Status,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::drivers::Entity",
-        from = "Column::DriverId",
-        to = "super::drivers::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Drivers,
-    #[sea_orm(
-        belongs_to = "super::trips::Entity",
-        from = "Column::TripId",
-        to = "super::trips::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Trips,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::TripId => ColumnType::Uuid.def().null(),
+            Self::DriverId => ColumnType::Uuid.def().null(),
+            Self::Type => ExpenseTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Amount => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::Currency => CurrencyEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::ReceiptUrl => ColumnType::String(StringLen::N(500u32)).def().null(),
+            Self::FuelQuantity => ColumnType::Float.def().null(),
+            Self::OdometerReading => ColumnType::Integer.def().null(),
+            Self::Status => ExpenseStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Drivers => Entity::belongs_to(super::drivers::Entity)
+                .from(Column::DriverId)
+                .to(super::drivers::Column::Id)
+                .into(),
+            Self::Trips => Entity::belongs_to(super::trips::Entity)
+                .from(Column::TripId)
+                .to(super::trips::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::drivers::Entity> for Entity {

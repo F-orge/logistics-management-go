@@ -16,3 +16,5 @@ pub mod rate_cards;
 pub mod rate_rules;
 pub mod sea_orm_active_enums;
 pub mod surcharges;
+pub use graphql_auth::entities::_generated::user;
+pub use graphql_crm::entities::_generated::companies;

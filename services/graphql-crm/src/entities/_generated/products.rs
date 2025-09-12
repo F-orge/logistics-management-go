@@ -3,29 +3,92 @@
 use super::sea_orm_active_enums::ProductType;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "products")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "products"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
-    #[sea_orm(unique)]
     pub sku: Option<String>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))")]
     pub price: Decimal,
     pub r#type: Option<ProductType>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub created_at: Option<DateTimeWithTimeZone>,
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Sku,
+    Price,
+    Type,
+    Description,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::invoice_items::Entity")]
     InvoiceItems,
-    #[sea_orm(has_many = "super::opportunity_products::Entity")]
     OpportunityProducts,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Sku => ColumnType::String(StringLen::N(100u32))
+                .def()
+                .null()
+                .unique(),
+            Self::Price => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::Type => ProductType::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::InvoiceItems => Entity::has_many(super::invoice_items::Entity).into(),
+            Self::OpportunityProducts => {
+                Entity::has_many(super::opportunity_products::Entity).into()
+            }
+        }
+    }
 }
 
 impl Related<super::invoice_items::Entity> for Entity {

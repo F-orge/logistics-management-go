@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::DocumentTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "documents")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "documents"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub record_id: Uuid,
     pub record_type: String,
@@ -20,16 +30,69 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    RecordId,
+    RecordType,
+    DocumentType,
+    FilePath,
+    FileName,
+    FileSize,
+    MimeType,
+    UploadedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::UploadedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::RecordId => ColumnType::Uuid.def(),
+            Self::RecordType => ColumnType::String(StringLen::N(50u32)).def(),
+            Self::DocumentType => DocumentTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::FilePath => ColumnType::String(StringLen::N(500u32)).def(),
+            Self::FileName => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::FileSize => ColumnType::Integer.def().null(),
+            Self::MimeType => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::UploadedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::UploadedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::user::Entity> for Entity {

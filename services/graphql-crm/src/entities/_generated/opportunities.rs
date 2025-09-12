@@ -4,19 +4,26 @@ use super::sea_orm_active_enums::OpportunitySource;
 use super::sea_orm_active_enums::OpportunityStage;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "crm", table_name = "opportunities")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "opportunities"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
     pub stage: Option<OpportunityStage>,
-    #[sea_orm(column_type = "Decimal(Some((15, 2)))", nullable)]
     pub deal_value: Option<Decimal>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub probability: Option<f32>,
     pub expected_close_date: Option<Date>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub lost_reason: Option<String>,
     pub source: Option<OpportunitySource>,
     pub owner_id: Uuid,
@@ -27,46 +34,103 @@ pub struct Model {
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Stage,
+    DealValue,
+    Probability,
+    ExpectedCloseDate,
+    LostReason,
+    Source,
+    OwnerId,
+    ContactId,
+    CompanyId,
+    CampaignId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::campaigns::Entity",
-        from = "Column::CampaignId",
-        to = "super::campaigns::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Campaigns,
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::CompanyId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(
-        belongs_to = "super::contacts::Entity",
-        from = "Column::ContactId",
-        to = "super::contacts::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Contacts,
-    #[sea_orm(has_many = "super::invoices::Entity")]
     Invoices,
-    #[sea_orm(has_many = "super::leads::Entity")]
     Leads,
-    #[sea_orm(has_many = "super::opportunity_products::Entity")]
     OpportunityProducts,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::OwnerId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Stage => OpportunityStage::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::DealValue => ColumnType::Decimal(Some((15u32, 2u32))).def().null(),
+            Self::Probability => ColumnType::Float.def().null(),
+            Self::ExpectedCloseDate => ColumnType::Date.def().null(),
+            Self::LostReason => ColumnType::Text.def().null(),
+            Self::Source => OpportunitySource::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::OwnerId => ColumnType::Uuid.def(),
+            Self::ContactId => ColumnType::Uuid.def().null(),
+            Self::CompanyId => ColumnType::Uuid.def().null(),
+            Self::CampaignId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Campaigns => Entity::belongs_to(super::campaigns::Entity)
+                .from(Column::CampaignId)
+                .to(super::campaigns::Column::Id)
+                .into(),
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::CompanyId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::Contacts => Entity::belongs_to(super::contacts::Entity)
+                .from(Column::ContactId)
+                .to(super::contacts::Column::Id)
+                .into(),
+            Self::Invoices => Entity::has_many(super::invoices::Entity).into(),
+            Self::Leads => Entity::has_many(super::leads::Entity).into(),
+            Self::OpportunityProducts => {
+                Entity::has_many(super::opportunity_products::Entity).into()
+            }
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::OwnerId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::campaigns::Entity> for Entity {

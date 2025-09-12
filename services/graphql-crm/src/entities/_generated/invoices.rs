@@ -4,14 +4,23 @@ use super::sea_orm_active_enums::InvoiceStatus;
 use super::sea_orm_active_enums::PaymentMethod;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "invoices")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "invoices"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub opportunity_id: Option<Uuid>,
     pub status: Option<InvoiceStatus>,
-    #[sea_orm(column_type = "Decimal(Some((15, 2)))", nullable)]
     pub total: Option<Decimal>,
     pub issue_date: Option<Date>,
     pub due_date: Option<Date>,
@@ -22,18 +31,76 @@ pub struct Model {
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    OpportunityId,
+    Status,
+    Total,
+    IssueDate,
+    DueDate,
+    SentAt,
+    PaidAt,
+    PaymentMethod,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::invoice_items::Entity")]
     InvoiceItems,
-    #[sea_orm(
-        belongs_to = "super::opportunities::Entity",
-        from = "Column::OpportunityId",
-        to = "super::opportunities::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Opportunities,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::OpportunityId => ColumnType::Uuid.def().null(),
+            Self::Status => InvoiceStatus::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Total => ColumnType::Decimal(Some((15u32, 2u32))).def().null(),
+            Self::IssueDate => ColumnType::Date.def().null(),
+            Self::DueDate => ColumnType::Date.def().null(),
+            Self::SentAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::PaidAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::PaymentMethod => PaymentMethod::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::InvoiceItems => Entity::has_many(super::invoice_items::Entity).into(),
+            Self::Opportunities => Entity::belongs_to(super::opportunities::Entity)
+                .from(Column::OpportunityId)
+                .to(super::opportunities::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::invoice_items::Entity> for Entity {

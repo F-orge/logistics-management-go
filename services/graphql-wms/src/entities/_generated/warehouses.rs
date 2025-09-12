@@ -2,13 +2,22 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "wms", table_name = "warehouses")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "warehouses"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
-    #[sea_orm(column_type = "Text", nullable)]
     pub address: Option<String>,
     pub city: Option<String>,
     pub state: Option<String>,
@@ -23,18 +32,77 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Address,
+    City,
+    State,
+    PostalCode,
+    Country,
+    Timezone,
+    ContactPerson,
+    ContactEmail,
+    ContactPhone,
+    IsActive,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::locations::Entity")]
     Locations,
-    #[sea_orm(has_many = "super::packages::Entity")]
     Packages,
-    #[sea_orm(has_many = "super::pick_batches::Entity")]
     PickBatches,
-    #[sea_orm(has_many = "super::putaway_rules::Entity")]
     PutawayRules,
-    #[sea_orm(has_many = "super::tasks::Entity")]
     Tasks,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Address => ColumnType::Text.def().null(),
+            Self::City => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::State => ColumnType::String(StringLen::N(50u32)).def().null(),
+            Self::PostalCode => ColumnType::String(StringLen::N(20u32)).def().null(),
+            Self::Country => ColumnType::String(StringLen::N(50u32)).def().null(),
+            Self::Timezone => ColumnType::String(StringLen::N(50u32)).def().null(),
+            Self::ContactPerson => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::ContactEmail => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::ContactPhone => ColumnType::String(StringLen::N(20u32)).def().null(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Locations => Entity::has_many(super::locations::Entity).into(),
+            Self::Packages => Entity::has_many(super::packages::Entity).into(),
+            Self::PickBatches => Entity::has_many(super::pick_batches::Entity).into(),
+            Self::PutawayRules => Entity::has_many(super::putaway_rules::Entity).into(),
+            Self::Tasks => Entity::has_many(super::tasks::Entity).into(),
+        }
+    }
 }
 
 impl Related<super::locations::Entity> for Entity {

@@ -2,42 +2,99 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "auth", table_name = "account")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("auth")
+    }
+    fn table_name(&self) -> &str {
+        "account"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(column_type = "Text")]
     pub account_id: String,
-    #[sea_orm(column_type = "Text")]
     pub provider_id: String,
     pub user_id: Uuid,
-    #[sea_orm(column_type = "Text", nullable)]
     pub access_token: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub refresh_token: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub id_token: Option<String>,
     pub access_token_expires_at: Option<DateTime>,
     pub refresh_token_expires_at: Option<DateTime>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub scope: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub password: Option<String>,
     pub created_at: DateTime,
     pub updated_at: DateTime,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    AccountId,
+    ProviderId,
+    UserId,
+    AccessToken,
+    RefreshToken,
+    IdToken,
+    AccessTokenExpiresAt,
+    RefreshTokenExpiresAt,
+    Scope,
+    Password,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::UserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::AccountId => ColumnType::Text.def(),
+            Self::ProviderId => ColumnType::Text.def(),
+            Self::UserId => ColumnType::Uuid.def(),
+            Self::AccessToken => ColumnType::Text.def().null(),
+            Self::RefreshToken => ColumnType::Text.def().null(),
+            Self::IdToken => ColumnType::Text.def().null(),
+            Self::AccessTokenExpiresAt => ColumnType::DateTime.def().null(),
+            Self::RefreshTokenExpiresAt => ColumnType::DateTime.def().null(),
+            Self::Scope => ColumnType::Text.def().null(),
+            Self::Password => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def(),
+            Self::UpdatedAt => ColumnType::DateTime.def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::UserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::user::Entity> for Entity {

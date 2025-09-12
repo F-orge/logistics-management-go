@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::DriverStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "drivers")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "drivers"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub user_id: Uuid,
     pub license_number: String,
@@ -16,22 +26,68 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    UserId,
+    LicenseNumber,
+    LicenseExpiryDate,
+    Status,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::driver_schedules::Entity")]
     DriverSchedules,
-    #[sea_orm(has_many = "super::expenses::Entity")]
     Expenses,
-    #[sea_orm(has_many = "super::trips::Entity")]
     Trips,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::UserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::UserId => ColumnType::Uuid.def(),
+            Self::LicenseNumber => ColumnType::String(StringLen::N(50u32)).def(),
+            Self::LicenseExpiryDate => ColumnType::Date.def().null(),
+            Self::Status => DriverStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::DriverSchedules => Entity::has_many(super::driver_schedules::Entity).into(),
+            Self::Expenses => Entity::has_many(super::expenses::Entity).into(),
+            Self::Trips => Entity::has_many(super::trips::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::UserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::driver_schedules::Entity> for Entity {

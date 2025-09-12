@@ -3,33 +3,91 @@
 use super::sea_orm_active_enums::VehicleStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "tms", table_name = "vehicles")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "vehicles"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(unique)]
     pub registration_number: String,
     pub model: Option<String>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub capacity_volume: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub capacity_weight: Option<f32>,
     pub status: Option<VehicleStatusEnum>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    RegistrationNumber,
+    Model,
+    CapacityVolume,
+    CapacityWeight,
+    Status,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::geofence_events::Entity")]
     GeofenceEvents,
-    #[sea_orm(has_many = "super::gps_pings::Entity")]
     GpsPings,
-    #[sea_orm(has_many = "super::trips::Entity")]
     Trips,
-    #[sea_orm(has_many = "super::vehicle_maintenance::Entity")]
     VehicleMaintenance,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::RegistrationNumber => ColumnType::String(StringLen::N(50u32)).def().unique(),
+            Self::Model => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::CapacityVolume => ColumnType::Float.def().null(),
+            Self::CapacityWeight => ColumnType::Float.def().null(),
+            Self::Status => VehicleStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::GeofenceEvents => Entity::has_many(super::geofence_events::Entity).into(),
+            Self::GpsPings => Entity::has_many(super::gps_pings::Entity).into(),
+            Self::Trips => Entity::has_many(super::trips::Entity).into(),
+            Self::VehicleMaintenance => Entity::has_many(super::vehicle_maintenance::Entity).into(),
+        }
+    }
 }
 
 impl Related<super::geofence_events::Entity> for Entity {

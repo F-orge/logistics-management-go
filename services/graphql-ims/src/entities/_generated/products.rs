@@ -3,28 +3,30 @@
 use super::sea_orm_active_enums::ProductStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "ims", table_name = "products")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("ims")
+    }
+    fn table_name(&self) -> &str {
+        "products"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
-    #[sea_orm(unique)]
     pub sku: String,
     pub barcode: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub cost_price: Option<Decimal>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub length: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub width: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub height: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub volume: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub weight: Option<f32>,
     pub status: Option<ProductStatusEnum>,
     pub supplier_id: Option<Uuid>,
@@ -33,40 +35,107 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Sku,
+    Barcode,
+    Description,
+    CostPrice,
+    Length,
+    Width,
+    Height,
+    Volume,
+    Weight,
+    Status,
+    SupplierId,
+    ClientId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ClientId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(has_many = "super::inbound_shipment_items::Entity")]
     InboundShipmentItems,
-    #[sea_orm(has_many = "super::inventory_adjustments::Entity")]
     InventoryAdjustments,
-    #[sea_orm(has_many = "super::inventory_batches::Entity")]
     InventoryBatches,
-    #[sea_orm(has_many = "super::outbound_shipment_items::Entity")]
     OutboundShipmentItems,
-    #[sea_orm(has_many = "super::reorder_points::Entity")]
     ReorderPoints,
-    #[sea_orm(has_many = "super::return_items::Entity")]
     ReturnItems,
-    #[sea_orm(has_many = "super::sales_order_items::Entity")]
     SalesOrderItems,
-    #[sea_orm(has_many = "super::stock_transfers::Entity")]
     StockTransfers,
-    #[sea_orm(
-        belongs_to = "super::suppliers::Entity",
-        from = "Column::SupplierId",
-        to = "super::suppliers::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Suppliers,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Sku => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::Barcode => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::CostPrice => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::Length => ColumnType::Float.def().null(),
+            Self::Width => ColumnType::Float.def().null(),
+            Self::Height => ColumnType::Float.def().null(),
+            Self::Volume => ColumnType::Float.def().null(),
+            Self::Weight => ColumnType::Float.def().null(),
+            Self::Status => ProductStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::SupplierId => ColumnType::Uuid.def().null(),
+            Self::ClientId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ClientId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::InboundShipmentItems => {
+                Entity::has_many(super::inbound_shipment_items::Entity).into()
+            }
+            Self::InventoryAdjustments => {
+                Entity::has_many(super::inventory_adjustments::Entity).into()
+            }
+            Self::InventoryBatches => Entity::has_many(super::inventory_batches::Entity).into(),
+            Self::OutboundShipmentItems => {
+                Entity::has_many(super::outbound_shipment_items::Entity).into()
+            }
+            Self::ReorderPoints => Entity::has_many(super::reorder_points::Entity).into(),
+            Self::ReturnItems => Entity::has_many(super::return_items::Entity).into(),
+            Self::SalesOrderItems => Entity::has_many(super::sales_order_items::Entity).into(),
+            Self::StockTransfers => Entity::has_many(super::stock_transfers::Entity).into(),
+            Self::Suppliers => Entity::belongs_to(super::suppliers::Entity)
+                .from(Column::SupplierId)
+                .to(super::suppliers::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::companies::Entity> for Entity {

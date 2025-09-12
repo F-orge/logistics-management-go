@@ -3,27 +3,71 @@
 use super::sea_orm_active_enums::RecordType;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "taggings")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "taggings"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub tag_id: Uuid,
-    #[sea_orm(primary_key, auto_increment = false)]
     pub record_id: Uuid,
-    #[sea_orm(primary_key, auto_increment = false)]
     pub record_type: RecordType,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    TagId,
+    RecordId,
+    RecordType,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    TagId,
+    RecordId,
+    RecordType,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = (Uuid, Uuid, RecordType);
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::tags::Entity",
-        from = "Column::TagId",
-        to = "super::tags::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Tags,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::TagId => ColumnType::Uuid.def(),
+            Self::RecordId => ColumnType::Uuid.def(),
+            Self::RecordType => RecordType::db_type().get_column_type().to_owned().def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Tags => Entity::belongs_to(super::tags::Entity)
+                .from(Column::TagId)
+                .to(super::tags::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::tags::Entity> for Entity {

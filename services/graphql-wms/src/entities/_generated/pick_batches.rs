@@ -4,12 +4,21 @@ use super::sea_orm_active_enums::PickBatchStatusEnum;
 use super::sea_orm_active_enums::PickStrategyEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "wms", table_name = "pick_batches")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "pick_batches"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(unique)]
     pub batch_number: String,
     pub warehouse_id: Uuid,
     pub status: Option<PickBatchStatusEnum>,
@@ -28,28 +37,96 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    BatchNumber,
+    WarehouseId,
+    Status,
+    Strategy,
+    Priority,
+    AssignedUserId,
+    WaveId,
+    ZoneRestrictions,
+    EstimatedDuration,
+    ActualDuration,
+    TotalItems,
+    CompletedItems,
+    StartedAt,
+    CompletedAt,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::pick_batch_items::Entity")]
     PickBatchItems,
-    #[sea_orm(has_many = "super::tasks::Entity")]
     Tasks,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::AssignedUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
-    #[sea_orm(
-        belongs_to = "super::warehouses::Entity",
-        from = "Column::WarehouseId",
-        to = "super::warehouses::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Warehouses,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::BatchNumber => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::WarehouseId => ColumnType::Uuid.def(),
+            Self::Status => PickBatchStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Strategy => PickStrategyEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::Priority => ColumnType::Integer.def().null(),
+            Self::AssignedUserId => ColumnType::Uuid.def().null(),
+            Self::WaveId => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::ZoneRestrictions => ColumnType::Array(RcOrArc::new(ColumnType::Text))
+                .def()
+                .null(),
+            Self::EstimatedDuration => ColumnType::Integer.def().null(),
+            Self::ActualDuration => ColumnType::Integer.def().null(),
+            Self::TotalItems => ColumnType::Integer.def().null(),
+            Self::CompletedItems => ColumnType::Integer.def().null(),
+            Self::StartedAt => ColumnType::DateTime.def().null(),
+            Self::CompletedAt => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::PickBatchItems => Entity::has_many(super::pick_batch_items::Entity).into(),
+            Self::Tasks => Entity::has_many(super::tasks::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::AssignedUserId)
+                .to(super::user::Column::Id)
+                .into(),
+            Self::Warehouses => Entity::belongs_to(super::warehouses::Entity)
+                .from(Column::WarehouseId)
+                .to(super::warehouses::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::pick_batch_items::Entity> for Entity {

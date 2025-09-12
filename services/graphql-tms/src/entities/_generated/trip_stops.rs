@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::TripStopStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "trip_stops")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "trip_stops"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub trip_id: Uuid,
     pub shipment_id: Option<Uuid>,
@@ -21,26 +31,79 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    TripId,
+    ShipmentId,
+    Sequence,
+    Address,
+    Status,
+    EstimatedArrivalTime,
+    ActualArrivalTime,
+    EstimatedDepartureTime,
+    ActualDepartureTime,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::outbound_shipments::Entity",
-        from = "Column::ShipmentId",
-        to = "super::outbound_shipments::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     OutboundShipments,
-    #[sea_orm(has_many = "super::proof_of_deliveries::Entity")]
     ProofOfDeliveries,
-    #[sea_orm(
-        belongs_to = "super::trips::Entity",
-        from = "Column::TripId",
-        to = "super::trips::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Trips,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::TripId => ColumnType::Uuid.def(),
+            Self::ShipmentId => ColumnType::Uuid.def().null(),
+            Self::Sequence => ColumnType::Integer.def(),
+            Self::Address => ColumnType::String(StringLen::N(500u32)).def().null(),
+            Self::Status => TripStopStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::EstimatedArrivalTime => ColumnType::DateTime.def().null(),
+            Self::ActualArrivalTime => ColumnType::DateTime.def().null(),
+            Self::EstimatedDepartureTime => ColumnType::DateTime.def().null(),
+            Self::ActualDepartureTime => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::OutboundShipments => Entity::belongs_to(super::outbound_shipments::Entity)
+                .from(Column::ShipmentId)
+                .to(super::outbound_shipments::Column::Id)
+                .into(),
+            Self::ProofOfDeliveries => Entity::has_many(super::proof_of_deliveries::Entity).into(),
+            Self::Trips => Entity::belongs_to(super::trips::Entity)
+                .from(Column::TripId)
+                .to(super::trips::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::outbound_shipments::Entity> for Entity {

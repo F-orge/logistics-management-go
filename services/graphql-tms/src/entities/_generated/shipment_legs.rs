@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::ShipmentLegStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "shipment_legs")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "shipment_legs"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub shipment_id: Option<Uuid>,
     pub leg_sequence: i32,
@@ -19,36 +29,84 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ShipmentId,
+    LegSequence,
+    StartLocation,
+    EndLocation,
+    CarrierId,
+    InternalTripId,
+    Status,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::carriers::Entity",
-        from = "Column::CarrierId",
-        to = "super::carriers::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Carriers,
-    #[sea_orm(
-        belongs_to = "super::outbound_shipments::Entity",
-        from = "Column::ShipmentId",
-        to = "super::outbound_shipments::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     OutboundShipments,
-    #[sea_orm(has_many = "super::partner_invoice_items::Entity")]
     PartnerInvoiceItems,
-    #[sea_orm(has_many = "super::shipment_leg_events::Entity")]
     ShipmentLegEvents,
-    #[sea_orm(
-        belongs_to = "super::trips::Entity",
-        from = "Column::InternalTripId",
-        to = "super::trips::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Trips,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ShipmentId => ColumnType::Uuid.def().null(),
+            Self::LegSequence => ColumnType::Integer.def(),
+            Self::StartLocation => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::EndLocation => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::CarrierId => ColumnType::Uuid.def().null(),
+            Self::InternalTripId => ColumnType::Uuid.def().null(),
+            Self::Status => ShipmentLegStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Carriers => Entity::belongs_to(super::carriers::Entity)
+                .from(Column::CarrierId)
+                .to(super::carriers::Column::Id)
+                .into(),
+            Self::OutboundShipments => Entity::belongs_to(super::outbound_shipments::Entity)
+                .from(Column::ShipmentId)
+                .to(super::outbound_shipments::Column::Id)
+                .into(),
+            Self::PartnerInvoiceItems => {
+                Entity::has_many(super::partner_invoice_items::Entity).into()
+            }
+            Self::ShipmentLegEvents => Entity::has_many(super::shipment_leg_events::Entity).into(),
+            Self::Trips => Entity::belongs_to(super::trips::Entity)
+                .from(Column::InternalTripId)
+                .to(super::trips::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::carriers::Entity> for Entity {

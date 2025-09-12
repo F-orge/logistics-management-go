@@ -3,20 +3,27 @@
 use super::sea_orm_active_enums::TransactionTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "account_transactions")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "account_transactions"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub client_account_id: Uuid,
     pub r#type: TransactionTypeEnum,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))")]
     pub amount: Decimal,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub running_balance: Option<Decimal>,
     pub source_record_id: Option<Uuid>,
     pub source_record_type: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub reference_number: Option<String>,
     pub transaction_date: Option<DateTime>,
@@ -25,24 +32,78 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ClientAccountId,
+    Type,
+    Amount,
+    RunningBalance,
+    SourceRecordId,
+    SourceRecordType,
+    Description,
+    ReferenceNumber,
+    TransactionDate,
+    ProcessedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::client_accounts::Entity",
-        from = "Column::ClientAccountId",
-        to = "super::client_accounts::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     ClientAccounts,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::ProcessedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ClientAccountId => ColumnType::Uuid.def(),
+            Self::Type => TransactionTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::Amount => ColumnType::Decimal(Some((12u32, 2u32))).def(),
+            Self::RunningBalance => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::SourceRecordId => ColumnType::Uuid.def().null(),
+            Self::SourceRecordType => ColumnType::String(StringLen::N(50u32)).def().null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::ReferenceNumber => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::TransactionDate => ColumnType::DateTime.def().null(),
+            Self::ProcessedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::ClientAccounts => Entity::belongs_to(super::client_accounts::Entity)
+                .from(Column::ClientAccountId)
+                .to(super::client_accounts::Column::Id)
+                .into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::ProcessedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::client_accounts::Entity> for Entity {

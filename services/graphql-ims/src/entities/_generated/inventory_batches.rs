@@ -2,10 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "ims", table_name = "inventory_batches")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("ims")
+    }
+    fn table_name(&self) -> &str {
+        "inventory_batches"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub product_id: Uuid,
     pub batch_number: String,
@@ -14,18 +24,60 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ProductId,
+    BatchNumber,
+    ExpirationDate,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::outbound_shipment_items::Entity")]
     OutboundShipmentItems,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::BatchNumber => ColumnType::String(StringLen::N(100u32)).def(),
+            Self::ExpirationDate => ColumnType::Date.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::OutboundShipmentItems => {
+                Entity::has_many(super::outbound_shipment_items::Entity).into()
+            }
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::outbound_shipment_items::Entity> for Entity {

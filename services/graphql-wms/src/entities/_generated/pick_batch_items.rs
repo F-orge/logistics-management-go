@@ -2,12 +2,21 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "wms", table_name = "pick_batch_items")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "pick_batch_items"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub pick_batch_id: Uuid,
-    #[sea_orm(primary_key, auto_increment = false)]
     pub sales_order_id: Uuid,
     pub order_priority: Option<i32>,
     pub estimated_pick_time: Option<i32>,
@@ -16,24 +25,64 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    PickBatchId,
+    SalesOrderId,
+    OrderPriority,
+    EstimatedPickTime,
+    ActualPickTime,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    PickBatchId,
+    SalesOrderId,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = (Uuid, Uuid);
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::pick_batches::Entity",
-        from = "Column::PickBatchId",
-        to = "super::pick_batches::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     PickBatches,
-    #[sea_orm(
-        belongs_to = "super::sales_orders::Entity",
-        from = "Column::SalesOrderId",
-        to = "super::sales_orders::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     SalesOrders,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::PickBatchId => ColumnType::Uuid.def(),
+            Self::SalesOrderId => ColumnType::Uuid.def(),
+            Self::OrderPriority => ColumnType::Integer.def().null(),
+            Self::EstimatedPickTime => ColumnType::Integer.def().null(),
+            Self::ActualPickTime => ColumnType::Integer.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::PickBatches => Entity::belongs_to(super::pick_batches::Entity)
+                .from(Column::PickBatchId)
+                .to(super::pick_batches::Column::Id)
+                .into(),
+            Self::SalesOrders => Entity::belongs_to(super::sales_orders::Entity)
+                .from(Column::SalesOrderId)
+                .to(super::sales_orders::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::pick_batches::Entity> for Entity {

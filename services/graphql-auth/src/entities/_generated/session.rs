@@ -2,42 +2,92 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "auth", table_name = "session")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("auth")
+    }
+    fn table_name(&self) -> &str {
+        "session"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub expires_at: DateTime,
-    #[sea_orm(column_type = "Text", unique)]
     pub token: String,
     pub created_at: DateTime,
     pub updated_at: DateTime,
-    #[sea_orm(column_type = "Text", nullable)]
     pub ip_address: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub user_agent: Option<String>,
     pub user_id: Uuid,
     pub impersonated_by: Option<Uuid>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ExpiresAt,
+    Token,
+    CreatedAt,
+    UpdatedAt,
+    IpAddress,
+    UserAgent,
+    UserId,
+    ImpersonatedBy,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::ImpersonatedBy",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User2,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::UserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User1,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ExpiresAt => ColumnType::DateTime.def(),
+            Self::Token => ColumnType::Text.def().unique(),
+            Self::CreatedAt => ColumnType::DateTime.def(),
+            Self::UpdatedAt => ColumnType::DateTime.def(),
+            Self::IpAddress => ColumnType::Text.def().null(),
+            Self::UserAgent => ColumnType::Text.def().null(),
+            Self::UserId => ColumnType::Uuid.def(),
+            Self::ImpersonatedBy => ColumnType::Uuid.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::User2 => Entity::belongs_to(super::user::Entity)
+                .from(Column::ImpersonatedBy)
+                .to(super::user::Column::Id)
+                .into(),
+            Self::User1 => Entity::belongs_to(super::user::Entity)
+                .from(Column::UserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl ActiveModelBehavior for ActiveModel {}

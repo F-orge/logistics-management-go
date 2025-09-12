@@ -2,13 +2,22 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "dms", table_name = "customer_tracking_links")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("dms")
+    }
+    fn table_name(&self) -> &str {
+        "customer_tracking_links"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub delivery_task_id: Uuid,
-    #[sea_orm(unique)]
     pub tracking_token: String,
     pub is_active: Option<bool>,
     pub access_count: Option<i32>,
@@ -18,16 +27,62 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    DeliveryTaskId,
+    TrackingToken,
+    IsActive,
+    AccessCount,
+    LastAccessedAt,
+    ExpiresAt,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::delivery_tasks::Entity",
-        from = "Column::DeliveryTaskId",
-        to = "super::delivery_tasks::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     DeliveryTasks,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::DeliveryTaskId => ColumnType::Uuid.def(),
+            Self::TrackingToken => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::AccessCount => ColumnType::Integer.def().null(),
+            Self::LastAccessedAt => ColumnType::DateTime.def().null(),
+            Self::ExpiresAt => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::DeliveryTasks => Entity::belongs_to(super::delivery_tasks::Entity)
+                .from(Column::DeliveryTaskId)
+                .to(super::delivery_tasks::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::delivery_tasks::Entity> for Entity {

@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::InventoryStockStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "wms", table_name = "inventory_stock")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "inventory_stock"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub location_id: Uuid,
     pub product_id: Uuid,
@@ -21,32 +31,82 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    LocationId,
+    ProductId,
+    BatchId,
+    Quantity,
+    ReservedQuantity,
+    AvailableQuantity,
+    Status,
+    LastCountedAt,
+    LastMovementAt,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::inventory_batches::Entity",
-        from = "Column::BatchId",
-        to = "super::inventory_batches::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     InventoryBatches,
-    #[sea_orm(
-        belongs_to = "super::locations::Entity",
-        from = "Column::LocationId",
-        to = "super::locations::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Locations,
-    #[sea_orm(
-        belongs_to = "super::products::Entity",
-        from = "Column::ProductId",
-        to = "super::products::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Products,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::LocationId => ColumnType::Uuid.def(),
+            Self::ProductId => ColumnType::Uuid.def(),
+            Self::BatchId => ColumnType::Uuid.def().null(),
+            Self::Quantity => ColumnType::Integer.def(),
+            Self::ReservedQuantity => ColumnType::Integer.def(),
+            Self::AvailableQuantity => ColumnType::Integer.def().null(),
+            Self::Status => InventoryStockStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::LastCountedAt => ColumnType::DateTime.def().null(),
+            Self::LastMovementAt => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::InventoryBatches => Entity::belongs_to(super::inventory_batches::Entity)
+                .from(Column::BatchId)
+                .to(super::inventory_batches::Column::Id)
+                .into(),
+            Self::Locations => Entity::belongs_to(super::locations::Entity)
+                .from(Column::LocationId)
+                .to(super::locations::Column::Id)
+                .into(),
+            Self::Products => Entity::belongs_to(super::products::Entity)
+                .from(Column::ProductId)
+                .to(super::products::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::inventory_batches::Entity> for Entity {

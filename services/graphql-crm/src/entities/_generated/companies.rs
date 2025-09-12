@@ -2,10 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "crm", table_name = "companies")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("crm")
+    }
+    fn table_name(&self) -> &str {
+        "companies"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
     pub street: Option<String>,
@@ -16,29 +26,84 @@ pub struct Model {
     pub phone_number: Option<String>,
     pub industry: Option<String>,
     pub website: Option<String>,
-    #[sea_orm(column_type = "Decimal(Some((15, 2)))", nullable)]
     pub annual_revenue: Option<Decimal>,
     pub owner_id: Option<Uuid>,
     pub created_at: Option<DateTimeWithTimeZone>,
     pub updated_at: Option<DateTimeWithTimeZone>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Street,
+    City,
+    State,
+    PostalCode,
+    Country,
+    PhoneNumber,
+    Industry,
+    Website,
+    AnnualRevenue,
+    OwnerId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::contacts::Entity")]
     Contacts,
-    #[sea_orm(has_many = "super::leads::Entity")]
     Leads,
-    #[sea_orm(has_many = "super::opportunities::Entity")]
     Opportunities,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::OwnerId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Street => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::City => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::State => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::PostalCode => ColumnType::String(StringLen::N(20u32)).def().null(),
+            Self::Country => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::PhoneNumber => ColumnType::String(StringLen::N(20u32)).def().null(),
+            Self::Industry => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::Website => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::AnnualRevenue => ColumnType::Decimal(Some((15u32, 2u32))).def().null(),
+            Self::OwnerId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+            Self::UpdatedAt => ColumnType::TimestampWithTimeZone.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Contacts => Entity::has_many(super::contacts::Entity).into(),
+            Self::Leads => Entity::has_many(super::leads::Entity).into(),
+            Self::Opportunities => Entity::has_many(super::opportunities::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::OwnerId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::contacts::Entity> for Entity {

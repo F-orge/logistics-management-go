@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::GeofenceEventTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "geofence_events")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "geofence_events"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub vehicle_id: Uuid,
     pub geofence_id: Uuid,
@@ -14,24 +24,62 @@ pub struct Model {
     pub timestamp: DateTime,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    VehicleId,
+    GeofenceId,
+    EventType,
+    Timestamp,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::geofences::Entity",
-        from = "Column::GeofenceId",
-        to = "super::geofences::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Geofences,
-    #[sea_orm(
-        belongs_to = "super::vehicles::Entity",
-        from = "Column::VehicleId",
-        to = "super::vehicles::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Vehicles,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::VehicleId => ColumnType::Uuid.def(),
+            Self::GeofenceId => ColumnType::Uuid.def(),
+            Self::EventType => GeofenceEventTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::Timestamp => ColumnType::DateTime.def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Geofences => Entity::belongs_to(super::geofences::Entity)
+                .from(Column::GeofenceId)
+                .to(super::geofences::Column::Id)
+                .into(),
+            Self::Vehicles => Entity::belongs_to(super::vehicles::Entity)
+                .from(Column::VehicleId)
+                .to(super::vehicles::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::geofences::Entity> for Entity {

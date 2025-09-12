@@ -3,35 +3,95 @@
 use super::sea_orm_active_enums::ServiceTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "rate_cards")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "rate_cards"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
     pub service_type: ServiceTypeEnum,
     pub is_active: Option<bool>,
     pub valid_from: Date,
     pub valid_to: Option<Date>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub created_by_user_id: Option<Uuid>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    ServiceType,
+    IsActive,
+    ValidFrom,
+    ValidTo,
+    Description,
+    CreatedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::rate_rules::Entity")]
     RateRules,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::CreatedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::ServiceType => ServiceTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::ValidFrom => ColumnType::Date.def(),
+            Self::ValidTo => ColumnType::Date.def().null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::CreatedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::RateRules => Entity::has_many(super::rate_rules::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::CreatedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::rate_rules::Entity> for Entity {

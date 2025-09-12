@@ -837,6 +837,8 @@ dependencies = [
  "anyhow",
  "async-graphql",
  "chrono",
+ "graphql-auth",
+ "graphql-crm",
  "rstest",
  "sea-orm",
  "serde",

@@ -4,13 +4,22 @@ use super::sea_orm_active_enums::PaymentMethodEnum;
 use super::sea_orm_active_enums::PaymentStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "payments")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "payments"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub invoice_id: Uuid,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))")]
     pub amount: Decimal,
     pub payment_method: PaymentMethodEnum,
     pub transaction_id: Option<String>,
@@ -19,37 +28,99 @@ pub struct Model {
     pub payment_date: Option<DateTime>,
     pub processed_at: Option<DateTime>,
     pub currency: Option<String>,
-    #[sea_orm(column_type = "Decimal(Some((10, 6)))", nullable)]
     pub exchange_rate: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub fees: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub net_amount: Option<Decimal>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
     pub processed_by_user_id: Option<Uuid>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    InvoiceId,
+    Amount,
+    PaymentMethod,
+    TransactionId,
+    GatewayReference,
+    Status,
+    PaymentDate,
+    ProcessedAt,
+    Currency,
+    ExchangeRate,
+    Fees,
+    NetAmount,
+    Notes,
+    ProcessedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::invoices::Entity",
-        from = "Column::InvoiceId",
-        to = "super::invoices::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Invoices,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::ProcessedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::InvoiceId => ColumnType::Uuid.def(),
+            Self::Amount => ColumnType::Decimal(Some((12u32, 2u32))).def(),
+            Self::PaymentMethod => PaymentMethodEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::TransactionId => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::GatewayReference => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::Status => PaymentStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::PaymentDate => ColumnType::DateTime.def().null(),
+            Self::ProcessedAt => ColumnType::DateTime.def().null(),
+            Self::Currency => ColumnType::String(StringLen::N(3u32)).def().null(),
+            Self::ExchangeRate => ColumnType::Decimal(Some((10u32, 6u32))).def().null(),
+            Self::Fees => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::NetAmount => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::ProcessedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Invoices => Entity::belongs_to(super::invoices::Entity)
+                .from(Column::InvoiceId)
+                .to(super::invoices::Column::Id)
+                .into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::ProcessedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::invoices::Entity> for Entity {

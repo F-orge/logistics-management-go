@@ -3,60 +3,128 @@
 use super::sea_orm_active_enums::QuoteStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "quotes")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "quotes"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub client_id: Option<Uuid>,
-    #[sea_orm(column_type = "Text")]
     pub origin_details: String,
-    #[sea_orm(column_type = "Text")]
     pub destination_details: String,
-    #[sea_orm(column_type = "Decimal(Some((10, 3)))", nullable)]
     pub weight: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub length: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub width: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub height: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 4)))", nullable)]
     pub volume: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))")]
     pub quoted_price: Decimal,
     pub service_level: Option<String>,
     pub expires_at: Option<DateTime>,
     pub status: Option<QuoteStatusEnum>,
-    #[sea_orm(unique)]
     pub quote_number: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
     pub created_by_user_id: Option<Uuid>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ClientId,
+    OriginDetails,
+    DestinationDetails,
+    Weight,
+    Length,
+    Width,
+    Height,
+    Volume,
+    QuotedPrice,
+    ServiceLevel,
+    ExpiresAt,
+    Status,
+    QuoteNumber,
+    Notes,
+    CreatedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ClientId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(has_many = "super::invoices::Entity")]
     Invoices,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::CreatedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ClientId => ColumnType::Uuid.def().null(),
+            Self::OriginDetails => ColumnType::Text.def(),
+            Self::DestinationDetails => ColumnType::Text.def(),
+            Self::Weight => ColumnType::Decimal(Some((10u32, 3u32))).def().null(),
+            Self::Length => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::Width => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::Height => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::Volume => ColumnType::Decimal(Some((12u32, 4u32))).def().null(),
+            Self::QuotedPrice => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::ServiceLevel => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::ExpiresAt => ColumnType::DateTime.def().null(),
+            Self::Status => QuoteStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::QuoteNumber => ColumnType::String(StringLen::N(100u32))
+                .def()
+                .null()
+                .unique(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::CreatedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ClientId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::Invoices => Entity::has_many(super::invoices::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::CreatedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::companies::Entity> for Entity {

@@ -3,21 +3,28 @@
 use super::sea_orm_active_enums::SyncStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "accounting_sync_log")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "accounting_sync_log"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub record_id: Uuid,
     pub record_type: String,
     pub external_system: String,
     pub external_id: Option<String>,
     pub status: Option<SyncStatusEnum>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub error_message: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub request_payload: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub response_payload: Option<String>,
     pub last_sync_at: Option<DateTime>,
     pub retry_count: Option<i32>,
@@ -26,7 +33,69 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    RecordId,
+    RecordType,
+    ExternalSystem,
+    ExternalId,
+    Status,
+    ErrorMessage,
+    RequestPayload,
+    ResponsePayload,
+    LastSyncAt,
+    RetryCount,
+    NextRetryAt,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::RecordId => ColumnType::Uuid.def(),
+            Self::RecordType => ColumnType::String(StringLen::N(50u32)).def(),
+            Self::ExternalSystem => ColumnType::String(StringLen::N(50u32)).def(),
+            Self::ExternalId => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::Status => SyncStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::ErrorMessage => ColumnType::Text.def().null(),
+            Self::RequestPayload => ColumnType::Text.def().null(),
+            Self::ResponsePayload => ColumnType::Text.def().null(),
+            Self::LastSyncAt => ColumnType::DateTime.def().null(),
+            Self::RetryCount => ColumnType::Integer.def().null(),
+            Self::NextRetryAt => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        panic!("No RelationDef")
+    }
+}
 
 impl ActiveModelBehavior for ActiveModel {}

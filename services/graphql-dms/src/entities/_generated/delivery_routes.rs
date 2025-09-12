@@ -3,17 +3,25 @@
 use super::sea_orm_active_enums::DeliveryRouteStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "dms", table_name = "delivery_routes")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("dms")
+    }
+    fn table_name(&self) -> &str {
+        "delivery_routes"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub driver_id: Uuid,
     pub route_date: Date,
     pub status: Option<DeliveryRouteStatusEnum>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub optimized_route_data: Option<String>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub total_distance_km: Option<f32>,
     pub estimated_duration_minutes: Option<i32>,
     pub actual_duration_minutes: Option<i32>,
@@ -23,18 +31,74 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    DriverId,
+    RouteDate,
+    Status,
+    OptimizedRouteData,
+    TotalDistanceKm,
+    EstimatedDurationMinutes,
+    ActualDurationMinutes,
+    StartedAt,
+    CompletedAt,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::delivery_tasks::Entity")]
     DeliveryTasks,
-    #[sea_orm(
-        belongs_to = "super::drivers::Entity",
-        from = "Column::DriverId",
-        to = "super::drivers::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Drivers,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::DriverId => ColumnType::Uuid.def(),
+            Self::RouteDate => ColumnType::Date.def(),
+            Self::Status => DeliveryRouteStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::OptimizedRouteData => ColumnType::Text.def().null(),
+            Self::TotalDistanceKm => ColumnType::Float.def().null(),
+            Self::EstimatedDurationMinutes => ColumnType::Integer.def().null(),
+            Self::ActualDurationMinutes => ColumnType::Integer.def().null(),
+            Self::StartedAt => ColumnType::DateTime.def().null(),
+            Self::CompletedAt => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::DeliveryTasks => Entity::has_many(super::delivery_tasks::Entity).into(),
+            Self::Drivers => Entity::belongs_to(super::drivers::Entity)
+                .from(Column::DriverId)
+                .to(super::drivers::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::delivery_tasks::Entity> for Entity {

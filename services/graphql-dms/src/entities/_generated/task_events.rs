@@ -3,36 +3,93 @@
 use super::sea_orm_active_enums::TaskEventStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "dms", table_name = "task_events")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("dms")
+    }
+    fn table_name(&self) -> &str {
+        "task_events"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub delivery_task_id: Uuid,
     pub status: TaskEventStatusEnum,
-    #[sea_orm(column_type = "Text", nullable)]
     pub reason: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub latitude: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub longitude: Option<f32>,
     pub timestamp: Option<DateTime>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    DeliveryTaskId,
+    Status,
+    Reason,
+    Notes,
+    Latitude,
+    Longitude,
+    Timestamp,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::delivery_tasks::Entity",
-        from = "Column::DeliveryTaskId",
-        to = "super::delivery_tasks::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     DeliveryTasks,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::DeliveryTaskId => ColumnType::Uuid.def(),
+            Self::Status => TaskEventStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::Reason => ColumnType::Text.def().null(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::Latitude => ColumnType::Float.def().null(),
+            Self::Longitude => ColumnType::Float.def().null(),
+            Self::Timestamp => ColumnType::DateTime.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::DeliveryTasks => Entity::belongs_to(super::delivery_tasks::Entity)
+                .from(Column::DeliveryTaskId)
+                .to(super::delivery_tasks::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::delivery_tasks::Entity> for Entity {

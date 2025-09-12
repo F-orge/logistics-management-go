@@ -4,12 +4,21 @@ use super::sea_orm_active_enums::TaskStatusEnum;
 use super::sea_orm_active_enums::TaskTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "wms", table_name = "tasks")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "tasks"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(unique)]
     pub task_number: String,
     pub warehouse_id: Uuid,
     pub user_id: Option<Uuid>,
@@ -21,9 +30,7 @@ pub struct Model {
     pub pick_batch_id: Option<Uuid>,
     pub estimated_duration: Option<i32>,
     pub actual_duration: Option<i32>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub instructions: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
     pub start_time: Option<DateTime>,
     pub end_time: Option<DateTime>,
@@ -32,34 +39,98 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    TaskNumber,
+    WarehouseId,
+    UserId,
+    Type,
+    Status,
+    Priority,
+    SourceEntityId,
+    SourceEntityType,
+    PickBatchId,
+    EstimatedDuration,
+    ActualDuration,
+    Instructions,
+    Notes,
+    StartTime,
+    EndTime,
+    DurationSeconds,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::pick_batches::Entity",
-        from = "Column::PickBatchId",
-        to = "super::pick_batches::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     PickBatches,
-    #[sea_orm(has_many = "super::task_items::Entity")]
     TaskItems,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::UserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
-    #[sea_orm(
-        belongs_to = "super::warehouses::Entity",
-        from = "Column::WarehouseId",
-        to = "super::warehouses::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Warehouses,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::TaskNumber => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::WarehouseId => ColumnType::Uuid.def(),
+            Self::UserId => ColumnType::Uuid.def().null(),
+            Self::Type => TaskTypeEnum::db_type().get_column_type().to_owned().def(),
+            Self::Status => TaskStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::Priority => ColumnType::Integer.def().null(),
+            Self::SourceEntityId => ColumnType::Uuid.def().null(),
+            Self::SourceEntityType => ColumnType::String(StringLen::N(50u32)).def().null(),
+            Self::PickBatchId => ColumnType::Uuid.def().null(),
+            Self::EstimatedDuration => ColumnType::Integer.def().null(),
+            Self::ActualDuration => ColumnType::Integer.def().null(),
+            Self::Instructions => ColumnType::Text.def().null(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::StartTime => ColumnType::DateTime.def().null(),
+            Self::EndTime => ColumnType::DateTime.def().null(),
+            Self::DurationSeconds => ColumnType::Integer.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::PickBatches => Entity::belongs_to(super::pick_batches::Entity)
+                .from(Column::PickBatchId)
+                .to(super::pick_batches::Column::Id)
+                .into(),
+            Self::TaskItems => Entity::has_many(super::task_items::Entity).into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::UserId)
+                .to(super::user::Column::Id)
+                .into(),
+            Self::Warehouses => Entity::belongs_to(super::warehouses::Entity)
+                .from(Column::WarehouseId)
+                .to(super::warehouses::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::pick_batches::Entity> for Entity {

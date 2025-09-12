@@ -2,28 +2,79 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "carriers")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "carriers"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
-    #[sea_orm(column_type = "Text", nullable)]
     pub contact_details: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub services_offered: Option<String>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    ContactDetails,
+    ServicesOffered,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::carrier_rates::Entity")]
     CarrierRates,
-    #[sea_orm(has_many = "super::partner_invoices::Entity")]
     PartnerInvoices,
-    #[sea_orm(has_many = "super::shipment_legs::Entity")]
     ShipmentLegs,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::ContactDetails => ColumnType::Text.def().null(),
+            Self::ServicesOffered => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::CarrierRates => Entity::has_many(super::carrier_rates::Entity).into(),
+            Self::PartnerInvoices => Entity::has_many(super::partner_invoices::Entity).into(),
+            Self::ShipmentLegs => Entity::has_many(super::shipment_legs::Entity).into(),
+        }
+    }
 }
 
 impl Related<super::carrier_rates::Entity> for Entity {

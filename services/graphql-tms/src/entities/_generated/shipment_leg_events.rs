@@ -2,10 +2,20 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "tms", table_name = "shipment_leg_events")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "shipment_leg_events"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub shipment_leg_id: Uuid,
     pub status_message: Option<String>,
@@ -13,16 +23,54 @@ pub struct Model {
     pub event_timestamp: DateTime,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ShipmentLegId,
+    StatusMessage,
+    Location,
+    EventTimestamp,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::shipment_legs::Entity",
-        from = "Column::ShipmentLegId",
-        to = "super::shipment_legs::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     ShipmentLegs,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ShipmentLegId => ColumnType::Uuid.def(),
+            Self::StatusMessage => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::Location => ColumnType::String(StringLen::N(255u32)).def().null(),
+            Self::EventTimestamp => ColumnType::DateTime.def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::ShipmentLegs => Entity::belongs_to(super::shipment_legs::Entity)
+                .from(Column::ShipmentLegId)
+                .to(super::shipment_legs::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::shipment_legs::Entity> for Entity {

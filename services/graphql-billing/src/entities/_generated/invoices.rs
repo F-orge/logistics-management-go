@@ -3,34 +3,35 @@
 use super::sea_orm_active_enums::InvoiceStatusEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "invoices")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "invoices"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub client_id: Uuid,
     pub quote_id: Option<Uuid>,
-    #[sea_orm(unique)]
     pub invoice_number: String,
     pub status: Option<InvoiceStatusEnum>,
     pub issue_date: Date,
     pub due_date: Date,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))")]
     pub total_amount: Decimal,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub amount_paid: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub amount_outstanding: Option<Decimal>,
     pub currency: Option<String>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub tax_amount: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))", nullable)]
     pub discount_amount: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub subtotal: Option<Decimal>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub payment_terms: Option<String>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub notes: Option<String>,
     pub sent_at: Option<DateTime>,
     pub paid_at: Option<DateTime>,
@@ -39,38 +40,106 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ClientId,
+    QuoteId,
+    InvoiceNumber,
+    Status,
+    IssueDate,
+    DueDate,
+    TotalAmount,
+    AmountPaid,
+    AmountOutstanding,
+    Currency,
+    TaxAmount,
+    DiscountAmount,
+    Subtotal,
+    PaymentTerms,
+    Notes,
+    SentAt,
+    PaidAt,
+    CreatedByUserId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ClientId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
-    #[sea_orm(has_many = "super::credit_notes::Entity")]
     CreditNotes,
-    #[sea_orm(has_many = "super::invoice_line_items::Entity")]
     InvoiceLineItems,
-    #[sea_orm(has_many = "super::payments::Entity")]
     Payments,
-    #[sea_orm(
-        belongs_to = "super::quotes::Entity",
-        from = "Column::QuoteId",
-        to = "super::quotes::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Quotes,
-    #[sea_orm(
-        belongs_to = "super::user::Entity",
-        from = "Column::CreatedByUserId",
-        to = "super::user::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     User,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ClientId => ColumnType::Uuid.def(),
+            Self::QuoteId => ColumnType::Uuid.def().null(),
+            Self::InvoiceNumber => ColumnType::String(StringLen::N(100u32)).def().unique(),
+            Self::Status => InvoiceStatusEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def()
+                .null(),
+            Self::IssueDate => ColumnType::Date.def(),
+            Self::DueDate => ColumnType::Date.def(),
+            Self::TotalAmount => ColumnType::Decimal(Some((12u32, 2u32))).def(),
+            Self::AmountPaid => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::AmountOutstanding => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::Currency => ColumnType::String(StringLen::N(3u32)).def().null(),
+            Self::TaxAmount => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::DiscountAmount => ColumnType::Decimal(Some((10u32, 2u32))).def().null(),
+            Self::Subtotal => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::PaymentTerms => ColumnType::Text.def().null(),
+            Self::Notes => ColumnType::Text.def().null(),
+            Self::SentAt => ColumnType::DateTime.def().null(),
+            Self::PaidAt => ColumnType::DateTime.def().null(),
+            Self::CreatedByUserId => ColumnType::Uuid.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ClientId)
+                .to(super::companies::Column::Id)
+                .into(),
+            Self::CreditNotes => Entity::has_many(super::credit_notes::Entity).into(),
+            Self::InvoiceLineItems => Entity::has_many(super::invoice_line_items::Entity).into(),
+            Self::Payments => Entity::has_many(super::payments::Entity).into(),
+            Self::Quotes => Entity::belongs_to(super::quotes::Entity)
+                .from(Column::QuoteId)
+                .to(super::quotes::Column::Id)
+                .into(),
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::CreatedByUserId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::companies::Entity> for Entity {

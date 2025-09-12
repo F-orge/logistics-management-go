@@ -2,18 +2,24 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "client_accounts")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "client_accounts"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
-    #[sea_orm(unique)]
     pub client_id: Uuid,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub credit_limit: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub available_credit: Option<Decimal>,
-    #[sea_orm(column_type = "Decimal(Some((12, 2)))", nullable)]
     pub wallet_balance: Option<Decimal>,
     pub currency: Option<String>,
     pub payment_terms_days: Option<i32>,
@@ -23,18 +29,70 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    ClientId,
+    CreditLimit,
+    AvailableCredit,
+    WalletBalance,
+    Currency,
+    PaymentTermsDays,
+    IsCreditApproved,
+    LastPaymentDate,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::account_transactions::Entity")]
     AccountTransactions,
-    #[sea_orm(
-        belongs_to = "super::companies::Entity",
-        from = "Column::ClientId",
-        to = "super::companies::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Companies,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::ClientId => ColumnType::Uuid.def().unique(),
+            Self::CreditLimit => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::AvailableCredit => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::WalletBalance => ColumnType::Decimal(Some((12u32, 2u32))).def().null(),
+            Self::Currency => ColumnType::String(StringLen::N(3u32)).def().null(),
+            Self::PaymentTermsDays => ColumnType::Integer.def().null(),
+            Self::IsCreditApproved => ColumnType::Boolean.def().null(),
+            Self::LastPaymentDate => ColumnType::Date.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::AccountTransactions => {
+                Entity::has_many(super::account_transactions::Entity).into()
+            }
+            Self::Companies => Entity::belongs_to(super::companies::Entity)
+                .from(Column::ClientId)
+                .to(super::companies::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::account_transactions::Entity> for Entity {

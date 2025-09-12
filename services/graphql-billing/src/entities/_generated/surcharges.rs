@@ -3,26 +3,89 @@
 use super::sea_orm_active_enums::SurchargeCalculationMethodEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "billing", table_name = "surcharges")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("billing")
+    }
+    fn table_name(&self) -> &str {
+        "surcharges"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub name: String,
     pub r#type: String,
-    #[sea_orm(column_type = "Decimal(Some((10, 2)))")]
     pub amount: Decimal,
     pub calculation_method: SurchargeCalculationMethodEnum,
     pub is_active: Option<bool>,
     pub valid_from: Option<Date>,
     pub valid_to: Option<Date>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub description: Option<String>,
     pub created_at: Option<DateTime>,
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    Name,
+    Type,
+    Amount,
+    CalculationMethod,
+    IsActive,
+    ValidFrom,
+    ValidTo,
+    Description,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::Name => ColumnType::String(StringLen::N(255u32)).def(),
+            Self::Type => ColumnType::String(StringLen::N(50u32)).def(),
+            Self::Amount => ColumnType::Decimal(Some((10u32, 2u32))).def(),
+            Self::CalculationMethod => SurchargeCalculationMethodEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::ValidFrom => ColumnType::Date.def().null(),
+            Self::ValidTo => ColumnType::Date.def().null(),
+            Self::Description => ColumnType::Text.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        panic!("No RelationDef")
+    }
+}
 
 impl ActiveModelBehavior for ActiveModel {}

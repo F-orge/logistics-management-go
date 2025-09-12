@@ -3,10 +3,20 @@
 use super::sea_orm_active_enums::LocationTypeEnum;
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "wms", table_name = "locations")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("wms")
+    }
+    fn table_name(&self) -> &str {
+        "locations"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub warehouse_id: Uuid,
     pub parent_location_id: Option<Uuid>,
@@ -14,18 +24,12 @@ pub struct Model {
     pub barcode: Option<String>,
     pub r#type: LocationTypeEnum,
     pub level: Option<i32>,
-    #[sea_orm(column_type = "Text", nullable)]
     pub path: Option<String>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub max_weight: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub max_volume: Option<f32>,
     pub max_pallets: Option<i32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub x_coordinate: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub y_coordinate: Option<f32>,
-    #[sea_orm(column_type = "Float", nullable)]
     pub z_coordinate: Option<f32>,
     pub is_pickable: Option<bool>,
     pub is_receivable: Option<bool>,
@@ -36,30 +40,100 @@ pub struct Model {
     pub updated_at: Option<DateTime>,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    WarehouseId,
+    ParentLocationId,
+    Name,
+    Barcode,
+    Type,
+    Level,
+    Path,
+    MaxWeight,
+    MaxVolume,
+    MaxPallets,
+    XCoordinate,
+    YCoordinate,
+    ZCoordinate,
+    IsPickable,
+    IsReceivable,
+    TemperatureControlled,
+    HazmatApproved,
+    IsActive,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::bin_thresholds::Entity")]
     BinThresholds,
-    #[sea_orm(has_many = "super::inventory_stock::Entity")]
     InventoryStock,
-    #[sea_orm(
-        belongs_to = "Entity",
-        from = "Column::ParentLocationId",
-        to = "Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     SelfRef,
-    #[sea_orm(has_many = "super::putaway_rules::Entity")]
     PutawayRules,
-    #[sea_orm(
-        belongs_to = "super::warehouses::Entity",
-        from = "Column::WarehouseId",
-        to = "super::warehouses::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Warehouses,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::WarehouseId => ColumnType::Uuid.def(),
+            Self::ParentLocationId => ColumnType::Uuid.def().null(),
+            Self::Name => ColumnType::String(StringLen::N(100u32)).def(),
+            Self::Barcode => ColumnType::String(StringLen::N(100u32)).def().null(),
+            Self::Type => LocationTypeEnum::db_type()
+                .get_column_type()
+                .to_owned()
+                .def(),
+            Self::Level => ColumnType::Integer.def().null(),
+            Self::Path => ColumnType::Text.def().null(),
+            Self::MaxWeight => ColumnType::Float.def().null(),
+            Self::MaxVolume => ColumnType::Float.def().null(),
+            Self::MaxPallets => ColumnType::Integer.def().null(),
+            Self::XCoordinate => ColumnType::Float.def().null(),
+            Self::YCoordinate => ColumnType::Float.def().null(),
+            Self::ZCoordinate => ColumnType::Float.def().null(),
+            Self::IsPickable => ColumnType::Boolean.def().null(),
+            Self::IsReceivable => ColumnType::Boolean.def().null(),
+            Self::TemperatureControlled => ColumnType::Boolean.def().null(),
+            Self::HazmatApproved => ColumnType::Boolean.def().null(),
+            Self::IsActive => ColumnType::Boolean.def().null(),
+            Self::CreatedAt => ColumnType::DateTime.def().null(),
+            Self::UpdatedAt => ColumnType::DateTime.def().null(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::BinThresholds => Entity::has_many(super::bin_thresholds::Entity).into(),
+            Self::InventoryStock => Entity::has_many(super::inventory_stock::Entity).into(),
+            Self::SelfRef => Entity::belongs_to(Entity)
+                .from(Column::ParentLocationId)
+                .to(Column::Id)
+                .into(),
+            Self::PutawayRules => Entity::has_many(super::putaway_rules::Entity).into(),
+            Self::Warehouses => Entity::belongs_to(super::warehouses::Entity)
+                .from(Column::WarehouseId)
+                .to(super::warehouses::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::bin_thresholds::Entity> for Entity {

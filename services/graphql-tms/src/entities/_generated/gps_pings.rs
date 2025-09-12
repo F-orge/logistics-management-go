@@ -2,29 +2,75 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(schema_name = "tms", table_name = "gps_pings")]
+#[derive(Copy, Clone, Default, Debug, DeriveEntity)]
+pub struct Entity;
+
+impl EntityName for Entity {
+    fn schema_name(&self) -> Option<&str> {
+        Some("tms")
+    }
+    fn table_name(&self) -> &str {
+        "gps_pings"
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel)]
 pub struct Model {
-    #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub vehicle_id: Uuid,
-    #[sea_orm(column_type = "Float")]
     pub latitude: f32,
-    #[sea_orm(column_type = "Float")]
     pub longitude: f32,
     pub timestamp: DateTime,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
+pub enum Column {
+    Id,
+    VehicleId,
+    Latitude,
+    Longitude,
+    Timestamp,
+}
+
+#[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
+pub enum PrimaryKey {
+    Id,
+}
+
+impl PrimaryKeyTrait for PrimaryKey {
+    type ValueType = Uuid;
+    fn auto_increment() -> bool {
+        false
+    }
+}
+
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(
-        belongs_to = "super::vehicles::Entity",
-        from = "Column::VehicleId",
-        to = "super::vehicles::Column::Id",
-        on_update = "NoAction",
-        on_delete = "NoAction"
-    )]
     Vehicles,
+}
+
+impl ColumnTrait for Column {
+    type EntityName = Entity;
+    fn def(&self) -> ColumnDef {
+        match self {
+            Self::Id => ColumnType::Uuid.def(),
+            Self::VehicleId => ColumnType::Uuid.def(),
+            Self::Latitude => ColumnType::Float.def(),
+            Self::Longitude => ColumnType::Float.def(),
+            Self::Timestamp => ColumnType::DateTime.def(),
+        }
+    }
+}
+
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        match self {
+            Self::Vehicles => Entity::belongs_to(super::vehicles::Entity)
+                .from(Column::VehicleId)
+                .to(super::vehicles::Column::Id)
+                .into(),
+        }
+    }
 }
 
 impl Related<super::vehicles::Entity> for Entity {
