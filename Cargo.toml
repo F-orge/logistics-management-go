@@ -23,6 +23,7 @@ async-graphql = { version = "7.0.17", features = [
   "uuid",
   "chrono",
   "url",
+  "decimal",
 ] }
 sea-query = { version = "0.32.7", features = [
   "thread-safe",
@@ -67,4 +68,5 @@ tracing.workspace = true
 tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
 graphql-core = { path = "./services/graphql-core" }
 graphql-auth = { path = "./services/graphql-auth" }
+graphql-crm = { path = "./services/graphql-crm" }
 async-graphql-axum = "7.0.17"

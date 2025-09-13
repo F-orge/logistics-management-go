@@ -13,7 +13,7 @@ use crate::entities::{
 };
 use graphql_core::traits::GraphqlQuery;
 
-#[Object]
+#[Object(name = "Users")]
 impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
     #[graphql(name = "users")]
     async fn list(

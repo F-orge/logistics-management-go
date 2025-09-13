@@ -1,6 +1,4 @@
----
-applyTo: '**/*.rs'
----
+
 
 This crate will help you to write simpler tests by leveraging a software testing concept called
 [test fixtures](https://en.wikipedia.org/wiki/Test_fixture#Software). A fixture is something

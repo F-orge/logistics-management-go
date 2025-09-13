@@ -2,7 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "case_priority")]
 pub enum CasePriority {
     #[sea_orm(string_value = "critical")]
@@ -14,7 +14,7 @@ pub enum CasePriority {
     #[sea_orm(string_value = "low")]
     Low,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "case_status")]
 pub enum CaseStatus {
     #[sea_orm(string_value = "new")]
@@ -34,7 +34,7 @@ pub enum CaseStatus {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "case_type")]
 pub enum CaseType {
     #[sea_orm(string_value = "question")]
@@ -50,7 +50,7 @@ pub enum CaseType {
     #[sea_orm(string_value = "technical-support")]
     TechnicalSupport,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "interaction_type")]
 pub enum InteractionType {
     #[sea_orm(string_value = "call")]
@@ -62,7 +62,7 @@ pub enum InteractionType {
     #[sea_orm(string_value = "email")]
     Email,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "invoice_status")]
 pub enum InvoiceStatus {
     #[sea_orm(string_value = "draft")]
@@ -76,7 +76,7 @@ pub enum InvoiceStatus {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "lead_source")]
 pub enum LeadSource {
     #[sea_orm(string_value = "website")]
@@ -98,7 +98,7 @@ pub enum LeadSource {
     #[sea_orm(string_value = "other")]
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "lead_status")]
 pub enum LeadStatus {
     #[sea_orm(string_value = "new")]
@@ -112,7 +112,7 @@ pub enum LeadStatus {
     #[sea_orm(string_value = "converted")]
     Converted,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "opportunity_source")]
 pub enum OpportunitySource {
     #[sea_orm(string_value = "website")]
@@ -136,7 +136,7 @@ pub enum OpportunitySource {
     #[sea_orm(string_value = "other")]
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "opportunity_stage")]
 pub enum OpportunityStage {
     #[sea_orm(string_value = "prospecting")]
@@ -156,7 +156,7 @@ pub enum OpportunityStage {
     #[sea_orm(string_value = "closed-lost")]
     ClosedLost,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "payment_method")]
 pub enum PaymentMethod {
     #[sea_orm(string_value = "credit-card")]
@@ -174,7 +174,7 @@ pub enum PaymentMethod {
     #[sea_orm(string_value = "wire-transfer")]
     WireTransfer,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "product_type")]
 pub enum ProductType {
     #[sea_orm(string_value = "service")]
@@ -186,7 +186,7 @@ pub enum ProductType {
     #[sea_orm(string_value = "subscription")]
     Subscription,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "record_type")]
 pub enum RecordType {
     #[sea_orm(string_value = "companies")]

@@ -18,8 +18,8 @@ pub trait GraphqlQuery<Model: ModelTrait + OutputType, PrimaryKey: InputType> {
 pub trait GraphqlMutation<
     Model: ModelTrait + OutputType,
     PrimaryKey: InputType,
-    Insert: ActiveModelTrait + InputObjectType,
-    Update: ActiveModelTrait + InputObjectType,
+    Insert: InputObjectType,
+    Update: InputObjectType,
 >
 {
     fn create(
