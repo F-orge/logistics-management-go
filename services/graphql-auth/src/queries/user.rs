@@ -15,6 +15,7 @@ use graphql_core::traits::GraphqlQuery;
 
 #[Object]
 impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
+    #[graphql(name = "users")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -26,6 +27,7 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
         Ok(result)
     }
 
+    #[graphql(name = "user")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -39,6 +41,8 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
     }
 }
 
+#[derive(Debug, Default)]
+
 pub struct Mutations;
 
 #[derive(Clone, Debug, SimpleObject)]
@@ -47,7 +51,7 @@ pub struct SignInResponse {
     user: user::Model,
 }
 
-#[Object]
+#[Object(name = "AuthUserMutations")]
 impl Mutations {
     async fn sign_in_email(
         &self,
@@ -90,6 +94,7 @@ impl Mutations {
     async fn sign_up_email(
         &self,
         ctx: &async_graphql::Context<'_>,
+        name: String,
         email: String,
         password: String,
         role: Option<String>,
@@ -105,6 +110,7 @@ impl Mutations {
         user_insert.email_verified = Set(Some(false));
         user_insert.role = Set(role);
         user_insert.image = Set(image.map(|url| url.to_string()));
+        user_insert.name = Set(name);
 
         let new_user = user_insert.insert(&trx).await?;
 

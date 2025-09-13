@@ -18,7 +18,12 @@ members = ["services/*"]
 
 [workspace.dependencies]
 anyhow = "1.0.99"
-async-graphql = { version = "7.0.17", features = ["dataloader"] }
+async-graphql = { version = "7.0.17", features = [
+  "dataloader",
+  "uuid",
+  "chrono",
+  "url",
+] }
 sea-query = { version = "0.32.7", features = [
   "thread-safe",
   "backend-postgres",
@@ -53,4 +58,13 @@ sea-orm = { version = "1.1.16", features = [
 ] }
 
 [dependencies]
-async-graphql = { workspace = true, features = ["uuid", "chrono", "url"] }
+async-graphql = { workspace = true }
+anyhow = { workspace = true }
+sea-orm = { workspace = true }
+tokio = { version = "1.47.1", features = ["full"] }
+axum = { version = "0.8.4", features = ["macros"] }
+tracing.workspace = true
+tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
+graphql-core = { path = "./services/graphql-core" }
+graphql-auth = { path = "./services/graphql-auth" }
+async-graphql-axum = "7.0.17"
