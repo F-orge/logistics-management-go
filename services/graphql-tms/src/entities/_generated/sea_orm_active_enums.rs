@@ -2,7 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -20,7 +20,7 @@ pub enum CarrierRateUnitEnum {
     #[sea_orm(string_value = "flat_rate")]
     FlatRate,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "currency_enum")]
 pub enum CurrencyEnum {
     #[sea_orm(string_value = "USD")]
@@ -38,7 +38,7 @@ pub enum CurrencyEnum {
     #[sea_orm(string_value = "PHP")]
     Php,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -54,7 +54,7 @@ pub enum DriverScheduleReasonEnum {
     #[sea_orm(string_value = "personal_leave")]
     PersonalLeave,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "driver_status_enum")]
 pub enum DriverStatusEnum {
     #[sea_orm(string_value = "active")]
@@ -64,7 +64,7 @@ pub enum DriverStatusEnum {
     #[sea_orm(string_value = "on_leave")]
     OnLeave,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -80,7 +80,7 @@ pub enum ExpenseStatusEnum {
     #[sea_orm(string_value = "reimbursed")]
     Reimbursed,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "expense_type_enum")]
 pub enum ExpenseTypeEnum {
     #[sea_orm(string_value = "fuel")]
@@ -96,7 +96,7 @@ pub enum ExpenseTypeEnum {
     #[sea_orm(string_value = "accommodation")]
     Accommodation,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -108,7 +108,7 @@ pub enum GeofenceEventTypeEnum {
     #[sea_orm(string_value = "exit")]
     Exit,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -126,7 +126,7 @@ pub enum PartnerInvoiceStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "proof_type_enum")]
 pub enum ProofTypeEnum {
     #[sea_orm(string_value = "signature")]
@@ -138,7 +138,7 @@ pub enum ProofTypeEnum {
     #[sea_orm(string_value = "pin_verification")]
     PinVerification,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -156,7 +156,7 @@ pub enum ShipmentLegStatusEnum {
     #[sea_orm(string_value = "failed")]
     Failed,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "trip_status_enum")]
 pub enum TripStatusEnum {
     #[sea_orm(string_value = "planned")]
@@ -168,7 +168,7 @@ pub enum TripStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -184,7 +184,7 @@ pub enum TripStopStatusEnum {
     #[sea_orm(string_value = "skipped")]
     Skipped,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -204,7 +204,7 @@ pub enum VehicleServiceTypeEnum {
     #[sea_orm(string_value = "brake_service")]
     BrakeService,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",

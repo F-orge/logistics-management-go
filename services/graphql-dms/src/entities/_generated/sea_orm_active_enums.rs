@@ -2,7 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -26,7 +26,7 @@ pub enum DeliveryFailureReasonEnum {
     #[sea_orm(string_value = "other")]
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -44,7 +44,7 @@ pub enum DeliveryRouteStatusEnum {
     #[sea_orm(string_value = "paused")]
     Paused,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -66,7 +66,7 @@ pub enum DeliveryTaskStatusEnum {
     #[sea_orm(string_value = "rescheduled")]
     Rescheduled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -84,7 +84,7 @@ pub enum ProofOfDeliveryTypeEnum {
     #[sea_orm(string_value = "left_at_door")]
     LeftAtDoor,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
