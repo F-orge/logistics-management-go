@@ -1,13 +1,14 @@
-use async_graphql::InputObject;
+use async_graphql::{ComplexObject, Context, InputObject};
+use graphql_auth::entities::_generated::user;
 use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
-    IntoActiveModel,
+    ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
 };
 use uuid::Uuid;
 
-use crate::entities::_generated::companies;
+use crate::entities::_generated::{companies, contacts, leads, opportunities};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertCompany {
@@ -76,5 +77,58 @@ impl IntoActiveModel<companies::ActiveModel> for UpdateCompany {
         active_model.owner_id = self.owner_id.map(|v| Set(v)).unwrap_or(NotSet);
 
         active_model
+    }
+}
+
+#[ComplexObject]
+impl companies::Model {
+    async fn contacts(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<contacts::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let results = contacts::Entity::find()
+            .filter(contacts::Column::CompanyId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn leads(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<leads::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let results = leads::Entity::find()
+            .filter(leads::Column::ConvertedCompanyId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn opportunities(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<opportunities::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let results = opportunities::Entity::find()
+            .filter(opportunities::Column::CompanyId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = user::Entity::find()
+            .filter(user::Column::Id.eq(self.owner_id))
+            .one(db)
+            .await?;
+
+        Ok(result)
     }
 }
