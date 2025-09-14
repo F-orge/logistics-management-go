@@ -15,7 +15,7 @@ impl EntityName for Entity {
 }
 
 #[derive(
-    Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql::SimpleObject,
+    Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
 #[graphql(name = "AuthUser")]
 pub struct Model {

@@ -2,7 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -20,7 +20,7 @@ pub enum InboundShipmentStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -40,7 +40,7 @@ pub enum InventoryAdjustmentReasonEnum {
     #[sea_orm(string_value = "manual_correction")]
     ManualCorrection,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -58,7 +58,7 @@ pub enum OutboundShipmentStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -74,7 +74,7 @@ pub enum ProductStatusEnum {
     #[sea_orm(string_value = "inactive")]
     Inactive,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -92,7 +92,7 @@ pub enum ReturnItemConditionEnum {
     #[sea_orm(string_value = "unsellable")]
     Unsellable,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "return_status_enum")]
 pub enum ReturnStatusEnum {
     #[sea_orm(string_value = "requested")]
@@ -106,7 +106,7 @@ pub enum ReturnStatusEnum {
     #[sea_orm(string_value = "processed")]
     Processed,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -124,7 +124,7 @@ pub enum SalesOrderStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
+#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",

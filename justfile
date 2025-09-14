@@ -9,10 +9,19 @@ sea-orm-generate:
   for schema in auth crm tms ims wms dms billing; do \
     gen_dir="services/graphql-$schema/src/entities/_generated"; \
     if [ -f "$gen_dir/mod.rs" ]; then \
-      sea-orm-cli generate entity -l --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enum --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
+      sea-orm-cli generate entity -l --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
+      rm -f "$gen_dir/lib.rs"; \
     else \
-      sea-orm-cli generate entity --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enum --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
+      sea-orm-cli generate entity --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
     fi; \
+    for file in "$gen_dir"/*.rs; do \
+      if [ -f "$file" ] && [ "$(basename "$file")" != "mod.rs" ]; then \
+        file_name=$(basename "$file" .rs); \
+        singular_name=$(echo "$file_name" | sed -E 's/(ch|sh|x|z)es$/\1/; s/ves$/f/; s/ies$/y/; s/s$//'); \
+        graphql_name=$(echo "${schema}_${singular_name}" | sed 's/_/ /g' | sed 's/\b\w/\U&/g' | sed 's/ //g'); \
+        sed -i "/async_graphql :: SimpleObject,/{N;s/)]$/)\]\n#[graphql(name = \"${graphql_name}\")]/}" "$file"; \
+      fi; \
+    done; \
   done
 
 start-postgres:
