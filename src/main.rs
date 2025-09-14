@@ -12,6 +12,7 @@ struct Query {
     tms: graphql_tms::Query,
     wms: graphql_wms::Query,
     dms: graphql_dms::Query,
+    billing: graphql_billing::Query,
 }
 
 #[derive(Debug, SimpleObject, Default)]
@@ -22,6 +23,7 @@ struct Mutations {
     tms: graphql_tms::Mutation,
     wms: graphql_wms::Mutation,
     dms: graphql_dms::Mutation,
+    billing: graphql_billing::Mutation,
 }
 
 #[tokio::main]

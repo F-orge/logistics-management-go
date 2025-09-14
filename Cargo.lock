@@ -941,6 +941,7 @@ dependencies = [
  "async-graphql",
  "chrono",
  "graphql-auth",
+ "graphql-core",
  "graphql-crm",
  "rstest",
  "rust_decimal",
