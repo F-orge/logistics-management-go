@@ -23,8 +23,23 @@ sea-orm-generate:
         sed -i "/async_graphql :: SimpleObject,/{N;s/)]$/)\]\n#[graphql(name = \"${graphql_name}\")]/}" "$file"; \
         if grep -q "pub enum Relation {" "$file" && ! grep -q "pub enum Relation {}" "$file"; then \
           sed -i "/^#\[graphql(name = \"${graphql_name}\")\]$/a #[graphql(complex)]" "$file"; \
-          if ! grep -q "#[ComplexObject]\nimpl $file_name::Model {" "$file" && ! grep -q "#[ComplexObject]\nimpl $file_name::Model {}" "$file"; then \
-            echo "#[ComplexObject]\nimpl $file_name::Model {}" >> "$entity_dir/$file_name.rs"; \
+          entity_file="$entity_dir/$file_name.rs"; \
+          if [ ! -f "$entity_file" ]; then \
+            echo "use async_graphql::ComplexObject;" > "$entity_file"; \
+            echo "" >> "$entity_file"; \
+            echo "use crate::entities::_generated::$file_name;" >> "$entity_file"; \
+            echo "" >> "$entity_file"; \
+            echo "#[ComplexObject]" >> "$entity_file"; \
+            echo "impl $file_name::Model {" >> "$entity_file"; \
+            echo "" >> "$entity_file"; \
+            echo "}" >> "$entity_file"; \
+          elif ! grep -q "impl $file_name::Model" "$entity_file"; then \
+            echo "" >> "$entity_file"; \
+            echo "use async_graphql::ComplexObject" >> "$entity_file"; \
+            echo "#[ComplexObject]" >> "$entity_file"; \
+            echo "impl $file_name::Model {" >> "$entity_file"; \
+            echo "" >> "$entity_file"; \
+            echo "}" >> "$entity_file"; \
           fi; \
         fi; \
       fi; \
