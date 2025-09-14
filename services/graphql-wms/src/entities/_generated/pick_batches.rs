@@ -16,7 +16,9 @@ impl EntityName for Entity {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql::SimpleObject)]
+#[derive(
+    Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
+)]
 pub struct Model {
     pub id: Uuid,
     pub batch_number: String,
@@ -150,15 +152,6 @@ impl Related<super::user::Entity> for Entity {
 impl Related<super::warehouses::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Warehouses.def()
-    }
-}
-
-impl Related<super::sales_orders::Entity> for Entity {
-    fn to() -> RelationDef {
-        super::pick_batch_items::Relation::SalesOrders.def()
-    }
-    fn via() -> Option<RelationDef> {
-        Some(super::pick_batch_items::Relation::PickBatches.def().rev())
     }
 }
 

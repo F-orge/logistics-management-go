@@ -14,8 +14,11 @@ impl EntityName for Entity {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql::SimpleObject)]
+#[derive(
+    Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
+)]
 pub struct Model {
+    pub id: Uuid,
     pub pick_batch_id: Uuid,
     pub sales_order_id: Uuid,
     pub order_priority: Option<i32>,
@@ -27,6 +30,7 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
 pub enum Column {
+    Id,
     PickBatchId,
     SalesOrderId,
     OrderPriority,
@@ -38,12 +42,11 @@ pub enum Column {
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
 pub enum PrimaryKey {
-    PickBatchId,
-    SalesOrderId,
+    Id,
 }
 
 impl PrimaryKeyTrait for PrimaryKey {
-    type ValueType = (Uuid, Uuid);
+    type ValueType = Uuid;
     fn auto_increment() -> bool {
         false
     }
@@ -59,6 +62,7 @@ impl ColumnTrait for Column {
     type EntityName = Entity;
     fn def(&self) -> ColumnDef {
         match self {
+            Self::Id => ColumnType::Uuid.def(),
             Self::PickBatchId => ColumnType::Uuid.def(),
             Self::SalesOrderId => ColumnType::Uuid.def(),
             Self::OrderPriority => ColumnType::Integer.def().null(),

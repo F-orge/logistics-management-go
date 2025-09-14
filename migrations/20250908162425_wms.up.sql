@@ -386,6 +386,7 @@ comment on column wms.pick_batches.updated_at is 'Timestamp when the batch was l
 
 -- WMS Pick Batch Items
 create table wms.pick_batch_items(
+  id uuid not null primary key default gen_random_uuid(),
   pick_batch_id uuid not null references wms.pick_batches(id),
   sales_order_id uuid not null references ims.sales_orders(id),
   order_priority integer default 100,
@@ -393,10 +394,12 @@ create table wms.pick_batch_items(
   actual_pick_time integer,
   created_at timestamp default now(),
   updated_at timestamp default now(),
-  primary key (pick_batch_id, sales_order_id)
+  unique (pick_batch_id, sales_order_id)
 );
 
 comment on table wms.pick_batch_items is 'Associates individual sales orders with pick batches for grouped picking.';
+
+comment on column wms.pick_batch_items.id is 'Primary key';
 
 comment on column wms.pick_batch_items.pick_batch_id is 'Reference to the pick batch.';
 
