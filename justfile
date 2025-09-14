@@ -8,6 +8,7 @@ ORG_NAME := 'f-orge'
 sea-orm-generate:
   for schema in auth crm tms ims wms dms billing; do \
     gen_dir="services/graphql-$schema/src/entities/_generated"; \
+    entity_dir="services/graphql-$schema/src/entities"; \
     if [ -f "$gen_dir/mod.rs" ]; then \
       sea-orm-cli generate entity -l --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
       rm -f "$gen_dir/lib.rs"; \
@@ -20,6 +21,12 @@ sea-orm-generate:
         singular_name=$(echo "$file_name" | sed -E 's/(ch|sh|x|z)es$/\1/; s/ves$/f/; s/ies$/y/; s/s$//'); \
         graphql_name=$(echo "${schema}_${singular_name}" | sed 's/_/ /g' | sed 's/\b\w/\U&/g' | sed 's/ //g'); \
         sed -i "/async_graphql :: SimpleObject,/{N;s/)]$/)\]\n#[graphql(name = \"${graphql_name}\")]/}" "$file"; \
+        if grep -q "pub enum Relation {" "$file" && ! grep -q "pub enum Relation {}" "$file"; then \
+          sed -i "/^#\[graphql(name = \"${graphql_name}\")\]$/a #[graphql(complex)]" "$file"; \
+          if ! grep -q "#[ComplexObject]\nimpl $file_name::Model {" "$file" && ! grep -q "#[ComplexObject]\nimpl $file_name::Model {}" "$file"; then \
+            echo "#[ComplexObject]\nimpl $file_name::Model {}" >> "$entity_dir/$file_name.rs"; \
+          fi; \
+        fi; \
       fi; \
     done; \
   done
