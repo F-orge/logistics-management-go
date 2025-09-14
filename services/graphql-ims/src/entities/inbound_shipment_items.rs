@@ -1,0 +1,55 @@
+use async_graphql::InputObject;
+use sea_orm::{
+    ActiveModelBehavior,
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
+
+use crate::entities::_generated::inbound_shipment_items;
+
+#[derive(Debug, Clone, InputObject)]
+pub struct InsertInboundShipmentItem {
+    pub inbound_shipment_id: Uuid,
+    pub product_id: Uuid,
+    pub expected_quantity: i32,
+    pub received_quantity: Option<i32>,
+    pub discrepancy_quantity: Option<i32>,
+    pub discrepancy_notes: Option<String>,
+}
+
+#[derive(Debug, Clone, InputObject)]
+pub struct UpdateInboundShipmentItem {
+    pub inbound_shipment_id: Option<Uuid>,
+    pub product_id: Option<Uuid>,
+    pub expected_quantity: Option<i32>,
+    pub received_quantity: Option<Option<i32>>,
+    pub discrepancy_quantity: Option<Option<i32>>,
+    pub discrepancy_notes: Option<Option<String>>,
+}
+
+impl IntoActiveModel<inbound_shipment_items::ActiveModel> for InsertInboundShipmentItem {
+    fn into_active_model(self) -> inbound_shipment_items::ActiveModel {
+        let mut active_model = inbound_shipment_items::ActiveModel::new();
+        active_model.inbound_shipment_id = Set(self.inbound_shipment_id);
+        active_model.product_id = Set(self.product_id);
+        active_model.expected_quantity = Set(self.expected_quantity);
+        active_model.received_quantity = Set(self.received_quantity);
+        active_model.discrepancy_quantity = Set(self.discrepancy_quantity);
+        active_model.discrepancy_notes = Set(self.discrepancy_notes);
+        active_model
+    }
+}
+
+impl IntoActiveModel<inbound_shipment_items::ActiveModel> for UpdateInboundShipmentItem {
+    fn into_active_model(self) -> inbound_shipment_items::ActiveModel {
+        let mut active_model = inbound_shipment_items::ActiveModel::new();
+        active_model.inbound_shipment_id = self.inbound_shipment_id.map(Set).unwrap_or(NotSet);
+        active_model.product_id = self.product_id.map(Set).unwrap_or(NotSet);
+        active_model.expected_quantity = self.expected_quantity.map(Set).unwrap_or(NotSet);
+        active_model.received_quantity = self.received_quantity.map(Set).unwrap_or(NotSet);
+        active_model.discrepancy_quantity = self.discrepancy_quantity.map(Set).unwrap_or(NotSet);
+        active_model.discrepancy_notes = self.discrepancy_notes.map(Set).unwrap_or(NotSet);
+        active_model
+    }
+}

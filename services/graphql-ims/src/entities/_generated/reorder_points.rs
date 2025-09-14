@@ -15,6 +15,7 @@ impl EntityName for Entity {
 }
 
 #[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql::SimpleObject)]
+#[graphql(name = "ImsReorderPoint")]
 pub struct Model {
     pub id: Uuid,
     pub product_id: Uuid,

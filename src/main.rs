@@ -8,10 +8,15 @@ use tokio::net::TcpListener;
 struct Query {
     auth: graphql_auth::Query,
     crm: graphql_crm::Query,
+    ims: graphql_ims::Query,
 }
 
-#[derive(Debug, MergedObject, Default)]
-struct Mutations(graphql_auth::Mutation, graphql_crm::Mutation);
+#[derive(Debug, SimpleObject, Default)]
+struct Mutations {
+    auth: graphql_auth::Mutation,
+    crm: graphql_crm::Mutation,
+    ims: graphql_ims::Mutation,
+}
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

@@ -16,6 +16,7 @@ impl EntityName for Entity {
 }
 
 #[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql::SimpleObject)]
+#[graphql(name = "ImsReturn")]
 pub struct Model {
     pub id: Uuid,
     pub return_number: String,

@@ -69,4 +69,5 @@ tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
 graphql-core = { path = "./services/graphql-core" }
 graphql-auth = { path = "./services/graphql-auth" }
 graphql-crm = { path = "./services/graphql-crm" }
+graphql-ims = { path = "./services/graphql-ims" }
 async-graphql-axum = "7.0.17"

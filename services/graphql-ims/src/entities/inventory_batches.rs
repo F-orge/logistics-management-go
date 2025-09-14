@@ -1,0 +1,43 @@
+use crate::entities::_generated::inventory_batches;
+use async_graphql::InputObject;
+use chrono::NaiveDate;
+use sea_orm::{
+    ActiveModelBehavior,
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
+
+#[derive(Debug, Clone, InputObject)]
+pub struct InsertInventoryBatch {
+    pub product_id: Uuid,
+    pub batch_number: String,
+    pub expiration_date: Option<NaiveDate>,
+}
+
+#[derive(Debug, Clone, InputObject)]
+pub struct UpdateInventoryBatch {
+    pub product_id: Option<Uuid>,
+    pub batch_number: Option<String>,
+    pub expiration_date: Option<Option<NaiveDate>>,
+}
+
+impl IntoActiveModel<inventory_batches::ActiveModel> for InsertInventoryBatch {
+    fn into_active_model(self) -> inventory_batches::ActiveModel {
+        let mut active_model = inventory_batches::ActiveModel::new();
+        active_model.product_id = Set(self.product_id);
+        active_model.batch_number = Set(self.batch_number);
+        active_model.expiration_date = Set(self.expiration_date);
+        active_model
+    }
+}
+
+impl IntoActiveModel<inventory_batches::ActiveModel> for UpdateInventoryBatch {
+    fn into_active_model(self) -> inventory_batches::ActiveModel {
+        let mut active_model = inventory_batches::ActiveModel::new();
+        active_model.product_id = self.product_id.map(Set).unwrap_or(NotSet);
+        active_model.batch_number = self.batch_number.map(Set).unwrap_or(NotSet);
+        active_model.expiration_date = self.expiration_date.map(Set).unwrap_or(NotSet);
+        active_model
+    }
+}

@@ -1,6 +1,7 @@
+
 # GraphQL Resolver Generation Instructions
 
-This guide documents the process for generating and integrating GraphQL resolvers for SeaORM entities in the `graphql-crm` domain, based on the established pattern in this project.
+This guide documents the process for generating and integrating GraphQL resolvers for SeaORM entities in the `graphql-crm` and `graphql-ims` domains, based on the established pattern in this project. The IMS domain supports batch resolver creation and explicit module registration.
 
 ## 1. Entity Analysis
 - For each entity in `services/graphql-crm/src/entities/`, identify:
@@ -9,8 +10,9 @@ This guide documents the process for generating and integrating GraphQL resolver
   - The primary key type (usually `Uuid`)
   - The input types for mutations (e.g., `InsertContact`, `UpdateContact`)
 
+
 ## 2. Resolver File Creation
-- For each entity, create a resolver file in `services/graphql-crm/src/queries/` named `<entity>.rs`.
+- For each entity, create a resolver file in `services/<domain>/src/queries/` named `<entity>.rs`.
 - Implement two traits from `graphql_core::traits`:
   - `GraphqlQuery<Model, PrimaryKey>` for queries
   - `GraphqlMutation<Model, PrimaryKey, Insert, Update>` for mutations
@@ -78,14 +80,17 @@ impl graphql_core::traits::GraphqlMutation<<entity>::Model, Uuid, Insert<Entity>
 }
 ```
 
+
 ## 3. Module Registration
-- Add each new resolver module to `services/graphql-crm/src/queries/mod.rs`:
+- Add each new resolver module to `services/<domain>/src/queries/mod.rs`:
   ```rust
   pub mod <entity>;
   ```
+- For batch creation, export all new resolvers in a single update to `mod.rs`.
+
 
 ## 4. GraphQL Root Registration
-- Update `services/graphql-crm/src/lib.rs`:
+- Update `services/<domain>/src/lib.rs`:
   - Add each entity to the `Query` struct:
     ```rust
     pub struct Query(
@@ -100,6 +105,7 @@ impl graphql_core::traits::GraphqlMutation<<entity>::Model, Uuid, Insert<Entity>
         // ...other mutations
     );
     ```
+- For batch creation, update the `Query` and `Mutation` structs to include all new entities and mutations in a single edit.
 
 ## 5. Enum Integration
 - For SeaORM enums, ensure they derive `async_graphql::Enum` for GraphQL compatibility:
@@ -107,8 +113,42 @@ impl graphql_core::traits::GraphqlMutation<<entity>::Model, Uuid, Insert<Entity>
   #[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, DeriveActiveEnum, async_graphql::Enum)]
   ```
 
+
 ## 6. Testing & Validation
 - After integration, test the GraphQL API to ensure all queries and mutations work as expected for each entity.
+
+---
+
+### IMS Domain Example (2025-09-14)
+
+Recent updates for the IMS domain:
+- Entities are scanned and missing resolvers are identified.
+- Resolver files are created in batches for efficiency.
+- Each new resolver is exported in `services/graphql-ims/src/queries/mod.rs`.
+- The root `Query` and `Mutation` structs in `services/graphql-ims/src/lib.rs` are updated to include all new entities and mutations, following the pattern:
+  ```rust
+  #[derive(Debug, Default, MergedObject)]
+  #[graphql(name = "ImsQueries")]
+  pub struct Query(
+      entities::_generated::inbound_shipment_items::Entity,
+      entities::_generated::inbound_shipments::Entity,
+      entities::_generated::inventory_adjustments::Entity,
+      entities::_generated::inventory_batches::Entity,
+      // ...other entities
+  );
+
+  #[derive(Debug, Default, MergedObject)]
+  #[graphql(name = "ImsMutations")]
+  pub struct Mutation(
+      queries::inbound_shipment_items::Mutations,
+      queries::inbound_shipments::Mutations,
+      queries::inventory_adjustments::Mutations,
+      queries::inventory_batches::Mutations,
+      // ...other mutations
+  );
+  ```
+
+This ensures all resolvers are registered and available in the GraphQL schema. Batch updates are recommended for large sets of entities.
 
 ---
 

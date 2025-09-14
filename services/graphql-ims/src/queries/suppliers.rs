@@ -1,0 +1,59 @@
+use async_graphql::Object;
+use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel, ModelTrait, TransactionTrait};
+use uuid::Uuid;
+use crate::entities::{_generated::suppliers, suppliers::{InsertSupplier, UpdateSupplier}};
+
+#[Object(name = "Suppliers")]
+impl graphql_core::traits::GraphqlQuery<suppliers::Model, Uuid> for suppliers::Entity {
+    #[graphql(name = "suppliers")]
+    async fn list(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Vec<suppliers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let items = suppliers::Entity::find().all(db).await.unwrap_or_default();
+        Ok(items)
+    }
+    #[graphql(name = "supplier")]
+    async fn view(&self, ctx: &async_graphql::Context<'_>, id: Uuid) -> async_graphql::Result<Option<suppliers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let item = suppliers::Entity::find_by_id(id).one(db).await?;
+        Ok(item)
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct Mutations;
+
+#[Object(name = "ImsSupplierMutations")]
+impl graphql_core::traits::GraphqlMutation<suppliers::Model, Uuid, InsertSupplier, UpdateSupplier> for Mutations {
+    #[graphql(name = "createSupplier")]
+    async fn create(&self, ctx: &async_graphql::Context<'_>, value: InsertSupplier) -> async_graphql::Result<suppliers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let trx = db.begin().await?;
+        let active_model = value.into_active_model();
+        let new_item = active_model.insert(&trx).await?;
+        _ = trx.commit().await?;
+        Ok(new_item)
+    }
+    #[graphql(name = "updateSupplier")]
+    async fn update(&self, ctx: &async_graphql::Context<'_>, id: Uuid, value: UpdateSupplier) -> async_graphql::Result<suppliers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let trx = db.begin().await?;
+        let mut active_model = value.into_active_model();
+        active_model.id = Set(id);
+        let updated_item = active_model.update(&trx).await?;
+        _ = trx.commit().await?;
+        Ok(updated_item)
+    }
+    #[graphql(name = "deleteSupplier")]
+    async fn delete(&self, ctx: &async_graphql::Context<'_>, id: Uuid) -> async_graphql::Result<bool> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let trx = db.begin().await?;
+        let item = suppliers::Entity::find_by_id(id).one(&trx).await?.ok_or(async_graphql::Error::new("Unable to find supplier"))?;
+        let result = item.delete(&trx).await?;
+        _ = trx.commit().await?;
+        if result.rows_affected != 1 {
+            return Err(async_graphql::Error::new("Unable to delete supplier"));
+        }
+        Ok(true)
+    }
+}

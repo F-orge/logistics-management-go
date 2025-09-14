@@ -4,9 +4,7 @@ This document describes the conventions and workflow for generating entity files
 
 ## 1. Extract Fields from _generated Files
 
-- For each entity, use the corresponding file in `services/graphql-crm/src/entities/_generated/` (e.g., `companies.rs`, `contacts.rs`, etc.).
-- The struct `Model` in each file contains the canonical list of fields and types for that entity.
-- Enum types (e.g., `CaseStatus`, `InteractionType`) are defined in `sea_orm_active_enums.rs` and should be imported as needed.
+ - When creating fields in Insert/Update structs, always use the exact field type as written in the Model struct. This is required because the Model struct also uses Serde for serialization/deserialization.
 
 ## 2. Entity File Structure
 
@@ -14,9 +12,8 @@ For each entity, create a file in `services/graphql-crm/src/entities/` named aft
 
 ### Insert Struct
 - Named `Insert<Entity>` (e.g., `InsertContact`).
-- Contains all fields from the Model except `id` (and timestamps if auto-generated).
-- Use the exact types from the Model. For nullable fields, use `Option<T>`.
-- For enum fields, import the correct enum from `sea_orm_active_enums.rs`.
+- Contains all fields from the Model except `id` and auto-generated timestamp fields (`created_at`, `updated_at`).
+- Do not include `created_at` or `updated_at` in Insert/Update structs unless explicitly required for manual override.
 
 ### Update Struct
 - Named `Update<Entity>` (e.g., `UpdateContact`).
@@ -47,7 +44,7 @@ For each entity, create a file in `services/graphql-crm/src/entities/` named aft
 ## 5. Special Notes
 - Always use the field types and names from the `_generated` Model struct.
 - Do not include the `id` field in Insert/Update structs unless explicitly required.
-- Timestamps (`created_at`, `updated_at`) should be included as `Option<DateTimeWithTimeZone>` if present in the Model.
+- Do not include `created_at` or `updated_at` in Insert/Update structs unless explicitly required for manual override. These fields are auto-generated and managed by the database.
 - For fields named `type`, use `r#type` in Rust code.
 - If the Model uses a field with a reserved Rust keyword, use raw identifiers (e.g., `r#type`).
 
@@ -68,14 +65,12 @@ The entity file should contain:
 pub struct InsertEntity {
     pub name: String,
     pub status: Option<CaseStatus>,
-    pub created_at: Option<DateTimeWithTimeZone>,
 }
 
 #[derive(Debug, Clone, InputObject)]
 pub struct UpdateEntity {
     pub name: Option<String>,
     pub status: Option<Option<CaseStatus>>,
-    pub created_at: Option<Option<DateTimeWithTimeZone>>,
 }
 ```
 And the appropriate `IntoActiveModel` implementations.

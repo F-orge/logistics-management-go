@@ -15,6 +15,7 @@ impl EntityName for Entity {
 }
 
 #[derive(Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql::SimpleObject)]
+#[graphql(name = "ImsOutboundShipmentItem")]
 pub struct Model {
     pub id: Uuid,
     pub outbound_shipment_id: Uuid,
