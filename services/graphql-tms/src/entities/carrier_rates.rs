@@ -54,9 +54,18 @@ impl IntoActiveModel<carrier_rates::ActiveModel> for UpdateCarrierRate {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::carriers;
 
 #[ComplexObject]
 impl carrier_rates::Model {
-
+    async fn carrier(&self, ctx: &Context<'_>) -> async_graphql::Result<carriers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = carriers::Entity::find_by_id(self.carrier_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Carrier not found")),
+        }
+    }
 }

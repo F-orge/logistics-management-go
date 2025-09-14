@@ -67,9 +67,49 @@ impl IntoActiveModel<trip_stops::ActiveModel> for UpdateTripStop {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{proof_of_deliveries, trips};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl trip_stops::Model {
+    async fn trip(&self, ctx: &Context<'_>) -> async_graphql::Result<trips::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = trips::Entity::find_by_id(self.trip_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Trip not found")),
+        }
+    }
 
+    async fn shipment(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<graphql_ims::entities::_generated::outbound_shipments::Model>>
+    {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(shipment_id) = self.shipment_id {
+            let res = graphql_ims::entities::_generated::outbound_shipments::Entity::find_by_id(
+                shipment_id,
+            )
+            .one(db)
+            .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn proof_of_deliveries(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<proof_of_deliveries::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = proof_of_deliveries::Entity::find()
+            .filter(proof_of_deliveries::Column::TripStopId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

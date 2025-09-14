@@ -45,9 +45,18 @@ impl IntoActiveModel<routes::ActiveModel> for UpdateRoute {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::trips;
 
 #[ComplexObject]
 impl routes::Model {
-
+    async fn trip(&self, ctx: &Context<'_>) -> async_graphql::Result<trips::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = trips::Entity::find_by_id(self.trip_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Trip not found")),
+        }
+    }
 }

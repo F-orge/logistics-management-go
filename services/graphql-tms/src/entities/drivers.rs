@@ -45,9 +45,49 @@ impl IntoActiveModel<drivers::ActiveModel> for UpdateDriver {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{driver_schedules, expenses, trips};
+use crate::entities::_generated::user;
 
 #[ComplexObject]
 impl drivers::Model {
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = user::Entity::find_by_id(self.user_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("User not found")),
+        }
+    }
 
+    async fn driver_schedules(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<driver_schedules::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = driver_schedules::Entity::find()
+            .filter(driver_schedules::Column::DriverId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn expenses(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<expenses::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = expenses::Entity::find()
+            .filter(expenses::Column::DriverId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn trips(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<trips::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = trips::Entity::find()
+            .filter(trips::Column::DriverId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

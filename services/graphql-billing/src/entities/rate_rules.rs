@@ -67,9 +67,19 @@ impl IntoActiveModel<rate_rules::ActiveModel> for UpdateRateRule {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::rate_cards;
 
 #[ComplexObject]
 impl rate_rules::Model {
+    async fn rate_card(&self, ctx: &Context<'_>) -> async_graphql::Result<rate_cards::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = rate_cards::Entity::find_by_id(self.rate_card_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("RateCard not found")),
+        }
+    }
 
 }

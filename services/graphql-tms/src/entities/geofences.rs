@@ -36,9 +36,19 @@ impl IntoActiveModel<geofences::ActiveModel> for UpdateGeofence {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::geofence_events;
 
 #[ComplexObject]
 impl geofences::Model {
-
+    async fn geofence_events(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<geofence_events::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = geofence_events::Entity::find()
+            .filter(geofence_events::Column::GeofenceId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

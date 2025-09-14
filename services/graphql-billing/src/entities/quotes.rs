@@ -6,6 +6,9 @@ use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    EntityTrait,
+    ColumnTrait,
+    QueryFilter,
 };
 use uuid::Uuid;
 
@@ -95,5 +98,36 @@ use async_graphql::ComplexObject;
 
 #[ComplexObject]
 impl quotes::Model {
+    async fn client(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::companies::Model>> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        if let Some(client_id) = self.client_id {
+            let res = crate::entities::_generated::companies::Entity::find_by_id(client_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn invoices(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Vec<crate::entities::_generated::invoices::Model>> {
+        use sea_orm::QueryFilter;
+        use crate::entities::_generated::invoices::Column as InvoicesColumn;
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        let results = crate::entities::_generated::invoices::Entity::find()
+            .filter(InvoicesColumn::QuoteId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn created_by_user(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        if let Some(user_id) = self.created_by_user_id {
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
 }

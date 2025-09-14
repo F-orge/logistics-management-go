@@ -1,12 +1,12 @@
+use crate::entities::_generated::sea_orm_active_enums::TaskItemStatusEnum;
+use crate::entities::_generated::task_items;
 use async_graphql::InputObject;
-use uuid::Uuid;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use crate::entities::_generated::task_items;
-use crate::entities::_generated::sea_orm_active_enums::TaskItemStatusEnum;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertTaskItem {
@@ -72,7 +72,8 @@ impl IntoActiveModel<task_items::ActiveModel> for UpdateTaskItem {
         active_model.product_id = self.product_id.map(Set).unwrap_or(NotSet);
         active_model.batch_id = self.batch_id.map(Set).unwrap_or(NotSet);
         active_model.source_location_id = self.source_location_id.map(Set).unwrap_or(NotSet);
-        active_model.destination_location_id = self.destination_location_id.map(Set).unwrap_or(NotSet);
+        active_model.destination_location_id =
+            self.destination_location_id.map(Set).unwrap_or(NotSet);
         active_model.quantity_required = self.quantity_required.map(Set).unwrap_or(NotSet);
         active_model.quantity_completed = self.quantity_completed.map(Set).unwrap_or(NotSet);
         active_model.quantity_remaining = self.quantity_remaining.map(Set).unwrap_or(NotSet);
@@ -86,9 +87,70 @@ impl IntoActiveModel<task_items::ActiveModel> for UpdateTaskItem {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{inventory_batches, locations, products, tasks};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl task_items::Model {
+    async fn task(&self, ctx: &Context<'_>) -> async_graphql::Result<tasks::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = tasks::Entity::find_by_id(self.task_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Task not found")),
+        }
+    }
 
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
+
+    async fn batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(batch_id) = self.batch_id {
+            let res = inventory_batches::Entity::find_by_id(batch_id)
+                .one(db)
+                .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn source_location(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<locations::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(loc_id) = self.source_location_id {
+            let res = locations::Entity::find_by_id(loc_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn destination_location(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<locations::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(loc_id) = self.destination_location_id {
+            let res = locations::Entity::find_by_id(loc_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 }

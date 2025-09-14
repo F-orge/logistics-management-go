@@ -70,9 +70,28 @@ impl IntoActiveModel<credit_notes::ActiveModel> for UpdateCreditNote {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::{invoices, disputes};
 
 #[ComplexObject]
 impl credit_notes::Model {
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = invoices::Entity::find_by_id(self.invoice_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Invoice not found")),
+        }
+    }
 
+    async fn dispute(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<disputes::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(did) = self.dispute_id {
+            let res = disputes::Entity::find_by_id(did).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 }

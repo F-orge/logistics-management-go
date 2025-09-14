@@ -78,9 +78,30 @@ impl IntoActiveModel<invoice_line_items::ActiveModel> for UpdateInvoiceLineItem 
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{disputes, invoices};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl invoice_line_items::Model {
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = invoices::Entity::find_by_id(self.invoice_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Invoice not found")),
+        }
+    }
 
+    async fn disputes(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<disputes::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = disputes::Entity::find()
+            .filter(disputes::Column::LineItemId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

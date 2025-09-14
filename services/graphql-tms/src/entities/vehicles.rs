@@ -48,9 +48,49 @@ impl IntoActiveModel<vehicles::ActiveModel> for UpdateVehicle {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{geofence_events, gps_pings, trips, vehicle_maintenance};
 
 #[ComplexObject]
 impl vehicles::Model {
+    async fn geofence_events(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<geofence_events::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = geofence_events::Entity::find()
+            .filter(geofence_events::Column::VehicleId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn gps_pings(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<gps_pings::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = gps_pings::Entity::find()
+            .filter(gps_pings::Column::VehicleId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn trips(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<trips::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = trips::Entity::find()
+            .filter(trips::Column::VehicleId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn vehicle_maintenance(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<vehicle_maintenance::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = vehicle_maintenance::Entity::find()
+            .filter(vehicle_maintenance::Column::VehicleId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

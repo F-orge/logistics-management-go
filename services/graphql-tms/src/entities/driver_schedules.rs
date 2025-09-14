@@ -47,9 +47,18 @@ impl IntoActiveModel<driver_schedules::ActiveModel> for UpdateDriverSchedule {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::drivers;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl driver_schedules::Model {
-
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<drivers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = drivers::Entity::find_by_id(self.driver_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Driver not found")),
+        }
+    }
 }

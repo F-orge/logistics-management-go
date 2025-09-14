@@ -45,9 +45,18 @@ impl IntoActiveModel<shipment_leg_events::ActiveModel> for UpdateShipmentLegEven
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::shipment_legs;
 
 #[ComplexObject]
 impl shipment_leg_events::Model {
-
+    async fn shipment_leg(&self, ctx: &Context<'_>) -> async_graphql::Result<shipment_legs::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = shipment_legs::Entity::find_by_id(self.shipment_leg_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("ShipmentLeg not found")),
+        }
+    }
 }

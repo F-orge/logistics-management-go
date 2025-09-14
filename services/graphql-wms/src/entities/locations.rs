@@ -103,9 +103,72 @@ impl IntoActiveModel<locations::ActiveModel> for UpdateLocation {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{bin_thresholds, inventory_stock, putaway_rules, warehouses};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl locations::Model {
+    async fn bin_thresholds(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<bin_thresholds::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = bin_thresholds::Entity::find()
+            .filter(bin_thresholds::Column::LocationId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn inventory_stock(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inventory_stock::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = inventory_stock::Entity::find()
+            .filter(inventory_stock::Column::LocationId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn parent_location(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<locations::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(parent_id) = self.parent_location_id {
+            let res = locations::Entity::find_by_id(parent_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn putaway_rules(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<putaway_rules::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = putaway_rules::Entity::find()
+            .filter(putaway_rules::Column::PreferredLocationId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = warehouses::Entity::find_by_id(self.warehouse_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Warehouse not found")),
+        }
+    }
 }

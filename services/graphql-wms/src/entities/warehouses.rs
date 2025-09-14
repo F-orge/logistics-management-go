@@ -72,9 +72,55 @@ impl IntoActiveModel<warehouses::ActiveModel> for UpdateWarehouse {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{locations, packages, pick_batches, putaway_rules};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl warehouses::Model {
+    async fn locations(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<locations::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = locations::Entity::find()
+            .filter(locations::Column::WarehouseId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn packages(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<packages::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = packages::Entity::find()
+            .filter(packages::Column::WarehouseId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn pick_batches(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<pick_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = pick_batches::Entity::find()
+            .filter(pick_batches::Column::WarehouseId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn putaway_rules(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<putaway_rules::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = putaway_rules::Entity::find()
+            .filter(putaway_rules::Column::WarehouseId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

@@ -106,9 +106,64 @@ impl IntoActiveModel<packages::ActiveModel> for UpdatePackage {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{package_items, warehouses};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl packages::Model {
+    async fn package_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<package_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = package_items::Entity::find()
+            .filter(package_items::Column::PackageId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn sales_order(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<graphql_ims::entities::_generated::sales_orders::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = graphql_ims::entities::_generated::sales_orders::Entity::find_by_id(
+            self.sales_order_id,
+        )
+        .one(db)
+        .await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Sales order not found")),
+        }
+    }
+
+    async fn packed_by(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(user_id) = self.packed_by_user_id {
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = warehouses::Entity::find_by_id(self.warehouse_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Warehouse not found")),
+        }
+    }
 }

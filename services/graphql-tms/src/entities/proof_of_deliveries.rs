@@ -53,9 +53,18 @@ impl IntoActiveModel<proof_of_deliveries::ActiveModel> for UpdateProofOfDelivery
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::trip_stops;
 
 #[ComplexObject]
 impl proof_of_deliveries::Model {
-
+    async fn trip_stop(&self, ctx: &Context<'_>) -> async_graphql::Result<trip_stops::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = trip_stops::Entity::find_by_id(self.trip_stop_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("TripStop not found")),
+        }
+    }
 }

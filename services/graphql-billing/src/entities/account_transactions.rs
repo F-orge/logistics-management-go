@@ -71,9 +71,18 @@ impl IntoActiveModel<account_transactions::ActiveModel> for UpdateAccountTransac
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::client_accounts;
 
 #[ComplexObject]
 impl account_transactions::Model {
-
+    async fn client_account(&self, ctx: &Context<'_>) -> async_graphql::Result<client_accounts::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = client_accounts::Entity::find_by_id(self.client_account_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("ClientAccount not found")),
+        }
+    }
 }

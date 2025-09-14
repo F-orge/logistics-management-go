@@ -69,9 +69,29 @@ impl IntoActiveModel<expenses::ActiveModel> for UpdateExpense {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::{trips, drivers};
 
 #[ComplexObject]
 impl expenses::Model {
+    async fn trip(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<trips::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(trip_id) = self.trip_id {
+            let res = trips::Entity::find_by_id(trip_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<drivers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(driver_id) = self.driver_id {
+            let res = drivers::Entity::find_by_id(driver_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 }

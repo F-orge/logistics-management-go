@@ -52,9 +52,18 @@ impl IntoActiveModel<vehicle_maintenance::ActiveModel> for UpdateVehicleMaintena
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::vehicles;
 
 #[ComplexObject]
 impl vehicle_maintenance::Model {
-
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = vehicles::Entity::find_by_id(self.vehicle_id).one(db).await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Vehicle not found")),
+        }
+    }
 }

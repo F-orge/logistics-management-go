@@ -84,9 +84,54 @@ impl IntoActiveModel<putaway_rules::ActiveModel> for UpdatePutawayRule {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{companies, locations, products, warehouses};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl putaway_rules::Model {
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(client_id) = self.client_id {
+            let res = companies::Entity::find_by_id(client_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn preferred_location(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<locations::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(loc_id) = self.preferred_location_id {
+            let res = locations::Entity::find_by_id(loc_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = warehouses::Entity::find_by_id(self.warehouse_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Warehouse not found")),
+        }
+    }
 }

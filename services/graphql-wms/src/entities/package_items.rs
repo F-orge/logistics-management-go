@@ -65,9 +65,46 @@ impl IntoActiveModel<package_items::ActiveModel> for UpdatePackageItem {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{inventory_batches, packages, products};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl package_items::Model {
+    async fn batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(batch_id) = self.batch_id {
+            let res = inventory_batches::Entity::find_by_id(batch_id)
+                .one(db)
+                .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
+    async fn package(&self, ctx: &Context<'_>) -> async_graphql::Result<packages::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = packages::Entity::find_by_id(self.package_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Package not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 }

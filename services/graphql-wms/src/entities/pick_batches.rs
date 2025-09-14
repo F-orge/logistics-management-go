@@ -86,9 +86,58 @@ impl IntoActiveModel<pick_batches::ActiveModel> for UpdatePickBatch {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{pick_batch_items, tasks, warehouses};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl pick_batches::Model {
+    async fn pick_batch_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<pick_batch_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = pick_batch_items::Entity::find()
+            .filter(pick_batch_items::Column::PickBatchId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn tasks(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<tasks::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = tasks::Entity::find()
+            .filter(tasks::Column::PickBatchId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn assigned_user(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(user_id) = self.assigned_user_id {
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = warehouses::Entity::find_by_id(self.warehouse_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Warehouse not found")),
+        }
+    }
 }

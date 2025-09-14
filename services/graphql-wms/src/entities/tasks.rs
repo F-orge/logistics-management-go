@@ -1,12 +1,12 @@
+use crate::entities::_generated::sea_orm_active_enums::{TaskStatusEnum, TaskTypeEnum};
+use crate::entities::_generated::tasks;
 use async_graphql::InputObject;
-use uuid::Uuid;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use crate::entities::_generated::tasks;
-use crate::entities::_generated::sea_orm_active_enums::{TaskStatusEnum, TaskTypeEnum};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertTask {
@@ -94,9 +94,58 @@ impl IntoActiveModel<tasks::ActiveModel> for UpdateTask {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{pick_batches, task_items, warehouses};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl tasks::Model {
+    async fn task_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<task_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = task_items::Entity::find()
+            .filter(task_items::Column::TaskId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn user(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(user_id) = self.user_id {
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn pick_batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<pick_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(batch_id) = self.pick_batch_id {
+            let res = pick_batches::Entity::find_by_id(batch_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = warehouses::Entity::find_by_id(self.warehouse_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Warehouse not found")),
+        }
+    }
 }

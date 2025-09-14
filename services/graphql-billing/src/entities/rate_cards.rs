@@ -58,9 +58,31 @@ impl IntoActiveModel<rate_cards::ActiveModel> for UpdateRateCard {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, QueryFilter, EntityTrait, ColumnTrait};
+use crate::entities::_generated::{rate_rules, user};
 
 #[ComplexObject]
 impl rate_cards::Model {
+    async fn rate_rules(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<rate_rules::Model>> {
+        use crate::entities::_generated::rate_rules::Column as RateRulesColumn;
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = rate_rules::Entity::find()
+            .filter(RateRulesColumn::RateCardId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn created_by_user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(uid) = self.created_by_user_id {
+            let res = user::Entity::find_by_id(uid).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
 }

@@ -40,9 +40,19 @@ impl IntoActiveModel<carriers::ActiveModel> for UpdateCarrier {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{shipment_legs};
 
 #[ComplexObject]
 impl carriers::Model {
-
+    async fn shipment_legs(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<shipment_legs::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = shipment_legs::Entity::find()
+            .filter(shipment_legs::Column::CarrierId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

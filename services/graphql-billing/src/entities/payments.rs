@@ -87,9 +87,20 @@ impl IntoActiveModel<payments::ActiveModel> for UpdatePayment {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::invoices;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl payments::Model {
-
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = invoices::Entity::find_by_id(self.invoice_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Invoice not found")),
+        }
+    }
 }

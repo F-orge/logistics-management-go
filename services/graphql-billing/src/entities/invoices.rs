@@ -103,9 +103,67 @@ impl IntoActiveModel<invoices::ActiveModel> for UpdateInvoice {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::companies;
+use crate::entities::_generated::{credit_notes, invoice_line_items, payments, quotes};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl invoices::Model {
+    async fn invoice_line_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<invoice_line_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = invoice_line_items::Entity::find()
+            .filter(invoice_line_items::Column::InvoiceId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
+    async fn payments(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<payments::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = payments::Entity::find()
+            .filter(payments::Column::InvoiceId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn credit_notes(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<credit_notes::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = credit_notes::Entity::find()
+            .filter(credit_notes::Column::InvoiceId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn quote(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<quotes::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(qid) = self.quote_id {
+            let res = quotes::Entity::find_by_id(qid).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = companies::Entity::find_by_id(self.client_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Client not found")),
+        }
+    }
 }

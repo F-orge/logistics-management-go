@@ -57,9 +57,31 @@ impl IntoActiveModel<bin_thresholds::ActiveModel> for UpdateBinThreshold {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{locations, products};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl bin_thresholds::Model {
+    async fn location(&self, ctx: &Context<'_>) -> async_graphql::Result<locations::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = locations::Entity::find_by_id(self.location_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Location not found")),
+        }
+    }
 
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 }

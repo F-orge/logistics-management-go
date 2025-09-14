@@ -49,9 +49,36 @@ impl IntoActiveModel<pick_batch_items::ActiveModel> for UpdatePickBatchItem {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{pick_batches, sales_orders};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl pick_batch_items::Model {
+    async fn sales_order(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<graphql_ims::entities::_generated::sales_orders::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = graphql_ims::entities::_generated::sales_orders::Entity::find_by_id(
+            self.sales_order_id,
+        )
+        .one(db)
+        .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Sales order not found")),
+        }
+    }
 
+    async fn pick_batch(&self, ctx: &Context<'_>) -> async_graphql::Result<pick_batches::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = pick_batches::Entity::find_by_id(self.pick_batch_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Pick batch not found")),
+        }
+    }
 }

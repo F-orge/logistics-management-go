@@ -41,9 +41,72 @@ impl IntoActiveModel<trips::ActiveModel> for UpdateTrip {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{drivers, expenses, routes, shipment_legs, trip_stops, vehicles};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl trips::Model {
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<drivers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(driver_id) = self.driver_id {
+            let res = drivers::Entity::find_by_id(driver_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<vehicles::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(vehicle_id) = self.vehicle_id {
+            let res = vehicles::Entity::find_by_id(vehicle_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn expenses(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<expenses::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = expenses::Entity::find()
+            .filter(expenses::Column::TripId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn routes(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<routes::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = routes::Entity::find()
+            .filter(routes::Column::TripId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn shipment_legs(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<shipment_legs::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = shipment_legs::Entity::find()
+            .filter(shipment_legs::Column::InternalTripId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn trip_stops(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<trip_stops::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = trip_stops::Entity::find()
+            .filter(trip_stops::Column::TripId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

@@ -45,9 +45,31 @@ impl IntoActiveModel<geofence_events::ActiveModel> for UpdateGeofenceEvent {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{geofences, vehicles};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl geofence_events::Model {
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = vehicles::Entity::find_by_id(self.vehicle_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Vehicle not found")),
+        }
+    }
 
+    async fn geofence(&self, ctx: &Context<'_>) -> async_graphql::Result<geofences::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let res = geofences::Entity::find_by_id(self.geofence_id)
+            .one(db)
+            .await?;
+        match res {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Geofence not found")),
+        }
+    }
 }
