@@ -1,8 +1,9 @@
-pub mod _generated;
-pub mod carrier_rates;
 pub mod carriers;
-pub mod driver_schedules;
 pub mod drivers;
+pub mod vehicles;
+
+pub mod carrier_rates;
+pub mod driver_schedules;
 pub mod expenses;
 pub mod geofence_events;
 pub mod geofences;
@@ -16,4 +17,3 @@ pub mod shipment_legs;
 pub mod trip_stops;
 pub mod trips;
 pub mod vehicle_maintenance;
-pub mod vehicles;

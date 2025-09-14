@@ -1,4 +1,4 @@
-use async_graphql::{EmptySubscription, MergedObject, Schema, SimpleObject, http::GraphiQLSource};
+use async_graphql::{EmptySubscription, Schema, SimpleObject, http::GraphiQLSource};
 use async_graphql_axum::GraphQL;
 use axum::{Router, response, routing::get};
 use sea_orm::Database;
@@ -9,6 +9,7 @@ struct Query {
     auth: graphql_auth::Query,
     crm: graphql_crm::Query,
     ims: graphql_ims::Query,
+    tms: graphql_tms::Query,
 }
 
 #[derive(Debug, SimpleObject, Default)]
@@ -16,6 +17,7 @@ struct Mutations {
     auth: graphql_auth::Mutation,
     crm: graphql_crm::Mutation,
     ims: graphql_ims::Mutation,
+    tms: graphql_tms::Mutation,
 }
 
 #[tokio::main]
