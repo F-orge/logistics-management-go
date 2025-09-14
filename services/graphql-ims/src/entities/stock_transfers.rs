@@ -56,9 +56,21 @@ impl IntoActiveModel<stock_transfers::ActiveModel> for UpdateStockTransfer {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::products;
 
 #[ComplexObject]
 impl stock_transfers::Model {
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
+
+    
 
 }

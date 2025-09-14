@@ -51,9 +51,30 @@ impl IntoActiveModel<inbound_shipments::ActiveModel> for UpdateInboundShipment {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{companies, inbound_shipment_items};
 
 #[ComplexObject]
 impl inbound_shipments::Model {
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(client_id) = self.client_id {
+            let res = companies::Entity::find_by_id(client_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn inbound_shipment_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = inbound_shipment_items::Entity::find()
+            .filter(inbound_shipment_items::Column::InboundShipmentId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
 }

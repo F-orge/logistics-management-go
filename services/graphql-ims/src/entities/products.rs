@@ -83,9 +83,137 @@ impl IntoActiveModel<products::ActiveModel> for UpdateProduct {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{
+    companies, inbound_shipment_items, inventory_adjustments, inventory_batches,
+    outbound_shipment_items, reorder_points, return_items, sales_order_items, stock_transfers,
+    suppliers,
+};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl products::Model {
+    async fn supplier(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<suppliers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(supplier_id) = self.supplier_id {
+            let res = suppliers::Entity::find_by_id(supplier_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
+    async fn company(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(client_id) = self.client_id {
+            let res = companies::Entity::find_by_id(client_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn inbound_shipment_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = inbound_shipment_items::Entity::find()
+            .filter(inbound_shipment_items::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn inventory_adjustments(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inventory_adjustments::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = inventory_adjustments::Entity::find()
+            .filter(inventory_adjustments::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn inventory_batches(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inventory_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = inventory_batches::Entity::find()
+            .filter(inventory_batches::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn outbound_shipment_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<outbound_shipment_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = outbound_shipment_items::Entity::find()
+            .filter(outbound_shipment_items::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn reorder_points(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<reorder_points::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = reorder_points::Entity::find()
+            .filter(reorder_points::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn return_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<return_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = return_items::Entity::find()
+            .filter(return_items::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn sales_order_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<sales_order_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = sales_order_items::Entity::find()
+            .filter(sales_order_items::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn stock_transfers(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<stock_transfers::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = stock_transfers::Entity::find()
+            .filter(stock_transfers::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 }

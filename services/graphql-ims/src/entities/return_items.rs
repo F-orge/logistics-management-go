@@ -59,9 +59,28 @@ impl IntoActiveModel<return_items::ActiveModel> for UpdateReturnItem {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::{returns, products};
 
 #[ComplexObject]
 impl return_items::Model {
+    async fn return_(&self, ctx: &Context<'_>) -> async_graphql::Result<returns::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = returns::Entity::find_by_id(self.return_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Return not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 
 }

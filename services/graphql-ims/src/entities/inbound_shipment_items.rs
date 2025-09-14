@@ -54,9 +54,30 @@ impl IntoActiveModel<inbound_shipment_items::ActiveModel> for UpdateInboundShipm
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::{inbound_shipments, products};
 
 #[ComplexObject]
 impl inbound_shipment_items::Model {
+    async fn inbound_shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<inbound_shipments::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = inbound_shipments::Entity::find_by_id(self.inbound_shipment_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Inbound shipment not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 
 }

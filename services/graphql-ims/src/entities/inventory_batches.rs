@@ -42,9 +42,20 @@ impl IntoActiveModel<inventory_batches::ActiveModel> for UpdateInventoryBatch {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::products;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl inventory_batches::Model {
-
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 }

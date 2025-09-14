@@ -55,9 +55,39 @@ impl IntoActiveModel<returns::ActiveModel> for UpdateReturn {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{sales_orders, companies, return_items};
 
 #[ComplexObject]
 impl returns::Model {
+    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<sales_orders::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(so_id) = self.sales_order_id {
+            let res = sales_orders::Entity::find_by_id(so_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = companies::Entity::find_by_id(self.client_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Client not found")),
+        }
+    }
+
+    async fn return_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<return_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = return_items::Entity::find()
+            .filter(return_items::Column::ReturnId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
 }

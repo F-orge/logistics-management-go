@@ -49,9 +49,21 @@ impl IntoActiveModel<suppliers::ActiveModel> for UpdateSupplier {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::products;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl suppliers::Model {
+    async fn products(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<products::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
 
+        let results = products::Entity::find()
+            .filter(products::Column::SupplierId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
 }

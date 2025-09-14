@@ -58,9 +58,24 @@ impl IntoActiveModel<task_events::ActiveModel> for UpdateTaskEvent {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::delivery_tasks;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl task_events::Model {
+    async fn delivery_task(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<delivery_tasks::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
 
+        let result = delivery_tasks::Entity::find_by_id(self.delivery_task_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Delivery task not found")),
+        }
+    }
 }

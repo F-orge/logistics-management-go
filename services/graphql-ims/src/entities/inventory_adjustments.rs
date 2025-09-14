@@ -54,9 +54,31 @@ impl IntoActiveModel<inventory_adjustments::ActiveModel> for UpdateInventoryAdju
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::products;
+use graphql_auth::entities::_generated::user;
 
 #[ComplexObject]
 impl inventory_adjustments::Model {
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
+
+    
+
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = user::Entity::find_by_id(self.user_id).one(db).await?;
+        match result {
+            Some(m) => Ok(m),
+            None => Err(async_graphql::Error::new("User not found")),
+        }
+    }
 
 }

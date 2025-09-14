@@ -49,9 +49,47 @@ impl IntoActiveModel<outbound_shipment_items::ActiveModel> for UpdateOutboundShi
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::{outbound_shipments, sales_order_items, products, inventory_batches};
 
 #[ComplexObject]
 impl outbound_shipment_items::Model {
+    async fn outbound_shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<outbound_shipments::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = outbound_shipments::Entity::find_by_id(self.outbound_shipment_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Outbound shipment not found")),
+        }
+    }
+
+    async fn sales_order_item(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_order_items::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = sales_order_items::Entity::find_by_id(self.sales_order_item_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Sales order item not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
+
+    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(batch_id) = self.batch_id {
+            let res = inventory_batches::Entity::find_by_id(batch_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
 
 }

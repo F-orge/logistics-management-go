@@ -50,9 +50,29 @@ impl IntoActiveModel<outbound_shipments::ActiveModel> for UpdateOutboundShipment
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{outbound_shipment_items, sales_orders};
 
 #[ComplexObject]
 impl outbound_shipments::Model {
+    async fn outbound_shipment_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<outbound_shipment_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = outbound_shipment_items::Entity::find()
+            .filter(outbound_shipment_items::Column::OutboundShipmentId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = sales_orders::Entity::find_by_id(self.sales_order_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Sales order not found")),
+        }
+    }
 
 }

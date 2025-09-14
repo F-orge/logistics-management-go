@@ -50,9 +50,59 @@ impl IntoActiveModel<sales_orders::ActiveModel> for UpdateSalesOrder {
     }
 }
 
-use async_graphql::ComplexObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use crate::entities::_generated::{companies, opportunities, outbound_shipments, returns, sales_order_items};
 
 #[ComplexObject]
 impl sales_orders::Model {
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = companies::Entity::find_by_id(self.client_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Client not found")),
+        }
+    }
+
+    async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<opportunities::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(op_id) = self.crm_opportunity_id {
+            let res = opportunities::Entity::find_by_id(op_id).one(db).await?;
+            Ok(res)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn outbound_shipments(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<outbound_shipments::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = outbound_shipments::Entity::find()
+            .filter(outbound_shipments::Column::SalesOrderId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn returns(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<returns::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = returns::Entity::find()
+            .filter(returns::Column::SalesOrderId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn sales_order_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<sales_order_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = sales_order_items::Entity::find()
+            .filter(sales_order_items::Column::SalesOrderId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
 
 }

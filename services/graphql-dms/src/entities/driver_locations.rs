@@ -6,6 +6,9 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{DatabaseConnection, EntityTrait};
+use crate::entities::_generated::drivers;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertDriverLocation {
@@ -61,9 +64,15 @@ impl IntoActiveModel<driver_locations::ActiveModel> for UpdateDriverLocation {
     }
 }
 
-use async_graphql::ComplexObject;
-
 #[ComplexObject]
 impl driver_locations::Model {
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<drivers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
 
+        let result = drivers::Entity::find_by_id(self.driver_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Driver not found")),
+        }
+    }
 }

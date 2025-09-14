@@ -85,9 +85,83 @@ impl IntoActiveModel<delivery_tasks::ActiveModel> for UpdateDeliveryTask {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{
+    customer_tracking_links, delivery_routes, packages, proof_of_deliveries, task_events,
+};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl delivery_tasks::Model {
+    async fn customer_tracking_links(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<customer_tracking_links::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
 
+        let results = customer_tracking_links::Entity::find()
+            .filter(customer_tracking_links::Column::DeliveryTaskId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn delivery_route(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<delivery_routes::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = delivery_routes::Entity::find_by_id(self.delivery_route_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Delivery route not found")),
+        }
+    }
+
+    async fn package(&self, ctx: &Context<'_>) -> async_graphql::Result<packages::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = packages::Entity::find_by_id(self.package_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Package not found")),
+        }
+    }
+
+    async fn proof_of_deliveries(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<proof_of_deliveries::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let results = proof_of_deliveries::Entity::find()
+            .filter(proof_of_deliveries::Column::DeliveryTaskId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn task_events(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<task_events::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let results = task_events::Entity::find()
+            .filter(task_events::Column::DeliveryTaskId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
 }

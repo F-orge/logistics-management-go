@@ -68,9 +68,34 @@ impl IntoActiveModel<delivery_routes::ActiveModel> for UpdateDeliveryRoute {
     }
 }
 
-use async_graphql::ComplexObject;
+use crate::entities::_generated::{delivery_tasks, drivers};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl delivery_routes::Model {
+    async fn delivery_tasks(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<delivery_tasks::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
 
+        let results = delivery_tasks::Entity::find()
+            .filter(delivery_tasks::Column::DeliveryRouteId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+
+        Ok(results)
+    }
+
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<drivers::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+
+        let result = drivers::Entity::find_by_id(self.driver_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Driver not found")),
+        }
+    }
 }
