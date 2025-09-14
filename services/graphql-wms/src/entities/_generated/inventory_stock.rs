@@ -18,6 +18,7 @@ impl EntityName for Entity {
 #[derive(
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
+#[graphql(name = "WmsInventoryStock")]
 pub struct Model {
     pub id: Uuid,
     pub location_id: Uuid,

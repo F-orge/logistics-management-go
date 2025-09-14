@@ -17,6 +17,7 @@ impl EntityName for Entity {
 #[derive(
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
+#[graphql(name = "WmsWarehouse")]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

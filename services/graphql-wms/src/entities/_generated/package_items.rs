@@ -17,6 +17,7 @@ impl EntityName for Entity {
 #[derive(
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql :: SimpleObject,
 )]
+#[graphql(name = "WmsPackageItem")]
 pub struct Model {
     pub id: Uuid,
     pub package_id: Uuid,

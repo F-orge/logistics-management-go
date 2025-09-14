@@ -10,6 +10,7 @@ struct Query {
     crm: graphql_crm::Query,
     ims: graphql_ims::Query,
     tms: graphql_tms::Query,
+    wms: graphql_wms::Query,
 }
 
 #[derive(Debug, SimpleObject, Default)]
@@ -18,6 +19,7 @@ struct Mutations {
     crm: graphql_crm::Mutation,
     ims: graphql_ims::Mutation,
     tms: graphql_tms::Mutation,
+    wms: graphql_wms::Mutation,
 }
 
 #[tokio::main]

@@ -17,6 +17,7 @@ impl EntityName for Entity {
 #[derive(
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
+#[graphql(name = "WmsBinThreshold")]
 pub struct Model {
     pub id: Uuid,
     pub location_id: Uuid,
