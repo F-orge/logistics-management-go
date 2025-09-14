@@ -9,6 +9,7 @@ use sea_orm::{
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
+#[graphql(name = "DmsInsertProofOfDelivery")]
 pub struct InsertProofOfDelivery {
     pub delivery_task_id: Uuid,
     pub r#type: ProofOfDeliveryTypeEnum,
@@ -22,6 +23,7 @@ pub struct InsertProofOfDelivery {
 }
 
 #[derive(Debug, Clone, InputObject)]
+#[graphql(name = "DmsUpdateProofOfDelivery")]
 pub struct UpdateProofOfDelivery {
     pub delivery_task_id: Option<Uuid>,
     pub r#type: Option<ProofOfDeliveryTypeEnum>,
