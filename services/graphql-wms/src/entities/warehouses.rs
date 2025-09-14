@@ -5,7 +5,6 @@ use sea_orm::{
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertWarehouse {

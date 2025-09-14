@@ -1,7 +1,6 @@
 use crate::entities::_generated::outbound_shipments;
 use crate::entities::_generated::sea_orm_active_enums::OutboundShipmentStatusEnum;
 use async_graphql::InputObject;
-use chrono::{DateTime, Utc};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},

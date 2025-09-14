@@ -1,7 +1,6 @@
 use crate::entities::_generated::rate_cards;
 use crate::entities::_generated::sea_orm_active_enums::ServiceTypeEnum;
 use async_graphql::InputObject;
-use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},

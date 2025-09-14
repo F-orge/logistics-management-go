@@ -2,15 +2,12 @@ use async_graphql::{Object, SimpleObject};
 use chrono::{Duration, Utc};
 use sea_orm::{
     ActiveModelBehavior, ActiveModelTrait, ActiveValue::Set, ColumnTrait, DatabaseConnection,
-    EntityTrait, IntoActiveModel, QueryFilter, TransactionTrait,
+    EntityTrait, QueryFilter, TransactionTrait,
 };
 use url::Url;
 use uuid::Uuid;
 
-use crate::entities::{
-    _generated::{account, session, user},
-    user::InsertUserInput,
-};
+use crate::entities::_generated::{account, session, user};
 use graphql_core::traits::GraphqlQuery;
 
 #[Object(name = "Users")]
@@ -131,7 +128,7 @@ impl Mutations {
 
     async fn refresh_token(
         &self,
-        ctx: &async_graphql::Context<'_>,
+        _ctx: &async_graphql::Context<'_>,
     ) -> async_graphql::Result<user::Entity> {
         todo!()
     }

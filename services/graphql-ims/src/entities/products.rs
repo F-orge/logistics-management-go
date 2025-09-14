@@ -1,7 +1,6 @@
 use crate::entities::_generated::products;
 use crate::entities::_generated::sea_orm_active_enums::ProductStatusEnum;
 use async_graphql::InputObject;
-use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
