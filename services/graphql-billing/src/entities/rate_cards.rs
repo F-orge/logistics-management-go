@@ -57,3 +57,10 @@ impl IntoActiveModel<rate_cards::ActiveModel> for UpdateRateCard {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl rate_cards::Model {
+
+}

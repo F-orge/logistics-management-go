@@ -66,3 +66,10 @@ impl IntoActiveModel<trip_stops::ActiveModel> for UpdateTripStop {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl trip_stops::Model {
+
+}

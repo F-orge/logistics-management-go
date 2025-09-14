@@ -57,3 +57,10 @@ impl IntoActiveModel<task_events::ActiveModel> for UpdateTaskEvent {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl task_events::Model {
+
+}

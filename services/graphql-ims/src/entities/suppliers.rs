@@ -48,3 +48,10 @@ impl IntoActiveModel<suppliers::ActiveModel> for UpdateSupplier {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl suppliers::Model {
+
+}

@@ -69,3 +69,10 @@ impl IntoActiveModel<credit_notes::ActiveModel> for UpdateCreditNote {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl credit_notes::Model {
+
+}

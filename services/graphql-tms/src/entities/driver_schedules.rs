@@ -46,3 +46,10 @@ impl IntoActiveModel<driver_schedules::ActiveModel> for UpdateDriverSchedule {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl driver_schedules::Model {
+
+}

@@ -20,6 +20,7 @@ impl EntityName for Entity {
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
 #[graphql(name = "WmsTask")]
+#[graphql(complex)]
 pub struct Model {
     pub id: Uuid,
     pub task_number: String,

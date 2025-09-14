@@ -45,3 +45,10 @@ impl IntoActiveModel<sales_order_items::ActiveModel> for UpdateSalesOrderItem {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl sales_order_items::Model {
+
+}

@@ -58,3 +58,10 @@ impl IntoActiveModel<return_items::ActiveModel> for UpdateReturnItem {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl return_items::Model {
+
+}

@@ -85,3 +85,10 @@ impl IntoActiveModel<pick_batches::ActiveModel> for UpdatePickBatch {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl pick_batches::Model {
+
+}

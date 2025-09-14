@@ -53,3 +53,10 @@ impl IntoActiveModel<inventory_adjustments::ActiveModel> for UpdateInventoryAdju
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl inventory_adjustments::Model {
+
+}

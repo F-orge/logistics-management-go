@@ -85,3 +85,10 @@ impl IntoActiveModel<task_items::ActiveModel> for UpdateTaskItem {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl task_items::Model {
+
+}

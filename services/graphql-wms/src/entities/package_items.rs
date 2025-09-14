@@ -64,3 +64,10 @@ impl IntoActiveModel<package_items::ActiveModel> for UpdatePackageItem {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl package_items::Model {
+
+}

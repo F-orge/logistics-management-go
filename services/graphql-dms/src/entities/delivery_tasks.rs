@@ -84,3 +84,10 @@ impl IntoActiveModel<delivery_tasks::ActiveModel> for UpdateDeliveryTask {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl delivery_tasks::Model {
+
+}

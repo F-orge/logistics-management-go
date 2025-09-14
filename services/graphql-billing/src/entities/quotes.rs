@@ -90,3 +90,10 @@ impl IntoActiveModel<quotes::ActiveModel> for UpdateQuote {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl quotes::Model {
+
+}

@@ -48,3 +48,10 @@ impl IntoActiveModel<pick_batch_items::ActiveModel> for UpdatePickBatchItem {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl pick_batch_items::Model {
+
+}

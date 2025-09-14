@@ -19,6 +19,7 @@ impl EntityName for Entity {
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, Eq, async_graphql :: SimpleObject,
 )]
 #[graphql(name = "CrmTagging")]
+#[graphql(complex)]
 pub struct Model {
     pub tag_id: Uuid,
     pub record_id: Uuid,

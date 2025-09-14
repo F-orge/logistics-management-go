@@ -55,3 +55,10 @@ impl IntoActiveModel<stock_transfers::ActiveModel> for UpdateStockTransfer {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl stock_transfers::Model {
+
+}

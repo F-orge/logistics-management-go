@@ -67,3 +67,10 @@ impl IntoActiveModel<delivery_routes::ActiveModel> for UpdateDeliveryRoute {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl delivery_routes::Model {
+
+}

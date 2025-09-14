@@ -50,3 +50,10 @@ impl IntoActiveModel<inbound_shipments::ActiveModel> for UpdateInboundShipment {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl inbound_shipments::Model {
+
+}

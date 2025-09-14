@@ -51,3 +51,10 @@ impl IntoActiveModel<partner_invoices::ActiveModel> for UpdatePartnerInvoice {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl partner_invoices::Model {
+
+}

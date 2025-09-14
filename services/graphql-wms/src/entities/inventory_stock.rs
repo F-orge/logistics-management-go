@@ -65,3 +65,10 @@ impl IntoActiveModel<inventory_stock::ActiveModel> for UpdateInventoryStock {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl inventory_stock::Model {
+
+}

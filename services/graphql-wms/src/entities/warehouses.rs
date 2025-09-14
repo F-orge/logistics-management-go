@@ -71,3 +71,10 @@ impl IntoActiveModel<warehouses::ActiveModel> for UpdateWarehouse {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl warehouses::Model {
+
+}

@@ -44,3 +44,10 @@ impl IntoActiveModel<gps_pings::ActiveModel> for UpdateGpsPing {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl gps_pings::Model {
+
+}

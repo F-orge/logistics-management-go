@@ -77,3 +77,10 @@ impl IntoActiveModel<invoice_line_items::ActiveModel> for UpdateInvoiceLineItem 
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl invoice_line_items::Model {
+
+}

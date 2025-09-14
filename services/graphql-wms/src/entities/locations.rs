@@ -102,3 +102,10 @@ impl IntoActiveModel<locations::ActiveModel> for UpdateLocation {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl locations::Model {
+
+}

@@ -19,6 +19,7 @@ impl EntityName for Entity {
     Clone, Debug, PartialEq, DeriveModel, DeriveActiveModel, async_graphql :: SimpleObject,
 )]
 #[graphql(name = "WmsLocation")]
+#[graphql(complex)]
 pub struct Model {
     pub id: Uuid,
     pub warehouse_id: Uuid,

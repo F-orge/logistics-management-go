@@ -56,3 +56,10 @@ impl IntoActiveModel<shipment_legs::ActiveModel> for UpdateShipmentLeg {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl shipment_legs::Model {
+
+}

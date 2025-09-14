@@ -62,3 +62,10 @@ impl IntoActiveModel<client_accounts::ActiveModel> for UpdateClientAccount {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl client_accounts::Model {
+
+}

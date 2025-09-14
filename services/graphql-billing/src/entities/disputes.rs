@@ -66,3 +66,10 @@ impl IntoActiveModel<disputes::ActiveModel> for UpdateDispute {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl disputes::Model {
+
+}

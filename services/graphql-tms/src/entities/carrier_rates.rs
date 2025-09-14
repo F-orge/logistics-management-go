@@ -53,3 +53,10 @@ impl IntoActiveModel<carrier_rates::ActiveModel> for UpdateCarrierRate {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl carrier_rates::Model {
+
+}

@@ -47,3 +47,10 @@ impl IntoActiveModel<vehicles::ActiveModel> for UpdateVehicle {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl vehicles::Model {
+
+}

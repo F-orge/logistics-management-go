@@ -40,3 +40,10 @@ impl IntoActiveModel<reorder_points::ActiveModel> for UpdateReorderPoint {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl reorder_points::Model {
+
+}

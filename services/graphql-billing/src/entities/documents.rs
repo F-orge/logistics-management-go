@@ -61,3 +61,10 @@ impl IntoActiveModel<documents::ActiveModel> for UpdateDocument {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl documents::Model {
+
+}

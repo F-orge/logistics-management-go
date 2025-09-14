@@ -66,3 +66,10 @@ impl IntoActiveModel<rate_rules::ActiveModel> for UpdateRateRule {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl rate_rules::Model {
+
+}

@@ -58,3 +58,8 @@ impl IntoActiveModel<user::ActiveModel> for UpdateUserInput {
         todo!()
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl user::Model {}

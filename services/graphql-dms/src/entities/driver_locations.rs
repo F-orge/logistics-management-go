@@ -60,3 +60,10 @@ impl IntoActiveModel<driver_locations::ActiveModel> for UpdateDriverLocation {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl driver_locations::Model {
+
+}

@@ -44,3 +44,10 @@ impl IntoActiveModel<geofence_events::ActiveModel> for UpdateGeofenceEvent {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl geofence_events::Model {
+
+}

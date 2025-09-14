@@ -56,3 +56,10 @@ impl IntoActiveModel<bin_thresholds::ActiveModel> for UpdateBinThreshold {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl bin_thresholds::Model {
+
+}

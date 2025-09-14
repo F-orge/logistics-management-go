@@ -68,3 +68,10 @@ impl IntoActiveModel<expenses::ActiveModel> for UpdateExpense {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl expenses::Model {
+
+}

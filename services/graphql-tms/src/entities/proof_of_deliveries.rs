@@ -52,3 +52,10 @@ impl IntoActiveModel<proof_of_deliveries::ActiveModel> for UpdateProofOfDelivery
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl proof_of_deliveries::Model {
+
+}

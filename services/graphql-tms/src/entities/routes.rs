@@ -44,3 +44,10 @@ impl IntoActiveModel<routes::ActiveModel> for UpdateRoute {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl routes::Model {
+
+}

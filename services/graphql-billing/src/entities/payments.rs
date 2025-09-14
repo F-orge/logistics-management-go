@@ -86,3 +86,10 @@ impl IntoActiveModel<payments::ActiveModel> for UpdatePayment {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl payments::Model {
+
+}

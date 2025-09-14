@@ -39,3 +39,10 @@ impl IntoActiveModel<carriers::ActiveModel> for UpdateCarrier {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl carriers::Model {
+
+}

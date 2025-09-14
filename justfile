@@ -35,7 +35,7 @@ sea-orm-generate:
             echo "}" >> "$entity_file"; \
           elif ! grep -q "impl $file_name::Model" "$entity_file"; then \
             echo "" >> "$entity_file"; \
-            echo "use async_graphql::ComplexObject" >> "$entity_file"; \
+            echo "use async_graphql::ComplexObject;\n" >> "$entity_file"; \
             echo "#[ComplexObject]" >> "$entity_file"; \
             echo "impl $file_name::Model {" >> "$entity_file"; \
             echo "" >> "$entity_file"; \

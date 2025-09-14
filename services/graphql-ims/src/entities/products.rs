@@ -82,3 +82,10 @@ impl IntoActiveModel<products::ActiveModel> for UpdateProduct {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl products::Model {
+
+}

@@ -52,3 +52,10 @@ impl IntoActiveModel<customer_tracking_links::ActiveModel> for UpdateCustomerTra
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl customer_tracking_links::Model {
+
+}

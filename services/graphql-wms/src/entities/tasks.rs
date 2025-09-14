@@ -93,3 +93,10 @@ impl IntoActiveModel<tasks::ActiveModel> for UpdateTask {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl tasks::Model {
+
+}

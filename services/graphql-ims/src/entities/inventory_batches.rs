@@ -41,3 +41,10 @@ impl IntoActiveModel<inventory_batches::ActiveModel> for UpdateInventoryBatch {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl inventory_batches::Model {
+
+}

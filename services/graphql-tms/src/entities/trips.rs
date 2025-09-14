@@ -40,3 +40,10 @@ impl IntoActiveModel<trips::ActiveModel> for UpdateTrip {
         active_model
     }
 }
+
+use async_graphql::ComplexObject;
+
+#[ComplexObject]
+impl trips::Model {
+
+}
