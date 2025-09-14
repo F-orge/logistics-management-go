@@ -18,3 +18,4 @@ rstest.workspace = true
 sea-orm.workspace = true
 graphql-auth = { path = "../graphql-auth" }
 graphql-crm = { path = "../graphql-crm" }
+rust_decimal.workspace = true

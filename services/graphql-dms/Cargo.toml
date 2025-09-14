@@ -18,3 +18,4 @@ rstest.workspace = true
 sea-orm.workspace = true
 graphql-tms = { path = "../graphql-tms" }
 graphql-wms = { path = "../graphql-wms" }
+rust_decimal.workspace = true
