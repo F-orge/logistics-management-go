@@ -1,6 +1,7 @@
 use crate::entities::_generated::cases;
 use crate::entities::_generated::sea_orm_active_enums::{CasePriority, CaseStatus, CaseType};
 use async_graphql::InputObject;
+use sea_orm::prelude::*;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -55,5 +56,44 @@ impl IntoActiveModel<cases::ActiveModel> for UpdateCase {
         active_model.contact_id = self.contact_id.map(Set).unwrap_or(NotSet);
         active_model.description = self.description.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::{contacts, interactions};
+use async_graphql::{ComplexObject, Context};
+use graphql_auth::entities::_generated::user;
+
+#[ComplexObject]
+impl cases::Model {
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<contacts::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(contact_id) = self.contact_id {
+            let result = contacts::Entity::find_by_id(contact_id).one(db).await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = user::Entity::find_by_id(self.owner_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Owner not found")),
+        }
+    }
+
+    async fn interactions(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<interactions::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = interactions::Entity::find()
+            .filter(interactions::Column::CaseId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
     }
 }

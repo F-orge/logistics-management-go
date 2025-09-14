@@ -6,6 +6,7 @@ use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    prelude::*,
 };
 
 #[derive(Debug, Clone, InputObject)]
@@ -43,5 +44,33 @@ impl IntoActiveModel<campaigns::ActiveModel> for UpdateCampaign {
         active_model.start_date = self.start_date.map(Set).unwrap_or(NotSet);
         active_model.end_date = self.end_date.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+use crate::entities::_generated::{leads, opportunities};
+use async_graphql::{ComplexObject, Context};
+
+#[ComplexObject]
+impl campaigns::Model {
+    async fn leads(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<leads::Model>> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        let results = leads::Entity::find()
+            .filter(leads::Column::CampaignId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn opportunities(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<opportunities::Model>> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        let results = opportunities::Entity::find()
+            .filter(opportunities::Column::CampaignId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
     }
 }

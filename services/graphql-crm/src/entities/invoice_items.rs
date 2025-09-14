@@ -1,10 +1,12 @@
 use crate::entities::_generated::invoice_items;
 use async_graphql::InputObject;
+use async_graphql::{ComplexObject, Context};
 use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    prelude::*,
 };
 use uuid::Uuid;
 
@@ -16,6 +18,32 @@ pub struct InsertInvoiceItem {
     pub price: Decimal,
 }
 
+use crate::entities::_generated::{invoices, products};
+
+#[ComplexObject]
+impl invoice_items::Model {
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = invoices::Entity::find_by_id(self.invoice_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Invoice not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
+}
 #[derive(Debug, Clone, InputObject)]
 pub struct UpdateInvoiceItem {
     pub invoice_id: Option<Uuid>,

@@ -3,6 +3,7 @@ use crate::entities::_generated::sea_orm_active_enums::{OpportunitySource, Oppor
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
 use sea_orm::prelude::Date;
+use sea_orm::prelude::*;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -73,5 +74,86 @@ impl IntoActiveModel<opportunities::ActiveModel> for UpdateOpportunity {
         active_model.company_id = self.company_id.map(Set).unwrap_or(NotSet);
         active_model.campaign_id = self.campaign_id.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::{
+    campaigns, companies, contacts, invoices, leads, opportunity_products,
+};
+use async_graphql::{ComplexObject, Context};
+use graphql_auth::entities::_generated::user;
+
+#[ComplexObject]
+impl opportunities::Model {
+    async fn campaign(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<campaigns::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(campaign_id) = self.campaign_id {
+            let result = campaigns::Entity::find_by_id(campaign_id).one(db).await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn company(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(company_id) = self.company_id {
+            let result = companies::Entity::find_by_id(company_id).one(db).await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<contacts::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(contact_id) = self.contact_id {
+            let result = contacts::Entity::find_by_id(contact_id).one(db).await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = user::Entity::find_by_id(self.owner_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Owner not found")),
+        }
+    }
+
+    async fn invoices(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<invoices::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = invoices::Entity::find()
+            .filter(invoices::Column::OpportunityId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn leads(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<leads::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = leads::Entity::find()
+            .filter(leads::Column::ConvertedOpportunityId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn opportunity_products(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<opportunity_products::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = opportunity_products::Entity::find()
+            .filter(opportunity_products::Column::OpportunityId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
     }
 }

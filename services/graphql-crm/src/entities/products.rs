@@ -2,6 +2,7 @@ use crate::entities::_generated::products;
 use crate::entities::_generated::sea_orm_active_enums::ProductType;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+use sea_orm::prelude::*;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -47,5 +48,37 @@ impl IntoActiveModel<products::ActiveModel> for UpdateProduct {
         active_model.r#type = self.r#type.map(Set).unwrap_or(NotSet);
         active_model.description = self.description.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::{invoice_items, opportunity_products};
+use async_graphql::{ComplexObject, Context};
+
+#[ComplexObject]
+impl products::Model {
+    async fn invoice_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<invoice_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = invoice_items::Entity::find()
+            .filter(invoice_items::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn opportunity_products(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<opportunity_products::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = opportunity_products::Entity::find()
+            .filter(opportunity_products::Column::ProductId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
     }
 }

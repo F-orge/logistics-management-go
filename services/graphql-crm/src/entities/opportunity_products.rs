@@ -4,6 +4,7 @@ use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    prelude::*,
 };
 use uuid::Uuid;
 
@@ -12,6 +13,34 @@ pub struct InsertOpportunityProduct {
     pub opportunity_id: Uuid,
     pub product_id: Uuid,
     pub quantity: i32,
+}
+
+use crate::entities::_generated::{opportunities, products};
+use async_graphql::{ComplexObject, Context};
+
+#[ComplexObject]
+impl opportunity_products::Model {
+    async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<opportunities::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = opportunities::Entity::find_by_id(self.opportunity_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Opportunity not found")),
+        }
+    }
+
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Product not found")),
+        }
+    }
 }
 
 #[derive(Debug, Clone, InputObject)]

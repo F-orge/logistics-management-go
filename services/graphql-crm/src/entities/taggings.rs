@@ -1,6 +1,8 @@
-use crate::entities::_generated::sea_orm_active_enums::RecordType;
 use crate::entities::_generated::taggings;
+use crate::entities::_generated::{sea_orm_active_enums::RecordType, tags};
 use async_graphql::InputObject;
+use async_graphql::{ComplexObject, Context};
+use sea_orm::prelude::*;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -39,5 +41,17 @@ impl IntoActiveModel<taggings::ActiveModel> for UpdateTagging {
         active_model.record_id = self.record_id.map(Set).unwrap_or(NotSet);
         active_model.record_type = self.record_type.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+#[ComplexObject]
+impl taggings::Model {
+    async fn tag(&self, ctx: &Context<'_>) -> async_graphql::Result<tags::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = tags::Entity::find_by_id(self.tag_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Tag not found")),
+        }
     }
 }

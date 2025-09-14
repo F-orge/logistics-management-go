@@ -4,6 +4,7 @@ use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    prelude::*,
 };
 use uuid::Uuid;
 
@@ -42,5 +43,20 @@ impl IntoActiveModel<notifications::ActiveModel> for UpdateNotification {
         active_model.is_read = self.is_read.map(Set).unwrap_or(NotSet);
         active_model.link = self.link.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use async_graphql::{ComplexObject, Context};
+use graphql_auth::entities::_generated::user;
+
+#[ComplexObject]
+impl notifications::Model {
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        let result = user::Entity::find_by_id(self.user_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("User not found")),
+        }
     }
 }

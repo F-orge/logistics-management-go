@@ -2,6 +2,7 @@ use crate::entities::_generated::interactions;
 use crate::entities::_generated::sea_orm_active_enums::InteractionType;
 use async_graphql::InputObject;
 use sea_orm::prelude::DateTimeWithTimeZone;
+use sea_orm::prelude::*;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -56,5 +57,42 @@ impl IntoActiveModel<interactions::ActiveModel> for UpdateInteraction {
         active_model.notes = self.notes.map(Set).unwrap_or(NotSet);
         active_model.interaction_date = self.interaction_date.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::{cases, contacts};
+use async_graphql::{ComplexObject, Context};
+use graphql_auth::entities::_generated::user;
+
+#[ComplexObject]
+impl interactions::Model {
+    async fn case(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<cases::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(case_id) = self.case_id {
+            let result = cases::Entity::find_by_id(case_id).one(db).await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<contacts::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = contacts::Entity::find_by_id(self.contact_id)
+            .one(db)
+            .await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("Contact not found")),
+        }
+    }
+
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let result = user::Entity::find_by_id(self.user_id).one(db).await?;
+        match result {
+            Some(model) => Ok(model),
+            None => Err(async_graphql::Error::new("User not found")),
+        }
     }
 }

@@ -2,6 +2,7 @@ use crate::entities::_generated::invoices;
 use crate::entities::_generated::sea_orm_active_enums::{InvoiceStatus, PaymentMethod};
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+use sea_orm::prelude::*;
 use sea_orm::prelude::{Date, DateTimeWithTimeZone};
 use sea_orm::{
     ActiveModelBehavior,
@@ -61,5 +62,39 @@ impl IntoActiveModel<invoices::ActiveModel> for UpdateInvoice {
         active_model.paid_at = self.paid_at.map(Set).unwrap_or(NotSet);
         active_model.payment_method = self.payment_method.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::{invoice_items, opportunities};
+use async_graphql::{ComplexObject, Context};
+
+#[ComplexObject]
+impl invoices::Model {
+    async fn invoice_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<invoice_items::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        let results = invoice_items::Entity::find()
+            .filter(invoice_items::Column::InvoiceId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
+    }
+
+    async fn opportunity(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<opportunities::Model>> {
+        let db = ctx.data::<DatabaseConnection>()?;
+        if let Some(opportunity_id) = self.opportunity_id {
+            let result = opportunities::Entity::find_by_id(opportunity_id)
+                .one(db)
+                .await?;
+            Ok(result)
+        } else {
+            Ok(None)
+        }
     }
 }

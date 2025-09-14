@@ -4,6 +4,7 @@ use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
+    prelude::*,
 };
 
 #[derive(Debug, Clone, InputObject)]
@@ -29,5 +30,21 @@ impl IntoActiveModel<tags::ActiveModel> for UpdateTag {
         let mut active_model = tags::ActiveModel::new();
         active_model.name = self.name.map(Set).unwrap_or(NotSet);
         active_model
+    }
+}
+
+use crate::entities::_generated::taggings;
+use async_graphql::{ComplexObject, Context};
+
+#[ComplexObject]
+impl tags::Model {
+    async fn taggings(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<taggings::Model>> {
+        let db = ctx.data::<sea_orm::DatabaseConnection>()?;
+        let results = taggings::Entity::find()
+            .filter(taggings::Column::TagId.eq(self.id))
+            .all(db)
+            .await
+            .unwrap_or_default();
+        Ok(results)
     }
 }
