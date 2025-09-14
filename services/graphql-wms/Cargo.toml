@@ -19,3 +19,5 @@ sea-orm.workspace = true
 graphql-ims = { path = "../graphql-ims" }
 graphql-auth = { path = "../graphql-auth" }
 graphql-crm = { path = "../graphql-crm" }
+graphql-core = { path = "../graphql-core" }
+rust_decimal.workspace = true
