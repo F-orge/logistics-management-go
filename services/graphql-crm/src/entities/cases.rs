@@ -33,13 +33,13 @@ pub struct UpdateCase {
 impl IntoActiveModel<cases::ActiveModel> for InsertCase {
     fn into_active_model(self) -> cases::ActiveModel {
         let mut active_model = cases::ActiveModel::new();
-    active_model.case_number = Set(self.case_number);
-    active_model.status = Set(self.status);
-    active_model.priority = Set(self.priority);
-    active_model.r#type = Set(self.r#type);
-    active_model.owner_id = Set(self.owner_id);
-    active_model.contact_id = Set(self.contact_id);
-    active_model.description = Set(self.description);
+        active_model.case_number = Set(self.case_number);
+        active_model.status = Set(self.status);
+        active_model.priority = Set(self.priority);
+        active_model.r#type = Set(self.r#type);
+        active_model.owner_id = Set(self.owner_id);
+        active_model.contact_id = Set(self.contact_id);
+        active_model.description = Set(self.description);
         active_model
     }
 }
@@ -47,13 +47,13 @@ impl IntoActiveModel<cases::ActiveModel> for InsertCase {
 impl IntoActiveModel<cases::ActiveModel> for UpdateCase {
     fn into_active_model(self) -> cases::ActiveModel {
         let mut active_model = cases::ActiveModel::new();
-    active_model.case_number = self.case_number.map(Set).unwrap_or(NotSet);
-    active_model.status = self.status.map(Set).unwrap_or(NotSet);
-    active_model.priority = self.priority.map(Set).unwrap_or(NotSet);
-    active_model.r#type = self.r#type.map(Set).unwrap_or(NotSet);
-    active_model.owner_id = self.owner_id.map(Set).unwrap_or(NotSet);
-    active_model.contact_id = self.contact_id.map(Set).unwrap_or(NotSet);
-    active_model.description = self.description.map(Set).unwrap_or(NotSet);
+        active_model.case_number = self.case_number.map(Set).unwrap_or(NotSet);
+        active_model.status = self.status.map(Set).unwrap_or(NotSet);
+        active_model.priority = self.priority.map(Set).unwrap_or(NotSet);
+        active_model.r#type = self.r#type.map(Set).unwrap_or(NotSet);
+        active_model.owner_id = self.owner_id.map(Set).unwrap_or(NotSet);
+        active_model.contact_id = self.contact_id.map(Set).unwrap_or(NotSet);
+        active_model.description = self.description.map(Set).unwrap_or(NotSet);
         active_model
     }
 }

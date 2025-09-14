@@ -1,12 +1,12 @@
+use crate::entities::_generated::packages;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
-use uuid::Uuid;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use crate::entities::_generated::packages;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertPackage {

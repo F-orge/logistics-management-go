@@ -1,7 +1,11 @@
-use async_graphql::InputObject;
-use sea_orm::{ActiveModelBehavior, ActiveValue::{NotSet, Set}, IntoActiveModel};
-use uuid::Uuid;
 use crate::entities::_generated::notifications;
+use async_graphql::InputObject;
+use sea_orm::{
+    ActiveModelBehavior,
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertNotification {

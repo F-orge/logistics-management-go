@@ -1,3 +1,5 @@
+use crate::entities::_generated::quotes;
+use crate::entities::_generated::sea_orm_active_enums::QuoteStatusEnum;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
 use sea_orm::{
@@ -6,8 +8,6 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
-use crate::entities::_generated::quotes;
-use crate::entities::_generated::sea_orm_active_enums::QuoteStatusEnum;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertQuote {

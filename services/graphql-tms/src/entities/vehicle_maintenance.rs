@@ -1,9 +1,14 @@
-use crate::entities::_generated::{vehicle_maintenance, sea_orm_active_enums::VehicleServiceTypeEnum};
+use crate::entities::_generated::{
+    sea_orm_active_enums::VehicleServiceTypeEnum, vehicle_maintenance,
+};
 use async_graphql::InputObject;
-use sea_orm::entity::prelude::*;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
-use uuid::Uuid;
 use rust_decimal::Decimal;
+use sea_orm::entity::prelude::*;
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertVehicleMaintenance {

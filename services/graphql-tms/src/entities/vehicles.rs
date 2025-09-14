@@ -1,8 +1,11 @@
+use crate::entities::_generated::{sea_orm_active_enums::VehicleStatusEnum, vehicles};
 use async_graphql::InputObject;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
 use sea_orm::entity::prelude::*;
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
 use uuid::Uuid;
-use crate::entities::_generated::{vehicles, sea_orm_active_enums::VehicleStatusEnum};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertVehicle {

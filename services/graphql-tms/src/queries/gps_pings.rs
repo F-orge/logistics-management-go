@@ -1,19 +1,32 @@
+use crate::entities::{
+    _generated::gps_pings,
+    gps_pings::{InsertGpsPing, UpdateGpsPing},
+};
 use async_graphql::Object;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel, ModelTrait, TransactionTrait};
+use sea_orm::{
+    ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
+    ModelTrait, TransactionTrait,
+};
 use uuid::Uuid;
-use crate::entities::{_generated::gps_pings, gps_pings::{InsertGpsPing, UpdateGpsPing}};
 
 #[Object(name = "GpsPings")]
 impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::Entity {
     #[graphql(name = "gpsPings")]
-    async fn list(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Vec<gps_pings::Model>> {
+    async fn list(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Vec<gps_pings::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let gps_pings = gps_pings::Entity::find().all(db).await.unwrap_or_default();
         Ok(gps_pings)
     }
     #[graphql(name = "gpsPing")]
-    async fn view(&self, ctx: &async_graphql::Context<'_>, id: Uuid) -> async_graphql::Result<Option<gps_pings::Model>> {
+    async fn view(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<Option<gps_pings::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let gps_ping = gps_pings::Entity::find_by_id(id).one(db).await?;
         Ok(gps_ping)
@@ -24,9 +37,15 @@ impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::E
 pub struct Mutations;
 
 #[Object(name = "TmsGpsPingMutations")]
-impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing, UpdateGpsPing> for Mutations {
+impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing, UpdateGpsPing>
+    for Mutations
+{
     #[graphql(name = "createGpsPing")]
-    async fn create(&self, ctx: &async_graphql::Context<'_>, value: InsertGpsPing) -> async_graphql::Result<gps_pings::Model> {
+    async fn create(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+        value: InsertGpsPing,
+    ) -> async_graphql::Result<gps_pings::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
         let trx = db.begin().await?;
         let active_model = value.into_active_model();
@@ -35,7 +54,12 @@ impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing
         Ok(new_gps_ping)
     }
     #[graphql(name = "updateGpsPing")]
-    async fn update(&self, ctx: &async_graphql::Context<'_>, id: Uuid, value: UpdateGpsPing) -> async_graphql::Result<gps_pings::Model> {
+    async fn update(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+        id: Uuid,
+        value: UpdateGpsPing,
+    ) -> async_graphql::Result<gps_pings::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
         let trx = db.begin().await?;
         let mut active_model = value.into_active_model();
@@ -45,10 +69,17 @@ impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing
         Ok(updated_gps_ping)
     }
     #[graphql(name = "deleteGpsPing")]
-    async fn delete(&self, ctx: &async_graphql::Context<'_>, id: Uuid) -> async_graphql::Result<bool> {
+    async fn delete(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<bool> {
         let db = ctx.data::<DatabaseConnection>()?;
         let trx = db.begin().await?;
-        let gps_ping = gps_pings::Entity::find_by_id(id).one(&trx).await?.ok_or(async_graphql::Error::new("Unable to find gps ping"))?;
+        let gps_ping = gps_pings::Entity::find_by_id(id)
+            .one(&trx)
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find gps ping"))?;
         let result = gps_ping.delete(&trx).await?;
         _ = trx.commit().await?;
         if result.rows_affected != 1 {

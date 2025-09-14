@@ -1,9 +1,14 @@
-use crate::entities::_generated::{partner_invoices, sea_orm_active_enums::PartnerInvoiceStatusEnum};
+use crate::entities::_generated::{
+    partner_invoices, sea_orm_active_enums::PartnerInvoiceStatusEnum,
+};
 use async_graphql::InputObject;
-use sea_orm::entity::prelude::*;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
-use uuid::Uuid;
 use rust_decimal::Decimal;
+use sea_orm::entity::prelude::*;
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertPartnerInvoice {

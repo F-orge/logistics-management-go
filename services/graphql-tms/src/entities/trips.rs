@@ -1,10 +1,11 @@
-
+use crate::entities::_generated::{sea_orm_active_enums::TripStatusEnum, trips};
 use async_graphql::InputObject;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
 use sea_orm::entity::prelude::*;
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
 use uuid::Uuid;
-use crate::entities::_generated::{trips, sea_orm_active_enums::TripStatusEnum};
-
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertTrip {

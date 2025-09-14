@@ -1,12 +1,12 @@
+use crate::entities::_generated::inventory_stock;
+use crate::entities::_generated::sea_orm_active_enums::InventoryStockStatusEnum;
 use async_graphql::InputObject;
-use uuid::Uuid;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use crate::entities::_generated::inventory_stock;
-use crate::entities::_generated::sea_orm_active_enums::InventoryStockStatusEnum;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertInventoryStock {

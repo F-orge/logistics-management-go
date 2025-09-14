@@ -1,7 +1,10 @@
 use crate::entities::_generated::routes;
 use async_graphql::InputObject;
 use sea_orm::entity::prelude::*;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]

@@ -1,7 +1,12 @@
-use crate::entities::_generated::{driver_schedules, sea_orm_active_enums::DriverScheduleReasonEnum};
+use crate::entities::_generated::{
+    driver_schedules, sea_orm_active_enums::DriverScheduleReasonEnum,
+};
 use async_graphql::InputObject;
 use sea_orm::entity::prelude::*;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]

@@ -1,8 +1,11 @@
-use async_graphql::InputObject;
-use sea_orm::{ActiveValue::{NotSet, Set}, IntoActiveModel};
-use sea_orm::entity::prelude::*;
-use uuid::Uuid;
 use crate::entities::_generated::geofences;
+use async_graphql::InputObject;
+use sea_orm::entity::prelude::*;
+use sea_orm::{
+    ActiveValue::{NotSet, Set},
+    IntoActiveModel,
+};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertGeofence {

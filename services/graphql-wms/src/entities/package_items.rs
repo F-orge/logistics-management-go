@@ -1,11 +1,11 @@
+use crate::entities::_generated::package_items;
 use async_graphql::InputObject;
-use uuid::Uuid;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use crate::entities::_generated::package_items;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
 pub struct InsertPackageItem {
