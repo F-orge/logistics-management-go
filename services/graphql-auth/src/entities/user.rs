@@ -1,3 +1,4 @@
+use crate::entities::_generated::user;
 use async_graphql::InputObject;
 use sea_orm::{
     ActiveValue::{NotSet, Set},
@@ -5,8 +6,6 @@ use sea_orm::{
     entity::prelude::*,
 };
 use url::Url;
-
-use crate::entities::_generated::user;
 
 #[derive(Clone, Debug, InputObject)]
 pub struct InsertUserInput {

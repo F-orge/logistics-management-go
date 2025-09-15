@@ -57,6 +57,7 @@ sea-orm = { version = "1.1.16", features = [
   "with-uuid",
   "macros",
 ] }
+fake = { version = "4.4.0", features = ["derive", "geo"] }
 
 [dependencies]
 async-graphql = { workspace = true }
@@ -77,3 +78,4 @@ graphql-billing = { path = "./services/graphql-billing" }
 async-graphql-axum = "7.0.17"
 clap = { version = "4.5.47", features = ["derive"] }
 chrono.workspace = true
+fake.workspace = true
