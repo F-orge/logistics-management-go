@@ -1,12 +1,12 @@
 use crate::entities::_generated::documents;
 use crate::entities::_generated::sea_orm_active_enums::DocumentTypeEnum;
 use async_graphql::InputObject;
+use sea_orm::EntityTrait;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use sea_orm::{EntityTrait, ColumnTrait, QueryFilter};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
@@ -67,10 +67,15 @@ use async_graphql::ComplexObject;
 
 #[ComplexObject]
 impl documents::Model {
-    async fn uploaded_by_user(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+    async fn uploaded_by_user(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         if let Some(user_id) = self.uploaded_by_user_id {
-            let res = crate::entities::_generated::user::Entity::find_by_id(user_id).one(db).await?;
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
             Ok(res)
         } else {
             Ok(None)

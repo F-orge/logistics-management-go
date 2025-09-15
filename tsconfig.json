@@ -25,7 +25,15 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },  
+
+    /* plugins */
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./src/lib/graphql/schema.graphql"
+      }
+    ]
   },
   "include": ["src", "seed.ts", "tests"]
 }

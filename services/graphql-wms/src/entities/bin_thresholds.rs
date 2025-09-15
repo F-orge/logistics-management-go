@@ -59,7 +59,7 @@ impl IntoActiveModel<bin_thresholds::ActiveModel> for UpdateBinThreshold {
 
 use crate::entities::_generated::{locations, products};
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl bin_thresholds::Model {

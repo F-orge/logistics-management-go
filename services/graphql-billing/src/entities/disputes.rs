@@ -7,7 +7,7 @@ use sea_orm::{
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use sea_orm::{EntityTrait, ColumnTrait, QueryFilter};
+use sea_orm::{ColumnTrait, EntityTrait};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
@@ -72,27 +72,41 @@ use async_graphql::ComplexObject;
 
 #[ComplexObject]
 impl disputes::Model {
-    async fn line_item(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<crate::entities::_generated::invoice_line_items::Model> {
+    async fn line_item(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<crate::entities::_generated::invoice_line_items::Model> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
-        let res = crate::entities::_generated::invoice_line_items::Entity::find_by_id(self.line_item_id).one(db).await?;
+        let res =
+            crate::entities::_generated::invoice_line_items::Entity::find_by_id(self.line_item_id)
+                .one(db)
+                .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Invoice line item not found")),
         }
     }
 
-    async fn client(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<crate::entities::_generated::companies::Model> {
+    async fn client(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<crate::entities::_generated::companies::Model> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
-        let res = crate::entities::_generated::companies::Entity::find_by_id(self.client_id).one(db).await?;
+        let res = crate::entities::_generated::companies::Entity::find_by_id(self.client_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Client not found")),
         }
     }
 
-    async fn credit_notes(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Vec<crate::entities::_generated::credit_notes::Model>> {
-        use sea_orm::QueryFilter;
+    async fn credit_notes(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Vec<crate::entities::_generated::credit_notes::Model>> {
         use crate::entities::_generated::credit_notes::Column as CreditNotesColumn;
+        use sea_orm::QueryFilter;
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         let results = crate::entities::_generated::credit_notes::Entity::find()
             .filter(CreditNotesColumn::DisputeId.eq(self.id))
@@ -102,10 +116,15 @@ impl disputes::Model {
         Ok(results)
     }
 
-    async fn resolved_by_user(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+    async fn resolved_by_user(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         if let Some(user_id) = self.resolved_by_user_id {
-            let res = crate::entities::_generated::user::Entity::find_by_id(user_id).one(db).await?;
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
             Ok(res)
         } else {
             Ok(None)
