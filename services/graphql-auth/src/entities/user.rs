@@ -36,7 +36,7 @@ impl IntoActiveModel<user::ActiveModel> for InsertUserInput {
 
         active_model.role = self.role.map(|role| Set(Some(role))).unwrap_or(NotSet);
 
-        todo!()
+        active_model
     }
 }
 
