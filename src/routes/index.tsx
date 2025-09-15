@@ -1,16 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { orpcSafeClient } from '..';
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: RouteComponent,
   loader: async () => {
-    const [_, healthCheckMessage] = await orpcSafeClient.health();
-    return { healthCheckMessage };
   },
 });
 
 function RouteComponent() {
-  const { healthCheckMessage } = Route.useLoaderData();
-
-  return <div>{healthCheckMessage}</div>;
+  return <div>hello world</div>;
 }

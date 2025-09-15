@@ -37,9 +37,11 @@ async fn main() -> anyhow::Result<()> {
         .finish();
 
     let router = Router::new().route(
-        "/",
-        get(|| async move { response::Html(GraphiQLSource::build().endpoint("/").finish()) })
-            .post_service(GraphQL::new(graphql_schema)),
+        "/graphql",
+        get(
+            || async move { response::Html(GraphiQLSource::build().endpoint("/graphql").finish()) },
+        )
+        .post_service(GraphQL::new(graphql_schema)),
     );
 
     let listener = TcpListener::bind("0.0.0.0:8000").await?;

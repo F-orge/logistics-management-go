@@ -2,6 +2,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import z from 'zod';
+import type { TypedDocumentString } from './graphql/client/graphql';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -52,4 +53,9 @@ export function searchParams(fields: z.ZodEnum) {
   });
 }
 
-const test = searchParams(z.enum(['name']));
+export type GetVariables<T> = T extends TypedDocumentString<
+  any,
+  infer TVariables
+>
+  ? TVariables
+  : never;

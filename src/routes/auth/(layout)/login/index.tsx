@@ -1,11 +1,12 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { GalleryVerticalEnd } from 'lucide-react';
-import { toast } from 'sonner';
-import { useAppForm } from '@/components/ui/form';
-import { orpcSafeClient } from '@/index';
-import { LoginForm } from './-form';
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { useAppForm } from "@/components/ui/form";
+import { LoginForm } from "./-form";
+import type { GetVariables } from "@/lib/utils";
+import { SignInMutation } from "@/graphql/auth";
+import { execute } from "@/lib/graphql/client/execute";
 
-export const Route = createFileRoute('/auth/(layout)/login/')({
+export const Route = createFileRoute("/auth/(layout)/login/")({
   component: RouteComponent,
   // beforeLoad: () => {
   //   if (pb.authStore.isValid) throw redirect({ to: '/dashboard/crm/leads' });
@@ -13,21 +14,27 @@ export const Route = createFileRoute('/auth/(layout)/login/')({
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: '/auth/login' });
+  const navigate = useNavigate({ from: "/auth/login" });
 
   const form = useAppForm({
-    defaultValues: {} as ORPCInputs['auth']['signIn'],
+    defaultValues: {} as GetVariables<typeof SignInMutation>,
     onSubmit: async ({ value }) => {
-      const [error, result] = await orpcSafeClient.auth.signIn(value);
+      const [result, error] = await execute(SignInMutation, value);
 
-      if (error) toast.error(error.name, { description: error.message });
+      if (error) {
+        toast.error("Operation failed", { description: error[0].message });
+      }
 
-      if (result!.redirect) navigate({ to: result!.url });
+      if (!result) throw new Error("Unexpected error");
 
-      localStorage.setItem('orpc-jwt-token', result!.token);
-      localStorage.setItem('orpc-jwt-user', JSON.stringify(result!.user));
+      localStorage.setItem("graphql-token", result.auth.signInEmail.token);
 
-      navigate({ to: '/dashboard/crm/leads' });
+      localStorage.setItem(
+        "graphql-user",
+        JSON.stringify(result.auth.signInEmail.user),
+      );
+
+      navigate({ to: "/dashboard" });
     },
   });
 

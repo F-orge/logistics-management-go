@@ -1,7 +1,9 @@
-import { withForm } from '@/components/ui/form';
+import { withForm } from "@/components/ui/form";
+import type { SignInMutation } from "@/graphql/auth";
+import type { GetVariables } from "@/lib/utils";
 
 export const LoginForm = withForm({
-  defaultValues: {} as ORPCInputs['auth']['signIn'],
+  defaultValues: {} as GetVariables<typeof SignInMutation>,
   render: function ({ form }) {
     return (
       <>
@@ -20,14 +22,6 @@ export const LoginForm = withForm({
               className="col-span-full"
               label="Password"
               type="password"
-            />
-          )}
-        </form.AppField>
-        <form.AppField name="rememberMe">
-          {(field) => (
-            <field.CheckBoxField
-              className="col-span-full"
-              label="Remember Me"
             />
           )}
         </form.AppField>

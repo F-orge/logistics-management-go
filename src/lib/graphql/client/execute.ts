@@ -1,14 +1,20 @@
 import type { TypedDocumentString } from './graphql';
 
+type GraphqlError = {
+  message: string;
+  path: string[];
+};
+
 export async function execute<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
-) {
-  const response = await fetch('https://graphql.org/graphql/', {
+): Promise<[TResult | null, GraphqlError[] | null]> {
+  const response = await fetch(`${window.location.origin}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/graphql-response+json',
+      Authorization: `Bearer ${localStorage.getItem('graphql-token')}`,
     },
     body: JSON.stringify({
       query,
@@ -16,9 +22,12 @@ export async function execute<TResult, TVariables>(
     }),
   });
 
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
+  const result = (await response.json()) as {
+    data: TResult;
+    errors: GraphqlError[];
+  };
 
-  return response.json() as TResult;
+  if (!result.data) return [null, result.errors];
+
+  return [result.data, null];
 }

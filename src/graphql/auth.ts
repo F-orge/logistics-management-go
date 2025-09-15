@@ -1,7 +1,6 @@
 import { graphql } from '@/lib/graphql/client';
-import { execute } from '@/lib/graphql/client/execute';
 
-const SignInMutation = graphql(`
+export const SignInMutation = graphql(`
   mutation SignIn($email: String!, $password: String!) {
     auth {
       signInEmail(email: $email, password: $password) {
@@ -17,6 +16,13 @@ const SignInMutation = graphql(`
   }
 `);
 
-execute(SignInMutation, { email: '', password: '' }).then((data) => {
-  data.auth;
-});
+export const SignUpMutation = graphql(`
+  mutation SignUp($email:String!,$name:String!,$image:Url,$password:String!,$role:String) {
+    auth {
+      signUpEmail(email: $email,name: $name,image: $image,password: $password,role: $role) {
+        name
+        email
+      }
+    }
+  }  
+`);

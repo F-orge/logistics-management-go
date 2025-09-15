@@ -1,7 +1,9 @@
-import { withForm } from '@/components/ui/form';
+import { withForm } from "@/components/ui/form";
+import type { SignUpMutation } from "@/graphql/auth";
+import type { GetVariables } from "@/lib/utils";
 
 export const RegisterForm = withForm({
-  defaultValues: {} as ORPCInputs['auth']['signUp'] & {
+  defaultValues: {} as GetVariables<typeof SignUpMutation> & {
     confirmPassword: string;
   },
   render: function ({ form }) {

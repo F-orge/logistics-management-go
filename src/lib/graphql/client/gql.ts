@@ -16,15 +16,21 @@ import * as types from './graphql';
  */
 type Documents = {
     "\n  mutation SignIn($email: String!, $password: String!) {\n    auth {\n      signInEmail(email: $email, password: $password) {\n        token\n        user {\n          id\n          name\n          email\n          emailVerified\n        }\n      }\n    }\n  }\n": typeof types.SignInDocument,
+    "\n  mutation SignUp($email:String!,$name:String!,$image:Url,$password:String!,$role:String) {\n    auth {\n      signUpEmail(email: $email,name: $name,image: $image,password: $password,role: $role) {\n        name\n        email\n      }\n    }\n  }  \n": typeof types.SignUpDocument,
 };
 const documents: Documents = {
     "\n  mutation SignIn($email: String!, $password: String!) {\n    auth {\n      signInEmail(email: $email, password: $password) {\n        token\n        user {\n          id\n          name\n          email\n          emailVerified\n        }\n      }\n    }\n  }\n": types.SignInDocument,
+    "\n  mutation SignUp($email:String!,$name:String!,$image:Url,$password:String!,$role:String) {\n    auth {\n      signUpEmail(email: $email,name: $name,image: $image,password: $password,role: $role) {\n        name\n        email\n      }\n    }\n  }  \n": types.SignUpDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation SignIn($email: String!, $password: String!) {\n    auth {\n      signInEmail(email: $email, password: $password) {\n        token\n        user {\n          id\n          name\n          email\n          emailVerified\n        }\n      }\n    }\n  }\n"): typeof import('./graphql').SignInDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation SignUp($email:String!,$name:String!,$image:Url,$password:String!,$role:String) {\n    auth {\n      signUpEmail(email: $email,name: $name,image: $image,password: $password,role: $role) {\n        name\n        email\n      }\n    }\n  }  \n"): typeof import('./graphql').SignUpDocument;
 
 
 export function graphql(source: string) {

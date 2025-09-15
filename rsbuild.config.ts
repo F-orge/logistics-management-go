@@ -22,7 +22,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api/orpc': 'http://localhost:3001',
+      '/graphql': 'http://localhost:8000',
     },
   },
 });

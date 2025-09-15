@@ -30,6 +30,6 @@
     "rules": {
       "recommended": true
     },
-    "includes": ["!src/pocketbase/types.ts", "!src/routeTree.gen.ts"]
+    "includes": ["!src/lib/graphql/client/graphql.ts", "!src/routeTree.gen.ts"]
   }
 }

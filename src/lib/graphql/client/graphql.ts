@@ -2,25 +2,38 @@
 import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /**
    * Implement the DateTime<FixedOffset> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
-  DateTime: { input: any; output: any; }
-  Decimal: { input: any; output: any; }
+  DateTime: { input: any; output: any };
+  Decimal: { input: any; output: any };
   /**
    * ISO 8601 calendar date without timezone.
    * Format: %Y-%m-%d
@@ -30,7 +43,7 @@ export type Scalars = {
    * * `1994-11-13`
    * * `2000-02-24`
    */
-  NaiveDate: { input: any; output: any; }
+  NaiveDate: { input: any; output: any };
   /**
    * ISO 8601 combined date and time without timezone.
    *
@@ -38,7 +51,7 @@ export type Scalars = {
    *
    * * `2015-07-01T08:59:60.123`,
    */
-  NaiveDateTime: { input: any; output: any; }
+  NaiveDateTime: { input: any; output: any };
   /**
    * A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
    * Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -49,9 +62,9 @@ export type Scalars = {
    * * [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
    * * [RFC4122: A Universally Unique Identifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
    */
-  UUID: { input: any; output: any; }
+  UUID: { input: any; output: any };
   /** URL is a String implementing the [URL Standard](http://url.spec.whatwg.org/) */
-  Url: { input: any; output: any; }
+  Url: { input: any; output: any };
 };
 
 export type AuthMutations = {
@@ -61,12 +74,10 @@ export type AuthMutations = {
   signUpEmail: AuthUser;
 };
 
-
 export type AuthMutationsSignInEmailArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
-
 
 export type AuthMutationsSignUpEmailArgs = {
   email: Scalars['String']['input'];
@@ -81,7 +92,6 @@ export type AuthQuery = {
   user?: Maybe<AuthUser>;
   users: Array<AuthUser>;
 };
-
 
 export type AuthQueryUserArgs = {
   id: Scalars['UUID']['input'];
@@ -304,208 +314,169 @@ export type BillingMutations = {
   updateSurcharge: BillingSurcharge;
 };
 
-
 export type BillingMutationsCreateAccountTransactionArgs = {
   value: InsertAccountTransaction;
 };
-
 
 export type BillingMutationsCreateAccountingSyncLogArgs = {
   value: InsertAccountingSyncLog;
 };
 
-
 export type BillingMutationsCreateClientAccountArgs = {
   value: InsertClientAccount;
 };
-
 
 export type BillingMutationsCreateCreditNoteArgs = {
   value: InsertCreditNote;
 };
 
-
 export type BillingMutationsCreateDisputeArgs = {
   value: InsertDispute;
 };
-
 
 export type BillingMutationsCreateDocumentArgs = {
   value: InsertDocument;
 };
 
-
 export type BillingMutationsCreateInvoiceArgs = {
   value: InsertInvoice;
 };
-
 
 export type BillingMutationsCreateInvoiceLineItemArgs = {
   value: InsertInvoiceLineItem;
 };
 
-
 export type BillingMutationsCreatePaymentArgs = {
   value: InsertPayment;
 };
-
 
 export type BillingMutationsCreateQuoteArgs = {
   value: InsertQuote;
 };
 
-
 export type BillingMutationsCreateRateCardArgs = {
   value: InsertRateCard;
 };
-
 
 export type BillingMutationsCreateRateRuleArgs = {
   value: InsertRateRule;
 };
 
-
 export type BillingMutationsCreateSurchargeArgs = {
   value: InsertSurcharge;
 };
-
 
 export type BillingMutationsDeleteAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteClientAccountArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteCreditNoteArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteDisputeArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteDocumentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeletePaymentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteQuoteArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteRateCardArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteRateRuleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteSurchargeArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsUpdateAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAccountTransaction;
 };
 
-
 export type BillingMutationsUpdateAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAccountingSyncLog;
 };
-
 
 export type BillingMutationsUpdateClientAccountArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateClientAccount;
 };
 
-
 export type BillingMutationsUpdateCreditNoteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCreditNote;
 };
-
 
 export type BillingMutationsUpdateDisputeArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDispute;
 };
 
-
 export type BillingMutationsUpdateDocumentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDocument;
 };
-
 
 export type BillingMutationsUpdateInvoiceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInvoice;
 };
 
-
 export type BillingMutationsUpdateInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInvoiceLineItem;
 };
-
 
 export type BillingMutationsUpdatePaymentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePayment;
 };
 
-
 export type BillingMutationsUpdateQuoteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateQuote;
 };
-
 
 export type BillingMutationsUpdateRateCardArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRateCard;
 };
 
-
 export type BillingMutationsUpdateRateRuleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRateRule;
 };
-
 
 export type BillingMutationsUpdateSurchargeArgs = {
   id: Scalars['UUID']['input'];
@@ -564,66 +535,53 @@ export type BillingQueries = {
   surcharges: Array<BillingSurcharge>;
 };
 
-
 export type BillingQueriesAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesClientAccountArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesCreditNoteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesDisputeArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesDocumentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesPaymentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesQuoteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesRateCardArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesRateRuleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesSurchargeArgs = {
   id: Scalars['UUID']['input'];
@@ -707,14 +665,14 @@ export enum CarrierRateUnitEnum {
   PerContainer = 'PER_CONTAINER',
   PerKg = 'PER_KG',
   PerKm = 'PER_KM',
-  PerMile = 'PER_MILE'
+  PerMile = 'PER_MILE',
 }
 
 export enum CasePriority {
   Critical = 'CRITICAL',
   High = 'HIGH',
   Low = 'LOW',
-  Medium = 'MEDIUM'
+  Medium = 'MEDIUM',
 }
 
 export enum CaseStatus {
@@ -725,7 +683,7 @@ export enum CaseStatus {
   New = 'NEW',
   Resolved = 'RESOLVED',
   WaitingForCustomer = 'WAITING_FOR_CUSTOMER',
-  WaitingForInternal = 'WAITING_FOR_INTERNAL'
+  WaitingForInternal = 'WAITING_FOR_INTERNAL',
 }
 
 export enum CaseType {
@@ -734,7 +692,7 @@ export enum CaseType {
   FeatureRequest = 'FEATURE_REQUEST',
   Problem = 'PROBLEM',
   Question = 'QUESTION',
-  TechnicalSupport = 'TECHNICAL_SUPPORT'
+  TechnicalSupport = 'TECHNICAL_SUPPORT',
 }
 
 export type CrmAttachment = {
@@ -915,112 +873,91 @@ export type CrmMutations = {
   updateInvoiceItem: CrmInvoiceItem;
 };
 
-
 export type CrmMutationsCreateAttachmentArgs = {
   value: InsertAttachment;
 };
-
 
 export type CrmMutationsCreateCampaignArgs = {
   value: InsertCampaign;
 };
 
-
 export type CrmMutationsCreateCaseArgs = {
   value: InsertCase;
 };
-
 
 export type CrmMutationsCreateCompanyArgs = {
   value: InsertCompany;
 };
 
-
 export type CrmMutationsCreateContactArgs = {
   value: InsertContact;
 };
-
 
 export type CrmMutationsCreateInteractionArgs = {
   value: InsertInteraction;
 };
 
-
 export type CrmMutationsCreateInvoiceItemArgs = {
   value: InsertInvoiceItem;
 };
-
 
 export type CrmMutationsDeleteAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsDeleteCaseArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsDeleteContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsUpdateAttachmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAttachment;
 };
 
-
 export type CrmMutationsUpdateCampaignArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCampaign;
 };
-
 
 export type CrmMutationsUpdateCaseArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCase;
 };
 
-
 export type CrmMutationsUpdateCompanyArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCompany;
 };
-
 
 export type CrmMutationsUpdateContactArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateContact;
 };
 
-
 export type CrmMutationsUpdateInteractionArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInteraction;
 };
-
 
 export type CrmMutationsUpdateInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -1093,36 +1030,29 @@ export type CrmQueries = {
   invoiceItems: Array<CrmInvoiceItem>;
 };
 
-
 export type CrmQueriesAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesCaseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -1135,7 +1065,7 @@ export enum CurrencyEnum {
   Gbp = 'GBP',
   Jpy = 'JPY',
   Php = 'PHP',
-  Usd = 'USD'
+  Usd = 'USD',
 }
 
 export enum DeliveryFailureReasonEnum {
@@ -1146,7 +1076,7 @@ export enum DeliveryFailureReasonEnum {
   RecipientNotHome = 'RECIPIENT_NOT_HOME',
   RefusedDelivery = 'REFUSED_DELIVERY',
   VehicleBreakdown = 'VEHICLE_BREAKDOWN',
-  WeatherConditions = 'WEATHER_CONDITIONS'
+  WeatherConditions = 'WEATHER_CONDITIONS',
 }
 
 export enum DeliveryRouteStatusEnum {
@@ -1154,7 +1084,7 @@ export enum DeliveryRouteStatusEnum {
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
   Paused = 'PAUSED',
-  Planned = 'PLANNED'
+  Planned = 'PLANNED',
 }
 
 export enum DeliveryTaskStatusEnum {
@@ -1164,7 +1094,7 @@ export enum DeliveryTaskStatusEnum {
   Failed = 'FAILED',
   OutForDelivery = 'OUT_FOR_DELIVERY',
   Pending = 'PENDING',
-  Rescheduled = 'RESCHEDULED'
+  Rescheduled = 'RESCHEDULED',
 }
 
 export enum DisputeStatusEnum {
@@ -1173,7 +1103,7 @@ export enum DisputeStatusEnum {
   Denied = 'DENIED',
   Escalated = 'ESCALATED',
   Open = 'OPEN',
-  UnderReview = 'UNDER_REVIEW'
+  UnderReview = 'UNDER_REVIEW',
 }
 
 export type DmsCustomerTrackingLink = {
@@ -1283,96 +1213,78 @@ export type DmsMutations = {
   updateTaskEvent: DmsTaskEvent;
 };
 
-
 export type DmsMutationsCreateCustomerTrackingLinkArgs = {
   value: InsertCustomerTrackingLink;
 };
-
 
 export type DmsMutationsCreateDeliveryRouteArgs = {
   value: InsertDeliveryRoute;
 };
 
-
 export type DmsMutationsCreateDeliveryTaskArgs = {
   value: InsertDeliveryTask;
 };
-
 
 export type DmsMutationsCreateDriverLocationArgs = {
   value: InsertDriverLocation;
 };
 
-
 export type DmsMutationsCreateProofOfDeliveryArgs = {
   value: DmsInsertProofOfDelivery;
 };
-
 
 export type DmsMutationsCreateTaskEventArgs = {
   value: InsertTaskEvent;
 };
 
-
 export type DmsMutationsDeleteCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsDeleteDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsDeleteDriverLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteTaskEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsUpdateCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCustomerTrackingLink;
 };
 
-
 export type DmsMutationsUpdateDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDeliveryRoute;
 };
-
 
 export type DmsMutationsUpdateDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDeliveryTask;
 };
 
-
 export type DmsMutationsUpdateDriverLocationArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriverLocation;
 };
 
-
 export type DmsMutationsUpdateProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
   value: DmsUpdateProofOfDelivery;
 };
-
 
 export type DmsMutationsUpdateTaskEventArgs = {
   id: Scalars['UUID']['input'];
@@ -1412,31 +1324,25 @@ export type DmsQueries = {
   taskEvents: Array<DmsTaskEvent>;
 };
 
-
 export type DmsQueriesCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsQueriesDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesDriverLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsQueriesProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesTaskEventArgs = {
   id: Scalars['UUID']['input'];
@@ -1477,27 +1383,27 @@ export enum DocumentTypeEnum {
   PackingList = 'PACKING_LIST',
   ProofOfDelivery = 'PROOF_OF_DELIVERY',
   Receipt = 'RECEIPT',
-  ShippingLabel = 'SHIPPING_LABEL'
+  ShippingLabel = 'SHIPPING_LABEL',
 }
 
 export enum DriverScheduleReasonEnum {
   PersonalLeave = 'PERSONAL_LEAVE',
   SickLeave = 'SICK_LEAVE',
   Training = 'TRAINING',
-  Vacation = 'VACATION'
+  Vacation = 'VACATION',
 }
 
 export enum DriverStatusEnum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
-  OnLeave = 'ON_LEAVE'
+  OnLeave = 'ON_LEAVE',
 }
 
 export enum ExpenseStatusEnum {
   Approved = 'APPROVED',
   Pending = 'PENDING',
   Reimbursed = 'REIMBURSED',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 export enum ExpenseTypeEnum {
@@ -1506,12 +1412,12 @@ export enum ExpenseTypeEnum {
   Maintenance = 'MAINTENANCE',
   Meals = 'MEALS',
   Parking = 'PARKING',
-  Tolls = 'TOLLS'
+  Tolls = 'TOLLS',
 }
 
 export enum GeofenceEventTypeEnum {
   Enter = 'ENTER',
-  Exit = 'EXIT'
+  Exit = 'EXIT',
 }
 
 export type ImsInboundShipment = {
@@ -1615,224 +1521,182 @@ export type ImsMutations = {
   updateSupplier: ImsSupplier;
 };
 
-
 export type ImsMutationsCreateInboundShipmentArgs = {
   value: InsertInboundShipment;
 };
-
 
 export type ImsMutationsCreateInboundShipmentItemArgs = {
   value: InsertInboundShipmentItem;
 };
 
-
 export type ImsMutationsCreateInventoryAdjustmentArgs = {
   value: InsertInventoryAdjustment;
 };
-
 
 export type ImsMutationsCreateInventoryBatchArgs = {
   value: InsertInventoryBatch;
 };
 
-
 export type ImsMutationsCreateOutboundShipmentArgs = {
   value: InsertOutboundShipment;
 };
-
 
 export type ImsMutationsCreateOutboundShipmentItemArgs = {
   value: InsertOutboundShipmentItem;
 };
 
-
 export type ImsMutationsCreateProductArgs = {
   value: InsertProduct;
 };
-
 
 export type ImsMutationsCreateReorderPointArgs = {
   value: InsertReorderPoint;
 };
 
-
 export type ImsMutationsCreateReturnArgs = {
   value: InsertReturn;
 };
-
 
 export type ImsMutationsCreateReturnItemArgs = {
   value: InsertReturnItem;
 };
 
-
 export type ImsMutationsCreateSalesOrderArgs = {
   value: InsertSalesOrder;
 };
-
 
 export type ImsMutationsCreateSalesOrderItemArgs = {
   value: InsertSalesOrderItem;
 };
 
-
 export type ImsMutationsCreateStockTransferArgs = {
   value: InsertStockTransfer;
 };
-
 
 export type ImsMutationsCreateSupplierArgs = {
   value: InsertSupplier;
 };
 
-
 export type ImsMutationsDeleteInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteProductArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteReorderPointArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteReturnArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteReturnItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteSalesOrderArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteStockTransferArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteSupplierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsUpdateInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInboundShipment;
 };
 
-
 export type ImsMutationsUpdateInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInboundShipmentItem;
 };
-
 
 export type ImsMutationsUpdateInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryAdjustment;
 };
 
-
 export type ImsMutationsUpdateInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryBatch;
 };
-
 
 export type ImsMutationsUpdateOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateOutboundShipment;
 };
 
-
 export type ImsMutationsUpdateOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateOutboundShipmentItem;
 };
-
 
 export type ImsMutationsUpdateProductArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateProduct;
 };
 
-
 export type ImsMutationsUpdateReorderPointArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReorderPoint;
 };
-
 
 export type ImsMutationsUpdateReturnArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReturn;
 };
 
-
 export type ImsMutationsUpdateReturnItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReturnItem;
 };
-
 
 export type ImsMutationsUpdateSalesOrderArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateSalesOrder;
 };
 
-
 export type ImsMutationsUpdateSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateSalesOrderItem;
 };
 
-
 export type ImsMutationsUpdateStockTransferArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateStockTransfer;
 };
-
 
 export type ImsMutationsUpdateSupplierArgs = {
   id: Scalars['UUID']['input'];
@@ -1931,71 +1795,57 @@ export type ImsQueries = {
   suppliers: Array<ImsSupplier>;
 };
 
-
 export type ImsQueriesInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesProductArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesReorderPointArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesReturnArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesReturnItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesSalesOrderArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesStockTransferArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesSupplierArgs = {
   id: Scalars['UUID']['input'];
@@ -2101,7 +1951,7 @@ export enum InboundShipmentStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   Pending = 'PENDING',
-  Processing = 'PROCESSING'
+  Processing = 'PROCESSING',
 }
 
 export type InsertAccountTransaction = {
@@ -2844,7 +2694,7 @@ export enum InteractionType {
   Call = 'CALL',
   Email = 'EMAIL',
   Meeting = 'MEETING',
-  Text = 'TEXT'
+  Text = 'TEXT',
 }
 
 export enum InventoryAdjustmentReasonEnum {
@@ -2853,7 +2703,7 @@ export enum InventoryAdjustmentReasonEnum {
   Expired = 'EXPIRED',
   ManualCorrection = 'MANUAL_CORRECTION',
   ReturnToVendor = 'RETURN_TO_VENDOR',
-  Theft = 'THEFT'
+  Theft = 'THEFT',
 }
 
 export enum InventoryStockStatusEnum {
@@ -2863,7 +2713,7 @@ export enum InventoryStockStatusEnum {
   Expired = 'EXPIRED',
   Hold = 'HOLD',
   Quarantine = 'QUARANTINE',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum InvoiceStatus {
@@ -2871,7 +2721,7 @@ export enum InvoiceStatus {
   Draft = 'DRAFT',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Sent = 'SENT'
+  Sent = 'SENT',
 }
 
 export enum InvoiceStatusEnum {
@@ -2883,7 +2733,7 @@ export enum InvoiceStatusEnum {
   PastDue = 'PAST_DUE',
   Sent = 'SENT',
   Viewed = 'VIEWED',
-  Void = 'VOID'
+  Void = 'VOID',
 }
 
 export enum LeadSource {
@@ -2895,7 +2745,7 @@ export enum LeadSource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE'
+  Website = 'WEBSITE',
 }
 
 export enum LeadStatus {
@@ -2903,7 +2753,7 @@ export enum LeadStatus {
   Converted = 'CONVERTED',
   New = 'NEW',
   Qualified = 'QUALIFIED',
-  Unqualified = 'UNQUALIFIED'
+  Unqualified = 'UNQUALIFIED',
 }
 
 export enum LocationTypeEnum {
@@ -2916,7 +2766,7 @@ export enum LocationTypeEnum {
   ReceivingDock = 'RECEIVING_DOCK',
   ReserveStorage = 'RESERVE_STORAGE',
   ReturnsArea = 'RETURNS_AREA',
-  StagingArea = 'STAGING_AREA'
+  StagingArea = 'STAGING_AREA',
 }
 
 export type Mutations = {
@@ -2940,7 +2790,7 @@ export enum OpportunitySource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE'
+  Website = 'WEBSITE',
 }
 
 export enum OpportunityStage {
@@ -2951,7 +2801,7 @@ export enum OpportunityStage {
   Negotiation = 'NEGOTIATION',
   Proposal = 'PROPOSAL',
   Prospecting = 'PROSPECTING',
-  Qualification = 'QUALIFICATION'
+  Qualification = 'QUALIFICATION',
 }
 
 export enum OutboundShipmentStatusEnum {
@@ -2959,7 +2809,7 @@ export enum OutboundShipmentStatusEnum {
   Delivered = 'DELIVERED',
   Packed = 'PACKED',
   Picking = 'PICKING',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum PartnerInvoiceStatusEnum {
@@ -2967,7 +2817,7 @@ export enum PartnerInvoiceStatusEnum {
   Disputed = 'DISPUTED',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum PaymentMethod {
@@ -2977,7 +2827,7 @@ export enum PaymentMethod {
   CreditCard = 'CREDIT_CARD',
   Paypal = 'PAYPAL',
   Stripe = 'STRIPE',
-  WireTransfer = 'WIRE_TRANSFER'
+  WireTransfer = 'WIRE_TRANSFER',
 }
 
 export enum PaymentMethodEnum {
@@ -2988,7 +2838,7 @@ export enum PaymentMethodEnum {
   CreditCard = 'CREDIT_CARD',
   DebitCard = 'DEBIT_CARD',
   QrPh = 'QR_PH',
-  Wallet = 'WALLET'
+  Wallet = 'WALLET',
 }
 
 export enum PaymentStatusEnum {
@@ -2997,14 +2847,14 @@ export enum PaymentStatusEnum {
   Pending = 'PENDING',
   Processing = 'PROCESSING',
   Refunded = 'REFUNDED',
-  Successful = 'SUCCESSFUL'
+  Successful = 'SUCCESSFUL',
 }
 
 export enum PickBatchStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
-  Open = 'OPEN'
+  Open = 'OPEN',
 }
 
 export enum PickStrategyEnum {
@@ -3012,7 +2862,7 @@ export enum PickStrategyEnum {
   ClusterPicking = 'CLUSTER_PICKING',
   SingleOrderPicking = 'SINGLE_ORDER_PICKING',
   WavePicking = 'WAVE_PICKING',
-  ZonePicking = 'ZONE_PICKING'
+  ZonePicking = 'ZONE_PICKING',
 }
 
 export enum PricingModelEnum {
@@ -3022,21 +2872,21 @@ export enum PricingModelEnum {
   PerItem = 'PER_ITEM',
   PerKg = 'PER_KG',
   PerZone = 'PER_ZONE',
-  Tiered = 'TIERED'
+  Tiered = 'TIERED',
 }
 
 export enum ProductStatusEnum {
   Active = 'ACTIVE',
   Discontinued = 'DISCONTINUED',
   Inactive = 'INACTIVE',
-  Obsolete = 'OBSOLETE'
+  Obsolete = 'OBSOLETE',
 }
 
 export enum ProductType {
   Digital = 'DIGITAL',
   Good = 'GOOD',
   Service = 'SERVICE',
-  Subscription = 'SUBSCRIPTION'
+  Subscription = 'SUBSCRIPTION',
 }
 
 export enum ProofOfDeliveryTypeEnum {
@@ -3044,14 +2894,14 @@ export enum ProofOfDeliveryTypeEnum {
   ContactlessDelivery = 'CONTACTLESS_DELIVERY',
   LeftAtDoor = 'LEFT_AT_DOOR',
   Photo = 'PHOTO',
-  Signature = 'SIGNATURE'
+  Signature = 'SIGNATURE',
 }
 
 export enum ProofTypeEnum {
   BarcodeScan = 'BARCODE_SCAN',
   Photo = 'PHOTO',
   PinVerification = 'PIN_VERIFICATION',
-  Signature = 'SIGNATURE'
+  Signature = 'SIGNATURE',
 }
 
 export type Query = {
@@ -3070,7 +2920,7 @@ export enum QuoteStatusEnum {
   Cancelled = 'CANCELLED',
   Converted = 'CONVERTED',
   Expired = 'EXPIRED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum RecordType {
@@ -3082,7 +2932,7 @@ export enum RecordType {
   Invoices = 'INVOICES',
   Leads = 'LEADS',
   Opportunities = 'OPPORTUNITIES',
-  Products = 'PRODUCTS'
+  Products = 'PRODUCTS',
 }
 
 export enum ReturnItemConditionEnum {
@@ -3090,7 +2940,7 @@ export enum ReturnItemConditionEnum {
   Defective = 'DEFECTIVE',
   Expired = 'EXPIRED',
   Sellable = 'SELLABLE',
-  Unsellable = 'UNSELLABLE'
+  Unsellable = 'UNSELLABLE',
 }
 
 export enum ReturnStatusEnum {
@@ -3098,7 +2948,7 @@ export enum ReturnStatusEnum {
   Processed = 'PROCESSED',
   Received = 'RECEIVED',
   Rejected = 'REJECTED',
-  Requested = 'REQUESTED'
+  Requested = 'REQUESTED',
 }
 
 export enum SalesOrderStatusEnum {
@@ -3106,7 +2956,7 @@ export enum SalesOrderStatusEnum {
   Completed = 'COMPLETED',
   Pending = 'PENDING',
   Processing = 'PROCESSING',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum ServiceTypeEnum {
@@ -3117,7 +2967,7 @@ export enum ServiceTypeEnum {
   Packaging = 'PACKAGING',
   Returns = 'RETURNS',
   Shipping = 'SHIPPING',
-  Storage = 'STORAGE'
+  Storage = 'STORAGE',
 }
 
 export enum ShipmentLegStatusEnum {
@@ -3125,7 +2975,7 @@ export enum ShipmentLegStatusEnum {
   Delivered = 'DELIVERED',
   Failed = 'FAILED',
   InTransit = 'IN_TRANSIT',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type SignInResponse = {
@@ -3138,14 +2988,14 @@ export enum StockTransferStatusEnum {
   Cancelled = 'CANCELLED',
   InTransit = 'IN_TRANSIT',
   Pending = 'PENDING',
-  Received = 'RECEIVED'
+  Received = 'RECEIVED',
 }
 
 export enum SurchargeCalculationMethodEnum {
   Fixed = 'FIXED',
   Percentage = 'PERCENTAGE',
   PerUnit = 'PER_UNIT',
-  SlidingScale = 'SLIDING_SCALE'
+  SlidingScale = 'SLIDING_SCALE',
 }
 
 export enum SyncStatusEnum {
@@ -3153,7 +3003,7 @@ export enum SyncStatusEnum {
   InProgress = 'IN_PROGRESS',
   Pending = 'PENDING',
   Retry = 'RETRY',
-  Success = 'SUCCESS'
+  Success = 'SUCCESS',
 }
 
 export enum TaskEventStatusEnum {
@@ -3164,7 +3014,7 @@ export enum TaskEventStatusEnum {
   Exception = 'EXCEPTION',
   Failed = 'FAILED',
   Rescheduled = 'RESCHEDULED',
-  Started = 'STARTED'
+  Started = 'STARTED',
 }
 
 export enum TaskItemStatusEnum {
@@ -3173,7 +3023,7 @@ export enum TaskItemStatusEnum {
   InProgress = 'IN_PROGRESS',
   NotFound = 'NOT_FOUND',
   Pending = 'PENDING',
-  ShortPicked = 'SHORT_PICKED'
+  ShortPicked = 'SHORT_PICKED',
 }
 
 export enum TaskStatusEnum {
@@ -3182,7 +3032,7 @@ export enum TaskStatusEnum {
   Completed = 'COMPLETED',
   Error = 'ERROR',
   InProgress = 'IN_PROGRESS',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum TaskTypeEnum {
@@ -3194,7 +3044,7 @@ export enum TaskTypeEnum {
   Putaway = 'PUTAWAY',
   QualityCheck = 'QUALITY_CHECK',
   Replenishment = 'REPLENISHMENT',
-  ReturnsProcessing = 'RETURNS_PROCESSING'
+  ReturnsProcessing = 'RETURNS_PROCESSING',
 }
 
 export type TmsCarrier = {
@@ -3356,288 +3206,234 @@ export type TmsMutations = {
   updateVehicleMaintenance: TmsVehicleMaintenance;
 };
 
-
 export type TmsMutationsCreateCarrierArgs = {
   value: InsertCarrier;
 };
-
 
 export type TmsMutationsCreateCarrierRateArgs = {
   value: InsertCarrierRate;
 };
 
-
 export type TmsMutationsCreateDriverArgs = {
   value: InsertDriver;
 };
-
 
 export type TmsMutationsCreateDriverScheduleArgs = {
   value: InsertDriverSchedule;
 };
 
-
 export type TmsMutationsCreateExpenseArgs = {
   value: InsertExpense;
 };
-
 
 export type TmsMutationsCreateGeofenceArgs = {
   value: InsertGeofence;
 };
 
-
 export type TmsMutationsCreateGeofenceEventArgs = {
   value: InsertGeofenceEvent;
 };
-
 
 export type TmsMutationsCreateGpsPingArgs = {
   value: InsertGpsPing;
 };
 
-
 export type TmsMutationsCreatePartnerInvoiceArgs = {
   value: InsertPartnerInvoice;
 };
-
 
 export type TmsMutationsCreatePartnerInvoiceItemArgs = {
   value: InsertPartnerInvoiceItem;
 };
 
-
 export type TmsMutationsCreateProofOfDeliveryArgs = {
   value: InsertProofOfDelivery;
 };
-
 
 export type TmsMutationsCreateRouteArgs = {
   value: InsertRoute;
 };
 
-
 export type TmsMutationsCreateShipmentLegArgs = {
   value: InsertShipmentLeg;
 };
-
 
 export type TmsMutationsCreateShipmentLegEventArgs = {
   value: InsertShipmentLegEvent;
 };
 
-
 export type TmsMutationsCreateTripArgs = {
   value: InsertTrip;
 };
-
 
 export type TmsMutationsCreateTripStopArgs = {
   value: InsertTripStop;
 };
 
-
 export type TmsMutationsCreateVehicleArgs = {
   value: InsertVehicle;
 };
-
 
 export type TmsMutationsCreateVehicleMaintenanceArgs = {
   value: InsertVehicleMaintenance;
 };
 
-
 export type TmsMutationsDeleteCarrierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteCarrierRateArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteDriverArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteExpenseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteGeofenceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteGpsPingArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeletePartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeletePartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteShipmentLegArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteTripArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteTripStopArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteVehicleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteVehicleMaintenanceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsUpdateCarrierArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCarrier;
 };
 
-
 export type TmsMutationsUpdateCarrierRateArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCarrierRate;
 };
-
 
 export type TmsMutationsUpdateDriverArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriver;
 };
 
-
 export type TmsMutationsUpdateDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriverSchedule;
 };
-
 
 export type TmsMutationsUpdateExpenseArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateExpense;
 };
 
-
 export type TmsMutationsUpdateGeofenceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGeofence;
 };
-
 
 export type TmsMutationsUpdateGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGeofenceEvent;
 };
 
-
 export type TmsMutationsUpdateGpsPingArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGpsPing;
 };
-
 
 export type TmsMutationsUpdatePartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePartnerInvoice;
 };
 
-
 export type TmsMutationsUpdatePartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePartnerInvoiceItem;
 };
-
 
 export type TmsMutationsUpdateProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateProofOfDelivery;
 };
 
-
 export type TmsMutationsUpdateRouteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRoute;
 };
-
 
 export type TmsMutationsUpdateShipmentLegArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateShipmentLeg;
 };
 
-
 export type TmsMutationsUpdateShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateShipmentLegEvent;
 };
-
 
 export type TmsMutationsUpdateTripArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTrip;
 };
 
-
 export type TmsMutationsUpdateTripStopArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTripStop;
 };
 
-
 export type TmsMutationsUpdateVehicleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateVehicle;
 };
-
 
 export type TmsMutationsUpdateVehicleMaintenanceArgs = {
   id: Scalars['UUID']['input'];
@@ -3721,91 +3517,73 @@ export type TmsQueries = {
   vehicles: Array<TmsVehicle>;
 };
 
-
 export type TmsQueriesCarrierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesCarrierRateArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesDriverArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesExpenseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesGeofenceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesGpsPingArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesPartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesPartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesShipmentLegArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesTripArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesTripStopArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesVehicleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesVehicleMaintenanceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -3922,21 +3700,21 @@ export enum TransactionTypeEnum {
   Debit = 'DEBIT',
   Fee = 'FEE',
   Refund = 'REFUND',
-  TopUp = 'TOP_UP'
+  TopUp = 'TOP_UP',
 }
 
 export enum TripStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
-  Planned = 'PLANNED'
+  Planned = 'PLANNED',
 }
 
 export enum TripStopStatusEnum {
   Arrived = 'ARRIVED',
   Completed = 'COMPLETED',
   Pending = 'PENDING',
-  Skipped = 'SKIPPED'
+  Skipped = 'SKIPPED',
 }
 
 export type UpdateAccountTransaction = {
@@ -4681,7 +4459,6 @@ export type Users = {
   users: Array<AuthUser>;
 };
 
-
 export type UsersUserArgs = {
   id: Scalars['UUID']['input'];
 };
@@ -4692,14 +4469,14 @@ export enum VehicleServiceTypeEnum {
   OilChange = 'OIL_CHANGE',
   Repair = 'REPAIR',
   RoutineMaintenance = 'ROUTINE_MAINTENANCE',
-  TireReplacement = 'TIRE_REPLACEMENT'
+  TireReplacement = 'TIRE_REPLACEMENT',
 }
 
 export enum VehicleStatusEnum {
   Available = 'AVAILABLE',
   InMaintenance = 'IN_MAINTENANCE',
   OnTrip = 'ON_TRIP',
-  OutOfService = 'OUT_OF_SERVICE'
+  OutOfService = 'OUT_OF_SERVICE',
 }
 
 export type WmsBinThreshold = {
@@ -4804,176 +4581,143 @@ export type WmsMutations = {
   updateWarehouse: WmsWarehouse;
 };
 
-
 export type WmsMutationsCreateBinThresholdArgs = {
   value: InsertBinThreshold;
 };
-
 
 export type WmsMutationsCreateInventoryStockArgs = {
   value: InsertInventoryStock;
 };
 
-
 export type WmsMutationsCreateLocationArgs = {
   value: InsertLocation;
 };
-
 
 export type WmsMutationsCreatePackageArgs = {
   value: InsertPackage;
 };
 
-
 export type WmsMutationsCreatePackageItemArgs = {
   value: InsertPackageItem;
 };
-
 
 export type WmsMutationsCreatePickBatchArgs = {
   value: InsertPickBatch;
 };
 
-
 export type WmsMutationsCreatePickBatchItemArgs = {
   value: InsertPickBatchItem;
 };
-
 
 export type WmsMutationsCreatePutawayRuleArgs = {
   value: InsertPutawayRule;
 };
 
-
 export type WmsMutationsCreateTaskArgs = {
   value: InsertTask;
 };
-
 
 export type WmsMutationsCreateTaskItemArgs = {
   value: InsertTaskItem;
 };
 
-
 export type WmsMutationsCreateWarehouseArgs = {
   value: InsertWarehouse;
 };
-
 
 export type WmsMutationsDeleteBinThresholdArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteInventoryStockArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeleteLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePackageArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeletePackageItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePickBatchArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeletePickBatchItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePutawayRuleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeleteTaskArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteTaskItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteWarehouseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsUpdateBinThresholdArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateBinThreshold;
 };
 
-
 export type WmsMutationsUpdateInventoryStockArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryStock;
 };
-
 
 export type WmsMutationsUpdateLocationArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateLocation;
 };
 
-
 export type WmsMutationsUpdatePackageArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePackage;
 };
-
 
 export type WmsMutationsUpdatePackageItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePackageItem;
 };
 
-
 export type WmsMutationsUpdatePickBatchArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePickBatch;
 };
-
 
 export type WmsMutationsUpdatePickBatchItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePickBatchItem;
 };
 
-
 export type WmsMutationsUpdatePutawayRuleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePutawayRule;
 };
-
 
 export type WmsMutationsUpdateTaskArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTask;
 };
 
-
 export type WmsMutationsUpdateTaskItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTaskItem;
 };
-
 
 export type WmsMutationsUpdateWarehouseArgs = {
   id: Scalars['UUID']['input'];
@@ -5118,56 +4862,45 @@ export type WmsQueries = {
   warehouses: Array<WmsWarehouse>;
 };
 
-
 export type WmsQueriesBinThresholdArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesInventoryStockArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesLocationArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPackageArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesPackageItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPickBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesPickBatchItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPutawayRuleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesTaskArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesTaskItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesWarehouseArgs = {
   id: Scalars['UUID']['input'];
@@ -5253,14 +4986,47 @@ export type SignInMutationVariables = Exact<{
   password: Scalars['String']['input'];
 }>;
 
+export type SignInMutation = {
+  __typename?: 'Mutations';
+  auth: {
+    __typename?: 'AuthMutations';
+    signInEmail: {
+      __typename?: 'SignInResponse';
+      token: string;
+      user: {
+        __typename?: 'AuthUser';
+        id: any;
+        name: string;
+        email: string;
+        emailVerified?: boolean | null;
+      };
+    };
+  };
+};
 
-export type SignInMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutations', signInEmail: { __typename?: 'SignInResponse', token: string, user: { __typename?: 'AuthUser', id: any, name: string, email: string, emailVerified?: boolean | null } } } };
+export type SignUpMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['Url']['input']>;
+  password: Scalars['String']['input'];
+  role?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type SignUpMutation = {
+  __typename?: 'Mutations';
+  auth: {
+    __typename?: 'AuthMutations';
+    signUpEmail: { __typename?: 'AuthUser'; name: string; email: string };
+  };
+};
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
 {
-  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
+  __apiType?: NonNullable<
+    DocumentTypeDecoration<TResult, TVariables>['__apiType']
+  >;
   private value: string;
   public __meta__?: Record<string, any> | undefined;
 
@@ -5289,21 +5055,43 @@ export const SignInDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<SignInMutation, SignInMutationVariables>;
+    `) as unknown as TypedDocumentString<
+  SignInMutation,
+  SignInMutationVariables
+>;
+export const SignUpDocument = new TypedDocumentString(`
+    mutation SignUp($email: String!, $name: String!, $image: Url, $password: String!, $role: String) {
+  auth {
+    signUpEmail(
+      email: $email
+      name: $name
+      image: $image
+      password: $password
+      role: $role
+    ) {
+      name
+      email
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+  SignUpMutation,
+  SignUpMutationVariables
+>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /**
    * Implement the DateTime<FixedOffset> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
-  DateTime: { input: any; output: any; }
-  Decimal: { input: any; output: any; }
+  DateTime: { input: any; output: any };
+  Decimal: { input: any; output: any };
   /**
    * ISO 8601 calendar date without timezone.
    * Format: %Y-%m-%d
@@ -5313,7 +5101,7 @@ export type Scalars = {
    * * `1994-11-13`
    * * `2000-02-24`
    */
-  NaiveDate: { input: any; output: any; }
+  NaiveDate: { input: any; output: any };
   /**
    * ISO 8601 combined date and time without timezone.
    *
@@ -5321,7 +5109,7 @@ export type Scalars = {
    *
    * * `2015-07-01T08:59:60.123`,
    */
-  NaiveDateTime: { input: any; output: any; }
+  NaiveDateTime: { input: any; output: any };
   /**
    * A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
    * Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -5332,9 +5120,9 @@ export type Scalars = {
    * * [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
    * * [RFC4122: A Universally Unique Identifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
    */
-  UUID: { input: any; output: any; }
+  UUID: { input: any; output: any };
   /** URL is a String implementing the [URL Standard](http://url.spec.whatwg.org/) */
-  Url: { input: any; output: any; }
+  Url: { input: any; output: any };
 };
 
 export type AuthMutations = {
@@ -5344,12 +5132,10 @@ export type AuthMutations = {
   signUpEmail: AuthUser;
 };
 
-
 export type AuthMutationsSignInEmailArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
-
 
 export type AuthMutationsSignUpEmailArgs = {
   email: Scalars['String']['input'];
@@ -5364,7 +5150,6 @@ export type AuthQuery = {
   user?: Maybe<AuthUser>;
   users: Array<AuthUser>;
 };
-
 
 export type AuthQueryUserArgs = {
   id: Scalars['UUID']['input'];
@@ -5587,208 +5372,169 @@ export type BillingMutations = {
   updateSurcharge: BillingSurcharge;
 };
 
-
 export type BillingMutationsCreateAccountTransactionArgs = {
   value: InsertAccountTransaction;
 };
-
 
 export type BillingMutationsCreateAccountingSyncLogArgs = {
   value: InsertAccountingSyncLog;
 };
 
-
 export type BillingMutationsCreateClientAccountArgs = {
   value: InsertClientAccount;
 };
-
 
 export type BillingMutationsCreateCreditNoteArgs = {
   value: InsertCreditNote;
 };
 
-
 export type BillingMutationsCreateDisputeArgs = {
   value: InsertDispute;
 };
-
 
 export type BillingMutationsCreateDocumentArgs = {
   value: InsertDocument;
 };
 
-
 export type BillingMutationsCreateInvoiceArgs = {
   value: InsertInvoice;
 };
-
 
 export type BillingMutationsCreateInvoiceLineItemArgs = {
   value: InsertInvoiceLineItem;
 };
 
-
 export type BillingMutationsCreatePaymentArgs = {
   value: InsertPayment;
 };
-
 
 export type BillingMutationsCreateQuoteArgs = {
   value: InsertQuote;
 };
 
-
 export type BillingMutationsCreateRateCardArgs = {
   value: InsertRateCard;
 };
-
 
 export type BillingMutationsCreateRateRuleArgs = {
   value: InsertRateRule;
 };
 
-
 export type BillingMutationsCreateSurchargeArgs = {
   value: InsertSurcharge;
 };
-
 
 export type BillingMutationsDeleteAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteClientAccountArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteCreditNoteArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteDisputeArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteDocumentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeletePaymentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteQuoteArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsDeleteRateCardArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteRateRuleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingMutationsDeleteSurchargeArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingMutationsUpdateAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAccountTransaction;
 };
 
-
 export type BillingMutationsUpdateAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAccountingSyncLog;
 };
-
 
 export type BillingMutationsUpdateClientAccountArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateClientAccount;
 };
 
-
 export type BillingMutationsUpdateCreditNoteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCreditNote;
 };
-
 
 export type BillingMutationsUpdateDisputeArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDispute;
 };
 
-
 export type BillingMutationsUpdateDocumentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDocument;
 };
-
 
 export type BillingMutationsUpdateInvoiceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInvoice;
 };
 
-
 export type BillingMutationsUpdateInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInvoiceLineItem;
 };
-
 
 export type BillingMutationsUpdatePaymentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePayment;
 };
 
-
 export type BillingMutationsUpdateQuoteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateQuote;
 };
-
 
 export type BillingMutationsUpdateRateCardArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRateCard;
 };
 
-
 export type BillingMutationsUpdateRateRuleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRateRule;
 };
-
 
 export type BillingMutationsUpdateSurchargeArgs = {
   id: Scalars['UUID']['input'];
@@ -5847,66 +5593,53 @@ export type BillingQueries = {
   surcharges: Array<BillingSurcharge>;
 };
 
-
 export type BillingQueriesAccountTransactionArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesAccountingSyncLogArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesClientAccountArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesCreditNoteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesDisputeArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesDocumentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesInvoiceLineItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesPaymentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesQuoteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesRateCardArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type BillingQueriesRateRuleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type BillingQueriesSurchargeArgs = {
   id: Scalars['UUID']['input'];
@@ -5990,14 +5723,14 @@ export enum CarrierRateUnitEnum {
   PerContainer = 'PER_CONTAINER',
   PerKg = 'PER_KG',
   PerKm = 'PER_KM',
-  PerMile = 'PER_MILE'
+  PerMile = 'PER_MILE',
 }
 
 export enum CasePriority {
   Critical = 'CRITICAL',
   High = 'HIGH',
   Low = 'LOW',
-  Medium = 'MEDIUM'
+  Medium = 'MEDIUM',
 }
 
 export enum CaseStatus {
@@ -6008,7 +5741,7 @@ export enum CaseStatus {
   New = 'NEW',
   Resolved = 'RESOLVED',
   WaitingForCustomer = 'WAITING_FOR_CUSTOMER',
-  WaitingForInternal = 'WAITING_FOR_INTERNAL'
+  WaitingForInternal = 'WAITING_FOR_INTERNAL',
 }
 
 export enum CaseType {
@@ -6017,7 +5750,7 @@ export enum CaseType {
   FeatureRequest = 'FEATURE_REQUEST',
   Problem = 'PROBLEM',
   Question = 'QUESTION',
-  TechnicalSupport = 'TECHNICAL_SUPPORT'
+  TechnicalSupport = 'TECHNICAL_SUPPORT',
 }
 
 export type CrmAttachment = {
@@ -6198,112 +5931,91 @@ export type CrmMutations = {
   updateInvoiceItem: CrmInvoiceItem;
 };
 
-
 export type CrmMutationsCreateAttachmentArgs = {
   value: InsertAttachment;
 };
-
 
 export type CrmMutationsCreateCampaignArgs = {
   value: InsertCampaign;
 };
 
-
 export type CrmMutationsCreateCaseArgs = {
   value: InsertCase;
 };
-
 
 export type CrmMutationsCreateCompanyArgs = {
   value: InsertCompany;
 };
 
-
 export type CrmMutationsCreateContactArgs = {
   value: InsertContact;
 };
-
 
 export type CrmMutationsCreateInteractionArgs = {
   value: InsertInteraction;
 };
 
-
 export type CrmMutationsCreateInvoiceItemArgs = {
   value: InsertInvoiceItem;
 };
-
 
 export type CrmMutationsDeleteAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsDeleteCaseArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsDeleteContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmMutationsDeleteInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmMutationsUpdateAttachmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateAttachment;
 };
 
-
 export type CrmMutationsUpdateCampaignArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCampaign;
 };
-
 
 export type CrmMutationsUpdateCaseArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCase;
 };
 
-
 export type CrmMutationsUpdateCompanyArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCompany;
 };
-
 
 export type CrmMutationsUpdateContactArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateContact;
 };
 
-
 export type CrmMutationsUpdateInteractionArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInteraction;
 };
-
 
 export type CrmMutationsUpdateInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -6376,36 +6088,29 @@ export type CrmQueries = {
   invoiceItems: Array<CrmInvoiceItem>;
 };
 
-
 export type CrmQueriesAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesCaseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type CrmQueriesInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type CrmQueriesInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -6418,7 +6123,7 @@ export enum CurrencyEnum {
   Gbp = 'GBP',
   Jpy = 'JPY',
   Php = 'PHP',
-  Usd = 'USD'
+  Usd = 'USD',
 }
 
 export enum DeliveryFailureReasonEnum {
@@ -6429,7 +6134,7 @@ export enum DeliveryFailureReasonEnum {
   RecipientNotHome = 'RECIPIENT_NOT_HOME',
   RefusedDelivery = 'REFUSED_DELIVERY',
   VehicleBreakdown = 'VEHICLE_BREAKDOWN',
-  WeatherConditions = 'WEATHER_CONDITIONS'
+  WeatherConditions = 'WEATHER_CONDITIONS',
 }
 
 export enum DeliveryRouteStatusEnum {
@@ -6437,7 +6142,7 @@ export enum DeliveryRouteStatusEnum {
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
   Paused = 'PAUSED',
-  Planned = 'PLANNED'
+  Planned = 'PLANNED',
 }
 
 export enum DeliveryTaskStatusEnum {
@@ -6447,7 +6152,7 @@ export enum DeliveryTaskStatusEnum {
   Failed = 'FAILED',
   OutForDelivery = 'OUT_FOR_DELIVERY',
   Pending = 'PENDING',
-  Rescheduled = 'RESCHEDULED'
+  Rescheduled = 'RESCHEDULED',
 }
 
 export enum DisputeStatusEnum {
@@ -6456,7 +6161,7 @@ export enum DisputeStatusEnum {
   Denied = 'DENIED',
   Escalated = 'ESCALATED',
   Open = 'OPEN',
-  UnderReview = 'UNDER_REVIEW'
+  UnderReview = 'UNDER_REVIEW',
 }
 
 export type DmsCustomerTrackingLink = {
@@ -6566,96 +6271,78 @@ export type DmsMutations = {
   updateTaskEvent: DmsTaskEvent;
 };
 
-
 export type DmsMutationsCreateCustomerTrackingLinkArgs = {
   value: InsertCustomerTrackingLink;
 };
-
 
 export type DmsMutationsCreateDeliveryRouteArgs = {
   value: InsertDeliveryRoute;
 };
 
-
 export type DmsMutationsCreateDeliveryTaskArgs = {
   value: InsertDeliveryTask;
 };
-
 
 export type DmsMutationsCreateDriverLocationArgs = {
   value: InsertDriverLocation;
 };
 
-
 export type DmsMutationsCreateProofOfDeliveryArgs = {
   value: DmsInsertProofOfDelivery;
 };
-
 
 export type DmsMutationsCreateTaskEventArgs = {
   value: InsertTaskEvent;
 };
 
-
 export type DmsMutationsDeleteCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsDeleteDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsDeleteDriverLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsMutationsDeleteTaskEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsMutationsUpdateCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCustomerTrackingLink;
 };
 
-
 export type DmsMutationsUpdateDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDeliveryRoute;
 };
-
 
 export type DmsMutationsUpdateDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDeliveryTask;
 };
 
-
 export type DmsMutationsUpdateDriverLocationArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriverLocation;
 };
 
-
 export type DmsMutationsUpdateProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
   value: DmsUpdateProofOfDelivery;
 };
-
 
 export type DmsMutationsUpdateTaskEventArgs = {
   id: Scalars['UUID']['input'];
@@ -6695,31 +6382,25 @@ export type DmsQueries = {
   taskEvents: Array<DmsTaskEvent>;
 };
 
-
 export type DmsQueriesCustomerTrackingLinkArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesDeliveryRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsQueriesDeliveryTaskArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesDriverLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type DmsQueriesProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type DmsQueriesTaskEventArgs = {
   id: Scalars['UUID']['input'];
@@ -6760,27 +6441,27 @@ export enum DocumentTypeEnum {
   PackingList = 'PACKING_LIST',
   ProofOfDelivery = 'PROOF_OF_DELIVERY',
   Receipt = 'RECEIPT',
-  ShippingLabel = 'SHIPPING_LABEL'
+  ShippingLabel = 'SHIPPING_LABEL',
 }
 
 export enum DriverScheduleReasonEnum {
   PersonalLeave = 'PERSONAL_LEAVE',
   SickLeave = 'SICK_LEAVE',
   Training = 'TRAINING',
-  Vacation = 'VACATION'
+  Vacation = 'VACATION',
 }
 
 export enum DriverStatusEnum {
   Active = 'ACTIVE',
   Inactive = 'INACTIVE',
-  OnLeave = 'ON_LEAVE'
+  OnLeave = 'ON_LEAVE',
 }
 
 export enum ExpenseStatusEnum {
   Approved = 'APPROVED',
   Pending = 'PENDING',
   Reimbursed = 'REIMBURSED',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 export enum ExpenseTypeEnum {
@@ -6789,12 +6470,12 @@ export enum ExpenseTypeEnum {
   Maintenance = 'MAINTENANCE',
   Meals = 'MEALS',
   Parking = 'PARKING',
-  Tolls = 'TOLLS'
+  Tolls = 'TOLLS',
 }
 
 export enum GeofenceEventTypeEnum {
   Enter = 'ENTER',
-  Exit = 'EXIT'
+  Exit = 'EXIT',
 }
 
 export type ImsInboundShipment = {
@@ -6898,224 +6579,182 @@ export type ImsMutations = {
   updateSupplier: ImsSupplier;
 };
 
-
 export type ImsMutationsCreateInboundShipmentArgs = {
   value: InsertInboundShipment;
 };
-
 
 export type ImsMutationsCreateInboundShipmentItemArgs = {
   value: InsertInboundShipmentItem;
 };
 
-
 export type ImsMutationsCreateInventoryAdjustmentArgs = {
   value: InsertInventoryAdjustment;
 };
-
 
 export type ImsMutationsCreateInventoryBatchArgs = {
   value: InsertInventoryBatch;
 };
 
-
 export type ImsMutationsCreateOutboundShipmentArgs = {
   value: InsertOutboundShipment;
 };
-
 
 export type ImsMutationsCreateOutboundShipmentItemArgs = {
   value: InsertOutboundShipmentItem;
 };
 
-
 export type ImsMutationsCreateProductArgs = {
   value: InsertProduct;
 };
-
 
 export type ImsMutationsCreateReorderPointArgs = {
   value: InsertReorderPoint;
 };
 
-
 export type ImsMutationsCreateReturnArgs = {
   value: InsertReturn;
 };
-
 
 export type ImsMutationsCreateReturnItemArgs = {
   value: InsertReturnItem;
 };
 
-
 export type ImsMutationsCreateSalesOrderArgs = {
   value: InsertSalesOrder;
 };
-
 
 export type ImsMutationsCreateSalesOrderItemArgs = {
   value: InsertSalesOrderItem;
 };
 
-
 export type ImsMutationsCreateStockTransferArgs = {
   value: InsertStockTransfer;
 };
-
 
 export type ImsMutationsCreateSupplierArgs = {
   value: InsertSupplier;
 };
 
-
 export type ImsMutationsDeleteInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteProductArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteReorderPointArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteReturnArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteReturnItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteSalesOrderArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsDeleteSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteStockTransferArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsMutationsDeleteSupplierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsMutationsUpdateInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInboundShipment;
 };
 
-
 export type ImsMutationsUpdateInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInboundShipmentItem;
 };
-
 
 export type ImsMutationsUpdateInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryAdjustment;
 };
 
-
 export type ImsMutationsUpdateInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryBatch;
 };
-
 
 export type ImsMutationsUpdateOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateOutboundShipment;
 };
 
-
 export type ImsMutationsUpdateOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateOutboundShipmentItem;
 };
-
 
 export type ImsMutationsUpdateProductArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateProduct;
 };
 
-
 export type ImsMutationsUpdateReorderPointArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReorderPoint;
 };
-
 
 export type ImsMutationsUpdateReturnArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReturn;
 };
 
-
 export type ImsMutationsUpdateReturnItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateReturnItem;
 };
-
 
 export type ImsMutationsUpdateSalesOrderArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateSalesOrder;
 };
 
-
 export type ImsMutationsUpdateSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateSalesOrderItem;
 };
 
-
 export type ImsMutationsUpdateStockTransferArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateStockTransfer;
 };
-
 
 export type ImsMutationsUpdateSupplierArgs = {
   id: Scalars['UUID']['input'];
@@ -7214,71 +6853,57 @@ export type ImsQueries = {
   suppliers: Array<ImsSupplier>;
 };
 
-
 export type ImsQueriesInboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesInboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesInventoryAdjustmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesInventoryBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesOutboundShipmentArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesOutboundShipmentItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesProductArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesReorderPointArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesReturnArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesReturnItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesSalesOrderArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesSalesOrderItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type ImsQueriesStockTransferArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type ImsQueriesSupplierArgs = {
   id: Scalars['UUID']['input'];
@@ -7384,7 +7009,7 @@ export enum InboundShipmentStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   Pending = 'PENDING',
-  Processing = 'PROCESSING'
+  Processing = 'PROCESSING',
 }
 
 export type InsertAccountTransaction = {
@@ -8127,7 +7752,7 @@ export enum InteractionType {
   Call = 'CALL',
   Email = 'EMAIL',
   Meeting = 'MEETING',
-  Text = 'TEXT'
+  Text = 'TEXT',
 }
 
 export enum InventoryAdjustmentReasonEnum {
@@ -8136,7 +7761,7 @@ export enum InventoryAdjustmentReasonEnum {
   Expired = 'EXPIRED',
   ManualCorrection = 'MANUAL_CORRECTION',
   ReturnToVendor = 'RETURN_TO_VENDOR',
-  Theft = 'THEFT'
+  Theft = 'THEFT',
 }
 
 export enum InventoryStockStatusEnum {
@@ -8146,7 +7771,7 @@ export enum InventoryStockStatusEnum {
   Expired = 'EXPIRED',
   Hold = 'HOLD',
   Quarantine = 'QUARANTINE',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum InvoiceStatus {
@@ -8154,7 +7779,7 @@ export enum InvoiceStatus {
   Draft = 'DRAFT',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Sent = 'SENT'
+  Sent = 'SENT',
 }
 
 export enum InvoiceStatusEnum {
@@ -8166,7 +7791,7 @@ export enum InvoiceStatusEnum {
   PastDue = 'PAST_DUE',
   Sent = 'SENT',
   Viewed = 'VIEWED',
-  Void = 'VOID'
+  Void = 'VOID',
 }
 
 export enum LeadSource {
@@ -8178,7 +7803,7 @@ export enum LeadSource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE'
+  Website = 'WEBSITE',
 }
 
 export enum LeadStatus {
@@ -8186,7 +7811,7 @@ export enum LeadStatus {
   Converted = 'CONVERTED',
   New = 'NEW',
   Qualified = 'QUALIFIED',
-  Unqualified = 'UNQUALIFIED'
+  Unqualified = 'UNQUALIFIED',
 }
 
 export enum LocationTypeEnum {
@@ -8199,7 +7824,7 @@ export enum LocationTypeEnum {
   ReceivingDock = 'RECEIVING_DOCK',
   ReserveStorage = 'RESERVE_STORAGE',
   ReturnsArea = 'RETURNS_AREA',
-  StagingArea = 'STAGING_AREA'
+  StagingArea = 'STAGING_AREA',
 }
 
 export type Mutations = {
@@ -8223,7 +7848,7 @@ export enum OpportunitySource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE'
+  Website = 'WEBSITE',
 }
 
 export enum OpportunityStage {
@@ -8234,7 +7859,7 @@ export enum OpportunityStage {
   Negotiation = 'NEGOTIATION',
   Proposal = 'PROPOSAL',
   Prospecting = 'PROSPECTING',
-  Qualification = 'QUALIFICATION'
+  Qualification = 'QUALIFICATION',
 }
 
 export enum OutboundShipmentStatusEnum {
@@ -8242,7 +7867,7 @@ export enum OutboundShipmentStatusEnum {
   Delivered = 'DELIVERED',
   Packed = 'PACKED',
   Picking = 'PICKING',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum PartnerInvoiceStatusEnum {
@@ -8250,7 +7875,7 @@ export enum PartnerInvoiceStatusEnum {
   Disputed = 'DISPUTED',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum PaymentMethod {
@@ -8260,7 +7885,7 @@ export enum PaymentMethod {
   CreditCard = 'CREDIT_CARD',
   Paypal = 'PAYPAL',
   Stripe = 'STRIPE',
-  WireTransfer = 'WIRE_TRANSFER'
+  WireTransfer = 'WIRE_TRANSFER',
 }
 
 export enum PaymentMethodEnum {
@@ -8271,7 +7896,7 @@ export enum PaymentMethodEnum {
   CreditCard = 'CREDIT_CARD',
   DebitCard = 'DEBIT_CARD',
   QrPh = 'QR_PH',
-  Wallet = 'WALLET'
+  Wallet = 'WALLET',
 }
 
 export enum PaymentStatusEnum {
@@ -8280,14 +7905,14 @@ export enum PaymentStatusEnum {
   Pending = 'PENDING',
   Processing = 'PROCESSING',
   Refunded = 'REFUNDED',
-  Successful = 'SUCCESSFUL'
+  Successful = 'SUCCESSFUL',
 }
 
 export enum PickBatchStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
-  Open = 'OPEN'
+  Open = 'OPEN',
 }
 
 export enum PickStrategyEnum {
@@ -8295,7 +7920,7 @@ export enum PickStrategyEnum {
   ClusterPicking = 'CLUSTER_PICKING',
   SingleOrderPicking = 'SINGLE_ORDER_PICKING',
   WavePicking = 'WAVE_PICKING',
-  ZonePicking = 'ZONE_PICKING'
+  ZonePicking = 'ZONE_PICKING',
 }
 
 export enum PricingModelEnum {
@@ -8305,21 +7930,21 @@ export enum PricingModelEnum {
   PerItem = 'PER_ITEM',
   PerKg = 'PER_KG',
   PerZone = 'PER_ZONE',
-  Tiered = 'TIERED'
+  Tiered = 'TIERED',
 }
 
 export enum ProductStatusEnum {
   Active = 'ACTIVE',
   Discontinued = 'DISCONTINUED',
   Inactive = 'INACTIVE',
-  Obsolete = 'OBSOLETE'
+  Obsolete = 'OBSOLETE',
 }
 
 export enum ProductType {
   Digital = 'DIGITAL',
   Good = 'GOOD',
   Service = 'SERVICE',
-  Subscription = 'SUBSCRIPTION'
+  Subscription = 'SUBSCRIPTION',
 }
 
 export enum ProofOfDeliveryTypeEnum {
@@ -8327,14 +7952,14 @@ export enum ProofOfDeliveryTypeEnum {
   ContactlessDelivery = 'CONTACTLESS_DELIVERY',
   LeftAtDoor = 'LEFT_AT_DOOR',
   Photo = 'PHOTO',
-  Signature = 'SIGNATURE'
+  Signature = 'SIGNATURE',
 }
 
 export enum ProofTypeEnum {
   BarcodeScan = 'BARCODE_SCAN',
   Photo = 'PHOTO',
   PinVerification = 'PIN_VERIFICATION',
-  Signature = 'SIGNATURE'
+  Signature = 'SIGNATURE',
 }
 
 export type Query = {
@@ -8353,7 +7978,7 @@ export enum QuoteStatusEnum {
   Cancelled = 'CANCELLED',
   Converted = 'CONVERTED',
   Expired = 'EXPIRED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum RecordType {
@@ -8365,7 +7990,7 @@ export enum RecordType {
   Invoices = 'INVOICES',
   Leads = 'LEADS',
   Opportunities = 'OPPORTUNITIES',
-  Products = 'PRODUCTS'
+  Products = 'PRODUCTS',
 }
 
 export enum ReturnItemConditionEnum {
@@ -8373,7 +7998,7 @@ export enum ReturnItemConditionEnum {
   Defective = 'DEFECTIVE',
   Expired = 'EXPIRED',
   Sellable = 'SELLABLE',
-  Unsellable = 'UNSELLABLE'
+  Unsellable = 'UNSELLABLE',
 }
 
 export enum ReturnStatusEnum {
@@ -8381,7 +8006,7 @@ export enum ReturnStatusEnum {
   Processed = 'PROCESSED',
   Received = 'RECEIVED',
   Rejected = 'REJECTED',
-  Requested = 'REQUESTED'
+  Requested = 'REQUESTED',
 }
 
 export enum SalesOrderStatusEnum {
@@ -8389,7 +8014,7 @@ export enum SalesOrderStatusEnum {
   Completed = 'COMPLETED',
   Pending = 'PENDING',
   Processing = 'PROCESSING',
-  Shipped = 'SHIPPED'
+  Shipped = 'SHIPPED',
 }
 
 export enum ServiceTypeEnum {
@@ -8400,7 +8025,7 @@ export enum ServiceTypeEnum {
   Packaging = 'PACKAGING',
   Returns = 'RETURNS',
   Shipping = 'SHIPPING',
-  Storage = 'STORAGE'
+  Storage = 'STORAGE',
 }
 
 export enum ShipmentLegStatusEnum {
@@ -8408,7 +8033,7 @@ export enum ShipmentLegStatusEnum {
   Delivered = 'DELIVERED',
   Failed = 'FAILED',
   InTransit = 'IN_TRANSIT',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type SignInResponse = {
@@ -8421,14 +8046,14 @@ export enum StockTransferStatusEnum {
   Cancelled = 'CANCELLED',
   InTransit = 'IN_TRANSIT',
   Pending = 'PENDING',
-  Received = 'RECEIVED'
+  Received = 'RECEIVED',
 }
 
 export enum SurchargeCalculationMethodEnum {
   Fixed = 'FIXED',
   Percentage = 'PERCENTAGE',
   PerUnit = 'PER_UNIT',
-  SlidingScale = 'SLIDING_SCALE'
+  SlidingScale = 'SLIDING_SCALE',
 }
 
 export enum SyncStatusEnum {
@@ -8436,7 +8061,7 @@ export enum SyncStatusEnum {
   InProgress = 'IN_PROGRESS',
   Pending = 'PENDING',
   Retry = 'RETRY',
-  Success = 'SUCCESS'
+  Success = 'SUCCESS',
 }
 
 export enum TaskEventStatusEnum {
@@ -8447,7 +8072,7 @@ export enum TaskEventStatusEnum {
   Exception = 'EXCEPTION',
   Failed = 'FAILED',
   Rescheduled = 'RESCHEDULED',
-  Started = 'STARTED'
+  Started = 'STARTED',
 }
 
 export enum TaskItemStatusEnum {
@@ -8456,7 +8081,7 @@ export enum TaskItemStatusEnum {
   InProgress = 'IN_PROGRESS',
   NotFound = 'NOT_FOUND',
   Pending = 'PENDING',
-  ShortPicked = 'SHORT_PICKED'
+  ShortPicked = 'SHORT_PICKED',
 }
 
 export enum TaskStatusEnum {
@@ -8465,7 +8090,7 @@ export enum TaskStatusEnum {
   Completed = 'COMPLETED',
   Error = 'ERROR',
   InProgress = 'IN_PROGRESS',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export enum TaskTypeEnum {
@@ -8477,7 +8102,7 @@ export enum TaskTypeEnum {
   Putaway = 'PUTAWAY',
   QualityCheck = 'QUALITY_CHECK',
   Replenishment = 'REPLENISHMENT',
-  ReturnsProcessing = 'RETURNS_PROCESSING'
+  ReturnsProcessing = 'RETURNS_PROCESSING',
 }
 
 export type TmsCarrier = {
@@ -8639,288 +8264,234 @@ export type TmsMutations = {
   updateVehicleMaintenance: TmsVehicleMaintenance;
 };
 
-
 export type TmsMutationsCreateCarrierArgs = {
   value: InsertCarrier;
 };
-
 
 export type TmsMutationsCreateCarrierRateArgs = {
   value: InsertCarrierRate;
 };
 
-
 export type TmsMutationsCreateDriverArgs = {
   value: InsertDriver;
 };
-
 
 export type TmsMutationsCreateDriverScheduleArgs = {
   value: InsertDriverSchedule;
 };
 
-
 export type TmsMutationsCreateExpenseArgs = {
   value: InsertExpense;
 };
-
 
 export type TmsMutationsCreateGeofenceArgs = {
   value: InsertGeofence;
 };
 
-
 export type TmsMutationsCreateGeofenceEventArgs = {
   value: InsertGeofenceEvent;
 };
-
 
 export type TmsMutationsCreateGpsPingArgs = {
   value: InsertGpsPing;
 };
 
-
 export type TmsMutationsCreatePartnerInvoiceArgs = {
   value: InsertPartnerInvoice;
 };
-
 
 export type TmsMutationsCreatePartnerInvoiceItemArgs = {
   value: InsertPartnerInvoiceItem;
 };
 
-
 export type TmsMutationsCreateProofOfDeliveryArgs = {
   value: InsertProofOfDelivery;
 };
-
 
 export type TmsMutationsCreateRouteArgs = {
   value: InsertRoute;
 };
 
-
 export type TmsMutationsCreateShipmentLegArgs = {
   value: InsertShipmentLeg;
 };
-
 
 export type TmsMutationsCreateShipmentLegEventArgs = {
   value: InsertShipmentLegEvent;
 };
 
-
 export type TmsMutationsCreateTripArgs = {
   value: InsertTrip;
 };
-
 
 export type TmsMutationsCreateTripStopArgs = {
   value: InsertTripStop;
 };
 
-
 export type TmsMutationsCreateVehicleArgs = {
   value: InsertVehicle;
 };
-
 
 export type TmsMutationsCreateVehicleMaintenanceArgs = {
   value: InsertVehicleMaintenance;
 };
 
-
 export type TmsMutationsDeleteCarrierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteCarrierRateArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteDriverArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteExpenseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteGeofenceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteGpsPingArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeletePartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeletePartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteShipmentLegArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteTripArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsDeleteTripStopArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteVehicleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsMutationsDeleteVehicleMaintenanceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsMutationsUpdateCarrierArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCarrier;
 };
 
-
 export type TmsMutationsUpdateCarrierRateArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateCarrierRate;
 };
-
 
 export type TmsMutationsUpdateDriverArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriver;
 };
 
-
 export type TmsMutationsUpdateDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateDriverSchedule;
 };
-
 
 export type TmsMutationsUpdateExpenseArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateExpense;
 };
 
-
 export type TmsMutationsUpdateGeofenceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGeofence;
 };
-
 
 export type TmsMutationsUpdateGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGeofenceEvent;
 };
 
-
 export type TmsMutationsUpdateGpsPingArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateGpsPing;
 };
-
 
 export type TmsMutationsUpdatePartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePartnerInvoice;
 };
 
-
 export type TmsMutationsUpdatePartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePartnerInvoiceItem;
 };
-
 
 export type TmsMutationsUpdateProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateProofOfDelivery;
 };
 
-
 export type TmsMutationsUpdateRouteArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateRoute;
 };
-
 
 export type TmsMutationsUpdateShipmentLegArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateShipmentLeg;
 };
 
-
 export type TmsMutationsUpdateShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateShipmentLegEvent;
 };
-
 
 export type TmsMutationsUpdateTripArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTrip;
 };
 
-
 export type TmsMutationsUpdateTripStopArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTripStop;
 };
 
-
 export type TmsMutationsUpdateVehicleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateVehicle;
 };
-
 
 export type TmsMutationsUpdateVehicleMaintenanceArgs = {
   id: Scalars['UUID']['input'];
@@ -9004,91 +8575,73 @@ export type TmsQueries = {
   vehicles: Array<TmsVehicle>;
 };
 
-
 export type TmsQueriesCarrierArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesCarrierRateArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesDriverArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesDriverScheduleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesExpenseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesGeofenceArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesGeofenceEventArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesGpsPingArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesPartnerInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesPartnerInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesProofOfDeliveryArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesRouteArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesShipmentLegArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesShipmentLegEventArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesTripArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesTripStopArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type TmsQueriesVehicleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type TmsQueriesVehicleMaintenanceItemArgs = {
   id: Scalars['UUID']['input'];
@@ -9205,21 +8758,21 @@ export enum TransactionTypeEnum {
   Debit = 'DEBIT',
   Fee = 'FEE',
   Refund = 'REFUND',
-  TopUp = 'TOP_UP'
+  TopUp = 'TOP_UP',
 }
 
 export enum TripStatusEnum {
   Cancelled = 'CANCELLED',
   Completed = 'COMPLETED',
   InProgress = 'IN_PROGRESS',
-  Planned = 'PLANNED'
+  Planned = 'PLANNED',
 }
 
 export enum TripStopStatusEnum {
   Arrived = 'ARRIVED',
   Completed = 'COMPLETED',
   Pending = 'PENDING',
-  Skipped = 'SKIPPED'
+  Skipped = 'SKIPPED',
 }
 
 export type UpdateAccountTransaction = {
@@ -9964,7 +9517,6 @@ export type Users = {
   users: Array<AuthUser>;
 };
 
-
 export type UsersUserArgs = {
   id: Scalars['UUID']['input'];
 };
@@ -9975,14 +9527,14 @@ export enum VehicleServiceTypeEnum {
   OilChange = 'OIL_CHANGE',
   Repair = 'REPAIR',
   RoutineMaintenance = 'ROUTINE_MAINTENANCE',
-  TireReplacement = 'TIRE_REPLACEMENT'
+  TireReplacement = 'TIRE_REPLACEMENT',
 }
 
 export enum VehicleStatusEnum {
   Available = 'AVAILABLE',
   InMaintenance = 'IN_MAINTENANCE',
   OnTrip = 'ON_TRIP',
-  OutOfService = 'OUT_OF_SERVICE'
+  OutOfService = 'OUT_OF_SERVICE',
 }
 
 export type WmsBinThreshold = {
@@ -10087,176 +9639,143 @@ export type WmsMutations = {
   updateWarehouse: WmsWarehouse;
 };
 
-
 export type WmsMutationsCreateBinThresholdArgs = {
   value: InsertBinThreshold;
 };
-
 
 export type WmsMutationsCreateInventoryStockArgs = {
   value: InsertInventoryStock;
 };
 
-
 export type WmsMutationsCreateLocationArgs = {
   value: InsertLocation;
 };
-
 
 export type WmsMutationsCreatePackageArgs = {
   value: InsertPackage;
 };
 
-
 export type WmsMutationsCreatePackageItemArgs = {
   value: InsertPackageItem;
 };
-
 
 export type WmsMutationsCreatePickBatchArgs = {
   value: InsertPickBatch;
 };
 
-
 export type WmsMutationsCreatePickBatchItemArgs = {
   value: InsertPickBatchItem;
 };
-
 
 export type WmsMutationsCreatePutawayRuleArgs = {
   value: InsertPutawayRule;
 };
 
-
 export type WmsMutationsCreateTaskArgs = {
   value: InsertTask;
 };
-
 
 export type WmsMutationsCreateTaskItemArgs = {
   value: InsertTaskItem;
 };
 
-
 export type WmsMutationsCreateWarehouseArgs = {
   value: InsertWarehouse;
 };
-
 
 export type WmsMutationsDeleteBinThresholdArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteInventoryStockArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeleteLocationArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePackageArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeletePackageItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePickBatchArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeletePickBatchItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeletePutawayRuleArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsDeleteTaskArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteTaskItemArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsMutationsDeleteWarehouseArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsMutationsUpdateBinThresholdArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateBinThreshold;
 };
 
-
 export type WmsMutationsUpdateInventoryStockArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateInventoryStock;
 };
-
 
 export type WmsMutationsUpdateLocationArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateLocation;
 };
 
-
 export type WmsMutationsUpdatePackageArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePackage;
 };
-
 
 export type WmsMutationsUpdatePackageItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePackageItem;
 };
 
-
 export type WmsMutationsUpdatePickBatchArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePickBatch;
 };
-
 
 export type WmsMutationsUpdatePickBatchItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePickBatchItem;
 };
 
-
 export type WmsMutationsUpdatePutawayRuleArgs = {
   id: Scalars['UUID']['input'];
   value: UpdatePutawayRule;
 };
-
 
 export type WmsMutationsUpdateTaskArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTask;
 };
 
-
 export type WmsMutationsUpdateTaskItemArgs = {
   id: Scalars['UUID']['input'];
   value: UpdateTaskItem;
 };
-
 
 export type WmsMutationsUpdateWarehouseArgs = {
   id: Scalars['UUID']['input'];
@@ -10401,56 +9920,45 @@ export type WmsQueries = {
   warehouses: Array<WmsWarehouse>;
 };
 
-
 export type WmsQueriesBinThresholdArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesInventoryStockArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesLocationArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPackageArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesPackageItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPickBatchArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesPickBatchItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesPutawayRuleArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesTaskArgs = {
   id: Scalars['UUID']['input'];
 };
 
-
 export type WmsQueriesTaskItemArgs = {
   id: Scalars['UUID']['input'];
 };
-
 
 export type WmsQueriesWarehouseArgs = {
   id: Scalars['UUID']['input'];
@@ -10536,5 +10044,36 @@ export type SignInMutationVariables = Exact<{
   password: Scalars['String']['input'];
 }>;
 
+export type SignInMutation = {
+  __typename?: 'Mutations';
+  auth: {
+    __typename?: 'AuthMutations';
+    signInEmail: {
+      __typename?: 'SignInResponse';
+      token: string;
+      user: {
+        __typename?: 'AuthUser';
+        id: any;
+        name: string;
+        email: string;
+        emailVerified?: boolean | null;
+      };
+    };
+  };
+};
 
-export type SignInMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutations', signInEmail: { __typename?: 'SignInResponse', token: string, user: { __typename?: 'AuthUser', id: any, name: string, email: string, emailVerified?: boolean | null } } } };
+export type SignUpMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['Url']['input']>;
+  password: Scalars['String']['input'];
+  role?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type SignUpMutation = {
+  __typename?: 'Mutations';
+  auth: {
+    __typename?: 'AuthMutations';
+    signUpEmail: { __typename?: 'AuthUser'; name: string; email: string };
+  };
+};
