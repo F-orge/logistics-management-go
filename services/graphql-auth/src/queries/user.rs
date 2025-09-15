@@ -78,6 +78,7 @@ impl Mutations {
 
         session_insert.user_id = Set(user.id);
         session_insert.expires_at = Set((Utc::now() + Duration::seconds(3600)).naive_local());
+        session_insert.token = Set(Uuid::new_v4().to_string());
         // todo: get the user-agent and ip via request
 
         let new_session = session_insert.insert(db).await?;
