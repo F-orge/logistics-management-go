@@ -1,7 +1,4 @@
-use async_graphql::{
-    EmptySubscription, Schema,
-    http::{GraphQLPlaygroundConfig, playground_source},
-};
+use async_graphql::{EmptySubscription, Schema, http::GraphiQLSource};
 use async_graphql_axum::{GraphQLRequest, GraphQLResponse};
 use axum::{
     Router,
@@ -14,7 +11,10 @@ use sea_orm::Database;
 use tokio::net::TcpListener;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use crate::{AppState, Mutations, Query, ServeArgs};
+use crate::{
+    AppState, Mutations, Query, ServeArgs,
+    extractor::{get_session, get_user},
+};
 
 #[axum::debug_handler]
 async fn graphql_handler(
@@ -24,7 +24,12 @@ async fn graphql_handler(
 ) -> GraphQLResponse {
     let mut request = graphql_request.into_inner();
 
-    // todo: add user and session to the ctx data if exists
+    if let Ok(session) = get_session(&state.db, &headers).await {
+        if let Ok(user) = get_user(&state.db, &session).await {
+            request = request.data(user);
+        }
+        request = request.data(session);
+    }
 
     request = request.data(headers).data(state.db);
 
@@ -32,7 +37,7 @@ async fn graphql_handler(
 }
 
 async fn graphql_playground() -> impl IntoResponse {
-    Html(playground_source(GraphQLPlaygroundConfig::new("/")))
+    Html(GraphiQLSource::build().endpoint("/graphql").finish())
 }
 
 pub async fn execute(args: ServeArgs) -> anyhow::Result<()> {
@@ -51,7 +56,7 @@ pub async fn execute(args: ServeArgs) -> anyhow::Result<()> {
     let mut router = Router::new();
 
     if args.enable_playground {
-        router = router.route(&args.frontend_route_path, get(graphql_playground))
+        router = router.route(&args.graphql_route_path, get(graphql_playground))
     }
 
     router = router.route(&args.graphql_route_path, post(graphql_handler));
