@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use fake::{
     Fake,
     faker::{internet::raw::SafeEmail, name::raw::Name},

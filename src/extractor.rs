@@ -1,6 +1,5 @@
 use anyhow::anyhow;
 use axum::http::HeaderMap;
-use chrono::Utc;
 use graphql_auth::entities::_generated::{session, user};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
