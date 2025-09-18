@@ -3,8 +3,8 @@ use crate::entities::{
     geofence_events::{InsertGeofenceEvent, UpdateGeofenceEvent},
 };
 use async_graphql::Object;
-use graphql_auth::guards::RoleGuard;
 use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::{RoleGuard, SystemGuard};
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "GeofenceEvents")]
 impl graphql_core::traits::GraphqlQuery<geofence_events::Model, Uuid> for geofence_events::Entity {
-    #[graphql(name = "geofenceEvents", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "geofenceEvents",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<geofence_events::Model, Uuid> for geofen
             .unwrap_or_default();
         Ok(geofence_events)
     }
-    #[graphql(name = "geofenceEvent", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "geofenceEvent",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,8 +59,10 @@ impl
         UpdateGeofenceEvent,
     > for Mutations
 {
-    // TODO: Implement a SystemGuard for automated system actions. Using Admin temporarily.
-    #[graphql(name = "createGeofenceEvent", guard = "RoleGuard::new(UserRole::Admin)")]
+    #[graphql(
+        name = "createGeofenceEvent",
+        guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -67,8 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_geofence_event)
     }
-    // TODO: Implement a SystemGuard for automated system actions. Using Admin temporarily.
-    #[graphql(name = "updateGeofenceEvent", guard = "RoleGuard::new(UserRole::Admin)")]
+    #[graphql(
+        name = "updateGeofenceEvent",
+        guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -83,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_geofence_event)
     }
-    #[graphql(name = "deleteGeofenceEvent", guard = "RoleGuard::new(UserRole::Admin)")]
+    #[graphql(
+        name = "deleteGeofenceEvent",
+        guard = "RoleGuard::new(UserRole::Admin)"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

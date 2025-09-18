@@ -3,8 +3,8 @@ use crate::entities::{
     gps_pings::{InsertGpsPing, UpdateGpsPing},
 };
 use async_graphql::Object;
-use graphql_auth::guards::RoleGuard;
 use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::{RoleGuard, SystemGuard};
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "GpsPings")]
 impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::Entity {
-    #[graphql(name = "gpsPings", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager))")]
+    #[graphql(
+        name = "gpsPings",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::E
             .unwrap_or_default();
         Ok(gps_pings)
     }
-    #[graphql(name = "gpsPing", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager))")]
+    #[graphql(
+        name = "gpsPing",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -48,9 +54,12 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing, UpdateGpsPing>
     for Mutations
 {
-    // TODO: Implement a SystemGuard for automated system actions. Using Admin temporarily.
-    #[graphql(name = "createGpsPing", guard = "RoleGuard::new(UserRole::Admin)")]
-        async fn create(
+    // System actions: use SystemGuard for automated inserts/updates
+    #[graphql(
+        name = "createGpsPing",
+        guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin))"
+    )]
+    async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
         value: InsertGpsPing,
@@ -62,8 +71,10 @@ impl graphql_core::traits::GraphqlMutation<gps_pings::Model, Uuid, InsertGpsPing
         _ = trx.commit().await?;
         Ok(new_gps_ping)
     }
-    // TODO: Implement a SystemGuard for automated system actions. Using Admin temporarily.
-    #[graphql(name = "updateGpsPing", guard = "RoleGuard::new(UserRole::Admin)")]
+    #[graphql(
+        name = "updateGpsPing",
+        guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,

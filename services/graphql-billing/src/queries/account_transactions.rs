@@ -1,5 +1,5 @@
 use async_graphql::Object;
-use graphql_auth::guards::RoleGuard;
+use graphql_auth::guards::{RoleGuard, SystemGuard};
 use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
@@ -56,8 +56,7 @@ impl
         UpdateAccountTransaction,
     > for Mutations
 {
-    // TODO: system (auto) actions should use SystemGuard; using Admin temporarily
-    #[graphql(name = "createAccountTransaction", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(name = "createAccountTransaction", guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin)).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -3,7 +3,7 @@ use crate::entities::{
     tasks::{InsertTask, UpdateTask},
 };
 use async_graphql::Object;
-use graphql_auth::guards::RoleGuard;
+use graphql_auth::guards::{RoleGuard, SystemGuard};
 use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
@@ -48,8 +48,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<tasks::Model, Uuid, InsertTask, UpdateTask>
     for Mutations
 {
-    // TODO: system (auto) should use SystemGuard; using Admin/warehouse manager temporarily
-    #[graphql(name = "createTask", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(name = "createTask", guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin)).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,

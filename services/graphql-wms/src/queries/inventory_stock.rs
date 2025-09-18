@@ -3,7 +3,7 @@ use crate::entities::{
     inventory_stock::{InsertInventoryStock, UpdateInventoryStock},
 };
 use async_graphql::Object;
-use graphql_auth::guards::RoleGuard;
+use graphql_auth::guards::{RoleGuard, SystemGuard};
 use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
@@ -54,8 +54,8 @@ impl
         UpdateInventoryStock,
     > for Mutations
 {
-    // TODO: system (auto) actions should use a SystemGuard; using Admin temporarily
-    #[graphql(name = "createInventoryStock", guard = "RoleGuard::new(UserRole::Admin)")]
+    // System actions (automated updates/inserts)
+    #[graphql(name = "createInventoryStock", guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -68,8 +68,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    // TODO: system (auto) actions should use a SystemGuard; using Admin temporarily
-    #[graphql(name = "updateInventoryStock", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(name = "updateInventoryStock", guard = "SystemGuard.or(RoleGuard::new(UserRole::Admin)).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
