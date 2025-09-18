@@ -1,5 +1,11 @@
-use crate::IntrospectArgs;
+use async_graphql::{EmptySubscription, Schema};
 
-pub async fn execute(args: IntrospectArgs) -> anyhow::Result<()> {
-    todo!()
+use crate::{Mutations, Query};
+
+pub async fn execute() -> anyhow::Result<()> {
+    let schema = Schema::build(Query::default(), Mutations::default(), EmptySubscription).finish();
+
+    println!("{}", schema.sdl());
+
+    Ok(())
 }

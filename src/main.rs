@@ -9,7 +9,7 @@ async fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
     match cli.command {
         Commands::Serve(args) => serve::execute(args).await,
-        Commands::Introspect(args) => introspect::execute(args).await,
+        Commands::Introspect => introspect::execute().await,
         Commands::Seed(args) => seed::execute(args).await,
     }
 }

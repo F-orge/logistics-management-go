@@ -56,7 +56,7 @@ pub enum Commands {
     /// Start the server
     Serve(ServeArgs),
     /// Introspect the schema
-    Introspect(IntrospectArgs),
+    Introspect,
     /// Seed the database
     Seed(SeedArgs),
 }
@@ -101,13 +101,6 @@ pub struct ServeArgs {
     /// Route path for graphql and playground (default: /graphql)
     #[arg(long)]
     pub enable_playground: bool,
-}
-
-#[derive(Parser, Debug)]
-pub struct IntrospectArgs {
-    /// Database connection URL
-    #[arg(long)]
-    pub database_url: String,
 }
 
 #[derive(Clone)]
