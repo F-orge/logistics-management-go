@@ -3,7 +3,9 @@ use crate::entities::{
     opportunities::{InsertOpportunity, UpdateOpportunity},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Opportunities")]
 impl GraphqlQuery<opportunities::Model, Uuid> for opportunities::Entity {
-    #[graphql(name = "opportunities")]
+    #[graphql(
+        name = "opportunities",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl GraphqlQuery<opportunities::Model, Uuid> for opportunities::Entity {
             .unwrap_or_default();
         Ok(opportunities)
     }
-    #[graphql(name = "opportunity")]
+    #[graphql(
+        name = "opportunity",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +54,7 @@ pub struct Mutations;
 impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpportunity>
     for Mutations
 {
-    #[graphql(name = "createOpportunity")]
+    #[graphql(name = "createOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +67,7 @@ impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpport
         _ = trx.commit().await?;
         Ok(new_opportunity)
     }
-    #[graphql(name = "updateOpportunity")]
+    #[graphql(name = "updateOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +82,7 @@ impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpport
         _ = trx.commit().await?;
         Ok(updated_opportunity)
     }
-    #[graphql(name = "deleteOpportunity")]
+    #[graphql(name = "deleteOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

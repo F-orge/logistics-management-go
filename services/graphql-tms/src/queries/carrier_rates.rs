@@ -3,6 +3,8 @@ use crate::entities::{
     carrier_rates::{InsertCarrierRate, UpdateCarrierRate},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "CarrierRates")]
 impl graphql_core::traits::GraphqlQuery<carrier_rates::Model, Uuid> for carrier_rates::Entity {
-    #[graphql(name = "carrierRates")]
+    #[graphql(name = "carrierRates", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<carrier_rates::Model, Uuid> for carrier_
             .unwrap_or_default();
         Ok(carrier_rates)
     }
-    #[graphql(name = "carrierRate")]
+    #[graphql(name = "carrierRate", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +53,7 @@ impl
         UpdateCarrierRate,
     > for Mutations
 {
-    #[graphql(name = "createCarrierRate")]
+    #[graphql(name = "createCarrierRate", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +66,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_carrier_rate)
     }
-    #[graphql(name = "updateCarrierRate")]
+    #[graphql(name = "updateCarrierRate", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +81,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_carrier_rate)
     }
-    #[graphql(name = "deleteCarrierRate")]
+    #[graphql(name = "deleteCarrierRate", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

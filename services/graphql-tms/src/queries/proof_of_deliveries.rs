@@ -3,6 +3,8 @@ use crate::entities::{
     proof_of_deliveries::{InsertProofOfDelivery, UpdateProofOfDelivery},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +16,7 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<proof_of_deliveries::Model, Uuid>
     for proof_of_deliveries::Entity
 {
-    #[graphql(name = "proofOfDeliveries")]
+    #[graphql(name = "proofOfDeliveries", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::Driver))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +31,7 @@ impl graphql_core::traits::GraphqlQuery<proof_of_deliveries::Model, Uuid>
             .unwrap_or_default();
         Ok(proof_of_deliveries)
     }
-    #[graphql(name = "proofOfDelivery")]
+    #[graphql(name = "proofOfDelivery", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::Driver))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +55,7 @@ impl
         UpdateProofOfDelivery,
     > for Mutations
 {
-    #[graphql(name = "createProofOfDelivery")]
+    #[graphql(name = "createProofOfDelivery", guard = "RoleGuard::new(UserRole::Driver).or(RoleGuard::new(UserRole::Admin))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +68,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_proof_of_delivery)
     }
-    #[graphql(name = "updateProofOfDelivery")]
+    #[graphql(name = "updateProofOfDelivery", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +83,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_proof_of_delivery)
     }
-    #[graphql(name = "deleteProofOfDelivery")]
+    #[graphql(name = "deleteProofOfDelivery", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

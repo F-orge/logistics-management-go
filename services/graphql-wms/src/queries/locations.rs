@@ -3,6 +3,8 @@ use crate::entities::{
     locations::{InsertLocation, UpdateLocation},
 };
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Locations")]
 impl graphql_core::traits::GraphqlQuery<locations::Model, Uuid> for locations::Entity {
-    #[graphql(name = "locations")]
+    #[graphql(
+        name = "locations",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<locations::Model, Uuid> for locations::E
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "location")]
+    #[graphql(
+        name = "location",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<locations::Model, Uuid, InsertLocation, UpdateLocation>
     for Mutations
 {
-    #[graphql(name = "createLocation")]
+    #[graphql(
+        name = "createLocation",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<locations::Model, Uuid, InsertLocatio
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateLocation")]
+    #[graphql(
+        name = "updateLocation",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<locations::Model, Uuid, InsertLocatio
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteLocation")]
+    #[graphql(
+        name = "deleteLocation",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

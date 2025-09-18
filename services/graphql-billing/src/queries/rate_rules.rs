@@ -1,4 +1,6 @@
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -13,7 +15,10 @@ use crate::entities::{
 
 #[Object(name = "RateRules")]
 impl graphql_core::traits::GraphqlQuery<rate_rules::Model, Uuid> for rate_rules::Entity {
-    #[graphql(name = "rateRules")]
+    #[graphql(
+        name = "rateRules",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +33,10 @@ impl graphql_core::traits::GraphqlQuery<rate_rules::Model, Uuid> for rate_rules:
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "rateRule")]
+    #[graphql(
+        name = "rateRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -47,7 +55,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<rate_rules::Model, Uuid, InsertRateRule, UpdateRateRule>
     for Mutations
 {
-    #[graphql(name = "createRateRule")]
+    #[graphql(
+        name = "createRateRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -60,7 +71,10 @@ impl graphql_core::traits::GraphqlMutation<rate_rules::Model, Uuid, InsertRateRu
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateRateRule")]
+    #[graphql(
+        name = "updateRateRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -75,7 +89,10 @@ impl graphql_core::traits::GraphqlMutation<rate_rules::Model, Uuid, InsertRateRu
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteRateRule")]
+    #[graphql(
+        name = "deleteRateRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

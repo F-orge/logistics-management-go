@@ -3,6 +3,8 @@ use crate::entities::{
     warehouses::{InsertWarehouse, UpdateWarehouse},
 };
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Warehouses")]
 impl graphql_core::traits::GraphqlQuery<warehouses::Model, Uuid> for warehouses::Entity {
-    #[graphql(name = "warehouses")]
+    #[graphql(
+        name = "warehouses",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<warehouses::Model, Uuid> for warehouses:
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "warehouse")]
+    #[graphql(
+        name = "warehouse",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -47,7 +55,10 @@ impl
     graphql_core::traits::GraphqlMutation<warehouses::Model, Uuid, InsertWarehouse, UpdateWarehouse>
     for Mutations
 {
-    #[graphql(name = "createWarehouse")]
+    #[graphql(
+        name = "createWarehouse",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -60,7 +71,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateWarehouse")]
+    #[graphql(
+        name = "updateWarehouse",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -75,7 +89,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteWarehouse")]
+    #[graphql(
+        name = "deleteWarehouse",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

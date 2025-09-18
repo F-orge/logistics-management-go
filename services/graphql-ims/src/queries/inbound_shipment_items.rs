@@ -3,6 +3,8 @@ use crate::entities::{
     inbound_shipment_items::{InsertInboundShipmentItem, UpdateInboundShipmentItem},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +16,7 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<inbound_shipment_items::Model, Uuid>
     for inbound_shipment_items::Entity
 {
-    #[graphql(name = "inboundShipmentItems")]
+    #[graphql(name = "inboundShipmentItems", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::ReceivingManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +31,7 @@ impl graphql_core::traits::GraphqlQuery<inbound_shipment_items::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "inboundShipmentItem")]
+    #[graphql(name = "inboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::ReceivingManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -55,7 +57,7 @@ impl
         UpdateInboundShipmentItem,
     > for Mutations
 {
-    #[graphql(name = "createInboundShipmentItem")]
+    #[graphql(name = "createInboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::ReceivingManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -68,7 +70,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateInboundShipmentItem")]
+    #[graphql(name = "updateInboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::ReceivingManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -83,7 +85,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteInboundShipmentItem")]
+    #[graphql(name = "deleteInboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::ReceivingManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -3,7 +3,9 @@ use crate::entities::{
     leads::{InsertLead, UpdateLead},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Leads")]
 impl GraphqlQuery<leads::Model, Uuid> for leads::Entity {
-    #[graphql(name = "leads")]
+    #[graphql(
+        name = "leads",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::Sdr)).or(RoleGuard::new(UserRole::MarketingManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl GraphqlQuery<leads::Model, Uuid> for leads::Entity {
             .unwrap_or_default();
         Ok(leads)
     }
-    #[graphql(name = "lead")]
+    #[graphql(
+        name = "lead",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::Sdr)).or(RoleGuard::new(UserRole::MarketingManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -44,7 +52,7 @@ pub struct Mutations;
 
 #[Object(name = "CrmLeadMutations")]
 impl GraphqlMutation<leads::Model, Uuid, InsertLead, UpdateLead> for Mutations {
-    #[graphql(name = "createLead")]
+    #[graphql(name = "createLead", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::Sdr))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -57,7 +65,7 @@ impl GraphqlMutation<leads::Model, Uuid, InsertLead, UpdateLead> for Mutations {
         _ = trx.commit().await?;
         Ok(new_lead)
     }
-    #[graphql(name = "updateLead")]
+    #[graphql(name = "updateLead", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::Sdr))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -72,7 +80,7 @@ impl GraphqlMutation<leads::Model, Uuid, InsertLead, UpdateLead> for Mutations {
         _ = trx.commit().await?;
         Ok(updated_lead)
     }
-    #[graphql(name = "deleteLead")]
+    #[graphql(name = "deleteLead", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

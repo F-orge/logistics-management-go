@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,10 +11,14 @@ use crate::entities::{
     _generated::companies,
     companies::{InsertCompany, UpdateCompany},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "Companies")]
 impl graphql_core::traits::GraphqlQuery<companies::Model, Uuid> for companies::Entity {
-    #[graphql(name = "companies")]
+    #[graphql(
+        name = "companies",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -31,7 +36,10 @@ impl graphql_core::traits::GraphqlQuery<companies::Model, Uuid> for companies::E
         Ok(companies)
     }
 
-    #[graphql(name = "company")]
+    #[graphql(
+        name = "company",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -52,7 +60,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<companies::Model, Uuid, InsertCompany, UpdateCompany>
     for Mutations
 {
-    #[graphql(name = "createCompany")]
+    #[graphql(
+        name = "createCompany",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -71,7 +82,10 @@ impl graphql_core::traits::GraphqlMutation<companies::Model, Uuid, InsertCompany
         Ok(new_company)
     }
 
-    #[graphql(name = "updateCompany")]
+    #[graphql(
+        name = "updateCompany",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -93,7 +107,10 @@ impl graphql_core::traits::GraphqlMutation<companies::Model, Uuid, InsertCompany
         Ok(updated_company)
     }
 
-    #[graphql(name = "deleteCompany")]
+    #[graphql(
+        name = "deleteCompany",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

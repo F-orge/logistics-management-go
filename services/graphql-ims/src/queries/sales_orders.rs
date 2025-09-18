@@ -3,6 +3,8 @@ use crate::entities::{
     sales_orders::{InsertSalesOrder, UpdateSalesOrder},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "SalesOrders")]
 impl graphql_core::traits::GraphqlQuery<sales_orders::Model, Uuid> for sales_orders::Entity {
-    #[graphql(name = "salesOrders")]
+    #[graphql(name = "salesOrders", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<sales_orders::Model, Uuid> for sales_ord
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "salesOrder")]
+    #[graphql(name = "salesOrder", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +53,7 @@ impl
         UpdateSalesOrder,
     > for Mutations
 {
-    #[graphql(name = "createSalesOrder")]
+    #[graphql(name = "createSalesOrder", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +66,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateSalesOrder")]
+    #[graphql(name = "updateSalesOrder", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +81,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteSalesOrder")]
+    #[graphql(name = "deleteSalesOrder", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

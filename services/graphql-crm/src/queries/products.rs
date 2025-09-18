@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -9,10 +10,14 @@ use crate::entities::{
     _generated::products,
     products::{InsertProduct, UpdateProduct},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "Products")]
 impl GraphqlQuery<products::Model, Uuid> for products::Entity {
-    #[graphql(name = "products")]
+    #[graphql(
+        name = "products",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl GraphqlQuery<products::Model, Uuid> for products::Entity {
             .unwrap_or_default();
         Ok(products)
     }
-    #[graphql(name = "product")]
+    #[graphql(
+        name = "product",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -44,7 +52,7 @@ pub struct Mutations;
 
 #[Object(name = "CrmProductMutations")]
 impl GraphqlMutation<products::Model, Uuid, InsertProduct, UpdateProduct> for Mutations {
-    #[graphql(name = "createProduct")]
+    #[graphql(name = "createProduct", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -57,7 +65,7 @@ impl GraphqlMutation<products::Model, Uuid, InsertProduct, UpdateProduct> for Mu
         _ = trx.commit().await?;
         Ok(new_product)
     }
-    #[graphql(name = "updateProduct")]
+    #[graphql(name = "updateProduct", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -72,7 +80,7 @@ impl GraphqlMutation<products::Model, Uuid, InsertProduct, UpdateProduct> for Mu
         _ = trx.commit().await?;
         Ok(updated_product)
     }
-    #[graphql(name = "deleteProduct")]
+    #[graphql(name = "deleteProduct", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

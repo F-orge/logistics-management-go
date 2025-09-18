@@ -3,6 +3,8 @@ use crate::entities::{
     drivers::{InsertDriver, UpdateDriver},
 };
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Drivers")]
 impl graphql_core::traits::GraphqlQuery<drivers::Model, Uuid> for drivers::Entity {
-    #[graphql(name = "drivers")]
+    #[graphql(
+        name = "drivers",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<drivers::Model, Uuid> for drivers::Entit
             .unwrap_or_default();
         Ok(drivers)
     }
-    #[graphql(name = "driver")]
+    #[graphql(
+        name = "driver",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<drivers::Model, Uuid, InsertDriver, UpdateDriver>
     for Mutations
 {
-    #[graphql(name = "createDriver")]
+    #[graphql(
+        name = "createDriver",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<drivers::Model, Uuid, InsertDriver, U
         _ = trx.commit().await?;
         Ok(new_driver)
     }
-    #[graphql(name = "updateDriver")]
+    #[graphql(
+        name = "updateDriver",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<drivers::Model, Uuid, InsertDriver, U
         _ = trx.commit().await?;
         Ok(updated_driver)
     }
-    #[graphql(name = "deleteDriver")]
+    #[graphql(
+        name = "deleteDriver",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

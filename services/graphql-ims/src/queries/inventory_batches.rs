@@ -3,18 +3,23 @@ use crate::entities::{
     inventory_batches::{InsertInventoryBatch, UpdateInventoryBatch},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
 };
 use uuid::Uuid;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "InventoryBatches")]
 impl graphql_core::traits::GraphqlQuery<inventory_batches::Model, Uuid>
     for inventory_batches::Entity
 {
-    #[graphql(name = "inventoryBatches")]
+    #[graphql(
+        name = "inventoryBatches",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::QcManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +34,10 @@ impl graphql_core::traits::GraphqlQuery<inventory_batches::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "inventoryBatch")]
+    #[graphql(
+        name = "inventoryBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::QcManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +61,10 @@ impl
         UpdateInventoryBatch,
     > for Mutations
 {
-    #[graphql(name = "createInventoryBatch")]
+    #[graphql(
+        name = "createInventoryBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::QcManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +77,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateInventoryBatch")]
+    #[graphql(
+        name = "updateInventoryBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::QcManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +95,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteInventoryBatch")]
+    #[graphql(
+        name = "deleteInventoryBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::QcManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

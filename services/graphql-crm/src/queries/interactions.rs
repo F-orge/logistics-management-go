@@ -3,6 +3,8 @@ use crate::entities::{
     interactions::{InsertInteraction, UpdateInteraction},
 };
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Interactions")]
 impl graphql_core::traits::GraphqlQuery<interactions::Model, Uuid> for interactions::Entity {
-    #[graphql(name = "interactions")]
+    #[graphql(
+        name = "interactions",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<interactions::Model, Uuid> for interacti
             .unwrap_or_default();
         Ok(interactions)
     }
-    #[graphql(name = "interaction")]
+    #[graphql(
+        name = "interaction",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +59,10 @@ impl
         UpdateInteraction,
     > for Mutations
 {
-    #[graphql(name = "createInteraction")]
+    #[graphql(
+        name = "createInteraction",
+        guard = "RoleGuard::new(UserRole::SalesRep).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_interaction)
     }
-    #[graphql(name = "updateInteraction")]
+    #[graphql(
+        name = "updateInteraction",
+        guard = "RoleGuard::new(UserRole::SalesRep).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_interaction)
     }
-    #[graphql(name = "deleteInteraction")]
+    #[graphql(
+        name = "deleteInteraction",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -1,4 +1,6 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -13,7 +15,7 @@ use crate::entities::{
 
 #[Object(name = "Surcharges")]
 impl graphql_core::traits::GraphqlQuery<surcharges::Model, Uuid> for surcharges::Entity {
-    #[graphql(name = "surcharges")]
+    #[graphql(name = "surcharges", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +30,7 @@ impl graphql_core::traits::GraphqlQuery<surcharges::Model, Uuid> for surcharges:
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "surcharge")]
+    #[graphql(name = "surcharge", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -48,7 +50,7 @@ impl
     graphql_core::traits::GraphqlMutation<surcharges::Model, Uuid, InsertSurcharge, UpdateSurcharge>
     for Mutations
 {
-    #[graphql(name = "createSurcharge")]
+    #[graphql(name = "createSurcharge", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -61,7 +63,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateSurcharge")]
+    #[graphql(name = "updateSurcharge", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -76,7 +78,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteSurcharge")]
+    #[graphql(name = "deleteSurcharge", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::PricingAnalyst))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,12 +11,16 @@ use crate::entities::{
     _generated::driver_locations,
     driver_locations::{InsertDriverLocation, UpdateDriverLocation},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "DriverLocations")]
 impl graphql_core::traits::GraphqlQuery<driver_locations::Model, Uuid>
     for driver_locations::Entity
 {
-    #[graphql(name = "driverLocations")]
+    #[graphql(
+        name = "driverLocations",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -30,7 +35,10 @@ impl graphql_core::traits::GraphqlQuery<driver_locations::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "driverLocation")]
+    #[graphql(
+        name = "driverLocation",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -54,7 +62,10 @@ impl
         UpdateDriverLocation,
     > for Mutations
 {
-    #[graphql(name = "createDriverLocation")]
+    #[graphql(
+        name = "createDriverLocation",
+        guard = "RoleGuard::new(UserRole::Driver).or(RoleGuard::new(UserRole::Admin))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -67,7 +78,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateDriverLocation")]
+    #[graphql(
+        name = "updateDriverLocation",
+        guard = "RoleGuard::new(UserRole::Driver)"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -82,7 +96,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteDriverLocation")]
+    #[graphql(
+        name = "deleteDriverLocation",
+        guard = "RoleGuard::new(UserRole::Admin)"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

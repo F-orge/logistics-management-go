@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,10 +11,14 @@ use crate::entities::{
     _generated::contacts,
     contacts::{InsertContact, UpdateContact},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "Contacts")]
 impl graphql_core::traits::GraphqlQuery<contacts::Model, Uuid> for contacts::Entity {
-    #[graphql(name = "contacts")]
+    #[graphql(
+        name = "contacts",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -31,7 +36,10 @@ impl graphql_core::traits::GraphqlQuery<contacts::Model, Uuid> for contacts::Ent
         Ok(contacts)
     }
 
-    #[graphql(name = "contact")]
+    #[graphql(
+        name = "contact",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -52,7 +60,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<contacts::Model, Uuid, InsertContact, UpdateContact>
     for Mutations
 {
-    #[graphql(name = "createContact")]
+    #[graphql(
+        name = "createContact",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -71,7 +82,10 @@ impl graphql_core::traits::GraphqlMutation<contacts::Model, Uuid, InsertContact,
         Ok(new_contact)
     }
 
-    #[graphql(name = "updateContact")]
+    #[graphql(
+        name = "updateContact",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -93,7 +107,10 @@ impl graphql_core::traits::GraphqlMutation<contacts::Model, Uuid, InsertContact,
         Ok(updated_contact)
     }
 
-    #[graphql(name = "deleteContact")]
+    #[graphql(
+        name = "deleteContact",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

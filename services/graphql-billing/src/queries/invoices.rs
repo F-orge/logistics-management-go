@@ -1,4 +1,6 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -13,7 +15,7 @@ use crate::entities::{
 
 #[Object(name = "Invoices")]
 impl graphql_core::traits::GraphqlQuery<invoices::Model, Uuid> for invoices::Entity {
-    #[graphql(name = "invoices")]
+    #[graphql(name = "invoices", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +30,7 @@ impl graphql_core::traits::GraphqlQuery<invoices::Model, Uuid> for invoices::Ent
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "invoice")]
+    #[graphql(name = "invoice", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -47,7 +49,8 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<invoices::Model, Uuid, InsertInvoice, UpdateInvoice>
     for Mutations
 {
-    #[graphql(name = "createInvoice")]
+    // TODO: system (auto) should use SystemGuard; using Admin temporarily
+    #[graphql(name = "createInvoice", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -60,7 +63,7 @@ impl graphql_core::traits::GraphqlMutation<invoices::Model, Uuid, InsertInvoice,
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateInvoice")]
+    #[graphql(name = "updateInvoice", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -75,7 +78,7 @@ impl graphql_core::traits::GraphqlMutation<invoices::Model, Uuid, InsertInvoice,
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteInvoice")]
+    #[graphql(name = "deleteInvoice", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

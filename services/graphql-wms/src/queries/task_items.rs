@@ -3,6 +3,8 @@ use crate::entities::{
     task_items::{InsertTaskItem, UpdateTaskItem},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "TaskItems")]
 impl graphql_core::traits::GraphqlQuery<task_items::Model, Uuid> for task_items::Entity {
-    #[graphql(name = "taskItems")]
+    #[graphql(name = "taskItems", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<task_items::Model, Uuid> for task_items:
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "taskItem")]
+    #[graphql(name = "taskItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,8 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<task_items::Model, Uuid, InsertTaskItem, UpdateTaskItem>
     for Mutations
 {
-    #[graphql(name = "createTaskItem")]
+    // TODO: system (auto) should use a proper SystemGuard; using Admin temporarily
+    #[graphql(name = "createTaskItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +62,7 @@ impl graphql_core::traits::GraphqlMutation<task_items::Model, Uuid, InsertTaskIt
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateTaskItem")]
+    #[graphql(name = "updateTaskItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +77,7 @@ impl graphql_core::traits::GraphqlMutation<task_items::Model, Uuid, InsertTaskIt
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteTaskItem")]
+    #[graphql(name = "deleteTaskItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

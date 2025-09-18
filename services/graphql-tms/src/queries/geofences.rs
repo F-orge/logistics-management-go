@@ -3,6 +3,8 @@ use crate::entities::{
     geofences::{InsertGeofence, UpdateGeofence},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Geofences")]
 impl graphql_core::traits::GraphqlQuery<geofences::Model, Uuid> for geofences::Entity {
-    #[graphql(name = "geofences")]
+    #[graphql(name = "geofences", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<geofences::Model, Uuid> for geofences::E
             .unwrap_or_default();
         Ok(geofences)
     }
-    #[graphql(name = "geofence")]
+    #[graphql(name = "geofence", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<geofences::Model, Uuid, InsertGeofence, UpdateGeofence>
     for Mutations
 {
-    #[graphql(name = "createGeofence")]
+    #[graphql(name = "createGeofence", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +61,7 @@ impl graphql_core::traits::GraphqlMutation<geofences::Model, Uuid, InsertGeofenc
         _ = trx.commit().await?;
         Ok(new_geofence)
     }
-    #[graphql(name = "updateGeofence")]
+    #[graphql(name = "updateGeofence", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +76,7 @@ impl graphql_core::traits::GraphqlMutation<geofences::Model, Uuid, InsertGeofenc
         _ = trx.commit().await?;
         Ok(updated_geofence)
     }
-    #[graphql(name = "deleteGeofence")]
+    #[graphql(name = "deleteGeofence", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

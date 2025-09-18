@@ -3,6 +3,8 @@ use crate::entities::{
     tasks::{InsertTask, UpdateTask},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Tasks")]
 impl graphql_core::traits::GraphqlQuery<tasks::Model, Uuid> for tasks::Entity {
-    #[graphql(name = "tasks")]
+    #[graphql(name = "tasks", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<tasks::Model, Uuid> for tasks::Entity {
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "task")]
+    #[graphql(name = "task", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,8 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<tasks::Model, Uuid, InsertTask, UpdateTask>
     for Mutations
 {
-    #[graphql(name = "createTask")]
+    // TODO: system (auto) should use SystemGuard; using Admin/warehouse manager temporarily
+    #[graphql(name = "createTask", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +62,8 @@ impl graphql_core::traits::GraphqlMutation<tasks::Model, Uuid, InsertTask, Updat
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateTask")]
+    // update: admin, warehouse manager, warehouse operator, picker, packer
+    #[graphql(name = "updateTask", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +78,7 @@ impl graphql_core::traits::GraphqlMutation<tasks::Model, Uuid, InsertTask, Updat
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteTask")]
+    #[graphql(name = "deleteTask", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,10 +11,14 @@ use crate::entities::{
     _generated::delivery_routes,
     delivery_routes::{InsertDeliveryRoute, UpdateDeliveryRoute},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "DeliveryRoutes")]
 impl graphql_core::traits::GraphqlQuery<delivery_routes::Model, Uuid> for delivery_routes::Entity {
-    #[graphql(name = "deliveryRoutes")]
+    #[graphql(
+        name = "deliveryRoutes",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Driver)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +33,10 @@ impl graphql_core::traits::GraphqlQuery<delivery_routes::Model, Uuid> for delive
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "deliveryRoute")]
+    #[graphql(
+        name = "deliveryRoute",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Driver)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -52,7 +60,10 @@ impl
         UpdateDeliveryRoute,
     > for Mutations
 {
-    #[graphql(name = "createDeliveryRoute")]
+    #[graphql(
+        name = "createDeliveryRoute",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -65,7 +76,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateDeliveryRoute")]
+    #[graphql(
+        name = "updateDeliveryRoute",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -80,7 +94,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteDeliveryRoute")]
+    #[graphql(
+        name = "deleteDeliveryRoute",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

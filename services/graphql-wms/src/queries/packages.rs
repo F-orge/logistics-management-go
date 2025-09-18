@@ -3,6 +3,8 @@ use crate::entities::{
     packages::{InsertPackage, UpdatePackage},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Packages")]
 impl graphql_core::traits::GraphqlQuery<packages::Model, Uuid> for packages::Entity {
-    #[graphql(name = "packages")]
+    #[graphql(name = "packages", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Packer))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<packages::Model, Uuid> for packages::Ent
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "package")]
+    #[graphql(name = "package", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Packer))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<packages::Model, Uuid, InsertPackage, UpdatePackage>
     for Mutations
 {
-    #[graphql(name = "createPackage")]
+    #[graphql(name = "createPackage", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Packer))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +61,7 @@ impl graphql_core::traits::GraphqlMutation<packages::Model, Uuid, InsertPackage,
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updatePackage")]
+    #[graphql(name = "updatePackage", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Packer))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +76,7 @@ impl graphql_core::traits::GraphqlMutation<packages::Model, Uuid, InsertPackage,
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deletePackage")]
+    #[graphql(name = "deletePackage", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Packer))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

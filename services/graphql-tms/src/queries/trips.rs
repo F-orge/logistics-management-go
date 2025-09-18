@@ -3,6 +3,8 @@ use crate::entities::{
     trips::{InsertTrip, UpdateTrip},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Trips")]
 impl graphql_core::traits::GraphqlQuery<trips::Model, Uuid> for trips::Entity {
-    #[graphql(name = "trips")]
+    #[graphql(name = "trips", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Driver))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<trips::Model, Uuid> for trips::Entity {
             .unwrap_or_default();
         Ok(trips)
     }
-    #[graphql(name = "trip")]
+    #[graphql(name = "trip", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Driver))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<trips::Model, Uuid, InsertTrip, UpdateTrip>
     for Mutations
 {
-    #[graphql(name = "createTrip")]
+    #[graphql(name = "createTrip", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +61,7 @@ impl graphql_core::traits::GraphqlMutation<trips::Model, Uuid, InsertTrip, Updat
         _ = trx.commit().await?;
         Ok(new_trip)
     }
-    #[graphql(name = "updateTrip")]
+    #[graphql(name = "updateTrip", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +76,7 @@ impl graphql_core::traits::GraphqlMutation<trips::Model, Uuid, InsertTrip, Updat
         _ = trx.commit().await?;
         Ok(updated_trip)
     }
-    #[graphql(name = "deleteTrip")]
+    #[graphql(name = "deleteTrip", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

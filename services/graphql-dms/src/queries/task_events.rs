@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,10 +11,14 @@ use crate::entities::{
     _generated::task_events,
     task_events::{InsertTaskEvent, UpdateTaskEvent},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "TaskEvents")]
 impl graphql_core::traits::GraphqlQuery<task_events::Model, Uuid> for task_events::Entity {
-    #[graphql(name = "taskEvents")]
+    #[graphql(
+        name = "taskEvents",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Driver)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +33,10 @@ impl graphql_core::traits::GraphqlQuery<task_events::Model, Uuid> for task_event
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "taskEvent")]
+    #[graphql(
+        name = "taskEvent",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Driver)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -52,7 +60,10 @@ impl
         UpdateTaskEvent,
     > for Mutations
 {
-    #[graphql(name = "createTaskEvent")]
+    #[graphql(
+        name = "createTaskEvent",
+        guard = "RoleGuard::new(UserRole::Driver).or(RoleGuard::new(UserRole::Admin)).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -65,7 +76,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateTaskEvent")]
+    #[graphql(name = "updateTaskEvent", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -80,7 +91,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteTaskEvent")]
+    #[graphql(name = "deleteTaskEvent", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -3,7 +3,9 @@ use crate::entities::{
     taggings::{InsertTagging, UpdateTagging},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Taggings")]
 impl GraphqlQuery<taggings::Model, Uuid> for taggings::Entity {
-    #[graphql(name = "taggings")]
+    #[graphql(
+        name = "taggings",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl GraphqlQuery<taggings::Model, Uuid> for taggings::Entity {
             .unwrap_or_default();
         Ok(taggings)
     }
-    #[graphql(name = "tagging")]
+    #[graphql(
+        name = "tagging",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -44,7 +52,7 @@ pub struct Mutations;
 
 #[Object(name = "CrmTaggingMutations")]
 impl GraphqlMutation<taggings::Model, Uuid, InsertTagging, UpdateTagging> for Mutations {
-    #[graphql(name = "createTagging")]
+    #[graphql(name = "createTagging", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -57,7 +65,7 @@ impl GraphqlMutation<taggings::Model, Uuid, InsertTagging, UpdateTagging> for Mu
         _ = trx.commit().await?;
         Ok(new_tagging)
     }
-    #[graphql(name = "updateTagging")]
+    #[graphql(name = "updateTagging", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -72,7 +80,7 @@ impl GraphqlMutation<taggings::Model, Uuid, InsertTagging, UpdateTagging> for Mu
         _ = trx.commit().await?;
         Ok(updated_tagging)
     }
-    #[graphql(name = "deleteTagging")]
+    #[graphql(name = "deleteTagging", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

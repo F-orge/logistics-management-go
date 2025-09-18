@@ -3,7 +3,9 @@ use crate::entities::{
     notifications::{InsertNotification, UpdateNotification},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Notifications")]
 impl GraphqlQuery<notifications::Model, Uuid> for notifications::Entity {
-    #[graphql(name = "notifications")]
+    #[graphql(name = "notifications", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl GraphqlQuery<notifications::Model, Uuid> for notifications::Entity {
             .unwrap_or_default();
         Ok(notifications)
     }
-    #[graphql(name = "notification")]
+    #[graphql(name = "notification", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,7 @@ pub struct Mutations;
 impl GraphqlMutation<notifications::Model, Uuid, InsertNotification, UpdateNotification>
     for Mutations
 {
-    #[graphql(name = "createNotification")]
+    #[graphql(name = "createNotification", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +61,7 @@ impl GraphqlMutation<notifications::Model, Uuid, InsertNotification, UpdateNotif
         _ = trx.commit().await?;
         Ok(new_notification)
     }
-    #[graphql(name = "updateNotification")]
+    #[graphql(name = "updateNotification", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +76,7 @@ impl GraphqlMutation<notifications::Model, Uuid, InsertNotification, UpdateNotif
         _ = trx.commit().await?;
         Ok(updated_notification)
     }
-    #[graphql(name = "deleteNotification")]
+    #[graphql(name = "deleteNotification", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

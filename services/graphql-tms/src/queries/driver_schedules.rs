@@ -3,6 +3,8 @@ use crate::entities::{
     driver_schedules::{InsertDriverSchedule, UpdateDriverSchedule},
 };
 use async_graphql::Object;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +16,10 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<driver_schedules::Model, Uuid>
     for driver_schedules::Entity
 {
-    #[graphql(name = "driverSchedules")]
+    #[graphql(
+        name = "driverSchedules",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::Driver))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +34,10 @@ impl graphql_core::traits::GraphqlQuery<driver_schedules::Model, Uuid>
             .unwrap_or_default();
         Ok(driver_schedules)
     }
-    #[graphql(name = "driverSchedule")]
+    #[graphql(
+        name = "driverSchedule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager)).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::Driver))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +61,10 @@ impl
         UpdateDriverSchedule,
     > for Mutations
 {
-    #[graphql(name = "createDriverSchedule")]
+    #[graphql(
+        name = "createDriverSchedule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +77,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_driver_schedule)
     }
-    #[graphql(name = "updateDriverSchedule")]
+    #[graphql(
+        name = "updateDriverSchedule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +95,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_driver_schedule)
     }
-    #[graphql(name = "deleteDriverSchedule")]
+    #[graphql(
+        name = "deleteDriverSchedule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

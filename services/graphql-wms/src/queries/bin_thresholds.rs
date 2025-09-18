@@ -3,6 +3,8 @@ use crate::entities::{
     bin_thresholds::{InsertBinThreshold, UpdateBinThreshold},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "BinThresholds")]
 impl graphql_core::traits::GraphqlQuery<bin_thresholds::Model, Uuid> for bin_thresholds::Entity {
-    #[graphql(name = "binThresholds")]
+    #[graphql(name = "binThresholds", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<bin_thresholds::Model, Uuid> for bin_thr
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "binThreshold")]
+    #[graphql(name = "binThreshold", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +53,7 @@ impl
         UpdateBinThreshold,
     > for Mutations
 {
-    #[graphql(name = "createBinThreshold")]
+    #[graphql(name = "createBinThreshold", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +66,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateBinThreshold")]
+    #[graphql(name = "updateBinThreshold", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +81,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteBinThreshold")]
+    #[graphql(name = "deleteBinThreshold", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -3,6 +3,8 @@ use crate::entities::{
     routes::{InsertRoute, UpdateRoute},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,7 @@ use uuid::Uuid;
 
 #[Object(name = "Routes")]
 impl graphql_core::traits::GraphqlQuery<routes::Model, Uuid> for routes::Entity {
-    #[graphql(name = "routes")]
+    #[graphql(name = "routes", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +29,7 @@ impl graphql_core::traits::GraphqlQuery<routes::Model, Uuid> for routes::Entity 
             .unwrap_or_default();
         Ok(routes)
     }
-    #[graphql(name = "route")]
+    #[graphql(name = "route", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -46,7 +48,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<routes::Model, Uuid, InsertRoute, UpdateRoute>
     for Mutations
 {
-    #[graphql(name = "createRoute")]
+    #[graphql(name = "createRoute", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -59,7 +61,7 @@ impl graphql_core::traits::GraphqlMutation<routes::Model, Uuid, InsertRoute, Upd
         _ = trx.commit().await?;
         Ok(new_route)
     }
-    #[graphql(name = "updateRoute")]
+    #[graphql(name = "updateRoute", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -74,7 +76,7 @@ impl graphql_core::traits::GraphqlMutation<routes::Model, Uuid, InsertRoute, Upd
         _ = trx.commit().await?;
         Ok(updated_route)
     }
-    #[graphql(name = "deleteRoute")]
+    #[graphql(name = "deleteRoute", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

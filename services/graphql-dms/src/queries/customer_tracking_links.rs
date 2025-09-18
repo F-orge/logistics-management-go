@@ -1,4 +1,5 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -10,12 +11,16 @@ use crate::entities::{
     _generated::customer_tracking_links,
     customer_tracking_links::{InsertCustomerTrackingLink, UpdateCustomerTrackingLink},
 };
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "CustomerTrackingLinks")]
 impl graphql_core::traits::GraphqlQuery<customer_tracking_links::Model, Uuid>
     for customer_tracking_links::Entity
 {
-    #[graphql(name = "customerTrackingLinks")]
+    #[graphql(
+        name = "customerTrackingLinks",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -30,7 +35,10 @@ impl graphql_core::traits::GraphqlQuery<customer_tracking_links::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "customerTrackingLink")]
+    #[graphql(
+        name = "customerTrackingLink",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::LogisticsCoordinator))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -56,7 +64,10 @@ impl
         UpdateCustomerTrackingLink,
     > for Mutations
 {
-    #[graphql(name = "createCustomerTrackingLink")]
+    #[graphql(
+        name = "createCustomerTrackingLink",
+        guard = "RoleGuard::new(UserRole::Admin)"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -69,7 +80,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateCustomerTrackingLink")]
+    #[graphql(
+        name = "updateCustomerTrackingLink",
+        guard = "RoleGuard::new(UserRole::Admin)"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -84,7 +98,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteCustomerTrackingLink")]
+    #[graphql(
+        name = "deleteCustomerTrackingLink",
+        guard = "RoleGuard::new(UserRole::Admin)"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

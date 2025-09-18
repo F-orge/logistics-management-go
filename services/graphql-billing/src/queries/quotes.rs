@@ -1,4 +1,6 @@
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -13,7 +15,7 @@ use crate::entities::{
 
 #[Object(name = "Quotes")]
 impl graphql_core::traits::GraphqlQuery<quotes::Model, Uuid> for quotes::Entity {
-    #[graphql(name = "quotes")]
+    #[graphql(name = "quotes", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::Client))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -28,7 +30,7 @@ impl graphql_core::traits::GraphqlQuery<quotes::Model, Uuid> for quotes::Entity 
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "quote")]
+    #[graphql(name = "quote", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::Client))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -47,7 +49,7 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<quotes::Model, Uuid, InsertQuote, UpdateQuote>
     for Mutations
 {
-    #[graphql(name = "createQuote")]
+    #[graphql(name = "createQuote", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::Client))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -60,7 +62,7 @@ impl graphql_core::traits::GraphqlMutation<quotes::Model, Uuid, InsertQuote, Upd
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateQuote")]
+    #[graphql(name = "updateQuote", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::SalesManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -75,7 +77,7 @@ impl graphql_core::traits::GraphqlMutation<quotes::Model, Uuid, InsertQuote, Upd
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteQuote")]
+    #[graphql(name = "deleteQuote", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

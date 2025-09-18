@@ -1126,6 +1126,7 @@ dependencies = [
  "anyhow",
  "async-graphql",
  "chrono",
+ "graphql-auth",
  "graphql-core",
  "graphql-tms",
  "graphql-wms",

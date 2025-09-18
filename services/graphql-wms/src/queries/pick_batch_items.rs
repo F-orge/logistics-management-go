@@ -3,6 +3,8 @@ use crate::entities::{
     pick_batch_items::{InsertPickBatchItem, UpdatePickBatchItem},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +16,7 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<pick_batch_items::Model, Uuid>
     for pick_batch_items::Entity
 {
-    #[graphql(name = "pickBatchItems")]
+    #[graphql(name = "pickBatchItems", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +31,7 @@ impl graphql_core::traits::GraphqlQuery<pick_batch_items::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "pickBatchItem")]
+    #[graphql(name = "pickBatchItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +55,7 @@ impl
         UpdatePickBatchItem,
     > for Mutations
 {
-    #[graphql(name = "createPickBatchItem")]
+    #[graphql(name = "createPickBatchItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +68,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updatePickBatchItem")]
+    #[graphql(name = "updatePickBatchItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +83,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deletePickBatchItem")]
+    #[graphql(name = "deletePickBatchItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

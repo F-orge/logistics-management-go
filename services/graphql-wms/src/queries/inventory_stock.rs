@@ -3,6 +3,8 @@ use crate::entities::{
     inventory_stock::{InsertInventoryStock, UpdateInventoryStock},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -12,7 +14,8 @@ use uuid::Uuid;
 
 #[Object(name = "InventoryStocks")]
 impl graphql_core::traits::GraphqlQuery<inventory_stock::Model, Uuid> for inventory_stock::Entity {
-    #[graphql(name = "inventoryStocks")]
+    // read: admin, warehouse manager, warehouse operator, picker, packer, supervisor
+    #[graphql(name = "inventoryStocks", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +30,7 @@ impl graphql_core::traits::GraphqlQuery<inventory_stock::Model, Uuid> for invent
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "inventoryStock")]
+    #[graphql(name = "inventoryStock", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::Picker)).or(RoleGuard::new(UserRole::Packer))")]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +54,8 @@ impl
         UpdateInventoryStock,
     > for Mutations
 {
-    #[graphql(name = "createInventoryStock")]
+    // TODO: system (auto) actions should use a SystemGuard; using Admin temporarily
+    #[graphql(name = "createInventoryStock", guard = "RoleGuard::new(UserRole::Admin)")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +68,8 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateInventoryStock")]
+    // TODO: system (auto) actions should use a SystemGuard; using Admin temporarily
+    #[graphql(name = "updateInventoryStock", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +84,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteInventoryStock")]
+    #[graphql(name = "deleteInventoryStock", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -19,4 +19,5 @@ sea-orm.workspace = true
 graphql-tms = { path = "../graphql-tms" }
 graphql-wms = { path = "../graphql-wms" }
 graphql-core = { path = "../graphql-core" }
+graphql-auth = { path = "../graphql-auth" }
 rust_decimal.workspace = true

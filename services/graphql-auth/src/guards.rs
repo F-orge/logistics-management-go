@@ -54,3 +54,35 @@ impl Guard for RequireSession {
         Ok(())
     }
 }
+
+pub struct SystemGuard;
+
+impl Guard for SystemGuard {
+    async fn check(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<()> {
+        // SystemGuard allows actions performed by an automated system user.
+        // We treat a session with `impersonated_by` set (or a special system user id)
+        // as a system action. For now, require either the current user role == Developer
+        // or the session.impersonated_by is Some(_) (i.e., an impersonation token).
+        let current_user = match ctx.data::<user::Model>() {
+            Ok(user) => user,
+            Err(_) => return Err("Forbidden".into()),
+        };
+
+        // Allow Developer role to act as system
+        if current_user.role == Some(UserRole::Developer) {
+            return Ok(());
+        }
+
+        // Check session for impersonation which we consider a system-level action
+        let session = match ctx.data::<session::Model>() {
+            Ok(s) => s,
+            Err(_) => return Err("Forbidden".into()),
+        };
+
+        if session.impersonated_by.is_some() {
+            return Ok(());
+        }
+
+        Err("Forbidden".into())
+    }
+}

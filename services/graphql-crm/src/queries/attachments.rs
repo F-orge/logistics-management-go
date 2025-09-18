@@ -3,7 +3,9 @@ use crate::entities::{
     attachments::{InsertAttachment, UpdateAttachment},
 };
 use async_graphql::Object;
+use graphql_auth::guards::RoleGuard;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
+use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -12,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Attachments")]
 impl graphql_core::traits::GraphqlQuery<attachments::Model, Uuid> for attachments::Entity {
-    #[graphql(name = "attachments")]
+    #[graphql(
+        name = "attachments",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -27,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<attachments::Model, Uuid> for attachment
             .unwrap_or_default();
         Ok(attachments)
     }
-    #[graphql(name = "attachment")]
+    #[graphql(
+        name = "attachment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -51,7 +59,7 @@ impl
         UpdateAttachment,
     > for Mutations
 {
-    #[graphql(name = "createAttachment")]
+    #[graphql(name = "createAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -64,7 +72,7 @@ impl
         _ = trx.commit().await?;
         Ok(new_attachment)
     }
-    #[graphql(name = "updateAttachment")]
+    #[graphql(name = "updateAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -79,7 +87,7 @@ impl
         _ = trx.commit().await?;
         Ok(updated_attachment)
     }
-    #[graphql(name = "deleteAttachment")]
+    #[graphql(name = "deleteAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,
