@@ -1,2 +1,0 @@
-ALTER TABLE "crm"."invoices" ALTER COLUMN "issue_date" SET DATA TYPE timestamp with time zone;--> statement-breakpoint
-ALTER TABLE "crm"."invoices" ALTER COLUMN "due_date" SET DATA TYPE timestamp with time zone;

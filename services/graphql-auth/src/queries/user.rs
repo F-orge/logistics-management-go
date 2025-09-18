@@ -2,17 +2,20 @@ use async_graphql::{Object, SimpleObject};
 use chrono::{Duration, Utc};
 use sea_orm::{
     ActiveModelBehavior, ActiveModelTrait, ActiveValue::Set, ColumnTrait, DatabaseConnection,
-    EntityTrait, PaginatorTrait, QueryFilter, QuerySelect, TransactionTrait,
+    EntityTrait, PaginatorTrait, QueryFilter, TransactionTrait,
 };
 use url::Url;
 use uuid::Uuid;
 
 use crate::entities::_generated::{account, session, user};
-use graphql_core::traits::GraphqlQuery;
+use crate::guards::{RequireSession, RoleGuard, Roles};
 
 #[Object(name = "Users")]
-impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
-    #[graphql(name = "users")]
+impl user::Entity {
+    #[graphql(
+        name = "users",
+        guard = RoleGuard::new(Roles::Admin).or(RoleGuard::new(Roles::Developer)))
+    ]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -30,7 +33,7 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
         Ok(result)
     }
 
-    #[graphql(name = "user")]
+    #[graphql(name = "user",guard = RequireSession)]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -41,6 +44,13 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
         let result = user::Entity::find_by_id(id).one(db).await?;
 
         Ok(result)
+    }
+
+    #[graphql(guard = RequireSession)]
+    async fn me(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<user::Model> {
+        let current_user = ctx.data::<user::Model>()?;
+
+        Ok(current_user.to_owned())
     }
 }
 

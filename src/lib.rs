@@ -2,10 +2,9 @@ use async_graphql::{EmptySubscription, Schema, SimpleObject};
 use clap::{Parser, Subcommand};
 use sea_orm::DatabaseConnection;
 
-use crate::guards::RequireSession;
+use graphql_auth::guards::RequireSession;
 pub mod commands;
 pub mod extractor;
-pub mod guards;
 
 type GraphQLSchema = Schema<Query, Mutations, EmptySubscription>;
 
