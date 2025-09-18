@@ -179,17 +179,4 @@ impl Related<super::user::Entity> for Entity {
     }
 }
 
-impl Related<super::products::Entity> for Entity {
-    fn to() -> RelationDef {
-        super::opportunity_products::Relation::Products.def()
-    }
-    fn via() -> Option<RelationDef> {
-        Some(
-            super::opportunity_products::Relation::Opportunities
-                .def()
-                .rev(),
-        )
-    }
-}
-
 impl ActiveModelBehavior for ActiveModel {}

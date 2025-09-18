@@ -25,6 +25,11 @@ impl Guard for RoleGuard {
     async fn check(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<()> {
         let current_user = ctx.data::<user::Model>()?;
 
+        // if user has a `developer` role. skip the check
+        if current_user.role == Some(UserRole::Developer) {
+            return Ok(());
+        }
+
         if current_user.role == Some(self.role) {
             Ok(())
         } else {

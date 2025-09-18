@@ -23,6 +23,7 @@ pub struct Model {
     pub opportunity_id: Uuid,
     pub product_id: Uuid,
     pub quantity: i32,
+    pub id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
@@ -30,16 +31,16 @@ pub enum Column {
     OpportunityId,
     ProductId,
     Quantity,
+    Id,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
 pub enum PrimaryKey {
-    OpportunityId,
-    ProductId,
+    Id,
 }
 
 impl PrimaryKeyTrait for PrimaryKey {
-    type ValueType = (Uuid, Uuid);
+    type ValueType = Uuid;
     fn auto_increment() -> bool {
         false
     }
@@ -58,6 +59,7 @@ impl ColumnTrait for Column {
             Self::OpportunityId => ColumnType::Uuid.def(),
             Self::ProductId => ColumnType::Uuid.def(),
             Self::Quantity => ColumnType::Integer.def(),
+            Self::Id => ColumnType::Uuid.def(),
         }
     }
 }

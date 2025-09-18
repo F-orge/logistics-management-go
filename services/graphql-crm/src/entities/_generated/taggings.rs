@@ -24,6 +24,7 @@ pub struct Model {
     pub tag_id: Uuid,
     pub record_id: Uuid,
     pub record_type: RecordType,
+    pub id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveColumn)]
@@ -31,17 +32,16 @@ pub enum Column {
     TagId,
     RecordId,
     RecordType,
+    Id,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DerivePrimaryKey)]
 pub enum PrimaryKey {
-    TagId,
-    RecordId,
-    RecordType,
+    Id,
 }
 
 impl PrimaryKeyTrait for PrimaryKey {
-    type ValueType = (Uuid, Uuid, RecordType);
+    type ValueType = Uuid;
     fn auto_increment() -> bool {
         false
     }
@@ -59,6 +59,7 @@ impl ColumnTrait for Column {
             Self::TagId => ColumnType::Uuid.def(),
             Self::RecordId => ColumnType::Uuid.def(),
             Self::RecordType => RecordType::db_type().get_column_type().to_owned().def(),
+            Self::Id => ColumnType::Uuid.def(),
         }
     }
 }
