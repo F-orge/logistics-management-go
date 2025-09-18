@@ -1,28 +1,13 @@
-use crate::entities::_generated::{session, user};
+use crate::entities::_generated::{sea_orm_active_enums::UserRole, session, user};
 use async_graphql::{Context, Guard};
 use chrono::Utc;
 
-#[derive(Eq, PartialEq, Copy, Clone)]
-pub enum Roles {
-    Admin,
-    Developer,
-}
-
-impl ToString for Roles {
-    fn to_string(&self) -> String {
-        match self {
-            Self::Admin => "admin".into(),
-            Self::Developer => "developer".into(),
-        }
-    }
-}
-
 pub struct RoleGuard {
-    role: Roles,
+    role: UserRole,
 }
 
 impl RoleGuard {
-    pub fn new(role: Roles) -> Self {
+    pub fn new(role: UserRole) -> Self {
         Self { role }
     }
 
@@ -32,7 +17,7 @@ impl RoleGuard {
             Err(_) => return false,
         };
 
-        current_user.role == Some(self.role.to_string())
+        current_user.role == Some(self.role)
     }
 }
 
@@ -40,7 +25,7 @@ impl Guard for RoleGuard {
     async fn check(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<()> {
         let current_user = ctx.data::<user::Model>()?;
 
-        if current_user.role == Some(self.role.to_string()) {
+        if current_user.role == Some(self.role) {
             Ok(())
         } else {
             Err("Forbidden".into())

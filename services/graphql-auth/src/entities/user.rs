@@ -1,4 +1,4 @@
-use crate::entities::_generated::user;
+use crate::entities::_generated::{sea_orm_active_enums::UserRole, user};
 use async_graphql::InputObject;
 use sea_orm::{
     ActiveValue::{NotSet, Set},
@@ -13,7 +13,7 @@ pub struct InsertUserInput {
     pub email: String,
     pub email_verified: Option<bool>,
     pub image: Option<Url>,
-    pub role: Option<String>,
+    pub role: Option<UserRole>,
     pub banned: Option<bool>,
     pub ban_reason: Option<String>,
     pub ban_expires: Option<DateTime>,
@@ -46,7 +46,7 @@ pub struct UpdateUserInput {
     pub email: Option<String>,
     pub email_verified: Option<Option<bool>>,
     pub image: Option<Option<Url>>,
-    pub role: Option<Option<String>>,
+    pub role: Option<Option<UserRole>>,
     pub banned: Option<Option<bool>>,
     pub ban_reason: Option<Option<String>>,
     pub ban_expires: Option<Option<DateTime>>,

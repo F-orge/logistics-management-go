@@ -7,14 +7,15 @@ use sea_orm::{
 use url::Url;
 use uuid::Uuid;
 
+use crate::entities::_generated::sea_orm_active_enums::UserRole;
 use crate::entities::_generated::{account, session, user};
-use crate::guards::{RequireSession, RoleGuard, Roles};
+use crate::guards::{RequireSession, RoleGuard};
 
 #[Object(name = "Users")]
 impl user::Entity {
     #[graphql(
         name = "users",
-        guard = RoleGuard::new(Roles::Admin).or(RoleGuard::new(Roles::Developer)),
+        guard = RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::Developer)),
     )]
     async fn list(
         &self,
@@ -111,7 +112,7 @@ impl Mutations {
         name: String,
         email: String,
         password: String,
-        role: Option<String>,
+        role: Option<UserRole>,
         image: Option<Url>,
     ) -> async_graphql::Result<user::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
