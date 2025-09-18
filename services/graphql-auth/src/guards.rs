@@ -25,6 +25,15 @@ impl RoleGuard {
     pub fn new(role: Roles) -> Self {
         Self { role }
     }
+
+    pub fn has_role(&self, ctx: &Context<'_>) -> bool {
+        let current_user = match ctx.data::<user::Model>() {
+            Ok(user) => user,
+            Err(_) => return false,
+        };
+
+        current_user.role == Some(self.role.to_string())
+    }
 }
 
 impl Guard for RoleGuard {

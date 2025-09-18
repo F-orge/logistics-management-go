@@ -14,8 +14,8 @@ use crate::guards::{RequireSession, RoleGuard, Roles};
 impl user::Entity {
     #[graphql(
         name = "users",
-        guard = RoleGuard::new(Roles::Admin).or(RoleGuard::new(Roles::Developer)))
-    ]
+        guard = RoleGuard::new(Roles::Admin).or(RoleGuard::new(Roles::Developer)),
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
