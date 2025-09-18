@@ -6,7 +6,7 @@ use async_graphql::Object;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
-    ModelTrait, TransactionTrait,
+    ModelTrait, PaginatorTrait, TransactionTrait,
 };
 use uuid::Uuid;
 
@@ -21,7 +21,8 @@ impl graphql_core::traits::GraphqlQuery<carrier_rates::Model, Uuid> for carrier_
     ) -> async_graphql::Result<Vec<carrier_rates::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let carrier_rates = carrier_rates::Entity::find()
-            .all(db)
+            .paginate(db, limit)
+            .fetch_page(page)
             .await
             .unwrap_or_default();
         Ok(carrier_rates)

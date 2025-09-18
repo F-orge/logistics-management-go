@@ -6,7 +6,7 @@ use async_graphql::Object;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
-    ModelTrait, TransactionTrait,
+    ModelTrait, PaginatorTrait, TransactionTrait,
 };
 use uuid::Uuid;
 
@@ -20,7 +20,11 @@ impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::E
         limit: u64,
     ) -> async_graphql::Result<Vec<gps_pings::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let gps_pings = gps_pings::Entity::find().all(db).await.unwrap_or_default();
+        let gps_pings = gps_pings::Entity::find()
+            .paginate(db, limit)
+            .fetch_page(page)
+            .await
+            .unwrap_or_default();
         Ok(gps_pings)
     }
     #[graphql(name = "gpsPing")]

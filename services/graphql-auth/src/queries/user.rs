@@ -2,7 +2,7 @@ use async_graphql::{Object, SimpleObject};
 use chrono::{Duration, Utc};
 use sea_orm::{
     ActiveModelBehavior, ActiveModelTrait, ActiveValue::Set, ColumnTrait, DatabaseConnection,
-    EntityTrait, QueryFilter, TransactionTrait,
+    EntityTrait, PaginatorTrait, QueryFilter, QuerySelect, TransactionTrait,
 };
 use url::Url;
 use uuid::Uuid;
@@ -21,7 +21,11 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
     ) -> async_graphql::Result<Vec<user::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
 
-        let result = user::Entity::find().all(db).await.unwrap_or_default();
+        let result = user::Entity::find()
+            .paginate(db, limit)
+            .fetch_page(page)
+            .await
+            .unwrap_or_default();
 
         Ok(result)
     }
