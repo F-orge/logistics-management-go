@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<driver_schedules::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<driver_schedules::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let driver_schedules = driver_schedules::Entity::find()

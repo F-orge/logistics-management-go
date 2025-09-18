@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<return_items::Model, Uuid> for return_it
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<return_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = return_items::Entity::find()

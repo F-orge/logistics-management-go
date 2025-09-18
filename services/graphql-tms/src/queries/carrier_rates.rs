@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<carrier_rates::Model, Uuid> for carrier_
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<carrier_rates::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let carrier_rates = carrier_rates::Entity::find()

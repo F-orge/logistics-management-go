@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<vehicle_maintenance::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<vehicle_maintenance::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let vehicle_maintenance = vehicle_maintenance::Entity::find()

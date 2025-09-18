@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<delivery_routes::Model, Uuid> for delive
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<delivery_routes::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = delivery_routes::Entity::find()

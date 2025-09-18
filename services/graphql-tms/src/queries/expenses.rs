@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<expenses::Model, Uuid> for expenses::Ent
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<expenses::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let expenses = expenses::Entity::find().all(db).await.unwrap_or_default();

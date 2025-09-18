@@ -19,6 +19,8 @@ impl graphql_core::traits::GraphqlQuery<customer_tracking_links::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<customer_tracking_links::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = customer_tracking_links::Entity::find()

@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<surcharges::Model, Uuid> for surcharges:
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<surcharges::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = surcharges::Entity::find().all(db).await.unwrap_or_default();

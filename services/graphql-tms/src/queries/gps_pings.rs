@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<gps_pings::Model, Uuid> for gps_pings::E
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<gps_pings::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let gps_pings = gps_pings::Entity::find().all(db).await.unwrap_or_default();

@@ -19,6 +19,8 @@ impl graphql_core::traits::GraphqlQuery<accounting_sync_log::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<accounting_sync_log::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = accounting_sync_log::Entity::find()

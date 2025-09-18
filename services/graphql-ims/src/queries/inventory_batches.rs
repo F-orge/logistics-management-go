@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<inventory_batches::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<inventory_batches::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = inventory_batches::Entity::find()

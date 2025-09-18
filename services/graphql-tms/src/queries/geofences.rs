@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<geofences::Model, Uuid> for geofences::E
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<geofences::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let geofences = geofences::Entity::find().all(db).await.unwrap_or_default();

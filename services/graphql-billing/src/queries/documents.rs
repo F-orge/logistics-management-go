@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<documents::Model, Uuid> for documents::E
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<documents::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = documents::Entity::find().all(db).await.unwrap_or_default();

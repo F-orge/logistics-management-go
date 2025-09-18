@@ -6,6 +6,8 @@ pub trait GraphqlQuery<Model: ModelTrait + OutputType, PrimaryKey: InputType> {
     fn list(
         &self,
         ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> impl std::future::Future<Output = async_graphql::Result<Vec<Model>>> + Send;
     fn view(
         &self,

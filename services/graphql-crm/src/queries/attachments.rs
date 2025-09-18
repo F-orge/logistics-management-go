@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<attachments::Model, Uuid> for attachment
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<attachments::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let attachments = attachments::Entity::find()

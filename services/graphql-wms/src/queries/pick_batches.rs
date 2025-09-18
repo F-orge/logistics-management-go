@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<pick_batches::Model, Uuid> for pick_batc
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<pick_batches::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = pick_batches::Entity::find()

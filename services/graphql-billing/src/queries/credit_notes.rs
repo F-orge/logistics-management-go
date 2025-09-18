@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<credit_notes::Model, Uuid> for credit_no
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<credit_notes::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = credit_notes::Entity::find()

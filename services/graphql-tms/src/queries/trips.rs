@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<trips::Model, Uuid> for trips::Entity {
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<trips::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let trips = trips::Entity::find().all(db).await.unwrap_or_default();

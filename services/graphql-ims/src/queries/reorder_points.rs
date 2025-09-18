@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<reorder_points::Model, Uuid> for reorder
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<reorder_points::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = reorder_points::Entity::find()

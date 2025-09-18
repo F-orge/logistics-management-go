@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<proof_of_deliveries::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<proof_of_deliveries::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let proof_of_deliveries = proof_of_deliveries::Entity::find()

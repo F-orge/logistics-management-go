@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<sales_order_items::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<sales_order_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = sales_order_items::Entity::find()

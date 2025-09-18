@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<disputes::Model, Uuid> for disputes::Ent
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<disputes::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = disputes::Entity::find().all(db).await.unwrap_or_default();

@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<geofence_events::Model, Uuid> for geofen
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<geofence_events::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let geofence_events = geofence_events::Entity::find()

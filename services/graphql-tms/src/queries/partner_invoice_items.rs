@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<partner_invoice_items::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let partner_invoice_items = partner_invoice_items::Entity::find()

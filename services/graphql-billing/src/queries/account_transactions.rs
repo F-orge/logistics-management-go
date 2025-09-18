@@ -19,6 +19,8 @@ impl graphql_core::traits::GraphqlQuery<account_transactions::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<account_transactions::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = account_transactions::Entity::find()

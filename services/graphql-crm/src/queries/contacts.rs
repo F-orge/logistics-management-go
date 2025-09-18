@@ -17,6 +17,8 @@ impl graphql_core::traits::GraphqlQuery<contacts::Model, Uuid> for contacts::Ent
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<contacts::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
 

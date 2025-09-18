@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<user::Model, Uuid> for user::Entity {
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<user::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
 

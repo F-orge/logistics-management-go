@@ -16,6 +16,8 @@ impl graphql_core::traits::GraphqlQuery<bin_thresholds::Model, Uuid> for bin_thr
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<bin_thresholds::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let items = bin_thresholds::Entity::find()

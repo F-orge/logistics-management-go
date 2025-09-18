@@ -18,6 +18,8 @@ impl graphql_core::traits::GraphqlQuery<shipment_leg_events::Model, Uuid>
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
+        page: u64,
+        limit: u64,
     ) -> async_graphql::Result<Vec<shipment_leg_events::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let shipment_leg_events = shipment_leg_events::Entity::find()
