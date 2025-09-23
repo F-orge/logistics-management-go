@@ -17,3 +17,4 @@ validator.workspace = true
 rstest.workspace = true
 sea-orm.workspace = true
 graphql-core = { path = "../graphql-core" }
+fake = { workspace = true }

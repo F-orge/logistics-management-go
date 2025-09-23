@@ -9,21 +9,41 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::address::raw::StreetName;
+use fake::faker::lorem::raw::Sentence;
+use fake::faker::name::raw::Name;
+use fake::faker::phone_number::raw::PhoneNumber;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDeliveryTask {
+    #[dummy(default)]
     pub package_id: Uuid,
+    #[dummy(default)]
     pub delivery_route_id: Uuid,
+    #[dummy(faker = "1..20")]
     pub route_sequence: i32,
+    #[dummy(faker = "StreetName(EN)")]
     pub delivery_address: String,
+    #[dummy(faker = "Name(EN)")]
     pub recipient_name: Option<String>,
+    #[dummy(faker = "PhoneNumber(EN)")]
     pub recipient_phone: Option<String>,
+    #[dummy(faker = "Sentence(EN, 3..8)")]
     pub delivery_instructions: Option<String>,
+    #[dummy(default)]
     pub estimated_arrival_time: Option<sea_orm::prelude::DateTime>,
+    #[dummy(default)]
     pub actual_arrival_time: Option<sea_orm::prelude::DateTime>,
+    #[dummy(default)]
     pub delivery_time: Option<sea_orm::prelude::DateTime>,
+    #[dummy(default)]
     pub status: Option<DeliveryTaskStatusEnum>,
+    #[dummy(default)]
     pub failure_reason: Option<DeliveryFailureReasonEnum>,
+    #[dummy(faker = "1..5")]
     pub attempt_count: Option<i32>,
 }
 

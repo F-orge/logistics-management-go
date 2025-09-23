@@ -10,18 +10,34 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::faker::internet::raw::SafeEmail;
+use fake::faker::name::raw::Name;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertLead {
+    #[dummy(faker = "Name(EN)")]
     pub name: String,
+    #[dummy(faker = "SafeEmail(EN)")]
     pub email: String,
+    #[dummy(default)]
     pub lead_source: Option<LeadSource>,
+    #[dummy(default)]
     pub status: Option<LeadStatus>,
+    #[dummy(faker = "0..100")]
     pub lead_score: Option<i32>,
+    #[dummy(default)]
     pub owner_id: Uuid,
+    #[dummy(default)]
     pub campaign_id: Option<Uuid>,
+    #[dummy(default)]
     pub converted_at: Option<DateTimeWithTimeZone>,
+    #[dummy(default)]
     pub converted_contact_id: Option<Uuid>,
+    #[dummy(default)]
     pub converted_company_id: Option<Uuid>,
+    #[dummy(default)]
     pub converted_opportunity_id: Option<Uuid>,
 }
 

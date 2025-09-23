@@ -1,4 +1,13 @@
 use async_graphql::{ComplexObject, Context, InputObject};
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::{
+    address::raw::{CityName, CountryName, PostCode, StateName, StreetName},
+    company::raw::{CompanyName, Industry},
+    internet::raw::DomainSuffix,
+    phone_number::raw::CellNumber,
+};
+use fake::locales::EN;
 use graphql_auth::entities::_generated::user;
 use rust_decimal::Decimal;
 use sea_orm::{
@@ -10,33 +19,64 @@ use uuid::Uuid;
 
 use crate::entities::_generated::{companies, contacts, leads, opportunities};
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCompany {
+    #[dummy(faker = "CompanyName(EN)")]
     pub name: String,
+
+    #[dummy(faker = "StreetName(EN)")]
     pub street: Option<String>,
+
+    #[dummy(faker = "CityName(EN)")]
     pub city: Option<String>,
+
+    #[dummy(faker = "StateName(EN)")]
     pub state: Option<String>,
+
+    #[dummy(faker = "PostCode(EN)")]
     pub postal_code: Option<String>,
+
+    #[dummy(faker = "CountryName(EN)")]
     pub country: Option<String>,
+
+    #[dummy(faker = "CellNumber(EN)")]
     pub phone_number: Option<String>,
+
+    #[dummy(faker = "Industry(EN)")]
     pub industry: Option<String>,
+
+    #[dummy(faker = "DomainSuffix(EN)")]
     pub website: Option<String>,
+
+    #[dummy(faker = "PositiveDecimal")]
     pub annual_revenue: Option<Decimal>,
+
+    #[dummy(default)]
     pub owner_id: Option<Uuid>,
 }
 
 #[derive(Debug, Clone, InputObject)]
 pub struct UpdateCompany {
     pub name: Option<String>,
+
     pub street: Option<Option<String>>,
+
     pub city: Option<Option<String>>,
+
     pub state: Option<Option<String>>,
+
     pub postal_code: Option<Option<String>>,
+
     pub country: Option<Option<String>>,
+
     pub phone_number: Option<Option<String>>,
+
     pub industry: Option<Option<String>>,
+
     pub website: Option<Option<String>>,
+
     pub annual_revenue: Option<Option<Decimal>>,
+
     pub owner_id: Option<Option<Uuid>>,
 }
 

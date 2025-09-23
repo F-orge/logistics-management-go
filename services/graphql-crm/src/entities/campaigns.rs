@@ -9,11 +9,20 @@ use sea_orm::{
     prelude::*,
 };
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::company::raw::CompanyName;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCampaign {
+    #[dummy(faker = "CompanyName(EN)")]
     pub name: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub budget: Option<Decimal>,
+    #[dummy(default)]
     pub start_date: Option<Date>,
+    #[dummy(default)]
     pub end_date: Option<Date>,
 }
 

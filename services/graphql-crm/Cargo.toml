@@ -18,6 +18,7 @@ graphql-auth = { path = "../graphql-auth" }
 graphql-core = { path = "../graphql-core" }
 rust_decimal.workspace = true
 sea-orm.workspace = true
+fake.workspace = true
 
 [dev-dependencies]
 rstest.workspace = true

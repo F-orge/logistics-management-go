@@ -8,12 +8,21 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::faker::filesystem::raw::{FileName, FilePath, MimeType};
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertAttachment {
+    #[dummy(faker = "FileName(EN)")]
     pub file_name: String,
+    #[dummy(faker = "FilePath(EN)")]
     pub file_path: String,
+    #[dummy(faker = "MimeType(EN)")]
     pub mime_type: Option<String>,
+    #[dummy(default)]
     pub record_id: Option<Uuid>,
+    #[dummy(default)]
     pub record_type: Option<RecordType>,
 }
 

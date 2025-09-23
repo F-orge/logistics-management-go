@@ -11,15 +11,26 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInvoice {
+    #[dummy(default)]
     pub opportunity_id: Option<Uuid>,
+    #[dummy(default)]
     pub status: Option<InvoiceStatus>,
+    #[dummy(faker = "PositiveDecimal")]
     pub total: Option<Decimal>,
+    #[dummy(default)]
     pub issue_date: Option<Date>,
+    #[dummy(default)]
     pub due_date: Option<Date>,
+    #[dummy(default)]
     pub sent_at: Option<DateTimeWithTimeZone>,
+    #[dummy(default)]
     pub paid_at: Option<DateTimeWithTimeZone>,
+    #[dummy(default)]
     pub payment_method: Option<PaymentMethod>,
 }
 

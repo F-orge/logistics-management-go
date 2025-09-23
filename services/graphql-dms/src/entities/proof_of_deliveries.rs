@@ -1,3 +1,4 @@
+
 use crate::entities::_generated::proof_of_deliveries;
 use crate::entities::_generated::sea_orm_active_enums::ProofOfDeliveryTypeEnum;
 use async_graphql::InputObject;
@@ -7,18 +8,33 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::filesystem::raw::FilePath;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::faker::name::raw::Name;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 #[graphql(name = "DmsInsertProofOfDelivery")]
 pub struct InsertProofOfDelivery {
+    #[dummy(default)]
     pub delivery_task_id: Uuid,
+    // No #[dummy(default)] because ProofOfDeliveryTypeEnum does not implement Default
     pub r#type: ProofOfDeliveryTypeEnum,
+    #[dummy(faker = "FilePath(EN)")]
     pub file_path: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub signature_data: Option<String>,
+    #[dummy(faker = "Name(EN)")]
     pub recipient_name: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub verification_code: Option<String>,
+    #[dummy(faker = "-90.0..90.0")]
     pub latitude: Option<f32>,
+    #[dummy(faker = "-180.0..180.0")]
     pub longitude: Option<f32>,
+    #[dummy(default)]
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 

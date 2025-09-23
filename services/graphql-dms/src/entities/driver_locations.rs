@@ -1,24 +1,34 @@
 use crate::entities::_generated::driver_locations;
+use crate::entities::_generated::drivers;
 use async_graphql::InputObject;
+use async_graphql::{ComplexObject, Context};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
-use uuid::Uuid;
-use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::drivers;
+use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDriverLocation {
+    #[dummy(default)]
     pub driver_id: Uuid,
+    #[dummy(faker = "-90.0..90.0")]
     pub latitude: f32,
+    #[dummy(faker = "-180.0..180.0")]
     pub longitude: f32,
+    #[dummy(faker = "0.0..1000.0")]
     pub altitude: Option<f32>,
+    #[dummy(faker = "0.0..100.0")]
     pub accuracy: Option<f32>,
+    #[dummy(faker = "0.0..200.0")]
     pub speed_kmh: Option<f32>,
+    #[dummy(faker = "0.0..360.0")]
     pub heading: Option<f32>,
+    #[dummy(default)]
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 

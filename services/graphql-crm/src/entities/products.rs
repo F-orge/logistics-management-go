@@ -9,12 +9,23 @@ use sea_orm::{
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertProduct {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
+    #[dummy(faker = "NumberWithFormat(EN, \"SKU-#####\")")]
     pub sku: Option<String>,
+    #[dummy(faker = "PositiveDecimal")]
     pub price: Decimal,
+    #[dummy(default)]
     pub r#type: Option<ProductType>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,
 }
 

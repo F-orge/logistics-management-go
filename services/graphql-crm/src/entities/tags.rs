@@ -7,8 +7,13 @@ use sea_orm::{
     prelude::*,
 };
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTag {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
 }
 

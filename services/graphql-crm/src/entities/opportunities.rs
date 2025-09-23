@@ -11,18 +11,34 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertOpportunity {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
+    #[dummy(default)]
     pub stage: Option<OpportunityStage>,
+    #[dummy(faker = "PositiveDecimal")]
     pub deal_value: Option<Decimal>,
+    #[dummy(faker = "0.0..1.0")]
     pub probability: Option<f32>,
+    #[dummy(default)]
     pub expected_close_date: Option<Date>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub lost_reason: Option<String>,
+    #[dummy(default)]
     pub source: Option<OpportunitySource>,
+    #[dummy(default)]
     pub owner_id: Uuid,
+    #[dummy(default)]
     pub contact_id: Option<Uuid>,
+    #[dummy(default)]
     pub company_id: Option<Uuid>,
+    #[dummy(default)]
     pub campaign_id: Option<Uuid>,
 }
 

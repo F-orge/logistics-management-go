@@ -8,11 +8,20 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::faker::internet::raw::DomainSuffix;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertNotification {
+    #[dummy(default)]
     pub user_id: Uuid,
+    #[dummy(faker = "Sentence(EN, 3..8)")]
     pub message: String,
+    #[dummy(default)]
     pub is_read: Option<bool>,
+    #[dummy(faker = "DomainSuffix(EN)")]
     pub link: Option<String>,
 }
 

@@ -57,7 +57,13 @@ sea-orm = { version = "1.1.16", features = [
   "with-uuid",
   "macros",
 ] }
-fake = { version = "4.4.0", features = ["derive", "geo"] }
+fake = { version = "4.4.0", features = [
+  "derive",
+  "geo",
+  "chrono",
+  "uuid",
+  "rust_decimal",
+] }
 
 [dependencies]
 async-graphql = { workspace = true }

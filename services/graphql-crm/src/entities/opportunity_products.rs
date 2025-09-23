@@ -8,10 +8,15 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertOpportunityProduct {
+    #[dummy(default)]
     pub opportunity_id: Uuid,
+    #[dummy(default)]
     pub product_id: Uuid,
+    #[dummy(faker = "1..10")]
     pub quantity: i32,
 }
 

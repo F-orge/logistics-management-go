@@ -9,14 +9,26 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+use fake::Dummy;
+use fake::faker::lorem::raw::Sentence;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCase {
+    #[dummy(faker = "NumberWithFormat(EN, \"CASE-#####\")")]
     pub case_number: String,
+    #[dummy(default)]
     pub status: Option<CaseStatus>,
+    #[dummy(default)]
     pub priority: Option<CasePriority>,
+    #[dummy(default)]
     pub r#type: Option<CaseType>,
+    #[dummy(default)]
     pub owner_id: Uuid,
+    #[dummy(default)]
     pub contact_id: Option<Uuid>,
+    #[dummy(faker = "Sentence(EN, 3..8)")]
     pub description: Option<String>,
 }
 

@@ -1,5 +1,9 @@
 use crate::entities::_generated::{sea_orm_active_enums::UserRole, user};
 use async_graphql::InputObject;
+use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{internet::raw::SafeEmail, name::raw::Name};
+use fake::locales::EN;
 use sea_orm::{
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
@@ -7,16 +11,32 @@ use sea_orm::{
 };
 use url::Url;
 
-#[derive(Clone, Debug, InputObject)]
+#[derive(Clone, Debug, InputObject, Dummy)]
 pub struct InsertUserInput {
+    #[dummy(faker = "Name(EN)")]
     pub name: String,
+
+    #[dummy(faker = "SafeEmail(EN)")]
     pub email: String,
+
+    #[dummy(default)]
     pub email_verified: Option<bool>,
+
+    #[dummy(default)]
     pub image: Option<Url>,
+
+    // `UserRole` enum in generated file already derives `Dummy` so Option<UserRole> can default
+    #[dummy(default)]
     pub role: Option<UserRole>,
+
+    #[dummy(default)]
     pub banned: Option<bool>,
+
+    #[dummy(default)]
     pub ban_reason: Option<String>,
-    pub ban_expires: Option<DateTime>,
+
+    #[dummy(default)]
+    pub ban_expires: Option<DateTime<Utc>>,
 }
 
 impl IntoActiveModel<user::ActiveModel> for InsertUserInput {
@@ -49,7 +69,7 @@ pub struct UpdateUserInput {
     pub role: Option<Option<UserRole>>,
     pub banned: Option<Option<bool>>,
     pub ban_reason: Option<Option<String>>,
-    pub ban_expires: Option<Option<DateTime>>,
+    pub ban_expires: Option<Option<DateTime<Utc>>>,
 }
 
 impl IntoActiveModel<user::ActiveModel> for UpdateUserInput {

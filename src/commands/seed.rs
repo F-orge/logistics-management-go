@@ -1,8 +1,4 @@
-use fake::{
-    Fake,
-    faker::{internet::raw::SafeEmail, name::raw::Name},
-    locales::EN,
-};
+use fake::Fake;
 use graphql_auth::entities::{_generated::user, user::InsertUserInput};
 use sea_orm::{Database, EntityTrait, IntoActiveModel, sea_query::OnConflict};
 
@@ -23,16 +19,7 @@ pub async fn execute(args: SeedArgs) -> anyhow::Result<()> {
     let mut users = vec![];
 
     for _ in 0..100 {
-        let random_user = InsertUserInput {
-            name: Name(EN).fake(),
-            email: SafeEmail(EN).fake(),
-            email_verified: Some(false),
-            image: None,
-            role: None,
-            banned: None,
-            ban_reason: None,
-            ban_expires: None,
-        };
+        let random_user: InsertUserInput = fake::Faker.fake();
         users.push(random_user.into_active_model());
     }
 

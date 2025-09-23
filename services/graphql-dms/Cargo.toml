@@ -21,3 +21,4 @@ graphql-wms = { path = "../graphql-wms" }
 graphql-core = { path = "../graphql-core" }
 graphql-auth = { path = "../graphql-auth" }
 rust_decimal.workspace = true
+fake.workspace = true

@@ -8,14 +8,25 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTaskEvent {
+    #[dummy(default)]
     pub delivery_task_id: Uuid,
     pub status: TaskEventStatusEnum,
+    #[dummy(faker = "Word(EN)")]
     pub reason: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
+    #[dummy(faker = "-90.0..90.0")]
     pub latitude: Option<f32>,
+    #[dummy(faker = "-180.0..180.0")]
     pub longitude: Option<f32>,
+    #[dummy(default)]
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 
