@@ -6,15 +6,24 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+// use fake::locales::EN; // removed: unused
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertBinThreshold {
     pub location_id: Uuid,
+
     pub product_id: Uuid,
+    #[dummy(faker = "1..10")]
     pub min_quantity: i32,
+    #[dummy(faker = "10..100")]
     pub max_quantity: i32,
+    #[dummy(faker = "1..10")]
     pub reorder_quantity: Option<i32>,
+    #[dummy(faker = "1..10")]
     pub alert_threshold: Option<i32>,
+
     pub is_active: Option<bool>,
 }
 

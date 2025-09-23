@@ -7,24 +7,45 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTask {
+    #[dummy(faker = "NumberWithFormat(EN, \"TASK-#####\")")]
     pub task_number: String,
+
     pub warehouse_id: Uuid,
+
     pub user_id: Option<Uuid>,
+
     pub r#type: TaskTypeEnum,
+
     pub status: Option<TaskStatusEnum>,
+    #[dummy(faker = "1..10")]
     pub priority: Option<i32>,
+
     pub source_entity_id: Option<Uuid>,
+    #[dummy(faker = "Word(EN)")]
     pub source_entity_type: Option<String>,
+
     pub pick_batch_id: Option<Uuid>,
+    #[dummy(faker = "10..120")]
     pub estimated_duration: Option<i32>,
+    #[dummy(faker = "10..120")]
     pub actual_duration: Option<i32>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub instructions: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
+
     pub start_time: Option<sea_orm::prelude::DateTime>,
+
     pub end_time: Option<sea_orm::prelude::DateTime>,
+    #[dummy(faker = "10..10000")]
     pub duration_seconds: Option<i32>,
 }
 

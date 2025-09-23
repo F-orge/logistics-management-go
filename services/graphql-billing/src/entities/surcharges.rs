@@ -2,21 +2,30 @@ use crate::entities::_generated::sea_orm_active_enums::SurchargeCalculationMetho
 use crate::entities::_generated::surcharges;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::locales::EN;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSurcharge {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
+    #[dummy(faker = "Word(EN)")]
     pub r#type: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount: Decimal,
     pub calculation_method: SurchargeCalculationMethodEnum,
     pub is_active: Option<bool>,
     pub valid_from: Option<sea_orm::prelude::Date>,
     pub valid_to: Option<sea_orm::prelude::Date>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,
 }
 

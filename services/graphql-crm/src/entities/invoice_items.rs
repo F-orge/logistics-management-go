@@ -15,9 +15,8 @@ use fake::decimal::PositiveDecimal;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInvoiceItem {
-    #[dummy(default)]
     pub invoice_id: Uuid,
-    #[dummy(default)]
+
     pub product_id: Uuid,
     #[dummy(faker = "1..10")]
     pub quantity: i32,

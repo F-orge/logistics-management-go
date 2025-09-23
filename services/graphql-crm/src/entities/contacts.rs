@@ -11,10 +11,10 @@ use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 use uuid::Uuid;
 
 use fake::Dummy;
-use fake::faker::name::raw::Name;
 use fake::faker::internet::raw::SafeEmail;
-use fake::faker::phone_number::raw::PhoneNumber;
 use fake::faker::job::raw::Title;
+use fake::faker::name::raw::Name;
+use fake::faker::phone_number::raw::PhoneNumber;
 use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
@@ -27,9 +27,9 @@ pub struct InsertContact {
     pub phone_number: Option<String>,
     #[dummy(faker = "Title(EN)")]
     pub job_title: Option<String>,
-    #[dummy(default)]
+
     pub company_id: Option<Uuid>,
-    #[dummy(default)]
+
     pub owner_id: Uuid,
 }
 

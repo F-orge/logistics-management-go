@@ -7,11 +7,18 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::number::raw::NumberWithFormat;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInventoryBatch {
+    
     pub product_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(EN, \"BATCH-#####\")")]
     pub batch_number: String,
+    
     pub expiration_date: Option<NaiveDate>,
 }
 

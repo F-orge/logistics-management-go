@@ -9,13 +9,22 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPartnerInvoice {
     pub carrier_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(EN, \"INV-#####\")")]
     pub invoice_number: String,
+
     pub invoice_date: Date,
+    #[dummy(faker = "PositiveDecimal")]
     pub total_amount: Decimal,
+
     pub status: Option<PartnerInvoiceStatusEnum>,
 }
 
@@ -52,13 +61,16 @@ impl IntoActiveModel<partner_invoices::ActiveModel> for UpdatePartnerInvoice {
     }
 }
 
+use crate::entities::_generated::partner_invoice_items;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::partner_invoice_items;
 
 #[ComplexObject]
 impl partner_invoices::Model {
-    async fn partner_invoice_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
+    async fn partner_invoice_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = partner_invoice_items::Entity::find()
             .filter(partner_invoice_items::Column::PartnerInvoiceId.eq(self.id))

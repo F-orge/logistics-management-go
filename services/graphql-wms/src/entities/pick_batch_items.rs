@@ -6,13 +6,20 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+// use fake::locales::EN; // removed: unused
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPickBatchItem {
     pub pick_batch_id: Uuid,
+
     pub sales_order_id: Uuid,
+    #[dummy(faker = "1..10")]
     pub order_priority: Option<i32>,
+    #[dummy(faker = "10..120")]
     pub estimated_pick_time: Option<i32>,
+    #[dummy(faker = "10..120")]
     pub actual_pick_time: Option<i32>,
 }
 
@@ -49,9 +56,9 @@ impl IntoActiveModel<pick_batch_items::ActiveModel> for UpdatePickBatchItem {
     }
 }
 
-use crate::entities::_generated::{pick_batches, sales_orders};
+use crate::entities::_generated::pick_batches;
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl pick_batch_items::Model {

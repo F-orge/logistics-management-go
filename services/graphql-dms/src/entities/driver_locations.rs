@@ -14,7 +14,6 @@ use fake::Dummy;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDriverLocation {
-    #[dummy(default)]
     pub driver_id: Uuid,
     #[dummy(faker = "-90.0..90.0")]
     pub latitude: f32,
@@ -28,7 +27,7 @@ pub struct InsertDriverLocation {
     pub speed_kmh: Option<f32>,
     #[dummy(faker = "0.0..360.0")]
     pub heading: Option<f32>,
-    #[dummy(default)]
+
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 

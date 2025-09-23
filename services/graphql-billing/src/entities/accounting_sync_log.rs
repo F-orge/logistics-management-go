@@ -7,18 +7,29 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::lorem::raw::{Word, Sentence};
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertAccountingSyncLog {
     pub record_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub record_type: String,
+    #[dummy(faker = "Word(EN)")]
     pub external_system: String,
+    #[dummy(faker = "Word(EN)")]
     pub external_id: Option<String>,
     pub status: Option<SyncStatusEnum>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub error_message: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub request_payload: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub response_payload: Option<String>,
     pub last_sync_at: Option<sea_orm::prelude::DateTime>,
+    #[dummy(faker = "1..5")]
     pub retry_count: Option<i32>,
     pub next_retry_at: Option<sea_orm::prelude::DateTime>,
 }

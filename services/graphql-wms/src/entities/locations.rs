@@ -7,26 +7,48 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::address::raw::StreetName;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertLocation {
     pub warehouse_id: Uuid,
+
     pub parent_location_id: Option<Uuid>,
+    #[dummy(faker = "StreetName(EN)")]
     pub name: String,
+    #[dummy(faker = "NumberWithFormat(EN, \"BC-########\")")]
     pub barcode: Option<String>,
+    // No  for enums without Default
     pub r#type: LocationTypeEnum,
+    #[dummy(faker = "1..10")]
     pub level: Option<i32>,
+    #[dummy(faker = "StreetName(EN)")]
     pub path: Option<String>,
+    #[dummy(faker = "1.0..1000.0")]
     pub max_weight: Option<f32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub max_volume: Option<f32>,
+    #[dummy(faker = "1..100")]
     pub max_pallets: Option<i32>,
+    #[dummy(faker = "0.0..100.0")]
     pub x_coordinate: Option<f32>,
+    #[dummy(faker = "0.0..100.0")]
     pub y_coordinate: Option<f32>,
+    #[dummy(faker = "0.0..100.0")]
     pub z_coordinate: Option<f32>,
+
     pub is_pickable: Option<bool>,
+
     pub is_receivable: Option<bool>,
+
     pub temperature_controlled: Option<bool>,
+
     pub hazmat_approved: Option<bool>,
+
     pub is_active: Option<bool>,
 }
 

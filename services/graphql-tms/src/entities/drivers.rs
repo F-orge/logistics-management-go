@@ -6,12 +6,19 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDriver {
     pub user_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(EN, \"LIC-######\")")]
     pub license_number: String,
+
     pub license_expiry_date: Option<Date>,
+
     pub status: Option<DriverStatusEnum>,
 }
 
@@ -45,10 +52,10 @@ impl IntoActiveModel<drivers::ActiveModel> for UpdateDriver {
     }
 }
 
+use crate::entities::_generated::user;
+use crate::entities::_generated::{driver_schedules, expenses, trips};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{driver_schedules, expenses, trips};
-use crate::entities::_generated::user;
 
 #[ComplexObject]
 impl drivers::Model {
@@ -61,7 +68,10 @@ impl drivers::Model {
         }
     }
 
-    async fn driver_schedules(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<driver_schedules::Model>> {
+    async fn driver_schedules(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<driver_schedules::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = driver_schedules::Entity::find()
             .filter(driver_schedules::Column::DriverId.eq(self.id))

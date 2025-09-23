@@ -1,4 +1,9 @@
 use async_graphql::InputObject;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::currency::raw::CurrencyCode;
+use fake::locales::EN;
 use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
@@ -9,13 +14,18 @@ use uuid::Uuid;
 
 use crate::entities::_generated::client_accounts;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertClientAccount {
     pub client_id: Uuid,
+    #[dummy(faker = "PositiveDecimal")]
     pub credit_limit: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub available_credit: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub wallet_balance: Option<Decimal>,
+    #[dummy(faker = "CurrencyCode(EN)")]
     pub currency: Option<String>,
+    #[dummy(faker = "1..90")]
     pub payment_terms_days: Option<i32>,
     pub is_credit_approved: Option<bool>,
     pub last_payment_date: Option<sea_orm::prelude::Date>,
@@ -63,13 +73,16 @@ impl IntoActiveModel<client_accounts::ActiveModel> for UpdateClientAccount {
     }
 }
 
+use crate::entities::_generated::{account_transactions, companies};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{account_transactions, companies};
 
 #[ComplexObject]
 impl client_accounts::Model {
-    async fn account_transactions(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<account_transactions::Model>> {
+    async fn account_transactions(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<account_transactions::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = account_transactions::Entity::find()
             .filter(account_transactions::Column::ClientAccountId.eq(self.id))
@@ -81,7 +94,9 @@ impl client_accounts::Model {
 
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = companies::Entity::find_by_id(self.client_id).one(db).await?;
+        let res = companies::Entity::find_by_id(self.client_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Client not found")),

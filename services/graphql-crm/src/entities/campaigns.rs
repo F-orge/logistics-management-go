@@ -20,9 +20,9 @@ pub struct InsertCampaign {
     pub name: String,
     #[dummy(faker = "PositiveDecimal")]
     pub budget: Option<Decimal>,
-    #[dummy(default)]
+
     pub start_date: Option<Date>,
-    #[dummy(default)]
+
     pub end_date: Option<Date>,
 }
 

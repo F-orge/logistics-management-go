@@ -6,9 +6,17 @@ use sea_orm::{
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::address::raw::StreetName;
+use fake::faker::lorem::raw::Sentence;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertGeofence {
+    #[dummy(faker = "StreetName(EN)")]
     pub name: String,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub coordinates: Option<String>,
 }
 

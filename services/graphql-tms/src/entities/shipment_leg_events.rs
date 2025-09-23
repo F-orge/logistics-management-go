@@ -6,12 +6,19 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertShipmentLegEvent {
     pub shipment_leg_id: Uuid,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub status_message: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub location: Option<String>,
+
     pub event_timestamp: DateTime,
 }
 
@@ -45,15 +52,17 @@ impl IntoActiveModel<shipment_leg_events::ActiveModel> for UpdateShipmentLegEven
     }
 }
 
+use crate::entities::_generated::shipment_legs;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::shipment_legs;
 
 #[ComplexObject]
 impl shipment_leg_events::Model {
     async fn shipment_leg(&self, ctx: &Context<'_>) -> async_graphql::Result<shipment_legs::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = shipment_legs::Entity::find_by_id(self.shipment_leg_id).one(db).await?;
+        let res = shipment_legs::Entity::find_by_id(self.shipment_leg_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("ShipmentLeg not found")),

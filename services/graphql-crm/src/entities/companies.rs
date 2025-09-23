@@ -51,7 +51,6 @@ pub struct InsertCompany {
     #[dummy(faker = "PositiveDecimal")]
     pub annual_revenue: Option<Decimal>,
 
-    #[dummy(default)]
     pub owner_id: Option<Uuid>,
 }
 

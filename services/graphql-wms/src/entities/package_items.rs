@@ -6,17 +6,29 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::{Word, Words};
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPackageItem {
     pub package_id: Uuid,
+
     pub product_id: Uuid,
+
     pub batch_id: Option<Uuid>,
+    #[dummy(faker = "1..10")]
     pub quantity: i32,
+    #[dummy(faker = "Word(EN)")]
     pub lot_number: Option<String>,
+    #[dummy(faker = "Words(EN, 3..4)")]
     pub serial_numbers: Option<Vec<String>>,
+
     pub expiry_date: Option<sea_orm::prelude::Date>,
+    #[dummy(faker = "0.1..100.0")]
     pub unit_weight: Option<f32>,
+    #[dummy(faker = "0.1..1000.0")]
     pub total_weight: Option<f32>,
 }
 
@@ -67,7 +79,7 @@ impl IntoActiveModel<package_items::ActiveModel> for UpdatePackageItem {
 
 use crate::entities::_generated::{inventory_batches, packages, products};
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl package_items::Model {

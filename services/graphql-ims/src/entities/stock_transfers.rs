@@ -8,15 +8,24 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertStockTransfer {
+    
     pub product_id: Uuid,
+    
     pub source_warehouse_id: Uuid,
+    
     pub destination_warehouse_id: Uuid,
+    #[dummy(faker = "1..100")]
     pub quantity: i32,
+    
     pub status: Option<StockTransferStatusEnum>,
+    
     pub created_at: Option<DateTime<Utc>>,
+    
     pub updated_at: Option<DateTime<Utc>>,
 }
 

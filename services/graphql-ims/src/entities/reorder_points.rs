@@ -6,11 +6,15 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertReorderPoint {
     pub product_id: Uuid,
+
     pub warehouse_id: Uuid,
+    #[dummy(faker = "1..100")]
     pub threshold: i32,
 }
 
@@ -41,21 +45,20 @@ impl IntoActiveModel<reorder_points::ActiveModel> for UpdateReorderPoint {
     }
 }
 
+use crate::entities::_generated::products;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::products;
 
 #[ComplexObject]
 impl reorder_points::Model {
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
-    
-
 }

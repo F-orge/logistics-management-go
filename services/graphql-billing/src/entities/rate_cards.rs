@@ -1,6 +1,11 @@
 use crate::entities::_generated::rate_cards;
 use crate::entities::_generated::sea_orm_active_enums::ServiceTypeEnum;
 use async_graphql::InputObject;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::company::raw::CompanyName;
+use fake::faker::lorem::raw::Sentence;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -8,13 +13,15 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertRateCard {
+    #[dummy(faker = "CompanyName(EN)")]
     pub name: String,
     pub service_type: ServiceTypeEnum,
     pub is_active: Option<bool>,
     pub valid_from: sea_orm::prelude::Date,
     pub valid_to: Option<sea_orm::prelude::Date>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,
     pub created_by_user_id: Option<Uuid>,
 }

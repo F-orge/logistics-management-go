@@ -8,15 +8,27 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::faker::lorem::raw::Sentence;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertReturn {
+    #[dummy(faker = "NumberWithFormat(EN, \"RET-#####\")")]
     pub return_number: String,
+    
     pub sales_order_id: Option<Uuid>,
+    
     pub client_id: Uuid,
+    
     pub status: Option<ReturnStatusEnum>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub reason: Option<String>,
+    
     pub created_at: Option<DateTime<Utc>>,
+    
     pub updated_at: Option<DateTime<Utc>>,
 }
 

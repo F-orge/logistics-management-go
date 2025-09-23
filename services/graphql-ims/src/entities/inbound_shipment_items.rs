@@ -5,16 +5,25 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
 use crate::entities::_generated::inbound_shipment_items;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInboundShipmentItem {
     pub inbound_shipment_id: Uuid,
+
     pub product_id: Uuid,
+    #[dummy(faker = "1..100")]
     pub expected_quantity: i32,
+    #[dummy(faker = "1..100")]
     pub received_quantity: Option<i32>,
+    #[dummy(faker = "-10..10")]
     pub discrepancy_quantity: Option<i32>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub discrepancy_notes: Option<String>,
 }
 
@@ -54,16 +63,21 @@ impl IntoActiveModel<inbound_shipment_items::ActiveModel> for UpdateInboundShipm
     }
 }
 
+use crate::entities::_generated::{inbound_shipments, products};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{inbound_shipments, products};
 
 #[ComplexObject]
 impl inbound_shipment_items::Model {
-    async fn inbound_shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<inbound_shipments::Model> {
+    async fn inbound_shipment(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<inbound_shipments::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
 
-        let result = inbound_shipments::Entity::find_by_id(self.inbound_shipment_id).one(db).await?;
+        let result = inbound_shipments::Entity::find_by_id(self.inbound_shipment_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Inbound shipment not found")),
@@ -73,11 +87,12 @@ impl inbound_shipment_items::Model {
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
 
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
 }

@@ -7,22 +7,39 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::{Word, Words};
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTaskItem {
     pub task_id: Uuid,
+
     pub product_id: Uuid,
+
     pub batch_id: Option<Uuid>,
+
     pub source_location_id: Option<Uuid>,
+
     pub destination_location_id: Option<Uuid>,
+    #[dummy(faker = "1..10")]
     pub quantity_required: i32,
+    #[dummy(faker = "1..10")]
     pub quantity_completed: i32,
+    #[dummy(faker = "1..10")]
     pub quantity_remaining: Option<i32>,
+
     pub status: Option<TaskItemStatusEnum>,
+    #[dummy(faker = "Word(EN)")]
     pub lot_number: Option<String>,
+    #[dummy(faker = "Words(EN, 1..3)")]
     pub serial_numbers: Option<Vec<String>>,
+
     pub expiry_date: Option<sea_orm::prelude::Date>,
+    #[dummy(faker = "Word(EN)")]
     pub notes: Option<String>,
+
     pub completed_at: Option<sea_orm::prelude::DateTime>,
 }
 
@@ -89,7 +106,7 @@ impl IntoActiveModel<task_items::ActiveModel> for UpdateTaskItem {
 
 use crate::entities::_generated::{inventory_batches, locations, products, tasks};
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl task_items::Model {

@@ -7,14 +7,23 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInventoryAdjustment {
     pub product_id: Uuid,
+
     pub warehouse_id: Uuid,
+
     pub user_id: Uuid,
+    #[dummy(faker = "-100..100")]
     pub quantity_change: i32,
+
     pub reason: Option<InventoryAdjustmentReasonEnum>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
 }
 
@@ -54,23 +63,23 @@ impl IntoActiveModel<inventory_adjustments::ActiveModel> for UpdateInventoryAdju
     }
 }
 
-use async_graphql::{ComplexObject, Context};
-use sea_orm::{DatabaseConnection, EntityTrait};
 use crate::entities::_generated::products;
+use async_graphql::{ComplexObject, Context};
 use graphql_auth::entities::_generated::user;
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl inventory_adjustments::Model {
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
-    
 
     async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
@@ -80,5 +89,4 @@ impl inventory_adjustments::Model {
             None => Err(async_graphql::Error::new("User not found")),
         }
     }
-
 }

@@ -6,12 +6,23 @@ use sea_orm::{
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Word;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertVehicle {
+    #[dummy(faker = "NumberWithFormat(EN, \"REG-#####\")")]
     pub registration_number: String,
+    #[dummy(faker = "Word(EN)")]
     pub model: Option<String>,
+    #[dummy(faker = "1.0..100.0")]
     pub capacity_volume: Option<f32>,
+    #[dummy(faker = "1.0..10000.0")]
     pub capacity_weight: Option<f32>,
+
     pub status: Option<VehicleStatusEnum>,
 }
 
@@ -48,13 +59,16 @@ impl IntoActiveModel<vehicles::ActiveModel> for UpdateVehicle {
     }
 }
 
+use crate::entities::_generated::{geofence_events, gps_pings, trips, vehicle_maintenance};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{geofence_events, gps_pings, trips, vehicle_maintenance};
 
 #[ComplexObject]
 impl vehicles::Model {
-    async fn geofence_events(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<geofence_events::Model>> {
+    async fn geofence_events(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<geofence_events::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = geofence_events::Entity::find()
             .filter(geofence_events::Column::VehicleId.eq(self.id))
@@ -84,7 +98,10 @@ impl vehicles::Model {
         Ok(results)
     }
 
-    async fn vehicle_maintenance(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<vehicle_maintenance::Model>> {
+    async fn vehicle_maintenance(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<vehicle_maintenance::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = vehicle_maintenance::Entity::find()
             .filter(vehicle_maintenance::Column::VehicleId.eq(self.id))

@@ -23,7 +23,7 @@ pub struct InsertProduct {
     pub sku: Option<String>,
     #[dummy(faker = "PositiveDecimal")]
     pub price: Decimal,
-    #[dummy(default)]
+
     pub r#type: Option<ProductType>,
     #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,

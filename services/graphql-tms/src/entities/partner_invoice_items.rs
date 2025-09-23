@@ -7,11 +7,16 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPartnerInvoiceItem {
     pub partner_invoice_id: Uuid,
+
     pub shipment_leg_id: Uuid,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount: Decimal,
 }
 
@@ -42,15 +47,20 @@ impl IntoActiveModel<partner_invoice_items::ActiveModel> for UpdatePartnerInvoic
     }
 }
 
+use crate::entities::_generated::{partner_invoices, shipment_legs};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{partner_invoices, shipment_legs};
 
 #[ComplexObject]
 impl partner_invoice_items::Model {
-    async fn partner_invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<partner_invoices::Model> {
+    async fn partner_invoice(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<partner_invoices::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = partner_invoices::Entity::find_by_id(self.partner_invoice_id).one(db).await?;
+        let res = partner_invoices::Entity::find_by_id(self.partner_invoice_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("PartnerInvoice not found")),
@@ -59,7 +69,9 @@ impl partner_invoice_items::Model {
 
     async fn shipment_leg(&self, ctx: &Context<'_>) -> async_graphql::Result<shipment_legs::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = shipment_legs::Entity::find_by_id(self.shipment_leg_id).one(db).await?;
+        let res = shipment_legs::Entity::find_by_id(self.shipment_leg_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("ShipmentLeg not found")),

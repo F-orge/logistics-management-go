@@ -9,14 +9,22 @@ use sea_orm::{
 };
 use sea_orm::{ColumnTrait, EntityTrait};
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDispute {
     pub line_item_id: Uuid,
     pub client_id: Uuid,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub reason: String,
     pub status: Option<DisputeStatusEnum>,
+    #[dummy(faker = "PositiveDecimal")]
     pub disputed_amount: Option<Decimal>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub resolution_notes: Option<String>,
     pub submitted_at: Option<sea_orm::prelude::DateTime>,
     pub resolved_at: Option<sea_orm::prelude::DateTime>,

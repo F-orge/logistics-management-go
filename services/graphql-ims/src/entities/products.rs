@@ -8,21 +8,40 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertProduct {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
+    #[dummy(faker = "NumberWithFormat(EN, \"SKU-#####\")")]
     pub sku: String,
+    #[dummy(faker = "Word(EN)")]
     pub barcode: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,
+    #[dummy(faker = "PositiveDecimal")]
     pub cost_price: Option<Decimal>,
+    #[dummy(faker = "1.0..100.0")]
     pub length: Option<f32>,
+    #[dummy(faker = "1.0..100.0")]
     pub width: Option<f32>,
+    #[dummy(faker = "1.0..100.0")]
     pub height: Option<f32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub volume: Option<f32>,
+    #[dummy(faker = "0.1..100.0")]
     pub weight: Option<f32>,
+
     pub status: Option<ProductStatusEnum>,
+
     pub supplier_id: Option<Uuid>,
+
     pub client_id: Option<Uuid>,
 }
 

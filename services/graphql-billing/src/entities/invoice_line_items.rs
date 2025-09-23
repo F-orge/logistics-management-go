@@ -1,6 +1,11 @@
 use crate::entities::_generated::invoice_line_items;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -8,19 +13,29 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInvoiceLineItem {
     pub invoice_id: Uuid,
     pub source_record_id: Option<Uuid>,
+    #[dummy(faker = "Word(EN)")]
     pub source_record_type: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub quantity: Decimal,
+    #[dummy(faker = "PositiveDecimal")]
     pub unit_price: Decimal,
+    #[dummy(faker = "PositiveDecimal")]
     pub total_price: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub tax_rate: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub tax_amount: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub discount_rate: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub discount_amount: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub line_total: Option<Decimal>,
 }
 

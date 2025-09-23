@@ -6,12 +6,16 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertGeofenceEvent {
     pub vehicle_id: Uuid,
+
     pub geofence_id: Uuid,
     pub event_type: GeofenceEventTypeEnum,
+
     pub timestamp: DateTime,
 }
 

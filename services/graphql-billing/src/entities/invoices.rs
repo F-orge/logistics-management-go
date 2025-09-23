@@ -2,6 +2,11 @@ use crate::entities::_generated::invoices;
 use crate::entities::_generated::sea_orm_active_enums::InvoiceStatusEnum;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -9,22 +14,32 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInvoice {
     pub client_id: Uuid,
     pub quote_id: Option<Uuid>,
+    #[dummy(faker = "Word(EN)")]
     pub invoice_number: String,
     pub status: Option<InvoiceStatusEnum>,
     pub issue_date: sea_orm::prelude::Date,
     pub due_date: sea_orm::prelude::Date,
+    #[dummy(faker = "PositiveDecimal")]
     pub total_amount: Decimal,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount_paid: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount_outstanding: Option<Decimal>,
+    #[dummy(faker = "Word(EN)")]
     pub currency: Option<String>,
+    #[dummy(faker = "PositiveDecimal")]
     pub tax_amount: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub discount_amount: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub subtotal: Option<Decimal>,
+    #[dummy(faker = "Word(EN)")]
     pub payment_terms: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
     pub sent_at: Option<sea_orm::prelude::DateTime>,
     pub paid_at: Option<sea_orm::prelude::DateTime>,

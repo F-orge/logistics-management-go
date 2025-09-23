@@ -6,10 +6,19 @@ use sea_orm::{
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::company::raw::CompanyName;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCarrier {
+    #[dummy(faker = "CompanyName(EN)")]
     pub name: String,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub contact_details: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub services_offered: Option<String>,
 }
 
@@ -40,13 +49,16 @@ impl IntoActiveModel<carriers::ActiveModel> for UpdateCarrier {
     }
 }
 
+use crate::entities::_generated::shipment_legs;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{shipment_legs};
 
 #[ComplexObject]
 impl carriers::Model {
-    async fn shipment_legs(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<shipment_legs::Model>> {
+    async fn shipment_legs(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<shipment_legs::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = shipment_legs::Entity::find()
             .filter(shipment_legs::Column::CarrierId.eq(self.id))

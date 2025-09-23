@@ -8,13 +8,20 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInboundShipment {
+    
     pub client_id: Option<Uuid>,
+    
     pub warehouse_id: Uuid,
+    
     pub status: Option<InboundShipmentStatusEnum>,
+    
     pub expected_arrival_date: Option<NaiveDate>,
+    
     pub actual_arrival_date: Option<NaiveDate>,
 }
 

@@ -7,14 +7,24 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCarrierRate {
     pub carrier_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub service_type: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub origin: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub destination: Option<String>,
+    #[dummy(faker = "PositiveDecimal")]
     pub rate: Decimal,
+
     pub unit: Option<CarrierRateUnitEnum>,
 }
 
@@ -54,15 +64,17 @@ impl IntoActiveModel<carrier_rates::ActiveModel> for UpdateCarrierRate {
     }
 }
 
+use crate::entities::_generated::carriers;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::carriers;
 
 #[ComplexObject]
 impl carrier_rates::Model {
     async fn carrier(&self, ctx: &Context<'_>) -> async_graphql::Result<carriers::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = carriers::Entity::find_by_id(self.carrier_id).one(db).await?;
+        let res = carriers::Entity::find_by_id(self.carrier_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Carrier not found")),

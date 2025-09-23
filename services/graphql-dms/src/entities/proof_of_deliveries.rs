@@ -1,4 +1,3 @@
-
 use crate::entities::_generated::proof_of_deliveries;
 use crate::entities::_generated::sea_orm_active_enums::ProofOfDeliveryTypeEnum;
 use async_graphql::InputObject;
@@ -10,17 +9,16 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::faker::filesystem::raw::FilePath;
 use fake::faker::lorem::raw::{Sentence, Word};
 use fake::faker::name::raw::Name;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 #[graphql(name = "DmsInsertProofOfDelivery")]
 pub struct InsertProofOfDelivery {
-    #[dummy(default)]
     pub delivery_task_id: Uuid,
-    // No #[dummy(default)] because ProofOfDeliveryTypeEnum does not implement Default
+    // No  because ProofOfDeliveryTypeEnum does not implement Default
     pub r#type: ProofOfDeliveryTypeEnum,
     #[dummy(faker = "FilePath(EN)")]
     pub file_path: Option<String>,
@@ -34,7 +32,7 @@ pub struct InsertProofOfDelivery {
     pub latitude: Option<f32>,
     #[dummy(faker = "-180.0..180.0")]
     pub longitude: Option<f32>,
-    #[dummy(default)]
+
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 
@@ -84,20 +82,24 @@ impl IntoActiveModel<proof_of_deliveries::ActiveModel> for UpdateProofOfDelivery
     }
 }
 
+use crate::entities::_generated::delivery_tasks;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::delivery_tasks;
 
 #[ComplexObject]
 impl proof_of_deliveries::Model {
-    async fn delivery_task(&self, ctx: &Context<'_>) -> async_graphql::Result<delivery_tasks::Model> {
+    async fn delivery_task(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<delivery_tasks::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
 
-        let result = delivery_tasks::Entity::find_by_id(self.delivery_task_id).one(db).await?;
+        let result = delivery_tasks::Entity::find_by_id(self.delivery_task_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Delivery task not found")),
         }
     }
-
 }

@@ -6,18 +6,37 @@ use sea_orm::{
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::address::raw::{CityName, CountryName, PostCode, StateName, StreetName};
+use fake::faker::internet::raw::{SafeEmail, Username};
+use fake::faker::lorem::raw::Word;
+use fake::faker::phone_number::raw::PhoneNumber;
+use fake::locales::EN;
+
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertWarehouse {
+    #[dummy(faker = "Word(EN)")]
     pub name: String,
+    #[dummy(faker = "StreetName(EN)")]
     pub address: Option<String>,
+    #[dummy(faker = "CityName(EN)")]
     pub city: Option<String>,
+    #[dummy(faker = "StateName(EN)")]
     pub state: Option<String>,
+    #[dummy(faker = "PostCode(EN)")]
     pub postal_code: Option<String>,
+    #[dummy(faker = "CountryName(EN)")]
     pub country: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub timezone: Option<String>,
+    #[dummy(faker = "Username(EN)")]
     pub contact_person: Option<String>,
+    #[dummy(faker = "SafeEmail(EN)")]
     pub contact_email: Option<String>,
+    #[dummy(faker = "PhoneNumber(EN)")]
     pub contact_phone: Option<String>,
+
     pub is_active: Option<bool>,
 }
 

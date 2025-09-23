@@ -2,7 +2,17 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -24,7 +34,17 @@ pub enum InventoryStockStatusEnum {
     #[sea_orm(string_value = "expired")]
     Expired,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "location_type_enum")]
 pub enum LocationTypeEnum {
     #[sea_orm(string_value = "receiving_dock")]
@@ -48,7 +68,17 @@ pub enum LocationTypeEnum {
     #[sea_orm(string_value = "returns_area")]
     ReturnsArea,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -64,7 +94,17 @@ pub enum PickBatchStatusEnum {
     #[sea_orm(string_value = "cancelled")]
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "pick_strategy_enum")]
 pub enum PickStrategyEnum {
     #[sea_orm(string_value = "batch_picking")]
@@ -78,7 +118,17 @@ pub enum PickStrategyEnum {
     #[sea_orm(string_value = "cluster_picking")]
     ClusterPicking,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -98,7 +148,17 @@ pub enum TaskItemStatusEnum {
     #[sea_orm(string_value = "not_found")]
     NotFound,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "task_status_enum")]
 pub enum TaskStatusEnum {
     #[sea_orm(string_value = "pending")]
@@ -114,7 +174,17 @@ pub enum TaskStatusEnum {
     #[sea_orm(string_value = "error")]
     Error,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "task_type_enum")]
 pub enum TaskTypeEnum {
     #[sea_orm(string_value = "putaway")]

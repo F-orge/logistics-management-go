@@ -6,17 +6,29 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::address::raw::StreetName;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTripStop {
     pub trip_id: Uuid,
+
     pub shipment_id: Option<Uuid>,
+    #[dummy(faker = "1..100")]
     pub sequence: i32,
+    #[dummy(faker = "StreetName(EN)")]
     pub address: Option<String>,
+
     pub status: Option<TripStopStatusEnum>,
+
     pub estimated_arrival_time: Option<DateTime>,
+
     pub actual_arrival_time: Option<DateTime>,
+
     pub estimated_departure_time: Option<DateTime>,
+
     pub actual_departure_time: Option<DateTime>,
 }
 

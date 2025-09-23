@@ -2,6 +2,11 @@ use crate::entities::_generated::account_transactions;
 use crate::entities::_generated::sea_orm_active_enums::TransactionTypeEnum;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -9,15 +14,20 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertAccountTransaction {
     pub client_account_id: Uuid,
     pub r#type: TransactionTypeEnum,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount: Decimal,
+    #[dummy(faker = "PositiveDecimal")]
     pub running_balance: Option<Decimal>,
     pub source_record_id: Option<Uuid>,
+    #[dummy(faker = "Word(EN)")]
     pub source_record_type: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub description: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub reference_number: Option<String>,
     pub transaction_date: Option<sea_orm::prelude::DateTime>,
     pub processed_by_user_id: Option<Uuid>,

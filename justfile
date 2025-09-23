@@ -10,10 +10,10 @@ sea-orm-generate:
     gen_dir="services/graphql-$schema/src/entities/_generated"; \
     entity_dir="services/graphql-$schema/src/entities"; \
     if [ -f "$gen_dir/mod.rs" ]; then \
-      sea-orm-cli generate entity -l --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
+      sea-orm-cli generate entity -l --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum,fake::Dummy' --model-extra-derives 'async_graphql::SimpleObject'; \
       rm -f "$gen_dir/lib.rs"; \
     else \
-      sea-orm-cli generate entity --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum' --model-extra-derives 'async_graphql::SimpleObject'; \
+      sea-orm-cli generate entity --expanded-format -s "$schema" -o "$gen_dir" --with-copy-enums --enum-extra-derives 'async_graphql::Enum,fake::Dummy' --model-extra-derives 'async_graphql::SimpleObject'; \
     fi; \
     for file in "$gen_dir"/*.rs; do \
       if [ -f "$file" ] && [ "$(basename "$file")" != "mod.rs" ]; then \

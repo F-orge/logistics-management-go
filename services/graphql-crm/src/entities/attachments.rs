@@ -20,9 +20,9 @@ pub struct InsertAttachment {
     pub file_path: String,
     #[dummy(faker = "MimeType(EN)")]
     pub mime_type: Option<String>,
-    #[dummy(default)]
+
     pub record_id: Option<Uuid>,
-    #[dummy(default)]
+
     pub record_type: Option<RecordType>,
 }
 

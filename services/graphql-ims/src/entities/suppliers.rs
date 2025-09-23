@@ -1,19 +1,32 @@
 use crate::entities::_generated::suppliers;
 use async_graphql::InputObject;
 use chrono::{DateTime, Utc};
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::company::raw::CompanyName;
+use fake::faker::internet::raw::SafeEmail;
+use fake::faker::name::raw::Name;
+use fake::faker::phone_number::raw::PhoneNumber;
+use fake::locales::EN;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
     IntoActiveModel,
 };
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSupplier {
+    #[dummy(faker = "CompanyName(EN)")]
     pub name: String,
+    #[dummy(faker = "Name(EN)")]
     pub contact_person: Option<String>,
+    #[dummy(faker = "SafeEmail(EN)")]
     pub email: Option<String>,
+    #[dummy(faker = "PhoneNumber(EN)")]
     pub phone_number: Option<String>,
+
     pub created_at: Option<DateTime<Utc>>,
+
     pub updated_at: Option<DateTime<Utc>>,
 }
 

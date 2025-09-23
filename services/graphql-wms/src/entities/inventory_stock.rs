@@ -7,17 +7,28 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+// use fake::locales::EN; // removed: unused
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInventoryStock {
     pub location_id: Uuid,
+
     pub product_id: Uuid,
+
     pub batch_id: Option<Uuid>,
+    #[dummy(faker = "1..100")]
     pub quantity: i32,
+    #[dummy(faker = "1..100")]
     pub reserved_quantity: i32,
+    #[dummy(faker = "1..100")]
     pub available_quantity: Option<i32>,
+
     pub status: Option<InventoryStockStatusEnum>,
+
     pub last_counted_at: Option<sea_orm::prelude::DateTime>,
+
     pub last_movement_at: Option<sea_orm::prelude::DateTime>,
 }
 
@@ -68,7 +79,7 @@ impl IntoActiveModel<inventory_stock::ActiveModel> for UpdateInventoryStock {
 
 use crate::entities::_generated::{inventory_batches, locations, products};
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl inventory_stock::Model {

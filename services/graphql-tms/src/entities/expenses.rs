@@ -10,17 +10,30 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertExpense {
     pub trip_id: Option<Uuid>,
+
     pub driver_id: Option<Uuid>,
+
     pub r#type: Option<ExpenseTypeEnum>,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount: Decimal,
+
     pub currency: Option<CurrencyEnum>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub receipt_url: Option<String>,
+    #[dummy(faker = "1.0..100.0")]
     pub fuel_quantity: Option<f32>,
+    #[dummy(faker = "1000..999999")]
     pub odometer_reading: Option<i32>,
+
     pub status: Option<ExpenseStatusEnum>,
 }
 
@@ -69,9 +82,9 @@ impl IntoActiveModel<expenses::ActiveModel> for UpdateExpense {
     }
 }
 
+use crate::entities::_generated::{drivers, trips};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{trips, drivers};
 
 #[ComplexObject]
 impl expenses::Model {

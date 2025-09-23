@@ -8,25 +8,38 @@ use sea_orm::{
     IntoActiveModel,
     EntityTrait,
     ColumnTrait,
-    QueryFilter,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Sentence;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertQuote {
     pub client_id: Option<Uuid>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub origin_details: String,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub destination_details: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub weight: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub length: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub width: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub height: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub volume: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub quoted_price: Decimal,
     pub service_level: Option<String>,
     pub expires_at: Option<sea_orm::prelude::DateTime>,
     pub status: Option<QuoteStatusEnum>,
     pub quote_number: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
     pub created_by_user_id: Option<Uuid>,
 }

@@ -6,12 +6,19 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertRoute {
     pub trip_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub optimized_route_data: Option<String>,
+    #[dummy(faker = "1.0..1000.0")]
     pub total_distance: Option<f32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub total_duration: Option<f32>,
 }
 
@@ -45,9 +52,9 @@ impl IntoActiveModel<routes::ActiveModel> for UpdateRoute {
     }
 }
 
+use crate::entities::_generated::trips;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::trips;
 
 #[ComplexObject]
 impl routes::Model {

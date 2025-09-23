@@ -18,15 +18,15 @@ use fake::locales::EN;
 pub struct InsertCase {
     #[dummy(faker = "NumberWithFormat(EN, \"CASE-#####\")")]
     pub case_number: String,
-    #[dummy(default)]
+
     pub status: Option<CaseStatus>,
-    #[dummy(default)]
+
     pub priority: Option<CasePriority>,
-    #[dummy(default)]
+
     pub r#type: Option<CaseType>,
-    #[dummy(default)]
+
     pub owner_id: Uuid,
-    #[dummy(default)]
+
     pub contact_id: Option<Uuid>,
     #[dummy(faker = "Sentence(EN, 3..8)")]
     pub description: Option<String>,

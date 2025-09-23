@@ -2,7 +2,17 @@
 
 use sea_orm::entity::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -22,7 +32,17 @@ pub enum DisputeStatusEnum {
     #[sea_orm(string_value = "closed")]
     Closed,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "document_type_enum")]
 pub enum DocumentTypeEnum {
     #[sea_orm(string_value = "bol")]
@@ -42,7 +62,17 @@ pub enum DocumentTypeEnum {
     #[sea_orm(string_value = "proof_of_delivery")]
     ProofOfDelivery,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -68,7 +98,17 @@ pub enum InvoiceStatusEnum {
     #[sea_orm(string_value = "void")]
     Void,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -92,7 +132,17 @@ pub enum PaymentMethodEnum {
     #[sea_orm(string_value = "check")]
     Check,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -112,7 +162,17 @@ pub enum PaymentStatusEnum {
     #[sea_orm(string_value = "refunded")]
     Refunded,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "pricing_model_enum")]
 pub enum PricingModelEnum {
     #[sea_orm(string_value = "per_kg")]
@@ -130,7 +190,17 @@ pub enum PricingModelEnum {
     #[sea_orm(string_value = "tiered")]
     Tiered,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "quote_status_enum")]
 pub enum QuoteStatusEnum {
     #[sea_orm(string_value = "pending")]
@@ -144,7 +214,17 @@ pub enum QuoteStatusEnum {
     #[sea_orm(string_value = "converted")]
     Converted,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "service_type_enum")]
 pub enum ServiceTypeEnum {
     #[sea_orm(string_value = "shipping")]
@@ -164,7 +244,17 @@ pub enum ServiceTypeEnum {
     #[sea_orm(string_value = "returns")]
     Returns,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",
@@ -180,7 +270,17 @@ pub enum SurchargeCalculationMethodEnum {
     #[sea_orm(string_value = "sliding_scale")]
     SlidingScale,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "sync_status_enum")]
 pub enum SyncStatusEnum {
     #[sea_orm(string_value = "pending")]
@@ -194,7 +294,17 @@ pub enum SyncStatusEnum {
     #[sea_orm(string_value = "retry")]
     Retry,
 }
-#[derive(Debug, Clone, PartialEq, Eq, EnumIter, DeriveActiveEnum, Copy, async_graphql :: Enum)]
+#[derive(
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    EnumIter,
+    DeriveActiveEnum,
+    Copy,
+    async_graphql :: Enum,
+    fake :: Dummy,
+)]
 #[sea_orm(
     rs_type = "String",
     db_type = "Enum",

@@ -1,6 +1,11 @@
 use crate::entities::_generated::credit_notes;
 use async_graphql::InputObject;
 use rust_decimal::Decimal;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::{Sentence, Word};
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -8,16 +13,21 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCreditNote {
     pub invoice_id: Uuid,
     pub dispute_id: Option<Uuid>,
+    #[dummy(faker = "Word(EN)")]
     pub credit_note_number: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub amount: Decimal,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub reason: String,
     pub issue_date: sea_orm::prelude::Date,
     pub applied_at: Option<sea_orm::prelude::DateTime>,
+    #[dummy(faker = "Word(EN)")]
     pub currency: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
     pub created_by_user_id: Option<Uuid>,
 }

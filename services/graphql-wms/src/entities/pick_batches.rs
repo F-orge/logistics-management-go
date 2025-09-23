@@ -7,22 +7,37 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::en::Word;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPickBatch {
+    #[dummy(faker = "NumberWithFormat(EN, \"BATCH-#####\")")]
     pub batch_number: String,
     pub warehouse_id: Uuid,
     pub status: Option<PickBatchStatusEnum>,
     pub strategy: PickStrategyEnum,
+    #[dummy(faker = "1..10")]
     pub priority: Option<i32>,
     pub assigned_user_id: Option<Uuid>,
+    #[dummy(faker = "Word()")]
     pub wave_id: Option<String>,
+    #[dummy(faker = "(Word(), 2..5)")]
     pub zone_restrictions: Option<Vec<String>>,
+    #[dummy(faker = "10..120")]
     pub estimated_duration: Option<i32>,
+    #[dummy(faker = "10..120")]
     pub actual_duration: Option<i32>,
+    #[dummy(faker = "1..100")]
     pub total_items: Option<i32>,
+    #[dummy(faker = "1..100")]
     pub completed_items: Option<i32>,
+
     pub started_at: Option<sea_orm::prelude::DateTime>,
+
     pub completed_at: Option<sea_orm::prelude::DateTime>,
 }
 

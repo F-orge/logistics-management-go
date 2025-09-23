@@ -7,27 +7,51 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Word;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPackage {
     pub sales_order_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(EN, \"PKG-#####\")")]
     pub package_number: String,
+
     pub warehouse_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub package_type: Option<String>,
+    #[dummy(faker = "0.1..100.0")]
     pub weight: Option<f32>,
+    #[dummy(faker = "1.0..100.0")]
     pub length: Option<f32>,
+    #[dummy(faker = "1.0..100.0")]
     pub width: Option<f32>,
+    #[dummy(faker = "1.0..100.0")]
     pub height: Option<f32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub volume: Option<f32>,
+    #[dummy(faker = "NumberWithFormat(EN, \"TRK-########\")")]
     pub tracking_number: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub carrier: Option<String>,
+    #[dummy(faker = "Word(EN)")]
     pub service_level: Option<String>,
+
     pub packed_by_user_id: Option<Uuid>,
+
     pub packed_at: Option<sea_orm::prelude::DateTime>,
+
     pub shipped_at: Option<sea_orm::prelude::DateTime>,
+
     pub is_fragile: Option<bool>,
+
     pub is_hazmat: Option<bool>,
+
     pub requires_signature: Option<bool>,
+    #[dummy(faker = "PositiveDecimal")]
     pub insurance_value: Option<Decimal>,
 }
 

@@ -7,13 +7,22 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::number::raw::NumberWithFormat;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSalesOrder {
+    #[dummy(faker = "NumberWithFormat(EN, \"SO-#####\")")]
     pub order_number: String,
+    
     pub client_id: Uuid,
+    
     pub crm_opportunity_id: Option<Uuid>,
+    
     pub status: Option<SalesOrderStatusEnum>,
+    #[dummy(faker = "NumberWithFormat(EN, \"ADDR-#####\")")]
     pub shipping_address: Option<String>,
 }
 

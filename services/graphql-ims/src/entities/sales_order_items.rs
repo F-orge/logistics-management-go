@@ -7,13 +7,20 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSalesOrderItem {
+    
     pub sales_order_id: Uuid,
+    
     pub product_id: Uuid,
+    #[dummy(faker = "1..100")]
     pub quantity_ordered: i32,
+    
     pub created_at: Option<DateTime<Utc>>,
+    
     pub updated_at: Option<DateTime<Utc>>,
 }
 

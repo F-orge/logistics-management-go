@@ -9,13 +9,22 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertVehicleMaintenance {
     pub vehicle_id: Uuid,
+
     pub service_date: Date,
+
     pub service_type: Option<VehicleServiceTypeEnum>,
+    #[dummy(faker = "PositiveDecimal")]
     pub cost: Option<Decimal>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
 }
 
@@ -52,15 +61,17 @@ impl IntoActiveModel<vehicle_maintenance::ActiveModel> for UpdateVehicleMaintena
     }
 }
 
+use crate::entities::_generated::vehicles;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::vehicles;
 
 #[ComplexObject]
 impl vehicle_maintenance::Model {
     async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = vehicles::Entity::find_by_id(self.vehicle_id).one(db).await?;
+        let res = vehicles::Entity::find_by_id(self.vehicle_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Vehicle not found")),

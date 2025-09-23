@@ -1,6 +1,11 @@
 use crate::entities::_generated::documents;
 use crate::entities::_generated::sea_orm_active_enums::DocumentTypeEnum;
 use async_graphql::InputObject;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::lorem::raw::{Word};
+use fake::faker::filesystem::raw::{FileName, FilePath, MimeType};
 use sea_orm::EntityTrait;
 use sea_orm::{
     ActiveModelBehavior,
@@ -9,14 +14,18 @@ use sea_orm::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDocument {
     pub record_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub record_type: String,
     pub document_type: DocumentTypeEnum,
+    #[dummy(faker = "FilePath(EN)")]
     pub file_path: String,
+    #[dummy(faker = "FileName(EN)")]
     pub file_name: String,
     pub file_size: Option<i32>,
+    #[dummy(faker = "MimeType(EN)")]
     pub mime_type: Option<String>,
     pub uploaded_by_user_id: Option<Uuid>,
 }

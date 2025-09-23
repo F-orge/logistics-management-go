@@ -1,4 +1,3 @@
-
 use crate::entities::_generated::customer_tracking_links;
 use async_graphql::InputObject;
 use sea_orm::{
@@ -9,22 +8,21 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertCustomerTrackingLink {
-    #[dummy(default)]
     pub delivery_task_id: Uuid,
     #[dummy(faker = "Word(EN)")]
     pub tracking_token: String,
-    #[dummy(default)]
+
     pub is_active: Option<bool>,
     #[dummy(faker = "1..100")]
     pub access_count: Option<i32>,
-    #[dummy(default)]
+
     pub last_accessed_at: Option<sea_orm::prelude::DateTime>,
-    #[dummy(default)]
+
     pub expires_at: Option<sea_orm::prelude::DateTime>,
 }
 

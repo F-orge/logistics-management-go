@@ -19,23 +19,17 @@ pub struct InsertUserInput {
     #[dummy(faker = "SafeEmail(EN)")]
     pub email: String,
 
-    #[dummy(default)]
     pub email_verified: Option<bool>,
 
-    #[dummy(default)]
     pub image: Option<Url>,
 
     // `UserRole` enum in generated file already derives `Dummy` so Option<UserRole> can default
-    #[dummy(default)]
     pub role: Option<UserRole>,
 
-    #[dummy(default)]
     pub banned: Option<bool>,
 
-    #[dummy(default)]
     pub ban_reason: Option<String>,
 
-    #[dummy(default)]
     pub ban_expires: Option<DateTime<Utc>>,
 }
 

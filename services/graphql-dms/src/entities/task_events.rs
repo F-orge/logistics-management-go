@@ -15,7 +15,6 @@ use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTaskEvent {
-    #[dummy(default)]
     pub delivery_task_id: Uuid,
     pub status: TaskEventStatusEnum,
     #[dummy(faker = "Word(EN)")]
@@ -26,7 +25,6 @@ pub struct InsertTaskEvent {
     pub latitude: Option<f32>,
     #[dummy(faker = "-180.0..180.0")]
     pub longitude: Option<f32>,
-    #[dummy(default)]
     pub timestamp: Option<sea_orm::prelude::DateTime>,
 }
 

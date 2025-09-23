@@ -7,21 +7,36 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+// use fake::locales::EN; // removed: unused
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertPutawayRule {
     pub product_id: Uuid,
+
     pub client_id: Option<Uuid>,
+
     pub warehouse_id: Uuid,
+
     pub preferred_location_id: Option<Uuid>,
+
     pub location_type: Option<LocationTypeEnum>,
+    #[dummy(faker = "1..10")]
     pub priority: i32,
+    #[dummy(faker = "1..10")]
     pub min_quantity: Option<i32>,
+    #[dummy(faker = "10..100")]
     pub max_quantity: Option<i32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub weight_threshold: Option<f32>,
+    #[dummy(faker = "1.0..1000.0")]
     pub volume_threshold: Option<f32>,
+
     pub requires_temperature_control: Option<bool>,
+
     pub requires_hazmat_approval: Option<bool>,
+
     pub is_active: Option<bool>,
 }
 
@@ -86,7 +101,7 @@ impl IntoActiveModel<putaway_rules::ActiveModel> for UpdatePutawayRule {
 
 use crate::entities::_generated::{companies, locations, products, warehouses};
 use async_graphql::{ComplexObject, Context};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 
 #[ComplexObject]
 impl putaway_rules::Model {

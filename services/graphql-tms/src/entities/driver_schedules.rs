@@ -8,12 +8,17 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDriverSchedule {
     pub driver_id: Uuid,
+
     pub start_date: Date,
+
     pub end_date: Date,
+
     pub reason: Option<DriverScheduleReasonEnum>,
 }
 

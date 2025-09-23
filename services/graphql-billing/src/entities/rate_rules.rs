@@ -8,16 +8,27 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::decimal::PositiveDecimal;
+use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertRateRule {
     pub rate_card_id: Uuid,
+    #[dummy(faker = "Word(EN)")]
     pub condition: String,
+    #[dummy(faker = "Word(EN)")]
     pub value: String,
+    #[dummy(faker = "PositiveDecimal")]
     pub price: Decimal,
     pub pricing_model: PricingModelEnum,
+    #[dummy(faker = "PositiveDecimal")]
     pub min_value: Option<Decimal>,
+    #[dummy(faker = "PositiveDecimal")]
     pub max_value: Option<Decimal>,
+    #[dummy(faker = "1..10")]
     pub priority: Option<i32>,
     pub is_active: Option<bool>,
 }
@@ -67,19 +78,20 @@ impl IntoActiveModel<rate_rules::ActiveModel> for UpdateRateRule {
     }
 }
 
+use crate::entities::_generated::rate_cards;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::rate_cards;
 
 #[ComplexObject]
 impl rate_rules::Model {
     async fn rate_card(&self, ctx: &Context<'_>) -> async_graphql::Result<rate_cards::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = rate_cards::Entity::find_by_id(self.rate_card_id).one(db).await?;
+        let res = rate_cards::Entity::find_by_id(self.rate_card_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("RateCard not found")),
         }
     }
-
 }

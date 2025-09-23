@@ -11,24 +11,23 @@ use sea_orm::{
 use uuid::Uuid;
 
 use fake::Dummy;
-use fake::faker::lorem::raw::{Word, Sentence};
+use fake::faker::lorem::raw::{Sentence, Word};
 use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInteraction {
-    #[dummy(default)]
     pub contact_id: Uuid,
-    #[dummy(default)]
+
     pub user_id: Uuid,
-    #[dummy(default)]
+
     pub case_id: Option<Uuid>,
-    #[dummy(default)]
+
     pub r#type: Option<InteractionType>,
     #[dummy(faker = "Word(EN)")]
     pub outcome: Option<String>,
     #[dummy(faker = "Sentence(EN, 2..6)")]
     pub notes: Option<String>,
-    #[dummy(default)]
+
     pub interaction_date: Option<DateTimeWithTimeZone>,
 }
 

@@ -6,14 +6,23 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::filesystem::raw::FilePath;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertProofOfDelivery {
     pub trip_stop_id: Uuid,
+
     pub r#type: Option<ProofTypeEnum>,
+    #[dummy(faker = "FilePath(EN)")]
     pub file_path: Option<String>,
+
     pub timestamp: DateTime,
+    #[dummy(faker = "-90.0..90.0")]
     pub latitude: Option<f32>,
+    #[dummy(faker = "-180.0..180.0")]
     pub longitude: Option<f32>,
 }
 
@@ -53,15 +62,17 @@ impl IntoActiveModel<proof_of_deliveries::ActiveModel> for UpdateProofOfDelivery
     }
 }
 
+use crate::entities::_generated::trip_stops;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::trip_stops;
 
 #[ComplexObject]
 impl proof_of_deliveries::Model {
     async fn trip_stop(&self, ctx: &Context<'_>) -> async_graphql::Result<trip_stops::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = trip_stops::Entity::find_by_id(self.trip_stop_id).one(db).await?;
+        let res = trip_stops::Entity::find_by_id(self.trip_stop_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("TripStop not found")),

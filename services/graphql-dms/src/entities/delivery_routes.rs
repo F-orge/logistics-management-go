@@ -14,11 +14,10 @@ use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertDeliveryRoute {
-    #[dummy(default)]
     pub driver_id: Uuid,
-    #[dummy(default)]
+
     pub route_date: sea_orm::prelude::Date,
-    #[dummy(default)]
+
     pub status: Option<DeliveryRouteStatusEnum>,
     #[dummy(faker = "NumberWithFormat(EN, \"ROUTE-#####\")")]
     pub optimized_route_data: Option<String>,
@@ -28,9 +27,9 @@ pub struct InsertDeliveryRoute {
     pub estimated_duration_minutes: Option<i32>,
     #[dummy(faker = "10..240")]
     pub actual_duration_minutes: Option<i32>,
-    #[dummy(default)]
+
     pub started_at: Option<sea_orm::prelude::DateTime>,
-    #[dummy(default)]
+
     pub completed_at: Option<sea_orm::prelude::DateTime>,
 }
 

@@ -20,3 +20,4 @@ graphql-crm = { path = "../graphql-crm" }
 graphql-auth = { path = "../graphql-auth" }
 graphql-core = { path = "../graphql-core" }
 rust_decimal.workspace = true
+fake.workspace = true

@@ -6,15 +6,25 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertShipmentLeg {
     pub shipment_id: Option<Uuid>,
+    #[dummy(faker = "1..100")]
     pub leg_sequence: i32,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub start_location: Option<String>,
+    #[dummy(faker = "Sentence(EN, 2..6)")]
     pub end_location: Option<String>,
+
     pub carrier_id: Option<Uuid>,
+
     pub internal_trip_id: Option<Uuid>,
+
     pub status: Option<ShipmentLegStatusEnum>,
 }
 
@@ -57,10 +67,10 @@ impl IntoActiveModel<shipment_legs::ActiveModel> for UpdateShipmentLeg {
     }
 }
 
+use crate::entities::_generated::outbound_shipments;
+use crate::entities::_generated::{carriers, partner_invoice_items, shipment_leg_events, trips};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{carriers, partner_invoice_items, shipment_leg_events, trips};
-use crate::entities::_generated::outbound_shipments;
 
 #[ComplexObject]
 impl shipment_legs::Model {
@@ -74,17 +84,25 @@ impl shipment_legs::Model {
         }
     }
 
-    async fn outbound_shipment(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<outbound_shipments::Model>> {
+    async fn outbound_shipment(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<outbound_shipments::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         if let Some(shipment_id) = self.shipment_id {
-            let res = outbound_shipments::Entity::find_by_id(shipment_id).one(db).await?;
+            let res = outbound_shipments::Entity::find_by_id(shipment_id)
+                .one(db)
+                .await?;
             Ok(res)
         } else {
             Ok(None)
         }
     }
 
-    async fn partner_invoice_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
+    async fn partner_invoice_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = partner_invoice_items::Entity::find()
             .filter(partner_invoice_items::Column::ShipmentLegId.eq(self.id))
@@ -94,7 +112,10 @@ impl shipment_legs::Model {
         Ok(results)
     }
 
-    async fn shipment_leg_events(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<shipment_leg_events::Model>> {
+    async fn shipment_leg_events(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<shipment_leg_events::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = shipment_leg_events::Entity::find()
             .filter(shipment_leg_events::Column::ShipmentLegId.eq(self.id))

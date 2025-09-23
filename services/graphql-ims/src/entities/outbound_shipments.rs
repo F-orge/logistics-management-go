@@ -7,13 +7,23 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
+use fake::locales::EN;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::faker::company::raw::CompanyName;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertOutboundShipment {
+    
     pub sales_order_id: Uuid,
+    
     pub warehouse_id: Uuid,
+    
     pub status: Option<OutboundShipmentStatusEnum>,
+    #[dummy(faker = "NumberWithFormat(EN, \"TRK-#####\")")]
     pub tracking_number: Option<String>,
+    #[dummy(faker = "CompanyName(EN)")]
     pub carrier: Option<String>,
 }
 

@@ -14,9 +14,8 @@ use fake::Dummy;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertTagging {
-    #[dummy(default)]
     pub tag_id: Uuid,
-    #[dummy(default)]
+
     pub record_id: Uuid,
     pub record_type: RecordType,
 }

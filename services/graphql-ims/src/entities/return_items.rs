@@ -8,16 +8,25 @@ use sea_orm::{
     IntoActiveModel,
 };
 use uuid::Uuid;
+// --- fake imports ---
+use fake::Dummy;
 
-#[derive(Debug, Clone, InputObject)]
+#[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertReturnItem {
     pub return_id: Uuid,
+
     pub product_id: Uuid,
+    #[dummy(faker = "1..100")]
     pub quantity_expected: i32,
+    #[dummy(faker = "1..100")]
     pub quantity_received: Option<i32>,
+    #[dummy(faker = "-10..10")]
     pub quantity_variance: Option<i32>,
+
     pub condition: Option<ReturnItemConditionEnum>,
+
     pub created_at: Option<DateTime<Utc>>,
+
     pub updated_at: Option<DateTime<Utc>>,
 }
 
@@ -59,9 +68,9 @@ impl IntoActiveModel<return_items::ActiveModel> for UpdateReturnItem {
     }
 }
 
+use crate::entities::_generated::{products, returns};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{returns, products};
 
 #[ComplexObject]
 impl return_items::Model {
@@ -76,11 +85,12 @@ impl return_items::Model {
 
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
 }
