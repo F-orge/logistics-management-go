@@ -13,7 +13,7 @@ use sea_orm::entity::prelude::*;
     async_graphql :: Enum,
     fake :: Dummy,
 )]
-#[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "user_role")]
+#[sea_orm(rs_type = "String", db_type = "Enum", enum_name = "auth\".\"user_role")]
 pub enum UserRole {
     #[sea_orm(string_value = "admin")]
     Admin,

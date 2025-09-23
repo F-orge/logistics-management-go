@@ -1689,6 +1689,7 @@ dependencies = [
  "graphql-ims",
  "graphql-tms",
  "graphql-wms",
+ "rand 0.9.2",
  "sea-orm",
  "tokio",
  "tracing",

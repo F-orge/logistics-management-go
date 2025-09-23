@@ -23,14 +23,7 @@ pub struct InsertUserInput {
 
     pub image: Option<Url>,
 
-    // `UserRole` enum in generated file already derives `Dummy` so Option<UserRole> can default
     pub role: Option<UserRole>,
-
-    pub banned: Option<bool>,
-
-    pub ban_reason: Option<String>,
-
-    pub ban_expires: Option<DateTime<Utc>>,
 }
 
 impl IntoActiveModel<user::ActiveModel> for InsertUserInput {
