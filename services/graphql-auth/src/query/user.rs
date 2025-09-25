@@ -26,7 +26,7 @@ impl Query {
         Ok(users)
     }
     #[graphql(guard = RequireSession)]
-    async fn user(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Model> {
+    async fn user(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<Option<Model>> {
         let db = ctx.data::<PgPool>()?;
 
         Ok(user::Model::one(&PrimaryKey(id), db).await?)
@@ -37,6 +37,8 @@ impl Query {
 
         let current_user = ctx.data::<user::Model>()?;
 
-        Ok(user::Model::one(&PrimaryKey(current_user.id), db).await?)
+        Ok(user::Model::one(&PrimaryKey(current_user.id), db)
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find user information"))?)
     }
 }

@@ -17,6 +17,7 @@ pub enum UserRole {
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(SimpleObject, Debug, Clone, FromRow)]
+#[graphql(name = "AuthUser")]
 pub struct Model {
     pub id: Uuid,
     pub name: String,
@@ -39,10 +40,10 @@ impl Model {
             .fetch_all(db)
             .await
     }
-    pub async fn one(id: &PrimaryKey, db: &PgPool) -> sqlx::Result<Model> {
+    pub async fn one(id: &PrimaryKey, db: &PgPool) -> sqlx::Result<Option<Model>> {
         sqlx::query_as::<_, Model>("select * from auth.users where id = ?")
             .bind(id.0)
-            .fetch_one(db)
+            .fetch_optional(db)
             .await
     }
 }
