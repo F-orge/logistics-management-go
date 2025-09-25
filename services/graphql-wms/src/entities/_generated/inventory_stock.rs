@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::InventoryStockStatusEnum;
 use sea_orm::entity::prelude::*;
 

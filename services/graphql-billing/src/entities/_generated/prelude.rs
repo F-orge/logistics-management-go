@@ -1,5 +1,3 @@
-
-
 pub use super::account_transactions::Entity as AccountTransactions;
 pub use super::accounting_sync_log::Entity as AccountingSyncLog;
 pub use super::client_accounts::Entity as ClientAccounts;

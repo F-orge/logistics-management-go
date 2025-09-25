@@ -45,15 +45,17 @@ impl IntoActiveModel<gps_pings::ActiveModel> for UpdateGpsPing {
     }
 }
 
+use crate::entities::_generated::vehicles;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::vehicles;
 
 #[ComplexObject]
 impl gps_pings::Model {
     async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = vehicles::Entity::find_by_id(self.vehicle_id).one(db).await?;
+        let res = vehicles::Entity::find_by_id(self.vehicle_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Vehicle not found")),

@@ -3,9 +3,9 @@ use crate::entities::_generated::sea_orm_active_enums::DocumentTypeEnum;
 use async_graphql::InputObject;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
-use fake::faker::lorem::raw::{Word};
 use fake::faker::filesystem::raw::{FileName, FilePath, MimeType};
+use fake::faker::lorem::raw::Word;
+use fake::locales::EN;
 use sea_orm::EntityTrait;
 use sea_orm::{
     ActiveModelBehavior,

@@ -1,5 +1,3 @@
-
-
 pub use super::inbound_shipment_items::Entity as InboundShipmentItems;
 pub use super::inbound_shipments::Entity as InboundShipments;
 pub use super::inventory_adjustments::Entity as InventoryAdjustments;

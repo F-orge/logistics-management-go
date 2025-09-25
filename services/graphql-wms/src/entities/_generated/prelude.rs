@@ -1,5 +1,3 @@
-
-
 pub use super::bin_thresholds::Entity as BinThresholds;
 pub use super::inventory_stock::Entity as InventoryStock;
 pub use super::locations::Entity as Locations;

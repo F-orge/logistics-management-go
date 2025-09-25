@@ -8,9 +8,9 @@ use sea_orm::{
 
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::faker::address::raw::StreetName;
 use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertGeofence {
@@ -44,13 +44,16 @@ impl IntoActiveModel<geofences::ActiveModel> for UpdateGeofence {
     }
 }
 
+use crate::entities::_generated::geofence_events;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::geofence_events;
 
 #[ComplexObject]
 impl geofences::Model {
-    async fn geofence_events(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<geofence_events::Model>> {
+    async fn geofence_events(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<geofence_events::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = geofence_events::Entity::find()
             .filter(geofence_events::Column::GeofenceId.eq(self.id))

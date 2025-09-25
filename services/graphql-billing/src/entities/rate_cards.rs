@@ -3,9 +3,9 @@ use crate::entities::_generated::sea_orm_active_enums::ServiceTypeEnum;
 use async_graphql::InputObject;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::faker::company::raw::CompanyName;
 use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -65,9 +65,9 @@ impl IntoActiveModel<rate_cards::ActiveModel> for UpdateRateCard {
     }
 }
 
-use async_graphql::{ComplexObject, Context};
-use sea_orm::{DatabaseConnection, QueryFilter, EntityTrait, ColumnTrait};
 use crate::entities::_generated::{rate_rules, user};
+use async_graphql::{ComplexObject, Context};
+use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
 #[ComplexObject]
 impl rate_cards::Model {
@@ -82,7 +82,10 @@ impl rate_cards::Model {
         Ok(results)
     }
 
-    async fn created_by_user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+    async fn created_by_user(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<user::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         if let Some(uid) = self.created_by_user_id {
             let res = user::Entity::find_by_id(uid).one(db).await?;
@@ -91,5 +94,4 @@ impl rate_cards::Model {
             Ok(None)
         }
     }
-
 }

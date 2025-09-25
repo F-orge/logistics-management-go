@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::PaymentMethodEnum;
 use super::sea_orm_active_enums::PaymentStatusEnum;
 use sea_orm::entity::prelude::*;

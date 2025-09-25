@@ -13,19 +13,18 @@ use fake::Dummy;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertStockTransfer {
-    
     pub product_id: Uuid,
-    
+
     pub source_warehouse_id: Uuid,
-    
+
     pub destination_warehouse_id: Uuid,
     #[dummy(faker = "1..100")]
     pub quantity: i32,
-    
+
     pub status: Option<StockTransferStatusEnum>,
-    
+
     pub created_at: Option<DateTime<Utc>>,
-    
+
     pub updated_at: Option<DateTime<Utc>>,
 }
 
@@ -65,21 +64,20 @@ impl IntoActiveModel<stock_transfers::ActiveModel> for UpdateStockTransfer {
     }
 }
 
+use crate::entities::_generated::products;
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::products;
 
 #[ComplexObject]
 impl stock_transfers::Model {
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
-    
-
 }

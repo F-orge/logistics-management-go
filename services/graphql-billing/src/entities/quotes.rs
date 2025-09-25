@@ -5,16 +5,14 @@ use rust_decimal::Decimal;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
-    IntoActiveModel,
-    EntityTrait,
-    ColumnTrait,
+    ColumnTrait, EntityTrait, IntoActiveModel,
 };
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::decimal::PositiveDecimal;
 use fake::faker::lorem::raw::Sentence;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertQuote {
@@ -111,19 +109,27 @@ use async_graphql::ComplexObject;
 
 #[ComplexObject]
 impl quotes::Model {
-    async fn client(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::companies::Model>> {
+    async fn client(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::companies::Model>> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         if let Some(client_id) = self.client_id {
-            let res = crate::entities::_generated::companies::Entity::find_by_id(client_id).one(db).await?;
+            let res = crate::entities::_generated::companies::Entity::find_by_id(client_id)
+                .one(db)
+                .await?;
             Ok(res)
         } else {
             Ok(None)
         }
     }
 
-    async fn invoices(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Vec<crate::entities::_generated::invoices::Model>> {
-        use sea_orm::QueryFilter;
+    async fn invoices(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Vec<crate::entities::_generated::invoices::Model>> {
         use crate::entities::_generated::invoices::Column as InvoicesColumn;
+        use sea_orm::QueryFilter;
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         let results = crate::entities::_generated::invoices::Entity::find()
             .filter(InvoicesColumn::QuoteId.eq(self.id))
@@ -133,14 +139,18 @@ impl quotes::Model {
         Ok(results)
     }
 
-    async fn created_by_user(&self, ctx: &async_graphql::Context<'_>) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
+    async fn created_by_user(
+        &self,
+        ctx: &async_graphql::Context<'_>,
+    ) -> async_graphql::Result<Option<crate::entities::_generated::user::Model>> {
         let db = ctx.data::<sea_orm::DatabaseConnection>()?;
         if let Some(user_id) = self.created_by_user_id {
-            let res = crate::entities::_generated::user::Entity::find_by_id(user_id).one(db).await?;
+            let res = crate::entities::_generated::user::Entity::find_by_id(user_id)
+                .one(db)
+                .await?;
             Ok(res)
         } else {
             Ok(None)
         }
     }
-
 }

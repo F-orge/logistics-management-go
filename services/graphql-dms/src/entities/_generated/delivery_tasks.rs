@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::DeliveryFailureReasonEnum;
 use super::sea_orm_active_enums::DeliveryTaskStatusEnum;
 use sea_orm::entity::prelude::*;

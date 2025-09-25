@@ -10,25 +10,25 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
-use fake::faker::number::raw::NumberWithFormat;
 use fake::faker::lorem::raw::Sentence;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertReturn {
     #[dummy(faker = "NumberWithFormat(EN, \"RET-#####\")")]
     pub return_number: String,
-    
+
     pub sales_order_id: Option<Uuid>,
-    
+
     pub client_id: Uuid,
-    
+
     pub status: Option<ReturnStatusEnum>,
     #[dummy(faker = "Sentence(EN, 2..6)")]
     pub reason: Option<String>,
-    
+
     pub created_at: Option<DateTime<Utc>>,
-    
+
     pub updated_at: Option<DateTime<Utc>>,
 }
 
@@ -67,13 +67,16 @@ impl IntoActiveModel<returns::ActiveModel> for UpdateReturn {
     }
 }
 
+use crate::entities::_generated::{companies, return_items, sales_orders};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{sales_orders, companies, return_items};
 
 #[ComplexObject]
 impl returns::Model {
-    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<sales_orders::Model>> {
+    async fn sales_order(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<sales_orders::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         if let Some(so_id) = self.sales_order_id {
             let res = sales_orders::Entity::find_by_id(so_id).one(db).await?;
@@ -85,14 +88,19 @@ impl returns::Model {
 
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = companies::Entity::find_by_id(self.client_id).one(db).await?;
+        let result = companies::Entity::find_by_id(self.client_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Client not found")),
         }
     }
 
-    async fn return_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<return_items::Model>> {
+    async fn return_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<return_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = return_items::Entity::find()
             .filter(return_items::Column::ReturnId.eq(self.id))
@@ -101,5 +109,4 @@ impl returns::Model {
             .unwrap_or_default();
         Ok(results)
     }
-
 }

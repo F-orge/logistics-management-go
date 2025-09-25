@@ -9,7 +9,6 @@ pub struct Query;
 
 #[Object(name = "CrmNotificationsQuery")]
 impl Query {
-
     async fn notifications(
         &self,
         ctx: &Context<'_>,
@@ -32,11 +31,11 @@ impl Query {
         id: Uuid,
     ) -> async_graphql::Result<Option<notifications::Model>> {
         let db = ctx.data::<PgPool>()?;
-        Ok(
-            sqlx::query_as::<_, notifications::Model>("select * from crm.notifications where id = $1")
-                .bind(id)
-                .fetch_optional(db)
-                .await?,
+        Ok(sqlx::query_as::<_, notifications::Model>(
+            "select * from crm.notifications where id = $1",
         )
+        .bind(id)
+        .fetch_optional(db)
+        .await?)
     }
 }

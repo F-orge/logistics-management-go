@@ -9,17 +9,16 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
-use fake::faker::number::raw::NumberWithFormat;
 use fake::faker::company::raw::CompanyName;
+use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertOutboundShipment {
-    
     pub sales_order_id: Uuid,
-    
+
     pub warehouse_id: Uuid,
-    
+
     pub status: Option<OutboundShipmentStatusEnum>,
     #[dummy(faker = "NumberWithFormat(EN, \"TRK-#####\")")]
     pub tracking_number: Option<String>,
@@ -60,13 +59,16 @@ impl IntoActiveModel<outbound_shipments::ActiveModel> for UpdateOutboundShipment
     }
 }
 
+use crate::entities::_generated::{outbound_shipment_items, sales_orders};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{outbound_shipment_items, sales_orders};
 
 #[ComplexObject]
 impl outbound_shipments::Model {
-    async fn outbound_shipment_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<outbound_shipment_items::Model>> {
+    async fn outbound_shipment_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<outbound_shipment_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = outbound_shipment_items::Entity::find()
             .filter(outbound_shipment_items::Column::OutboundShipmentId.eq(self.id))
@@ -78,11 +80,12 @@ impl outbound_shipments::Model {
 
     async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = sales_orders::Entity::find_by_id(self.sales_order_id).one(db).await?;
+        let result = sales_orders::Entity::find_by_id(self.sales_order_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Sales order not found")),
         }
     }
-
 }

@@ -9,8 +9,8 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
+use fake::faker::lorem::raw::{Sentence, Word};
 use fake::locales::EN;
-use fake::faker::lorem::raw::{Word, Sentence};
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertAccountingSyncLog {

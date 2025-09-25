@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::PickBatchStatusEnum;
 use super::sea_orm_active_enums::PickStrategyEnum;
 use sea_orm::entity::prelude::*;

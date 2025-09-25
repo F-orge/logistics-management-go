@@ -12,15 +12,14 @@ use fake::Dummy;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSalesOrderItem {
-    
     pub sales_order_id: Uuid,
-    
+
     pub product_id: Uuid,
     #[dummy(faker = "1..100")]
     pub quantity_ordered: i32,
-    
+
     pub created_at: Option<DateTime<Utc>>,
-    
+
     pub updated_at: Option<DateTime<Utc>>,
 }
 
@@ -53,15 +52,17 @@ impl IntoActiveModel<sales_order_items::ActiveModel> for UpdateSalesOrderItem {
     }
 }
 
+use crate::entities::_generated::{products, sales_orders};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{sales_orders, products};
 
 #[ComplexObject]
 impl sales_order_items::Model {
     async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = sales_orders::Entity::find_by_id(self.sales_order_id).one(db).await?;
+        let result = sales_orders::Entity::find_by_id(self.sales_order_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Sales order not found")),
@@ -70,11 +71,12 @@ impl sales_order_items::Model {
 
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = products::Entity::find_by_id(self.product_id).one(db).await?;
+        let result = products::Entity::find_by_id(self.product_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Product not found")),
         }
     }
-
 }

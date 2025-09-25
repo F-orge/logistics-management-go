@@ -13,15 +13,14 @@ use fake::Dummy;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertInboundShipment {
-    
     pub client_id: Option<Uuid>,
-    
+
     pub warehouse_id: Uuid,
-    
+
     pub status: Option<InboundShipmentStatusEnum>,
-    
+
     pub expected_arrival_date: Option<NaiveDate>,
-    
+
     pub actual_arrival_date: Option<NaiveDate>,
 }
 
@@ -58,9 +57,9 @@ impl IntoActiveModel<inbound_shipments::ActiveModel> for UpdateInboundShipment {
     }
 }
 
+use crate::entities::_generated::{companies, inbound_shipment_items};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{companies, inbound_shipment_items};
 
 #[ComplexObject]
 impl inbound_shipments::Model {
@@ -74,7 +73,10 @@ impl inbound_shipments::Model {
         }
     }
 
-    async fn inbound_shipment_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
+    async fn inbound_shipment_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = inbound_shipment_items::Entity::find()
             .filter(inbound_shipment_items::Column::InboundShipmentId.eq(self.id))
@@ -83,5 +85,4 @@ impl inbound_shipments::Model {
             .unwrap_or_default();
         Ok(results)
     }
-
 }

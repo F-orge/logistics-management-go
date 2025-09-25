@@ -9,7 +9,6 @@ pub struct Query;
 
 #[Object(name = "CrmInteractionsQuery")]
 impl Query {
-
     async fn interactions(
         &self,
         ctx: &Context<'_>,
@@ -33,10 +32,12 @@ impl Query {
     ) -> async_graphql::Result<Option<interactions::Model>> {
         let db = ctx.data::<PgPool>()?;
         Ok(
-            sqlx::query_as::<_, interactions::Model>("select * from crm.interactions where id = $1")
-                .bind(id)
-                .fetch_optional(db)
-                .await?,
+            sqlx::query_as::<_, interactions::Model>(
+                "select * from crm.interactions where id = $1",
+            )
+            .bind(id)
+            .fetch_optional(db)
+            .await?,
         )
     }
 }

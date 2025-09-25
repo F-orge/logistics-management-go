@@ -18,7 +18,13 @@ impl Mutation {
         ctx: &Context<'_>,
         payload: CreateTagInput,
     ) -> async_graphql::Result<tags::Model> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+        Ok(
+            sqlx::query_as::<_, tags::Model>("insert into crm.tags (name) values ($1) returning *")
+                .bind(payload.name)
+                .fetch_one(db)
+                .await?,
+        )
     }
     async fn update_tag_name(
         &self,
@@ -26,9 +32,24 @@ impl Mutation {
         id: Uuid,
         name: String,
     ) -> async_graphql::Result<tags::Model> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+        Ok(sqlx::query_as::<_, tags::Model>(
+            "update crm.tags set name = $1 where id = $2 returning *",
+        )
+        .bind(name)
+        .bind(id)
+        .fetch_one(db)
+        .await?)
     }
     async fn remove_tag(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+        let result = sqlx::query("delete from crm.tags where id = $1")
+            .bind(id)
+            .execute(db)
+            .await?;
+        if result.rows_affected() != 1 {
+            return Err(async_graphql::Error::new("Unable to delete tag"));
+        }
+        Ok("Tag removed successfully".into())
     }
 }

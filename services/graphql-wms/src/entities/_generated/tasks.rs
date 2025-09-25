@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::TaskStatusEnum;
 use super::sea_orm_active_enums::TaskTypeEnum;
 use sea_orm::entity::prelude::*;

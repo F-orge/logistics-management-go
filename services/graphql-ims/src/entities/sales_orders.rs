@@ -9,18 +9,18 @@ use sea_orm::{
 use uuid::Uuid;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::faker::number::raw::NumberWithFormat;
+use fake::locales::EN;
 
 #[derive(Debug, Clone, InputObject, Dummy)]
 pub struct InsertSalesOrder {
     #[dummy(faker = "NumberWithFormat(EN, \"SO-#####\")")]
     pub order_number: String,
-    
+
     pub client_id: Uuid,
-    
+
     pub crm_opportunity_id: Option<Uuid>,
-    
+
     pub status: Option<SalesOrderStatusEnum>,
     #[dummy(faker = "NumberWithFormat(EN, \"ADDR-#####\")")]
     pub shipping_address: Option<String>,
@@ -59,22 +59,29 @@ impl IntoActiveModel<sales_orders::ActiveModel> for UpdateSalesOrder {
     }
 }
 
+use crate::entities::_generated::{
+    companies, opportunities, outbound_shipments, returns, sales_order_items,
+};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
-use crate::entities::_generated::{companies, opportunities, outbound_shipments, returns, sales_order_items};
 
 #[ComplexObject]
 impl sales_orders::Model {
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let result = companies::Entity::find_by_id(self.client_id).one(db).await?;
+        let result = companies::Entity::find_by_id(self.client_id)
+            .one(db)
+            .await?;
         match result {
             Some(model) => Ok(model),
             None => Err(async_graphql::Error::new("Client not found")),
         }
     }
 
-    async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<opportunities::Model>> {
+    async fn opportunity(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<opportunities::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         if let Some(op_id) = self.crm_opportunity_id {
             let res = opportunities::Entity::find_by_id(op_id).one(db).await?;
@@ -84,7 +91,10 @@ impl sales_orders::Model {
         }
     }
 
-    async fn outbound_shipments(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<outbound_shipments::Model>> {
+    async fn outbound_shipments(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<outbound_shipments::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = outbound_shipments::Entity::find()
             .filter(outbound_shipments::Column::SalesOrderId.eq(self.id))
@@ -104,7 +114,10 @@ impl sales_orders::Model {
         Ok(results)
     }
 
-    async fn sales_order_items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<sales_order_items::Model>> {
+    async fn sales_order_items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<sales_order_items::Model>> {
         let db = ctx.data::<DatabaseConnection>()?;
         let results = sales_order_items::Entity::find()
             .filter(sales_order_items::Column::SalesOrderId.eq(self.id))
@@ -113,5 +126,4 @@ impl sales_orders::Model {
             .unwrap_or_default();
         Ok(results)
     }
-
 }

@@ -3,9 +3,9 @@ use async_graphql::InputObject;
 use rust_decimal::Decimal;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::decimal::PositiveDecimal;
 use fake::faker::lorem::raw::{Sentence, Word};
+use fake::locales::EN;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},
@@ -80,15 +80,17 @@ impl IntoActiveModel<credit_notes::ActiveModel> for UpdateCreditNote {
     }
 }
 
+use crate::entities::_generated::{disputes, invoices};
 use async_graphql::{ComplexObject, Context};
 use sea_orm::{DatabaseConnection, EntityTrait};
-use crate::entities::_generated::{invoices, disputes};
 
 #[ComplexObject]
 impl credit_notes::Model {
     async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
         let db = ctx.data::<DatabaseConnection>()?;
-        let res = invoices::Entity::find_by_id(self.invoice_id).one(db).await?;
+        let res = invoices::Entity::find_by_id(self.invoice_id)
+            .one(db)
+            .await?;
         match res {
             Some(m) => Ok(m),
             None => Err(async_graphql::Error::new("Invoice not found")),

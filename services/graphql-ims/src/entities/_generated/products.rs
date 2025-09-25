@@ -1,5 +1,3 @@
-
-
 use super::sea_orm_active_enums::ProductStatusEnum;
 use sea_orm::entity::prelude::*;
 

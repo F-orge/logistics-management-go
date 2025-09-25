@@ -4,9 +4,9 @@ use async_graphql::InputObject;
 use rust_decimal::Decimal;
 // --- fake imports ---
 use fake::Dummy;
-use fake::locales::EN;
 use fake::decimal::PositiveDecimal;
 use fake::faker::lorem::raw::{Sentence, Word};
+use fake::locales::EN;
 use sea_orm::{
     ActiveModelBehavior,
     ActiveValue::{NotSet, Set},

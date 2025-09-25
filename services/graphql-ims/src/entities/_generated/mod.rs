@@ -1,5 +1,3 @@
-
-
 pub mod prelude;
 
 pub mod inbound_shipment_items;

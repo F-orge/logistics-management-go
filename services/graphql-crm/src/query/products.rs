@@ -9,7 +9,6 @@ pub struct Query;
 
 #[Object(name = "CrmProductsQuery")]
 impl Query {
-
     async fn products(
         &self,
         ctx: &Context<'_>,
@@ -17,13 +16,13 @@ impl Query {
         limit: u64,
     ) -> async_graphql::Result<Vec<products::Model>> {
         let db = ctx.data::<PgPool>()?;
-        Ok(sqlx::query_as::<_, products::Model>(
-            "select * from crm.products limit $1 offset $2",
+        Ok(
+            sqlx::query_as::<_, products::Model>("select * from crm.products limit $1 offset $2")
+                .bind(limit as i64)
+                .bind((page * limit) as i64)
+                .fetch_all(db)
+                .await?,
         )
-        .bind(limit as i64)
-        .bind((page * limit) as i64)
-        .fetch_all(db)
-        .await?)
     }
 
     async fn product(

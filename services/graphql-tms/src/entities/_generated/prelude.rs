@@ -1,5 +1,3 @@
-
-
 pub use super::carrier_rates::Entity as CarrierRates;
 pub use super::carriers::Entity as Carriers;
 pub use super::driver_schedules::Entity as DriverSchedules;
