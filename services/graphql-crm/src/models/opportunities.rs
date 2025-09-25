@@ -11,11 +11,13 @@ use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use sqlx::FromRow;
+use sqlx::PgPool;
 use uuid::Uuid;
 
 use crate::models::campaigns;
 use crate::models::companies;
 use crate::models::contacts;
+use crate::models::products;
 
 use super::enums::OpportunitySource;
 use super::enums::OpportunityStage;
@@ -82,6 +84,23 @@ impl Model {
         } else {
             Ok(None)
         }
+    }
+    async fn products(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<products::Model>> {
+        let db = ctx.data::<PgPool>()?;
+
+        Ok(sqlx::query_as::<_, products::Model>(
+            "select crm.products.* from crm.products inner join crm.opportunity_products on crm.opportunity_products.product_id = crm.products.id where crm.opportunity_products.opportunity_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 

@@ -3,6 +3,7 @@ use async_graphql::MergedObject;
 pub mod entities;
 pub mod models;
 pub mod queries;
+pub mod query;
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "CrmQueries")]

@@ -10,8 +10,10 @@ use chrono::Utc;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use sqlx::FromRow;
+use sqlx::PgPool;
 use uuid::Uuid;
 
+use crate::models::invoice_items;
 use crate::models::opportunities;
 
 use super::enums::InvoiceStatus;
@@ -49,6 +51,23 @@ impl Model {
         } else {
             Ok(None)
         }
+    }
+    async fn items(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<invoice_items::Model>> {
+        let db = ctx.data::<PgPool>()?;
+
+        Ok(sqlx::query_as::<_, invoice_items::Model>(
+            "select * from crm.invoice_items where invoice_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 
