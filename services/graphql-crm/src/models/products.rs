@@ -13,6 +13,7 @@ use super::enums::ProductType;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[graphql(name = "CrmProducts")]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

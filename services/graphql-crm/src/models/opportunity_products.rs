@@ -11,7 +11,7 @@ use crate::models::{opportunities, products};
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmOpportunityProducts", complex)]
 pub struct Model {
     #[graphql(skip)]
     pub opportunity_id: Uuid,

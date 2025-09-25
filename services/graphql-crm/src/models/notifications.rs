@@ -11,7 +11,7 @@ use uuid::Uuid;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmNotifications", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]

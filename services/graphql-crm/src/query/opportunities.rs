@@ -4,10 +4,10 @@ use uuid::Uuid;
 
 use crate::models::opportunities;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Query;
 
-#[Object(name = "CrmLeadsQuery")]
+#[Object(name = "CrmOpportunitiesQuery")]
 impl Query {
     async fn opportunities(
         &self,

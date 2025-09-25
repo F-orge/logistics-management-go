@@ -21,7 +21,7 @@ pub struct CreateLeadInput {
     pub converted_opportunity_id: Option<Uuid>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmLeadsMutations")]

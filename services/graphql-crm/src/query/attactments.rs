@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 use crate::models::attachments;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Query;
 
 #[Object(name = "CrmAttachmentsQuery")]

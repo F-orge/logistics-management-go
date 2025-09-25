@@ -21,7 +21,7 @@ pub struct CreateOpportunityInput {
     pub campaign_id: Option<Uuid>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmOpportunitiesMutations")]

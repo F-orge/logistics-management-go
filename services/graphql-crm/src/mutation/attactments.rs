@@ -3,7 +3,7 @@ use uuid::Uuid;
 
 use crate::models::{attachments, enums::RecordType};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmAttachmentMutations")]

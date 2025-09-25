@@ -18,7 +18,7 @@ pub struct CreateCaseInput {
     pub description: Option<String>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmCasesMutations")]

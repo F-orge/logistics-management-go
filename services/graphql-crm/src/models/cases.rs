@@ -22,7 +22,7 @@ use super::enums::CaseType;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmCases", complex)]
 pub struct Model {
     pub id: Uuid,
     pub case_number: String,

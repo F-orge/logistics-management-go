@@ -20,7 +20,7 @@ pub struct CreateCompanyInput {
     pub owner_id: Option<Uuid>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmCompaniesMutations")]

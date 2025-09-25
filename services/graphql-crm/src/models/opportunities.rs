@@ -26,7 +26,7 @@ use super::enums::OpportunityStage;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmOpportunities", complex)]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

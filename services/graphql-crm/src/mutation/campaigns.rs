@@ -14,7 +14,7 @@ pub struct CreateCampaignInput {
     pub end_date: Option<NaiveDate>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmCampaignsMutations")]

@@ -12,6 +12,7 @@ use super::enums::RecordType;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[graphql(name = "CrmAttachments")]
 pub struct Model {
     pub id: Uuid,
     pub file_name: String,

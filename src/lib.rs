@@ -2,6 +2,8 @@ use async_graphql::{EmptySubscription, Schema, SimpleObject};
 use clap::{Parser, Subcommand};
 use sqlx::PgPool;
 
+use graphql_auth::guards::RequireSession;
+
 pub mod commands;
 pub mod extractor;
 
@@ -10,8 +12,8 @@ type GraphQLSchema = Schema<Query, Mutations, EmptySubscription>;
 #[derive(Debug, SimpleObject, Default)]
 pub struct Query {
     auth: graphql_auth::Query,
-    // #[graphql(guard = RequireSession)]
-    // crm: graphql_crm::Query,
+    #[graphql(guard = RequireSession)]
+    crm: graphql_crm::Query,
     // #[graphql(guard = RequireSession)]
     // ims: graphql_ims::Query,
     // #[graphql(guard = RequireSession)]
@@ -27,8 +29,8 @@ pub struct Query {
 #[derive(Debug, SimpleObject, Default)]
 pub struct Mutations {
     auth: graphql_auth::Mutation,
-    // #[graphql(guard = RequireSession)]
-    // crm: graphql_crm::Mutation,
+    #[graphql(guard = RequireSession)]
+    crm: graphql_crm::Mutation,
     // #[graphql(guard = RequireSession)]
     // ims: graphql_ims::Mutation,
     // #[graphql(guard = RequireSession)]

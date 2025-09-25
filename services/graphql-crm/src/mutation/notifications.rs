@@ -11,7 +11,7 @@ pub struct CreateNotificationInput {
     pub link: Option<String>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmNotificationsMutations")]

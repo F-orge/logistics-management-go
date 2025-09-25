@@ -11,6 +11,7 @@ use uuid::Uuid;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[graphql(name = "CrmCampaigns")]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

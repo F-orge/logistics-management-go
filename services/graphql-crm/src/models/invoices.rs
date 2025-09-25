@@ -23,7 +23,7 @@ use super::enums::PaymentMethod;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmInvoices", complex)]
 pub struct Model {
     pub id: Uuid,
     pub opportunity_id: Option<Uuid>,

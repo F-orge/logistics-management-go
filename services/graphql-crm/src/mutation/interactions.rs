@@ -17,7 +17,7 @@ pub struct CreateInteractionInput {
     pub interaction_date: Option<DateTime<Utc>>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmInteractionsMutations")]

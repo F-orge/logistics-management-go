@@ -13,7 +13,7 @@ use super::enums::RecordType;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmTaggings", complex)]
 pub struct Model {
     pub tag_id: Uuid,
     pub record_id: Uuid,

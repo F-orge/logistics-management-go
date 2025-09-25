@@ -13,7 +13,7 @@ use crate::models::{invoices, products};
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
-#[graphql(complex)]
+#[graphql(name = "CrmInvoiceItems", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]

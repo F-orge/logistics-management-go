@@ -8,7 +8,7 @@ pub struct CreateTagInput {
     pub name: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct Mutation;
 
 #[Object(name = "CrmTagsMutations")]
