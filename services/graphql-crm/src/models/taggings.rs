@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use graphql_core::PostgresDataLoader;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::models::tags;
@@ -11,7 +12,7 @@ use super::enums::RecordType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 #[graphql(complex)]
 pub struct Model {
     pub tag_id: Uuid,

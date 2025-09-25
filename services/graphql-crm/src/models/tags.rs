@@ -3,12 +3,13 @@ use std::sync::Arc;
 use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

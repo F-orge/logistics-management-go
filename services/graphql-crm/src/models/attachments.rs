@@ -3,6 +3,7 @@ use std::sync::Arc;
 use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use super::enums::RecordType;
@@ -10,7 +11,7 @@ use super::enums::RecordType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 pub struct Model {
     pub id: Uuid,
     pub file_name: String,
@@ -30,6 +31,10 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
         &self,
         keys: &[PrimaryKey],
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
+        let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
+
+        let results = sqlx::query_as::<_, Self::Value>("").bind(keys);
+
         todo!()
     }
 }

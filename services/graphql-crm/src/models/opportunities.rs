@@ -10,6 +10,7 @@ use chrono::Utc;
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::models::campaigns;

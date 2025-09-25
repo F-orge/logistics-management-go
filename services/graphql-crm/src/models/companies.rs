@@ -5,12 +5,13 @@ use chrono::{DateTime, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 #[graphql(complex)]
 pub struct Model {
     pub id: Uuid,

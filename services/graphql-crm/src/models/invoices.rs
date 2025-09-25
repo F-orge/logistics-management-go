@@ -9,6 +9,7 @@ use chrono::NaiveDate;
 use chrono::Utc;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::models::opportunities;
@@ -19,7 +20,7 @@ use super::enums::PaymentMethod;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 #[graphql(complex)]
 pub struct Model {
     pub id: Uuid,

@@ -4,6 +4,7 @@ use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use super::enums::ProductType;
@@ -11,7 +12,7 @@ use super::enums::ProductType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 pub struct Model {
     pub id: Uuid,
     pub name: String,

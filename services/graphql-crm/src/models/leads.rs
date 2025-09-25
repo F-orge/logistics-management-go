@@ -8,6 +8,7 @@ use chrono::DateTime;
 use chrono::Utc;
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::models::campaigns;
@@ -20,7 +21,7 @@ use super::enums::LeadStatus;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 #[graphql(complex)]
 pub struct Model {
     pub id: Uuid,

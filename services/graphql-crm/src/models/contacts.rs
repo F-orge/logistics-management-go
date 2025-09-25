@@ -4,6 +4,7 @@ use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
+use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::models::companies;
@@ -11,7 +12,7 @@ use crate::models::companies;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
 #[graphql(complex)]
 pub struct Model {
     pub id: Uuid,
