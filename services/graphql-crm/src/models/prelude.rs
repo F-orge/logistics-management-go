@@ -1,0 +1,15 @@
+pub use super::attachments::Model as Attachments;
+pub use super::campaigns::Model as Campaigns;
+pub use super::cases::Model as Cases;
+pub use super::companies::Model as Companies;
+pub use super::contacts::Model as Contacts;
+pub use super::interactions::Model as Interactions;
+pub use super::invoice_items::Model as InvoiceItems;
+pub use super::invoices::Model as Invoices;
+pub use super::leads::Model as Leads;
+pub use super::notifications::Model as Notifications;
+pub use super::opportunities::Model as Opportunities;
+pub use super::opportunity_products::Model as OpportunityProducts;
+pub use super::products::Model as Products;
+pub use super::taggings::Model as Taggings;
+pub use super::tags::Model as Tags;
