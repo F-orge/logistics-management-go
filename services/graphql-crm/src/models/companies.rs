@@ -46,6 +46,17 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
         &self,
         keys: &[PrimaryKey],
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
-        todo!()
+        let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
+
+        let results =
+            sqlx::query_as::<_, Self::Value>("select * from crm.companies where id = ANY($1)")
+                .bind(&keys)
+                .fetch_all(&self.pool)
+                .await?
+                .into_iter()
+                .map(|model| (PrimaryKey(model.id), model))
+                .collect::<_>();
+
+        Ok(results)
     }
 }

@@ -33,8 +33,15 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
-        let results = sqlx::query_as::<_, Self::Value>("").bind(keys);
+        let results =
+            sqlx::query_as::<_, Self::Value>("select * from crm.attachments where id = ANY($1)")
+                .bind(&keys)
+                .fetch_all(&self.pool)
+                .await?
+                .into_iter()
+                .map(|model| (PrimaryKey(model.id), model))
+                .collect::<_>();
 
-        todo!()
+        Ok(results)
     }
 }
