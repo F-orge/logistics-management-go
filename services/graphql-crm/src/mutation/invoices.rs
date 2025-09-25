@@ -16,6 +16,14 @@ pub struct CreateInvoiceInput {
     pub sent_at: Option<DateTime<Utc>>,
     pub paid_at: Option<DateTime<Utc>>,
     pub payment_method: Option<PaymentMethod>,
+    pub items: Vec<CreateInvoiceItemInput>,
+}
+
+#[derive(Debug, Clone, InputObject)]
+pub struct CreateInvoiceItemInput {
+    pub quantity: i32,
+    pub price: Decimal,
+    pub product_id: Uuid,
 }
 
 #[derive(Debug, Clone)]
@@ -163,6 +171,24 @@ impl Mutation {
         .fetch_one(db)
         .await?)
     }
+
+    async fn add_invoice_item(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+        payload: CreateInvoiceItemInput,
+    ) -> async_graphql::Result<invoices::Model> {
+        todo!()
+    }
+
+    async fn remove_invoice_item(
+        &self,
+        ctx: &Context<'_>,
+        item_id: Uuid,
+    ) -> async_graphql::Result<invoices::Model> {
+        todo!()
+    }
+
     async fn remove_invoice(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
         let db = ctx.data::<sqlx::PgPool>()?;
         let result = sqlx::query("delete from crm.invoices where id = $1")
