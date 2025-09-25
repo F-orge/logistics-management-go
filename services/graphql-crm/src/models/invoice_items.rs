@@ -29,11 +29,17 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     #[graphql(skip)]
-    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
+    async fn invoice(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
+        // Skipped as per annotation
         todo!()
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find product"))?)
     }
 }
 

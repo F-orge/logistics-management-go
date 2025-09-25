@@ -24,7 +24,12 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn tag(&self, ctx: &Context<'_>) -> async_graphql::Result<tags::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(tags::PrimaryKey(self.tag_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find tag"))?)
     }
 }
 

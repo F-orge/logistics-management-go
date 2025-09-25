@@ -1,6 +1,9 @@
 use std::sync::Arc;
 
-use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
+use async_graphql::{
+    ComplexObject, Context, SimpleObject,
+    dataloader::{DataLoader, Loader},
+};
 use chrono::{DateTime, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
@@ -34,7 +37,13 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
+        let loader = ctx.data::<DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.owner_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

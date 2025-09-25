@@ -38,8 +38,17 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<opportunities::Model> {
-        todo!()
+    async fn opportunity(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<opportunities::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.opportunity_id {
+            Ok(loader.load_one(opportunities::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

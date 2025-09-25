@@ -24,10 +24,20 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn opportunity(&self, ctx: &Context<'_>) -> async_graphql::Result<opportunities::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(opportunities::PrimaryKey(self.opportunity_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find opportunity"))?)
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find product"))?)
     }
 }
 

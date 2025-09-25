@@ -26,7 +26,12 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(user::PrimaryKey(self.user_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find user"))?)
     }
 }
 

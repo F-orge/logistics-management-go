@@ -3,6 +3,7 @@ use std::sync::Arc;
 use async_graphql::ComplexObject;
 use async_graphql::Context;
 use async_graphql::SimpleObject;
+use async_graphql::dataloader::DataLoader;
 use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::Utc;
@@ -40,10 +41,21 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
-        todo!()
+        let loader = ctx.data::<DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(user::PrimaryKey(self.owner_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find owner"))?)
     }
-    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<contacts::Model> {
-        todo!()
+    async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<contacts::Model>> {
+        let loader = ctx.data::<DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.contact_id {
+            Ok(loader.load_one(contacts::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

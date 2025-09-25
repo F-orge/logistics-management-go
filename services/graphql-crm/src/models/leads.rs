@@ -48,22 +48,43 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+        Ok(loader
+            .load_one(user::PrimaryKey(self.owner_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find owner"))?)
     }
     async fn campaign(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<campaigns::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+        if let Some(id) = self.campaign_id {
+            Ok(loader.load_one(campaigns::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
     async fn converted_contact(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<contacts::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.converted_contact_id {
+            Ok(loader.load_one(contacts::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
     async fn converted_opportunity(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<opportunities::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.converted_opportunity_id {
+            Ok(loader.load_one(opportunities::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

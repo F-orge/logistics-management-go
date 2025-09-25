@@ -35,13 +35,29 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<contacts::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(contacts::PrimaryKey(self.contact_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find contact"))?)
     }
     async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(user::PrimaryKey(self.user_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find user"))?)
     }
-    async fn case(&self, ctx: &Context<'_>) -> async_graphql::Result<cases::Model> {
-        todo!()
+    async fn case(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<cases::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.case_id {
+            Ok(loader.load_one(cases::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 
