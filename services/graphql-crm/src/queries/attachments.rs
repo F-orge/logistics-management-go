@@ -4,8 +4,8 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -59,7 +59,10 @@ impl
         UpdateAttachment,
     > for Mutations
 {
-    #[graphql(name = "createAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
+    #[graphql(
+        name = "createAttachment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -72,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_attachment)
     }
-    #[graphql(name = "updateAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
+    #[graphql(
+        name = "updateAttachment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -87,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_attachment)
     }
-    #[graphql(name = "deleteAttachment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
+    #[graphql(
+        name = "deleteAttachment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesRep)).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

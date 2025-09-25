@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "PickBatches")]
 impl graphql_core::traits::GraphqlQuery<pick_batches::Model, Uuid> for pick_batches::Entity {
-    #[graphql(name = "pickBatches", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))")]
+    #[graphql(
+        name = "pickBatches",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<pick_batches::Model, Uuid> for pick_batc
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "pickBatch", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))")]
+    #[graphql(
+        name = "pickBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::Picker))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +59,10 @@ impl
         UpdatePickBatch,
     > for Mutations
 {
-    #[graphql(name = "createPickBatch", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "createPickBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updatePickBatch", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "updatePickBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deletePickBatch", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "deletePickBatch",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

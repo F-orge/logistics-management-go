@@ -1,6 +1,6 @@
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -15,7 +15,10 @@ use crate::entities::{
 
 #[Object(name = "Payments")]
 impl graphql_core::traits::GraphqlQuery<payments::Model, Uuid> for payments::Entity {
-    #[graphql(name = "payments", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
+    #[graphql(
+        name = "payments",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -30,7 +33,10 @@ impl graphql_core::traits::GraphqlQuery<payments::Model, Uuid> for payments::Ent
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "payment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))")]
+    #[graphql(
+        name = "payment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::FinanceManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -49,7 +55,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<payments::Model, Uuid, InsertPayment, UpdatePayment>
     for Mutations
 {
-    #[graphql(name = "createPayment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "createPayment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -62,7 +71,10 @@ impl graphql_core::traits::GraphqlMutation<payments::Model, Uuid, InsertPayment,
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updatePayment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "updatePayment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -77,7 +89,10 @@ impl graphql_core::traits::GraphqlMutation<payments::Model, Uuid, InsertPayment,
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deletePayment", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "deletePayment",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::proof_of_deliveries,
     proof_of_deliveries::{InsertProofOfDelivery, UpdateProofOfDelivery},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "DmsProofOfDeliveries")]
 impl graphql_core::traits::GraphqlQuery<proof_of_deliveries::Model, Uuid>

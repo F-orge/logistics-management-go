@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::companies,
     companies::{InsertCompany, UpdateCompany},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "Companies")]
 impl graphql_core::traits::GraphqlQuery<companies::Model, Uuid> for companies::Entity {

@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "ReorderPoints")]
 impl graphql_core::traits::GraphqlQuery<reorder_points::Model, Uuid> for reorder_points::Entity {
-    #[graphql(name = "reorderPoints", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "reorderPoints",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<reorder_points::Model, Uuid> for reorder
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "reorderPoint", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "reorderPoint",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +59,10 @@ impl
         UpdateReorderPoint,
     > for Mutations
 {
-    #[graphql(name = "createReorderPoint", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "createReorderPoint",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateReorderPoint", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "updateReorderPoint",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteReorderPoint", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "deleteReorderPoint",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

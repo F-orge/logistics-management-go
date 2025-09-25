@@ -1,6 +1,10 @@
-use crate::entities::_generated::{sea_orm_active_enums::UserRole, session, user};
 use async_graphql::{Context, Guard};
 use chrono::Utc;
+
+use crate::models::{
+    session,
+    user::{self, UserRole},
+};
 
 pub struct RoleGuard {
     role: UserRole,
@@ -47,7 +51,7 @@ impl Guard for RequireSession {
             Err(_) => return Err("Forbidden".into()),
         };
 
-        if session.expires_at < Utc::now().naive_utc() {
+        if session.expires_at < Utc::now() {
             return Err("Session expired".into());
         }
 

@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "PutawayRules")]
 impl graphql_core::traits::GraphqlQuery<putaway_rules::Model, Uuid> for putaway_rules::Entity {
-    #[graphql(name = "putawayRules", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "putawayRules",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<putaway_rules::Model, Uuid> for putaway_
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "putawayRule", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "putawayRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +59,10 @@ impl
         UpdatePutawayRule,
     > for Mutations
 {
-    #[graphql(name = "createPutawayRule", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "createPutawayRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updatePutawayRule", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "updatePutawayRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deletePutawayRule", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))")]
+    #[graphql(
+        name = "deletePutawayRule",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

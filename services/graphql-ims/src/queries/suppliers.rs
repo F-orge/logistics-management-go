@@ -3,8 +3,8 @@ use crate::entities::{
     suppliers::{InsertSupplier, UpdateSupplier},
 };
 use async_graphql::Object;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,

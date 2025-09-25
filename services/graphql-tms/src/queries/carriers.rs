@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Carriers")]
 impl graphql_core::traits::GraphqlQuery<carriers::Model, Uuid> for carriers::Entity {
-    #[graphql(name = "carriers", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))")]
+    #[graphql(
+        name = "carriers",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<carriers::Model, Uuid> for carriers::Ent
             .unwrap_or_default();
         Ok(carriers)
     }
-    #[graphql(name = "carrier", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))")]
+    #[graphql(
+        name = "carrier",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager)).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -48,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<carriers::Model, Uuid, InsertCarrier, UpdateCarrier>
     for Mutations
 {
-    #[graphql(name = "createCarrier", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
+    #[graphql(
+        name = "createCarrier",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -61,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<carriers::Model, Uuid, InsertCarrier,
         _ = trx.commit().await?;
         Ok(new_carrier)
     }
-    #[graphql(name = "updateCarrier", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
+    #[graphql(
+        name = "updateCarrier",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -76,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<carriers::Model, Uuid, InsertCarrier,
         _ = trx.commit().await?;
         Ok(updated_carrier)
     }
-    #[graphql(name = "deleteCarrier", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))")]
+    #[graphql(
+        name = "deleteCarrier",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

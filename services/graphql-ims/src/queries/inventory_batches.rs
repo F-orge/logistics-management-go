@@ -4,13 +4,13 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
 };
 use uuid::Uuid;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 
 #[Object(name = "InventoryBatches")]
 impl graphql_core::traits::GraphqlQuery<inventory_batches::Model, Uuid>

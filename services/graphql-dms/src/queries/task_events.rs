@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::task_events,
     task_events::{InsertTaskEvent, UpdateTaskEvent},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "TaskEvents")]
 impl graphql_core::traits::GraphqlQuery<task_events::Model, Uuid> for task_events::Entity {

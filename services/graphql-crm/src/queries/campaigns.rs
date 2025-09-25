@@ -4,8 +4,8 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -54,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<campaigns::Model, Uuid, InsertCampaign, UpdateCampaign>
     for Mutations
 {
-    #[graphql(name = "createCampaign", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))")]
+    #[graphql(
+        name = "createCampaign",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -67,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<campaigns::Model, Uuid, InsertCampaig
         _ = trx.commit().await?;
         Ok(new_campaign)
     }
-    #[graphql(name = "updateCampaign", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))")]
+    #[graphql(
+        name = "updateCampaign",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -82,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<campaigns::Model, Uuid, InsertCampaig
         _ = trx.commit().await?;
         Ok(updated_campaign)
     }
-    #[graphql(name = "deleteCampaign", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))")]
+    #[graphql(
+        name = "deleteCampaign",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::MarketingManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

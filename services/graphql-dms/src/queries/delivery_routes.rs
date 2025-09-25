@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::delivery_routes,
     delivery_routes::{InsertDeliveryRoute, UpdateDeliveryRoute},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "DeliveryRoutes")]
 impl graphql_core::traits::GraphqlQuery<delivery_routes::Model, Uuid> for delivery_routes::Entity {

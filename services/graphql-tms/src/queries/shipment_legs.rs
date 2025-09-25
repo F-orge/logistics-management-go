@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "ShipmentLegs")]
 impl graphql_core::traits::GraphqlQuery<shipment_legs::Model, Uuid> for shipment_legs::Entity {
-    #[graphql(name = "shipmentLegs", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "shipmentLegs",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<shipment_legs::Model, Uuid> for shipment
             .unwrap_or_default();
         Ok(shipment_legs)
     }
-    #[graphql(name = "shipmentLeg", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "shipmentLeg",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner)).or(RoleGuard::new(UserRole::Dispatcher)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -53,7 +59,10 @@ impl
         UpdateShipmentLeg,
     > for Mutations
 {
-    #[graphql(name = "createShipmentLeg", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))")]
+    #[graphql(
+        name = "createShipmentLeg",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -66,7 +75,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_shipment_leg)
     }
-    #[graphql(name = "updateShipmentLeg", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))")]
+    #[graphql(
+        name = "updateShipmentLeg",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -81,7 +93,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_shipment_leg)
     }
-    #[graphql(name = "deleteShipmentLeg", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))")]
+    #[graphql(
+        name = "deleteShipmentLeg",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::LogisticsPlanner))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

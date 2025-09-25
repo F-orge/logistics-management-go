@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::driver_locations,
     driver_locations::{InsertDriverLocation, UpdateDriverLocation},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "DriverLocations")]
 impl graphql_core::traits::GraphqlQuery<driver_locations::Model, Uuid>

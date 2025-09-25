@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -16,7 +16,10 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<outbound_shipment_items::Model, Uuid>
     for outbound_shipment_items::Entity
 {
-    #[graphql(name = "outboundShipmentItems", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "outboundShipmentItems",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -31,7 +34,10 @@ impl graphql_core::traits::GraphqlQuery<outbound_shipment_items::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "outboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "outboundShipmentItem",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -57,7 +63,10 @@ impl
         UpdateOutboundShipmentItem,
     > for Mutations
 {
-    #[graphql(name = "createOutboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "createOutboundShipmentItem",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -70,7 +79,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateOutboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "updateOutboundShipmentItem",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -85,7 +97,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteOutboundShipmentItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "deleteOutboundShipmentItem",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

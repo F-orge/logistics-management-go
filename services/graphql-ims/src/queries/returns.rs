@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -14,7 +14,10 @@ use uuid::Uuid;
 
 #[Object(name = "Returns")]
 impl graphql_core::traits::GraphqlQuery<returns::Model, Uuid> for returns::Entity {
-    #[graphql(name = "returns", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "returns",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -29,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<returns::Model, Uuid> for returns::Entit
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "return", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))")]
+    #[graphql(
+        name = "return",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::InventoryManager)).or(RoleGuard::new(UserRole::WarehouseManager)).or(RoleGuard::new(UserRole::WarehouseOperator)).or(RoleGuard::new(UserRole::AccountManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -48,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<returns::Model, Uuid, InsertReturn, UpdateReturn>
     for Mutations
 {
-    #[graphql(name = "createReturn", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "createReturn",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -61,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<returns::Model, Uuid, InsertReturn, U
         _ = trx.commit().await?;
         Ok(new_item)
     }
-    #[graphql(name = "updateReturn", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "updateReturn",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -76,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<returns::Model, Uuid, InsertReturn, U
         _ = trx.commit().await?;
         Ok(updated_item)
     }
-    #[graphql(name = "deleteReturn", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))")]
+    #[graphql(
+        name = "deleteReturn",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::AccountManager)).or(RoleGuard::new(UserRole::WarehouseOperator))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

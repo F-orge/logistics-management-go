@@ -4,8 +4,8 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -52,7 +52,10 @@ pub struct Mutations;
 
 #[Object(name = "CrmTagMutations")]
 impl GraphqlMutation<tags::Model, Uuid, InsertTag, UpdateTag> for Mutations {
-    #[graphql(name = "createTag", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
+    #[graphql(
+        name = "createTag",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -65,7 +68,10 @@ impl GraphqlMutation<tags::Model, Uuid, InsertTag, UpdateTag> for Mutations {
         _ = trx.commit().await?;
         Ok(new_tag)
     }
-    #[graphql(name = "updateTag", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
+    #[graphql(
+        name = "updateTag",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -80,7 +86,10 @@ impl GraphqlMutation<tags::Model, Uuid, InsertTag, UpdateTag> for Mutations {
         _ = trx.commit().await?;
         Ok(updated_tag)
     }
-    #[graphql(name = "deleteTag", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
+    #[graphql(
+        name = "deleteTag",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

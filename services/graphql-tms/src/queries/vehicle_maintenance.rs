@@ -4,7 +4,7 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
@@ -16,7 +16,10 @@ use uuid::Uuid;
 impl graphql_core::traits::GraphqlQuery<vehicle_maintenance::Model, Uuid>
     for vehicle_maintenance::Entity
 {
-    #[graphql(name = "vehicleMaintenance", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "vehicleMaintenance",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn list(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -31,7 +34,10 @@ impl graphql_core::traits::GraphqlQuery<vehicle_maintenance::Model, Uuid>
             .unwrap_or_default();
         Ok(vehicle_maintenance)
     }
-    #[graphql(name = "vehicleMaintenanceItem", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::TransportManager))")]
+    #[graphql(
+        name = "vehicleMaintenanceItem",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager)).or(RoleGuard::new(UserRole::TransportManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -55,7 +61,10 @@ impl
         UpdateVehicleMaintenance,
     > for Mutations
 {
-    #[graphql(name = "createVehicleMaintenance", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))")]
+    #[graphql(
+        name = "createVehicleMaintenance",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -68,7 +77,10 @@ impl
         _ = trx.commit().await?;
         Ok(new_vehicle_maintenance)
     }
-    #[graphql(name = "updateVehicleMaintenance", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))")]
+    #[graphql(
+        name = "updateVehicleMaintenance",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -83,7 +95,10 @@ impl
         _ = trx.commit().await?;
         Ok(updated_vehicle_maintenance)
     }
-    #[graphql(name = "deleteVehicleMaintenance", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))")]
+    #[graphql(
+        name = "deleteVehicleMaintenance",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FleetManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

@@ -4,8 +4,8 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -54,7 +54,10 @@ pub struct Mutations;
 impl graphql_core::traits::GraphqlMutation<cases::Model, Uuid, InsertCase, UpdateCase>
     for Mutations
 {
-    #[graphql(name = "createCase", guard = "RoleGuard::new(UserRole::CustomerSupportAgent).or(RoleGuard::new(UserRole::SalesRep))")]
+    #[graphql(
+        name = "createCase",
+        guard = "RoleGuard::new(UserRole::CustomerSupportAgent).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -67,7 +70,10 @@ impl graphql_core::traits::GraphqlMutation<cases::Model, Uuid, InsertCase, Updat
         _ = trx.commit().await?;
         Ok(new_case)
     }
-    #[graphql(name = "updateCase", guard = "RoleGuard::new(UserRole::CustomerSupportAgent).or(RoleGuard::new(UserRole::SalesRep))")]
+    #[graphql(
+        name = "updateCase",
+        guard = "RoleGuard::new(UserRole::CustomerSupportAgent).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -82,7 +88,10 @@ impl graphql_core::traits::GraphqlMutation<cases::Model, Uuid, InsertCase, Updat
         _ = trx.commit().await?;
         Ok(updated_case)
     }
-    #[graphql(name = "deleteCase", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::CustomerSupportAgent))")]
+    #[graphql(
+        name = "deleteCase",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::CustomerSupportAgent))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

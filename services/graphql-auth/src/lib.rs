@@ -4,7 +4,6 @@ pub mod entities;
 pub mod guards;
 pub mod models;
 pub mod mutation;
-pub mod queries;
 pub mod query;
 
 #[derive(MergedObject, Default, Debug)]
@@ -12,7 +11,7 @@ pub mod query;
 pub struct Query(query::user::Query);
 
 #[derive(MergedObject, Default, Debug)]
-#[graphql(name = "AuthMutations")]
+#[graphql(name = "AuthMutation")]
 pub struct Mutation(
     mutation::user::Mutation,
     mutation::account::Mutation,

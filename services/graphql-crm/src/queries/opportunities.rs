@@ -4,8 +4,8 @@ use crate::entities::{
 };
 use async_graphql::Object;
 use graphql_auth::guards::RoleGuard;
+use graphql_auth::models::user::UserRole;
 use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -54,7 +54,10 @@ pub struct Mutations;
 impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpportunity>
     for Mutations
 {
-    #[graphql(name = "createOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
+    #[graphql(
+        name = "createOpportunity",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn create(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -67,7 +70,10 @@ impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpport
         _ = trx.commit().await?;
         Ok(new_opportunity)
     }
-    #[graphql(name = "updateOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))")]
+    #[graphql(
+        name = "updateOpportunity",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager)).or(RoleGuard::new(UserRole::SalesRep))"
+    )]
     async fn update(
         &self,
         ctx: &async_graphql::Context<'_>,
@@ -82,7 +88,10 @@ impl GraphqlMutation<opportunities::Model, Uuid, InsertOpportunity, UpdateOpport
         _ = trx.commit().await?;
         Ok(updated_opportunity)
     }
-    #[graphql(name = "deleteOpportunity", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))")]
+    #[graphql(
+        name = "deleteOpportunity",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::SalesManager))"
+    )]
     async fn delete(
         &self,
         ctx: &async_graphql::Context<'_>,

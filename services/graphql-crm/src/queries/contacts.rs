@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::contacts,
     contacts::{InsertContact, UpdateContact},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "Contacts")]
 impl graphql_core::traits::GraphqlQuery<contacts::Model, Uuid> for contacts::Entity {

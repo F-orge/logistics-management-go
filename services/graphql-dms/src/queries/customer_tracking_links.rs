@@ -11,7 +11,7 @@ use crate::entities::{
     _generated::customer_tracking_links,
     customer_tracking_links::{InsertCustomerTrackingLink, UpdateCustomerTrackingLink},
 };
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
 
 #[Object(name = "CustomerTrackingLinks")]
 impl graphql_core::traits::GraphqlQuery<customer_tracking_links::Model, Uuid>

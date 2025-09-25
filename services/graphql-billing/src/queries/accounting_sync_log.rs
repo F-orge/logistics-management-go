@@ -1,7 +1,7 @@
 use async_graphql::Object;
-use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use graphql_auth::guards::RoleGuard;
-use graphql_auth::entities::_generated::sea_orm_active_enums::UserRole;
+use graphql_auth::models::user::UserRole;
+use graphql_core::traits::{GraphqlMutation, GraphqlQuery};
 use sea_orm::{
     ActiveModelTrait, ActiveValue::Set, DatabaseConnection, EntityTrait, IntoActiveModel,
     ModelTrait, PaginatorTrait, TransactionTrait,
@@ -32,7 +32,10 @@ impl graphql_core::traits::GraphqlQuery<accounting_sync_log::Model, Uuid>
             .unwrap_or_default();
         Ok(items)
     }
-    #[graphql(name = "accountingSyncLog", guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FinanceManager))")]
+    #[graphql(
+        name = "accountingSyncLog",
+        guard = "RoleGuard::new(UserRole::Admin).or(RoleGuard::new(UserRole::FinanceManager))"
+    )]
     async fn view(
         &self,
         ctx: &async_graphql::Context<'_>,
