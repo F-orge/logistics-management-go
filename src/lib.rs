@@ -11,35 +11,35 @@ type GraphQLSchema = Schema<Query, Mutations, EmptySubscription>;
 #[derive(Debug, SimpleObject, Default)]
 pub struct Query {
     auth: graphql_auth::Query,
-    #[graphql(guard = RequireSession)]
-    crm: graphql_crm::Query,
-    #[graphql(guard = RequireSession)]
-    ims: graphql_ims::Query,
-    #[graphql(guard = RequireSession)]
-    tms: graphql_tms::Query,
-    #[graphql(guard = RequireSession)]
-    wms: graphql_wms::Query,
-    #[graphql(guard = RequireSession)]
-    dms: graphql_dms::Query,
-    #[graphql(guard = RequireSession)]
-    billing: graphql_billing::Query,
+    // #[graphql(guard = RequireSession)]
+    // crm: graphql_crm::Query,
+    // #[graphql(guard = RequireSession)]
+    // ims: graphql_ims::Query,
+    // #[graphql(guard = RequireSession)]
+    // tms: graphql_tms::Query,
+    // #[graphql(guard = RequireSession)]
+    // wms: graphql_wms::Query,
+    // #[graphql(guard = RequireSession)]
+    // dms: graphql_dms::Query,
+    // #[graphql(guard = RequireSession)]
+    // billing: graphql_billing::Query,
 }
 
 #[derive(Debug, SimpleObject, Default)]
 pub struct Mutations {
     auth: graphql_auth::Mutation,
-    #[graphql(guard = RequireSession)]
-    crm: graphql_crm::Mutation,
-    #[graphql(guard = RequireSession)]
-    ims: graphql_ims::Mutation,
-    #[graphql(guard = RequireSession)]
-    tms: graphql_tms::Mutation,
-    #[graphql(guard = RequireSession)]
-    wms: graphql_wms::Mutation,
-    #[graphql(guard = RequireSession)]
-    dms: graphql_dms::Mutation,
-    #[graphql(guard = RequireSession)]
-    billing: graphql_billing::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // crm: graphql_crm::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // ims: graphql_ims::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // tms: graphql_tms::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // wms: graphql_wms::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // dms: graphql_dms::Mutation,
+    // #[graphql(guard = RequireSession)]
+    // billing: graphql_billing::Mutation,
 }
 
 #[derive(Parser)]

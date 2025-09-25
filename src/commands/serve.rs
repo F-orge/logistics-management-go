@@ -41,14 +41,6 @@ async fn graphql_playground() -> impl IntoResponse {
 }
 
 pub async fn execute(args: ServeArgs) -> anyhow::Result<()> {
-    tracing_subscriber::registry()
-        .with(tracing_subscriber::fmt::layer())
-        .with(
-            tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or(args.log_level.clone().into()),
-        )
-        .init();
-
     let db = Database::connect(args.database_url.clone()).await?;
 
     let schema = Schema::build(Query::default(), Mutations::default(), EmptySubscription).finish();
