@@ -7,7 +7,7 @@ use rust_decimal::Decimal;
 use sqlx::FromRow;
 use uuid::Uuid;
 
-use crate::models::products;
+use crate::models::{invoices, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -28,10 +28,13 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    #[graphql(skip)]
-    async fn invoice(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        // Skipped as per annotation
-        todo!()
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(invoices::PrimaryKey(self.invoice_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find product"))?)
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
