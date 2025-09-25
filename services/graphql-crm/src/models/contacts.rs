@@ -5,6 +5,9 @@ use uuid::Uuid;
 
 use crate::models::companies;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 #[graphql(complex)]
 pub struct Model {

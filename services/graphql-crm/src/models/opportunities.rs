@@ -15,6 +15,9 @@ use crate::models::contacts;
 use super::enums::OpportunitySource;
 use super::enums::OpportunityStage;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, SimpleObject)]
 #[graphql(complex)]
 pub struct Model {

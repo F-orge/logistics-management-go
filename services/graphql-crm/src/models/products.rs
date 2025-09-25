@@ -5,6 +5,9 @@ use uuid::Uuid;
 
 use super::enums::ProductType;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 pub struct Model {
     pub id: Uuid,

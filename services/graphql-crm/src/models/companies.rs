@@ -4,6 +4,9 @@ use graphql_auth::models::user;
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 #[graphql(complex)]
 pub struct Model {

@@ -1,9 +1,13 @@
+use std::sync::Arc;
+
 use async_graphql::ComplexObject;
 use async_graphql::Context;
 use async_graphql::SimpleObject;
+use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::Utc;
 use graphql_auth::models::user;
+use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
 use crate::models::contacts;
@@ -11,6 +15,9 @@ use crate::models::contacts;
 use super::enums::CasePriority;
 use super::enums::CaseStatus;
 use super::enums::CaseType;
+
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 #[graphql(complex)]
@@ -35,6 +42,18 @@ impl Model {
         todo!()
     }
     async fn contact(&self, ctx: &Context<'_>) -> async_graphql::Result<contacts::Model> {
+        todo!()
+    }
+}
+
+impl Loader<PrimaryKey> for PostgresDataLoader {
+    type Error = Arc<sqlx::Error>;
+    type Value = Model;
+
+    async fn load(
+        &self,
+        keys: &[PrimaryKey],
+    ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         todo!()
     }
 }

@@ -7,6 +7,9 @@ use crate::models::{cases, contacts};
 
 use super::enums::InteractionType;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 #[graphql(complex)]
 pub struct Model {

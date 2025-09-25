@@ -12,6 +12,9 @@ use crate::models::opportunities;
 use super::enums::InvoiceStatus;
 use super::enums::PaymentMethod;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, SimpleObject)]
 #[graphql(complex)]
 pub struct Model {
