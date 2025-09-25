@@ -3,6 +3,7 @@ use chrono::{Duration, Utc};
 use sqlx::PgPool;
 use uuid::Uuid;
 
+use crate::guards::RequireSession;
 use crate::models::{account, session, user};
 
 #[derive(Debug, Clone, InputObject)]
@@ -66,13 +67,42 @@ impl Mutation {
         })
     }
 
-    #[graphql(skip)]
-    async fn change_password(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    #[graphql(guard = RequireSession)]
+    async fn change_password(
+        &self,
+        ctx: &Context<'_>,
+        old_password: String,
+        new_password: String,
+    ) -> async_graphql::Result<String> {
+        let db = ctx.data::<PgPool>()?;
+
+        let current_user = ctx.data::<user::Model>()?;
+
+        let mut trx = db.begin().await?;
+
+        let result =
+            sqlx::query("update auth.account set password = ? where password = ? and id = ?")
+                .bind(new_password)
+                .bind(old_password)
+                .bind(current_user.id)
+                .execute(&mut *trx)
+                .await?;
+
+        if result.rows_affected() != 1 {
+            return Err(async_graphql::Error::new("Unable to update password"));
+        }
+
+        _ = trx.commit().await?;
+
+        Ok("Password changed successfully".into())
     }
 
     #[graphql(skip)]
-    async fn reset_password(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn reset_password(
+        &self,
+        ctx: &Context<'_>,
+        token: String,
+    ) -> async_graphql::Result<String> {
+        todo!("reset password via verification token")
     }
 }
