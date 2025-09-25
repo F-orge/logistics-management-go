@@ -37,7 +37,7 @@ impl Mutation {
         }
 
         let user = sqlx::query_as::<_, user::Model>(
-            r#"select auth.user.* from auth.user inner join auth.account on auth.user.id = auth.account_user.id where auth.user.email = ? and auth.account.password = ?"#,
+            r#"select auth.user.* from auth.user inner join auth.account on auth.user.id = auth.account.user_id where auth.user.email = $1 and auth.account.password = $2"#,
         )
         .bind(payload.email)
         .bind(payload.password)
@@ -46,7 +46,7 @@ impl Mutation {
         .ok_or(async_graphql::Error::new("Invalid email or password"))?;
 
         let new_session = sqlx::query_as::<_, session::Model>(
-            "insert into auth.session (token,expires_at,user_id) values (?,?,?) returning *",
+            "insert into auth.session (token,expires_at,user_id) values ($1,$2,$3) returning *",
         )
         .bind(Uuid::new_v4())
         .bind(Utc::now() + Duration::seconds(3600))

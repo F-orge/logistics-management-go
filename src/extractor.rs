@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 use axum::http::HeaderMap;
-use graphql_auth::entities::_generated::{session, user};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use graphql_auth::models::{session, user};
+use sqlx::PgPool;
 
 pub fn extract_token(headers: &HeaderMap) -> anyhow::Result<&str> {
     let auth_parts = headers
@@ -20,32 +20,25 @@ pub fn extract_token(headers: &HeaderMap) -> anyhow::Result<&str> {
     Ok(auth_parts[1])
 }
 
-pub async fn get_session(
-    db: &DatabaseConnection,
-    headers: &HeaderMap,
-) -> anyhow::Result<session::Model> {
+pub async fn get_session(db: &PgPool, headers: &HeaderMap) -> anyhow::Result<session::Model> {
     // extract the token in the header via Authorization
     let token = extract_token(headers)?;
 
     // get session via token
-    let session = session::Entity::find()
-        .filter(session::Column::Token.eq(token))
-        .one(db)
-        .await?
-        .ok_or(anyhow!("Token does not exists"))?;
+    let session =
+        sqlx::query_as::<_, session::Model>("select * from auth.session where token = $1")
+            .bind(token)
+            .fetch_one(db)
+            .await?;
 
     Ok(session)
 }
 
-pub async fn get_user(
-    db: &DatabaseConnection,
-    session: &session::Model,
-) -> anyhow::Result<user::Model> {
-    let user = user::Entity::find()
-        .filter(user::Column::Id.eq(session.user_id))
-        .one(db)
-        .await?
-        .ok_or(anyhow!("Token does not exists"))?;
+pub async fn get_user(db: &PgPool, session: &session::Model) -> anyhow::Result<user::Model> {
+    let user = sqlx::query_as::<_, user::Model>("select * from auth.user where id = $1")
+        .bind(session.user_id)
+        .fetch_one(db)
+        .await?;
 
     Ok(user)
 }

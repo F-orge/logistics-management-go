@@ -1,8 +1,7 @@
 use async_graphql::{EmptySubscription, Schema, SimpleObject};
 use clap::{Parser, Subcommand};
-use sea_orm::DatabaseConnection;
+use sqlx::PgPool;
 
-use graphql_auth::guards::RequireSession;
 pub mod commands;
 pub mod extractor;
 
@@ -105,5 +104,5 @@ pub struct ServeArgs {
 #[derive(Clone)]
 pub struct AppState {
     schema: GraphQLSchema,
-    db: DatabaseConnection,
+    db: PgPool,
 }

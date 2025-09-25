@@ -3,6 +3,7 @@ use chrono::{Duration, Utc};
 use sqlx::PgPool;
 use uuid::Uuid;
 
+use crate::guards::RequireSession;
 use crate::models::{session, user};
 
 #[derive(Debug, Clone, SimpleObject)]
@@ -22,6 +23,7 @@ pub struct Mutation;
 
 #[Object(name = "AuthSessionMutation")]
 impl Mutation {
+    #[graphql(guard = RequireSession)]
     async fn refresh_session(
         &self,
         ctx: &Context<'_>,
@@ -32,7 +34,7 @@ impl Mutation {
 
         // update the expires at to extend one hour
         let new_session = sqlx::query_as::<_, session::Model>(
-            "update auth.session set expires_at = ? where id = ?",
+            "update auth.session set expires_at = $1 where id = $2 returning *",
         )
         .bind(Utc::now() + Duration::seconds(3600))
         .bind(current_session.id)
@@ -49,26 +51,27 @@ impl Mutation {
         })
     }
 
+    #[graphql(guard = RequireSession)]
     async fn revoke_session(
         &self,
         ctx: &Context<'_>,
-        id: Uuid,
+        token: String,
     ) -> async_graphql::Result<RevokeSessionResponse> {
         let db = ctx.data::<PgPool>()?;
 
         // revoking session is setting the expires_at to utc.now - 10 seconds
         let current_session = ctx.data::<session::Model>()?;
 
-        let revoked_session = sqlx::query_as::<_, session::Model>(
-            "update auth.session set expires_at = ? where id = ? and user_id = ?",
+        let result = sqlx::query(
+            "update auth.session set expires_at = $1 where token = $2 and user_id = $3",
         )
         .bind(Utc::now() - Duration::seconds(10))
-        .bind(id)
+        .bind(token)
         .bind(current_session.user_id)
-        .fetch_one(db)
-        .await;
+        .execute(db)
+        .await?;
 
-        if revoked_session.is_ok() {
+        if result.rows_affected() == 1 {
             Ok(RevokeSessionResponse {
                 success: true,
                 message: "Successfully revoked session".into(),

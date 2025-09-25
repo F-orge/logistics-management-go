@@ -8,12 +8,12 @@ create table auth."user"(
   email text not null unique,
   email_verified boolean default false,
   image text,
-  created_at timestamp not null default NOW(),
-  updated_at timestamp not null default NOW(),
+  created_at timestamptz not null default NOW(),
+  updated_at timestamptz not null default NOW(),
   role TEXT,
   banned boolean default false,
   ban_reason text,
-  ban_expires timestamp
+  ban_expires timestamptz
 );
 
 comment on table auth."user" is 'Represents a user in the system.';
@@ -42,10 +42,10 @@ comment on column auth."user".ban_expires is 'Timestamp when the ban expires (op
 
 create table auth.session(
   id uuid primary key default gen_random_uuid(),
-  expires_at timestamp not null,
+  expires_at timestamptz not null,
   token text not null unique,
-  created_at timestamp not null default NOW(),
-  updated_at timestamp not null default NOW(),
+  created_at timestamptz not null default NOW(),
+  updated_at timestamptz not null default NOW(),
   ip_address text,
   user_agent text,
   user_id uuid not null,
@@ -82,12 +82,12 @@ create table auth.account(
   access_token text,
   refresh_token text,
   id_token text,
-  access_token_expires_at timestamp,
-  refresh_token_expires_at timestamp,
+  access_token_expires_at timestamptz,
+  refresh_token_expires_at timestamptz,
   scope text,
   password TEXT,
-  created_at timestamp not null default NOW(),
-  updated_at timestamp not null default NOW(),
+  created_at timestamptz not null default NOW(),
+  updated_at timestamptz not null default NOW(),
   foreign key (user_id) references auth."user"(id)
 );
 
@@ -123,9 +123,9 @@ create table auth.verification(
   id uuid primary key default gen_random_uuid(),
   identifier text not null,
   value text not null,
-  expires_at timestamp not null,
-  created_at timestamp not null default NOW(),
-  updated_at timestamp not null default NOW()
+  expires_at timestamptz not null,
+  created_at timestamptz not null default NOW(),
+  updated_at timestamptz not null default NOW()
 );
 
 comment on table auth.verification is 'Stores tokens for email verification or password reset.';

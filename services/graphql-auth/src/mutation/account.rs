@@ -34,14 +34,15 @@ impl Mutation {
         let mut trx = db.begin().await?;
 
         let new_user = sqlx::query_as::<_, user::Model>(
-            "insert into auth.users (name,email,email_verified) values (?,?,false) returning *",
+            "insert into auth.user (name,email,email_verified) values ($1,$2,$3) returning *",
         )
         .bind(payload.name)
         .bind(payload.email)
+        .bind(false)
         .fetch_one(&mut *trx)
         .await?;
 
-        let new_account = sqlx::query_as::<_, account::Model>("insert into auth.account (account_id,provider_id,user_id,password) values (?,?,?,?) returning *")
+        let new_account = sqlx::query_as::<_, account::Model>("insert into auth.account (account_id,provider_id,user_id,password) values ($1,$2,$3,$4) returning *")
             .bind(new_user.id.clone())
             .bind(new_user.id.clone())
             .bind(new_user.id)
@@ -51,7 +52,7 @@ impl Mutation {
 
         // create a new session to the new registered user
         let new_session = sqlx::query_as::<_, session::Model>(
-            "insert into auth.session (token,expires_at,user_id) values (?,?,?) returning *",
+            "insert into auth.session (token,expires_at,user_id) values ($1,$2,$3) returning *",
         )
         .bind(Uuid::new_v4())
         .bind(Utc::now() + Duration::seconds(3600))
@@ -80,13 +81,14 @@ impl Mutation {
 
         let mut trx = db.begin().await?;
 
-        let result =
-            sqlx::query("update auth.account set password = ? where password = ? and id = ?")
-                .bind(new_password)
-                .bind(old_password)
-                .bind(current_user.id)
-                .execute(&mut *trx)
-                .await?;
+        let result = sqlx::query(
+            "update auth.account set password = $1 where password = $2 and user_id = $3",
+        )
+        .bind(new_password)
+        .bind(old_password)
+        .bind(current_user.id)
+        .execute(&mut *trx)
+        .await?;
 
         if result.rows_affected() != 1 {
             return Err(async_graphql::Error::new("Unable to update password"));

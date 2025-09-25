@@ -7,9 +7,8 @@ use axum::{
     response::{Html, IntoResponse},
     routing::{get, post},
 };
-use sea_orm::Database;
+use sqlx::PgPool;
 use tokio::net::TcpListener;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::{
     AppState, Mutations, Query, ServeArgs,
@@ -41,7 +40,7 @@ async fn graphql_playground() -> impl IntoResponse {
 }
 
 pub async fn execute(args: ServeArgs) -> anyhow::Result<()> {
-    let db = Database::connect(args.database_url.clone()).await?;
+    let db = PgPool::connect(&args.database_url).await?;
 
     let schema = Schema::build(Query::default(), Mutations::default(), EmptySubscription).finish();
 

@@ -65,14 +65,14 @@ pub struct Model {
 
 impl Model {
     pub async fn paginate(page: u64, limit: u64, db: &PgPool) -> sqlx::Result<Vec<Model>> {
-        sqlx::query_as::<_, Model>("select * from auth.users limit ? offset ?")
-            .bind(page as i64)
+        sqlx::query_as::<_, Model>("select * from auth.user limit $1 offset $2")
             .bind(limit as i64)
+            .bind((page * limit) as i64)
             .fetch_all(db)
             .await
     }
     pub async fn one(id: &PrimaryKey, db: &PgPool) -> sqlx::Result<Option<Model>> {
-        sqlx::query_as::<_, Model>("select * from auth.users where id = ?")
+        sqlx::query_as::<_, Model>("select * from auth.user where id = $1")
             .bind(id.0)
             .fetch_optional(db)
             .await
