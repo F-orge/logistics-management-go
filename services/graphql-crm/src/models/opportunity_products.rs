@@ -1,4 +1,7 @@
-use async_graphql::{ComplexObject, Context, SimpleObject};
+use std::sync::Arc;
+
+use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
+use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
 use crate::models::{opportunities, products};
@@ -23,6 +26,18 @@ impl Model {
         todo!()
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        todo!()
+    }
+}
+
+impl Loader<PrimaryKey> for PostgresDataLoader {
+    type Error = Arc<sqlx::Error>;
+    type Value = Model;
+
+    async fn load(
+        &self,
+        keys: &[PrimaryKey],
+    ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         todo!()
     }
 }

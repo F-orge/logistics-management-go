@@ -1,5 +1,8 @@
-use async_graphql::SimpleObject;
+use std::sync::Arc;
+
+use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
@@ -11,4 +14,16 @@ pub struct Model {
     pub name: String,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+impl Loader<PrimaryKey> for PostgresDataLoader {
+    type Error = Arc<sqlx::Error>;
+    type Value = Model;
+
+    async fn load(
+        &self,
+        keys: &[PrimaryKey],
+    ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
+        todo!()
+    }
 }

@@ -1,6 +1,9 @@
-use async_graphql::{ComplexObject, Context, SimpleObject};
+use std::sync::Arc;
+
+use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_auth::models::user;
+use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
@@ -30,6 +33,18 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn owner(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        todo!()
+    }
+}
+
+impl Loader<PrimaryKey> for PostgresDataLoader {
+    type Error = Arc<sqlx::Error>;
+    type Value = Model;
+
+    async fn load(
+        &self,
+        keys: &[PrimaryKey],
+    ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         todo!()
     }
 }
