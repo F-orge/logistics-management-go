@@ -1,17 +1,17 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
-import { useAppForm } from "@/components/ui/form";
-import { signInMutation } from "@/queries/auth";
-import { execute } from "@/lib/graphql/client/execute";
-import type { GetVariables } from "@/lib/utils";
-import { LoginForm } from "./-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import { useAppForm } from '@/components/ui/form';
+import { execute } from '@/lib/graphql/client/execute';
 import type {
   SignInEmailInput,
   SignInEmailMutationVariables,
-} from "@/lib/graphql/client/graphql";
+} from '@/lib/graphql/client/graphql';
+import type { GetVariables } from '@/lib/utils';
+import { signInMutation } from '@/queries/auth';
+import { LoginForm } from './-form';
 
-export const Route = createFileRoute("/auth/(layout)/login/")({
+export const Route = createFileRoute('/auth/(layout)/login/')({
   component: RouteComponent,
   // beforeLoad: () => {
   //   if (pb.authStore.isValid) throw redirect({ to: '/dashboard/crm/leads' });
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/auth/(layout)/login/")({
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/auth/login" });
+  const navigate = useNavigate({ from: '/auth/login' });
 
   const mutation = useMutation(signInMutation);
 
@@ -27,7 +27,7 @@ function RouteComponent() {
     defaultValues: {} as SignInEmailInput,
     onSubmit: async ({ value }) =>
       mutation.mutateAsync(value, {
-        onSuccess: () => navigate({ to: "/dashboard" }),
+        onSuccess: () => navigate({ to: '/dashboard' }),
       }),
   });
 

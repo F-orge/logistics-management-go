@@ -1,5 +1,5 @@
-import { withForm } from "@/components/ui/form";
-import type { SignInEmailInput } from "@/lib/graphql/client/graphql";
+import { withForm } from '@/components/ui/form';
+import type { SignInEmailInput } from '@/lib/graphql/client/graphql';
 
 export const LoginForm = withForm({
   defaultValues: {} as SignInEmailInput,

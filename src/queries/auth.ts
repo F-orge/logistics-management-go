@@ -1,13 +1,13 @@
-import { mutationOptions } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { mutationOptions } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import {
   changePassword,
   refreshSession,
   revokeSession,
   signInEmail,
   signUpEmail,
-} from "@/graphql/mutations/auth";
-import { execute, type GraphQLError } from "@/lib/graphql/client/execute";
+} from '@/graphql/mutations/auth';
+import { execute, type GraphQLError } from '@/lib/graphql/client/execute';
 import type {
   ChangePasswordMutation,
   ChangePasswordMutationVariables,
@@ -19,7 +19,7 @@ import type {
   SignInEmailMutation,
   SignUpEmailInput,
   SignUpEmailMutation,
-} from "@/lib/graphql/client/graphql";
+} from '@/lib/graphql/client/graphql';
 
 export const signUpEmailMutation = mutationOptions<
   SignUpEmailMutation,
@@ -29,9 +29,9 @@ export const signUpEmailMutation = mutationOptions<
   mutationFn: async (payload) => execute(signUpEmail, { payload }),
   onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem("graphql-token", data.auth.signUpEmail.token);
+    localStorage.setItem('graphql-token', data.auth.signUpEmail.token);
     localStorage.setItem(
-      "graphql-user",
+      'graphql-user',
       JSON.stringify(data.auth.signUpEmail.user),
     );
   },
@@ -45,9 +45,9 @@ export const signInMutation = mutationOptions<
   mutationFn: (payload) => execute(signInEmail, { payload }),
   onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem("graphql-token", data.auth.signInEmail.token);
+    localStorage.setItem('graphql-token', data.auth.signInEmail.token);
     localStorage.setItem(
-      "graphql-user",
+      'graphql-user',
       JSON.stringify(data.auth.signInEmail.user),
     );
   },
@@ -62,8 +62,8 @@ export const revokeSessionMutation = mutationOptions<
   onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
     if (data.auth.revokeSession.success) {
-      localStorage.removeItem("graphql-token");
-      localStorage.removeItem("graphql-user");
+      localStorage.removeItem('graphql-token');
+      localStorage.removeItem('graphql-user');
     } else {
       toast.error(data.auth.revokeSession.message);
     }
@@ -78,9 +78,9 @@ export const refreshSessionMutation = mutationOptions<
   mutationFn: () => execute(refreshSession),
   onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem("graphql-token", data.auth.refreshSession.token);
+    localStorage.setItem('graphql-token', data.auth.refreshSession.token);
     localStorage.setItem(
-      "graphql-user",
+      'graphql-user',
       JSON.stringify(data.auth.refreshSession.user),
     );
   },

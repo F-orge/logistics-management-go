@@ -1,7 +1,7 @@
-import { defineConfig } from "@rsbuild/core";
-import { pluginReact } from "@rsbuild/plugin-react";
-import tailwindcss from "@tailwindcss/postcss";
-import { tanstackRouter } from "@tanstack/router-plugin/rspack";
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import tailwindcss from '@tailwindcss/postcss';
+import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 
 export default defineConfig({
   plugins: [pluginReact()],
@@ -14,7 +14,7 @@ export default defineConfig({
     rspack: {
       plugins: [
         tanstackRouter({
-          target: "react",
+          target: 'react',
           autoCodeSplitting: true,
         }),
       ],
@@ -22,7 +22,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/graphql": "http://localhost:8080",
+      '/graphql': 'http://localhost:8080',
     },
   },
 });

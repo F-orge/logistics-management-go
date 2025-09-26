@@ -1,16 +1,16 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useAppForm } from "@/components/ui/form";
-import { signUpEmailMutation } from "@/queries/auth";
-import { RegisterForm } from "./-form";
-import type { SignUpEmailInput } from "@/lib/graphql/client/graphql";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useAppForm } from '@/components/ui/form';
+import type { SignUpEmailInput } from '@/lib/graphql/client/graphql';
+import { signUpEmailMutation } from '@/queries/auth';
+import { RegisterForm } from './-form';
 
-export const Route = createFileRoute("/auth/(layout)/register/")({
+export const Route = createFileRoute('/auth/(layout)/register/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/auth/register" });
+  const navigate = useNavigate({ from: '/auth/register' });
 
   const mutation = useMutation(signUpEmailMutation);
 
@@ -20,7 +20,7 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) =>
       mutation.mutateAsync(value, {
-        onSuccess: () => navigate({ to: "/auth/login" }),
+        onSuccess: () => navigate({ to: '/auth/login' }),
       }),
   });
 

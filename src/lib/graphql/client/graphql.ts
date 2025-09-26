@@ -1493,37 +1493,347 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
 
+export type CreateCampaignMutationVariables = Exact<{
+  payload: CreateCampaignInput;
+}>;
+
+
+export type CreateCampaignMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCampaign: { __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, endDate?: any | null, startDate?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type CreateCaseMutationVariables = Exact<{
+  payload: CreateCaseInput;
+}>;
+
+
+export type CreateCaseMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCase: { __typename?: 'CrmCases', id: any, caseNumber: string, description?: string | null, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, createdAt?: any | null, updatedAt?: any | null, contact?: { __typename?: 'CrmContacts', email: string, name: string, jobTitle?: string | null, phoneNumber?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, owner: { __typename?: 'AuthUser', email: string, name: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateCompanyMutationVariables = Exact<{
+  payload: CreateCompanyInput;
+}>;
+
+
+export type CreateCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCompany: { __typename?: 'CrmCompanies', id: any, annualRevenue?: any | null, state?: string | null, street?: string | null, updatedAt?: any | null, website?: string | null, city?: string | null, country?: string | null, industry?: string | null, name: string, createdAt?: any | null, phoneNumber?: string | null, postalCode?: string | null, owner?: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } | null } } };
+
+export type CreateContactMutationVariables = Exact<{
+  payload: CreateContactInput;
+}>;
+
+
+export type CreateContactMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createContact: { __typename?: 'CrmContacts', id: any, email: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateInteractionMutationVariables = Exact<{
+  payload: CreateInteractionInput;
+}>;
+
+
+export type CreateInteractionMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createInteraction: { __typename?: 'CrmInteractions', id: any, interactionDate?: any | null, notes?: string | null, outcome?: string | null, type?: InteractionType | null, case?: { __typename?: 'CrmCases', caseNumber: string, contact?: { __typename?: 'CrmContacts', company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null } | null, contact: { __typename?: 'CrmContacts', name: string, jobTitle?: string | null, email: string, phoneNumber?: string | null }, user: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateInvoiceMutationVariables = Exact<{
+  payload: CreateInvoiceInput;
+}>;
+
+
+export type CreateInvoiceMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createInvoice: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, dueDate?: any | null, issueDate?: any | null, createdAt?: any | null, updatedAt?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', price: any, quantity: number, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'CrmProducts', name: string, sku?: string | null, description?: string | null } }>, opportunity?: { __typename?: 'CrmOpportunities', stage?: OpportunityStage | null, source?: OpportunitySource | null, campaign?: { __typename?: 'CrmCampaigns', name: string, startDate?: any | null, endDate?: any | null } | null } | null } } };
+
+export type CreateLeadMutationVariables = Exact<{
+  payload: CreateLeadInput;
+}>;
+
+
+export type CreateLeadMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createLead: { __typename?: 'CrmLeads', id: any, name: string, status?: LeadStatus | null, convertedAt?: any | null, email: string, leadScore?: number | null, leadSource?: LeadSource | null, createdAt?: any | null, updatedAt?: any | null, campaign?: { __typename?: 'CrmCampaigns', name: string, startDate?: any | null, endDate?: any | null } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null }, convertedContact?: { __typename?: 'CrmContacts', name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, convertedOpportunity?: { __typename?: 'CrmOpportunities', products: Array<{ __typename?: 'CrmProducts', id: any, name: string, description?: string | null, price: any, sku?: string | null, type?: ProductType | null }> } | null } } };
+
+export type CreateNotificationMutationVariables = Exact<{
+  payload: CreateNotificationInput;
+}>;
+
+
+export type CreateNotificationMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createNotification: { __typename?: 'CrmNotifications', id: any, isRead?: boolean | null, link?: string | null, message: string, createdAt?: any | null, updatedAt?: any | null, user: { __typename?: 'AuthUser', email: string, name: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateOpportunityMutationVariables = Exact<{
+  payload: CreateOpportunityInput;
+}>;
+
+
+export type CreateOpportunityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createOpportunity: { __typename?: 'CrmOpportunities', id: any, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, dealValue?: any | null, expectedCloseDate?: any | null, lostReason?: string | null, name: string, createdAt?: any | null, updatedAt?: any | null, campaign?: { __typename?: 'CrmCampaigns', name: string, budget?: any | null, startDate?: any | null, endDate?: any | null } | null, products: Array<{ __typename?: 'CrmProducts', name: string, price: any, sku?: string | null, type?: ProductType | null, description?: string | null }>, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null } | null, contact?: { __typename?: 'CrmContacts', name: string, phoneNumber?: string | null, jobTitle?: string | null, email: string } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateProductMutationVariables = Exact<{
+  payload: CreateProductInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createProduct: { __typename?: 'CrmProducts', id: any, name: string, price: any, description?: string | null, sku?: string | null, type?: ProductType | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type CreateTagMutationVariables = Exact<{
+  payload: CreateTagInput;
+}>;
+
+
+export type CreateTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createTag: { __typename?: 'CrmTags', id: any, name: string } } };
+
+export type RemoveCampaignMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCampaignMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCampaign: string } };
+
+export type RemoveCaseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCaseMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCase: string } };
+
+export type RemoveCompanyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCompany: string } };
+
+export type RemoveContactMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveContactMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeContact: string } };
+
+export type RemoveInteractionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInteractionMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeInteraction: string } };
+
+export type RemoveInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInvoiceMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeInvoice: string } };
+
+export type RemoveLeadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveLeadMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeLead: string } };
+
+export type RemoveNotificationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveNotificationMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeNotification: string } };
+
+export type RemoveOpportunityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveOpportunityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeOpportunity: string } };
+
+export type RemoveProductMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveProductMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeProduct: string } };
+
+export type RemoveTagMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeTag: string } };
+
 export type AddInvoiceItemMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   payload: CreateInvoiceItemInput;
 }>;
 
 
-export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
+export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, dueDate?: any | null, issueDate?: any | null, total?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, sentAt?: any | null, createdAt?: any | null, updatedAt?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string, price: any, type?: ProductType | null, sku?: string | null, description?: string | null } }>, opportunity?: { __typename?: 'CrmOpportunities', dealValue?: any | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, contact?: { __typename?: 'CrmContacts', name: string, phoneNumber?: string | null, email: string, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null } } };
+
+export type CrmAttachmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmAttachmentQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachment?: { __typename?: 'CrmAttachments', id: any } | null } };
 
 export type CrmAttachmentsQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', fileName: string, mimeType?: string | null, recordId?: any | null, recordType?: RecordType | null, id: any }> } };
+export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', id: any }> } };
+
+export type CrmCampaignQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCampaignQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaign?: { __typename?: 'CrmCampaigns', id: any } | null } };
 
 export type CrmCampaignsQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, startDate?: any | null, endDate?: any | null, createdAt?: any | null, updatedAt?: any | null }> } };
+export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any }> } };
+
+export type CrmCaseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCaseQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', case?: { __typename?: 'CrmCases', id: any } | null } };
 
 export type CrmCasesQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any, caseNumber: string, status?: CaseStatus | null, priority?: CasePriority | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null }, contact?: { __typename?: 'CrmContacts', email: string, jobTitle?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null } | null } | null }> } };
+export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any }> } };
+
+export type CrmCompaniesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCompaniesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', companies: Array<{ __typename?: 'CrmCompanies', id: any }> } };
+
+export type CrmCompanyQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCompanyQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', company?: { __typename?: 'CrmCompanies', id: any } | null } };
+
+export type CrmContactQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmContactQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', contact?: { __typename?: 'CrmContacts', id: any } | null } };
+
+export type CrmContactsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmContactsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', contacts: Array<{ __typename?: 'CrmContacts', id: any }> } };
+
+export type CrmInteractionQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmInteractionQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interaction?: { __typename?: 'CrmInteractions', id: any } | null } };
+
+export type CrmInteractionsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmInteractionsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interactions: Array<{ __typename?: 'CrmInteractions', id: any }> } };
+
+export type CrmInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any } | null } };
+
+export type CrmInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any }> } };
+
+export type CrmLeadQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmLeadQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', lead?: { __typename?: 'CrmLeads', id: any } | null } };
+
+export type CrmLeadsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmLeadsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', leads: Array<{ __typename?: 'CrmLeads', id: any }> } };
+
+export type CrmNotificationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmNotificationQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', notification?: { __typename?: 'CrmNotifications', id: any } | null } };
+
+export type CrmNotificationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmNotificationsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', notifications: Array<{ __typename?: 'CrmNotifications', id: any }> } };
+
+export type CrmOpportunitiesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmOpportunitiesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', opportunities: Array<{ __typename?: 'CrmOpportunities', id: any }> } };
+
+export type CrmOpportunityQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmOpportunityQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', opportunity?: { __typename?: 'CrmOpportunities', id: any } | null } };
+
+export type CrmProductQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmProductQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', product?: { __typename?: 'CrmProducts', id: any } | null } };
+
+export type CrmProductsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmProductsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', products: Array<{ __typename?: 'CrmProducts', id: any }> } };
+
+export type CrmTagQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmTagQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tag?: { __typename?: 'CrmTags', id: any } | null } };
+
+export type CrmTagsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmTagsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tags: Array<{ __typename?: 'CrmTags', id: any }> } };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -1609,74 +1919,667 @@ export const ChangePasswordDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const AddInvoiceItemDocument = new TypedDocumentString(`
-    mutation AddInvoiceItem($id: UUID!, $payload: CreateInvoiceItemInput!) {
+export const CreateCampaignDocument = new TypedDocumentString(`
+    mutation CreateCampaign($payload: CreateCampaignInput!) {
   crm {
-    addInvoiceItem(id: $id, payload: $payload) {
-      total
-      items(page: 0, limit: 30) {
-        product {
-          name
-        }
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<AddInvoiceItemMutation, AddInvoiceItemMutationVariables>;
-export const CrmAttachmentsDocument = new TypedDocumentString(`
-    query CrmAttachments($page: Int!, $limit: Int!) {
-  crm {
-    attachments(page: $page, limit: $limit) {
-      fileName
-      mimeType
-      recordId
-      recordType
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CrmAttachmentsQuery, CrmAttachmentsQueryVariables>;
-export const CrmCampaignsDocument = new TypedDocumentString(`
-    query CrmCampaigns($page: Int!, $limit: Int!) {
-  crm {
-    campaigns(page: $page, limit: $limit) {
+    createCampaign(payload: $payload) {
       id
       name
       budget
-      startDate
       endDate
+      startDate
       createdAt
       updatedAt
     }
   }
 }
-    `) as unknown as TypedDocumentString<CrmCampaignsQuery, CrmCampaignsQueryVariables>;
-export const CrmCasesDocument = new TypedDocumentString(`
-    query CrmCases($page: Int!, $limit: Int!) {
+    `) as unknown as TypedDocumentString<CreateCampaignMutation, CreateCampaignMutationVariables>;
+export const CreateCaseDocument = new TypedDocumentString(`
+    mutation CreateCase($payload: CreateCaseInput!) {
   crm {
-    cases(page: $page, limit: $limit) {
+    createCase(payload: $payload) {
       id
       caseNumber
-      status
-      priority
-      owner {
-        name
-        email
-        image
-      }
       contact {
-        email
-        jobTitle
         company {
           name
           industry
           website
+          phoneNumber
         }
+        email
+        name
+        jobTitle
+        phoneNumber
+      }
+      description
+      owner {
+        email
+        name
+        image
+        role
+      }
+      priority
+      status
+      type
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCaseMutation, CreateCaseMutationVariables>;
+export const CreateCompanyDocument = new TypedDocumentString(`
+    mutation CreateCompany($payload: CreateCompanyInput!) {
+  crm {
+    createCompany(payload: $payload) {
+      id
+      annualRevenue
+      state
+      street
+      updatedAt
+      website
+      city
+      country
+      industry
+      name
+      owner {
+        name
+        email
+        image
+        role
+      }
+      createdAt
+      phoneNumber
+      postalCode
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCompanyMutation, CreateCompanyMutationVariables>;
+export const CreateContactDocument = new TypedDocumentString(`
+    mutation CreateContact($payload: CreateContactInput!) {
+  crm {
+    createContact(payload: $payload) {
+      id
+      company {
+        name
+        industry
+        website
+        phoneNumber
+      }
+      email
+      jobTitle
+      name
+      owner {
+        name
+        email
+        image
+        role
+      }
+      phoneNumber
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateContactMutation, CreateContactMutationVariables>;
+export const CreateInteractionDocument = new TypedDocumentString(`
+    mutation CreateInteraction($payload: CreateInteractionInput!) {
+  crm {
+    createInteraction(payload: $payload) {
+      id
+      case {
+        caseNumber
+        contact {
+          company {
+            name
+            industry
+            website
+            phoneNumber
+          }
+        }
+      }
+      contact {
+        name
+        jobTitle
+        email
+        phoneNumber
+      }
+      interactionDate
+      notes
+      outcome
+      type
+      user {
+        name
+        email
+        image
+        role
       }
     }
   }
 }
+    `) as unknown as TypedDocumentString<CreateInteractionMutation, CreateInteractionMutationVariables>;
+export const CreateInvoiceDocument = new TypedDocumentString(`
+    mutation CreateInvoice($payload: CreateInvoiceInput!) {
+  crm {
+    createInvoice(payload: $payload) {
+      id
+      status
+      total
+      dueDate
+      issueDate
+      items(page: 0, limit: 20) {
+        price
+        product {
+          name
+          sku
+          description
+        }
+        quantity
+        createdAt
+        updatedAt
+      }
+      opportunity {
+        campaign {
+          name
+          startDate
+          endDate
+        }
+        stage
+        source
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInvoiceMutation, CreateInvoiceMutationVariables>;
+export const CreateLeadDocument = new TypedDocumentString(`
+    mutation CreateLead($payload: CreateLeadInput!) {
+  crm {
+    createLead(payload: $payload) {
+      id
+      name
+      campaign {
+        name
+        startDate
+        endDate
+      }
+      status
+      owner {
+        name
+        email
+        image
+        role
+      }
+      convertedAt
+      convertedContact {
+        name
+        email
+        jobTitle
+        phoneNumber
+        company {
+          name
+          industry
+          website
+          phoneNumber
+        }
+      }
+      convertedOpportunity {
+        products(page: 0, limit: 20) {
+          id
+          name
+          description
+          price
+          sku
+          type
+        }
+      }
+      email
+      leadScore
+      leadSource
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateLeadMutation, CreateLeadMutationVariables>;
+export const CreateNotificationDocument = new TypedDocumentString(`
+    mutation CreateNotification($payload: CreateNotificationInput!) {
+  crm {
+    createNotification(payload: $payload) {
+      id
+      isRead
+      link
+      message
+      user {
+        email
+        name
+        image
+        role
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateNotificationMutation, CreateNotificationMutationVariables>;
+export const CreateOpportunityDocument = new TypedDocumentString(`
+    mutation CreateOpportunity($payload: CreateOpportunityInput!) {
+  crm {
+    createOpportunity(payload: $payload) {
+      id
+      campaign {
+        name
+        budget
+        startDate
+        endDate
+      }
+      probability
+      products(page: 0, limit: 10) {
+        name
+        price
+        sku
+        type
+        description
+      }
+      source
+      stage
+      company {
+        name
+        industry
+        phoneNumber
+        website
+      }
+      contact {
+        name
+        phoneNumber
+        jobTitle
+        email
+      }
+      dealValue
+      expectedCloseDate
+      lostReason
+      name
+      owner {
+        name
+        email
+        image
+        role
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOpportunityMutation, CreateOpportunityMutationVariables>;
+export const CreateProductDocument = new TypedDocumentString(`
+    mutation CreateProduct($payload: CreateProductInput!) {
+  crm {
+    createProduct(payload: $payload) {
+      id
+      name
+      price
+      description
+      sku
+      type
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateProductMutation, CreateProductMutationVariables>;
+export const CreateTagDocument = new TypedDocumentString(`
+    mutation CreateTag($payload: CreateTagInput!) {
+  crm {
+    createTag(payload: $payload) {
+      id
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTagMutation, CreateTagMutationVariables>;
+export const RemoveCampaignDocument = new TypedDocumentString(`
+    mutation RemoveCampaign($id: UUID!) {
+  crm {
+    removeCampaign(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCampaignMutation, RemoveCampaignMutationVariables>;
+export const RemoveCaseDocument = new TypedDocumentString(`
+    mutation RemoveCase($id: UUID!) {
+  crm {
+    removeCase(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCaseMutation, RemoveCaseMutationVariables>;
+export const RemoveCompanyDocument = new TypedDocumentString(`
+    mutation RemoveCompany($id: UUID!) {
+  crm {
+    removeCompany(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCompanyMutation, RemoveCompanyMutationVariables>;
+export const RemoveContactDocument = new TypedDocumentString(`
+    mutation RemoveContact($id: UUID!) {
+  crm {
+    removeContact(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveContactMutation, RemoveContactMutationVariables>;
+export const RemoveInteractionDocument = new TypedDocumentString(`
+    mutation RemoveInteraction($id: UUID!) {
+  crm {
+    removeInteraction(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInteractionMutation, RemoveInteractionMutationVariables>;
+export const RemoveInvoiceDocument = new TypedDocumentString(`
+    mutation RemoveInvoice($id: UUID!) {
+  crm {
+    removeInvoice(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInvoiceMutation, RemoveInvoiceMutationVariables>;
+export const RemoveLeadDocument = new TypedDocumentString(`
+    mutation RemoveLead($id: UUID!) {
+  crm {
+    removeLead(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveLeadMutation, RemoveLeadMutationVariables>;
+export const RemoveNotificationDocument = new TypedDocumentString(`
+    mutation RemoveNotification($id: UUID!) {
+  crm {
+    removeNotification(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveNotificationMutation, RemoveNotificationMutationVariables>;
+export const RemoveOpportunityDocument = new TypedDocumentString(`
+    mutation RemoveOpportunity($id: UUID!) {
+  crm {
+    removeOpportunity(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveOpportunityMutation, RemoveOpportunityMutationVariables>;
+export const RemoveProductDocument = new TypedDocumentString(`
+    mutation RemoveProduct($id: UUID!) {
+  crm {
+    removeProduct(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveProductMutation, RemoveProductMutationVariables>;
+export const RemoveTagDocument = new TypedDocumentString(`
+    mutation RemoveTag($id: UUID!) {
+  crm {
+    removeTag(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTagMutation, RemoveTagMutationVariables>;
+export const AddInvoiceItemDocument = new TypedDocumentString(`
+    mutation AddInvoiceItem($id: UUID!, $payload: CreateInvoiceItemInput!) {
+  crm {
+    addInvoiceItem(id: $id, payload: $payload) {
+      id
+      status
+      dueDate
+      issueDate
+      total
+      items(page: 0, limit: 30) {
+        product {
+          name
+          price
+          type
+          sku
+          description
+        }
+      }
+      opportunity {
+        dealValue
+        contact {
+          name
+          phoneNumber
+          email
+          company {
+            name
+            industry
+            website
+            phoneNumber
+          }
+        }
+        source
+        stage
+        company {
+          name
+          industry
+          website
+          phoneNumber
+        }
+      }
+      paidAt
+      paymentMethod
+      sentAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddInvoiceItemMutation, AddInvoiceItemMutationVariables>;
+export const CrmAttachmentDocument = new TypedDocumentString(`
+    query CrmAttachment($id: UUID!) {
+  crm {
+    attachment(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmAttachmentQuery, CrmAttachmentQueryVariables>;
+export const CrmAttachmentsDocument = new TypedDocumentString(`
+    query CrmAttachments($limit: Int!, $page: Int!) {
+  crm {
+    attachments(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmAttachmentsQuery, CrmAttachmentsQueryVariables>;
+export const CrmCampaignDocument = new TypedDocumentString(`
+    query CrmCampaign($id: UUID!) {
+  crm {
+    campaign(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCampaignQuery, CrmCampaignQueryVariables>;
+export const CrmCampaignsDocument = new TypedDocumentString(`
+    query CrmCampaigns($limit: Int!, $page: Int!) {
+  crm {
+    campaigns(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCampaignsQuery, CrmCampaignsQueryVariables>;
+export const CrmCaseDocument = new TypedDocumentString(`
+    query CrmCase($id: UUID!) {
+  crm {
+    case(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCaseQuery, CrmCaseQueryVariables>;
+export const CrmCasesDocument = new TypedDocumentString(`
+    query CrmCases($limit: Int!, $page: Int!) {
+  crm {
+    cases(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
     `) as unknown as TypedDocumentString<CrmCasesQuery, CrmCasesQueryVariables>;
+export const CrmCompaniesDocument = new TypedDocumentString(`
+    query CrmCompanies($limit: Int!, $page: Int!) {
+  crm {
+    companies(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCompaniesQuery, CrmCompaniesQueryVariables>;
+export const CrmCompanyDocument = new TypedDocumentString(`
+    query CrmCompany($id: UUID!) {
+  crm {
+    company(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCompanyQuery, CrmCompanyQueryVariables>;
+export const CrmContactDocument = new TypedDocumentString(`
+    query CrmContact($id: UUID!) {
+  crm {
+    contact(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmContactQuery, CrmContactQueryVariables>;
+export const CrmContactsDocument = new TypedDocumentString(`
+    query CrmContacts($limit: Int!, $page: Int!) {
+  crm {
+    contacts(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmContactsQuery, CrmContactsQueryVariables>;
+export const CrmInteractionDocument = new TypedDocumentString(`
+    query CrmInteraction($id: UUID!) {
+  crm {
+    interaction(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmInteractionQuery, CrmInteractionQueryVariables>;
+export const CrmInteractionsDocument = new TypedDocumentString(`
+    query CrmInteractions($limit: Int!, $page: Int!) {
+  crm {
+    interactions(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmInteractionsQuery, CrmInteractionsQueryVariables>;
+export const CrmInvoiceDocument = new TypedDocumentString(`
+    query CrmInvoice($id: UUID!) {
+  crm {
+    invoice(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmInvoiceQuery, CrmInvoiceQueryVariables>;
+export const CrmInvoicesDocument = new TypedDocumentString(`
+    query CrmInvoices($limit: Int!, $page: Int!) {
+  crm {
+    invoices(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmInvoicesQuery, CrmInvoicesQueryVariables>;
+export const CrmLeadDocument = new TypedDocumentString(`
+    query CrmLead($id: UUID!) {
+  crm {
+    lead(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmLeadQuery, CrmLeadQueryVariables>;
+export const CrmLeadsDocument = new TypedDocumentString(`
+    query CrmLeads($limit: Int!, $page: Int!) {
+  crm {
+    leads(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmLeadsQuery, CrmLeadsQueryVariables>;
+export const CrmNotificationDocument = new TypedDocumentString(`
+    query CrmNotification($id: UUID!) {
+  crm {
+    notification(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmNotificationQuery, CrmNotificationQueryVariables>;
+export const CrmNotificationsDocument = new TypedDocumentString(`
+    query CrmNotifications($limit: Int!, $page: Int!) {
+  crm {
+    notifications(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmNotificationsQuery, CrmNotificationsQueryVariables>;
+export const CrmOpportunitiesDocument = new TypedDocumentString(`
+    query CrmOpportunities($limit: Int!, $page: Int!) {
+  crm {
+    opportunities(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmOpportunitiesQuery, CrmOpportunitiesQueryVariables>;
+export const CrmOpportunityDocument = new TypedDocumentString(`
+    query CrmOpportunity($id: UUID!) {
+  crm {
+    opportunity(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmOpportunityQuery, CrmOpportunityQueryVariables>;
+export const CrmProductDocument = new TypedDocumentString(`
+    query CrmProduct($id: UUID!) {
+  crm {
+    product(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmProductQuery, CrmProductQueryVariables>;
+export const CrmProductsDocument = new TypedDocumentString(`
+    query CrmProducts($limit: Int!, $page: Int!) {
+  crm {
+    products(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmProductsQuery, CrmProductsQueryVariables>;
+export const CrmTagDocument = new TypedDocumentString(`
+    query CrmTag($id: UUID!) {
+  crm {
+    tag(id: $id) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmTagQuery, CrmTagQueryVariables>;
+export const CrmTagsDocument = new TypedDocumentString(`
+    query CrmTags($limit: Int!, $page: Int!) {
+  crm {
+    tags(limit: $limit, page: $page) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmTagsQuery, CrmTagsQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -3163,34 +4066,344 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
 
+export type CreateCampaignMutationVariables = Exact<{
+  payload: CreateCampaignInput;
+}>;
+
+
+export type CreateCampaignMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCampaign: { __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, endDate?: any | null, startDate?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type CreateCaseMutationVariables = Exact<{
+  payload: CreateCaseInput;
+}>;
+
+
+export type CreateCaseMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCase: { __typename?: 'CrmCases', id: any, caseNumber: string, description?: string | null, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, createdAt?: any | null, updatedAt?: any | null, contact?: { __typename?: 'CrmContacts', email: string, name: string, jobTitle?: string | null, phoneNumber?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, owner: { __typename?: 'AuthUser', email: string, name: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateCompanyMutationVariables = Exact<{
+  payload: CreateCompanyInput;
+}>;
+
+
+export type CreateCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createCompany: { __typename?: 'CrmCompanies', id: any, annualRevenue?: any | null, state?: string | null, street?: string | null, updatedAt?: any | null, website?: string | null, city?: string | null, country?: string | null, industry?: string | null, name: string, createdAt?: any | null, phoneNumber?: string | null, postalCode?: string | null, owner?: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } | null } } };
+
+export type CreateContactMutationVariables = Exact<{
+  payload: CreateContactInput;
+}>;
+
+
+export type CreateContactMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createContact: { __typename?: 'CrmContacts', id: any, email: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateInteractionMutationVariables = Exact<{
+  payload: CreateInteractionInput;
+}>;
+
+
+export type CreateInteractionMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createInteraction: { __typename?: 'CrmInteractions', id: any, interactionDate?: any | null, notes?: string | null, outcome?: string | null, type?: InteractionType | null, case?: { __typename?: 'CrmCases', caseNumber: string, contact?: { __typename?: 'CrmContacts', company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null } | null, contact: { __typename?: 'CrmContacts', name: string, jobTitle?: string | null, email: string, phoneNumber?: string | null }, user: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateInvoiceMutationVariables = Exact<{
+  payload: CreateInvoiceInput;
+}>;
+
+
+export type CreateInvoiceMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createInvoice: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, dueDate?: any | null, issueDate?: any | null, createdAt?: any | null, updatedAt?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', price: any, quantity: number, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'CrmProducts', name: string, sku?: string | null, description?: string | null } }>, opportunity?: { __typename?: 'CrmOpportunities', stage?: OpportunityStage | null, source?: OpportunitySource | null, campaign?: { __typename?: 'CrmCampaigns', name: string, startDate?: any | null, endDate?: any | null } | null } | null } } };
+
+export type CreateLeadMutationVariables = Exact<{
+  payload: CreateLeadInput;
+}>;
+
+
+export type CreateLeadMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createLead: { __typename?: 'CrmLeads', id: any, name: string, status?: LeadStatus | null, convertedAt?: any | null, email: string, leadScore?: number | null, leadSource?: LeadSource | null, createdAt?: any | null, updatedAt?: any | null, campaign?: { __typename?: 'CrmCampaigns', name: string, startDate?: any | null, endDate?: any | null } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null }, convertedContact?: { __typename?: 'CrmContacts', name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, convertedOpportunity?: { __typename?: 'CrmOpportunities', products: Array<{ __typename?: 'CrmProducts', id: any, name: string, description?: string | null, price: any, sku?: string | null, type?: ProductType | null }> } | null } } };
+
+export type CreateNotificationMutationVariables = Exact<{
+  payload: CreateNotificationInput;
+}>;
+
+
+export type CreateNotificationMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createNotification: { __typename?: 'CrmNotifications', id: any, isRead?: boolean | null, link?: string | null, message: string, createdAt?: any | null, updatedAt?: any | null, user: { __typename?: 'AuthUser', email: string, name: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateOpportunityMutationVariables = Exact<{
+  payload: CreateOpportunityInput;
+}>;
+
+
+export type CreateOpportunityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createOpportunity: { __typename?: 'CrmOpportunities', id: any, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, dealValue?: any | null, expectedCloseDate?: any | null, lostReason?: string | null, name: string, createdAt?: any | null, updatedAt?: any | null, campaign?: { __typename?: 'CrmCampaigns', name: string, budget?: any | null, startDate?: any | null, endDate?: any | null } | null, products: Array<{ __typename?: 'CrmProducts', name: string, price: any, sku?: string | null, type?: ProductType | null, description?: string | null }>, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null } | null, contact?: { __typename?: 'CrmContacts', name: string, phoneNumber?: string | null, jobTitle?: string | null, email: string } | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null, role?: AuthUserRole | null } } } };
+
+export type CreateProductMutationVariables = Exact<{
+  payload: CreateProductInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createProduct: { __typename?: 'CrmProducts', id: any, name: string, price: any, description?: string | null, sku?: string | null, type?: ProductType | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type CreateTagMutationVariables = Exact<{
+  payload: CreateTagInput;
+}>;
+
+
+export type CreateTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', createTag: { __typename?: 'CrmTags', id: any, name: string } } };
+
+export type RemoveCampaignMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCampaignMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCampaign: string } };
+
+export type RemoveCaseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCaseMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCase: string } };
+
+export type RemoveCompanyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCompany: string } };
+
+export type RemoveContactMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveContactMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeContact: string } };
+
+export type RemoveInteractionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInteractionMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeInteraction: string } };
+
+export type RemoveInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInvoiceMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeInvoice: string } };
+
+export type RemoveLeadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveLeadMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeLead: string } };
+
+export type RemoveNotificationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveNotificationMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeNotification: string } };
+
+export type RemoveOpportunityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveOpportunityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeOpportunity: string } };
+
+export type RemoveProductMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveProductMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeProduct: string } };
+
+export type RemoveTagMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeTag: string } };
+
 export type AddInvoiceItemMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
   payload: CreateInvoiceItemInput;
 }>;
 
 
-export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
+export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, dueDate?: any | null, issueDate?: any | null, total?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, sentAt?: any | null, createdAt?: any | null, updatedAt?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string, price: any, type?: ProductType | null, sku?: string | null, description?: string | null } }>, opportunity?: { __typename?: 'CrmOpportunities', dealValue?: any | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, contact?: { __typename?: 'CrmContacts', name: string, phoneNumber?: string | null, email: string, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null, phoneNumber?: string | null } | null } | null } } };
+
+export type CrmAttachmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmAttachmentQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachment?: { __typename?: 'CrmAttachments', id: any } | null } };
 
 export type CrmAttachmentsQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', fileName: string, mimeType?: string | null, recordId?: any | null, recordType?: RecordType | null, id: any }> } };
+export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', id: any }> } };
+
+export type CrmCampaignQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCampaignQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaign?: { __typename?: 'CrmCampaigns', id: any } | null } };
 
 export type CrmCampaignsQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, startDate?: any | null, endDate?: any | null, createdAt?: any | null, updatedAt?: any | null }> } };
+export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any }> } };
+
+export type CrmCaseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCaseQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', case?: { __typename?: 'CrmCases', id: any } | null } };
 
 export type CrmCasesQueryVariables = Exact<{
-  page: Scalars['Int']['input'];
   limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 }>;
 
 
-export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any, caseNumber: string, status?: CaseStatus | null, priority?: CasePriority | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null }, contact?: { __typename?: 'CrmContacts', email: string, jobTitle?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null } | null } | null }> } };
+export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any }> } };
+
+export type CrmCompaniesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCompaniesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', companies: Array<{ __typename?: 'CrmCompanies', id: any }> } };
+
+export type CrmCompanyQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmCompanyQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', company?: { __typename?: 'CrmCompanies', id: any } | null } };
+
+export type CrmContactQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmContactQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', contact?: { __typename?: 'CrmContacts', id: any } | null } };
+
+export type CrmContactsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmContactsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', contacts: Array<{ __typename?: 'CrmContacts', id: any }> } };
+
+export type CrmInteractionQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmInteractionQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interaction?: { __typename?: 'CrmInteractions', id: any } | null } };
+
+export type CrmInteractionsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmInteractionsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interactions: Array<{ __typename?: 'CrmInteractions', id: any }> } };
+
+export type CrmInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any } | null } };
+
+export type CrmInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any }> } };
+
+export type CrmLeadQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmLeadQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', lead?: { __typename?: 'CrmLeads', id: any } | null } };
+
+export type CrmLeadsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmLeadsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', leads: Array<{ __typename?: 'CrmLeads', id: any }> } };
+
+export type CrmNotificationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmNotificationQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', notification?: { __typename?: 'CrmNotifications', id: any } | null } };
+
+export type CrmNotificationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmNotificationsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', notifications: Array<{ __typename?: 'CrmNotifications', id: any }> } };
+
+export type CrmOpportunitiesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmOpportunitiesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', opportunities: Array<{ __typename?: 'CrmOpportunities', id: any }> } };
+
+export type CrmOpportunityQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmOpportunityQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', opportunity?: { __typename?: 'CrmOpportunities', id: any } | null } };
+
+export type CrmProductQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmProductQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', product?: { __typename?: 'CrmProducts', id: any } | null } };
+
+export type CrmProductsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmProductsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', products: Array<{ __typename?: 'CrmProducts', id: any }> } };
+
+export type CrmTagQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type CrmTagQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tag?: { __typename?: 'CrmTags', id: any } | null } };
+
+export type CrmTagsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type CrmTagsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tags: Array<{ __typename?: 'CrmTags', id: any }> } };
