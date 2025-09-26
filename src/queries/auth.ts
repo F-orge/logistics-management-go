@@ -1,13 +1,13 @@
-import { mutationOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { mutationOptions } from "@tanstack/react-query";
+import { toast } from "sonner";
 import {
   changePassword,
   refreshSession,
   revokeSession,
   signInEmail,
   signUpEmail,
-} from '@/graphql/mutations/auth';
-import { execute, type GraphQLError } from '@/lib/graphql/client/execute';
+} from "@/graphql/mutations/auth";
+import { execute, type GraphQLError } from "@/lib/graphql/client/execute";
 import type {
   ChangePasswordMutation,
   ChangePasswordMutationVariables,
@@ -15,23 +15,24 @@ import type {
   RefreshSessionMutationVariables,
   RevokeSessionMutation,
   RevokeSessionMutationVariables,
+  SignInEmailInput,
   SignInEmailMutation,
-  SignInEmailMutationVariables,
+  SignUpEmailInput,
   SignUpEmailMutation,
   SignUpEmailMutationVariables,
-} from '@/lib/graphql/client/graphql';
+} from "@/lib/graphql/client/graphql";
 
 export const signUpEmailMutation = mutationOptions<
   SignUpEmailMutation,
-  GraphQLError,
-  SignUpEmailMutationVariables
+  GraphQLError[],
+  SignUpEmailInput
 >({
-  mutationFn: async ({ payload }) => execute(signUpEmail, { payload }),
-  onError: (err) => toast.error(err.message),
+  mutationFn: async (payload) => execute(signUpEmail, { payload }),
+  onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem('graphql-token', data.auth.signUpEmail.token);
+    localStorage.setItem("graphql-token", data.auth.signUpEmail.token);
     localStorage.setItem(
-      'graphql-user',
+      "graphql-user",
       JSON.stringify(data.auth.signUpEmail.user),
     );
   },
@@ -39,15 +40,15 @@ export const signUpEmailMutation = mutationOptions<
 
 export const signInMutation = mutationOptions<
   SignInEmailMutation,
-  GraphQLError,
-  SignInEmailMutationVariables
+  GraphQLError[],
+  SignInEmailInput
 >({
-  mutationFn: ({ payload }) => execute(signInEmail, { payload }),
-  onError: (err) => toast.error(err.message),
+  mutationFn: (payload) => execute(signInEmail, { payload }),
+  onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem('graphql-token', data.auth.signInEmail.token);
+    localStorage.setItem("graphql-token", data.auth.signInEmail.token);
     localStorage.setItem(
-      'graphql-user',
+      "graphql-user",
       JSON.stringify(data.auth.signInEmail.user),
     );
   },
@@ -55,15 +56,15 @@ export const signInMutation = mutationOptions<
 
 export const revokeSessionMutation = mutationOptions<
   RevokeSessionMutation,
-  GraphQLError,
+  GraphQLError[],
   RevokeSessionMutationVariables
 >({
   mutationFn: ({ token }) => execute(revokeSession, { token }),
-  onError: (err) => toast.error(err.message),
+  onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
     if (data.auth.revokeSession.success) {
-      localStorage.removeItem('graphql-token');
-      localStorage.removeItem('graphql-user');
+      localStorage.removeItem("graphql-token");
+      localStorage.removeItem("graphql-user");
     } else {
       toast.error(data.auth.revokeSession.message);
     }
@@ -72,15 +73,15 @@ export const revokeSessionMutation = mutationOptions<
 
 export const refreshSessionMutation = mutationOptions<
   RefreshSessionMutation,
-  GraphQLError,
+  GraphQLError[],
   RefreshSessionMutationVariables
 >({
   mutationFn: () => execute(refreshSession),
-  onError: (err) => toast.error(err.message),
+  onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => {
-    localStorage.setItem('graphql-token', data.auth.refreshSession.token);
+    localStorage.setItem("graphql-token", data.auth.refreshSession.token);
     localStorage.setItem(
-      'graphql-user',
+      "graphql-user",
       JSON.stringify(data.auth.refreshSession.user),
     );
   },
@@ -88,10 +89,10 @@ export const refreshSessionMutation = mutationOptions<
 
 export const changePasswordMutation = mutationOptions<
   ChangePasswordMutation,
-  GraphQLError,
+  GraphQLError[],
   ChangePasswordMutationVariables
 >({
   mutationFn: (payload) => execute(changePassword, payload),
-  onError: (err) => toast.error(err.message),
+  onError: (err) => toast.error(err[0].message),
   onSuccess: (data) => toast.success(data.auth.changePassword),
 });

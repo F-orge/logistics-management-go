@@ -68,7 +68,7 @@ dev-backend:
   @cargo watch -q -c -x "run serve --database-url $DATABASE_URL --enable-playground"
 
 dev-frontend:
-  @bun rsbuild dev --open
+  @bun concurrently 'bun rsbuild dev --open' 'bun graphql-codegen --config codegen.ts --watch' -n 'frontend,codegen'
 
 dev: start-postgres
   @bun concurrently 'just drizzle-studio' 'just dev-backend' 'just dev-frontend' -n 'drizzle-studio,backend,frontend'

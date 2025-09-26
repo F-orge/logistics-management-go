@@ -1,37 +1,27 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { toast } from 'sonner';
-import { useAppForm } from '@/components/ui/form';
-import { SignUpMutation } from '@/graphql/auth';
-import { execute } from '@/lib/graphql/client/execute';
-import type { GetVariables } from '@/lib/utils';
-import { RegisterForm } from './-form';
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useAppForm } from "@/components/ui/form";
+import { signUpEmailMutation } from "@/queries/auth";
+import { RegisterForm } from "./-form";
+import type { SignUpEmailInput } from "@/lib/graphql/client/graphql";
+import { useMutation } from "@tanstack/react-query";
 
-export const Route = createFileRoute('/auth/(layout)/register/')({
+export const Route = createFileRoute("/auth/(layout)/register/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: '/auth/register' });
+  const navigate = useNavigate({ from: "/auth/register" });
+
+  const mutation = useMutation(signUpEmailMutation);
 
   const form = useAppForm({
-    defaultValues: {} as GetVariables<typeof SignUpMutation> & {
+    defaultValues: {} as SignUpEmailInput & {
       confirmPassword: string;
     },
-    onSubmit: async ({ value }) => {
-      const [result, error] = await execute(SignUpMutation, value);
-
-      if (value.password !== value.confirmPassword) {
-        toast.error('Invalid Input', {
-          description: 'Password does not match',
-        });
-      }
-
-      if (error) toast.error(error.name, { description: error.message });
-
-      if (!result) throw new Error('Unexpected error');
-
-      navigate({ to: '/auth/login' });
-    },
+    onSubmit: async ({ value }) =>
+      mutation.mutateAsync(value, {
+        onSuccess: () => navigate({ to: "/auth/login" }),
+      }),
   });
 
   return (

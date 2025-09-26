@@ -1,6 +1,8 @@
 /* eslint-disable */
 import * as types from './graphql';
 
+
+
 /**
  * Map of all GraphQL operations in the project.
  *
@@ -13,55 +15,47 @@ import * as types from './graphql';
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-  '\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n': typeof types.SignUpEmailDocument;
-  '\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n': typeof types.SignInEmailDocument;
-  '\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n': typeof types.RevokeSessionDocument;
-  '\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n': typeof types.RefreshSessionDocument;
-  '\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n': typeof types.ChangePasswordDocument;
+    "\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n": typeof types.SignUpEmailDocument,
+    "\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n": typeof types.SignInEmailDocument,
+    "\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n": typeof types.RevokeSessionDocument,
+    "\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n": typeof types.RefreshSessionDocument,
+    "\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n": typeof types.ChangePasswordDocument,
+    "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n": typeof types.AddInvoiceItemDocument,
 };
 const documents: Documents = {
-  '\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n':
-    types.SignUpEmailDocument,
-  '\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n':
-    types.SignInEmailDocument,
-  '\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n':
-    types.RevokeSessionDocument,
-  '\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n':
-    types.RefreshSessionDocument,
-  '\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n':
-    types.ChangePasswordDocument,
+    "\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n": types.SignUpEmailDocument,
+    "\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n": types.SignInEmailDocument,
+    "\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n": types.RevokeSessionDocument,
+    "\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n": types.RefreshSessionDocument,
+    "\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n": types.ChangePasswordDocument,
+    "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n": types.AddInvoiceItemDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n',
-): typeof import('./graphql').SignUpEmailDocument;
+export function graphql(source: "\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n"): typeof import('./graphql').SignUpEmailDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n',
-): typeof import('./graphql').SignInEmailDocument;
+export function graphql(source: "\n  mutation SignInEmail($payload:SignInEmailInput!) {\n    auth {\n      signInEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n"): typeof import('./graphql').SignInEmailDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n',
-): typeof import('./graphql').RevokeSessionDocument;
+export function graphql(source: "\n  mutation RevokeSession($token:String!) {\n    auth {\n      revokeSession(token: $token) {\n        message\n        success\n      }\n    }\n  }  \n"): typeof import('./graphql').RevokeSessionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n',
-): typeof import('./graphql').RefreshSessionDocument;
+export function graphql(source: "\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n"): typeof import('./graphql').RefreshSessionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n',
-): typeof import('./graphql').ChangePasswordDocument;
+export function graphql(source: "\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n"): typeof import('./graphql').ChangePasswordDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n"): typeof import('./graphql').AddInvoiceItemDocument;
+
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

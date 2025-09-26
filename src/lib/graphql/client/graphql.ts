@@ -2,38 +2,25 @@
 import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /**
    * Implement the DateTime<Utc> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
-  DateTime: { input: any; output: any };
-  Decimal: { input: any; output: any };
+  DateTime: { input: any; output: any; }
+  Decimal: { input: any; output: any; }
   /**
    * ISO 8601 calendar date without timezone.
    * Format: %Y-%m-%d
@@ -43,7 +30,7 @@ export type Scalars = {
    * * `1994-11-13`
    * * `2000-02-24`
    */
-  NaiveDate: { input: any; output: any };
+  NaiveDate: { input: any; output: any; }
   /**
    * A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
    * Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -54,8 +41,8 @@ export type Scalars = {
    * * [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
    * * [RFC4122: A Universally Unique Identifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
    */
-  UUID: { input: any; output: any };
-  Upload: { input: any; output: any };
+  UUID: { input: any; output: any; }
+  Upload: { input: any; output: any; }
 };
 
 export type AuthMutation = {
@@ -67,18 +54,22 @@ export type AuthMutation = {
   signUpEmail: SignUpResponse;
 };
 
+
 export type AuthMutationChangePasswordArgs = {
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
 };
 
+
 export type AuthMutationRevokeSessionArgs = {
   token: Scalars['String']['input'];
 };
 
+
 export type AuthMutationSignInEmailArgs = {
   payload: SignInEmailInput;
 };
+
 
 export type AuthMutationSignUpEmailArgs = {
   payload: SignUpEmailInput;
@@ -91,9 +82,11 @@ export type AuthQuery = {
   users: Array<AuthUser>;
 };
 
+
 export type AuthQueryUserArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type AuthQueryUsersArgs = {
   limit: Scalars['Int']['input'];
@@ -147,14 +140,14 @@ export enum AuthUserRole {
   TransportManager = 'TRANSPORT_MANAGER',
   User = 'USER',
   WarehouseManager = 'WAREHOUSE_MANAGER',
-  WarehouseOperator = 'WAREHOUSE_OPERATOR',
+  WarehouseOperator = 'WAREHOUSE_OPERATOR'
 }
 
 export enum CasePriority {
   Critical = 'CRITICAL',
   High = 'HIGH',
   Low = 'LOW',
-  Medium = 'MEDIUM',
+  Medium = 'MEDIUM'
 }
 
 export enum CaseStatus {
@@ -165,7 +158,7 @@ export enum CaseStatus {
   New = 'NEW',
   Resolved = 'RESOLVED',
   WaitingForCustomer = 'WAITING_FOR_CUSTOMER',
-  WaitingForInternal = 'WAITING_FOR_INTERNAL',
+  WaitingForInternal = 'WAITING_FOR_INTERNAL'
 }
 
 export enum CaseType {
@@ -174,7 +167,7 @@ export enum CaseType {
   FeatureRequest = 'FEATURE_REQUEST',
   Problem = 'PROBLEM',
   Question = 'QUESTION',
-  TechnicalSupport = 'TECHNICAL_SUPPORT',
+  TechnicalSupport = 'TECHNICAL_SUPPORT'
 }
 
 export type CreateCampaignInput = {
@@ -404,6 +397,7 @@ export type CrmInvoices = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+
 export type CrmInvoicesItemsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
@@ -531,481 +525,582 @@ export type CrmMutations = {
   uploadAttachment: CrmAttachments;
 };
 
+
 export type CrmMutationsAddInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
   payload: CreateInvoiceItemInput;
 };
 
+
 export type CrmMutationsCreateCampaignArgs = {
   payload: CreateCampaignInput;
 };
+
 
 export type CrmMutationsCreateCaseArgs = {
   payload: CreateCaseInput;
 };
 
+
 export type CrmMutationsCreateCompanyArgs = {
   payload: CreateCompanyInput;
 };
+
 
 export type CrmMutationsCreateContactArgs = {
   payload: CreateContactInput;
 };
 
+
 export type CrmMutationsCreateInteractionArgs = {
   payload: CreateInteractionInput;
 };
+
 
 export type CrmMutationsCreateInvoiceArgs = {
   payload: CreateInvoiceInput;
 };
 
+
 export type CrmMutationsCreateLeadArgs = {
   payload: CreateLeadInput;
 };
+
 
 export type CrmMutationsCreateNotificationArgs = {
   payload: CreateNotificationInput;
 };
 
+
 export type CrmMutationsCreateOpportunityArgs = {
   payload: CreateOpportunityInput;
 };
+
 
 export type CrmMutationsCreateProductArgs = {
   payload: CreateProductInput;
 };
 
+
 export type CrmMutationsCreateTagArgs = {
   payload: CreateTagInput;
 };
+
 
 export type CrmMutationsRemoveAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveCaseArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveInvoiceItemArgs = {
   itemId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveLeadArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveNotificationArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveOpportunityArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveProductArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveTagArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCampaignBudgetArgs = {
   budget: Scalars['Decimal']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCampaignEndDateArgs = {
   endDate: Scalars['NaiveDate']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCampaignNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateCampaignStartDateArgs = {
   id: Scalars['UUID']['input'];
   startDate: Scalars['NaiveDate']['input'];
 };
+
 
 export type CrmMutationsUpdateCaseContactIdArgs = {
   contactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCaseDescriptionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCaseNumberArgs = {
   caseNumber: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCaseOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCasePriorityArgs = {
   id: Scalars['UUID']['input'];
   priority?: InputMaybe<CasePriority>;
 };
 
+
 export type CrmMutationsUpdateCaseStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<CaseStatus>;
 };
+
 
 export type CrmMutationsUpdateCaseTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<CaseType>;
 };
 
+
 export type CrmMutationsUpdateCompanyAnnualRevenueArgs = {
   annualRevenue?: InputMaybe<Scalars['Decimal']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyCityArgs = {
   city?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCompanyCountryArgs = {
   country?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyIndustryArgs = {
   id: Scalars['UUID']['input'];
   industry?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyPhoneNumberArgs = {
   id: Scalars['UUID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateCompanyPostalCodeArgs = {
   id: Scalars['UUID']['input'];
   postalCode?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyStateArgs = {
   id: Scalars['UUID']['input'];
   state?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateCompanyStreetArgs = {
   id: Scalars['UUID']['input'];
   street?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyWebsiteArgs = {
   id: Scalars['UUID']['input'];
   website?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateContactCompanyIdArgs = {
   companyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateContactEmailArgs = {
   email: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateContactJobTitleArgs = {
   id: Scalars['UUID']['input'];
   jobTitle?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateContactNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateContactOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateContactPhoneNumberArgs = {
   id: Scalars['UUID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateInteractionCaseIdArgs = {
   caseId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateInteractionContactIdArgs = {
   contactId: Scalars['UUID']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateInteractionInteractionDateArgs = {
   id: Scalars['UUID']['input'];
   interactionDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInteractionNotesArgs = {
   id: Scalars['UUID']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateInteractionOutcomeArgs = {
   id: Scalars['UUID']['input'];
   outcome?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateInteractionTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<InteractionType>;
 };
+
 
 export type CrmMutationsUpdateInteractionUserIdArgs = {
   id: Scalars['UUID']['input'];
   userId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateInvoiceDueDateArgs = {
   dueDate?: InputMaybe<Scalars['NaiveDate']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateInvoiceIssueDateArgs = {
   id: Scalars['UUID']['input'];
   issueDate?: InputMaybe<Scalars['NaiveDate']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoiceOpportunityIdArgs = {
   id: Scalars['UUID']['input'];
   opportunityId?: InputMaybe<Scalars['UUID']['input']>;
 };
+
 
 export type CrmMutationsUpdateInvoicePaidAtArgs = {
   id: Scalars['UUID']['input'];
   paidAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoicePaymentMethodArgs = {
   id: Scalars['UUID']['input'];
   paymentMethod?: InputMaybe<PaymentMethod>;
 };
+
 
 export type CrmMutationsUpdateInvoiceSentAtArgs = {
   id: Scalars['UUID']['input'];
   sentAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoiceStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<InvoiceStatus>;
 };
+
 
 export type CrmMutationsUpdateInvoiceTotalArgs = {
   id: Scalars['UUID']['input'];
   total?: InputMaybe<Scalars['Decimal']['input']>;
 };
 
+
 export type CrmMutationsUpdateLeadCampaignIdArgs = {
   campaignId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadConvertedAtArgs = {
   convertedAt?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadConvertedCompanyIdArgs = {
   convertedCompanyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadConvertedContactIdArgs = {
   convertedContactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadConvertedOpportunityIdArgs = {
   convertedOpportunityId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadEmailArgs = {
   email: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadLeadScoreArgs = {
   id: Scalars['UUID']['input'];
   leadScore?: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 export type CrmMutationsUpdateLeadLeadSourceArgs = {
   id: Scalars['UUID']['input'];
   leadSource?: InputMaybe<LeadSource>;
 };
 
+
 export type CrmMutationsUpdateLeadNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<LeadStatus>;
 };
+
 
 export type CrmMutationsUpdateNotificationIsReadArgs = {
   id: Scalars['UUID']['input'];
   isRead?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type CrmMutationsUpdateNotificationLinkArgs = {
   id: Scalars['UUID']['input'];
   link?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateNotificationMessageArgs = {
   id: Scalars['UUID']['input'];
   message: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateNotificationUserIdArgs = {
   id: Scalars['UUID']['input'];
   userId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityCampaignIdArgs = {
   campaignId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityCompanyIdArgs = {
   companyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityContactIdArgs = {
   contactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityDealValueArgs = {
   dealValue?: InputMaybe<Scalars['Decimal']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityExpectedCloseDateArgs = {
   expectedCloseDate?: InputMaybe<Scalars['NaiveDate']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityLostReasonArgs = {
   id: Scalars['UUID']['input'];
   lostReason?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateOpportunityNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityProbabilityArgs = {
   id: Scalars['UUID']['input'];
   probability?: InputMaybe<Scalars['Float']['input']>;
 };
 
+
 export type CrmMutationsUpdateOpportunitySourceArgs = {
   id: Scalars['UUID']['input'];
   source?: InputMaybe<OpportunitySource>;
 };
+
 
 export type CrmMutationsUpdateOpportunityStageArgs = {
   id: Scalars['UUID']['input'];
   stage?: InputMaybe<OpportunityStage>;
 };
 
+
 export type CrmMutationsUpdateProductDescriptionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateProductNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateProductPriceArgs = {
   id: Scalars['UUID']['input'];
   price: Scalars['Decimal']['input'];
 };
+
 
 export type CrmMutationsUpdateProductSkuArgs = {
   id: Scalars['UUID']['input'];
   sku?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateProductTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<ProductType>;
 };
 
+
 export type CrmMutationsUpdateTagNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUploadAttachmentArgs = {
   file: Scalars['Upload']['input'];
@@ -1042,6 +1137,7 @@ export type CrmOpportunities = {
   stage?: Maybe<OpportunityStage>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
+
 
 export type CrmOpportunitiesProductsArgs = {
   limit: Scalars['Int']['input'];
@@ -1088,108 +1184,132 @@ export type CrmQueries = {
   tags: Array<CrmTags>;
 };
 
+
 export type CrmQueriesAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesAttachmentsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesCampaignsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCaseArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesCasesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCompaniesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmQueriesContactArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesContactsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesInteractionsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesInvoicesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesLeadArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesLeadsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesNotificationArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesNotificationsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesOpportunitiesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesOpportunityArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmQueriesProductArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesProductsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesTagArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesTagsArgs = {
   limit: Scalars['Int']['input'];
@@ -1208,7 +1328,7 @@ export enum InteractionType {
   Call = 'CALL',
   Email = 'EMAIL',
   Meeting = 'MEETING',
-  Text = 'TEXT',
+  Text = 'TEXT'
 }
 
 export enum InvoiceStatus {
@@ -1216,7 +1336,7 @@ export enum InvoiceStatus {
   Draft = 'DRAFT',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 export enum LeadSource {
@@ -1228,7 +1348,7 @@ export enum LeadSource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE',
+  Website = 'WEBSITE'
 }
 
 export enum LeadStatus {
@@ -1236,7 +1356,7 @@ export enum LeadStatus {
   Converted = 'CONVERTED',
   New = 'NEW',
   Qualified = 'QUALIFIED',
-  Unqualified = 'UNQUALIFIED',
+  Unqualified = 'UNQUALIFIED'
 }
 
 export type Mutations = {
@@ -1255,7 +1375,7 @@ export enum OpportunitySource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE',
+  Website = 'WEBSITE'
 }
 
 export enum OpportunityStage {
@@ -1266,7 +1386,7 @@ export enum OpportunityStage {
   Negotiation = 'NEGOTIATION',
   Proposal = 'PROPOSAL',
   Prospecting = 'PROSPECTING',
-  Qualification = 'QUALIFICATION',
+  Qualification = 'QUALIFICATION'
 }
 
 export enum PaymentMethod {
@@ -1276,14 +1396,14 @@ export enum PaymentMethod {
   CreditCard = 'CREDIT_CARD',
   Paypal = 'PAYPAL',
   Stripe = 'STRIPE',
-  WireTransfer = 'WIRE_TRANSFER',
+  WireTransfer = 'WIRE_TRANSFER'
 }
 
 export enum ProductType {
   Digital = 'DIGITAL',
   Good = 'GOOD',
   Service = 'SERVICE',
-  Subscription = 'SUBSCRIPTION',
+  Subscription = 'SUBSCRIPTION'
 }
 
 export type Query = {
@@ -1301,7 +1421,7 @@ export enum RecordType {
   Invoices = 'INVOICES',
   Leads = 'LEADS',
   Opportunities = 'OPPORTUNITIES',
-  Products = 'PRODUCTS',
+  Products = 'PRODUCTS'
 }
 
 export type RefreshSessionResponse = {
@@ -1343,102 +1463,49 @@ export type SignUpEmailMutationVariables = Exact<{
   payload: SignUpEmailInput;
 }>;
 
-export type SignUpEmailMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    signUpEmail: {
-      __typename?: 'SignUpResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+
+export type SignUpEmailMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', signUpEmail: { __typename?: 'SignUpResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type SignInEmailMutationVariables = Exact<{
   payload: SignInEmailInput;
 }>;
 
-export type SignInEmailMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    signInEmail: {
-      __typename?: 'SignInResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+
+export type SignInEmailMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', signInEmail: { __typename?: 'SignInResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type RevokeSessionMutationVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
 
-export type RevokeSessionMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    revokeSession: {
-      __typename?: 'RevokeSessionResponse';
-      message: string;
-      success: boolean;
-    };
-  };
-};
 
-export type RefreshSessionMutationVariables = Exact<{ [key: string]: never }>;
+export type RevokeSessionMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', revokeSession: { __typename?: 'RevokeSessionResponse', message: string, success: boolean } } };
 
-export type RefreshSessionMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    refreshSession: {
-      __typename?: 'RefreshSessionResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+export type RefreshSessionMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshSessionMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', refreshSession: { __typename?: 'RefreshSessionResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type ChangePasswordMutationVariables = Exact<{
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
 }>;
 
-export type ChangePasswordMutation = {
-  __typename?: 'Mutations';
-  auth: { __typename?: 'AuthMutation'; changePassword: string };
-};
+
+export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
+
+export type AddInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateInvoiceItemInput;
+}>;
+
+
+export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
 {
-  __apiType?: NonNullable<
-    DocumentTypeDecoration<TResult, TVariables>['__apiType']
-  >;
+  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
   private value: string;
   public __meta__?: Record<string, any> | undefined;
 
@@ -1468,10 +1535,7 @@ export const SignUpEmailDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  SignUpEmailMutation,
-  SignUpEmailMutationVariables
->;
+    `) as unknown as TypedDocumentString<SignUpEmailMutation, SignUpEmailMutationVariables>;
 export const SignInEmailDocument = new TypedDocumentString(`
     mutation SignInEmail($payload: SignInEmailInput!) {
   auth {
@@ -1487,10 +1551,7 @@ export const SignInEmailDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  SignInEmailMutation,
-  SignInEmailMutationVariables
->;
+    `) as unknown as TypedDocumentString<SignInEmailMutation, SignInEmailMutationVariables>;
 export const RevokeSessionDocument = new TypedDocumentString(`
     mutation RevokeSession($token: String!) {
   auth {
@@ -1500,10 +1561,7 @@ export const RevokeSessionDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  RevokeSessionMutation,
-  RevokeSessionMutationVariables
->;
+    `) as unknown as TypedDocumentString<RevokeSessionMutation, RevokeSessionMutationVariables>;
 export const RefreshSessionDocument = new TypedDocumentString(`
     mutation RefreshSession {
   auth {
@@ -1519,34 +1577,42 @@ export const RefreshSessionDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<
-  RefreshSessionMutation,
-  RefreshSessionMutationVariables
->;
+    `) as unknown as TypedDocumentString<RefreshSessionMutation, RefreshSessionMutationVariables>;
 export const ChangePasswordDocument = new TypedDocumentString(`
     mutation ChangePassword($newPassword: String!, $oldPassword: String!) {
   auth {
     changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
   }
 }
-    `) as unknown as TypedDocumentString<
-  ChangePasswordMutation,
-  ChangePasswordMutationVariables
->;
+    `) as unknown as TypedDocumentString<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const AddInvoiceItemDocument = new TypedDocumentString(`
+    mutation AddInvoiceItem($id: UUID!, $payload: CreateInvoiceItemInput!) {
+  crm {
+    addInvoiceItem(id: $id, payload: $payload) {
+      total
+      items(page: 0, limit: 30) {
+        product {
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddInvoiceItemMutation, AddInvoiceItemMutationVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /**
    * Implement the DateTime<Utc> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
-  DateTime: { input: any; output: any };
-  Decimal: { input: any; output: any };
+  DateTime: { input: any; output: any; }
+  Decimal: { input: any; output: any; }
   /**
    * ISO 8601 calendar date without timezone.
    * Format: %Y-%m-%d
@@ -1556,7 +1622,7 @@ export type Scalars = {
    * * `1994-11-13`
    * * `2000-02-24`
    */
-  NaiveDate: { input: any; output: any };
+  NaiveDate: { input: any; output: any; }
   /**
    * A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
    * Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1567,8 +1633,8 @@ export type Scalars = {
    * * [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
    * * [RFC4122: A Universally Unique Identifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
    */
-  UUID: { input: any; output: any };
-  Upload: { input: any; output: any };
+  UUID: { input: any; output: any; }
+  Upload: { input: any; output: any; }
 };
 
 export type AuthMutation = {
@@ -1580,18 +1646,22 @@ export type AuthMutation = {
   signUpEmail: SignUpResponse;
 };
 
+
 export type AuthMutationChangePasswordArgs = {
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
 };
 
+
 export type AuthMutationRevokeSessionArgs = {
   token: Scalars['String']['input'];
 };
 
+
 export type AuthMutationSignInEmailArgs = {
   payload: SignInEmailInput;
 };
+
 
 export type AuthMutationSignUpEmailArgs = {
   payload: SignUpEmailInput;
@@ -1604,9 +1674,11 @@ export type AuthQuery = {
   users: Array<AuthUser>;
 };
 
+
 export type AuthQueryUserArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type AuthQueryUsersArgs = {
   limit: Scalars['Int']['input'];
@@ -1660,14 +1732,14 @@ export enum AuthUserRole {
   TransportManager = 'TRANSPORT_MANAGER',
   User = 'USER',
   WarehouseManager = 'WAREHOUSE_MANAGER',
-  WarehouseOperator = 'WAREHOUSE_OPERATOR',
+  WarehouseOperator = 'WAREHOUSE_OPERATOR'
 }
 
 export enum CasePriority {
   Critical = 'CRITICAL',
   High = 'HIGH',
   Low = 'LOW',
-  Medium = 'MEDIUM',
+  Medium = 'MEDIUM'
 }
 
 export enum CaseStatus {
@@ -1678,7 +1750,7 @@ export enum CaseStatus {
   New = 'NEW',
   Resolved = 'RESOLVED',
   WaitingForCustomer = 'WAITING_FOR_CUSTOMER',
-  WaitingForInternal = 'WAITING_FOR_INTERNAL',
+  WaitingForInternal = 'WAITING_FOR_INTERNAL'
 }
 
 export enum CaseType {
@@ -1687,7 +1759,7 @@ export enum CaseType {
   FeatureRequest = 'FEATURE_REQUEST',
   Problem = 'PROBLEM',
   Question = 'QUESTION',
-  TechnicalSupport = 'TECHNICAL_SUPPORT',
+  TechnicalSupport = 'TECHNICAL_SUPPORT'
 }
 
 export type CreateCampaignInput = {
@@ -1917,6 +1989,7 @@ export type CrmInvoices = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+
 export type CrmInvoicesItemsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
@@ -2044,481 +2117,582 @@ export type CrmMutations = {
   uploadAttachment: CrmAttachments;
 };
 
+
 export type CrmMutationsAddInvoiceItemArgs = {
   id: Scalars['UUID']['input'];
   payload: CreateInvoiceItemInput;
 };
 
+
 export type CrmMutationsCreateCampaignArgs = {
   payload: CreateCampaignInput;
 };
+
 
 export type CrmMutationsCreateCaseArgs = {
   payload: CreateCaseInput;
 };
 
+
 export type CrmMutationsCreateCompanyArgs = {
   payload: CreateCompanyInput;
 };
+
 
 export type CrmMutationsCreateContactArgs = {
   payload: CreateContactInput;
 };
 
+
 export type CrmMutationsCreateInteractionArgs = {
   payload: CreateInteractionInput;
 };
+
 
 export type CrmMutationsCreateInvoiceArgs = {
   payload: CreateInvoiceInput;
 };
 
+
 export type CrmMutationsCreateLeadArgs = {
   payload: CreateLeadInput;
 };
+
 
 export type CrmMutationsCreateNotificationArgs = {
   payload: CreateNotificationInput;
 };
 
+
 export type CrmMutationsCreateOpportunityArgs = {
   payload: CreateOpportunityInput;
 };
+
 
 export type CrmMutationsCreateProductArgs = {
   payload: CreateProductInput;
 };
 
+
 export type CrmMutationsCreateTagArgs = {
   payload: CreateTagInput;
 };
+
 
 export type CrmMutationsRemoveAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveCaseArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveContactArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveInvoiceItemArgs = {
   itemId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveLeadArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveNotificationArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsRemoveOpportunityArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveProductArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsRemoveTagArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCampaignBudgetArgs = {
   budget: Scalars['Decimal']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCampaignEndDateArgs = {
   endDate: Scalars['NaiveDate']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCampaignNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateCampaignStartDateArgs = {
   id: Scalars['UUID']['input'];
   startDate: Scalars['NaiveDate']['input'];
 };
+
 
 export type CrmMutationsUpdateCaseContactIdArgs = {
   contactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCaseDescriptionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCaseNumberArgs = {
   caseNumber: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCaseOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCasePriorityArgs = {
   id: Scalars['UUID']['input'];
   priority?: InputMaybe<CasePriority>;
 };
 
+
 export type CrmMutationsUpdateCaseStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<CaseStatus>;
 };
+
 
 export type CrmMutationsUpdateCaseTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<CaseType>;
 };
 
+
 export type CrmMutationsUpdateCompanyAnnualRevenueArgs = {
   annualRevenue?: InputMaybe<Scalars['Decimal']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyCityArgs = {
   city?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateCompanyCountryArgs = {
   country?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyIndustryArgs = {
   id: Scalars['UUID']['input'];
   industry?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateCompanyOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyPhoneNumberArgs = {
   id: Scalars['UUID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateCompanyPostalCodeArgs = {
   id: Scalars['UUID']['input'];
   postalCode?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyStateArgs = {
   id: Scalars['UUID']['input'];
   state?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateCompanyStreetArgs = {
   id: Scalars['UUID']['input'];
   street?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateCompanyWebsiteArgs = {
   id: Scalars['UUID']['input'];
   website?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateContactCompanyIdArgs = {
   companyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateContactEmailArgs = {
   email: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateContactJobTitleArgs = {
   id: Scalars['UUID']['input'];
   jobTitle?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateContactNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateContactOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateContactPhoneNumberArgs = {
   id: Scalars['UUID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateInteractionCaseIdArgs = {
   caseId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateInteractionContactIdArgs = {
   contactId: Scalars['UUID']['input'];
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateInteractionInteractionDateArgs = {
   id: Scalars['UUID']['input'];
   interactionDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInteractionNotesArgs = {
   id: Scalars['UUID']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateInteractionOutcomeArgs = {
   id: Scalars['UUID']['input'];
   outcome?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateInteractionTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<InteractionType>;
 };
+
 
 export type CrmMutationsUpdateInteractionUserIdArgs = {
   id: Scalars['UUID']['input'];
   userId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateInvoiceDueDateArgs = {
   dueDate?: InputMaybe<Scalars['NaiveDate']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateInvoiceIssueDateArgs = {
   id: Scalars['UUID']['input'];
   issueDate?: InputMaybe<Scalars['NaiveDate']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoiceOpportunityIdArgs = {
   id: Scalars['UUID']['input'];
   opportunityId?: InputMaybe<Scalars['UUID']['input']>;
 };
+
 
 export type CrmMutationsUpdateInvoicePaidAtArgs = {
   id: Scalars['UUID']['input'];
   paidAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoicePaymentMethodArgs = {
   id: Scalars['UUID']['input'];
   paymentMethod?: InputMaybe<PaymentMethod>;
 };
+
 
 export type CrmMutationsUpdateInvoiceSentAtArgs = {
   id: Scalars['UUID']['input'];
   sentAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+
 export type CrmMutationsUpdateInvoiceStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<InvoiceStatus>;
 };
+
 
 export type CrmMutationsUpdateInvoiceTotalArgs = {
   id: Scalars['UUID']['input'];
   total?: InputMaybe<Scalars['Decimal']['input']>;
 };
 
+
 export type CrmMutationsUpdateLeadCampaignIdArgs = {
   campaignId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadConvertedAtArgs = {
   convertedAt?: InputMaybe<Scalars['DateTime']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadConvertedCompanyIdArgs = {
   convertedCompanyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadConvertedContactIdArgs = {
   convertedContactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadConvertedOpportunityIdArgs = {
   convertedOpportunityId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadEmailArgs = {
   email: Scalars['String']['input'];
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadLeadScoreArgs = {
   id: Scalars['UUID']['input'];
   leadScore?: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 export type CrmMutationsUpdateLeadLeadSourceArgs = {
   id: Scalars['UUID']['input'];
   leadSource?: InputMaybe<LeadSource>;
 };
 
+
 export type CrmMutationsUpdateLeadNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUpdateLeadOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateLeadStatusArgs = {
   id: Scalars['UUID']['input'];
   status?: InputMaybe<LeadStatus>;
 };
+
 
 export type CrmMutationsUpdateNotificationIsReadArgs = {
   id: Scalars['UUID']['input'];
   isRead?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type CrmMutationsUpdateNotificationLinkArgs = {
   id: Scalars['UUID']['input'];
   link?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateNotificationMessageArgs = {
   id: Scalars['UUID']['input'];
   message: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateNotificationUserIdArgs = {
   id: Scalars['UUID']['input'];
   userId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityCampaignIdArgs = {
   campaignId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityCompanyIdArgs = {
   companyId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityContactIdArgs = {
   contactId?: InputMaybe<Scalars['UUID']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityDealValueArgs = {
   dealValue?: InputMaybe<Scalars['Decimal']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityExpectedCloseDateArgs = {
   expectedCloseDate?: InputMaybe<Scalars['NaiveDate']['input']>;
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityLostReasonArgs = {
   id: Scalars['UUID']['input'];
   lostReason?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type CrmMutationsUpdateOpportunityNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateOpportunityOwnerIdArgs = {
   id: Scalars['UUID']['input'];
   ownerId: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateOpportunityProbabilityArgs = {
   id: Scalars['UUID']['input'];
   probability?: InputMaybe<Scalars['Float']['input']>;
 };
 
+
 export type CrmMutationsUpdateOpportunitySourceArgs = {
   id: Scalars['UUID']['input'];
   source?: InputMaybe<OpportunitySource>;
 };
+
 
 export type CrmMutationsUpdateOpportunityStageArgs = {
   id: Scalars['UUID']['input'];
   stage?: InputMaybe<OpportunityStage>;
 };
 
+
 export type CrmMutationsUpdateProductDescriptionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmMutationsUpdateProductNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
 
+
 export type CrmMutationsUpdateProductPriceArgs = {
   id: Scalars['UUID']['input'];
   price: Scalars['Decimal']['input'];
 };
+
 
 export type CrmMutationsUpdateProductSkuArgs = {
   id: Scalars['UUID']['input'];
   sku?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type CrmMutationsUpdateProductTypeArgs = {
   id: Scalars['UUID']['input'];
   type?: InputMaybe<ProductType>;
 };
 
+
 export type CrmMutationsUpdateTagNameArgs = {
   id: Scalars['UUID']['input'];
   name: Scalars['String']['input'];
 };
+
 
 export type CrmMutationsUploadAttachmentArgs = {
   file: Scalars['Upload']['input'];
@@ -2555,6 +2729,7 @@ export type CrmOpportunities = {
   stage?: Maybe<OpportunityStage>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
+
 
 export type CrmOpportunitiesProductsArgs = {
   limit: Scalars['Int']['input'];
@@ -2601,108 +2776,132 @@ export type CrmQueries = {
   tags: Array<CrmTags>;
 };
 
+
 export type CrmQueriesAttachmentArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesAttachmentsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCampaignArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesCampaignsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCaseArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesCasesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCompaniesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesCompanyArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmQueriesContactArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesContactsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesInteractionArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesInteractionsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesInvoiceArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesInvoicesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesLeadArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesLeadsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesNotificationArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesNotificationsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesOpportunitiesArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesOpportunityArgs = {
   id: Scalars['UUID']['input'];
 };
 
+
 export type CrmQueriesProductArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesProductsArgs = {
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 };
 
+
 export type CrmQueriesTagArgs = {
   id: Scalars['UUID']['input'];
 };
+
 
 export type CrmQueriesTagsArgs = {
   limit: Scalars['Int']['input'];
@@ -2721,7 +2920,7 @@ export enum InteractionType {
   Call = 'CALL',
   Email = 'EMAIL',
   Meeting = 'MEETING',
-  Text = 'TEXT',
+  Text = 'TEXT'
 }
 
 export enum InvoiceStatus {
@@ -2729,7 +2928,7 @@ export enum InvoiceStatus {
   Draft = 'DRAFT',
   Overdue = 'OVERDUE',
   Paid = 'PAID',
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 export enum LeadSource {
@@ -2741,7 +2940,7 @@ export enum LeadSource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE',
+  Website = 'WEBSITE'
 }
 
 export enum LeadStatus {
@@ -2749,7 +2948,7 @@ export enum LeadStatus {
   Converted = 'CONVERTED',
   New = 'NEW',
   Qualified = 'QUALIFIED',
-  Unqualified = 'UNQUALIFIED',
+  Unqualified = 'UNQUALIFIED'
 }
 
 export type Mutations = {
@@ -2768,7 +2967,7 @@ export enum OpportunitySource {
   Partner = 'PARTNER',
   Referral = 'REFERRAL',
   SocialMedia = 'SOCIAL_MEDIA',
-  Website = 'WEBSITE',
+  Website = 'WEBSITE'
 }
 
 export enum OpportunityStage {
@@ -2779,7 +2978,7 @@ export enum OpportunityStage {
   Negotiation = 'NEGOTIATION',
   Proposal = 'PROPOSAL',
   Prospecting = 'PROSPECTING',
-  Qualification = 'QUALIFICATION',
+  Qualification = 'QUALIFICATION'
 }
 
 export enum PaymentMethod {
@@ -2789,14 +2988,14 @@ export enum PaymentMethod {
   CreditCard = 'CREDIT_CARD',
   Paypal = 'PAYPAL',
   Stripe = 'STRIPE',
-  WireTransfer = 'WIRE_TRANSFER',
+  WireTransfer = 'WIRE_TRANSFER'
 }
 
 export enum ProductType {
   Digital = 'DIGITAL',
   Good = 'GOOD',
   Service = 'SERVICE',
-  Subscription = 'SUBSCRIPTION',
+  Subscription = 'SUBSCRIPTION'
 }
 
 export type Query = {
@@ -2814,7 +3013,7 @@ export enum RecordType {
   Invoices = 'INVOICES',
   Leads = 'LEADS',
   Opportunities = 'OPPORTUNITIES',
-  Products = 'PRODUCTS',
+  Products = 'PRODUCTS'
 }
 
 export type RefreshSessionResponse = {
@@ -2856,91 +3055,40 @@ export type SignUpEmailMutationVariables = Exact<{
   payload: SignUpEmailInput;
 }>;
 
-export type SignUpEmailMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    signUpEmail: {
-      __typename?: 'SignUpResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+
+export type SignUpEmailMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', signUpEmail: { __typename?: 'SignUpResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type SignInEmailMutationVariables = Exact<{
   payload: SignInEmailInput;
 }>;
 
-export type SignInEmailMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    signInEmail: {
-      __typename?: 'SignInResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+
+export type SignInEmailMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', signInEmail: { __typename?: 'SignInResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type RevokeSessionMutationVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
 
-export type RevokeSessionMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    revokeSession: {
-      __typename?: 'RevokeSessionResponse';
-      message: string;
-      success: boolean;
-    };
-  };
-};
 
-export type RefreshSessionMutationVariables = Exact<{ [key: string]: never }>;
+export type RevokeSessionMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', revokeSession: { __typename?: 'RevokeSessionResponse', message: string, success: boolean } } };
 
-export type RefreshSessionMutation = {
-  __typename?: 'Mutations';
-  auth: {
-    __typename?: 'AuthMutation';
-    refreshSession: {
-      __typename?: 'RefreshSessionResponse';
-      token: string;
-      user: {
-        __typename?: 'AuthUser';
-        name: string;
-        email: string;
-        emailVerified?: boolean | null;
-        image?: string | null;
-        role?: AuthUserRole | null;
-      };
-    };
-  };
-};
+export type RefreshSessionMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshSessionMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', refreshSession: { __typename?: 'RefreshSessionResponse', token: string, user: { __typename?: 'AuthUser', name: string, email: string, emailVerified?: boolean | null, image?: string | null, role?: AuthUserRole | null } } } };
 
 export type ChangePasswordMutationVariables = Exact<{
   newPassword: Scalars['String']['input'];
   oldPassword: Scalars['String']['input'];
 }>;
 
-export type ChangePasswordMutation = {
-  __typename?: 'Mutations';
-  auth: { __typename?: 'AuthMutation'; changePassword: string };
-};
+
+export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
+
+export type AddInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateInvoiceItemInput;
+}>;
+
+
+export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
