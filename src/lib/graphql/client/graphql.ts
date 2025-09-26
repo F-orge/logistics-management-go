@@ -1501,6 +1501,30 @@ export type AddInvoiceItemMutationVariables = Exact<{
 
 export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
 
+export type CrmAttachmentsQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', fileName: string, mimeType?: string | null, recordId?: any | null, recordType?: RecordType | null, id: any }> } };
+
+export type CrmCampaignsQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, startDate?: any | null, endDate?: any | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type CrmCasesQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any, caseNumber: string, status?: CaseStatus | null, priority?: CasePriority | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null }, contact?: { __typename?: 'CrmContacts', email: string, jobTitle?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null } | null } | null }> } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -1599,6 +1623,60 @@ export const AddInvoiceItemDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AddInvoiceItemMutation, AddInvoiceItemMutationVariables>;
+export const CrmAttachmentsDocument = new TypedDocumentString(`
+    query CrmAttachments($page: Int!, $limit: Int!) {
+  crm {
+    attachments(page: $page, limit: $limit) {
+      fileName
+      mimeType
+      recordId
+      recordType
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmAttachmentsQuery, CrmAttachmentsQueryVariables>;
+export const CrmCampaignsDocument = new TypedDocumentString(`
+    query CrmCampaigns($page: Int!, $limit: Int!) {
+  crm {
+    campaigns(page: $page, limit: $limit) {
+      id
+      name
+      budget
+      startDate
+      endDate
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCampaignsQuery, CrmCampaignsQueryVariables>;
+export const CrmCasesDocument = new TypedDocumentString(`
+    query CrmCases($page: Int!, $limit: Int!) {
+  crm {
+    cases(page: $page, limit: $limit) {
+      id
+      caseNumber
+      status
+      priority
+      owner {
+        name
+        email
+        image
+      }
+      contact {
+        email
+        jobTitle
+        company {
+          name
+          industry
+          website
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CrmCasesQuery, CrmCasesQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -3092,3 +3170,27 @@ export type AddInvoiceItemMutationVariables = Exact<{
 
 
 export type AddInvoiceItemMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', addInvoiceItem: { __typename?: 'CrmInvoices', total?: any | null, items: Array<{ __typename?: 'CrmInvoiceItems', product: { __typename?: 'CrmProducts', name: string } }> } } };
+
+export type CrmAttachmentsQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmAttachmentsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', attachments: Array<{ __typename?: 'CrmAttachments', fileName: string, mimeType?: string | null, recordId?: any | null, recordType?: RecordType | null, id: any }> } };
+
+export type CrmCampaignsQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCampaignsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', campaigns: Array<{ __typename?: 'CrmCampaigns', id: any, name: string, budget?: any | null, startDate?: any | null, endDate?: any | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type CrmCasesQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+}>;
+
+
+export type CrmCasesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', cases: Array<{ __typename?: 'CrmCases', id: any, caseNumber: string, status?: CaseStatus | null, priority?: CasePriority | null, owner: { __typename?: 'AuthUser', name: string, email: string, image?: string | null }, contact?: { __typename?: 'CrmContacts', email: string, jobTitle?: string | null, company?: { __typename?: 'CrmCompanies', name: string, industry?: string | null, website?: string | null } | null } | null }> } };

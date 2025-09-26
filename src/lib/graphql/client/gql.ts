@@ -21,6 +21,9 @@ type Documents = {
     "\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n": typeof types.RefreshSessionDocument,
     "\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n": typeof types.ChangePasswordDocument,
     "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n": typeof types.AddInvoiceItemDocument,
+    "\n  query CrmAttachments($page:Int!,$limit:Int!) {\n    crm {\n      attachments(page: $page,limit: $limit) {\n        fileName\n        mimeType\n        recordId\n        recordType\n        id\n      }\n    }\n  }\n": typeof types.CrmAttachmentsDocument,
+    "\n  query CrmCampaigns($page:Int!,$limit:Int!) {\n    crm {\n      campaigns(page: $page,limit: $limit) {\n        id\n        name\n        budget\n        startDate\n        endDate\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": typeof types.CrmCampaignsDocument,
+    "\n  query CrmCases($page:Int!,$limit:Int!) {\n    crm {\n      cases(page: $page,limit: $limit) {\n        id\n        caseNumber\n        status\n        priority\n        owner {\n          name\n          email\n          image\n        }\n        contact {\n          email\n          jobTitle\n          company {\n            name\n            industry\n            website\n          }\n        }\n      }\n    }\n  }\n": typeof types.CrmCasesDocument,
 };
 const documents: Documents = {
     "\n  mutation SignUpEmail($payload:SignUpEmailInput!) {\n    auth {\n      signUpEmail(payload:$payload) {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  }  \n": types.SignUpEmailDocument,
@@ -29,6 +32,9 @@ const documents: Documents = {
     "\n  mutation RefreshSession {\n    auth {\n      refreshSession {\n        token\n        user {\n          name\n          email\n          emailVerified\n          image\n          role\n        }\n      }\n    }\n  } \n": types.RefreshSessionDocument,
     "\n  mutation ChangePassword($newPassword: String!, $oldPassword: String!) {\n    auth {\n      changePassword(oldPassword: $oldPassword,newPassword: $newPassword) \n    }\n  }\n": types.ChangePasswordDocument,
     "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n": types.AddInvoiceItemDocument,
+    "\n  query CrmAttachments($page:Int!,$limit:Int!) {\n    crm {\n      attachments(page: $page,limit: $limit) {\n        fileName\n        mimeType\n        recordId\n        recordType\n        id\n      }\n    }\n  }\n": types.CrmAttachmentsDocument,
+    "\n  query CrmCampaigns($page:Int!,$limit:Int!) {\n    crm {\n      campaigns(page: $page,limit: $limit) {\n        id\n        name\n        budget\n        startDate\n        endDate\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": types.CrmCampaignsDocument,
+    "\n  query CrmCases($page:Int!,$limit:Int!) {\n    crm {\n      cases(page: $page,limit: $limit) {\n        id\n        caseNumber\n        status\n        priority\n        owner {\n          name\n          email\n          image\n        }\n        contact {\n          email\n          jobTitle\n          company {\n            name\n            industry\n            website\n          }\n        }\n      }\n    }\n  }\n": types.CrmCasesDocument,
 };
 
 /**
@@ -55,6 +61,18 @@ export function graphql(source: "\n  mutation ChangePassword($newPassword: Strin
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation AddInvoiceItem($id:UUID!,$payload:CreateInvoiceItemInput!) {\n    crm {\n      addInvoiceItem(id: $id,payload: $payload) {\n        total\n        items(page: 0,limit: 30) {\n          product {\n            name\n          }\n        }\n      }\n    }\n  }  \n"): typeof import('./graphql').AddInvoiceItemDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CrmAttachments($page:Int!,$limit:Int!) {\n    crm {\n      attachments(page: $page,limit: $limit) {\n        fileName\n        mimeType\n        recordId\n        recordType\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CrmAttachmentsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CrmCampaigns($page:Int!,$limit:Int!) {\n    crm {\n      campaigns(page: $page,limit: $limit) {\n        id\n        name\n        budget\n        startDate\n        endDate\n        createdAt\n        updatedAt\n      }\n    }\n  }\n"): typeof import('./graphql').CrmCampaignsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CrmCases($page:Int!,$limit:Int!) {\n    crm {\n      cases(page: $page,limit: $limit) {\n        id\n        caseNumber\n        status\n        priority\n        owner {\n          name\n          email\n          image\n        }\n        contact {\n          email\n          jobTitle\n          company {\n            name\n            industry\n            website\n          }\n        }\n      }\n    }\n  }\n"): typeof import('./graphql').CrmCasesDocument;
 
 
 export function graphql(source: string) {

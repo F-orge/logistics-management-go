@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useRouter } from '@tanstack/react-router';
+import { useRouter } from "@tanstack/react-router";
 import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
-} from 'lucide-react';
-import * as React from 'react';
-import type z from 'zod';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+} from "lucide-react";
+import * as React from "react";
+import type z from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,32 +19,36 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import type { SignInMutation } from '@/lib/graphql/client/graphql';
+} from "@/components/ui/sidebar";
+import type { SignInEmailMutation } from "@/lib/graphql/client/graphql";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const router = useRouter();
 
   // Get user from PocketBase auth store
-  const [user, setUser] = React.useState<SignInMutation | null>(
-    JSON.parse(localStorage.getItem('graphql-user') ?? '') as SignInMutation,
+  const [user, setUser] = React.useState<
+    SignInEmailMutation["auth"]["signInEmail"]["user"] | null
+  >(
+    JSON.parse(
+      localStorage.getItem("graphql-user") ?? "",
+    ) as SignInEmailMutation["auth"]["signInEmail"]["user"],
   );
 
   // Handle logout
   const handleLogout = async () => {
     try {
-      localStorage.removeItem('graphql-token');
-      localStorage.removeItem('graphql-user');
-      router.navigate({ to: '/auth/login' });
+      localStorage.removeItem("graphql-token");
+      localStorage.removeItem("graphql-user");
+      router.navigate({ to: "/auth/login" });
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
@@ -56,11 +60,11 @@ export function NavUser() {
   // Generate avatar fallback from name or email
   const avatarFallback = user.name
     ? user.name
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .toUpperCase()
-        .slice(0, 2)
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2)
     : user.email.slice(0, 2).toUpperCase();
 
   return (
@@ -74,8 +78,9 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={user.image ?? ''}
-                  alt={user.name || user.email}
+                  src={user.image ?? ""}
+                  alt={user.name ||
+                    user.email}
                 />
                 <AvatarFallback className="rounded-lg">
                   {avatarFallback}
@@ -83,16 +88,18 @@ export function NavUser() {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {user.name || 'User'}
+                  {user.name || "User"}
                 </span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate text-xs">
+                  {user.email}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
+            side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
@@ -100,8 +107,9 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user.image ?? ''}
-                    alt={user.name || user.email}
+                    src={user.image ?? ""}
+                    alt={user.name ||
+                      user.email}
                   />
                   <AvatarFallback className="rounded-lg">
                     {avatarFallback}
@@ -109,9 +117,11 @@ export function NavUser() {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {user.name || 'User'}
+                    {user.name || "User"}
                   </span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate text-xs">
+                    {user.email}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>

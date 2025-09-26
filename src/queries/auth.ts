@@ -19,7 +19,6 @@ import type {
   SignInEmailMutation,
   SignUpEmailInput,
   SignUpEmailMutation,
-  SignUpEmailMutationVariables,
 } from "@/lib/graphql/client/graphql";
 
 export const signUpEmailMutation = mutationOptions<
