@@ -61,10 +61,11 @@ setup:
   @just auth-generate
 
 introspect:
-  @bunx pocketbase-typegen --db ./pb_data/data.db -o src/pocketbase/types.ts
+  @cargo run introspect | tee src/lib/graphql/schema.graphql
+  @bun graphql-codegen --config codegen.ts
 
 dev-backend:
-  @bun --hot run src/server.ts
+  @cargo watch -q -c -x "run serve --database-url $DATABASE_URL --enable-playground"
 
 dev-frontend:
   @bun rsbuild dev --open

@@ -3,349 +3,67 @@ schema {
   mutation: Mutations
 }
 
-type AuthMutations {
-  refreshToken: Users!
-  signInEmail(email: String!, password: String!): SignInResponse!
-  signUpEmail(email: String!, image: Url, name: String!, password: String!, role: String): AuthUser!
+type AuthMutation {
+  changePassword(newPassword: String!, oldPassword: String!): String!
+  refreshSession: RefreshSessionResponse!
+  revokeSession(token: String!): RevokeSessionResponse!
+  signInEmail(payload: SignInEmailInput!): SignInResponse!
+  signUpEmail(payload: SignUpEmailInput!): SignUpResponse!
 }
 
 type AuthQuery {
+  me: AuthUser!
   user(id: UUID!): AuthUser
-  users: [AuthUser!]!
+  users(limit: Int!, page: Int!): [AuthUser!]!
 }
 
 type AuthUser {
-  banExpires: NaiveDateTime
+  banExpires: DateTime
   banReason: String
   banned: Boolean
-  createdAt: NaiveDateTime!
+  createdAt: DateTime!
   email: String!
   emailVerified: Boolean
   id: UUID!
   image: String
   name: String!
-  role: String
-  updatedAt: NaiveDateTime!
+  role: AuthUserRole
+  updatedAt: DateTime!
 }
 
-type BillingAccountTransaction {
-  amount: Decimal!
-  clientAccount: BillingClientAccount!
-  clientAccountId: UUID!
-  createdAt: NaiveDateTime
-  description: String
-  id: UUID!
-  processedByUserId: UUID
-  referenceNumber: String
-  runningBalance: Decimal
-  sourceRecordId: UUID
-  sourceRecordType: String
-  transactionDate: NaiveDateTime
-  type: TransactionTypeEnum!
-  updatedAt: NaiveDateTime
-}
-
-type BillingAccountingSyncLog {
-  createdAt: NaiveDateTime
-  errorMessage: String
-  externalId: String
-  externalSystem: String!
-  id: UUID!
-  lastSyncAt: NaiveDateTime
-  nextRetryAt: NaiveDateTime
-  recordId: UUID!
-  recordType: String!
-  requestPayload: String
-  responsePayload: String
-  retryCount: Int
-  status: SyncStatusEnum
-  updatedAt: NaiveDateTime
-}
-
-type BillingClientAccount {
-  accountTransactions: [BillingAccountTransaction!]!
-  availableCredit: Decimal
-  client: CrmCompany!
-  clientId: UUID!
-  createdAt: NaiveDateTime
-  creditLimit: Decimal
-  currency: String
-  id: UUID!
-  isCreditApproved: Boolean
-  lastPaymentDate: NaiveDate
-  paymentTermsDays: Int
-  updatedAt: NaiveDateTime
-  walletBalance: Decimal
-}
-
-type BillingCreditNote {
-  amount: Decimal!
-  appliedAt: NaiveDateTime
-  createdAt: NaiveDateTime
-  createdByUserId: UUID
-  creditNoteNumber: String!
-  currency: String
-  dispute: BillingDispute
-  disputeId: UUID
-  id: UUID!
-  invoice: BillingInvoice!
-  invoiceId: UUID!
-  issueDate: NaiveDate!
-  notes: String
-  reason: String!
-  updatedAt: NaiveDateTime
-}
-
-type BillingDispute {
-  client: CrmCompany!
-  clientId: UUID!
-  createdAt: NaiveDateTime
-  creditNotes: [BillingCreditNote!]!
-  disputedAmount: Decimal
-  id: UUID!
-  lineItem: BillingInvoiceLineItem!
-  lineItemId: UUID!
-  reason: String!
-  resolutionNotes: String
-  resolvedAt: NaiveDateTime
-  resolvedByUser: AuthUser
-  resolvedByUserId: UUID
-  status: DisputeStatusEnum
-  submittedAt: NaiveDateTime
-  updatedAt: NaiveDateTime
-}
-
-type BillingDocument {
-  createdAt: NaiveDateTime
-  documentType: DocumentTypeEnum!
-  fileName: String!
-  filePath: String!
-  fileSize: Int
-  id: UUID!
-  mimeType: String
-  recordId: UUID!
-  recordType: String!
-  updatedAt: NaiveDateTime
-  uploadedByUser: AuthUser
-  uploadedByUserId: UUID
-}
-
-type BillingInvoice {
-  amountOutstanding: Decimal
-  amountPaid: Decimal
-  client: CrmCompany!
-  clientId: UUID!
-  createdAt: NaiveDateTime
-  createdByUserId: UUID
-  creditNotes: [BillingCreditNote!]!
-  currency: String
-  discountAmount: Decimal
-  dueDate: NaiveDate!
-  id: UUID!
-  invoiceLineItems: [BillingInvoiceLineItem!]!
-  invoiceNumber: String!
-  issueDate: NaiveDate!
-  notes: String
-  paidAt: NaiveDateTime
-  paymentTerms: String
-  payments: [BillingPayment!]!
-  quote: BillingQuote
-  quoteId: UUID
-  sentAt: NaiveDateTime
-  status: InvoiceStatusEnum
-  subtotal: Decimal
-  taxAmount: Decimal
-  totalAmount: Decimal!
-  updatedAt: NaiveDateTime
-}
-
-type BillingInvoiceLineItem {
-  createdAt: NaiveDateTime
-  description: String!
-  discountAmount: Decimal
-  discountRate: Decimal
-  disputes: [BillingDispute!]!
-  id: UUID!
-  invoice: BillingInvoice!
-  invoiceId: UUID!
-  lineTotal: Decimal
-  quantity: Decimal!
-  sourceRecordId: UUID
-  sourceRecordType: String
-  taxAmount: Decimal
-  taxRate: Decimal
-  totalPrice: Decimal
-  unitPrice: Decimal!
-  updatedAt: NaiveDateTime
-}
-
-type BillingMutations {
-  createAccountTransaction(value: InsertAccountTransaction!): BillingAccountTransaction!
-  createAccountingSyncLog(value: InsertAccountingSyncLog!): BillingAccountingSyncLog!
-  createClientAccount(value: InsertClientAccount!): BillingClientAccount!
-  createCreditNote(value: InsertCreditNote!): BillingCreditNote!
-  createDispute(value: InsertDispute!): BillingDispute!
-  createDocument(value: InsertDocument!): BillingDocument!
-  createInvoice(value: InsertInvoice!): BillingInvoice!
-  createInvoiceLineItem(value: InsertInvoiceLineItem!): BillingInvoiceLineItem!
-  createPayment(value: InsertPayment!): BillingPayment!
-  createQuote(value: InsertQuote!): BillingQuote!
-  createRateCard(value: InsertRateCard!): BillingRateCard!
-  createRateRule(value: InsertRateRule!): BillingRateRule!
-  createSurcharge(value: InsertSurcharge!): BillingSurcharge!
-  deleteAccountTransaction(id: UUID!): Boolean!
-  deleteAccountingSyncLog(id: UUID!): Boolean!
-  deleteClientAccount(id: UUID!): Boolean!
-  deleteCreditNote(id: UUID!): Boolean!
-  deleteDispute(id: UUID!): Boolean!
-  deleteDocument(id: UUID!): Boolean!
-  deleteInvoice(id: UUID!): Boolean!
-  deleteInvoiceLineItem(id: UUID!): Boolean!
-  deletePayment(id: UUID!): Boolean!
-  deleteQuote(id: UUID!): Boolean!
-  deleteRateCard(id: UUID!): Boolean!
-  deleteRateRule(id: UUID!): Boolean!
-  deleteSurcharge(id: UUID!): Boolean!
-  updateAccountTransaction(id: UUID!, value: UpdateAccountTransaction!): BillingAccountTransaction!
-  updateAccountingSyncLog(id: UUID!, value: UpdateAccountingSyncLog!): BillingAccountingSyncLog!
-  updateClientAccount(id: UUID!, value: UpdateClientAccount!): BillingClientAccount!
-  updateCreditNote(id: UUID!, value: UpdateCreditNote!): BillingCreditNote!
-  updateDispute(id: UUID!, value: UpdateDispute!): BillingDispute!
-  updateDocument(id: UUID!, value: UpdateDocument!): BillingDocument!
-  updateInvoice(id: UUID!, value: UpdateInvoice!): BillingInvoice!
-  updateInvoiceLineItem(id: UUID!, value: UpdateInvoiceLineItem!): BillingInvoiceLineItem!
-  updatePayment(id: UUID!, value: UpdatePayment!): BillingPayment!
-  updateQuote(id: UUID!, value: UpdateQuote!): BillingQuote!
-  updateRateCard(id: UUID!, value: UpdateRateCard!): BillingRateCard!
-  updateRateRule(id: UUID!, value: UpdateRateRule!): BillingRateRule!
-  updateSurcharge(id: UUID!, value: UpdateSurcharge!): BillingSurcharge!
-}
-
-type BillingPayment {
-  amount: Decimal!
-  createdAt: NaiveDateTime
-  currency: String
-  exchangeRate: Decimal
-  fees: Decimal
-  gatewayReference: String
-  id: UUID!
-  invoice: BillingInvoice!
-  invoiceId: UUID!
-  netAmount: Decimal
-  notes: String
-  paymentDate: NaiveDateTime
-  paymentMethod: PaymentMethodEnum!
-  processedAt: NaiveDateTime
-  processedByUserId: UUID
-  status: PaymentStatusEnum
-  transactionId: String
-  updatedAt: NaiveDateTime
-}
-
-type BillingQueries {
-  accountTransaction(id: UUID!): BillingAccountTransaction
-  accountTransactions: [BillingAccountTransaction!]!
-  accountingSyncLog(id: UUID!): BillingAccountingSyncLog
-  accountingSyncLogs: [BillingAccountingSyncLog!]!
-  clientAccount(id: UUID!): BillingClientAccount
-  clientAccounts: [BillingClientAccount!]!
-  creditNote(id: UUID!): BillingCreditNote
-  creditNotes: [BillingCreditNote!]!
-  dispute(id: UUID!): BillingDispute
-  disputes: [BillingDispute!]!
-  document(id: UUID!): BillingDocument
-  documents: [BillingDocument!]!
-  invoice(id: UUID!): BillingInvoice
-  invoiceLineItem(id: UUID!): BillingInvoiceLineItem
-  invoiceLineItems: [BillingInvoiceLineItem!]!
-  invoices: [BillingInvoice!]!
-  payment(id: UUID!): BillingPayment
-  payments: [BillingPayment!]!
-  quote(id: UUID!): BillingQuote
-  quotes: [BillingQuote!]!
-  rateCard(id: UUID!): BillingRateCard
-  rateCards: [BillingRateCard!]!
-  rateRule(id: UUID!): BillingRateRule
-  rateRules: [BillingRateRule!]!
-  surcharge(id: UUID!): BillingSurcharge
-  surcharges: [BillingSurcharge!]!
-}
-
-type BillingQuote {
-  client: CrmCompany
-  clientId: UUID
-  createdAt: NaiveDateTime
-  createdByUser: AuthUser
-  createdByUserId: UUID
-  destinationDetails: String!
-  expiresAt: NaiveDateTime
-  height: Decimal
-  id: UUID!
-  invoices: [BillingInvoice!]!
-  length: Decimal
-  notes: String
-  originDetails: String!
-  quoteNumber: String
-  quotedPrice: Decimal!
-  serviceLevel: String
-  status: QuoteStatusEnum
-  updatedAt: NaiveDateTime
-  volume: Decimal
-  weight: Decimal
-  width: Decimal
-}
-
-type BillingRateCard {
-  createdAt: NaiveDateTime
-  createdByUser: AuthUser
-  createdByUserId: UUID
-  description: String
-  id: UUID!
-  isActive: Boolean
-  name: String!
-  rateRules: [BillingRateRule!]!
-  serviceType: ServiceTypeEnum!
-  updatedAt: NaiveDateTime
-  validFrom: NaiveDate!
-  validTo: NaiveDate
-}
-
-type BillingRateRule {
-  condition: String!
-  createdAt: NaiveDateTime
-  id: UUID!
-  isActive: Boolean
-  maxValue: Decimal
-  minValue: Decimal
-  price: Decimal!
-  pricingModel: PricingModelEnum!
-  priority: Int
-  rateCard: BillingRateCard!
-  rateCardId: UUID!
-  updatedAt: NaiveDateTime
-  value: String!
-}
-
-type BillingSurcharge {
-  amount: Decimal!
-  calculationMethod: SurchargeCalculationMethodEnum!
-  createdAt: NaiveDateTime
-  description: String
-  id: UUID!
-  isActive: Boolean
-  name: String!
-  type: String!
-  updatedAt: NaiveDateTime
-  validFrom: NaiveDate
-  validTo: NaiveDate
-}
-
-enum CarrierRateUnitEnum {
-  FLAT_RATE
-  PER_CONTAINER
-  PER_KG
-  PER_KM
-  PER_MILE
+enum AuthUserRole {
+  ACCOUNTANT
+  ACCOUNT_MANAGER
+  ADMIN
+  CARRIER
+  CLIENT
+  CLIENT_ADMIN
+  CUSTOMER_SUPPORT_AGENT
+  DEVELOPER
+  DISPATCHER
+  DRIVER
+  END_CUSTOMER
+  FINANCE_MANAGER
+  FLEET_MANAGER
+  INVENTORY_MANAGER
+  LOGISTICS_COORDINATOR
+  LOGISTICS_MANAGER
+  LOGISTICS_PLANNER
+  MARKETING_MANAGER
+  PACKER
+  PICKER
+  PRICING_ANALYST
+  PRODUCT_MANAGER
+  QC_MANAGER
+  RECEIVING_MANAGER
+  RETURNS_PROCESSOR
+  SALES_MANAGER
+  SALES_REP
+  SDR
+  TRANSPORT_MANAGER
+  USER
+  WAREHOUSE_MANAGER
+  WAREHOUSE_OPERATOR
 }
 
 enum CasePriority {
@@ -375,7 +93,122 @@ enum CaseType {
   TECHNICAL_SUPPORT
 }
 
-type CrmAttachment {
+input CreateCampaignInput {
+  budget: Decimal
+  endDate: NaiveDate
+  name: String!
+  startDate: NaiveDate
+}
+
+input CreateCaseInput {
+  caseNumber: String!
+  contactId: UUID
+  description: String
+  ownerId: UUID!
+  priority: CasePriority
+  status: CaseStatus
+  type: CaseType
+}
+
+input CreateCompanyInput {
+  annualRevenue: Decimal
+  city: String
+  country: String
+  industry: String
+  name: String!
+  ownerId: UUID
+  phoneNumber: String
+  postalCode: String
+  state: String
+  street: String
+  website: String
+}
+
+input CreateContactInput {
+  companyId: UUID
+  email: String!
+  jobTitle: String
+  name: String!
+  ownerId: UUID!
+  phoneNumber: String
+}
+
+input CreateInteractionInput {
+  caseId: UUID
+  contactId: UUID!
+  interactionDate: DateTime
+  notes: String
+  outcome: String
+  type: InteractionType
+  userId: UUID!
+}
+
+input CreateInvoiceInput {
+  dueDate: NaiveDate
+  issueDate: NaiveDate
+  items: [CreateInvoiceItemInput!]!
+  opportunityId: UUID
+  paidAt: DateTime
+  paymentMethod: PaymentMethod
+  sentAt: DateTime
+  status: InvoiceStatus
+  total: Decimal
+}
+
+input CreateInvoiceItemInput {
+  price: Decimal!
+  productId: UUID!
+  quantity: Int!
+}
+
+input CreateLeadInput {
+  campaignId: UUID
+  convertedAt: DateTime
+  convertedCompanyId: UUID
+  convertedContactId: UUID
+  convertedOpportunityId: UUID
+  email: String!
+  leadScore: Int
+  leadSource: LeadSource
+  name: String!
+  ownerId: UUID!
+  status: LeadStatus
+}
+
+input CreateNotificationInput {
+  isRead: Boolean
+  link: String
+  message: String!
+  userId: UUID!
+}
+
+input CreateOpportunityInput {
+  campaignId: UUID
+  companyId: UUID
+  contactId: UUID
+  dealValue: Decimal
+  expectedCloseDate: NaiveDate
+  lostReason: String
+  name: String!
+  ownerId: UUID!
+  probability: Float
+  source: OpportunitySource
+  stage: OpportunityStage
+}
+
+input CreateProductInput {
+  description: String
+  name: String!
+  price: Decimal!
+  sku: String
+  type: ProductType
+}
+
+input CreateTagInput {
+  name: String!
+}
+
+type CrmAttachments {
   createdAt: DateTime
   fileName: String!
   filePath: String!
@@ -386,78 +219,63 @@ type CrmAttachment {
   updatedAt: DateTime
 }
 
-type CrmCampaign {
+type CrmCampaigns {
   budget: Decimal
   createdAt: DateTime
   endDate: NaiveDate
   id: UUID!
-  leads: [CrmLead!]!
   name: String!
-  opportunities: [CrmOpportunity!]!
   startDate: NaiveDate
   updatedAt: DateTime
 }
 
-type CrmCase {
+type CrmCases {
   caseNumber: String!
-  contact: CrmContact
-  contactId: UUID
+  contact: CrmContacts
   createdAt: DateTime
   description: String
   id: UUID!
-  interactions: [CrmInteraction!]!
   owner: AuthUser!
-  ownerId: UUID!
   priority: CasePriority
   status: CaseStatus
   type: CaseType
   updatedAt: DateTime
 }
 
-type CrmCompany {
+type CrmCompanies {
   annualRevenue: Decimal
   city: String
-  contacts: [CrmContact!]!
   country: String
   createdAt: DateTime
   id: UUID!
   industry: String
-  leads: [CrmLead!]!
   name: String!
-  opportunities: [CrmOpportunity!]!
-  ownerId: UUID
+  owner: AuthUser
   phoneNumber: String
   postalCode: String
   state: String
   street: String
   updatedAt: DateTime
-  user: AuthUser
   website: String
 }
 
-type CrmContact {
-  cases: [CrmCase!]!
-  company: CrmCompany
+type CrmContacts {
+  company: CrmCompanies
   companyId: UUID
   createdAt: DateTime
   email: String!
   id: UUID!
-  interactions: [CrmInteraction!]!
   jobTitle: String
-  leads: [CrmLead!]!
   name: String!
-  opportunities: [CrmOpportunity!]!
   owner: AuthUser!
   ownerId: UUID!
   phoneNumber: String
   updatedAt: DateTime
 }
 
-type CrmInteraction {
-  case: CrmCase
-  caseId: UUID
-  contact: CrmContact!
-  contactId: UUID!
+type CrmInteractions {
+  case: CrmCases
+  contact: CrmContacts!
   createdAt: DateTime
   id: UUID!
   interactionDate: DateTime
@@ -466,16 +284,25 @@ type CrmInteraction {
   type: InteractionType
   updatedAt: DateTime
   user: AuthUser!
-  userId: UUID!
 }
 
-type CrmInvoice {
+type CrmInvoiceItems {
+  createdAt: DateTime
+  id: UUID!
+  invoice: CrmInvoices!
+  price: Decimal!
+  product: CrmProducts!
+  quantity: Int!
+  updatedAt: DateTime
+}
+
+type CrmInvoices {
   createdAt: DateTime
   dueDate: NaiveDate
   id: UUID!
-  invoiceItems: [CrmInvoiceItem!]!
   issueDate: NaiveDate
-  opportunity: CrmOpportunity
+  items(limit: Int!, page: Int!): [CrmInvoiceItems!]!
+  opportunity: CrmOpportunities
   opportunityId: UUID
   paidAt: DateTime
   paymentMethod: PaymentMethod
@@ -485,103 +312,159 @@ type CrmInvoice {
   updatedAt: DateTime
 }
 
-type CrmInvoiceItem {
-  createdAt: DateTime
-  id: UUID!
-  invoice: CrmInvoice!
-  invoiceId: UUID!
-  price: Decimal!
-  product: CrmProduct!
-  productId: UUID!
-  quantity: Int!
-  updatedAt: DateTime
-}
-
-type CrmLead {
-  campaign: CrmCampaign
-  campaignId: UUID
-  company: CrmCompany
-  contact: CrmContact
+type CrmLeads {
+  campaign: CrmCampaigns
   convertedAt: DateTime
-  convertedCompanyId: UUID
-  convertedContactId: UUID
-  convertedOpportunityId: UUID
+  convertedContact: CrmContacts
+  convertedOpportunity: CrmOpportunities
   createdAt: DateTime
   email: String!
   id: UUID!
   leadScore: Int
   leadSource: LeadSource
   name: String!
-  opportunity: CrmOpportunity
   owner: AuthUser!
-  ownerId: UUID!
   status: LeadStatus
   updatedAt: DateTime
 }
 
 type CrmMutations {
-  createAttachment(value: InsertAttachment!): CrmAttachment!
-  createCampaign(value: InsertCampaign!): CrmCampaign!
-  createCase(value: InsertCase!): CrmCase!
-  createCompany(value: InsertCompany!): CrmCompany!
-  createContact(value: InsertContact!): CrmContact!
-  createInteraction(value: InsertInteraction!): CrmInteraction!
-  createInvoiceItem(value: InsertInvoiceItem!): CrmInvoiceItem!
-  deleteAttachment(id: UUID!): Boolean!
-  deleteCampaign(id: UUID!): Boolean!
-  deleteCase(id: UUID!): Boolean!
-  deleteCompany(id: UUID!): Boolean!
-  deleteContact(id: UUID!): Boolean!
-  deleteInteraction(id: UUID!): Boolean!
-  deleteInvoiceItem(id: UUID!): Boolean!
-  updateAttachment(id: UUID!, value: UpdateAttachment!): CrmAttachment!
-  updateCampaign(id: UUID!, value: UpdateCampaign!): CrmCampaign!
-  updateCase(id: UUID!, value: UpdateCase!): CrmCase!
-  updateCompany(id: UUID!, value: UpdateCompany!): CrmCompany!
-  updateContact(id: UUID!, value: UpdateContact!): CrmContact!
-  updateInteraction(id: UUID!, value: UpdateInteraction!): CrmInteraction!
-  updateInvoiceItem(id: UUID!, value: UpdateInvoiceItem!): CrmInvoiceItem!
+  addInvoiceItem(id: UUID!, payload: CreateInvoiceItemInput!): CrmInvoices!
+  createCampaign(payload: CreateCampaignInput!): CrmCampaigns!
+  createCase(payload: CreateCaseInput!): CrmCases!
+  createCompany(payload: CreateCompanyInput!): CrmCompanies!
+  createContact(payload: CreateContactInput!): CrmContacts!
+  createInteraction(payload: CreateInteractionInput!): CrmInteractions!
+  createInvoice(payload: CreateInvoiceInput!): CrmInvoices!
+  createLead(payload: CreateLeadInput!): CrmLeads!
+  createNotification(payload: CreateNotificationInput!): CrmNotifications!
+  createOpportunity(payload: CreateOpportunityInput!): CrmOpportunities!
+  createProduct(payload: CreateProductInput!): CrmProducts!
+  createTag(payload: CreateTagInput!): CrmTags!
+  removeAttachment(id: UUID!): String!
+  removeCampaign(id: UUID!): String!
+  removeCase(id: UUID!): String!
+  removeCompany(id: UUID!): String!
+  removeContact(id: UUID!): String!
+  removeInteraction(id: UUID!): String!
+  removeInvoice(id: UUID!): String!
+  removeInvoiceItem(itemId: UUID!): CrmInvoices!
+  removeLead(id: UUID!): String!
+  removeNotification(id: UUID!): String!
+  removeOpportunity(id: UUID!): String!
+  removeProduct(id: UUID!): String!
+  removeTag(id: UUID!): String!
+  updateCampaignBudget(budget: Decimal!, id: UUID!): CrmCampaigns!
+  updateCampaignEndDate(endDate: NaiveDate!, id: UUID!): CrmCampaigns!
+  updateCampaignName(id: UUID!, name: String!): CrmCampaigns!
+  updateCampaignStartDate(id: UUID!, startDate: NaiveDate!): CrmCampaigns!
+  updateCaseContactId(contactId: UUID, id: UUID!): CrmCases!
+  updateCaseDescription(description: String, id: UUID!): CrmCases!
+  updateCaseNumber(caseNumber: String!, id: UUID!): CrmCases!
+  updateCaseOwnerId(id: UUID!, ownerId: UUID!): CrmCases!
+  updateCasePriority(id: UUID!, priority: CasePriority): CrmCases!
+  updateCaseStatus(id: UUID!, status: CaseStatus): CrmCases!
+  updateCaseType(id: UUID!, type: CaseType): CrmCases!
+  updateCompanyAnnualRevenue(annualRevenue: Decimal, id: UUID!): CrmCompanies!
+  updateCompanyCity(city: String, id: UUID!): CrmCompanies!
+  updateCompanyCountry(country: String, id: UUID!): CrmCompanies!
+  updateCompanyIndustry(id: UUID!, industry: String): CrmCompanies!
+  updateCompanyName(id: UUID!, name: String!): CrmCompanies!
+  updateCompanyOwnerId(id: UUID!, ownerId: UUID): CrmCompanies!
+  updateCompanyPhoneNumber(id: UUID!, phoneNumber: String): CrmCompanies!
+  updateCompanyPostalCode(id: UUID!, postalCode: String): CrmCompanies!
+  updateCompanyState(id: UUID!, state: String): CrmCompanies!
+  updateCompanyStreet(id: UUID!, street: String): CrmCompanies!
+  updateCompanyWebsite(id: UUID!, website: String): CrmCompanies!
+  updateContactCompanyId(companyId: UUID, id: UUID!): CrmContacts!
+  updateContactEmail(email: String!, id: UUID!): CrmContacts!
+  updateContactJobTitle(id: UUID!, jobTitle: String): CrmContacts!
+  updateContactName(id: UUID!, name: String!): CrmContacts!
+  updateContactOwnerId(id: UUID!, ownerId: UUID!): CrmContacts!
+  updateContactPhoneNumber(id: UUID!, phoneNumber: String): CrmContacts!
+  updateInteractionCaseId(caseId: UUID, id: UUID!): CrmInteractions!
+  updateInteractionContactId(contactId: UUID!, id: UUID!): CrmInteractions!
+  updateInteractionInteractionDate(id: UUID!, interactionDate: DateTime): CrmInteractions!
+  updateInteractionNotes(id: UUID!, notes: String): CrmInteractions!
+  updateInteractionOutcome(id: UUID!, outcome: String): CrmInteractions!
+  updateInteractionType(id: UUID!, type: InteractionType): CrmInteractions!
+  updateInteractionUserId(id: UUID!, userId: UUID!): CrmInteractions!
+  updateInvoiceDueDate(dueDate: NaiveDate, id: UUID!): CrmInvoices!
+  updateInvoiceIssueDate(id: UUID!, issueDate: NaiveDate): CrmInvoices!
+  updateInvoiceOpportunityId(id: UUID!, opportunityId: UUID): CrmInvoices!
+  updateInvoicePaidAt(id: UUID!, paidAt: DateTime): CrmInvoices!
+  updateInvoicePaymentMethod(id: UUID!, paymentMethod: PaymentMethod): CrmInvoices!
+  updateInvoiceSentAt(id: UUID!, sentAt: DateTime): CrmInvoices!
+  updateInvoiceStatus(id: UUID!, status: InvoiceStatus): CrmInvoices!
+  updateInvoiceTotal(id: UUID!, total: Decimal): CrmInvoices!
+  updateLeadCampaignId(campaignId: UUID, id: UUID!): CrmLeads!
+  updateLeadConvertedAt(convertedAt: DateTime, id: UUID!): CrmLeads!
+  updateLeadConvertedCompanyId(convertedCompanyId: UUID, id: UUID!): CrmLeads!
+  updateLeadConvertedContactId(convertedContactId: UUID, id: UUID!): CrmLeads!
+  updateLeadConvertedOpportunityId(convertedOpportunityId: UUID, id: UUID!): CrmLeads!
+  updateLeadEmail(email: String!, id: UUID!): CrmLeads!
+  updateLeadLeadScore(id: UUID!, leadScore: Int): CrmLeads!
+  updateLeadLeadSource(id: UUID!, leadSource: LeadSource): CrmLeads!
+  updateLeadName(id: UUID!, name: String!): CrmLeads!
+  updateLeadOwnerId(id: UUID!, ownerId: UUID!): CrmLeads!
+  updateLeadStatus(id: UUID!, status: LeadStatus): CrmLeads!
+  updateNotificationIsRead(id: UUID!, isRead: Boolean): CrmNotifications!
+  updateNotificationLink(id: UUID!, link: String): CrmNotifications!
+  updateNotificationMessage(id: UUID!, message: String!): CrmNotifications!
+  updateNotificationUserId(id: UUID!, userId: UUID!): CrmNotifications!
+  updateOpportunityCampaignId(campaignId: UUID, id: UUID!): CrmOpportunities!
+  updateOpportunityCompanyId(companyId: UUID, id: UUID!): CrmOpportunities!
+  updateOpportunityContactId(contactId: UUID, id: UUID!): CrmOpportunities!
+  updateOpportunityDealValue(dealValue: Decimal, id: UUID!): CrmOpportunities!
+  updateOpportunityExpectedCloseDate(expectedCloseDate: NaiveDate, id: UUID!): CrmOpportunities!
+  updateOpportunityLostReason(id: UUID!, lostReason: String): CrmOpportunities!
+  updateOpportunityName(id: UUID!, name: String!): CrmOpportunities!
+  updateOpportunityOwnerId(id: UUID!, ownerId: UUID!): CrmOpportunities!
+  updateOpportunityProbability(id: UUID!, probability: Float): CrmOpportunities!
+  updateOpportunitySource(id: UUID!, source: OpportunitySource): CrmOpportunities!
+  updateOpportunityStage(id: UUID!, stage: OpportunityStage): CrmOpportunities!
+  updateProductDescription(description: String, id: UUID!): CrmProducts!
+  updateProductName(id: UUID!, name: String!): CrmProducts!
+  updateProductPrice(id: UUID!, price: Decimal!): CrmProducts!
+  updateProductSku(id: UUID!, sku: String): CrmProducts!
+  updateProductType(id: UUID!, type: ProductType): CrmProducts!
+  updateTagName(id: UUID!, name: String!): CrmTags!
+  uploadAttachment(file: Upload!, recordId: UUID!, recordType: RecordType!): CrmAttachments!
 }
 
-type CrmOpportunity {
-  campaign: CrmCampaign
-  campaignId: UUID
-  company: CrmCompany
-  companyId: UUID
-  contact: CrmContact
-  contactId: UUID
+type CrmNotifications {
+  createdAt: DateTime
+  id: UUID!
+  isRead: Boolean
+  link: String
+  message: String!
+  updatedAt: DateTime
+  user: AuthUser!
+}
+
+type CrmOpportunities {
+  campaign: CrmCampaigns
+  company: CrmCompanies
+  contact: CrmContacts
   createdAt: DateTime
   dealValue: Decimal
   expectedCloseDate: NaiveDate
   id: UUID!
-  invoices: [CrmInvoice!]!
-  leads: [CrmLead!]!
   lostReason: String
   name: String!
-  opportunityProducts: [CrmOpportunityProduct!]!
   owner: AuthUser!
-  ownerId: UUID!
   probability: Float
+  products(limit: Int!, page: Int!): [CrmProducts!]!
   source: OpportunitySource
   stage: OpportunityStage
   updatedAt: DateTime
 }
 
-type CrmOpportunityProduct {
-  opportunity: CrmOpportunity!
-  opportunityId: UUID!
-  product: CrmProduct!
-  productId: UUID!
-  quantity: Int!
-}
-
-type CrmProduct {
+type CrmProducts {
   createdAt: DateTime
   description: String
   id: UUID!
-  invoiceItems: [CrmInvoiceItem!]!
   name: String!
-  opportunityProducts: [CrmOpportunityProduct!]!
   price: Decimal!
   sku: String
   type: ProductType
@@ -589,1298 +472,47 @@ type CrmProduct {
 }
 
 type CrmQueries {
-  attachment(id: UUID!): CrmAttachment
-  attachments: [CrmAttachment!]!
-  campaign(id: UUID!): CrmCampaign
-  campaigns: [CrmCampaign!]!
-  case(id: UUID!): CrmCase
-  cases: [CrmCase!]!
-  companies: [CrmCompany!]!
-  company(id: UUID!): CrmCompany
-  contact(id: UUID!): CrmContact
-  contacts: [CrmContact!]!
-  interaction(id: UUID!): CrmInteraction
-  interactions: [CrmInteraction!]!
-  invoiceItem(id: UUID!): CrmInvoiceItem
-  invoiceItems: [CrmInvoiceItem!]!
+  attachment(id: UUID!): CrmAttachments
+  attachments(limit: Int!, page: Int!): [CrmAttachments!]!
+  campaign(id: UUID!): CrmCampaigns
+  campaigns(limit: Int!, page: Int!): [CrmCampaigns!]!
+  case(id: UUID!): CrmCases
+  cases(limit: Int!, page: Int!): [CrmCases!]!
+  companies(limit: Int!, page: Int!): [CrmCompanies!]!
+  company(id: UUID!): CrmCompanies
+  contact(id: UUID!): CrmContacts
+  contacts(limit: Int!, page: Int!): [CrmContacts!]!
+  interaction(id: UUID!): CrmInteractions
+  interactions(limit: Int!, page: Int!): [CrmInteractions!]!
+  invoice(id: UUID!): CrmInvoices
+  invoices(limit: Int!, page: Int!): [CrmInvoices!]!
+  lead(id: UUID!): CrmLeads
+  leads(limit: Int!, page: Int!): [CrmLeads!]!
+  notification(id: UUID!): CrmNotifications
+  notifications(limit: Int!, page: Int!): [CrmNotifications!]!
+  opportunities(limit: Int!, page: Int!): [CrmOpportunities!]!
+  opportunity(id: UUID!): CrmOpportunities
+  product(id: UUID!): CrmProducts
+  products(limit: Int!, page: Int!): [CrmProducts!]!
+  tag(id: UUID!): CrmTags
+  tags(limit: Int!, page: Int!): [CrmTags!]!
 }
 
-enum CurrencyEnum {
-  AUD
-  CAD
-  EUR
-  GBP
-  JPY
-  PHP
-  USD
+type CrmTags {
+  createdAt: DateTime
+  id: UUID!
+  name: String!
+  updatedAt: DateTime
 }
 
 """
-Implement the DateTime<FixedOffset> scalar
+Implement the DateTime<Utc> scalar
 
 The input/output is a string in RFC3339 format.
 """
 scalar DateTime
 
 scalar Decimal
-
-enum DeliveryFailureReasonEnum {
-  ACCESS_DENIED
-  ADDRESS_NOT_FOUND
-  DAMAGED_PACKAGE
-  OTHER
-  RECIPIENT_NOT_HOME
-  REFUSED_DELIVERY
-  VEHICLE_BREAKDOWN
-  WEATHER_CONDITIONS
-}
-
-enum DeliveryRouteStatusEnum {
-  CANCELLED
-  COMPLETED
-  IN_PROGRESS
-  PAUSED
-  PLANNED
-}
-
-enum DeliveryTaskStatusEnum {
-  ASSIGNED
-  CANCELLED
-  DELIVERED
-  FAILED
-  OUT_FOR_DELIVERY
-  PENDING
-  RESCHEDULED
-}
-
-enum DisputeStatusEnum {
-  APPROVED
-  CLOSED
-  DENIED
-  ESCALATED
-  OPEN
-  UNDER_REVIEW
-}
-
-type DmsCustomerTrackingLink {
-  accessCount: Int
-  createdAt: NaiveDateTime
-  deliveryTask: DmsDeliveryTask!
-  deliveryTaskId: UUID!
-  expiresAt: NaiveDateTime
-  id: UUID!
-  isActive: Boolean
-  lastAccessedAt: NaiveDateTime
-  trackingToken: String!
-  updatedAt: NaiveDateTime
-}
-
-type DmsDeliveryRoute {
-  actualDurationMinutes: Int
-  completedAt: NaiveDateTime
-  createdAt: NaiveDateTime
-  deliveryTasks: [DmsDeliveryTask!]!
-  driver: TmsDriver!
-  driverId: UUID!
-  estimatedDurationMinutes: Int
-  id: UUID!
-  optimizedRouteData: String
-  routeDate: NaiveDate!
-  startedAt: NaiveDateTime
-  status: DeliveryRouteStatusEnum
-  totalDistanceKm: Float
-  updatedAt: NaiveDateTime
-}
-
-type DmsDeliveryTask {
-  actualArrivalTime: NaiveDateTime
-  attemptCount: Int
-  createdAt: NaiveDateTime
-  customerTrackingLinks: [DmsCustomerTrackingLink!]!
-  deliveryAddress: String!
-  deliveryInstructions: String
-  deliveryRoute: DmsDeliveryRoute!
-  deliveryRouteId: UUID!
-  deliveryTime: NaiveDateTime
-  estimatedArrivalTime: NaiveDateTime
-  failureReason: DeliveryFailureReasonEnum
-  id: UUID!
-  package: WmsPackage!
-  packageId: UUID!
-  proofOfDeliveries: [DmsProofOfDelivery!]!
-  recipientName: String
-  recipientPhone: String
-  routeSequence: Int!
-  status: DeliveryTaskStatusEnum
-  taskEvents: [DmsTaskEvent!]!
-  updatedAt: NaiveDateTime
-}
-
-type DmsDriverLocation {
-  accuracy: Float
-  altitude: Float
-  createdAt: NaiveDateTime
-  driver: TmsDriver!
-  driverId: UUID!
-  heading: Float
-  id: UUID!
-  latitude: Float!
-  longitude: Float!
-  speedKmh: Float
-  timestamp: NaiveDateTime
-  updatedAt: NaiveDateTime
-}
-
-input DmsInsertProofOfDelivery {
-  deliveryTaskId: UUID!
-  filePath: String
-  latitude: Float
-  longitude: Float
-  recipientName: String
-  signatureData: String
-  timestamp: NaiveDateTime
-  type: ProofOfDeliveryTypeEnum!
-  verificationCode: String
-}
-
-type DmsMutations {
-  createCustomerTrackingLink(value: InsertCustomerTrackingLink!): DmsCustomerTrackingLink!
-  createDeliveryRoute(value: InsertDeliveryRoute!): DmsDeliveryRoute!
-  createDeliveryTask(value: InsertDeliveryTask!): DmsDeliveryTask!
-  createDriverLocation(value: InsertDriverLocation!): DmsDriverLocation!
-  createProofOfDelivery(value: DmsInsertProofOfDelivery!): DmsProofOfDelivery!
-  createTaskEvent(value: InsertTaskEvent!): DmsTaskEvent!
-  deleteCustomerTrackingLink(id: UUID!): Boolean!
-  deleteDeliveryRoute(id: UUID!): Boolean!
-  deleteDeliveryTask(id: UUID!): Boolean!
-  deleteDriverLocation(id: UUID!): Boolean!
-  deleteProofOfDelivery(id: UUID!): Boolean!
-  deleteTaskEvent(id: UUID!): Boolean!
-  updateCustomerTrackingLink(id: UUID!, value: UpdateCustomerTrackingLink!): DmsCustomerTrackingLink!
-  updateDeliveryRoute(id: UUID!, value: UpdateDeliveryRoute!): DmsDeliveryRoute!
-  updateDeliveryTask(id: UUID!, value: UpdateDeliveryTask!): DmsDeliveryTask!
-  updateDriverLocation(id: UUID!, value: UpdateDriverLocation!): DmsDriverLocation!
-  updateProofOfDelivery(id: UUID!, value: DmsUpdateProofOfDelivery!): DmsProofOfDelivery!
-  updateTaskEvent(id: UUID!, value: UpdateTaskEvent!): DmsTaskEvent!
-}
-
-type DmsProofOfDelivery {
-  createdAt: NaiveDateTime
-  deliveryTask: DmsDeliveryTask!
-  deliveryTaskId: UUID!
-  filePath: String
-  id: UUID!
-  latitude: Float
-  longitude: Float
-  recipientName: String
-  signatureData: String
-  timestamp: NaiveDateTime
-  type: ProofOfDeliveryTypeEnum!
-  updatedAt: NaiveDateTime
-  verificationCode: String
-}
-
-type DmsQueries {
-  customerTrackingLink(id: UUID!): DmsCustomerTrackingLink
-  customerTrackingLinks: [DmsCustomerTrackingLink!]!
-  deliveryRoute(id: UUID!): DmsDeliveryRoute
-  deliveryRoutes: [DmsDeliveryRoute!]!
-  deliveryTask(id: UUID!): DmsDeliveryTask
-  deliveryTasks: [DmsDeliveryTask!]!
-  driverLocation(id: UUID!): DmsDriverLocation
-  driverLocations: [DmsDriverLocation!]!
-  proofOfDeliveries: [DmsProofOfDelivery!]!
-  proofOfDelivery(id: UUID!): DmsProofOfDelivery
-  taskEvent(id: UUID!): DmsTaskEvent
-  taskEvents: [DmsTaskEvent!]!
-}
-
-type DmsTaskEvent {
-  createdAt: NaiveDateTime
-  deliveryTask: DmsDeliveryTask!
-  deliveryTaskId: UUID!
-  id: UUID!
-  latitude: Float
-  longitude: Float
-  notes: String
-  reason: String
-  status: TaskEventStatusEnum!
-  timestamp: NaiveDateTime
-  updatedAt: NaiveDateTime
-}
-
-input DmsUpdateProofOfDelivery {
-  deliveryTaskId: UUID
-  filePath: String
-  latitude: Float
-  longitude: Float
-  recipientName: String
-  signatureData: String
-  timestamp: NaiveDateTime
-  type: ProofOfDeliveryTypeEnum
-  verificationCode: String
-}
-
-enum DocumentTypeEnum {
-  BOL
-  COMMERCIAL_INVOICE
-  CREDIT_NOTE
-  CUSTOMS_DECLARATION
-  PACKING_LIST
-  PROOF_OF_DELIVERY
-  RECEIPT
-  SHIPPING_LABEL
-}
-
-enum DriverScheduleReasonEnum {
-  PERSONAL_LEAVE
-  SICK_LEAVE
-  TRAINING
-  VACATION
-}
-
-enum DriverStatusEnum {
-  ACTIVE
-  INACTIVE
-  ON_LEAVE
-}
-
-enum ExpenseStatusEnum {
-  APPROVED
-  PENDING
-  REIMBURSED
-  REJECTED
-}
-
-enum ExpenseTypeEnum {
-  ACCOMMODATION
-  FUEL
-  MAINTENANCE
-  MEALS
-  PARKING
-  TOLLS
-}
-
-enum GeofenceEventTypeEnum {
-  ENTER
-  EXIT
-}
-
-type ImsInboundShipment {
-  actualArrivalDate: NaiveDate
-  client: CrmCompany
-  clientId: UUID
-  createdAt: NaiveDateTime
-  expectedArrivalDate: NaiveDate
-  id: UUID!
-  inboundShipmentItems: [ImsInboundShipmentItem!]!
-  status: InboundShipmentStatusEnum
-  updatedAt: NaiveDateTime
-  warehouseId: UUID!
-}
-
-type ImsInboundShipmentItem {
-  createdAt: NaiveDateTime
-  discrepancyNotes: String
-  discrepancyQuantity: Int
-  expectedQuantity: Int!
-  id: UUID!
-  inboundShipment: ImsInboundShipment!
-  inboundShipmentId: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  receivedQuantity: Int
-  updatedAt: NaiveDateTime
-}
-
-type ImsInventoryAdjustment {
-  createdAt: NaiveDateTime
-  id: UUID!
-  notes: String
-  product: ImsProduct!
-  productId: UUID!
-  quantityChange: Int!
-  reason: InventoryAdjustmentReasonEnum
-  updatedAt: NaiveDateTime
-  user: AuthUser!
-  userId: UUID!
-  warehouseId: UUID!
-}
-
-type ImsInventoryBatch {
-  batchNumber: String!
-  createdAt: NaiveDateTime
-  expirationDate: NaiveDate
-  id: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type ImsMutations {
-  createInboundShipment(value: InsertInboundShipment!): ImsInboundShipment!
-  createInboundShipmentItem(value: InsertInboundShipmentItem!): ImsInboundShipmentItem!
-  createInventoryAdjustment(value: InsertInventoryAdjustment!): ImsInventoryAdjustment!
-  createInventoryBatch(value: InsertInventoryBatch!): ImsInventoryBatch!
-  createOutboundShipment(value: InsertOutboundShipment!): ImsOutboundShipment!
-  createOutboundShipmentItem(value: InsertOutboundShipmentItem!): ImsOutboundShipmentItem!
-  createProduct(value: InsertProduct!): ImsProduct!
-  createReorderPoint(value: InsertReorderPoint!): ImsReorderPoint!
-  createReturn(value: InsertReturn!): ImsReturn!
-  createReturnItem(value: InsertReturnItem!): ImsReturnItem!
-  createSalesOrder(value: InsertSalesOrder!): ImsSalesOrder!
-  createSalesOrderItem(value: InsertSalesOrderItem!): ImsSalesOrderItem!
-  createStockTransfer(value: InsertStockTransfer!): ImsStockTransfer!
-  createSupplier(value: InsertSupplier!): ImsSupplier!
-  deleteInboundShipment(id: UUID!): Boolean!
-  deleteInboundShipmentItem(id: UUID!): Boolean!
-  deleteInventoryAdjustment(id: UUID!): Boolean!
-  deleteInventoryBatch(id: UUID!): Boolean!
-  deleteOutboundShipment(id: UUID!): Boolean!
-  deleteOutboundShipmentItem(id: UUID!): Boolean!
-  deleteProduct(id: UUID!): Boolean!
-  deleteReorderPoint(id: UUID!): Boolean!
-  deleteReturn(id: UUID!): Boolean!
-  deleteReturnItem(id: UUID!): Boolean!
-  deleteSalesOrder(id: UUID!): Boolean!
-  deleteSalesOrderItem(id: UUID!): Boolean!
-  deleteStockTransfer(id: UUID!): Boolean!
-  deleteSupplier(id: UUID!): Boolean!
-  updateInboundShipment(id: UUID!, value: UpdateInboundShipment!): ImsInboundShipment!
-  updateInboundShipmentItem(id: UUID!, value: UpdateInboundShipmentItem!): ImsInboundShipmentItem!
-  updateInventoryAdjustment(id: UUID!, value: UpdateInventoryAdjustment!): ImsInventoryAdjustment!
-  updateInventoryBatch(id: UUID!, value: UpdateInventoryBatch!): ImsInventoryBatch!
-  updateOutboundShipment(id: UUID!, value: UpdateOutboundShipment!): ImsOutboundShipment!
-  updateOutboundShipmentItem(id: UUID!, value: UpdateOutboundShipmentItem!): ImsOutboundShipmentItem!
-  updateProduct(id: UUID!, value: UpdateProduct!): ImsProduct!
-  updateReorderPoint(id: UUID!, value: UpdateReorderPoint!): ImsReorderPoint!
-  updateReturn(id: UUID!, value: UpdateReturn!): ImsReturn!
-  updateReturnItem(id: UUID!, value: UpdateReturnItem!): ImsReturnItem!
-  updateSalesOrder(id: UUID!, value: UpdateSalesOrder!): ImsSalesOrder!
-  updateSalesOrderItem(id: UUID!, value: UpdateSalesOrderItem!): ImsSalesOrderItem!
-  updateStockTransfer(id: UUID!, value: UpdateStockTransfer!): ImsStockTransfer!
-  updateSupplier(id: UUID!, value: UpdateSupplier!): ImsSupplier!
-}
-
-type ImsOutboundShipment {
-  carrier: String
-  createdAt: NaiveDateTime
-  id: UUID!
-  outboundShipmentItems: [ImsOutboundShipmentItem!]!
-  salesOrder: ImsSalesOrder!
-  salesOrderId: UUID!
-  status: OutboundShipmentStatusEnum
-  trackingNumber: String
-  updatedAt: NaiveDateTime
-  warehouseId: UUID!
-}
-
-type ImsOutboundShipmentItem {
-  batch: ImsInventoryBatch
-  batchId: UUID
-  createdAt: NaiveDateTime
-  id: UUID!
-  outboundShipment: ImsOutboundShipment!
-  outboundShipmentId: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantityShipped: Int!
-  salesOrderItem: ImsSalesOrderItem!
-  salesOrderItemId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type ImsProduct {
-  barcode: String
-  clientId: UUID
-  company: CrmCompany
-  costPrice: Decimal
-  createdAt: NaiveDateTime
-  description: String
-  height: Float
-  id: UUID!
-  inboundShipmentItems: [ImsInboundShipmentItem!]!
-  inventoryAdjustments: [ImsInventoryAdjustment!]!
-  inventoryBatches: [ImsInventoryBatch!]!
-  length: Float
-  name: String!
-  outboundShipmentItems: [ImsOutboundShipmentItem!]!
-  reorderPoints: [ImsReorderPoint!]!
-  returnItems: [ImsReturnItem!]!
-  salesOrderItems: [ImsSalesOrderItem!]!
-  sku: String!
-  status: ProductStatusEnum
-  stockTransfers: [ImsStockTransfer!]!
-  supplier: ImsSupplier
-  supplierId: UUID
-  updatedAt: NaiveDateTime
-  volume: Float
-  weight: Float
-  width: Float
-}
-
-type ImsQueries {
-  inboundShipment(id: UUID!): ImsInboundShipment
-  inboundShipmentItem(id: UUID!): ImsInboundShipmentItem
-  inboundShipmentItems: [ImsInboundShipmentItem!]!
-  inboundShipments: [ImsInboundShipment!]!
-  inventoryAdjustment(id: UUID!): ImsInventoryAdjustment
-  inventoryAdjustments: [ImsInventoryAdjustment!]!
-  inventoryBatch(id: UUID!): ImsInventoryBatch
-  inventoryBatches: [ImsInventoryBatch!]!
-  outboundShipment(id: UUID!): ImsOutboundShipment
-  outboundShipmentItem(id: UUID!): ImsOutboundShipmentItem
-  outboundShipmentItems: [ImsOutboundShipmentItem!]!
-  outboundShipments: [ImsOutboundShipment!]!
-  product(id: UUID!): ImsProduct
-  products: [ImsProduct!]!
-  reorderPoint(id: UUID!): ImsReorderPoint
-  reorderPoints: [ImsReorderPoint!]!
-  return(id: UUID!): ImsReturn
-  returnItem(id: UUID!): ImsReturnItem
-  returnItems: [ImsReturnItem!]!
-  returns: [ImsReturn!]!
-  salesOrder(id: UUID!): ImsSalesOrder
-  salesOrderItem(id: UUID!): ImsSalesOrderItem
-  salesOrderItems: [ImsSalesOrderItem!]!
-  salesOrders: [ImsSalesOrder!]!
-  stockTransfer(id: UUID!): ImsStockTransfer
-  stockTransfers: [ImsStockTransfer!]!
-  supplier(id: UUID!): ImsSupplier
-  suppliers: [ImsSupplier!]!
-}
-
-type ImsReorderPoint {
-  createdAt: NaiveDateTime
-  id: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  threshold: Int!
-  updatedAt: NaiveDateTime
-  warehouseId: UUID!
-}
-
-type ImsReturn {
-  client: CrmCompany!
-  clientId: UUID!
-  createdAt: NaiveDateTime
-  id: UUID!
-  reason: String
-  returnItems: [ImsReturnItem!]!
-  returnNumber: String!
-  salesOrder: ImsSalesOrder
-  salesOrderId: UUID
-  status: ReturnStatusEnum
-  updatedAt: NaiveDateTime
-}
-
-type ImsReturnItem {
-  condition: ReturnItemConditionEnum
-  createdAt: NaiveDateTime
-  id: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantityExpected: Int!
-  quantityReceived: Int
-  quantityVariance: Int
-  return: ImsReturn!
-  returnId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type ImsSalesOrder {
-  client: CrmCompany!
-  clientId: UUID!
-  createdAt: NaiveDateTime
-  crmOpportunityId: UUID
-  id: UUID!
-  opportunity: CrmOpportunity
-  orderNumber: String!
-  outboundShipments: [ImsOutboundShipment!]!
-  returns: [ImsReturn!]!
-  salesOrderItems: [ImsSalesOrderItem!]!
-  shippingAddress: String
-  status: SalesOrderStatusEnum
-  updatedAt: NaiveDateTime
-}
-
-type ImsSalesOrderItem {
-  createdAt: NaiveDateTime
-  id: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantityOrdered: Int!
-  salesOrder: ImsSalesOrder!
-  salesOrderId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type ImsStockTransfer {
-  createdAt: NaiveDateTime
-  destinationWarehouseId: UUID!
-  id: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantity: Int!
-  sourceWarehouseId: UUID!
-  status: StockTransferStatusEnum
-  updatedAt: NaiveDateTime
-}
-
-type ImsSupplier {
-  contactPerson: String
-  createdAt: NaiveDateTime
-  email: String
-  id: UUID!
-  name: String!
-  phoneNumber: String
-  products: [ImsProduct!]!
-  updatedAt: NaiveDateTime
-}
-
-enum InboundShipmentStatusEnum {
-  ARRIVED
-  CANCELLED
-  COMPLETED
-  PENDING
-  PROCESSING
-}
-
-input InsertAccountTransaction {
-  amount: Decimal!
-  clientAccountId: UUID!
-  description: String
-  processedByUserId: UUID
-  referenceNumber: String
-  runningBalance: Decimal
-  sourceRecordId: UUID
-  sourceRecordType: String
-  transactionDate: NaiveDateTime
-  type: TransactionTypeEnum!
-}
-
-input InsertAccountingSyncLog {
-  errorMessage: String
-  externalId: String
-  externalSystem: String!
-  lastSyncAt: NaiveDateTime
-  nextRetryAt: NaiveDateTime
-  recordId: UUID!
-  recordType: String!
-  requestPayload: String
-  responsePayload: String
-  retryCount: Int
-  status: SyncStatusEnum
-}
-
-input InsertAttachment {
-  fileName: String!
-  filePath: String!
-  mimeType: String
-  recordId: UUID
-  recordType: RecordType
-}
-
-input InsertBinThreshold {
-  alertThreshold: Int
-  isActive: Boolean
-  locationId: UUID!
-  maxQuantity: Int!
-  minQuantity: Int!
-  productId: UUID!
-  reorderQuantity: Int
-}
-
-input InsertCampaign {
-  budget: Decimal
-  endDate: NaiveDate
-  name: String!
-  startDate: NaiveDate
-}
-
-input InsertCarrier {
-  contactDetails: String
-  name: String!
-  servicesOffered: String
-}
-
-input InsertCarrierRate {
-  carrierId: UUID!
-  destination: String
-  origin: String
-  rate: Decimal!
-  serviceType: String
-  unit: CarrierRateUnitEnum
-}
-
-input InsertCase {
-  caseNumber: String!
-  contactId: UUID
-  description: String
-  ownerId: UUID!
-  priority: CasePriority
-  status: CaseStatus
-  type: CaseType
-}
-
-input InsertClientAccount {
-  availableCredit: Decimal
-  clientId: UUID!
-  creditLimit: Decimal
-  currency: String
-  isCreditApproved: Boolean
-  lastPaymentDate: NaiveDate
-  paymentTermsDays: Int
-  walletBalance: Decimal
-}
-
-input InsertCompany {
-  annualRevenue: Decimal
-  city: String
-  country: String
-  industry: String
-  name: String!
-  ownerId: UUID
-  phoneNumber: String
-  postalCode: String
-  state: String
-  street: String
-  website: String
-}
-
-input InsertContact {
-  companyId: UUID
-  email: String!
-  jobTitle: String
-  name: String!
-  ownerId: UUID!
-  phoneNumber: String
-}
-
-input InsertCreditNote {
-  amount: Decimal!
-  appliedAt: NaiveDateTime
-  createdByUserId: UUID
-  creditNoteNumber: String!
-  currency: String
-  disputeId: UUID
-  invoiceId: UUID!
-  issueDate: NaiveDate!
-  notes: String
-  reason: String!
-}
-
-input InsertCustomerTrackingLink {
-  accessCount: Int
-  deliveryTaskId: UUID!
-  expiresAt: NaiveDateTime
-  isActive: Boolean
-  lastAccessedAt: NaiveDateTime
-  trackingToken: String!
-}
-
-input InsertDeliveryRoute {
-  actualDurationMinutes: Int
-  completedAt: NaiveDateTime
-  driverId: UUID!
-  estimatedDurationMinutes: Int
-  optimizedRouteData: String
-  routeDate: NaiveDate!
-  startedAt: NaiveDateTime
-  status: DeliveryRouteStatusEnum
-  totalDistanceKm: Float
-}
-
-input InsertDeliveryTask {
-  actualArrivalTime: NaiveDateTime
-  attemptCount: Int
-  deliveryAddress: String!
-  deliveryInstructions: String
-  deliveryRouteId: UUID!
-  deliveryTime: NaiveDateTime
-  estimatedArrivalTime: NaiveDateTime
-  failureReason: DeliveryFailureReasonEnum
-  packageId: UUID!
-  recipientName: String
-  recipientPhone: String
-  routeSequence: Int!
-  status: DeliveryTaskStatusEnum
-}
-
-input InsertDispute {
-  clientId: UUID!
-  disputedAmount: Decimal
-  lineItemId: UUID!
-  reason: String!
-  resolutionNotes: String
-  resolvedAt: NaiveDateTime
-  resolvedByUserId: UUID
-  status: DisputeStatusEnum
-  submittedAt: NaiveDateTime
-}
-
-input InsertDocument {
-  documentType: DocumentTypeEnum!
-  fileName: String!
-  filePath: String!
-  fileSize: Int
-  mimeType: String
-  recordId: UUID!
-  recordType: String!
-  uploadedByUserId: UUID
-}
-
-input InsertDriver {
-  licenseExpiryDate: NaiveDate
-  licenseNumber: String!
-  status: DriverStatusEnum
-  userId: UUID!
-}
-
-input InsertDriverLocation {
-  accuracy: Float
-  altitude: Float
-  driverId: UUID!
-  heading: Float
-  latitude: Float!
-  longitude: Float!
-  speedKmh: Float
-  timestamp: NaiveDateTime
-}
-
-input InsertDriverSchedule {
-  driverId: UUID!
-  endDate: NaiveDate!
-  reason: DriverScheduleReasonEnum
-  startDate: NaiveDate!
-}
-
-input InsertExpense {
-  amount: Decimal!
-  currency: CurrencyEnum
-  driverId: UUID
-  fuelQuantity: Float
-  odometerReading: Int
-  receiptUrl: String
-  status: ExpenseStatusEnum
-  tripId: UUID
-  type: ExpenseTypeEnum
-}
-
-input InsertGeofence {
-  coordinates: String
-  name: String!
-}
-
-input InsertGeofenceEvent {
-  eventType: GeofenceEventTypeEnum!
-  geofenceId: UUID!
-  timestamp: NaiveDateTime!
-  vehicleId: UUID!
-}
-
-input InsertGpsPing {
-  latitude: Float!
-  longitude: Float!
-  timestamp: NaiveDateTime!
-  vehicleId: UUID!
-}
-
-input InsertInboundShipment {
-  actualArrivalDate: NaiveDate
-  clientId: UUID
-  expectedArrivalDate: NaiveDate
-  status: InboundShipmentStatusEnum
-  warehouseId: UUID!
-}
-
-input InsertInboundShipmentItem {
-  discrepancyNotes: String
-  discrepancyQuantity: Int
-  expectedQuantity: Int!
-  inboundShipmentId: UUID!
-  productId: UUID!
-  receivedQuantity: Int
-}
-
-input InsertInteraction {
-  caseId: UUID
-  contactId: UUID!
-  interactionDate: DateTime
-  notes: String
-  outcome: String
-  type: InteractionType
-  userId: UUID!
-}
-
-input InsertInventoryAdjustment {
-  notes: String
-  productId: UUID!
-  quantityChange: Int!
-  reason: InventoryAdjustmentReasonEnum
-  userId: UUID!
-  warehouseId: UUID!
-}
-
-input InsertInventoryBatch {
-  batchNumber: String!
-  expirationDate: NaiveDate
-  productId: UUID!
-}
-
-input InsertInventoryStock {
-  availableQuantity: Int
-  batchId: UUID
-  lastCountedAt: NaiveDateTime
-  lastMovementAt: NaiveDateTime
-  locationId: UUID!
-  productId: UUID!
-  quantity: Int!
-  reservedQuantity: Int!
-  status: InventoryStockStatusEnum
-}
-
-input InsertInvoice {
-  amountOutstanding: Decimal
-  amountPaid: Decimal
-  clientId: UUID!
-  createdByUserId: UUID
-  currency: String
-  discountAmount: Decimal
-  dueDate: NaiveDate!
-  invoiceNumber: String!
-  issueDate: NaiveDate!
-  notes: String
-  paidAt: NaiveDateTime
-  paymentTerms: String
-  quoteId: UUID
-  sentAt: NaiveDateTime
-  status: InvoiceStatusEnum
-  subtotal: Decimal
-  taxAmount: Decimal
-  totalAmount: Decimal!
-}
-
-input InsertInvoiceItem {
-  invoiceId: UUID!
-  price: Decimal!
-  productId: UUID!
-  quantity: Int!
-}
-
-input InsertInvoiceLineItem {
-  description: String!
-  discountAmount: Decimal
-  discountRate: Decimal
-  invoiceId: UUID!
-  lineTotal: Decimal
-  quantity: Decimal!
-  sourceRecordId: UUID
-  sourceRecordType: String
-  taxAmount: Decimal
-  taxRate: Decimal
-  totalPrice: Decimal
-  unitPrice: Decimal!
-}
-
-input InsertLocation {
-  barcode: String
-  hazmatApproved: Boolean
-  isActive: Boolean
-  isPickable: Boolean
-  isReceivable: Boolean
-  level: Int
-  maxPallets: Int
-  maxVolume: Float
-  maxWeight: Float
-  name: String!
-  parentLocationId: UUID
-  path: String
-  temperatureControlled: Boolean
-  type: LocationTypeEnum!
-  warehouseId: UUID!
-  xCoordinate: Float
-  yCoordinate: Float
-  zCoordinate: Float
-}
-
-input InsertOutboundShipment {
-  carrier: String
-  salesOrderId: UUID!
-  status: OutboundShipmentStatusEnum
-  trackingNumber: String
-  warehouseId: UUID!
-}
-
-input InsertOutboundShipmentItem {
-  batchId: UUID
-  outboundShipmentId: UUID!
-  productId: UUID!
-  quantityShipped: Int!
-  salesOrderItemId: UUID!
-}
-
-input InsertPackage {
-  carrier: String
-  height: Float
-  insuranceValue: Decimal
-  isFragile: Boolean
-  isHazmat: Boolean
-  length: Float
-  packageNumber: String!
-  packageType: String
-  packedAt: NaiveDateTime
-  packedByUserId: UUID
-  requiresSignature: Boolean
-  salesOrderId: UUID!
-  serviceLevel: String
-  shippedAt: NaiveDateTime
-  trackingNumber: String
-  volume: Float
-  warehouseId: UUID!
-  weight: Float
-  width: Float
-}
-
-input InsertPackageItem {
-  batchId: UUID
-  expiryDate: NaiveDate
-  lotNumber: String
-  packageId: UUID!
-  productId: UUID!
-  quantity: Int!
-  serialNumbers: [String!]
-  totalWeight: Float
-  unitWeight: Float
-}
-
-input InsertPartnerInvoice {
-  carrierId: UUID!
-  invoiceDate: NaiveDate!
-  invoiceNumber: String!
-  status: PartnerInvoiceStatusEnum
-  totalAmount: Decimal!
-}
-
-input InsertPartnerInvoiceItem {
-  amount: Decimal!
-  partnerInvoiceId: UUID!
-  shipmentLegId: UUID!
-}
-
-input InsertPayment {
-  amount: Decimal!
-  currency: String
-  exchangeRate: Decimal
-  fees: Decimal
-  gatewayReference: String
-  invoiceId: UUID!
-  netAmount: Decimal
-  notes: String
-  paymentDate: NaiveDateTime
-  paymentMethod: PaymentMethodEnum!
-  processedAt: NaiveDateTime
-  processedByUserId: UUID
-  status: PaymentStatusEnum
-  transactionId: String
-}
-
-input InsertPickBatch {
-  actualDuration: Int
-  assignedUserId: UUID
-  batchNumber: String!
-  completedAt: NaiveDateTime
-  completedItems: Int
-  estimatedDuration: Int
-  priority: Int
-  startedAt: NaiveDateTime
-  status: PickBatchStatusEnum
-  strategy: PickStrategyEnum!
-  totalItems: Int
-  warehouseId: UUID!
-  waveId: String
-  zoneRestrictions: [String!]
-}
-
-input InsertPickBatchItem {
-  actualPickTime: Int
-  estimatedPickTime: Int
-  orderPriority: Int
-  pickBatchId: UUID!
-  salesOrderId: UUID!
-}
-
-input InsertProduct {
-  barcode: String
-  clientId: UUID
-  costPrice: Decimal
-  description: String
-  height: Float
-  length: Float
-  name: String!
-  sku: String!
-  status: ProductStatusEnum
-  supplierId: UUID
-  volume: Float
-  weight: Float
-  width: Float
-}
-
-input InsertProofOfDelivery {
-  filePath: String
-  latitude: Float
-  longitude: Float
-  timestamp: NaiveDateTime!
-  tripStopId: UUID!
-  type: ProofTypeEnum
-}
-
-input InsertPutawayRule {
-  clientId: UUID
-  isActive: Boolean
-  locationType: LocationTypeEnum
-  maxQuantity: Int
-  minQuantity: Int
-  preferredLocationId: UUID
-  priority: Int!
-  productId: UUID!
-  requiresHazmatApproval: Boolean
-  requiresTemperatureControl: Boolean
-  volumeThreshold: Float
-  warehouseId: UUID!
-  weightThreshold: Float
-}
-
-input InsertQuote {
-  clientId: UUID
-  createdByUserId: UUID
-  destinationDetails: String!
-  expiresAt: NaiveDateTime
-  height: Decimal
-  length: Decimal
-  notes: String
-  originDetails: String!
-  quoteNumber: String
-  quotedPrice: Decimal!
-  serviceLevel: String
-  status: QuoteStatusEnum
-  volume: Decimal
-  weight: Decimal
-  width: Decimal
-}
-
-input InsertRateCard {
-  createdByUserId: UUID
-  description: String
-  isActive: Boolean
-  name: String!
-  serviceType: ServiceTypeEnum!
-  validFrom: NaiveDate!
-  validTo: NaiveDate
-}
-
-input InsertRateRule {
-  condition: String!
-  isActive: Boolean
-  maxValue: Decimal
-  minValue: Decimal
-  price: Decimal!
-  pricingModel: PricingModelEnum!
-  priority: Int
-  rateCardId: UUID!
-  value: String!
-}
-
-input InsertReorderPoint {
-  productId: UUID!
-  threshold: Int!
-  warehouseId: UUID!
-}
-
-input InsertReturn {
-  clientId: UUID!
-  createdAt: DateTime
-  reason: String
-  returnNumber: String!
-  salesOrderId: UUID
-  status: ReturnStatusEnum
-  updatedAt: DateTime
-}
-
-input InsertReturnItem {
-  condition: ReturnItemConditionEnum
-  createdAt: DateTime
-  productId: UUID!
-  quantityExpected: Int!
-  quantityReceived: Int
-  quantityVariance: Int
-  returnId: UUID!
-  updatedAt: DateTime
-}
-
-input InsertRoute {
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
-  tripId: UUID!
-}
-
-input InsertSalesOrder {
-  clientId: UUID!
-  crmOpportunityId: UUID
-  orderNumber: String!
-  shippingAddress: String
-  status: SalesOrderStatusEnum
-}
-
-input InsertSalesOrderItem {
-  createdAt: DateTime
-  productId: UUID!
-  quantityOrdered: Int!
-  salesOrderId: UUID!
-  updatedAt: DateTime
-}
-
-input InsertShipmentLeg {
-  carrierId: UUID
-  endLocation: String
-  internalTripId: UUID
-  legSequence: Int!
-  shipmentId: UUID
-  startLocation: String
-  status: ShipmentLegStatusEnum
-}
-
-input InsertShipmentLegEvent {
-  eventTimestamp: NaiveDateTime!
-  location: String
-  shipmentLegId: UUID!
-  statusMessage: String
-}
-
-input InsertStockTransfer {
-  createdAt: DateTime
-  destinationWarehouseId: UUID!
-  productId: UUID!
-  quantity: Int!
-  sourceWarehouseId: UUID!
-  status: StockTransferStatusEnum
-  updatedAt: DateTime
-}
-
-input InsertSupplier {
-  contactPerson: String
-  createdAt: DateTime
-  email: String
-  name: String!
-  phoneNumber: String
-  updatedAt: DateTime
-}
-
-input InsertSurcharge {
-  amount: Decimal!
-  calculationMethod: SurchargeCalculationMethodEnum!
-  description: String
-  isActive: Boolean
-  name: String!
-  type: String!
-  validFrom: NaiveDate
-  validTo: NaiveDate
-}
-
-input InsertTask {
-  actualDuration: Int
-  durationSeconds: Int
-  endTime: NaiveDateTime
-  estimatedDuration: Int
-  instructions: String
-  notes: String
-  pickBatchId: UUID
-  priority: Int
-  sourceEntityId: UUID
-  sourceEntityType: String
-  startTime: NaiveDateTime
-  status: TaskStatusEnum
-  taskNumber: String!
-  type: TaskTypeEnum!
-  userId: UUID
-  warehouseId: UUID!
-}
-
-input InsertTaskEvent {
-  deliveryTaskId: UUID!
-  latitude: Float
-  longitude: Float
-  notes: String
-  reason: String
-  status: TaskEventStatusEnum!
-  timestamp: NaiveDateTime
-}
-
-input InsertTaskItem {
-  batchId: UUID
-  completedAt: NaiveDateTime
-  destinationLocationId: UUID
-  expiryDate: NaiveDate
-  lotNumber: String
-  notes: String
-  productId: UUID!
-  quantityCompleted: Int!
-  quantityRemaining: Int
-  quantityRequired: Int!
-  serialNumbers: [String!]
-  sourceLocationId: UUID
-  status: TaskItemStatusEnum
-  taskId: UUID!
-}
-
-input InsertTrip {
-  driverId: UUID
-  status: TripStatusEnum
-  vehicleId: UUID
-}
-
-input InsertTripStop {
-  actualArrivalTime: NaiveDateTime
-  actualDepartureTime: NaiveDateTime
-  address: String
-  estimatedArrivalTime: NaiveDateTime
-  estimatedDepartureTime: NaiveDateTime
-  sequence: Int!
-  shipmentId: UUID
-  status: TripStopStatusEnum
-  tripId: UUID!
-}
-
-input InsertVehicle {
-  capacityVolume: Float
-  capacityWeight: Float
-  model: String
-  registrationNumber: String!
-  status: VehicleStatusEnum
-}
-
-input InsertVehicleMaintenance {
-  cost: Decimal
-  notes: String
-  serviceDate: NaiveDate!
-  serviceType: VehicleServiceTypeEnum
-  vehicleId: UUID!
-}
-
-input InsertWarehouse {
-  address: String
-  city: String
-  contactEmail: String
-  contactPerson: String
-  contactPhone: String
-  country: String
-  isActive: Boolean
-  name: String!
-  postalCode: String
-  state: String
-  timezone: String
-}
 
 enum InteractionType {
   CALL
@@ -1889,43 +521,12 @@ enum InteractionType {
   TEXT
 }
 
-enum InventoryAdjustmentReasonEnum {
-  CYCLE_COUNT
-  DAMAGED_GOODS
-  EXPIRED
-  MANUAL_CORRECTION
-  RETURN_TO_VENDOR
-  THEFT
-}
-
-enum InventoryStockStatusEnum {
-  ALLOCATED
-  AVAILABLE
-  DAMAGED
-  EXPIRED
-  HOLD
-  QUARANTINE
-  SHIPPED
-}
-
 enum InvoiceStatus {
   CANCELLED
   DRAFT
   OVERDUE
   PAID
   SENT
-}
-
-enum InvoiceStatusEnum {
-  CANCELLED
-  DISPUTED
-  DRAFT
-  PAID
-  PARTIAL_PAID
-  PAST_DUE
-  SENT
-  VIEWED
-  VOID
 }
 
 enum LeadSource {
@@ -1948,27 +549,9 @@ enum LeadStatus {
   UNQUALIFIED
 }
 
-enum LocationTypeEnum {
-  BULK_STORAGE
-  CROSS_DOCK_AREA
-  DAMAGED_GOODS
-  PACKING_STATION
-  PICK_BIN
-  QUALITY_CONTROL
-  RECEIVING_DOCK
-  RESERVE_STORAGE
-  RETURNS_AREA
-  STAGING_AREA
-}
-
 type Mutations {
-  auth: AuthMutations!
-  billing: BillingMutations!
+  auth: AuthMutation!
   crm: CrmMutations!
-  dms: DmsMutations!
-  ims: ImsMutations!
-  tms: TmsMutations!
-  wms: WmsMutations!
 }
 
 """
@@ -1981,15 +564,6 @@ Format: %Y-%m-%d
 * `2000-02-24`
 """
 scalar NaiveDate
-
-"""
-ISO 8601 combined date and time without timezone.
-
-# Examples
-
-* `2015-07-01T08:59:60.123`,
-"""
-scalar NaiveDateTime
 
 enum OpportunitySource {
   ADVERTISEMENT
@@ -2015,22 +589,6 @@ enum OpportunityStage {
   QUALIFICATION
 }
 
-enum OutboundShipmentStatusEnum {
-  CANCELLED
-  DELIVERED
-  PACKED
-  PICKING
-  SHIPPED
-}
-
-enum PartnerInvoiceStatusEnum {
-  CANCELLED
-  DISPUTED
-  OVERDUE
-  PAID
-  PENDING
-}
-
 enum PaymentMethod {
   BANK_TRANSFER
   CASH
@@ -2041,58 +599,6 @@ enum PaymentMethod {
   WIRE_TRANSFER
 }
 
-enum PaymentMethodEnum {
-  BANK_TRANSFER
-  CASH
-  CHECK
-  CLIENT_CREDIT
-  CREDIT_CARD
-  DEBIT_CARD
-  QR_PH
-  WALLET
-}
-
-enum PaymentStatusEnum {
-  CANCELLED
-  FAILED
-  PENDING
-  PROCESSING
-  REFUNDED
-  SUCCESSFUL
-}
-
-enum PickBatchStatusEnum {
-  CANCELLED
-  COMPLETED
-  IN_PROGRESS
-  OPEN
-}
-
-enum PickStrategyEnum {
-  BATCH_PICKING
-  CLUSTER_PICKING
-  SINGLE_ORDER_PICKING
-  WAVE_PICKING
-  ZONE_PICKING
-}
-
-enum PricingModelEnum {
-  FLAT_RATE
-  PERCENTAGE
-  PER_CUBIC_METER
-  PER_ITEM
-  PER_KG
-  PER_ZONE
-  TIERED
-}
-
-enum ProductStatusEnum {
-  ACTIVE
-  DISCONTINUED
-  INACTIVE
-  OBSOLETE
-}
-
 enum ProductType {
   DIGITAL
   GOOD
@@ -2100,37 +606,9 @@ enum ProductType {
   SUBSCRIPTION
 }
 
-enum ProofOfDeliveryTypeEnum {
-  CODE_VERIFICATION
-  CONTACTLESS_DELIVERY
-  LEFT_AT_DOOR
-  PHOTO
-  SIGNATURE
-}
-
-enum ProofTypeEnum {
-  BARCODE_SCAN
-  PHOTO
-  PIN_VERIFICATION
-  SIGNATURE
-}
-
 type Query {
   auth: AuthQuery!
-  billing: BillingQueries!
   crm: CrmQueries!
-  dms: DmsQueries!
-  ims: ImsQueries!
-  tms: TmsQueries!
-  wms: WmsQueries!
-}
-
-enum QuoteStatusEnum {
-  ACCEPTED
-  CANCELLED
-  CONVERTED
-  EXPIRED
-  PENDING
 }
 
 enum RecordType {
@@ -2145,47 +623,19 @@ enum RecordType {
   PRODUCTS
 }
 
-enum ReturnItemConditionEnum {
-  DAMAGED
-  DEFECTIVE
-  EXPIRED
-  SELLABLE
-  UNSELLABLE
+type RefreshSessionResponse {
+  token: String!
+  user: AuthUser!
 }
 
-enum ReturnStatusEnum {
-  APPROVED
-  PROCESSED
-  RECEIVED
-  REJECTED
-  REQUESTED
+type RevokeSessionResponse {
+  message: String!
+  success: Boolean!
 }
 
-enum SalesOrderStatusEnum {
-  CANCELLED
-  COMPLETED
-  PENDING
-  PROCESSING
-  SHIPPED
-}
-
-enum ServiceTypeEnum {
-  CUSTOMS
-  FULFILLMENT
-  HANDLING
-  INSURANCE
-  PACKAGING
-  RETURNS
-  SHIPPING
-  STORAGE
-}
-
-enum ShipmentLegStatusEnum {
-  CANCELLED
-  DELIVERED
-  FAILED
-  IN_TRANSIT
-  PENDING
+input SignInEmailInput {
+  email: String!
+  password: String!
 }
 
 type SignInResponse {
@@ -2193,411 +643,15 @@ type SignInResponse {
   user: AuthUser!
 }
 
-enum StockTransferStatusEnum {
-  CANCELLED
-  IN_TRANSIT
-  PENDING
-  RECEIVED
-}
-
-enum SurchargeCalculationMethodEnum {
-  FIXED
-  PERCENTAGE
-  PER_UNIT
-  SLIDING_SCALE
-}
-
-enum SyncStatusEnum {
-  FAILED
-  IN_PROGRESS
-  PENDING
-  RETRY
-  SUCCESS
-}
-
-enum TaskEventStatusEnum {
-  ARRIVED
-  ASSIGNED
-  CANCELLED
-  DELIVERED
-  EXCEPTION
-  FAILED
-  RESCHEDULED
-  STARTED
-}
-
-enum TaskItemStatusEnum {
-  COMPLETED
-  DAMAGED
-  IN_PROGRESS
-  NOT_FOUND
-  PENDING
-  SHORT_PICKED
-}
-
-enum TaskStatusEnum {
-  ASSIGNED
-  CANCELLED
-  COMPLETED
-  ERROR
-  IN_PROGRESS
-  PENDING
-}
-
-enum TaskTypeEnum {
-  CROSS_DOCK
-  CYCLE_COUNT
-  DAMAGE_INSPECTION
-  PACK
-  PICK
-  PUTAWAY
-  QUALITY_CHECK
-  REPLENISHMENT
-  RETURNS_PROCESSING
-}
-
-type TmsCarrier {
-  contactDetails: String
-  createdAt: NaiveDateTime
-  id: UUID!
+input SignUpEmailInput {
+  email: String!
   name: String!
-  servicesOffered: String
-  shipmentLegs: [TmsShipmentLeg!]!
-  updatedAt: NaiveDateTime
+  password: String!
 }
 
-type TmsCarrierRate {
-  carrier: TmsCarrier!
-  carrierId: UUID!
-  createdAt: NaiveDateTime
-  destination: String
-  id: UUID!
-  origin: String
-  rate: Decimal!
-  serviceType: String
-  unit: CarrierRateUnitEnum
-  updatedAt: NaiveDateTime
-}
-
-type TmsDriver {
-  createdAt: NaiveDateTime
-  driverSchedules: [TmsDriverSchedule!]!
-  expenses: [TmsExpense!]!
-  id: UUID!
-  licenseExpiryDate: NaiveDate
-  licenseNumber: String!
-  status: DriverStatusEnum
-  trips: [TmsTrip!]!
-  updatedAt: NaiveDateTime
+type SignUpResponse {
+  token: String!
   user: AuthUser!
-  userId: UUID!
-}
-
-type TmsDriverSchedule {
-  createdAt: NaiveDateTime
-  driver: TmsDriver!
-  driverId: UUID!
-  endDate: NaiveDate!
-  id: UUID!
-  reason: DriverScheduleReasonEnum
-  startDate: NaiveDate!
-  updatedAt: NaiveDateTime
-}
-
-type TmsExpense {
-  amount: Decimal!
-  createdAt: NaiveDateTime
-  currency: CurrencyEnum
-  driver: TmsDriver
-  driverId: UUID
-  fuelQuantity: Float
-  id: UUID!
-  odometerReading: Int
-  receiptUrl: String
-  status: ExpenseStatusEnum
-  trip: TmsTrip
-  tripId: UUID
-  type: ExpenseTypeEnum
-  updatedAt: NaiveDateTime
-}
-
-type TmsGeofence {
-  coordinates: String
-  createdAt: NaiveDateTime
-  geofenceEvents: [TmsGeofenceEvent!]!
-  id: UUID!
-  name: String!
-  updatedAt: NaiveDateTime
-}
-
-type TmsGeofenceEvent {
-  eventType: GeofenceEventTypeEnum!
-  geofence: TmsGeofence!
-  geofenceId: UUID!
-  id: UUID!
-  timestamp: NaiveDateTime!
-  vehicle: TmsVehicle!
-  vehicleId: UUID!
-}
-
-type TmsGpsPing {
-  id: UUID!
-  latitude: Float!
-  longitude: Float!
-  timestamp: NaiveDateTime!
-  vehicle: TmsVehicle!
-  vehicleId: UUID!
-}
-
-type TmsMutations {
-  createCarrier(value: InsertCarrier!): TmsCarrier!
-  createCarrierRate(value: InsertCarrierRate!): TmsCarrierRate!
-  createDriver(value: InsertDriver!): TmsDriver!
-  createDriverSchedule(value: InsertDriverSchedule!): TmsDriverSchedule!
-  createExpense(value: InsertExpense!): TmsExpense!
-  createGeofence(value: InsertGeofence!): TmsGeofence!
-  createGeofenceEvent(value: InsertGeofenceEvent!): TmsGeofenceEvent!
-  createGpsPing(value: InsertGpsPing!): TmsGpsPing!
-  createPartnerInvoice(value: InsertPartnerInvoice!): TmsPartnerInvoice!
-  createPartnerInvoiceItem(value: InsertPartnerInvoiceItem!): TmsPartnerInvoiceItem!
-  createProofOfDelivery(value: InsertProofOfDelivery!): TmsProofOfDelivery!
-  createRoute(value: InsertRoute!): TmsRoute!
-  createShipmentLeg(value: InsertShipmentLeg!): TmsShipmentLeg!
-  createShipmentLegEvent(value: InsertShipmentLegEvent!): TmsShipmentLegEvent!
-  createTrip(value: InsertTrip!): TmsTrip!
-  createTripStop(value: InsertTripStop!): TmsTripStop!
-  createVehicle(value: InsertVehicle!): TmsVehicle!
-  createVehicleMaintenance(value: InsertVehicleMaintenance!): TmsVehicleMaintenance!
-  deleteCarrier(id: UUID!): Boolean!
-  deleteCarrierRate(id: UUID!): Boolean!
-  deleteDriver(id: UUID!): Boolean!
-  deleteDriverSchedule(id: UUID!): Boolean!
-  deleteExpense(id: UUID!): Boolean!
-  deleteGeofence(id: UUID!): Boolean!
-  deleteGeofenceEvent(id: UUID!): Boolean!
-  deleteGpsPing(id: UUID!): Boolean!
-  deletePartnerInvoice(id: UUID!): Boolean!
-  deletePartnerInvoiceItem(id: UUID!): Boolean!
-  deleteProofOfDelivery(id: UUID!): Boolean!
-  deleteRoute(id: UUID!): Boolean!
-  deleteShipmentLeg(id: UUID!): Boolean!
-  deleteShipmentLegEvent(id: UUID!): Boolean!
-  deleteTrip(id: UUID!): Boolean!
-  deleteTripStop(id: UUID!): Boolean!
-  deleteVehicle(id: UUID!): Boolean!
-  deleteVehicleMaintenance(id: UUID!): Boolean!
-  updateCarrier(id: UUID!, value: UpdateCarrier!): TmsCarrier!
-  updateCarrierRate(id: UUID!, value: UpdateCarrierRate!): TmsCarrierRate!
-  updateDriver(id: UUID!, value: UpdateDriver!): TmsDriver!
-  updateDriverSchedule(id: UUID!, value: UpdateDriverSchedule!): TmsDriverSchedule!
-  updateExpense(id: UUID!, value: UpdateExpense!): TmsExpense!
-  updateGeofence(id: UUID!, value: UpdateGeofence!): TmsGeofence!
-  updateGeofenceEvent(id: UUID!, value: UpdateGeofenceEvent!): TmsGeofenceEvent!
-  updateGpsPing(id: UUID!, value: UpdateGpsPing!): TmsGpsPing!
-  updatePartnerInvoice(id: UUID!, value: UpdatePartnerInvoice!): TmsPartnerInvoice!
-  updatePartnerInvoiceItem(id: UUID!, value: UpdatePartnerInvoiceItem!): TmsPartnerInvoiceItem!
-  updateProofOfDelivery(id: UUID!, value: UpdateProofOfDelivery!): TmsProofOfDelivery!
-  updateRoute(id: UUID!, value: UpdateRoute!): TmsRoute!
-  updateShipmentLeg(id: UUID!, value: UpdateShipmentLeg!): TmsShipmentLeg!
-  updateShipmentLegEvent(id: UUID!, value: UpdateShipmentLegEvent!): TmsShipmentLegEvent!
-  updateTrip(id: UUID!, value: UpdateTrip!): TmsTrip!
-  updateTripStop(id: UUID!, value: UpdateTripStop!): TmsTripStop!
-  updateVehicle(id: UUID!, value: UpdateVehicle!): TmsVehicle!
-  updateVehicleMaintenance(id: UUID!, value: UpdateVehicleMaintenance!): TmsVehicleMaintenance!
-}
-
-type TmsPartnerInvoice {
-  carrierId: UUID!
-  createdAt: NaiveDateTime
-  id: UUID!
-  invoiceDate: NaiveDate!
-  invoiceNumber: String!
-  partnerInvoiceItems: [TmsPartnerInvoiceItem!]!
-  status: PartnerInvoiceStatusEnum
-  totalAmount: Decimal!
-  updatedAt: NaiveDateTime
-}
-
-type TmsPartnerInvoiceItem {
-  amount: Decimal!
-  id: UUID!
-  partnerInvoice: TmsPartnerInvoice!
-  partnerInvoiceId: UUID!
-  shipmentLeg: TmsShipmentLeg!
-  shipmentLegId: UUID!
-}
-
-type TmsProofOfDelivery {
-  createdAt: NaiveDateTime
-  filePath: String
-  id: UUID!
-  latitude: Float
-  longitude: Float
-  timestamp: NaiveDateTime!
-  tripStop: TmsTripStop!
-  tripStopId: UUID!
-  type: ProofTypeEnum
-  updatedAt: NaiveDateTime
-}
-
-type TmsQueries {
-  carrier(id: UUID!): TmsCarrier
-  carrierRate(id: UUID!): TmsCarrierRate
-  carrierRates: [TmsCarrierRate!]!
-  carriers: [TmsCarrier!]!
-  driver(id: UUID!): TmsDriver
-  driverSchedule(id: UUID!): TmsDriverSchedule
-  driverSchedules: [TmsDriverSchedule!]!
-  drivers: [TmsDriver!]!
-  expense(id: UUID!): TmsExpense
-  expenses: [TmsExpense!]!
-  geofence(id: UUID!): TmsGeofence
-  geofenceEvent(id: UUID!): TmsGeofenceEvent
-  geofenceEvents: [TmsGeofenceEvent!]!
-  geofences: [TmsGeofence!]!
-  gpsPing(id: UUID!): TmsGpsPing
-  gpsPings: [TmsGpsPing!]!
-  partnerInvoice(id: UUID!): TmsPartnerInvoice
-  partnerInvoiceItem(id: UUID!): TmsPartnerInvoiceItem
-  partnerInvoiceItems: [TmsPartnerInvoiceItem!]!
-  partnerInvoices: [TmsPartnerInvoice!]!
-  proofOfDeliveries: [TmsProofOfDelivery!]!
-  proofOfDelivery(id: UUID!): TmsProofOfDelivery
-  route(id: UUID!): TmsRoute
-  routes: [TmsRoute!]!
-  shipmentLeg(id: UUID!): TmsShipmentLeg
-  shipmentLegEvent(id: UUID!): TmsShipmentLegEvent
-  shipmentLegEvents: [TmsShipmentLegEvent!]!
-  shipmentLegs: [TmsShipmentLeg!]!
-  trip(id: UUID!): TmsTrip
-  tripStop(id: UUID!): TmsTripStop
-  tripStops: [TmsTripStop!]!
-  trips: [TmsTrip!]!
-  vehicle(id: UUID!): TmsVehicle
-  vehicleMaintenance: [TmsVehicleMaintenance!]!
-  vehicleMaintenanceItem(id: UUID!): TmsVehicleMaintenance
-  vehicles: [TmsVehicle!]!
-}
-
-type TmsRoute {
-  createdAt: NaiveDateTime
-  id: UUID!
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
-  trip: TmsTrip!
-  tripId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type TmsShipmentLeg {
-  carrier: TmsCarrier
-  carrierId: UUID
-  createdAt: NaiveDateTime
-  endLocation: String
-  id: UUID!
-  internalTripId: UUID
-  legSequence: Int!
-  outboundShipment: ImsOutboundShipment
-  partnerInvoiceItems: [TmsPartnerInvoiceItem!]!
-  shipmentId: UUID
-  shipmentLegEvents: [TmsShipmentLegEvent!]!
-  startLocation: String
-  status: ShipmentLegStatusEnum
-  trip: TmsTrip
-  updatedAt: NaiveDateTime
-}
-
-type TmsShipmentLegEvent {
-  eventTimestamp: NaiveDateTime!
-  id: UUID!
-  location: String
-  shipmentLeg: TmsShipmentLeg!
-  shipmentLegId: UUID!
-  statusMessage: String
-}
-
-type TmsTrip {
-  createdAt: NaiveDateTime
-  driver: TmsDriver
-  driverId: UUID
-  expenses: [TmsExpense!]!
-  id: UUID!
-  routes: [TmsRoute!]!
-  shipmentLegs: [TmsShipmentLeg!]!
-  status: TripStatusEnum
-  tripStops: [TmsTripStop!]!
-  updatedAt: NaiveDateTime
-  vehicle: TmsVehicle
-  vehicleId: UUID
-}
-
-type TmsTripStop {
-  actualArrivalTime: NaiveDateTime
-  actualDepartureTime: NaiveDateTime
-  address: String
-  createdAt: NaiveDateTime
-  estimatedArrivalTime: NaiveDateTime
-  estimatedDepartureTime: NaiveDateTime
-  id: UUID!
-  proofOfDeliveries: [TmsProofOfDelivery!]!
-  sequence: Int!
-  shipment: ImsOutboundShipment
-  shipmentId: UUID
-  status: TripStopStatusEnum
-  trip: TmsTrip!
-  tripId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type TmsVehicle {
-  capacityVolume: Float
-  capacityWeight: Float
-  createdAt: NaiveDateTime
-  geofenceEvents: [TmsGeofenceEvent!]!
-  gpsPings: [TmsGpsPing!]!
-  id: UUID!
-  model: String
-  registrationNumber: String!
-  status: VehicleStatusEnum
-  trips: [TmsTrip!]!
-  updatedAt: NaiveDateTime
-  vehicleMaintenance: [TmsVehicleMaintenance!]!
-}
-
-type TmsVehicleMaintenance {
-  cost: Decimal
-  createdAt: NaiveDateTime
-  id: UUID!
-  notes: String
-  serviceDate: NaiveDate!
-  serviceType: VehicleServiceTypeEnum
-  updatedAt: NaiveDateTime
-  vehicle: TmsVehicle!
-  vehicleId: UUID!
-}
-
-enum TransactionTypeEnum {
-  ADJUSTMENT
-  CREDIT
-  DEBIT
-  FEE
-  REFUND
-  TOP_UP
-}
-
-enum TripStatusEnum {
-  CANCELLED
-  COMPLETED
-  IN_PROGRESS
-  PLANNED
-}
-
-enum TripStopStatusEnum {
-  ARRIVED
-  COMPLETED
-  PENDING
-  SKIPPED
 }
 
 """
@@ -2612,1066 +666,4 @@ entities without requiring a central allocating authority.
 """
 scalar UUID
 
-input UpdateAccountTransaction {
-  amount: Decimal
-  clientAccountId: UUID
-  description: String
-  processedByUserId: UUID
-  referenceNumber: String
-  runningBalance: Decimal
-  sourceRecordId: UUID
-  sourceRecordType: String
-  transactionDate: NaiveDateTime
-  type: TransactionTypeEnum
-}
-
-input UpdateAccountingSyncLog {
-  errorMessage: String
-  externalId: String
-  externalSystem: String
-  lastSyncAt: NaiveDateTime
-  nextRetryAt: NaiveDateTime
-  recordId: UUID
-  recordType: String
-  requestPayload: String
-  responsePayload: String
-  retryCount: Int
-  status: SyncStatusEnum
-}
-
-input UpdateAttachment {
-  fileName: String
-  filePath: String
-  mimeType: String
-  recordId: UUID
-  recordType: RecordType
-}
-
-input UpdateBinThreshold {
-  alertThreshold: Int
-  isActive: Boolean
-  locationId: UUID
-  maxQuantity: Int
-  minQuantity: Int
-  productId: UUID
-  reorderQuantity: Int
-}
-
-input UpdateCampaign {
-  budget: Decimal
-  endDate: NaiveDate
-  name: String
-  startDate: NaiveDate
-}
-
-input UpdateCarrier {
-  contactDetails: String
-  name: String
-  servicesOffered: String
-}
-
-input UpdateCarrierRate {
-  carrierId: UUID
-  destination: String
-  origin: String
-  rate: Decimal
-  serviceType: String
-  unit: CarrierRateUnitEnum
-}
-
-input UpdateCase {
-  caseNumber: String
-  contactId: UUID
-  description: String
-  ownerId: UUID
-  priority: CasePriority
-  status: CaseStatus
-  type: CaseType
-}
-
-input UpdateClientAccount {
-  availableCredit: Decimal
-  clientId: UUID
-  creditLimit: Decimal
-  currency: String
-  isCreditApproved: Boolean
-  lastPaymentDate: NaiveDate
-  paymentTermsDays: Int
-  walletBalance: Decimal
-}
-
-input UpdateCompany {
-  annualRevenue: Decimal
-  city: String
-  country: String
-  industry: String
-  name: String
-  ownerId: UUID
-  phoneNumber: String
-  postalCode: String
-  state: String
-  street: String
-  website: String
-}
-
-input UpdateContact {
-  companyId: UUID
-  email: String
-  jobTitle: String
-  name: String
-  ownerId: UUID
-  phoneNumber: String
-}
-
-input UpdateCreditNote {
-  amount: Decimal
-  appliedAt: NaiveDateTime
-  createdByUserId: UUID
-  creditNoteNumber: String
-  currency: String
-  disputeId: UUID
-  invoiceId: UUID
-  issueDate: NaiveDate
-  notes: String
-  reason: String
-}
-
-input UpdateCustomerTrackingLink {
-  accessCount: Int
-  deliveryTaskId: UUID
-  expiresAt: NaiveDateTime
-  isActive: Boolean
-  lastAccessedAt: NaiveDateTime
-  trackingToken: String
-}
-
-input UpdateDeliveryRoute {
-  actualDurationMinutes: Int
-  completedAt: NaiveDateTime
-  driverId: UUID
-  estimatedDurationMinutes: Int
-  optimizedRouteData: String
-  routeDate: NaiveDate
-  startedAt: NaiveDateTime
-  status: DeliveryRouteStatusEnum
-  totalDistanceKm: Float
-}
-
-input UpdateDeliveryTask {
-  actualArrivalTime: NaiveDateTime
-  attemptCount: Int
-  deliveryAddress: String
-  deliveryInstructions: String
-  deliveryRouteId: UUID
-  deliveryTime: NaiveDateTime
-  estimatedArrivalTime: NaiveDateTime
-  failureReason: DeliveryFailureReasonEnum
-  packageId: UUID
-  recipientName: String
-  recipientPhone: String
-  routeSequence: Int
-  status: DeliveryTaskStatusEnum
-}
-
-input UpdateDispute {
-  clientId: UUID
-  disputedAmount: Decimal
-  lineItemId: UUID
-  reason: String
-  resolutionNotes: String
-  resolvedAt: NaiveDateTime
-  resolvedByUserId: UUID
-  status: DisputeStatusEnum
-  submittedAt: NaiveDateTime
-}
-
-input UpdateDocument {
-  documentType: DocumentTypeEnum
-  fileName: String
-  filePath: String
-  fileSize: Int
-  mimeType: String
-  recordId: UUID
-  recordType: String
-  uploadedByUserId: UUID
-}
-
-input UpdateDriver {
-  licenseExpiryDate: NaiveDate
-  licenseNumber: String
-  status: DriverStatusEnum
-  userId: UUID
-}
-
-input UpdateDriverLocation {
-  accuracy: Float
-  altitude: Float
-  driverId: UUID
-  heading: Float
-  latitude: Float
-  longitude: Float
-  speedKmh: Float
-  timestamp: NaiveDateTime
-}
-
-input UpdateDriverSchedule {
-  driverId: UUID
-  endDate: NaiveDate
-  reason: DriverScheduleReasonEnum
-  startDate: NaiveDate
-}
-
-input UpdateExpense {
-  amount: Decimal
-  currency: CurrencyEnum
-  driverId: UUID
-  fuelQuantity: Float
-  odometerReading: Int
-  receiptUrl: String
-  status: ExpenseStatusEnum
-  tripId: UUID
-  type: ExpenseTypeEnum
-}
-
-input UpdateGeofence {
-  coordinates: String
-  name: String
-}
-
-input UpdateGeofenceEvent {
-  eventType: GeofenceEventTypeEnum
-  geofenceId: UUID
-  timestamp: NaiveDateTime
-  vehicleId: UUID
-}
-
-input UpdateGpsPing {
-  latitude: Float
-  longitude: Float
-  timestamp: NaiveDateTime
-  vehicleId: UUID
-}
-
-input UpdateInboundShipment {
-  actualArrivalDate: NaiveDate
-  clientId: UUID
-  expectedArrivalDate: NaiveDate
-  status: InboundShipmentStatusEnum
-  warehouseId: UUID
-}
-
-input UpdateInboundShipmentItem {
-  discrepancyNotes: String
-  discrepancyQuantity: Int
-  expectedQuantity: Int
-  inboundShipmentId: UUID
-  productId: UUID
-  receivedQuantity: Int
-}
-
-input UpdateInteraction {
-  caseId: UUID
-  contactId: UUID
-  interactionDate: DateTime
-  notes: String
-  outcome: String
-  type: InteractionType
-  userId: UUID
-}
-
-input UpdateInventoryAdjustment {
-  notes: String
-  productId: UUID
-  quantityChange: Int
-  reason: InventoryAdjustmentReasonEnum
-  userId: UUID
-  warehouseId: UUID
-}
-
-input UpdateInventoryBatch {
-  batchNumber: String
-  expirationDate: NaiveDate
-  productId: UUID
-}
-
-input UpdateInventoryStock {
-  availableQuantity: Int
-  batchId: UUID
-  lastCountedAt: NaiveDateTime
-  lastMovementAt: NaiveDateTime
-  locationId: UUID
-  productId: UUID
-  quantity: Int
-  reservedQuantity: Int
-  status: InventoryStockStatusEnum
-}
-
-input UpdateInvoice {
-  amountOutstanding: Decimal
-  amountPaid: Decimal
-  clientId: UUID
-  createdByUserId: UUID
-  currency: String
-  discountAmount: Decimal
-  dueDate: NaiveDate
-  invoiceNumber: String
-  issueDate: NaiveDate
-  notes: String
-  paidAt: NaiveDateTime
-  paymentTerms: String
-  quoteId: UUID
-  sentAt: NaiveDateTime
-  status: InvoiceStatusEnum
-  subtotal: Decimal
-  taxAmount: Decimal
-  totalAmount: Decimal
-}
-
-input UpdateInvoiceItem {
-  invoiceId: UUID
-  price: Decimal
-  productId: UUID
-  quantity: Int
-}
-
-input UpdateInvoiceLineItem {
-  description: String
-  discountAmount: Decimal
-  discountRate: Decimal
-  invoiceId: UUID
-  lineTotal: Decimal
-  quantity: Decimal
-  sourceRecordId: UUID
-  sourceRecordType: String
-  taxAmount: Decimal
-  taxRate: Decimal
-  totalPrice: Decimal
-  unitPrice: Decimal
-}
-
-input UpdateLocation {
-  barcode: String
-  hazmatApproved: Boolean
-  isActive: Boolean
-  isPickable: Boolean
-  isReceivable: Boolean
-  level: Int
-  maxPallets: Int
-  maxVolume: Float
-  maxWeight: Float
-  name: String
-  parentLocationId: UUID
-  path: String
-  temperatureControlled: Boolean
-  type: LocationTypeEnum
-  warehouseId: UUID
-  xCoordinate: Float
-  yCoordinate: Float
-  zCoordinate: Float
-}
-
-input UpdateOutboundShipment {
-  carrier: String
-  salesOrderId: UUID
-  status: OutboundShipmentStatusEnum
-  trackingNumber: String
-  warehouseId: UUID
-}
-
-input UpdateOutboundShipmentItem {
-  batchId: UUID
-  outboundShipmentId: UUID
-  productId: UUID
-  quantityShipped: Int
-  salesOrderItemId: UUID
-}
-
-input UpdatePackage {
-  carrier: String
-  height: Float
-  insuranceValue: Decimal
-  isFragile: Boolean
-  isHazmat: Boolean
-  length: Float
-  packageNumber: String
-  packageType: String
-  packedAt: NaiveDateTime
-  packedByUserId: UUID
-  requiresSignature: Boolean
-  salesOrderId: UUID
-  serviceLevel: String
-  shippedAt: NaiveDateTime
-  trackingNumber: String
-  volume: Float
-  warehouseId: UUID
-  weight: Float
-  width: Float
-}
-
-input UpdatePackageItem {
-  batchId: UUID
-  expiryDate: NaiveDate
-  lotNumber: String
-  packageId: UUID
-  productId: UUID
-  quantity: Int
-  serialNumbers: [String!]
-  totalWeight: Float
-  unitWeight: Float
-}
-
-input UpdatePartnerInvoice {
-  carrierId: UUID
-  invoiceDate: NaiveDate
-  invoiceNumber: String
-  status: PartnerInvoiceStatusEnum
-  totalAmount: Decimal
-}
-
-input UpdatePartnerInvoiceItem {
-  amount: Decimal
-  partnerInvoiceId: UUID
-  shipmentLegId: UUID
-}
-
-input UpdatePayment {
-  amount: Decimal
-  currency: String
-  exchangeRate: Decimal
-  fees: Decimal
-  gatewayReference: String
-  invoiceId: UUID
-  netAmount: Decimal
-  notes: String
-  paymentDate: NaiveDateTime
-  paymentMethod: PaymentMethodEnum
-  processedAt: NaiveDateTime
-  processedByUserId: UUID
-  status: PaymentStatusEnum
-  transactionId: String
-}
-
-input UpdatePickBatch {
-  actualDuration: Int
-  assignedUserId: UUID
-  batchNumber: String
-  completedAt: NaiveDateTime
-  completedItems: Int
-  estimatedDuration: Int
-  priority: Int
-  startedAt: NaiveDateTime
-  status: PickBatchStatusEnum
-  strategy: PickStrategyEnum
-  totalItems: Int
-  warehouseId: UUID
-  waveId: String
-  zoneRestrictions: [String!]
-}
-
-input UpdatePickBatchItem {
-  actualPickTime: Int
-  estimatedPickTime: Int
-  orderPriority: Int
-  pickBatchId: UUID
-  salesOrderId: UUID
-}
-
-input UpdateProduct {
-  barcode: String
-  clientId: UUID
-  costPrice: Decimal
-  description: String
-  height: Float
-  length: Float
-  name: String
-  sku: String
-  status: ProductStatusEnum
-  supplierId: UUID
-  volume: Float
-  weight: Float
-  width: Float
-}
-
-input UpdateProofOfDelivery {
-  filePath: String
-  latitude: Float
-  longitude: Float
-  timestamp: NaiveDateTime
-  tripStopId: UUID
-  type: ProofTypeEnum
-}
-
-input UpdatePutawayRule {
-  clientId: UUID
-  isActive: Boolean
-  locationType: LocationTypeEnum
-  maxQuantity: Int
-  minQuantity: Int
-  preferredLocationId: UUID
-  priority: Int
-  productId: UUID
-  requiresHazmatApproval: Boolean
-  requiresTemperatureControl: Boolean
-  volumeThreshold: Float
-  warehouseId: UUID
-  weightThreshold: Float
-}
-
-input UpdateQuote {
-  clientId: UUID
-  createdByUserId: UUID
-  destinationDetails: String
-  expiresAt: NaiveDateTime
-  height: Decimal
-  length: Decimal
-  notes: String
-  originDetails: String
-  quoteNumber: String
-  quotedPrice: Decimal
-  serviceLevel: String
-  status: QuoteStatusEnum
-  volume: Decimal
-  weight: Decimal
-  width: Decimal
-}
-
-input UpdateRateCard {
-  createdByUserId: UUID
-  description: String
-  isActive: Boolean
-  name: String
-  serviceType: ServiceTypeEnum
-  validFrom: NaiveDate
-  validTo: NaiveDate
-}
-
-input UpdateRateRule {
-  condition: String
-  isActive: Boolean
-  maxValue: Decimal
-  minValue: Decimal
-  price: Decimal
-  pricingModel: PricingModelEnum
-  priority: Int
-  rateCardId: UUID
-  value: String
-}
-
-input UpdateReorderPoint {
-  productId: UUID
-  threshold: Int
-  warehouseId: UUID
-}
-
-input UpdateReturn {
-  clientId: UUID
-  createdAt: DateTime
-  reason: String
-  returnNumber: String
-  salesOrderId: UUID
-  status: ReturnStatusEnum
-  updatedAt: DateTime
-}
-
-input UpdateReturnItem {
-  condition: ReturnItemConditionEnum
-  createdAt: DateTime
-  productId: UUID
-  quantityExpected: Int
-  quantityReceived: Int
-  quantityVariance: Int
-  returnId: UUID
-  updatedAt: DateTime
-}
-
-input UpdateRoute {
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
-  tripId: UUID
-}
-
-input UpdateSalesOrder {
-  clientId: UUID
-  crmOpportunityId: UUID
-  orderNumber: String
-  shippingAddress: String
-  status: SalesOrderStatusEnum
-}
-
-input UpdateSalesOrderItem {
-  createdAt: DateTime
-  productId: UUID
-  quantityOrdered: Int
-  salesOrderId: UUID
-  updatedAt: DateTime
-}
-
-input UpdateShipmentLeg {
-  carrierId: UUID
-  endLocation: String
-  internalTripId: UUID
-  legSequence: Int
-  shipmentId: UUID
-  startLocation: String
-  status: ShipmentLegStatusEnum
-}
-
-input UpdateShipmentLegEvent {
-  eventTimestamp: NaiveDateTime
-  location: String
-  shipmentLegId: UUID
-  statusMessage: String
-}
-
-input UpdateStockTransfer {
-  createdAt: DateTime
-  destinationWarehouseId: UUID
-  productId: UUID
-  quantity: Int
-  sourceWarehouseId: UUID
-  status: StockTransferStatusEnum
-  updatedAt: DateTime
-}
-
-input UpdateSupplier {
-  contactPerson: String
-  createdAt: DateTime
-  email: String
-  name: String
-  phoneNumber: String
-  updatedAt: DateTime
-}
-
-input UpdateSurcharge {
-  amount: Decimal
-  calculationMethod: SurchargeCalculationMethodEnum
-  description: String
-  isActive: Boolean
-  name: String
-  type: String
-  validFrom: NaiveDate
-  validTo: NaiveDate
-}
-
-input UpdateTask {
-  actualDuration: Int
-  durationSeconds: Int
-  endTime: NaiveDateTime
-  estimatedDuration: Int
-  instructions: String
-  notes: String
-  pickBatchId: UUID
-  priority: Int
-  sourceEntityId: UUID
-  sourceEntityType: String
-  startTime: NaiveDateTime
-  status: TaskStatusEnum
-  taskNumber: String
-  type: TaskTypeEnum
-  userId: UUID
-  warehouseId: UUID
-}
-
-input UpdateTaskEvent {
-  deliveryTaskId: UUID
-  latitude: Float
-  longitude: Float
-  notes: String
-  reason: String
-  status: TaskEventStatusEnum
-  timestamp: NaiveDateTime
-}
-
-input UpdateTaskItem {
-  batchId: UUID
-  completedAt: NaiveDateTime
-  destinationLocationId: UUID
-  expiryDate: NaiveDate
-  lotNumber: String
-  notes: String
-  productId: UUID
-  quantityCompleted: Int
-  quantityRemaining: Int
-  quantityRequired: Int
-  serialNumbers: [String!]
-  sourceLocationId: UUID
-  status: TaskItemStatusEnum
-  taskId: UUID
-}
-
-input UpdateTrip {
-  driverId: UUID
-  status: TripStatusEnum
-  vehicleId: UUID
-}
-
-input UpdateTripStop {
-  actualArrivalTime: NaiveDateTime
-  actualDepartureTime: NaiveDateTime
-  address: String
-  estimatedArrivalTime: NaiveDateTime
-  estimatedDepartureTime: NaiveDateTime
-  sequence: Int
-  shipmentId: UUID
-  status: TripStopStatusEnum
-  tripId: UUID
-}
-
-input UpdateVehicle {
-  capacityVolume: Float
-  capacityWeight: Float
-  model: String
-  registrationNumber: String
-  status: VehicleStatusEnum
-}
-
-input UpdateVehicleMaintenance {
-  cost: Decimal
-  notes: String
-  serviceDate: NaiveDate
-  serviceType: VehicleServiceTypeEnum
-  vehicleId: UUID
-}
-
-input UpdateWarehouse {
-  address: String
-  city: String
-  contactEmail: String
-  contactPerson: String
-  contactPhone: String
-  country: String
-  isActive: Boolean
-  name: String
-  postalCode: String
-  state: String
-  timezone: String
-}
-
-"""
-URL is a String implementing the [URL Standard](http://url.spec.whatwg.org/)
-"""
-scalar Url
-
-type Users {
-  user(id: UUID!): AuthUser
-  users: [AuthUser!]!
-}
-
-enum VehicleServiceTypeEnum {
-  BRAKE_SERVICE
-  INSPECTION
-  OIL_CHANGE
-  REPAIR
-  ROUTINE_MAINTENANCE
-  TIRE_REPLACEMENT
-}
-
-enum VehicleStatusEnum {
-  AVAILABLE
-  IN_MAINTENANCE
-  ON_TRIP
-  OUT_OF_SERVICE
-}
-
-type WmsBinThreshold {
-  alertThreshold: Int
-  createdAt: NaiveDateTime
-  id: UUID!
-  isActive: Boolean
-  location: WmsLocation!
-  locationId: UUID!
-  maxQuantity: Int!
-  minQuantity: Int!
-  product: ImsProduct!
-  productId: UUID!
-  reorderQuantity: Int
-  updatedAt: NaiveDateTime
-}
-
-type WmsInventoryStock {
-  availableQuantity: Int
-  batch: ImsInventoryBatch
-  batchId: UUID
-  createdAt: NaiveDateTime
-  id: UUID!
-  lastCountedAt: NaiveDateTime
-  lastMovementAt: NaiveDateTime
-  location: WmsLocation!
-  locationId: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantity: Int!
-  reservedQuantity: Int!
-  status: InventoryStockStatusEnum
-  updatedAt: NaiveDateTime
-}
-
-type WmsLocation {
-  barcode: String
-  binThresholds: [WmsBinThreshold!]!
-  createdAt: NaiveDateTime
-  hazmatApproved: Boolean
-  id: UUID!
-  inventoryStock: [WmsInventoryStock!]!
-  isActive: Boolean
-  isPickable: Boolean
-  isReceivable: Boolean
-  level: Int
-  maxPallets: Int
-  maxVolume: Float
-  maxWeight: Float
-  name: String!
-  parentLocation: WmsLocation
-  parentLocationId: UUID
-  path: String
-  putawayRules: [WmsPutawayRule!]!
-  temperatureControlled: Boolean
-  type: LocationTypeEnum!
-  updatedAt: NaiveDateTime
-  warehouse: WmsWarehouse!
-  warehouseId: UUID!
-  xCoordinate: Float
-  yCoordinate: Float
-  zCoordinate: Float
-}
-
-type WmsMutations {
-  createBinThreshold(value: InsertBinThreshold!): WmsBinThreshold!
-  createInventoryStock(value: InsertInventoryStock!): WmsInventoryStock!
-  createLocation(value: InsertLocation!): WmsLocation!
-  createPackage(value: InsertPackage!): WmsPackage!
-  createPackageItem(value: InsertPackageItem!): WmsPackageItem!
-  createPickBatch(value: InsertPickBatch!): WmsPickBatch!
-  createPickBatchItem(value: InsertPickBatchItem!): WmsPickBatchItem!
-  createPutawayRule(value: InsertPutawayRule!): WmsPutawayRule!
-  createTask(value: InsertTask!): WmsTask!
-  createTaskItem(value: InsertTaskItem!): WmsTaskItem!
-  createWarehouse(value: InsertWarehouse!): WmsWarehouse!
-  deleteBinThreshold(id: UUID!): Boolean!
-  deleteInventoryStock(id: UUID!): Boolean!
-  deleteLocation(id: UUID!): Boolean!
-  deletePackage(id: UUID!): Boolean!
-  deletePackageItem(id: UUID!): Boolean!
-  deletePickBatch(id: UUID!): Boolean!
-  deletePickBatchItem(id: UUID!): Boolean!
-  deletePutawayRule(id: UUID!): Boolean!
-  deleteTask(id: UUID!): Boolean!
-  deleteTaskItem(id: UUID!): Boolean!
-  deleteWarehouse(id: UUID!): Boolean!
-  updateBinThreshold(id: UUID!, value: UpdateBinThreshold!): WmsBinThreshold!
-  updateInventoryStock(id: UUID!, value: UpdateInventoryStock!): WmsInventoryStock!
-  updateLocation(id: UUID!, value: UpdateLocation!): WmsLocation!
-  updatePackage(id: UUID!, value: UpdatePackage!): WmsPackage!
-  updatePackageItem(id: UUID!, value: UpdatePackageItem!): WmsPackageItem!
-  updatePickBatch(id: UUID!, value: UpdatePickBatch!): WmsPickBatch!
-  updatePickBatchItem(id: UUID!, value: UpdatePickBatchItem!): WmsPickBatchItem!
-  updatePutawayRule(id: UUID!, value: UpdatePutawayRule!): WmsPutawayRule!
-  updateTask(id: UUID!, value: UpdateTask!): WmsTask!
-  updateTaskItem(id: UUID!, value: UpdateTaskItem!): WmsTaskItem!
-  updateWarehouse(id: UUID!, value: UpdateWarehouse!): WmsWarehouse!
-}
-
-type WmsPackage {
-  carrier: String
-  createdAt: NaiveDateTime
-  height: Float
-  id: UUID!
-  insuranceValue: Decimal
-  isFragile: Boolean
-  isHazmat: Boolean
-  length: Float
-  packageItems: [WmsPackageItem!]!
-  packageNumber: String!
-  packageType: String
-  packedAt: NaiveDateTime
-  packedBy: AuthUser
-  packedByUserId: UUID
-  requiresSignature: Boolean
-  salesOrder: ImsSalesOrder!
-  salesOrderId: UUID!
-  serviceLevel: String
-  shippedAt: NaiveDateTime
-  trackingNumber: String
-  updatedAt: NaiveDateTime
-  volume: Float
-  warehouse: WmsWarehouse!
-  warehouseId: UUID!
-  weight: Float
-  width: Float
-}
-
-type WmsPackageItem {
-  batch: ImsInventoryBatch
-  batchId: UUID
-  createdAt: NaiveDateTime
-  expiryDate: NaiveDate
-  id: UUID!
-  lotNumber: String
-  package: WmsPackage!
-  packageId: UUID!
-  product: ImsProduct!
-  productId: UUID!
-  quantity: Int!
-  serialNumbers: [String!]
-  totalWeight: Float
-  unitWeight: Float
-  updatedAt: NaiveDateTime
-}
-
-type WmsPickBatch {
-  actualDuration: Int
-  assignedUser: AuthUser
-  assignedUserId: UUID
-  batchNumber: String!
-  completedAt: NaiveDateTime
-  completedItems: Int
-  createdAt: NaiveDateTime
-  estimatedDuration: Int
-  id: UUID!
-  pickBatchItems: [WmsPickBatchItem!]!
-  priority: Int
-  startedAt: NaiveDateTime
-  status: PickBatchStatusEnum
-  strategy: PickStrategyEnum!
-  tasks: [WmsTask!]!
-  totalItems: Int
-  updatedAt: NaiveDateTime
-  warehouse: WmsWarehouse!
-  warehouseId: UUID!
-  waveId: String
-  zoneRestrictions: [String!]
-}
-
-type WmsPickBatchItem {
-  actualPickTime: Int
-  createdAt: NaiveDateTime
-  estimatedPickTime: Int
-  id: UUID!
-  orderPriority: Int
-  pickBatch: WmsPickBatch!
-  pickBatchId: UUID!
-  salesOrder: ImsSalesOrder!
-  salesOrderId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type WmsPutawayRule {
-  client: CrmCompany
-  clientId: UUID
-  createdAt: NaiveDateTime
-  id: UUID!
-  isActive: Boolean
-  locationType: LocationTypeEnum
-  maxQuantity: Int
-  minQuantity: Int
-  preferredLocation: WmsLocation
-  preferredLocationId: UUID
-  priority: Int!
-  product: ImsProduct!
-  productId: UUID!
-  requiresHazmatApproval: Boolean
-  requiresTemperatureControl: Boolean
-  updatedAt: NaiveDateTime
-  volumeThreshold: Float
-  warehouse: WmsWarehouse!
-  warehouseId: UUID!
-  weightThreshold: Float
-}
-
-type WmsQueries {
-  binThreshold(id: UUID!): WmsBinThreshold
-  binThresholds: [WmsBinThreshold!]!
-  inventoryStock(id: UUID!): WmsInventoryStock
-  inventoryStocks: [WmsInventoryStock!]!
-  location(id: UUID!): WmsLocation
-  locations: [WmsLocation!]!
-  package(id: UUID!): WmsPackage
-  packageItem(id: UUID!): WmsPackageItem
-  packageItems: [WmsPackageItem!]!
-  packages: [WmsPackage!]!
-  pickBatch(id: UUID!): WmsPickBatch
-  pickBatchItem(id: UUID!): WmsPickBatchItem
-  pickBatchItems: [WmsPickBatchItem!]!
-  pickBatches: [WmsPickBatch!]!
-  putawayRule(id: UUID!): WmsPutawayRule
-  putawayRules: [WmsPutawayRule!]!
-  task(id: UUID!): WmsTask
-  taskItem(id: UUID!): WmsTaskItem
-  taskItems: [WmsTaskItem!]!
-  tasks: [WmsTask!]!
-  warehouse(id: UUID!): WmsWarehouse
-  warehouses: [WmsWarehouse!]!
-}
-
-type WmsTask {
-  actualDuration: Int
-  createdAt: NaiveDateTime
-  durationSeconds: Int
-  endTime: NaiveDateTime
-  estimatedDuration: Int
-  id: UUID!
-  instructions: String
-  notes: String
-  pickBatch: WmsPickBatch
-  pickBatchId: UUID
-  priority: Int
-  sourceEntityId: UUID
-  sourceEntityType: String
-  startTime: NaiveDateTime
-  status: TaskStatusEnum
-  taskItems: [WmsTaskItem!]!
-  taskNumber: String!
-  type: TaskTypeEnum!
-  updatedAt: NaiveDateTime
-  user: AuthUser
-  userId: UUID
-  warehouse: WmsWarehouse!
-  warehouseId: UUID!
-}
-
-type WmsTaskItem {
-  batch: ImsInventoryBatch
-  batchId: UUID
-  completedAt: NaiveDateTime
-  createdAt: NaiveDateTime
-  destinationLocation: WmsLocation
-  destinationLocationId: UUID
-  expiryDate: NaiveDate
-  id: UUID!
-  lotNumber: String
-  notes: String
-  product: ImsProduct!
-  productId: UUID!
-  quantityCompleted: Int!
-  quantityRemaining: Int
-  quantityRequired: Int!
-  serialNumbers: [String!]
-  sourceLocation: WmsLocation
-  sourceLocationId: UUID
-  status: TaskItemStatusEnum
-  task: WmsTask!
-  taskId: UUID!
-  updatedAt: NaiveDateTime
-}
-
-type WmsWarehouse {
-  address: String
-  city: String
-  contactEmail: String
-  contactPerson: String
-  contactPhone: String
-  country: String
-  createdAt: NaiveDateTime
-  id: UUID!
-  isActive: Boolean
-  locations: [WmsLocation!]!
-  name: String!
-  packages: [WmsPackage!]!
-  pickBatches: [WmsPickBatch!]!
-  postalCode: String
-  putawayRules: [WmsPutawayRule!]!
-  state: String
-  timezone: String
-  updatedAt: NaiveDateTime
-}
+scalar Upload

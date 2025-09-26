@@ -1,5 +1,6 @@
 use async_graphql::{Context, InputObjectType, InputType, OutputType};
 use sea_orm::ModelTrait;
+use sqlx::{Executor, FromRow};
 
 // generic query for entity
 pub trait GraphqlQuery<Model: ModelTrait + OutputType, PrimaryKey: InputType> {

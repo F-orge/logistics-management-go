@@ -1,6 +1,6 @@
-import type { TypedDocumentString } from './graphql';
+import type { TypedDocumentString } from "./graphql";
 
-type GraphqlError = {
+export type GraphQLError = {
   message: string;
   path: string[];
 };
@@ -8,13 +8,13 @@ type GraphqlError = {
 export async function execute<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
-): Promise<[TResult | null, GraphqlError[] | null]> {
+): Promise<TResult> {
   const response = await fetch(`${window.location.origin}/graphql`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/graphql-response+json',
-      Authorization: `Bearer ${localStorage.getItem('graphql-token')}`,
+      "Content-Type": "application/json",
+      Accept: "application/graphql-response+json",
+      Authorization: `Bearer ${localStorage.getItem("graphql-token")}`,
     },
     body: JSON.stringify({
       query,
@@ -24,10 +24,10 @@ export async function execute<TResult, TVariables>(
 
   const result = (await response.json()) as {
     data: TResult;
-    errors: GraphqlError[];
+    errors: GraphQLError[];
   };
 
-  if (!result.data) return [null, result.errors];
+  if (!result.data) throw result.errors;
 
-  return [result.data, null];
+  return result.data;
 }
