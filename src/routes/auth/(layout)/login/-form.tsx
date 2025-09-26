@@ -1,6 +1,6 @@
-import { withForm } from "@/components/ui/form";
-import type { SignInMutation } from "@/graphql/auth";
-import type { GetVariables } from "@/lib/utils";
+import { withForm } from '@/components/ui/form';
+import type { SignInMutation } from '@/graphql/auth';
+import type { GetVariables } from '@/lib/utils';
 
 export const LoginForm = withForm({
   defaultValues: {} as GetVariables<typeof SignInMutation>,

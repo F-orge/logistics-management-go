@@ -1,12 +1,12 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
-import { useAppForm } from "@/components/ui/form";
-import { LoginForm } from "./-form";
-import type { GetVariables } from "@/lib/utils";
-import { SignInMutation } from "@/graphql/auth";
-import { execute } from "@/lib/graphql/client/execute";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
+import { useAppForm } from '@/components/ui/form';
+import { SignInMutation } from '@/graphql/auth';
+import { execute } from '@/lib/graphql/client/execute';
+import type { GetVariables } from '@/lib/utils';
+import { LoginForm } from './-form';
 
-export const Route = createFileRoute("/auth/(layout)/login/")({
+export const Route = createFileRoute('/auth/(layout)/login/')({
   component: RouteComponent,
   // beforeLoad: () => {
   //   if (pb.authStore.isValid) throw redirect({ to: '/dashboard/crm/leads' });
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/auth/(layout)/login/")({
 });
 
 function RouteComponent() {
-  const navigate = useNavigate({ from: "/auth/login" });
+  const navigate = useNavigate({ from: '/auth/login' });
 
   const form = useAppForm({
     defaultValues: {} as GetVariables<typeof SignInMutation>,
@@ -22,19 +22,19 @@ function RouteComponent() {
       const [result, error] = await execute(SignInMutation, value);
 
       if (error) {
-        toast.error("Operation failed", { description: error[0].message });
+        toast.error('Operation failed', { description: error[0].message });
       }
 
-      if (!result) throw new Error("Unexpected error");
+      if (!result) throw new Error('Unexpected error');
 
-      localStorage.setItem("graphql-token", result.auth.signInEmail.token);
+      localStorage.setItem('graphql-token', result.auth.signInEmail.token);
 
       localStorage.setItem(
-        "graphql-user",
+        'graphql-user',
         JSON.stringify(result.auth.signInEmail.user),
       );
 
-      navigate({ to: "/dashboard" });
+      navigate({ to: '/dashboard' });
     },
   });
 

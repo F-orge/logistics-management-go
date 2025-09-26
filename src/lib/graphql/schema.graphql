@@ -384,7 +384,10 @@ type CrmMutations {
   updateContactPhoneNumber(id: UUID!, phoneNumber: String): CrmContacts!
   updateInteractionCaseId(caseId: UUID, id: UUID!): CrmInteractions!
   updateInteractionContactId(contactId: UUID!, id: UUID!): CrmInteractions!
-  updateInteractionInteractionDate(id: UUID!, interactionDate: DateTime): CrmInteractions!
+  updateInteractionInteractionDate(
+    id: UUID!
+    interactionDate: DateTime
+  ): CrmInteractions!
   updateInteractionNotes(id: UUID!, notes: String): CrmInteractions!
   updateInteractionOutcome(id: UUID!, outcome: String): CrmInteractions!
   updateInteractionType(id: UUID!, type: InteractionType): CrmInteractions!
@@ -393,7 +396,10 @@ type CrmMutations {
   updateInvoiceIssueDate(id: UUID!, issueDate: NaiveDate): CrmInvoices!
   updateInvoiceOpportunityId(id: UUID!, opportunityId: UUID): CrmInvoices!
   updateInvoicePaidAt(id: UUID!, paidAt: DateTime): CrmInvoices!
-  updateInvoicePaymentMethod(id: UUID!, paymentMethod: PaymentMethod): CrmInvoices!
+  updateInvoicePaymentMethod(
+    id: UUID!
+    paymentMethod: PaymentMethod
+  ): CrmInvoices!
   updateInvoiceSentAt(id: UUID!, sentAt: DateTime): CrmInvoices!
   updateInvoiceStatus(id: UUID!, status: InvoiceStatus): CrmInvoices!
   updateInvoiceTotal(id: UUID!, total: Decimal): CrmInvoices!
@@ -401,7 +407,10 @@ type CrmMutations {
   updateLeadConvertedAt(convertedAt: DateTime, id: UUID!): CrmLeads!
   updateLeadConvertedCompanyId(convertedCompanyId: UUID, id: UUID!): CrmLeads!
   updateLeadConvertedContactId(convertedContactId: UUID, id: UUID!): CrmLeads!
-  updateLeadConvertedOpportunityId(convertedOpportunityId: UUID, id: UUID!): CrmLeads!
+  updateLeadConvertedOpportunityId(
+    convertedOpportunityId: UUID
+    id: UUID!
+  ): CrmLeads!
   updateLeadEmail(email: String!, id: UUID!): CrmLeads!
   updateLeadLeadScore(id: UUID!, leadScore: Int): CrmLeads!
   updateLeadLeadSource(id: UUID!, leadSource: LeadSource): CrmLeads!
@@ -416,12 +425,18 @@ type CrmMutations {
   updateOpportunityCompanyId(companyId: UUID, id: UUID!): CrmOpportunities!
   updateOpportunityContactId(contactId: UUID, id: UUID!): CrmOpportunities!
   updateOpportunityDealValue(dealValue: Decimal, id: UUID!): CrmOpportunities!
-  updateOpportunityExpectedCloseDate(expectedCloseDate: NaiveDate, id: UUID!): CrmOpportunities!
+  updateOpportunityExpectedCloseDate(
+    expectedCloseDate: NaiveDate
+    id: UUID!
+  ): CrmOpportunities!
   updateOpportunityLostReason(id: UUID!, lostReason: String): CrmOpportunities!
   updateOpportunityName(id: UUID!, name: String!): CrmOpportunities!
   updateOpportunityOwnerId(id: UUID!, ownerId: UUID!): CrmOpportunities!
   updateOpportunityProbability(id: UUID!, probability: Float): CrmOpportunities!
-  updateOpportunitySource(id: UUID!, source: OpportunitySource): CrmOpportunities!
+  updateOpportunitySource(
+    id: UUID!
+    source: OpportunitySource
+  ): CrmOpportunities!
   updateOpportunityStage(id: UUID!, stage: OpportunityStage): CrmOpportunities!
   updateProductDescription(description: String, id: UUID!): CrmProducts!
   updateProductName(id: UUID!, name: String!): CrmProducts!
@@ -429,7 +444,11 @@ type CrmMutations {
   updateProductSku(id: UUID!, sku: String): CrmProducts!
   updateProductType(id: UUID!, type: ProductType): CrmProducts!
   updateTagName(id: UUID!, name: String!): CrmTags!
-  uploadAttachment(file: Upload!, recordId: UUID!, recordType: RecordType!): CrmAttachments!
+  uploadAttachment(
+    file: Upload!
+    recordId: UUID!
+    recordType: RecordType!
+  ): CrmAttachments!
 }
 
 type CrmNotifications {

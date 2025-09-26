@@ -1,4 +1,4 @@
-import { graphql } from "@/lib/graphql/client";
+import { graphql } from '@/lib/graphql/client';
 
 export const signUpEmail = graphql(`
   mutation SignUpEmail($payload:SignUpEmailInput!) {
