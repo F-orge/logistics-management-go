@@ -1,4 +1,5 @@
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "dms.delivery_failure_reason", rename_all = "kebab-case")]
 pub enum DeliveryFailureReasonEnum {
     RecipientNotHome,
     AddressNotFound,
@@ -9,7 +10,8 @@ pub enum DeliveryFailureReasonEnum {
     VehicleBreakdown,
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "dms.delivery_route_status", rename_all = "kebab-case")]
 pub enum DeliveryRouteStatusEnum {
     Planned,
     InProgress,
@@ -17,7 +19,8 @@ pub enum DeliveryRouteStatusEnum {
     Cancelled,
     Paused,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "dms.delivery_task_status", rename_all = "kebab-case")]
 pub enum DeliveryTaskStatusEnum {
     Pending,
     Assigned,
@@ -27,7 +30,8 @@ pub enum DeliveryTaskStatusEnum {
     Cancelled,
     Rescheduled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "dms.proof_of_delivery_type", rename_all = "kebab-case")]
 pub enum ProofOfDeliveryTypeEnum {
     Signature,
     Photo,
@@ -35,7 +39,8 @@ pub enum ProofOfDeliveryTypeEnum {
     ContactlessDelivery,
     LeftAtDoor,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "dms.task_event_status", rename_all = "kebab-case")]
 pub enum TaskEventStatusEnum {
     Assigned,
     Started,
