@@ -3,6 +3,9 @@ use uuid::Uuid;
 
 use super::enums::StockTransferStatusEnum;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
     pub id: Uuid,

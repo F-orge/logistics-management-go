@@ -4,6 +4,9 @@ use uuid::Uuid;
 
 use super::enums::ProductStatusEnum;
 
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
 #[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject)]
 pub struct Model {
     pub id: Uuid,
