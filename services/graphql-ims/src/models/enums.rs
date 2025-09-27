@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.inbound_shipment_status")]
+#[sqlx(type_name = "ims.inbound_shipment_status", rename_all = "kebab-case")]
 pub enum InboundShipmentStatusEnum {
     Pending,
     Arrived,
@@ -8,7 +8,10 @@ pub enum InboundShipmentStatusEnum {
     Cancelled,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.inventory_adjustment_reason")]
+#[sqlx(
+    type_name = "ims.inventory_adjustment_reason",
+    rename_all = "kebab-case"
+)]
 
 pub enum InventoryAdjustmentReasonEnum {
     CycleCount,
@@ -19,7 +22,7 @@ pub enum InventoryAdjustmentReasonEnum {
     ManualCorrection,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.outbound_shipment_status")]
+#[sqlx(type_name = "ims.outbound_shipment_status", rename_all = "kebab-case")]
 pub enum OutboundShipmentStatusEnum {
     Picking,
     Packed,
@@ -28,7 +31,7 @@ pub enum OutboundShipmentStatusEnum {
     Cancelled,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.product_status")]
+#[sqlx(type_name = "ims.product_status", rename_all = "kebab-case")]
 pub enum ProductStatusEnum {
     Active,
     Discontinued,
@@ -36,7 +39,7 @@ pub enum ProductStatusEnum {
     Inactive,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.return_item_condition")]
+#[sqlx(type_name = "ims.return_item_condition", rename_all = "kebab-case")]
 pub enum ReturnItemConditionEnum {
     Sellable,
     Damaged,
@@ -45,7 +48,7 @@ pub enum ReturnItemConditionEnum {
     Unsellable,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.return_status")]
+#[sqlx(type_name = "ims.return_status", rename_all = "kebab-case")]
 pub enum ReturnStatusEnum {
     Requested,
     Approved,
@@ -54,7 +57,7 @@ pub enum ReturnStatusEnum {
     Processed,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.sales_order_status")]
+#[sqlx(type_name = "ims.sales_order_status", rename_all = "kebab-case")]
 pub enum SalesOrderStatusEnum {
     Pending,
     Processing,
@@ -63,7 +66,7 @@ pub enum SalesOrderStatusEnum {
     Cancelled,
 }
 #[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
-#[sqlx(type_name = "ims.stock_transfer_status")]
+#[sqlx(type_name = "ims.stock_transfer_status", rename_all = "kebab-case")]
 pub enum StockTransferStatusEnum {
     Pending,
     InTransit,
