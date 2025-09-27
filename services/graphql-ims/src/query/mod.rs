@@ -1,0 +1,9 @@
+pub mod inbound_shipments;
+pub mod inventory_adjustments;
+pub mod inventory_batches;
+pub mod outbound_shipments;
+pub mod products;
+pub mod reorder_points;
+pub mod returns;
+pub mod sales_orders;
+pub mod suppliers;
