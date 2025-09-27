@@ -1,4 +1,8 @@
-use super::sea_orm_active_enums::ProductStatusEnum;
+use chrono::{DateTime, Utc};
+use rust_decimal::Decimal;
+use uuid::Uuid;
+
+use super::enums::ProductStatusEnum;
 
 #[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject)]
 pub struct Model {
@@ -16,6 +20,6 @@ pub struct Model {
     pub status: Option<ProductStatusEnum>,
     pub supplier_id: Option<Uuid>,
     pub client_id: Option<Uuid>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }

@@ -1,4 +1,7 @@
-use super::sea_orm_active_enums::OutboundShipmentStatusEnum;
+use chrono::{DateTime, Utc};
+use uuid::Uuid;
+
+use super::enums::OutboundShipmentStatusEnum;
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
@@ -8,6 +11,6 @@ pub struct Model {
     pub status: Option<OutboundShipmentStatusEnum>,
     pub tracking_number: Option<String>,
     pub carrier: Option<String>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }

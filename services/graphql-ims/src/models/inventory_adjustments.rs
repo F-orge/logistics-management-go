@@ -1,4 +1,7 @@
-use super::sea_orm_active_enums::InventoryAdjustmentReasonEnum;
+use chrono::{DateTime, Utc};
+use uuid::Uuid;
+
+use super::enums::InventoryAdjustmentReasonEnum;
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
@@ -9,6 +12,6 @@ pub struct Model {
     pub quantity_change: i32,
     pub reason: Option<InventoryAdjustmentReasonEnum>,
     pub notes: Option<String>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }

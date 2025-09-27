@@ -1,5 +1,6 @@
 pub mod prelude;
 
+pub mod enums;
 pub mod inbound_shipment_items;
 pub mod inbound_shipments;
 pub mod inventory_adjustments;
@@ -12,6 +13,5 @@ pub mod return_items;
 pub mod returns;
 pub mod sales_order_items;
 pub mod sales_orders;
-pub mod sea_orm_active_enums;
 pub mod stock_transfers;
 pub mod suppliers;

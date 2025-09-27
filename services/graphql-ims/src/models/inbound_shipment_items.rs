@@ -1,3 +1,6 @@
+use chrono::{DateTime, Utc};
+use uuid::Uuid;
+
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
     pub id: Uuid,
@@ -7,6 +10,6 @@ pub struct Model {
     pub received_quantity: Option<i32>,
     pub discrepancy_quantity: Option<i32>,
     pub discrepancy_notes: Option<String>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }

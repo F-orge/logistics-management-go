@@ -20,8 +20,8 @@ pub struct Query {
     // tms: graphql_tms::Query,
     // #[graphql(guard = RequireSession)]
     // wms: graphql_wms::Query,
-    // #[graphql(guard = RequireSession)]
-    // dms: graphql_dms::Query,
+    #[graphql(guard = RequireSession)]
+    dms: graphql_dms::Query,
     // #[graphql(guard = RequireSession)]
     // billing: graphql_billing::Query,
 }

@@ -1,4 +1,7 @@
-use super::sea_orm_active_enums::ReturnStatusEnum;
+use chrono::{DateTime, Utc};
+use uuid::Uuid;
+
+use super::enums::ReturnStatusEnum;
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
@@ -8,6 +11,6 @@ pub struct Model {
     pub client_id: Uuid,
     pub status: Option<ReturnStatusEnum>,
     pub reason: Option<String>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }

@@ -80,7 +80,7 @@ graphql-crm = { path = "./services/graphql-crm" }
 # graphql-ims = { path = "./services/graphql-ims" }
 # graphql-tms = { path = "./services/graphql-tms" }
 # graphql-wms = { path = "./services/graphql-wms" }
-# graphql-dms = { path = "./services/graphql-dms" }
+graphql-dms = { path = "./services/graphql-dms" }
 # graphql-billing = { path = "./services/graphql-billing" }
 async-graphql-axum = "7.0.17"
 clap = { version = "4.5.47", features = ["derive"] }

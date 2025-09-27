@@ -1,4 +1,7 @@
-use super::sea_orm_active_enums::SalesOrderStatusEnum;
+use chrono::{DateTime, Utc};
+use uuid::Uuid;
+
+use super::enums::SalesOrderStatusEnum;
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
 pub struct Model {
@@ -8,6 +11,6 @@ pub struct Model {
     pub crm_opportunity_id: Option<Uuid>,
     pub status: Option<SalesOrderStatusEnum>,
     pub shipping_address: Option<String>,
-    pub created_at: Option<DateTime>,
-    pub updated_at: Option<DateTime>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub updated_at: Option<DateTime<Utc>>,
 }
