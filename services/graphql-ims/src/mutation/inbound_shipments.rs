@@ -90,7 +90,7 @@ impl Mutation {
         todo!()
     }
 
-    // sub table
+    // sub item
     async fn add_inbound_shipment_item(
         &self,
         ctx: &Context<'_>,

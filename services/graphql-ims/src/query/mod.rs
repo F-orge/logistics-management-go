@@ -6,4 +6,5 @@ pub mod products;
 pub mod reorder_points;
 pub mod returns;
 pub mod sales_orders;
+pub mod stock_transfers;
 pub mod suppliers;

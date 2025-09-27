@@ -14,6 +14,7 @@ use super::enums::ProofOfDeliveryTypeEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[graphql(name = "DmsProofOfDeliveries", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]

@@ -10,6 +10,7 @@ use uuid::Uuid;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[graphql(name = "DmsDriverLocations", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]

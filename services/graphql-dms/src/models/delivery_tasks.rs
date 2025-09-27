@@ -18,6 +18,7 @@ use super::enums::DeliveryTaskStatusEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject, FromRow)]
+#[graphql(name = "DmsDeliveryTasks", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
