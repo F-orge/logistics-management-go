@@ -39,7 +39,7 @@ impl Mutation {
     async fn update_inventory_adjustments_warehouse_id(
         &self,
         ctx: &Context<'_>,
-        client_id: Uuid,
+        warehouse_id: Uuid,
         id: Uuid,
     ) -> async_graphql::Result<inventory_adjustments::Model> {
         todo!()
@@ -48,7 +48,7 @@ impl Mutation {
     async fn update_inventory_adjustments_user_id(
         &self,
         ctx: &Context<'_>,
-        client_id: Uuid,
+        user_id: Uuid,
         id: Uuid,
     ) -> async_graphql::Result<inventory_adjustments::Model> {
         todo!()
@@ -66,7 +66,7 @@ impl Mutation {
     async fn update_inventory_adjustments_reason(
         &self,
         ctx: &Context<'_>,
-        reason: String,
+        reason: InventoryAdjustmentReasonEnum,
         id: Uuid,
     ) -> async_graphql::Result<inventory_adjustments::Model> {
         todo!()
@@ -75,7 +75,7 @@ impl Mutation {
     async fn update_inventory_adjustments_notes(
         &self,
         ctx: &Context<'_>,
-        client_id: Uuid,
+        notes: String,
         id: Uuid,
     ) -> async_graphql::Result<inventory_adjustments::Model> {
         todo!()
