@@ -1,5 +1,6 @@
 pub mod entities;
 
+pub mod models;
 pub mod queries;
 
 use async_graphql::MergedObject;
