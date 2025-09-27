@@ -1,10 +1,13 @@
 use std::sync::Arc;
 
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
+use graphql_crm::models::companies;
 use rust_decimal::Decimal;
 use uuid::Uuid;
+
+use crate::models::suppliers;
 
 use super::enums::ProductStatusEnum;
 
@@ -12,6 +15,7 @@ use super::enums::ProductStatusEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "ImsProducts", complex)]
 pub struct Model {
     pub id: Uuid,
     pub name: String,
@@ -25,10 +29,22 @@ pub struct Model {
     pub volume: Option<f32>,
     pub weight: Option<f32>,
     pub status: Option<ProductStatusEnum>,
+    #[graphql(skip)]
     pub supplier_id: Option<Uuid>,
+    #[graphql(skip)]
     pub client_id: Option<Uuid>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn supplier(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<suppliers::Model>> {
+        todo!("implement this after wms")
+    }
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        todo!()
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {

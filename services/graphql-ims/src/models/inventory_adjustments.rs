@@ -1,9 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
+
+use crate::models::products;
 
 use super::enums::InventoryAdjustmentReasonEnum;
 
@@ -11,16 +14,34 @@ use super::enums::InventoryAdjustmentReasonEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "ImsInventoryAdjustments", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[graphql(skip)]
     pub product_id: Uuid,
+    #[graphql(skip)]
     pub warehouse_id: Uuid,
+    #[graphql(skip)]
     pub user_id: Uuid,
     pub quantity_change: i32,
     pub reason: Option<InventoryAdjustmentReasonEnum>,
     pub notes: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        todo!()
+    }
+    #[graphql(skip)]
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
+        todo!("implement this if wms is done")
+    }
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<user::Model> {
+        todo!()
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {

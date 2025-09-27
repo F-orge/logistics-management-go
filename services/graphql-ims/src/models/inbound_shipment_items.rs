@@ -1,17 +1,22 @@
 use std::sync::Arc;
 
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
+
+use crate::models::{inbound_shipments, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "ImsInboundShipmentItems", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[graphql(skip)]
     pub inbound_shipment_id: Uuid,
+    #[graphql(skip)]
     pub product_id: Uuid,
     pub expected_quantity: i32,
     pub received_quantity: Option<i32>,
@@ -19,6 +24,19 @@ pub struct Model {
     pub discrepancy_notes: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn inbound_shipment(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<inbound_shipments::Model> {
+        todo!()
+    }
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        todo!()
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {

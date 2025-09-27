@@ -1,8 +1,9 @@
 use std::sync::Arc;
 
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
+use graphql_crm::models::{companies, opportunities};
 use uuid::Uuid;
 
 use super::enums::SalesOrderStatusEnum;
@@ -11,15 +12,31 @@ use super::enums::SalesOrderStatusEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "ImsSalesOrders", complex)]
 pub struct Model {
     pub id: Uuid,
     pub order_number: String,
+    #[graphql(skip)]
     pub client_id: Uuid,
+    #[graphql(skip)]
     pub crm_opportunity_id: Option<Uuid>,
     pub status: Option<SalesOrderStatusEnum>,
     pub shipping_address: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        todo!("implement this after wms")
+    }
+    async fn opportunities(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<opportunities::Model>> {
+        todo!("implement this after wms")
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {

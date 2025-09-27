@@ -1,9 +1,11 @@
 use std::sync::Arc;
 
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
+
+use crate::models::products;
 
 use super::enums::StockTransferStatusEnum;
 
@@ -11,15 +13,32 @@ use super::enums::StockTransferStatusEnum;
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "ImsStockTransfer", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[graphql(skip)]
     pub product_id: Uuid,
+    #[graphql(skip)]
     pub source_warehouse_id: Uuid,
+    #[graphql(skip)]
     pub destination_warehouse_id: Uuid,
     pub quantity: i32,
     pub status: Option<StockTransferStatusEnum>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        todo!("implement this after wms")
+    }
+    async fn source_warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
+        todo!("implement this after wms")
+    }
+    async fn destination_warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
+        todo!("implement this after wms")
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {
