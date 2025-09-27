@@ -6,6 +6,8 @@ use graphql_core::PostgresDataLoader;
 use graphql_crm::models::companies;
 use uuid::Uuid;
 
+use crate::models::inbound_shipment_items;
+
 use super::enums::InboundShipmentStatusEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
@@ -34,6 +36,12 @@ impl Model {
     #[graphql(skip)]
     async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
         todo!("implement this if wms is done")
+    }
+    async fn items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
+        todo!()
     }
 }
 
