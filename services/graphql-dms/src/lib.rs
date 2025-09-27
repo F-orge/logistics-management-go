@@ -1,28 +1,29 @@
 pub mod entities;
 
 pub mod models;
-pub mod queries;
+pub mod mutation;
+pub mod query;
 
 use async_graphql::MergedObject;
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "DmsQueries")]
 pub struct Query(
-    entities::_generated::customer_tracking_links::Entity,
-    entities::_generated::delivery_routes::Entity,
-    entities::_generated::delivery_tasks::Entity,
-    entities::_generated::driver_locations::Entity,
-    entities::_generated::proof_of_deliveries::Entity,
-    entities::_generated::task_events::Entity,
+    query::customer_tracking_links::Query,
+    query::delivery_routes::Query,
+    query::delivery_tasks::Query,
+    query::driver_locations::Query,
+    query::proof_of_deliveries::Query,
+    query::task_events::Query,
 );
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "DmsMutations")]
 pub struct Mutation(
-    queries::customer_tracking_links::Mutations,
-    queries::delivery_routes::Mutations,
-    queries::delivery_tasks::Mutations,
-    queries::driver_locations::Mutations,
-    queries::proof_of_deliveries::Mutations,
-    queries::task_events::Mutations,
+    mutation::customer_tracking_links::Mutation,
+    mutation::delivery_routes::Mutation,
+    mutation::delivery_tasks::Mutation,
+    mutation::driver_locations::Mutation,
+    mutation::proof_of_deliveries::Mutation,
+    mutation::task_events::Mutation,
 );
