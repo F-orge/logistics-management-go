@@ -31,17 +31,32 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.client_id {
+            Ok(loader.load_one(companies::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
+
     #[graphql(skip)]
     async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
         todo!("implement this if wms is done")
     }
+
     async fn items(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Vec<inbound_shipment_items::Model>> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, inbound_shipment_items::Model>(
+            "select * from ims.inbound_shipment_items where inbound_shipment_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

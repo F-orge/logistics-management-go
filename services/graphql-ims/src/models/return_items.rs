@@ -31,11 +31,21 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     #[graphql(name = "return")]
-    async fn _return(&self, ctx: &Context<'_>) -> async_graphql::Result<returns::Model> {
-        todo!("implement this after wms")
+    async fn r#return(&self, ctx: &Context<'_>) -> async_graphql::Result<returns::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(returns::PrimaryKey(self.return_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get return"))?)
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!("implement this after wms")
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 }
 

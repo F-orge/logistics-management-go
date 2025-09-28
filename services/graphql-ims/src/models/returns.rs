@@ -30,11 +30,25 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
-        todo!("implement this after wms")
+    async fn sales_order(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<sales_orders::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.sales_order_id {
+            Ok(loader.load_one(sales_orders::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
-        todo!("implement this after wms")
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(companies::PrimaryKey(self.client_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 }
 

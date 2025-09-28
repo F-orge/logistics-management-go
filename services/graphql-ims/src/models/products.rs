@@ -40,10 +40,22 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn supplier(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<suppliers::Model>> {
-        todo!("implement this after wms")
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.supplier_id {
+            Ok(loader.load_one(suppliers::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.client_id {
+            Ok(loader.load_one(companies::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

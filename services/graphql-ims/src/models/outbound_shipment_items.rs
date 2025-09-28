@@ -30,22 +30,49 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
+
     async fn outbound_shipment(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<outbound_shipments::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(outbound_shipments::PrimaryKey(self.outbound_shipment_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get outbound shipment"))?)
     }
+
     async fn sales_order_item(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<sales_order_items::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(sales_order_items::PrimaryKey(self.sales_order_item_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get sales order item"))?)
     }
-    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<inventory_batches::Model> {
-        todo!()
+
+    async fn batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.batch_id {
+            Ok(loader.load_one(inventory_batches::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

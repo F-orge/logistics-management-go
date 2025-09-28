@@ -32,10 +32,20 @@ impl Model {
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<inbound_shipments::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(inbound_shipments::PrimaryKey(self.inbound_shipment_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get inbound shipment"))?)
     }
     async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 }
 

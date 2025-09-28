@@ -29,13 +29,24 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
-        todo!("implement this after wms")
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(companies::PrimaryKey(self.client_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get client"))?)
     }
     async fn opportunities(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<opportunities::Model>> {
-        todo!("implement this after wms")
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.crm_opportunity_id {
+            Ok(loader.load_one(opportunities::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

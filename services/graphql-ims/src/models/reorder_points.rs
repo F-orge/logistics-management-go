@@ -13,7 +13,9 @@ pub struct PrimaryKey(pub Uuid);
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
 pub struct Model {
     pub id: Uuid,
+    #[graphql(skip)]
     pub product_id: Uuid,
+    #[graphql(skip)]
     pub warehouse_id: Uuid,
     pub threshold: i32,
     pub created_at: Option<DateTime<Utc>>,
@@ -22,10 +24,15 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn supplier(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
-        todo!("implement this after wms")
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
-    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
         todo!("implement this after wms")
     }
 }
