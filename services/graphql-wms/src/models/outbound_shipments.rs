@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::models::warehouses;
+use crate::models::{outbound_shipment_items, warehouses};
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use graphql_core::PostgresDataLoader;
 
@@ -39,6 +39,7 @@ impl Model {
             .await?
             .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
+
     async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
@@ -46,6 +47,20 @@ impl Model {
             .load_one(sales_orders::PrimaryKey(self.sales_order_id))
             .await?
             .ok_or(async_graphql::Error::new("Unable to get sales order"))?)
+    }
+
+    async fn items(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Vec<outbound_shipment_items::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, outbound_shipment_items::Model>(
+            "select * from ims.outbound_shipment_items where outbound_shipment_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 
