@@ -1,10 +1,57 @@
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
+use chrono::{DateTime, Utc};
+use graphql_core::PostgresDataLoader;
+use std::sync::Arc;
+use uuid::Uuid;
+
+use crate::models::{geofences, vehicles};
+
 use super::sea_orm_active_enums::GeofenceEventTypeEnum;
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+pub struct PrimaryKey(pub Uuid);
+
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[graphql(name = "TmsGeofenceEvent")]
 pub struct Model {
     pub id: Uuid,
+    #[graphql(skip)]
     pub vehicle_id: Uuid,
+    #[graphql(skip)]
     pub geofence_id: Uuid,
     pub event_type: GeofenceEventTypeEnum,
-    pub timestamp: DateTime,
+    pub timestamp: DateTime<Utc>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<vehicles::Model>> {
+        todo!()
+    }
+    async fn geofence(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<geofences::Model>> {
+        todo!()
+    }
+}
+
+impl Loader<PrimaryKey> for PostgresDataLoader {
+    type Error = Arc<sqlx::Error>;
+    type Value = Model;
+
+    async fn load(
+        &self,
+        keys: &[PrimaryKey],
+    ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
+        let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
+
+        let results =
+            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
+                .bind(&keys)
+                .fetch_all(&self.pool)
+                .await?
+                .into_iter()
+                .map(|model| (PrimaryKey(model.id), model))
+                .collect::<_>();
+
+        Ok(results)
+    }
 }
