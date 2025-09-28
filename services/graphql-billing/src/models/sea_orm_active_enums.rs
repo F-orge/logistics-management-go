@@ -1,4 +1,5 @@
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.dispute_status", rename_all = "kebab-case")]
 pub enum DisputeStatusEnum {
     Open,
     UnderReview,
@@ -7,7 +8,8 @@ pub enum DisputeStatusEnum {
     Escalated,
     Closed,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.document_type", rename_all = "kebab-case")]
 pub enum DocumentTypeEnum {
     Bol,
     CommercialInvoice,
@@ -18,7 +20,8 @@ pub enum DocumentTypeEnum {
     CustomsDeclaration,
     ProofOfDelivery,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.invoice_status", rename_all = "kebab-case")]
 pub enum InvoiceStatusEnum {
     Draft,
     Sent,
@@ -30,7 +33,8 @@ pub enum InvoiceStatusEnum {
     Cancelled,
     Void,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.payment_method", rename_all = "kebab-case")]
 pub enum PaymentMethodEnum {
     CreditCard,
     DebitCard,
@@ -41,7 +45,8 @@ pub enum PaymentMethodEnum {
     Cash,
     Check,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.payment_status", rename_all = "kebab-case")]
 pub enum PaymentStatusEnum {
     Pending,
     Processing,
@@ -50,7 +55,8 @@ pub enum PaymentStatusEnum {
     Cancelled,
     Refunded,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.pricing_model", rename_all = "kebab-case")]
 pub enum PricingModelEnum {
     PerKg,
     PerItem,
@@ -60,7 +66,8 @@ pub enum PricingModelEnum {
     Percentage,
     Tiered,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.quote_status", rename_all = "kebab-case")]
 pub enum QuoteStatusEnum {
     Pending,
     Accepted,
@@ -68,7 +75,8 @@ pub enum QuoteStatusEnum {
     Cancelled,
     Converted,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.service_type", rename_all = "kebab-case")]
 pub enum ServiceTypeEnum {
     Shipping,
     Storage,
@@ -79,14 +87,19 @@ pub enum ServiceTypeEnum {
     Packaging,
     Returns,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(
+    type_name = "billing.surcharge_calculation_method",
+    rename_all = "kebab-case"
+)]
 pub enum SurchargeCalculationMethodEnum {
     Percentage,
     Fixed,
     PerUnit,
     SlidingScale,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.sync_status", rename_all = "kebab-case")]
 pub enum SyncStatusEnum {
     Pending,
     InProgress,
@@ -94,7 +107,8 @@ pub enum SyncStatusEnum {
     Failed,
     Retry,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, async_graphql :: Enum, fake :: Dummy, sqlx::Type)]
+#[sqlx(type_name = "billing.transaction_type", rename_all = "kebab-case")]
 pub enum TransactionTypeEnum {
     Credit,
     Debit,
