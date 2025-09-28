@@ -17,7 +17,7 @@ validator.workspace = true
 rstest.workspace = true
 sea-orm.workspace = true
 graphql-auth = { path = "../graphql-auth" }
-graphql-ims = { path = "../graphql-ims" }
+graphql-wms = { path = "../graphql-wms" }
 graphql-core = { path = "../graphql-core" }
 rust_decimal.workspace = true
 fake.workspace = true

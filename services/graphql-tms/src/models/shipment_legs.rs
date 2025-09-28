@@ -4,7 +4,7 @@ use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
 
-use crate::models::{carriers, trips};
+use crate::models::{carriers, shipment_leg_events, trips};
 
 use super::sea_orm_active_enums::ShipmentLegStatusEnum;
 
@@ -51,6 +51,24 @@ impl Model {
         } else {
             Ok(None)
         }
+    }
+
+    async fn events(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<shipment_leg_events::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, shipment_leg_events::Model>(
+            "select * from tms.shipment_leg_events where shipment_leg_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 

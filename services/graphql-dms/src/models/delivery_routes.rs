@@ -3,6 +3,7 @@ use std::sync::Arc;
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
+use graphql_tms::models::drivers;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
 
@@ -31,8 +32,13 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!("do drivers first")
+    async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<drivers::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(drivers::PrimaryKey(self.driver_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find driver"))?)
     }
 }
 

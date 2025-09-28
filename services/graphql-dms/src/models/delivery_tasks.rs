@@ -9,6 +9,8 @@ use graphql_core::PostgresDataLoader;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
 
+use graphql_wms::models::packages;
+
 use crate::models::delivery_routes;
 
 use super::enums::DeliveryFailureReasonEnum;
@@ -42,14 +44,24 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn package(&self, ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn package(&self, ctx: &Context<'_>) -> async_graphql::Result<packages::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(packages::PrimaryKey(self.package_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find package"))?)
     }
     async fn delivery_route(
         &self,
         ctx: &Context<'_>,
     ) -> async_graphql::Result<delivery_routes::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(delivery_routes::PrimaryKey(self.delivery_route_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find delivery route"))?)
     }
 }
 

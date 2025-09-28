@@ -1,11 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
+use graphql_crm::models::companies;
 
-use super::{locations, sea_orm_active_enums::LocationTypeEnum, warehouses};
+use super::{enums::LocationTypeEnum, locations, warehouses, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -37,23 +38,45 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn product(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 
-    async fn client(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<companies::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.client_id {
+            Ok(loader.load_one(companies::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
-    async fn warehouse(&self, _ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
-        todo!()
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(warehouses::PrimaryKey(self.warehouse_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
     async fn preferred_location(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<locations::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.preferred_location_id {
+            Ok(loader.load_one(locations::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

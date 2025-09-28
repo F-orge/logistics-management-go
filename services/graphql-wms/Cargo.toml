@@ -16,7 +16,6 @@ anyhow.workspace = true
 validator.workspace = true
 rstest.workspace = true
 sea-orm.workspace = true
-graphql-ims = { path = "../graphql-ims" }
 graphql-auth = { path = "../graphql-auth" }
 graphql-crm = { path = "../graphql-crm" }
 graphql-core = { path = "../graphql-core" }

@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::locations;
+use super::{locations, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -29,12 +29,22 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn location(&self, _ctx: &Context<'_>) -> async_graphql::Result<locations::Model> {
-        todo!()
+    async fn location(&self, ctx: &Context<'_>) -> async_graphql::Result<locations::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(locations::PrimaryKey(self.location_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get location"))?)
     }
 
-    async fn product(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 }
 

@@ -4,7 +4,7 @@ use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
 
-use crate::models::{drivers, vehicles};
+use crate::models::{drivers, trip_stops, vehicles};
 
 use super::sea_orm_active_enums::TripStatusEnum;
 
@@ -44,6 +44,24 @@ impl Model {
         } else {
             Ok(None)
         }
+    }
+
+    async fn stops(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<trip_stops::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, trip_stops::Model>(
+            "select * from tms.trip_stops where trip_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 

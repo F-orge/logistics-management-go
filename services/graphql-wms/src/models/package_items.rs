@@ -5,7 +5,7 @@ use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::packages;
+use super::{packages, products, inventory_batches};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -32,16 +32,32 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn package(&self, _ctx: &Context<'_>) -> async_graphql::Result<packages::Model> {
-        todo!()
+    async fn package(&self, ctx: &Context<'_>) -> async_graphql::Result<packages::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(packages::PrimaryKey(self.package_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get package"))?)
     }
 
-    async fn product(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 
-    async fn batch(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.batch_id {
+            Ok(loader.load_one(inventory_batches::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

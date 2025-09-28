@@ -1,38 +1,44 @@
-pub mod entities;
-
 pub mod models;
-pub mod queries;
+pub mod mutation;
+pub mod query;
 
 use async_graphql::MergedObject;
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "WmsQueries")]
 pub struct Query(
-    entities::_generated::bin_thresholds::Entity,
-    entities::_generated::inventory_stock::Entity,
-    entities::_generated::locations::Entity,
-    entities::_generated::package_items::Entity,
-    entities::_generated::packages::Entity,
-    entities::_generated::pick_batch_items::Entity,
-    entities::_generated::pick_batches::Entity,
-    entities::_generated::putaway_rules::Entity,
-    entities::_generated::task_items::Entity,
-    entities::_generated::tasks::Entity,
-    entities::_generated::warehouses::Entity,
+    query::bin_thresholds::Query,
+    query::inbound_shipments::Query,
+    query::inventory_adjustments::Query,
+    query::inventory_batches::Query,
+    query::inventory_stock::Query,
+    query::locations::Query,
+    query::outbound_shipments::Query,
+    query::packages::Query,
+    query::pick_batches::Query,
+    query::products::Query,
+    query::putaway_rules::Query,
+    query::reorder_points::Query,
+    query::returns::Query,
+    query::sales_orders::Query,
+    query::stock_transfers::Query,
+    query::suppliers::Query,
+    query::tasks::Query,
+    query::warehouses::Query,
 );
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "WmsMutations")]
 pub struct Mutation(
-    queries::bin_thresholds::Mutations,
-    queries::inventory_stock::Mutations,
-    queries::locations::Mutations,
-    queries::package_items::Mutations,
-    queries::packages::Mutations,
-    queries::pick_batch_items::Mutations,
-    queries::pick_batches::Mutations,
-    queries::putaway_rules::Mutations,
-    queries::task_items::Mutations,
-    queries::tasks::Mutations,
-    queries::warehouses::Mutations,
+    // queries::bin_thresholds::Mutations,
+    // queries::inventory_stock::Mutations,
+    // queries::locations::Mutations,
+    // queries::package_items::Mutations,
+    // queries::packages::Mutations,
+    // queries::pick_batch_items::Mutations,
+    // queries::pick_batches::Mutations,
+    // queries::putaway_rules::Mutations,
+    // queries::task_items::Mutations,
+    // queries::tasks::Mutations,
+    // queries::warehouses::Mutations,
 );

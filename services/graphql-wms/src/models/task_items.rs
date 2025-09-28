@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{locations, sea_orm_active_enums::TaskItemStatusEnum, tasks};
+use super::{enums::TaskItemStatusEnum, locations, tasks, products, inventory_batches};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -39,30 +39,58 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn task(&self, _ctx: &Context<'_>) -> async_graphql::Result<tasks::Model> {
-        todo!()
+    async fn task(&self, ctx: &Context<'_>) -> async_graphql::Result<tasks::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(tasks::PrimaryKey(self.task_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get task"))?)
     }
 
-    async fn product(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn product(&self, ctx: &Context<'_>) -> async_graphql::Result<products::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(products::PrimaryKey(self.product_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 
-    async fn batch(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<inventory_batches::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.batch_id {
+            Ok(loader.load_one(inventory_batches::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
     async fn source_location(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<locations::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.source_location_id {
+            Ok(loader.load_one(locations::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
     async fn destination_location(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<locations::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.destination_location_id {
+            Ok(loader.load_one(locations::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

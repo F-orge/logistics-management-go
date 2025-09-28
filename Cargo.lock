@@ -1166,28 +1166,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "graphql-ims"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-graphql",
- "chrono",
- "fake",
- "graphql-auth",
- "graphql-core",
- "graphql-crm",
- "rstest",
- "rust_decimal",
- "sea-orm",
- "serde",
- "sqlx",
- "tracing",
- "url",
- "uuid",
- "validator",
-]
-
-[[package]]
 name = "graphql-tms"
 version = "0.1.0"
 dependencies = [
@@ -1197,7 +1175,7 @@ dependencies = [
  "fake",
  "graphql-auth",
  "graphql-core",
- "graphql-ims",
+ "graphql-wms",
  "rstest",
  "rust_decimal",
  "sea-orm",
@@ -1220,7 +1198,6 @@ dependencies = [
  "graphql-auth",
  "graphql-core",
  "graphql-crm",
- "graphql-ims",
  "rstest",
  "rust_decimal",
  "sea-orm",
@@ -1683,10 +1660,12 @@ dependencies = [
  "clap",
  "fake",
  "graphql-auth",
+ "graphql-billing",
  "graphql-core",
  "graphql-crm",
  "graphql-dms",
- "graphql-ims",
+ "graphql-tms",
+ "graphql-wms",
  "rand 0.9.2",
  "sqlx",
  "tokio",

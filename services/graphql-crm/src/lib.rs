@@ -1,9 +1,7 @@
 use async_graphql::MergedObject;
 
-pub mod entities;
 pub mod models;
 pub mod mutation;
-// pub mod queries;
 pub mod query;
 
 #[derive(Debug, Default, MergedObject)]

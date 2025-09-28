@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{inventory_stock, sea_orm_active_enums::LocationTypeEnum, warehouses};
+use super::{enums::LocationTypeEnum, inventory_stock, warehouses};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -40,26 +40,51 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn warehouse(&self, _ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
-        todo!()
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(warehouses::PrimaryKey(self.warehouse_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
     async fn parent_location(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<Box<Model>>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.parent_location_id {
+            Ok(loader.load_one(PrimaryKey(id)).await?.map(Box::new))
+        } else {
+            Ok(None)
+        }
     }
 
-    async fn children_locations(&self, _ctx: &Context<'_>) -> async_graphql::Result<Vec<Model>> {
-        todo!()
+    async fn children_locations(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(
+            sqlx::query_as::<_, Model>("select * from wms.locations where parent_location_id = $1")
+                .bind(self.id)
+                .fetch_all(db)
+                .await?,
+        )
     }
 
     async fn inventory_stock(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Vec<inventory_stock::Model>> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, inventory_stock::Model>(
+            "select * from wms.inventory_stock where location_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

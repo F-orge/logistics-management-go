@@ -5,6 +5,8 @@ use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
 
+use crate::models::driver_schedules;
+
 use super::sea_orm_active_enums::DriverStatusEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
@@ -32,6 +34,22 @@ impl Model {
             .load_one(user::PrimaryKey(self.user_id))
             .await?
             .ok_or(async_graphql::Error::new("Unable to get user"))?)
+    }
+    async fn schedules(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<driver_schedules::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, driver_schedules::Model>(
+            "select * from tms.driver_schedules limit $1 offset $2",
+        )
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 

@@ -1,14 +1,14 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
+use graphql_auth::models::user;
 
 use super::{
-    pick_batch_items,
-    sea_orm_active_enums::{PickBatchStatusEnum, PickStrategyEnum},
-    warehouses,
+    enums::{PickBatchStatusEnum, PickStrategyEnum},
+    pick_batch_items, warehouses,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
@@ -40,19 +40,37 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn warehouse(&self, _ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
-        todo!()
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(warehouses::PrimaryKey(self.warehouse_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
-    async fn assigned_user(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn assigned_user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.assigned_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
     async fn items(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Vec<pick_batch_items::Model>> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, pick_batch_items::Model>(
+            "select * from wms.pick_batch_items where pick_batch_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

@@ -1,14 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{
-    pick_batches, sea_orm_active_enums::TaskStatusEnum, sea_orm_active_enums::TaskTypeEnum,
-    task_items, warehouses,
-};
+use super::{enums::TaskStatusEnum, enums::TaskTypeEnum, pick_batches, task_items, warehouses};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -42,23 +40,47 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn warehouse(&self, _ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
-        todo!()
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(warehouses::PrimaryKey(self.warehouse_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
-    async fn user(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
     async fn pick_batch(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<pick_batches::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.pick_batch_id {
+            Ok(loader.load_one(pick_batches::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
-    async fn items(&self, _ctx: &Context<'_>) -> async_graphql::Result<Vec<task_items::Model>> {
-        todo!()
+    async fn items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<task_items::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, task_items::Model>(
+            "select * from wms.task_items where task_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 
@@ -72,13 +94,14 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
-        let results = sqlx::query_as::<_, Self::Value>("select * from wms.tasks where id = ANY($1)")
-            .bind(&keys)
-            .fetch_all(&self.pool)
-            .await?
-            .into_iter()
-            .map(|model| (PrimaryKey(model.id), model))
-            .collect::<_>();
+        let results =
+            sqlx::query_as::<_, Self::Value>("select * from wms.tasks where id = ANY($1)")
+                .bind(&keys)
+                .fetch_all(&self.pool)
+                .await?
+                .into_iter()
+                .map(|model| (PrimaryKey(model.id), model))
+                .collect::<_>();
 
         Ok(results)
     }

@@ -77,11 +77,11 @@ tracing-subscriber = { version = "0.3.20", features = ["env-filter", "json"] }
 graphql-core = { path = "./services/graphql-core" }
 graphql-auth = { path = "./services/graphql-auth" }
 graphql-crm = { path = "./services/graphql-crm" }
-graphql-ims = { path = "./services/graphql-ims" }
-# graphql-tms = { path = "./services/graphql-tms" }
-# graphql-wms = { path = "./services/graphql-wms" }
+# graphql-ims = { path = "./services/graphql-ims" }
+graphql-tms = { path = "./services/graphql-tms" }
+graphql-wms = { path = "./services/graphql-wms" }
 graphql-dms = { path = "./services/graphql-dms" }
-# graphql-billing = { path = "./services/graphql-billing" }
+graphql-billing = { path = "./services/graphql-billing" }
 async-graphql-axum = "7.0.17"
 clap = { version = "4.5.47", features = ["derive"] }
 chrono.workspace = true

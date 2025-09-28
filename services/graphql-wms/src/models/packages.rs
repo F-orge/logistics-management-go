@@ -5,8 +5,9 @@ use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use uuid::Uuid;
+use graphql_auth::models::user;
 
-use super::{package_items, warehouses};
+use super::{package_items, warehouses, sales_orders};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -43,20 +44,43 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn sales_order(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(sales_orders::PrimaryKey(self.sales_order_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get sales order"))?)
     }
 
-    async fn warehouse(&self, _ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
-        todo!()
+    async fn warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(warehouses::PrimaryKey(self.warehouse_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
-    async fn packed_by_user(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn packed_by_user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.packed_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
-    async fn items(&self, _ctx: &Context<'_>) -> async_graphql::Result<Vec<package_items::Model>> {
-        todo!()
+    async fn items(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<package_items::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, package_items::Model>(
+            "select * from wms.package_items where package_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

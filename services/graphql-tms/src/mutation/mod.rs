@@ -1,1 +1,13 @@
-
+pub mod carriers;
+pub mod drivers;
+pub mod expenses;
+pub mod geofence_events;
+pub mod geofences;
+pub mod gps_pings;
+pub mod partner_invoices;
+pub mod proof_of_deliveries;
+pub mod routes;
+pub mod shipment_legs;
+pub mod trips;
+pub mod vehicle_maintenance;
+pub mod vehicles;

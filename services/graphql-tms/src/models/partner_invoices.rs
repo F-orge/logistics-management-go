@@ -5,7 +5,7 @@ use rust_decimal::Decimal;
 use std::sync::Arc;
 use uuid::Uuid;
 
-use crate::models::carriers;
+use crate::models::{carriers, partner_invoice_items};
 
 use super::sea_orm_active_enums::PartnerInvoiceStatusEnum;
 
@@ -35,6 +35,23 @@ impl Model {
             .load_one(carriers::PrimaryKey(self.carrier_id))
             .await?
             .ok_or(async_graphql::Error::new("Unable to get carrier"))?)
+    }
+    async fn items(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<partner_invoice_items::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, partner_invoice_items::Model>(
+            "select * from tms.partner_invoice_items where partner_invoice_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 }
 

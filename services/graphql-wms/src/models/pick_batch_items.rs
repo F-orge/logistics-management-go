@@ -5,7 +5,7 @@ use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::pick_batches;
+use super::{pick_batches, sales_orders};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -27,12 +27,22 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn pick_batch(&self, _ctx: &Context<'_>) -> async_graphql::Result<pick_batches::Model> {
-        todo!()
+    async fn pick_batch(&self, ctx: &Context<'_>) -> async_graphql::Result<pick_batches::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(pick_batches::PrimaryKey(self.pick_batch_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get pick batch"))?)
     }
 
-    async fn sales_order(&self, _ctx: &Context<'_>) -> async_graphql::Result<String> {
-        todo!()
+    async fn sales_order(&self, ctx: &Context<'_>) -> async_graphql::Result<sales_orders::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(sales_orders::PrimaryKey(self.sales_order_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get sales order"))?)
     }
 }
 

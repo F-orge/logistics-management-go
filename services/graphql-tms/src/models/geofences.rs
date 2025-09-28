@@ -1,20 +1,43 @@
-use async_graphql::dataloader::Loader;
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
 
+use crate::models::geofence_events;
+
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
 #[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
-#[graphql(name = "TmsGeofence")]
+#[graphql(name = "TmsGeofence", complex)]
 pub struct Model {
     pub id: Uuid,
     pub name: String,
     pub coordinates: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
+}
+
+#[ComplexObject]
+impl Model {
+    async fn events(
+        &self,
+        ctx: &Context<'_>,
+        page: u64,
+        limit: u64,
+    ) -> async_graphql::Result<Vec<geofence_events::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, geofence_events::Model>(
+            "select * from tms.geofence_events where geofence_id = $1 limit $2 offset $3",
+        )
+        .bind(self.id)
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
+    }
 }
 
 impl Loader<PrimaryKey> for PostgresDataLoader {
