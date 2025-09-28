@@ -31,7 +31,12 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn carrier(&self, ctx: &Context<'_>) -> async_graphql::Result<carriers::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(carriers::PrimaryKey(self.carrier_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get carrier"))?)
     }
 }
 

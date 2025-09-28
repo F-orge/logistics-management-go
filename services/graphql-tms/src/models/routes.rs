@@ -25,7 +25,12 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn trip(&self, ctx: &Context<'_>) -> async_graphql::Result<trips::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(trips::PrimaryKey(self.trip_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get trip"))?)
     }
 }
 
@@ -40,7 +45,7 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
         let results =
-            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
+            sqlx::query_as::<_, Self::Value>("select * from tms.routes where id = ANY($1)")
                 .bind(&keys)
                 .fetch_all(&self.pool)
                 .await?

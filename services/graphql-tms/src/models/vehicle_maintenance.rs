@@ -29,7 +29,12 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(vehicles::PrimaryKey(self.vehicle_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get vehicle"))?)
     }
 }
 
@@ -43,14 +48,15 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
-        let results =
-            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
-                .bind(&keys)
-                .fetch_all(&self.pool)
-                .await?
-                .into_iter()
-                .map(|model| (PrimaryKey(model.id), model))
-                .collect::<_>();
+        let results = sqlx::query_as::<_, Self::Value>(
+            "select * from tms.vehicle_maintenance where id = ANY($1)",
+        )
+        .bind(&keys)
+        .fetch_all(&self.pool)
+        .await?
+        .into_iter()
+        .map(|model| (PrimaryKey(model.id), model))
+        .collect::<_>();
 
         Ok(results)
     }

@@ -38,10 +38,22 @@ pub struct Model {
 #[ComplexObject]
 impl Model {
     async fn trip(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<trips::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.trip_id {
+            Ok(loader.load_one(trips::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
     async fn driver(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<drivers::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.driver_id {
+            Ok(loader.load_one(drivers::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 
@@ -56,7 +68,7 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
         let results =
-            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
+            sqlx::query_as::<_, Self::Value>("select * from tms.expenses where id = ANY($1)")
                 .bind(&keys)
                 .fetch_all(&self.pool)
                 .await?

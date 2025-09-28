@@ -25,11 +25,21 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<vehicles::Model>> {
-        todo!()
+    async fn vehicle(&self, ctx: &Context<'_>) -> async_graphql::Result<vehicles::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(vehicles::PrimaryKey(self.vehicle_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get vehicle"))?)
     }
-    async fn geofence(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<geofences::Model>> {
-        todo!()
+    async fn geofence(&self, ctx: &Context<'_>) -> async_graphql::Result<geofences::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(geofences::PrimaryKey(self.geofence_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to get geofence"))?)
     }
 }
 
@@ -43,14 +53,15 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
     ) -> Result<std::collections::HashMap<PrimaryKey, Self::Value>, Self::Error> {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
-        let results =
-            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
-                .bind(&keys)
-                .fetch_all(&self.pool)
-                .await?
-                .into_iter()
-                .map(|model| (PrimaryKey(model.id), model))
-                .collect::<_>();
+        let results = sqlx::query_as::<_, Self::Value>(
+            "select * from tms.geofence_events where id = ANY($1)",
+        )
+        .bind(&keys)
+        .fetch_all(&self.pool)
+        .await?
+        .into_iter()
+        .map(|model| (PrimaryKey(model.id), model))
+        .collect::<_>();
 
         Ok(results)
     }

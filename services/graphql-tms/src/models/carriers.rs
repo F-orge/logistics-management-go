@@ -30,7 +30,7 @@ impl Loader<PrimaryKey> for PostgresDataLoader {
         let keys = keys.iter().map(|k| k.0).collect::<Vec<_>>();
 
         let results =
-            sqlx::query_as::<_, Self::Value>("select * from tms.carrier_rates where id = ANY($1)")
+            sqlx::query_as::<_, Self::Value>("select * from tms.carriers where id = ANY($1)")
                 .bind(&keys)
                 .fetch_all(&self.pool)
                 .await?
