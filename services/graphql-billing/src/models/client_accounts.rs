@@ -1,24 +1,23 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
 use graphql_crm::models::companies;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingClientAccounts", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub client_id: Uuid,
-    pub credit_limit: Option<Decimal>,
-    pub available_credit: Option<Decimal>,
-    pub wallet_balance: Option<Decimal>,
+    pub credit_limit: Option<f64>,
+    pub available_credit: Option<f64>,
+    pub wallet_balance: Option<f64>,
     pub currency: Option<String>,
     pub payment_terms_days: Option<i32>,
     pub is_credit_approved: Option<bool>,
@@ -29,8 +28,13 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn client(&self, _ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
-        todo!()
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(companies::PrimaryKey(self.client_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find client"))?)
     }
 }
 

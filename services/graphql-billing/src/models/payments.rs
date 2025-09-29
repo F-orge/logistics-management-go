@@ -1,26 +1,25 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
-use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::invoices;
+use graphql_auth::models::user;
 
-use super::sea_orm_active_enums::{PaymentMethodEnum, PaymentStatusEnum};
+use super::enums::{PaymentMethodEnum, PaymentStatusEnum};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingPayments", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub invoice_id: Uuid,
-    pub amount: Decimal,
+    pub amount: f64,
     pub payment_method: PaymentMethodEnum,
     pub transaction_id: Option<String>,
     pub gateway_reference: Option<String>,
@@ -28,9 +27,9 @@ pub struct Model {
     pub payment_date: Option<DateTime<Utc>>,
     pub processed_at: Option<DateTime<Utc>>,
     pub currency: Option<String>,
-    pub exchange_rate: Option<Decimal>,
-    pub fees: Option<Decimal>,
-    pub net_amount: Option<Decimal>,
+    pub exchange_rate: Option<f64>,
+    pub fees: Option<f64>,
+    pub net_amount: Option<f64>,
     pub notes: Option<String>,
     #[graphql(skip)]
     pub processed_by_user_id: Option<Uuid>,
@@ -40,15 +39,26 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn invoice(&self, _ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
-        todo!()
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(invoices::PrimaryKey(self.invoice_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find invoice"))?)
     }
 
     async fn processed_by_user(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.processed_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

@@ -18,13 +18,11 @@ impl Query {
         let db = ctx.data::<PgPool>()?;
 
         Ok(
-            sqlx::query_as::<_, returns::Model>(
-                "select * from wms.returns limit $1 offset $2",
-            )
-            .bind(limit as i64)
-            .bind((page * limit) as i64)
-            .fetch_all(db)
-            .await?,
+            sqlx::query_as::<_, returns::Model>("select * from wms.returns limit $1 offset $2")
+                .bind(limit as i64)
+                .bind((page * limit) as i64)
+                .fetch_all(db)
+                .await?,
         )
     }
 
@@ -36,12 +34,10 @@ impl Query {
         let db = ctx.data::<PgPool>()?;
 
         Ok(
-            sqlx::query_as::<_, returns::Model>(
-                "select * from wms.returns where id = $1",
-            )
-            .bind(id)
-            .fetch_optional(db)
-            .await?,
+            sqlx::query_as::<_, returns::Model>("select * from wms.returns where id = $1")
+                .bind(id)
+                .fetch_optional(db)
+                .await?,
         )
     }
 }

@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
@@ -31,8 +31,15 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn locations(&self, _ctx: &Context<'_>) -> async_graphql::Result<Vec<locations::Model>> {
-        todo!()
+    async fn locations(&self, ctx: &Context<'_>) -> async_graphql::Result<Vec<locations::Model>> {
+        let db = ctx.data::<sqlx::PgPool>()?;
+
+        Ok(sqlx::query_as::<_, locations::Model>(
+            "select * from wms.locations where warehouse_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

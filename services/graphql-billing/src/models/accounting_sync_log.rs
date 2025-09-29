@@ -5,7 +5,7 @@ use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::sea_orm_active_enums::SyncStatusEnum;
+use super::enums::SyncStatusEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);

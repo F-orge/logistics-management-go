@@ -1,0 +1,31 @@
+description = "Generate a Rust GraphQL mutation file following project conventions."
+prompt = """
+@{services/graphql-wms/src/mutation/inbound_shipments.rs}
+@{services/graphql-wms/src/mutation/outbound_shipments.rs}
+@{migrations}
+
+You are an expert Rust backend developer. Given the following table names, generate a new Rust file for each as a GraphQL mutation module in this codebase, following these conventions:
+
+1. For each table name provided (all arguments except the last), search the migrations for a table matching the name (e.g., billing.disputes).
+2. Extract the table's columns and types from the migration SQL. Use these as the basis for the mutation input objects and mutation methods.
+3. If a table is not found, return an error or a helpful message for that table.
+4. For each found table, follow these conventions:
+   - Define appropriate `InputObject` structs for create/update operations, matching the table's columns and types.
+   - Implement a `Mutation` struct and an `#[Object]` impl block with methods for create, update, and delete operations, following the async_graphql and sqlx patterns in the reference files.
+   - Use transactions for multi-step operations and return the created/updated/deleted model as appropriate.
+   - Use the same naming, error handling, and module/import structure as in the provided examples.
+   - The file should be placed in the output directory specified as the last argument.
+
+Argument format:
+- Table name(s) (e.g., billing.disputes billing.credit_notes ...)
+- Output directory (last argument, e.g., services/graphql-billing/src/mutation)
+
+Example usage:
+/graphql-mutation "billing.disputes" "billing.credit_notes" "services/graphql-billing/src/mutation"
+
+Arguments provided:
+{{args}}
+
+Output:
+A complete Rust file for each mutation module, following the conventions in the reference files, and placed in the specified output directory. If a table is not found, return an error message for that table.
+"""

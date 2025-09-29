@@ -33,11 +33,11 @@ impl Query {
     ) -> async_graphql::Result<Option<proof_of_deliveries::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, proof_of_deliveries::Model>("select * from tms.proof_of_deliveries where id = $1")
-                .bind(id)
-                .fetch_optional(db)
-                .await?,
+        Ok(sqlx::query_as::<_, proof_of_deliveries::Model>(
+            "select * from tms.proof_of_deliveries where id = $1",
         )
+        .bind(id)
+        .fetch_optional(db)
+        .await?)
     }
 }

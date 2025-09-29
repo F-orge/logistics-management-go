@@ -1,14 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use crate::models::rate_rules;
-
-use super::sea_orm_active_enums::ServiceTypeEnum;
+use super::enums::ServiceTypeEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -33,13 +31,15 @@ pub struct Model {
 impl Model {
     async fn created_by_user(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
-    }
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
-    async fn rules(&self, _ctx: &Context<'_>) -> async_graphql::Result<Vec<rate_rules::Model>> {
-        todo!()
+        if let Some(id) = self.created_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

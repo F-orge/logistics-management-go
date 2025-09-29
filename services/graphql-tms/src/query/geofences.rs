@@ -17,13 +17,13 @@ impl Query {
     ) -> async_graphql::Result<Vec<geofences::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(sqlx::query_as::<_, geofences::Model>(
-            "select * from tms.geofence limit $1 offset $2",
+        Ok(
+            sqlx::query_as::<_, geofences::Model>("select * from tms.geofence limit $1 offset $2")
+                .bind(limit as i64)
+                .bind((page * limit) as i64)
+                .fetch_all(db)
+                .await?,
         )
-        .bind(limit as i64)
-        .bind((page * limit) as i64)
-        .fetch_all(db)
-        .await?)
     }
 
     async fn geofence(

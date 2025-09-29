@@ -4,9 +4,7 @@ use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::{
-    partner_invoice_items,
-    partner_invoices,
-    sea_orm_active_enums::PartnerInvoiceStatusEnum,
+    partner_invoice_items, partner_invoices, sea_orm_active_enums::PartnerInvoiceStatusEnum,
 };
 
 #[derive(Debug, Clone, InputObject)]
@@ -86,7 +84,11 @@ impl Mutation {
         Ok(result)
     }
 
-    async fn remove_partner_invoice(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
+    async fn remove_partner_invoice(
+        &self,
+        ctx: &Context<'_>,
+        id: Uuid,
+    ) -> async_graphql::Result<String> {
         let db = ctx.data::<sqlx::PgPool>()?;
         let result = sqlx::query("delete from tms.partner_invoices where id = $1")
             .bind(id)

@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::sea_orm_active_enums::DocumentTypeEnum;
+use super::enums::DocumentTypeEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -30,11 +30,14 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn uploaded_by_user(
-        &self,
-        _ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
+    async fn uploaded_by(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.uploaded_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

@@ -3,10 +3,7 @@ use chrono::NaiveDate;
 use rust_decimal::Decimal;
 use uuid::Uuid;
 
-use crate::models::{
-    sea_orm_active_enums::VehicleServiceTypeEnum,
-    vehicle_maintenance,
-};
+use crate::models::{sea_orm_active_enums::VehicleServiceTypeEnum, vehicle_maintenance};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateVehicleMaintenanceInput {

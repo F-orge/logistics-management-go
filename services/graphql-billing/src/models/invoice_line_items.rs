@@ -1,9 +1,8 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::invoices;
@@ -11,7 +10,7 @@ use crate::models::invoices;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingInvoiceLineItems", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -20,22 +19,27 @@ pub struct Model {
     pub source_record_id: Option<Uuid>,
     pub source_record_type: Option<String>,
     pub description: String,
-    pub quantity: Decimal,
-    pub unit_price: Decimal,
-    pub total_price: Option<Decimal>,
-    pub tax_rate: Option<Decimal>,
-    pub tax_amount: Option<Decimal>,
-    pub discount_rate: Option<Decimal>,
-    pub discount_amount: Option<Decimal>,
-    pub line_total: Option<Decimal>,
+    pub quantity: f64,
+    pub unit_price: f64,
+    pub total_price: Option<f64>,
+    pub tax_rate: Option<f64>,
+    pub tax_amount: Option<f64>,
+    pub discount_rate: Option<f64>,
+    pub discount_amount: Option<f64>,
+    pub line_total: Option<f64>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
 }
 
 #[ComplexObject]
 impl Model {
-    async fn invoice(&self, _ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
-        todo!()
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(invoices::PrimaryKey(self.invoice_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find invoice"))?)
     }
 }
 

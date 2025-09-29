@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
+use crate::models::warehouses;
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
-use crate::models::warehouses;
 use uuid::Uuid;
 
 use crate::models::products;

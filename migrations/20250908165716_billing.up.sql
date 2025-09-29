@@ -17,11 +17,11 @@ create type billing.service_type_enum as enum(
 );
 
 create type billing.pricing_model_enum as enum(
-  'per_kg',
-  'per_item',
-  'flat_rate',
-  'per_cubic_meter',
-  'per_zone',
+  'per-kg',
+  'per-item',
+  'flat-rate',
+  'per-cubic-meter',
+  'per-zone',
   'percentage',
   'tiered'
 );
@@ -29,8 +29,8 @@ create type billing.pricing_model_enum as enum(
 create type billing.surcharge_calculation_method_enum as enum(
   'percentage',
   'fixed',
-  'per_unit',
-  'sliding_scale'
+  'per-unit',
+  'sliding-scale'
 );
 
 create type billing.quote_status_enum as enum(
@@ -44,7 +44,7 @@ create type billing.quote_status_enum as enum(
 create type billing.transaction_type_enum as enum(
   'credit',
   'debit',
-  'top_up',
+  'top-up',
   'refund',
   'adjustment',
   'fee'
@@ -55,20 +55,20 @@ create type billing.invoice_status_enum as enum(
   'sent',
   'viewed',
   'paid',
-  'partial_paid',
-  'past_due',
+  'partial-paid',
+  'past-due',
   'disputed',
   'cancelled',
   'void'
 );
 
 create type billing.payment_method_enum as enum(
-  'credit_card',
-  'debit_card',
+  'credit-card',
+  'debit-card',
   'wallet',
-  'qr_ph',
-  'client_credit',
-  'bank_transfer',
+  'qr-ph',
+  'client-credit',
+  'bank-transfer',
   'cash',
   'check'
 );
@@ -84,7 +84,7 @@ create type billing.payment_status_enum as enum(
 
 create type billing.dispute_status_enum as enum(
   'open',
-  'under_review',
+  'under-review',
   'approved',
   'denied',
   'escalated',
@@ -93,18 +93,18 @@ create type billing.dispute_status_enum as enum(
 
 create type billing.document_type_enum as enum(
   'bol',
-  'commercial_invoice',
-  'packing_list',
+  'commercial-invoice',
+  'packing-list',
   'receipt',
-  'credit_note',
-  'shipping_label',
-  'customs_declaration',
-  'proof_of_delivery'
+  'credit-note',
+  'shipping-label',
+  'customs-declaration',
+  'proof-of-delivery'
 );
 
 create type billing.sync_status_enum as enum(
   'pending',
-  'in_progress',
+  'in-progress',
   'success',
   'failed',
   'retry'

@@ -2,10 +2,7 @@ use async_graphql::{Context, InputObject, Object};
 use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
-use crate::models::{
-    proof_of_deliveries,
-    sea_orm_active_enums::ProofTypeEnum,
-};
+use crate::models::{proof_of_deliveries, sea_orm_active_enums::ProofTypeEnum};
 
 #[derive(Debug, Clone, InputObject)]
 pub struct CreateProofOfDeliveryInput {

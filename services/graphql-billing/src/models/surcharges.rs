@@ -3,21 +3,20 @@ use std::sync::Arc;
 use async_graphql::dataloader::Loader;
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
-use super::sea_orm_active_enums::SurchargeCalculationMethodEnum;
+use super::enums::SurchargeCalculationMethodEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingSurcharges")]
 pub struct Model {
     pub id: Uuid,
     pub name: String,
     pub r#type: String,
-    pub amount: Decimal,
+    pub amount: f64,
     pub calculation_method: SurchargeCalculationMethodEnum,
     pub is_active: Option<bool>,
     pub valid_from: Option<NaiveDate>,

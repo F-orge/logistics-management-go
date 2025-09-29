@@ -17,15 +17,13 @@ impl Query {
     ) -> async_graphql::Result<Vec<reorder_points::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, reorder_points::Model>(
-                "select * from wms.reorder_points limit $1 offset $2",
-            )
-            .bind(limit as i64)
-            .bind((page * limit) as i64)
-            .fetch_all(db)
-            .await?,
+        Ok(sqlx::query_as::<_, reorder_points::Model>(
+            "select * from wms.reorder_points limit $1 offset $2",
         )
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 
     async fn reorder_point(
@@ -35,13 +33,11 @@ impl Query {
     ) -> async_graphql::Result<Option<reorder_points::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, reorder_points::Model>(
-                "select * from wms.reorder_points where id = $1",
-            )
-            .bind(id)
-            .fetch_optional(db)
-            .await?,
+        Ok(sqlx::query_as::<_, reorder_points::Model>(
+            "select * from wms.reorder_points where id = $1",
         )
+        .bind(id)
+        .fetch_optional(db)
+        .await?)
     }
 }

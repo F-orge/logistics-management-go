@@ -33,11 +33,11 @@ impl Query {
     ) -> async_graphql::Result<Option<partner_invoices::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, partner_invoices::Model>("select * from tms.partner_invoices where id = $1")
-                .bind(id)
-                .fetch_optional(db)
-                .await?,
+        Ok(sqlx::query_as::<_, partner_invoices::Model>(
+            "select * from tms.partner_invoices where id = $1",
         )
+        .bind(id)
+        .fetch_optional(db)
+        .await?)
     }
 }

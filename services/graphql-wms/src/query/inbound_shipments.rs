@@ -17,15 +17,13 @@ impl Query {
     ) -> async_graphql::Result<Vec<inbound_shipments::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, inbound_shipments::Model>(
-                "select * from wms.inbound_shipments limit $1 offset $2",
-            )
-            .bind(limit as i64)
-            .bind((page * limit) as i64)
-            .fetch_all(db)
-            .await?,
+        Ok(sqlx::query_as::<_, inbound_shipments::Model>(
+            "select * from wms.inbound_shipments limit $1 offset $2",
         )
+        .bind(limit as i64)
+        .bind((page * limit) as i64)
+        .fetch_all(db)
+        .await?)
     }
 
     async fn inbound_shipment(
@@ -35,13 +33,11 @@ impl Query {
     ) -> async_graphql::Result<Option<inbound_shipments::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(
-            sqlx::query_as::<_, inbound_shipments::Model>(
-                "select * from wms.inbound_shipments where id = $1",
-            )
-            .bind(id)
-            .fetch_optional(db)
-            .await?,
+        Ok(sqlx::query_as::<_, inbound_shipments::Model>(
+            "select * from wms.inbound_shipments where id = $1",
         )
+        .bind(id)
+        .fetch_optional(db)
+        .await?)
     }
 }

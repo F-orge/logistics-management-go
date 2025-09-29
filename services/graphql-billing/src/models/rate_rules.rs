@@ -1,19 +1,18 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::rate_cards;
 
-use super::sea_orm_active_enums::PricingModelEnum;
+use super::enums::PricingModelEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingRateRules", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -21,10 +20,10 @@ pub struct Model {
     pub rate_card_id: Uuid,
     pub condition: String,
     pub value: String,
-    pub price: Decimal,
+    pub price: f64,
     pub pricing_model: PricingModelEnum,
-    pub min_value: Option<Decimal>,
-    pub max_value: Option<Decimal>,
+    pub min_value: Option<f64>,
+    pub max_value: Option<f64>,
     pub priority: Option<i32>,
     pub is_active: Option<bool>,
     pub created_at: Option<DateTime<Utc>>,
@@ -33,8 +32,13 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn rate_card(&self, _ctx: &Context<'_>) -> async_graphql::Result<rate_cards::Model> {
-        todo!()
+    async fn rate_card(&self, ctx: &Context<'_>) -> async_graphql::Result<rate_cards::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(rate_cards::PrimaryKey(self.rate_card_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find rate card"))?)
     }
 }
 

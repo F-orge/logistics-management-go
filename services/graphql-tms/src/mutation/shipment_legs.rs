@@ -3,9 +3,7 @@ use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
 use crate::models::{
-    sea_orm_active_enums::ShipmentLegStatusEnum,
-    shipment_leg_events,
-    shipment_legs,
+    sea_orm_active_enums::ShipmentLegStatusEnum, shipment_leg_events, shipment_legs,
 };
 
 #[derive(Debug, Clone, InputObject)]

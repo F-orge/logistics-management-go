@@ -1,13 +1,13 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use uuid::Uuid;
-use graphql_auth::models::user;
 
-use super::{package_items, warehouses, sales_orders};
+use super::{package_items, sales_orders, warehouses};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -62,7 +62,10 @@ impl Model {
             .ok_or(async_graphql::Error::new("Unable to find warehouse"))?)
     }
 
-    async fn packed_by_user(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+    async fn packed_by_user(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<user::Model>> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
         if let Some(id) = self.packed_by_user_id {

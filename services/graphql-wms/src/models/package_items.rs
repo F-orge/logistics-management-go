@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{packages, products, inventory_batches};
+use super::{inventory_batches, packages, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -50,7 +50,10 @@ impl Model {
             .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 
-    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<inventory_batches::Model>> {
+    async fn batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<inventory_batches::Model>> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
         if let Some(id) = self.batch_id {

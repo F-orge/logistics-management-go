@@ -1,18 +1,17 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
-use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::{disputes, invoices};
+use graphql_auth::models::user;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingCreditNotes", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -21,7 +20,7 @@ pub struct Model {
     #[graphql(skip)]
     pub dispute_id: Option<Uuid>,
     pub credit_note_number: String,
-    pub amount: Decimal,
+    pub amount: f64,
     pub reason: String,
     pub issue_date: NaiveDate,
     pub applied_at: Option<DateTime<Utc>>,
@@ -35,19 +34,36 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn invoice(&self, _ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
-        todo!()
+    async fn invoice(&self, ctx: &Context<'_>) -> async_graphql::Result<invoices::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(invoices::PrimaryKey(self.invoice_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find invoice"))?)
     }
 
-    async fn dispute(&self, _ctx: &Context<'_>) -> async_graphql::Result<Option<disputes::Model>> {
-        todo!()
+    async fn dispute(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<disputes::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.dispute_id {
+            Ok(loader.load_one(disputes::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
     async fn created_by_user(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.created_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

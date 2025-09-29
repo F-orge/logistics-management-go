@@ -2,9 +2,9 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
-use graphql_auth::models::user;
 
 use super::{
     enums::{PickBatchStatusEnum, PickStrategyEnum},

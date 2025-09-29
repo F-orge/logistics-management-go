@@ -1,0 +1,35 @@
+description = "Generate a Rust GraphQL model file following project conventions."
+prompt = """
+@{services/graphql-wms/src/models/inbound_shipments.rs}
+@{services/graphql-wms/src/models/outbound_shipments.rs}
+@{migrations}
+
+You are an expert Rust backend developer. Given the following table names, generate a new Rust file for each as a GraphQL model in this codebase, following these conventions:
+
+1. For each table name provided (all arguments except the last), search the migrations for a table matching the name (e.g., billing.disputes).
+2. Extract the table's columns and types from the migration SQL. Use these as the model fields.
+3. If a table is not found, return an error or a helpful message for that table.
+4. For each found table, follow these conventions:
+   - Each model has a `PrimaryKey` struct wrapping a `Uuid`.
+   - The main struct is named `Model`, derives `Debug`, `Clone`, `PartialEq`, `Eq`, `async_graphql::SimpleObject`, and `sqlx::FromRow`.
+   - Use `#[graphql(name = "...", complex)]` on the struct.
+   - Include all fields from the table, using appropriate Rust types (e.g., `Uuid`, `Option<T>`, enums, timestamps).
+   - For relations (e.g., foreign keys), add GraphQL resolver methods in a `#[ComplexObject]` impl block, using dataloader or direct SQLx queries as in the provided examples.
+   - Implement `Loader<PrimaryKey>` for batch loading by primary key, using SQLx and the dataloader pattern.
+   - Import enums from a sibling `enums` module if needed.
+   - Use the same module and import structure as in the provided examples.
+   - The file should be placed in the output directory specified as the last argument.
+
+Argument format:
+- Table name(s) (e.g., billing.disputes billing.credit_notes ...)
+- Output directory (last argument, e.g., services/graphql-billing/src/models)
+
+Example usage:
+/graphql-model "billing.disputes" "billing.credit_notes" "services/graphql-billing/src/models"
+
+Arguments provided:
+{{args}}
+
+Output:
+A complete Rust file for each model, following the conventions in `inbound_shipments.rs` and `outbound_shipments.rs`, and placed in the specified output directory. If a table is not found, return an error message for that table.
+"""

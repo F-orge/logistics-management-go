@@ -5,7 +5,7 @@ use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{enums::InventoryStockStatusEnum, locations, products, inventory_batches};
+use super::{enums::InventoryStockStatusEnum, inventory_batches, locations, products};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);

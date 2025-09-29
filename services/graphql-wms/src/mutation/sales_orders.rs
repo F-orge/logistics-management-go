@@ -180,12 +180,14 @@ impl Mutation {
 
         trx.commit().await?;
 
-        Ok(sqlx::query_as::<_, sales_orders::Model>(
-            "select * from ims.sales_orders where id = $1",
+        Ok(
+            sqlx::query_as::<_, sales_orders::Model>(
+                "select * from ims.sales_orders where id = $1",
+            )
+            .bind(sales_order_id)
+            .fetch_one(db)
+            .await?,
         )
-        .bind(sales_order_id)
-        .fetch_one(db)
-        .await?)
     }
 
     async fn update_sales_order_item_product_id(
@@ -205,12 +207,14 @@ impl Mutation {
         .await?;
         trx.commit().await?;
 
-        Ok(sqlx::query_as::<_, sales_orders::Model>(
-            "select * from ims.sales_orders where id = $1",
+        Ok(
+            sqlx::query_as::<_, sales_orders::Model>(
+                "select * from ims.sales_orders where id = $1",
+            )
+            .bind(item.sales_order_id)
+            .fetch_one(db)
+            .await?,
         )
-        .bind(item.sales_order_id)
-        .fetch_one(db)
-        .await?)
     }
 
     async fn update_sales_order_item_quantity_ordered(
@@ -230,12 +234,14 @@ impl Mutation {
         .await?;
         trx.commit().await?;
 
-        Ok(sqlx::query_as::<_, sales_orders::Model>(
-            "select * from ims.sales_orders where id = $1",
+        Ok(
+            sqlx::query_as::<_, sales_orders::Model>(
+                "select * from ims.sales_orders where id = $1",
+            )
+            .bind(item.sales_order_id)
+            .fetch_one(db)
+            .await?,
         )
-        .bind(item.sales_order_id)
-        .fetch_one(db)
-        .await?)
     }
 
     async fn remove_sales_order_item(
@@ -252,7 +258,9 @@ impl Mutation {
         trx.commit().await?;
 
         if result.rows_affected() != 1 {
-            return Err(async_graphql::Error::new("Unable to remove sales order item"));
+            return Err(async_graphql::Error::new(
+                "Unable to remove sales order item",
+            ));
         }
 
         Ok("Sales order item removed successfully".into())

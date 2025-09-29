@@ -1,21 +1,19 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use crate::models::{invoice_line_items, quotes};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use graphql_crm::models::companies;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
-use crate::models::{invoice_line_items, quotes};
-
-use super::sea_orm_active_enums::InvoiceStatusEnum;
+use super::enums::InvoiceStatusEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingInvoices", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -27,13 +25,13 @@ pub struct Model {
     pub status: Option<InvoiceStatusEnum>,
     pub issue_date: NaiveDate,
     pub due_date: NaiveDate,
-    pub total_amount: Decimal,
-    pub amount_paid: Option<Decimal>,
-    pub amount_outstanding: Option<Decimal>,
+    pub total_amount: f64,
+    pub amount_paid: f64,
+    pub amount_outstanding: f64,
     pub currency: Option<String>,
-    pub tax_amount: Option<Decimal>,
-    pub discount_amount: Option<Decimal>,
-    pub subtotal: Option<Decimal>,
+    pub tax_amount: f64,
+    pub discount_amount: f64,
+    pub subtotal: f64,
     pub payment_terms: Option<String>,
     pub notes: Option<String>,
     pub sent_at: Option<DateTime<Utc>>,
@@ -46,26 +44,43 @@ pub struct Model {
 
 #[ComplexObject]
 impl Model {
-    async fn client(&self, _ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
-        todo!()
+    async fn client(&self, ctx: &Context<'_>) -> async_graphql::Result<companies::Model> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+        Ok(loader
+            .load_one(companies::PrimaryKey(self.client_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find client"))?)
     }
 
-    async fn quote(&self, _ctx: &Context<'_>) -> async_graphql::Result<Option<quotes::Model>> {
-        todo!()
+    async fn quote(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<quotes::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+        if let Some(id) = self.quote_id {
+            Ok(loader.load_one(quotes::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 
-    async fn created_by_user(
+    async fn created_by(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<user::Model>> {
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+        if let Some(id) = self.created_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
+    }
+
+    async fn items(
         &self,
-        _ctx: &Context<'_>,
-    ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
-    }
-
-    async fn line_items(
-        &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Vec<invoice_line_items::Model>> {
-        todo!()
+        let db = ctx.data::<sqlx::PgPool>()?;
+        Ok(sqlx::query_as::<_, invoice_line_items::Model>(
+            "select * from billing.invoice_line_items where invoice_id = $1",
+        )
+        .bind(self.id)
+        .fetch_all(db)
+        .await?)
     }
 }
 

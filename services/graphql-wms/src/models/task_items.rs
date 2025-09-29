@@ -5,7 +5,7 @@ use chrono::{DateTime, NaiveDate, Utc};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
-use super::{enums::TaskItemStatusEnum, locations, tasks, products, inventory_batches};
+use super::{enums::TaskItemStatusEnum, inventory_batches, locations, products, tasks};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
@@ -57,7 +57,10 @@ impl Model {
             .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
 
-    async fn batch(&self, ctx: &Context<'_>) -> async_graphql::Result<Option<inventory_batches::Model>> {
+    async fn batch(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<Option<inventory_batches::Model>> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
         if let Some(id) = self.batch_id {

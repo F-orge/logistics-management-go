@@ -3,10 +3,10 @@ use std::sync::Arc;
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
-use uuid::Uuid;
 use graphql_crm::models::companies;
+use uuid::Uuid;
 
-use super::{enums::LocationTypeEnum, locations, warehouses, products};
+use super::{enums::LocationTypeEnum, locations, products, warehouses};
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);

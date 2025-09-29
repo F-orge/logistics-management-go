@@ -4,8 +4,7 @@ use uuid::Uuid;
 
 use crate::models::{
     sea_orm_active_enums::{TripStatusEnum, TripStopStatusEnum},
-    trip_stops,
-    trips,
+    trip_stops, trips,
 };
 
 #[derive(Debug, Clone, InputObject)]
@@ -126,12 +125,10 @@ impl Mutation {
             .execute(db)
             .await?;
 
-        Ok(
-            sqlx::query_as("select * from tms.trips where id = $1")
-                .bind(trip_id)
-                .fetch_one(db)
-                .await?,
-        )
+        Ok(sqlx::query_as("select * from tms.trips where id = $1")
+            .bind(trip_id)
+            .fetch_one(db)
+            .await?)
     }
 
     async fn update_trip_stop(
@@ -157,11 +154,7 @@ impl Mutation {
         .await?)
     }
 
-    async fn remove_trip_stop(
-        &self,
-        ctx: &Context<'_>,
-        id: Uuid,
-    ) -> async_graphql::Result<String> {
+    async fn remove_trip_stop(&self, ctx: &Context<'_>, id: Uuid) -> async_graphql::Result<String> {
         let db = ctx.data::<sqlx::PgPool>()?;
         let result = sqlx::query("delete from tms.trip_stops where id = $1")
             .bind(id)

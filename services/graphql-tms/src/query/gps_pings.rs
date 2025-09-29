@@ -17,13 +17,13 @@ impl Query {
     ) -> async_graphql::Result<Vec<gps_pings::Model>> {
         let db = ctx.data::<PgPool>()?;
 
-        Ok(sqlx::query_as::<_, gps_pings::Model>(
-            "select * from tms.gps_pings limit $1 offset $2",
+        Ok(
+            sqlx::query_as::<_, gps_pings::Model>("select * from tms.gps_pings limit $1 offset $2")
+                .bind(limit as i64)
+                .bind((page * limit) as i64)
+                .fetch_all(db)
+                .await?,
         )
-        .bind(limit as i64)
-        .bind((page * limit) as i64)
-        .fetch_all(db)
-        .await?)
     }
 
     async fn gps_ping(

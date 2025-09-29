@@ -1,28 +1,28 @@
 use std::sync::Arc;
 
-use async_graphql::{dataloader::Loader, ComplexObject, Context};
+use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
-use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
-use rust_decimal::Decimal;
 use uuid::Uuid;
 
 use crate::models::client_accounts;
+use graphql_auth::models::user;
 
-use super::sea_orm_active_enums::TransactionTypeEnum;
+use super::enums::TransactionTypeEnum;
 
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
 #[graphql(name = "BillingAccountTransactions", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub client_account_id: Uuid,
     pub r#type: TransactionTypeEnum,
-    pub amount: Decimal,
-    pub running_balance: Option<Decimal>,
+    pub amount: f64,
+    pub running_balance: Option<f64>,
+    #[graphql(skip)]
     pub source_record_id: Option<Uuid>,
     pub source_record_type: Option<String>,
     pub description: Option<String>,
@@ -38,16 +38,27 @@ pub struct Model {
 impl Model {
     async fn client_account(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<client_accounts::Model> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        Ok(loader
+            .load_one(client_accounts::PrimaryKey(self.client_account_id))
+            .await?
+            .ok_or(async_graphql::Error::new("Unable to find client account"))?)
     }
 
     async fn processed_by_user(
         &self,
-        _ctx: &Context<'_>,
+        ctx: &Context<'_>,
     ) -> async_graphql::Result<Option<user::Model>> {
-        todo!()
+        let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
+
+        if let Some(id) = self.processed_by_user_id {
+            Ok(loader.load_one(user::PrimaryKey(id)).await?)
+        } else {
+            Ok(None)
+        }
     }
 }
 

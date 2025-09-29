@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
+use crate::models::warehouses;
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
 use graphql_core::PostgresDataLoader;
-use crate::models::warehouses;
 use uuid::Uuid;
 
 use crate::models::products;
@@ -39,7 +39,10 @@ impl Model {
             .await?
             .ok_or(async_graphql::Error::new("Unable to get product"))?)
     }
-    async fn source_warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+    async fn source_warehouse(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<warehouses::Model> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
         Ok(loader
@@ -47,13 +50,18 @@ impl Model {
             .await?
             .ok_or(async_graphql::Error::new("Unable to find source warehouse"))?)
     }
-    async fn destination_warehouse(&self, ctx: &Context<'_>) -> async_graphql::Result<warehouses::Model> {
+    async fn destination_warehouse(
+        &self,
+        ctx: &Context<'_>,
+    ) -> async_graphql::Result<warehouses::Model> {
         let loader = ctx.data::<async_graphql::dataloader::DataLoader<PostgresDataLoader>>()?;
 
         Ok(loader
             .load_one(warehouses::PrimaryKey(self.destination_warehouse_id))
             .await?
-            .ok_or(async_graphql::Error::new("Unable to find destination warehouse"))?)
+            .ok_or(async_graphql::Error::new(
+                "Unable to find destination warehouse",
+            ))?)
     }
 }
 
