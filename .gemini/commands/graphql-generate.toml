@@ -2,19 +2,23 @@ description = "Generate TypeScript GraphQL client code based on schema introspec
 prompt = """
 @{src/lib/graphql/client/execute.ts}
 @{src/lib/graphql/client/graphql.ts}
-@{src/queries/auth.ts}
 @{src/graphql/queries/crm/companies.ts}
 @{src/graphql/mutations/crm/companies.ts}
-@{src/index.tsx}
 
 You are an expert TypeScript developer specializing in GraphQL client implementation. Your task is to generate high-quality TypeScript code for a GraphQL client based on schema introspection. The code you generate will be used to integrate with the backend GraphQL API.
 
 I've included reference files above to help you understand the project structure and patterns:
 - execute.ts: Shows how GraphQL operations are executed with proper typing
 - graphql.ts: Contains the core GraphQL client functionality
-- auth.ts: Shows how React Query is integrated with mutations
+- companies.ts (queries): Shows examples of query operations with proper field selection, pagination, and single entity fetching
+- companies.ts (mutations): Shows examples of mutation operations including create, update, and delete patterns
+
+You are an expert TypeScript developer specializing in GraphQL client implementation. Your task is to generate high-quality TypeScript code for a GraphQL client based on schema introspection. The code you generate will be used to integrate with the backend GraphQL API.
+
+I've included reference files above to help you understand the project structure and patterns:
+- execute.ts: Shows how GraphQL operations are executed with proper typing
+- graphql.ts: Contains the core GraphQL client functionality
 - companies.ts (queries and mutations): Examples of GraphQL operations definition
-- index.tsx: Shows the setup of QueryClientProvider
 
 I will now run the introspect command to sync up the backend implementation with the frontend and generate the schema.graphql file:
 
@@ -22,11 +26,7 @@ I will now run the introspect command to sync up the backend implementation with
 
 Now I'll analyze the schema.graphql file to understand the GraphQL schema:
 
-!{cat src/lib/graphql/schema.graphql}
-
-I'll also check the generated TypeScript types to ensure consistency:
-
-!{find src/lib/graphql/client -type f -name "*.ts" | xargs cat}
+@{src/lib/graphql/schema.graphql}
 
 Let me also check the code generation configuration:
 
@@ -54,22 +54,15 @@ Based on the above schema, existing types, and project structure, I need you to 
    - Use the `graphql` template tag from `@/lib/graphql/client`
    - Place the file at the specified output path
 
-4. Create a corresponding Tanstack React Query integration file:
-   - For queries: Create queryOptions objects with proper typing
-   - For mutations: Create mutationOptions objects with proper typing
-   - Use `execute` from `@/lib/graphql/client/execute` for the queryFn/mutationFn
-   - Place this file in the corresponding `src/queries/[domain].ts` file
-
-5. Follow the project's patterns for:
+4. Follow the project's patterns for:
    - Naming conventions
-   - Error handling
-   - Success handling
+   - GraphQL operation structure
    - Type definitions
    - File organization
 
-6. Add proper documentation/comments explaining the purpose and usage of the generated code.
+5. Add proper documentation/comments explaining the purpose and usage of the generated code.
 
-7. Ensure the code follows TypeScript best practices and existing project patterns.
+6. Ensure the code follows TypeScript best practices and existing project patterns.
 
 ## Request Details:
 The command is executed with specific arguments to determine what to generate:
@@ -87,166 +80,120 @@ Arguments provided:
 ## Output
 Based on the provided command arguments, generate the following:
 
-1. **GraphQL Operation Definition File** (place this file at the exact path specified in the OutputPath argument):
-   - The file should be created at the exact path provided (e.g., "src/graphql/queries/auth/session.ts")
-   - If the OperationType ends with "Queries", create query operations
-   - If the OperationType ends with "Mutations", create mutation operations
-   - If the OperationType ends with "Subscriptions", create subscription operations
+**GraphQL Operation Definition File** (place this file at the exact path specified in the OutputPath argument):
+- The file should be created at the exact path provided (e.g., "src/graphql/queries/auth/session.ts")
+- If the OperationType ends with "Queries", create query operations
+- If the OperationType ends with "Mutations", create mutation operations
+- If the OperationType ends with "Subscriptions", create subscription operations
 
-   This file should include:
-   - Import of `graphql` from `@/lib/graphql/client`
-   - One or more GraphQL operations as named exports using the `graphql` template tag
-   - Operations that make sense for the domain specified in the OperationType
-   - Follow the naming patterns shown in the reference files
-   - Example based on project patterns: 
-     ```typescript
-     import { graphql } from "@/lib/graphql/client";
+This file should include:
+- Import of `graphql` from `@/lib/graphql/client`
+- One or more GraphQL operations as named exports using the `graphql` template tag
+- Operations that make sense for the domain specified in the OperationType
+- Follow the naming patterns shown in the reference files
+- Comprehensive field selection based on the schema
+- Proper variable typing and usage
+- **IMPORTANT**: Group operations by model/entity with clear section headers and comments
 
-     // For a query that gets a specific entity by ID
-     export const getEntity = graphql(`
-       query GetEntity($id: UUID!) {
-         domain {
-           entity(id: $id) {
-             id
-             name
-             # other fields based on the schema...
-           }
-         }
-       }
-     `);
+Example based on project patterns: 
+```typescript
+import { graphql } from "@/lib/graphql/client";
 
-     // For a query that lists entities with pagination
-     export const getEntities = graphql(`
-       query GetEntities($limit: Int!, $page: Int!) {
-         domain {
-           entities(limit: $limit, page: $page) {
-             id
-             name
-             # other fields...
-           }
-         }
-       }
-     `);
-     ```
+// ============================================================================
+// COMPANY OPERATIONS
+// ============================================================================
 
-2. **React Query Integration File**:
-   - Determine the domain from the OperationType (e.g., "AuthQueries" → domain is "auth")
-   - Create or update the file at `src/queries/[domain].ts` (e.g., `src/queries/auth.ts`)
-   - If the file already exists, add your new functions to it without modifying existing code
-   
-   This file should include:
-   - Imports from `@tanstack/react-query` (`queryOptions` for queries, `mutationOptions` for mutations)
-   - Import of `execute` from `@/lib/graphql/client/execute`
-   - Import of the GraphQL operations you defined and their generated types
-   - For queries: Export of `queryOptions` objects for each query operation
-   - For mutations: Export of `mutationOptions` objects for each mutation operation
-   - Appropriate error handling and success handling (using toast or other feedback mechanisms)
-   - Examples based on project patterns:
+// Get a single company by ID
+export const getCompany = graphql(`
+  query GetCompany($id: UUID!) {
+    crm {
+      company(id: $id) {
+        id
+        name
+        industry
+        # other company fields based on the schema...
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
 
-     **Query Example**:
-     ```typescript
-     import { queryOptions } from '@tanstack/react-query';
-     import { toast } from 'sonner';
-     import { getEntity } from '@/graphql/queries/domain/entity';
-     import { execute, type GraphQLError } from '@/lib/graphql/client/execute';
-     import type { GetEntityQuery, GetEntityQueryVariables } from '@/lib/graphql/client/graphql';
+// List companies with pagination
+export const getCompanies = graphql(`
+  query GetCompanies($limit: Int!, $page: Int!) {
+    crm {
+      companies(limit: $limit, page: $page) {
+        id
+        name
+        industry
+        # other company fields...
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
 
-     // Single entity query (with ID parameter)
-     export const getEntityQuery = queryOptions<
-       GetEntityQuery['domain']['entity'],
-       GraphQLError[],
-       GetEntityQuery['domain']['entity'],
-       ['domain', 'entity', string],
-       GetEntityQueryVariables
-     >({
-       queryKey: ['domain', 'entity', 'detail'],
-       queryFn: ({ queryKey, variables }) => 
-         execute(getEntity, variables).then(data => data.domain.entity),
-     });
+// Create a new company
+export const createCompany = graphql(`
+  mutation CreateCompany($payload: CreateCompanyInput!) {
+    crm {
+      createCompany(payload: $payload) {
+        id
+        name
+        industry
+        # other company fields...
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
 
-     // List query (with pagination)
-     export const getEntitiesQuery = queryOptions<
-       GetEntitiesQuery['domain']['entities'],
-       GraphQLError[],
-       GetEntitiesQuery['domain']['entities'],
-       ['domain', 'entities', { limit: number, page: number }]
-     >({
-       queryKey: ['domain', 'entities', { limit: 10, page: 1 }],
-       queryFn: ({ queryKey }) => {
-         const [, , params] = queryKey;
-         return execute(getEntities, params).then(data => data.domain.entities);
-       },
-     });
-     ```
+// ============================================================================
+// CONTACT OPERATIONS (if applicable)
+// ============================================================================
 
-     **Mutation Example**:
-     ```typescript
-     import { mutationOptions } from '@tanstack/react-query';
-     import { toast } from 'sonner';
-     import { createEntity } from '@/graphql/mutations/domain/entity';
-     import { execute, type GraphQLError } from '@/lib/graphql/client/execute';
-     import type { CreateEntityMutation, CreateEntityMutationVariables } from '@/lib/graphql/client/graphql';
+// Get a single contact by ID
+export const getContact = graphql(`
+  query GetContact($id: UUID!) {
+    crm {
+      contact(id: $id) {
+        id
+        firstName
+        lastName
+        # other contact fields based on the schema...
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
 
-     export const createEntityMutation = mutationOptions<
-       CreateEntityMutation['domain']['createEntity'],
-       GraphQLError[],
-       CreateEntityMutationVariables['payload']
-     >({
-       mutationFn: (payload) => 
-         execute(createEntity, { payload }).then(data => data.domain.createEntity),
-       onError: (err) => toast.error(err[0]?.message || 'Failed to create entity'),
-       onSuccess: () => toast.success('Entity created successfully'),
-     });
-     ```
+// Add more contact operations here...
+```
 
-Ensure the code follows the project's existing patterns and integrates with the auto-generated types from graphql-codegen. Include comments explaining the usage and purpose of the generated code.
+**Organization Requirements**:
+1. **Use clear section headers** with equal signs (=) to separate different models/entities
+2. **Group related operations together** (all company operations in one section, all contact operations in another, etc.)
+3. **Add descriptive comments** for each operation explaining what it does
+4. **Follow consistent naming patterns** based on the model name (e.g., getCompany, getCompanies, createCompany)
+5. **Include comprehensive field selection** for each model based on the GraphQL schema
 
-3. **Usage Example in React Component**:
-   Provide a brief example of how to use the generated code in a React component, tailored to the specific operation type:
-   
-   ```tsx
-   import { useQuery, useMutation } from '@tanstack/react-query';
-   // Import from the appropriate domain file based on the OperationType
-   import { yourGeneratedQuery, yourGeneratedMutation } from '@/queries/[domain]';
-   
-   // For OperationTypes ending with "Queries"
-   function ExampleQueryComponent({ id }: { id: string }) {
-     const { data, isLoading, error } = useQuery({
-       ...yourGeneratedQuery,
-       // Update queryKey and variables as appropriate for your specific query
-       queryKey: ['domain', 'entity', id],
-       variables: { id },
-     });
-     
-     if (isLoading) return <div>Loading...</div>;
-     if (error) return <div>Error: {(error as GraphQLError[])[0]?.message}</div>;
-     
-     return (
-       <div>
-         {/* Display the data with proper type checking */}
-         <h1>{data.name}</h1>
-         {/* Other relevant fields based on the operation */}
-       </div>
-     );
-   }
-   
-   // For OperationTypes ending with "Mutations"
-   function ExampleMutationComponent() {
-     const { mutate, isPending } = useMutation(yourGeneratedMutation);
-     
-     const handleSubmit = (formData) => {
-       // Call the mutation with properly typed data based on the generated code
-       mutate(formData);
-     };
-     
-     return (
-       <form onSubmit={handleSubmit}>
-         {/* Form fields specific to your mutation */}
-         <button type="submit" disabled={isPending}>
-           {isPending ? 'Processing...' : 'Submit'}
-         </button>
-       </form>
-     );
-   }
-   ```
+**Usage Notes**:
+The generated operations can be used with the `execute` function from `@/lib/graphql/client/execute`:
+
+```typescript
+import { execute } from '@/lib/graphql/client/execute';
+import { getEntity, createEntity } from './path/to/generated/operations';
+
+// For queries
+const data = await execute(getEntity, { id: 'some-uuid' });
+
+// For mutations
+const result = await execute(createEntity, { payload: { name: 'New Entity' } });
+```
+
+Ensure the code follows the project's existing patterns and integrates with the auto-generated types from graphql-codegen. Include comments explaining the purpose and structure of each operation.
 """

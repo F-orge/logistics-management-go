@@ -1,7 +1,7 @@
 import { graphql } from "@/lib/graphql/client";
 
 export const getInvoice = graphql(`
-  query GetInvoice($id: UUID!) {
+  query GetCrmInvoice($id: UUID!) {
     crm {
       invoice(id: $id) {
         id
@@ -33,7 +33,7 @@ export const getInvoice = graphql(`
 `);
 
 export const getInvoices = graphql(`
-  query GetInvoices($limit: Int!, $page: Int!) {
+  query GetCrmInvoices($limit: Int!, $page: Int!) {
     crm {
       invoices(limit: $limit, page: $page) {
         id

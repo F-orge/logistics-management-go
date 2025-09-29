@@ -5978,6 +5978,1245 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
 
+export type CreateAccountTransactionMutationVariables = Exact<{
+  payload: CreateAccountTransactionInput;
+}>;
+
+
+export type CreateAccountTransactionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createAccountTransaction: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionClientAccountIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientAccountId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateAccountTransactionClientAccountIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionClientAccountId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: TransactionTypeEnum;
+}>;
+
+
+export type UpdateAccountTransactionTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionType: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateAccountTransactionAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionAmount: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionRunningBalanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  runningBalance?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionRunningBalanceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionRunningBalance: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionSourceRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionSourceRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionSourceRecordId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionSourceRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionSourceRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionSourceRecordType: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionDescription: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionReferenceNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  referenceNumber?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionReferenceNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionReferenceNumber: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionTransactionDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  transactionDate?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionTransactionDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionTransactionDate: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionProcessedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionProcessedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionProcessedByUserId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveAccountTransactionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveAccountTransactionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeAccountTransaction: string } };
+
+export type CreateAccountingSyncLogMutationVariables = Exact<{
+  payload: CreateAccountingSyncLogInput;
+}>;
+
+
+export type CreateAccountingSyncLogMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createAccountingSyncLog: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRecordId: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordType: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRecordType: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogExternalSystemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  externalSystem: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogExternalSystemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogExternalSystem: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogExternalIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  externalId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogExternalIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogExternalId: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: SyncStatusEnum;
+}>;
+
+
+export type UpdateAccountingSyncLogStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogStatus: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogErrorMessageMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  errorMessage?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogErrorMessageMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogErrorMessage: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRequestPayloadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  requestPayload?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogRequestPayloadMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRequestPayload: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogResponsePayloadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  responsePayload?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogResponsePayloadMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogResponsePayload: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogLastSyncAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastSyncAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogLastSyncAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogLastSyncAt: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRetryCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  retryCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogRetryCountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRetryCount: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogNextRetryAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  nextRetryAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogNextRetryAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogNextRetryAt: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveAccountingSyncLogMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveAccountingSyncLogMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeAccountingSyncLog: string } };
+
+export type CreateClientAccountMutationVariables = Exact<{
+  payload: CreateClientAccountInput;
+}>;
+
+
+export type CreateClientAccountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createClientAccount: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateClientAccountClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountClientId: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountCreditLimitMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountCreditLimitMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountCreditLimit: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountAvailableCreditMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  availableCredit?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountAvailableCreditMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountAvailableCredit: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountWalletBalanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  walletBalance?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountWalletBalanceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountWalletBalance: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateClientAccountCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountCurrency: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountPaymentTermsDaysMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateClientAccountPaymentTermsDaysMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountPaymentTermsDays: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountIsCreditApprovedMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateClientAccountIsCreditApprovedMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountIsCreditApproved: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountLastPaymentDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastPaymentDate?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateClientAccountLastPaymentDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountLastPaymentDate: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type RemoveClientAccountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveClientAccountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeClientAccount: string } };
+
+export type CreateCreditNoteMutationVariables = Exact<{
+  payload: CreateCreditNoteInput;
+}>;
+
+
+export type CreateCreditNoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createCreditNote: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteInvoiceIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateCreditNoteInvoiceIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteInvoiceId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteDisputeIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  disputeId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateCreditNoteDisputeIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteDisputeId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCreditNoteNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  creditNoteNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCreditNoteCreditNoteNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCreditNoteNumber: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateCreditNoteAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteAmount: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCreditNoteReasonMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteReason: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteIssueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  issueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateCreditNoteIssueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteIssueDate: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteAppliedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  appliedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCreditNoteAppliedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteAppliedAt: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateCreditNoteCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCurrency: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateCreditNoteNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteNotes: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateCreditNoteCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCreatedByUserId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveCreditNoteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCreditNoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeCreditNote: string } };
+
+export type CreateDisputeMutationVariables = Exact<{
+  payload: CreateDisputeInput;
+}>;
+
+
+export type CreateDisputeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createDispute: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeLineItemIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lineItemId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDisputeLineItemIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeLineItemId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDisputeClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeClientId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDisputeReasonMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeReason: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: DisputeStatusEnum;
+}>;
+
+
+export type UpdateDisputeStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeStatus: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeDisputedAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  disputedAmount?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDisputeDisputedAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeDisputedAmount: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolutionNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolutionNotes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDisputeResolutionNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolutionNotes: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeSubmittedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  submittedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDisputeSubmittedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeSubmittedAt: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolvedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolvedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDisputeResolvedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolvedAt: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolvedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolvedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateDisputeResolvedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolvedByUserId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveDisputeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDisputeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeDispute: string } };
+
+export type CreateDocumentMutationVariables = Exact<{
+  payload: CreateDocumentInput;
+}>;
+
+
+export type CreateDocumentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createDocument: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDocumentRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentRecordId: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordType: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentRecordType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentDocumentTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  documentType: DocumentTypeEnum;
+}>;
+
+
+export type UpdateDocumentDocumentTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentDocumentType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFilePathMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  filePath: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentFilePathMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFilePath: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFileNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fileName: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentFileNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFileName: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFileSizeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fileSize?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDocumentFileSizeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFileSize: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentMimeTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDocumentMimeTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentMimeType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentUploadedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  uploadedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateDocumentUploadedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentUploadedByUserId: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveDocumentMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDocumentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeDocument: string } };
+
+export type CreateBillingInvoiceMutationVariables = Exact<{
+  payload: CreateBillingInvoiceInput;
+}>;
+
+
+export type CreateBillingInvoiceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createInvoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceClientId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceQuoteIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quoteId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceQuoteIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceQuoteId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceInvoiceNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceInvoiceNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceInvoiceNumber: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: InvoiceStatusEnum;
+}>;
+
+
+export type UpdateBillingInvoiceStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceStatus: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceIssueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  issueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceIssueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceIssueDate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceDueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  dueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceDueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceDueDate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceTotalAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  totalAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceTotalAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceTotalAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceAmountPaidMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amountPaid: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceAmountPaidMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceAmountPaid: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceCurrency: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceTaxAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  taxAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceTaxAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceTaxAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceDiscountAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  discountAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceDiscountAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceDiscountAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceSubtotalMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  subtotal: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceSubtotalMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceSubtotal: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoicePaymentTermsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentTerms?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoicePaymentTermsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoicePaymentTerms: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceNotes: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceSentAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sentAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceSentAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceSentAt: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoicePaidAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paidAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateBillingInvoicePaidAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoicePaidAt: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceCreatedByUserId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type RemoveBillingInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBillingInvoiceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeInvoice: string } };
+
+export type AddBillingInvoiceLineItemMutationVariables = Exact<{
+  invoiceId: Scalars['UUID']['input'];
+  payload: CreateBillingInvoiceLineItemInput;
+}>;
+
+
+export type AddBillingInvoiceLineItemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', addInvoiceLineItem: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemProductIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  productId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemProductIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemProductId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemSourceRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemSourceRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemSourceRecordId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemSourceRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemSourceRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemSourceRecordType: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemDescription: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemQuantityMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemQuantity: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemUnitPriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  unitPrice: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemUnitPriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemUnitPrice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemTaxRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  taxRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemTaxRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemTaxRate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemDiscountRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  discountRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemDiscountRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemDiscountRate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type RemoveBillingInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBillingInvoiceLineItemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeInvoiceLineItem: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type CreatePaymentMutationVariables = Exact<{
+  payload: CreatePaymentInput;
+}>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createPayment: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentInvoiceIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdatePaymentInvoiceIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentInvoiceId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdatePaymentAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentAmount: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentPaymentMethodMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentMethod: PaymentMethodEnum;
+}>;
+
+
+export type UpdatePaymentPaymentMethodMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentPaymentMethod: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentTransactionIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  transactionId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentTransactionIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentTransactionId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentGatewayReferenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  gatewayReference?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentGatewayReferenceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentGatewayReference: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: PaymentStatusEnum;
+}>;
+
+
+export type UpdatePaymentStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentStatus: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentPaymentDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentDate?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdatePaymentPaymentDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentPaymentDate: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentProcessedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdatePaymentProcessedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentProcessedAt: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentCurrency: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentExchangeRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  exchangeRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdatePaymentExchangeRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentExchangeRate: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentFeesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fees?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdatePaymentFeesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentFees: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentNotes: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentProcessedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdatePaymentProcessedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentProcessedByUserId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePaymentMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePaymentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removePayment: string } };
+
+export type CreateQuoteMutationVariables = Exact<{
+  payload: CreateQuoteInput;
+}>;
+
+
+export type CreateQuoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createQuote: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateQuoteClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteClientId: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteOriginDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  originDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateQuoteOriginDetailsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteOriginDetails: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteDestinationDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  destinationDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateQuoteDestinationDetailsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteDestinationDetails: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteWeightMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  weight?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteWeightMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteWeight: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteLengthMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  length?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteLengthMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteLength: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteWidthMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  width?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteWidthMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteWidth: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteHeightMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  height?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteHeightMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteHeight: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteQuotedPriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quotedPrice: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateQuoteQuotedPriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteQuotedPrice: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteServiceLevelMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  serviceLevel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteServiceLevelMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteServiceLevel: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteExpiresAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateQuoteExpiresAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteExpiresAt: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: QuoteStatusEnum;
+}>;
+
+
+export type UpdateQuoteStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteStatus: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteQuoteNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quoteNumber?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteQuoteNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteQuoteNumber: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteNotes: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateQuoteCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteCreatedByUserId: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveQuoteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveQuoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeQuote: string } };
+
+export type CreateRateCardMutationVariables = Exact<{
+  payload: CreateRateCardInput;
+}>;
+
+
+export type CreateRateCardMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createRateCard: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateCardNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardName: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardServiceTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  serviceType: ServiceTypeEnum;
+}>;
+
+
+export type UpdateRateCardServiceTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardServiceType: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateRateCardIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardIsActive: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardValidFromMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validFrom: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateRateCardValidFromMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardValidFrom: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardValidToMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validTo?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateRateCardValidToMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardValidTo: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateRateCardDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardDescription: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateRateCardCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardCreatedByUserId: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveRateCardMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRateCardMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeRateCard: string } };
+
+export type CreateRateRuleMutationVariables = Exact<{
+  payload: CreateRateRuleInput;
+}>;
+
+
+export type CreateRateRuleMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createRateRule: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleRateCardIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  rateCardId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateRateRuleRateCardIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleRateCardId: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleConditionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  condition: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateRuleConditionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleCondition: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  value: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateRuleValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  price: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateRateRulePriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePrice: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePricingModelMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  pricingModel: PricingModelEnum;
+}>;
+
+
+export type UpdateRateRulePricingModelMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePricingModel: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleMinValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  minValue?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateRateRuleMinValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleMinValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleMaxValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  maxValue?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateRateRuleMaxValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleMaxValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  priority?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateRateRulePriorityMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePriority: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateRateRuleIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleIsActive: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type RemoveRateRuleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRateRuleMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeRateRule: string } };
+
+export type CreateSurchargeMutationVariables = Exact<{
+  payload: CreateSurchargeInput;
+}>;
+
+
+export type CreateSurchargeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createSurcharge: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateSurchargeNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeName: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: Scalars['String']['input'];
+}>;
+
+
+export type UpdateSurchargeTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeType: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateSurchargeAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeAmount: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeCalculationMethodMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  calculationMethod: SurchargeCalculationMethodEnum;
+}>;
+
+
+export type UpdateSurchargeCalculationMethodMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeCalculationMethod: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateSurchargeIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeIsActive: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeValidFromMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validFrom?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateSurchargeValidFromMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeValidFrom: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeValidToMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validTo?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateSurchargeValidToMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeValidTo: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateSurchargeDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeDescription: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveSurchargeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveSurchargeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeSurcharge: string } };
+
 export type UploadAttachmentMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
   recordId: Scalars['UUID']['input'];
@@ -6132,86 +7371,6 @@ export type RemoveCompanyMutationVariables = Exact<{
 
 export type RemoveCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCompany: string } };
 
-export type UpdateCompanyStreetMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  street?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyStreetMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyStreet: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyCityMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  city?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyCityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyCity: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyStateMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  state?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyStateMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyState: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyPostalCodeMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  postalCode?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyPostalCodeMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyPostalCode: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyCountryMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  country?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyCountryMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyCountry: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyPhoneNumberMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyPhoneNumberMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyPhoneNumber: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyIndustryMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  industry?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyIndustryMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyIndustry: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyWebsiteMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  website?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyWebsiteMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyWebsite: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyAnnualRevenueMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  annualRevenue?: InputMaybe<Scalars['Decimal']['input']>;
-}>;
-
-
-export type UpdateCompanyAnnualRevenueMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyAnnualRevenue: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyOwnerIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  ownerId?: InputMaybe<Scalars['UUID']['input']>;
-}>;
-
-
-export type UpdateCompanyOwnerIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyOwnerId: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
 export type CreateContactMutationVariables = Exact<{
   payload: CreateContactInput;
 }>;
@@ -6226,46 +7385,6 @@ export type UpdateContactNameMutationVariables = Exact<{
 
 
 export type UpdateContactNameMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactName: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactEmailMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  email: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContactEmailMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactEmail: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactPhoneNumberMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateContactPhoneNumberMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactPhoneNumber: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactJobTitleMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  jobTitle?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateContactJobTitleMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactJobTitle: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactCompanyIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  companyId?: InputMaybe<Scalars['UUID']['input']>;
-}>;
-
-
-export type UpdateContactCompanyIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactCompanyId: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactOwnerIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  ownerId: Scalars['UUID']['input'];
-}>;
-
-
-export type UpdateContactOwnerIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactOwnerId: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
 
 export type RemoveContactMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -6763,6 +7882,1253 @@ export type RemoveTagMutationVariables = Exact<{
 
 export type RemoveTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeTag: string } };
 
+export type CreateCustomerTrackingLinkMutationVariables = Exact<{
+  payload: CreateCustomerTrackingLinkInput;
+}>;
+
+
+export type CreateCustomerTrackingLinkMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createCustomerTrackingLink: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateCustomerTrackingLinkDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkDeliveryTaskId: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkTrackingTokenMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  trackingToken: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCustomerTrackingLinkTrackingTokenMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkTrackingToken: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkIsActiveMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkIsActive: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkAccessCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  accessCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkAccessCountMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkAccessCount: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkLastAccessedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastAccessedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkLastAccessedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkLastAccessedAt: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkExpiresAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkExpiresAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkExpiresAt: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type RemoveCustomerTrackingLinkMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCustomerTrackingLinkMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeCustomerTrackingLink: string } };
+
+export type CreateDeliveryRouteMutationVariables = Exact<{
+  payload: CreateDeliveryRouteInput;
+}>;
+
+
+export type CreateDeliveryRouteMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDeliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteDriverIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  driverId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryRouteDriverIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteDriverId: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteRouteDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  routeDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateDeliveryRouteRouteDateMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteRouteDate: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status?: InputMaybe<DeliveryRouteStatusEnum>;
+}>;
+
+
+export type UpdateDeliveryRouteStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteStatus: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteOptimizedRouteDataMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteOptimizedRouteDataMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteOptimizedRouteData: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteTotalDistanceKmMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  totalDistanceKm?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteTotalDistanceKmMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteTotalDistanceKm: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteEstimatedDurationMinutesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteEstimatedDurationMinutesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteEstimatedDurationMinutes: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteActualDurationMinutesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  actualDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteActualDurationMinutesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteActualDurationMinutes: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteStartedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  startedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteStartedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteStartedAt: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteCompletedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  completedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteCompletedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteCompletedAt: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type RemoveDeliveryRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDeliveryRouteMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDeliveryRoute: string } };
+
+export type CreateDeliveryTaskMutationVariables = Exact<{
+  payload: CreateDeliveryTaskInput;
+}>;
+
+
+export type CreateDeliveryTaskMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDeliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskPackageIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  packageId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskPackageIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskPackageId: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryRouteIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryRouteId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryRouteIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryRouteId: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRouteSequenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  routeSequence: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskRouteSequenceMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRouteSequence: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryAddressMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryAddress: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryAddressMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryAddress: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRecipientNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskRecipientNameMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRecipientName: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRecipientPhoneMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientPhone?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskRecipientPhoneMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRecipientPhone: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryInstructionsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryInstructionsMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryInstructions: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskEstimatedArrivalTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  estimatedArrivalTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskEstimatedArrivalTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskEstimatedArrivalTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskActualArrivalTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  actualArrivalTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskActualArrivalTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskActualArrivalTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status?: InputMaybe<DeliveryTaskStatusEnum>;
+}>;
+
+
+export type UpdateDeliveryTaskStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskStatus: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskFailureReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  failureReason?: InputMaybe<DeliveryFailureReasonEnum>;
+}>;
+
+
+export type UpdateDeliveryTaskFailureReasonMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskFailureReason: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskAttemptCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  attemptCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskAttemptCountMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskAttemptCount: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type RemoveDeliveryTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDeliveryTaskMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDeliveryTask: string } };
+
+export type CreateDriverLocationMutationVariables = Exact<{
+  payload: CreateDriverLocationInput;
+}>;
+
+
+export type CreateDriverLocationMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDriverLocation: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationDriverIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  driverId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDriverLocationDriverIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationDriverId: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateDriverLocationLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationLatitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateDriverLocationLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationLongitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationAltitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationAltitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationAltitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationAccuracyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  accuracy?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationAccuracyMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationAccuracy: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationSpeedKmhMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  speedKmh?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationSpeedKmhMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationSpeedKmh: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationHeadingMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  heading?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationHeadingMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationHeading: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDriverLocationTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationTimestamp: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationPositionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationPositionMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationPosition: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type RemoveDriverLocationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverLocationMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDriverLocation: string } };
+
+export type CreateProofOfDeliveryMutationVariables = Exact<{
+  payload: CreateDmsProofOfDeliveryInput;
+}>;
+
+
+export type CreateProofOfDeliveryMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateProofOfDeliveryDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryDeliveryTaskId: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: ProofOfDeliveryTypeEnum;
+}>;
+
+
+export type UpdateProofOfDeliveryTypeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryType: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryFilePathMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  filePath?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryFilePathMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryFilePath: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliverySignatureDataMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  signatureData?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliverySignatureDataMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliverySignatureData: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryRecipientNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryRecipientNameMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryRecipientName: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryVerificationCodeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  verificationCode?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryVerificationCodeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryVerificationCode: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryLatitude: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryLongitude: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryTimestamp: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type RemoveProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveProofOfDeliveryMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeProofOfDelivery: string } };
+
+export type CreateTaskEventMutationVariables = Exact<{
+  payload: CreateTaskEventInput;
+}>;
+
+
+export type CreateTaskEventMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createTaskEvent: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateTaskEventDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventDeliveryTaskId: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskEventStatusEnum;
+}>;
+
+
+export type UpdateTaskEventStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventStatus: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateTaskEventReasonMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventReason: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateTaskEventNotesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventNotes: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateTaskEventLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventLatitude: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateTaskEventLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventLongitude: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateTaskEventTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventTimestamp: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type RemoveTaskEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskEventMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeTaskEvent: string } };
+
+export type CreateCarrierMutationVariables = Exact<{
+  payload: CreateCarrierInput;
+}>;
+
+
+export type CreateCarrierMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createCarrier: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierNameMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierName: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierContactDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  contactDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierContactDetailsMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierContactDetails: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierServicesOfferedMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  servicesOffered: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierServicesOfferedMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierServicesOffered: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveCarrierMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCarrierMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeCarrier: string } };
+
+export type AddCarrierRateMutationVariables = Exact<{
+  carrierId: Scalars['UUID']['input'];
+  payload: CreateCarrierRateInput;
+}>;
+
+
+export type AddCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addCarrierRate: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateCarrierRateInput;
+}>;
+
+
+export type UpdateCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierRate: { __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveCarrierRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeCarrierRate: string } };
+
+export type CreateDriverMutationVariables = Exact<{
+  payload: CreateDriverInput;
+}>;
+
+
+export type CreateDriverMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createDriver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverLicenseNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  licenseNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDriverLicenseNumberMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverLicenseNumber: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverLicenseExpiryDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  licenseExpiryDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateDriverLicenseExpiryDateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverLicenseExpiryDate: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: DriverStatusEnum;
+}>;
+
+
+export type UpdateDriverStatusMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverStatus: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveDriverMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeDriver: string } };
+
+export type AddDriverScheduleMutationVariables = Exact<{
+  driverId: Scalars['UUID']['input'];
+  payload: CreateDriverScheduleInput;
+}>;
+
+
+export type AddDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addDriverSchedule: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverScheduleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateDriverScheduleInput;
+}>;
+
+
+export type UpdateDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverSchedule: { __typename?: 'TmsDriverSchedules', id: any, startDate: any, endDate: any, reason?: DriverScheduleReasonEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveDriverScheduleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeDriverSchedule: string } };
+
+export type CreateExpenseMutationVariables = Exact<{
+  payload: CreateExpenseInput;
+}>;
+
+
+export type CreateExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createExpense: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateExpenseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateExpenseInput;
+}>;
+
+
+export type UpdateExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateExpense: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveExpenseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeExpense: string } };
+
+export type CreateGeofenceMutationVariables = Exact<{
+  payload: CreateGeofenceInput;
+}>;
+
+
+export type CreateGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGeofence: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateGeofenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateGeofenceInput;
+}>;
+
+
+export type UpdateGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateGeofence: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveGeofenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGeofence: string } };
+
+export type CreateGeofenceEventMutationVariables = Exact<{
+  payload: CreateGeofenceEventInput;
+}>;
+
+
+export type CreateGeofenceEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGeofenceEvent: { __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any } } };
+
+export type RemoveGeofenceEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGeofenceEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGeofenceEvent: string } };
+
+export type CreateGpsPingMutationVariables = Exact<{
+  payload: CreateGpsPingInput;
+}>;
+
+
+export type CreateGpsPingMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGpsPing: { __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any } } };
+
+export type RemoveGpsPingMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGpsPingMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGpsPing: string } };
+
+export type CreatePartnerInvoiceMutationVariables = Exact<{
+  payload: CreatePartnerInvoiceInput;
+}>;
+
+
+export type CreatePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createPartnerInvoice: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdatePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceInput;
+}>;
+
+
+export type UpdatePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updatePartnerInvoice: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemovePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removePartnerInvoice: string } };
+
+export type AddPartnerInvoiceItemMutationVariables = Exact<{
+  partnerInvoiceId: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceItemInput;
+}>;
+
+
+export type AddPartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addPartnerInvoiceItem: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdatePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceItemInput;
+}>;
+
+
+export type UpdatePartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updatePartnerInvoiceItem: { __typename?: 'TmsPartnerInvoiceItems', id: any, amount: any } } };
+
+export type RemovePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removePartnerInvoiceItem: string } };
+
+export type CreateTmsProofOfDeliveryMutationVariables = Exact<{
+  payload: CreateTmsProofOfDeliveryInput;
+}>;
+
+
+export type CreateTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createProofOfDelivery: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTmsProofOfDeliveryInput;
+}>;
+
+
+export type UpdateTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateProofOfDelivery: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeProofOfDelivery: string } };
+
+export type CreateRouteMutationVariables = Exact<{
+  payload: CreateRouteInput;
+}>;
+
+
+export type CreateRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createRoute: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateRouteInput;
+}>;
+
+
+export type UpdateRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateRoute: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeRoute: string } };
+
+export type CreateShipmentLegMutationVariables = Exact<{
+  payload: CreateShipmentLegInput;
+}>;
+
+
+export type CreateShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createShipmentLeg: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateShipmentLegMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateShipmentLegInput;
+}>;
+
+
+export type UpdateShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateShipmentLeg: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveShipmentLegMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeShipmentLeg: string } };
+
+export type AddShipmentLegEventMutationVariables = Exact<{
+  shipmentLegId: Scalars['UUID']['input'];
+  payload: CreateShipmentLegEventInput;
+}>;
+
+
+export type AddShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addShipmentLegEvent: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateShipmentLegEventInput;
+}>;
+
+
+export type UpdateShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateShipmentLegEvent: { __typename?: 'TmsShipmentLegEvents', id: any, statusMessage?: string | null, location?: string | null, eventTimestamp: any } } };
+
+export type RemoveShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeShipmentLegEvent: string } };
+
+export type CreateTripMutationVariables = Exact<{
+  payload: CreateTripInput;
+}>;
+
+
+export type CreateTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createTrip: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTripInput;
+}>;
+
+
+export type UpdateTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateTrip: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeTrip: string } };
+
+export type AddTripStopMutationVariables = Exact<{
+  tripId: Scalars['UUID']['input'];
+  payload: CreateTripStopInput;
+}>;
+
+
+export type AddTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addTripStop: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTripStopMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTripStopInput;
+}>;
+
+
+export type UpdateTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateTripStop: { __typename?: 'TmsTripStops', id: any, shipmentId?: any | null, sequence: number, address?: string | null, status?: TripStopStatusEnum | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, estimatedDepartureTime?: any | null, actualDepartureTime?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTripStopMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeTripStop: string } };
+
+export type CreateVehicleMaintenanceMutationVariables = Exact<{
+  payload: CreateVehicleMaintenanceInput;
+}>;
+
+
+export type CreateVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createVehicleMaintenance: { __typename?: 'TmsVehicleMaintenance', id: any, serviceDate: any, serviceType?: VehicleServiceTypeEnum | null, cost?: any | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateVehicleMaintenanceInput;
+}>;
+
+
+export type UpdateVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateVehicleMaintenance: { __typename?: 'TmsVehicleMaintenance', id: any, serviceDate: any, serviceType?: VehicleServiceTypeEnum | null, cost?: any | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeVehicleMaintenance: string } };
+
+export type CreateVehicleMutationVariables = Exact<{
+  payload: CreateVehicleInput;
+}>;
+
+
+export type CreateVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createVehicle: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateVehicleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateVehicleInput;
+}>;
+
+
+export type UpdateVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateVehicle: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveVehicleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeVehicle: string } };
+
+export type CreateBinThresholdMutationVariables = Exact<{
+  payload: CreateBinThresholdInput;
+}>;
+
+
+export type CreateBinThresholdMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createBinThreshold: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } } };
+
+export type UpdateBinThresholdMinQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  minQuantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateBinThresholdMinQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateBinThresholdMinQuantity: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } } };
+
+export type RemoveBinThresholdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBinThresholdMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeBinThreshold: string } };
+
+export type CreateInventoryStockMutationVariables = Exact<{
+  payload: CreateInventoryStockInput;
+}>;
+
+
+export type CreateInventoryStockMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createInventoryStock: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdateInventoryStockQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateInventoryStockQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateInventoryStockQuantity: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type RemoveInventoryStockMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInventoryStockMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeInventoryStock: string } };
+
+export type CreateLocationMutationVariables = Exact<{
+  payload: CreateLocationInput;
+}>;
+
+
+export type CreateLocationMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createLocation: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdateLocationNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateLocationNameMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateLocationName: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemoveLocationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveLocationMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeLocation: string } };
+
+export type CreatePackageMutationVariables = Exact<{
+  payload: CreatePackageInput;
+}>;
+
+
+export type CreatePackageMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPackage: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePackageTrackingNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  trackingNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdatePackageTrackingNumberMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePackageTrackingNumber: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePackageMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePackageMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePackage: string } };
+
+export type AddPackageItemMutationVariables = Exact<{
+  packageId: Scalars['UUID']['input'];
+  payload: CreatePackageItemInput;
+}>;
+
+
+export type AddPackageItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addPackageItem: { __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdatePackageItemQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePackageItemQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePackageItemQuantity: { __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type RemovePackageItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePackageItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePackageItem: string } };
+
+export type CreatePickBatchMutationVariables = Exact<{
+  payload: CreatePickBatchInput;
+}>;
+
+
+export type CreatePickBatchMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePickBatchStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: PickBatchStatusEnum;
+}>;
+
+
+export type UpdatePickBatchStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePickBatchStatus: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePickBatchMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePickBatchMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePickBatch: string } };
+
+export type AddPickBatchItemMutationVariables = Exact<{
+  pickBatchId: Scalars['UUID']['input'];
+  payload: CreatePickBatchItemInput;
+}>;
+
+
+export type AddPickBatchItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addPickBatchItem: { __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, createdAt?: any | null, updatedAt?: any | null, pickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } } } };
+
+export type UpdatePickBatchItemPriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  orderPriority: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePickBatchItemPriorityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePickBatchItemPriority: { __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, createdAt?: any | null, updatedAt?: any | null, pickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } } } };
+
+export type RemovePickBatchItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePickBatchItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePickBatchItem: string } };
+
+export type CreatePutawayRuleMutationVariables = Exact<{
+  payload: CreatePutawayRuleInput;
+}>;
+
+
+export type CreatePutawayRuleMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPutawayRule: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdatePutawayRulePriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  priority: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePutawayRulePriorityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePutawayRulePriority: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemovePutawayRuleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePutawayRuleMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePutawayRule: string } };
+
+export type CreateTaskMutationVariables = Exact<{
+  payload: CreateTaskInput;
+}>;
+
+
+export type CreateTaskMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createTask: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdateTaskStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskStatusEnum;
+}>;
+
+
+export type UpdateTaskStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateTaskStatus: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null } } };
+
+export type RemoveTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeTask: string } };
+
+export type AddTaskItemMutationVariables = Exact<{
+  taskId: Scalars['UUID']['input'];
+  payload: CreateTaskItemInput;
+}>;
+
+
+export type AddTaskItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addTaskItem: { __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, task: { __typename?: 'WmsTasks', id: any, taskNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdateTaskItemStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskItemStatusEnum;
+}>;
+
+
+export type UpdateTaskItemStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateTaskItemStatus: { __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, task: { __typename?: 'WmsTasks', id: any, taskNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemoveTaskItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeTaskItem: string } };
+
+export type CreateWarehouseMutationVariables = Exact<{
+  payload: CreateWarehouseInput;
+}>;
+
+
+export type CreateWarehouseMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateWarehouseNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateWarehouseNameMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateWarehouseName: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveWarehouseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveWarehouseMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeWarehouse: string } };
+
+export type GetClientAccountQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetClientAccountQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', clientAccount?: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } | null } };
+
+export type GetClientAccountsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetClientAccountsQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', clientAccounts: Array<{ __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } }> } };
+
+export type GetBillingInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetBillingInvoiceQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', invoice?: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } | null } };
+
+export type GetBillingInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetBillingInvoicesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', invoices: Array<{ __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> }> } };
+
+export type GetQuoteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetQuoteQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', quote?: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } | null } };
+
+export type GetQuotesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetQuotesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', quotes: Array<{ __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null }> } };
+
+export type GetRateCardQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRateCardQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', rateCard?: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } | null } };
+
+export type GetRateCardsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetRateCardsQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', rateCards: Array<{ __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null }> } };
+
+export type GetSurchargeQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSurchargeQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', surcharge?: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetSurchargesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSurchargesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', surcharges: Array<{ __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
 export type GetAttachmentQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
@@ -6853,20 +9219,20 @@ export type GetInteractionsQueryVariables = Exact<{
 
 export type GetInteractionsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interactions: Array<{ __typename?: 'CrmInteractions', id: any, type?: InteractionType | null, outcome?: string | null, notes?: string | null, interactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, contact: { __typename?: 'CrmContacts', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string }, case?: { __typename?: 'CrmCases', id: any, caseNumber: string } | null }> } };
 
-export type GetInvoiceQueryVariables = Exact<{
+export type GetCrmInvoiceQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
 
 
-export type GetInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null, items: Array<{ __typename?: 'CrmInvoiceItems', id: any, quantity: number, price: any, product: { __typename?: 'CrmProducts', id: any, name: string } }> } | null } };
+export type GetCrmInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null, items: Array<{ __typename?: 'CrmInvoiceItems', id: any, quantity: number, price: any, product: { __typename?: 'CrmProducts', id: any, name: string } }> } | null } };
 
-export type GetInvoicesQueryVariables = Exact<{
+export type GetCrmInvoicesQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 }>;
 
 
-export type GetInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
+export type GetCrmInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
 
 export type GetLeadQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -6942,6 +9308,531 @@ export type GetTagsQueryVariables = Exact<{
 
 
 export type GetTagsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tags: Array<{ __typename?: 'CrmTags', id: any, name: string, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetCustomerTrackingLinkQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetCustomerTrackingLinkQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', customerTrackingLink?: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } | null } };
+
+export type GetCustomerTrackingLinksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetCustomerTrackingLinksQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', customerTrackingLinks: Array<{ __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } }> } };
+
+export type GetDeliveryRouteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDeliveryRouteQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryRoute?: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } | null } };
+
+export type GetDeliveryRoutesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDeliveryRoutesQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryRoutes: Array<{ __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } }> } };
+
+export type GetDeliveryTaskQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDeliveryTaskQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryTask?: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } | null } };
+
+export type GetDeliveryTasksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDeliveryTasksQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryTasks: Array<{ __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } }> } };
+
+export type GetDriverLocationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDriverLocationQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', driverLocation?: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } | null } };
+
+export type GetDriverLocationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDriverLocationsQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', driverLocations: Array<{ __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } }> } };
+
+export type GetDmsProofOfDeliveryQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDmsProofOfDeliveryQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', proofOfDelivery?: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } | null } };
+
+export type GetDmsProofOfDeliveriesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDmsProofOfDeliveriesQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', proofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } }> } };
+
+export type GetTaskEventQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTaskEventQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', taskEvent?: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } | null } };
+
+export type GetTaskEventsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTaskEventsQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', taskEvents: Array<{ __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } }> } };
+
+export type GetCarrierQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetCarrierQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', carrier?: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null, rates: Array<{ __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null }> } | null } };
+
+export type GetCarriersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetCarriersQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', carriers: Array<{ __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null, rates: Array<{ __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null }> }> } };
+
+export type GetDriverQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDriverQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', driver?: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetDriversQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDriversQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', drivers: Array<{ __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetExpenseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetExpenseQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', expense?: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetExpensesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetExpensesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', expenses: Array<{ __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetGeofenceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetGeofenceQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', geofence?: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null, events: Array<{ __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any }> } | null } };
+
+export type GetGeofencesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetGeofencesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', geofences: Array<{ __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null, events: Array<{ __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any }> }> } };
+
+export type GetGpsPingQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetGpsPingQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', gpsPing?: { __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any } | null } };
+
+export type GetGpsPingsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetGpsPingsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', gpsPings: Array<{ __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any }> } };
+
+export type GetPartnerInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPartnerInvoiceQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', partnerInvoice?: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetPartnerInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPartnerInvoicesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', partnerInvoices: Array<{ __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTmsProofOfDeliveryQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTmsProofOfDeliveryQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', proofOfDelivery?: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetTmsProofOfDeliveriesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTmsProofOfDeliveriesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', proofOfDeliveries: Array<{ __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetRouteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRouteQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', route?: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetRoutesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetRoutesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', routes: Array<{ __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetShipmentLegQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetShipmentLegQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', shipmentLeg?: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetShipmentLegsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetShipmentLegsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', shipmentLegs: Array<{ __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTripQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTripQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', trip?: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetTripsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTripsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', trips: Array<{ __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetVehicleQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetVehicleQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', vehicle?: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetVehiclesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetVehiclesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', vehicles: Array<{ __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetBinThresholdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetBinThresholdQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', binThreshold?: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } | null } };
+
+export type GetBinThresholdsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetBinThresholdsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', binThresholds: Array<{ __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } }> } };
+
+export type GetInboundShipmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInboundShipmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inboundShipment?: { __typename?: 'ImsInboundShipments', id: any, status?: InboundShipmentStatusEnum | null, expectedArrivalDate?: any | null, actualArrivalDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, items: Array<{ __typename?: 'ImsInboundShipmentItems', id: any, expectedQuantity: number, receivedQuantity?: number | null, discrepancyQuantity?: number | null, discrepancyNotes?: string | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> } | null } };
+
+export type GetInboundShipmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInboundShipmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inboundShipments: Array<{ __typename?: 'ImsInboundShipments', id: any, status?: InboundShipmentStatusEnum | null, expectedArrivalDate?: any | null, actualArrivalDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, items: Array<{ __typename?: 'ImsInboundShipmentItems', id: any, expectedQuantity: number, receivedQuantity?: number | null, discrepancyQuantity?: number | null, discrepancyNotes?: string | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> }> } };
+
+export type GetInventoryAdjustmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryAdjustmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryAdjustment?: { __typename?: 'ImsInventoryAdjustments', id: any, quantityChange: number, reason?: InventoryAdjustmentReasonEnum | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string } } | null } };
+
+export type GetInventoryAdjustmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryAdjustmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryAdjustments: Array<{ __typename?: 'ImsInventoryAdjustments', id: any, quantityChange: number, reason?: InventoryAdjustmentReasonEnum | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string } }> } };
+
+export type GetInventoryBatchQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryBatchQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryBatch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string, expirationDate?: any | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string } } | null } };
+
+export type GetInventoryBatchesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryBatchesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryBatches: Array<{ __typename?: 'ImsInventoryBatches', id: any, batchNumber: string, expirationDate?: any | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> } };
+
+export type GetInventoryStockItemQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryStockItemQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryStockItem?: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } | null } };
+
+export type GetInventoryStockQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryStockQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryStock: Array<{ __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } };
+
+export type GetLocationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetLocationQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', location?: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } | null } };
+
+export type GetLocationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetLocationsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', locations: Array<{ __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } };
+
+export type GetOutboundShipmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetOutboundShipmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', outboundShipment?: { __typename?: 'ImsOutboundShipments', id: any, status?: OutboundShipmentStatusEnum | null, trackingNumber?: string | null, carrier?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, items: Array<{ __typename?: 'ImsOutboundShipmentItems', id: any, quantityShipped: number, product: { __typename?: 'ImsProducts', id: any, name: string }, salesOrderItem: { __typename?: 'ImsSalesOrderItems', id: any, quantityOrdered: number }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } | null } };
+
+export type GetOutboundShipmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetOutboundShipmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', outboundShipments: Array<{ __typename?: 'ImsOutboundShipments', id: any, status?: OutboundShipmentStatusEnum | null, trackingNumber?: string | null, carrier?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, items: Array<{ __typename?: 'ImsOutboundShipmentItems', id: any, quantityShipped: number, product: { __typename?: 'ImsProducts', id: any, name: string }, salesOrderItem: { __typename?: 'ImsSalesOrderItems', id: any, quantityOrdered: number }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> }> } };
+
+export type GetPackageQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPackageQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', package?: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } | null } };
+
+export type GetPackagesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPackagesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', packages: Array<{ __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> }> } };
+
+export type GetPickBatchQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPickBatchQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } }> } | null } };
+
+export type GetPickBatchesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPickBatchesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', pickBatches: Array<{ __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } }> }> } };
+
+export type GetWmsProductQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetWmsProductQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', product?: { __typename?: 'ImsProducts', id: any, name: string, sku: string, barcode?: string | null, description?: string | null, costPrice?: any | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, weight?: number | null, status?: ProductStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, supplier?: { __typename?: 'ImsSuppliers', id: any, name: string } | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null } | null } };
+
+export type GetWmsProductsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetWmsProductsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', products: Array<{ __typename?: 'ImsProducts', id: any, name: string, sku: string, barcode?: string | null, description?: string | null, costPrice?: any | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, weight?: number | null, status?: ProductStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, supplier?: { __typename?: 'ImsSuppliers', id: any, name: string } | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null }> } };
+
+export type GetPutawayRuleQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPutawayRuleQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', putawayRule?: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } | null } };
+
+export type GetPutawayRulesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPutawayRulesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', putawayRules: Array<{ __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } };
+
+export type GetReorderPointQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetReorderPointQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', reorderPoint?: { __typename?: 'Model', id: any, threshold: number, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetReorderPointsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetReorderPointsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', reorderPoints: Array<{ __typename?: 'Model', id: any, threshold: number, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetReturnItemQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetReturnItemQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', returnItem?: { __typename?: 'ImsReturns', id: any, returnNumber: string, status?: ReturnStatusEnum | null, reason?: string | null, createdAt?: any | null, updatedAt?: any | null, salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } | null } };
+
+export type GetReturnsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetReturnsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', returns: Array<{ __typename?: 'ImsReturns', id: any, returnNumber: string, status?: ReturnStatusEnum | null, reason?: string | null, createdAt?: any | null, updatedAt?: any | null, salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } | null, client: { __typename?: 'CrmCompanies', id: any, name: string } }> } };
+
+export type GetSalesOrderQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSalesOrderQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string, status?: SalesOrderStatusEnum | null, shippingAddress?: string | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, opportunities?: { __typename?: 'CrmOpportunities', id: any, name: string } | null } | null } };
+
+export type GetSalesOrdersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSalesOrdersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', salesOrders: Array<{ __typename?: 'ImsSalesOrders', id: any, orderNumber: string, status?: SalesOrderStatusEnum | null, shippingAddress?: string | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, opportunities?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
+
+export type GetStockTransferQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetStockTransferQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', stockTransfer?: { __typename?: 'ImsStockTransfer', id: any, quantity: number, status?: StockTransferStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, sourceWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, destinationWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string } } | null } };
+
+export type GetStockTransfersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetStockTransfersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', stockTransfers: Array<{ __typename?: 'ImsStockTransfer', id: any, quantity: number, status?: StockTransferStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, sourceWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, destinationWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string } }> } };
+
+export type GetSupplierQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSupplierQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', supplier?: { __typename?: 'ImsSuppliers', id: any, name: string, contactPerson?: string | null, email?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetSuppliersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSuppliersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', suppliers: Array<{ __typename?: 'ImsSuppliers', id: any, name: string, contactPerson?: string | null, email?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTaskQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTaskQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', task?: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null, items: Array<{ __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } | null } };
+
+export type GetTasksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTasksQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', tasks: Array<{ __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null, items: Array<{ __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> }> } };
+
+export type GetWarehouseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetWarehouseQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', warehouse?: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, locations: Array<{ __typename?: 'WmsLocations', id: any, name: string }> } | null } };
+
+export type GetWarehousesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetWarehousesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', warehouses: Array<{ __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, locations: Array<{ __typename?: 'WmsLocations', id: any, name: string }> }> } };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -7027,6 +9918,4426 @@ export const ChangePasswordDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CreateAccountTransactionDocument = new TypedDocumentString(`
+    mutation CreateAccountTransaction($payload: CreateAccountTransactionInput!) {
+  billing {
+    createAccountTransaction(payload: $payload) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAccountTransactionMutation, CreateAccountTransactionMutationVariables>;
+export const UpdateAccountTransactionClientAccountIdDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionClientAccountId($id: UUID!, $clientAccountId: UUID!) {
+  billing {
+    updateAccountTransactionClientAccountId(
+      id: $id
+      clientAccountId: $clientAccountId
+    ) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionClientAccountIdMutation, UpdateAccountTransactionClientAccountIdMutationVariables>;
+export const UpdateAccountTransactionTypeDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionType($id: UUID!, $type: TransactionTypeEnum!) {
+  billing {
+    updateAccountTransactionType(id: $id, type: $type) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionTypeMutation, UpdateAccountTransactionTypeMutationVariables>;
+export const UpdateAccountTransactionAmountDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionAmount($id: UUID!, $amount: Float!) {
+  billing {
+    updateAccountTransactionAmount(id: $id, amount: $amount) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionAmountMutation, UpdateAccountTransactionAmountMutationVariables>;
+export const UpdateAccountTransactionRunningBalanceDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionRunningBalance($id: UUID!, $runningBalance: Float) {
+  billing {
+    updateAccountTransactionRunningBalance(id: $id, runningBalance: $runningBalance) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionRunningBalanceMutation, UpdateAccountTransactionRunningBalanceMutationVariables>;
+export const UpdateAccountTransactionSourceRecordIdDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionSourceRecordId($id: UUID!, $sourceRecordId: UUID) {
+  billing {
+    updateAccountTransactionSourceRecordId(id: $id, sourceRecordId: $sourceRecordId) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionSourceRecordIdMutation, UpdateAccountTransactionSourceRecordIdMutationVariables>;
+export const UpdateAccountTransactionSourceRecordTypeDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionSourceRecordType($id: UUID!, $sourceRecordType: String) {
+  billing {
+    updateAccountTransactionSourceRecordType(
+      id: $id
+      sourceRecordType: $sourceRecordType
+    ) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionSourceRecordTypeMutation, UpdateAccountTransactionSourceRecordTypeMutationVariables>;
+export const UpdateAccountTransactionDescriptionDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionDescription($id: UUID!, $description: String) {
+  billing {
+    updateAccountTransactionDescription(id: $id, description: $description) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionDescriptionMutation, UpdateAccountTransactionDescriptionMutationVariables>;
+export const UpdateAccountTransactionReferenceNumberDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionReferenceNumber($id: UUID!, $referenceNumber: String) {
+  billing {
+    updateAccountTransactionReferenceNumber(
+      id: $id
+      referenceNumber: $referenceNumber
+    ) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionReferenceNumberMutation, UpdateAccountTransactionReferenceNumberMutationVariables>;
+export const UpdateAccountTransactionTransactionDateDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionTransactionDate($id: UUID!, $transactionDate: DateTime) {
+  billing {
+    updateAccountTransactionTransactionDate(
+      id: $id
+      transactionDate: $transactionDate
+    ) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionTransactionDateMutation, UpdateAccountTransactionTransactionDateMutationVariables>;
+export const UpdateAccountTransactionProcessedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransactionProcessedByUserId($id: UUID!, $processedByUserId: UUID) {
+  billing {
+    updateAccountTransactionProcessedByUserId(
+      id: $id
+      processedByUserId: $processedByUserId
+    ) {
+      id
+      type
+      amount
+      runningBalance
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
+      clientAccount {
+        id
+        walletBalance
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionProcessedByUserIdMutation, UpdateAccountTransactionProcessedByUserIdMutationVariables>;
+export const RemoveAccountTransactionDocument = new TypedDocumentString(`
+    mutation RemoveAccountTransaction($id: UUID!) {
+  billing {
+    removeAccountTransaction(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveAccountTransactionMutation, RemoveAccountTransactionMutationVariables>;
+export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
+    mutation CreateAccountingSyncLog($payload: CreateAccountingSyncLogInput!) {
+  billing {
+    createAccountingSyncLog(payload: $payload) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAccountingSyncLogMutation, CreateAccountingSyncLogMutationVariables>;
+export const UpdateAccountingSyncLogRecordIdDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogRecordId($id: UUID!, $recordId: UUID!) {
+  billing {
+    updateAccountingSyncLogRecordId(id: $id, recordId: $recordId) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogRecordIdMutation, UpdateAccountingSyncLogRecordIdMutationVariables>;
+export const UpdateAccountingSyncLogRecordTypeDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogRecordType($id: UUID!, $recordType: String!) {
+  billing {
+    updateAccountingSyncLogRecordType(id: $id, recordType: $recordType) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogRecordTypeMutation, UpdateAccountingSyncLogRecordTypeMutationVariables>;
+export const UpdateAccountingSyncLogExternalSystemDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogExternalSystem($id: UUID!, $externalSystem: String!) {
+  billing {
+    updateAccountingSyncLogExternalSystem(id: $id, externalSystem: $externalSystem) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogExternalSystemMutation, UpdateAccountingSyncLogExternalSystemMutationVariables>;
+export const UpdateAccountingSyncLogExternalIdDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogExternalId($id: UUID!, $externalId: String) {
+  billing {
+    updateAccountingSyncLogExternalId(id: $id, externalId: $externalId) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogExternalIdMutation, UpdateAccountingSyncLogExternalIdMutationVariables>;
+export const UpdateAccountingSyncLogStatusDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogStatus($id: UUID!, $status: SyncStatusEnum!) {
+  billing {
+    updateAccountingSyncLogStatus(id: $id, status: $status) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogStatusMutation, UpdateAccountingSyncLogStatusMutationVariables>;
+export const UpdateAccountingSyncLogErrorMessageDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogErrorMessage($id: UUID!, $errorMessage: String) {
+  billing {
+    updateAccountingSyncLogErrorMessage(id: $id, errorMessage: $errorMessage) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogErrorMessageMutation, UpdateAccountingSyncLogErrorMessageMutationVariables>;
+export const UpdateAccountingSyncLogRequestPayloadDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogRequestPayload($id: UUID!, $requestPayload: String) {
+  billing {
+    updateAccountingSyncLogRequestPayload(id: $id, requestPayload: $requestPayload) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogRequestPayloadMutation, UpdateAccountingSyncLogRequestPayloadMutationVariables>;
+export const UpdateAccountingSyncLogResponsePayloadDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogResponsePayload($id: UUID!, $responsePayload: String) {
+  billing {
+    updateAccountingSyncLogResponsePayload(
+      id: $id
+      responsePayload: $responsePayload
+    ) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogResponsePayloadMutation, UpdateAccountingSyncLogResponsePayloadMutationVariables>;
+export const UpdateAccountingSyncLogLastSyncAtDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogLastSyncAt($id: UUID!, $lastSyncAt: DateTime) {
+  billing {
+    updateAccountingSyncLogLastSyncAt(id: $id, lastSyncAt: $lastSyncAt) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogLastSyncAtMutation, UpdateAccountingSyncLogLastSyncAtMutationVariables>;
+export const UpdateAccountingSyncLogRetryCountDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogRetryCount($id: UUID!, $retryCount: Int) {
+  billing {
+    updateAccountingSyncLogRetryCount(id: $id, retryCount: $retryCount) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogRetryCountMutation, UpdateAccountingSyncLogRetryCountMutationVariables>;
+export const UpdateAccountingSyncLogNextRetryAtDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLogNextRetryAt($id: UUID!, $nextRetryAt: DateTime) {
+  billing {
+    updateAccountingSyncLogNextRetryAt(id: $id, nextRetryAt: $nextRetryAt) {
+      id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogNextRetryAtMutation, UpdateAccountingSyncLogNextRetryAtMutationVariables>;
+export const RemoveAccountingSyncLogDocument = new TypedDocumentString(`
+    mutation RemoveAccountingSyncLog($id: UUID!) {
+  billing {
+    removeAccountingSyncLog(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveAccountingSyncLogMutation, RemoveAccountingSyncLogMutationVariables>;
+export const CreateClientAccountDocument = new TypedDocumentString(`
+    mutation CreateClientAccount($payload: CreateClientAccountInput!) {
+  billing {
+    createClientAccount(payload: $payload) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateClientAccountMutation, CreateClientAccountMutationVariables>;
+export const UpdateClientAccountClientIdDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountClientId($id: UUID!, $clientId: UUID!) {
+  billing {
+    updateClientAccountClientId(id: $id, clientId: $clientId) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountClientIdMutation, UpdateClientAccountClientIdMutationVariables>;
+export const UpdateClientAccountCreditLimitDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountCreditLimit($id: UUID!, $creditLimit: Float) {
+  billing {
+    updateClientAccountCreditLimit(id: $id, creditLimit: $creditLimit) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountCreditLimitMutation, UpdateClientAccountCreditLimitMutationVariables>;
+export const UpdateClientAccountAvailableCreditDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountAvailableCredit($id: UUID!, $availableCredit: Float) {
+  billing {
+    updateClientAccountAvailableCredit(id: $id, availableCredit: $availableCredit) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountAvailableCreditMutation, UpdateClientAccountAvailableCreditMutationVariables>;
+export const UpdateClientAccountWalletBalanceDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountWalletBalance($id: UUID!, $walletBalance: Float) {
+  billing {
+    updateClientAccountWalletBalance(id: $id, walletBalance: $walletBalance) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountWalletBalanceMutation, UpdateClientAccountWalletBalanceMutationVariables>;
+export const UpdateClientAccountCurrencyDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountCurrency($id: UUID!, $currency: String) {
+  billing {
+    updateClientAccountCurrency(id: $id, currency: $currency) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountCurrencyMutation, UpdateClientAccountCurrencyMutationVariables>;
+export const UpdateClientAccountPaymentTermsDaysDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountPaymentTermsDays($id: UUID!, $paymentTermsDays: Int) {
+  billing {
+    updateClientAccountPaymentTermsDays(
+      id: $id
+      paymentTermsDays: $paymentTermsDays
+    ) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountPaymentTermsDaysMutation, UpdateClientAccountPaymentTermsDaysMutationVariables>;
+export const UpdateClientAccountIsCreditApprovedDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountIsCreditApproved($id: UUID!, $isCreditApproved: Boolean) {
+  billing {
+    updateClientAccountIsCreditApproved(
+      id: $id
+      isCreditApproved: $isCreditApproved
+    ) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountIsCreditApprovedMutation, UpdateClientAccountIsCreditApprovedMutationVariables>;
+export const UpdateClientAccountLastPaymentDateDocument = new TypedDocumentString(`
+    mutation UpdateClientAccountLastPaymentDate($id: UUID!, $lastPaymentDate: NaiveDate) {
+  billing {
+    updateClientAccountLastPaymentDate(id: $id, lastPaymentDate: $lastPaymentDate) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountLastPaymentDateMutation, UpdateClientAccountLastPaymentDateMutationVariables>;
+export const RemoveClientAccountDocument = new TypedDocumentString(`
+    mutation RemoveClientAccount($id: UUID!) {
+  billing {
+    removeClientAccount(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveClientAccountMutation, RemoveClientAccountMutationVariables>;
+export const CreateCreditNoteDocument = new TypedDocumentString(`
+    mutation CreateCreditNote($payload: CreateCreditNoteInput!) {
+  billing {
+    createCreditNote(payload: $payload) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCreditNoteMutation, CreateCreditNoteMutationVariables>;
+export const UpdateCreditNoteInvoiceIdDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteInvoiceId($id: UUID!, $invoiceId: UUID!) {
+  billing {
+    updateCreditNoteInvoiceId(id: $id, invoiceId: $invoiceId) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteInvoiceIdMutation, UpdateCreditNoteInvoiceIdMutationVariables>;
+export const UpdateCreditNoteDisputeIdDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteDisputeId($id: UUID!, $disputeId: UUID) {
+  billing {
+    updateCreditNoteDisputeId(id: $id, disputeId: $disputeId) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteDisputeIdMutation, UpdateCreditNoteDisputeIdMutationVariables>;
+export const UpdateCreditNoteCreditNoteNumberDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteCreditNoteNumber($id: UUID!, $creditNoteNumber: String!) {
+  billing {
+    updateCreditNoteCreditNoteNumber(id: $id, creditNoteNumber: $creditNoteNumber) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteCreditNoteNumberMutation, UpdateCreditNoteCreditNoteNumberMutationVariables>;
+export const UpdateCreditNoteAmountDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteAmount($id: UUID!, $amount: Float!) {
+  billing {
+    updateCreditNoteAmount(id: $id, amount: $amount) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteAmountMutation, UpdateCreditNoteAmountMutationVariables>;
+export const UpdateCreditNoteReasonDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteReason($id: UUID!, $reason: String!) {
+  billing {
+    updateCreditNoteReason(id: $id, reason: $reason) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteReasonMutation, UpdateCreditNoteReasonMutationVariables>;
+export const UpdateCreditNoteIssueDateDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteIssueDate($id: UUID!, $issueDate: NaiveDate!) {
+  billing {
+    updateCreditNoteIssueDate(id: $id, issueDate: $issueDate) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteIssueDateMutation, UpdateCreditNoteIssueDateMutationVariables>;
+export const UpdateCreditNoteAppliedAtDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteAppliedAt($id: UUID!, $appliedAt: DateTime) {
+  billing {
+    updateCreditNoteAppliedAt(id: $id, appliedAt: $appliedAt) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteAppliedAtMutation, UpdateCreditNoteAppliedAtMutationVariables>;
+export const UpdateCreditNoteCurrencyDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteCurrency($id: UUID!, $currency: String) {
+  billing {
+    updateCreditNoteCurrency(id: $id, currency: $currency) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteCurrencyMutation, UpdateCreditNoteCurrencyMutationVariables>;
+export const UpdateCreditNoteNotesDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteNotes($id: UUID!, $notes: String) {
+  billing {
+    updateCreditNoteNotes(id: $id, notes: $notes) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteNotesMutation, UpdateCreditNoteNotesMutationVariables>;
+export const UpdateCreditNoteCreatedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateCreditNoteCreatedByUserId($id: UUID!, $createdByUserId: UUID) {
+  billing {
+    updateCreditNoteCreatedByUserId(id: $id, createdByUserId: $createdByUserId) {
+      id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      dispute {
+        id
+        reason
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteCreatedByUserIdMutation, UpdateCreditNoteCreatedByUserIdMutationVariables>;
+export const RemoveCreditNoteDocument = new TypedDocumentString(`
+    mutation RemoveCreditNote($id: UUID!) {
+  billing {
+    removeCreditNote(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCreditNoteMutation, RemoveCreditNoteMutationVariables>;
+export const CreateDisputeDocument = new TypedDocumentString(`
+    mutation CreateDispute($payload: CreateDisputeInput!) {
+  billing {
+    createDispute(payload: $payload) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDisputeMutation, CreateDisputeMutationVariables>;
+export const UpdateDisputeLineItemIdDocument = new TypedDocumentString(`
+    mutation UpdateDisputeLineItemId($id: UUID!, $lineItemId: UUID!) {
+  billing {
+    updateDisputeLineItemId(id: $id, lineItemId: $lineItemId) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeLineItemIdMutation, UpdateDisputeLineItemIdMutationVariables>;
+export const UpdateDisputeClientIdDocument = new TypedDocumentString(`
+    mutation UpdateDisputeClientId($id: UUID!, $clientId: UUID!) {
+  billing {
+    updateDisputeClientId(id: $id, clientId: $clientId) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeClientIdMutation, UpdateDisputeClientIdMutationVariables>;
+export const UpdateDisputeReasonDocument = new TypedDocumentString(`
+    mutation UpdateDisputeReason($id: UUID!, $reason: String!) {
+  billing {
+    updateDisputeReason(id: $id, reason: $reason) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeReasonMutation, UpdateDisputeReasonMutationVariables>;
+export const UpdateDisputeStatusDocument = new TypedDocumentString(`
+    mutation UpdateDisputeStatus($id: UUID!, $status: DisputeStatusEnum!) {
+  billing {
+    updateDisputeStatus(id: $id, status: $status) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeStatusMutation, UpdateDisputeStatusMutationVariables>;
+export const UpdateDisputeDisputedAmountDocument = new TypedDocumentString(`
+    mutation UpdateDisputeDisputedAmount($id: UUID!, $disputedAmount: Float) {
+  billing {
+    updateDisputeDisputedAmount(id: $id, disputedAmount: $disputedAmount) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeDisputedAmountMutation, UpdateDisputeDisputedAmountMutationVariables>;
+export const UpdateDisputeResolutionNotesDocument = new TypedDocumentString(`
+    mutation UpdateDisputeResolutionNotes($id: UUID!, $resolutionNotes: String) {
+  billing {
+    updateDisputeResolutionNotes(id: $id, resolutionNotes: $resolutionNotes) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeResolutionNotesMutation, UpdateDisputeResolutionNotesMutationVariables>;
+export const UpdateDisputeSubmittedAtDocument = new TypedDocumentString(`
+    mutation UpdateDisputeSubmittedAt($id: UUID!, $submittedAt: DateTime) {
+  billing {
+    updateDisputeSubmittedAt(id: $id, submittedAt: $submittedAt) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeSubmittedAtMutation, UpdateDisputeSubmittedAtMutationVariables>;
+export const UpdateDisputeResolvedAtDocument = new TypedDocumentString(`
+    mutation UpdateDisputeResolvedAt($id: UUID!, $resolvedAt: DateTime) {
+  billing {
+    updateDisputeResolvedAt(id: $id, resolvedAt: $resolvedAt) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeResolvedAtMutation, UpdateDisputeResolvedAtMutationVariables>;
+export const UpdateDisputeResolvedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateDisputeResolvedByUserId($id: UUID!, $resolvedByUserId: UUID) {
+  billing {
+    updateDisputeResolvedByUserId(id: $id, resolvedByUserId: $resolvedByUserId) {
+      id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
+      invoiceLineItem {
+        id
+        description
+      }
+      client {
+        id
+        name
+      }
+      resolvedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeResolvedByUserIdMutation, UpdateDisputeResolvedByUserIdMutationVariables>;
+export const RemoveDisputeDocument = new TypedDocumentString(`
+    mutation RemoveDispute($id: UUID!) {
+  billing {
+    removeDispute(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDisputeMutation, RemoveDisputeMutationVariables>;
+export const CreateDocumentDocument = new TypedDocumentString(`
+    mutation CreateDocument($payload: CreateDocumentInput!) {
+  billing {
+    createDocument(payload: $payload) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export const UpdateDocumentRecordIdDocument = new TypedDocumentString(`
+    mutation UpdateDocumentRecordId($id: UUID!, $recordId: UUID!) {
+  billing {
+    updateDocumentRecordId(id: $id, recordId: $recordId) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentRecordIdMutation, UpdateDocumentRecordIdMutationVariables>;
+export const UpdateDocumentRecordTypeDocument = new TypedDocumentString(`
+    mutation UpdateDocumentRecordType($id: UUID!, $recordType: String!) {
+  billing {
+    updateDocumentRecordType(id: $id, recordType: $recordType) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentRecordTypeMutation, UpdateDocumentRecordTypeMutationVariables>;
+export const UpdateDocumentDocumentTypeDocument = new TypedDocumentString(`
+    mutation UpdateDocumentDocumentType($id: UUID!, $documentType: DocumentTypeEnum!) {
+  billing {
+    updateDocumentDocumentType(id: $id, documentType: $documentType) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentDocumentTypeMutation, UpdateDocumentDocumentTypeMutationVariables>;
+export const UpdateDocumentFilePathDocument = new TypedDocumentString(`
+    mutation UpdateDocumentFilePath($id: UUID!, $filePath: String!) {
+  billing {
+    updateDocumentFilePath(id: $id, filePath: $filePath) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentFilePathMutation, UpdateDocumentFilePathMutationVariables>;
+export const UpdateDocumentFileNameDocument = new TypedDocumentString(`
+    mutation UpdateDocumentFileName($id: UUID!, $fileName: String!) {
+  billing {
+    updateDocumentFileName(id: $id, fileName: $fileName) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentFileNameMutation, UpdateDocumentFileNameMutationVariables>;
+export const UpdateDocumentFileSizeDocument = new TypedDocumentString(`
+    mutation UpdateDocumentFileSize($id: UUID!, $fileSize: Int) {
+  billing {
+    updateDocumentFileSize(id: $id, fileSize: $fileSize) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentFileSizeMutation, UpdateDocumentFileSizeMutationVariables>;
+export const UpdateDocumentMimeTypeDocument = new TypedDocumentString(`
+    mutation UpdateDocumentMimeType($id: UUID!, $mimeType: String) {
+  billing {
+    updateDocumentMimeType(id: $id, mimeType: $mimeType) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentMimeTypeMutation, UpdateDocumentMimeTypeMutationVariables>;
+export const UpdateDocumentUploadedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateDocumentUploadedByUserId($id: UUID!, $uploadedByUserId: UUID) {
+  billing {
+    updateDocumentUploadedByUserId(id: $id, uploadedByUserId: $uploadedByUserId) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedBy {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentUploadedByUserIdMutation, UpdateDocumentUploadedByUserIdMutationVariables>;
+export const RemoveDocumentDocument = new TypedDocumentString(`
+    mutation RemoveDocument($id: UUID!) {
+  billing {
+    removeDocument(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDocumentMutation, RemoveDocumentMutationVariables>;
+export const CreateBillingInvoiceDocument = new TypedDocumentString(`
+    mutation CreateBillingInvoice($payload: CreateBillingInvoiceInput!) {
+  billing {
+    createInvoice(payload: $payload) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateBillingInvoiceMutation, CreateBillingInvoiceMutationVariables>;
+export const UpdateBillingInvoiceClientIdDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceClientId($id: UUID!, $clientId: UUID!) {
+  billing {
+    updateInvoiceClientId(id: $id, clientId: $clientId) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceClientIdMutation, UpdateBillingInvoiceClientIdMutationVariables>;
+export const UpdateBillingInvoiceQuoteIdDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceQuoteId($id: UUID!, $quoteId: UUID) {
+  billing {
+    updateInvoiceQuoteId(id: $id, quoteId: $quoteId) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceQuoteIdMutation, UpdateBillingInvoiceQuoteIdMutationVariables>;
+export const UpdateBillingInvoiceInvoiceNumberDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceInvoiceNumber($id: UUID!, $invoiceNumber: String!) {
+  billing {
+    updateInvoiceInvoiceNumber(id: $id, invoiceNumber: $invoiceNumber) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceInvoiceNumberMutation, UpdateBillingInvoiceInvoiceNumberMutationVariables>;
+export const UpdateBillingInvoiceStatusDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceStatus($id: UUID!, $status: InvoiceStatusEnum!) {
+  billing {
+    updateInvoiceStatus(id: $id, status: $status) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceStatusMutation, UpdateBillingInvoiceStatusMutationVariables>;
+export const UpdateBillingInvoiceIssueDateDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceIssueDate($id: UUID!, $issueDate: NaiveDate!) {
+  billing {
+    updateInvoiceIssueDate(id: $id, issueDate: $issueDate) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceIssueDateMutation, UpdateBillingInvoiceIssueDateMutationVariables>;
+export const UpdateBillingInvoiceDueDateDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceDueDate($id: UUID!, $dueDate: NaiveDate!) {
+  billing {
+    updateInvoiceDueDate(id: $id, dueDate: $dueDate) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceDueDateMutation, UpdateBillingInvoiceDueDateMutationVariables>;
+export const UpdateBillingInvoiceTotalAmountDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceTotalAmount($id: UUID!, $totalAmount: Float!) {
+  billing {
+    updateInvoiceTotalAmount(id: $id, totalAmount: $totalAmount) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceTotalAmountMutation, UpdateBillingInvoiceTotalAmountMutationVariables>;
+export const UpdateBillingInvoiceAmountPaidDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceAmountPaid($id: UUID!, $amountPaid: Float!) {
+  billing {
+    updateInvoiceAmountPaid(id: $id, amountPaid: $amountPaid) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceAmountPaidMutation, UpdateBillingInvoiceAmountPaidMutationVariables>;
+export const UpdateBillingInvoiceCurrencyDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceCurrency($id: UUID!, $currency: String!) {
+  billing {
+    updateInvoiceCurrency(id: $id, currency: $currency) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceCurrencyMutation, UpdateBillingInvoiceCurrencyMutationVariables>;
+export const UpdateBillingInvoiceTaxAmountDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceTaxAmount($id: UUID!, $taxAmount: Float!) {
+  billing {
+    updateInvoiceTaxAmount(id: $id, taxAmount: $taxAmount) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceTaxAmountMutation, UpdateBillingInvoiceTaxAmountMutationVariables>;
+export const UpdateBillingInvoiceDiscountAmountDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceDiscountAmount($id: UUID!, $discountAmount: Float!) {
+  billing {
+    updateInvoiceDiscountAmount(id: $id, discountAmount: $discountAmount) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceDiscountAmountMutation, UpdateBillingInvoiceDiscountAmountMutationVariables>;
+export const UpdateBillingInvoiceSubtotalDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceSubtotal($id: UUID!, $subtotal: Float!) {
+  billing {
+    updateInvoiceSubtotal(id: $id, subtotal: $subtotal) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceSubtotalMutation, UpdateBillingInvoiceSubtotalMutationVariables>;
+export const UpdateBillingInvoicePaymentTermsDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoicePaymentTerms($id: UUID!, $paymentTerms: String) {
+  billing {
+    updateInvoicePaymentTerms(id: $id, paymentTerms: $paymentTerms) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoicePaymentTermsMutation, UpdateBillingInvoicePaymentTermsMutationVariables>;
+export const UpdateBillingInvoiceNotesDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceNotes($id: UUID!, $notes: String) {
+  billing {
+    updateInvoiceNotes(id: $id, notes: $notes) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceNotesMutation, UpdateBillingInvoiceNotesMutationVariables>;
+export const UpdateBillingInvoiceSentAtDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceSentAt($id: UUID!, $sentAt: DateTime) {
+  billing {
+    updateInvoiceSentAt(id: $id, sentAt: $sentAt) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceSentAtMutation, UpdateBillingInvoiceSentAtMutationVariables>;
+export const UpdateBillingInvoicePaidAtDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoicePaidAt($id: UUID!, $paidAt: DateTime) {
+  billing {
+    updateInvoicePaidAt(id: $id, paidAt: $paidAt) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoicePaidAtMutation, UpdateBillingInvoicePaidAtMutationVariables>;
+export const UpdateBillingInvoiceCreatedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceCreatedByUserId($id: UUID!, $createdByUserId: UUID) {
+  billing {
+    updateInvoiceCreatedByUserId(id: $id, createdByUserId: $createdByUserId) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceCreatedByUserIdMutation, UpdateBillingInvoiceCreatedByUserIdMutationVariables>;
+export const RemoveBillingInvoiceDocument = new TypedDocumentString(`
+    mutation RemoveBillingInvoice($id: UUID!) {
+  billing {
+    removeInvoice(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveBillingInvoiceMutation, RemoveBillingInvoiceMutationVariables>;
+export const AddBillingInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation AddBillingInvoiceLineItem($invoiceId: UUID!, $payload: CreateBillingInvoiceLineItemInput!) {
+  billing {
+    addInvoiceLineItem(invoiceId: $invoiceId, payload: $payload) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddBillingInvoiceLineItemMutation, AddBillingInvoiceLineItemMutationVariables>;
+export const UpdateBillingInvoiceLineItemProductIdDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemProductId($id: UUID!, $productId: UUID!) {
+  billing {
+    updateInvoiceLineItemProductId(id: $id, productId: $productId) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemProductIdMutation, UpdateBillingInvoiceLineItemProductIdMutationVariables>;
+export const UpdateBillingInvoiceLineItemSourceRecordIdDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemSourceRecordId($id: UUID!, $sourceRecordId: UUID) {
+  billing {
+    updateInvoiceLineItemSourceRecordId(id: $id, sourceRecordId: $sourceRecordId) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemSourceRecordIdMutation, UpdateBillingInvoiceLineItemSourceRecordIdMutationVariables>;
+export const UpdateBillingInvoiceLineItemSourceRecordTypeDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemSourceRecordType($id: UUID!, $sourceRecordType: String) {
+  billing {
+    updateInvoiceLineItemSourceRecordType(
+      id: $id
+      sourceRecordType: $sourceRecordType
+    ) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemSourceRecordTypeMutation, UpdateBillingInvoiceLineItemSourceRecordTypeMutationVariables>;
+export const UpdateBillingInvoiceLineItemDescriptionDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemDescription($id: UUID!, $description: String!) {
+  billing {
+    updateInvoiceLineItemDescription(id: $id, description: $description) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemDescriptionMutation, UpdateBillingInvoiceLineItemDescriptionMutationVariables>;
+export const UpdateBillingInvoiceLineItemQuantityDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemQuantity($id: UUID!, $quantity: Float!) {
+  billing {
+    updateInvoiceLineItemQuantity(id: $id, quantity: $quantity) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemQuantityMutation, UpdateBillingInvoiceLineItemQuantityMutationVariables>;
+export const UpdateBillingInvoiceLineItemUnitPriceDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemUnitPrice($id: UUID!, $unitPrice: Float!) {
+  billing {
+    updateInvoiceLineItemUnitPrice(id: $id, unitPrice: $unitPrice) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemUnitPriceMutation, UpdateBillingInvoiceLineItemUnitPriceMutationVariables>;
+export const UpdateBillingInvoiceLineItemTaxRateDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemTaxRate($id: UUID!, $taxRate: Float) {
+  billing {
+    updateInvoiceLineItemTaxRate(id: $id, taxRate: $taxRate) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemTaxRateMutation, UpdateBillingInvoiceLineItemTaxRateMutationVariables>;
+export const UpdateBillingInvoiceLineItemDiscountRateDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoiceLineItemDiscountRate($id: UUID!, $discountRate: Float) {
+  billing {
+    updateInvoiceLineItemDiscountRate(id: $id, discountRate: $discountRate) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceLineItemDiscountRateMutation, UpdateBillingInvoiceLineItemDiscountRateMutationVariables>;
+export const RemoveBillingInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation RemoveBillingInvoiceLineItem($id: UUID!) {
+  billing {
+    removeInvoiceLineItem(id: $id) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveBillingInvoiceLineItemMutation, RemoveBillingInvoiceLineItemMutationVariables>;
+export const CreatePaymentDocument = new TypedDocumentString(`
+    mutation CreatePayment($payload: CreatePaymentInput!) {
+  billing {
+    createPayment(payload: $payload) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const UpdatePaymentInvoiceIdDocument = new TypedDocumentString(`
+    mutation UpdatePaymentInvoiceId($id: UUID!, $invoiceId: UUID!) {
+  billing {
+    updatePaymentInvoiceId(id: $id, invoiceId: $invoiceId) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentInvoiceIdMutation, UpdatePaymentInvoiceIdMutationVariables>;
+export const UpdatePaymentAmountDocument = new TypedDocumentString(`
+    mutation UpdatePaymentAmount($id: UUID!, $amount: Float!) {
+  billing {
+    updatePaymentAmount(id: $id, amount: $amount) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentAmountMutation, UpdatePaymentAmountMutationVariables>;
+export const UpdatePaymentPaymentMethodDocument = new TypedDocumentString(`
+    mutation UpdatePaymentPaymentMethod($id: UUID!, $paymentMethod: PaymentMethodEnum!) {
+  billing {
+    updatePaymentPaymentMethod(id: $id, paymentMethod: $paymentMethod) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentPaymentMethodMutation, UpdatePaymentPaymentMethodMutationVariables>;
+export const UpdatePaymentTransactionIdDocument = new TypedDocumentString(`
+    mutation UpdatePaymentTransactionId($id: UUID!, $transactionId: String) {
+  billing {
+    updatePaymentTransactionId(id: $id, transactionId: $transactionId) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentTransactionIdMutation, UpdatePaymentTransactionIdMutationVariables>;
+export const UpdatePaymentGatewayReferenceDocument = new TypedDocumentString(`
+    mutation UpdatePaymentGatewayReference($id: UUID!, $gatewayReference: String) {
+  billing {
+    updatePaymentGatewayReference(id: $id, gatewayReference: $gatewayReference) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentGatewayReferenceMutation, UpdatePaymentGatewayReferenceMutationVariables>;
+export const UpdatePaymentStatusDocument = new TypedDocumentString(`
+    mutation UpdatePaymentStatus($id: UUID!, $status: PaymentStatusEnum!) {
+  billing {
+    updatePaymentStatus(id: $id, status: $status) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentStatusMutation, UpdatePaymentStatusMutationVariables>;
+export const UpdatePaymentPaymentDateDocument = new TypedDocumentString(`
+    mutation UpdatePaymentPaymentDate($id: UUID!, $paymentDate: DateTime) {
+  billing {
+    updatePaymentPaymentDate(id: $id, paymentDate: $paymentDate) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentPaymentDateMutation, UpdatePaymentPaymentDateMutationVariables>;
+export const UpdatePaymentProcessedAtDocument = new TypedDocumentString(`
+    mutation UpdatePaymentProcessedAt($id: UUID!, $processedAt: DateTime) {
+  billing {
+    updatePaymentProcessedAt(id: $id, processedAt: $processedAt) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentProcessedAtMutation, UpdatePaymentProcessedAtMutationVariables>;
+export const UpdatePaymentCurrencyDocument = new TypedDocumentString(`
+    mutation UpdatePaymentCurrency($id: UUID!, $currency: String) {
+  billing {
+    updatePaymentCurrency(id: $id, currency: $currency) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentCurrencyMutation, UpdatePaymentCurrencyMutationVariables>;
+export const UpdatePaymentExchangeRateDocument = new TypedDocumentString(`
+    mutation UpdatePaymentExchangeRate($id: UUID!, $exchangeRate: Float) {
+  billing {
+    updatePaymentExchangeRate(id: $id, exchangeRate: $exchangeRate) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentExchangeRateMutation, UpdatePaymentExchangeRateMutationVariables>;
+export const UpdatePaymentFeesDocument = new TypedDocumentString(`
+    mutation UpdatePaymentFees($id: UUID!, $fees: Float) {
+  billing {
+    updatePaymentFees(id: $id, fees: $fees) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentFeesMutation, UpdatePaymentFeesMutationVariables>;
+export const UpdatePaymentNotesDocument = new TypedDocumentString(`
+    mutation UpdatePaymentNotes($id: UUID!, $notes: String) {
+  billing {
+    updatePaymentNotes(id: $id, notes: $notes) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentNotesMutation, UpdatePaymentNotesMutationVariables>;
+export const UpdatePaymentProcessedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdatePaymentProcessedByUserId($id: UUID!, $processedByUserId: UUID) {
+  billing {
+    updatePaymentProcessedByUserId(id: $id, processedByUserId: $processedByUserId) {
+      id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
+      invoice {
+        id
+        invoiceNumber
+      }
+      processedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentProcessedByUserIdMutation, UpdatePaymentProcessedByUserIdMutationVariables>;
+export const RemovePaymentDocument = new TypedDocumentString(`
+    mutation RemovePayment($id: UUID!) {
+  billing {
+    removePayment(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePaymentMutation, RemovePaymentMutationVariables>;
+export const CreateQuoteDocument = new TypedDocumentString(`
+    mutation CreateQuote($payload: CreateQuoteInput!) {
+  billing {
+    createQuote(payload: $payload) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateQuoteMutation, CreateQuoteMutationVariables>;
+export const UpdateQuoteClientIdDocument = new TypedDocumentString(`
+    mutation UpdateQuoteClientId($id: UUID!, $clientId: UUID) {
+  billing {
+    updateQuoteClientId(id: $id, clientId: $clientId) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteClientIdMutation, UpdateQuoteClientIdMutationVariables>;
+export const UpdateQuoteOriginDetailsDocument = new TypedDocumentString(`
+    mutation UpdateQuoteOriginDetails($id: UUID!, $originDetails: String!) {
+  billing {
+    updateQuoteOriginDetails(id: $id, originDetails: $originDetails) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteOriginDetailsMutation, UpdateQuoteOriginDetailsMutationVariables>;
+export const UpdateQuoteDestinationDetailsDocument = new TypedDocumentString(`
+    mutation UpdateQuoteDestinationDetails($id: UUID!, $destinationDetails: String!) {
+  billing {
+    updateQuoteDestinationDetails(id: $id, destinationDetails: $destinationDetails) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteDestinationDetailsMutation, UpdateQuoteDestinationDetailsMutationVariables>;
+export const UpdateQuoteWeightDocument = new TypedDocumentString(`
+    mutation UpdateQuoteWeight($id: UUID!, $weight: Float) {
+  billing {
+    updateQuoteWeight(id: $id, weight: $weight) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteWeightMutation, UpdateQuoteWeightMutationVariables>;
+export const UpdateQuoteLengthDocument = new TypedDocumentString(`
+    mutation UpdateQuoteLength($id: UUID!, $length: Float) {
+  billing {
+    updateQuoteLength(id: $id, length: $length) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteLengthMutation, UpdateQuoteLengthMutationVariables>;
+export const UpdateQuoteWidthDocument = new TypedDocumentString(`
+    mutation UpdateQuoteWidth($id: UUID!, $width: Float) {
+  billing {
+    updateQuoteWidth(id: $id, width: $width) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteWidthMutation, UpdateQuoteWidthMutationVariables>;
+export const UpdateQuoteHeightDocument = new TypedDocumentString(`
+    mutation UpdateQuoteHeight($id: UUID!, $height: Float) {
+  billing {
+    updateQuoteHeight(id: $id, height: $height) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteHeightMutation, UpdateQuoteHeightMutationVariables>;
+export const UpdateQuoteQuotedPriceDocument = new TypedDocumentString(`
+    mutation UpdateQuoteQuotedPrice($id: UUID!, $quotedPrice: Float!) {
+  billing {
+    updateQuoteQuotedPrice(id: $id, quotedPrice: $quotedPrice) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteQuotedPriceMutation, UpdateQuoteQuotedPriceMutationVariables>;
+export const UpdateQuoteServiceLevelDocument = new TypedDocumentString(`
+    mutation UpdateQuoteServiceLevel($id: UUID!, $serviceLevel: String) {
+  billing {
+    updateQuoteServiceLevel(id: $id, serviceLevel: $serviceLevel) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteServiceLevelMutation, UpdateQuoteServiceLevelMutationVariables>;
+export const UpdateQuoteExpiresAtDocument = new TypedDocumentString(`
+    mutation UpdateQuoteExpiresAt($id: UUID!, $expiresAt: DateTime) {
+  billing {
+    updateQuoteExpiresAt(id: $id, expiresAt: $expiresAt) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteExpiresAtMutation, UpdateQuoteExpiresAtMutationVariables>;
+export const UpdateQuoteStatusDocument = new TypedDocumentString(`
+    mutation UpdateQuoteStatus($id: UUID!, $status: QuoteStatusEnum!) {
+  billing {
+    updateQuoteStatus(id: $id, status: $status) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteStatusMutation, UpdateQuoteStatusMutationVariables>;
+export const UpdateQuoteQuoteNumberDocument = new TypedDocumentString(`
+    mutation UpdateQuoteQuoteNumber($id: UUID!, $quoteNumber: String) {
+  billing {
+    updateQuoteQuoteNumber(id: $id, quoteNumber: $quoteNumber) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteQuoteNumberMutation, UpdateQuoteQuoteNumberMutationVariables>;
+export const UpdateQuoteNotesDocument = new TypedDocumentString(`
+    mutation UpdateQuoteNotes($id: UUID!, $notes: String) {
+  billing {
+    updateQuoteNotes(id: $id, notes: $notes) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteNotesMutation, UpdateQuoteNotesMutationVariables>;
+export const UpdateQuoteCreatedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateQuoteCreatedByUserId($id: UUID!, $createdByUserId: UUID) {
+  billing {
+    updateQuoteCreatedByUserId(id: $id, createdByUserId: $createdByUserId) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteCreatedByUserIdMutation, UpdateQuoteCreatedByUserIdMutationVariables>;
+export const RemoveQuoteDocument = new TypedDocumentString(`
+    mutation RemoveQuote($id: UUID!) {
+  billing {
+    removeQuote(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveQuoteMutation, RemoveQuoteMutationVariables>;
+export const CreateRateCardDocument = new TypedDocumentString(`
+    mutation CreateRateCard($payload: CreateRateCardInput!) {
+  billing {
+    createRateCard(payload: $payload) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRateCardMutation, CreateRateCardMutationVariables>;
+export const UpdateRateCardNameDocument = new TypedDocumentString(`
+    mutation UpdateRateCardName($id: UUID!, $name: String!) {
+  billing {
+    updateRateCardName(id: $id, name: $name) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardNameMutation, UpdateRateCardNameMutationVariables>;
+export const UpdateRateCardServiceTypeDocument = new TypedDocumentString(`
+    mutation UpdateRateCardServiceType($id: UUID!, $serviceType: ServiceTypeEnum!) {
+  billing {
+    updateRateCardServiceType(id: $id, serviceType: $serviceType) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardServiceTypeMutation, UpdateRateCardServiceTypeMutationVariables>;
+export const UpdateRateCardIsActiveDocument = new TypedDocumentString(`
+    mutation UpdateRateCardIsActive($id: UUID!, $isActive: Boolean) {
+  billing {
+    updateRateCardIsActive(id: $id, isActive: $isActive) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardIsActiveMutation, UpdateRateCardIsActiveMutationVariables>;
+export const UpdateRateCardValidFromDocument = new TypedDocumentString(`
+    mutation UpdateRateCardValidFrom($id: UUID!, $validFrom: NaiveDate!) {
+  billing {
+    updateRateCardValidFrom(id: $id, validFrom: $validFrom) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardValidFromMutation, UpdateRateCardValidFromMutationVariables>;
+export const UpdateRateCardValidToDocument = new TypedDocumentString(`
+    mutation UpdateRateCardValidTo($id: UUID!, $validTo: NaiveDate) {
+  billing {
+    updateRateCardValidTo(id: $id, validTo: $validTo) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardValidToMutation, UpdateRateCardValidToMutationVariables>;
+export const UpdateRateCardDescriptionDocument = new TypedDocumentString(`
+    mutation UpdateRateCardDescription($id: UUID!, $description: String) {
+  billing {
+    updateRateCardDescription(id: $id, description: $description) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardDescriptionMutation, UpdateRateCardDescriptionMutationVariables>;
+export const UpdateRateCardCreatedByUserIdDocument = new TypedDocumentString(`
+    mutation UpdateRateCardCreatedByUserId($id: UUID!, $createdByUserId: UUID) {
+  billing {
+    updateRateCardCreatedByUserId(id: $id, createdByUserId: $createdByUserId) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardCreatedByUserIdMutation, UpdateRateCardCreatedByUserIdMutationVariables>;
+export const RemoveRateCardDocument = new TypedDocumentString(`
+    mutation RemoveRateCard($id: UUID!) {
+  billing {
+    removeRateCard(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRateCardMutation, RemoveRateCardMutationVariables>;
+export const CreateRateRuleDocument = new TypedDocumentString(`
+    mutation CreateRateRule($payload: CreateRateRuleInput!) {
+  billing {
+    createRateRule(payload: $payload) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRateRuleMutation, CreateRateRuleMutationVariables>;
+export const UpdateRateRuleRateCardIdDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleRateCardId($id: UUID!, $rateCardId: UUID!) {
+  billing {
+    updateRateRuleRateCardId(id: $id, rateCardId: $rateCardId) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleRateCardIdMutation, UpdateRateRuleRateCardIdMutationVariables>;
+export const UpdateRateRuleConditionDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleCondition($id: UUID!, $condition: String!) {
+  billing {
+    updateRateRuleCondition(id: $id, condition: $condition) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleConditionMutation, UpdateRateRuleConditionMutationVariables>;
+export const UpdateRateRuleValueDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleValue($id: UUID!, $value: String!) {
+  billing {
+    updateRateRuleValue(id: $id, value: $value) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleValueMutation, UpdateRateRuleValueMutationVariables>;
+export const UpdateRateRulePriceDocument = new TypedDocumentString(`
+    mutation UpdateRateRulePrice($id: UUID!, $price: Float!) {
+  billing {
+    updateRateRulePrice(id: $id, price: $price) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRulePriceMutation, UpdateRateRulePriceMutationVariables>;
+export const UpdateRateRulePricingModelDocument = new TypedDocumentString(`
+    mutation UpdateRateRulePricingModel($id: UUID!, $pricingModel: PricingModelEnum!) {
+  billing {
+    updateRateRulePricingModel(id: $id, pricingModel: $pricingModel) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRulePricingModelMutation, UpdateRateRulePricingModelMutationVariables>;
+export const UpdateRateRuleMinValueDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleMinValue($id: UUID!, $minValue: Float) {
+  billing {
+    updateRateRuleMinValue(id: $id, minValue: $minValue) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleMinValueMutation, UpdateRateRuleMinValueMutationVariables>;
+export const UpdateRateRuleMaxValueDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleMaxValue($id: UUID!, $maxValue: Float) {
+  billing {
+    updateRateRuleMaxValue(id: $id, maxValue: $maxValue) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleMaxValueMutation, UpdateRateRuleMaxValueMutationVariables>;
+export const UpdateRateRulePriorityDocument = new TypedDocumentString(`
+    mutation UpdateRateRulePriority($id: UUID!, $priority: Int) {
+  billing {
+    updateRateRulePriority(id: $id, priority: $priority) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRulePriorityMutation, UpdateRateRulePriorityMutationVariables>;
+export const UpdateRateRuleIsActiveDocument = new TypedDocumentString(`
+    mutation UpdateRateRuleIsActive($id: UUID!, $isActive: Boolean) {
+  billing {
+    updateRateRuleIsActive(id: $id, isActive: $isActive) {
+      id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
+      rateCard {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleIsActiveMutation, UpdateRateRuleIsActiveMutationVariables>;
+export const RemoveRateRuleDocument = new TypedDocumentString(`
+    mutation RemoveRateRule($id: UUID!) {
+  billing {
+    removeRateRule(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRateRuleMutation, RemoveRateRuleMutationVariables>;
+export const CreateSurchargeDocument = new TypedDocumentString(`
+    mutation CreateSurcharge($payload: CreateSurchargeInput!) {
+  billing {
+    createSurcharge(payload: $payload) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateSurchargeMutation, CreateSurchargeMutationVariables>;
+export const UpdateSurchargeNameDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeName($id: UUID!, $name: String!) {
+  billing {
+    updateSurchargeName(id: $id, name: $name) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeNameMutation, UpdateSurchargeNameMutationVariables>;
+export const UpdateSurchargeTypeDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeType($id: UUID!, $type: String!) {
+  billing {
+    updateSurchargeType(id: $id, type: $type) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeTypeMutation, UpdateSurchargeTypeMutationVariables>;
+export const UpdateSurchargeAmountDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeAmount($id: UUID!, $amount: Float!) {
+  billing {
+    updateSurchargeAmount(id: $id, amount: $amount) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeAmountMutation, UpdateSurchargeAmountMutationVariables>;
+export const UpdateSurchargeCalculationMethodDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeCalculationMethod($id: UUID!, $calculationMethod: SurchargeCalculationMethodEnum!) {
+  billing {
+    updateSurchargeCalculationMethod(id: $id, calculationMethod: $calculationMethod) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeCalculationMethodMutation, UpdateSurchargeCalculationMethodMutationVariables>;
+export const UpdateSurchargeIsActiveDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeIsActive($id: UUID!, $isActive: Boolean) {
+  billing {
+    updateSurchargeIsActive(id: $id, isActive: $isActive) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeIsActiveMutation, UpdateSurchargeIsActiveMutationVariables>;
+export const UpdateSurchargeValidFromDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeValidFrom($id: UUID!, $validFrom: NaiveDate) {
+  billing {
+    updateSurchargeValidFrom(id: $id, validFrom: $validFrom) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeValidFromMutation, UpdateSurchargeValidFromMutationVariables>;
+export const UpdateSurchargeValidToDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeValidTo($id: UUID!, $validTo: NaiveDate) {
+  billing {
+    updateSurchargeValidTo(id: $id, validTo: $validTo) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeValidToMutation, UpdateSurchargeValidToMutationVariables>;
+export const UpdateSurchargeDescriptionDocument = new TypedDocumentString(`
+    mutation UpdateSurchargeDescription($id: UUID!, $description: String) {
+  billing {
+    updateSurchargeDescription(id: $id, description: $description) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeDescriptionMutation, UpdateSurchargeDescriptionMutationVariables>;
+export const RemoveSurchargeDocument = new TypedDocumentString(`
+    mutation RemoveSurcharge($id: UUID!) {
+  billing {
+    removeSurcharge(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveSurchargeMutation, RemoveSurchargeMutationVariables>;
 export const UploadAttachmentDocument = new TypedDocumentString(`
     mutation UploadAttachment($file: Upload!, $recordId: UUID!, $recordType: RecordType!) {
   crm {
@@ -7388,256 +14699,6 @@ export const RemoveCompanyDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCompanyMutation, RemoveCompanyMutationVariables>;
-export const UpdateCompanyStreetDocument = new TypedDocumentString(`
-    mutation UpdateCompanyStreet($id: UUID!, $street: String) {
-  crm {
-    updateCompanyStreet(id: $id, street: $street) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyStreetMutation, UpdateCompanyStreetMutationVariables>;
-export const UpdateCompanyCityDocument = new TypedDocumentString(`
-    mutation UpdateCompanyCity($id: UUID!, $city: String) {
-  crm {
-    updateCompanyCity(id: $id, city: $city) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyCityMutation, UpdateCompanyCityMutationVariables>;
-export const UpdateCompanyStateDocument = new TypedDocumentString(`
-    mutation UpdateCompanyState($id: UUID!, $state: String) {
-  crm {
-    updateCompanyState(id: $id, state: $state) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyStateMutation, UpdateCompanyStateMutationVariables>;
-export const UpdateCompanyPostalCodeDocument = new TypedDocumentString(`
-    mutation UpdateCompanyPostalCode($id: UUID!, $postalCode: String) {
-  crm {
-    updateCompanyPostalCode(id: $id, postalCode: $postalCode) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyPostalCodeMutation, UpdateCompanyPostalCodeMutationVariables>;
-export const UpdateCompanyCountryDocument = new TypedDocumentString(`
-    mutation UpdateCompanyCountry($id: UUID!, $country: String) {
-  crm {
-    updateCompanyCountry(id: $id, country: $country) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyCountryMutation, UpdateCompanyCountryMutationVariables>;
-export const UpdateCompanyPhoneNumberDocument = new TypedDocumentString(`
-    mutation UpdateCompanyPhoneNumber($id: UUID!, $phoneNumber: String) {
-  crm {
-    updateCompanyPhoneNumber(id: $id, phoneNumber: $phoneNumber) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyPhoneNumberMutation, UpdateCompanyPhoneNumberMutationVariables>;
-export const UpdateCompanyIndustryDocument = new TypedDocumentString(`
-    mutation UpdateCompanyIndustry($id: UUID!, $industry: String) {
-  crm {
-    updateCompanyIndustry(id: $id, industry: $industry) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyIndustryMutation, UpdateCompanyIndustryMutationVariables>;
-export const UpdateCompanyWebsiteDocument = new TypedDocumentString(`
-    mutation UpdateCompanyWebsite($id: UUID!, $website: String) {
-  crm {
-    updateCompanyWebsite(id: $id, website: $website) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyWebsiteMutation, UpdateCompanyWebsiteMutationVariables>;
-export const UpdateCompanyAnnualRevenueDocument = new TypedDocumentString(`
-    mutation UpdateCompanyAnnualRevenue($id: UUID!, $annualRevenue: Decimal) {
-  crm {
-    updateCompanyAnnualRevenue(id: $id, annualRevenue: $annualRevenue) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyAnnualRevenueMutation, UpdateCompanyAnnualRevenueMutationVariables>;
-export const UpdateCompanyOwnerIdDocument = new TypedDocumentString(`
-    mutation UpdateCompanyOwnerId($id: UUID!, $ownerId: UUID) {
-  crm {
-    updateCompanyOwnerId(id: $id, ownerId: $ownerId) {
-      id
-      name
-      industry
-      annualRevenue
-      phoneNumber
-      website
-      street
-      city
-      state
-      postalCode
-      country
-      createdAt
-      updatedAt
-      owner {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateCompanyOwnerIdMutation, UpdateCompanyOwnerIdMutationVariables>;
 export const CreateContactDocument = new TypedDocumentString(`
     mutation CreateContact($payload: CreateContactInput!) {
   crm {
@@ -7688,131 +14749,6 @@ export const UpdateContactNameDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateContactNameMutation, UpdateContactNameMutationVariables>;
-export const UpdateContactEmailDocument = new TypedDocumentString(`
-    mutation UpdateContactEmail($id: UUID!, $email: String!) {
-  crm {
-    updateContactEmail(id: $id, email: $email) {
-      id
-      name
-      email
-      jobTitle
-      phoneNumber
-      createdAt
-      updatedAt
-      ownerId
-      owner {
-        id
-        name
-      }
-      companyId
-      company {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateContactEmailMutation, UpdateContactEmailMutationVariables>;
-export const UpdateContactPhoneNumberDocument = new TypedDocumentString(`
-    mutation UpdateContactPhoneNumber($id: UUID!, $phoneNumber: String) {
-  crm {
-    updateContactPhoneNumber(id: $id, phoneNumber: $phoneNumber) {
-      id
-      name
-      email
-      jobTitle
-      phoneNumber
-      createdAt
-      updatedAt
-      ownerId
-      owner {
-        id
-        name
-      }
-      companyId
-      company {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateContactPhoneNumberMutation, UpdateContactPhoneNumberMutationVariables>;
-export const UpdateContactJobTitleDocument = new TypedDocumentString(`
-    mutation UpdateContactJobTitle($id: UUID!, $jobTitle: String) {
-  crm {
-    updateContactJobTitle(id: $id, jobTitle: $jobTitle) {
-      id
-      name
-      email
-      jobTitle
-      phoneNumber
-      createdAt
-      updatedAt
-      ownerId
-      owner {
-        id
-        name
-      }
-      companyId
-      company {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateContactJobTitleMutation, UpdateContactJobTitleMutationVariables>;
-export const UpdateContactCompanyIdDocument = new TypedDocumentString(`
-    mutation UpdateContactCompanyId($id: UUID!, $companyId: UUID) {
-  crm {
-    updateContactCompanyId(id: $id, companyId: $companyId) {
-      id
-      name
-      email
-      jobTitle
-      phoneNumber
-      createdAt
-      updatedAt
-      ownerId
-      owner {
-        id
-        name
-      }
-      companyId
-      company {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateContactCompanyIdMutation, UpdateContactCompanyIdMutationVariables>;
-export const UpdateContactOwnerIdDocument = new TypedDocumentString(`
-    mutation UpdateContactOwnerId($id: UUID!, $ownerId: UUID!) {
-  crm {
-    updateContactOwnerId(id: $id, ownerId: $ownerId) {
-      id
-      name
-      email
-      jobTitle
-      phoneNumber
-      createdAt
-      updatedAt
-      ownerId
-      owner {
-        id
-        name
-      }
-      companyId
-      company {
-        id
-        name
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateContactOwnerIdMutation, UpdateContactOwnerIdMutationVariables>;
 export const RemoveContactDocument = new TypedDocumentString(`
     mutation RemoveContact($id: UUID!) {
   crm {
@@ -9505,6 +16441,3209 @@ export const RemoveTagDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveTagMutation, RemoveTagMutationVariables>;
+export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
+    mutation CreateCustomerTrackingLink($payload: CreateCustomerTrackingLinkInput!) {
+  dms {
+    createCustomerTrackingLink(payload: $payload) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCustomerTrackingLinkMutation, CreateCustomerTrackingLinkMutationVariables>;
+export const UpdateCustomerTrackingLinkDeliveryTaskIdDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkDeliveryTaskId($id: UUID!, $deliveryTaskId: UUID!) {
+  dms {
+    updateCustomerTrackingLinkDeliveryTaskId(
+      id: $id
+      deliveryTaskId: $deliveryTaskId
+    ) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkDeliveryTaskIdMutation, UpdateCustomerTrackingLinkDeliveryTaskIdMutationVariables>;
+export const UpdateCustomerTrackingLinkTrackingTokenDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkTrackingToken($id: UUID!, $trackingToken: String!) {
+  dms {
+    updateCustomerTrackingLinkTrackingToken(id: $id, trackingToken: $trackingToken) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkTrackingTokenMutation, UpdateCustomerTrackingLinkTrackingTokenMutationVariables>;
+export const UpdateCustomerTrackingLinkIsActiveDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkIsActive($id: UUID!, $isActive: Boolean) {
+  dms {
+    updateCustomerTrackingLinkIsActive(id: $id, isActive: $isActive) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkIsActiveMutation, UpdateCustomerTrackingLinkIsActiveMutationVariables>;
+export const UpdateCustomerTrackingLinkAccessCountDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkAccessCount($id: UUID!, $accessCount: Int) {
+  dms {
+    updateCustomerTrackingLinkAccessCount(id: $id, accessCount: $accessCount) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkAccessCountMutation, UpdateCustomerTrackingLinkAccessCountMutationVariables>;
+export const UpdateCustomerTrackingLinkLastAccessedAtDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkLastAccessedAt($id: UUID!, $lastAccessedAt: DateTime) {
+  dms {
+    updateCustomerTrackingLinkLastAccessedAt(
+      id: $id
+      lastAccessedAt: $lastAccessedAt
+    ) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkLastAccessedAtMutation, UpdateCustomerTrackingLinkLastAccessedAtMutationVariables>;
+export const UpdateCustomerTrackingLinkExpiresAtDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLinkExpiresAt($id: UUID!, $expiresAt: DateTime) {
+  dms {
+    updateCustomerTrackingLinkExpiresAt(id: $id, expiresAt: $expiresAt) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkExpiresAtMutation, UpdateCustomerTrackingLinkExpiresAtMutationVariables>;
+export const RemoveCustomerTrackingLinkDocument = new TypedDocumentString(`
+    mutation RemoveCustomerTrackingLink($id: UUID!) {
+  dms {
+    removeCustomerTrackingLink(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCustomerTrackingLinkMutation, RemoveCustomerTrackingLinkMutationVariables>;
+export const CreateDeliveryRouteDocument = new TypedDocumentString(`
+    mutation CreateDeliveryRoute($payload: CreateDeliveryRouteInput!) {
+  dms {
+    createDeliveryRoute(payload: $payload) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDeliveryRouteMutation, CreateDeliveryRouteMutationVariables>;
+export const UpdateDeliveryRouteDriverIdDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteDriverId($id: UUID!, $driverId: UUID!) {
+  dms {
+    updateDeliveryRouteDriverId(id: $id, driverId: $driverId) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteDriverIdMutation, UpdateDeliveryRouteDriverIdMutationVariables>;
+export const UpdateDeliveryRouteRouteDateDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteRouteDate($id: UUID!, $routeDate: NaiveDate!) {
+  dms {
+    updateDeliveryRouteRouteDate(id: $id, routeDate: $routeDate) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteRouteDateMutation, UpdateDeliveryRouteRouteDateMutationVariables>;
+export const UpdateDeliveryRouteStatusDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteStatus($id: UUID!, $status: DeliveryRouteStatusEnum) {
+  dms {
+    updateDeliveryRouteStatus(id: $id, status: $status) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteStatusMutation, UpdateDeliveryRouteStatusMutationVariables>;
+export const UpdateDeliveryRouteOptimizedRouteDataDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteOptimizedRouteData($id: UUID!, $optimizedRouteData: String) {
+  dms {
+    updateDeliveryRouteOptimizedRouteData(
+      id: $id
+      optimizedRouteData: $optimizedRouteData
+    ) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteOptimizedRouteDataMutation, UpdateDeliveryRouteOptimizedRouteDataMutationVariables>;
+export const UpdateDeliveryRouteTotalDistanceKmDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteTotalDistanceKm($id: UUID!, $totalDistanceKm: Float) {
+  dms {
+    updateDeliveryRouteTotalDistanceKm(id: $id, totalDistanceKm: $totalDistanceKm) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteTotalDistanceKmMutation, UpdateDeliveryRouteTotalDistanceKmMutationVariables>;
+export const UpdateDeliveryRouteEstimatedDurationMinutesDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteEstimatedDurationMinutes($id: UUID!, $estimatedDurationMinutes: Int) {
+  dms {
+    updateDeliveryRouteEstimatedDurationMinutes(
+      id: $id
+      estimatedDurationMinutes: $estimatedDurationMinutes
+    ) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteEstimatedDurationMinutesMutation, UpdateDeliveryRouteEstimatedDurationMinutesMutationVariables>;
+export const UpdateDeliveryRouteActualDurationMinutesDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteActualDurationMinutes($id: UUID!, $actualDurationMinutes: Int) {
+  dms {
+    updateDeliveryRouteActualDurationMinutes(
+      id: $id
+      actualDurationMinutes: $actualDurationMinutes
+    ) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteActualDurationMinutesMutation, UpdateDeliveryRouteActualDurationMinutesMutationVariables>;
+export const UpdateDeliveryRouteStartedAtDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteStartedAt($id: UUID!, $startedAt: DateTime) {
+  dms {
+    updateDeliveryRouteStartedAt(id: $id, startedAt: $startedAt) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteStartedAtMutation, UpdateDeliveryRouteStartedAtMutationVariables>;
+export const UpdateDeliveryRouteCompletedAtDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRouteCompletedAt($id: UUID!, $completedAt: DateTime) {
+  dms {
+    updateDeliveryRouteCompletedAt(id: $id, completedAt: $completedAt) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteCompletedAtMutation, UpdateDeliveryRouteCompletedAtMutationVariables>;
+export const RemoveDeliveryRouteDocument = new TypedDocumentString(`
+    mutation RemoveDeliveryRoute($id: UUID!) {
+  dms {
+    removeDeliveryRoute(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDeliveryRouteMutation, RemoveDeliveryRouteMutationVariables>;
+export const CreateDeliveryTaskDocument = new TypedDocumentString(`
+    mutation CreateDeliveryTask($payload: CreateDeliveryTaskInput!) {
+  dms {
+    createDeliveryTask(payload: $payload) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDeliveryTaskMutation, CreateDeliveryTaskMutationVariables>;
+export const UpdateDeliveryTaskPackageIdDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskPackageId($id: UUID!, $packageId: UUID!) {
+  dms {
+    updateDeliveryTaskPackageId(id: $id, packageId: $packageId) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskPackageIdMutation, UpdateDeliveryTaskPackageIdMutationVariables>;
+export const UpdateDeliveryTaskDeliveryRouteIdDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskDeliveryRouteId($id: UUID!, $deliveryRouteId: UUID!) {
+  dms {
+    updateDeliveryTaskDeliveryRouteId(id: $id, deliveryRouteId: $deliveryRouteId) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskDeliveryRouteIdMutation, UpdateDeliveryTaskDeliveryRouteIdMutationVariables>;
+export const UpdateDeliveryTaskRouteSequenceDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskRouteSequence($id: UUID!, $routeSequence: Int!) {
+  dms {
+    updateDeliveryTaskRouteSequence(id: $id, routeSequence: $routeSequence) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskRouteSequenceMutation, UpdateDeliveryTaskRouteSequenceMutationVariables>;
+export const UpdateDeliveryTaskDeliveryAddressDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskDeliveryAddress($id: UUID!, $deliveryAddress: String!) {
+  dms {
+    updateDeliveryTaskDeliveryAddress(id: $id, deliveryAddress: $deliveryAddress) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskDeliveryAddressMutation, UpdateDeliveryTaskDeliveryAddressMutationVariables>;
+export const UpdateDeliveryTaskRecipientNameDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskRecipientName($id: UUID!, $recipientName: String) {
+  dms {
+    updateDeliveryTaskRecipientName(id: $id, recipientName: $recipientName) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskRecipientNameMutation, UpdateDeliveryTaskRecipientNameMutationVariables>;
+export const UpdateDeliveryTaskRecipientPhoneDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskRecipientPhone($id: UUID!, $recipientPhone: String) {
+  dms {
+    updateDeliveryTaskRecipientPhone(id: $id, recipientPhone: $recipientPhone) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskRecipientPhoneMutation, UpdateDeliveryTaskRecipientPhoneMutationVariables>;
+export const UpdateDeliveryTaskDeliveryInstructionsDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskDeliveryInstructions($id: UUID!, $deliveryInstructions: String) {
+  dms {
+    updateDeliveryTaskDeliveryInstructions(
+      id: $id
+      deliveryInstructions: $deliveryInstructions
+    ) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskDeliveryInstructionsMutation, UpdateDeliveryTaskDeliveryInstructionsMutationVariables>;
+export const UpdateDeliveryTaskEstimatedArrivalTimeDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskEstimatedArrivalTime($id: UUID!, $estimatedArrivalTime: DateTime) {
+  dms {
+    updateDeliveryTaskEstimatedArrivalTime(
+      id: $id
+      estimatedArrivalTime: $estimatedArrivalTime
+    ) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskEstimatedArrivalTimeMutation, UpdateDeliveryTaskEstimatedArrivalTimeMutationVariables>;
+export const UpdateDeliveryTaskActualArrivalTimeDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskActualArrivalTime($id: UUID!, $actualArrivalTime: DateTime) {
+  dms {
+    updateDeliveryTaskActualArrivalTime(
+      id: $id
+      actualArrivalTime: $actualArrivalTime
+    ) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskActualArrivalTimeMutation, UpdateDeliveryTaskActualArrivalTimeMutationVariables>;
+export const UpdateDeliveryTaskDeliveryTimeDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskDeliveryTime($id: UUID!, $deliveryTime: DateTime) {
+  dms {
+    updateDeliveryTaskDeliveryTime(id: $id, deliveryTime: $deliveryTime) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskDeliveryTimeMutation, UpdateDeliveryTaskDeliveryTimeMutationVariables>;
+export const UpdateDeliveryTaskStatusDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskStatus($id: UUID!, $status: DeliveryTaskStatusEnum) {
+  dms {
+    updateDeliveryTaskStatus(id: $id, status: $status) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskStatusMutation, UpdateDeliveryTaskStatusMutationVariables>;
+export const UpdateDeliveryTaskFailureReasonDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskFailureReason($id: UUID!, $failureReason: DeliveryFailureReasonEnum) {
+  dms {
+    updateDeliveryTaskFailureReason(id: $id, failureReason: $failureReason) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskFailureReasonMutation, UpdateDeliveryTaskFailureReasonMutationVariables>;
+export const UpdateDeliveryTaskAttemptCountDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTaskAttemptCount($id: UUID!, $attemptCount: Int) {
+  dms {
+    updateDeliveryTaskAttemptCount(id: $id, attemptCount: $attemptCount) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskAttemptCountMutation, UpdateDeliveryTaskAttemptCountMutationVariables>;
+export const RemoveDeliveryTaskDocument = new TypedDocumentString(`
+    mutation RemoveDeliveryTask($id: UUID!) {
+  dms {
+    removeDeliveryTask(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDeliveryTaskMutation, RemoveDeliveryTaskMutationVariables>;
+export const CreateDriverLocationDocument = new TypedDocumentString(`
+    mutation CreateDriverLocation($payload: CreateDriverLocationInput!) {
+  dms {
+    createDriverLocation(payload: $payload) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDriverLocationMutation, CreateDriverLocationMutationVariables>;
+export const UpdateDriverLocationDriverIdDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationDriverId($id: UUID!, $driverId: UUID!) {
+  dms {
+    updateDriverLocationDriverId(id: $id, driverId: $driverId) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationDriverIdMutation, UpdateDriverLocationDriverIdMutationVariables>;
+export const UpdateDriverLocationLatitudeDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationLatitude($id: UUID!, $latitude: Float!) {
+  dms {
+    updateDriverLocationLatitude(id: $id, latitude: $latitude) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationLatitudeMutation, UpdateDriverLocationLatitudeMutationVariables>;
+export const UpdateDriverLocationLongitudeDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationLongitude($id: UUID!, $longitude: Float!) {
+  dms {
+    updateDriverLocationLongitude(id: $id, longitude: $longitude) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationLongitudeMutation, UpdateDriverLocationLongitudeMutationVariables>;
+export const UpdateDriverLocationAltitudeDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationAltitude($id: UUID!, $altitude: Float) {
+  dms {
+    updateDriverLocationAltitude(id: $id, altitude: $altitude) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationAltitudeMutation, UpdateDriverLocationAltitudeMutationVariables>;
+export const UpdateDriverLocationAccuracyDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationAccuracy($id: UUID!, $accuracy: Float) {
+  dms {
+    updateDriverLocationAccuracy(id: $id, accuracy: $accuracy) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationAccuracyMutation, UpdateDriverLocationAccuracyMutationVariables>;
+export const UpdateDriverLocationSpeedKmhDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationSpeedKmh($id: UUID!, $speedKmh: Float) {
+  dms {
+    updateDriverLocationSpeedKmh(id: $id, speedKmh: $speedKmh) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationSpeedKmhMutation, UpdateDriverLocationSpeedKmhMutationVariables>;
+export const UpdateDriverLocationHeadingDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationHeading($id: UUID!, $heading: Float) {
+  dms {
+    updateDriverLocationHeading(id: $id, heading: $heading) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationHeadingMutation, UpdateDriverLocationHeadingMutationVariables>;
+export const UpdateDriverLocationTimestampDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationTimestamp($id: UUID!, $timestamp: DateTime) {
+  dms {
+    updateDriverLocationTimestamp(id: $id, timestamp: $timestamp) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationTimestampMutation, UpdateDriverLocationTimestampMutationVariables>;
+export const UpdateDriverLocationPositionDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocationPosition($id: UUID!, $latitude: Float!, $longitude: Float!, $altitude: Float) {
+  dms {
+    updateDriverLocationPosition(
+      id: $id
+      latitude: $latitude
+      longitude: $longitude
+      altitude: $altitude
+    ) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationPositionMutation, UpdateDriverLocationPositionMutationVariables>;
+export const RemoveDriverLocationDocument = new TypedDocumentString(`
+    mutation RemoveDriverLocation($id: UUID!) {
+  dms {
+    removeDriverLocation(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverLocationMutation, RemoveDriverLocationMutationVariables>;
+export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation CreateProofOfDelivery($payload: CreateDmsProofOfDeliveryInput!) {
+  dms {
+    createProofOfDelivery(payload: $payload) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateProofOfDeliveryMutation, CreateProofOfDeliveryMutationVariables>;
+export const UpdateProofOfDeliveryDeliveryTaskIdDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryDeliveryTaskId($id: UUID!, $deliveryTaskId: UUID!) {
+  dms {
+    updateProofOfDeliveryDeliveryTaskId(id: $id, deliveryTaskId: $deliveryTaskId) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryDeliveryTaskIdMutation, UpdateProofOfDeliveryDeliveryTaskIdMutationVariables>;
+export const UpdateProofOfDeliveryTypeDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryType($id: UUID!, $type: ProofOfDeliveryTypeEnum!) {
+  dms {
+    updateProofOfDeliveryType(id: $id, type: $type) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryTypeMutation, UpdateProofOfDeliveryTypeMutationVariables>;
+export const UpdateProofOfDeliveryFilePathDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryFilePath($id: UUID!, $filePath: String) {
+  dms {
+    updateProofOfDeliveryFilePath(id: $id, filePath: $filePath) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryFilePathMutation, UpdateProofOfDeliveryFilePathMutationVariables>;
+export const UpdateProofOfDeliverySignatureDataDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliverySignatureData($id: UUID!, $signatureData: String) {
+  dms {
+    updateProofOfDeliverySignatureData(id: $id, signatureData: $signatureData) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliverySignatureDataMutation, UpdateProofOfDeliverySignatureDataMutationVariables>;
+export const UpdateProofOfDeliveryRecipientNameDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryRecipientName($id: UUID!, $recipientName: String) {
+  dms {
+    updateProofOfDeliveryRecipientName(id: $id, recipientName: $recipientName) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryRecipientNameMutation, UpdateProofOfDeliveryRecipientNameMutationVariables>;
+export const UpdateProofOfDeliveryVerificationCodeDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryVerificationCode($id: UUID!, $verificationCode: String) {
+  dms {
+    updateProofOfDeliveryVerificationCode(
+      id: $id
+      verificationCode: $verificationCode
+    ) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryVerificationCodeMutation, UpdateProofOfDeliveryVerificationCodeMutationVariables>;
+export const UpdateProofOfDeliveryLatitudeDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryLatitude($id: UUID!, $latitude: Float) {
+  dms {
+    updateProofOfDeliveryLatitude(id: $id, latitude: $latitude) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryLatitudeMutation, UpdateProofOfDeliveryLatitudeMutationVariables>;
+export const UpdateProofOfDeliveryLongitudeDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryLongitude($id: UUID!, $longitude: Float) {
+  dms {
+    updateProofOfDeliveryLongitude(id: $id, longitude: $longitude) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryLongitudeMutation, UpdateProofOfDeliveryLongitudeMutationVariables>;
+export const UpdateProofOfDeliveryTimestampDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDeliveryTimestamp($id: UUID!, $timestamp: DateTime) {
+  dms {
+    updateProofOfDeliveryTimestamp(id: $id, timestamp: $timestamp) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryTimestampMutation, UpdateProofOfDeliveryTimestampMutationVariables>;
+export const RemoveProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation RemoveProofOfDelivery($id: UUID!) {
+  dms {
+    removeProofOfDelivery(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveProofOfDeliveryMutation, RemoveProofOfDeliveryMutationVariables>;
+export const CreateTaskEventDocument = new TypedDocumentString(`
+    mutation CreateTaskEvent($payload: CreateTaskEventInput!) {
+  dms {
+    createTaskEvent(payload: $payload) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTaskEventMutation, CreateTaskEventMutationVariables>;
+export const UpdateTaskEventDeliveryTaskIdDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventDeliveryTaskId($id: UUID!, $deliveryTaskId: UUID!) {
+  dms {
+    updateTaskEventDeliveryTaskId(id: $id, deliveryTaskId: $deliveryTaskId) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventDeliveryTaskIdMutation, UpdateTaskEventDeliveryTaskIdMutationVariables>;
+export const UpdateTaskEventStatusDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventStatus($id: UUID!, $status: TaskEventStatusEnum!) {
+  dms {
+    updateTaskEventStatus(id: $id, status: $status) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventStatusMutation, UpdateTaskEventStatusMutationVariables>;
+export const UpdateTaskEventReasonDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventReason($id: UUID!, $reason: String) {
+  dms {
+    updateTaskEventReason(id: $id, reason: $reason) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventReasonMutation, UpdateTaskEventReasonMutationVariables>;
+export const UpdateTaskEventNotesDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventNotes($id: UUID!, $notes: String) {
+  dms {
+    updateTaskEventNotes(id: $id, notes: $notes) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventNotesMutation, UpdateTaskEventNotesMutationVariables>;
+export const UpdateTaskEventLatitudeDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventLatitude($id: UUID!, $latitude: Float) {
+  dms {
+    updateTaskEventLatitude(id: $id, latitude: $latitude) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventLatitudeMutation, UpdateTaskEventLatitudeMutationVariables>;
+export const UpdateTaskEventLongitudeDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventLongitude($id: UUID!, $longitude: Float) {
+  dms {
+    updateTaskEventLongitude(id: $id, longitude: $longitude) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventLongitudeMutation, UpdateTaskEventLongitudeMutationVariables>;
+export const UpdateTaskEventTimestampDocument = new TypedDocumentString(`
+    mutation UpdateTaskEventTimestamp($id: UUID!, $timestamp: DateTime) {
+  dms {
+    updateTaskEventTimestamp(id: $id, timestamp: $timestamp) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventTimestampMutation, UpdateTaskEventTimestampMutationVariables>;
+export const RemoveTaskEventDocument = new TypedDocumentString(`
+    mutation RemoveTaskEvent($id: UUID!) {
+  dms {
+    removeTaskEvent(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskEventMutation, RemoveTaskEventMutationVariables>;
+export const CreateCarrierDocument = new TypedDocumentString(`
+    mutation CreateCarrier($payload: CreateCarrierInput!) {
+  tms {
+    createCarrier(payload: $payload) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCarrierMutation, CreateCarrierMutationVariables>;
+export const UpdateCarrierNameDocument = new TypedDocumentString(`
+    mutation UpdateCarrierName($id: UUID!, $name: String!) {
+  tms {
+    updateCarrierName(id: $id, name: $name) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierNameMutation, UpdateCarrierNameMutationVariables>;
+export const UpdateCarrierContactDetailsDocument = new TypedDocumentString(`
+    mutation UpdateCarrierContactDetails($id: UUID!, $contactDetails: String!) {
+  tms {
+    updateCarrierContactDetails(id: $id, contactDetails: $contactDetails) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierContactDetailsMutation, UpdateCarrierContactDetailsMutationVariables>;
+export const UpdateCarrierServicesOfferedDocument = new TypedDocumentString(`
+    mutation UpdateCarrierServicesOffered($id: UUID!, $servicesOffered: String!) {
+  tms {
+    updateCarrierServicesOffered(id: $id, servicesOffered: $servicesOffered) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierServicesOfferedMutation, UpdateCarrierServicesOfferedMutationVariables>;
+export const RemoveCarrierDocument = new TypedDocumentString(`
+    mutation RemoveCarrier($id: UUID!) {
+  tms {
+    removeCarrier(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCarrierMutation, RemoveCarrierMutationVariables>;
+export const AddCarrierRateDocument = new TypedDocumentString(`
+    mutation AddCarrierRate($carrierId: UUID!, $payload: CreateCarrierRateInput!) {
+  tms {
+    addCarrierRate(carrierId: $carrierId, payload: $payload) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddCarrierRateMutation, AddCarrierRateMutationVariables>;
+export const UpdateCarrierRateDocument = new TypedDocumentString(`
+    mutation UpdateCarrierRate($id: UUID!, $payload: CreateCarrierRateInput!) {
+  tms {
+    updateCarrierRate(id: $id, payload: $payload) {
+      id
+      serviceType
+      origin
+      destination
+      rate
+      unit
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierRateMutation, UpdateCarrierRateMutationVariables>;
+export const RemoveCarrierRateDocument = new TypedDocumentString(`
+    mutation RemoveCarrierRate($id: UUID!) {
+  tms {
+    removeCarrierRate(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCarrierRateMutation, RemoveCarrierRateMutationVariables>;
+export const CreateDriverDocument = new TypedDocumentString(`
+    mutation CreateDriver($payload: CreateDriverInput!) {
+  tms {
+    createDriver(payload: $payload) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDriverMutation, CreateDriverMutationVariables>;
+export const UpdateDriverLicenseNumberDocument = new TypedDocumentString(`
+    mutation UpdateDriverLicenseNumber($id: UUID!, $licenseNumber: String!) {
+  tms {
+    updateDriverLicenseNumber(id: $id, licenseNumber: $licenseNumber) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLicenseNumberMutation, UpdateDriverLicenseNumberMutationVariables>;
+export const UpdateDriverLicenseExpiryDateDocument = new TypedDocumentString(`
+    mutation UpdateDriverLicenseExpiryDate($id: UUID!, $licenseExpiryDate: NaiveDate!) {
+  tms {
+    updateDriverLicenseExpiryDate(id: $id, licenseExpiryDate: $licenseExpiryDate) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLicenseExpiryDateMutation, UpdateDriverLicenseExpiryDateMutationVariables>;
+export const UpdateDriverStatusDocument = new TypedDocumentString(`
+    mutation UpdateDriverStatus($id: UUID!, $status: DriverStatusEnum!) {
+  tms {
+    updateDriverStatus(id: $id, status: $status) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverStatusMutation, UpdateDriverStatusMutationVariables>;
+export const RemoveDriverDocument = new TypedDocumentString(`
+    mutation RemoveDriver($id: UUID!) {
+  tms {
+    removeDriver(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverMutation, RemoveDriverMutationVariables>;
+export const AddDriverScheduleDocument = new TypedDocumentString(`
+    mutation AddDriverSchedule($driverId: UUID!, $payload: CreateDriverScheduleInput!) {
+  tms {
+    addDriverSchedule(driverId: $driverId, payload: $payload) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddDriverScheduleMutation, AddDriverScheduleMutationVariables>;
+export const UpdateDriverScheduleDocument = new TypedDocumentString(`
+    mutation UpdateDriverSchedule($id: UUID!, $payload: CreateDriverScheduleInput!) {
+  tms {
+    updateDriverSchedule(id: $id, payload: $payload) {
+      id
+      startDate
+      endDate
+      reason
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverScheduleMutation, UpdateDriverScheduleMutationVariables>;
+export const RemoveDriverScheduleDocument = new TypedDocumentString(`
+    mutation RemoveDriverSchedule($id: UUID!) {
+  tms {
+    removeDriverSchedule(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverScheduleMutation, RemoveDriverScheduleMutationVariables>;
+export const CreateExpenseDocument = new TypedDocumentString(`
+    mutation CreateExpense($payload: CreateExpenseInput!) {
+  tms {
+    createExpense(payload: $payload) {
+      id
+      type
+      amount
+      currency
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateExpenseMutation, CreateExpenseMutationVariables>;
+export const UpdateExpenseDocument = new TypedDocumentString(`
+    mutation UpdateExpense($id: UUID!, $payload: CreateExpenseInput!) {
+  tms {
+    updateExpense(id: $id, payload: $payload) {
+      id
+      type
+      amount
+      currency
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
+export const RemoveExpenseDocument = new TypedDocumentString(`
+    mutation RemoveExpense($id: UUID!) {
+  tms {
+    removeExpense(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveExpenseMutation, RemoveExpenseMutationVariables>;
+export const CreateGeofenceDocument = new TypedDocumentString(`
+    mutation CreateGeofence($payload: CreateGeofenceInput!) {
+  tms {
+    createGeofence(payload: $payload) {
+      id
+      name
+      coordinates
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGeofenceMutation, CreateGeofenceMutationVariables>;
+export const UpdateGeofenceDocument = new TypedDocumentString(`
+    mutation UpdateGeofence($id: UUID!, $payload: CreateGeofenceInput!) {
+  tms {
+    updateGeofence(id: $id, payload: $payload) {
+      id
+      name
+      coordinates
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateGeofenceMutation, UpdateGeofenceMutationVariables>;
+export const RemoveGeofenceDocument = new TypedDocumentString(`
+    mutation RemoveGeofence($id: UUID!) {
+  tms {
+    removeGeofence(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGeofenceMutation, RemoveGeofenceMutationVariables>;
+export const CreateGeofenceEventDocument = new TypedDocumentString(`
+    mutation CreateGeofenceEvent($payload: CreateGeofenceEventInput!) {
+  tms {
+    createGeofenceEvent(payload: $payload) {
+      id
+      eventType
+      timestamp
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGeofenceEventMutation, CreateGeofenceEventMutationVariables>;
+export const RemoveGeofenceEventDocument = new TypedDocumentString(`
+    mutation RemoveGeofenceEvent($id: UUID!) {
+  tms {
+    removeGeofenceEvent(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGeofenceEventMutation, RemoveGeofenceEventMutationVariables>;
+export const CreateGpsPingDocument = new TypedDocumentString(`
+    mutation CreateGpsPing($payload: CreateGpsPingInput!) {
+  tms {
+    createGpsPing(payload: $payload) {
+      id
+      latitude
+      longitude
+      timestamp
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGpsPingMutation, CreateGpsPingMutationVariables>;
+export const RemoveGpsPingDocument = new TypedDocumentString(`
+    mutation RemoveGpsPing($id: UUID!) {
+  tms {
+    removeGpsPing(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGpsPingMutation, RemoveGpsPingMutationVariables>;
+export const CreatePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation CreatePartnerInvoice($payload: CreatePartnerInvoiceInput!) {
+  tms {
+    createPartnerInvoice(payload: $payload) {
+      id
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePartnerInvoiceMutation, CreatePartnerInvoiceMutationVariables>;
+export const UpdatePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation UpdatePartnerInvoice($id: UUID!, $payload: CreatePartnerInvoiceInput!) {
+  tms {
+    updatePartnerInvoice(id: $id, payload: $payload) {
+      id
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePartnerInvoiceMutation, UpdatePartnerInvoiceMutationVariables>;
+export const RemovePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation RemovePartnerInvoice($id: UUID!) {
+  tms {
+    removePartnerInvoice(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePartnerInvoiceMutation, RemovePartnerInvoiceMutationVariables>;
+export const AddPartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation AddPartnerInvoiceItem($partnerInvoiceId: UUID!, $payload: CreatePartnerInvoiceItemInput!) {
+  tms {
+    addPartnerInvoiceItem(partnerInvoiceId: $partnerInvoiceId, payload: $payload) {
+      id
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddPartnerInvoiceItemMutation, AddPartnerInvoiceItemMutationVariables>;
+export const UpdatePartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation UpdatePartnerInvoiceItem($id: UUID!, $payload: CreatePartnerInvoiceItemInput!) {
+  tms {
+    updatePartnerInvoiceItem(id: $id, payload: $payload) {
+      id
+      amount
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePartnerInvoiceItemMutation, UpdatePartnerInvoiceItemMutationVariables>;
+export const RemovePartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation RemovePartnerInvoiceItem($id: UUID!) {
+  tms {
+    removePartnerInvoiceItem(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePartnerInvoiceItemMutation, RemovePartnerInvoiceItemMutationVariables>;
+export const CreateTmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation CreateTmsProofOfDelivery($payload: CreateTmsProofOfDeliveryInput!) {
+  tms {
+    createProofOfDelivery(payload: $payload) {
+      id
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTmsProofOfDeliveryMutation, CreateTmsProofOfDeliveryMutationVariables>;
+export const UpdateTmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation UpdateTmsProofOfDelivery($id: UUID!, $payload: CreateTmsProofOfDeliveryInput!) {
+  tms {
+    updateProofOfDelivery(id: $id, payload: $payload) {
+      id
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTmsProofOfDeliveryMutation, UpdateTmsProofOfDeliveryMutationVariables>;
+export const RemoveTmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation RemoveTmsProofOfDelivery($id: UUID!) {
+  tms {
+    removeProofOfDelivery(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTmsProofOfDeliveryMutation, RemoveTmsProofOfDeliveryMutationVariables>;
+export const CreateRouteDocument = new TypedDocumentString(`
+    mutation CreateRoute($payload: CreateRouteInput!) {
+  tms {
+    createRoute(payload: $payload) {
+      id
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRouteMutation, CreateRouteMutationVariables>;
+export const UpdateRouteDocument = new TypedDocumentString(`
+    mutation UpdateRoute($id: UUID!, $payload: CreateRouteInput!) {
+  tms {
+    updateRoute(id: $id, payload: $payload) {
+      id
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRouteMutation, UpdateRouteMutationVariables>;
+export const RemoveRouteDocument = new TypedDocumentString(`
+    mutation RemoveRoute($id: UUID!) {
+  tms {
+    removeRoute(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRouteMutation, RemoveRouteMutationVariables>;
+export const CreateShipmentLegDocument = new TypedDocumentString(`
+    mutation CreateShipmentLeg($payload: CreateShipmentLegInput!) {
+  tms {
+    createShipmentLeg(payload: $payload) {
+      id
+      shipmentId
+      legSequence
+      startLocation
+      endLocation
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateShipmentLegMutation, CreateShipmentLegMutationVariables>;
+export const UpdateShipmentLegDocument = new TypedDocumentString(`
+    mutation UpdateShipmentLeg($id: UUID!, $payload: CreateShipmentLegInput!) {
+  tms {
+    updateShipmentLeg(id: $id, payload: $payload) {
+      id
+      shipmentId
+      legSequence
+      startLocation
+      endLocation
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateShipmentLegMutation, UpdateShipmentLegMutationVariables>;
+export const RemoveShipmentLegDocument = new TypedDocumentString(`
+    mutation RemoveShipmentLeg($id: UUID!) {
+  tms {
+    removeShipmentLeg(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveShipmentLegMutation, RemoveShipmentLegMutationVariables>;
+export const AddShipmentLegEventDocument = new TypedDocumentString(`
+    mutation AddShipmentLegEvent($shipmentLegId: UUID!, $payload: CreateShipmentLegEventInput!) {
+  tms {
+    addShipmentLegEvent(shipmentLegId: $shipmentLegId, payload: $payload) {
+      id
+      shipmentId
+      legSequence
+      startLocation
+      endLocation
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddShipmentLegEventMutation, AddShipmentLegEventMutationVariables>;
+export const UpdateShipmentLegEventDocument = new TypedDocumentString(`
+    mutation UpdateShipmentLegEvent($id: UUID!, $payload: CreateShipmentLegEventInput!) {
+  tms {
+    updateShipmentLegEvent(id: $id, payload: $payload) {
+      id
+      statusMessage
+      location
+      eventTimestamp
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateShipmentLegEventMutation, UpdateShipmentLegEventMutationVariables>;
+export const RemoveShipmentLegEventDocument = new TypedDocumentString(`
+    mutation RemoveShipmentLegEvent($id: UUID!) {
+  tms {
+    removeShipmentLegEvent(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveShipmentLegEventMutation, RemoveShipmentLegEventMutationVariables>;
+export const CreateTripDocument = new TypedDocumentString(`
+    mutation CreateTrip($payload: CreateTripInput!) {
+  tms {
+    createTrip(payload: $payload) {
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTripMutation, CreateTripMutationVariables>;
+export const UpdateTripDocument = new TypedDocumentString(`
+    mutation UpdateTrip($id: UUID!, $payload: CreateTripInput!) {
+  tms {
+    updateTrip(id: $id, payload: $payload) {
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTripMutation, UpdateTripMutationVariables>;
+export const RemoveTripDocument = new TypedDocumentString(`
+    mutation RemoveTrip($id: UUID!) {
+  tms {
+    removeTrip(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTripMutation, RemoveTripMutationVariables>;
+export const AddTripStopDocument = new TypedDocumentString(`
+    mutation AddTripStop($tripId: UUID!, $payload: CreateTripStopInput!) {
+  tms {
+    addTripStop(tripId: $tripId, payload: $payload) {
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddTripStopMutation, AddTripStopMutationVariables>;
+export const UpdateTripStopDocument = new TypedDocumentString(`
+    mutation UpdateTripStop($id: UUID!, $payload: CreateTripStopInput!) {
+  tms {
+    updateTripStop(id: $id, payload: $payload) {
+      id
+      shipmentId
+      sequence
+      address
+      status
+      estimatedArrivalTime
+      actualArrivalTime
+      estimatedDepartureTime
+      actualDepartureTime
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTripStopMutation, UpdateTripStopMutationVariables>;
+export const RemoveTripStopDocument = new TypedDocumentString(`
+    mutation RemoveTripStop($id: UUID!) {
+  tms {
+    removeTripStop(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTripStopMutation, RemoveTripStopMutationVariables>;
+export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation CreateVehicleMaintenance($payload: CreateVehicleMaintenanceInput!) {
+  tms {
+    createVehicleMaintenance(payload: $payload) {
+      id
+      serviceDate
+      serviceType
+      cost
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateVehicleMaintenanceMutation, CreateVehicleMaintenanceMutationVariables>;
+export const UpdateVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation UpdateVehicleMaintenance($id: UUID!, $payload: CreateVehicleMaintenanceInput!) {
+  tms {
+    updateVehicleMaintenance(id: $id, payload: $payload) {
+      id
+      serviceDate
+      serviceType
+      cost
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateVehicleMaintenanceMutation, UpdateVehicleMaintenanceMutationVariables>;
+export const RemoveVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation RemoveVehicleMaintenance($id: UUID!) {
+  tms {
+    removeVehicleMaintenance(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveVehicleMaintenanceMutation, RemoveVehicleMaintenanceMutationVariables>;
+export const CreateVehicleDocument = new TypedDocumentString(`
+    mutation CreateVehicle($payload: CreateVehicleInput!) {
+  tms {
+    createVehicle(payload: $payload) {
+      id
+      registrationNumber
+      model
+      capacityVolume
+      capacityWeight
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateVehicleMutation, CreateVehicleMutationVariables>;
+export const UpdateVehicleDocument = new TypedDocumentString(`
+    mutation UpdateVehicle($id: UUID!, $payload: CreateVehicleInput!) {
+  tms {
+    updateVehicle(id: $id, payload: $payload) {
+      id
+      registrationNumber
+      model
+      capacityVolume
+      capacityWeight
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
+export const RemoveVehicleDocument = new TypedDocumentString(`
+    mutation RemoveVehicle($id: UUID!) {
+  tms {
+    removeVehicle(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveVehicleMutation, RemoveVehicleMutationVariables>;
+export const CreateBinThresholdDocument = new TypedDocumentString(`
+    mutation CreateBinThreshold($payload: CreateBinThresholdInput!) {
+  wms {
+    createBinThreshold(payload: $payload) {
+      id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateBinThresholdMutation, CreateBinThresholdMutationVariables>;
+export const UpdateBinThresholdMinQuantityDocument = new TypedDocumentString(`
+    mutation UpdateBinThresholdMinQuantity($id: UUID!, $minQuantity: Int!) {
+  wms {
+    updateBinThresholdMinQuantity(id: $id, minQuantity: $minQuantity) {
+      id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBinThresholdMinQuantityMutation, UpdateBinThresholdMinQuantityMutationVariables>;
+export const RemoveBinThresholdDocument = new TypedDocumentString(`
+    mutation RemoveBinThreshold($id: UUID!) {
+  wms {
+    removeBinThreshold(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveBinThresholdMutation, RemoveBinThresholdMutationVariables>;
+export const CreateInventoryStockDocument = new TypedDocumentString(`
+    mutation CreateInventoryStock($payload: CreateInventoryStockInput!) {
+  wms {
+    createInventoryStock(payload: $payload) {
+      id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInventoryStockMutation, CreateInventoryStockMutationVariables>;
+export const UpdateInventoryStockQuantityDocument = new TypedDocumentString(`
+    mutation UpdateInventoryStockQuantity($id: UUID!, $quantity: Int!) {
+  wms {
+    updateInventoryStockQuantity(id: $id, quantity: $quantity) {
+      id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInventoryStockQuantityMutation, UpdateInventoryStockQuantityMutationVariables>;
+export const RemoveInventoryStockDocument = new TypedDocumentString(`
+    mutation RemoveInventoryStock($id: UUID!) {
+  wms {
+    removeInventoryStock(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInventoryStockMutation, RemoveInventoryStockMutationVariables>;
+export const CreateLocationDocument = new TypedDocumentString(`
+    mutation CreateLocation($payload: CreateLocationInput!) {
+  wms {
+    createLocation(payload: $payload) {
+      id
+      name
+      barcode
+      type
+      level
+      path
+      maxWeight
+      maxVolume
+      maxPallets
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      isPickable
+      isReceivable
+      temperatureControlled
+      hazmatApproved
+      isActive
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      parentLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateLocationMutation, CreateLocationMutationVariables>;
+export const UpdateLocationNameDocument = new TypedDocumentString(`
+    mutation UpdateLocationName($id: UUID!, $name: String!) {
+  wms {
+    updateLocationName(id: $id, name: $name) {
+      id
+      name
+      barcode
+      type
+      level
+      path
+      maxWeight
+      maxVolume
+      maxPallets
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      isPickable
+      isReceivable
+      temperatureControlled
+      hazmatApproved
+      isActive
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      parentLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateLocationNameMutation, UpdateLocationNameMutationVariables>;
+export const RemoveLocationDocument = new TypedDocumentString(`
+    mutation RemoveLocation($id: UUID!) {
+  wms {
+    removeLocation(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveLocationMutation, RemoveLocationMutationVariables>;
+export const CreatePackageDocument = new TypedDocumentString(`
+    mutation CreatePackage($payload: CreatePackageInput!) {
+  wms {
+    createPackage(payload: $payload) {
+      id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      warehouse {
+        id
+        name
+      }
+      packedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePackageMutation, CreatePackageMutationVariables>;
+export const UpdatePackageTrackingNumberDocument = new TypedDocumentString(`
+    mutation UpdatePackageTrackingNumber($id: UUID!, $trackingNumber: String!) {
+  wms {
+    updatePackageTrackingNumber(id: $id, trackingNumber: $trackingNumber) {
+      id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      warehouse {
+        id
+        name
+      }
+      packedByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePackageTrackingNumberMutation, UpdatePackageTrackingNumberMutationVariables>;
+export const RemovePackageDocument = new TypedDocumentString(`
+    mutation RemovePackage($id: UUID!) {
+  wms {
+    removePackage(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePackageMutation, RemovePackageMutationVariables>;
+export const AddPackageItemDocument = new TypedDocumentString(`
+    mutation AddPackageItem($packageId: UUID!, $payload: CreatePackageItemInput!) {
+  wms {
+    addPackageItem(packageId: $packageId, payload: $payload) {
+      id
+      quantity
+      lotNumber
+      serialNumbers
+      expiryDate
+      unitWeight
+      totalWeight
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddPackageItemMutation, AddPackageItemMutationVariables>;
+export const UpdatePackageItemQuantityDocument = new TypedDocumentString(`
+    mutation UpdatePackageItemQuantity($id: UUID!, $quantity: Int!) {
+  wms {
+    updatePackageItemQuantity(id: $id, quantity: $quantity) {
+      id
+      quantity
+      lotNumber
+      serialNumbers
+      expiryDate
+      unitWeight
+      totalWeight
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePackageItemQuantityMutation, UpdatePackageItemQuantityMutationVariables>;
+export const RemovePackageItemDocument = new TypedDocumentString(`
+    mutation RemovePackageItem($id: UUID!) {
+  wms {
+    removePackageItem(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePackageItemMutation, RemovePackageItemMutationVariables>;
+export const CreatePickBatchDocument = new TypedDocumentString(`
+    mutation CreatePickBatch($payload: CreatePickBatchInput!) {
+  wms {
+    createPickBatch(payload: $payload) {
+      id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      assignedUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePickBatchMutation, CreatePickBatchMutationVariables>;
+export const UpdatePickBatchStatusDocument = new TypedDocumentString(`
+    mutation UpdatePickBatchStatus($id: UUID!, $status: PickBatchStatusEnum!) {
+  wms {
+    updatePickBatchStatus(id: $id, status: $status) {
+      id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      assignedUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePickBatchStatusMutation, UpdatePickBatchStatusMutationVariables>;
+export const RemovePickBatchDocument = new TypedDocumentString(`
+    mutation RemovePickBatch($id: UUID!) {
+  wms {
+    removePickBatch(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePickBatchMutation, RemovePickBatchMutationVariables>;
+export const AddPickBatchItemDocument = new TypedDocumentString(`
+    mutation AddPickBatchItem($pickBatchId: UUID!, $payload: CreatePickBatchItemInput!) {
+  wms {
+    addPickBatchItem(pickBatchId: $pickBatchId, payload: $payload) {
+      id
+      orderPriority
+      estimatedPickTime
+      actualPickTime
+      createdAt
+      updatedAt
+      pickBatch {
+        id
+        batchNumber
+      }
+      salesOrder {
+        id
+        orderNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddPickBatchItemMutation, AddPickBatchItemMutationVariables>;
+export const UpdatePickBatchItemPriorityDocument = new TypedDocumentString(`
+    mutation UpdatePickBatchItemPriority($id: UUID!, $orderPriority: Int!) {
+  wms {
+    updatePickBatchItemPriority(id: $id, orderPriority: $orderPriority) {
+      id
+      orderPriority
+      estimatedPickTime
+      actualPickTime
+      createdAt
+      updatedAt
+      pickBatch {
+        id
+        batchNumber
+      }
+      salesOrder {
+        id
+        orderNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePickBatchItemPriorityMutation, UpdatePickBatchItemPriorityMutationVariables>;
+export const RemovePickBatchItemDocument = new TypedDocumentString(`
+    mutation RemovePickBatchItem($id: UUID!) {
+  wms {
+    removePickBatchItem(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePickBatchItemMutation, RemovePickBatchItemMutationVariables>;
+export const CreatePutawayRuleDocument = new TypedDocumentString(`
+    mutation CreatePutawayRule($payload: CreatePutawayRuleInput!) {
+  wms {
+    createPutawayRule(payload: $payload) {
+      id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      preferredLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePutawayRuleMutation, CreatePutawayRuleMutationVariables>;
+export const UpdatePutawayRulePriorityDocument = new TypedDocumentString(`
+    mutation UpdatePutawayRulePriority($id: UUID!, $priority: Int!) {
+  wms {
+    updatePutawayRulePriority(id: $id, priority: $priority) {
+      id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      preferredLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePutawayRulePriorityMutation, UpdatePutawayRulePriorityMutationVariables>;
+export const RemovePutawayRuleDocument = new TypedDocumentString(`
+    mutation RemovePutawayRule($id: UUID!) {
+  wms {
+    removePutawayRule(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePutawayRuleMutation, RemovePutawayRuleMutationVariables>;
+export const CreateTaskDocument = new TypedDocumentString(`
+    mutation CreateTask($payload: CreateTaskInput!) {
+  wms {
+    createTask(payload: $payload) {
+      id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+      pickBatch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTaskMutation, CreateTaskMutationVariables>;
+export const UpdateTaskStatusDocument = new TypedDocumentString(`
+    mutation UpdateTaskStatus($id: UUID!, $status: TaskStatusEnum!) {
+  wms {
+    updateTaskStatus(id: $id, status: $status) {
+      id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+      pickBatch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskStatusMutation, UpdateTaskStatusMutationVariables>;
+export const RemoveTaskDocument = new TypedDocumentString(`
+    mutation RemoveTask($id: UUID!) {
+  wms {
+    removeTask(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskMutation, RemoveTaskMutationVariables>;
+export const AddTaskItemDocument = new TypedDocumentString(`
+    mutation AddTaskItem($taskId: UUID!, $payload: CreateTaskItemInput!) {
+  wms {
+    addTaskItem(taskId: $taskId, payload: $payload) {
+      id
+      quantityRequired
+      quantityCompleted
+      quantityRemaining
+      status
+      lotNumber
+      serialNumbers
+      expiryDate
+      notes
+      completedAt
+      createdAt
+      updatedAt
+      task {
+        id
+        taskNumber
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+      sourceLocation {
+        id
+        name
+      }
+      destinationLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddTaskItemMutation, AddTaskItemMutationVariables>;
+export const UpdateTaskItemStatusDocument = new TypedDocumentString(`
+    mutation UpdateTaskItemStatus($id: UUID!, $status: TaskItemStatusEnum!) {
+  wms {
+    updateTaskItemStatus(id: $id, status: $status) {
+      id
+      quantityRequired
+      quantityCompleted
+      quantityRemaining
+      status
+      lotNumber
+      serialNumbers
+      expiryDate
+      notes
+      completedAt
+      createdAt
+      updatedAt
+      task {
+        id
+        taskNumber
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+      sourceLocation {
+        id
+        name
+      }
+      destinationLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskItemStatusMutation, UpdateTaskItemStatusMutationVariables>;
+export const RemoveTaskItemDocument = new TypedDocumentString(`
+    mutation RemoveTaskItem($id: UUID!) {
+  wms {
+    removeTaskItem(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskItemMutation, RemoveTaskItemMutationVariables>;
+export const CreateWarehouseDocument = new TypedDocumentString(`
+    mutation CreateWarehouse($payload: CreateWarehouseInput!) {
+  wms {
+    createWarehouse(payload: $payload) {
+      id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateWarehouseMutation, CreateWarehouseMutationVariables>;
+export const UpdateWarehouseNameDocument = new TypedDocumentString(`
+    mutation UpdateWarehouseName($id: UUID!, $name: String!) {
+  wms {
+    updateWarehouseName(id: $id, name: $name) {
+      id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateWarehouseNameMutation, UpdateWarehouseNameMutationVariables>;
+export const RemoveWarehouseDocument = new TypedDocumentString(`
+    mutation RemoveWarehouse($id: UUID!) {
+  wms {
+    removeWarehouse(id: $id)
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveWarehouseMutation, RemoveWarehouseMutationVariables>;
+export const GetClientAccountDocument = new TypedDocumentString(`
+    query GetClientAccount($id: UUID!) {
+  billing {
+    clientAccount(id: $id) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetClientAccountQuery, GetClientAccountQueryVariables>;
+export const GetClientAccountsDocument = new TypedDocumentString(`
+    query GetClientAccounts($limit: Int!, $page: Int!) {
+  billing {
+    clientAccounts(limit: $limit, page: $page) {
+      id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetClientAccountsQuery, GetClientAccountsQueryVariables>;
+export const GetBillingInvoiceDocument = new TypedDocumentString(`
+    query GetBillingInvoice($id: UUID!) {
+  billing {
+    invoice(id: $id) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBillingInvoiceQuery, GetBillingInvoiceQueryVariables>;
+export const GetBillingInvoicesDocument = new TypedDocumentString(`
+    query GetBillingInvoices($limit: Int!, $page: Int!) {
+  billing {
+    invoices(limit: $limit, page: $page) {
+      id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      quote {
+        id
+        quotedPrice
+      }
+      createdBy {
+        id
+        name
+      }
+      items {
+        id
+        description
+        quantity
+        unitPrice
+        lineTotal
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBillingInvoicesQuery, GetBillingInvoicesQueryVariables>;
+export const GetQuoteDocument = new TypedDocumentString(`
+    query GetQuote($id: UUID!) {
+  billing {
+    quote(id: $id) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetQuoteQuery, GetQuoteQueryVariables>;
+export const GetQuotesDocument = new TypedDocumentString(`
+    query GetQuotes($limit: Int!, $page: Int!) {
+  billing {
+    quotes(limit: $limit, page: $page) {
+      id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetQuotesQuery, GetQuotesQueryVariables>;
+export const GetRateCardDocument = new TypedDocumentString(`
+    query GetRateCard($id: UUID!) {
+  billing {
+    rateCard(id: $id) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRateCardQuery, GetRateCardQueryVariables>;
+export const GetRateCardsDocument = new TypedDocumentString(`
+    query GetRateCards($limit: Int!, $page: Int!) {
+  billing {
+    rateCards(limit: $limit, page: $page) {
+      id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+      createdByUser {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRateCardsQuery, GetRateCardsQueryVariables>;
+export const GetSurchargeDocument = new TypedDocumentString(`
+    query GetSurcharge($id: UUID!) {
+  billing {
+    surcharge(id: $id) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSurchargeQuery, GetSurchargeQueryVariables>;
+export const GetSurchargesDocument = new TypedDocumentString(`
+    query GetSurcharges($limit: Int!, $page: Int!) {
+  billing {
+    surcharges(limit: $limit, page: $page) {
+      id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSurchargesQuery, GetSurchargesQueryVariables>;
 export const GetAttachmentDocument = new TypedDocumentString(`
     query GetAttachment($id: UUID!) {
   crm {
@@ -9765,8 +19904,8 @@ export const GetInteractionsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetInteractionsQuery, GetInteractionsQueryVariables>;
-export const GetInvoiceDocument = new TypedDocumentString(`
-    query GetInvoice($id: UUID!) {
+export const GetCrmInvoiceDocument = new TypedDocumentString(`
+    query GetCrmInvoice($id: UUID!) {
   crm {
     invoice(id: $id) {
       id
@@ -9795,9 +19934,9 @@ export const GetInvoiceDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<GetInvoiceQuery, GetInvoiceQueryVariables>;
-export const GetInvoicesDocument = new TypedDocumentString(`
-    query GetInvoices($limit: Int!, $page: Int!) {
+    `) as unknown as TypedDocumentString<GetCrmInvoiceQuery, GetCrmInvoiceQueryVariables>;
+export const GetCrmInvoicesDocument = new TypedDocumentString(`
+    query GetCrmInvoices($limit: Int!, $page: Int!) {
   crm {
     invoices(limit: $limit, page: $page) {
       id
@@ -9817,7 +19956,7 @@ export const GetInvoicesDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<GetInvoicesQuery, GetInvoicesQueryVariables>;
+    `) as unknown as TypedDocumentString<GetCrmInvoicesQuery, GetCrmInvoicesQueryVariables>;
 export const GetLeadDocument = new TypedDocumentString(`
     query GetLead($id: UUID!) {
   crm {
@@ -10025,6 +20164,1734 @@ export const GetTagsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetTagsQuery, GetTagsQueryVariables>;
+export const GetCustomerTrackingLinkDocument = new TypedDocumentString(`
+    query GetCustomerTrackingLink($id: UUID!) {
+  dms {
+    customerTrackingLink(id: $id) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCustomerTrackingLinkQuery, GetCustomerTrackingLinkQueryVariables>;
+export const GetCustomerTrackingLinksDocument = new TypedDocumentString(`
+    query GetCustomerTrackingLinks($limit: Int!, $page: Int!) {
+  dms {
+    customerTrackingLinks(limit: $limit, page: $page) {
+      id
+      trackingToken
+      isActive
+      accessCount
+      lastAccessedAt
+      expiresAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+        recipientName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCustomerTrackingLinksQuery, GetCustomerTrackingLinksQueryVariables>;
+export const GetDeliveryRouteDocument = new TypedDocumentString(`
+    query GetDeliveryRoute($id: UUID!) {
+  dms {
+    deliveryRoute(id: $id) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDeliveryRouteQuery, GetDeliveryRouteQueryVariables>;
+export const GetDeliveryRoutesDocument = new TypedDocumentString(`
+    query GetDeliveryRoutes($limit: Int!, $page: Int!) {
+  dms {
+    deliveryRoutes(limit: $limit, page: $page) {
+      id
+      routeDate
+      status
+      optimizedRouteData
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDeliveryRoutesQuery, GetDeliveryRoutesQueryVariables>;
+export const GetDeliveryTaskDocument = new TypedDocumentString(`
+    query GetDeliveryTask($id: UUID!) {
+  dms {
+    deliveryTask(id: $id) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDeliveryTaskQuery, GetDeliveryTaskQueryVariables>;
+export const GetDeliveryTasksDocument = new TypedDocumentString(`
+    query GetDeliveryTasks($limit: Int!, $page: Int!) {
+  dms {
+    deliveryTasks(limit: $limit, page: $page) {
+      id
+      routeSequence
+      deliveryAddress
+      recipientName
+      recipientPhone
+      deliveryInstructions
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      status
+      failureReason
+      attemptCount
+      createdAt
+      updatedAt
+      package {
+        id
+        packageNumber
+      }
+      deliveryRoute {
+        id
+        routeDate
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDeliveryTasksQuery, GetDeliveryTasksQueryVariables>;
+export const GetDriverLocationDocument = new TypedDocumentString(`
+    query GetDriverLocation($id: UUID!) {
+  dms {
+    driverLocation(id: $id) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDriverLocationQuery, GetDriverLocationQueryVariables>;
+export const GetDriverLocationsDocument = new TypedDocumentString(`
+    query GetDriverLocations($limit: Int!, $page: Int!) {
+  dms {
+    driverLocations(limit: $limit, page: $page) {
+      id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        licenseNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDriverLocationsQuery, GetDriverLocationsQueryVariables>;
+export const GetDmsProofOfDeliveryDocument = new TypedDocumentString(`
+    query GetDmsProofOfDelivery($id: UUID!) {
+  dms {
+    proofOfDelivery(id: $id) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDmsProofOfDeliveryQuery, GetDmsProofOfDeliveryQueryVariables>;
+export const GetDmsProofOfDeliveriesDocument = new TypedDocumentString(`
+    query GetDmsProofOfDeliveries($limit: Int!, $page: Int!) {
+  dms {
+    proofOfDeliveries(limit: $limit, page: $page) {
+      id
+      type
+      filePath
+      signatureData
+      recipientName
+      verificationCode
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDmsProofOfDeliveriesQuery, GetDmsProofOfDeliveriesQueryVariables>;
+export const GetTaskEventDocument = new TypedDocumentString(`
+    query GetTaskEvent($id: UUID!) {
+  dms {
+    taskEvent(id: $id) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTaskEventQuery, GetTaskEventQueryVariables>;
+export const GetTaskEventsDocument = new TypedDocumentString(`
+    query GetTaskEvents($limit: Int!, $page: Int!) {
+  dms {
+    taskEvents(limit: $limit, page: $page) {
+      id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        deliveryAddress
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTaskEventsQuery, GetTaskEventsQueryVariables>;
+export const GetCarrierDocument = new TypedDocumentString(`
+    query GetCarrier($id: UUID!) {
+  tms {
+    carrier(id: $id) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+      rates(limit: 10, page: 1) {
+        id
+        serviceType
+        origin
+        destination
+        rate
+        unit
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCarrierQuery, GetCarrierQueryVariables>;
+export const GetCarriersDocument = new TypedDocumentString(`
+    query GetCarriers($limit: Int!, $page: Int!) {
+  tms {
+    carriers(limit: $limit, page: $page) {
+      id
+      name
+      contactDetails
+      servicesOffered
+      createdAt
+      updatedAt
+      rates(limit: 10, page: 1) {
+        id
+        serviceType
+        origin
+        destination
+        rate
+        unit
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCarriersQuery, GetCarriersQueryVariables>;
+export const GetDriverDocument = new TypedDocumentString(`
+    query GetDriver($id: UUID!) {
+  tms {
+    driver(id: $id) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDriverQuery, GetDriverQueryVariables>;
+export const GetDriversDocument = new TypedDocumentString(`
+    query GetDrivers($limit: Int!, $page: Int!) {
+  tms {
+    drivers(limit: $limit, page: $page) {
+      id
+      licenseNumber
+      licenseExpiryDate
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetDriversQuery, GetDriversQueryVariables>;
+export const GetExpenseDocument = new TypedDocumentString(`
+    query GetExpense($id: UUID!) {
+  tms {
+    expense(id: $id) {
+      id
+      type
+      amount
+      currency
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetExpenseQuery, GetExpenseQueryVariables>;
+export const GetExpensesDocument = new TypedDocumentString(`
+    query GetExpenses($limit: Int!, $page: Int!) {
+  tms {
+    expenses(limit: $limit, page: $page) {
+      id
+      type
+      amount
+      currency
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetExpensesQuery, GetExpensesQueryVariables>;
+export const GetGeofenceDocument = new TypedDocumentString(`
+    query GetGeofence($id: UUID!) {
+  tms {
+    geofence(id: $id) {
+      id
+      name
+      coordinates
+      createdAt
+      updatedAt
+      events(limit: 10, page: 1) {
+        id
+        eventType
+        timestamp
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetGeofenceQuery, GetGeofenceQueryVariables>;
+export const GetGeofencesDocument = new TypedDocumentString(`
+    query GetGeofences($limit: Int!, $page: Int!) {
+  tms {
+    geofences(limit: $limit, page: $page) {
+      id
+      name
+      coordinates
+      createdAt
+      updatedAt
+      events(limit: 10, page: 1) {
+        id
+        eventType
+        timestamp
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetGeofencesQuery, GetGeofencesQueryVariables>;
+export const GetGpsPingDocument = new TypedDocumentString(`
+    query GetGpsPing($id: UUID!) {
+  tms {
+    gpsPing(id: $id) {
+      id
+      latitude
+      longitude
+      timestamp
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetGpsPingQuery, GetGpsPingQueryVariables>;
+export const GetGpsPingsDocument = new TypedDocumentString(`
+    query GetGpsPings($limit: Int!, $page: Int!) {
+  tms {
+    gpsPings(limit: $limit, page: $page) {
+      id
+      latitude
+      longitude
+      timestamp
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetGpsPingsQuery, GetGpsPingsQueryVariables>;
+export const GetPartnerInvoiceDocument = new TypedDocumentString(`
+    query GetPartnerInvoice($id: UUID!) {
+  tms {
+    partnerInvoice(id: $id) {
+      id
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPartnerInvoiceQuery, GetPartnerInvoiceQueryVariables>;
+export const GetPartnerInvoicesDocument = new TypedDocumentString(`
+    query GetPartnerInvoices($limit: Int!, $page: Int!) {
+  tms {
+    partnerInvoices(limit: $limit, page: $page) {
+      id
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPartnerInvoicesQuery, GetPartnerInvoicesQueryVariables>;
+export const GetTmsProofOfDeliveryDocument = new TypedDocumentString(`
+    query GetTmsProofOfDelivery($id: UUID!) {
+  tms {
+    proofOfDelivery(id: $id) {
+      id
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTmsProofOfDeliveryQuery, GetTmsProofOfDeliveryQueryVariables>;
+export const GetTmsProofOfDeliveriesDocument = new TypedDocumentString(`
+    query GetTmsProofOfDeliveries($limit: Int!, $page: Int!) {
+  tms {
+    proofOfDeliveries(limit: $limit, page: $page) {
+      id
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTmsProofOfDeliveriesQuery, GetTmsProofOfDeliveriesQueryVariables>;
+export const GetRouteDocument = new TypedDocumentString(`
+    query GetRoute($id: UUID!) {
+  tms {
+    route(id: $id) {
+      id
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRouteQuery, GetRouteQueryVariables>;
+export const GetRoutesDocument = new TypedDocumentString(`
+    query GetRoutes($limit: Int!, $page: Int!) {
+  tms {
+    routes(limit: $limit, page: $page) {
+      id
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetRoutesQuery, GetRoutesQueryVariables>;
+export const GetShipmentLegDocument = new TypedDocumentString(`
+    query GetShipmentLeg($id: UUID!) {
+  tms {
+    shipmentLeg(id: $id) {
+      id
+      shipmentId
+      legSequence
+      startLocation
+      endLocation
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetShipmentLegQuery, GetShipmentLegQueryVariables>;
+export const GetShipmentLegsDocument = new TypedDocumentString(`
+    query GetShipmentLegs($limit: Int!, $page: Int!) {
+  tms {
+    shipmentLegs(limit: $limit, page: $page) {
+      id
+      shipmentId
+      legSequence
+      startLocation
+      endLocation
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetShipmentLegsQuery, GetShipmentLegsQueryVariables>;
+export const GetTripDocument = new TypedDocumentString(`
+    query GetTrip($id: UUID!) {
+  tms {
+    trip(id: $id) {
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTripQuery, GetTripQueryVariables>;
+export const GetTripsDocument = new TypedDocumentString(`
+    query GetTrips($limit: Int!, $page: Int!) {
+  tms {
+    trips(limit: $limit, page: $page) {
+      id
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTripsQuery, GetTripsQueryVariables>;
+export const GetVehicleDocument = new TypedDocumentString(`
+    query GetVehicle($id: UUID!) {
+  tms {
+    vehicle(id: $id) {
+      id
+      registrationNumber
+      model
+      capacityVolume
+      capacityWeight
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetVehicleQuery, GetVehicleQueryVariables>;
+export const GetVehiclesDocument = new TypedDocumentString(`
+    query GetVehicles($limit: Int!, $page: Int!) {
+  tms {
+    vehicles(limit: $limit, page: $page) {
+      id
+      registrationNumber
+      model
+      capacityVolume
+      capacityWeight
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetVehiclesQuery, GetVehiclesQueryVariables>;
+export const GetBinThresholdDocument = new TypedDocumentString(`
+    query GetBinThreshold($id: UUID!) {
+  wms {
+    binThreshold(id: $id) {
+      id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBinThresholdQuery, GetBinThresholdQueryVariables>;
+export const GetBinThresholdsDocument = new TypedDocumentString(`
+    query GetBinThresholds($limit: Int!, $page: Int!) {
+  wms {
+    binThresholds(limit: $limit, page: $page) {
+      id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetBinThresholdsQuery, GetBinThresholdsQueryVariables>;
+export const GetInboundShipmentDocument = new TypedDocumentString(`
+    query GetInboundShipment($id: UUID!) {
+  wms {
+    inboundShipment(id: $id) {
+      id
+      status
+      expectedArrivalDate
+      actualArrivalDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      items {
+        id
+        expectedQuantity
+        receivedQuantity
+        discrepancyQuantity
+        discrepancyNotes
+        product {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInboundShipmentQuery, GetInboundShipmentQueryVariables>;
+export const GetInboundShipmentsDocument = new TypedDocumentString(`
+    query GetInboundShipments($limit: Int!, $page: Int!) {
+  wms {
+    inboundShipments(limit: $limit, page: $page) {
+      id
+      status
+      expectedArrivalDate
+      actualArrivalDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      items {
+        id
+        expectedQuantity
+        receivedQuantity
+        discrepancyQuantity
+        discrepancyNotes
+        product {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInboundShipmentsQuery, GetInboundShipmentsQueryVariables>;
+export const GetInventoryAdjustmentDocument = new TypedDocumentString(`
+    query GetInventoryAdjustment($id: UUID!) {
+  wms {
+    inventoryAdjustment(id: $id) {
+      id
+      quantityChange
+      reason
+      notes
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryAdjustmentQuery, GetInventoryAdjustmentQueryVariables>;
+export const GetInventoryAdjustmentsDocument = new TypedDocumentString(`
+    query GetInventoryAdjustments($limit: Int!, $page: Int!) {
+  wms {
+    inventoryAdjustments(limit: $limit, page: $page) {
+      id
+      quantityChange
+      reason
+      notes
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryAdjustmentsQuery, GetInventoryAdjustmentsQueryVariables>;
+export const GetInventoryBatchDocument = new TypedDocumentString(`
+    query GetInventoryBatch($id: UUID!) {
+  wms {
+    inventoryBatch(id: $id) {
+      id
+      batchNumber
+      expirationDate
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryBatchQuery, GetInventoryBatchQueryVariables>;
+export const GetInventoryBatchesDocument = new TypedDocumentString(`
+    query GetInventoryBatches($limit: Int!, $page: Int!) {
+  wms {
+    inventoryBatches(limit: $limit, page: $page) {
+      id
+      batchNumber
+      expirationDate
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryBatchesQuery, GetInventoryBatchesQueryVariables>;
+export const GetInventoryStockItemDocument = new TypedDocumentString(`
+    query GetInventoryStockItem($id: UUID!) {
+  wms {
+    inventoryStockItem(id: $id) {
+      id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryStockItemQuery, GetInventoryStockItemQueryVariables>;
+export const GetInventoryStockDocument = new TypedDocumentString(`
+    query GetInventoryStock($limit: Int!, $page: Int!) {
+  wms {
+    inventoryStock(limit: $limit, page: $page) {
+      id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+      }
+      batch {
+        id
+        batchNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetInventoryStockQuery, GetInventoryStockQueryVariables>;
+export const GetLocationDocument = new TypedDocumentString(`
+    query GetLocation($id: UUID!) {
+  wms {
+    location(id: $id) {
+      id
+      name
+      barcode
+      type
+      level
+      path
+      maxWeight
+      maxVolume
+      maxPallets
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      isPickable
+      isReceivable
+      temperatureControlled
+      hazmatApproved
+      isActive
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      parentLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetLocationQuery, GetLocationQueryVariables>;
+export const GetLocationsDocument = new TypedDocumentString(`
+    query GetLocations($limit: Int!, $page: Int!) {
+  wms {
+    locations(limit: $limit, page: $page) {
+      id
+      name
+      barcode
+      type
+      level
+      path
+      maxWeight
+      maxVolume
+      maxPallets
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      isPickable
+      isReceivable
+      temperatureControlled
+      hazmatApproved
+      isActive
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      parentLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetLocationsQuery, GetLocationsQueryVariables>;
+export const GetOutboundShipmentDocument = new TypedDocumentString(`
+    query GetOutboundShipment($id: UUID!) {
+  wms {
+    outboundShipment(id: $id) {
+      id
+      status
+      trackingNumber
+      carrier
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      salesOrder {
+        id
+        orderNumber
+      }
+      items {
+        id
+        quantityShipped
+        product {
+          id
+          name
+        }
+        salesOrderItem {
+          id
+          quantityOrdered
+        }
+        batch {
+          id
+          batchNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOutboundShipmentQuery, GetOutboundShipmentQueryVariables>;
+export const GetOutboundShipmentsDocument = new TypedDocumentString(`
+    query GetOutboundShipments($limit: Int!, $page: Int!) {
+  wms {
+    outboundShipments(limit: $limit, page: $page) {
+      id
+      status
+      trackingNumber
+      carrier
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      salesOrder {
+        id
+        orderNumber
+      }
+      items {
+        id
+        quantityShipped
+        product {
+          id
+          name
+        }
+        salesOrderItem {
+          id
+          quantityOrdered
+        }
+        batch {
+          id
+          batchNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOutboundShipmentsQuery, GetOutboundShipmentsQueryVariables>;
+export const GetPackageDocument = new TypedDocumentString(`
+    query GetPackage($id: UUID!) {
+  wms {
+    package(id: $id) {
+      id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      warehouse {
+        id
+        name
+      }
+      packedByUser {
+        id
+        name
+      }
+      items {
+        id
+        quantity
+        lotNumber
+        serialNumbers
+        expiryDate
+        unitWeight
+        totalWeight
+        product {
+          id
+          name
+        }
+        batch {
+          id
+          batchNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPackageQuery, GetPackageQueryVariables>;
+export const GetPackagesDocument = new TypedDocumentString(`
+    query GetPackages($limit: Int!, $page: Int!) {
+  wms {
+    packages(limit: $limit, page: $page) {
+      id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      warehouse {
+        id
+        name
+      }
+      packedByUser {
+        id
+        name
+      }
+      items {
+        id
+        quantity
+        lotNumber
+        serialNumbers
+        expiryDate
+        unitWeight
+        totalWeight
+        product {
+          id
+          name
+        }
+        batch {
+          id
+          batchNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPackagesQuery, GetPackagesQueryVariables>;
+export const GetPickBatchDocument = new TypedDocumentString(`
+    query GetPickBatch($id: UUID!) {
+  wms {
+    pickBatch(id: $id) {
+      id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      assignedUser {
+        id
+        name
+      }
+      items {
+        id
+        orderPriority
+        estimatedPickTime
+        actualPickTime
+        salesOrder {
+          id
+          orderNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPickBatchQuery, GetPickBatchQueryVariables>;
+export const GetPickBatchesDocument = new TypedDocumentString(`
+    query GetPickBatches($limit: Int!, $page: Int!) {
+  wms {
+    pickBatches(limit: $limit, page: $page) {
+      id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      assignedUser {
+        id
+        name
+      }
+      items {
+        id
+        orderPriority
+        estimatedPickTime
+        actualPickTime
+        salesOrder {
+          id
+          orderNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPickBatchesQuery, GetPickBatchesQueryVariables>;
+export const GetWmsProductDocument = new TypedDocumentString(`
+    query GetWmsProduct($id: UUID!) {
+  wms {
+    product(id: $id) {
+      id
+      name
+      sku
+      barcode
+      description
+      costPrice
+      length
+      width
+      height
+      volume
+      weight
+      status
+      createdAt
+      updatedAt
+      supplier {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetWmsProductQuery, GetWmsProductQueryVariables>;
+export const GetWmsProductsDocument = new TypedDocumentString(`
+    query GetWmsProducts($limit: Int!, $page: Int!) {
+  wms {
+    products(limit: $limit, page: $page) {
+      id
+      name
+      sku
+      barcode
+      description
+      costPrice
+      length
+      width
+      height
+      volume
+      weight
+      status
+      createdAt
+      updatedAt
+      supplier {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetWmsProductsQuery, GetWmsProductsQueryVariables>;
+export const GetPutawayRuleDocument = new TypedDocumentString(`
+    query GetPutawayRule($id: UUID!) {
+  wms {
+    putawayRule(id: $id) {
+      id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      preferredLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPutawayRuleQuery, GetPutawayRuleQueryVariables>;
+export const GetPutawayRulesDocument = new TypedDocumentString(`
+    query GetPutawayRules($limit: Int!, $page: Int!) {
+  wms {
+    putawayRules(limit: $limit, page: $page) {
+      id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      client {
+        id
+        name
+      }
+      warehouse {
+        id
+        name
+      }
+      preferredLocation {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetPutawayRulesQuery, GetPutawayRulesQueryVariables>;
+export const GetReorderPointDocument = new TypedDocumentString(`
+    query GetReorderPoint($id: UUID!) {
+  wms {
+    reorderPoint(id: $id) {
+      id
+      threshold
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetReorderPointQuery, GetReorderPointQueryVariables>;
+export const GetReorderPointsDocument = new TypedDocumentString(`
+    query GetReorderPoints($limit: Int!, $page: Int!) {
+  wms {
+    reorderPoints(limit: $limit, page: $page) {
+      id
+      threshold
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetReorderPointsQuery, GetReorderPointsQueryVariables>;
+export const GetReturnItemDocument = new TypedDocumentString(`
+    query GetReturnItem($id: UUID!) {
+  wms {
+    returnItem(id: $id) {
+      id
+      returnNumber
+      status
+      reason
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetReturnItemQuery, GetReturnItemQueryVariables>;
+export const GetReturnsDocument = new TypedDocumentString(`
+    query GetReturns($limit: Int!, $page: Int!) {
+  wms {
+    returns(limit: $limit, page: $page) {
+      id
+      returnNumber
+      status
+      reason
+      createdAt
+      updatedAt
+      salesOrder {
+        id
+        orderNumber
+      }
+      client {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetReturnsQuery, GetReturnsQueryVariables>;
+export const GetSalesOrderDocument = new TypedDocumentString(`
+    query GetSalesOrder($id: UUID!) {
+  wms {
+    salesOrder(id: $id) {
+      id
+      orderNumber
+      status
+      shippingAddress
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      opportunities {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSalesOrderQuery, GetSalesOrderQueryVariables>;
+export const GetSalesOrdersDocument = new TypedDocumentString(`
+    query GetSalesOrders($limit: Int!, $page: Int!) {
+  wms {
+    salesOrders(limit: $limit, page: $page) {
+      id
+      orderNumber
+      status
+      shippingAddress
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
+      opportunities {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSalesOrdersQuery, GetSalesOrdersQueryVariables>;
+export const GetStockTransferDocument = new TypedDocumentString(`
+    query GetStockTransfer($id: UUID!) {
+  wms {
+    stockTransfer(id: $id) {
+      id
+      quantity
+      status
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      sourceWarehouse {
+        id
+        name
+      }
+      destinationWarehouse {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetStockTransferQuery, GetStockTransferQueryVariables>;
+export const GetStockTransfersDocument = new TypedDocumentString(`
+    query GetStockTransfers($limit: Int!, $page: Int!) {
+  wms {
+    stockTransfers(limit: $limit, page: $page) {
+      id
+      quantity
+      status
+      createdAt
+      updatedAt
+      product {
+        id
+        name
+      }
+      sourceWarehouse {
+        id
+        name
+      }
+      destinationWarehouse {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetStockTransfersQuery, GetStockTransfersQueryVariables>;
+export const GetSupplierDocument = new TypedDocumentString(`
+    query GetSupplier($id: UUID!) {
+  wms {
+    supplier(id: $id) {
+      id
+      name
+      contactPerson
+      email
+      phoneNumber
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSupplierQuery, GetSupplierQueryVariables>;
+export const GetSuppliersDocument = new TypedDocumentString(`
+    query GetSuppliers($limit: Int!, $page: Int!) {
+  wms {
+    suppliers(limit: $limit, page: $page) {
+      id
+      name
+      contactPerson
+      email
+      phoneNumber
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetSuppliersQuery, GetSuppliersQueryVariables>;
+export const GetTaskDocument = new TypedDocumentString(`
+    query GetTask($id: UUID!) {
+  wms {
+    task(id: $id) {
+      id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+      pickBatch {
+        id
+        batchNumber
+      }
+      items {
+        id
+        quantityRequired
+        quantityCompleted
+        quantityRemaining
+        status
+        lotNumber
+        serialNumbers
+        expiryDate
+        notes
+        completedAt
+        product {
+          id
+          name
+        }
+        batch {
+          id
+          batchNumber
+        }
+        sourceLocation {
+          id
+          name
+        }
+        destinationLocation {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTaskQuery, GetTaskQueryVariables>;
+export const GetTasksDocument = new TypedDocumentString(`
+    query GetTasks($limit: Int!, $page: Int!) {
+  wms {
+    tasks(limit: $limit, page: $page) {
+      id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
+      warehouse {
+        id
+        name
+      }
+      user {
+        id
+        name
+      }
+      pickBatch {
+        id
+        batchNumber
+      }
+      items {
+        id
+        quantityRequired
+        quantityCompleted
+        quantityRemaining
+        status
+        lotNumber
+        serialNumbers
+        expiryDate
+        notes
+        completedAt
+        product {
+          id
+          name
+        }
+        batch {
+          id
+          batchNumber
+        }
+        sourceLocation {
+          id
+          name
+        }
+        destinationLocation {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetTasksQuery, GetTasksQueryVariables>;
+export const GetWarehouseDocument = new TypedDocumentString(`
+    query GetWarehouse($id: UUID!) {
+  wms {
+    warehouse(id: $id) {
+      id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
+      locations {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetWarehouseQuery, GetWarehouseQueryVariables>;
+export const GetWarehousesDocument = new TypedDocumentString(`
+    query GetWarehouses($limit: Int!, $page: Int!) {
+  wms {
+    warehouses(limit: $limit, page: $page) {
+      id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
+      locations {
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetWarehousesQuery, GetWarehousesQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -15996,6 +27863,1245 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutations', auth: { __typename?: 'AuthMutation', changePassword: string } };
 
+export type CreateAccountTransactionMutationVariables = Exact<{
+  payload: CreateAccountTransactionInput;
+}>;
+
+
+export type CreateAccountTransactionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createAccountTransaction: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionClientAccountIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientAccountId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateAccountTransactionClientAccountIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionClientAccountId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: TransactionTypeEnum;
+}>;
+
+
+export type UpdateAccountTransactionTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionType: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateAccountTransactionAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionAmount: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionRunningBalanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  runningBalance?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionRunningBalanceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionRunningBalance: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionSourceRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionSourceRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionSourceRecordId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionSourceRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionSourceRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionSourceRecordType: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionDescription: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionReferenceNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  referenceNumber?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionReferenceNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionReferenceNumber: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionTransactionDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  transactionDate?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionTransactionDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionTransactionDate: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateAccountTransactionProcessedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateAccountTransactionProcessedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountTransactionProcessedByUserId: { __typename?: 'BillingAccountTransactions', id: any, type: TransactionTypeEnum, amount: number, runningBalance?: number | null, sourceRecordType?: string | null, description?: string | null, referenceNumber?: string | null, transactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, clientAccount: { __typename?: 'BillingClientAccounts', id: any, walletBalance?: number | null }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveAccountTransactionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveAccountTransactionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeAccountTransaction: string } };
+
+export type CreateAccountingSyncLogMutationVariables = Exact<{
+  payload: CreateAccountingSyncLogInput;
+}>;
+
+
+export type CreateAccountingSyncLogMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createAccountingSyncLog: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRecordId: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordType: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRecordType: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogExternalSystemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  externalSystem: Scalars['String']['input'];
+}>;
+
+
+export type UpdateAccountingSyncLogExternalSystemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogExternalSystem: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogExternalIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  externalId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogExternalIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogExternalId: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: SyncStatusEnum;
+}>;
+
+
+export type UpdateAccountingSyncLogStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogStatus: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogErrorMessageMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  errorMessage?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogErrorMessageMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogErrorMessage: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRequestPayloadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  requestPayload?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogRequestPayloadMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRequestPayload: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogResponsePayloadMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  responsePayload?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogResponsePayloadMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogResponsePayload: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogLastSyncAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastSyncAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogLastSyncAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogLastSyncAt: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogRetryCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  retryCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogRetryCountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogRetryCount: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateAccountingSyncLogNextRetryAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  nextRetryAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateAccountingSyncLogNextRetryAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateAccountingSyncLogNextRetryAt: { __typename?: 'BillingAccountingSyncLog', id: any, recordId: any, recordType: string, externalSystem: string, externalId?: string | null, status?: SyncStatusEnum | null, errorMessage?: string | null, requestPayload?: string | null, responsePayload?: string | null, lastSyncAt?: any | null, retryCount?: number | null, nextRetryAt?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveAccountingSyncLogMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveAccountingSyncLogMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeAccountingSyncLog: string } };
+
+export type CreateClientAccountMutationVariables = Exact<{
+  payload: CreateClientAccountInput;
+}>;
+
+
+export type CreateClientAccountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createClientAccount: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateClientAccountClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountClientId: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountCreditLimitMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountCreditLimitMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountCreditLimit: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountAvailableCreditMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  availableCredit?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountAvailableCreditMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountAvailableCredit: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountWalletBalanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  walletBalance?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateClientAccountWalletBalanceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountWalletBalance: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateClientAccountCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountCurrency: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountPaymentTermsDaysMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateClientAccountPaymentTermsDaysMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountPaymentTermsDays: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountIsCreditApprovedMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateClientAccountIsCreditApprovedMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountIsCreditApproved: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type UpdateClientAccountLastPaymentDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastPaymentDate?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateClientAccountLastPaymentDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateClientAccountLastPaymentDate: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } } };
+
+export type RemoveClientAccountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveClientAccountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeClientAccount: string } };
+
+export type CreateCreditNoteMutationVariables = Exact<{
+  payload: CreateCreditNoteInput;
+}>;
+
+
+export type CreateCreditNoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createCreditNote: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteInvoiceIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateCreditNoteInvoiceIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteInvoiceId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteDisputeIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  disputeId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateCreditNoteDisputeIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteDisputeId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCreditNoteNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  creditNoteNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCreditNoteCreditNoteNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCreditNoteNumber: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateCreditNoteAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteAmount: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCreditNoteReasonMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteReason: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteIssueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  issueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateCreditNoteIssueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteIssueDate: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteAppliedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  appliedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCreditNoteAppliedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteAppliedAt: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateCreditNoteCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCurrency: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateCreditNoteNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteNotes: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateCreditNoteCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateCreditNoteCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateCreditNoteCreatedByUserId: { __typename?: 'BillingCreditNotes', id: any, creditNoteNumber: string, amount: number, reason: string, issueDate: any, appliedAt?: any | null, currency?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, dispute?: { __typename?: 'BillingDisputes', id: any, reason: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveCreditNoteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCreditNoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeCreditNote: string } };
+
+export type CreateDisputeMutationVariables = Exact<{
+  payload: CreateDisputeInput;
+}>;
+
+
+export type CreateDisputeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createDispute: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeLineItemIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lineItemId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDisputeLineItemIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeLineItemId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDisputeClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeClientId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDisputeReasonMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeReason: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: DisputeStatusEnum;
+}>;
+
+
+export type UpdateDisputeStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeStatus: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeDisputedAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  disputedAmount?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDisputeDisputedAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeDisputedAmount: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolutionNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolutionNotes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDisputeResolutionNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolutionNotes: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeSubmittedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  submittedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDisputeSubmittedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeSubmittedAt: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolvedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolvedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDisputeResolvedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolvedAt: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDisputeResolvedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  resolvedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateDisputeResolvedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDisputeResolvedByUserId: { __typename?: 'BillingDisputes', id: any, reason: string, status: DisputeStatusEnum, disputedAmount?: number | null, resolutionNotes?: string | null, submittedAt?: any | null, resolvedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, invoiceLineItem: { __typename?: 'BillingInvoiceLineItems', id: any, description: string }, client: { __typename?: 'CrmCompanies', id: any, name: string }, resolvedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveDisputeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDisputeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeDispute: string } };
+
+export type CreateDocumentMutationVariables = Exact<{
+  payload: CreateDocumentInput;
+}>;
+
+
+export type CreateDocumentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createDocument: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDocumentRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentRecordId: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recordType: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentRecordType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentDocumentTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  documentType: DocumentTypeEnum;
+}>;
+
+
+export type UpdateDocumentDocumentTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentDocumentType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFilePathMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  filePath: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentFilePathMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFilePath: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFileNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fileName: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDocumentFileNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFileName: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentFileSizeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fileSize?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDocumentFileSizeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentFileSize: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentMimeTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDocumentMimeTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentMimeType: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateDocumentUploadedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  uploadedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateDocumentUploadedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateDocumentUploadedByUserId: { __typename?: 'BillingDocuments', id: any, recordId: any, recordType: string, documentType: DocumentTypeEnum, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedBy?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveDocumentMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDocumentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeDocument: string } };
+
+export type CreateBillingInvoiceMutationVariables = Exact<{
+  payload: CreateBillingInvoiceInput;
+}>;
+
+
+export type CreateBillingInvoiceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createInvoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceClientId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceQuoteIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quoteId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceQuoteIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceQuoteId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceInvoiceNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceInvoiceNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceInvoiceNumber: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: InvoiceStatusEnum;
+}>;
+
+
+export type UpdateBillingInvoiceStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceStatus: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceIssueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  issueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceIssueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceIssueDate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceDueDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  dueDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceDueDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceDueDate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceTotalAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  totalAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceTotalAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceTotalAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceAmountPaidMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amountPaid: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceAmountPaidMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceAmountPaid: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceCurrency: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceTaxAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  taxAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceTaxAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceTaxAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceDiscountAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  discountAmount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceDiscountAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceDiscountAmount: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceSubtotalMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  subtotal: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceSubtotalMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceSubtotal: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoicePaymentTermsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentTerms?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoicePaymentTermsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoicePaymentTerms: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceNotes: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceSentAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sentAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceSentAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceSentAt: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoicePaidAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paidAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateBillingInvoicePaidAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoicePaidAt: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceCreatedByUserId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type RemoveBillingInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBillingInvoiceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeInvoice: string } };
+
+export type AddBillingInvoiceLineItemMutationVariables = Exact<{
+  invoiceId: Scalars['UUID']['input'];
+  payload: CreateBillingInvoiceLineItemInput;
+}>;
+
+
+export type AddBillingInvoiceLineItemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', addInvoiceLineItem: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemProductIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  productId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemProductIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemProductId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemSourceRecordIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemSourceRecordIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemSourceRecordId: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemSourceRecordTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemSourceRecordTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemSourceRecordType: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description: Scalars['String']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemDescription: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemQuantityMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemQuantity: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemUnitPriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  unitPrice: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateBillingInvoiceLineItemUnitPriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemUnitPrice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemTaxRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  taxRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemTaxRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemTaxRate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type UpdateBillingInvoiceLineItemDiscountRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  discountRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateBillingInvoiceLineItemDiscountRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateInvoiceLineItemDiscountRate: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type RemoveBillingInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBillingInvoiceLineItemMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeInvoiceLineItem: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } } };
+
+export type CreatePaymentMutationVariables = Exact<{
+  payload: CreatePaymentInput;
+}>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createPayment: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentInvoiceIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  invoiceId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdatePaymentInvoiceIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentInvoiceId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdatePaymentAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentAmount: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentPaymentMethodMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentMethod: PaymentMethodEnum;
+}>;
+
+
+export type UpdatePaymentPaymentMethodMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentPaymentMethod: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentTransactionIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  transactionId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentTransactionIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentTransactionId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentGatewayReferenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  gatewayReference?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentGatewayReferenceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentGatewayReference: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: PaymentStatusEnum;
+}>;
+
+
+export type UpdatePaymentStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentStatus: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentPaymentDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  paymentDate?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdatePaymentPaymentDateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentPaymentDate: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentProcessedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdatePaymentProcessedAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentProcessedAt: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentCurrencyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentCurrencyMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentCurrency: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentExchangeRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  exchangeRate?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdatePaymentExchangeRateMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentExchangeRate: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentFeesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  fees?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdatePaymentFeesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentFees: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePaymentNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentNotes: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePaymentProcessedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  processedByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdatePaymentProcessedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updatePaymentProcessedByUserId: { __typename?: 'BillingPayments', id: any, amount: number, paymentMethod: PaymentMethodEnum, transactionId?: string | null, gatewayReference?: string | null, status?: PaymentStatusEnum | null, paymentDate?: any | null, processedAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string }, processedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePaymentMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePaymentMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removePayment: string } };
+
+export type CreateQuoteMutationVariables = Exact<{
+  payload: CreateQuoteInput;
+}>;
+
+
+export type CreateQuoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createQuote: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteClientIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  clientId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateQuoteClientIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteClientId: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteOriginDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  originDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateQuoteOriginDetailsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteOriginDetails: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteDestinationDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  destinationDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateQuoteDestinationDetailsMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteDestinationDetails: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteWeightMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  weight?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteWeightMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteWeight: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteLengthMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  length?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteLengthMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteLength: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteWidthMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  width?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteWidthMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteWidth: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteHeightMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  height?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateQuoteHeightMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteHeight: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteQuotedPriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quotedPrice: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateQuoteQuotedPriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteQuotedPrice: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteServiceLevelMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  serviceLevel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteServiceLevelMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteServiceLevel: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteExpiresAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateQuoteExpiresAtMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteExpiresAt: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: QuoteStatusEnum;
+}>;
+
+
+export type UpdateQuoteStatusMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteStatus: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteQuoteNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quoteNumber?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteQuoteNumberMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteQuoteNumber: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuoteNotesMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteNotes: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateQuoteCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateQuoteCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateQuoteCreatedByUserId: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveQuoteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveQuoteMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeQuote: string } };
+
+export type CreateRateCardMutationVariables = Exact<{
+  payload: CreateRateCardInput;
+}>;
+
+
+export type CreateRateCardMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createRateCard: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateCardNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardName: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardServiceTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  serviceType: ServiceTypeEnum;
+}>;
+
+
+export type UpdateRateCardServiceTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardServiceType: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateRateCardIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardIsActive: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardValidFromMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validFrom: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateRateCardValidFromMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardValidFrom: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardValidToMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validTo?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateRateCardValidToMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardValidTo: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateRateCardDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardDescription: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdateRateCardCreatedByUserIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  createdByUserId?: InputMaybe<Scalars['UUID']['input']>;
+}>;
+
+
+export type UpdateRateCardCreatedByUserIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateCardCreatedByUserId: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemoveRateCardMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRateCardMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeRateCard: string } };
+
+export type CreateRateRuleMutationVariables = Exact<{
+  payload: CreateRateRuleInput;
+}>;
+
+
+export type CreateRateRuleMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createRateRule: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleRateCardIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  rateCardId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateRateRuleRateCardIdMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleRateCardId: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleConditionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  condition: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateRuleConditionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleCondition: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  value: Scalars['String']['input'];
+}>;
+
+
+export type UpdateRateRuleValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePriceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  price: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateRateRulePriceMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePrice: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePricingModelMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  pricingModel: PricingModelEnum;
+}>;
+
+
+export type UpdateRateRulePricingModelMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePricingModel: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleMinValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  minValue?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateRateRuleMinValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleMinValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleMaxValueMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  maxValue?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateRateRuleMaxValueMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleMaxValue: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRulePriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  priority?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateRateRulePriorityMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRulePriority: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type UpdateRateRuleIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateRateRuleIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateRateRuleIsActive: { __typename?: 'BillingRateRules', id: any, condition: string, value: string, price: number, pricingModel: PricingModelEnum, minValue?: number | null, maxValue?: number | null, priority?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, rateCard: { __typename?: 'BillingRateCards', id: any, name: string } } } };
+
+export type RemoveRateRuleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRateRuleMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeRateRule: string } };
+
+export type CreateSurchargeMutationVariables = Exact<{
+  payload: CreateSurchargeInput;
+}>;
+
+
+export type CreateSurchargeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', createSurcharge: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateSurchargeNameMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeName: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: Scalars['String']['input'];
+}>;
+
+
+export type UpdateSurchargeTypeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeType: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeAmountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  amount: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateSurchargeAmountMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeAmount: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeCalculationMethodMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  calculationMethod: SurchargeCalculationMethodEnum;
+}>;
+
+
+export type UpdateSurchargeCalculationMethodMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeCalculationMethod: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateSurchargeIsActiveMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeIsActive: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeValidFromMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validFrom?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateSurchargeValidFromMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeValidFrom: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeValidToMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  validTo?: InputMaybe<Scalars['NaiveDate']['input']>;
+}>;
+
+
+export type UpdateSurchargeValidToMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeValidTo: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateSurchargeDescriptionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateSurchargeDescriptionMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', updateSurchargeDescription: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveSurchargeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveSurchargeMutation = { __typename?: 'Mutations', billing: { __typename?: 'BillingMutations', removeSurcharge: string } };
+
 export type UploadAttachmentMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
   recordId: Scalars['UUID']['input'];
@@ -16150,86 +29256,6 @@ export type RemoveCompanyMutationVariables = Exact<{
 
 export type RemoveCompanyMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeCompany: string } };
 
-export type UpdateCompanyStreetMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  street?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyStreetMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyStreet: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyCityMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  city?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyCityMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyCity: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyStateMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  state?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyStateMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyState: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyPostalCodeMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  postalCode?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyPostalCodeMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyPostalCode: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyCountryMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  country?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyCountryMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyCountry: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyPhoneNumberMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyPhoneNumberMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyPhoneNumber: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyIndustryMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  industry?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyIndustryMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyIndustry: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyWebsiteMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  website?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateCompanyWebsiteMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyWebsite: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyAnnualRevenueMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  annualRevenue?: InputMaybe<Scalars['Decimal']['input']>;
-}>;
-
-
-export type UpdateCompanyAnnualRevenueMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyAnnualRevenue: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
-export type UpdateCompanyOwnerIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  ownerId?: InputMaybe<Scalars['UUID']['input']>;
-}>;
-
-
-export type UpdateCompanyOwnerIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateCompanyOwnerId: { __typename?: 'CrmCompanies', id: any, name: string, industry?: string | null, annualRevenue?: any | null, phoneNumber?: string | null, website?: string | null, street?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, createdAt?: any | null, updatedAt?: any | null, owner?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
-
 export type CreateContactMutationVariables = Exact<{
   payload: CreateContactInput;
 }>;
@@ -16244,46 +29270,6 @@ export type UpdateContactNameMutationVariables = Exact<{
 
 
 export type UpdateContactNameMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactName: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactEmailMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  email: Scalars['String']['input'];
-}>;
-
-
-export type UpdateContactEmailMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactEmail: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactPhoneNumberMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateContactPhoneNumberMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactPhoneNumber: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactJobTitleMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  jobTitle?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UpdateContactJobTitleMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactJobTitle: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactCompanyIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  companyId?: InputMaybe<Scalars['UUID']['input']>;
-}>;
-
-
-export type UpdateContactCompanyIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactCompanyId: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
-
-export type UpdateContactOwnerIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input'];
-  ownerId: Scalars['UUID']['input'];
-}>;
-
-
-export type UpdateContactOwnerIdMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', updateContactOwnerId: { __typename?: 'CrmContacts', id: any, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null, ownerId: any, companyId?: any | null, owner: { __typename?: 'AuthUser', id: any, name: string }, company?: { __typename?: 'CrmCompanies', id: any, name: string } | null } } };
 
 export type RemoveContactMutationVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -16781,6 +29767,1253 @@ export type RemoveTagMutationVariables = Exact<{
 
 export type RemoveTagMutation = { __typename?: 'Mutations', crm: { __typename?: 'CrmMutations', removeTag: string } };
 
+export type CreateCustomerTrackingLinkMutationVariables = Exact<{
+  payload: CreateCustomerTrackingLinkInput;
+}>;
+
+
+export type CreateCustomerTrackingLinkMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createCustomerTrackingLink: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateCustomerTrackingLinkDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkDeliveryTaskId: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkTrackingTokenMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  trackingToken: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCustomerTrackingLinkTrackingTokenMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkTrackingToken: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkIsActiveMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkIsActiveMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkIsActive: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkAccessCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  accessCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkAccessCountMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkAccessCount: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkLastAccessedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  lastAccessedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkLastAccessedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkLastAccessedAt: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type UpdateCustomerTrackingLinkExpiresAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateCustomerTrackingLinkExpiresAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateCustomerTrackingLinkExpiresAt: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } } };
+
+export type RemoveCustomerTrackingLinkMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCustomerTrackingLinkMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeCustomerTrackingLink: string } };
+
+export type CreateDeliveryRouteMutationVariables = Exact<{
+  payload: CreateDeliveryRouteInput;
+}>;
+
+
+export type CreateDeliveryRouteMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDeliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteDriverIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  driverId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryRouteDriverIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteDriverId: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteRouteDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  routeDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateDeliveryRouteRouteDateMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteRouteDate: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status?: InputMaybe<DeliveryRouteStatusEnum>;
+}>;
+
+
+export type UpdateDeliveryRouteStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteStatus: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteOptimizedRouteDataMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteOptimizedRouteDataMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteOptimizedRouteData: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteTotalDistanceKmMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  totalDistanceKm?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteTotalDistanceKmMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteTotalDistanceKm: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteEstimatedDurationMinutesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteEstimatedDurationMinutesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteEstimatedDurationMinutes: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteActualDurationMinutesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  actualDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteActualDurationMinutesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteActualDurationMinutes: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteStartedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  startedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteStartedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteStartedAt: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDeliveryRouteCompletedAtMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  completedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryRouteCompletedAtMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryRouteCompletedAt: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type RemoveDeliveryRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDeliveryRouteMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDeliveryRoute: string } };
+
+export type CreateDeliveryTaskMutationVariables = Exact<{
+  payload: CreateDeliveryTaskInput;
+}>;
+
+
+export type CreateDeliveryTaskMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDeliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskPackageIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  packageId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskPackageIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskPackageId: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryRouteIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryRouteId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryRouteIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryRouteId: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRouteSequenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  routeSequence: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskRouteSequenceMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRouteSequence: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryAddressMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryAddress: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryAddressMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryAddress: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRecipientNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskRecipientNameMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRecipientName: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskRecipientPhoneMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientPhone?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskRecipientPhoneMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskRecipientPhone: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryInstructionsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryInstructionsMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryInstructions: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskEstimatedArrivalTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  estimatedArrivalTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskEstimatedArrivalTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskEstimatedArrivalTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskActualArrivalTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  actualArrivalTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskActualArrivalTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskActualArrivalTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskDeliveryTimeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTime?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskDeliveryTimeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskDeliveryTime: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status?: InputMaybe<DeliveryTaskStatusEnum>;
+}>;
+
+
+export type UpdateDeliveryTaskStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskStatus: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskFailureReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  failureReason?: InputMaybe<DeliveryFailureReasonEnum>;
+}>;
+
+
+export type UpdateDeliveryTaskFailureReasonMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskFailureReason: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type UpdateDeliveryTaskAttemptCountMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  attemptCount?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type UpdateDeliveryTaskAttemptCountMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDeliveryTaskAttemptCount: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } } };
+
+export type RemoveDeliveryTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDeliveryTaskMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDeliveryTask: string } };
+
+export type CreateDriverLocationMutationVariables = Exact<{
+  payload: CreateDriverLocationInput;
+}>;
+
+
+export type CreateDriverLocationMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createDriverLocation: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationDriverIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  driverId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateDriverLocationDriverIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationDriverId: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateDriverLocationLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationLatitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateDriverLocationLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationLongitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationAltitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationAltitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationAltitude: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationAccuracyMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  accuracy?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationAccuracyMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationAccuracy: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationSpeedKmhMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  speedKmh?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationSpeedKmhMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationSpeedKmh: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationHeadingMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  heading?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationHeadingMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationHeading: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateDriverLocationTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationTimestamp: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type UpdateDriverLocationPositionMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateDriverLocationPositionMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateDriverLocationPosition: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } } };
+
+export type RemoveDriverLocationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverLocationMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeDriverLocation: string } };
+
+export type CreateProofOfDeliveryMutationVariables = Exact<{
+  payload: CreateDmsProofOfDeliveryInput;
+}>;
+
+
+export type CreateProofOfDeliveryMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateProofOfDeliveryDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryDeliveryTaskId: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryTypeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  type: ProofOfDeliveryTypeEnum;
+}>;
+
+
+export type UpdateProofOfDeliveryTypeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryType: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryFilePathMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  filePath?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryFilePathMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryFilePath: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliverySignatureDataMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  signatureData?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliverySignatureDataMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliverySignatureData: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryRecipientNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryRecipientNameMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryRecipientName: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryVerificationCodeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  verificationCode?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryVerificationCodeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryVerificationCode: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryLatitude: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryLongitude: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateProofOfDeliveryTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateProofOfDeliveryTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateProofOfDeliveryTimestamp: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type RemoveProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveProofOfDeliveryMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeProofOfDelivery: string } };
+
+export type CreateTaskEventMutationVariables = Exact<{
+  payload: CreateTaskEventInput;
+}>;
+
+
+export type CreateTaskEventMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', createTaskEvent: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventDeliveryTaskIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  deliveryTaskId: Scalars['UUID']['input'];
+}>;
+
+
+export type UpdateTaskEventDeliveryTaskIdMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventDeliveryTaskId: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskEventStatusEnum;
+}>;
+
+
+export type UpdateTaskEventStatusMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventStatus: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventReasonMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  reason?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateTaskEventReasonMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventReason: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventNotesMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateTaskEventNotesMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventNotes: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventLatitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateTaskEventLatitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventLatitude: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventLongitudeMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type UpdateTaskEventLongitudeMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventLongitude: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type UpdateTaskEventTimestampMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  timestamp?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+
+export type UpdateTaskEventTimestampMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', updateTaskEventTimestamp: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } } };
+
+export type RemoveTaskEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskEventMutation = { __typename?: 'Mutations', dms: { __typename?: 'DmsMutations', removeTaskEvent: string } };
+
+export type CreateCarrierMutationVariables = Exact<{
+  payload: CreateCarrierInput;
+}>;
+
+
+export type CreateCarrierMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createCarrier: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierNameMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierName: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierContactDetailsMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  contactDetails: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierContactDetailsMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierContactDetails: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierServicesOfferedMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  servicesOffered: Scalars['String']['input'];
+}>;
+
+
+export type UpdateCarrierServicesOfferedMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierServicesOffered: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveCarrierMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCarrierMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeCarrier: string } };
+
+export type AddCarrierRateMutationVariables = Exact<{
+  carrierId: Scalars['UUID']['input'];
+  payload: CreateCarrierRateInput;
+}>;
+
+
+export type AddCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addCarrierRate: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateCarrierRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateCarrierRateInput;
+}>;
+
+
+export type UpdateCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateCarrierRate: { __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveCarrierRateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveCarrierRateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeCarrierRate: string } };
+
+export type CreateDriverMutationVariables = Exact<{
+  payload: CreateDriverInput;
+}>;
+
+
+export type CreateDriverMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createDriver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverLicenseNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  licenseNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdateDriverLicenseNumberMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverLicenseNumber: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverLicenseExpiryDateMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  licenseExpiryDate: Scalars['NaiveDate']['input'];
+}>;
+
+
+export type UpdateDriverLicenseExpiryDateMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverLicenseExpiryDate: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: DriverStatusEnum;
+}>;
+
+
+export type UpdateDriverStatusMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverStatus: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveDriverMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeDriver: string } };
+
+export type AddDriverScheduleMutationVariables = Exact<{
+  driverId: Scalars['UUID']['input'];
+  payload: CreateDriverScheduleInput;
+}>;
+
+
+export type AddDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addDriverSchedule: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateDriverScheduleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateDriverScheduleInput;
+}>;
+
+
+export type UpdateDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateDriverSchedule: { __typename?: 'TmsDriverSchedules', id: any, startDate: any, endDate: any, reason?: DriverScheduleReasonEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveDriverScheduleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveDriverScheduleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeDriverSchedule: string } };
+
+export type CreateExpenseMutationVariables = Exact<{
+  payload: CreateExpenseInput;
+}>;
+
+
+export type CreateExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createExpense: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateExpenseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateExpenseInput;
+}>;
+
+
+export type UpdateExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateExpense: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveExpenseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveExpenseMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeExpense: string } };
+
+export type CreateGeofenceMutationVariables = Exact<{
+  payload: CreateGeofenceInput;
+}>;
+
+
+export type CreateGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGeofence: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateGeofenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateGeofenceInput;
+}>;
+
+
+export type UpdateGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateGeofence: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveGeofenceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGeofenceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGeofence: string } };
+
+export type CreateGeofenceEventMutationVariables = Exact<{
+  payload: CreateGeofenceEventInput;
+}>;
+
+
+export type CreateGeofenceEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGeofenceEvent: { __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any } } };
+
+export type RemoveGeofenceEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGeofenceEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGeofenceEvent: string } };
+
+export type CreateGpsPingMutationVariables = Exact<{
+  payload: CreateGpsPingInput;
+}>;
+
+
+export type CreateGpsPingMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createGpsPing: { __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any } } };
+
+export type RemoveGpsPingMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveGpsPingMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeGpsPing: string } };
+
+export type CreatePartnerInvoiceMutationVariables = Exact<{
+  payload: CreatePartnerInvoiceInput;
+}>;
+
+
+export type CreatePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createPartnerInvoice: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdatePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceInput;
+}>;
+
+
+export type UpdatePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updatePartnerInvoice: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemovePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removePartnerInvoice: string } };
+
+export type AddPartnerInvoiceItemMutationVariables = Exact<{
+  partnerInvoiceId: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceItemInput;
+}>;
+
+
+export type AddPartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addPartnerInvoiceItem: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdatePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreatePartnerInvoiceItemInput;
+}>;
+
+
+export type UpdatePartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updatePartnerInvoiceItem: { __typename?: 'TmsPartnerInvoiceItems', id: any, amount: any } } };
+
+export type RemovePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceItemMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removePartnerInvoiceItem: string } };
+
+export type CreateTmsProofOfDeliveryMutationVariables = Exact<{
+  payload: CreateTmsProofOfDeliveryInput;
+}>;
+
+
+export type CreateTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createProofOfDelivery: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTmsProofOfDeliveryInput;
+}>;
+
+
+export type UpdateTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateProofOfDelivery: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTmsProofOfDeliveryMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeProofOfDelivery: string } };
+
+export type CreateRouteMutationVariables = Exact<{
+  payload: CreateRouteInput;
+}>;
+
+
+export type CreateRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createRoute: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateRouteInput;
+}>;
+
+
+export type UpdateRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateRoute: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveRouteMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveRouteMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeRoute: string } };
+
+export type CreateShipmentLegMutationVariables = Exact<{
+  payload: CreateShipmentLegInput;
+}>;
+
+
+export type CreateShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createShipmentLeg: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateShipmentLegMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateShipmentLegInput;
+}>;
+
+
+export type UpdateShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateShipmentLeg: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveShipmentLegMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveShipmentLegMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeShipmentLeg: string } };
+
+export type AddShipmentLegEventMutationVariables = Exact<{
+  shipmentLegId: Scalars['UUID']['input'];
+  payload: CreateShipmentLegEventInput;
+}>;
+
+
+export type AddShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addShipmentLegEvent: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateShipmentLegEventInput;
+}>;
+
+
+export type UpdateShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateShipmentLegEvent: { __typename?: 'TmsShipmentLegEvents', id: any, statusMessage?: string | null, location?: string | null, eventTimestamp: any } } };
+
+export type RemoveShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveShipmentLegEventMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeShipmentLegEvent: string } };
+
+export type CreateTripMutationVariables = Exact<{
+  payload: CreateTripInput;
+}>;
+
+
+export type CreateTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createTrip: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTripInput;
+}>;
+
+
+export type UpdateTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateTrip: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTripMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeTrip: string } };
+
+export type AddTripStopMutationVariables = Exact<{
+  tripId: Scalars['UUID']['input'];
+  payload: CreateTripStopInput;
+}>;
+
+
+export type AddTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', addTripStop: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateTripStopMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateTripStopInput;
+}>;
+
+
+export type UpdateTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateTripStop: { __typename?: 'TmsTripStops', id: any, shipmentId?: any | null, sequence: number, address?: string | null, status?: TripStopStatusEnum | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, estimatedDepartureTime?: any | null, actualDepartureTime?: any | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveTripStopMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTripStopMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeTripStop: string } };
+
+export type CreateVehicleMaintenanceMutationVariables = Exact<{
+  payload: CreateVehicleMaintenanceInput;
+}>;
+
+
+export type CreateVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createVehicleMaintenance: { __typename?: 'TmsVehicleMaintenance', id: any, serviceDate: any, serviceType?: VehicleServiceTypeEnum | null, cost?: any | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateVehicleMaintenanceInput;
+}>;
+
+
+export type UpdateVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateVehicleMaintenance: { __typename?: 'TmsVehicleMaintenance', id: any, serviceDate: any, serviceType?: VehicleServiceTypeEnum | null, cost?: any | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveVehicleMaintenanceMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeVehicleMaintenance: string } };
+
+export type CreateVehicleMutationVariables = Exact<{
+  payload: CreateVehicleInput;
+}>;
+
+
+export type CreateVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', createVehicle: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateVehicleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  payload: CreateVehicleInput;
+}>;
+
+
+export type UpdateVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', updateVehicle: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveVehicleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveVehicleMutation = { __typename?: 'Mutations', tms: { __typename?: 'TmsMutations', removeVehicle: string } };
+
+export type CreateBinThresholdMutationVariables = Exact<{
+  payload: CreateBinThresholdInput;
+}>;
+
+
+export type CreateBinThresholdMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createBinThreshold: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } } };
+
+export type UpdateBinThresholdMinQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  minQuantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateBinThresholdMinQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateBinThresholdMinQuantity: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } } };
+
+export type RemoveBinThresholdMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveBinThresholdMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeBinThreshold: string } };
+
+export type CreateInventoryStockMutationVariables = Exact<{
+  payload: CreateInventoryStockInput;
+}>;
+
+
+export type CreateInventoryStockMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createInventoryStock: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdateInventoryStockQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateInventoryStockQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateInventoryStockQuantity: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type RemoveInventoryStockMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveInventoryStockMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeInventoryStock: string } };
+
+export type CreateLocationMutationVariables = Exact<{
+  payload: CreateLocationInput;
+}>;
+
+
+export type CreateLocationMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createLocation: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdateLocationNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateLocationNameMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateLocationName: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemoveLocationMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveLocationMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeLocation: string } };
+
+export type CreatePackageMutationVariables = Exact<{
+  payload: CreatePackageInput;
+}>;
+
+
+export type CreatePackageMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPackage: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePackageTrackingNumberMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  trackingNumber: Scalars['String']['input'];
+}>;
+
+
+export type UpdatePackageTrackingNumberMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePackageTrackingNumber: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePackageMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePackageMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePackage: string } };
+
+export type AddPackageItemMutationVariables = Exact<{
+  packageId: Scalars['UUID']['input'];
+  payload: CreatePackageItemInput;
+}>;
+
+
+export type AddPackageItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addPackageItem: { __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdatePackageItemQuantityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePackageItemQuantityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePackageItemQuantity: { __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } } };
+
+export type RemovePackageItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePackageItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePackageItem: string } };
+
+export type CreatePickBatchMutationVariables = Exact<{
+  payload: CreatePickBatchInput;
+}>;
+
+
+export type CreatePickBatchMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type UpdatePickBatchStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: PickBatchStatusEnum;
+}>;
+
+
+export type UpdatePickBatchStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePickBatchStatus: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null } } };
+
+export type RemovePickBatchMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePickBatchMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePickBatch: string } };
+
+export type AddPickBatchItemMutationVariables = Exact<{
+  pickBatchId: Scalars['UUID']['input'];
+  payload: CreatePickBatchItemInput;
+}>;
+
+
+export type AddPickBatchItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addPickBatchItem: { __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, createdAt?: any | null, updatedAt?: any | null, pickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } } } };
+
+export type UpdatePickBatchItemPriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  orderPriority: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePickBatchItemPriorityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePickBatchItemPriority: { __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, createdAt?: any | null, updatedAt?: any | null, pickBatch: { __typename?: 'WmsPickBatches', id: any, batchNumber: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } } } };
+
+export type RemovePickBatchItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePickBatchItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePickBatchItem: string } };
+
+export type CreatePutawayRuleMutationVariables = Exact<{
+  payload: CreatePutawayRuleInput;
+}>;
+
+
+export type CreatePutawayRuleMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createPutawayRule: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdatePutawayRulePriorityMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  priority: Scalars['Int']['input'];
+}>;
+
+
+export type UpdatePutawayRulePriorityMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updatePutawayRulePriority: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemovePutawayRuleMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemovePutawayRuleMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removePutawayRule: string } };
+
+export type CreateTaskMutationVariables = Exact<{
+  payload: CreateTaskInput;
+}>;
+
+
+export type CreateTaskMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createTask: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null } } };
+
+export type UpdateTaskStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskStatusEnum;
+}>;
+
+
+export type UpdateTaskStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateTaskStatus: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null } } };
+
+export type RemoveTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeTask: string } };
+
+export type AddTaskItemMutationVariables = Exact<{
+  taskId: Scalars['UUID']['input'];
+  payload: CreateTaskItemInput;
+}>;
+
+
+export type AddTaskItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', addTaskItem: { __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, task: { __typename?: 'WmsTasks', id: any, taskNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type UpdateTaskItemStatusMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  status: TaskItemStatusEnum;
+}>;
+
+
+export type UpdateTaskItemStatusMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateTaskItemStatus: { __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, task: { __typename?: 'WmsTasks', id: any, taskNumber: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } } };
+
+export type RemoveTaskItemMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveTaskItemMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeTaskItem: string } };
+
+export type CreateWarehouseMutationVariables = Exact<{
+  payload: CreateWarehouseInput;
+}>;
+
+
+export type CreateWarehouseMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', createWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type UpdateWarehouseNameMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  name: Scalars['String']['input'];
+}>;
+
+
+export type UpdateWarehouseNameMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', updateWarehouseName: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } } };
+
+export type RemoveWarehouseMutationVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type RemoveWarehouseMutation = { __typename?: 'Mutations', wms: { __typename?: 'WmsMutations', removeWarehouse: string } };
+
+export type GetClientAccountQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetClientAccountQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', clientAccount?: { __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } | null } };
+
+export type GetClientAccountsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetClientAccountsQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', clientAccounts: Array<{ __typename?: 'BillingClientAccounts', id: any, creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, currency?: string | null, paymentTermsDays?: number | null, isCreditApproved?: boolean | null, lastPaymentDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string } }> } };
+
+export type GetBillingInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetBillingInvoiceQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', invoice?: { __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> } | null } };
+
+export type GetBillingInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetBillingInvoicesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', invoices: Array<{ __typename?: 'BillingInvoices', id: any, invoiceNumber: string, status?: InvoiceStatusEnum | null, issueDate: any, dueDate: any, totalAmount: number, amountPaid: number, amountOutstanding: number, currency?: string | null, taxAmount: number, discountAmount: number, subtotal: number, paymentTerms?: string | null, notes?: string | null, sentAt?: any | null, paidAt?: any | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, quote?: { __typename?: 'BillingQuotes', id: any, quotedPrice: number } | null, createdBy?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'BillingInvoiceLineItems', id: any, description: string, quantity: number, unitPrice: number, lineTotal?: number | null }> }> } };
+
+export type GetQuoteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetQuoteQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', quote?: { __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } | null } };
+
+export type GetQuotesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetQuotesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', quotes: Array<{ __typename?: 'BillingQuotes', id: any, originDetails: string, destinationDetails: string, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, serviceLevel?: string | null, expiresAt?: any | null, status?: QuoteStatusEnum | null, quoteNumber?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null }> } };
+
+export type GetRateCardQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRateCardQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', rateCard?: { __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null } | null } };
+
+export type GetRateCardsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetRateCardsQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', rateCards: Array<{ __typename?: 'BillingRateCards', id: any, name: string, serviceType: ServiceTypeEnum, isActive?: boolean | null, validFrom: any, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, createdByUser?: { __typename?: 'AuthUser', id: any, name: string } | null }> } };
+
+export type GetSurchargeQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSurchargeQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', surcharge?: { __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetSurchargesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSurchargesQuery = { __typename?: 'Query', billing: { __typename?: 'BillingQueries', surcharges: Array<{ __typename?: 'BillingSurcharges', id: any, name: string, type: string, amount: number, calculationMethod: SurchargeCalculationMethodEnum, isActive?: boolean | null, validFrom?: any | null, validTo?: any | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
 export type GetAttachmentQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
@@ -16871,20 +31104,20 @@ export type GetInteractionsQueryVariables = Exact<{
 
 export type GetInteractionsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', interactions: Array<{ __typename?: 'CrmInteractions', id: any, type?: InteractionType | null, outcome?: string | null, notes?: string | null, interactionDate?: any | null, createdAt?: any | null, updatedAt?: any | null, contact: { __typename?: 'CrmContacts', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string }, case?: { __typename?: 'CrmCases', id: any, caseNumber: string } | null }> } };
 
-export type GetInvoiceQueryVariables = Exact<{
+export type GetCrmInvoiceQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
 }>;
 
 
-export type GetInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null, items: Array<{ __typename?: 'CrmInvoiceItems', id: any, quantity: number, price: any, product: { __typename?: 'CrmProducts', id: any, name: string } }> } | null } };
+export type GetCrmInvoiceQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoice?: { __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null, items: Array<{ __typename?: 'CrmInvoiceItems', id: any, quantity: number, price: any, product: { __typename?: 'CrmProducts', id: any, name: string } }> } | null } };
 
-export type GetInvoicesQueryVariables = Exact<{
+export type GetCrmInvoicesQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
   page: Scalars['Int']['input'];
 }>;
 
 
-export type GetInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
+export type GetCrmInvoicesQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', invoices: Array<{ __typename?: 'CrmInvoices', id: any, status?: InvoiceStatus | null, total?: any | null, issueDate?: any | null, dueDate?: any | null, sentAt?: any | null, paidAt?: any | null, paymentMethod?: PaymentMethod | null, createdAt?: any | null, updatedAt?: any | null, opportunity?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
 
 export type GetLeadQueryVariables = Exact<{
   id: Scalars['UUID']['input'];
@@ -16960,3 +31193,528 @@ export type GetTagsQueryVariables = Exact<{
 
 
 export type GetTagsQuery = { __typename?: 'Query', crm: { __typename?: 'CrmQueries', tags: Array<{ __typename?: 'CrmTags', id: any, name: string, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetCustomerTrackingLinkQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetCustomerTrackingLinkQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', customerTrackingLink?: { __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } } | null } };
+
+export type GetCustomerTrackingLinksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetCustomerTrackingLinksQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', customerTrackingLinks: Array<{ __typename?: 'DmsCustomerTrackingLinks', id: any, trackingToken: string, isActive?: boolean | null, accessCount?: number | null, lastAccessedAt?: any | null, expiresAt?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string, recipientName?: string | null } }> } };
+
+export type GetDeliveryRouteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDeliveryRouteQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryRoute?: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } | null } };
+
+export type GetDeliveryRoutesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDeliveryRoutesQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryRoutes: Array<{ __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any, status?: DeliveryRouteStatusEnum | null, optimizedRouteData?: string | null, totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } }> } };
+
+export type GetDeliveryTaskQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDeliveryTaskQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryTask?: { __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } } | null } };
+
+export type GetDeliveryTasksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDeliveryTasksQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', deliveryTasks: Array<{ __typename?: 'DmsDeliveryTasks', id: any, routeSequence: number, deliveryAddress: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, estimatedArrivalTime?: any | null, actualArrivalTime?: any | null, deliveryTime?: any | null, status?: DeliveryTaskStatusEnum | null, failureReason?: DeliveryFailureReasonEnum | null, attemptCount?: number | null, createdAt?: any | null, updatedAt?: any | null, package: { __typename?: 'WmsPackages', id: any, packageNumber: string }, deliveryRoute: { __typename?: 'DmsDeliveryRoutes', id: any, routeDate: any } }> } };
+
+export type GetDriverLocationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDriverLocationQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', driverLocation?: { __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } } | null } };
+
+export type GetDriverLocationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDriverLocationsQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', driverLocations: Array<{ __typename?: 'DmsDriverLocations', id: any, latitude: number, longitude: number, altitude?: number | null, accuracy?: number | null, speedKmh?: number | null, heading?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, driver: { __typename?: 'TmsDrivers', id: any, licenseNumber: string } }> } };
+
+export type GetDmsProofOfDeliveryQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDmsProofOfDeliveryQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', proofOfDelivery?: { __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } | null } };
+
+export type GetDmsProofOfDeliveriesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDmsProofOfDeliveriesQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', proofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', id: any, type: ProofOfDeliveryTypeEnum, filePath?: string | null, signatureData?: string | null, recipientName?: string | null, verificationCode?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } }> } };
+
+export type GetTaskEventQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTaskEventQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', taskEvent?: { __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } } | null } };
+
+export type GetTaskEventsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTaskEventsQuery = { __typename?: 'Query', dms: { __typename?: 'DmsQueries', taskEvents: Array<{ __typename?: 'DmsTaskEvents', id: any, status: TaskEventStatusEnum, reason?: string | null, notes?: string | null, latitude?: number | null, longitude?: number | null, timestamp?: any | null, createdAt?: any | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DmsDeliveryTasks', id: any, deliveryAddress: string } }> } };
+
+export type GetCarrierQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetCarrierQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', carrier?: { __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null, rates: Array<{ __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null }> } | null } };
+
+export type GetCarriersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetCarriersQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', carriers: Array<{ __typename?: 'TmsCarriers', id: any, name: string, contactDetails?: string | null, servicesOffered?: string | null, createdAt?: any | null, updatedAt?: any | null, rates: Array<{ __typename?: 'TmsCarrierRates', id: any, serviceType?: string | null, origin?: string | null, destination?: string | null, rate: any, unit?: CarrierRateUnitEnum | null }> }> } };
+
+export type GetDriverQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetDriverQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', driver?: { __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetDriversQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetDriversQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', drivers: Array<{ __typename?: 'TmsDrivers', id: any, licenseNumber: string, licenseExpiryDate?: any | null, status?: DriverStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetExpenseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetExpenseQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', expense?: { __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetExpensesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetExpensesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', expenses: Array<{ __typename?: 'TmsExpenses', id: any, type?: ExpenseTypeEnum | null, amount: any, currency?: CurrencyEnum | null, receiptUrl?: string | null, fuelQuantity?: number | null, odometerReading?: number | null, status?: ExpenseStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetGeofenceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetGeofenceQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', geofence?: { __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null, events: Array<{ __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any }> } | null } };
+
+export type GetGeofencesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetGeofencesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', geofences: Array<{ __typename?: 'TmsGeofence', id: any, name: string, coordinates?: string | null, createdAt?: any | null, updatedAt?: any | null, events: Array<{ __typename?: 'TmsGeofenceEvent', id: any, eventType: GeofenceEventTypeEnum, timestamp: any }> }> } };
+
+export type GetGpsPingQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetGpsPingQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', gpsPing?: { __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any } | null } };
+
+export type GetGpsPingsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetGpsPingsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', gpsPings: Array<{ __typename?: 'TmsGpsPings', id: any, latitude: number, longitude: number, timestamp: any }> } };
+
+export type GetPartnerInvoiceQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPartnerInvoiceQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', partnerInvoice?: { __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetPartnerInvoicesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPartnerInvoicesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', partnerInvoices: Array<{ __typename?: 'TmsPartnerInvoices', id: any, invoiceNumber: string, invoiceDate: any, totalAmount: any, status?: PartnerInvoiceStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTmsProofOfDeliveryQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTmsProofOfDeliveryQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', proofOfDelivery?: { __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetTmsProofOfDeliveriesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTmsProofOfDeliveriesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', proofOfDeliveries: Array<{ __typename?: 'TmsProofOfDeliveries', id: any, type?: ProofTypeEnum | null, filePath?: string | null, timestamp: any, latitude?: number | null, longitude?: number | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetRouteQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetRouteQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', route?: { __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetRoutesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetRoutesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', routes: Array<{ __typename?: 'TmsRoutes', id: any, optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetShipmentLegQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetShipmentLegQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', shipmentLeg?: { __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetShipmentLegsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetShipmentLegsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', shipmentLegs: Array<{ __typename?: 'TmsShipmentLegs', id: any, shipmentId?: any | null, legSequence: number, startLocation?: string | null, endLocation?: string | null, status?: ShipmentLegStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTripQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTripQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', trip?: { __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetTripsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTripsQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', trips: Array<{ __typename?: 'TmsTrips', id: any, status?: TripStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetVehicleQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetVehicleQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', vehicle?: { __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetVehiclesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetVehiclesQuery = { __typename?: 'Query', tms: { __typename?: 'TmsQueries', vehicles: Array<{ __typename?: 'TmsVehicles', id: any, registrationNumber: string, model?: string | null, capacityVolume?: number | null, capacityWeight?: number | null, status?: VehicleStatusEnum | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetBinThresholdQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetBinThresholdQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', binThreshold?: { __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } } | null } };
+
+export type GetBinThresholdsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetBinThresholdsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', binThresholds: Array<{ __typename?: 'WmsBinThresholds', id: any, minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string } }> } };
+
+export type GetInboundShipmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInboundShipmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inboundShipment?: { __typename?: 'ImsInboundShipments', id: any, status?: InboundShipmentStatusEnum | null, expectedArrivalDate?: any | null, actualArrivalDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, items: Array<{ __typename?: 'ImsInboundShipmentItems', id: any, expectedQuantity: number, receivedQuantity?: number | null, discrepancyQuantity?: number | null, discrepancyNotes?: string | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> } | null } };
+
+export type GetInboundShipmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInboundShipmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inboundShipments: Array<{ __typename?: 'ImsInboundShipments', id: any, status?: InboundShipmentStatusEnum | null, expectedArrivalDate?: any | null, actualArrivalDate?: any | null, createdAt?: any | null, updatedAt?: any | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, items: Array<{ __typename?: 'ImsInboundShipmentItems', id: any, expectedQuantity: number, receivedQuantity?: number | null, discrepancyQuantity?: number | null, discrepancyNotes?: string | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> }> } };
+
+export type GetInventoryAdjustmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryAdjustmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryAdjustment?: { __typename?: 'ImsInventoryAdjustments', id: any, quantityChange: number, reason?: InventoryAdjustmentReasonEnum | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string } } | null } };
+
+export type GetInventoryAdjustmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryAdjustmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryAdjustments: Array<{ __typename?: 'ImsInventoryAdjustments', id: any, quantityChange: number, reason?: InventoryAdjustmentReasonEnum | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user: { __typename?: 'AuthUser', id: any, name: string } }> } };
+
+export type GetInventoryBatchQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryBatchQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryBatch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string, expirationDate?: any | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string } } | null } };
+
+export type GetInventoryBatchesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryBatchesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryBatches: Array<{ __typename?: 'ImsInventoryBatches', id: any, batchNumber: string, expirationDate?: any | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string } }> } };
+
+export type GetInventoryStockItemQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetInventoryStockItemQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryStockItem?: { __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null } | null } };
+
+export type GetInventoryStockQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetInventoryStockQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', inventoryStock: Array<{ __typename?: 'WmsInventoryStock', id: any, quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatusEnum | null, lastCountedAt?: any | null, lastMovementAt?: any | null, createdAt?: any | null, updatedAt?: any | null, location: { __typename?: 'WmsLocations', id: any, name: string }, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } };
+
+export type GetLocationQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetLocationQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', location?: { __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } | null } };
+
+export type GetLocationsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetLocationsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', locations: Array<{ __typename?: 'WmsLocations', id: any, name: string, barcode?: string | null, type: LocationTypeEnum, level?: number | null, path?: string | null, maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, isPickable?: boolean | null, isReceivable?: boolean | null, temperatureControlled?: boolean | null, hazmatApproved?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, parentLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } };
+
+export type GetOutboundShipmentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetOutboundShipmentQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', outboundShipment?: { __typename?: 'ImsOutboundShipments', id: any, status?: OutboundShipmentStatusEnum | null, trackingNumber?: string | null, carrier?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, items: Array<{ __typename?: 'ImsOutboundShipmentItems', id: any, quantityShipped: number, product: { __typename?: 'ImsProducts', id: any, name: string }, salesOrderItem: { __typename?: 'ImsSalesOrderItems', id: any, quantityOrdered: number }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } | null } };
+
+export type GetOutboundShipmentsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetOutboundShipmentsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', outboundShipments: Array<{ __typename?: 'ImsOutboundShipments', id: any, status?: OutboundShipmentStatusEnum | null, trackingNumber?: string | null, carrier?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, items: Array<{ __typename?: 'ImsOutboundShipmentItems', id: any, quantityShipped: number, product: { __typename?: 'ImsProducts', id: any, name: string }, salesOrderItem: { __typename?: 'ImsSalesOrderItems', id: any, quantityOrdered: number }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> }> } };
+
+export type GetPackageQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPackageQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', package?: { __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> } | null } };
+
+export type GetPackagesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPackagesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', packages: Array<{ __typename?: 'WmsPackages', id: any, packageNumber: string, packageType?: string | null, weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, trackingNumber?: string | null, carrier?: string | null, serviceLevel?: string | null, packedAt?: any | null, shippedAt?: any | null, isFragile?: boolean | null, isHazmat?: boolean | null, requiresSignature?: boolean | null, insuranceValue?: any | null, createdAt?: any | null, updatedAt?: any | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string }, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, packedByUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPackageItems', id: any, quantity: number, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, unitWeight?: number | null, totalWeight?: number | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null }> }> } };
+
+export type GetPickBatchQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPickBatchQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } }> } | null } };
+
+export type GetPickBatchesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPickBatchesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', pickBatches: Array<{ __typename?: 'WmsPickBatches', id: any, batchNumber: string, status?: PickBatchStatusEnum | null, strategy: PickStrategyEnum, priority?: number | null, waveId?: string | null, zoneRestrictions?: Array<string> | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, startedAt?: any | null, completedAt?: any | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, assignedUser?: { __typename?: 'AuthUser', id: any, name: string } | null, items: Array<{ __typename?: 'WmsPickBatchItems', id: any, orderPriority?: number | null, estimatedPickTime?: number | null, actualPickTime?: number | null, salesOrder: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } }> }> } };
+
+export type GetWmsProductQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetWmsProductQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', product?: { __typename?: 'ImsProducts', id: any, name: string, sku: string, barcode?: string | null, description?: string | null, costPrice?: any | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, weight?: number | null, status?: ProductStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, supplier?: { __typename?: 'ImsSuppliers', id: any, name: string } | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null } | null } };
+
+export type GetWmsProductsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetWmsProductsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', products: Array<{ __typename?: 'ImsProducts', id: any, name: string, sku: string, barcode?: string | null, description?: string | null, costPrice?: any | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, weight?: number | null, status?: ProductStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, supplier?: { __typename?: 'ImsSuppliers', id: any, name: string } | null, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null }> } };
+
+export type GetPutawayRuleQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetPutawayRuleQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', putawayRule?: { __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null } | null } };
+
+export type GetPutawayRulesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetPutawayRulesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', putawayRules: Array<{ __typename?: 'WmsPutawayRules', id: any, locationType?: LocationTypeEnum | null, priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, requiresTemperatureControl?: boolean | null, requiresHazmatApproval?: boolean | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, client?: { __typename?: 'CrmCompanies', id: any, name: string } | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, preferredLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } };
+
+export type GetReorderPointQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetReorderPointQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', reorderPoint?: { __typename?: 'Model', id: any, threshold: number, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetReorderPointsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetReorderPointsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', reorderPoints: Array<{ __typename?: 'Model', id: any, threshold: number, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetReturnItemQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetReturnItemQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', returnItem?: { __typename?: 'ImsReturns', id: any, returnNumber: string, status?: ReturnStatusEnum | null, reason?: string | null, createdAt?: any | null, updatedAt?: any | null, salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } | null, client: { __typename?: 'CrmCompanies', id: any, name: string } } | null } };
+
+export type GetReturnsQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetReturnsQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', returns: Array<{ __typename?: 'ImsReturns', id: any, returnNumber: string, status?: ReturnStatusEnum | null, reason?: string | null, createdAt?: any | null, updatedAt?: any | null, salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string } | null, client: { __typename?: 'CrmCompanies', id: any, name: string } }> } };
+
+export type GetSalesOrderQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSalesOrderQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', salesOrder?: { __typename?: 'ImsSalesOrders', id: any, orderNumber: string, status?: SalesOrderStatusEnum | null, shippingAddress?: string | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, opportunities?: { __typename?: 'CrmOpportunities', id: any, name: string } | null } | null } };
+
+export type GetSalesOrdersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSalesOrdersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', salesOrders: Array<{ __typename?: 'ImsSalesOrders', id: any, orderNumber: string, status?: SalesOrderStatusEnum | null, shippingAddress?: string | null, createdAt?: any | null, updatedAt?: any | null, client: { __typename?: 'CrmCompanies', id: any, name: string }, opportunities?: { __typename?: 'CrmOpportunities', id: any, name: string } | null }> } };
+
+export type GetStockTransferQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetStockTransferQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', stockTransfer?: { __typename?: 'ImsStockTransfer', id: any, quantity: number, status?: StockTransferStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, sourceWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, destinationWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string } } | null } };
+
+export type GetStockTransfersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetStockTransfersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', stockTransfers: Array<{ __typename?: 'ImsStockTransfer', id: any, quantity: number, status?: StockTransferStatusEnum | null, createdAt?: any | null, updatedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, sourceWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, destinationWarehouse: { __typename?: 'WmsWarehouses', id: any, name: string } }> } };
+
+export type GetSupplierQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetSupplierQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', supplier?: { __typename?: 'ImsSuppliers', id: any, name: string, contactPerson?: string | null, email?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } };
+
+export type GetSuppliersQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetSuppliersQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', suppliers: Array<{ __typename?: 'ImsSuppliers', id: any, name: string, contactPerson?: string | null, email?: string | null, phoneNumber?: string | null, createdAt?: any | null, updatedAt?: any | null }> } };
+
+export type GetTaskQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetTaskQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', task?: { __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null, items: Array<{ __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> } | null } };
+
+export type GetTasksQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetTasksQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', tasks: Array<{ __typename?: 'WmsTasks', id: any, taskNumber: string, type: TaskTypeEnum, status?: TaskStatusEnum | null, priority?: number | null, sourceEntityId?: any | null, sourceEntityType?: string | null, estimatedDuration?: number | null, actualDuration?: number | null, instructions?: string | null, notes?: string | null, startTime?: any | null, endTime?: any | null, durationSeconds?: number | null, createdAt?: any | null, updatedAt?: any | null, warehouse: { __typename?: 'WmsWarehouses', id: any, name: string }, user?: { __typename?: 'AuthUser', id: any, name: string } | null, pickBatch?: { __typename?: 'WmsPickBatches', id: any, batchNumber: string } | null, items: Array<{ __typename?: 'WmsTaskItems', id: any, quantityRequired: number, quantityCompleted: number, quantityRemaining?: number | null, status?: TaskItemStatusEnum | null, lotNumber?: string | null, serialNumbers?: Array<string> | null, expiryDate?: any | null, notes?: string | null, completedAt?: any | null, product: { __typename?: 'ImsProducts', id: any, name: string }, batch?: { __typename?: 'ImsInventoryBatches', id: any, batchNumber: string } | null, sourceLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null, destinationLocation?: { __typename?: 'WmsLocations', id: any, name: string } | null }> }> } };
+
+export type GetWarehouseQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+}>;
+
+
+export type GetWarehouseQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', warehouse?: { __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, locations: Array<{ __typename?: 'WmsLocations', id: any, name: string }> } | null } };
+
+export type GetWarehousesQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+
+export type GetWarehousesQuery = { __typename?: 'Query', wms: { __typename?: 'WmsQueries', warehouses: Array<{ __typename?: 'WmsWarehouses', id: any, name: string, address?: string | null, city?: string | null, state?: string | null, postalCode?: string | null, country?: string | null, timezone?: string | null, contactPerson?: string | null, contactEmail?: string | null, contactPhone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, locations: Array<{ __typename?: 'WmsLocations', id: any, name: string }> }> } };
