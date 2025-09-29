@@ -1,4 +1,5 @@
 pub mod models;
+pub mod mutation;
 
 use async_graphql::MergedObject;
 
@@ -23,17 +24,16 @@ pub struct Query(
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "BillingMutations")]
 pub struct Mutation(
-    // queries::account_transactions::Mutations,
-    // queries::accounting_sync_log::Mutations,
-    // queries::client_accounts::Mutations,
-    // queries::credit_notes::Mutations,
-    // queries::disputes::Mutations,
-    // queries::documents::Mutations,
-    // queries::invoice_line_items::Mutations,
-    // queries::invoices::Mutations,
-    // queries::payments::Mutations,
-    // queries::quotes::Mutations,
-    // queries::rate_cards::Mutations,
-    // queries::rate_rules::Mutations,
-    // queries::surcharges::Mutations,
+    mutation::disputes::DisputesMutation,
+    mutation::invoices::InvoicesMutation,
+    mutation::account_transactions::AccountTransactionsMutation,
+    mutation::accounting_sync_logs::AccountingSyncLogsMutation,
+    mutation::client_accounts::ClientAccountsMutation,
+    mutation::credit_notes::CreditNotesMutation,
+    mutation::documents::DocumentsMutation,
+    mutation::rate_cards::RateCardsMutation,
+    mutation::rate_rules::RateRulesMutation,
+    mutation::surcharges::SurchargesMutation,
+    mutation::quotes::QuotesMutation,
+    mutation::payments::PaymentsMutation,
 );
