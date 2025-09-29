@@ -1,7 +1,7 @@
 import { graphql } from "@/lib/graphql/client";
 
 export const createInvoice = graphql(`
-  mutation CreateInvoice($payload: CreateInvoiceInput!) {
+  mutation CreateInvoice($payload: CreateCrmInvoiceInput!) {
     crm {
       createInvoice(payload: $payload) {
         id
@@ -298,7 +298,7 @@ export const updateInvoicePaymentMethod = graphql(`
 `);
 
 export const addInvoiceItem = graphql(`
-  mutation AddInvoiceItem($id: UUID!, $payload: CreateInvoiceItemInput!) {
+  mutation AddInvoiceItem($id: UUID!, $payload: CreateCrmInvoiceItemInput!) {
     crm {
       addInvoiceItem(id: $id, payload: $payload) {
         id
