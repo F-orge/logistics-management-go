@@ -6,11 +6,11 @@ export const getOpportunity = graphql(`
       opportunity(id: $id) {
         id
         name
+        stage
         dealValue
         probability
         expectedCloseDate
         lostReason
-        stage
         source
         createdAt
         updatedAt
@@ -18,7 +18,7 @@ export const getOpportunity = graphql(`
           id
           name
         }
-        campaign {
+        contact {
           id
           name
         }
@@ -26,7 +26,7 @@ export const getOpportunity = graphql(`
           id
           name
         }
-        contact {
+        campaign {
           id
           name
         }
@@ -45,11 +45,10 @@ export const getOpportunities = graphql(`
       opportunities(limit: $limit, page: $page) {
         id
         name
+        stage
         dealValue
         probability
         expectedCloseDate
-        lostReason
-        stage
         source
         createdAt
         updatedAt
@@ -57,19 +56,7 @@ export const getOpportunities = graphql(`
           id
           name
         }
-        campaign {
-          id
-          name
-        }
         company {
-          id
-          name
-        }
-        contact {
-          id
-          name
-        }
-        products(limit: 10, page: 1) {
           id
           name
         }

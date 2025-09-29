@@ -5,17 +5,17 @@ export const getInteraction = graphql(`
     crm {
       interaction(id: $id) {
         id
-        interactionDate
-        notes
-        outcome
         type
+        outcome
+        notes
+        interactionDate
         createdAt
         updatedAt
-        user {
+        contact {
           id
           name
         }
-        contact {
+        user {
           id
           name
         }
@@ -33,17 +33,17 @@ export const getInteractions = graphql(`
     crm {
       interactions(limit: $limit, page: $page) {
         id
-        interactionDate
-        notes
-        outcome
         type
+        outcome
+        notes
+        interactionDate
         createdAt
         updatedAt
-        user {
+        contact {
           id
           name
         }
-        contact {
+        user {
           id
           name
         }

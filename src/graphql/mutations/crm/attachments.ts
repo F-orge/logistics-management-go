@@ -1,13 +1,5 @@
 import { graphql } from "@/lib/graphql/client";
 
-export const removeAttachment = graphql(`
-  mutation RemoveAttachment($id: UUID!) {
-    crm {
-      removeAttachment(id: $id)
-    }
-  }
-`);
-
 export const uploadAttachment = graphql(`
   mutation UploadAttachment($file: Upload!, $recordId: UUID!, $recordType: RecordType!) {
     crm {
@@ -21,6 +13,14 @@ export const uploadAttachment = graphql(`
         createdAt
         updatedAt
       }
+    }
+  }
+`);
+
+export const removeAttachment = graphql(`
+  mutation RemoveAttachment($id: UUID!) {
+    crm {
+      removeAttachment(id: $id)
     }
   }
 `);

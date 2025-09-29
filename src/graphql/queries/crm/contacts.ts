@@ -7,16 +7,14 @@ export const getContact = graphql(`
         id
         name
         email
-        jobTitle
         phoneNumber
+        jobTitle
         createdAt
         updatedAt
-        ownerId
         owner {
           id
           name
         }
-        companyId
         company {
           id
           name
@@ -33,16 +31,14 @@ export const getContacts = graphql(`
         id
         name
         email
-        jobTitle
         phoneNumber
+        jobTitle
         createdAt
         updatedAt
-        ownerId
         owner {
           id
           name
         }
-        companyId
         company {
           id
           name

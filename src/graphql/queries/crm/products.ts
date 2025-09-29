@@ -6,10 +6,10 @@ export const getProduct = graphql(`
       product(id: $id) {
         id
         name
-        description
-        price
         sku
+        price
         type
+        description
         createdAt
         updatedAt
       }
@@ -23,9 +23,8 @@ export const getProducts = graphql(`
       products(limit: $limit, page: $page) {
         id
         name
-        description
-        price
         sku
+        price
         type
         createdAt
         updatedAt

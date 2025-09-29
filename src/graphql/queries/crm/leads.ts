@@ -7,9 +7,9 @@ export const getLead = graphql(`
         id
         name
         email
-        leadScore
         leadSource
         status
+        leadScore
         convertedAt
         createdAt
         updatedAt
@@ -41,25 +41,12 @@ export const getLeads = graphql(`
         id
         name
         email
-        leadScore
         leadSource
         status
-        convertedAt
+        leadScore
         createdAt
         updatedAt
         owner {
-          id
-          name
-        }
-        campaign {
-          id
-          name
-        }
-        convertedContact {
-          id
-          name
-        }
-        convertedOpportunity {
           id
           name
         }

@@ -6,10 +6,10 @@ export const getCase = graphql(`
       case(id: $id) {
         id
         caseNumber
-        description
         status
         priority
         type
+        description
         createdAt
         updatedAt
         owner {
@@ -31,10 +31,10 @@ export const getCases = graphql(`
       cases(limit: $limit, page: $page) {
         id
         caseNumber
-        description
         status
         priority
         type
+        description
         createdAt
         updatedAt
         owner {
