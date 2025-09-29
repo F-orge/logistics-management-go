@@ -2,7 +2,7 @@ use async_graphql::{Context, InputObject, Object};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateProofOfDeliveryInput {
+pub struct CreateDmsProofOfDeliveryInput {
     pub delivery_task_id: Uuid,
     pub r#type: crate::models::enums::ProofOfDeliveryTypeEnum,
     pub file_path: Option<String>,
@@ -22,7 +22,7 @@ impl Mutation {
     async fn create_proof_of_delivery(
         &self,
         ctx: &Context<'_>,
-        payload: CreateProofOfDeliveryInput,
+        payload: CreateDmsProofOfDeliveryInput,
     ) -> async_graphql::Result<crate::models::proof_of_deliveries::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
         Ok(sqlx::query_as::<_, crate::models::proof_of_deliveries::Model>(

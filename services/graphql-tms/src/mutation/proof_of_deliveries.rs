@@ -5,7 +5,7 @@ use uuid::Uuid;
 use crate::models::{proof_of_deliveries, sea_orm_active_enums::ProofTypeEnum};
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateProofOfDeliveryInput {
+pub struct CreateTmsProofOfDeliveryInput {
     pub trip_stop_id: Uuid,
     pub r#type: Option<ProofTypeEnum>,
     pub file_path: Option<String>,
@@ -22,7 +22,7 @@ impl Mutation {
     async fn create_proof_of_delivery(
         &self,
         ctx: &Context<'_>,
-        payload: CreateProofOfDeliveryInput,
+        payload: CreateTmsProofOfDeliveryInput,
     ) -> async_graphql::Result<proof_of_deliveries::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
 
@@ -45,7 +45,7 @@ impl Mutation {
         &self,
         ctx: &Context<'_>,
         id: Uuid,
-        payload: CreateProofOfDeliveryInput,
+        payload: CreateTmsProofOfDeliveryInput,
     ) -> async_graphql::Result<proof_of_deliveries::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
         let result = sqlx::query_as::<_, proof_of_deliveries::Model>(

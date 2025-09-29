@@ -7,7 +7,7 @@ use crate::models::enums::{InvoiceStatus, PaymentMethod};
 use crate::models::invoices;
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateInvoiceInput {
+pub struct CreateCrmInvoiceInput {
     pub opportunity_id: Option<Uuid>,
     pub status: Option<InvoiceStatus>,
     pub total: Option<Decimal>,
@@ -16,11 +16,11 @@ pub struct CreateInvoiceInput {
     pub sent_at: Option<DateTime<Utc>>,
     pub paid_at: Option<DateTime<Utc>>,
     pub payment_method: Option<PaymentMethod>,
-    pub items: Vec<CreateInvoiceItemInput>,
+    pub items: Vec<CreateCrmInvoiceItemInput>,
 }
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateInvoiceItemInput {
+pub struct CreateCrmInvoiceItemInput {
     pub quantity: i32,
     pub price: Decimal,
     pub product_id: Uuid,
@@ -34,7 +34,7 @@ impl Mutation {
     async fn create_invoice(
         &self,
         ctx: &Context<'_>,
-        payload: CreateInvoiceInput,
+        payload: CreateCrmInvoiceInput,
     ) -> async_graphql::Result<invoices::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
         Ok(sqlx::query_as::<_, invoices::Model>(
@@ -176,7 +176,7 @@ impl Mutation {
         &self,
         ctx: &Context<'_>,
         id: Uuid,
-        payload: CreateInvoiceItemInput,
+        payload: CreateCrmInvoiceItemInput,
     ) -> async_graphql::Result<invoices::Model> {
         todo!()
     }

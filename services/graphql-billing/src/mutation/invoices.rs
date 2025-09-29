@@ -3,10 +3,10 @@ use chrono::{DateTime, NaiveDate, Utc};
 use sqlx::Row;
 use uuid::Uuid;
 
-use crate::models::{enums::InvoiceStatusEnum, invoice_line_items, invoices};
+use crate::models::{enums::InvoiceStatusEnum, invoices};
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateInvoiceInput {
+pub struct CreateBillingInvoiceInput {
     pub client_id: Uuid,
     pub quote_id: Option<Uuid>,
     pub invoice_number: String,
@@ -24,11 +24,11 @@ pub struct CreateInvoiceInput {
     pub sent_at: Option<DateTime<Utc>>,
     pub paid_at: Option<DateTime<Utc>>,
     pub created_by_user_id: Option<Uuid>,
-    pub items: Vec<CreateInvoiceLineItemInput>,
+    pub items: Vec<CreateBillingInvoiceLineItemInput>,
 }
 
 #[derive(Debug, Clone, InputObject)]
-pub struct CreateInvoiceLineItemInput {
+pub struct CreateBillingInvoiceLineItemInput {
     pub product_id: Uuid,
     pub source_record_id: Option<Uuid>,
     pub source_record_type: Option<String>,
@@ -47,7 +47,7 @@ impl InvoicesMutation {
     async fn create_invoice(
         &self,
         ctx: &Context<'_>,
-        payload: CreateInvoiceInput,
+        payload: CreateBillingInvoiceInput,
     ) -> async_graphql::Result<invoices::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
 
@@ -448,7 +448,7 @@ impl InvoicesMutation {
         &self,
         ctx: &Context<'_>,
         invoice_id: Uuid,
-        payload: CreateInvoiceLineItemInput,
+        payload: CreateBillingInvoiceLineItemInput,
     ) -> async_graphql::Result<invoices::Model> {
         let db = ctx.data::<sqlx::PgPool>()?;
 
