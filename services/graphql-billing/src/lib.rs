@@ -1,24 +1,17 @@
 pub mod models;
 pub mod mutation;
+pub mod query;
 
 use async_graphql::MergedObject;
 
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "BillingQueries")]
 pub struct Query(
-    // entities::_generated::account_transactions::Entity,
-    // entities::_generated::accounting_sync_log::Entity,
-    // entities::_generated::client_accounts::Entity,
-    // entities::_generated::credit_notes::Entity,
-    // entities::_generated::disputes::Entity,
-    // entities::_generated::documents::Entity,
-    // entities::_generated::invoice_line_items::Entity,
-    // entities::_generated::invoices::Entity,
-    // entities::_generated::payments::Entity,
-    // entities::_generated::quotes::Entity,
-    // entities::_generated::rate_cards::Entity,
-    // entities::_generated::rate_rules::Entity,
-    // entities::_generated::surcharges::Entity,
+    query::rate_cards::Query,
+    query::surcharges::Query,
+    query::quotes::Query,
+    query::client_accounts::Query,
+    query::invoices::Query,
 );
 
 #[derive(Debug, Default, MergedObject)]
