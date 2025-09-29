@@ -30,15 +30,12 @@ pub struct Query(
 #[derive(Debug, Default, MergedObject)]
 #[graphql(name = "WmsMutations")]
 pub struct Mutation(
-    // queries::bin_thresholds::Mutations,
-    // queries::inventory_stock::Mutations,
-    // queries::locations::Mutations,
-    // queries::package_items::Mutations,
-    // queries::packages::Mutations,
-    // queries::pick_batch_items::Mutations,
-    // queries::pick_batches::Mutations,
-    // queries::putaway_rules::Mutations,
-    // queries::task_items::Mutations,
-    // queries::tasks::Mutations,
-    // queries::warehouses::Mutations,
+    mutation::bin_thresholds::Mutation,
+    mutation::inventory_stock::Mutation,
+    mutation::locations::Mutation,
+    mutation::packages::Mutation,
+    mutation::pick_batches::Mutation,
+    mutation::putaway_rules::Mutation,
+    mutation::tasks::Mutation,
+    mutation::warehouses::Mutation,
 );
