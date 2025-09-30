@@ -55,17 +55,17 @@ export type Account = {
 export type Mutation = {
   __typename?: 'Mutation';
   /** Revoke a specific session by ID. */
-  revokeSession: Scalars['Boolean']['output'];
+  revokeSession: RevokeSessionResponse;
   /** Send a verification code (OTP) to the user's email address. Returns true if sent successfully. */
-  sendEmailVerification: Scalars['Boolean']['output'];
+  sendEmailVerification: SendEmailVerificationResponse;
   /** Sign in a user using email and password. Returns a session token. */
-  signIn: Scalars['String']['output'];
+  signIn: SignInResponse;
   /** Sign out the current user (terminate session). */
-  signOut: Scalars['Boolean']['output'];
+  signOut: SignOutResponse;
   /** Register a new user with email and password. */
-  signUp: User;
+  signUp: SignUpResponse;
   /** Verify the email using the received OTP code. Marks the user's email as verified if successful. */
-  verifyEmail: Scalars['Boolean']['output'];
+  verifyEmail: VerifyEmailResponse;
 };
 
 
@@ -125,6 +125,19 @@ export type QueryVerifySessionArgs = {
   token: Scalars['String']['input'];
 };
 
+export type RevokeSessionResponse = {
+  __typename?: 'RevokeSessionResponse';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type SendEmailVerificationResponse = {
+  __typename?: 'SendEmailVerificationResponse';
+  expiresAt: Scalars['Timestamptz']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 /** Stores session information for logged-in users. */
 export type Session = {
   __typename?: 'Session';
@@ -148,6 +161,28 @@ export type Session = {
   userAgent?: Maybe<Scalars['String']['output']>;
   /** A foreign key referencing the user table. */
   userId: Scalars['UUID']['output'];
+};
+
+export type SignInResponse = {
+  __typename?: 'SignInResponse';
+  redirect: Scalars['Boolean']['output'];
+  token: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
+  user: User;
+};
+
+export type SignOutResponse = {
+  __typename?: 'SignOutResponse';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type SignUpResponse = {
+  __typename?: 'SignUpResponse';
+  redirect: Scalars['Boolean']['output'];
+  token: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
+  user: Scalars['String']['output'];
 };
 
 /** Represents a user in the system. */
@@ -196,6 +231,14 @@ export type Verification = {
   updatedAt: Scalars['Timestamptz']['output'];
   /** The verification token. */
   value: Scalars['String']['output'];
+};
+
+export type VerifyEmailResponse = {
+  __typename?: 'VerifyEmailResponse';
+  message: Scalars['String']['output'];
+  redirect: Scalars['Boolean']['output'];
+  success: Scalars['Boolean']['output'];
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -276,12 +319,18 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  RevokeSessionResponse: ResolverTypeWrapper<RevokeSessionResponse>;
+  SendEmailVerificationResponse: ResolverTypeWrapper<SendEmailVerificationResponse>;
   Session: ResolverTypeWrapper<Session>;
+  SignInResponse: ResolverTypeWrapper<SignInResponse>;
+  SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
+  SignUpResponse: ResolverTypeWrapper<SignUpResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Timestamptz: ResolverTypeWrapper<Scalars['Timestamptz']['output']>;
   UUID: ResolverTypeWrapper<Scalars['UUID']['output']>;
   User: ResolverTypeWrapper<User>;
   Verification: ResolverTypeWrapper<Verification>;
+  VerifyEmailResponse: ResolverTypeWrapper<VerifyEmailResponse>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -290,12 +339,18 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   Mutation: Record<PropertyKey, never>;
   Query: Record<PropertyKey, never>;
+  RevokeSessionResponse: RevokeSessionResponse;
+  SendEmailVerificationResponse: SendEmailVerificationResponse;
   Session: Session;
+  SignInResponse: SignInResponse;
+  SignOutResponse: SignOutResponse;
+  SignUpResponse: SignUpResponse;
   String: Scalars['String']['output'];
   Timestamptz: Scalars['Timestamptz']['output'];
   UUID: Scalars['UUID']['output'];
   User: User;
   Verification: Verification;
+  VerifyEmailResponse: VerifyEmailResponse;
 }>;
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = ResolversObject<{
@@ -316,18 +371,29 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  revokeSession?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRevokeSessionArgs, 'sessionId'>>;
-  sendEmailVerification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendEmailVerificationArgs, 'email'>>;
-  signIn?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'email' | 'password'>>;
-  signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSignOutArgs, 'token'>>;
-  signUp?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'name' | 'password'>>;
-  verifyEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'code' | 'email'>>;
+  revokeSession?: Resolver<ResolversTypes['RevokeSessionResponse'], ParentType, ContextType, RequireFields<MutationRevokeSessionArgs, 'sessionId'>>;
+  sendEmailVerification?: Resolver<ResolversTypes['SendEmailVerificationResponse'], ParentType, ContextType, RequireFields<MutationSendEmailVerificationArgs, 'email'>>;
+  signIn?: Resolver<ResolversTypes['SignInResponse'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'email' | 'password'>>;
+  signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType, RequireFields<MutationSignOutArgs, 'token'>>;
+  signUp?: Resolver<ResolversTypes['SignUpResponse'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'name' | 'password'>>;
+  verifyEmail?: Resolver<ResolversTypes['VerifyEmailResponse'], ParentType, ContextType, RequireFields<MutationVerifyEmailArgs, 'code' | 'email'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   activeSessions?: Resolver<Array<ResolversTypes['Session']>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   verifySession?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryVerifySessionArgs, 'token'>>;
+}>;
+
+export type RevokeSessionResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['RevokeSessionResponse'] = ResolversParentTypes['RevokeSessionResponse']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+}>;
+
+export type SendEmailVerificationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SendEmailVerificationResponse'] = ResolversParentTypes['SendEmailVerificationResponse']> = ResolversObject<{
+  expiresAt?: Resolver<ResolversTypes['Timestamptz'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 }>;
 
 export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = ResolversObject<{
@@ -341,6 +407,25 @@ export type SessionResolvers<ContextType = any, ParentType extends ResolversPare
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   userAgent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+}>;
+
+export type SignInResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResponse'] = ResolversParentTypes['SignInResponse']> = ResolversObject<{
+  redirect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+}>;
+
+export type SignOutResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignOutResponse'] = ResolversParentTypes['SignOutResponse']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+}>;
+
+export type SignUpResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignUpResponse'] = ResolversParentTypes['SignUpResponse']> = ResolversObject<{
+  redirect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
 export interface TimestamptzScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Timestamptz'], any> {
@@ -376,14 +461,27 @@ export type VerificationResolvers<ContextType = any, ParentType extends Resolver
   value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
+export type VerifyEmailResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['VerifyEmailResponse'] = ResolversParentTypes['VerifyEmailResponse']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  redirect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = any> = ResolversObject<{
   Account?: AccountResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RevokeSessionResponse?: RevokeSessionResponseResolvers<ContextType>;
+  SendEmailVerificationResponse?: SendEmailVerificationResponseResolvers<ContextType>;
   Session?: SessionResolvers<ContextType>;
+  SignInResponse?: SignInResponseResolvers<ContextType>;
+  SignOutResponse?: SignOutResponseResolvers<ContextType>;
+  SignUpResponse?: SignUpResponseResolvers<ContextType>;
   Timestamptz?: GraphQLScalarType;
   UUID?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
   Verification?: VerificationResolvers<ContextType>;
+  VerifyEmailResponse?: VerifyEmailResponseResolvers<ContextType>;
 }>;
 

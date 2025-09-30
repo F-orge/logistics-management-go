@@ -215,6 +215,43 @@ type Query {
   verifySession(token: String!): Boolean!
 }
 
+type SignInResponse {
+  redirect: Boolean!
+  token: String!
+  user: User!
+  url: String
+}
+
+type SignUpResponse {
+  redirect: Boolean!
+  token: String!
+  user: String!
+  url: String
+}
+
+type SignOutResponse {
+  success: Boolean!
+  message: String!
+}
+
+type RevokeSessionResponse {
+  success: Boolean!
+  message: String!
+}
+
+type SendEmailVerificationResponse {
+  success: Boolean!
+  message: String!
+  expiresAt: Timestamptz!
+}
+
+type VerifyEmailResponse {
+  success: Boolean!
+  message: String!
+  redirect: Boolean!
+  url: String
+}
+
 """
 Root mutation type for authentication-related actions.
 """
@@ -222,25 +259,25 @@ type Mutation {
   """
   Register a new user with email and password.
   """
-  signUp(email: String!, password: String!, name: String!): User!
+  signUp(email: String!, password: String!, name: String!): SignUpResponse!
   """
   Sign in a user using email and password. Returns a session token.
   """
-  signIn(email: String!, password: String!): String!
+  signIn(email: String!, password: String!): SignInResponse!
   """
   Sign out the current user (terminate session).
   """
-  signOut(token: String!): Boolean!
+  signOut(token: String!): SignOutResponse!
   """
   Revoke a specific session by ID.
   """
-  revokeSession(sessionId: UUID!): Boolean!
+  revokeSession(sessionId: UUID!): RevokeSessionResponse!
   """
   Send a verification code (OTP) to the user's email address. Returns true if sent successfully.
   """
-  sendEmailVerification(email: String!): Boolean!
+  sendEmailVerification(email: String!): SendEmailVerificationResponse!
   """
   Verify the email using the received OTP code. Marks the user's email as verified if successful.
   """
-  verifyEmail(email: String!, code: String!): Boolean!
+  verifyEmail(email: String!, code: String!): VerifyEmailResponse!
 }
