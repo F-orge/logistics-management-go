@@ -7,6 +7,7 @@ use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::NaiveDate;
 use chrono::Utc;
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use sqlx::FromRow;
@@ -22,7 +23,7 @@ use super::enums::PaymentMethod;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmInvoices", complex)]
 pub struct Model {
     pub id: Uuid,

@@ -1,6 +1,7 @@
 use async_graphql::Enum;
+use fake::Dummy;
 
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.case_priority", rename_all = "kebab-case")]
 pub enum CasePriority {
     Critical,
@@ -8,7 +9,7 @@ pub enum CasePriority {
     Medium,
     Low,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.case_status", rename_all = "kebab-case")]
 pub enum CaseStatus {
     New,
@@ -20,7 +21,7 @@ pub enum CaseStatus {
     Closed,
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.case_type", rename_all = "kebab-case")]
 pub enum CaseType {
     Question,
@@ -30,7 +31,7 @@ pub enum CaseType {
     BugReport,
     TechnicalSupport,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.interaction_type", rename_all = "kebab-case")]
 pub enum InteractionType {
     Call,
@@ -38,7 +39,7 @@ pub enum InteractionType {
     Text,
     Email,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.invoice_status", rename_all = "kebab-case")]
 pub enum InvoiceStatus {
     Draft,
@@ -47,7 +48,7 @@ pub enum InvoiceStatus {
     Overdue,
     Cancelled,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.lead_source", rename_all = "kebab-case")]
 pub enum LeadSource {
     Website,
@@ -60,7 +61,7 @@ pub enum LeadSource {
     Partner,
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.lead_status", rename_all = "kebab-case")]
 pub enum LeadStatus {
     New,
@@ -69,7 +70,7 @@ pub enum LeadStatus {
     Unqualified,
     Converted,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.opportunity_source", rename_all = "kebab-case")]
 pub enum OpportunitySource {
     Website,
@@ -83,7 +84,7 @@ pub enum OpportunitySource {
     ExistingCustomer,
     Other,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.opportunity_stage", rename_all = "kebab-case")]
 pub enum OpportunityStage {
     Prospecting,
@@ -95,7 +96,7 @@ pub enum OpportunityStage {
     ClosedWon,
     ClosedLost,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.payment_method", rename_all = "kebab-case")]
 pub enum PaymentMethod {
     CreditCard,
@@ -106,7 +107,7 @@ pub enum PaymentMethod {
     Stripe,
     WireTransfer,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.product_type", rename_all = "kebab-case")]
 pub enum ProductType {
     Service,
@@ -114,7 +115,7 @@ pub enum ProductType {
     Digital,
     Subscription,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type)]
+#[derive(Debug, Clone, PartialEq, Eq, Copy, Enum, sqlx::Type, Dummy)]
 #[sqlx(type_name = "crm.record_type", rename_all = "kebab-case")]
 pub enum RecordType {
     Companies,

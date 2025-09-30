@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::{company::en::CompanyName, number::en::NumberWithFormat};
 use std::sync::Arc;
 
 use crate::models::{outbound_shipment_items, warehouses};
@@ -11,10 +13,10 @@ use crate::models::sales_orders;
 
 use super::enums::OutboundShipmentStatusEnum;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsOutboundShipments", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -23,7 +25,9 @@ pub struct Model {
     #[graphql(skip)]
     pub warehouse_id: Uuid,
     pub status: Option<OutboundShipmentStatusEnum>,
+    #[dummy(faker = "NumberWithFormat("TRK-#########")")]
     pub tracking_number: Option<String>,
+    #[dummy(faker = "CompanyName()")]
     pub carrier: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,

@@ -1,3 +1,4 @@
+use fake::Dummy;
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -7,10 +8,10 @@ use uuid::Uuid;
 
 use super::{locations, products};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsBinThresholds", complex)]
 pub struct Model {
     pub id: Uuid,

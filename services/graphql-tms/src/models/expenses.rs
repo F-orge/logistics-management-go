@@ -1,6 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::DateTime;
 use chrono::Utc;
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -16,7 +17,7 @@ use super::sea_orm_active_enums::ExpenseTypeEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsExpenses")]
 pub struct Model {
     pub id: Uuid,

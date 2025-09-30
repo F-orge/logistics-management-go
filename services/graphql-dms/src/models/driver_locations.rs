@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use graphql_tms::models::drivers;
 use sqlx::prelude::FromRow;
@@ -10,7 +11,7 @@ use uuid::Uuid;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsDriverLocations", complex)]
 pub struct Model {
     pub id: Uuid,

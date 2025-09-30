@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::Sentence;
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
@@ -10,12 +12,13 @@ use uuid::Uuid;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmNotifications", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub user_id: Uuid,
+    #[dummy(faker = "Sentence(3..8)")]
     pub message: String,
     pub is_read: Option<bool>,
     pub created_at: Option<DateTime<Utc>>,

@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
 use uuid::Uuid;
@@ -10,7 +11,7 @@ use crate::models::{opportunities, products};
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmOpportunityProducts", complex)]
 pub struct Model {
     #[graphql(skip)]

@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::{company::en::CompanyName, lorem::en::Word, number::en::NumberWithFormat};
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -9,26 +11,31 @@ use uuid::Uuid;
 
 use super::{package_items, sales_orders, warehouses};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsPackages", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub sales_order_id: Uuid,
+    #[dummy(faker = "NumberWithFormat("PKG-########")")]
     pub package_number: String,
     #[graphql(skip)]
     pub warehouse_id: Uuid,
+    #[dummy(faker = "Word()")]
     pub package_type: Option<String>,
     pub weight: Option<f32>,
     pub length: Option<f32>,
     pub width: Option<f32>,
     pub height: Option<f32>,
     pub volume: Option<f32>,
+    #[dummy(faker = "NumberWithFormat("TRK-#########")")]
     pub tracking_number: Option<String>,
+    #[dummy(faker = "CompanyName()")]
     pub carrier: Option<String>,
+    #[dummy(faker = "Word()")]
     pub service_level: Option<String>,
     #[graphql(skip)]
     pub packed_by_user_id: Option<Uuid>,

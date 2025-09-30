@@ -5,6 +5,8 @@ use async_graphql::{
     dataloader::{DataLoader, Loader},
 };
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::internet::en::{IPv4, UserAgent};
 use graphql_core::PostgresDataLoader;
 use sqlx::{PgPool, prelude::FromRow};
 use uuid::Uuid;
@@ -14,15 +16,18 @@ use crate::models::user;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(SimpleObject, Debug, Clone, FromRow)]
+#[derive(SimpleObject, Debug, Clone, FromRow, Dummy)]
 #[graphql(name = "AuthSession", complex)]
 pub struct Model {
     pub id: Uuid,
     pub expires_at: DateTime<Utc>,
+    #[dummy(faker = "50..100")]
     pub token: String,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
+    #[dummy(faker = "IPv4()")]
     pub ip_address: Option<String>,
+    #[dummy(faker = "UserAgent()")]
     pub user_agent: Option<String>,
     #[graphql(skip)]
     pub user_id: Uuid,

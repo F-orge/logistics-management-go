@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::number::en::NumberWithFormat;
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
@@ -12,12 +14,13 @@ use super::sea_orm_active_enums::DriverStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsDrivers")]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub user_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(\"##-###-####\")")]
     pub license_number: String,
     pub license_expiry_date: Option<NaiveDate>,
     pub status: Option<DriverStatusEnum>,

@@ -3,6 +3,7 @@ use std::sync::Arc;
 use crate::models::warehouses;
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
@@ -10,10 +11,10 @@ use crate::models::products;
 
 use super::enums::StockTransferStatusEnum;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsStockTransfer", complex)]
 pub struct Model {
     pub id: Uuid,

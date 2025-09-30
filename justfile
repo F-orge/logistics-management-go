@@ -34,6 +34,9 @@ introspect:
   @cargo run introspect | tee src/lib/graphql/schema.graphql
   @bun graphql-codegen --config codegen.ts
 
+start-auth-service:
+  @bun run apps/auth-service/server.ts
+
 dev-backend:
   @cargo watch -q -c -x "run serve --database-url $DATABASE_URL --enable-playground"
 

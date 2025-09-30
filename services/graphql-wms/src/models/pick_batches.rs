@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::faker::{address::en::CityName, number::en::NumberWithFormat};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
@@ -11,13 +12,14 @@ use super::{
     pick_batch_items, warehouses,
 };
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsPickBatches", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "NumberWithFormat(\"PB-########\")")]
     pub batch_number: String,
     #[graphql(skip)]
     pub warehouse_id: Uuid,
@@ -26,7 +28,9 @@ pub struct Model {
     pub priority: Option<i32>,
     #[graphql(skip)]
     pub assigned_user_id: Option<Uuid>,
+    #[dummy(faker = "NumberWithFormat(\"WAVE-####\")")]
     pub wave_id: Option<String>,
+    #[dummy(faker = "CityName()")]
     pub zone_restrictions: Option<Vec<String>>,
     pub estimated_duration: Option<i32>,
     pub actual_duration: Option<i32>,

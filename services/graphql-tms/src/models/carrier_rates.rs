@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{address::en::CityName, lorem::en::Word};
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use sqlx::FromRow;
@@ -13,14 +15,17 @@ use crate::models::carriers;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "TmsCarrierRates", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub carrier_id: Uuid,
+    #[dummy(faker = "Word()")]
     pub service_type: Option<String>,
+    #[dummy(faker = "CityName()")]
     pub origin: Option<String>,
+    #[dummy(faker = "CityName()")]
     pub destination: Option<String>,
     pub rate: Decimal,
     pub unit: Option<CarrierRateUnitEnum>,

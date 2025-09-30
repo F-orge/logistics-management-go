@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::number::en::NumberWithFormat;
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -7,15 +9,16 @@ use uuid::Uuid;
 
 use crate::models::products;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsInventoryBatches", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub product_id: Uuid,
+    #[dummy(faker = r#"NumberWithFormat("BATCH-########")"#)]
     pub batch_number: String,
     pub expiration_date: Option<NaiveDate>,
     pub created_at: Option<DateTime<Utc>>,

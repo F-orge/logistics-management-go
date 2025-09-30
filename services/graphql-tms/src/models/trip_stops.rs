@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::address::en::{BuildingNumber, StreetName};
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -11,7 +13,7 @@ use super::sea_orm_active_enums::TripStopStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsTripStops")]
 pub struct Model {
     pub id: Uuid,
@@ -19,6 +21,7 @@ pub struct Model {
     pub trip_id: Uuid,
     pub shipment_id: Option<Uuid>,
     pub sequence: i32,
+    #[dummy(faker = "StreetName()")]
     pub address: Option<String>,
     pub status: Option<TripStopStatusEnum>,
     pub estimated_arrival_time: Option<DateTime<Utc>>,

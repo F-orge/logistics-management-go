@@ -2,6 +2,13 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{
+    company::en::Profession,
+    internet::en::FreeEmail,
+    name::en::Name,
+    phone_number::en::PhoneNumber,
+};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
@@ -12,13 +19,17 @@ use crate::models::companies;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmContacts", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "Name()")]
     pub name: String,
+    #[dummy(faker = "FreeEmail()")]
     pub email: String,
+    #[dummy(faker = "PhoneNumber()")]
     pub phone_number: Option<String>,
+    #[dummy(faker = "Profession()")]
     pub job_title: Option<String>,
     pub company_id: Option<Uuid>,
     pub owner_id: Uuid,

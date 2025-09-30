@@ -5,6 +5,8 @@ use async_graphql::{
     dataloader::{DataLoader, Loader},
 };
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{company::en::CompanyName, internet::en::Password, lorem::en::Words};
 use graphql_core::PostgresDataLoader;
 use sqlx::{PgPool, prelude::FromRow};
 use uuid::Uuid;
@@ -14,21 +16,25 @@ use crate::models::user;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(Uuid);
 
-#[derive(SimpleObject, Debug, Clone, FromRow)]
+#[derive(SimpleObject, Debug, Clone, FromRow, Dummy)]
 #[graphql(name = "AuthAccount", complex)]
 pub struct Model {
     pub id: Uuid,
     pub account_id: String,
+    #[dummy(faker = "CompanyName()")]
     pub provider_id: String,
     #[graphql(skip)]
     pub user_id: Uuid,
+    #[dummy(faker = "30..50")]
     pub access_token: Option<String>,
+    #[dummy(faker = "30..50")]
     pub refresh_token: Option<String>,
     pub id_token: Option<String>,
     pub access_token_expires_at: Option<DateTime<Utc>>,
     pub refresh_token_expires_at: Option<DateTime<Utc>>,
     pub scope: Option<String>,
     #[graphql(secret, skip)]
+    #[dummy(faker = "Password(8..20)")]
     pub password: Option<String>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,

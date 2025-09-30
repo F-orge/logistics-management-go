@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::filesystem::en::{FileName, FilePath, MimeType};
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
 use uuid::Uuid;
@@ -11,12 +13,15 @@ use super::enums::RecordType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmAttachments")]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "FileName()")]
     pub file_name: String,
+    #[dummy(faker = "FilePath()")]
     pub file_path: String,
+    #[dummy(faker = "MimeType()")]
     pub mime_type: Option<String>,
     pub record_id: Option<Uuid>,
     pub record_type: Option<RecordType>,

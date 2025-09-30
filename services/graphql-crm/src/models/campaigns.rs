@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{SimpleObject, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::Sentence;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use sqlx::FromRow;
@@ -10,10 +12,11 @@ use uuid::Uuid;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmCampaigns")]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "Sentence(1..3)")]
     pub name: String,
     pub budget: Option<Decimal>,
     pub start_date: Option<NaiveDate>,

@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::{Paragraph, Sentence};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
@@ -14,7 +16,7 @@ use super::enums::InteractionType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmInteractions", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -25,7 +27,9 @@ pub struct Model {
     #[graphql(skip)]
     pub case_id: Option<Uuid>,
     pub r#type: Option<InteractionType>,
+    #[dummy(faker = "Sentence(1..3)")]
     pub outcome: Option<String>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub notes: Option<String>,
     pub interaction_date: Option<DateTime<Utc>>,
     pub created_at: Option<DateTime<Utc>>,

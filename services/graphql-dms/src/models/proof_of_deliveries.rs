@@ -2,6 +2,12 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{
+    filesystem::en::FilePath,
+    name::en::Name,
+    number::en::NumberWithFormat,
+};
 use graphql_core::PostgresDataLoader;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
@@ -13,16 +19,20 @@ use super::enums::ProofOfDeliveryTypeEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsProofOfDeliveries", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub delivery_task_id: Uuid,
     pub r#type: ProofOfDeliveryTypeEnum,
+    #[dummy(faker = "FilePath()")]
     pub file_path: Option<String>,
+    #[dummy(faker = "30..50")]
     pub signature_data: Option<String>,
+    #[dummy(faker = "Name()")]
     pub recipient_name: Option<String>,
+    #[dummy(faker = "NumberWithFormat(\"######\")")]
     pub verification_code: Option<String>,
     pub latitude: Option<f32>,
     pub longitude: Option<f32>,

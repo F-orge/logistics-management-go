@@ -1,0 +1,114 @@
+description = "Implements fake::Dummy derive macro for Rust models to enable test data generation"
+
+prompt = """
+You are an expert Rust developer specializing in test data generation using the `fake` crate.
+
+Your task is to analyze Rust models/structs in the specified files or directories and implement the `#[derive(Dummy)]` macro from the `fake` crate to enable automatic generation of fake test data.
+
+## Target Files/Directories:
+
+{{args}}
+
+## Requirements:
+
+1. **Add the derive macro**: Add `#[derive(Dummy)]` to the struct
+2. **Configure field-specific fakers**: Use `#[dummy(faker = "...")]` attributes for fields that need specific fake data patterns
+3. **Handle different data types appropriately**:
+   - Strings: Use appropriate fakers like `Name()`, `Email()`, `CompanyName()`, etc.
+   - Numbers: Use ranges like `1000..2000` or specific fakers
+   - Dates/Times: Leave as-is, will be auto-generated (DateTime<Utc>, etc.)
+   - UUIDs: Leave as-is, will be auto-generated (Uuid type)
+   - Booleans: Leave as-is or use `Boolean(ratio)` if specific ratio needed
+   - Collections: Will be automatically handled by the derive macro
+   - Custom types/enums: Leave as-is, will be auto-generated
+
+## Common Faker Patterns:
+
+### Identity & Personal Data:
+- `Name()` - Full names
+- `FirstName()`, `LastName()` - Individual name parts
+- `Email()`, `SafeEmail()` - Email addresses
+- `PhoneNumber()`, `CellNumber()` - Phone numbers
+
+### Business Data:
+- `CompanyName()` - Company names
+- `Industry()`, `Profession()` - Professional data
+- `CurrencyCode()`, `CurrencySymbol()` - Financial data
+
+### Technical Data:
+- `UUIDv4()` - Only for String fields that need UUID format
+- `IPv4()`, `IPv6()` - IP addresses
+- `UserAgent()` - Browser user agents
+- `Password(8..20)` - Passwords with length range
+
+### Content Data:
+- `Words(1..5)` - Multiple words
+- `Sentence(4..8)` - Sentences with word count
+- `Paragraph(3..5)` - Paragraphs with sentence count
+
+### Address Data:
+- `CityName()`, `StateName()`, `CountryName()`
+- `StreetName()`, `BuildingNumber()`
+- `ZipCode()`, `PostCode()`
+
+### Numeric Ranges:
+- `1..1000` - Simple numeric ranges
+- `0.0..100.0` - Float ranges
+
+## Example Implementation:
+
+```rust
+use fake::Dummy;
+use fake::faker::{internet::en::FreeEmail, name::en::Name};
+
+#[derive(Debug, Dummy)]
+pub struct User {
+    pub id: Uuid, // Auto-generated, no faker needed
+    
+    #[dummy(faker = "Name()")]
+    pub name: String,
+    
+    #[dummy(faker = "FreeEmail()")]
+    pub email: String,
+    
+    #[dummy(faker = "18..65")]
+    pub age: u32,
+    
+    #[dummy(faker = "CompanyName()")]
+    pub company: String,
+    
+    pub active: bool, // Auto-generated, no faker needed
+    pub created_at: DateTime<Utc>, // Auto-generated, no faker needed
+}
+```
+
+## Reference Pattern:
+
+Here's how it's already implemented in the user model:
+
+@{services/graphql-auth/src/models/user.rs}
+
+## Comprehensive Faker Documentation:
+
+For complex models or advanced faker patterns, reference the complete fake crate documentation:
+
+@{.gemini/instructions/fake.md}
+
+## Your Task:
+
+1. Read and analyze the Rust files specified in the target files/directories: {{args}}
+2. For each struct/model found, add the appropriate `#[derive(Dummy)]` to the struct
+3. Add `#[dummy(faker = "...")]` attributes ONLY to String fields that need specific fakers
+4. Leave UUID, DateTime, custom types, and enums without faker attributes (they auto-generate)
+5. Consider the semantic meaning of each String field to choose the most appropriate faker
+6. Ensure the implementation follows Rust conventions and the fake crate patterns
+7. Add any necessary imports using the pattern: `use fake::faker::<type>::en::<function>;`
+   - Example: `use fake::faker::internet::en::FreeEmail;`
+   - Example: `use fake::faker::name::en::Name;`
+8. Reference the user.rs implementation as a pattern guide
+
+If a directory is specified, process all .rs files within that directory and subdirectories.
+If multiple files are specified, process each file individually.
+
+Focus on creating realistic, semantically appropriate fake data for each model's intended use case.
+"""

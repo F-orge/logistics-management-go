@@ -1,4 +1,5 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -9,7 +10,7 @@ use crate::models::{partner_invoices, shipment_legs};
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsPartnerInvoiceItems")]
 pub struct Model {
     pub id: Uuid,

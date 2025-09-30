@@ -5,6 +5,13 @@ use async_graphql::Context;
 use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::Utc;
+use fake::Dummy;
+use fake::faker::{
+    address::en::{BuildingNumber, StreetName},
+    lorem::en::Paragraph,
+    name::en::Name,
+    phone_number::en::PhoneNumber,
+};
 use graphql_core::PostgresDataLoader;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
@@ -19,7 +26,7 @@ use super::enums::DeliveryTaskStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsDeliveryTasks", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -28,9 +35,13 @@ pub struct Model {
     #[graphql(skip)]
     pub delivery_route_id: Uuid,
     pub route_sequence: i32,
+    #[dummy(faker = "StreetName()")]
     pub delivery_address: String,
+    #[dummy(faker = "Name()")]
     pub recipient_name: Option<String>,
+    #[dummy(faker = "PhoneNumber()")]
     pub recipient_phone: Option<String>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub delivery_instructions: Option<String>,
     pub estimated_arrival_time: Option<DateTime<Utc>>,
     pub actual_arrival_time: Option<DateTime<Utc>>,

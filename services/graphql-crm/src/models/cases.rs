@@ -7,6 +7,9 @@ use async_graphql::dataloader::DataLoader;
 use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::Utc;
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
+use fake::faker::number::en::NumberWithFormat;
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
@@ -21,10 +24,11 @@ use super::enums::CaseType;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmCases", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "NumberWithFormat(\"###-###-###\")")]
     pub case_number: String,
     pub status: Option<CaseStatus>,
     pub priority: Option<CasePriority>,
@@ -33,6 +37,7 @@ pub struct Model {
     pub owner_id: Uuid,
     #[graphql(skip)]
     pub contact_id: Option<Uuid>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub description: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,

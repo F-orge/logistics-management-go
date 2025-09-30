@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::number::en::NumberWithFormat;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -12,12 +14,13 @@ use super::sea_orm_active_enums::PartnerInvoiceStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsPartnerInvoices")]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub carrier_id: Uuid,
+    #[dummy(faker = "NumberWithFormat(\"INV-######\")")]
     pub invoice_number: String,
     pub invoice_date: NaiveDate,
     pub total_amount: Decimal,

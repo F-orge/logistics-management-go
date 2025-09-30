@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::number::en::NumberWithFormat;
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -7,10 +9,10 @@ use uuid::Uuid;
 
 use super::{inventory_batches, packages, products};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsPackageItems", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -21,7 +23,9 @@ pub struct Model {
     #[graphql(skip)]
     pub batch_id: Option<Uuid>,
     pub quantity: i32,
+    #[dummy(faker = "NumberWithFormat("####-####")")]
     pub lot_number: Option<String>,
+    #[dummy(faker = "vec![NumberWithFormat("SN-########"); 1..3]")] // Assuming 1 to 3 serial numbers
     pub serial_numbers: Option<Vec<String>>,
     pub expiry_date: Option<NaiveDate>,
     pub unit_weight: Option<f32>,

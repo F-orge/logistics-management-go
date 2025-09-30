@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
 use std::sync::Arc;
@@ -12,7 +14,7 @@ use super::sea_orm_active_enums::VehicleServiceTypeEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsVehicleMaintenance")]
 pub struct Model {
     pub id: Uuid,
@@ -21,6 +23,7 @@ pub struct Model {
     pub service_date: NaiveDate,
     pub service_type: Option<VehicleServiceTypeEnum>,
     pub cost: Option<Decimal>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub notes: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,

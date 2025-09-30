@@ -2,15 +2,17 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::{lorem::en::Paragraph, number::en::NumberWithFormat};
 use graphql_core::PostgresDataLoader;
 use uuid::Uuid;
 
 use super::{enums::TaskItemStatusEnum, inventory_batches, locations, products, tasks};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsTaskItems", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -28,9 +30,12 @@ pub struct Model {
     pub quantity_completed: i32,
     pub quantity_remaining: Option<i32>,
     pub status: Option<TaskItemStatusEnum>,
+    #[dummy(faker = "NumberWithFormat(\"####-####\")")]
     pub lot_number: Option<String>,
+    #[dummy(faker = "NumberWithFormat(\"SN-########\")")]
     pub serial_numbers: Option<Vec<String>>,
     pub expiry_date: Option<NaiveDate>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub notes: Option<String>,
     pub completed_at: Option<DateTime<Utc>>,
     pub created_at: Option<DateTime<Utc>>,

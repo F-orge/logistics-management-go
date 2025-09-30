@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::address::en::{CityName, Latitude, Longitude};
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -9,10 +11,11 @@ use crate::models::geofence_events;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsGeofence", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "CityName()")]
     pub name: String,
     pub coordinates: Option<String>,
     pub created_at: Option<DateTime<Utc>>,

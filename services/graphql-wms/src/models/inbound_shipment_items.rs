@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -7,10 +9,10 @@ use uuid::Uuid;
 
 use crate::models::{inbound_shipments, products};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsInboundShipmentItems", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -21,6 +23,7 @@ pub struct Model {
     pub expected_quantity: i32,
     pub received_quantity: Option<i32>,
     pub discrepancy_quantity: Option<i32>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub discrepancy_notes: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,

@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::{Paragraph, Sentence};
 use graphql_core::PostgresDataLoader;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
@@ -13,14 +15,16 @@ use super::enums::TaskEventStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsTaskEvents", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub delivery_task_id: Uuid,
     pub status: TaskEventStatusEnum,
+    #[dummy(faker = "Sentence(1..3)")]
     pub reason: Option<String>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub notes: Option<String>,
     pub latitude: Option<f32>,
     pub longitude: Option<f32>,

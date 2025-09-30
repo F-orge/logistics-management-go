@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
 use graphql_core::PostgresDataLoader;
 use graphql_tms::models::drivers;
 use sqlx::prelude::FromRow;
@@ -12,7 +14,7 @@ use super::enums::DeliveryRouteStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsDeliveryRoutes", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -20,6 +22,7 @@ pub struct Model {
     pub driver_id: Uuid,
     pub route_date: NaiveDate,
     pub status: Option<DeliveryRouteStatusEnum>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub optimized_route_data: Option<String>,
     pub total_distance_km: Option<f32>,
     pub estimated_duration_minutes: Option<i32>,

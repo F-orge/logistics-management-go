@@ -1,5 +1,6 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -9,7 +10,7 @@ use crate::models::vehicles;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsGpsPings")]
 pub struct Model {
     pub id: Uuid,

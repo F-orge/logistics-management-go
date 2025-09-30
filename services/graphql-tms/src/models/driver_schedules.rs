@@ -1,5 +1,6 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, NaiveDate, Utc};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -11,7 +12,7 @@ use super::sea_orm_active_enums::DriverScheduleReasonEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsDriverSchedules", complex)]
 pub struct Model {
     pub id: Uuid,

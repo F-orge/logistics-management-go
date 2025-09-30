@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -9,12 +11,13 @@ use crate::models::trips;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsRoutes")]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub trip_id: Uuid,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub optimized_route_data: Option<String>,
     pub total_distance: Option<f32>,
     pub total_duration: Option<f32>,

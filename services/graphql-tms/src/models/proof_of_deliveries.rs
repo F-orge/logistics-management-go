@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::filesystem::en::FilePath;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -11,13 +13,14 @@ use super::sea_orm_active_enums::ProofTypeEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsProofOfDeliveries")]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub trip_stop_id: Uuid,
     pub r#type: Option<ProofTypeEnum>,
+    #[dummy(faker = "FilePath()")]
     pub file_path: Option<String>,
     pub timestamp: DateTime<Utc>,
     pub latitude: Option<f32>,

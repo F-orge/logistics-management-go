@@ -1,5 +1,10 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{
+    address::en::CityName,
+    lorem::en::Sentence,
+};
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -9,13 +14,15 @@ use crate::models::shipment_legs;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsShipmentLegEvents")]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub shipment_leg_id: Uuid,
+    #[dummy(faker = "Sentence(1..3)")]
     pub status_message: Option<String>,
+    #[dummy(faker = "CityName()")]
     pub location: Option<String>,
     pub event_timestamp: DateTime<Utc>,
 }

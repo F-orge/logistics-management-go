@@ -2,11 +2,14 @@ use std::sync::Arc;
 
 use async_graphql::{Enum, SimpleObject, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{internet::en::FreeEmail, name::en::Name};
 use graphql_core::PostgresDataLoader;
 use sqlx::{PgPool, prelude::FromRow};
+use url::Url;
 use uuid::Uuid;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Enum, sqlx::Type)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Enum, sqlx::Type, Dummy)]
 #[graphql(name = "AuthUserRole")]
 #[sqlx(type_name = "auth.user_role", rename_all = "kebab-case")]
 pub enum UserRole {
@@ -47,11 +50,13 @@ pub enum UserRole {
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(SimpleObject, Debug, Clone, FromRow)]
+#[derive(SimpleObject, Debug, Clone, FromRow, Dummy)]
 #[graphql(name = "AuthUser")]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "Name()")]
     pub name: String,
+    #[dummy(faker = "FreeEmail()")]
     pub email: String,
     pub email_verified: Option<bool>,
     pub image: Option<String>,

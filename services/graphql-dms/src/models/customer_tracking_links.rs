@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
 use graphql_core::PostgresDataLoader;
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
@@ -11,12 +12,13 @@ use crate::models::delivery_tasks;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql :: SimpleObject, FromRow, Dummy)]
 #[graphql(name = "DmsCustomerTrackingLinks", complex)]
 pub struct Model {
     pub id: Uuid,
     #[graphql(skip)]
     pub delivery_task_id: Uuid,
+    #[dummy(faker = "30..50")]
     pub tracking_token: String,
     pub is_active: Option<bool>,
     pub access_count: Option<i32>,

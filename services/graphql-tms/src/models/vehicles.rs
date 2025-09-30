@@ -1,5 +1,7 @@
 use async_graphql::dataloader::Loader;
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::{lorem::en::Word, number::en::NumberWithFormat};
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -9,11 +11,13 @@ use super::sea_orm_active_enums::VehicleStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsVehicles")]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "NumberWithFormat(\"##-###-##\")")]
     pub registration_number: String,
+    #[dummy(faker = "Word()")]
     pub model: Option<String>,
     pub capacity_volume: Option<f32>,
     pub capacity_weight: Option<f32>,

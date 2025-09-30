@@ -8,10 +8,10 @@ use uuid::Uuid;
 
 use super::{enums::LocationTypeEnum, locations, products, warehouses};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsPutawayRules", complex)]
 pub struct Model {
     pub id: Uuid,

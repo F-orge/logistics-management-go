@@ -7,6 +7,8 @@ use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::NaiveDate;
 use chrono::Utc;
+use fake::Dummy;
+use fake::faker::lorem::en::{Paragraph, Sentence};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use rust_decimal::Decimal;
@@ -25,15 +27,17 @@ use super::enums::OpportunityStage;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmOpportunities", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "Sentence(1..3)")]
     pub name: String,
     pub stage: Option<OpportunityStage>,
     pub deal_value: Option<Decimal>,
     pub probability: Option<f32>,
     pub expected_close_date: Option<NaiveDate>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub lost_reason: Option<String>,
     pub source: Option<OpportunitySource>,
     #[graphql(skip)]

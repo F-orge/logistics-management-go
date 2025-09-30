@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::{address::en::CityName, filesystem::en::FilePath, lorem::en::Words, number::en::NumberWithFormat};
 use std::sync::Arc;
 
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
@@ -7,10 +9,10 @@ use uuid::Uuid;
 
 use super::{enums::LocationTypeEnum, inventory_stock, warehouses};
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "WmsLocations", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -18,10 +20,13 @@ pub struct Model {
     pub warehouse_id: Uuid,
     #[graphql(skip)]
     pub parent_location_id: Option<Uuid>,
+    #[dummy(faker = "CityName()")] // or Words(1..3)
     pub name: String,
+    #[dummy(faker = "NumberWithFormat("LOC-########")")]
     pub barcode: Option<String>,
     pub r#type: LocationTypeEnum,
     pub level: Option<i32>,
+    #[dummy(faker = "FilePath()")]
     pub path: Option<String>,
     pub max_weight: Option<f32>,
     pub max_volume: Option<f32>,

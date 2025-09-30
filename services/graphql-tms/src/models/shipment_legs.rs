@@ -1,5 +1,7 @@
 use async_graphql::{ComplexObject, Context, dataloader::Loader};
 use chrono::{DateTime, Utc};
+use fake::Dummy;
+use fake::faker::address::en::CityName;
 use graphql_core::PostgresDataLoader;
 use std::sync::Arc;
 use uuid::Uuid;
@@ -11,13 +13,15 @@ use super::sea_orm_active_enums::ShipmentLegStatusEnum;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "TmsShipmentLegs")]
 pub struct Model {
     pub id: Uuid,
     pub shipment_id: Option<Uuid>,
     pub leg_sequence: i32,
+    #[dummy(faker = "CityName()")]
     pub start_location: Option<String>,
+    #[dummy(faker = "CityName()")]
     pub end_location: Option<String>,
     #[graphql(skip)]
     pub carrier_id: Option<Uuid>,

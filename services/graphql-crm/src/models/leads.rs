@@ -6,6 +6,11 @@ use async_graphql::SimpleObject;
 use async_graphql::dataloader::Loader;
 use chrono::DateTime;
 use chrono::Utc;
+use fake::Dummy;
+use fake::faker::{
+    internet::en::FreeEmail,
+    name::en::Name,
+};
 use graphql_auth::models::user;
 use graphql_core::PostgresDataLoader;
 use sqlx::FromRow;
@@ -21,11 +26,13 @@ use super::enums::LeadStatus;
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, SimpleObject, FromRow, Dummy)]
 #[graphql(name = "CrmLeads", complex)]
 pub struct Model {
     pub id: Uuid,
+    #[dummy(faker = "Name()")]
     pub name: String,
+    #[dummy(faker = "FreeEmail()")]
     pub email: String,
     pub lead_source: Option<LeadSource>,
     pub status: Option<LeadStatus>,

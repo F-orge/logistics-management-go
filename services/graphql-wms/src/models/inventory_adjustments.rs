@@ -1,3 +1,5 @@
+use fake::Dummy;
+use fake::faker::lorem::en::Paragraph;
 use std::sync::Arc;
 
 use crate::models::warehouses;
@@ -11,10 +13,10 @@ use crate::models::products;
 
 use super::enums::InventoryAdjustmentReasonEnum;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsInventoryAdjustments", complex)]
 pub struct Model {
     pub id: Uuid,
@@ -26,6 +28,7 @@ pub struct Model {
     pub user_id: Uuid,
     pub quantity_change: i32,
     pub reason: Option<InventoryAdjustmentReasonEnum>,
+    #[dummy(faker = "Paragraph(1..3)")]
     pub notes: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,

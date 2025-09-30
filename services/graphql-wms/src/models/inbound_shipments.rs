@@ -1,3 +1,4 @@
+use fake::Dummy;
 use std::sync::Arc;
 
 use crate::models::warehouses;
@@ -11,10 +12,10 @@ use crate::models::inbound_shipment_items;
 
 use super::enums::InboundShipmentStatusEnum;
 
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Dummy)]
 pub struct PrimaryKey(pub Uuid);
 
-#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow)]
+#[derive(Clone, Debug, PartialEq, Eq, async_graphql::SimpleObject, sqlx::FromRow, Dummy)]
 #[graphql(name = "ImsInboundShipments", complex)]
 pub struct Model {
     pub id: Uuid,
