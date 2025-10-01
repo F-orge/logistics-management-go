@@ -1,5 +1,8 @@
-import type { Resolvers } from "./graphql/resolver-types";
+import { db } from "./db";
+import type { Resolvers as GraphqlResolver } from "./graphql/resolver-types";
 import { ApolloServer } from "apollo-server";
+
+export type Resolvers = GraphqlResolver<{ db: typeof db }>;
 
 const typeDefs = await Bun.file(`${import.meta.dir}/graphql/schema.graphql`)
   .text();
@@ -10,6 +13,12 @@ const resolvers: Resolvers = {
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    return { db };
+  },
+});
 
 server.listen().then(({ url }) => console.log(`Server ready at ${url}`));

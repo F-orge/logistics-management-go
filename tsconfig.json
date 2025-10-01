@@ -35,5 +35,6 @@
       }
     ]
   },
-  "include": ["src","apps"]
+  "include": ["src","apps"],
+  "exclude": ["apps/**/graphql/resolver-types.ts"]
 }
