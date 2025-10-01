@@ -13,6 +13,9 @@ build:
 check:
   bun biome check --fix
 
+start:
+  bun .output/server
+
 docker-build:
   @if docker manifest inspect ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \
     echo "Error: Image ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} already exists" 1>&2; \
