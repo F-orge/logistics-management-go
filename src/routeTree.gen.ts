@@ -8,140 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as AuthRouteRouteImport } from './routes/auth/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthlayoutRegisterIndexRouteImport } from './routes/auth/(layout)/register/index'
-import { Route as AuthlayoutLoginIndexRouteImport } from './routes/auth/(layout)/login/index'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as IndexRouteImport } from './routes/index';
 
-const DashboardRouteRoute = DashboardRouteRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthlayoutRegisterIndexRoute = AuthlayoutRegisterIndexRouteImport.update({
-  id: '/(layout)/register/',
-  path: '/register/',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-const AuthlayoutLoginIndexRoute = AuthlayoutLoginIndexRouteImport.update({
-  id: '/(layout)/login/',
-  path: '/login/',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRoute
-  '/auth/login': typeof AuthlayoutLoginIndexRoute
-  '/auth/register': typeof AuthlayoutRegisterIndexRoute
+  '/': typeof IndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRoute
-  '/auth/login': typeof AuthlayoutLoginIndexRoute
-  '/auth/register': typeof AuthlayoutRegisterIndexRoute
+  '/': typeof IndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/dashboard': typeof DashboardRouteRoute
-  '/auth/(layout)/login/': typeof AuthlayoutLoginIndexRoute
-  '/auth/(layout)/register/': typeof AuthlayoutRegisterIndexRoute
+  __root__: typeof rootRouteImport;
+  '/': typeof IndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/auth/login' | '/auth/register'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/auth/login' | '/auth/register'
-  id:
-    | '__root__'
-    | '/'
-    | '/auth'
-    | '/dashboard'
-    | '/auth/(layout)/login/'
-    | '/auth/(layout)/register/'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: '/';
+  fileRoutesByTo: FileRoutesByTo;
+  to: '/';
+  id: '__root__' | '/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  DashboardRouteRoute: typeof DashboardRouteRoute
+  IndexRoute: typeof IndexRoute;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/(layout)/register/': {
-      id: '/auth/(layout)/register/'
-      path: '/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthlayoutRegisterIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/auth/(layout)/login/': {
-      id: '/auth/(layout)/login/'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthlayoutLoginIndexRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
-interface AuthRouteRouteChildren {
-  AuthlayoutLoginIndexRoute: typeof AuthlayoutLoginIndexRoute
-  AuthlayoutRegisterIndexRoute: typeof AuthlayoutRegisterIndexRoute
-}
-
-const AuthRouteRouteChildren: AuthRouteRouteChildren = {
-  AuthlayoutLoginIndexRoute: AuthlayoutLoginIndexRoute,
-  AuthlayoutRegisterIndexRoute: AuthlayoutRegisterIndexRoute,
-}
-
-const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
-  AuthRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRouteRoute: AuthRouteRouteWithChildren,
-  DashboardRouteRoute: DashboardRouteRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
+
+import type { createStart } from '@tanstack/react-start';
+import type { getRouter } from './router.tsx';
+
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true;
+    router: Awaited<ReturnType<typeof getRouter>>;
+  }
+}
