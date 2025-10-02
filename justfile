@@ -17,13 +17,13 @@ start:
   bun .output/server
 
 docker-build:
-  @if docker manifest inspect ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \
-    echo "Error: Image ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} already exists" 1>&2; \
+  @if docker manifest inspect ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \
+    echo "Error: Image ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} already exists" 1>&2; \
     exit 1; \
   fi
-  @docker build -t ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} -t ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:latest .
+  @docker build -t ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} -t ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:latest .
 
 docker-push: docker-build
-  @docker push ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}}
-  @docker push ${REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:latest
+  @docker push ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}}
+  @docker push ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:latest
   @curl ${DEPLOYMENT_WEBHOOK_URL}

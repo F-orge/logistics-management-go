@@ -1,0 +1,11 @@
+# Development override for Docker Compose
+#
+# This file overrides the app service to build from source instead of using a prebuilt image.
+# Usage:
+#   docker compose -f compose.yaml -f compose.dev.yaml up
+#
+# This will build the app service from the Dockerfile in the current directory.
+
+services:
+  app:
+    build: .

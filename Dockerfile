@@ -1,38 +1,32 @@
-FROM alpine:3.20 AS alpine_base
-FROM golang:1.24-alpine3.20 AS golang_base
+FROM oven/bun:1 AS base
 
-FROM golang_base AS golang-build
-
+# Set working directory
 WORKDIR /app
 
-COPY go.mod go.sum ./
+# Copy package and lock files
+COPY package.json bun.lock ./
 
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server ./main.go
-
-FROM oven/bun:canary-alpine AS frontend-build
-
-WORKDIR /app
-
-COPY package*.json ./
-
+# Install dependencies
 RUN bun install --frozen-lockfile
 
+# Copy the rest of the codebase
 COPY . .
 
-RUN bun rsbuild build --mode production
+# Build the project
+RUN bun vite build
 
-FROM alpine_base AS runtime
+# --- Release image ---
+FROM oven/bun:1 AS runner
+WORKDIR /app
 
-WORKDIR /app/
+# Copy built output and server files
+COPY --from=base /app/.output ./.output
+COPY --from=base /app/package.json ./
+COPY --from=base /app/bun.lock ./
+COPY --from=base /app/node_modules ./node_modules
 
-COPY --from=frontend-build /app/dist ./dist
+# Expose port 3000
+EXPOSE 3000
 
-COPY --from=golang-build /app/server .
-
-EXPOSE 80
-
-ENTRYPOINT [ "/app/server","serve","--http=0.0.0.0:80" ]
+# Start the server
+CMD ["bun", ".output/server"]

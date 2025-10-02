@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     tsConfigPaths(),
     tanstackStart(),
-    nitroV2Plugin({ preset: 'bun' }),
+    nitroV2Plugin({ preset: 'bun', minify: true }),
     viteReact(),
   ],
 });
