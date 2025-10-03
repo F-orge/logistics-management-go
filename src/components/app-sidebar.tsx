@@ -12,6 +12,17 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  Building,
+  User2,
+  UserPlus,
+  TrendingUp,
+  Megaphone,
+  PackageSearch,
+  Package,
+  FileText,
+  ListOrdered,
+  LifeBuoy,
+  MessageCircle,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -27,33 +38,30 @@ import {
 } from '@/components/ui/sidebar';
 
 export type SidebarType = {
-  subSystem: {
+  subSystems: {
     name: string;
     logo: React.ElementType;
     urlToMatch: string;
     href: string;
   }[];
   navMain: {
-    title: string;
-    items: {
+    subSystemUrl: string;
+    navigation: {
       title: string;
-      url: string;
-      icon: React.ElementType;
-      isActive: boolean;
       items: {
         title: string;
         url: string;
+        icon: React.ElementType;
+        items?: {
+          title: string;
+          url: string;
+        }[];
       }[];
     }[];
-  };
+  }[];
 };
 
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
+const data: SidebarType = {
   subSystems: [
     {
       name: 'Customer Relation',
@@ -88,87 +96,78 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
+      subSystemUrl: '/dashboard/crm',
+      navigation: [
         {
-          title: 'History',
-          url: '#',
+          title: 'Core',
+          items: [
+            {
+              title: 'Companies',
+              icon: Building,
+              url: '/dashboard/crm/companies',
+            },
+            {
+              title: 'Contacts',
+              icon: User2,
+              url: '/dashboard/crm/contacts',
+            },
+            {
+              title: 'Leads',
+              icon: UserPlus,
+              url: '/dashboard/crm/leads',
+            },
+            {
+              title: 'Opportunities',
+              icon: TrendingUp,
+              url: '/dashboard/crm/opportunities',
+            },
+          ],
         },
         {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
+          title: 'Sales',
+          items: [
+            {
+              title: 'Campaigns',
+              icon: Megaphone,
+              url: '/dashboard/crm/campaigns',
+            },
+            {
+              title: 'Opportunities',
+              icon: TrendingUp,
+              url: '/dashboard/crm/opportunities',
+            },
+
+            {
+              title: 'Products',
+              icon: Package,
+              url: '/dashboard/crm/products',
+            },
+          ],
         },
         {
           title: 'Billing',
-          url: '#',
+          items: [
+            {
+              title: 'Invoices',
+              icon: FileText,
+              url: '/dashboard/crm/invoices',
+            },
+          ],
         },
         {
-          title: 'Limits',
-          url: '#',
+          title: 'Support',
+          items: [
+            {
+              title: 'Cases',
+              icon: LifeBuoy,
+              url: '/dashboard/crm/cases',
+            },
+            {
+              title: 'Interactions',
+              icon: MessageCircle,
+              url: '/dashboard/crm/interactions',
+            },
+          ],
         },
       ],
     },
@@ -182,11 +181,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SubSystemSwitcher subSystems={data.subSystems} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain systemNavs={data.navMain} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

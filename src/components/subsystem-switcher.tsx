@@ -29,7 +29,7 @@ import {
 export function SubSystemSwitcher({
   subSystems,
 }: {
-  subSystems: SidebarType['subSystem'];
+  subSystems: SidebarType['subSystems'];
 }) {
   const navigate = useNavigate({ from: '/dashboard' });
   const router = useRouterState();
