@@ -6,10 +6,13 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const crmNotifications = crmSchema.table(
   'notifications',
@@ -34,3 +37,52 @@ export const crmNotifications = crmSchema.table(
 export const insertNotificationSchema =
   createInsertSchema(crmNotifications).omit(omitEntity);
 export const updateNotificationSchema = insertNotificationSchema.partial();
+
+// server actions
+export const createNotificationAction = serverAction({ method: 'POST' })
+  .inputValidator(insertNotificationSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmNotifications)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateNotificationAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateNotificationSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmNotifications)
+        .set(data.payload)
+        .where(eq(crmNotifications.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectNotificationAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmNotifications).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmNotifications)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

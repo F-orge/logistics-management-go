@@ -1,10 +1,13 @@
 import { index, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmCases } from './cases';
 import { crmContacts } from './contacts';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const interactionTypeEnum = crmSchema.enum('interaction_type', [
   'call',
@@ -43,3 +46,52 @@ export const insertInteractionSchema =
   createInsertSchema(crmInteractions).omit(omitEntity);
 
 export const updateInteractionSchema = insertInteractionSchema.partial();
+
+// server actions
+export const createInteractionAction = serverAction({ method: 'POST' })
+  .inputValidator(insertInteractionSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmInteractions)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateInteractionAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateInteractionSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmInteractions)
+        .set(data.payload)
+        .where(eq(crmInteractions.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectInteractionAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmInteractions).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmInteractions)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

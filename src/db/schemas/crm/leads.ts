@@ -6,7 +6,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmCampaigns } from './campaigns';
@@ -14,6 +14,9 @@ import { crmCompanies } from './companies';
 import { crmContacts } from './contacts';
 import { crmOpportunities } from './opportunities';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const leadStatusEnum = crmSchema.enum('lead_status', [
   'new',
@@ -72,3 +75,52 @@ export const crmLeads = crmSchema.table(
 // zod schemas
 export const insertLeadSchema = createInsertSchema(crmLeads).omit(omitEntity);
 export const updateLeadSchema = insertLeadSchema.partial();
+
+// server actions
+export const createLeadAction = serverAction({ method: 'POST' })
+  .inputValidator(insertLeadSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmLeads)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateLeadAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateLeadSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmLeads)
+        .set(data.payload)
+        .where(eq(crmLeads.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectLeadAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmLeads).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmLeads)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

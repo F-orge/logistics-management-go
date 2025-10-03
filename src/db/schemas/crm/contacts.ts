@@ -1,9 +1,12 @@
 import { index, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmCompanies } from './companies';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const crmContacts = crmSchema.table(
   'contacts',
@@ -31,3 +34,52 @@ export const insertContactSchema =
   createInsertSchema(crmContacts).omit(omitEntity);
 
 export const updateContactSchema = insertContactSchema.partial();
+
+// server actions
+export const createContactAction = serverAction({ method: 'POST' })
+  .inputValidator(insertContactSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmContacts)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateContactAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateContactSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmContacts)
+        .set(data.payload)
+        .where(eq(crmContacts.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectContactAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmContacts).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmContacts)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

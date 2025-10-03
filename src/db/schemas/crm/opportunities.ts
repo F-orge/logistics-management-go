@@ -8,13 +8,16 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmCampaigns } from './campaigns';
 import { crmCompanies } from './companies';
 import { crmContacts } from './contacts';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const opportunityStageEnum = crmSchema.enum('opportunity_stage', [
   'prospecting',
@@ -76,3 +79,52 @@ export const crmOpportunities = crmSchema.table(
 export const insertOpportunitySchema =
   createInsertSchema(crmOpportunities).omit(omitEntity);
 export const updateOpportunitySchema = insertOpportunitySchema.partial();
+
+// server actions
+export const createOpportunityAction = serverAction({ method: 'POST' })
+  .inputValidator(insertOpportunitySchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmOpportunities)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateOpportunityAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateOpportunitySchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmOpportunities)
+        .set(data.payload)
+        .where(eq(crmOpportunities.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectOpportunityAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmOpportunities).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmOpportunities)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

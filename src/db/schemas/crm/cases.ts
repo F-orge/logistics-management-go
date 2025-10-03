@@ -1,9 +1,12 @@
 import { index, text, uuid, varchar } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmContacts } from './contacts';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const caseStatusEnum = crmSchema.enum('case_status', [
   'new',
@@ -59,3 +62,54 @@ export const crmCases = crmSchema.table(
 // zod schemas
 export const insertCaseSchema = createInsertSchema(crmCases).omit(omitEntity);
 export const updateCaseSchema = insertCaseSchema.partial();
+
+// server actions
+export const createCaseAction = serverAction({ method: 'POST' })
+  .inputValidator(insertCaseSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmCases)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateCaseAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateCaseSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmCases)
+        .set(data.payload)
+        .where(eq(crmCases.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectCaseAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmCases).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmCases)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });
+
+// database view

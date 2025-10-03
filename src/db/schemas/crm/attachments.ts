@@ -1,7 +1,10 @@
 import { index, uuid, varchar } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const recordTypeEnum = crmSchema.enum('record_type', [
   'companies',
@@ -36,3 +39,52 @@ export const insertAttachmentSchema =
   createInsertSchema(crmAttachments).omit(omitEntity);
 
 export const updateAttachmentSchema = insertAttachmentSchema.partial();
+
+// server actions
+export const createAttachmentAction = serverAction({ method: 'POST' })
+  .inputValidator(insertAttachmentSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmAttachments)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateAttachmentAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateAttachmentSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmAttachments)
+        .set(data.payload)
+        .where(eq(crmAttachments.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectAttachmentAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmAttachments).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmAttachments)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });

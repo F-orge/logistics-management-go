@@ -6,10 +6,12 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
-import { entityFields } from '../helpers';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
-import { createInsertSchema } from 'drizzle-zod';
-import { omitEntity } from '../helpers';
+import { eq } from 'drizzle-orm';
+import { selectSchema, serverAction } from '@/lib/utils';
+import z from 'zod';
 
 export const productTypeEnum = crmSchema.enum('product_type', [
   'service',
@@ -40,3 +42,52 @@ export const crmProducts = crmSchema.table(
 export const insertProductSchema =
   createInsertSchema(crmProducts).omit(omitEntity);
 export const updateProductSchema = insertProductSchema.partial();
+
+// server actions
+export const createProductAction = serverAction({ method: 'POST' })
+  .inputValidator(insertProductSchema)
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .insert(crmProducts)
+        .values(data)
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const updateProductAction = serverAction({ method: 'POST' })
+  .inputValidator(z.object({ id: z.uuid(), payload: updateProductSchema }))
+  .handler(async ({ context, data }) => {
+    try {
+      const result = await context.db
+        .update(crmProducts)
+        .set(data.payload)
+        .where(eq(crmProducts.id, data.id))
+        .returning()
+        .execute();
+
+      return result[0];
+    } catch (e) {
+      throw e;
+    }
+  });
+
+export const selectProductAction = serverAction({
+  method: 'GET',
+})
+  .inputValidator(selectSchema(createSelectSchema(crmProducts).keyof()))
+  .handler(async ({ context, data }) => {
+    const results = await context.db
+      .select()
+      .from(crmProducts)
+      .limit(data.perPage)
+      .offset((data.page - 1) * data.perPage)
+      .execute();
+
+    return results;
+  });
