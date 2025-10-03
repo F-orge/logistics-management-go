@@ -4,7 +4,7 @@ import { crmOpportunities } from './opportunities';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
 import { eq, and } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/utils';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import z from 'zod';
 
 export const crmOpportunityProducts = crmSchema.table(

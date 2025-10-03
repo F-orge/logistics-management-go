@@ -5,7 +5,7 @@ import { entityFields, omitEntity } from '../helpers';
 import { crmCompanies } from './companies';
 import { crmSchema } from './schema';
 import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/utils';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import z from 'zod';
 
 export const crmContacts = crmSchema.table(

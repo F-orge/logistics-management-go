@@ -4,6 +4,8 @@ import { admin, bearer } from 'better-auth/plugins';
 import { reactStartCookies } from 'better-auth/react-start';
 import { db } from '@/db';
 import * as betterAuthSchema from '@/db/schemas/better-auth';
+import { createServerFn } from '@tanstack/react-start';
+import { z } from 'zod';
 
 export const authFactory = (dbClient: typeof db) =>
   betterAuth({
@@ -13,11 +15,6 @@ export const authFactory = (dbClient: typeof db) =>
         ...betterAuthSchema,
       },
     }),
-    advanced: {
-      database: {
-        generateId: false,
-      },
-    },
     emailAndPassword: {
       enabled: true,
     },

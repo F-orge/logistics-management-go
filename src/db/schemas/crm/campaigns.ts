@@ -3,7 +3,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
 import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/utils';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import z from 'zod';
 
 export const crmCampaigns = crmSchema.table(

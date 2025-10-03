@@ -1,7 +1,7 @@
 'use client';
 
-import { RadioGroup } from '@repo/shadcn-ui/components/ui/radio-group';
-import { cn } from '@repo/shadcn-ui/lib/utils';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
 import { CircleIcon } from 'lucide-react';
 import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import type { ComponentProps, HTMLAttributes } from 'react';
@@ -31,7 +31,7 @@ export const ChoiceboxItem = ({
     className={cn(
       'text-left',
       '[&[data-state="checked"]]:border-primary',
-      '[&[data-state="checked"]]:bg-primary-foreground',
+      '[&[data-state="checked"]]:bg-primary/15',
     )}
     {...props}
   >

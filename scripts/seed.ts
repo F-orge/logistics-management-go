@@ -3,6 +3,8 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { reset } from 'drizzle-seed';
 import { account, session, user } from '@/db/schemas';
 import * as schema from '@/db/schemas/index';
+import { hashPassword } from 'better-auth/crypto';
+import { authFactory } from '@/lib/auth';
 
 // helpers
 
@@ -29,7 +31,7 @@ function seedUser(faker: Faker) {
   };
 }
 
-function seedAccount(faker: Faker, userId: string) {
+async function seedAccount(faker: Faker, userId: string) {
   return {
     id: crypto.randomUUID(),
     accountId: crypto.randomUUID(),
@@ -40,7 +42,7 @@ function seedAccount(faker: Faker, userId: string) {
     idToken: faker.string.alphanumeric(),
     accessTokenExpiresAt: faker.date.future(),
     refreshTokenExpiresAt: faker.date.future(),
-    password: 'password123',
+    password: await hashPassword('password123'),
   };
 }
 
@@ -234,6 +236,7 @@ function seedCrmTag(faker: Faker) {}
 async function main() {
   const faker = new Faker({ locale: [de_AT, de, en, base] });
   const db = drizzle(process.env.DATABASE_URL!);
+  const auth = authFactory(db);
 
   await reset(db, schema);
 
@@ -241,25 +244,20 @@ async function main() {
 
   const fakeUsers = Array.from({ length: 100 }, () => seedUser(faker));
 
-  const users = await db
-    .insert(user)
-    .values(fakeUsers)
-    .onConflictDoNothing()
-    .returning()
-    .execute();
-
-  const fakeAccounts = users.map((user) => seedAccount(faker, user.id));
-
-  await db.insert(account).values(fakeAccounts).returning().execute();
-
-  const fakeSessions = users.map((user) => seedSession(faker, user.id));
-
-  await db
-    .insert(session)
-    .values(fakeSessions)
-    .onConflictDoNothing()
-    .returning()
-    .execute();
+  const users = (
+    await Promise.all(
+      fakeUsers.map((user) =>
+        auth.api.signUpEmail({
+          body: {
+            email: user.email,
+            name: user.name,
+            password: 'password123',
+            image: user.image,
+          },
+        }),
+      ),
+    )
+  ).map((data) => data.user);
 
   // crm schema
   const fakeCompanies = Array.from(faker.helpers.uniqueArray(users, 100)).map(

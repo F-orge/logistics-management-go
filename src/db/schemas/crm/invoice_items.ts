@@ -5,7 +5,7 @@ import { crmInvoices } from './invoices';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
 import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/utils';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import z from 'zod';
 
 export const crmInvoiceItems = crmSchema.table(
