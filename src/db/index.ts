@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { seed } from 'drizzle-seed';
 import * as schema from '@/db/schemas';
 
-export const db = drizzle(process.env.DATABASE_URL!, { schema });
+export const db = drizzle(process.env.DATABASE_URL!, { logger: true });
 
 export const seedFactory = (dbClient: typeof db) =>
   seed(dbClient, schema).refine((fake) => ({
@@ -42,4 +42,5 @@ export const seedFactory = (dbClient: typeof db) =>
         value: fake.string({ arraySize: 6 }),
       },
     },
+    crmAttachments: {},
   }));
