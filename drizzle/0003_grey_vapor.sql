@@ -1,0 +1,1 @@
+ALTER TABLE "crm"."invoice_items" ALTER COLUMN "price" SET DATA TYPE numeric(15, 2);

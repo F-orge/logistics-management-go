@@ -15,6 +15,20 @@
       "when": 1759479516574,
       "tag": "0001_yummy_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1759485271104,
+      "tag": "0002_tranquil_ultimates",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1759491986295,
+      "tag": "0003_grey_vapor",
+      "breakpoints": true
     }
   ]
 }

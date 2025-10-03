@@ -1,6 +1,6 @@
 {
-  "id": "77412f72-ffed-4a1e-83e0-8e52b9b61b09",
-  "prevId": "79f229df-d182-4dfb-b57c-401d4f4f02f5",
+  "id": "f25deaa6-6646-401c-9308-e723f7c98002",
+  "prevId": "77412f72-ffed-4a1e-83e0-8e52b9b61b09",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -825,7 +825,7 @@
         },
         "annual_revenue": {
           "name": "annual_revenue",
-          "type": "numeric(2, 15)",
+          "type": "numeric(15, 2)",
           "primaryKey": false,
           "notNull": false
         },

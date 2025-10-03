@@ -15,7 +15,7 @@ export const crmInvoiceItems = crmSchema.table(
       .notNull()
       .references(() => crmProducts.id),
     quantity: integer('quantity').notNull(),
-    price: numeric('price', { precision: 10, scale: 2 }).notNull(),
+    price: numeric('price', { precision: 15, scale: 2 }).notNull(),
   },
   (table) => [
     index('idx_crm_invoice_items_invoice_id').on(table.invoiceId),

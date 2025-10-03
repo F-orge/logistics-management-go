@@ -1,0 +1,1 @@
+ALTER TABLE "crm"."companies" ALTER COLUMN "annual_revenue" SET DATA TYPE numeric(15, 2);

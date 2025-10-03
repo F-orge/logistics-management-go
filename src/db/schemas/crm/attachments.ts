@@ -18,14 +18,14 @@ export const crmAttachments = crmSchema.table(
   'attachments',
   {
     ...entityFields,
-    file_name: varchar('file_name', { length: 255 }).notNull(),
-    file_path: varchar('file_path', { length: 500 }).notNull(),
-    mime_type: varchar('mime_type', { length: 100 }),
-    record_id: uuid('record_id'),
-    record_type: recordTypeEnum('record_type'),
+    fileName: varchar('file_name', { length: 255 }).notNull(),
+    filePath: varchar('file_path', { length: 500 }).notNull(),
+    mimeType: varchar('mime_type', { length: 100 }),
+    recordId: uuid('record_id'),
+    recordType: recordTypeEnum('record_type'),
   },
   (table) => [
-    index('idx_crm_attachments_record').on(table.record_type, table.record_id),
-    index('idx_crm_attachments_mime_type').on(table.mime_type),
+    index('idx_crm_attachments_record').on(table.recordType, table.recordId),
+    index('idx_crm_attachments_mime_type').on(table.mimeType),
   ],
 );
