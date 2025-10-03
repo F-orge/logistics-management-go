@@ -17,7 +17,7 @@ start:
   bun .output/server
 
 auth-generate:
-  bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth.ts
+  bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth/schema.ts
 
 drizzle-generate:
   bunx drizzle-kit generate
