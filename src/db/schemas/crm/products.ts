@@ -8,6 +8,8 @@ import {
 } from 'drizzle-orm/pg-core';
 import { entityFields } from '../helpers';
 import { crmSchema } from './schema';
+import { createInsertSchema } from 'drizzle-zod';
+import { omitEntity } from '../helpers';
 
 export const productTypeEnum = crmSchema.enum('product_type', [
   'service',
@@ -32,3 +34,9 @@ export const crmProducts = crmSchema.table(
     index('idx_crm_products_name').on(table.name),
   ],
 );
+
+// zod schemas
+
+export const insertProductSchema =
+  createInsertSchema(crmProducts).omit(omitEntity);
+export const updateProductSchema = insertProductSchema.partial();

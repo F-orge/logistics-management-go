@@ -6,8 +6,9 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
-import { entityFields } from '../helpers';
+import { entityFields, omitEntity } from '../helpers';
 import { crmCampaigns } from './campaigns';
 import { crmCompanies } from './companies';
 import { crmContacts } from './contacts';
@@ -67,3 +68,7 @@ export const crmLeads = crmSchema.table(
     index('idx_crm_leads_converted_at').on(table.convertedAt),
   ],
 );
+
+// zod schemas
+export const insertLeadSchema = createInsertSchema(crmLeads).omit(omitEntity);
+export const updateLeadSchema = insertLeadSchema.partial();

@@ -1,5 +1,6 @@
 import { date, index, numeric, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { entityFields } from '../helpers';
+import { createInsertSchema } from 'drizzle-zod';
+import { entityFields, omitEntity } from '../helpers';
 import { crmOpportunities } from './opportunities';
 import { crmSchema } from './schema';
 
@@ -41,3 +42,9 @@ export const crmInvoices = crmSchema.table(
     index('idx_crm_invoices_due_date').on(table.dueDate),
   ],
 );
+
+// zod schemas
+export const insertInvoiceSchema =
+  createInsertSchema(crmInvoices).omit(omitEntity);
+
+export const updateInvoiceSchema = insertInvoiceSchema.partial();

@@ -1,6 +1,7 @@
 import { index, numeric, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
-import { entityFields } from '../helpers';
+import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
 
 export const crmCompanies = crmSchema.table(
@@ -26,3 +27,9 @@ export const crmCompanies = crmSchema.table(
     index('idx_crm_companies_country').on(table.country),
   ],
 );
+
+// zod schemas
+export const insertCompanySchema =
+  createInsertSchema(crmCompanies).omit(omitEntity);
+
+export const updateCompanySchema = insertCompanySchema.partial();

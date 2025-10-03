@@ -1,5 +1,6 @@
-import { index, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { entityFields } from '../helpers';
+import { index, uuid, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
+import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
 
 export const recordTypeEnum = crmSchema.enum('record_type', [
@@ -29,3 +30,9 @@ export const crmAttachments = crmSchema.table(
     index('idx_crm_attachments_mime_type').on(table.mimeType),
   ],
 );
+
+// zod schemas
+export const insertAttachmentSchema =
+  createInsertSchema(crmAttachments).omit(omitEntity);
+
+export const updateAttachmentSchema = insertAttachmentSchema.partial();

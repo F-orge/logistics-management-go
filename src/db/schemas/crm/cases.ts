@@ -1,6 +1,7 @@
-import { index, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { index, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
-import { entityFields } from '../helpers';
+import { entityFields, omitEntity } from '../helpers';
 import { crmContacts } from './contacts';
 import { crmSchema } from './schema';
 
@@ -54,3 +55,7 @@ export const crmCases = crmSchema.table(
     index('idx_crm_cases_case_number').on(table.caseNumber),
   ],
 );
+
+// zod schemas
+export const insertCaseSchema = createInsertSchema(crmCases).omit(omitEntity);
+export const updateCaseSchema = insertCaseSchema.partial();

@@ -6,8 +6,9 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
-import { entityFields } from '../helpers';
+import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
 
 export const crmNotifications = crmSchema.table(
@@ -27,3 +28,9 @@ export const crmNotifications = crmSchema.table(
     index('idx_crm_notifications_created_at').on(table.createdAt),
   ],
 );
+
+// zod schemas
+
+export const insertNotificationSchema =
+  createInsertSchema(crmNotifications).omit(omitEntity);
+export const updateNotificationSchema = insertNotificationSchema.partial();

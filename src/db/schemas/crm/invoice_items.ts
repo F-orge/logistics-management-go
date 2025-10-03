@@ -1,5 +1,6 @@
 import { index, integer, numeric, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { entityFields } from '../helpers';
+import { createInsertSchema } from 'drizzle-zod';
+import { entityFields, omitEntity } from '../helpers';
 import { crmInvoices } from './invoices';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
@@ -22,3 +23,9 @@ export const crmInvoiceItems = crmSchema.table(
     index('idx_crm_invoice_items_product_id').on(table.productId),
   ],
 );
+
+// zod schemas
+export const insertInvoiceItemSchema =
+  createInsertSchema(crmInvoiceItems).omit(omitEntity);
+
+export const updateInvoiceItemSchema = insertInvoiceItemSchema.partial();

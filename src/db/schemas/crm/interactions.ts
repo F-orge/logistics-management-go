@@ -1,6 +1,7 @@
 import { index, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { user } from '../better-auth';
-import { entityFields } from '../helpers';
+import { entityFields, omitEntity } from '../helpers';
 import { crmCases } from './cases';
 import { crmContacts } from './contacts';
 import { crmSchema } from './schema';
@@ -36,3 +37,9 @@ export const crmInteractions = crmSchema.table(
     index('idx_crm_interactions_interaction_date').on(table.interactionDate),
   ],
 );
+
+// zod schemas
+export const insertInteractionSchema =
+  createInsertSchema(crmInteractions).omit(omitEntity);
+
+export const updateInteractionSchema = insertInteractionSchema.partial();

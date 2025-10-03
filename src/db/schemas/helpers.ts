@@ -15,3 +15,10 @@ export const entityFields = {
     .notNull()
     .$default(() => sql`now()`),
 };
+
+export const omitEntity = {
+  id: true as true,
+  createdAt: true as true,
+  updatedAt: true as true,
+  deletedAt: true as true,
+};

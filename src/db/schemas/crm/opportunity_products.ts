@@ -1,4 +1,5 @@
 import { index, integer, uuid } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { crmOpportunities } from './opportunities';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
@@ -21,3 +22,11 @@ export const crmOpportunityProducts = crmSchema.table(
     index('idx_crm_opportunity_products_product_id').on(table.productId),
   ],
 );
+
+// zod schemas
+
+export const insertOpportunityProductSchema = createInsertSchema(
+  crmOpportunityProducts,
+);
+export const updateOpportunityProductSchema =
+  insertOpportunityProductSchema.partial();

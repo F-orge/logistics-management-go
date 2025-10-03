@@ -1,5 +1,6 @@
-import { index, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
-import { entityFields } from '../helpers';
+import { index, varchar } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
+import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
 
 export const crmTags = crmSchema.table(
@@ -10,3 +11,7 @@ export const crmTags = crmSchema.table(
   },
   (table) => [index('idx_crm_tags_name').on(table.name)],
 );
+
+// zod schemas
+export const insertTagSchema = createInsertSchema(crmTags).omit(omitEntity);
+export const updateTagSchema = insertTagSchema.partial();
