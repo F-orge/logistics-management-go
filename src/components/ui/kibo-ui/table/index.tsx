@@ -9,13 +9,26 @@ import type {
   Table,
 } from '@tanstack/react-table';
 import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { atom, useAtom } from 'jotai';
-import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from 'lucide-react';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ChevronsUpDownIcon,
+  Folder,
+} from 'lucide-react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import React, { createContext, memo, useCallback, useContext } from 'react';
 import { Button } from '@/components/ui/button';
@@ -88,7 +101,22 @@ export function TableProvider<TData, TValue>({
         table: table as never,
       }}
     >
-      <TableRaw className={className}>{children}</TableRaw>
+      {data.length ? (
+        <TableRaw className={className}>{children}</TableRaw>
+      ) : (
+        <Empty className="border border-dashed">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Folder />
+            </EmptyMedia>
+          </EmptyHeader>
+          <EmptyTitle>No data</EmptyTitle>
+          <EmptyDescription>No data found</EmptyDescription>
+          <EmptyContent>
+            <Button>Add data</Button>
+          </EmptyContent>
+        </Empty>
+      )}
     </TableContext.Provider>
   );
 }
@@ -241,16 +269,12 @@ export const TableBody = ({ children, className }: TableBodyProps) => {
   const rows = table?.getRowModel().rows;
 
   return (
-    <TableBodyRaw className={className}>
-      {rows?.length ? (
-        rows.map((row) => children({ row }))
-      ) : (
-        <TableRowRaw>
-          <TableCellRaw className="h-24 text-center" colSpan={columns.length}>
-            No results.
-          </TableCellRaw>
-        </TableRowRaw>
+    <>
+      {rows?.length && (
+        <TableBodyRaw className={className}>
+          {rows.map((row) => children({ row }))}
+        </TableBodyRaw>
       )}
-    </TableBodyRaw>
+    </>
   );
 };

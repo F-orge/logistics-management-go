@@ -23,7 +23,7 @@ export function DataTable<TData, TValue>(
     'children' | 'data'
   > & {
     data: TData[];
-    disableNextPage?: boolean;
+
     disablePrevPage?: boolean;
     onNextPage?: () => void;
     onPrevPage?: () => void;
@@ -61,7 +61,7 @@ export function DataTable<TData, TValue>(
           )}
         </TableBody>
       </TableProvider>
-      <div className="flex gap-2.5">
+      <div className="flex gap-2.5 pt-4">
         <Button
           size={'icon'}
           disabled={props.disablePrevPage}
@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>(
         </Button>
         <Button
           size={'icon'}
-          disabled={props.disableNextPage}
+          disabled={props.data.length === 0}
           onClick={props.onNextPage}
         >
           <ChevronRight />

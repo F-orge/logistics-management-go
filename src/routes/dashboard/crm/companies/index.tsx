@@ -28,6 +28,7 @@ function RouteComponent() {
         <DataTable
           columns={columns}
           data={data}
+          disablePrevPage={searchQuery.page === 1}
           onNextPage={() =>
             navigate({
               search: (prev) => ({ ...prev, page: searchQuery.page + 1 }),
