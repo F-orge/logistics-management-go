@@ -14,22 +14,24 @@ const FormDialog = ({
   children,
   title,
   description,
-  defaultOpen = false,
+  open = false,
   onOpenChange,
   footer,
   onSave,
+  className,
 }: {
   title?: string;
   description?: string;
   children: React.ReactNode;
-  defaultOpen?: boolean;
+  open?: boolean;
+  className?: string;
   onOpenChange?: (open: boolean) => void;
   onSave: () => void;
   footer?: React.ReactNode;
 }) => {
   return (
-    <Dialog open={defaultOpen} onOpenChange={onOpenChange}>
-      <DialogContent>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className={className}>
         <DialogHeader>
           <DialogTitle hidden={!!!title}>{title}</DialogTitle>
           <DialogDescription hidden={!!!description}>

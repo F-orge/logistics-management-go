@@ -2,11 +2,16 @@ import { Eye, EyeClosed } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from './button';
+import { Button } from '@/components/ui/button';
 import { useFieldContext } from '@/components/form';
-import { Input } from './input';
-import { Label } from './label';
-import { Field, FieldDescription, FieldError, FieldLabel } from './field';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@/components/ui/field';
 
 export const TextField = ({
   className,
@@ -61,7 +66,7 @@ export const TextField = ({
           </Button>
         )}
       </div>
-      {description ?? <FieldDescription>{description}</FieldDescription>}
+      <FieldDescription>{description}</FieldDescription>
       {field.state.meta.errorMap.onSubmit && (
         <FieldError className="text-destructive">
           {field.state.meta.errorMap.onSubmit.message}

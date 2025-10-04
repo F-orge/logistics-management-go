@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/context-menu';
 import DeleteRecord from '@/components/dialogs/delete-record';
 import { toast } from 'sonner';
+import NewCrmCompanyRecord from './-new';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   component: RouteComponent,
@@ -33,6 +34,14 @@ function RouteComponent() {
       </section>
       <section className="col-span-full">
         <DataTable
+          onNewRecord={() =>
+            navigate({
+              search: (prev) => ({
+                ...prev,
+                new: true,
+              }),
+            })
+          }
           columns={columns}
           data={data}
           disablePrevPage={searchQuery.page === 1}
@@ -98,6 +107,9 @@ function RouteComponent() {
             />
           )}
         />
+      </section>
+      <section>
+        <NewCrmCompanyRecord />
       </section>
     </article>
   );

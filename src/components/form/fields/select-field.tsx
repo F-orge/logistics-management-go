@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { useFieldContext } from '@/components/form';
-import { Label } from './label';
+import { Label } from '@/components/ui/label';
 import {
   MultiSelect,
   MultiSelectContent,
@@ -8,14 +8,20 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from './multi-select';
+} from '@/components/ui/multi-select';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './select';
+} from '@/components/ui/select';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@/components/ui/field';
 
 export const SelectField = ({
   className,
@@ -23,9 +29,11 @@ export const SelectField = ({
   multiple,
   options,
   placeholder,
+  description,
   ...props
 }: React.ComponentProps<'input'> & {
   label?: string;
+  description?: string;
   multiple?: boolean;
   options: {
     label: string;
@@ -36,8 +44,8 @@ export const SelectField = ({
   const field = useFieldContext<string | string[]>();
 
   return (
-    <div className={cn('grid gap-2.5', className)}>
-      {label && <Label htmlFor={props.id}>{label}</Label>}
+    <Field className={className}>
+      {label && <FieldLabel htmlFor={props.id}>{label}</FieldLabel>}
       {multiple ? (
         <MultiSelect>
           <MultiSelectTrigger className="w-full">
@@ -70,11 +78,12 @@ export const SelectField = ({
           </SelectContent>
         </Select>
       )}
+      {description && <FieldDescription>{description}</FieldDescription>}
       {field.state.meta.errorMap.onSubmit && (
-        <Label className="text-destructive">
+        <FieldError className="text-destructive">
           {field.state.meta.errorMap.onSubmit.message}
-        </Label>
+        </FieldError>
       )}
-    </div>
+    </Field>
   );
 };

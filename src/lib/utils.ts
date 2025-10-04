@@ -17,6 +17,7 @@ export const selectSchema = createIsomorphicFn()
         .optional(),
       id: z.string().optional(),
       delete: z.boolean().optional(),
+      new: z.boolean().optional(),
     }),
   )
   .server((fields: ZodEnum) =>
@@ -28,5 +29,6 @@ export const selectSchema = createIsomorphicFn()
         .optional(),
       id: z.string().optional(),
       delete: z.boolean().optional(),
+      new: z.boolean().optional(),
     }),
   );

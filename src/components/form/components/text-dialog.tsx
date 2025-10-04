@@ -28,7 +28,7 @@ const EditTextDialog = withForm({
       <form.AppForm>
         <FormDialog
           onSave={onSave}
-          defaultOpen={defaultOpen}
+          open={defaultOpen}
           onOpenChange={onOpenChange}
           title={title}
           description={description}

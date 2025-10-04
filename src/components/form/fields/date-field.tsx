@@ -1,11 +1,15 @@
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from './button';
-import { Calendar } from './calendar';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { useFieldContext } from '@/components/form';
-import { Label } from './label';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
+import { Label } from '@/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 export const DateField = ({
   className,

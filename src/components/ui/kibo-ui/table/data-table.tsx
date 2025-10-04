@@ -37,6 +37,7 @@ export function DataTable<TData, TValue>(
         columns={props.columns}
         data={props.data}
         className={props.className}
+        onNewRecord={props.onNewRecord}
       >
         <TableHeader>
           {({ headerGroup }) => (

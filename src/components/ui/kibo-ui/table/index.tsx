@@ -68,6 +68,7 @@ export type TableProviderProps<TData, TValue> = {
   data: TData[];
   children: ReactNode;
   className?: string;
+  onNewRecord?: () => void;
 };
 
 export function TableProvider<TData, TValue>({
@@ -75,6 +76,7 @@ export function TableProvider<TData, TValue>({
   data,
   children,
   className,
+  onNewRecord,
 }: TableProviderProps<TData, TValue>) {
   const [sorting, setSorting] = useAtom(sortingAtom);
   const table = useReactTable({
@@ -113,7 +115,7 @@ export function TableProvider<TData, TValue>({
           <EmptyTitle>No data</EmptyTitle>
           <EmptyDescription>No data found</EmptyDescription>
           <EmptyContent>
-            <Button>Add data</Button>
+            <Button onClick={onNewRecord}>Add data</Button>
           </EmptyContent>
         </Empty>
       )}
