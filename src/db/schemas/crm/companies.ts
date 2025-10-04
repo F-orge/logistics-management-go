@@ -1,8 +1,5 @@
-import { eq } from 'drizzle-orm';
-import { index, numeric, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { index, numeric, text, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import z from 'zod';
-import { selectSchema, serverAction } from '@/lib/server-utils';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
@@ -32,7 +29,8 @@ export const crmCompanies = crmSchema.table(
 );
 
 // zod schemas
-export const insertCompanySchema =
-  createInsertSchema(crmCompanies).omit(omitEntity);
+export const selectCompanySchema = createSelectSchema(crmCompanies);
+
+export const insertCompanySchema = selectCompanySchema.omit(omitEntity);
 
 export const updateCompanySchema = insertCompanySchema.partial();

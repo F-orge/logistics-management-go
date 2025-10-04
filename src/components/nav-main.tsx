@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
+import React from 'react';
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,7 +17,6 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { SidebarType } from './app-sidebar';
-import React from 'react';
 
 export function NavMain({
   systemNavs,
@@ -30,7 +30,7 @@ export function NavMain({
       {systemNavs.map((system) => (
         <React.Fragment key={system.subSystemUrl}>
           {system.navigation.map((nav) => (
-            <>
+            <React.Fragment key={nav.title}>
               <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
               {nav.items.map((navItem) =>
                 navItem.items ? (
@@ -63,7 +63,7 @@ export function NavMain({
                     </SidebarMenuItem>
                   </Collapsible>
                 ) : (
-                  <SidebarMenuItem>
+                  <SidebarMenuItem key={navItem.title}>
                     <SidebarMenuButton
                       tooltip={navItem.title}
                       onClick={() => navigate({ to: navItem.url })}
@@ -74,7 +74,7 @@ export function NavMain({
                   </SidebarMenuItem>
                 ),
               )}
-            </>
+            </React.Fragment>
           ))}
         </React.Fragment>
       ))}

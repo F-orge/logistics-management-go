@@ -1,6 +1,28 @@
+import { createIsomorphicFn } from '@tanstack/react-start';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import z, { ZodEnum } from 'zod';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const selectSchema = createIsomorphicFn()
+  .client((fields: ZodEnum) =>
+    z.object({
+      page: z.number().min(1).default(1).catch(1),
+      perPage: z.number().min(10).default(10).catch(10),
+      sort: z
+        .array(z.object({ field: fields, order: z.enum(['asc', 'desc']) }))
+        .optional(),
+    }),
+  )
+  .server((fields: ZodEnum) =>
+    z.object({
+      page: z.number().min(1).default(1).catch(1),
+      perPage: z.number().min(10).default(10).catch(10),
+      sort: z
+        .array(z.object({ field: fields, order: z.enum(['asc', 'desc']) }))
+        .optional(),
+    }),
+  );

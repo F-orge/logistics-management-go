@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { loginAction } from '@/db/schemas/better-auth/actions';
 import { cn } from '@/lib/utils';
-import { useAppForm } from './ui/form';
+import { useAppForm } from '@/components/form';
 
 export function LoginForm() {
   const navigate = useNavigate({ from: '/auth/login' });

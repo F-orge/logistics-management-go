@@ -6,6 +6,9 @@ import {
 } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import appCss from '../styles/globals.css?url';
+import { Toaster } from '@/components/ui/sonner';
+import { ThemeProvider, useTheme } from '@/components/theme-provider';
+import { getThemeServerFn } from '@/lib/theme';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -24,20 +27,27 @@ export const Route = createRootRoute({
     links: [{ rel: 'stylesheet', href: appCss }],
   }),
   component: RootComponent,
+  loader: () => getThemeServerFn(),
   notFoundComponent: () => <div>Not found</div>,
 });
 
 function RootComponent() {
+  const theme = Route.useLoaderData();
+
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ThemeProvider theme={theme}>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
   );
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+  const { theme } = useTheme();
+
   return (
-    <html>
+    <html className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
