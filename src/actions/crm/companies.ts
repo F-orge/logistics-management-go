@@ -7,7 +7,7 @@ import { crmCompanies } from '@/db/schemas';
 import { selectSchema } from '@/lib/utils';
 import { createServerFn } from '@tanstack/react-start';
 import z from 'zod';
-import { eq } from 'drizzle-orm';
+import { DrizzleError, DrizzleQueryError, eq } from 'drizzle-orm';
 
 export const selectCompanies = createServerFn({ method: 'GET' })
   .inputValidator(selectSchema(selectCompanySchema.keyof()))
@@ -29,4 +29,19 @@ export const editCompany = createServerFn({ method: 'POST' })
       .where(eq(crmCompanies.id, data.id))
       .returning()
       .execute()[0];
+  });
+
+export const removeCompany = createServerFn({ method: 'POST' })
+  .inputValidator(z.object({ id: z.string() }))
+  .handler(async ({ data }) => {
+    try {
+      return await db
+        .delete(crmCompanies)
+        .where(eq(crmCompanies.id, data.id))
+        .execute();
+    } catch (e) {
+      if (e instanceof DrizzleQueryError) {
+        throw new Error(e.cause?.message);
+      }
+    }
   });

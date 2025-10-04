@@ -15,6 +15,8 @@ export const selectSchema = createIsomorphicFn()
       sort: z
         .array(z.object({ field: fields, order: z.enum(['asc', 'desc']) }))
         .optional(),
+      id: z.string().optional(),
+      delete: z.boolean().optional(),
     }),
   )
   .server((fields: ZodEnum) =>
@@ -24,5 +26,7 @@ export const selectSchema = createIsomorphicFn()
       sort: z
         .array(z.object({ field: fields, order: z.enum(['asc', 'desc']) }))
         .optional(),
+      id: z.string().optional(),
+      delete: z.boolean().optional(),
     }),
   );

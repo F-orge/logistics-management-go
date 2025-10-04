@@ -1,11 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
-import { selectCompanies } from '@/actions/crm/companies';
+import { removeCompany, selectCompanies } from '@/actions/crm/companies';
 import DataTable from '@/components/ui/kibo-ui/table/data-table';
 import { columns } from './-table';
 import { selectSchema } from '@/lib/utils';
 // import { selectCompaniesSchema } from '@/db/schemas/crm/companies';
 import z from 'zod';
+import {
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
+import DeleteRecord from '@/components/dialogs/delete-record';
+import { toast } from 'sonner';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   component: RouteComponent,
@@ -39,6 +46,57 @@ function RouteComponent() {
               search: (prev) => ({ ...prev, page: searchQuery.page - 1 }),
             })
           }
+          contextComponent={(row) => (
+            <>
+              <ContextMenuLabel>Actions</ContextMenuLabel>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      id: row.original.id,
+                      delete: true,
+                    }),
+                  })
+                }
+                variant="destructive"
+              >
+                Delete
+              </ContextMenuItem>
+            </>
+          )}
+          dialogComponent={(row) => (
+            <DeleteRecord
+              title="Deleting record"
+              description={`Are you sure you want to delete this record ${row.original.name}`}
+              row={row}
+              open={searchQuery.id === row.original.id && searchQuery.delete}
+              onOpenChange={() =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    id: undefined,
+                    delete: undefined,
+                  }),
+                })
+              }
+              onConfirm={async (row) =>
+                toast.promise(
+                  removeCompany({ data: { id: row.original.id } }),
+                  {
+                    success: { message: 'Delete Success' },
+                    error: (err: Error) => {
+                      return {
+                        message: 'Unable to remove record',
+                        description: err.message,
+                      };
+                    },
+                  },
+                )
+              }
+            />
+          )}
         />
       </section>
     </article>

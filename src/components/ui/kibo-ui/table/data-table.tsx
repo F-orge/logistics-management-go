@@ -16,6 +16,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '../../context-menu';
+import { Row } from '@tanstack/react-table';
 
 export function DataTable<TData, TValue>(
   props: Omit<
@@ -23,10 +24,11 @@ export function DataTable<TData, TValue>(
     'children' | 'data'
   > & {
     data: TData[];
-
     disablePrevPage?: boolean;
     onNextPage?: () => void;
     onPrevPage?: () => void;
+    contextComponent?: (row: Row<TData>) => React.ReactNode;
+    dialogComponent?: (row: Row<TData>) => React.ReactNode;
   },
 ) {
   return (
@@ -45,19 +47,19 @@ export function DataTable<TData, TValue>(
         </TableHeader>
         <TableBody>
           {({ row }) => (
-            <ContextMenu key={row.id}>
-              <ContextMenuTrigger asChild>
-                <TableRow row={row}>
-                  {({ cell }) => <TableCell cell={cell} key={cell.id} />}
-                </TableRow>
-              </ContextMenuTrigger>
-              <ContextMenuContent>
-                <ContextMenuItem>Profile</ContextMenuItem>
-                <ContextMenuItem>Billing</ContextMenuItem>
-                <ContextMenuItem>Team</ContextMenuItem>
-                <ContextMenuItem>Subscription</ContextMenuItem>
-              </ContextMenuContent>
-            </ContextMenu>
+            <React.Fragment key={row.id}>
+              <ContextMenu>
+                <ContextMenuTrigger asChild>
+                  <TableRow row={row}>
+                    {({ cell }) => <TableCell cell={cell} key={cell.id} />}
+                  </TableRow>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  {props.contextComponent?.(row as Row<TData>)}
+                </ContextMenuContent>
+              </ContextMenu>
+              {props.dialogComponent?.(row as Row<TData>)}
+            </React.Fragment>
           )}
         </TableBody>
       </TableProvider>

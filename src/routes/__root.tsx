@@ -38,6 +38,7 @@ function RootComponent() {
     <ThemeProvider theme={theme}>
       <RootDocument>
         <Outlet />
+        <Toaster />
       </RootDocument>
     </ThemeProvider>
   );
