@@ -1,3 +1,4 @@
+import { useRouter, useRouterState } from '@tanstack/react-router';
 import * as React from 'react';
 import {
   Breadcrumb,
@@ -7,7 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { useRouterState, useRouter } from '@tanstack/react-router';
 
 // Optionally, you can provide a mapping from path segments to display names
 const PATH_LABELS: Record<string, string> = {

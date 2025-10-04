@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import {
   index,
   integer,
@@ -7,6 +8,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import z from 'zod';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmCampaigns } from './campaigns';
@@ -14,9 +17,6 @@ import { crmCompanies } from './companies';
 import { crmContacts } from './contacts';
 import { crmOpportunities } from './opportunities';
 import { crmSchema } from './schema';
-import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/server-utils';
-import z from 'zod';
 
 export const leadStatusEnum = crmSchema.enum('lead_status', [
   'new',

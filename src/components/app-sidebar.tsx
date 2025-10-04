@@ -1,29 +1,29 @@
 'use client';
 
-import * as React from 'react';
 import {
   AudioWaveform,
   BookOpen,
   Bot,
+  Building,
   Command,
+  FileText,
   Frame,
   GalleryVerticalEnd,
+  LifeBuoy,
+  ListOrdered,
   Map,
+  Megaphone,
+  MessageCircle,
+  Package,
+  PackageSearch,
   PieChart,
   Settings2,
   SquareTerminal,
-  Building,
+  TrendingUp,
   User2,
   UserPlus,
-  TrendingUp,
-  Megaphone,
-  PackageSearch,
-  Package,
-  FileText,
-  ListOrdered,
-  LifeBuoy,
-  MessageCircle,
 } from 'lucide-react';
+import * as React from 'react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';

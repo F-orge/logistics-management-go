@@ -1,3 +1,4 @@
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SystemBreadcrumbs } from '@/components/system-breadcrumbs';
 import { Separator } from '@/components/ui/separator';
@@ -6,7 +7,6 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,

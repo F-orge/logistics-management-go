@@ -1,12 +1,12 @@
+import { eq } from 'drizzle-orm';
 import { index, integer, numeric, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import z from 'zod';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import { entityFields, omitEntity } from '../helpers';
 import { crmInvoices } from './invoices';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
-import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/server-utils';
-import z from 'zod';
 
 export const crmInvoiceItems = crmSchema.table(
   'invoice_items',

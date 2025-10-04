@@ -1,8 +1,13 @@
 'use client';
 
-import * as React from 'react';
+import {
+  getRouteApi,
+  useNavigate,
+  useRouter,
+  useRouterState,
+} from '@tanstack/react-router';
 import { ChevronsUpDown, Plus } from 'lucide-react';
-
+import * as React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +24,6 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { SidebarType } from './app-sidebar';
-import {
-  getRouteApi,
-  useNavigate,
-  useRouter,
-  useRouterState,
-} from '@tanstack/react-router';
 
 export function SubSystemSwitcher({
   subSystems,

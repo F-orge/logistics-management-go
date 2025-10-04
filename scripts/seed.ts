@@ -1,9 +1,9 @@
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
+import { hashPassword } from 'better-auth/crypto';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { reset } from 'drizzle-seed';
 import { account, session, user } from '@/db/schemas';
 import * as schema from '@/db/schemas/index';
-import { hashPassword } from 'better-auth/crypto';
 import { authFactory } from '@/lib/auth';
 
 // helpers

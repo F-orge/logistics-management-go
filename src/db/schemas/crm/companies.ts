@@ -1,11 +1,11 @@
+import { eq } from 'drizzle-orm';
 import { index, numeric, text, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import z from 'zod';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import { user } from '../better-auth';
 import { entityFields, omitEntity } from '../helpers';
 import { crmSchema } from './schema';
-import { eq } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/server-utils';
-import z from 'zod';
 
 export const crmCompanies = crmSchema.table(
   'companies',

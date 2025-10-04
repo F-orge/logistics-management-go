@@ -1,7 +1,5 @@
 'use client';
 
-import { RadioGroup } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
 import { CircleIcon } from 'lucide-react';
 import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import type { ComponentProps, HTMLAttributes } from 'react';
@@ -12,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
 
 export type ChoiceboxProps = ComponentProps<typeof RadioGroup>;
 

@@ -1,11 +1,11 @@
+import { and, eq } from 'drizzle-orm';
 import { index, integer, uuid } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import z from 'zod';
+import { selectSchema, serverAction } from '@/lib/server-utils';
 import { crmOpportunities } from './opportunities';
 import { crmProducts } from './products';
 import { crmSchema } from './schema';
-import { eq, and } from 'drizzle-orm';
-import { selectSchema, serverAction } from '@/lib/server-utils';
-import z from 'zod';
 
 export const crmOpportunityProducts = crmSchema.table(
   'opportunity_products',

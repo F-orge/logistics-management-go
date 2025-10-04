@@ -1,10 +1,10 @@
-import { cn } from '@/lib/utils';
+import { useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAppForm } from './ui/form';
 import { loginAction } from '@/db/schemas/better-auth/actions';
-import { useNavigate } from '@tanstack/react-router';
+import { cn } from '@/lib/utils';
+import { useAppForm } from './ui/form';
 
 export function LoginForm() {
   const navigate = useNavigate({ from: '/auth/login' });

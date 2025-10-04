@@ -1,7 +1,7 @@
-import { db } from '@/db';
-import { dbMiddleware } from '@/middleware/db';
 import { createServerFn } from '@tanstack/react-start';
 import z, { ZodEnum } from 'zod';
+import { db } from '@/db';
+import { dbMiddleware } from '@/middleware/db';
 
 export const serverAction = createServerFn().middleware([dbMiddleware(db)]);
 
