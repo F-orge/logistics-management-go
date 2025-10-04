@@ -17,7 +17,7 @@ import {
 import { atom, useAtom } from 'jotai';
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from 'lucide-react';
 import type { HTMLAttributes, ReactNode } from 'react';
-import { createContext, memo, useCallback, useContext } from 'react';
+import React, { createContext, memo, useCallback, useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -34,6 +34,7 @@ import {
   TableRow as TableRowRaw,
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { ContextMenuTrigger } from '../../context-menu';
 
 export type { ColumnDef } from '@tanstack/react-table';
 
@@ -205,21 +206,30 @@ export const TableCell = ({ cell, className }: TableCellProps) => (
   </TableCellRaw>
 );
 
-export type TableRowProps = {
+export type TableRowProps = Omit<
+  React.HTMLAttributes<HTMLTableRowElement>,
+  'children'
+> & {
   row: Row<unknown>;
   children: (props: { cell: Cell<unknown, unknown> }) => ReactNode;
-  className?: string;
 };
 
-export const TableRow = ({ row, children, className }: TableRowProps) => (
-  <TableRowRaw
-    className={className}
-    data-state={row.getIsSelected() && 'selected'}
-    key={row.id}
-  >
-    {row.getVisibleCells().map((cell) => children({ cell }))}
-  </TableRowRaw>
+export const TableRow = memo(
+  React.forwardRef<HTMLTableRowElement, TableRowProps>(
+    ({ row, children, className, ...props }, ref) => (
+      <TableRowRaw
+        ref={ref}
+        className={className}
+        data-state={row.getIsSelected() && 'selected'}
+        {...props}
+      >
+        {row.getVisibleCells().map((cell) => children({ cell }))}
+      </TableRowRaw>
+    ),
+  ),
 );
+
+TableRow.displayName = 'TableRow';
 
 export type TableBodyProps = {
   children: (props: { row: Row<unknown> }) => ReactNode;

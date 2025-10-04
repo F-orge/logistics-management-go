@@ -10,6 +10,12 @@ import {
 } from '.';
 import { Button } from '../../button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '../../context-menu';
 
 export function DataTable<TData, TValue>(
   props: Omit<
@@ -39,9 +45,19 @@ export function DataTable<TData, TValue>(
         </TableHeader>
         <TableBody>
           {({ row }) => (
-            <TableRow key={row.id} row={row}>
-              {({ cell }) => <TableCell cell={cell} key={cell.id} />}
-            </TableRow>
+            <ContextMenu key={row.id}>
+              <ContextMenuTrigger asChild>
+                <TableRow row={row}>
+                  {({ cell }) => <TableCell cell={cell} key={cell.id} />}
+                </TableRow>
+              </ContextMenuTrigger>
+              <ContextMenuContent>
+                <ContextMenuItem>Profile</ContextMenuItem>
+                <ContextMenuItem>Billing</ContextMenuItem>
+                <ContextMenuItem>Team</ContextMenuItem>
+                <ContextMenuItem>Subscription</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
           )}
         </TableBody>
       </TableProvider>
