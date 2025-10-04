@@ -16,6 +16,7 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { SidebarType } from './app-sidebar';
+import React from 'react';
 
 export function NavMain({
   systemNavs,
@@ -27,7 +28,7 @@ export function NavMain({
   return (
     <SidebarGroup>
       {systemNavs.map((system) => (
-        <>
+        <React.Fragment key={system.subSystemUrl}>
           {system.navigation.map((nav) => (
             <>
               <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
@@ -75,7 +76,7 @@ export function NavMain({
               )}
             </>
           ))}
-        </>
+        </React.Fragment>
       ))}
     </SidebarGroup>
   );
