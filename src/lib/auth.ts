@@ -13,4 +13,13 @@ export const authFactory = (dbClient: typeof db) =>
     plugins: [bearer(), admin(), reactStartCookies()],
   });
 
+export const authFactoryV2 = (dbClient: Pool) =>
+  betterAuth({
+    database: dbClient,
+    emailAndPassword: {
+      enabled: true,
+    },
+    plugins: [bearer(), admin(), reactStartCookies()],
+  });
+
 export const auth = authFactory(db);
