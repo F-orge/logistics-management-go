@@ -3,16 +3,36 @@ import { z } from 'zod';
 // Zod schema for billing.client_account table
 export const billingClientAccountSchema = z.object({
   id: z.uuid(),
-  availableCredit: z.coerce.number().nullable(),
+  availableCredit: z.coerce
+    .number()
+    .min(0, { error: 'Available credit must be at least 0' })
+    .max(10000000, { error: 'Available credit must be at most 10,000,000' })
+    .nullable(),
   clientId: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
-  creditLimit: z.coerce.number().nullable(),
-  currency: z.string().nullable(),
+  creditLimit: z.coerce
+    .number()
+    .min(0, { error: 'Credit limit must be at least 0' })
+    .max(10000000, { error: 'Credit limit must be at most 10,000,000' })
+    .nullable(),
+  currency: z
+    .string()
+    .min(1, { error: 'Currency is required' })
+    .max(8, { error: 'Currency must be at most 8 characters' })
+    .nullable(),
   isCreditApproved: z.boolean().nullable(),
   lastPaymentDate: z.iso.datetime().nullable(),
-  paymentTermsDays: z.number().nullable(),
+  paymentTermsDays: z
+    .number()
+    .min(0, { error: 'Payment terms days must be at least 0' })
+    .max(365, { error: 'Payment terms days must be at most 365' })
+    .nullable(),
   updatedAt: z.iso.datetime().nullable(),
-  walletBalance: z.coerce.number().nullable(),
+  walletBalance: z.coerce
+    .number()
+    .min(0, { error: 'Wallet balance must be at least 0' })
+    .max(10000000, { error: 'Wallet balance must be at most 10,000,000' })
+    .nullable(),
 });
 
 export type BillingClientAccount = z.infer<typeof billingClientAccountSchema>;

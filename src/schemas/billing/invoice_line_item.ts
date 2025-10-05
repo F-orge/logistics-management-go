@@ -4,18 +4,55 @@ import { z } from 'zod';
 export const billingInvoiceLineItemSchema = z.object({
   id: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
-  description: z.string(),
-  discountAmount: z.coerce.number().nullable(),
-  discountRate: z.coerce.number().nullable(),
+  description: z
+    .string()
+    .min(1, { error: 'Description is required' })
+    .max(255, { error: 'Description must be at most 255 characters' }),
+  discountAmount: z.coerce
+    .number()
+    .min(0, { error: 'Discount amount must be at least 0' })
+    .max(1000000, { error: 'Discount amount must be at most 1,000,000' })
+    .nullable(),
+  discountRate: z.coerce
+    .number()
+    .min(0, { error: 'Discount rate must be at least 0' })
+    .max(100, { error: 'Discount rate must be at most 100' })
+    .nullable(),
   invoiceId: z.uuid(),
-  lineTotal: z.coerce.number().nullable(),
-  quantity: z.coerce.number(),
+  lineTotal: z.coerce
+    .number()
+    .min(0, { error: 'Line total must be at least 0' })
+    .max(10000000, { error: 'Line total must be at most 10,000,000' })
+    .nullable(),
+  quantity: z.coerce
+    .number()
+    .min(1, { error: 'Quantity must be at least 1' })
+    .max(100000, { error: 'Quantity must be at most 100,000' }),
   sourceRecordId: z.uuid().nullable(),
-  sourceRecordType: z.string().nullable(),
-  taxAmount: z.coerce.number().nullable(),
-  taxRate: z.coerce.number().nullable(),
-  totalPrice: z.coerce.number().nullable(),
-  unitPrice: z.coerce.number(),
+  sourceRecordType: z
+    .string()
+    .min(1, { error: 'Source record type is required' })
+    .max(64, { error: 'Source record type must be at most 64 characters' })
+    .nullable(),
+  taxAmount: z.coerce
+    .number()
+    .min(0, { error: 'Tax amount must be at least 0' })
+    .max(1000000, { error: 'Tax amount must be at most 1,000,000' })
+    .nullable(),
+  taxRate: z.coerce
+    .number()
+    .min(0, { error: 'Tax rate must be at least 0' })
+    .max(100, { error: 'Tax rate must be at most 100' })
+    .nullable(),
+  totalPrice: z.coerce
+    .number()
+    .min(0, { error: 'Total price must be at least 0' })
+    .max(10000000, { error: 'Total price must be at most 10,000,000' })
+    .nullable(),
+  unitPrice: z.coerce
+    .number()
+    .min(0, { error: 'Unit price must be at least 0' })
+    .max(1000000, { error: 'Unit price must be at most 1,000,000' }),
   updatedAt: z.iso.datetime().nullable(),
 });
 

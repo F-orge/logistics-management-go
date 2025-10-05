@@ -6,12 +6,27 @@ export const billingDisputeSchema = z.object({
   id: z.uuid(),
   clientId: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
-  disputedAmount: z.coerce.number().nullable(),
+  disputedAmount: z.coerce
+    .number()
+    .min(0, { error: 'Disputed amount must be at least 0' })
+    .max(10000000, { error: 'Disputed amount must be at most 10,000,000' })
+    .nullable(),
   lineItemId: z.uuid(),
-  reason: z.string(),
-  resolutionNotes: z.string().nullable(),
+  reason: z
+    .string()
+    .min(1, { error: 'Reason is required' })
+    .max(255, { error: 'Reason must be at most 255 characters' }),
+  resolutionNotes: z
+    .string()
+    .min(1, { error: 'Resolution notes are required' })
+    .max(1024, { error: 'Resolution notes must be at most 1024 characters' })
+    .nullable(),
   resolvedAt: z.iso.datetime().nullable(),
-  resolvedByUserId: z.string().nullable(),
+  resolvedByUserId: z
+    .string()
+    .min(1, { error: 'Resolved by user ID is required' })
+    .max(255, { error: 'Resolved by user ID must be at most 255 characters' })
+    .nullable(),
   status: z.enum(BillingDisputeStatusEnum).nullable(),
   submittedAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

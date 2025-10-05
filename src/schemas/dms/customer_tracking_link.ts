@@ -4,7 +4,10 @@ import { z } from 'zod';
 export const dmsCustomerTrackingLinkSchema = z.object({
   id: z.uuid(),
   routeId: z.uuid(),
-  token: z.string(),
+  token: z
+    .string()
+    .min(1, { error: 'Token is required' })
+    .max(255, { error: 'Token must be at most 255 characters' }),
   expiresAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

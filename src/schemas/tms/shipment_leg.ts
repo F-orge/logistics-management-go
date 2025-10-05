@@ -6,8 +6,14 @@ export const tmsShipmentLegSchema = z.object({
   id: z.uuid(),
   tripId: z.uuid(),
   status: z.enum(TmsShipmentLegStatusEnum).nullable(),
-  origin: z.string(),
-  destination: z.string(),
+  origin: z
+    .string()
+    .min(1, { error: 'Origin is required' })
+    .max(255, { error: 'Origin must be at most 255 characters' }),
+  destination: z
+    .string()
+    .min(1, { error: 'Destination is required' })
+    .max(255, { error: 'Destination must be at most 255 characters' }),
   startedAt: z.iso.datetime().nullable(),
   completedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),

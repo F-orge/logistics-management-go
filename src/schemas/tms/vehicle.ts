@@ -3,11 +3,22 @@ import { TmsVehicleServiceTypeEnum, TmsVehicleStatusEnum } from '@/db/types';
 
 export const tmsVehicleSchema = z.object({
   id: z.uuid(),
-  plateNumber: z.string(),
-  model: z.string().nullable(),
+  plateNumber: z
+    .string()
+    .min(1, { error: 'Plate number is required' })
+    .max(32, { error: 'Plate number must be at most 32 characters' }),
+  model: z
+    .string()
+    .min(1, { error: 'Model is required' })
+    .max(255, { error: 'Model must be at most 255 characters' })
+    .nullable(),
   serviceType: z.enum(TmsVehicleServiceTypeEnum).nullable(),
   status: z.enum(TmsVehicleStatusEnum).nullable(),
-  capacity: z.coerce.number().nullable(),
+  capacity: z.coerce
+    .number()
+    .min(0, { error: 'Capacity must be at least 0' })
+    .max(100000, { error: 'Capacity must be at most 100,000' })
+    .nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

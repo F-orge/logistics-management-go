@@ -3,7 +3,10 @@ import { DmsDeliveryRouteStatusEnum } from '@/db/types';
 
 export const dmsDeliveryRouteSchema = z.object({
   id: z.uuid(),
-  name: z.string(),
+  name: z
+    .string()
+    .min(1, { error: 'Route name is required' })
+    .max(255, { error: 'Route name must be at most 255 characters' }),
   status: z.enum(DmsDeliveryRouteStatusEnum).nullable(),
   scheduledDate: z.iso.datetime().nullable(),
   startedAt: z.iso.datetime().nullable(),
