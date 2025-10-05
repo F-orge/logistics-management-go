@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const tmsPartnerInvoiceItemSchema = z.object({
   id: z.string(),
-  partnerInvoiceId: z.string(),
+  partnerInvoiceId: z.uuid(),
   description: z.string(),
   amount: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),

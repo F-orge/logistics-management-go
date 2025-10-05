@@ -6,9 +6,9 @@ export const crmOpportunitySchema = z.object({
   id: z.string(),
   name: z.string(),
   ownerId: z.string(),
-  campaignId: z.string().nullable(),
-  companyId: z.string().nullable(),
-  contactId: z.string().nullable(),
+  campaignId: z.uuid().nullable(),
+  companyId: z.uuid().nullable(),
+  contactId: z.uuid().nullable(),
   dealValue: z.coerce.number().nullable(),
   expectedCloseDate: z
     .union([z.coerce.date(), z.string(), z.date()])

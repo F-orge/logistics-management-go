@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const crmOpportunityProductSchema = z.object({
   id: z.string(),
-  opportunityId: z.string(),
-  productId: z.string(),
+  opportunityId: z.uuid(),
+  productId: z.uuid(),
   quantity: z.number(),
 });
 

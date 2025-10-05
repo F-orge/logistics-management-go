@@ -3,7 +3,7 @@ import { TmsDriverScheduleReasonEnum } from '@/db/types';
 
 export const tmsDriverScheduleSchema = z.object({
   id: z.string(),
-  driverId: z.string(),
+  driverId: z.uuid(),
   startAt: z.iso.datetime().nullable(),
   endAt: z.iso.datetime().nullable(),
   reason: z.enum(TmsDriverScheduleReasonEnum).nullable(),

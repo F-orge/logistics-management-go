@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 export const wmsStockTransferSchema = z.object({
   id: z.string(),
-  fromLocationId: z.string(),
-  toLocationId: z.string(),
-  productId: z.string(),
+  fromLocationId: z.uuid(),
+  toLocationId: z.uuid(),
+  productId: z.uuid(),
   quantity: z.coerce.number(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),

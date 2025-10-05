@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const wmsInventoryStockSchema = z.object({
   id: z.string(),
-  productId: z.string(),
-  locationId: z.string(),
+  productId: z.uuid(),
+  locationId: z.uuid(),
   quantity: z.coerce.number(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),

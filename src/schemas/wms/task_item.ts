@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const wmsTaskItemSchema = z.object({
   id: z.string(),
-  taskId: z.string(),
-  productId: z.string(),
+  taskId: z.uuid(),
+  productId: z.uuid(),
   quantity: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

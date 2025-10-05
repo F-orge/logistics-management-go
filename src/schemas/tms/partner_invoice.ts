@@ -4,7 +4,7 @@ import { tmsPartnerInvoiceItemInsertSchema } from './partner_invoice_item';
 
 export const tmsPartnerInvoiceSchema = z.object({
   id: z.string(),
-  partnerId: z.string(),
+  partnerId: z.uuid(),
   status: z.enum(TmsPartnerInvoiceStatusEnum).nullable(),
   total: z.coerce.number(),
   currency: z.enum(TmsCurrencyEnum).nullable(),

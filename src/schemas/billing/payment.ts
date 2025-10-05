@@ -10,7 +10,7 @@ export const billingPaymentSchema = z.object({
   exchangeRate: z.coerce.number().nullable(),
   fees: z.coerce.number().nullable(),
   gatewayReference: z.string().nullable(),
-  invoiceId: z.string(),
+  invoiceId: z.uuid(),
   netAmount: z.coerce.number().nullable(),
   notes: z.string().nullable(),
   paymentDate: z.iso.datetime().nullable(),
@@ -18,7 +18,7 @@ export const billingPaymentSchema = z.object({
   processedAt: z.iso.datetime().nullable(),
   processedByUserId: z.string().nullable(),
   status: z.enum(BillingPaymentStatusEnum).nullable(),
-  transactionId: z.string().nullable(),
+  transactionId: z.uuid().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
 

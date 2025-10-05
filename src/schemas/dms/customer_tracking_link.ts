@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const dmsCustomerTrackingLinkSchema = z.object({
   id: z.string(),
-  routeId: z.string(),
+  routeId: z.uuid(),
   token: z.string(),
   expiresAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),

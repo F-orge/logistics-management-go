@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const billingClientAccountSchema = z.object({
   id: z.string(),
   availableCredit: z.coerce.number().nullable(),
-  clientId: z.string(),
+  clientId: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   creditLimit: z.coerce.number().nullable(),
   currency: z.string().nullable(),

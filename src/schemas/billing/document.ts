@@ -10,7 +10,7 @@ export const billingDocumentSchema = z.object({
   filePath: z.string(),
   fileSize: z.number().nullable(),
   mimeType: z.string().nullable(),
-  recordId: z.string(),
+  recordId: z.uuid(),
   recordType: z.string(),
   updatedAt: z.iso.datetime().nullable(),
   uploadedByUserId: z.string().nullable(),

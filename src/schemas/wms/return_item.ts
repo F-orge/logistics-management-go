@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const wmsReturnItemSchema = z.object({
   id: z.string(),
-  returnId: z.string(),
-  productId: z.string(),
+  returnId: z.uuid(),
+  productId: z.uuid(),
   quantity: z.coerce.number(),
   condition: z.string(),
   createdAt: z.iso.datetime().nullable(),

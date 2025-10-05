@@ -6,7 +6,7 @@ export const crmAttachmentSchema = z.object({
   fileName: z.string(),
   filePath: z.string(),
   mimeType: z.string().nullable(),
-  recordId: z.string().nullable(),
+  recordId: z.uuid().nullable(),
   recordType: z.enum(CrmRecordType).nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

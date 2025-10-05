@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const tmsVehicleMaintenanceSchema = z.object({
   id: z.string(),
-  vehicleId: z.string(),
+  vehicleId: z.uuid(),
   description: z.string(),
   cost: z.coerce.number(),
   performedAt: z.iso.datetime().nullable(),

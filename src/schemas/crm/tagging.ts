@@ -3,9 +3,9 @@ import { CrmRecordType } from '@/db/types';
 
 export const crmTaggingSchema = z.object({
   id: z.string(),
-  recordId: z.string(),
+  recordId: z.uuid(),
   recordType: z.enum(CrmRecordType),
-  tagId: z.string(),
+  tagId: z.uuid(),
 });
 
 export type CrmTagging = z.infer<typeof crmTaggingSchema>;

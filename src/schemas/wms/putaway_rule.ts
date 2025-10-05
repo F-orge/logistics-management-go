@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const wmsPutawayRuleSchema = z.object({
   id: z.string(),
-  productId: z.string(),
-  locationId: z.string(),
+  productId: z.uuid(),
+  locationId: z.uuid(),
   priority: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

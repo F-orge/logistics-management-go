@@ -3,8 +3,8 @@ import { CrmInteractionType } from '@/db/types';
 
 export const crmInteractionSchema = z.object({
   id: z.string(),
-  contactId: z.string(),
-  caseId: z.string().nullable(),
+  contactId: z.uuid(),
+  caseId: z.uuid().nullable(),
   userId: z.string(),
   type: z.enum(CrmInteractionType).nullable(),
   interactionDate: z.iso.datetime().nullable(),

@@ -4,7 +4,7 @@ import { tmsShipmentLegEventInsertSchema } from './shipment_leg_event';
 
 export const tmsShipmentLegSchema = z.object({
   id: z.string(),
-  tripId: z.string(),
+  tripId: z.uuid(),
   status: z.enum(TmsShipmentLegStatusEnum).nullable(),
   origin: z.string(),
   destination: z.string(),

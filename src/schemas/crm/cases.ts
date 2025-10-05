@@ -4,7 +4,7 @@ import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
 export const crmCaseSchema = z.object({
   id: z.string(),
   caseNumber: z.string(),
-  contactId: z.string().nullable(),
+  contactId: z.uuid().nullable(),
   description: z.string().nullable(),
   ownerId: z.string(),
   priority: z.enum(CrmCasePriority).nullable(),

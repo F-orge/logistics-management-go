@@ -4,7 +4,7 @@ export const crmContactSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
-  companyId: z.string().nullable(),
+  companyId: z.uuid().nullable(),
   jobTitle: z.string().nullable(),
   ownerId: z.string(),
   phoneNumber: z.string().nullable(),

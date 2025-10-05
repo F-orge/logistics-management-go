@@ -7,9 +7,9 @@ import { tmsTripStopInsertSchema } from './trip_stop';
 
 export const tmsTripSchema = z.object({
   id: z.string(),
-  routeId: z.string(),
-  driverId: z.string(),
-  vehicleId: z.string(),
+  routeId: z.uuid(),
+  driverId: z.uuid(),
+  vehicleId: z.uuid(),
   status: z.enum(TmsTripStatusEnum).nullable(),
   startedAt: z.iso.datetime().nullable(),
   completedAt: z.iso.datetime().nullable(),

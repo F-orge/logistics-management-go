@@ -6,7 +6,7 @@ import {
 
 export const dmsDeliveryTaskSchema = z.object({
   id: z.string(),
-  routeId: z.string(),
+  routeId: z.uuid(),
   status: z.enum(DmsDeliveryTaskStatusEnum).nullable(),
   failureReason: z.enum(DmsDeliveryFailureReasonEnum).nullable(),
   scheduledAt: z.iso.datetime().nullable(),

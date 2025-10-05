@@ -3,7 +3,7 @@ import { DmsTaskEventStatusEnum } from '@/db/types';
 
 export const dmsTaskEventSchema = z.object({
   id: z.string(),
-  deliveryTaskId: z.string(),
+  deliveryTaskId: z.uuid(),
   status: z.enum(DmsTaskEventStatusEnum).nullable(),
   eventAt: z.iso.datetime().nullable(),
   notes: z.string().nullable(),

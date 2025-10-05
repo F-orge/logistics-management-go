@@ -11,7 +11,7 @@ export const billingAccountTransactionSchema = z.object({
   processedByUserId: z.string().nullable(),
   referenceNumber: z.string().nullable(),
   runningBalance: z.coerce.number().nullable(),
-  sourceRecordId: z.string().nullable(),
+  sourceRecordId: z.uuid().nullable(),
   sourceRecordType: z.string().nullable(),
   transactionDate: z.iso.datetime().nullable(),
   type: z.enum(BillingTransactionTypeEnum),

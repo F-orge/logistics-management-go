@@ -3,7 +3,7 @@ import { TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '@/db/types';
 
 export const tmsExpenseSchema = z.object({
   id: z.string(),
-  tripId: z.string().nullable(),
+  tripId: z.uuid().nullable(),
   type: z.enum(TmsExpenseTypeEnum).nullable(),
   status: z.enum(TmsExpenseStatusEnum).nullable(),
   amount: z.coerce.number(),

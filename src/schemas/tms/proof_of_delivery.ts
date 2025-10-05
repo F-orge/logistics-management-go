@@ -3,7 +3,7 @@ import { TmsProofTypeEnum } from '@/db/types';
 
 export const tmsProofOfDeliverySchema = z.object({
   id: z.string(),
-  tripId: z.string(),
+  tripId: z.uuid(),
   type: z.enum(TmsProofTypeEnum).nullable(),
   fileUrl: z.string().nullable(),
   notes: z.string().nullable(),

@@ -8,7 +8,7 @@ export const crmInvoiceSchema = z.object({
   dueDate: z.iso.datetime().nullable(),
   paidAt: z.iso.datetime().nullable(),
   sentAt: z.iso.datetime().nullable(),
-  opportunityId: z.string().nullable(),
+  opportunityId: z.uuid().nullable(),
   paymentMethod: z.enum(CrmPaymentMethod).nullable(),
   status: z.enum(CrmInvoiceStatus).nullable(),
   total: z.coerce.number().nullable(),

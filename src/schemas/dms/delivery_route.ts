@@ -8,8 +8,8 @@ export const dmsDeliveryRouteSchema = z.object({
   scheduledDate: z.iso.datetime().nullable(),
   startedAt: z.iso.datetime().nullable(),
   completedAt: z.iso.datetime().nullable(),
-  driverId: z.string().nullable(),
-  vehicleId: z.string().nullable(),
+  driverId: z.uuid().nullable(),
+  vehicleId: z.uuid().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

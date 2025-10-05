@@ -4,7 +4,7 @@ import { BillingQuoteStatusEnum } from '@/db/types';
 // Zod schema for billing.quote table
 export const billingQuoteSchema = z.object({
   id: z.string(),
-  clientId: z.string().nullable(),
+  clientId: z.uuid().nullable(),
   createdAt: z.iso.datetime().nullable(),
   createdByUserId: z.string().nullable(),
   destinationDetails: z.string(),

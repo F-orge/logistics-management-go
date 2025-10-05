@@ -12,7 +12,7 @@ export const billingRateRuleSchema = z.object({
   price: z.coerce.number(),
   pricingModel: z.enum(BillingPricingModelEnum),
   priority: z.number().nullable(),
-  rateCardId: z.string(),
+  rateCardId: z.uuid(),
   updatedAt: z.iso.datetime().nullable(),
   value: z.string(),
 });

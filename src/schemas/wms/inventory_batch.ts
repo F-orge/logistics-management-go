@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const wmsInventoryBatchSchema = z.object({
   id: z.string(),
-  productId: z.string(),
+  productId: z.uuid(),
   batchNumber: z.string(),
   quantity: z.coerce.number(),
   receivedAt: z.iso.datetime().nullable(),
