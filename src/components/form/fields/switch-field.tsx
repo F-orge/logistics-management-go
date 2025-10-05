@@ -1,10 +1,8 @@
 import { Eye, EyeClosed } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { useFieldContext } from '@/components/form';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldContent,
@@ -12,7 +10,9 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
 
 export const TextField = ({
   className,

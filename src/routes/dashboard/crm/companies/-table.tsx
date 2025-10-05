@@ -1,11 +1,11 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { editCompany, type selectCompanies } from '@/actions/crm/companies';
-import TextCell from '@/components/ui/kibo-ui/table/cells/text';
-import React from 'react';
-import EditTextDialog from '@/components/form/components/text-dialog';
-import { useAppForm } from '@/components/form';
-import { toast } from 'sonner';
 import { useRouter } from '@tanstack/react-router';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react';
+import { toast } from 'sonner';
+import { editCompany, type selectCompanies } from '@/actions/crm/companies';
+import { useAppForm } from '@/components/form';
+import EditTextDialog from '@/components/form/components/text-dialog';
+import TextCell from '@/components/ui/kibo-ui/table/cells/text';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCompanies>>[number]

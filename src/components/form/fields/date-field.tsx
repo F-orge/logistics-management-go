@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { useFieldContext } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { useFieldContext } from '@/components/form';
-import { Label } from '@/components/ui/label';
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import {
   Popover,
   PopoverContent,
@@ -14,15 +14,17 @@ import {
 export const DateField = ({
   className,
   label,
+  description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: string;
+  label?: React.ReactNode;
+  description?: React.ReactNode;
 }) => {
   const field = useFieldContext<Date>();
 
   return (
-    <div className={cn('grid gap-2.5', className)}>
-      {label && <Label htmlFor={props.id}>{label}</Label>}
+    <Field className={className}>
+      {label && <FieldLabel htmlFor={props.id}>{label}</FieldLabel>}
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -47,6 +49,7 @@ export const DateField = ({
           />
         </PopoverContent>
       </Popover>
-    </div>
+      {description && <FieldDescription>{description}</FieldDescription>}
+    </Field>
   );
 };

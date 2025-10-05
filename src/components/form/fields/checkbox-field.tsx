@@ -1,14 +1,14 @@
 import React from 'react';
-import { cn } from '@/lib/utils';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useFieldContext } from '@/components/form';
-import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
 } from '@/components/ui/field';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 const CheckBoxField = ({
   className,

@@ -5,10 +5,10 @@ import {
   Scripts,
 } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
-import appCss from '../styles/globals.css?url';
-import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider, useTheme } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 import { getThemeServerFn } from '@/lib/theme';
+import appCss from '../styles/globals.css?url';
 
 export const Route = createRootRoute({
   head: () => ({

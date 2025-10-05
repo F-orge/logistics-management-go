@@ -9,14 +9,6 @@ import type {
   Table,
 } from '@tanstack/react-table';
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
-import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -38,6 +30,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
 import {
   TableBody as TableBodyRaw,
   TableCell as TableCellRaw,

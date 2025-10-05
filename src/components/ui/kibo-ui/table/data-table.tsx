@@ -1,4 +1,13 @@
+import { Row } from '@tanstack/react-table';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
+import { Button } from '../../button';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '../../context-menu';
 import {
   TableBody,
   TableCell,
@@ -8,15 +17,6 @@ import {
   TableProvider,
   TableRow,
 } from '.';
-import { Button } from '../../button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger,
-} from '../../context-menu';
-import { Row } from '@tanstack/react-table';
 
 export function DataTable<TData, TValue>(
   props: Omit<

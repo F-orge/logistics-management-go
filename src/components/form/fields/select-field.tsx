@@ -1,5 +1,10 @@
-import { cn } from '@/lib/utils';
 import { useFieldContext } from '@/components/form';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
 import {
   MultiSelect,
@@ -16,12 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from '@/components/ui/field';
+import { cn } from '@/lib/utils';
 
 export const SelectField = ({
   className,

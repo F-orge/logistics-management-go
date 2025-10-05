@@ -1,3 +1,5 @@
+import { useNavigate, useSearch } from '@tanstack/react-router';
+import z from 'zod';
 import { useAppForm } from '@/components/form';
 import {
   FieldDescription,
@@ -8,8 +10,6 @@ import {
 } from '@/components/ui/field';
 import FormDialog from '@/components/ui/form-dialog';
 import { insertCompanySchema } from '@/db/schemas';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import z from 'zod';
 
 const NewCrmCompanyRecord = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/companies' });

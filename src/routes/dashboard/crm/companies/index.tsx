@@ -1,19 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
-import { removeCompany, selectCompanies } from '@/actions/crm/companies';
-import DataTable from '@/components/ui/kibo-ui/table/data-table';
-import { columns } from './-table';
-import { selectSchema } from '@/lib/utils';
+import { toast } from 'sonner';
 // import { selectCompaniesSchema } from '@/db/schemas/crm/companies';
 import z from 'zod';
+import { removeCompany, selectCompanies } from '@/actions/crm/companies';
+import DeleteRecord from '@/components/dialogs/delete-record';
 import {
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
-import DeleteRecord from '@/components/dialogs/delete-record';
-import { toast } from 'sonner';
+import DataTable from '@/components/ui/kibo-ui/table/data-table';
+import { selectSchema } from '@/lib/utils';
 import NewCrmCompanyRecord from './-new';
+import { columns } from './-table';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   component: RouteComponent,

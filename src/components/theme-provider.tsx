@@ -1,6 +1,6 @@
-import { setThemeServerFn } from '@/lib/theme';
 import { useRouter } from '@tanstack/react-router';
 import { createContext, PropsWithChildren, use } from 'react';
+import { setThemeServerFn } from '@/lib/theme';
 
 export type Theme = 'light' | 'dark';
 

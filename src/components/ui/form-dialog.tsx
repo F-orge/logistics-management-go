@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from './button';
 import {
   Dialog,
   DialogClose,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from './dialog';
-import { Button } from './button';
 
 const FormDialog = ({
   children,

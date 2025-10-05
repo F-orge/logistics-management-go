@@ -1,13 +1,13 @@
+import { createServerFn } from '@tanstack/react-start';
+import { DrizzleError, DrizzleQueryError, eq } from 'drizzle-orm';
+import z from 'zod';
 import { db } from '@/db';
+import { crmCompanies } from '@/db/schemas';
 import {
   selectCompanySchema,
   updateCompanySchema,
 } from '@/db/schemas/crm/companies';
-import { crmCompanies } from '@/db/schemas';
 import { selectSchema } from '@/lib/utils';
-import { createServerFn } from '@tanstack/react-start';
-import z from 'zod';
-import { DrizzleError, DrizzleQueryError, eq } from 'drizzle-orm';
 
 export const selectCompanies = createServerFn({ method: 'GET' })
   .inputValidator(selectSchema(selectCompanySchema.keyof()))
