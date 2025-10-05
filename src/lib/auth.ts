@@ -1,8 +1,8 @@
 import { betterAuth } from 'better-auth';
 import { admin, bearer } from 'better-auth/plugins';
 import { reactStartCookies } from 'better-auth/react-start';
-import { db } from '@/db';
 import { Pool } from 'pg';
+import { db } from '@/db';
 
 export const authFactory = (dbClient: typeof db) =>
   betterAuth({

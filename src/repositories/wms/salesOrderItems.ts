@@ -1,4 +1,3 @@
-import { DB } from '@/db/types';
 import {
   Insertable,
   Kysely,
@@ -7,6 +6,7 @@ import {
   SelectExpression,
   Updateable,
 } from 'kysely';
+import { DB } from '@/db/types';
 
 export class WmsSalesOrderItemRepository {
   constructor(private db: Kysely<DB>) {}

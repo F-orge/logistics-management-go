@@ -2,9 +2,9 @@ import { useRouter } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 import { toast } from 'sonner';
 import { editCompany, type selectCompanies } from '@/actions/crm/companies';
-import TextCell from '@/components/ui/kibo-ui/table/cells/text';
 import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
 import NumberCell from '@/components/ui/kibo-ui/table/cells/number';
+import TextCell from '@/components/ui/kibo-ui/table/cells/text';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCompanies>>[number]
