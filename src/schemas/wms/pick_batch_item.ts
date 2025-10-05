@@ -4,7 +4,10 @@ export const wmsPickBatchItemSchema = z.object({
   id: z.uuid(),
   pickBatchId: z.uuid(),
   productId: z.uuid(),
-  quantity: z.coerce.number(),
+  quantity: z
+    .number()
+    .min(0, { error: 'Quantity must be at least 0' })
+    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

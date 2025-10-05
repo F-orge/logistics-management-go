@@ -3,8 +3,14 @@ import { z } from 'zod';
 export const wmsInventoryBatchSchema = z.object({
   id: z.uuid(),
   productId: z.uuid(),
-  batchNumber: z.string(),
-  quantity: z.coerce.number(),
+  batchNumber: z
+    .string()
+    .min(1, { error: 'Batch number is required' })
+    .max(64, { error: 'Batch number must be at most 64 characters' }),
+  quantity: z
+    .number()
+    .min(0, { error: 'Quantity must be at least 0' })
+    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
   receivedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

@@ -1,11 +1,15 @@
 import { z } from 'zod';
+import { WmsInventoryStockStatusEnum } from '@/db/types';
 
 export const wmsInventoryStockSchema = z.object({
   id: z.uuid(),
   productId: z.uuid(),
   locationId: z.uuid(),
-  quantity: z.coerce.number(),
-  status: z.string(),
+  quantity: z
+    .number()
+    .min(0, { error: 'Quantity must be at least 0' })
+    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
+  status: z.enum(WmsInventoryStockStatusEnum).nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

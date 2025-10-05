@@ -1,9 +1,13 @@
 import { z } from 'zod';
+import { WmsSalesOrderStatusEnum } from '@/db/types';
 
 export const wmsSalesOrderSchema = z.object({
   id: z.uuid(),
-  referenceNumber: z.string(),
-  status: z.string(),
+  referenceNumber: z
+    .string()
+    .min(1, { error: 'Reference number is required' })
+    .max(64, { error: 'Reference number must be at most 64 characters' }),
+  status: z.enum(WmsSalesOrderStatusEnum).nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
