@@ -3,16 +3,16 @@ import { z } from 'zod';
 // Zod schema for billing.client_account table
 export const billingClientAccountSchema = z.object({
   id: z.string(),
-  availableCredit: z.string().nullable(), // Numeric as string
+  availableCredit: z.coerce.number().nullable(),
   clientId: z.string(),
   createdAt: z.iso.datetime().nullable(),
-  creditLimit: z.string().nullable(), // Numeric as string
+  creditLimit: z.coerce.number().nullable(),
   currency: z.string().nullable(),
   isCreditApproved: z.boolean().nullable(),
   lastPaymentDate: z.iso.datetime().nullable(),
   paymentTermsDays: z.number().nullable(),
   updatedAt: z.iso.datetime().nullable(),
-  walletBalance: z.string().nullable(), // Numeric as string
+  walletBalance: z.coerce.number().nullable(),
 });
 
 export type BillingClientAccount = z.infer<typeof billingClientAccountSchema>;

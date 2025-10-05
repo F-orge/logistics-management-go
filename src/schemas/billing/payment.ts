@@ -4,14 +4,14 @@ import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types';
 // Zod schema for billing.payment table
 export const billingPaymentSchema = z.object({
   id: z.string(),
-  amount: z.string(), // Numeric as string
+  amount: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   currency: z.string().nullable(),
-  exchangeRate: z.string().nullable(), // Numeric as string
-  fees: z.string().nullable(), // Numeric as string
+  exchangeRate: z.coerce.number().nullable(),
+  fees: z.coerce.number().nullable(),
   gatewayReference: z.string().nullable(),
   invoiceId: z.string(),
-  netAmount: z.string().nullable(), // Numeric as string
+  netAmount: z.coerce.number().nullable(),
   notes: z.string().nullable(),
   paymentDate: z.iso.datetime().nullable(),
   paymentMethod: z.enum(BillingPaymentMethodEnum),

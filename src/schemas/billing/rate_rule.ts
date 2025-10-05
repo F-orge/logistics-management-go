@@ -7,9 +7,9 @@ export const billingRateRuleSchema = z.object({
   condition: z.string(),
   createdAt: z.iso.datetime().nullable(),
   isActive: z.boolean().nullable(),
-  maxValue: z.string().nullable(), // Numeric as string
-  minValue: z.string().nullable(), // Numeric as string
-  price: z.string(), // Numeric as string
+  maxValue: z.coerce.number().nullable(),
+  minValue: z.coerce.number().nullable(),
+  price: z.coerce.number(),
   pricingModel: z.enum(BillingPricingModelEnum),
   priority: z.number().nullable(),
   rateCardId: z.string(),

@@ -4,7 +4,7 @@ export const wmsPutawayRuleSchema = z.object({
   id: z.string(),
   productId: z.string(),
   locationId: z.string(),
-  priority: z.string(), // Numeric as string
+  priority: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

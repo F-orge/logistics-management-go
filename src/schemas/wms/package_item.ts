@@ -4,7 +4,7 @@ export const wmsPackageItemSchema = z.object({
   id: z.string(),
   packageId: z.string(),
   productId: z.string(),
-  quantity: z.string(), // Numeric as string
+  quantity: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

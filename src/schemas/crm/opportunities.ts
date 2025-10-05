@@ -9,7 +9,7 @@ export const crmOpportunitySchema = z.object({
   campaignId: z.string().nullable(),
   companyId: z.string().nullable(),
   contactId: z.string().nullable(),
-  dealValue: z.string().nullable(), // Numeric as string
+  dealValue: z.coerce.number().nullable(),
   expectedCloseDate: z
     .union([z.coerce.date(), z.string(), z.date()])
     .nullable(),

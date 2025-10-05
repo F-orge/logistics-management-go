@@ -7,7 +7,7 @@ export const tmsVehicleSchema = z.object({
   model: z.string().nullable(),
   serviceType: z.enum(TmsVehicleServiceTypeEnum).nullable(),
   status: z.enum(TmsVehicleStatusEnum).nullable(),
-  capacity: z.string().nullable(), // Numeric as string
+  capacity: z.coerce.number().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

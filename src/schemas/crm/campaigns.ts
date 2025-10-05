@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const crmCampaignSchema = z.object({
   id: z.string(),
   name: z.string(),
-  budget: z.string().nullable(), // Numeric as string
+  budget: z.coerce.number().nullable(),
   startDate: z.iso.datetime().nullable(),
   endDate: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),

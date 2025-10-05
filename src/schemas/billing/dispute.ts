@@ -6,7 +6,7 @@ export const billingDisputeSchema = z.object({
   id: z.string(),
   clientId: z.string(),
   createdAt: z.iso.datetime().nullable(),
-  disputedAmount: z.string().nullable(), // Numeric as string
+  disputedAmount: z.coerce.number().nullable(),
   lineItemId: z.string(),
   reason: z.string(),
   resolutionNotes: z.string().nullable(),

@@ -5,7 +5,7 @@ export const wmsStockTransferSchema = z.object({
   fromLocationId: z.string(),
   toLocationId: z.string(),
   productId: z.string(),
-  quantity: z.string(), // Numeric as string
+  quantity: z.coerce.number(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

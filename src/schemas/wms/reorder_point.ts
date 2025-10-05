@@ -4,7 +4,7 @@ export const wmsReorderPointSchema = z.object({
   id: z.string(),
   productId: z.string(),
   locationId: z.string(),
-  reorderLevel: z.string(), // Numeric as string
+  reorderLevel: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

@@ -4,13 +4,13 @@ import { BillingInvoiceStatusEnum } from '@/db/types';
 // Zod schema for billing.invoice table
 export const billingInvoiceSchema = z.object({
   id: z.string(),
-  amountOutstanding: z.string().nullable(), // Numeric as string
-  amountPaid: z.string().nullable(), // Numeric as string
+  amountOutstanding: z.coerce.number().nullable(),
+  amountPaid: z.coerce.number().nullable(),
   clientId: z.string(),
   createdAt: z.iso.datetime().nullable(),
   createdByUserId: z.string().nullable(),
   currency: z.string().nullable(),
-  discountAmount: z.string().nullable(), // Numeric as string
+  discountAmount: z.coerce.number().nullable(),
   dueDate: z.iso.datetime(),
   invoiceNumber: z.string(),
   issueDate: z.iso.datetime(),
@@ -20,9 +20,9 @@ export const billingInvoiceSchema = z.object({
   quoteId: z.string().nullable(),
   sentAt: z.iso.datetime().nullable(),
   status: z.enum(BillingInvoiceStatusEnum).nullable(),
-  subtotal: z.string().nullable(), // Numeric as string
-  taxAmount: z.string().nullable(), // Numeric as string
-  totalAmount: z.string(), // Numeric as string
+  subtotal: z.coerce.number().nullable(),
+  taxAmount: z.coerce.number().nullable(),
+  totalAmount: z.coerce.number(),
   updatedAt: z.iso.datetime().nullable(),
 });
 

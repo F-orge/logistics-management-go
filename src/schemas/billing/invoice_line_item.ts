@@ -5,17 +5,17 @@ export const billingInvoiceLineItemSchema = z.object({
   id: z.string(),
   createdAt: z.iso.datetime().nullable(),
   description: z.string(),
-  discountAmount: z.string().nullable(), // Numeric as string
-  discountRate: z.string().nullable(), // Numeric as string
+  discountAmount: z.coerce.number().nullable(),
+  discountRate: z.coerce.number().nullable(),
   invoiceId: z.string(),
-  lineTotal: z.string().nullable(), // Numeric as string
-  quantity: z.string(), // Numeric as string
+  lineTotal: z.coerce.number().nullable(),
+  quantity: z.coerce.number(),
   sourceRecordId: z.string().nullable(),
   sourceRecordType: z.string().nullable(),
-  taxAmount: z.string().nullable(), // Numeric as string
-  taxRate: z.string().nullable(), // Numeric as string
-  totalPrice: z.string().nullable(), // Numeric as string
-  unitPrice: z.string(), // Numeric as string
+  taxAmount: z.coerce.number().nullable(),
+  taxRate: z.coerce.number().nullable(),
+  totalPrice: z.coerce.number().nullable(),
+  unitPrice: z.coerce.number(),
   updatedAt: z.iso.datetime().nullable(),
 });
 

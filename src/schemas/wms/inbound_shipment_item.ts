@@ -5,7 +5,7 @@ export const wmsInboundShipmentItemSchema = z.object({
   inboundShipmentId: z.string(),
   productId: z.string(),
   quantity: z.coerce.number(),
-  receivedQuantity: z.string().nullable(), // Numeric as string
+  receivedQuantity: z.coerce.number().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

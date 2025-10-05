@@ -4,13 +4,13 @@ import { BillingTransactionTypeEnum } from '@/db/types';
 // Zod schema for billing.account_transaction table
 export const billingAccountTransactionSchema = z.object({
   id: z.string(),
-  amount: z.string(), // Numeric as string
+  amount: z.coerce.number(),
   clientAccountId: z.string(),
   createdAt: z.iso.datetime().nullable(),
   description: z.string().nullable(),
   processedByUserId: z.string().nullable(),
   referenceNumber: z.string().nullable(),
-  runningBalance: z.string().nullable(), // Numeric as string
+  runningBalance: z.coerce.number().nullable(),
   sourceRecordId: z.string().nullable(),
   sourceRecordType: z.string().nullable(),
   transactionDate: z.iso.datetime().nullable(),

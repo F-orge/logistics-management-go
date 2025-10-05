@@ -4,7 +4,7 @@ export const wmsReturnItemSchema = z.object({
   id: z.string(),
   returnId: z.string(),
   productId: z.string(),
-  quantity: z.string(), // Numeric as string
+  quantity: z.coerce.number(),
   condition: z.string(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

@@ -4,7 +4,7 @@ export const wmsPackageSchema = z.object({
   id: z.string(),
   shipmentId: z.string(),
   trackingNumber: z.string(),
-  weight: z.string(), // Numeric as string
+  weight: z.coerce.number(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

@@ -4,7 +4,7 @@ export const wmsPickBatchItemSchema = z.object({
   id: z.string(),
   pickBatchId: z.string(),
   productId: z.string(),
-  quantity: z.string(), // Numeric as string
+  quantity: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

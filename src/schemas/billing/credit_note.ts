@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Zod schema for billing.credit_note table
 export const billingCreditNoteSchema = z.object({
   id: z.string(),
-  amount: z.string(), // Numeric as string
+  amount: z.coerce.number(),
   appliedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),
   createdByUserId: z.string().nullable(),

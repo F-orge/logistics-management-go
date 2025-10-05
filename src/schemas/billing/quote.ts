@@ -9,18 +9,18 @@ export const billingQuoteSchema = z.object({
   createdByUserId: z.string().nullable(),
   destinationDetails: z.string(),
   expiresAt: z.iso.datetime().nullable(),
-  height: z.string().nullable(), // Numeric as string
-  length: z.string().nullable(), // Numeric as string
+  height: z.coerce.number().nullable(),
+  length: z.coerce.number().nullable(),
   notes: z.string().nullable(),
   originDetails: z.string(),
-  quotedPrice: z.string(), // Numeric as string
+  quotedPrice: z.coerce.number(),
   quoteNumber: z.string().nullable(),
   serviceLevel: z.string().nullable(),
   status: z.enum(BillingQuoteStatusEnum).nullable(),
   updatedAt: z.iso.datetime().nullable(),
-  volume: z.string().nullable(), // Numeric as string
-  weight: z.string().nullable(), // Numeric as string
-  width: z.string().nullable(), // Numeric as string
+  volume: z.coerce.number().nullable(),
+  weight: z.coerce.number().nullable(),
+  width: z.coerce.number().nullable(),
 });
 
 export type BillingQuote = z.infer<typeof billingQuoteSchema>;

@@ -11,7 +11,7 @@ export const crmInvoiceSchema = z.object({
   opportunityId: z.string().nullable(),
   paymentMethod: z.enum(CrmPaymentMethod).nullable(),
   status: z.enum(CrmInvoiceStatus).nullable(),
-  total: z.string().nullable(), // Numeric as string
+  total: z.coerce.number().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
