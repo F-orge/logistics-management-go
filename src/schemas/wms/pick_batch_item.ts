@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsPickBatchItemSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   pickBatchId: z.uuid(),
   productId: z.uuid(),
   quantity: z.coerce.number(),

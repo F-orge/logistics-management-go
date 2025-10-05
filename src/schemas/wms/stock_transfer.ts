@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsStockTransferSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   fromLocationId: z.uuid(),
   toLocationId: z.uuid(),
   productId: z.uuid(),

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsInboundShipmentItemSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   inboundShipmentId: z.uuid(),
   productId: z.uuid(),
   quantity: z.coerce.number(),

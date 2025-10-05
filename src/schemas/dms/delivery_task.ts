@@ -5,7 +5,7 @@ import {
 } from '@/db/types';
 
 export const dmsDeliveryTaskSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   routeId: z.uuid(),
   status: z.enum(DmsDeliveryTaskStatusEnum).nullable(),
   failureReason: z.enum(DmsDeliveryFailureReasonEnum).nullable(),

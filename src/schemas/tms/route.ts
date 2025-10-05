@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tmsRouteSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   origin: z.string(),
   destination: z.string(),

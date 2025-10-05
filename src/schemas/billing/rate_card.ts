@@ -3,7 +3,7 @@ import { BillingServiceTypeEnum } from '@/db/types';
 
 // Zod schema for billing.rate_card table
 export const billingRateCardSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   createdByUserId: z.string().nullable(),
   description: z.string().nullable(),

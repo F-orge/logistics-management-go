@@ -3,7 +3,7 @@ import { TmsCurrencyEnum, TmsPartnerInvoiceStatusEnum } from '@/db/types';
 import { tmsPartnerInvoiceItemInsertSchema } from './partner_invoice_item';
 
 export const tmsPartnerInvoiceSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   partnerId: z.uuid(),
   status: z.enum(TmsPartnerInvoiceStatusEnum).nullable(),
   total: z.coerce.number(),

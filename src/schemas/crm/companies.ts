@@ -3,18 +3,64 @@ import { z } from 'zod';
 // Zod schema for crm.companies table
 
 export const crmCompanySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  ownerId: z.string().nullable(),
-  annualRevenue: z.string().nullable(), // Numeric is string in Kysely
-  city: z.string().nullable(),
-  country: z.string().nullable(),
-  industry: z.string().nullable(),
-  phoneNumber: z.string().nullable(),
-  postalCode: z.string().nullable(),
-  state: z.string().nullable(),
-  street: z.string().nullable(),
-  website: z.string().nullable(),
+  id: z
+    .string()
+    .min(1, { error: 'ID is required' })
+    .max(255, { error: 'ID must be at most 255 characters' }),
+  name: z
+    .string()
+    .min(1, { error: 'Company name is required' })
+    .max(255, { error: 'Company name must be at most 255 characters' }),
+  ownerId: z
+    .string()
+    .min(1, { error: 'Owner ID is required' })
+    .max(255, { error: 'Owner ID must be at most 255 characters' })
+    .nullable(),
+  annualRevenue: z
+    .string()
+    .min(1, { error: 'Annual revenue is required' })
+    .max(32, { error: 'Annual revenue must be at most 32 characters' })
+    .nullable(), // Numeric is string in Kysely
+  city: z
+    .string()
+    .min(1, { error: 'City is required' })
+    .max(127, { error: 'City must be at most 127 characters' })
+    .nullable(),
+  country: z
+    .string()
+    .min(1, { error: 'Country is required' })
+    .max(127, { error: 'Country must be at most 127 characters' })
+    .nullable(),
+  industry: z
+    .string()
+    .min(1, { error: 'Industry is required' })
+    .max(127, { error: 'Industry must be at most 127 characters' })
+    .nullable(),
+  phoneNumber: z
+    .e164()
+    .min(1, { error: 'Phone number is required' })
+    .max(32, { error: 'Phone number must be at most 32 characters' })
+    .nullable(),
+  postalCode: z
+    .string()
+    .min(1, { error: 'Postal code is required' })
+    .max(32, { error: 'Postal code must be at most 32 characters' })
+    .nullable(),
+  state: z
+    .string()
+    .min(1, { error: 'State is required' })
+    .max(127, { error: 'State must be at most 127 characters' })
+    .nullable(),
+  street: z
+    .string()
+    .min(1, { error: 'Street is required' })
+    .max(255, { error: 'Street must be at most 255 characters' })
+    .nullable(),
+  website: z
+    .string()
+    .min(1, { error: 'Website is required' })
+    .max(255, { error: 'Website must be at most 255 characters' })
+    .nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

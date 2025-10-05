@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Zod schema for billing.invoice_line_item table
 export const billingInvoiceLineItemSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   description: z.string(),
   discountAmount: z.coerce.number().nullable(),

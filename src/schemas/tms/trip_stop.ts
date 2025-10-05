@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsTripStopStatusEnum } from '@/db/types';
 
 export const tmsTripStopSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   tripId: z.uuid(),
   status: z.enum(TmsTripStopStatusEnum).nullable(),
   address: z.string(),

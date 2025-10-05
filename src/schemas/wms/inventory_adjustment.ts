@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsInventoryAdjustmentSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   stockId: z.uuid(),
   reason: z.string(),
   quantity: z.coerce.number(),

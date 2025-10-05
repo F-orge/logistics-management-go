@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsGeofenceEventTypeEnum } from '@/db/types';
 
 export const tmsGeofenceEventSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   geofenceId: z.uuid(),
   tripId: z.uuid().nullable(),
   eventType: z.enum(TmsGeofenceEventTypeEnum).nullable(),

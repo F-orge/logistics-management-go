@@ -3,7 +3,7 @@ import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types';
 
 // Zod schema for billing.payment table
 export const billingPaymentSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   amount: z.coerce.number(),
   createdAt: z.iso.datetime().nullable(),
   currency: z.string().nullable(),

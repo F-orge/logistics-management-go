@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsSupplierSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   contactName: z.string().nullable(),
   contactEmail: z.string().nullable(),

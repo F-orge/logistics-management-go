@@ -3,7 +3,7 @@ import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types';
 import { crmInvoiceItemInsertSchema } from './invoice_items';
 
 export const crmInvoiceSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   issueDate: z.iso.datetime().nullable(),
   dueDate: z.iso.datetime().nullable(),
   paidAt: z.iso.datetime().nullable(),

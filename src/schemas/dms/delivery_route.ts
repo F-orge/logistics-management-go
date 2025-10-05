@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { DmsDeliveryRouteStatusEnum } from '@/db/types';
 
 export const dmsDeliveryRouteSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   status: z.enum(DmsDeliveryRouteStatusEnum).nullable(),
   scheduledDate: z.iso.datetime().nullable(),

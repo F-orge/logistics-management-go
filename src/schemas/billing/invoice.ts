@@ -3,7 +3,7 @@ import { BillingInvoiceStatusEnum } from '@/db/types';
 
 // Zod schema for billing.invoice table
 export const billingInvoiceSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   amountOutstanding: z.coerce.number().nullable(),
   amountPaid: z.coerce.number().nullable(),
   clientId: z.uuid(),

@@ -6,7 +6,7 @@ import { tmsProofOfDeliveryInsertSchema } from './proof_of_delivery';
 import { tmsTripStopInsertSchema } from './trip_stop';
 
 export const tmsTripSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   routeId: z.uuid(),
   driverId: z.uuid(),
   vehicleId: z.uuid(),

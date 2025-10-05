@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsPackageSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   shipmentId: z.uuid(),
   trackingNumber: z.string(),
   weight: z.coerce.number(),

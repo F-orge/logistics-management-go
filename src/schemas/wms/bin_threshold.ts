@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsBinThresholdSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   binId: z.uuid(),
   minQuantity: z.coerce.number(),
   maxQuantity: z.coerce.number(),

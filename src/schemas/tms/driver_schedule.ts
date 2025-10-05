@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsDriverScheduleReasonEnum } from '@/db/types';
 
 export const tmsDriverScheduleSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   driverId: z.uuid(),
   startAt: z.iso.datetime().nullable(),
   endAt: z.iso.datetime().nullable(),

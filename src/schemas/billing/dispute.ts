@@ -3,7 +3,7 @@ import { BillingDisputeStatusEnum } from '@/db/types';
 
 // Zod schema for billing.dispute table
 export const billingDisputeSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   clientId: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   disputedAmount: z.coerce.number().nullable(),

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsWarehouseSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   location: z.string(),
   createdAt: z.iso.datetime().nullable(),

@@ -1,9 +1,15 @@
 import { z } from 'zod';
 
 export const crmCampaignSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  budget: z.coerce.number().nullable(),
+  id: z.uuid(),
+  name: z
+    .string()
+    .min(1, { error: 'Campaign name is required' })
+    .max(255, { error: 'Campaign name must be at most 255 characters' }),
+  budget: z.coerce
+    .number()
+    .min(0, { error: 'Budget must be at least 0' })
+    .nullable(),
   startDate: z.iso.datetime().nullable(),
   endDate: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),

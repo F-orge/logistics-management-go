@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsOutboundShipmentSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   referenceNumber: z.string(),
   status: z.string(),
   shippedAt: z.iso.datetime().nullable(),

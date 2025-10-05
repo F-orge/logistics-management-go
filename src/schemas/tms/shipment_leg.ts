@@ -3,7 +3,7 @@ import { TmsShipmentLegStatusEnum } from '@/db/types';
 import { tmsShipmentLegEventInsertSchema } from './shipment_leg_event';
 
 export const tmsShipmentLegSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   tripId: z.uuid(),
   status: z.enum(TmsShipmentLegStatusEnum).nullable(),
   origin: z.string(),

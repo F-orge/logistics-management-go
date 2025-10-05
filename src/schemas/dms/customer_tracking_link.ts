@@ -2,7 +2,7 @@ import { z } from 'zod';
 // Import enums if needed from '@/db/types'
 
 export const dmsCustomerTrackingLinkSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   routeId: z.uuid(),
   token: z.string(),
   expiresAt: z.iso.datetime().nullable(),

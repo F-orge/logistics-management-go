@@ -3,7 +3,7 @@ import { BillingPricingModelEnum } from '@/db/types';
 
 // Zod schema for billing.rate_rule table
 export const billingRateRuleSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   condition: z.string(),
   createdAt: z.iso.datetime().nullable(),
   isActive: z.boolean().nullable(),

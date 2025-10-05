@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsReorderPointSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   productId: z.uuid(),
   locationId: z.uuid(),
   reorderLevel: z.coerce.number(),

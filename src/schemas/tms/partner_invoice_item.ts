@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tmsPartnerInvoiceItemSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   partnerInvoiceId: z.uuid(),
   description: z.string(),
   amount: z.coerce.number(),

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { CrmRecordType } from '@/db/types';
 
 export const crmTaggingSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   recordId: z.uuid(),
   recordType: z.enum(CrmRecordType),
   tagId: z.uuid(),

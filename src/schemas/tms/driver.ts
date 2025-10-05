@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsDriverStatusEnum } from '@/db/types';
 
 export const tmsDriverSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   licenseNumber: z.string().nullable(),
   phone: z.string().nullable(),

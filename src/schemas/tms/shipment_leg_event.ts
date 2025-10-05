@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tmsShipmentLegEventSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   shipmentLegId: z.uuid(),
   event: z.string(),
   eventAt: z.iso.datetime().nullable(),

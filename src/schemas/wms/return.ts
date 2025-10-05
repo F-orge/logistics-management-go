@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsReturnSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   referenceNumber: z.string(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),

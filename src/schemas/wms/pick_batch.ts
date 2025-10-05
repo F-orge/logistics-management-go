@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsPickBatchSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   batchNumber: z.string(),
   status: z.string(),
   createdAt: z.iso.datetime().nullable(),

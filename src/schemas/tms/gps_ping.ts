@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tmsGpsPingSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   tripId: z.uuid(),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),

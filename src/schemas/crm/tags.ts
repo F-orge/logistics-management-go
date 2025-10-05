@@ -1,8 +1,11 @@
 import { z } from 'zod';
 
 export const crmTagSchema = z.object({
-  id: z.string(),
-  name: z.string(),
+  id: z.uuid(),
+  name: z
+    .string()
+    .min(1, { error: 'Tag name is required' })
+    .max(127, { error: 'Tag name must be at most 127 characters' }),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

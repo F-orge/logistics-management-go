@@ -3,7 +3,7 @@ import { BillingSurchargeCalculationMethodEnum } from '@/db/types';
 
 // Zod schema for billing.surcharge table
 export const billingSurchargeSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   amount: z.coerce.number(),
   calculationMethod: z.enum(BillingSurchargeCalculationMethodEnum),
   createdAt: z.iso.datetime().nullable(),

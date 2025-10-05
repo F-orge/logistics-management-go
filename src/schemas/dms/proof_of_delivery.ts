@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { DmsProofOfDeliveryTypeEnum } from '@/db/types';
 
 export const dmsProofOfDeliverySchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   deliveryTaskId: z.uuid(),
   type: z.enum(DmsProofOfDeliveryTypeEnum).nullable(),
   fileUrl: z.string().nullable(),

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsLocationSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   warehouseId: z.uuid(),
   name: z.string(),
   type: z.string(),

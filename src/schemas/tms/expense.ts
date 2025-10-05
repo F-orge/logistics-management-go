@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '@/db/types';
 
 export const tmsExpenseSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   tripId: z.uuid().nullable(),
   type: z.enum(TmsExpenseTypeEnum).nullable(),
   status: z.enum(TmsExpenseStatusEnum).nullable(),

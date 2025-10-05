@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsVehicleServiceTypeEnum, TmsVehicleStatusEnum } from '@/db/types';
 
 export const tmsVehicleSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   plateNumber: z.string(),
   model: z.string().nullable(),
   serviceType: z.enum(TmsVehicleServiceTypeEnum).nullable(),

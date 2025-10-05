@@ -3,7 +3,7 @@ import { BillingDocumentTypeEnum } from '@/db/types';
 
 // Zod schema for billing.document table
 export const billingDocumentSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   documentType: z.enum(BillingDocumentTypeEnum),
   fileName: z.string(),

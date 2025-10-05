@@ -3,7 +3,7 @@ import { BillingSyncStatusEnum } from '@/db/types';
 
 // Zod schema for billing.accounting_sync_log table
 export const billingAccountingSyncLogSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   createdAt: z.iso.datetime().nullable(),
   errorMessage: z.string().nullable(),
   externalId: z.uuid().nullable(),

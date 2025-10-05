@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Zod schema for billing.client_account table
 export const billingClientAccountSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   availableCredit: z.coerce.number().nullable(),
   clientId: z.uuid(),
   createdAt: z.iso.datetime().nullable(),

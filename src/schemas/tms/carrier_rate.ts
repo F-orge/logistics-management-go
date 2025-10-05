@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { TmsCarrierRateUnitEnum, TmsCurrencyEnum } from '@/db/types';
 
 export const tmsCarrierRateSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   carrierId: z.uuid(),
   origin: z.string(),
   destination: z.string(),

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const dmsDriverLocationSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   driverId: z.uuid(),
   latitude: z.coerce.number(),
   longitude: z.coerce.number(),

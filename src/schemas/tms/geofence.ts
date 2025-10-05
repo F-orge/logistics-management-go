@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tmsGeofenceSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   coordinates: z.string(), // GeoJSON or WKT as string
   createdAt: z.iso.datetime().nullable(),

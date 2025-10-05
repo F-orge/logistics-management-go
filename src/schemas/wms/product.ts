@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const wmsProductSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   sku: z.string(),
   status: z.string(),
