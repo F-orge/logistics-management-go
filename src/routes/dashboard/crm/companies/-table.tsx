@@ -1,136 +1,315 @@
 import { useRouter } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
-import React from 'react';
 import { toast } from 'sonner';
 import { editCompany, type selectCompanies } from '@/actions/crm/companies';
-import { useAppForm } from '@/components/form';
-import EditTextDialog from '@/components/form/components/text-dialog';
 import TextCell from '@/components/ui/kibo-ui/table/cells/text';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
+import NumberCell from '@/components/ui/kibo-ui/table/cells/number';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCompanies>>[number]
 >[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => <TableColumnHeader column={column} title="Name" />,
     cell: ({ row }) => {
-      const [editState, setEditState] = React.useState<boolean>(false);
       const router = useRouter();
 
-      const form = useAppForm({
-        defaultValues: { name: row.original.name },
-        onSubmit: async ({ value }) =>
-          value.name !== row.original.name &&
-          toast.promise(
-            editCompany({ data: { id: row.original.id, payload: value } }),
-            {
-              success: async () => {
-                await router.invalidate();
-                return {
-                  message: 'Update success',
-                  description: 'Company name updated succesfully',
-                };
-              },
-            },
-          ),
-      });
-
       return (
-        <>
-          <TextCell
-            value={row.original.name}
-            onDoubleClick={() => setEditState(true)}
-          />
-          <EditTextDialog
-            onSave={() => form.handleSubmit()}
-            form={form}
-            name="name"
-            defaultOpen={editState}
-            title="Edit Company name"
-            description="Edit company information"
-            onOpenChange={(open) => setEditState(open)}
-          />
-        </>
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company name"
+          dialogDescription="Edit Company information"
+          value={row.original.name}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { name: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Name updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
       );
     },
   },
   {
     accessorKey: 'industry',
-    header: 'Industry',
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Industry" />
+    ),
     cell: ({ row }) => {
-      const [editState, setEditState] = React.useState<boolean>(false);
       const router = useRouter();
 
-      const form = useAppForm({
-        defaultValues: { industry: row.original.industry },
-        onSubmit: async ({ value }) =>
-          value.industry !== row.original.industry &&
-          toast.promise(
-            editCompany({ data: { id: row.original.id, payload: value } }),
-            {
-              success: async () => {
-                await router.invalidate();
-                return {
-                  message: 'Update success',
-                  description: 'Company industry updated succesfully',
-                };
-              },
-            },
-          ),
-      });
-
       return (
-        <>
-          <TextCell
-            value={row.original.industry}
-            onDoubleClick={() => setEditState(true)}
-          />
-          <EditTextDialog
-            onSave={() => form.handleSubmit()}
-            form={form}
-            name="industry"
-            defaultOpen={editState}
-            title="Edit Company Industry"
-            description="Edit company information"
-            onOpenChange={(open) => setEditState(open)}
-          />
-        </>
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company Industry"
+          dialogDescription="Edit Company information"
+          value={row.original.industry ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { industry: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company industry updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
       );
     },
   },
   {
     accessorKey: 'phoneNumber',
-    header: 'Phone Number',
-    cell: ({ row }) => <TextCell value={row.original.phoneNumber} />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Phone Number" />
+    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company Phone Number"
+          dialogDescription="Edit Company information"
+          value={row.original.phoneNumber ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { phoneNumber: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Phone Number updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'annualRevenue',
-    header: 'Annual Revenue',
-    cell: ({ row }) => <TextCell value={row.original.annualRevenue} />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Annual Revenue" />
+    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <NumberCell
+          key={row.original.id}
+          dialogTitle="Edit Company Annual Revenue"
+          dialogDescription="Edit Company information"
+          value={Number(row.original.annualRevenue)}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: {
+                  id: row.original.id,
+                  payload: { annualRevenue: value },
+                },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Annual Revenue updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'postalCode',
-    header: 'Postal Code',
-    cell: ({ row }) => <TextCell value={row.original.postalCode} />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Postal Code" />
+    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company Postal Code"
+          dialogDescription="Edit Company information"
+          value={row.original.postalCode ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { postalCode: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Postal Code updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'street',
-    header: 'Street',
-    cell: ({ row }) => <TextCell value={row.original.street} />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Street" />
+    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company Street"
+          dialogDescription="Edit Company information"
+          value={row.original.street ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { street: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Street updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'city',
-    header: 'City',
-    cell: ({ row }) => <TextCell value={row.original.city} />,
+    header: ({ column }) => <TableColumnHeader column={column} title="City" />,
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company City"
+          dialogDescription="Edit Company information"
+          value={row.original.city ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { city: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company City updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'state',
-    header: 'State',
-    cell: ({ row }) => <TextCell value={row.original.state} />,
+    header: ({ column }) => <TableColumnHeader column={column} title="State" />,
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company State"
+          dialogDescription="Edit Company information"
+          value={row.original.state ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { state: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company State updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
   {
     accessorKey: 'country',
-    header: 'Country',
-    cell: ({ row }) => <TextCell value={row.original.country} />,
+    header: ({ column }) => (
+      <TableColumnHeader column={column} title="Country" />
+    ),
+    cell: ({ row }) => {
+      const router = useRouter();
+
+      return (
+        <TextCell
+          key={row.original.id}
+          dialogTitle="Edit Company Country"
+          dialogDescription="Edit Company information"
+          value={row.original.country ?? 'Not Available'}
+          onSubmit={async (value) =>
+            toast.promise(
+              editCompany({
+                data: { id: row.original.id, payload: { country: value } },
+              }),
+              {
+                success: async () => {
+                  await router.invalidate();
+                  return {
+                    message: 'Update success',
+                    description: 'Company Country updated succesfully',
+                  };
+                },
+              },
+            )
+          }
+        />
+      );
+    },
   },
 ];

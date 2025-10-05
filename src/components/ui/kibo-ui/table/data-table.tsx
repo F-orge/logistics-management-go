@@ -28,7 +28,7 @@ export function DataTable<TData, TValue>(
     onNextPage?: () => void;
     onPrevPage?: () => void;
     contextComponent?: (row: Row<TData>) => React.ReactNode;
-    dialogComponent?: (row: Row<TData>) => React.ReactNode;
+    children?: (row: Row<TData>) => React.ReactNode;
   },
 ) {
   return (
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>(
                   {props.contextComponent?.(row as Row<TData>)}
                 </ContextMenuContent>
               </ContextMenu>
-              {props.dialogComponent?.(row as Row<TData>)}
+              {props.children?.(row as Row<TData>)}
             </React.Fragment>
           )}
         </TableBody>

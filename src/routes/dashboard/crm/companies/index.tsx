@@ -11,13 +11,16 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
 import DataTable from '@/components/ui/kibo-ui/table/data-table';
-import { selectSchema } from '@/lib/utils';
+import { selectClientQueryValidator } from '@/lib/utils';
 import NewCrmCompanyRecord from './-new';
 import { columns } from './-table';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
+  ssr: false,
   component: RouteComponent,
-  validateSearch: zodValidator(selectSchema(z.object({}).keyof())),
+  validateSearch: zodValidator(
+    selectClientQueryValidator(z.object({}).keyof()),
+  ),
   beforeLoad: ({ search }) => ({ search }),
   loader: ({ context }) => selectCompanies({ data: context.search }),
 });
@@ -75,7 +78,8 @@ function RouteComponent() {
               </ContextMenuItem>
             </>
           )}
-          dialogComponent={(row) => (
+        >
+          {(row) => (
             <DeleteRecord
               title="Deleting record"
               description={`Are you sure you want to delete this record ${row.original.name}`}
@@ -106,7 +110,7 @@ function RouteComponent() {
               }
             />
           )}
-        />
+        </DataTable>
       </section>
       <section>
         <NewCrmCompanyRecord />

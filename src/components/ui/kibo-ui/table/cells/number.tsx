@@ -14,7 +14,7 @@ import { FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-function TextCell({
+function NumberCell({
   value,
   className,
   dialogTitle,
@@ -22,32 +22,33 @@ function TextCell({
   inputLabel,
   inputDescription,
   onSubmit,
-  truncateAfter = 20,
+  decimalPlace = 2,
   ...props
 }: {
-  value: string;
+  value: number;
   dialogTitle?: React.ReactNode;
   dialogDescription?: React.ReactNode;
   inputLabel?: React.ReactNode;
   inputDescription?: React.ReactNode;
-  onSubmit?: (value: string) => Promise<unknown> | unknown;
-  truncateAfter?: number;
+  onSubmit?: (value: number) => Promise<unknown> | unknown;
+  decimalPlace?: number;
 } & React.ComponentProps<'div'>) {
   const [open, setOpen] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState<string>(value);
+  const [inputValue, setInputValue] = React.useState<number>(value);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div
         role="cell"
-        className={cn(onSubmit && 'cursor-pointer', className)}
+        className={cn('cursor-pointer', className)}
         aria-label={typeof value === 'string' ? value : undefined}
         onDoubleClick={() => setOpen(true)}
         {...props}
       >
-        {truncateAfter && value.length > truncateAfter
-          ? value.slice(0, truncateAfter) + '…'
-          : value}
+        {Number(value).toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: decimalPlace,
+        })}
       </div>
       <DialogContent>
         <DialogHeader>
@@ -59,7 +60,7 @@ function TextCell({
             <FieldLabel htmlFor="">{inputLabel}</FieldLabel>
             <Input
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => setInputValue(Number(e.target.value))}
             />
           </FieldGroup>
         </FieldSet>
@@ -73,4 +74,4 @@ function TextCell({
   );
 }
 
-export default TextCell;
+export default NumberCell;

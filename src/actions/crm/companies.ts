@@ -1,5 +1,10 @@
 import { createServerFn } from '@tanstack/react-start';
-import { DrizzleError, DrizzleQueryError, eq } from 'drizzle-orm';
+import {
+  DrizzleError,
+  DrizzleQueryError,
+  eq,
+  getTableColumns,
+} from 'drizzle-orm';
 import z from 'zod';
 import { db } from '@/db';
 import { crmCompanies } from '@/db/schemas';
@@ -7,17 +12,32 @@ import {
   selectCompanySchema,
   updateCompanySchema,
 } from '@/db/schemas/crm/companies';
-import { selectSchema } from '@/lib/utils';
+import {
+  drizzleZodTransformer,
+  selectServerQueryValidator,
+  toDrizzleFields,
+} from '@/lib/server-utils';
 
 export const selectCompanies = createServerFn({ method: 'GET' })
-  .inputValidator(selectSchema(selectCompanySchema.keyof()))
+  .inputValidator(selectServerQueryValidator(crmCompanies))
   .handler(async ({ context, data }) => {
-    return await db
-      .select()
+    // Determine selected fields in a type-safe way
+    const fields = toDrizzleFields(crmCompanies, data.fields);
+
+    // Build the base query with selected fields (or all if none specified)
+    let query = db
+      .select(fields || getTableColumns(crmCompanies))
       .from(crmCompanies)
-      .limit(data.perPage)
-      .offset((data.page - 1) * data.perPage)
-      .execute();
+      .$dynamic();
+
+    // Apply Zod validation and transformation (type-safe)
+    query = drizzleZodTransformer(query, data);
+
+    // Add pagination in a type-safe manner
+    query = query.limit(data.perPage).offset((data.page - 1) * data.perPage);
+
+    // Execute and return results, inferring the correct type from Drizzle
+    return await query.execute();
   });
 
 export const editCompany = createServerFn({ method: 'POST' })
