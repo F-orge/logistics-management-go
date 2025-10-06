@@ -1,23 +1,24 @@
 import { z } from 'zod';
 
 export const crmNotificationSchema = z.object({
-  id: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
   userId: z
-    .string()
-    .min(1, { error: 'User ID is required' })
-    .max(255, { error: 'User ID must be at most 255 characters' }),
+    .string({ message: 'User ID must be a string' })
+    .min(1, { message: 'User ID is required' })
+    .max(255, { message: 'User ID must be at most 255 characters' }),
   message: z
-    .string()
-    .min(1, { error: 'Message is required' })
-    .max(1024, { error: 'Message must be at most 1024 characters' }),
+    .string({ message: 'Message must be a string' })
+    .min(1, { message: 'Message is required' })
+    .max(1024, { message: 'Message must be at most 1024 characters' }),
   link: z
-    .url()
-    .min(1, { error: 'Link is required' })
-    .max(1024, { error: 'Link must be at most 1024 characters' })
+    .string({ message: 'Link must be a string' })
+    .url({ message: 'Invalid URL format for link' })
+    .min(1, { message: 'Link is required' })
+    .max(1024, { message: 'Link must be at most 1024 characters' })
     .nullable(),
-  isRead: z.boolean().nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  isRead: z.boolean({ message: 'Is read must be a boolean' }).nullable(),
+  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
+  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
 });
 
 export type CrmNotification = z.infer<typeof crmNotificationSchema>;

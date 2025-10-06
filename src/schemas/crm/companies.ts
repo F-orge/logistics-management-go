@@ -3,66 +3,66 @@ import { z } from 'zod';
 // Zod schema for crm.companies table
 
 export const crmCompanySchema = z.object({
-  id: z
-    .string()
-    .min(1, { error: 'ID is required' })
-    .max(255, { error: 'ID must be at most 255 characters' }),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
   name: z
-    .string()
-    .min(1, { error: 'Company name is required' })
-    .max(255, { error: 'Company name must be at most 255 characters' }),
+    .string({ message: 'Company name must be a string' })
+    .min(1, { message: 'Company name is required' })
+    .max(255, { message: 'Company name must be at most 255 characters' }),
   ownerId: z
-    .string()
-    .min(1, { error: 'Owner ID is required' })
-    .max(255, { error: 'Owner ID must be at most 255 characters' })
+    .string({ message: 'Owner ID must be a string' })
+    .min(1, { message: 'Owner ID is required' })
+    .max(255, { message: 'Owner ID must be at most 255 characters' })
     .nullable(),
-  annualRevenue: z
-    .string()
-    .min(1, { error: 'Annual revenue is required' })
-    .max(32, { error: 'Annual revenue must be at most 32 characters' })
-    .nullable(), // Numeric is string in Kysely
+  annualRevenue: z.coerce
+    .number({ message: 'Annual revenue must be a number' })
+    .min(0, { message: 'Annual revenue must be at least 0' })
+    .nullable(),
   city: z
-    .string()
-    .min(1, { error: 'City is required' })
-    .max(127, { error: 'City must be at most 127 characters' })
+    .string({ message: 'City must be a string' })
+    .min(1, { message: 'City is required' })
+    .max(127, { message: 'City must be at most 127 characters' })
     .nullable(),
   country: z
-    .string()
-    .min(1, { error: 'Country is required' })
-    .max(127, { error: 'Country must be at most 127 characters' })
+    .string({ message: 'Country must be a string' })
+    .min(1, { message: 'Country is required' })
+    .max(127, { message: 'Country must be at most 127 characters' })
     .nullable(),
   industry: z
-    .string()
-    .min(1, { error: 'Industry is required' })
-    .max(127, { error: 'Industry must be at most 127 characters' })
+    .string({ message: 'Industry must be a string' })
+    .min(1, { message: 'Industry is required' })
+    .max(127, { message: 'Industry must be at most 127 characters' })
     .nullable(),
   phoneNumber: z
-    .e164()
-    .min(1, { error: 'Phone number is required' })
-    .max(32, { error: 'Phone number must be at most 32 characters' })
+    .e164({ message: 'Invalid phone number format' })
+    .min(1, { message: 'Phone number is required' })
+    .max(32, { message: 'Phone number must be at most 32 characters' })
     .nullable(),
   postalCode: z
-    .string()
-    .min(1, { error: 'Postal code is required' })
-    .max(32, { error: 'Postal code must be at most 32 characters' })
+    .string({ message: 'Postal code must be a string' })
+    .min(1, { message: 'Postal code is required' })
+    .max(32, { message: 'Postal code must be at most 32 characters' })
     .nullable(),
   state: z
-    .string()
-    .min(1, { error: 'State is required' })
-    .max(127, { error: 'State must be at most 127 characters' })
+    .string({ message: 'State must be a string' })
+    .min(1, { message: 'State is required' })
+    .max(127, { message: 'State must be at most 127 characters' })
     .nullable(),
   street: z
-    .string()
-    .min(1, { error: 'Street is required' })
-    .max(255, { error: 'Street must be at most 255 characters' })
+    .string({ message: 'Street must be a string' })
+    .min(1, { message: 'Street is required' })
+    .max(255, { message: 'Street must be at most 255 characters' })
     .nullable(),
   website: z
-    .string()
-    .min(1, { error: 'Website is required' })
-    .max(255, { error: 'Website must be at most 255 characters' })
+    .url({ message: 'Invalid URL format for website' })
+    .min(1, { message: 'Website is required' })
+    .max(255, { message: 'Website must be at most 255 characters' })
     .nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmCompany = z.infer<typeof crmCompanySchema>;

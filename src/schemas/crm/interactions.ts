@@ -2,30 +2,27 @@ import { z } from 'zod';
 import { CrmInteractionType } from '@/db/types';
 
 export const crmInteractionSchema = z.object({
-  id: z
-    .string()
-    .min(1, { error: 'ID is required' })
-    .max(255, { error: 'ID must be at most 255 characters' }),
-  contactId: z.uuid(),
-  caseId: z.uuid().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  contactId: z.uuid({ message: 'Invalid UUID format for contact ID' }),
+  caseId: z.uuid({ message: 'Invalid UUID format for case ID' }).nullable(),
   userId: z
-    .string()
-    .min(1, { error: 'User ID is required' })
-    .max(255, { error: 'User ID must be at most 255 characters' }),
-  type: z.enum(CrmInteractionType).nullable(),
-  interactionDate: z.iso.datetime().nullable(),
+    .string({ message: 'User ID must be a string' })
+    .min(1, { message: 'User ID is required' })
+    .max(255, { message: 'User ID must be at most 255 characters' }),
+  type: z.enum(CrmInteractionType, { message: 'Invalid interaction type' }).nullable(),
+  interactionDate: z.iso.datetime({ message: 'Invalid ISO datetime format for interaction date' }).nullable(),
   notes: z
-    .string()
-    .min(1, { error: 'Notes are required' })
-    .max(1024, { error: 'Notes must be at most 1024 characters' })
+    .string({ message: 'Notes must be a string' })
+    .min(1, { message: 'Notes are required' })
+    .max(1024, { message: 'Notes must be at most 1024 characters' })
     .nullable(),
   outcome: z
-    .string()
-    .min(1, { error: 'Outcome is required' })
-    .max(255, { error: 'Outcome must be at most 255 characters' })
+    .string({ message: 'Outcome must be a string' })
+    .min(1, { message: 'Outcome is required' })
+    .max(255, { message: 'Outcome must be at most 255 characters' })
     .nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
+  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
 });
 
 export type CrmInteraction = z.infer<typeof crmInteractionSchema>;

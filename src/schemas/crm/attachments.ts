@@ -2,24 +2,24 @@ import { z } from 'zod';
 import { CrmRecordType } from '@/db/types';
 
 export const crmAttachmentSchema = z.object({
-  id: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
   fileName: z
-    .string()
-    .min(1, { error: 'File name is required' })
-    .max(255, { error: 'File name must be at most 255 characters' }),
+    .string({ message: 'File name must be a string' })
+    .min(1, { message: 'File name is required' })
+    .max(255, { message: 'File name must be at most 255 characters' }),
   filePath: z
-    .string()
-    .min(1, { error: 'File path is required' })
-    .max(1024, { error: 'File path must be at most 1024 characters' }),
+    .string({ message: 'File path must be a string' })
+    .min(1, { message: 'File path is required' })
+    .max(1024, { message: 'File path must be at most 1024 characters' }),
   mimeType: z
-    .string()
-    .min(1, { error: 'MIME type is required' })
-    .max(127, { error: 'MIME type must be at most 127 characters' })
+    .string({ message: 'MIME type must be a string' })
+    .min(1, { message: 'MIME type is required' })
+    .max(127, { message: 'MIME type must be at most 127 characters' })
     .nullable(),
-  recordId: z.uuid().nullable(),
-  recordType: z.enum(CrmRecordType).nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  recordId: z.string({ message: 'Record ID must be a string' }).nullable(),
+  recordType: z.enum(CrmRecordType, { message: 'Invalid CRM record type' }).nullable(),
+  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
+  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
 });
 
 export type CrmAttachment = z.infer<typeof crmAttachmentSchema>;

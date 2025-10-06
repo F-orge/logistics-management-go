@@ -1,35 +1,33 @@
 import { z } from 'zod';
 
 export const crmContactSchema = z.object({
-  id: z
-    .string()
-    .min(1, { error: 'ID is required' })
-    .max(255, { error: 'ID must be at most 255 characters' }),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
   name: z
-    .string()
-    .min(1, { error: 'Name is required' })
-    .max(255, { error: 'Name must be at most 255 characters' }),
+    .string({ message: 'Name must be a string' })
+    .min(1, { message: 'Name is required' })
+    .max(255, { message: 'Name must be at most 255 characters' }),
   email: z
-    .email()
-    .min(1, { error: 'Email is required' })
-    .max(255, { error: 'Email must be at most 255 characters' }),
-  companyId: z.uuid().nullable(),
+    .string({ message: 'Email must be a string' })
+    .email({ message: 'Invalid email format' })
+    .min(1, { message: 'Email is required' })
+    .max(255, { message: 'Email must be at most 255 characters' }),
+  companyId: z.uuid({ message: 'Invalid UUID format for company ID' }).nullable(),
   jobTitle: z
-    .string()
-    .min(1, { error: 'Job title is required' })
-    .max(127, { error: 'Job title must be at most 127 characters' })
+    .string({ message: 'Job title must be a string' })
+    .min(1, { message: 'Job title is required' })
+    .max(127, { message: 'Job title must be at most 127 characters' })
     .nullable(),
   ownerId: z
-    .string()
-    .min(1, { error: 'Owner ID is required' })
-    .max(255, { error: 'Owner ID must be at most 255 characters' }),
+    .string({ message: 'Owner ID must be a string' })
+    .min(1, { message: 'Owner ID is required' })
+    .max(255, { message: 'Owner ID must be at most 255 characters' }),
   phoneNumber: z
-    .e164()
-    .min(1, { error: 'Phone number is required' })
-    .max(32, { error: 'Phone number must be at most 32 characters' })
+    .e164({ message: 'Invalid phone number format' })
+    .min(1, { message: 'Phone number is required' })
+    .max(32, { message: 'Phone number must be at most 32 characters' })
     .nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
+  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
 });
 
 export type CrmContact = z.infer<typeof crmContactSchema>;
