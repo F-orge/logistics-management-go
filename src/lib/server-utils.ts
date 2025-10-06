@@ -58,3 +58,20 @@ export const selectServerQueryValidator = createServerOnlyFn(
     });
   },
 );
+
+export function selectQueryParams<T extends z.ZodObject>(schema: T) {
+  return z.object({
+    page: z.number().min(1).default(1).catch(1),
+    perPage: z.number().min(10).default(10).catch(10),
+    sort: z
+      .array(
+        z.object({
+          field: schema.keyof(),
+          order: z.enum(['asc', 'desc']),
+        }),
+      )
+      .optional(),
+    fields: z.array(schema.keyof()).optional(),
+    search: z.string().optional(),
+  });
+}

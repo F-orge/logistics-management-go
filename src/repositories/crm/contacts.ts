@@ -24,13 +24,8 @@ export class CrmContactRepository {
     let builder = this.db
       .selectFrom('crm.contacts')
       .limit(perPage)
-      .offset((page - 1) * perPage);
-
-    if (fields) {
-      builder = builder.select(fields);
-    } else {
-      builder = builder.selectAll();
-    }
+      .offset((page - 1) * perPage)
+      .selectAll();
 
     // sort
     for (const field of sort || []) {
