@@ -1,9 +1,12 @@
 import { kyselyDb } from '@/db';
-import { insertCompanySchema, updateCompanySchema } from '@/db/schemas';
 import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmCompanyRepository } from '@/repositories/crm/companies';
-import { crmCompanySchema } from '@/schemas/crm/companies';
+import {
+  crmCompanySchema,
+  crmCompanyInsertSchema,
+  crmCompanyUpdateSchema,
+} from '@/schemas/crm/companies';
 import { createServerFn } from '@tanstack/react-start';
 import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
 import z from 'zod';
@@ -32,7 +35,7 @@ export const selectCrmCompany = createServerFn({ method: 'GET' })
 export const createCrmCompany = createServerFn({
   method: 'POST',
 })
-  .inputValidator(insertCompanySchema)
+  .inputValidator(crmCompanyInsertSchema)
   .handler(async ({ data }) => {
     const companyRepository = new CrmCompanyRepository(kyselyDb);
 
@@ -44,7 +47,7 @@ export const createCrmCompany = createServerFn({
 export const updateCrmCompany = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: updateCompanySchema }))
+  .inputValidator(z.object({ id: z.uuid(), value: crmCompanyUpdateSchema }))
   .handler(async ({ data }) => {
     const companyRepository = new CrmCompanyRepository(kyselyDb);
 
