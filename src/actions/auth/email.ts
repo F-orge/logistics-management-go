@@ -3,16 +3,16 @@ import z from 'zod';
 import { auth } from '@/lib/auth';
 import { requestMiddleware } from '@/middleware/request';
 
+export const AuthSignUpInput = z.object({
+  name: z.string(),
+  email: z.email(),
+  password: z.string().min(8).max(128),
+  image: z.url().optional(),
+  callbackURL: z.url().optional(),
+});
+
 export const authSignUpEmail = createServerFn({ method: 'POST' })
-  .inputValidator(
-    z.object({
-      name: z.string(),
-      email: z.email(),
-      password: z.string().min(8).max(128),
-      image: z.url().optional(),
-      callbackURL: z.url().optional(),
-    }),
-  )
+  .inputValidator(AuthSignUpInput)
   .handler(async ({ data }) => auth.api.signUpEmail({ body: data }));
 
 export const authSignInEmail = createServerFn({ method: 'POST' })
