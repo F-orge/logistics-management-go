@@ -2,19 +2,31 @@ import { z } from 'zod';
 
 export const wmsPackageSchema = z.object({
   id: z.uuid(),
-  shipmentId: z.uuid(),
+  salesOrderId: z.uuid(),
+  warehouseId: z.uuid(),
+  packageNumber: z
+    .string()
+    .min(1, { error: 'Package number is required' })
+    .max(64, { error: 'Package number must be at most 64 characters' }),
   trackingNumber: z
     .string()
-    .min(1, { error: 'Tracking number is required' })
-    .max(64, { error: 'Tracking number must be at most 64 characters' }),
-  weight: z
-    .number()
-    .min(0, { error: 'Weight must be at least 0' })
-    .max(100000, { error: 'Weight must be at most 100,000' }),
-  status: z
-    .string()
-    .min(1, { error: 'Status is required' })
-    .max(32, { error: 'Status must be at most 32 characters' }),
+    .nullable()
+    .optional(),
+  carrier: z.string().nullable().optional(),
+  serviceLevel: z.string().nullable().optional(),
+  packageType: z.string().nullable().optional(),
+  weight: z.number().nullable().optional(),
+  length: z.number().nullable().optional(),
+  width: z.number().nullable().optional(),
+  height: z.number().nullable().optional(),
+  volume: z.number().nullable().optional(),
+  insuranceValue: z.number().nullable().optional(),
+  isFragile: z.boolean().nullable().optional(),
+  isHazmat: z.boolean().nullable().optional(),
+  requiresSignature: z.boolean().nullable().optional(),
+  packedAt: z.iso.datetime().nullable().optional(),
+  packedByUserId: z.uuid().nullable().optional(),
+  shippedAt: z.iso.datetime().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

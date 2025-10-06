@@ -3,13 +3,11 @@ import { WmsOutboundShipmentStatusEnum } from '@/db/types';
 
 export const wmsOutboundShipmentSchema = z.object({
   id: z.uuid(),
-  referenceNumber: z
-    .string()
-    .min(1, { error: 'Reference number is required' })
-    .max(64, { error: 'Reference number must be at most 64 characters' }),
+  salesOrderId: z.uuid(),
+  warehouseId: z.uuid(),
   status: z.enum(WmsOutboundShipmentStatusEnum).nullable(),
-  shippedAt: z.iso.datetime().nullable(),
-  deliveredAt: z.iso.datetime().nullable(),
+  carrier: z.string().nullable().optional(),
+  trackingNumber: z.string().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

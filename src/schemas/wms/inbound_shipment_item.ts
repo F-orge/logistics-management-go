@@ -2,23 +2,19 @@ import { z } from 'zod';
 
 export const wmsInboundShipmentItemSchema = z.object({
   id: z.uuid(),
-  inboundShipmentId: z
-    .string()
-    .min(1, { error: 'Inbound shipment ID is required' })
-    .max(255, { error: 'Inbound shipment ID must be at most 255 characters' }),
-  productId: z
-    .string()
-    .min(1, { error: 'Product ID is required' })
-    .max(255, { error: 'Product ID must be at most 255 characters' }),
-  quantity: z
+  inboundShipmentId: z.uuid(),
+  productId: z.uuid(),
+  expectedQuantity: z
     .number()
-    .min(0, { error: 'Quantity must be at least 0' })
-    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
+    .min(0, { error: 'Expected quantity must be at least 0' })
+    .max(1000000, { error: 'Expected quantity must be at most 1,000,000' }),
   receivedQuantity: z
     .number()
     .min(0, { error: 'Received quantity must be at least 0' })
     .max(1000000, { error: 'Received quantity must be at most 1,000,000' })
     .nullable(),
+  discrepancyNotes: z.string().nullable().optional(),
+  discrepancyQuantity: z.number().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

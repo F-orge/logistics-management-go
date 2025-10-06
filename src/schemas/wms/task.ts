@@ -3,15 +3,22 @@ import { WmsTaskStatusEnum, WmsTaskTypeEnum } from '@/db/types';
 
 export const wmsTaskSchema = z.object({
   id: z.uuid(),
-  assignedTo: z
-    .string()
-    .min(1, { error: 'Assigned to is required' })
-    .max(255, { error: 'Assigned to must be at most 255 characters' })
-    .nullable(),
+  warehouseId: z.uuid(),
+  taskNumber: z.string().min(1, { error: 'Task number is required' }).max(64, { error: 'Task number must be at most 64 characters' }),
+  type: z.enum(WmsTaskTypeEnum),
   status: z.enum(WmsTaskStatusEnum).nullable(),
-  type: z.enum(WmsTaskTypeEnum).nullable(),
-  dueAt: z.iso.datetime().nullable(),
-  completedAt: z.iso.datetime().nullable(),
+  userId: z.uuid().nullable().optional(),
+  pickBatchId: z.uuid().nullable().optional(),
+  priority: z.number().nullable().optional(),
+  instructions: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
+  sourceEntityId: z.uuid().nullable().optional(),
+  sourceEntityType: z.string().nullable().optional(),
+  estimatedDuration: z.number().nullable().optional(),
+  actualDuration: z.number().nullable().optional(),
+  durationSeconds: z.number().nullable().optional(),
+  startTime: z.iso.datetime().nullable().optional(),
+  endTime: z.iso.datetime().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

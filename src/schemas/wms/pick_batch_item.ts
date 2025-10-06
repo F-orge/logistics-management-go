@@ -3,11 +3,10 @@ import { z } from 'zod';
 export const wmsPickBatchItemSchema = z.object({
   id: z.uuid(),
   pickBatchId: z.uuid(),
-  productId: z.uuid(),
-  quantity: z
-    .number()
-    .min(0, { error: 'Quantity must be at least 0' })
-    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
+  salesOrderId: z.uuid(),
+  orderPriority: z.number().nullable().optional(),
+  estimatedPickTime: z.number().nullable().optional(),
+  actualPickTime: z.number().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

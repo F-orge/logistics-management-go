@@ -12,6 +12,16 @@ export const wmsProductSchema = z.object({
     .min(1, { error: 'SKU is required' })
     .max(64, { error: 'SKU must be at most 64 characters' }),
   status: z.enum(WmsProductStatusEnum).nullable(),
+  barcode: z.string().nullable().optional(),
+  clientId: z.uuid().nullable().optional(),
+  costPrice: z.number().nullable().optional(),
+  description: z.string().nullable().optional(),
+  height: z.number().nullable().optional(),
+  length: z.number().nullable().optional(),
+  supplierId: z.uuid().nullable().optional(),
+  volume: z.number().nullable().optional(),
+  weight: z.number().nullable().optional(),
+  width: z.number().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

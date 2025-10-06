@@ -3,11 +3,14 @@ import { WmsReturnStatusEnum } from '@/db/types';
 
 export const wmsReturnSchema = z.object({
   id: z.uuid(),
-  referenceNumber: z
+  clientId: z.uuid(),
+  returnNumber: z
     .string()
-    .min(1, { error: 'Reference number is required' })
-    .max(64, { error: 'Reference number must be at most 64 characters' }),
+    .min(1, { error: 'Return number is required' })
+    .max(64, { error: 'Return number must be at most 64 characters' }),
+  salesOrderId: z.uuid().nullable().optional(),
   status: z.enum(WmsReturnStatusEnum).nullable(),
+  reason: z.string().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

@@ -6,20 +6,20 @@ export const wmsSupplierSchema = z.object({
     .string()
     .min(1, { error: 'Name is required' })
     .max(255, { error: 'Name must be at most 255 characters' }),
-  contactName: z
+  contactPerson: z
     .string()
-    .min(1, { error: 'Contact name is required' })
-    .max(255, { error: 'Contact name must be at most 255 characters' })
+    .min(1, { error: 'Contact person is required' })
+    .max(255, { error: 'Contact person must be at most 255 characters' })
     .nullable(),
-  contactEmail: z
+  email: z
     .string()
-    .min(1, { error: 'Contact email is required' })
-    .max(255, { error: 'Contact email must be at most 255 characters' })
+    .min(1, { error: 'Email is required' })
+    .max(255, { error: 'Email must be at most 255 characters' })
     .nullable(),
-  contactPhone: z
+  phoneNumber: z
     .string()
-    .min(1, { error: 'Contact phone is required' })
-    .max(32, { error: 'Contact phone must be at most 32 characters' })
+    .min(1, { error: 'Phone number is required' })
+    .max(32, { error: 'Phone number must be at most 32 characters' })
     .nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),

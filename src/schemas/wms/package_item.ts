@@ -8,6 +8,12 @@ export const wmsPackageItemSchema = z.object({
     .number()
     .min(0, { error: 'Quantity must be at least 0' })
     .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
+  batchId: z.uuid().nullable().optional(),
+  expiryDate: z.iso.datetime().nullable().optional(),
+  lotNumber: z.string().nullable().optional(),
+  serialNumbers: z.array(z.string()).nullable().optional(),
+  totalWeight: z.number().nullable().optional(),
+  unitWeight: z.number().nullable().optional(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
