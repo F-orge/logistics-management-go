@@ -1,3 +1,4 @@
+import React from 'react';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
@@ -5,7 +6,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import React from 'react';
 
 export type StringCellProps = {
   value: string;
