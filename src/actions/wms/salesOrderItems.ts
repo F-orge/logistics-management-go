@@ -39,7 +39,9 @@ export const createWmsSalesOrderItem = createServerFn({
   .handler(async ({ data }) => {
     const salesOrderItemRepository = new WmsSalesOrderItemRepository(kyselyDb);
 
-    const result = await salesOrderItemRepository.create(data).executeTakeFirst();
+    const result = await salesOrderItemRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsSalesOrderItemSchema.parseAsync(result);
   });
@@ -47,7 +49,9 @@ export const createWmsSalesOrderItem = createServerFn({
 export const updateWmsSalesOrderItem = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsSalesOrderItemUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsSalesOrderItemUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const salesOrderItemRepository = new WmsSalesOrderItemRepository(kyselyDb);
 
@@ -65,7 +69,9 @@ export const removeWmsSalesOrderItem = createServerFn({
   .handler(async ({ data }) => {
     const salesOrderItemRepository = new WmsSalesOrderItemRepository(kyselyDb);
 
-    const result = await salesOrderItemRepository.delete(data.id).executeTakeFirst();
+    const result = await salesOrderItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

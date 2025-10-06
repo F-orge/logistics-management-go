@@ -2,13 +2,19 @@ import { z } from 'zod';
 import { TmsGeofenceEventTypeEnum } from '@/db/types';
 
 export const tmsGeofenceEventSchema = z.object({
-  id: z.uuid(),
-  vehicleId: z.uuid(),
-  geofenceId: z.uuid(),
-  eventType: z.enum(TmsGeofenceEventTypeEnum),
-  timestamp: z.iso.datetime(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  vehicleId: z.uuid({ message: 'Invalid UUID format for vehicle ID' }),
+  geofenceId: z.uuid({ message: 'Invalid UUID format for geofence ID' }),
+  eventType: z.enum(TmsGeofenceEventTypeEnum, {
+    message: 'Invalid geofence event type',
+  }),
+  timestamp: z.iso.datetime({ message: 'Invalid date format for timestamp' }),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type TmsGeofenceEvent = z.infer<typeof tmsGeofenceEventSchema>;

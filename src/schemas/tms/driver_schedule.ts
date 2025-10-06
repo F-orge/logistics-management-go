@@ -2,13 +2,21 @@ import { z } from 'zod';
 import { TmsDriverScheduleReasonEnum } from '@/db/types';
 
 export const tmsDriverScheduleSchema = z.object({
-  id: z.uuid(),
-  driverId: z.uuid(),
-  startDate: z.iso.datetime(),
-  endDate: z.iso.datetime(),
-  reason: z.enum(TmsDriverScheduleReasonEnum).nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  driverId: z.uuid({ message: 'Invalid UUID format for driver ID' }),
+  startDate: z.iso.datetime({ message: 'Invalid date format for start date' }),
+  endDate: z.iso.datetime({ message: 'Invalid date format for end date' }),
+  reason: z
+    .enum(TmsDriverScheduleReasonEnum, {
+      message: 'Invalid driver schedule reason',
+    })
+    .nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type TmsDriverSchedule = z.infer<typeof tmsDriverScheduleSchema>;

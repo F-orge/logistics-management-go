@@ -39,7 +39,9 @@ export const createWmsPickBatchItem = createServerFn({
   .handler(async ({ data }) => {
     const pickBatchItemRepository = new WmsPickBatchItemRepository(kyselyDb);
 
-    const result = await pickBatchItemRepository.create(data).executeTakeFirst();
+    const result = await pickBatchItemRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsPickBatchItemSchema.parseAsync(result);
   });
@@ -47,7 +49,9 @@ export const createWmsPickBatchItem = createServerFn({
 export const updateWmsPickBatchItem = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsPickBatchItemUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsPickBatchItemUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const pickBatchItemRepository = new WmsPickBatchItemRepository(kyselyDb);
 
@@ -65,7 +69,9 @@ export const removeWmsPickBatchItem = createServerFn({
   .handler(async ({ data }) => {
     const pickBatchItemRepository = new WmsPickBatchItemRepository(kyselyDb);
 
-    const result = await pickBatchItemRepository.delete(data.id).executeTakeFirst();
+    const result = await pickBatchItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

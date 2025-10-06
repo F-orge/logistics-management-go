@@ -65,7 +65,9 @@ export const removeWmsPutawayRule = createServerFn({
   .handler(async ({ data }) => {
     const putawayRuleRepository = new WmsPutawayRuleRepository(kyselyDb);
 
-    const result = await putawayRuleRepository.delete(data.id).executeTakeFirst();
+    const result = await putawayRuleRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

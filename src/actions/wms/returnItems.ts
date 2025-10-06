@@ -65,7 +65,9 @@ export const removeWmsReturnItem = createServerFn({
   .handler(async ({ data }) => {
     const returnItemRepository = new WmsReturnItemRepository(kyselyDb);
 
-    const result = await returnItemRepository.delete(data.id).executeTakeFirst();
+    const result = await returnItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

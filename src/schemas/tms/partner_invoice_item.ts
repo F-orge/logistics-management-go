@@ -1,15 +1,21 @@
 import { z } from 'zod';
 
 export const tmsPartnerInvoiceItemSchema = z.object({
-  id: z.uuid(),
-  partnerInvoiceId: z.uuid(),
-  shipmentLegId: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  partnerInvoiceId: z.uuid({
+    message: 'Invalid UUID format for partner invoice ID',
+  }),
+  shipmentLegId: z.uuid({ message: 'Invalid UUID format for shipment leg ID' }),
   amount: z.coerce
-    .number()
+    .number({ message: 'Amount must be a number' })
     .min(0, { error: 'Amount must be at least 0' })
     .max(1000000, { error: 'Amount must be at most 1,000,000' }),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type TmsPartnerInvoiceItem = z.infer<typeof tmsPartnerInvoiceItemSchema>;

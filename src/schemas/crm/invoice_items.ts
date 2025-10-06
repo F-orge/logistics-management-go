@@ -13,8 +13,12 @@ export const crmInvoiceItemSchema = z.object({
     .int({ message: 'Quantity must be an integer' })
     .min(1, { message: 'Quantity must be at least 1' })
     .max(10000, { message: 'Quantity must be at most 10,000' }),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmInvoiceItem = z.infer<typeof crmInvoiceItemSchema>;

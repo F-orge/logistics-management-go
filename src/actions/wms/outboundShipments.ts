@@ -14,7 +14,9 @@ import {
 export const selectWmsOutboundShipments = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(wmsOutboundShipmentSchema))
   .handler(async ({ data }) => {
-    const outboundShipmentRepository = new WmsOutboundShipmentRepository(kyselyDb);
+    const outboundShipmentRepository = new WmsOutboundShipmentRepository(
+      kyselyDb,
+    );
 
     const result = await outboundShipmentRepository
       .select(
@@ -37,9 +39,13 @@ export const createWmsOutboundShipment = createServerFn({
 })
   .inputValidator(wmsOutboundShipmentInsertSchema)
   .handler(async ({ data }) => {
-    const outboundShipmentRepository = new WmsOutboundShipmentRepository(kyselyDb);
+    const outboundShipmentRepository = new WmsOutboundShipmentRepository(
+      kyselyDb,
+    );
 
-    const result = await outboundShipmentRepository.create(data).executeTakeFirst();
+    const result = await outboundShipmentRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsOutboundShipmentSchema.parseAsync(result);
   });
@@ -47,9 +53,13 @@ export const createWmsOutboundShipment = createServerFn({
 export const updateWmsOutboundShipment = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsOutboundShipmentUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsOutboundShipmentUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const outboundShipmentRepository = new WmsOutboundShipmentRepository(kyselyDb);
+    const outboundShipmentRepository = new WmsOutboundShipmentRepository(
+      kyselyDb,
+    );
 
     const result = await outboundShipmentRepository
       .update(data.id, data.value)
@@ -63,9 +73,13 @@ export const removeWmsOutboundShipment = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const outboundShipmentRepository = new WmsOutboundShipmentRepository(kyselyDb);
+    const outboundShipmentRepository = new WmsOutboundShipmentRepository(
+      kyselyDb,
+    );
 
-    const result = await outboundShipmentRepository.delete(data.id).executeTakeFirst();
+    const result = await outboundShipmentRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

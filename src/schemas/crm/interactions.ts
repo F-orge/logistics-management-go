@@ -9,8 +9,12 @@ export const crmInteractionSchema = z.object({
     .string({ message: 'User ID must be a string' })
     .min(1, { message: 'User ID is required' })
     .max(255, { message: 'User ID must be at most 255 characters' }),
-  type: z.enum(CrmInteractionType, { message: 'Invalid interaction type' }).nullable(),
-  interactionDate: z.iso.datetime({ message: 'Invalid ISO datetime format for interaction date' }).nullable(),
+  type: z
+    .enum(CrmInteractionType, { message: 'Invalid interaction type' })
+    .nullable(),
+  interactionDate: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for interaction date' })
+    .nullable(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { message: 'Notes are required' })
@@ -21,8 +25,12 @@ export const crmInteractionSchema = z.object({
     .min(1, { message: 'Outcome is required' })
     .max(255, { message: 'Outcome must be at most 255 characters' })
     .nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmInteraction = z.infer<typeof crmInteractionSchema>;

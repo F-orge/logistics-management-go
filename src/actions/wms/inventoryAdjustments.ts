@@ -14,13 +14,18 @@ import {
 export const selectWmsInventoryAdjustments = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(wmsInventoryAdjustmentSchema))
   .handler(async ({ data }) => {
-    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(kyselyDb);
+    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(
+      kyselyDb,
+    );
 
     const result = await inventoryAdjustmentRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'wms.inventoryAdjustments'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'wms.inventoryAdjustments'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'wms.inventoryAdjustments', {}>;
@@ -37,9 +42,13 @@ export const createWmsInventoryAdjustment = createServerFn({
 })
   .inputValidator(wmsInventoryAdjustmentInsertSchema)
   .handler(async ({ data }) => {
-    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(kyselyDb);
+    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(
+      kyselyDb,
+    );
 
-    const result = await inventoryAdjustmentRepository.create(data).executeTakeFirst();
+    const result = await inventoryAdjustmentRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsInventoryAdjustmentSchema.parseAsync(result);
   });
@@ -47,9 +56,13 @@ export const createWmsInventoryAdjustment = createServerFn({
 export const updateWmsInventoryAdjustment = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsInventoryAdjustmentUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsInventoryAdjustmentUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(kyselyDb);
+    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(
+      kyselyDb,
+    );
 
     const result = await inventoryAdjustmentRepository
       .update(data.id, data.value)
@@ -63,9 +76,13 @@ export const removeWmsInventoryAdjustment = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(kyselyDb);
+    const inventoryAdjustmentRepository = new WmsInventoryAdjustmentRepository(
+      kyselyDb,
+    );
 
-    const result = await inventoryAdjustmentRepository.delete(data.id).executeTakeFirst();
+    const result = await inventoryAdjustmentRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

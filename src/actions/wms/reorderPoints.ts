@@ -47,7 +47,9 @@ export const createWmsReorderPoint = createServerFn({
 export const updateWmsReorderPoint = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsReorderPointUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsReorderPointUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const reorderPointRepository = new WmsReorderPointRepository(kyselyDb);
 
@@ -65,7 +67,9 @@ export const removeWmsReorderPoint = createServerFn({
   .handler(async ({ data }) => {
     const reorderPointRepository = new WmsReorderPointRepository(kyselyDb);
 
-    const result = await reorderPointRepository.delete(data.id).executeTakeFirst();
+    const result = await reorderPointRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

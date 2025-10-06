@@ -17,8 +17,12 @@ export const crmNotificationSchema = z.object({
     .max(1024, { message: 'Link must be at most 1024 characters' })
     .nullable(),
   isRead: z.boolean({ message: 'Is read must be a boolean' }).nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmNotification = z.infer<typeof crmNotificationSchema>;

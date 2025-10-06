@@ -39,7 +39,9 @@ export const createWmsInventoryBatch = createServerFn({
   .handler(async ({ data }) => {
     const inventoryBatchRepository = new WmsInventoryBatchRepository(kyselyDb);
 
-    const result = await inventoryBatchRepository.create(data).executeTakeFirst();
+    const result = await inventoryBatchRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsInventoryBatchSchema.parseAsync(result);
   });
@@ -47,7 +49,9 @@ export const createWmsInventoryBatch = createServerFn({
 export const updateWmsInventoryBatch = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsInventoryBatchUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsInventoryBatchUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const inventoryBatchRepository = new WmsInventoryBatchRepository(kyselyDb);
 
@@ -65,7 +69,9 @@ export const removeWmsInventoryBatch = createServerFn({
   .handler(async ({ data }) => {
     const inventoryBatchRepository = new WmsInventoryBatchRepository(kyselyDb);
 
-    const result = await inventoryBatchRepository.delete(data.id).executeTakeFirst();
+    const result = await inventoryBatchRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

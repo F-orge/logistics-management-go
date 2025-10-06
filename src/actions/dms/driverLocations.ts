@@ -6,8 +6,8 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { DmsDriverLocationRepository } from '@/repositories/dms/driverLocations';
 import {
-  dmsDriverLocationSchema,
   dmsDriverLocationInsertSchema,
+  dmsDriverLocationSchema,
   dmsDriverLocationUpdateSchema,
 } from '@/schemas/dms/driver_location';
 
@@ -47,7 +47,9 @@ export const createDmsDriverLocation = createServerFn({
 export const updateDmsDriverLocation = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: dmsDriverLocationUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: dmsDriverLocationUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const repository = new DmsDriverLocationRepository(kyselyDb);
 

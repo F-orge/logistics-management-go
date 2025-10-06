@@ -22,8 +22,12 @@ export const crmProductSchema = z.object({
     .max(127, { message: 'SKU must be at most 127 characters' })
     .nullable(),
   type: z.enum(CrmProductType, { message: 'Invalid product type' }).nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmProduct = z.infer<typeof crmProductSchema>;

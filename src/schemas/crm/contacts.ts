@@ -11,7 +11,9 @@ export const crmContactSchema = z.object({
     .email({ message: 'Invalid email format' })
     .min(1, { message: 'Email is required' })
     .max(255, { message: 'Email must be at most 255 characters' }),
-  companyId: z.uuid({ message: 'Invalid UUID format for company ID' }).nullable(),
+  companyId: z
+    .uuid({ message: 'Invalid UUID format for company ID' })
+    .nullable(),
   jobTitle: z
     .string({ message: 'Job title must be a string' })
     .min(1, { message: 'Job title is required' })
@@ -26,8 +28,12 @@ export const crmContactSchema = z.object({
     .min(1, { message: 'Phone number is required' })
     .max(32, { message: 'Phone number must be at most 32 characters' })
     .nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmContact = z.infer<typeof crmContactSchema>;

@@ -47,7 +47,9 @@ export const createWmsBinThreshold = createServerFn({
 export const updateWmsBinThreshold = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsBinThresholdUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsBinThresholdUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const binThresholdRepository = new WmsBinThresholdRepository(kyselyDb);
 
@@ -65,7 +67,9 @@ export const removeWmsBinThreshold = createServerFn({
   .handler(async ({ data }) => {
     const binThresholdRepository = new WmsBinThresholdRepository(kyselyDb);
 
-    const result = await binThresholdRepository.delete(data.id).executeTakeFirst();
+    const result = await binThresholdRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

@@ -39,7 +39,9 @@ export const createWmsStockTransfer = createServerFn({
   .handler(async ({ data }) => {
     const stockTransferRepository = new WmsStockTransferRepository(kyselyDb);
 
-    const result = await stockTransferRepository.create(data).executeTakeFirst();
+    const result = await stockTransferRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsStockTransferSchema.parseAsync(result);
   });
@@ -47,7 +49,9 @@ export const createWmsStockTransfer = createServerFn({
 export const updateWmsStockTransfer = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsStockTransferUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsStockTransferUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const stockTransferRepository = new WmsStockTransferRepository(kyselyDb);
 
@@ -65,7 +69,9 @@ export const removeWmsStockTransfer = createServerFn({
   .handler(async ({ data }) => {
     const stockTransferRepository = new WmsStockTransferRepository(kyselyDb);
 
-    const result = await stockTransferRepository.delete(data.id).executeTakeFirst();
+    const result = await stockTransferRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

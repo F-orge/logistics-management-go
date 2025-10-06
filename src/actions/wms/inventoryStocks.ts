@@ -39,7 +39,9 @@ export const createWmsInventoryStock = createServerFn({
   .handler(async ({ data }) => {
     const inventoryStockRepository = new WmsInventoryStockRepository(kyselyDb);
 
-    const result = await inventoryStockRepository.create(data).executeTakeFirst();
+    const result = await inventoryStockRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsInventoryStockSchema.parseAsync(result);
   });
@@ -47,7 +49,9 @@ export const createWmsInventoryStock = createServerFn({
 export const updateWmsInventoryStock = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsInventoryStockUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsInventoryStockUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const inventoryStockRepository = new WmsInventoryStockRepository(kyselyDb);
 
@@ -65,7 +69,9 @@ export const removeWmsInventoryStock = createServerFn({
   .handler(async ({ data }) => {
     const inventoryStockRepository = new WmsInventoryStockRepository(kyselyDb);
 
-    const result = await inventoryStockRepository.delete(data.id).executeTakeFirst();
+    const result = await inventoryStockRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

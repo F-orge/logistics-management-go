@@ -6,15 +6,25 @@ import { tmsProofOfDeliveryInsertSchema } from './proof_of_delivery';
 import { tmsTripStopInsertSchema } from './trip_stop';
 
 export const tmsTripSchema = z.object({
-  id: z.uuid(),
-  routeId: z.uuid(),
-  driverId: z.uuid(),
-  vehicleId: z.uuid(),
-  status: z.enum(TmsTripStatusEnum).nullable(),
-  startedAt: z.iso.datetime().nullable(),
-  completedAt: z.iso.datetime().nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  routeId: z.uuid({ message: 'Invalid UUID format for route ID' }),
+  driverId: z.uuid({ message: 'Invalid UUID format for driver ID' }),
+  vehicleId: z.uuid({ message: 'Invalid UUID format for vehicle ID' }),
+  status: z
+    .enum(TmsTripStatusEnum, { message: 'Invalid trip status' })
+    .nullable(),
+  startedAt: z.iso
+    .datetime({ message: 'Invalid date format for started at' })
+    .nullable(),
+  completedAt: z.iso
+    .datetime({ message: 'Invalid date format for completed at' })
+    .nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type TmsTrip = z.infer<typeof tmsTripSchema>;

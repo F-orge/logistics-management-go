@@ -47,7 +47,9 @@ export const createBillingDocument = createServerFn({
 export const updateBillingDocument = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingDocumentUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingDocumentUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const documentRepository = new BillingDocumentRepository(kyselyDb);
 

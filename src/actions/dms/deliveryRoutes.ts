@@ -6,8 +6,8 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { DmsDeliveryRouteRepository } from '@/repositories/dms/deliveryRoutes';
 import {
-  dmsDeliveryRouteSchema,
   dmsDeliveryRouteInsertSchema,
+  dmsDeliveryRouteSchema,
   dmsDeliveryRouteUpdateSchema,
 } from '@/schemas/dms/delivery_route';
 
@@ -47,7 +47,9 @@ export const createDmsDeliveryRoute = createServerFn({
 export const updateDmsDeliveryRoute = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: dmsDeliveryRouteUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: dmsDeliveryRouteUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const repository = new DmsDeliveryRouteRepository(kyselyDb);
 

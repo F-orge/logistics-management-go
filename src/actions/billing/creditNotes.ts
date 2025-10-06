@@ -47,7 +47,9 @@ export const createBillingCreditNote = createServerFn({
 export const updateBillingCreditNote = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingCreditNoteUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingCreditNoteUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const creditNoteRepository = new BillingCreditNoteRepository(kyselyDb);
 
@@ -65,7 +67,9 @@ export const removeBillingCreditNote = createServerFn({
   .handler(async ({ data }) => {
     const creditNoteRepository = new BillingCreditNoteRepository(kyselyDb);
 
-    const result = await creditNoteRepository.delete(data.id).executeTakeFirst();
+    const result = await creditNoteRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

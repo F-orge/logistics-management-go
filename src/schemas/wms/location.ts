@@ -2,30 +2,93 @@ import { z } from 'zod';
 import { WmsLocationTypeEnum } from '@/db/types';
 
 export const wmsLocationSchema = z.object({
-  id: z.uuid(),
-  warehouseId: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  warehouseId: z.uuid({ message: 'Invalid UUID format for warehouse ID' }),
   name: z
-    .string()
+    .string({ message: 'Name must be a string' })
     .min(1, { error: 'Name is required' })
     .max(127, { error: 'Name must be at most 127 characters' }),
-  type: z.enum(WmsLocationTypeEnum),
-  barcode: z.string().nullable().optional(),
-  hazmatApproved: z.boolean().nullable().optional(),
-  isActive: z.boolean().nullable().optional(),
-  isPickable: z.boolean().nullable().optional(),
-  isReceivable: z.boolean().nullable().optional(),
-  level: z.number().nullable().optional(),
-  maxPallets: z.number().nullable().optional(),
-  maxVolume: z.number().nullable().optional(),
-  maxWeight: z.number().nullable().optional(),
-  parentLocationId: z.uuid().nullable().optional(),
-  path: z.string().nullable().optional(),
-  temperatureControlled: z.boolean().nullable().optional(),
-  xCoordinate: z.number().nullable().optional(),
-  yCoordinate: z.number().nullable().optional(),
-  zCoordinate: z.number().nullable().optional(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  type: z.enum(WmsLocationTypeEnum, { message: 'Invalid location type' }),
+  barcode: z
+    .string({ message: 'Barcode must be a string' })
+    .min(1, { error: 'Barcode cannot be empty' })
+    .max(255, { error: 'Barcode must be at most 255 characters' })
+    .nullable()
+    .optional(),
+  hazmatApproved: z
+    .boolean({ message: 'Hazmat approved must be a boolean' })
+    .nullable()
+    .optional(),
+  isActive: z
+    .boolean({ message: 'Is active must be a boolean' })
+    .nullable()
+    .optional(),
+  isPickable: z
+    .boolean({ message: 'Is pickable must be a boolean' })
+    .nullable()
+    .optional(),
+  isReceivable: z
+    .boolean({ message: 'Is receivable must be a boolean' })
+    .nullable()
+    .optional(),
+  level: z
+    .number({ message: 'Level must be a number' })
+    .int({ message: 'Level must be an integer' })
+    .min(0, { error: 'Level must be at least 0' })
+    .max(10, { error: 'Level must be at most 10' })
+    .nullable()
+    .optional(),
+  maxPallets: z
+    .number({ message: 'Max pallets must be a number' })
+    .int({ message: 'Max pallets must be an integer' })
+    .min(0, { error: 'Max pallets must be at least 0' })
+    .max(1000, { error: 'Max pallets must be at most 1000' })
+    .nullable()
+    .optional(),
+  maxVolume: z
+    .number({ message: 'Max volume must be a number' })
+    .min(0, { error: 'Max volume must be at least 0' })
+    .max(100000, { error: 'Max volume must be at most 100,000' })
+    .nullable()
+    .optional(),
+  maxWeight: z
+    .number({ message: 'Max weight must be a number' })
+    .min(0, { error: 'Max weight must be at least 0' })
+    .max(100000, { error: 'Max weight must be at most 100,000' })
+    .nullable()
+    .optional(),
+  parentLocationId: z
+    .uuid({ message: 'Invalid UUID format for parent location ID' })
+    .nullable()
+    .optional(),
+  path: z
+    .string({ message: 'Path must be a string' })
+    .min(1, { error: 'Path cannot be empty' })
+    .max(1024, { error: 'Path must be at most 1024 characters' })
+    .nullable()
+    .optional(),
+  temperatureControlled: z
+    .boolean({ message: 'Temperature controlled must be a boolean' })
+    .nullable()
+    .optional(),
+  xCoordinate: z
+    .number({ message: 'X coordinate must be a number' })
+    .nullable()
+    .optional(),
+  yCoordinate: z
+    .number({ message: 'Y coordinate must be a number' })
+    .nullable()
+    .optional(),
+  zCoordinate: z
+    .number({ message: 'Z coordinate must be a number' })
+    .nullable()
+    .optional(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type WmsLocation = z.infer<typeof wmsLocationSchema>;

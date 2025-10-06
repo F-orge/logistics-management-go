@@ -2,14 +2,32 @@ import { z } from 'zod';
 import { WmsOutboundShipmentStatusEnum } from '@/db/types';
 
 export const wmsOutboundShipmentSchema = z.object({
-  id: z.uuid(),
-  salesOrderId: z.uuid(),
-  warehouseId: z.uuid(),
-  status: z.enum(WmsOutboundShipmentStatusEnum).nullable(),
-  carrier: z.string().nullable().optional(),
-  trackingNumber: z.string().nullable().optional(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  salesOrderId: z.uuid({ message: 'Invalid UUID format for sales order ID' }),
+  warehouseId: z.uuid({ message: 'Invalid UUID format for warehouse ID' }),
+  status: z
+    .enum(WmsOutboundShipmentStatusEnum, {
+      message: 'Invalid outbound shipment status',
+    })
+    .nullable(),
+  carrier: z
+    .string({ message: 'Carrier must be a string' })
+    .min(1, { error: 'Carrier cannot be empty' })
+    .max(255, { error: 'Carrier must be at most 255 characters' })
+    .nullable()
+    .optional(),
+  trackingNumber: z
+    .string({ message: 'Tracking number must be a string' })
+    .min(1, { error: 'Tracking number cannot be empty' })
+    .max(255, { error: 'Tracking number must be at most 255 characters' })
+    .nullable()
+    .optional(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type WmsOutboundShipment = z.infer<typeof wmsOutboundShipmentSchema>;

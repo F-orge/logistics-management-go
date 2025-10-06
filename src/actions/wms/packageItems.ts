@@ -65,7 +65,9 @@ export const removeWmsPackageItem = createServerFn({
   .handler(async ({ data }) => {
     const packageItemRepository = new WmsPackageItemRepository(kyselyDb);
 
-    const result = await packageItemRepository.delete(data.id).executeTakeFirst();
+    const result = await packageItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

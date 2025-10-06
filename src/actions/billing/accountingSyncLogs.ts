@@ -14,13 +14,18 @@ import {
 export const selectBillingAccountingSyncLog = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(billingAccountingSyncLogSchema))
   .handler(async ({ data }) => {
-    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(kyselyDb);
+    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(
+      kyselyDb,
+    );
 
     const result = await accountingSyncLogRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'billing.accountingSyncLog'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'billing.accountingSyncLog'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'billing.accountingSyncLog', {}>;
@@ -37,9 +42,13 @@ export const createBillingAccountingSyncLog = createServerFn({
 })
   .inputValidator(billingAccountingSyncLogInsertSchema)
   .handler(async ({ data }) => {
-    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(kyselyDb);
+    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(
+      kyselyDb,
+    );
 
-    const result = await accountingSyncLogRepository.create(data).executeTakeFirst();
+    const result = await accountingSyncLogRepository
+      .create(data)
+      .executeTakeFirst();
 
     return billingAccountingSyncLogSchema.parseAsync(result);
   });
@@ -47,9 +56,13 @@ export const createBillingAccountingSyncLog = createServerFn({
 export const updateBillingAccountingSyncLog = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingAccountingSyncLogUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingAccountingSyncLogUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(kyselyDb);
+    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(
+      kyselyDb,
+    );
 
     const result = await accountingSyncLogRepository
       .update(data.id, data.value)
@@ -63,9 +76,13 @@ export const removeBillingAccountingSyncLog = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(kyselyDb);
+    const accountingSyncLogRepository = new BillingAccountingSyncLogRepository(
+      kyselyDb,
+    );
 
-    const result = await accountingSyncLogRepository.delete(data.id).executeTakeFirst();
+    const result = await accountingSyncLogRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

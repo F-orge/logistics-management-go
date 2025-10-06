@@ -3,12 +3,15 @@ import { z } from 'zod';
 
 export const dmsCustomerTrackingLinkSchema = z.object({
   id: z.uuid(),
-  routeId: z.uuid(),
-  token: z
+  deliveryTaskId: z.uuid(),
+  trackingToken: z
     .string()
-    .min(1, { error: 'Token is required' })
-    .max(255, { error: 'Token must be at most 255 characters' }),
+    .min(1, { error: 'Tracking token is required' })
+    .max(255, { error: 'Tracking token must be at most 255 characters' }),
   expiresAt: z.iso.datetime().nullable(),
+  accessCount: z.number().int().min(0).nullable(),
+  isActive: z.boolean().nullable(),
+  lastAccessedAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

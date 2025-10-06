@@ -10,10 +10,18 @@ export const crmCampaignSchema = z.object({
     .number({ message: 'Budget must be a number' })
     .min(0, { message: 'Budget must be at least 0' })
     .nullable(),
-  startDate: z.iso.datetime({ message: 'Invalid ISO datetime format for start date' }).nullable(),
-  endDate: z.iso.datetime({ message: 'Invalid ISO datetime format for end date' }).nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  startDate: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for start date' })
+    .nullable(),
+  endDate: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for end date' })
+    .nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmCampaign = z.infer<typeof crmCampaignSchema>;

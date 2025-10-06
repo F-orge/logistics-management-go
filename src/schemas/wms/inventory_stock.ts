@@ -2,31 +2,49 @@ import { z } from 'zod';
 import { WmsInventoryStockStatusEnum } from '@/db/types';
 
 export const wmsInventoryStockSchema = z.object({
-  id: z.uuid(),
-  productId: z.uuid(),
-  locationId: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  productId: z.uuid({ message: 'Invalid UUID format for product ID' }),
+  locationId: z.uuid({ message: 'Invalid UUID format for location ID' }),
   quantity: z
-    .number()
+    .number({ message: 'Quantity must be a number' })
+    .int({ message: 'Quantity must be an integer' })
     .min(0, { error: 'Quantity must be at least 0' })
-    .max(1000000, { error: 'Quantity must be at most 1,000,000' })
-    .optional(),
+    .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
   reservedQuantity: z
-    .number()
+    .number({ message: 'Reserved quantity must be a number' })
+    .int({ message: 'Reserved quantity must be an integer' })
     .min(0, { error: 'Reserved quantity must be at least 0' })
-    .max(1000000, { error: 'Reserved quantity must be at most 1,000,000' })
-    .optional(),
+    .max(1000000, { error: 'Reserved quantity must be at most 1,000,000' }),
   availableQuantity: z
-    .number()
+    .number({ message: 'Available quantity must be a number' })
+    .int({ message: 'Available quantity must be an integer' })
     .min(0, { error: 'Available quantity must be at least 0' })
     .max(1000000, { error: 'Available quantity must be at most 1,000,000' })
     .nullable()
     .optional(),
-  batchId: z.uuid().nullable().optional(),
-  status: z.enum(WmsInventoryStockStatusEnum).nullable(),
-  lastCountedAt: z.iso.datetime().nullable().optional(),
-  lastMovementAt: z.iso.datetime().nullable().optional(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  batchId: z
+    .uuid({ message: 'Invalid UUID format for batch ID' })
+    .nullable()
+    .optional(),
+  status: z
+    .enum(WmsInventoryStockStatusEnum, {
+      message: 'Invalid inventory stock status',
+    })
+    .nullable(),
+  lastCountedAt: z.iso
+    .datetime({ message: 'Invalid date format for last counted at' })
+    .nullable()
+    .optional(),
+  lastMovementAt: z.iso
+    .datetime({ message: 'Invalid date format for last movement at' })
+    .nullable()
+    .optional(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type WmsInventoryStock = z.infer<typeof wmsInventoryStockSchema>;

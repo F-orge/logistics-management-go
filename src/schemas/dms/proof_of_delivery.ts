@@ -2,21 +2,52 @@ import { z } from 'zod';
 import { DmsProofOfDeliveryTypeEnum } from '@/db/types';
 
 export const dmsProofOfDeliverySchema = z.object({
-  id: z.uuid(),
-  deliveryTaskId: z.uuid(),
-  type: z.enum(DmsProofOfDeliveryTypeEnum).nullable(),
-  fileUrl: z
-    .url()
-    .min(1, { error: 'File URL is required' })
-    .max(1024, { error: 'File URL must be at most 1024 characters' })
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  deliveryTaskId: z.uuid({
+    message: 'Invalid UUID format for delivery task ID',
+  }),
+  type: z.enum(DmsProofOfDeliveryTypeEnum, {
+    message: 'Invalid proof of delivery type',
+  }),
+  filePath: z
+    .string({ message: 'File path must be a string' })
+    .min(1, { error: 'File path is required' })
+    .max(1024, { error: 'File path must be at most 1024 characters' })
     .nullable(),
-  notes: z
-    .string()
-    .min(1, { error: 'Notes are required' })
-    .max(1024, { error: 'Notes must be at most 1024 characters' })
+  latitude: z
+    .number({ message: 'Latitude must be a number' })
+    .min(-90, { message: 'Latitude must be at least -90' })
+    .max(90, { message: 'Latitude must be at most 90' })
     .nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  longitude: z
+    .number({ message: 'Longitude must be a number' })
+    .min(-180, { message: 'Longitude must be at least -180' })
+    .max(180, { message: 'Longitude must be at most 180' })
+    .nullable(),
+  recipientName: z
+    .string({ message: 'Recipient name must be a string' })
+    .min(1, { error: 'Recipient name is required' })
+    .max(127, { error: 'Recipient name must be at most 127 characters' })
+    .nullable(),
+  signatureData: z
+    .string({ message: 'Signature data must be a string' })
+    .min(1, { error: 'Signature data is required' })
+    .max(4096, { error: 'Signature data must be at most 4096 characters' })
+    .nullable(),
+  timestamp: z.iso
+    .datetime({ message: 'Invalid date format for timestamp' })
+    .nullable(),
+  verificationCode: z
+    .string({ message: 'Verification code must be a string' })
+    .min(1, { error: 'Verification code is required' })
+    .max(64, { error: 'Verification code must be at most 64 characters' })
+    .nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type DmsProofOfDelivery = z.infer<typeof dmsProofOfDeliverySchema>;

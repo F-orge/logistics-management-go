@@ -6,8 +6,8 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { DmsCustomerTrackingLinkRepository } from '@/repositories/dms/customerTrackingLinks';
 import {
-  dmsCustomerTrackingLinkSchema,
   dmsCustomerTrackingLinkInsertSchema,
+  dmsCustomerTrackingLinkSchema,
   dmsCustomerTrackingLinkUpdateSchema,
 } from '@/schemas/dms/customer_tracking_link';
 

@@ -14,13 +14,18 @@ import {
 export const selectBillingInvoiceLineItem = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(billingInvoiceLineItemSchema))
   .handler(async ({ data }) => {
-    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(kyselyDb);
+    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(
+      kyselyDb,
+    );
 
     const result = await invoiceLineItemRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'billing.invoiceLineItems'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'billing.invoiceLineItems'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'billing.invoiceLineItems', {}>;
@@ -37,9 +42,13 @@ export const createBillingInvoiceLineItem = createServerFn({
 })
   .inputValidator(billingInvoiceLineItemInsertSchema)
   .handler(async ({ data }) => {
-    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(kyselyDb);
+    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(
+      kyselyDb,
+    );
 
-    const result = await invoiceLineItemRepository.create(data).executeTakeFirst();
+    const result = await invoiceLineItemRepository
+      .create(data)
+      .executeTakeFirst();
 
     return billingInvoiceLineItemSchema.parseAsync(result);
   });
@@ -47,9 +56,13 @@ export const createBillingInvoiceLineItem = createServerFn({
 export const updateBillingInvoiceLineItem = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingInvoiceLineItemUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingInvoiceLineItemUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(kyselyDb);
+    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(
+      kyselyDb,
+    );
 
     const result = await invoiceLineItemRepository
       .update(data.id, data.value)
@@ -63,9 +76,13 @@ export const removeBillingInvoiceLineItem = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(kyselyDb);
+    const invoiceLineItemRepository = new BillingInvoiceLineItemRepository(
+      kyselyDb,
+    );
 
-    const result = await invoiceLineItemRepository.delete(data.id).executeTakeFirst();
+    const result = await invoiceLineItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

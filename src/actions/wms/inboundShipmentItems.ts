@@ -14,13 +14,18 @@ import {
 export const selectWmsInboundShipmentItems = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(wmsInboundShipmentItemSchema))
   .handler(async ({ data }) => {
-    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(kyselyDb);
+    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(
+      kyselyDb,
+    );
 
     const result = await inboundShipmentItemRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'wms.inboundShipmentItems'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'wms.inboundShipmentItems'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'wms.inboundShipmentItems', {}>;
@@ -37,9 +42,13 @@ export const createWmsInboundShipmentItem = createServerFn({
 })
   .inputValidator(wmsInboundShipmentItemInsertSchema)
   .handler(async ({ data }) => {
-    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(kyselyDb);
+    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(
+      kyselyDb,
+    );
 
-    const result = await inboundShipmentItemRepository.create(data).executeTakeFirst();
+    const result = await inboundShipmentItemRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsInboundShipmentItemSchema.parseAsync(result);
   });
@@ -47,9 +56,13 @@ export const createWmsInboundShipmentItem = createServerFn({
 export const updateWmsInboundShipmentItem = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsInboundShipmentItemUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsInboundShipmentItemUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(kyselyDb);
+    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(
+      kyselyDb,
+    );
 
     const result = await inboundShipmentItemRepository
       .update(data.id, data.value)
@@ -63,9 +76,13 @@ export const removeWmsInboundShipmentItem = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(kyselyDb);
+    const inboundShipmentItemRepository = new WmsInboundShipmentItemRepository(
+      kyselyDb,
+    );
 
-    const result = await inboundShipmentItemRepository.delete(data.id).executeTakeFirst();
+    const result = await inboundShipmentItemRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

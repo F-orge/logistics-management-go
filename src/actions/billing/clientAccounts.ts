@@ -14,13 +14,18 @@ import {
 export const selectBillingClientAccount = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(billingClientAccountSchema))
   .handler(async ({ data }) => {
-    const clientAccountRepository = new BillingClientAccountRepository(kyselyDb);
+    const clientAccountRepository = new BillingClientAccountRepository(
+      kyselyDb,
+    );
 
     const result = await clientAccountRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'billing.clientAccounts'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'billing.clientAccounts'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'billing.clientAccounts', {}>;
@@ -37,9 +42,13 @@ export const createBillingClientAccount = createServerFn({
 })
   .inputValidator(billingClientAccountInsertSchema)
   .handler(async ({ data }) => {
-    const clientAccountRepository = new BillingClientAccountRepository(kyselyDb);
+    const clientAccountRepository = new BillingClientAccountRepository(
+      kyselyDb,
+    );
 
-    const result = await clientAccountRepository.create(data).executeTakeFirst();
+    const result = await clientAccountRepository
+      .create(data)
+      .executeTakeFirst();
 
     return billingClientAccountSchema.parseAsync(result);
   });
@@ -47,9 +56,13 @@ export const createBillingClientAccount = createServerFn({
 export const updateBillingClientAccount = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingClientAccountUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingClientAccountUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const clientAccountRepository = new BillingClientAccountRepository(kyselyDb);
+    const clientAccountRepository = new BillingClientAccountRepository(
+      kyselyDb,
+    );
 
     const result = await clientAccountRepository
       .update(data.id, data.value)
@@ -63,9 +76,13 @@ export const removeBillingClientAccount = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const clientAccountRepository = new BillingClientAccountRepository(kyselyDb);
+    const clientAccountRepository = new BillingClientAccountRepository(
+      kyselyDb,
+    );
 
-    const result = await clientAccountRepository.delete(data.id).executeTakeFirst();
+    const result = await clientAccountRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

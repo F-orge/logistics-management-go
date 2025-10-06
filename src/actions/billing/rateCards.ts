@@ -47,7 +47,9 @@ export const createBillingRateCard = createServerFn({
 export const updateBillingRateCard = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingRateCardUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingRateCardUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const rateCardRepository = new BillingRateCardRepository(kyselyDb);
 

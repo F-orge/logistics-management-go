@@ -6,8 +6,8 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { DmsProofOfDeliveryRepository } from '@/repositories/dms/proofOfDeliveries';
 import {
-  dmsProofOfDeliverySchema,
   dmsProofOfDeliveryInsertSchema,
+  dmsProofOfDeliverySchema,
   dmsProofOfDeliveryUpdateSchema,
 } from '@/schemas/dms/proof_of_delivery';
 
@@ -47,7 +47,9 @@ export const createDmsProofOfDelivery = createServerFn({
 export const updateDmsProofOfDelivery = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: dmsProofOfDeliveryUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: dmsProofOfDeliveryUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const repository = new DmsProofOfDeliveryRepository(kyselyDb);
 

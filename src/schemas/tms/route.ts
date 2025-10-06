@@ -1,13 +1,29 @@
 import { z } from 'zod';
 
 export const tmsRouteSchema = z.object({
-  id: z.uuid(),
-  tripId: z.uuid(),
-  optimizeRouteData: z.string().nullable(),
-  totalDistance: z.number().nullable(),
-  totalDuration: z.number().nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
+  tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
+  optimizeRouteData: z
+    .string({ message: 'Optimized route data must be a string' })
+    .min(1, { error: 'Optimized route data cannot be empty' })
+    .max(4096, {
+      error: 'Optimized route data must be at most 4096 characters',
+    })
+    .nullable(),
+  totalDistance: z
+    .number({ message: 'Total distance must be a number' })
+    .min(0, { message: 'Total distance must be at least 0' })
+    .nullable(),
+  totalDuration: z
+    .number({ message: 'Total duration must be a number' })
+    .min(0, { message: 'Total duration must be at least 0' })
+    .nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type TmsRoute = z.infer<typeof tmsRouteSchema>;

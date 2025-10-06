@@ -14,7 +14,9 @@ import {
 export const selectWmsInboundShipments = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(wmsInboundShipmentSchema))
   .handler(async ({ data }) => {
-    const inboundShipmentRepository = new WmsInboundShipmentRepository(kyselyDb);
+    const inboundShipmentRepository = new WmsInboundShipmentRepository(
+      kyselyDb,
+    );
 
     const result = await inboundShipmentRepository
       .select(
@@ -37,9 +39,13 @@ export const createWmsInboundShipment = createServerFn({
 })
   .inputValidator(wmsInboundShipmentInsertSchema)
   .handler(async ({ data }) => {
-    const inboundShipmentRepository = new WmsInboundShipmentRepository(kyselyDb);
+    const inboundShipmentRepository = new WmsInboundShipmentRepository(
+      kyselyDb,
+    );
 
-    const result = await inboundShipmentRepository.create(data).executeTakeFirst();
+    const result = await inboundShipmentRepository
+      .create(data)
+      .executeTakeFirst();
 
     return wmsInboundShipmentSchema.parseAsync(result);
   });
@@ -47,9 +53,13 @@ export const createWmsInboundShipment = createServerFn({
 export const updateWmsInboundShipment = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: wmsInboundShipmentUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: wmsInboundShipmentUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const inboundShipmentRepository = new WmsInboundShipmentRepository(kyselyDb);
+    const inboundShipmentRepository = new WmsInboundShipmentRepository(
+      kyselyDb,
+    );
 
     const result = await inboundShipmentRepository
       .update(data.id, data.value)
@@ -63,9 +73,13 @@ export const removeWmsInboundShipment = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const inboundShipmentRepository = new WmsInboundShipmentRepository(kyselyDb);
+    const inboundShipmentRepository = new WmsInboundShipmentRepository(
+      kyselyDb,
+    );
 
-    const result = await inboundShipmentRepository.delete(data.id).executeTakeFirst();
+    const result = await inboundShipmentRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

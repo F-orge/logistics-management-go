@@ -47,7 +47,9 @@ export const createBillingSurcharge = createServerFn({
 export const updateBillingSurcharge = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingSurchargeUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingSurchargeUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const surchargeRepository = new BillingSurchargeRepository(kyselyDb);
 

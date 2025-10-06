@@ -47,7 +47,9 @@ export const createBillingRateRule = createServerFn({
 export const updateBillingRateRule = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingRateRuleUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingRateRuleUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const rateRuleRepository = new BillingRateRuleRepository(kyselyDb);
 

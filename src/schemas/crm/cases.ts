@@ -7,7 +7,9 @@ export const crmCaseSchema = z.object({
     .string({ message: 'Case number must be a string' })
     .min(1, { message: 'Case number is required' })
     .max(127, { message: 'Case number must be at most 127 characters' }),
-  contactId: z.uuid({ message: 'Invalid UUID format for contact ID' }).nullable(),
+  contactId: z
+    .uuid({ message: 'Invalid UUID format for contact ID' })
+    .nullable(),
   description: z
     .string({ message: 'Description must be a string' })
     .min(1, { message: 'Description is required' })
@@ -17,11 +19,17 @@ export const crmCaseSchema = z.object({
     .string({ message: 'Owner ID must be a string' })
     .min(1, { message: 'Owner ID is required' })
     .max(255, { message: 'Owner ID must be at most 255 characters' }),
-  priority: z.enum(CrmCasePriority, { message: 'Invalid case priority' }).nullable(),
+  priority: z
+    .enum(CrmCasePriority, { message: 'Invalid case priority' })
+    .nullable(),
   status: z.enum(CrmCaseStatus, { message: 'Invalid case status' }).nullable(),
   type: z.enum(CrmCaseType, { message: 'Invalid case type' }).nullable(),
-  createdAt: z.iso.datetime({ message: 'Invalid ISO datetime format for creation date' }).nullable(),
-  updatedAt: z.iso.datetime({ message: 'Invalid ISO datetime format for update date' }).nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for creation date' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid ISO datetime format for update date' })
+    .nullable(),
 });
 
 export type CrmCase = z.infer<typeof crmCaseSchema>;

@@ -14,13 +14,17 @@ import {
 export const selectBillingAccountTransaction = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(billingAccountTransactionSchema))
   .handler(async ({ data }) => {
-    const accountTransactionRepository = new BillingAccountTransactionRepository(kyselyDb);
+    const accountTransactionRepository =
+      new BillingAccountTransactionRepository(kyselyDb);
 
     const result = await accountTransactionRepository
       .select(
         data.page,
         data.perPage,
-        data.fields as unknown as SelectExpression<DB, 'billing.accountTransactions'>,
+        data.fields as unknown as SelectExpression<
+          DB,
+          'billing.accountTransactions'
+        >,
         data.search,
         data.sort as unknown as {
           field: OrderByExpression<DB, 'billing.accountTransactions', {}>;
@@ -37,9 +41,12 @@ export const createBillingAccountTransaction = createServerFn({
 })
   .inputValidator(billingAccountTransactionInsertSchema)
   .handler(async ({ data }) => {
-    const accountTransactionRepository = new BillingAccountTransactionRepository(kyselyDb);
+    const accountTransactionRepository =
+      new BillingAccountTransactionRepository(kyselyDb);
 
-    const result = await accountTransactionRepository.create(data).executeTakeFirst();
+    const result = await accountTransactionRepository
+      .create(data)
+      .executeTakeFirst();
 
     return billingAccountTransactionSchema.parseAsync(result);
   });
@@ -47,9 +54,12 @@ export const createBillingAccountTransaction = createServerFn({
 export const updateBillingAccountTransaction = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: billingAccountTransactionUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: billingAccountTransactionUpdateSchema }),
+  )
   .handler(async ({ data }) => {
-    const accountTransactionRepository = new BillingAccountTransactionRepository(kyselyDb);
+    const accountTransactionRepository =
+      new BillingAccountTransactionRepository(kyselyDb);
 
     const result = await accountTransactionRepository
       .update(data.id, data.value)
@@ -63,9 +73,12 @@ export const removeBillingAccountTransaction = createServerFn({
 })
   .inputValidator(z.object({ id: z.uuid() }))
   .handler(async ({ data }) => {
-    const accountTransactionRepository = new BillingAccountTransactionRepository(kyselyDb);
+    const accountTransactionRepository =
+      new BillingAccountTransactionRepository(kyselyDb);
 
-    const result = await accountTransactionRepository.delete(data.id).executeTakeFirst();
+    const result = await accountTransactionRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

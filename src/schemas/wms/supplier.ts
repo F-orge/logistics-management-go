@@ -1,28 +1,33 @@
 import { z } from 'zod';
 
 export const wmsSupplierSchema = z.object({
-  id: z.uuid(),
+  id: z.uuid({ message: 'Invalid UUID format for ID' }),
   name: z
-    .string()
+    .string({ message: 'Name must be a string' })
     .min(1, { error: 'Name is required' })
     .max(255, { error: 'Name must be at most 255 characters' }),
   contactPerson: z
-    .string()
+    .string({ message: 'Contact person must be a string' })
     .min(1, { error: 'Contact person is required' })
     .max(255, { error: 'Contact person must be at most 255 characters' })
     .nullable(),
   email: z
-    .string()
+    .string({ message: 'Email must be a string' })
+    .email({ message: 'Invalid email format' })
     .min(1, { error: 'Email is required' })
     .max(255, { error: 'Email must be at most 255 characters' })
     .nullable(),
   phoneNumber: z
-    .string()
+    .string({ message: 'Phone number must be a string' })
     .min(1, { error: 'Phone number is required' })
     .max(32, { error: 'Phone number must be at most 32 characters' })
     .nullable(),
-  createdAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso
+    .datetime({ message: 'Invalid date format for created at' })
+    .nullable(),
+  updatedAt: z.iso
+    .datetime({ message: 'Invalid date format for updated at' })
+    .nullable(),
 });
 
 export type WmsSupplier = z.infer<typeof wmsSupplierSchema>;

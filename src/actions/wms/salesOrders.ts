@@ -65,7 +65,9 @@ export const removeWmsSalesOrder = createServerFn({
   .handler(async ({ data }) => {
     const salesOrderRepository = new WmsSalesOrderRepository(kyselyDb);
 
-    const result = await salesOrderRepository.delete(data.id).executeTakeFirst();
+    const result = await salesOrderRepository
+      .delete(data.id)
+      .executeTakeFirst();
 
     return result;
   });

@@ -6,8 +6,8 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { DmsDeliveryTaskRepository } from '@/repositories/dms/deliveryTasks';
 import {
-  dmsDeliveryTaskSchema,
   dmsDeliveryTaskInsertSchema,
+  dmsDeliveryTaskSchema,
   dmsDeliveryTaskUpdateSchema,
 } from '@/schemas/dms/delivery_task';
 
@@ -47,7 +47,9 @@ export const createDmsDeliveryTask = createServerFn({
 export const updateDmsDeliveryTask = createServerFn({
   method: 'POST',
 })
-  .inputValidator(z.object({ id: z.uuid(), value: dmsDeliveryTaskUpdateSchema }))
+  .inputValidator(
+    z.object({ id: z.uuid(), value: dmsDeliveryTaskUpdateSchema }),
+  )
   .handler(async ({ data }) => {
     const repository = new DmsDeliveryTaskRepository(kyselyDb);
 
