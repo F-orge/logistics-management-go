@@ -116,17 +116,25 @@ export const generateWmsInventoryStock = (
   locationId: string,
   productId: string,
   batchId?: string,
-): Insertable<DB['wms.inventoryStock']> => ({
-  locationId: locationId,
-  productId: productId,
-  batchId: batchId,
-  quantity: faker.number.int({ min: 1, max: 1000 }),
-  reservedQuantity: faker.number.int({ min: 0, max: 100 }),
-  status: faker.helpers.arrayElement(
-    Object.values(WmsInventoryStockStatusEnum),
-  ),
-  lastCountedAt: faker.date.recent(),
-});
+): Insertable<DB['wms.inventoryStock']> => {
+  const quantity = faker.number.int({ min: 1, max: 1000 });
+  const reservedQuantity = faker.number.int({
+    min: 0,
+    max: Math.min(quantity, 100),
+  });
+
+  return {
+    locationId: locationId,
+    productId: productId,
+    batchId: batchId,
+    quantity: quantity,
+    reservedQuantity: reservedQuantity,
+    status: faker.helpers.arrayElement(
+      Object.values(WmsInventoryStockStatusEnum),
+    ),
+    lastCountedAt: faker.date.recent(),
+  };
+};
 
 export const generateWmsInventoryAdjustment = (
   faker: Faker,
@@ -282,7 +290,7 @@ export const generateWmsPickBatch = (
   startedAt: faker.date.recent(),
   completedAt: faker.date.recent(),
   assignedUserId: assignedUserId,
-  waveId: faker.string.uuid(),
+  waveId: faker.string.alphanumeric(8).toUpperCase(),
   zoneRestrictions: faker.helpers.arrayElements(
     [faker.lorem.word(), faker.lorem.word()],
     { min: 0, max: 2 },
@@ -405,20 +413,25 @@ export const generateWmsTaskItem = (
   sourceLocationId?: string,
   destinationLocationId?: string,
   batchId?: string,
-): Insertable<DB['wms.taskItems']> => ({
-  taskId: taskId,
-  productId: productId,
-  quantityRequired: faker.number.int({ min: 1, max: 50 }),
-  quantityCompleted: faker.number.int({ min: 0, max: 50 }),
-  status: faker.helpers.arrayElement(Object.values(WmsTaskItemStatusEnum)),
-  notes: faker.lorem.sentence(),
-  sourceLocationId: sourceLocationId,
-  destinationLocationId: destinationLocationId,
-  batchId: batchId,
-  expiryDate: faker.date.future(),
-  lotNumber: faker.string.alphanumeric(8).toUpperCase(),
-  serialNumbers: faker.helpers.arrayElements(
-    [faker.string.alphanumeric(12), faker.string.alphanumeric(12)],
-    { min: 0, max: 3 },
-  ),
-});
+): Insertable<DB['wms.taskItems']> => {
+  const quantityRequired = faker.number.int({ min: 1, max: 50 });
+  const quantityCompleted = faker.number.int({ min: 0, max: quantityRequired });
+
+  return {
+    taskId: taskId,
+    productId: productId,
+    quantityRequired: quantityRequired,
+    quantityCompleted: quantityCompleted,
+    status: faker.helpers.arrayElement(Object.values(WmsTaskItemStatusEnum)),
+    notes: faker.lorem.sentence(),
+    sourceLocationId: sourceLocationId,
+    destinationLocationId: destinationLocationId,
+    batchId: batchId,
+    expiryDate: faker.date.future(),
+    lotNumber: faker.string.alphanumeric(8).toUpperCase(),
+    serialNumbers: faker.helpers.arrayElements(
+      [faker.string.alphanumeric(12), faker.string.alphanumeric(12)],
+      { min: 0, max: 3 },
+    ),
+  };
+};

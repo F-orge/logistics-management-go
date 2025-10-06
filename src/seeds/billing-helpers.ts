@@ -40,16 +40,21 @@ export const generateBillingAccountingSyncLog = (
 export const generateBillingClientAccount = (
   faker: Faker,
   clientId: string,
-): Insertable<DB['billing.clientAccounts']> => ({
-  clientId: clientId,
-  creditLimit: faker.number.float({ min: 1000, max: 100000 }),
-  availableCredit: faker.number.float({ min: 0, max: 50000 }),
-  walletBalance: faker.number.float({ min: 0, max: 1000 }),
-  currency: faker.finance.currencyCode(),
-  isCreditApproved: faker.datatype.boolean(),
-  paymentTermsDays: faker.number.int({ min: 15, max: 90 }),
-  lastPaymentDate: faker.datatype.boolean() ? faker.date.recent() : null,
-});
+): Insertable<DB['billing.clientAccounts']> => {
+  const creditLimit = faker.number.float({ min: 1000, max: 100000 });
+  const availableCredit = faker.number.float({ min: 0, max: creditLimit });
+
+  return {
+    clientId: clientId,
+    creditLimit: creditLimit,
+    availableCredit: availableCredit,
+    walletBalance: faker.number.float({ min: 0, max: 1000 }),
+    currency: faker.finance.currencyCode(),
+    isCreditApproved: faker.datatype.boolean(),
+    paymentTermsDays: faker.number.int({ min: 15, max: 90 }),
+    lastPaymentDate: faker.datatype.boolean() ? faker.date.recent() : null,
+  };
+};
 
 export const generateBillingQuote = (
   faker: Faker,
@@ -77,26 +82,30 @@ export const generateBillingInvoice = (
   clientId: string,
   createdByUserId?: string,
   quoteId?: string,
-): Insertable<DB['billing.invoices']> => ({
-  clientId: clientId,
-  createdByUserId: createdByUserId,
-  quoteId: quoteId,
-  invoiceNumber: faker.string.alphanumeric(10).toUpperCase(),
-  issueDate: faker.date.past(),
-  dueDate: faker.date.future(),
-  totalAmount: faker.number.float({ min: 100, max: 10000 }),
-  amountPaid: faker.number.float({ min: 0, max: 5000 }),
-  amountOutstanding: faker.number.float({ min: 0, max: 5000 }),
-  status: faker.helpers.arrayElement(Object.values(BillingInvoiceStatusEnum)),
-  currency: faker.finance.currencyCode(),
-  notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-  paymentTerms: faker.datatype.boolean() ? faker.lorem.word() : null,
-  paidAt: faker.datatype.boolean() ? faker.date.recent() : null,
-  sentAt: faker.datatype.boolean() ? faker.date.recent() : null,
-  subtotal: faker.number.float({ min: 90, max: 9000 }),
-  taxAmount: faker.number.float({ min: 5, max: 1000 }),
-  discountAmount: faker.number.float({ min: 0, max: 500 }),
-});
+): Insertable<DB['billing.invoices']> => {
+  const totalAmount = faker.number.float({ min: 100, max: 10000 });
+  const amountPaid = faker.number.float({ min: 0, max: totalAmount });
+
+  return {
+    clientId: clientId,
+    createdByUserId: createdByUserId,
+    quoteId: quoteId,
+    invoiceNumber: faker.string.alphanumeric(10).toUpperCase(),
+    issueDate: faker.date.past(),
+    dueDate: faker.date.future(),
+    totalAmount: totalAmount,
+    amountPaid: amountPaid,
+    status: faker.helpers.arrayElement(Object.values(BillingInvoiceStatusEnum)),
+    currency: faker.finance.currencyCode(),
+    notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
+    paymentTerms: faker.datatype.boolean() ? faker.lorem.word() : null,
+    paidAt: faker.datatype.boolean() ? faker.date.recent() : null,
+    sentAt: faker.datatype.boolean() ? faker.date.recent() : null,
+    subtotal: faker.number.float({ min: 90, max: 9000 }),
+    taxAmount: faker.number.float({ min: 5, max: 1000 }),
+    discountAmount: faker.number.float({ min: 0, max: 500 }),
+  };
+};
 
 export const generateBillingInvoiceLineItem = (
   faker: Faker,
@@ -237,4 +246,23 @@ export const generateBillingSurcharge = (
   description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   validFrom: faker.datatype.boolean() ? faker.date.past() : null,
   validTo: faker.datatype.boolean() ? faker.date.future() : null,
+});
+
+export const generateBillingAccountTransaction = (
+  faker: Faker,
+  clientAccountId: string,
+  sourceRecordId?: string,
+  sourceRecordType?: string,
+  processedByUserId?: string,
+): Insertable<DB['billing.accountTransactions']> => ({
+  clientAccountId: clientAccountId,
+  type: faker.helpers.arrayElement(Object.values(BillingTransactionTypeEnum)),
+  amount: faker.number.float({ min: -5000, max: 5000 }),
+  runningBalance: faker.number.float({ min: 0, max: 10000 }),
+  sourceRecordId: sourceRecordId,
+  sourceRecordType: sourceRecordType,
+  description: faker.lorem.sentence(),
+  referenceNumber: faker.string.alphanumeric(10).toUpperCase(),
+  transactionDate: faker.date.recent(),
+  processedByUserId: processedByUserId,
 });

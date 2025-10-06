@@ -8,21 +8,21 @@ import {
 } from 'kysely';
 import { DB } from '@/db/types';
 
-export class WmsInventoryStockRepository {
+export class DmsDeliveryRouteRepository {
   constructor(private db: Kysely<DB>) {}
 
   select(
     page: number,
     perPage: number,
-    fields?: SelectExpression<DB, 'wms.inventoryStock'>,
+    fields?: SelectExpression<DB, 'dms.deliveryRoutes'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'wms.inventoryStock', {}>;
+      field: OrderByExpression<DB, 'dms.deliveryRoutes', {}>;
       order: OrderByModifiers;
     }[],
   ) {
     let builder = this.db
-      .selectFrom('wms.inventoryStock')
+      .selectFrom('dms.deliveryRoutes')
       .limit(perPage)
       .offset((page - 1) * perPage);
 
@@ -38,39 +38,39 @@ export class WmsInventoryStockRepository {
     }
 
     if (search)
-      builder = builder.where('wms.inventoryStock.id', 'like', `%${search}%`);
+      builder = builder.where('dms.deliveryRoutes.id', 'like', `%${search}%`);
 
     return builder;
   }
 
-  create(value: Insertable<DB['wms.inventoryStock']>) {
+  create(value: Insertable<DB['dms.deliveryRoutes']>) {
     return this.db
-      .insertInto('wms.inventoryStock')
+      .insertInto('dms.deliveryRoutes')
       .values(value)
       .returningAll();
   }
 
-  batchCreate(values: Insertable<DB['wms.inventoryStock']>[]) {
+  batchCreate(values: Insertable<DB['dms.deliveryRoutes']>[]) {
     return this.db
-      .insertInto('wms.inventoryStock')
+      .insertInto('dms.deliveryRoutes')
       .values(values)
       .returningAll();
   }
 
   update(
-    id: DB['wms.inventoryStock']['id']['__update__'],
-    value: Updateable<DB['wms.inventoryStock']>,
+    id: DB['dms.deliveryRoutes']['id']['__update__'],
+    value: Updateable<DB['dms.deliveryRoutes']>,
   ) {
     return this.db
-      .updateTable('wms.inventoryStock')
+      .updateTable('dms.deliveryRoutes')
       .set(value)
-      .where('wms.inventoryStock.id', '=', id)
+      .where('dms.deliveryRoutes.id', '=', id)
       .returningAll();
   }
 
-  delete(id: DB['wms.inventoryStock']['id']['__update__']) {
+  delete(id: DB['dms.deliveryRoutes']['id']['__update__']) {
     return this.db
-      .deleteFrom('wms.inventoryStock')
-      .where('wms.inventoryStock.id', '=', id);
+      .deleteFrom('dms.deliveryRoutes')
+      .where('dms.deliveryRoutes.id', '=', id);
   }
 }

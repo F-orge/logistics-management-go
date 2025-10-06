@@ -58,7 +58,8 @@ export class DmsCustomerTrackingLinkRepository {
     return this.db
       .insertInto('dms.customerTrackingLinks')
       .values(values)
-      .returningAll();
+      .returningAll()
+      .onConflict((oc) => oc.doNothing());
   }
 
   update(

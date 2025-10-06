@@ -38,7 +38,7 @@ export const generateDmsDeliveryTask = (
     ? faker.lorem.sentence()
     : null,
   recipientName: faker.person.fullName(),
-  recipientPhone: faker.phone.number(),
+  recipientPhone: faker.phone.number({ style: 'international' }),
   actualArrivalTime: faker.datatype.boolean() ? faker.date.recent() : null,
   deliveryTime: faker.datatype.boolean() ? faker.date.recent() : null,
   attemptCount: faker.number.int({ min: 1, max: 3 }),
