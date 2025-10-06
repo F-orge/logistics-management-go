@@ -1,6 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 import z from 'zod';
 import { auth } from '@/lib/auth';
+import { requestMiddleware } from '@/middleware/request';
 
 export const authSignUpEmail = createServerFn({ method: 'POST' })
   .inputValidator(
@@ -15,6 +16,7 @@ export const authSignUpEmail = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => auth.api.signUpEmail({ body: data }));
 
 export const authSignInEmail = createServerFn({ method: 'POST' })
+  .middleware([requestMiddleware])
   .inputValidator(
     z.object({
       email: z.email(),
@@ -23,13 +25,15 @@ export const authSignInEmail = createServerFn({ method: 'POST' })
       callbackURL: z.url().optional(),
     }),
   )
-  .handler(async ({ data }) =>
-    auth.api.signInEmail({ body: data, headers: {} }),
+  .handler(async ({ data, context }) =>
+    auth.api.signInEmail({ body: data, headers: context.request.headers }),
   );
 
-export const authSignOut = createServerFn({ method: 'POST' }).handler(
-  async () => auth.api.signOut({ headers: {} }),
-);
+export const authSignOut = createServerFn({ method: 'POST' })
+  .middleware([requestMiddleware])
+  .handler(async ({ context }) =>
+    auth.api.signOut({ headers: context.request.headers }),
+  );
 
 export const authRequestPasswordReset = createServerFn({ method: 'POST' })
   .inputValidator(
@@ -50,6 +54,7 @@ export const authResetPassword = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => auth.api.resetPassword({ body: data }));
 
 export const authChangePassword = createServerFn({ method: 'POST' })
+  .middleware([requestMiddleware])
   .inputValidator(
     z.object({
       newPassword: z.string().min(8).max(128),
@@ -57,6 +62,6 @@ export const authChangePassword = createServerFn({ method: 'POST' })
       revokeOtherSessions: z.boolean().optional(),
     }),
   )
-  .handler(async ({ data }) =>
-    auth.api.changePassword({ body: data, headers: {} }),
+  .handler(async ({ data, context }) =>
+    auth.api.changePassword({ body: data, headers: context.request.headers }),
   );
