@@ -1,3 +1,6 @@
+import { createServerFn } from '@tanstack/react-start';
+import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
+import z from 'zod';
 import { kyselyDb } from '@/db';
 import {
   insertOpportunityProductSchema,
@@ -7,13 +10,10 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmOpportunityProductRepository } from '@/repositories/crm/opportunityProducts';
 import {
-  crmOpportunityProductSchema,
   crmOpportunityProductInsertSchema,
+  crmOpportunityProductSchema,
   crmOpportunityProductUpdateSchema,
 } from '@/schemas/crm/opportunity_products';
-import { createServerFn } from '@tanstack/react-start';
-import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
-import z from 'zod';
 
 export const selectCrmOpportunityProduct = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(crmOpportunityProductSchema))

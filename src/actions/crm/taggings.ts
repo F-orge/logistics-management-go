@@ -1,16 +1,16 @@
+import { createServerFn } from '@tanstack/react-start';
+import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
+import z from 'zod';
 import { kyselyDb } from '@/db';
 import { insertTaggingSchema, updateTaggingSchema } from '@/db/schemas';
 import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmTaggingRepository } from '@/repositories/crm/taggings';
 import {
-  crmTaggingSchema,
   crmTaggingInsertSchema,
+  crmTaggingSchema,
   crmTaggingUpdateSchema,
 } from '@/schemas/crm/tagging';
-import { createServerFn } from '@tanstack/react-start';
-import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
-import z from 'zod';
 
 export const selectCrmTagging = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(crmTaggingSchema))

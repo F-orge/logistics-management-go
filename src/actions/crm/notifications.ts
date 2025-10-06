@@ -1,3 +1,6 @@
+import { createServerFn } from '@tanstack/react-start';
+import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
+import z from 'zod';
 import { kyselyDb } from '@/db';
 import {
   insertNotificationSchema,
@@ -7,9 +10,6 @@ import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmNotificationRepository } from '@/repositories/crm/notifications';
 import { crmNotificationSchema } from '@/schemas/crm/notifications';
-import { createServerFn } from '@tanstack/react-start';
-import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
-import z from 'zod';
 
 export const selectCrmNotification = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(crmNotificationSchema))

@@ -1,58 +1,58 @@
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
 import type { Kysely } from 'kysely';
 import { DB, WmsTaskTypeEnum } from '@/db/types';
+import { WmsBinThresholdRepository } from '@/repositories/wms/binThresholds';
+import { WmsInboundShipmentItemRepository } from '@/repositories/wms/inboundShipmentItems';
+import { WmsInboundShipmentRepository } from '@/repositories/wms/inboundShipments';
+import { WmsInventoryAdjustmentRepository } from '@/repositories/wms/inventoryAdjustments';
+import { WmsInventoryBatchRepository } from '@/repositories/wms/inventoryBatches';
+import { WmsInventoryStockRepository } from '@/repositories/wms/inventoryStocks';
+import { WmsLocationRepository } from '@/repositories/wms/locations';
+import { WmsOutboundShipmentItemRepository } from '@/repositories/wms/outboundShipmentItems';
+import { WmsOutboundShipmentRepository } from '@/repositories/wms/outboundShipments';
+import { WmsPackageItemRepository } from '@/repositories/wms/packageItems';
+import { WmsPackageRepository } from '@/repositories/wms/packages';
+import { WmsPickBatchRepository } from '@/repositories/wms/pickBatches';
+import { WmsPickBatchItemRepository } from '@/repositories/wms/pickBatchItems';
+import { WmsProductRepository } from '@/repositories/wms/products';
+import { WmsPutawayRuleRepository } from '@/repositories/wms/putawayRules';
+import { WmsReorderPointRepository } from '@/repositories/wms/reorderPoints';
+import { WmsReturnItemRepository } from '@/repositories/wms/returnItems';
+import { WmsReturnRepository } from '@/repositories/wms/returns';
+import { WmsSalesOrderItemRepository } from '@/repositories/wms/salesOrderItems';
+import { WmsSalesOrderRepository } from '@/repositories/wms/salesOrders';
+import { WmsStockTransferRepository } from '@/repositories/wms/stockTransfers';
+import { WmsSupplierRepository } from '@/repositories/wms/suppliers';
+import { WmsTaskItemRepository } from '@/repositories/wms/taskItems';
+import { WmsTaskRepository } from '@/repositories/wms/tasks';
+import { WmsWarehouseRepository } from '@/repositories/wms/warehouses';
 import {
-  generateWmsWarehouse,
-  generateWmsSupplier,
-  generateWmsProduct,
-  generateWmsLocation,
-  generateWmsInventoryBatch,
-  generateWmsInventoryStock,
-  generateWmsSalesOrder,
-  generateWmsSalesOrderItem,
+  generateWmsBinThreshold,
   generateWmsInboundShipment,
   generateWmsInboundShipmentItem,
+  generateWmsInventoryAdjustment,
+  generateWmsInventoryBatch,
+  generateWmsInventoryStock,
+  generateWmsLocation,
   generateWmsOutboundShipment,
   generateWmsOutboundShipmentItem,
   generateWmsPackage,
   generateWmsPackageItem,
   generateWmsPickBatch,
   generateWmsPickBatchItem,
-  generateWmsTask,
-  generateWmsTaskItem,
-  generateWmsBinThreshold,
+  generateWmsProduct,
   generateWmsPutawayRule,
   generateWmsReorderPoint,
   generateWmsReturn,
   generateWmsReturnItem,
+  generateWmsSalesOrder,
+  generateWmsSalesOrderItem,
   generateWmsStockTransfer,
-  generateWmsInventoryAdjustment,
+  generateWmsSupplier,
+  generateWmsTask,
+  generateWmsTaskItem,
+  generateWmsWarehouse,
 } from '@/seeds/wms-helpers';
-import { WmsWarehouseRepository } from '@/repositories/wms/warehouses';
-import { WmsSupplierRepository } from '@/repositories/wms/suppliers';
-import { WmsProductRepository } from '@/repositories/wms/products';
-import { WmsLocationRepository } from '@/repositories/wms/locations';
-import { WmsInventoryBatchRepository } from '@/repositories/wms/inventoryBatches';
-import { WmsInventoryStockRepository } from '@/repositories/wms/inventoryStocks';
-import { WmsSalesOrderRepository } from '@/repositories/wms/salesOrders';
-import { WmsSalesOrderItemRepository } from '@/repositories/wms/salesOrderItems';
-import { WmsInboundShipmentRepository } from '@/repositories/wms/inboundShipments';
-import { WmsInboundShipmentItemRepository } from '@/repositories/wms/inboundShipmentItems';
-import { WmsOutboundShipmentRepository } from '@/repositories/wms/outboundShipments';
-import { WmsOutboundShipmentItemRepository } from '@/repositories/wms/outboundShipmentItems';
-import { WmsPackageRepository } from '@/repositories/wms/packages';
-import { WmsPackageItemRepository } from '@/repositories/wms/packageItems';
-import { WmsPickBatchRepository } from '@/repositories/wms/pickBatches';
-import { WmsPickBatchItemRepository } from '@/repositories/wms/pickBatchItems';
-import { WmsTaskRepository } from '@/repositories/wms/tasks';
-import { WmsTaskItemRepository } from '@/repositories/wms/taskItems';
-import { WmsBinThresholdRepository } from '@/repositories/wms/binThresholds';
-import { WmsPutawayRuleRepository } from '@/repositories/wms/putawayRules';
-import { WmsReorderPointRepository } from '@/repositories/wms/reorderPoints';
-import { WmsReturnRepository } from '@/repositories/wms/returns';
-import { WmsReturnItemRepository } from '@/repositories/wms/returnItems';
-import { WmsStockTransferRepository } from '@/repositories/wms/stockTransfers';
-import { WmsInventoryAdjustmentRepository } from '@/repositories/wms/inventoryAdjustments';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
   const faker = new Faker({ locale: [de_AT, de, en, base] });

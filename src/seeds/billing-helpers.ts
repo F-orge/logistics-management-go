@@ -1,7 +1,6 @@
 import { Faker } from '@faker-js/faker';
 import { Insertable } from 'kysely';
 import {
-  DB,
   BillingDisputeStatusEnum,
   BillingDocumentTypeEnum,
   BillingInvoiceStatusEnum,
@@ -13,6 +12,7 @@ import {
   BillingSurchargeCalculationMethodEnum,
   BillingSyncStatusEnum,
   BillingTransactionTypeEnum,
+  DB,
 } from '@/db/types';
 
 export const generateBillingAccountingSyncLog = (

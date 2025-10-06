@@ -1,15 +1,15 @@
+import { createServerFn } from '@tanstack/react-start';
+import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
+import z from 'zod';
 import { kyselyDb } from '@/db';
 import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmContactRepository } from '@/repositories/crm/contacts';
 import {
-  crmContactSchema,
   crmContactInsertSchema,
+  crmContactSchema,
   crmContactUpdateSchema,
 } from '@/schemas/crm/contacts';
-import { createServerFn } from '@tanstack/react-start';
-import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
-import z from 'zod';
 
 export const selectCrmContact = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(crmContactSchema))

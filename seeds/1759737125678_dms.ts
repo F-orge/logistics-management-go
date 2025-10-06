@@ -1,24 +1,23 @@
-import { Kysely } from 'kysely';
 import { faker } from '@faker-js/faker';
+import { Kysely } from 'kysely';
 import { DB } from '@/db/types';
-
-// Import DMS helpers
-import {
-  generateDmsDeliveryRoute,
-  generateDmsDeliveryTask,
-  generateDmsCustomerTrackingLink,
-  generateDmsDriverLocation,
-  generateDmsProofOfDelivery,
-  generateDmsTaskEvent,
-} from '@/seeds/dms-helpers';
+import { DmsCustomerTrackingLinkRepository } from '@/repositories/dms/customerTrackingLinks';
 
 // Import DMS repositories
 import { DmsDeliveryRouteRepository } from '@/repositories/dms/deliveryRoutes';
 import { DmsDeliveryTaskRepository } from '@/repositories/dms/deliveryTasks';
-import { DmsCustomerTrackingLinkRepository } from '@/repositories/dms/customerTrackingLinks';
 import { DmsDriverLocationRepository } from '@/repositories/dms/driverLocations';
 import { DmsProofOfDeliveryRepository } from '@/repositories/dms/proofOfDeliveries';
 import { DmsTaskEventRepository } from '@/repositories/dms/taskEvents';
+// Import DMS helpers
+import {
+  generateDmsCustomerTrackingLink,
+  generateDmsDeliveryRoute,
+  generateDmsDeliveryTask,
+  generateDmsDriverLocation,
+  generateDmsProofOfDelivery,
+  generateDmsTaskEvent,
+} from '@/seeds/dms-helpers';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
   console.log('🚛 Starting DMS seed...');

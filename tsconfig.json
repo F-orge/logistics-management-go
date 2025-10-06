@@ -13,6 +13,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "apps", "scripts", ".config","seeds"],
+  "include": ["src", "apps", "scripts", ".config", "seeds"],
   "exclude": ["apps/**/graphql/resolver-types.ts"]
 }

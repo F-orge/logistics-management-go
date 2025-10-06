@@ -1,38 +1,38 @@
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
 import type { Kysely } from 'kysely';
-import { DB, CrmRecordType } from '@/db/types';
+import { CrmRecordType, DB } from '@/db/types';
+import { CrmAttachmentRepository } from '@/repositories/crm/attachments';
+import { CrmCampaignRepository } from '@/repositories/crm/campaigns';
+import { CrmCaseRepository } from '@/repositories/crm/cases';
+import { CrmCompanyRepository } from '@/repositories/crm/companies';
+import { CrmContactRepository } from '@/repositories/crm/contacts';
+import { CrmInteractionRepository } from '@/repositories/crm/interactions';
+import { CrmInvoiceItemRepository } from '@/repositories/crm/invoiceItems';
+import { CrmInvoiceRepository } from '@/repositories/crm/invoices';
+import { CrmLeadRepository } from '@/repositories/crm/leads';
+import { CrmNotificationRepository } from '@/repositories/crm/notifications';
+import { CrmOpportunityRepository } from '@/repositories/crm/opportunities';
+import { CrmOpportunityProductRepository } from '@/repositories/crm/opportunityProducts';
+import { CrmProductRepository } from '@/repositories/crm/products';
+import { CrmTaggingRepository } from '@/repositories/crm/taggings';
+import { CrmTagRepository } from '@/repositories/crm/tags';
 import {
+  generateCrmAttachment,
   generateCrmCampaign,
-  generateCrmProduct,
-  generateCrmTag,
+  generateCrmCase,
   generateCrmCompany,
   generateCrmContact,
-  generateCrmLead,
-  generateCrmOpportunity,
-  generateCrmCase,
   generateCrmInteraction,
   generateCrmInvoice,
   generateCrmInvoiceItem,
-  generateCrmOpportunityProduct,
+  generateCrmLead,
   generateCrmNotification,
-  generateCrmAttachment,
+  generateCrmOpportunity,
+  generateCrmOpportunityProduct,
+  generateCrmProduct,
+  generateCrmTag,
   generateCrmTagging,
 } from '@/seeds/crm-helpers';
-import { CrmCampaignRepository } from '@/repositories/crm/campaigns';
-import { CrmProductRepository } from '@/repositories/crm/products';
-import { CrmTagRepository } from '@/repositories/crm/tags';
-import { CrmCompanyRepository } from '@/repositories/crm/companies';
-import { CrmContactRepository } from '@/repositories/crm/contacts';
-import { CrmLeadRepository } from '@/repositories/crm/leads';
-import { CrmOpportunityRepository } from '@/repositories/crm/opportunities';
-import { CrmCaseRepository } from '@/repositories/crm/cases';
-import { CrmInteractionRepository } from '@/repositories/crm/interactions';
-import { CrmInvoiceRepository } from '@/repositories/crm/invoices';
-import { CrmInvoiceItemRepository } from '@/repositories/crm/invoiceItems';
-import { CrmOpportunityProductRepository } from '@/repositories/crm/opportunityProducts';
-import { CrmNotificationRepository } from '@/repositories/crm/notifications';
-import { CrmAttachmentRepository } from '@/repositories/crm/attachments';
-import { CrmTaggingRepository } from '@/repositories/crm/taggings';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
   const faker = new Faker({ locale: [de_AT, de, en, base] });

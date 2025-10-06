@@ -1,44 +1,44 @@
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
 import type { Kysely } from 'kysely';
 import { DB } from '@/db/types';
+import { TmsCarrierRateRepository } from '@/repositories/tms/carrierRates';
+import { TmsCarrierRepository } from '@/repositories/tms/carriers';
+import { TmsDriverScheduleRepository } from '@/repositories/tms/driverSchedules';
+import { TmsDriverRepository } from '@/repositories/tms/drivers';
+import { TmsExpenseRepository } from '@/repositories/tms/expenses';
+import { TmsGeofenceEventRepository } from '@/repositories/tms/geofenceEvents';
+import { TmsGeofenceRepository } from '@/repositories/tms/geofences';
+import { TmsGpsPingRepository } from '@/repositories/tms/gpsPings';
+import { TmsPartnerInvoiceItemRepository } from '@/repositories/tms/partnerInvoiceItems';
+import { TmsPartnerInvoiceRepository } from '@/repositories/tms/partnerInvoices';
+import { TmsProofOfDeliveryRepository } from '@/repositories/tms/proofOfDeliveries';
+import { TmsRouteRepository } from '@/repositories/tms/routes';
+import { TmsShipmentLegEventRepository } from '@/repositories/tms/shipmentLegEvents';
+import { TmsShipmentLegRepository } from '@/repositories/tms/shipmentLegs';
+import { TmsTripStopRepository } from '@/repositories/tms/tripStops';
+import { TmsTripRepository } from '@/repositories/tms/trips';
+import { TmsVehicleMaintenanceRepository } from '@/repositories/tms/vehicleMaintenance';
+import { TmsVehicleRepository } from '@/repositories/tms/vehicles';
 import {
   generateTmsCarrier,
-  generateTmsVehicle,
-  generateTmsGeofence,
+  generateTmsCarrierRate,
   generateTmsDriver,
   generateTmsDriverSchedule,
-  generateTmsVehicleMaintenance,
-  generateTmsTrip,
-  generateTmsTripStop,
-  generateTmsRoute,
-  generateTmsProofOfDelivery,
-  generateTmsGpsPing,
-  generateTmsGeofenceEvent,
   generateTmsExpense,
-  generateTmsCarrierRate,
-  generateTmsShipmentLeg,
-  generateTmsShipmentLegEvent,
+  generateTmsGeofence,
+  generateTmsGeofenceEvent,
+  generateTmsGpsPing,
   generateTmsPartnerInvoice,
   generateTmsPartnerInvoiceItem,
+  generateTmsProofOfDelivery,
+  generateTmsRoute,
+  generateTmsShipmentLeg,
+  generateTmsShipmentLegEvent,
+  generateTmsTrip,
+  generateTmsTripStop,
+  generateTmsVehicle,
+  generateTmsVehicleMaintenance,
 } from '@/seeds/tms-helpers';
-import { TmsCarrierRepository } from '@/repositories/tms/carriers';
-import { TmsVehicleRepository } from '@/repositories/tms/vehicles';
-import { TmsGeofenceRepository } from '@/repositories/tms/geofences';
-import { TmsDriverRepository } from '@/repositories/tms/drivers';
-import { TmsDriverScheduleRepository } from '@/repositories/tms/driverSchedules';
-import { TmsVehicleMaintenanceRepository } from '@/repositories/tms/vehicleMaintenance';
-import { TmsTripRepository } from '@/repositories/tms/trips';
-import { TmsTripStopRepository } from '@/repositories/tms/tripStops';
-import { TmsRouteRepository } from '@/repositories/tms/routes';
-import { TmsProofOfDeliveryRepository } from '@/repositories/tms/proofOfDeliveries';
-import { TmsGpsPingRepository } from '@/repositories/tms/gpsPings';
-import { TmsGeofenceEventRepository } from '@/repositories/tms/geofenceEvents';
-import { TmsExpenseRepository } from '@/repositories/tms/expenses';
-import { TmsCarrierRateRepository } from '@/repositories/tms/carrierRates';
-import { TmsShipmentLegRepository } from '@/repositories/tms/shipmentLegs';
-import { TmsShipmentLegEventRepository } from '@/repositories/tms/shipmentLegEvents';
-import { TmsPartnerInvoiceRepository } from '@/repositories/tms/partnerInvoices';
-import { TmsPartnerInvoiceItemRepository } from '@/repositories/tms/partnerInvoiceItems';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
   const faker = new Faker({ locale: [de_AT, de, en, base] });

@@ -1,15 +1,15 @@
+import { createServerFn } from '@tanstack/react-start';
+import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
+import z from 'zod';
 import { kyselyDb } from '@/db';
 import { DB } from '@/db/types';
 import { selectQueryParams } from '@/lib/server-utils';
 import { CrmProductRepository } from '@/repositories/crm/products';
 import {
-  crmProductSchema,
   crmProductInsertSchema,
+  crmProductSchema,
   crmProductUpdateSchema,
 } from '@/schemas/crm/products';
-import { createServerFn } from '@tanstack/react-start';
-import { OrderByExpression, OrderByModifiers, SelectExpression } from 'kysely';
-import z from 'zod';
 
 export const selectCrmProduct = createServerFn({ method: 'GET' })
   .inputValidator(selectQueryParams(crmProductSchema))

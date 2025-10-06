@@ -1,38 +1,36 @@
-import { Kysely } from 'kysely';
 import { faker } from '@faker-js/faker';
+import { Kysely } from 'kysely';
 import { DB } from '@/db/types';
-
-// Import billing helpers
-import {
-  generateBillingAccountingSyncLog,
-  generateBillingClientAccount,
-  generateBillingQuote,
-  generateBillingInvoice,
-  generateBillingInvoiceLineItem,
-  generateBillingPayment,
-  generateBillingDispute,
-  generateBillingCreditNote,
-  generateBillingDocument,
-  generateBillingRateCard,
-  generateBillingRateRule,
-  generateBillingSurcharge,
-  generateBillingAccountTransaction,
-} from '@/seeds/billing-helpers';
-
+import { BillingAccountingSyncLogRepository } from '@/repositories/billing/accountingSyncLogs';
+import { BillingAccountTransactionRepository } from '@/repositories/billing/accountTransactions';
 // Import billing repositories
 import { BillingClientAccountRepository } from '@/repositories/billing/clientAccounts';
-import { BillingQuoteRepository } from '@/repositories/billing/quotes';
-import { BillingInvoiceRepository } from '@/repositories/billing/invoices';
-import { BillingInvoiceLineItemRepository } from '@/repositories/billing/invoiceLineItems';
-import { BillingPaymentRepository } from '@/repositories/billing/payments';
-import { BillingDisputeRepository } from '@/repositories/billing/disputes';
 import { BillingCreditNoteRepository } from '@/repositories/billing/creditNotes';
+import { BillingDisputeRepository } from '@/repositories/billing/disputes';
 import { BillingDocumentRepository } from '@/repositories/billing/documents';
+import { BillingInvoiceLineItemRepository } from '@/repositories/billing/invoiceLineItems';
+import { BillingInvoiceRepository } from '@/repositories/billing/invoices';
+import { BillingPaymentRepository } from '@/repositories/billing/payments';
+import { BillingQuoteRepository } from '@/repositories/billing/quotes';
 import { BillingRateCardRepository } from '@/repositories/billing/rateCards';
 import { BillingRateRuleRepository } from '@/repositories/billing/rateRules';
 import { BillingSurchargeRepository } from '@/repositories/billing/surcharges';
-import { BillingAccountTransactionRepository } from '@/repositories/billing/accountTransactions';
-import { BillingAccountingSyncLogRepository } from '@/repositories/billing/accountingSyncLogs';
+// Import billing helpers
+import {
+  generateBillingAccountingSyncLog,
+  generateBillingAccountTransaction,
+  generateBillingClientAccount,
+  generateBillingCreditNote,
+  generateBillingDispute,
+  generateBillingDocument,
+  generateBillingInvoice,
+  generateBillingInvoiceLineItem,
+  generateBillingPayment,
+  generateBillingQuote,
+  generateBillingRateCard,
+  generateBillingRateRule,
+  generateBillingSurcharge,
+} from '@/seeds/billing-helpers';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
   console.log('💰 Starting Billing seed...');

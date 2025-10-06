@@ -1,7 +1,7 @@
-import { authFactoryV2 } from '@/lib/auth';
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
 import type { Kysely } from 'kysely';
 import { Pool } from 'pg';
+import { authFactoryV2 } from '@/lib/auth';
 
 // replace `any` with your database interface.
 export async function seed(db: Kysely<any>): Promise<void> {

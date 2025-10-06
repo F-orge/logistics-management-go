@@ -1,7 +1,6 @@
 import { Faker } from '@faker-js/faker';
 import { Insertable } from 'kysely';
 import {
-  DB,
   CrmCasePriority,
   CrmCaseStatus,
   CrmCaseType,
@@ -14,6 +13,7 @@ import {
   CrmPaymentMethod,
   CrmProductType,
   CrmRecordType,
+  DB,
 } from '@/db/types';
 
 export const generateCrmAttachment = (
