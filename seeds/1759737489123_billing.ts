@@ -299,7 +299,6 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     .execute();
   console.log(`✅ Created ${accountTransactions.length} account transactions`);
 
-  // 13. Create Accounting Sync Logs (commented out - table might not exist)
   console.log('🔄 Creating accounting sync logs...');
   const accountingSyncLogsData = Array.from({ length: 50 }, () => {
     const recordTypes = ['invoice', 'payment', 'credit_note', 'client_account'];
