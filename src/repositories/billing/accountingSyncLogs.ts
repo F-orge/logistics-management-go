@@ -14,15 +14,15 @@ export class BillingAccountingSyncLogRepository {
   select(
     page: number,
     perPage: number,
-    fields?: SelectExpression<DB, 'billing.accountingSyncLogs'>,
+    fields?: SelectExpression<DB, 'billing.accountingSyncLog'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'billing.accountingSyncLogs', {}>;
+      field: OrderByExpression<DB, 'billing.accountingSyncLog', {}>;
       order: OrderByModifiers;
     }[],
   ) {
     let builder = this.db
-      .selectFrom('billing.accountingSyncLogs')
+      .selectFrom('billing.accountingSyncLog')
       .limit(perPage)
       .offset((page - 1) * perPage);
 
@@ -39,7 +39,7 @@ export class BillingAccountingSyncLogRepository {
 
     if (search)
       builder = builder.where(
-        'billing.accountingSyncLogs.id',
+        'billing.accountingSyncLog.id',
         'like',
         `%${search}%`,
       );
@@ -47,34 +47,34 @@ export class BillingAccountingSyncLogRepository {
     return builder;
   }
 
-  create(value: Insertable<DB['billing.accountingSyncLogs']>) {
+  create(value: Insertable<DB['billing.accountingSyncLog']>) {
     return this.db
-      .insertInto('billing.accountingSyncLogs')
+      .insertInto('billing.accountingSyncLog')
       .values(value)
       .returningAll();
   }
 
-  batchCreate(values: Insertable<DB['billing.accountingSyncLogs']>[]) {
+  batchCreate(values: Insertable<DB['billing.accountingSyncLog']>[]) {
     return this.db
-      .insertInto('billing.accountingSyncLogs')
+      .insertInto('billing.accountingSyncLog')
       .values(values)
       .returningAll();
   }
 
   update(
-    id: DB['billing.accountingSyncLogs']['id']['__update__'],
-    value: Updateable<DB['billing.accountingSyncLogs']>,
+    id: DB['billing.accountingSyncLog']['id']['__update__'],
+    value: Updateable<DB['billing.accountingSyncLog']>,
   ) {
     return this.db
-      .updateTable('billing.accountingSyncLogs')
+      .updateTable('billing.accountingSyncLog')
       .set(value)
-      .where('billing.accountingSyncLogs.id', '=', id)
+      .where('billing.accountingSyncLog.id', '=', id)
       .returningAll();
   }
 
-  delete(id: DB['billing.accountingSyncLogs']['id']['__update__']) {
+  delete(id: DB['billing.accountingSyncLog']['id']['__update__']) {
     return this.db
-      .deleteFrom('billing.accountingSyncLogs')
-      .where('billing.accountingSyncLogs.id', '=', id);
+      .deleteFrom('billing.accountingSyncLog')
+      .where('billing.accountingSyncLog.id', '=', id);
   }
 }

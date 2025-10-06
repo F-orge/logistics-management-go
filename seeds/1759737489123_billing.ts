@@ -300,34 +300,37 @@ export async function seed(db: Kysely<DB>): Promise<void> {
   console.log(`✅ Created ${accountTransactions.length} account transactions`);
 
   // 13. Create Accounting Sync Logs (commented out - table might not exist)
-  // console.log('🔄 Creating accounting sync logs...');
-  // const accountingSyncLogsData = Array.from({ length: 50 }, () => {
-  //   const recordTypes = ['invoice', 'payment', 'credit_note', 'client_account'];
-  //   const recordType = faker.helpers.arrayElement(recordTypes);
-  //   let recordId: string;
+  console.log('🔄 Creating accounting sync logs...');
+  const accountingSyncLogsData = Array.from({ length: 50 }, () => {
+    const recordTypes = ['invoice', 'payment', 'credit_note', 'client_account'];
+    const recordType = faker.helpers.arrayElement(recordTypes);
+    let recordId: string;
 
-  //   switch (recordType) {
-  //     case 'invoice':
-  //       recordId = faker.helpers.arrayElement(invoices).id;
-  //       break;
-  //     case 'payment':
-  //       recordId = faker.helpers.arrayElement(payments).id;
-  //       break;
-  //     case 'credit_note':
-  //       recordId = faker.helpers.arrayElement(creditNotes).id;
-  //       break;
-  //     case 'client_account':
-  //       recordId = faker.helpers.arrayElement(clientAccounts).id;
-  //       break;
-  //     default:
-  //       recordId = faker.helpers.arrayElement(invoices).id;
-  //   }
+    switch (recordType) {
+      case 'invoice':
+        recordId = faker.helpers.arrayElement(invoices).id;
+        break;
+      case 'payment':
+        recordId = faker.helpers.arrayElement(payments).id;
+        break;
+      case 'credit_note':
+        recordId = faker.helpers.arrayElement(creditNotes).id;
+        break;
+      case 'client_account':
+        recordId = faker.helpers.arrayElement(clientAccounts).id;
+        break;
+      default:
+        recordId = faker.helpers.arrayElement(invoices).id;
+    }
 
-  //   return generateBillingAccountingSyncLog(faker, recordId, recordType);
-  // });
+    return generateBillingAccountingSyncLog(faker, recordId, recordType);
+  });
 
-  // const accountingSyncLogs = await accountingSyncLogRepo.batchCreate(accountingSyncLogsData).onConflict((oc) => oc.doNothing()).execute();
-  // console.log(`✅ Created ${accountingSyncLogs.length} accounting sync logs`);
+  const accountingSyncLogs = await accountingSyncLogRepo
+    .batchCreate(accountingSyncLogsData)
+    .onConflict((oc) => oc.doNothing())
+    .execute();
+  console.log(`✅ Created ${accountingSyncLogs.length} accounting sync logs`);
 
   // Summary
   const totalRecords =
