@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
-import { AllRoles } from '@/lib/permissions';
 import { createServerFn } from '@tanstack/react-start';
 import z from 'zod';
+import { auth } from '@/lib/auth';
+import { AllRoles } from '@/lib/permissions';
 
 export const authCreateUser = createServerFn({ method: 'POST' })
   .inputValidator(

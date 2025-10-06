@@ -1,6 +1,6 @@
-import { auth } from '@/lib/auth';
 import { createServerFn } from '@tanstack/react-start';
 import z from 'zod';
+import { auth } from '@/lib/auth';
 
 export const authSignUpEmail = createServerFn({ method: 'POST' })
   .inputValidator(
