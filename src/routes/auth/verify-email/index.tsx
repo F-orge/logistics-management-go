@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -13,6 +12,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/auth/verify-email/')({
   component: RouteComponent,

@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
-import { useAppForm } from '@/components/form';
-import { authSignUpEmail, type AuthSignUpInput } from '@/actions/auth/email';
-import z from 'zod';
 import { toast } from 'sonner';
+import z from 'zod';
+import { type AuthSignUpInput, authSignUpEmail } from '@/actions/auth/email';
+import { useAppForm } from '@/components/form';
+import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
 
 export const Route = createFileRoute('/auth/signup/')({
   component: RouteComponent,
