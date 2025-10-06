@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const tmsGpsPingSchema = z.object({
   id: z.uuid(),
-  tripId: z.uuid(),
+  vehicleId: z.uuid(),
   latitude: z.coerce
     .number()
     .min(-90, { error: 'Latitude must be at least -90' })
@@ -11,7 +11,7 @@ export const tmsGpsPingSchema = z.object({
     .number()
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
-  recordedAt: z.iso.datetime().nullable(),
+  timestamp: z.iso.datetime(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
@@ -22,6 +22,7 @@ export const tmsGpsPingInsertSchema = tmsGpsPingSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
+  timestamp: true,
 });
 
 export const tmsGpsPingUpdateSchema = tmsGpsPingInsertSchema.partial();

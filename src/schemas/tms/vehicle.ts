@@ -19,6 +19,10 @@ export const tmsVehicleSchema = z.object({
     .min(0, { error: 'Capacity must be at least 0' })
     .max(100000, { error: 'Capacity must be at most 100,000' })
     .nullable(),
+  registrationNumber: z
+    .string()
+    .min(1, { error: 'Registration Number is required' })
+    .max(100, { error: 'Registration Number must be at most 100 characters' }),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

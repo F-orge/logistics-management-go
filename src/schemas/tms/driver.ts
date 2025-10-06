@@ -10,8 +10,7 @@ export const tmsDriverSchema = z.object({
   licenseNumber: z
     .string()
     .min(1, { error: 'License number is required' })
-    .max(64, { error: 'License number must be at most 64 characters' })
-    .nullable(),
+    .max(64, { error: 'License number must be at most 64 characters' }),
   phone: z
     .string()
     .min(1, { error: 'Phone is required' })
@@ -20,6 +19,7 @@ export const tmsDriverSchema = z.object({
   status: z.enum(TmsDriverStatusEnum).nullable(),
   hiredAt: z.iso.datetime().nullable(),
   terminatedAt: z.iso.datetime().nullable(),
+  userId: z.string(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

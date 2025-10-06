@@ -2,18 +2,10 @@ import { z } from 'zod';
 
 export const tmsRouteSchema = z.object({
   id: z.uuid(),
-  name: z
-    .string()
-    .min(1, { error: 'Route name is required' })
-    .max(255, { error: 'Route name must be at most 255 characters' }),
-  origin: z
-    .string()
-    .min(1, { error: 'Origin is required' })
-    .max(255, { error: 'Origin must be at most 255 characters' }),
-  destination: z
-    .string()
-    .min(1, { error: 'Destination is required' })
-    .max(255, { error: 'Destination must be at most 255 characters' }),
+  tripId: z.uuid(),
+  optimizeRouteData: z.string().nullable(),
+  totalDistance: z.number().nullable(),
+  totalDuration: z.number().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

@@ -4,18 +4,13 @@ import { tmsShipmentLegEventInsertSchema } from './shipment_leg_event';
 
 export const tmsShipmentLegSchema = z.object({
   id: z.uuid(),
-  tripId: z.uuid(),
+  carrierId: z.uuid().nullable(),
+  endLocation: z.string().nullable(),
+  internalTripId: z.string().nullable(),
+  legSequence: z.number(),
   status: z.enum(TmsShipmentLegStatusEnum).nullable(),
-  origin: z
-    .string()
-    .min(1, { error: 'Origin is required' })
-    .max(255, { error: 'Origin must be at most 255 characters' }),
-  destination: z
-    .string()
-    .min(1, { error: 'Destination is required' })
-    .max(255, { error: 'Destination must be at most 255 characters' }),
-  startedAt: z.iso.datetime().nullable(),
-  completedAt: z.iso.datetime().nullable(),
+  shipmentId: z.uuid().nullable(),
+  startLocation: z.string().nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

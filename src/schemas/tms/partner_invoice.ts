@@ -4,11 +4,11 @@ import { tmsPartnerInvoiceItemInsertSchema } from './partner_invoice_item';
 
 export const tmsPartnerInvoiceSchema = z.object({
   id: z.uuid(),
-  partnerId: z.uuid(),
+  carrierId: z.uuid(),
   status: z.enum(TmsPartnerInvoiceStatusEnum).nullable(),
-  total: z.coerce.number(),
-  currency: z.enum(TmsCurrencyEnum).nullable(),
-  issuedAt: z.iso.datetime().nullable(),
+  totalAmount: z.coerce.number(),
+  invoiceDate: z.iso.datetime(),
+  invoiceNumber: z.string(),
   dueAt: z.iso.datetime().nullable(),
   paidAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime().nullable(),

@@ -4,14 +4,9 @@ import { TmsDriverScheduleReasonEnum } from '@/db/types';
 export const tmsDriverScheduleSchema = z.object({
   id: z.uuid(),
   driverId: z.uuid(),
-  startAt: z.iso.datetime().nullable(),
-  endAt: z.iso.datetime().nullable(),
+  startDate: z.iso.datetime(),
+  endDate: z.iso.datetime(),
   reason: z.enum(TmsDriverScheduleReasonEnum).nullable(),
-  notes: z
-    .string()
-    .min(1, { error: 'Notes are required' })
-    .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .nullable(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });

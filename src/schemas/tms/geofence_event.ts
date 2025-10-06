@@ -3,10 +3,10 @@ import { TmsGeofenceEventTypeEnum } from '@/db/types';
 
 export const tmsGeofenceEventSchema = z.object({
   id: z.uuid(),
+  vehicleId: z.uuid(),
   geofenceId: z.uuid(),
-  tripId: z.uuid().nullable(),
-  eventType: z.enum(TmsGeofenceEventTypeEnum).nullable(),
-  eventAt: z.iso.datetime().nullable(),
+  eventType: z.enum(TmsGeofenceEventTypeEnum),
+  timestamp: z.iso.datetime(),
   createdAt: z.iso.datetime().nullable(),
   updatedAt: z.iso.datetime().nullable(),
 });
@@ -17,6 +17,7 @@ export const tmsGeofenceEventInsertSchema = tmsGeofenceEventSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
+  timestamp: true,
 });
 
 export const tmsGeofenceEventUpdateSchema =
