@@ -26,7 +26,7 @@ export const crmAttachmentSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmAttachment = z.infer<typeof crmAttachmentSchema>;
 

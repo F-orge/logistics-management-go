@@ -1,16 +1,13 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createCrmCampaign,
   removeCrmCampaign,
   selectCrmCampaign,
   updateCrmCampaign,
 } from '@/actions/crm/campaigns';
-import {
-  insertCampaignSchema,
-  updateCampaignSchema,
-} from '@/db/schemas';
+import { insertCampaignSchema, updateCampaignSchema } from '@/db/schemas';
 import { crmCampaignSchema } from '@/schemas/crm/campaigns';
 
 export const crmCampaignQueryOption = (page: number, perPage: number) =>

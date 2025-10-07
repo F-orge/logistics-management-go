@@ -12,7 +12,7 @@ export const crmTagSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmTag = z.infer<typeof crmTagSchema>;
 

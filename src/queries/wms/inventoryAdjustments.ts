@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createWmsInventoryAdjustment,
   removeWmsInventoryAdjustment,
@@ -13,7 +13,10 @@ import {
   wmsInventoryAdjustmentUpdateSchema,
 } from '@/schemas/wms/inventory_adjustment';
 
-export const wmsInventoryAdjustmentQueryOption = (page: number, perPage: number) =>
+export const wmsInventoryAdjustmentQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['wms.inventoryAdjustments', page, perPage],
     queryFn: () =>
@@ -36,7 +39,8 @@ export const wmsInventoryAdjustmentUpdateMutationOption = (id: string) =>
     void,
     z.infer<typeof wmsInventoryAdjustmentUpdateSchema>
   >({
-    mutationFn: (value) => updateWmsInventoryAdjustment({ data: { id, value } }),
+    mutationFn: (value) =>
+      updateWmsInventoryAdjustment({ data: { id, value } }),
   });
 
 export const wmsInventoryAdjustmentRemoveMutationOption = mutationOptions<

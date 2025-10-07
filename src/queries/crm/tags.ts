@@ -1,16 +1,13 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createCrmTag,
   removeCrmTag,
   selectCrmTag,
   updateCrmTag,
 } from '@/actions/crm/tags';
-import {
-  insertTagSchema,
-  updateTagSchema,
-} from '@/db/schemas';
+import { insertTagSchema, updateTagSchema } from '@/db/schemas';
 import { crmTagSchema } from '@/schemas/crm/tags';
 
 export const crmTagQueryOption = (page: number, perPage: number) =>

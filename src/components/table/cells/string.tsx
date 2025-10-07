@@ -69,7 +69,7 @@ const StringCell = (props: StringCellProps) => {
                 {value}
               </FieldLabel>
             </TooltipTrigger>
-            {value!.length > (props.length || value!.length) && (
+            {value && value.length > (props.length || value.length) && (
               <TooltipContent>{value}</TooltipContent>
             )}
           </Tooltip>

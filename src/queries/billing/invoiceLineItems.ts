@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createBillingInvoiceLineItem,
   removeBillingInvoiceLineItem,
@@ -13,7 +13,10 @@ import {
   billingInvoiceLineItemUpdateSchema,
 } from '@/schemas/billing/invoice_line_item';
 
-export const billingInvoiceLineItemQueryOption = (page: number, perPage: number) =>
+export const billingInvoiceLineItemQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['billing.invoiceLineItems', page, perPage],
     queryFn: () =>
@@ -36,7 +39,8 @@ export const billingInvoiceLineItemUpdateMutationOption = (id: string) =>
     void,
     z.infer<typeof billingInvoiceLineItemUpdateSchema>
   >({
-    mutationFn: (value) => updateBillingInvoiceLineItem({ data: { id, value } }),
+    mutationFn: (value) =>
+      updateBillingInvoiceLineItem({ data: { id, value } }),
   });
 
 export const billingInvoiceLineItemRemoveMutationOption = mutationOptions<

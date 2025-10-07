@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createTmsPartnerInvoiceItem,
   removeTmsPartnerInvoiceItem,
@@ -13,7 +13,10 @@ import {
   tmsPartnerInvoiceItemUpdateSchema,
 } from '@/schemas/tms/partner_invoice_item';
 
-export const tmsPartnerInvoiceItemQueryOption = (page: number, perPage: number) =>
+export const tmsPartnerInvoiceItemQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['tms.partnerInvoiceItems', page, perPage],
     queryFn: () =>

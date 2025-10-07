@@ -66,7 +66,7 @@ export const crmCompanySchema = z.object({
       message: 'Invalid ISO datetime format for update date',
     })
     .optional(),
-});
+}).strict();
 
 export type CrmCompany = z.infer<typeof crmCompanySchema>;
 

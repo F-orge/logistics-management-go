@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createBillingAccountingSyncLog,
   removeBillingAccountingSyncLog,
@@ -13,7 +13,10 @@ import {
   billingAccountingSyncLogUpdateSchema,
 } from '@/schemas/billing/accounting_sync_log';
 
-export const billingAccountingSyncLogQueryOption = (page: number, perPage: number) =>
+export const billingAccountingSyncLogQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['billing.accountingSyncLogs', page, perPage],
     queryFn: () =>
@@ -36,7 +39,8 @@ export const billingAccountingSyncLogUpdateMutationOption = (id: string) =>
     void,
     z.infer<typeof billingAccountingSyncLogUpdateSchema>
   >({
-    mutationFn: (value) => updateBillingAccountingSyncLog({ data: { id, value } }),
+    mutationFn: (value) =>
+      updateBillingAccountingSyncLog({ data: { id, value } }),
   });
 
 export const billingAccountingSyncLogRemoveMutationOption = mutationOptions<

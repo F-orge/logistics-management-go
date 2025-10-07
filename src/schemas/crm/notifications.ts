@@ -23,7 +23,7 @@ export const crmNotificationSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmNotification = z.infer<typeof crmNotificationSchema>;
 

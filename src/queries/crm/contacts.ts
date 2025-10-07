@@ -1,4 +1,5 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
+import { DeleteResult } from 'kysely';
 import z from 'zod';
 import {
   createCrmContact,
@@ -11,7 +12,6 @@ import {
   crmContactSchema,
   crmContactUpdateSchema,
 } from '@/schemas/crm/contacts';
-import { DeleteResult } from 'kysely';
 
 export const crmContactQueryOption = (page: number, perPage: number) =>
   queryOptions({

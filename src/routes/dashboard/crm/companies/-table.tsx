@@ -2,13 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { toast } from 'sonner';
 import { selectCrmCompany } from '@/actions/crm/companies';
-import StringCell from '@/components/table/cells/string';
-import { crmCompanyUpdateMutationOption } from '@/queries/crm/companies';
-import NumberCell from '@/components/table/cells/number';
-import UrlCell from '@/components/table/cells/url';
-import PhoneCell from '@/components/table/cells/phone';
 import DateCell from '@/components/table/cells/date';
-import EnumCell from '@/components/table/cells/enum';
+import NumberCell from '@/components/table/cells/number';
+import PhoneCell from '@/components/table/cells/phone';
+import StringCell from '@/components/table/cells/string';
+import UrlCell from '@/components/table/cells/url';
+import { crmCompanyUpdateMutationOption } from '@/queries/crm/companies';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCrmCompany>>[number]

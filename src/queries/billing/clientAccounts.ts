@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createBillingClientAccount,
   removeBillingClientAccount,
@@ -13,7 +13,10 @@ import {
   billingClientAccountUpdateSchema,
 } from '@/schemas/billing/client_account';
 
-export const billingClientAccountQueryOption = (page: number, perPage: number) =>
+export const billingClientAccountQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['billing.clientAccounts', page, perPage],
     queryFn: () =>

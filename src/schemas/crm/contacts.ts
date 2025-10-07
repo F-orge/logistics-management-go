@@ -34,7 +34,7 @@ export const crmContactSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmContact = z.infer<typeof crmContactSchema>;
 

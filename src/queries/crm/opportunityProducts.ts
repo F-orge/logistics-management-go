@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createCrmOpportunityProduct,
   removeCrmOpportunityProduct,
@@ -13,7 +13,10 @@ import {
   crmOpportunityProductUpdateSchema,
 } from '@/schemas/crm/opportunity_products';
 
-export const crmOpportunityProductQueryOption = (page: number, perPage: number) =>
+export const crmOpportunityProductQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['crm.opportunityProducts', page, perPage],
     queryFn: () =>

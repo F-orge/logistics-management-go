@@ -24,13 +24,16 @@ export const crmLeadSchema = z.object({
     .date({ message: 'Invalid ISO datetime format for conversion date' })
     .optional(),
   convertedCompanyId: z
-    .uuid({ message: 'Invalid UUID format for converted company ID' })
+    .string().uuid({ message: 'Invalid UUID format for converted company ID' })
+    .nullable()
     .optional(),
   convertedContactId: z
-    .uuid({ message: 'Invalid UUID format for converted contact ID' })
+    .string().uuid({ message: 'Invalid UUID format for converted contact ID' })
+    .nullable()
     .optional(),
   convertedOpportunityId: z
-    .uuid({ message: 'Invalid UUID format for converted opportunity ID' })
+    .string().uuid({ message: 'Invalid UUID format for converted opportunity ID' })
+    .nullable()
     .optional(),
   leadScore: z
     .number({ message: 'Lead score must be a number' })
@@ -48,7 +51,7 @@ export const crmLeadSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmLead = z.infer<typeof crmLeadSchema>;
 

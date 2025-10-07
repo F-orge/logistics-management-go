@@ -9,6 +9,7 @@ export function getRouter() {
   const router = createRouter({
     routeTree,
     context: { queryClient },
+    defaultPreload: 'intent',
     scrollRestoration: true,
   });
 

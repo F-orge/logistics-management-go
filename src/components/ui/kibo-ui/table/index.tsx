@@ -87,7 +87,6 @@ export function TableProvider<TData, TValue>({
     onSortingChange: (updater) => {
       // @ts-expect-error updater is a function that returns a sorting object
       const newSorting = updater(sorting);
-
       setSorting(newSorting);
     },
     state: {

@@ -9,7 +9,7 @@ export const crmOpportunityProductSchema = z.object({
     .int({ message: 'Quantity must be an integer' })
     .min(1, { message: 'Quantity must be at least 1' })
     .max(10000, { message: 'Quantity must be at most 10,000' }),
-});
+}).strict();
 
 export type CrmOpportunityProduct = z.infer<typeof crmOpportunityProductSchema>;
 

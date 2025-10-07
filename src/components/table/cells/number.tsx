@@ -1,8 +1,8 @@
+import { Check } from 'lucide-react';
 import React from 'react';
+import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export type NumberCellProps = {

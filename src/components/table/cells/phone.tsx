@@ -1,6 +1,6 @@
+import parsePhoneNumber, { type PhoneNumber } from 'libphonenumber-js';
 import { Check, Phone } from 'lucide-react';
 import React from 'react';
-import parsePhoneNumber, { type PhoneNumber } from 'libphonenumber-js';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';

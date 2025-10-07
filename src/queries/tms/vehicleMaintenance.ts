@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createTmsVehicleMaintenance,
   removeTmsVehicleMaintenance,
@@ -13,7 +13,10 @@ import {
   tmsVehicleMaintenanceUpdateSchema,
 } from '@/schemas/tms/vehicle_maintenance';
 
-export const tmsVehicleMaintenanceQueryOption = (page: number, perPage: number) =>
+export const tmsVehicleMaintenanceQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['tms.vehicleMaintenance', page, perPage],
     queryFn: () =>

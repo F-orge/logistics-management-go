@@ -32,7 +32,7 @@ export const crmInvoiceSchema = z.object({
   updatedAt: z
     .date({ message: 'Invalid ISO datetime format for update date' })
     .optional(),
-});
+}).strict();
 
 export type CrmInvoice = z.infer<typeof crmInvoiceSchema>;
 

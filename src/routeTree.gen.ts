@@ -16,8 +16,10 @@ import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-e
 import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as DashboardCrmTagsIndexRouteImport } from './routes/dashboard/crm/tags/index'
 import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index'
 import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index'
+import { Route as DashboardCrmNotificationsIndexRouteImport } from './routes/dashboard/crm/notifications/index'
 import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
 import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
 import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
@@ -61,6 +63,11 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardCrmTagsIndexRoute = DashboardCrmTagsIndexRouteImport.update({
+  id: '/crm/tags/',
+  path: '/crm/tags/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardCrmProductsIndexRoute =
   DashboardCrmProductsIndexRouteImport.update({
     id: '/crm/products/',
@@ -71,6 +78,12 @@ const DashboardCrmOpportunitiesIndexRoute =
   DashboardCrmOpportunitiesIndexRouteImport.update({
     id: '/crm/opportunities/',
     path: '/crm/opportunities/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardCrmNotificationsIndexRoute =
+  DashboardCrmNotificationsIndexRouteImport.update({
+    id: '/crm/notifications/',
+    path: '/crm/notifications/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
 const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
@@ -129,8 +142,10 @@ export interface FileRoutesByFullPath {
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
   '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
   '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/crm/tags': typeof DashboardCrmTagsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -147,8 +162,10 @@ export interface FileRoutesByTo {
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
   '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
   '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/crm/tags': typeof DashboardCrmTagsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -166,8 +183,10 @@ export interface FileRoutesById {
   '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
   '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications/': typeof DashboardCrmNotificationsIndexRoute
   '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute
   '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/crm/tags/': typeof DashboardCrmTagsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -186,8 +205,10 @@ export interface FileRouteTypes {
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
     | '/dashboard/crm/leads'
+    | '/dashboard/crm/notifications'
     | '/dashboard/crm/opportunities'
     | '/dashboard/crm/products'
+    | '/dashboard/crm/tags'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -204,8 +225,10 @@ export interface FileRouteTypes {
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
     | '/dashboard/crm/leads'
+    | '/dashboard/crm/notifications'
     | '/dashboard/crm/opportunities'
     | '/dashboard/crm/products'
+    | '/dashboard/crm/tags'
   id:
     | '__root__'
     | '/'
@@ -222,8 +245,10 @@ export interface FileRouteTypes {
     | '/dashboard/crm/interactions/'
     | '/dashboard/crm/invoices/'
     | '/dashboard/crm/leads/'
+    | '/dashboard/crm/notifications/'
     | '/dashboard/crm/opportunities/'
     | '/dashboard/crm/products/'
+    | '/dashboard/crm/tags/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -284,6 +309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/crm/tags/': {
+      id: '/dashboard/crm/tags/'
+      path: '/crm/tags'
+      fullPath: '/dashboard/crm/tags'
+      preLoaderRoute: typeof DashboardCrmTagsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/products/': {
       id: '/dashboard/crm/products/'
       path: '/crm/products'
@@ -296,6 +328,13 @@ declare module '@tanstack/react-router' {
       path: '/crm/opportunities'
       fullPath: '/dashboard/crm/opportunities'
       preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/crm/notifications/': {
+      id: '/dashboard/crm/notifications/'
+      path: '/crm/notifications'
+      fullPath: '/dashboard/crm/notifications'
+      preLoaderRoute: typeof DashboardCrmNotificationsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/crm/leads/': {
@@ -374,8 +413,10 @@ interface DashboardRouteRouteChildren {
   DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
   DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
   DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
+  DashboardCrmNotificationsIndexRoute: typeof DashboardCrmNotificationsIndexRoute
   DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute
   DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute
+  DashboardCrmTagsIndexRoute: typeof DashboardCrmTagsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -386,8 +427,10 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmInteractionsIndexRoute: DashboardCrmInteractionsIndexRoute,
   DashboardCrmInvoicesIndexRoute: DashboardCrmInvoicesIndexRoute,
   DashboardCrmLeadsIndexRoute: DashboardCrmLeadsIndexRoute,
+  DashboardCrmNotificationsIndexRoute: DashboardCrmNotificationsIndexRoute,
   DashboardCrmOpportunitiesIndexRoute: DashboardCrmOpportunitiesIndexRoute,
   DashboardCrmProductsIndexRoute: DashboardCrmProductsIndexRoute,
+  DashboardCrmTagsIndexRoute: DashboardCrmTagsIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

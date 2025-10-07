@@ -6,7 +6,7 @@ export const crmTaggingSchema = z.object({
   recordId: z.uuid({ message: 'Invalid UUID format for record ID' }),
   recordType: z.enum(CrmRecordType, { message: 'Invalid CRM record type' }),
   tagId: z.uuid({ message: 'Invalid UUID format for tag ID' }),
-});
+}).strict();
 
 export type CrmTagging = z.infer<typeof crmTaggingSchema>;
 

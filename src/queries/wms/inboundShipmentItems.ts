@@ -1,6 +1,6 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import z from 'zod';
 import { DeleteResult } from 'kysely';
+import z from 'zod';
 import {
   createWmsInboundShipmentItem,
   removeWmsInboundShipmentItem,
@@ -13,7 +13,10 @@ import {
   wmsInboundShipmentItemUpdateSchema,
 } from '@/schemas/wms/inbound_shipment_item';
 
-export const wmsInboundShipmentItemQueryOption = (page: number, perPage: number) =>
+export const wmsInboundShipmentItemQueryOption = (
+  page: number,
+  perPage: number,
+) =>
   queryOptions({
     queryKey: ['wms.inboundShipmentItems', page, perPage],
     queryFn: () =>
@@ -36,7 +39,8 @@ export const wmsInboundShipmentItemUpdateMutationOption = (id: string) =>
     void,
     z.infer<typeof wmsInboundShipmentItemUpdateSchema>
   >({
-    mutationFn: (value) => updateWmsInboundShipmentItem({ data: { id, value } }),
+    mutationFn: (value) =>
+      updateWmsInboundShipmentItem({ data: { id, value } }),
   });
 
 export const wmsInboundShipmentItemRemoveMutationOption = mutationOptions<
