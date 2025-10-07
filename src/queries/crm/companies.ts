@@ -1,7 +1,13 @@
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import z from 'zod';
-import { selectCrmCompany, updateCrmCompany } from '@/actions/crm/companies';
 import {
+  createCrmCompany,
+  removeCrmCompany,
+  selectCrmCompany,
+  updateCrmCompany,
+} from '@/actions/crm/companies';
+import {
+  crmCompanyInsertSchema,
   crmCompanySchema,
   crmCompanyUpdateSchema,
 } from '@/schemas/crm/companies';
@@ -15,6 +21,14 @@ export const crmCompanyQueryOption = (page: number, perPage: number) =>
       }),
   });
 
+export const crmCompanyCreateMutationOption = mutationOptions<
+  z.infer<typeof crmCompanySchema>,
+  void,
+  z.infer<typeof crmCompanyInsertSchema>
+>({
+  mutationFn: (value) => createCrmCompany({ data: value }),
+});
+
 export const crmCompanyUpdateMutationOption = (id: string) =>
   mutationOptions<
     z.infer<typeof crmCompanySchema>,
@@ -23,3 +37,13 @@ export const crmCompanyUpdateMutationOption = (id: string) =>
   >({
     mutationFn: (value) => updateCrmCompany({ data: { id, value } }),
   });
+
+import { DeleteResult } from 'kysely';
+
+export const crmCompanyRemoveMutationOption = mutationOptions<
+  DeleteResult,
+  void,
+  { id: string }
+>({
+  mutationFn: ({ id }) => removeCrmCompany({ data: { id } }),
+});

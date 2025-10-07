@@ -49,16 +49,22 @@ export function DataTable<TData, TValue>(
         <TableBody>
           {({ row }) => (
             <React.Fragment key={row.id}>
-              <ContextMenu>
-                <ContextMenuTrigger asChild>
-                  <TableRow row={row}>
-                    {({ cell }) => <TableCell cell={cell} key={cell.id} />}
-                  </TableRow>
-                </ContextMenuTrigger>
-                <ContextMenuContent>
-                  {props.contextComponent?.(row as Row<TData>)}
-                </ContextMenuContent>
-              </ContextMenu>
+              {props.contextComponent ? (
+                <ContextMenu>
+                  <ContextMenuTrigger asChild>
+                    <TableRow row={row}>
+                      {({ cell }) => <TableCell cell={cell} key={cell.id} />}
+                    </TableRow>
+                  </ContextMenuTrigger>
+                  <ContextMenuContent>
+                    {props.contextComponent?.(row as Row<TData>)}
+                  </ContextMenuContent>
+                </ContextMenu>
+              ) : (
+                <TableRow row={row}>
+                  {({ cell }) => <TableCell cell={cell} key={cell.id} />}
+                </TableRow>
+              )}
               {props.children?.(row as Row<TData>)}
             </React.Fragment>
           )}

@@ -6,6 +6,9 @@ import StringCell from '@/components/table/cells/string';
 import { crmCompanyUpdateMutationOption } from '@/queries/crm/companies';
 import NumberCell from '@/components/table/cells/number';
 import UrlCell from '@/components/table/cells/url';
+import PhoneCell from '@/components/table/cells/phone';
+import DateCell from '@/components/table/cells/date';
+import EnumCell from '@/components/table/cells/enum';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCrmCompany>>[number]
@@ -134,9 +137,10 @@ export const columns: ColumnDef<
       );
 
       return (
-        <StringCell
+        <PhoneCell
           editable
           value={row.original.phoneNumber}
+          defaultCountry="PH"
           onSave={(value) =>
             mutation.mutate(
               { phoneNumber: value },
@@ -240,5 +244,13 @@ export const columns: ColumnDef<
         />
       );
     },
+  },
+  {
+    accessorKey: 'createdAt',
+    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+  },
+  {
+    accessorKey: 'updatedAt',
+    cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
 ];
