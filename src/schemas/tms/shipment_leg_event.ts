@@ -7,20 +7,18 @@ export const tmsShipmentLegEventSchema = z.object({
     .string({ message: 'Event must be a string' })
     .min(1, { error: 'Event is required' })
     .max(255, { error: 'Event must be at most 255 characters' }),
-  eventAt: z.iso
-    .datetime({ message: 'Invalid date format for event at' })
-    .nullable(),
+  eventAt: z.date({ message: 'Invalid date format for event at' }).optional(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsShipmentLegEvent = z.infer<typeof tmsShipmentLegEventSchema>;

@@ -8,13 +8,13 @@ export const tmsGeofenceEventSchema = z.object({
   eventType: z.enum(TmsGeofenceEventTypeEnum, {
     message: 'Invalid geofence event type',
   }),
-  timestamp: z.iso.datetime({ message: 'Invalid date format for timestamp' }),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  timestamp: z.date({ message: 'Invalid date format for timestamp' }),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsGeofenceEvent = z.infer<typeof tmsGeofenceEventSchema>;

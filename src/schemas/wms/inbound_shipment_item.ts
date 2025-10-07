@@ -16,12 +16,12 @@ export const wmsInboundShipmentItemSchema = z.object({
     .int({ message: 'Received quantity must be an integer' })
     .min(0, { error: 'Received quantity must be at least 0' })
     .max(1000000, { error: 'Received quantity must be at most 1,000,000' })
-    .nullable(),
+    .optional(),
   discrepancyNotes: z
     .string({ message: 'Discrepancy notes must be a string' })
     .min(1, { error: 'Discrepancy notes cannot be empty' })
     .max(1024, { error: 'Discrepancy notes must be at most 1024 characters' })
-    .nullable()
+    .optional()
     .optional(),
   discrepancyQuantity: z
     .number({ message: 'Discrepancy quantity must be a number' })
@@ -30,14 +30,14 @@ export const wmsInboundShipmentItemSchema = z.object({
       error: 'Discrepancy quantity must be at least -1,000,000',
     })
     .max(1000000, { error: 'Discrepancy quantity must be at most 1,000,000' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsInboundShipmentItem = z.infer<

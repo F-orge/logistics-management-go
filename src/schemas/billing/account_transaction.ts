@@ -12,36 +12,36 @@ export const billingAccountTransactionSchema = z.object({
     .string()
     .min(1, { error: 'Client account ID is required' })
     .max(255, { error: 'Client account ID must be at most 255 characters' }),
-  createdAt: z.iso.datetime().nullable(),
+  createdAt: z.date().optional(),
   description: z
     .string()
     .min(1, { error: 'Description is required' })
     .max(1024, { error: 'Description must be at most 1024 characters' })
-    .nullable(),
+    .optional(),
   processedByUserId: z
     .string()
     .min(1, { error: 'Processed by user ID is required' })
     .max(255, { error: 'Processed by user ID must be at most 255 characters' })
-    .nullable(),
+    .optional(),
   referenceNumber: z
     .string()
     .min(1, { error: 'Reference number is required' })
     .max(64, { error: 'Reference number must be at most 64 characters' })
-    .nullable(),
+    .optional(),
   runningBalance: z.coerce
     .number()
     .min(0, { error: 'Running balance must be at least 0' })
     .max(100000000, { error: 'Running balance must be at most 100,000,000' })
-    .nullable(),
-  sourceRecordId: z.uuid().nullable(),
+    .optional(),
+  sourceRecordId: z.uuid().optional(),
   sourceRecordType: z
     .string()
     .min(1, { error: 'Source record type is required' })
     .max(64, { error: 'Source record type must be at most 64 characters' })
-    .nullable(),
-  transactionDate: z.iso.datetime().nullable(),
+    .optional(),
+  transactionDate: z.date().optional(),
   type: z.enum(BillingTransactionTypeEnum),
-  updatedAt: z.iso.datetime().nullable(),
+  updatedAt: z.date().optional(),
 });
 
 export type BillingAccountTransaction = z.infer<

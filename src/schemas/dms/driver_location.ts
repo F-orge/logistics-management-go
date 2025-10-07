@@ -11,29 +11,29 @@ export const dmsDriverLocationSchema = z.object({
     .number({ message: 'Longitude must be a number' })
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
-  timestamp: z.iso
-    .datetime({ message: 'Invalid date format for timestamp' })
-    .nullable(),
+  timestamp: z
+    .date({ message: 'Invalid date format for timestamp' })
+    .optional(),
   accuracy: z
     .number({ message: 'Accuracy must be a number' })
     .min(0, { message: 'Accuracy must be at least 0' })
-    .nullable(),
-  altitude: z.number({ message: 'Altitude must be a number' }).nullable(),
+    .optional(),
+  altitude: z.number({ message: 'Altitude must be a number' }).optional(),
   heading: z
     .number({ message: 'Heading must be a number' })
     .min(0, { message: 'Heading must be at least 0' })
     .max(359, { message: 'Heading must be at most 359' })
-    .nullable(),
+    .optional(),
   speedKmh: z
     .number({ message: 'Speed in Kmh must be a number' })
     .min(0, { message: 'Speed in Kmh must be at least 0' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type DmsDriverLocation = z.infer<typeof dmsDriverLocationSchema>;

@@ -6,12 +6,12 @@ export const crmTagSchema = z.object({
     .string({ message: 'Tag name must be a string' })
     .min(1, { message: 'Tag name is required' })
     .max(127, { message: 'Tag name must be at most 127 characters' }),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmTag = z.infer<typeof crmTagSchema>;

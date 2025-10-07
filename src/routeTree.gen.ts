@@ -22,6 +22,7 @@ import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/c
 import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
 import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
 import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index'
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
 import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
 import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
 
@@ -95,6 +96,12 @@ const DashboardCrmContactsIndexRoute =
     path: '/crm/contacts/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardCrmCompaniesIndexRoute =
+  DashboardCrmCompaniesIndexRouteImport.update({
+    id: '/crm/companies/',
+    path: '/crm/companies/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardCrmCasesIndexRoute = DashboardCrmCasesIndexRouteImport.update({
   id: '/crm/cases/',
   path: '/crm/cases/',
@@ -117,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
   '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
   '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
   '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
@@ -152,6 +161,7 @@ export interface FileRoutesById {
   '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
   '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute
   '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
   '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
+    | '/dashboard/crm/companies'
     | '/dashboard/crm/contacts'
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
+    | '/dashboard/crm/companies'
     | '/dashboard/crm/contacts'
     | '/dashboard/crm/interactions'
     | '/dashboard/crm/invoices'
@@ -205,6 +217,7 @@ export interface FileRouteTypes {
     | '/auth/verify-email/'
     | '/dashboard/crm/campaigns/'
     | '/dashboard/crm/cases/'
+    | '/dashboard/crm/companies/'
     | '/dashboard/crm/contacts/'
     | '/dashboard/crm/interactions/'
     | '/dashboard/crm/invoices/'
@@ -313,6 +326,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/crm/companies/': {
+      id: '/dashboard/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/dashboard/crm/companies'
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/cases/': {
       id: '/dashboard/crm/cases/'
       path: '/crm/cases'
@@ -349,6 +369,7 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 interface DashboardRouteRouteChildren {
   DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
   DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
   DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute
   DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
   DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
@@ -360,6 +381,7 @@ interface DashboardRouteRouteChildren {
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmCampaignsIndexRoute: DashboardCrmCampaignsIndexRoute,
   DashboardCrmCasesIndexRoute: DashboardCrmCasesIndexRoute,
+  DashboardCrmCompaniesIndexRoute: DashboardCrmCompaniesIndexRoute,
   DashboardCrmContactsIndexRoute: DashboardCrmContactsIndexRoute,
   DashboardCrmInteractionsIndexRoute: DashboardCrmInteractionsIndexRoute,
   DashboardCrmInvoicesIndexRoute: DashboardCrmInvoicesIndexRoute,

@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Zod schema for billing.invoice_line_item table
 export const billingInvoiceLineItemSchema = z.object({
   id: z.uuid(),
-  createdAt: z.iso.datetime().nullable(),
+  createdAt: z.date().optional(),
   description: z
     .string()
     .min(1, { error: 'Description is required' })
@@ -12,48 +12,48 @@ export const billingInvoiceLineItemSchema = z.object({
     .number()
     .min(0, { error: 'Discount amount must be at least 0' })
     .max(1000000, { error: 'Discount amount must be at most 1,000,000' })
-    .nullable(),
+    .optional(),
   discountRate: z.coerce
     .number()
     .min(0, { error: 'Discount rate must be at least 0' })
     .max(100, { error: 'Discount rate must be at most 100' })
-    .nullable(),
+    .optional(),
   invoiceId: z.uuid(),
   lineTotal: z.coerce
     .number()
     .min(0, { error: 'Line total must be at least 0' })
     .max(10000000, { error: 'Line total must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   quantity: z.coerce
     .number()
     .min(1, { error: 'Quantity must be at least 1' })
     .max(100000, { error: 'Quantity must be at most 100,000' }),
-  sourceRecordId: z.uuid().nullable(),
+  sourceRecordId: z.uuid().optional(),
   sourceRecordType: z
     .string()
     .min(1, { error: 'Source record type is required' })
     .max(64, { error: 'Source record type must be at most 64 characters' })
-    .nullable(),
+    .optional(),
   taxAmount: z.coerce
     .number()
     .min(0, { error: 'Tax amount must be at least 0' })
     .max(1000000, { error: 'Tax amount must be at most 1,000,000' })
-    .nullable(),
+    .optional(),
   taxRate: z.coerce
     .number()
     .min(0, { error: 'Tax rate must be at least 0' })
     .max(100, { error: 'Tax rate must be at most 100' })
-    .nullable(),
+    .optional(),
   totalPrice: z.coerce
     .number()
     .min(0, { error: 'Total price must be at least 0' })
     .max(10000000, { error: 'Total price must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   unitPrice: z.coerce
     .number()
     .min(0, { error: 'Unit price must be at least 0' })
     .max(1000000, { error: 'Unit price must be at most 1,000,000' }),
-  updatedAt: z.iso.datetime().nullable(),
+  updatedAt: z.date().optional(),
 });
 
 export type BillingInvoiceLineItem = z.infer<

@@ -11,17 +11,17 @@ export const wmsPackageItemSchema = z.object({
     .max(1000000, { error: 'Quantity must be at most 1,000,000' }),
   batchId: z
     .uuid({ message: 'Invalid UUID format for batch ID' })
-    .nullable()
+    .optional()
     .optional(),
-  expiryDate: z.iso
-    .datetime({ message: 'Invalid date format for expiry date' })
-    .nullable()
+  expiryDate: z
+    .date({ message: 'Invalid date format for expiry date' })
+    .optional()
     .optional(),
   lotNumber: z
     .string({ message: 'Lot number must be a string' })
     .min(1, { error: 'Lot number cannot be empty' })
     .max(64, { error: 'Lot number must be at most 64 characters' })
-    .nullable()
+    .optional()
     .optional(),
   serialNumbers: z
     .array(
@@ -30,26 +30,26 @@ export const wmsPackageItemSchema = z.object({
         .min(1, { error: 'Serial number cannot be empty' })
         .max(255, { error: 'Serial number must be at most 255 characters' }),
     )
-    .nullable()
+    .optional()
     .optional(),
   totalWeight: z
     .number({ message: 'Total weight must be a number' })
     .min(0, { error: 'Total weight must be at least 0' })
     .max(100000, { error: 'Total weight must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
   unitWeight: z
     .number({ message: 'Unit weight must be a number' })
     .min(0, { error: 'Unit weight must be at least 0' })
     .max(100000, { error: 'Unit weight must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsPackageItem = z.infer<typeof wmsPackageItemSchema>;

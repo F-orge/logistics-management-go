@@ -9,21 +9,21 @@ export const tmsRouteSchema = z.object({
     .max(4096, {
       error: 'Optimized route data must be at most 4096 characters',
     })
-    .nullable(),
+    .optional(),
   totalDistance: z
     .number({ message: 'Total distance must be a number' })
     .min(0, { message: 'Total distance must be at least 0' })
-    .nullable(),
+    .optional(),
   totalDuration: z
     .number({ message: 'Total duration must be a number' })
     .min(0, { message: 'Total duration must be at least 0' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsRoute = z.infer<typeof tmsRouteSchema>;

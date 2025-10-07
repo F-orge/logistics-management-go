@@ -13,69 +13,69 @@ export const wmsProductSchema = z.object({
     .max(64, { error: 'SKU must be at most 64 characters' }),
   status: z
     .enum(WmsProductStatusEnum, { message: 'Invalid product status' })
-    .nullable(),
+    .optional(),
   barcode: z
     .string({ message: 'Barcode must be a string' })
     .min(1, { error: 'Barcode cannot be empty' })
     .max(255, { error: 'Barcode must be at most 255 characters' })
-    .nullable()
+    .optional()
     .optional(),
   clientId: z
     .uuid({ message: 'Invalid UUID format for client ID' })
-    .nullable()
+    .optional()
     .optional(),
   costPrice: z
     .number({ message: 'Cost price must be a number' })
     .min(0, { error: 'Cost price must be at least 0' })
     .max(10000000, { error: 'Cost price must be at most 10,000,000' })
-    .nullable()
+    .optional()
     .optional(),
   description: z
     .string({ message: 'Description must be a string' })
     .min(1, { error: 'Description cannot be empty' })
     .max(1024, { error: 'Description must be at most 1024 characters' })
-    .nullable()
+    .optional()
     .optional(),
   height: z
     .number({ message: 'Height must be a number' })
     .min(0, { error: 'Height must be at least 0' })
     .max(10000, { error: 'Height must be at most 10,000' })
-    .nullable()
+    .optional()
     .optional(),
   length: z
     .number({ message: 'Length must be a number' })
     .min(0, { error: 'Length must be at least 0' })
     .max(10000, { error: 'Length must be at most 10,000' })
-    .nullable()
+    .optional()
     .optional(),
   supplierId: z
     .uuid({ message: 'Invalid UUID format for supplier ID' })
-    .nullable()
+    .optional()
     .optional(),
   volume: z
     .number({ message: 'Volume must be a number' })
     .min(0, { error: 'Volume must be at least 0' })
     .max(100000, { error: 'Volume must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
   weight: z
     .number({ message: 'Weight must be a number' })
     .min(0, { error: 'Weight must be at least 0' })
     .max(100000, { error: 'Weight must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
   width: z
     .number({ message: 'Width must be a number' })
     .min(0, { error: 'Width must be at least 0' })
     .max(10000, { error: 'Width must be at most 10,000' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsProduct = z.infer<typeof wmsProductSchema>;

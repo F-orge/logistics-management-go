@@ -14,26 +14,26 @@ export const tmsCarrierRateSchema = z.object({
     .max(255, { error: 'Destination must be at most 255 characters' }),
   unit: z
     .enum(TmsCarrierRateUnitEnum, { message: 'Invalid carrier rate unit' })
-    .nullable(),
+    .optional(),
   rate: z.coerce
     .number({ message: 'Rate must be a number' })
     .min(0, { error: 'Rate must be at least 0' })
     .max(10000000, { error: 'Rate must be at most 10,000,000' }),
   currency: z
     .enum(TmsCurrencyEnum, { message: 'Invalid currency type' })
-    .nullable(),
-  effectiveFrom: z.iso
-    .datetime({ message: 'Invalid date format for effective from' })
-    .nullable(),
-  effectiveTo: z.iso
-    .datetime({ message: 'Invalid date format for effective to' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  effectiveFrom: z
+    .date({ message: 'Invalid date format for effective from' })
+    .optional(),
+  effectiveTo: z
+    .date({ message: 'Invalid date format for effective to' })
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsCarrierRate = z.infer<typeof tmsCarrierRateSchema>;

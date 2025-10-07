@@ -11,7 +11,7 @@ export const crmProductSchema = z.object({
     .string({ message: 'Description must be a string' })
     .min(1, { message: 'Description is required' })
     .max(1024, { message: 'Description must be at most 1024 characters' })
-    .nullable(),
+    .optional(),
   price: z.coerce
     .number({ message: 'Price must be a number' })
     .min(0, { message: 'Price must be at least 0' })
@@ -20,14 +20,14 @@ export const crmProductSchema = z.object({
     .string({ message: 'SKU must be a string' })
     .min(1, { message: 'SKU is required' })
     .max(127, { message: 'SKU must be at most 127 characters' })
-    .nullable(),
-  type: z.enum(CrmProductType, { message: 'Invalid product type' }).nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+    .optional(),
+  type: z.enum(CrmProductType, { message: 'Invalid product type' }).optional(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmProduct = z.infer<typeof crmProductSchema>;

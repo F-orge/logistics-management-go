@@ -13,18 +13,18 @@ export const dmsDeliveryTaskSchema = z.object({
     .enum(DmsDeliveryTaskStatusEnum, {
       message: 'Invalid delivery task status',
     })
-    .nullable(),
+    .optional(),
   failureReason: z
     .enum(DmsDeliveryFailureReasonEnum, {
       message: 'Invalid delivery failure reason',
     })
-    .nullable(),
-  estimatedArrivalTime: z.iso
-    .datetime({ message: 'Invalid date format for estimated arrival time' })
-    .nullable(),
-  deliveryTime: z.iso
-    .datetime({ message: 'Invalid date format for delivery time' })
-    .nullable(),
+    .optional(),
+  estimatedArrivalTime: z
+    .date({ message: 'Invalid date format for estimated arrival time' })
+    .optional(),
+  deliveryTime: z
+    .date({ message: 'Invalid date format for delivery time' })
+    .optional(),
   deliveryAddress: z
     .string()
     .min(1, { error: 'Delivery address is required' })
@@ -33,38 +33,38 @@ export const dmsDeliveryTaskSchema = z.object({
     .string()
     .min(1, { error: 'Recipient name is required' })
     .max(127, { error: 'Recipient name must be at most 127 characters' })
-    .nullable(),
+    .optional(),
   recipientPhone: z
     .string()
     .min(1, { error: 'Recipient phone is required' })
     .max(32, { error: 'Recipient phone must be at most 32 characters' })
-    .nullable(),
+    .optional(),
   deliveryInstructions: z
     .string()
     .min(1, { error: 'Delivery instructions are required' })
     .max(1024, {
       error: 'Delivery instructions must be at most 1024 characters',
     })
-    .nullable(),
-  actualArrivalTime: z.iso
-    .datetime({ message: 'Invalid date format for actual arrival time' })
-    .nullable(),
+    .optional(),
+  actualArrivalTime: z
+    .date({ message: 'Invalid date format for actual arrival time' })
+    .optional(),
   attemptCount: z
     .number({ message: 'Attempt count must be a number' })
     .int({ message: 'Attempt count must be an integer' })
     .min(0, { message: 'Attempt count must be at least 0' })
-    .nullable(),
+    .optional(),
   packageId: z.uuid({ message: 'Invalid UUID format for package ID' }),
   routeSequence: z
     .number({ message: 'Route sequence must be a number' })
     .int({ message: 'Route sequence must be an integer' })
     .min(0, { message: 'Route sequence must be at least 0' }),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type DmsDeliveryTask = z.infer<typeof dmsDeliveryTaskSchema>;

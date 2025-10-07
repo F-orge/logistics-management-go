@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { Kysely, PostgresDialect } from 'kysely';
+import { CamelCasePlugin, Kysely, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 import * as schema from '@/db/schemas';
 import { DB } from './types';
@@ -10,4 +10,5 @@ export const kyselyDb = new Kysely<DB>({
   dialect: new PostgresDialect({
     pool: new Pool({ connectionString: process.env.DATABASE_URL! }),
   }),
+  plugins: [new CamelCasePlugin()],
 });

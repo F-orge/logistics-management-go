@@ -15,17 +15,17 @@ export const crmAttachmentSchema = z.object({
     .string({ message: 'MIME type must be a string' })
     .min(1, { message: 'MIME type is required' })
     .max(127, { message: 'MIME type must be at most 127 characters' })
-    .nullable(),
-  recordId: z.string({ message: 'Record ID must be a string' }).nullable(),
+    .optional(),
+  recordId: z.string({ message: 'Record ID must be a string' }).optional(),
   recordType: z
     .enum(CrmRecordType, { message: 'Invalid CRM record type' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmAttachment = z.infer<typeof crmAttachmentSchema>;

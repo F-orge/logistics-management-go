@@ -12,60 +12,60 @@ export const wmsPutawayRuleSchema = z.object({
     .max(1000, { error: 'Priority must be at most 1000' }),
   clientId: z
     .uuid({ message: 'Invalid UUID format for client ID' })
-    .nullable()
+    .optional()
     .optional(),
   isActive: z
     .boolean({ message: 'Is active must be a boolean' })
-    .nullable()
+    .optional()
     .optional(),
   locationType: z
     .enum(WmsLocationTypeEnum, { message: 'Invalid location type' })
-    .nullable()
+    .optional()
     .optional(),
   maxQuantity: z
     .number({ message: 'Maximum quantity must be a number' })
     .int({ message: 'Maximum quantity must be an integer' })
     .min(0, { error: 'Maximum quantity must be at least 0' })
     .max(1000000, { error: 'Maximum quantity must be at most 1,000,000' })
-    .nullable()
+    .optional()
     .optional(),
   minQuantity: z
     .number({ message: 'Minimum quantity must be a number' })
     .int({ message: 'Minimum quantity must be an integer' })
     .min(0, { error: 'Minimum quantity must be at least 0' })
     .max(1000000, { error: 'Minimum quantity must be at most 1,000,000' })
-    .nullable()
+    .optional()
     .optional(),
   preferredLocationId: z
     .uuid({ message: 'Invalid UUID format for preferred location ID' })
-    .nullable()
+    .optional()
     .optional(),
   requiresHazmatApproval: z
     .boolean({ message: 'Requires hazmat approval must be a boolean' })
-    .nullable()
+    .optional()
     .optional(),
   requiresTemperatureControl: z
     .boolean({ message: 'Requires temperature control must be a boolean' })
-    .nullable()
+    .optional()
     .optional(),
   volumeThreshold: z
     .number({ message: 'Volume threshold must be a number' })
     .min(0, { error: 'Volume threshold must be at least 0' })
     .max(100000, { error: 'Volume threshold must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
   weightThreshold: z
     .number({ message: 'Weight threshold must be a number' })
     .min(0, { error: 'Weight threshold must be at least 0' })
     .max(100000, { error: 'Weight threshold must be at most 100,000' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsPutawayRule = z.infer<typeof wmsPutawayRuleSchema>;

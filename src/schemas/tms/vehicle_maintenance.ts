@@ -11,15 +11,15 @@ export const tmsVehicleMaintenanceSchema = z.object({
     .number({ message: 'Cost must be a number' })
     .min(0, { error: 'Cost must be at least 0' })
     .max(1000000, { error: 'Cost must be at most 1,000,000' }),
-  performedAt: z.iso
-    .datetime({ message: 'Invalid date format for performed at' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  performedAt: z
+    .date({ message: 'Invalid date format for performed at' })
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsVehicleMaintenance = z.infer<typeof tmsVehicleMaintenanceSchema>;

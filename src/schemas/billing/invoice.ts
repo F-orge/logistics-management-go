@@ -8,64 +8,64 @@ export const billingInvoiceSchema = z.object({
     .number()
     .min(0, { error: 'Amount outstanding must be at least 0' })
     .max(10000000, { error: 'Amount outstanding must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   amountPaid: z.coerce
     .number()
     .min(0, { error: 'Amount paid must be at least 0' })
     .max(10000000, { error: 'Amount paid must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   clientId: z.uuid(),
-  createdAt: z.iso.datetime().nullable(),
+  createdAt: z.date().optional(),
   createdByUserId: z
     .string()
     .min(1, { error: 'Created by user ID is required' })
     .max(255, { error: 'Created by user ID must be at most 255 characters' })
-    .nullable(),
+    .optional(),
   currency: z
     .string()
     .min(1, { error: 'Currency is required' })
     .max(8, { error: 'Currency must be at most 8 characters' })
-    .nullable(),
+    .optional(),
   discountAmount: z.coerce
     .number()
     .min(0, { error: 'Discount amount must be at least 0' })
     .max(1000000, { error: 'Discount amount must be at most 1,000,000' })
-    .nullable(),
-  dueDate: z.iso.datetime(),
+    .optional(),
+  dueDate: z.date(),
   invoiceNumber: z
     .string()
     .min(1, { error: 'Invoice number is required' })
     .max(64, { error: 'Invoice number must be at most 64 characters' }),
-  issueDate: z.iso.datetime(),
+  issueDate: z.date(),
   notes: z
     .string()
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .nullable(),
-  paidAt: z.iso.datetime().nullable(),
+    .optional(),
+  paidAt: z.date().optional(),
   paymentTerms: z
     .string()
     .min(1, { error: 'Payment terms are required' })
     .max(255, { error: 'Payment terms must be at most 255 characters' })
-    .nullable(),
-  quoteId: z.uuid().nullable(),
-  sentAt: z.iso.datetime().nullable(),
-  status: z.enum(BillingInvoiceStatusEnum).nullable(),
+    .optional(),
+  quoteId: z.uuid().optional(),
+  sentAt: z.date().optional(),
+  status: z.enum(BillingInvoiceStatusEnum).optional(),
   subtotal: z.coerce
     .number()
     .min(0, { error: 'Subtotal must be at least 0' })
     .max(10000000, { error: 'Subtotal must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   taxAmount: z.coerce
     .number()
     .min(0, { error: 'Tax amount must be at least 0' })
     .max(1000000, { error: 'Tax amount must be at most 1,000,000' })
-    .nullable(),
+    .optional(),
   totalAmount: z.coerce
     .number()
     .min(0, { error: 'Total amount must be at least 0' })
     .max(10000000, { error: 'Total amount must be at most 10,000,000' }),
-  updatedAt: z.iso.datetime().nullable(),
+  updatedAt: z.date().optional(),
 });
 
 export type BillingInvoice = z.infer<typeof billingInvoiceSchema>;

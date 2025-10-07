@@ -19,35 +19,35 @@ export const crmLeadSchema = z.object({
     .max(255, { message: 'Owner ID must be at most 255 characters' }),
   campaignId: z
     .uuid({ message: 'Invalid UUID format for campaign ID' })
-    .nullable(),
-  convertedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for conversion date' })
-    .nullable(),
+    .optional(),
+  convertedAt: z
+    .date({ message: 'Invalid ISO datetime format for conversion date' })
+    .optional(),
   convertedCompanyId: z
     .uuid({ message: 'Invalid UUID format for converted company ID' })
-    .nullable(),
+    .optional(),
   convertedContactId: z
     .uuid({ message: 'Invalid UUID format for converted contact ID' })
-    .nullable(),
+    .optional(),
   convertedOpportunityId: z
     .uuid({ message: 'Invalid UUID format for converted opportunity ID' })
-    .nullable(),
+    .optional(),
   leadScore: z
     .number({ message: 'Lead score must be a number' })
     .int({ message: 'Lead score must be an integer' })
     .min(0, { message: 'Lead score must be at least 0' })
     .max(100, { message: 'Lead score must be at most 100' })
-    .nullable(),
+    .optional(),
   leadSource: z
     .enum(CrmLeadSource, { message: 'Invalid lead source' })
-    .nullable(),
-  status: z.enum(CrmLeadStatus, { message: 'Invalid lead status' }).nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+    .optional(),
+  status: z.enum(CrmLeadStatus, { message: 'Invalid lead status' }).optional(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmLead = z.infer<typeof crmLeadSchema>;

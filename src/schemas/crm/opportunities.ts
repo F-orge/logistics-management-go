@@ -14,45 +14,45 @@ export const crmOpportunitySchema = z.object({
     .max(255, { message: 'Owner ID must be at most 255 characters' }),
   campaignId: z
     .uuid({ message: 'Invalid UUID format for campaign ID' })
-    .nullable(),
+    .optional(),
   companyId: z
     .uuid({ message: 'Invalid UUID format for company ID' })
-    .nullable(),
+    .optional(),
   contactId: z
     .uuid({ message: 'Invalid UUID format for contact ID' })
-    .nullable(),
+    .optional(),
   dealValue: z.coerce
     .number({ message: 'Deal value must be a number' })
     .min(0, { message: 'Deal value must be at least 0' })
     .max(100000000, { message: 'Deal value must be at most 100,000,000' })
-    .nullable(),
-  expectedCloseDate: z.iso
-    .datetime({
+    .optional(),
+  expectedCloseDate: z
+    .date({
       message: 'Invalid ISO datetime format for expected close date',
     })
-    .nullable(),
+    .optional(),
   lostReason: z
     .string({ message: 'Lost reason must be a string' })
     .min(1, { message: 'Lost reason is required' })
     .max(1024, { message: 'Lost reason must be at most 1024 characters' })
-    .nullable(),
+    .optional(),
   probability: z
     .number({ message: 'Probability must be a number' })
     .min(0, { message: 'Probability must be at least 0' })
     .max(100, { message: 'Probability must be at most 100' })
-    .nullable(),
+    .optional(),
   source: z
     .enum(CrmOpportunitySource, { message: 'Invalid opportunity source' })
-    .nullable(),
+    .optional(),
   stage: z
     .enum(CrmOpportunityStage, { message: 'Invalid opportunity stage' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmOpportunity = z.infer<typeof crmOpportunitySchema>;

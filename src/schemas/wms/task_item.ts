@@ -21,38 +21,38 @@ export const wmsTaskItemSchema = z.object({
     .int({ message: 'Quantity remaining must be an integer' })
     .min(-1000000, { error: 'Quantity remaining must be at least -1,000,000' })
     .max(1000000, { error: 'Quantity remaining must be at most 1,000,000' })
-    .nullable()
+    .optional()
     .optional(),
   status: z
     .enum(WmsTaskItemStatusEnum, { message: 'Invalid task item status' })
-    .nullable(),
+    .optional(),
   batchId: z
     .uuid({ message: 'Invalid UUID format for batch ID' })
-    .nullable()
+    .optional()
     .optional(),
-  completedAt: z.iso
-    .datetime({ message: 'Invalid date format for completed at' })
-    .nullable()
+  completedAt: z
+    .date({ message: 'Invalid date format for completed at' })
+    .optional()
     .optional(),
   destinationLocationId: z
     .uuid({ message: 'Invalid UUID format for destination location ID' })
-    .nullable()
+    .optional()
     .optional(),
-  expiryDate: z.iso
-    .datetime({ message: 'Invalid date format for expiry date' })
-    .nullable()
+  expiryDate: z
+    .date({ message: 'Invalid date format for expiry date' })
+    .optional()
     .optional(),
   lotNumber: z
     .string({ message: 'Lot number must be a string' })
     .min(1, { error: 'Lot number cannot be empty' })
     .max(64, { error: 'Lot number must be at most 64 characters' })
-    .nullable()
+    .optional()
     .optional(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes cannot be empty' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .nullable()
+    .optional()
     .optional(),
   serialNumbers: z
     .array(
@@ -61,18 +61,18 @@ export const wmsTaskItemSchema = z.object({
         .min(1, { error: 'Serial number cannot be empty' })
         .max(255, { error: 'Serial number must be at most 255 characters' }),
     )
-    .nullable()
+    .optional()
     .optional(),
   sourceLocationId: z
     .uuid({ message: 'Invalid UUID format for source location ID' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsTaskItem = z.infer<typeof wmsTaskItemSchema>;

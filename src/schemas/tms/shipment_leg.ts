@@ -6,36 +6,36 @@ export const tmsShipmentLegSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   carrierId: z
     .uuid({ message: 'Invalid UUID format for carrier ID' })
-    .nullable(),
+    .optional(),
   endLocation: z
     .string({ message: 'End location must be a string' })
     .min(1, { error: 'End location is required' })
     .max(255, { error: 'End location must be at most 255 characters' })
-    .nullable(),
+    .optional(),
   internalTripId: z
     .uuid({ message: 'Invalid UUID format for internal trip ID' })
-    .nullable(),
+    .optional(),
   legSequence: z
     .number({ message: 'Leg sequence must be a number' })
     .int({ message: 'Leg sequence must be an integer' })
     .min(0, { message: 'Leg sequence must be at least 0' }),
   status: z
     .enum(TmsShipmentLegStatusEnum, { message: 'Invalid shipment leg status' })
-    .nullable(),
+    .optional(),
   shipmentId: z
     .uuid({ message: 'Invalid UUID format for shipment ID' })
-    .nullable(),
+    .optional(),
   startLocation: z
     .string({ message: 'Start location must be a string' })
     .min(1, { error: 'Start location is required' })
     .max(255, { error: 'Start location must be at most 255 characters' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsShipmentLeg = z.infer<typeof tmsShipmentLegSchema>;

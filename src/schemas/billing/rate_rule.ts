@@ -8,18 +8,18 @@ export const billingRateRuleSchema = z.object({
     .string()
     .min(1, { error: 'Condition is required' })
     .max(255, { error: 'Condition must be at most 255 characters' }),
-  createdAt: z.iso.datetime().nullable(),
-  isActive: z.boolean().nullable(),
+  createdAt: z.date().optional(),
+  isActive: z.boolean().optional(),
   maxValue: z.coerce
     .number()
     .min(0, { error: 'Max value must be at least 0' })
     .max(10000000, { error: 'Max value must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   minValue: z.coerce
     .number()
     .min(0, { error: 'Min value must be at least 0' })
     .max(10000000, { error: 'Min value must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   price: z.coerce
     .number()
     .min(0, { error: 'Price must be at least 0' })
@@ -29,9 +29,9 @@ export const billingRateRuleSchema = z.object({
     .number()
     .min(0, { error: 'Priority must be at least 0' })
     .max(1000, { error: 'Priority must be at most 1000' })
-    .nullable(),
+    .optional(),
   rateCardId: z.uuid(),
-  updatedAt: z.iso.datetime().nullable(),
+  updatedAt: z.date().optional(),
   value: z
     .string()
     .min(1, { error: 'Value is required' })

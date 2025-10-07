@@ -4,12 +4,12 @@ import { TmsProofTypeEnum } from '@/db/types';
 export const tmsProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
-  type: z.enum(TmsProofTypeEnum, { message: 'Invalid proof type' }).nullable(),
+  type: z.enum(TmsProofTypeEnum, { message: 'Invalid proof type' }).optional(),
   filePath: z
     .string({ message: 'File path must be a string' })
     .min(1, { error: 'File path is required' })
     .max(1024, { error: 'File path must be at most 1024 characters' })
-    .nullable(),
+    .optional(),
   latitude: z.coerce
     .number({ message: 'Latitude must be a number' })
     .min(-90, { error: 'Latitude must be at least -90' })
@@ -18,14 +18,14 @@ export const tmsProofOfDeliverySchema = z.object({
     .number({ message: 'Longitude must be a number' })
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
-  timestamp: z.iso.datetime({ message: 'Invalid date format for timestamp' }),
+  timestamp: z.date({ message: 'Invalid date format for timestamp' }),
   tripStopId: z.uuid({ message: 'Invalid UUID format for trip stop ID' }),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsProofOfDelivery = z.infer<typeof tmsProofOfDeliverySchema>;

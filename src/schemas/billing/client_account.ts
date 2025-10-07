@@ -7,32 +7,32 @@ export const billingClientAccountSchema = z.object({
     .number()
     .min(0, { error: 'Available credit must be at least 0' })
     .max(10000000, { error: 'Available credit must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   clientId: z.uuid(),
-  createdAt: z.iso.datetime().nullable(),
+  createdAt: z.date().optional(),
   creditLimit: z.coerce
     .number()
     .min(0, { error: 'Credit limit must be at least 0' })
     .max(10000000, { error: 'Credit limit must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   currency: z
     .string()
     .min(1, { error: 'Currency is required' })
     .max(8, { error: 'Currency must be at most 8 characters' })
-    .nullable(),
-  isCreditApproved: z.boolean().nullable(),
-  lastPaymentDate: z.iso.datetime().nullable(),
+    .optional(),
+  isCreditApproved: z.boolean().optional(),
+  lastPaymentDate: z.date().optional(),
   paymentTermsDays: z
     .number()
     .min(0, { error: 'Payment terms days must be at least 0' })
     .max(365, { error: 'Payment terms days must be at most 365' })
-    .nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+    .optional(),
+  updatedAt: z.date().optional(),
   walletBalance: z.coerce
     .number()
     .min(0, { error: 'Wallet balance must be at least 0' })
     .max(10000000, { error: 'Wallet balance must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
 });
 
 export type BillingClientAccount = z.infer<typeof billingClientAccountSchema>;

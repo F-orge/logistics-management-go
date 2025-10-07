@@ -15,14 +15,14 @@ export const crmNotificationSchema = z.object({
     .url({ message: 'Invalid URL format for link' })
     .min(1, { message: 'Link is required' })
     .max(1024, { message: 'Link must be at most 1024 characters' })
-    .nullable(),
-  isRead: z.boolean({ message: 'Is read must be a boolean' }).nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for creation date' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid ISO datetime format for update date' })
-    .nullable(),
+    .optional(),
+  isRead: z.boolean({ message: 'Is read must be a boolean' }).optional(),
+  createdAt: z
+    .date({ message: 'Invalid ISO datetime format for creation date' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid ISO datetime format for update date' })
+    .optional(),
 });
 
 export type CrmNotification = z.infer<typeof crmNotificationSchema>;

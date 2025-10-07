@@ -9,28 +9,28 @@ export const wmsPickBatchItemSchema = z.object({
     .int({ message: 'Order priority must be an integer' })
     .min(0, { error: 'Order priority must be at least 0' })
     .max(1000, { error: 'Order priority must be at most 1000' })
-    .nullable()
+    .optional()
     .optional(),
   estimatedPickTime: z
     .number({ message: 'Estimated pick time must be a number' })
     .int({ message: 'Estimated pick time must be an integer' })
     .min(0, { error: 'Estimated pick time must be at least 0' })
     .max(10000, { error: 'Estimated pick time must be at most 10,000' })
-    .nullable()
+    .optional()
     .optional(),
   actualPickTime: z
     .number({ message: 'Actual pick time must be a number' })
     .int({ message: 'Actual pick time must be an integer' })
     .min(0, { error: 'Actual pick time must be at least 0' })
     .max(10000, { error: 'Actual pick time must be at most 10,000' })
-    .nullable()
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsPickBatchItem = z.infer<typeof wmsPickBatchItemSchema>;

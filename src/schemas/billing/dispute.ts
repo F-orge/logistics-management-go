@@ -5,12 +5,12 @@ import { BillingDisputeStatusEnum } from '@/db/types';
 export const billingDisputeSchema = z.object({
   id: z.uuid(),
   clientId: z.uuid(),
-  createdAt: z.iso.datetime().nullable(),
+  createdAt: z.date().optional(),
   disputedAmount: z.coerce
     .number()
     .min(0, { error: 'Disputed amount must be at least 0' })
     .max(10000000, { error: 'Disputed amount must be at most 10,000,000' })
-    .nullable(),
+    .optional(),
   lineItemId: z.uuid(),
   reason: z
     .string()
@@ -20,16 +20,16 @@ export const billingDisputeSchema = z.object({
     .string()
     .min(1, { error: 'Resolution notes are required' })
     .max(1024, { error: 'Resolution notes must be at most 1024 characters' })
-    .nullable(),
-  resolvedAt: z.iso.datetime().nullable(),
+    .optional(),
+  resolvedAt: z.date().optional(),
   resolvedByUserId: z
     .string()
     .min(1, { error: 'Resolved by user ID is required' })
     .max(255, { error: 'Resolved by user ID must be at most 255 characters' })
-    .nullable(),
-  status: z.enum(BillingDisputeStatusEnum).nullable(),
-  submittedAt: z.iso.datetime().nullable(),
-  updatedAt: z.iso.datetime().nullable(),
+    .optional(),
+  status: z.enum(BillingDisputeStatusEnum).optional(),
+  submittedAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });
 
 export type BillingDispute = z.infer<typeof billingDisputeSchema>;

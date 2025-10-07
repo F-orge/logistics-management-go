@@ -13,41 +13,41 @@ export const dmsProofOfDeliverySchema = z.object({
     .string({ message: 'File path must be a string' })
     .min(1, { error: 'File path is required' })
     .max(1024, { error: 'File path must be at most 1024 characters' })
-    .nullable(),
+    .optional(),
   latitude: z
     .number({ message: 'Latitude must be a number' })
     .min(-90, { message: 'Latitude must be at least -90' })
     .max(90, { message: 'Latitude must be at most 90' })
-    .nullable(),
+    .optional(),
   longitude: z
     .number({ message: 'Longitude must be a number' })
     .min(-180, { message: 'Longitude must be at least -180' })
     .max(180, { message: 'Longitude must be at most 180' })
-    .nullable(),
+    .optional(),
   recipientName: z
     .string({ message: 'Recipient name must be a string' })
     .min(1, { error: 'Recipient name is required' })
     .max(127, { error: 'Recipient name must be at most 127 characters' })
-    .nullable(),
+    .optional(),
   signatureData: z
     .string({ message: 'Signature data must be a string' })
     .min(1, { error: 'Signature data is required' })
     .max(4096, { error: 'Signature data must be at most 4096 characters' })
-    .nullable(),
-  timestamp: z.iso
-    .datetime({ message: 'Invalid date format for timestamp' })
-    .nullable(),
+    .optional(),
+  timestamp: z
+    .date({ message: 'Invalid date format for timestamp' })
+    .optional(),
   verificationCode: z
     .string({ message: 'Verification code must be a string' })
     .min(1, { error: 'Verification code is required' })
     .max(64, { error: 'Verification code must be at most 64 characters' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type DmsProofOfDelivery = z.infer<typeof dmsProofOfDeliverySchema>;

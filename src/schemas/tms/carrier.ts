@@ -10,24 +10,24 @@ export const tmsCarrierSchema = z.object({
     .string({ message: 'Contact name must be a string' })
     .min(1, { error: 'Contact name is required' })
     .max(255, { error: 'Contact name must be at most 255 characters' })
-    .nullable(),
+    .optional(),
   contactEmail: z
     .string({ message: 'Contact email must be a string' })
     .email({ message: 'Invalid email format' })
     .min(1, { error: 'Contact email is required' })
     .max(255, { error: 'Contact email must be at most 255 characters' })
-    .nullable(),
+    .optional(),
   contactPhone: z
     .string({ message: 'Contact phone must be a string' })
     .min(1, { error: 'Contact phone is required' })
     .max(32, { error: 'Contact phone must be at most 32 characters' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsCarrier = z.infer<typeof tmsCarrierSchema>;

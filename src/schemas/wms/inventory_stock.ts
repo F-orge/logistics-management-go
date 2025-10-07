@@ -20,31 +20,31 @@ export const wmsInventoryStockSchema = z.object({
     .int({ message: 'Available quantity must be an integer' })
     .min(0, { error: 'Available quantity must be at least 0' })
     .max(1000000, { error: 'Available quantity must be at most 1,000,000' })
-    .nullable()
+    .optional()
     .optional(),
   batchId: z
     .uuid({ message: 'Invalid UUID format for batch ID' })
-    .nullable()
+    .optional()
     .optional(),
   status: z
     .enum(WmsInventoryStockStatusEnum, {
       message: 'Invalid inventory stock status',
     })
-    .nullable(),
-  lastCountedAt: z.iso
-    .datetime({ message: 'Invalid date format for last counted at' })
-    .nullable()
     .optional(),
-  lastMovementAt: z.iso
-    .datetime({ message: 'Invalid date format for last movement at' })
-    .nullable()
+  lastCountedAt: z
+    .date({ message: 'Invalid date format for last counted at' })
+    .optional()
     .optional(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  lastMovementAt: z
+    .date({ message: 'Invalid date format for last movement at' })
+    .optional()
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsInventoryStock = z.infer<typeof wmsInventoryStockSchema>;

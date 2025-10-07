@@ -13,17 +13,17 @@ export const wmsOutboundShipmentItemSchema = z.object({
     .max(1000000, { error: 'Quantity shipped must be at most 1,000,000' }),
   batchId: z
     .uuid({ message: 'Invalid UUID format for batch ID' })
-    .nullable()
+    .optional()
     .optional(),
   salesOrderItemId: z.uuid({
     message: 'Invalid UUID format for sales order item ID',
   }),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type WmsOutboundShipmentItem = z.infer<

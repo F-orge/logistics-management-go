@@ -12,19 +12,19 @@ export const tmsTripSchema = z.object({
   vehicleId: z.uuid({ message: 'Invalid UUID format for vehicle ID' }),
   status: z
     .enum(TmsTripStatusEnum, { message: 'Invalid trip status' })
-    .nullable(),
-  startedAt: z.iso
-    .datetime({ message: 'Invalid date format for started at' })
-    .nullable(),
-  completedAt: z.iso
-    .datetime({ message: 'Invalid date format for completed at' })
-    .nullable(),
-  createdAt: z.iso
-    .datetime({ message: 'Invalid date format for created at' })
-    .nullable(),
-  updatedAt: z.iso
-    .datetime({ message: 'Invalid date format for updated at' })
-    .nullable(),
+    .optional(),
+  startedAt: z
+    .date({ message: 'Invalid date format for started at' })
+    .optional(),
+  completedAt: z
+    .date({ message: 'Invalid date format for completed at' })
+    .optional(),
+  createdAt: z
+    .date({ message: 'Invalid date format for created at' })
+    .optional(),
+  updatedAt: z
+    .date({ message: 'Invalid date format for updated at' })
+    .optional(),
 });
 
 export type TmsTrip = z.infer<typeof tmsTripSchema>;
