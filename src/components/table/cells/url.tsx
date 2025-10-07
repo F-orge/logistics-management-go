@@ -1,25 +1,20 @@
 import { Check } from 'lucide-react';
 import React from 'react';
-import { ZodString } from 'zod';
+import { ZodURL } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-export type StringCellProps = {
-  validator?: ZodString;
+export type UrlCellProps = {
+  validator?: ZodURL;
   value?: string;
   onSave?: (value: string) => Promise<unknown> | unknown;
   length?: number; /// number of characters to show. if exceed convert to tooltip
   editable?: boolean;
 };
 
-const StringCell = (props: StringCellProps) => {
+const UrlCell = (props: UrlCellProps) => {
   const [edit, setEdit] = React.useState(false);
   const [value, setValue] = React.useState<string | undefined>(props.value);
 
@@ -57,22 +52,19 @@ const StringCell = (props: StringCellProps) => {
             </Button>
           </div>
         ) : (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <FieldLabel
-                onDoubleClick={() => {
-                  if (props.editable) {
-                    setEdit(true);
-                  }
-                }}
-              >
-                {value}
-              </FieldLabel>
-            </TooltipTrigger>
-            {value!.length > (props.length || value!.length) && (
-              <TooltipContent>{value}</TooltipContent>
-            )}
-          </Tooltip>
+          <FieldLabel asChild>
+            <Button
+              variant={'link'}
+              className="justify-start p-0"
+              onDoubleClick={() => {
+                if (props.editable) {
+                  setEdit(true);
+                }
+              }}
+            >
+              {value}
+            </Button>
+          </FieldLabel>
         )}
       </Field>
     );
@@ -81,4 +73,4 @@ const StringCell = (props: StringCellProps) => {
   }
 };
 
-export default StringCell;
+export default UrlCell;

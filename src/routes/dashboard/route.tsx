@@ -27,7 +27,7 @@ function RouteComponent() {
             <SystemBreadcrumbs />
           </div>
         </header>
-        <div className="p-4 pt-0 overflow-x-auto">
+        <div className="p-4 pt-0 overflow-x-auto mx-16">
           <Outlet />
         </div>
       </SidebarInset>

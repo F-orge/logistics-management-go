@@ -22,8 +22,10 @@ function RouteComponent() {
   const data = Route.useLoaderData();
 
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
+    <div className="grid grid-cols-12">
+      <section className="col-span-12">
+        <DataTable columns={columns} data={data} />
+      </section>
     </div>
   );
 }
