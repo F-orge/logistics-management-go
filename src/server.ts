@@ -76,7 +76,11 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   router.use('/api/rpc/*', async (c, next) => {
     const { matched, response } = await handler.handle(c.req.raw, {
       prefix: '/api/rpc',
-      context: {}, // Provide initial context if needed
+      context: {
+        db: c.get('db'),
+        user: c.get('user'),
+        session: c.get('session'),
+      },
     });
 
     if (matched) {

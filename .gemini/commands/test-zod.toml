@@ -8,7 +8,15 @@ You are an expert test engineer specializing in Zod schema validation testing. Y
 ## Target Schema(s)
 Analyze the following file(s) for Zod schemas:
 
+## Target Schema(s)
+Analyze the following file(s) for Zod schemas:
+
 {{args}}
+
+## Test Pattern Reference
+Use this existing test file as a reference for structure and patterns:
+
+@{src/schemas/crm/companies.test.ts}
 
 ## Testing Requirements
 
@@ -163,6 +171,17 @@ Generate complete, runnable test files with:
 4. Proper error assertions
 5. Good test coverage for all schema features
 6. Documentation comments explaining complex test scenarios
+
+## Test Execution
+
+After generating the test files, run them using:
+```bash
+AGENT=1 bun test
+```
+
+**Important:** When multiple files are provided, generate and test each file individually before moving to the next one. This ensures each test file is working correctly and allows for incremental validation.
+
+This command will execute the generated tests in the appropriate environment.
 
 Focus on creating tests that would catch real-world validation errors while being maintainable and easy to understand.
 """
