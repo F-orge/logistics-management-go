@@ -1,4 +1,3 @@
-import { DB } from '@/db/types';
 import {
   ComparisonOperatorExpression,
   DeleteQueryBuilder,
@@ -10,6 +9,7 @@ import {
   SelectQueryBuilder,
   UpdateQueryBuilder,
 } from 'kysely';
+import { DB } from '@/db/types';
 
 // Utility type to get column names from a table
 export type TableColumns<T extends keyof DB> = keyof DB[T];

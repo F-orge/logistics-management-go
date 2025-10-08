@@ -1,5 +1,5 @@
-import { crmCompanySchema } from '@/schemas/crm/companies';
 import z, { ZodAny, ZodObject, ZodRawShape } from 'zod';
+import { crmCompanySchema } from '@/schemas/crm/companies';
 
 export const ComparisonOperatorSchema = z.enum([
   '=',

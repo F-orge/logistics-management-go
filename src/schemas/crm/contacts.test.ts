@@ -1,8 +1,8 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmContactSchema,
   crmContactInsertSchema,
+  crmContactSchema,
   crmContactUpdateSchema,
 } from './contacts';
 

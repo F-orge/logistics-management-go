@@ -6,18 +6,22 @@ import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { crmOpportunityUpdateMutationOption } from '@/queries/crm/opportunities'; // Assuming this query exists
 import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types'; // Import enums
+import { crmOpportunityUpdateMutationOption } from '@/queries/crm/opportunities'; // Assuming this query exists
 
-const crmOpportunitySourceOptions = Object.values(CrmOpportunitySource).map((type) => ({
-  value: type,
-  label: type,
-}));
+const crmOpportunitySourceOptions = Object.values(CrmOpportunitySource).map(
+  (type) => ({
+    value: type,
+    label: type,
+  }),
+);
 
-const crmOpportunityStageOptions = Object.values(CrmOpportunityStage).map((type) => ({
-  value: type,
-  label: type,
-}));
+const crmOpportunityStageOptions = Object.values(CrmOpportunityStage).map(
+  (type) => ({
+    value: type,
+    label: type,
+  }),
+);
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCrmOpportunity>>[number]

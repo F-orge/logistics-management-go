@@ -1,128 +1,128 @@
-import { describe, test, expect } from "bun:test";
-import { ZodError } from "zod";
-import { crmTagSchema, crmTagInsertSchema, crmTagUpdateSchema } from "./tags";
+import { describe, expect, test } from 'bun:test';
+import { ZodError } from 'zod';
+import { crmTagInsertSchema, crmTagSchema, crmTagUpdateSchema } from './tags';
 
-describe("CrmTagSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmTagSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data",
+        name: 'minimum valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Tag A",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Tag A',
         },
       },
       {
-        name: "complete valid data",
+        name: 'complete valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174001",
-          name: "Long Tag Name " + "L".repeat(112), // 14 + 112 = 126 chars
-          createdAt: new Date("2023-01-01T10:00:00Z"),
-          updatedAt: new Date("2023-01-01T11:00:00Z"),
+          id: '123e4567-e89b-12d3-a456-426614174001',
+          name: 'Long Tag Name ' + 'L'.repeat(112), // 14 + 112 = 126 chars
+          createdAt: new Date('2023-01-01T10:00:00Z'),
+          updatedAt: new Date('2023-01-01T11:00:00Z'),
         },
       },
       {
-        name: "all optional fields absent",
+        name: 'all optional fields absent',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174002",
-          name: "Tag C",
+          id: '123e4567-e89b-12d3-a456-426614174002',
+          name: 'Tag C',
         },
       },
       {
-        name: "name with max length",
+        name: 'name with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174003",
-          name: "N".repeat(127),
+          id: '123e4567-e89b-12d3-a456-426614174003',
+          name: 'N'.repeat(127),
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmTagSchema.parse(input)).not.toThrow();
       const result = crmTagSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "missing id",
+        name: 'missing id',
         input: {
-          name: "Tag A",
+          name: 'Tag A',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "invalid id format",
+        name: 'invalid id format',
         input: {
-          id: "invalid-uuid",
-          name: "Tag A",
+          id: 'invalid-uuid',
+          name: 'Tag A',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "missing name",
+        name: 'missing name',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
         },
-        expectedError: "Tag name must be a string",
+        expectedError: 'Tag name must be a string',
       },
       {
-        name: "name too short",
+        name: 'name too short',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: '',
         },
-        expectedError: "Tag name is required",
+        expectedError: 'Tag name is required',
       },
       {
-        name: "name too long",
+        name: 'name too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "N".repeat(128),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'N'.repeat(128),
         },
-        expectedError: "Tag name must be at most 127 characters",
+        expectedError: 'Tag name must be at most 127 characters',
       },
       {
-        name: "name wrong type",
+        name: 'name wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
           name: 123,
         },
-        expectedError: "Tag name must be a string",
+        expectedError: 'Tag name must be a string',
       },
       {
-        name: "createdAt invalid format",
+        name: 'createdAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Tag A",
-          createdAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Tag A',
+          createdAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for creation date",
+        expectedError: 'Invalid ISO datetime format for creation date',
       },
       {
-        name: "updatedAt invalid format",
+        name: 'updatedAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Tag A",
-          updatedAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Tag A',
+          updatedAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for update date",
+        expectedError: 'Invalid ISO datetime format for update date',
       },
       {
-        name: "unrecognized field",
+        name: 'unrecognized field',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Tag A",
-          extraField: "someValue",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Tag A',
+          extraField: 'someValue',
         },
-        expectedError: "Unrecognized key: \"extraField\"",
+        expectedError: 'Unrecognized key: "extraField"',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -134,16 +134,18 @@ describe("CrmTagSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmTagSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmTagSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Valid Tag",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Valid Tag',
       };
       const result = crmTagSchema.safeParse(validData);
 
@@ -153,10 +155,10 @@ describe("CrmTagSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "invalid-uuid",
-        name: "Invalid Tag",
+        id: 'invalid-uuid',
+        name: 'Invalid Tag',
       };
       const result = crmTagSchema.safeParse(invalidData);
 
@@ -169,74 +171,74 @@ describe("CrmTagSchema Validation", () => {
   });
 });
 
-describe("CrmTagInsertSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmTagInsertSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data (no id, createdAt, updatedAt)",
+        name: 'minimum valid data (no id, createdAt, updatedAt)',
         input: {
-          name: "New Tag",
+          name: 'New Tag',
         },
       },
       {
-        name: "complete valid data (no id, createdAt, updatedAt)",
+        name: 'complete valid data (no id, createdAt, updatedAt)',
         input: {
-          name: "Another New Tag " + "A".repeat(109), // 16 + 109 = 125 chars
+          name: 'Another New Tag ' + 'A'.repeat(109), // 16 + 109 = 125 chars
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmTagInsertSchema.parse(input)).not.toThrow();
       const result = crmTagInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Insert Fail",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Insert Fail',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
-          name: "Insert Fail",
+          name: 'Insert Fail',
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
-          name: "Insert Fail",
+          name: 'Insert Fail',
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "missing name",
+        name: 'missing name',
         input: {
-          name: "",
+          name: '',
         },
-        expectedError: "Tag name is required",
+        expectedError: 'Tag name is required',
       },
       {
-        name: "name too long",
+        name: 'name too long',
         input: {
-          name: "N".repeat(128),
+          name: 'N'.repeat(128),
         },
-        expectedError: "Tag name must be at most 127 characters",
+        expectedError: 'Tag name must be at most 127 characters',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -248,15 +250,17 @@ describe("CrmTagInsertSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmTagInsertSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmTagInsertSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        name: "Valid Insert Tag",
+        name: 'Valid Insert Tag',
       };
       const result = crmTagInsertSchema.safeParse(validData);
 
@@ -266,10 +270,10 @@ describe("CrmTagInsertSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Invalid Insert Tag",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Invalid Insert Tag',
       };
       const result = crmTagInsertSchema.safeParse(invalidData);
 
@@ -282,63 +286,63 @@ describe("CrmTagInsertSchema Validation", () => {
   });
 });
 
-describe("CrmTagUpdateSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmTagUpdateSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "partial update: only name",
+        name: 'partial update: only name',
         input: {
-          name: "Updated Tag Name",
+          name: 'Updated Tag Name',
         },
       },
       {
-        name: "empty object (no changes)",
+        name: 'empty object (no changes)',
         input: {},
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmTagUpdateSchema.parse(input)).not.toThrow();
       const result = crmTagUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Update Fail",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Update Fail',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "name too long",
+        name: 'name too long',
         input: {
-          name: "N".repeat(128),
+          name: 'N'.repeat(128),
         },
-        expectedError: "Tag name must be at most 127 characters",
+        expectedError: 'Tag name must be at most 127 characters',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -350,15 +354,17 @@ describe("CrmTagUpdateSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmTagUpdateSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmTagUpdateSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        name: "Valid Update Tag",
+        name: 'Valid Update Tag',
       };
       const result = crmTagUpdateSchema.safeParse(validData);
 
@@ -368,10 +374,10 @@ describe("CrmTagUpdateSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Invalid Update Tag",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Invalid Update Tag',
       };
       const result = crmTagUpdateSchema.safeParse(invalidData);
 

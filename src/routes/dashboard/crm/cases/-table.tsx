@@ -5,8 +5,8 @@ import { selectCrmCase } from '@/actions/crm/cases'; // Assuming this action exi
 import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import StringCell from '@/components/table/cells/string';
-import { crmCaseUpdateMutationOption } from '@/queries/crm/cases'; // Assuming this query exists
 import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types'; // Import enums
+import { crmCaseUpdateMutationOption } from '@/queries/crm/cases'; // Assuming this query exists
 
 const crmCasePriorityOptions = Object.values(CrmCasePriority).map((type) => ({
   value: type,

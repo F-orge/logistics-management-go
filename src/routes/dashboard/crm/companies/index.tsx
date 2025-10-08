@@ -1,10 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 import z from 'zod';
 import { DataTable } from '@/components/table';
 import { crmCompanyQueryOption } from '@/queries/crm/companies';
 import { columns } from './-table';
-import { useRouter } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   ssr: false,

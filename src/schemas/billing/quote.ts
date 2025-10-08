@@ -70,10 +70,14 @@ export const billingQuoteSchema = z.object({
 
 export type BillingQuote = z.infer<typeof billingQuoteSchema>;
 
-export const billingQuoteInsertSchema = billingQuoteSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-}).strict();
+export const billingQuoteInsertSchema = billingQuoteSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .strict();
 
-export const billingQuoteUpdateSchema = billingQuoteInsertSchema.partial().strict();
+export const billingQuoteUpdateSchema = billingQuoteInsertSchema
+  .partial()
+  .strict();

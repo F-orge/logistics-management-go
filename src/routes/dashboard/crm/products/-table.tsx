@@ -6,8 +6,8 @@ import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { crmProductUpdateMutationOption } from '@/queries/crm/products'; // Assuming this query exists
 import { CrmProductType } from '@/db/types'; // Import enum
+import { crmProductUpdateMutationOption } from '@/queries/crm/products'; // Assuming this query exists
 
 const crmProductTypeOptions = Object.values(CrmProductType).map((type) => ({
   value: type,

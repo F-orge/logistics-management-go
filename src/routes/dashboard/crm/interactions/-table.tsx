@@ -5,13 +5,15 @@ import { selectCrmInteraction } from '@/actions/crm/interactions'; // Assuming t
 import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import StringCell from '@/components/table/cells/string';
-import { crmInteractionUpdateMutationOption } from '@/queries/crm/interactions'; // Assuming this query exists
 import { CrmInteractionType } from '@/db/types'; // Import enum
+import { crmInteractionUpdateMutationOption } from '@/queries/crm/interactions'; // Assuming this query exists
 
-const crmInteractionTypeOptions = Object.values(CrmInteractionType).map((type) => ({
-  value: type,
-  label: type,
-}));
+const crmInteractionTypeOptions = Object.values(CrmInteractionType).map(
+  (type) => ({
+    value: type,
+    label: type,
+  }),
+);
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof selectCrmInteraction>>[number]

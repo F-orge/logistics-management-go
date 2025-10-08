@@ -1,0 +1,47 @@
+import { oc } from '@orpc/contract';
+import { DeleteResult } from 'kysely';
+import z from 'zod';
+import { crmNotificationInsertSchema, crmNotificationSchema, crmNotificationUpdateSchema } from '@/schemas/crm/notifications';
+import {
+  filterTransformer,
+  paginateTransformer,
+  sortTransformer,
+} from '@/repositories/utils';
+
+export const paginateNotificationContract = oc
+  .input(
+    paginateTransformer().and(
+      z.object({
+        filters: filterTransformer(crmNotificationSchema),
+        sort: sortTransformer(crmNotificationSchema),
+      }),
+    ),
+  )
+  .output(z.array(crmNotificationSchema));
+
+export const rangeNotificationContract = oc
+  .input(
+    z.object({ from: z.date(), to: z.date() }).and(
+      z.object({
+        filters: filterTransformer(crmNotificationSchema),
+        sort: sortTransformer(crmNotificationSchema),
+      }),
+    ),
+  )
+  .output(z.array(crmNotificationSchema));
+
+export const inNotificationContract = oc
+  .input(z.array(z.uuid()))
+  .output(z.array(crmNotificationSchema));
+
+export const createNotificationContract = oc
+  .input(crmNotificationInsertSchema)
+  .output(crmNotificationSchema);
+
+export const updateNotificationContract = oc
+  .input(z.object({ id: z.uuid(), value: crmNotificationUpdateSchema }))
+  .output(crmNotificationSchema);
+
+export const deleteNotificationContract = oc
+  .input(z.uuid())
+  .output(z.instanceof(DeleteResult));

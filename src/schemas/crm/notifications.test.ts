@@ -1,250 +1,250 @@
-import { describe, test, expect } from "bun:test";
-import { ZodError } from "zod";
+import { describe, expect, test } from 'bun:test';
+import { ZodError } from 'zod';
 import {
-  crmNotificationSchema,
   crmNotificationInsertSchema,
+  crmNotificationSchema,
   crmNotificationUpdateSchema,
-} from "./notifications";
+} from './notifications';
 
-describe("CrmNotificationSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmNotificationSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data",
+        name: 'minimum valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test notification message.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test notification message.',
         },
       },
       {
-        name: "complete valid data",
+        name: 'complete valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174001",
-          userId: "user-456",
-          message: "Long notification message: " + "L".repeat(997), // 27 + 997 = 1024 chars
-          link: "https://example.com/notification/1",
+          id: '123e4567-e89b-12d3-a456-426614174001',
+          userId: 'user-456',
+          message: 'Long notification message: ' + 'L'.repeat(997), // 27 + 997 = 1024 chars
+          link: 'https://example.com/notification/1',
           isRead: true,
-          createdAt: new Date("2023-01-01T10:00:00Z"),
-          updatedAt: new Date("2023-01-01T11:00:00Z"),
+          createdAt: new Date('2023-01-01T10:00:00Z'),
+          updatedAt: new Date('2023-01-01T11:00:00Z'),
         },
       },
       {
-        name: "all optional fields absent",
+        name: 'all optional fields absent',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174002",
-          userId: "user-789",
-          message: "Another notification.",
+          id: '123e4567-e89b-12d3-a456-426614174002',
+          userId: 'user-789',
+          message: 'Another notification.',
         },
       },
       {
-        name: "message with max length",
+        name: 'message with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174003",
-          userId: "user-abc",
-          message: "M".repeat(1024),
+          id: '123e4567-e89b-12d3-a456-426614174003',
+          userId: 'user-abc',
+          message: 'M'.repeat(1024),
         },
       },
       {
-        name: "link with max length",
+        name: 'link with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174004",
-          userId: "user-def",
-          message: "Link test.",
-          link: "https://example.com/" + "L".repeat(999), // 19 + 999 = 1018 chars
+          id: '123e4567-e89b-12d3-a456-426614174004',
+          userId: 'user-def',
+          message: 'Link test.',
+          link: 'https://example.com/' + 'L'.repeat(999), // 19 + 999 = 1018 chars
         },
       },
       {
-        name: "isRead is false",
+        name: 'isRead is false',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174005",
-          userId: "user-ghi",
-          message: "Unread notification.",
+          id: '123e4567-e89b-12d3-a456-426614174005',
+          userId: 'user-ghi',
+          message: 'Unread notification.',
           isRead: false,
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmNotificationSchema.parse(input)).not.toThrow();
       const result = crmNotificationSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "missing id",
+        name: 'missing id',
         input: {
-          userId: "user-123",
-          message: "Test notification message.",
+          userId: 'user-123',
+          message: 'Test notification message.',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "invalid id format",
+        name: 'invalid id format',
         input: {
-          id: "invalid-uuid",
-          userId: "user-123",
-          message: "Test notification message.",
+          id: 'invalid-uuid',
+          userId: 'user-123',
+          message: 'Test notification message.',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "missing userId",
+        name: 'missing userId',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          message: "Test notification message.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          message: 'Test notification message.',
         },
-        expectedError: "User ID must be a string",
+        expectedError: 'User ID must be a string',
       },
       {
-        name: "userId too short",
+        name: 'userId too short',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "",
-          message: "Test notification message.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: '',
+          message: 'Test notification message.',
         },
-        expectedError: "User ID is required",
+        expectedError: 'User ID is required',
       },
       {
-        name: "userId too long",
+        name: 'userId too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "U".repeat(256),
-          message: "Test notification message.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'U'.repeat(256),
+          message: 'Test notification message.',
         },
-        expectedError: "User ID must be at most 255 characters",
+        expectedError: 'User ID must be at most 255 characters',
       },
       {
-        name: "userId wrong type",
+        name: 'userId wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
           userId: 123,
-          message: "Test notification message.",
+          message: 'Test notification message.',
         },
-        expectedError: "User ID must be a string",
+        expectedError: 'User ID must be a string',
       },
       {
-        name: "missing message",
+        name: 'missing message',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
         },
-        expectedError: "Message must be a string",
+        expectedError: 'Message must be a string',
       },
       {
-        name: "message too short",
+        name: 'message too short',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: '',
         },
-        expectedError: "Message is required",
+        expectedError: 'Message is required',
       },
       {
-        name: "message too long",
+        name: 'message too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "M".repeat(1025),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'M'.repeat(1025),
         },
-        expectedError: "Message must be at most 1024 characters",
+        expectedError: 'Message must be at most 1024 characters',
       },
       {
-        name: "message wrong type",
+        name: 'message wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
           message: 123,
         },
-        expectedError: "Message must be a string",
+        expectedError: 'Message must be a string',
       },
       {
-        name: "link invalid format",
+        name: 'link invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          link: "not-a-url",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          link: 'not-a-url',
         },
-        expectedError: "Invalid URL format for link",
+        expectedError: 'Invalid URL format for link',
       },
       {
-        name: "link too short",
+        name: 'link too short',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          link: "",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          link: '',
         },
-        expectedError: "Link is required",
+        expectedError: 'Link is required',
       },
       {
-        name: "link too long",
+        name: 'link too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          link: "https://example.com/" + "L".repeat(1006), // 19 + 1006 = 1025 chars
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          link: 'https://example.com/' + 'L'.repeat(1006), // 19 + 1006 = 1025 chars
         },
-        expectedError: "Link must be at most 1024 characters",
+        expectedError: 'Link must be at most 1024 characters',
       },
       {
-        name: "link wrong type",
+        name: 'link wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
           link: 123,
         },
-        expectedError: "Link must be a string",
+        expectedError: 'Link must be a string',
       },
       {
-        name: "isRead wrong type",
+        name: 'isRead wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          isRead: "true",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          isRead: 'true',
         },
-        expectedError: "Is read must be a boolean",
+        expectedError: 'Is read must be a boolean',
       },
       {
-        name: "createdAt invalid format",
+        name: 'createdAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          createdAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          createdAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for creation date",
+        expectedError: 'Invalid ISO datetime format for creation date',
       },
       {
-        name: "updatedAt invalid format",
+        name: 'updatedAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          updatedAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          updatedAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for update date",
+        expectedError: 'Invalid ISO datetime format for update date',
       },
       {
-        name: "unrecognized field",
+        name: 'unrecognized field',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-123",
-          message: "Test message.",
-          extraField: "someValue",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-123',
+          message: 'Test message.',
+          extraField: 'someValue',
         },
-        expectedError: "Unrecognized key: \"extraField\"",
+        expectedError: 'Unrecognized key: "extraField"',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -256,17 +256,19 @@ describe("CrmNotificationSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmNotificationSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmNotificationSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        userId: "user-valid",
-        message: "Valid notification.",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        userId: 'user-valid',
+        message: 'Valid notification.',
       };
       const result = crmNotificationSchema.safeParse(validData);
 
@@ -276,11 +278,11 @@ describe("CrmNotificationSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "invalid-uuid",
-        userId: "user-invalid",
-        message: "Invalid notification.",
+        id: 'invalid-uuid',
+        userId: 'user-invalid',
+        message: 'Invalid notification.',
       };
       const result = crmNotificationSchema.safeParse(invalidData);
 
@@ -293,90 +295,90 @@ describe("CrmNotificationSchema Validation", () => {
   });
 });
 
-describe("CrmNotificationInsertSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmNotificationInsertSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data (no id, createdAt, updatedAt)",
+        name: 'minimum valid data (no id, createdAt, updatedAt)',
         input: {
-          userId: "user-insert",
-          message: "New notification.",
+          userId: 'user-insert',
+          message: 'New notification.',
         },
       },
       {
-        name: "complete valid data (no id, createdAt, updatedAt)",
+        name: 'complete valid data (no id, createdAt, updatedAt)',
         input: {
-          userId: "user-insert-full",
-          message: "Full new notification: " + "F".repeat(1000),
-          link: "https://example.com/new-notification/1",
+          userId: 'user-insert-full',
+          message: 'Full new notification: ' + 'F'.repeat(1000),
+          link: 'https://example.com/new-notification/1',
           isRead: false,
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmNotificationInsertSchema.parse(input)).not.toThrow();
       const result = crmNotificationInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          userId: "user-insert",
-          message: "Notification with ID.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          userId: 'user-insert',
+          message: 'Notification with ID.',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
-          userId: "user-insert",
-          message: "Notification with createdAt.",
+          userId: 'user-insert',
+          message: 'Notification with createdAt.',
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
-          userId: "user-insert",
-          message: "Notification with updatedAt.",
+          userId: 'user-insert',
+          message: 'Notification with updatedAt.',
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "missing userId",
+        name: 'missing userId',
         input: {
-          message: "Missing user ID.",
+          message: 'Missing user ID.',
         },
-        expectedError: "User ID must be a string",
+        expectedError: 'User ID must be a string',
       },
       {
-        name: "missing message",
+        name: 'missing message',
         input: {
-          userId: "user-insert",
+          userId: 'user-insert',
         },
-        expectedError: "Message must be a string",
+        expectedError: 'Message must be a string',
       },
       {
-        name: "link invalid format",
+        name: 'link invalid format',
         input: {
-          userId: "user-insert",
-          message: "Invalid link.",
-          link: "not-a-url",
+          userId: 'user-insert',
+          message: 'Invalid link.',
+          link: 'not-a-url',
         },
-        expectedError: "Invalid URL format for link",
+        expectedError: 'Invalid URL format for link',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -388,16 +390,18 @@ describe("CrmNotificationInsertSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmNotificationInsertSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmNotificationInsertSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        userId: "user-valid-insert",
-        message: "Valid insert notification.",
+        userId: 'user-valid-insert',
+        message: 'Valid insert notification.',
       };
       const result = crmNotificationInsertSchema.safeParse(validData);
 
@@ -407,11 +411,11 @@ describe("CrmNotificationInsertSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        userId: "user-invalid-insert",
-        message: "Invalid insert notification.",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        userId: 'user-invalid-insert',
+        message: 'Invalid insert notification.',
       };
       const result = crmNotificationInsertSchema.safeParse(invalidData);
 
@@ -424,99 +428,99 @@ describe("CrmNotificationInsertSchema Validation", () => {
   });
 });
 
-describe("CrmNotificationUpdateSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmNotificationUpdateSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "partial update: only message",
+        name: 'partial update: only message',
         input: {
-          message: "Updated notification message.",
+          message: 'Updated notification message.',
         },
       },
       {
-        name: "partial update: only isRead",
+        name: 'partial update: only isRead',
         input: {
           isRead: true,
         },
       },
       {
-        name: "partial update: all allowed fields",
+        name: 'partial update: all allowed fields',
         input: {
-          userId: "user-update-full",
-          message: "Fully updated notification: " + "U".repeat(996), // 28 + 996 = 1024 chars
-          link: "https://example.com/updated-notification/1",
+          userId: 'user-update-full',
+          message: 'Fully updated notification: ' + 'U'.repeat(996), // 28 + 996 = 1024 chars
+          link: 'https://example.com/updated-notification/1',
           isRead: true,
         },
       },
       {
-        name: "empty object (no changes)",
+        name: 'empty object (no changes)',
         input: {},
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmNotificationUpdateSchema.parse(input)).not.toThrow();
       const result = crmNotificationUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          message: "Update with ID.",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          message: 'Update with ID.',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "userId wrong type",
+        name: 'userId wrong type',
         input: {
           userId: 123,
         },
-        expectedError: "User ID must be a string",
+        expectedError: 'User ID must be a string',
       },
       {
-        name: "message too long",
+        name: 'message too long',
         input: {
-          message: "M".repeat(1025),
+          message: 'M'.repeat(1025),
         },
-        expectedError: "Message must be at most 1024 characters",
+        expectedError: 'Message must be at most 1024 characters',
       },
       {
-        name: "link invalid format",
+        name: 'link invalid format',
         input: {
-          link: "not-a-url",
+          link: 'not-a-url',
         },
-        expectedError: "Invalid URL format for link",
+        expectedError: 'Invalid URL format for link',
       },
       {
-        name: "isRead wrong type",
+        name: 'isRead wrong type',
         input: {
-          isRead: "false",
+          isRead: 'false',
         },
-        expectedError: "Is read must be a boolean",
+        expectedError: 'Is read must be a boolean',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -528,15 +532,17 @@ describe("CrmNotificationUpdateSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmNotificationUpdateSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmNotificationUpdateSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        message: "Valid update.",
+        message: 'Valid update.',
       };
       const result = crmNotificationUpdateSchema.safeParse(validData);
 
@@ -546,10 +552,10 @@ describe("CrmNotificationUpdateSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        message: "Invalid update.",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        message: 'Invalid update.',
       };
       const result = crmNotificationUpdateSchema.safeParse(invalidData);
 

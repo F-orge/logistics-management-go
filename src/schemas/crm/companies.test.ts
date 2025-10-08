@@ -1,407 +1,410 @@
-import { describe, test, expect } from "bun:test";
-import { ZodError } from "zod";
+import { describe, expect, test } from 'bun:test';
+import { ZodError } from 'zod';
 import {
-  crmCompanySchema,
   crmCompanyInsertSchema,
+  crmCompanySchema,
   crmCompanyUpdateSchema,
-} from "./companies";
+} from './companies';
 
-describe("CrmCompanySchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmCompanySchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data",
+        name: 'minimum valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Acme Corp",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Acme Corp',
         },
       },
       {
-        name: "complete valid data",
+        name: 'complete valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174001",
-          name: "Globex Corporation",
-          ownerId: "user-123",
-          annualRevenue: 1000000.50,
-          city: "Springfield",
-          country: "USA",
-          industry: "Technology",
-          phoneNumber: "+15551234567",
-          postalCode: "90210",
-          state: "CA",
-          street: "123 Main St",
-          website: "https://www.globex.com",
-          createdAt: new Date("2023-01-01T10:00:00Z"),
-          updatedAt: new Date("2023-01-01T11:00:00Z"),
+          id: '123e4567-e89b-12d3-a456-426614174001',
+          name: 'Globex Corporation',
+          ownerId: 'user-123',
+          annualRevenue: 1000000.5,
+          city: 'Springfield',
+          country: 'USA',
+          industry: 'Technology',
+          phoneNumber: '+15551234567',
+          postalCode: '90210',
+          state: 'CA',
+          street: '123 Main St',
+          website: 'https://www.globex.com',
+          createdAt: new Date('2023-01-01T10:00:00Z'),
+          updatedAt: new Date('2023-01-01T11:00:00Z'),
         },
       },
       {
-        name: "name with max length",
+        name: 'name with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174002",
-          name: "A".repeat(255),
+          id: '123e4567-e89b-12d3-a456-426614174002',
+          name: 'A'.repeat(255),
         },
       },
       {
-        name: "ownerId with max length",
+        name: 'ownerId with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174003",
-          name: "Company B",
-          ownerId: "B".repeat(255),
+          id: '123e4567-e89b-12d3-a456-426614174003',
+          name: 'Company B',
+          ownerId: 'B'.repeat(255),
         },
       },
       {
-        name: "annualRevenue is zero",
+        name: 'annualRevenue is zero',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174004",
-          name: "Company C",
+          id: '123e4567-e89b-12d3-a456-426614174004',
+          name: 'Company C',
           annualRevenue: 0,
         },
       },
       {
-        name: "city, country, industry, state with max length",
+        name: 'city, country, industry, state with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174005",
-          name: "Company D",
-          city: "C".repeat(127),
-          country: "D".repeat(127),
-          industry: "E".repeat(127),
-          state: "F".repeat(127),
+          id: '123e4567-e89b-12d3-a456-426614174005',
+          name: 'Company D',
+          city: 'C'.repeat(127),
+          country: 'D'.repeat(127),
+          industry: 'E'.repeat(127),
+          state: 'F'.repeat(127),
         },
       },
       {
-        name: "phoneNumber with max length (valid E.164)",
+        name: 'phoneNumber with max length (valid E.164)',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174006",
-          name: "Company E",
-          phoneNumber: "+123456789012345", // Valid E.164, 16 chars
+          id: '123e4567-e89b-12d3-a456-426614174006',
+          name: 'Company E',
+          phoneNumber: '+123456789012345', // Valid E.164, 16 chars
         },
       },
       {
-        name: "postalCode with max length",
+        name: 'postalCode with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174007",
-          name: "Company F",
-          postalCode: "P".repeat(32),
+          id: '123e4567-e89b-12d3-a456-426614174007',
+          name: 'Company F',
+          postalCode: 'P'.repeat(32),
         },
       },
       {
-        name: "street with max length",
+        name: 'street with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174008",
-          name: "Company G",
-          street: "S".repeat(255),
+          id: '123e4567-e89b-12d3-a456-426614174008',
+          name: 'Company G',
+          street: 'S'.repeat(255),
         },
       },
       {
-        name: "website with max length",
+        name: 'website with max length',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174009",
-          name: "Company H",
-          website: "https://" + "w".repeat(243) + ".com", // 8 + 243 + 4 = 255 chars
+          id: '123e4567-e89b-12d3-a456-426614174009',
+          name: 'Company H',
+          website: 'https://' + 'w'.repeat(243) + '.com', // 8 + 243 + 4 = 255 chars
         },
       },
       {
-        name: "all optional fields absent",
+        name: 'all optional fields absent',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174010",
-          name: "Company I",
+          id: '123e4567-e89b-12d3-a456-426614174010',
+          name: 'Company I',
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmCompanySchema.parse(input)).not.toThrow();
       const result = crmCompanySchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "missing id",
+        name: 'missing id',
         input: {
-          name: "Acme Corp",
+          name: 'Acme Corp',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "invalid id format",
+        name: 'invalid id format',
         input: {
-          id: "invalid-uuid",
-          name: "Acme Corp",
+          id: 'invalid-uuid',
+          name: 'Acme Corp',
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "missing name",
+        name: 'missing name',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
         },
-        expectedError: "Company name must be a string",
+        expectedError: 'Company name must be a string',
       },
       {
-        name: "name too short",
+        name: 'name too short',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: '',
         },
-        expectedError: "Company name is required",
+        expectedError: 'Company name is required',
       },
       {
-        name: "name too long",
+        name: 'name too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "A".repeat(256),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'A'.repeat(256),
         },
-        expectedError: "Company name must be at most 255 characters",
+        expectedError: 'Company name must be at most 255 characters',
       },
       {
-        name: "name wrong type",
+        name: 'name wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
           name: 123,
         },
-        expectedError: "Company name must be a string",
+        expectedError: 'Company name must be a string',
       },
       {
-        name: "ownerId too long",
+        name: 'ownerId too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company B",
-          ownerId: "B".repeat(256),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company B',
+          ownerId: 'B'.repeat(256),
         },
-        expectedError: "Owner ID must be at most 255 characters",
+        expectedError: 'Owner ID must be at most 255 characters',
       },
       {
-        name: "ownerId wrong type",
+        name: 'ownerId wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company B",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company B',
           ownerId: 123,
         },
-        expectedError: "Owner ID must be a string",
+        expectedError: 'Owner ID must be a string',
       },
       {
-        name: "annualRevenue negative",
+        name: 'annualRevenue negative',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company C",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company C',
           annualRevenue: -100,
         },
-        expectedError: "Annual revenue must be at least 0",
+        expectedError: 'Annual revenue must be at least 0',
       },
       {
-        name: "annualRevenue wrong type (not coercible)",
+        name: 'annualRevenue wrong type (not coercible)',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company C",
-          annualRevenue: "abc",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company C',
+          annualRevenue: 'abc',
         },
-        expectedError: "Annual revenue must be a number",
+        expectedError: 'Annual revenue must be a number',
       },
       {
-        name: "city too long",
+        name: 'city too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company D",
-          city: "C".repeat(128),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company D',
+          city: 'C'.repeat(128),
         },
-        expectedError: "City must be at most 127 characters",
+        expectedError: 'City must be at most 127 characters',
       },
       {
-        name: "city wrong type",
+        name: 'city wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company D",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company D',
           city: 123,
         },
-        expectedError: "City must be a string",
+        expectedError: 'City must be a string',
       },
       {
-        name: "country too long",
+        name: 'country too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company E",
-          country: "D".repeat(128),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company E',
+          country: 'D'.repeat(128),
         },
-        expectedError: "Country must be at most 127 characters",
+        expectedError: 'Country must be at most 127 characters',
       },
       {
-        name: "country wrong type",
+        name: 'country wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company E",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company E',
           country: 123,
         },
-        expectedError: "Country must be a string",
+        expectedError: 'Country must be a string',
       },
       {
-        name: "industry too long",
+        name: 'industry too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company F",
-          industry: "E".repeat(128),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company F',
+          industry: 'E'.repeat(128),
         },
-        expectedError: "Industry must be at most 127 characters",
+        expectedError: 'Industry must be at most 127 characters',
       },
       {
-        name: "industry wrong type",
+        name: 'industry wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company F",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company F',
           industry: 123,
         },
-        expectedError: "Industry must be a string",
+        expectedError: 'Industry must be a string',
       },
       {
-        name: "phoneNumber too long",
+        name: 'phoneNumber too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company G",
-          phoneNumber: "+12345678901234567890123456789012", // 33 chars
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company G',
+          phoneNumber: '+12345678901234567890123456789012', // 33 chars
         },
-        expectedError: "Invalid phone number format", // e164 fails first
+        expectedError: 'Invalid phone number format', // e164 fails first
       },
       {
-        name: "phoneNumber invalid format",
+        name: 'phoneNumber invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company G",
-          phoneNumber: "invalid-phone",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company G',
+          phoneNumber: 'invalid-phone',
         },
-        expectedError: "Invalid phone number format",
+        expectedError: 'Invalid phone number format',
       },
       {
-        name: "phoneNumber wrong type",
+        name: 'phoneNumber wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company G",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company G',
           phoneNumber: 123,
         },
-        expectedError: "Invalid phone number format", // Custom message from e164
+        expectedError: 'Invalid phone number format', // Custom message from e164
       },
       {
-        name: "postalCode too long",
+        name: 'postalCode too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company H",
-          postalCode: "P".repeat(33),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company H',
+          postalCode: 'P'.repeat(33),
         },
-        expectedError: "Postal code must be at most 32 characters",
+        expectedError: 'Postal code must be at most 32 characters',
       },
       {
-        name: "postalCode wrong type",
+        name: 'postalCode wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company H",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company H',
           postalCode: 123,
         },
-        expectedError: "Postal code must be a string",
+        expectedError: 'Postal code must be a string',
       },
       {
-        name: "state too long",
+        name: 'state too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company I",
-          state: "F".repeat(128),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company I',
+          state: 'F'.repeat(128),
         },
-        expectedError: "State must be at most 127 characters",
+        expectedError: 'State must be at most 127 characters',
       },
       {
-        name: "state wrong type",
+        name: 'state wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company I",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company I',
           state: 123,
         },
-        expectedError: "State must be a string",
+        expectedError: 'State must be a string',
       },
       {
-        name: "street too long",
+        name: 'street too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company J",
-          street: "S".repeat(256),
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company J',
+          street: 'S'.repeat(256),
         },
-        expectedError: "Street must be at most 255 characters",
+        expectedError: 'Street must be at most 255 characters',
       },
       {
-        name: "street wrong type",
+        name: 'street wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company J",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company J',
           street: 123,
         },
-        expectedError: "Street must be a string",
+        expectedError: 'Street must be a string',
       },
       {
-        name: "website too long",
+        name: 'website too long',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company K",
-          website: "https://" + "w".repeat(244) + ".com", // 8 + 244 + 4 = 256 chars
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company K',
+          website: 'https://' + 'w'.repeat(244) + '.com', // 8 + 244 + 4 = 256 chars
         },
-        expectedError: "Website must be at most 255 characters",
+        expectedError: 'Website must be at most 255 characters',
       },
       {
-        name: "website invalid format",
+        name: 'website invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company K",
-          website: "invalid-url",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company K',
+          website: 'invalid-url',
         },
-        expectedError: "Invalid URL format for website",
+        expectedError: 'Invalid URL format for website',
       },
       {
-        name: "website wrong type",
+        name: 'website wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company K",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company K',
           website: 123,
         },
-        expectedError: "Invalid URL format for website", // Custom message from url
+        expectedError: 'Invalid URL format for website', // Custom message from url
       },
       {
-        name: "createdAt invalid format",
+        name: 'createdAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company L",
-          createdAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company L',
+          createdAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for creation date",
+        expectedError: 'Invalid ISO datetime format for creation date',
       },
       {
-        name: "updatedAt invalid format",
+        name: 'updatedAt invalid format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Company M",
-          updatedAt: "not-a-date",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Company M',
+          updatedAt: 'not-a-date',
         },
-        expectedError: "Invalid ISO datetime format for update date",
+        expectedError: 'Invalid ISO datetime format for update date',
       },
     ];
 
-    test.each(invalidTestCases)("should reject: $name", ({ input, expectedError }) => {
-      let error: ZodError | undefined;
-      try {
-        crmCompanySchema.parse(input);
-      } catch (e) {
-        if (e instanceof ZodError) {
-          error = e;
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          crmCompanySchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
         }
-      }
-      expect(error).toBeInstanceOf(ZodError);
-      expect(error?.issues[0].message).toContain(expectedError);
-    });
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0].message).toContain(expectedError);
+      },
+    );
   });
 
-  describe("SafeParse Tests for crmCompanySchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmCompanySchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Valid Company",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Valid Company',
       };
       const result = crmCompanySchema.safeParse(validData);
 
@@ -411,10 +414,10 @@ describe("CrmCompanySchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "invalid-uuid",
-        name: "Invalid Company",
+        id: 'invalid-uuid',
+        name: 'Invalid Company',
       };
       const result = crmCompanySchema.safeParse(invalidData);
 
@@ -427,99 +430,102 @@ describe("CrmCompanySchema Validation", () => {
   });
 });
 
-describe("CrmCompanyInsertSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmCompanyInsertSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data (no id, createdAt, updatedAt)",
+        name: 'minimum valid data (no id, createdAt, updatedAt)',
         input: {
-          name: "New Company",
+          name: 'New Company',
         },
       },
       {
-        name: "complete valid data (no id, createdAt, updatedAt)",
+        name: 'complete valid data (no id, createdAt, updatedAt)',
         input: {
-          name: "Another New Company",
-          ownerId: "user-insert",
-          annualRevenue: 50000.00,
-          city: "New City",
-          country: "New Country",
-          industry: "New Industry",
-          phoneNumber: "+12345678901",
-          postalCode: "12345",
-          state: "NS",
-          street: "456 New St",
-          website: "https://www.newcompany.com",
+          name: 'Another New Company',
+          ownerId: 'user-insert',
+          annualRevenue: 50000.0,
+          city: 'New City',
+          country: 'New Country',
+          industry: 'New Industry',
+          phoneNumber: '+12345678901',
+          postalCode: '12345',
+          state: 'NS',
+          street: '456 New St',
+          website: 'https://www.newcompany.com',
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmCompanyInsertSchema.parse(input)).not.toThrow();
       const result = crmCompanyInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Insert Fail",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Insert Fail',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
-          name: "Insert Fail",
+          name: 'Insert Fail',
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
-          name: "Insert Fail",
+          name: 'Insert Fail',
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "missing name",
+        name: 'missing name',
         input: {},
-        expectedError: "Company name must be a string",
+        expectedError: 'Company name must be a string',
       },
       {
-        name: "annualRevenue negative",
+        name: 'annualRevenue negative',
         input: {
-          name: "Insert Fail",
+          name: 'Insert Fail',
           annualRevenue: -1,
         },
-        expectedError: "Annual revenue must be at least 0",
+        expectedError: 'Annual revenue must be at least 0',
       },
     ];
 
-    test.each(invalidTestCases)("should reject: $name", ({ input, expectedError }) => {
-      let error: ZodError | undefined;
-      try {
-        crmCompanyInsertSchema.parse(input);
-      } catch (e) {
-        if (e instanceof ZodError) {
-          error = e;
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          crmCompanyInsertSchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
         }
-      }
-      expect(error).toBeInstanceOf(ZodError);
-      expect(error?.issues[0].message).toContain(expectedError);
-    });
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0].message).toContain(expectedError);
+      },
+    );
   });
 
-  describe("SafeParse Tests for crmCompanyInsertSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmCompanyInsertSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        name: "Valid Insert Company",
+        name: 'Valid Insert Company',
       };
       const result = crmCompanyInsertSchema.safeParse(validData);
 
@@ -529,10 +535,10 @@ describe("CrmCompanyInsertSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Invalid Insert Company",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Invalid Insert Company',
       };
       const result = crmCompanyInsertSchema.safeParse(invalidData);
 
@@ -545,125 +551,128 @@ describe("CrmCompanyInsertSchema Validation", () => {
   });
 });
 
-describe("CrmCompanyUpdateSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmCompanyUpdateSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "partial update: only name",
+        name: 'partial update: only name',
         input: {
-          name: "Updated Company Name",
+          name: 'Updated Company Name',
         },
       },
       {
-        name: "partial update: only annualRevenue",
+        name: 'partial update: only annualRevenue',
         input: {
-          annualRevenue: 500000.00,
+          annualRevenue: 500000.0,
         },
       },
       {
-        name: "partial update: all allowed fields",
+        name: 'partial update: all allowed fields',
         input: {
-          name: "Fully Updated Campaign",
-          ownerId: "user-update",
+          name: 'Fully Updated Campaign',
+          ownerId: 'user-update',
           annualRevenue: 1234567.89,
-          city: "Updated City",
-          country: "Updated Country",
-          industry: "Updated Industry",
-          phoneNumber: "+19876543210",
-          postalCode: "54321",
-          state: "UP",
-          street: "456 Updated St",
-          website: "https://www.updated.com",
+          city: 'Updated City',
+          country: 'Updated Country',
+          industry: 'Updated Industry',
+          phoneNumber: '+19876543210',
+          postalCode: '54321',
+          state: 'UP',
+          street: '456 Updated St',
+          website: 'https://www.updated.com',
         },
       },
       {
-        name: "empty object (no changes)",
+        name: 'empty object (no changes)',
         input: {},
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmCompanyUpdateSchema.parse(input)).not.toThrow();
       const result = crmCompanyUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "Update Fail",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'Update Fail',
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "should reject with createdAt present",
+        name: 'should reject with createdAt present',
         input: {
-          name: "Update Fail",
+          name: 'Update Fail',
           createdAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"createdAt\"",
+        expectedError: 'Unrecognized key: "createdAt"',
       },
       {
-        name: "should reject with updatedAt present",
+        name: 'should reject with updatedAt present',
         input: {
-          name: "Update Fail",
+          name: 'Update Fail',
           updatedAt: new Date(),
         },
-        expectedError: "Unrecognized key: \"updatedAt\"",
+        expectedError: 'Unrecognized key: "updatedAt"',
       },
       {
-        name: "annualRevenue negative",
+        name: 'annualRevenue negative',
         input: {
-          name: "Update Fail",
+          name: 'Update Fail',
           annualRevenue: -10,
         },
-        expectedError: "Annual revenue must be at least 0",
+        expectedError: 'Annual revenue must be at least 0',
       },
       {
-        name: "name wrong type",
+        name: 'name wrong type',
         input: {
           name: 123,
         },
-        expectedError: "Company name must be a string",
+        expectedError: 'Company name must be a string',
       },
       {
-        name: "phoneNumber invalid format",
+        name: 'phoneNumber invalid format',
         input: {
-          phoneNumber: "invalid-phone",
+          phoneNumber: 'invalid-phone',
         },
-        expectedError: "Invalid phone number format",
+        expectedError: 'Invalid phone number format',
       },
       {
-        name: "website invalid format",
+        name: 'website invalid format',
         input: {
-          website: "invalid-url",
+          website: 'invalid-url',
         },
-        expectedError: "Invalid URL format for website",
+        expectedError: 'Invalid URL format for website',
       },
     ];
 
-    test.each(invalidTestCases)("should reject: $name", ({ input, expectedError }) => {
-      let error: ZodError | undefined;
-      try {
-        crmCompanyUpdateSchema.parse(input);
-      } catch (e) {
-        if (e instanceof ZodError) {
-          error = e;
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          crmCompanyUpdateSchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
         }
-      }
-      expect(error).toBeInstanceOf(ZodError);
-      expect(error?.issues[0].message).toContain(expectedError);
-    });
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0].message).toContain(expectedError);
+      },
+    );
   });
 
-  describe("SafeParse Tests for crmCompanyUpdateSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmCompanyUpdateSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        name: "Valid Update Company",
+        name: 'Valid Update Company',
       };
       const result = crmCompanyUpdateSchema.safeParse(validData);
 
@@ -673,10 +682,10 @@ describe("CrmCompanyUpdateSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        name: "Invalid Update Company",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        name: 'Invalid Update Company',
       };
       const result = crmCompanyUpdateSchema.safeParse(invalidData);
 

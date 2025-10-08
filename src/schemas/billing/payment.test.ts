@@ -1,11 +1,11 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
+import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types';
 import {
-  billingPaymentSchema,
   billingPaymentInsertSchema,
+  billingPaymentSchema,
   billingPaymentUpdateSchema,
 } from './payment';
-import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types';
 
 const UUID_REGEX =
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
@@ -687,7 +687,7 @@ describe('BillingPaymentInsertSchema Validation', () => {
           paymentMethod: 'invalid-method',
           transactionId: '123e4567-e89b-12d3-a456-426614174000',
         },
-        expectedError: "Invalid option",
+        expectedError: 'Invalid option',
       },
       {
         name: 'processedByUserId too long',

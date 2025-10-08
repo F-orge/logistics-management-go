@@ -1,0 +1,47 @@
+import { oc } from '@orpc/contract';
+import { DeleteResult } from 'kysely';
+import z from 'zod';
+import { crmLeadInsertSchema, crmLeadSchema, crmLeadUpdateSchema } from '@/schemas/crm/leads';
+import {
+  filterTransformer,
+  paginateTransformer,
+  sortTransformer,
+} from '@/repositories/utils';
+
+export const paginateLeadContract = oc
+  .input(
+    paginateTransformer().and(
+      z.object({
+        filters: filterTransformer(crmLeadSchema),
+        sort: sortTransformer(crmLeadSchema),
+      }),
+    ),
+  )
+  .output(z.array(crmLeadSchema));
+
+export const rangeLeadContract = oc
+  .input(
+    z.object({ from: z.date(), to: z.date() }).and(
+      z.object({
+        filters: filterTransformer(crmLeadSchema),
+        sort: sortTransformer(crmLeadSchema),
+      }),
+    ),
+  )
+  .output(z.array(crmLeadSchema));
+
+export const inLeadContract = oc
+  .input(z.array(z.uuid()))
+  .output(z.array(crmLeadSchema));
+
+export const createLeadContract = oc
+  .input(crmLeadInsertSchema)
+  .output(crmLeadSchema);
+
+export const updateLeadContract = oc
+  .input(z.object({ id: z.uuid(), value: crmLeadUpdateSchema }))
+  .output(crmLeadSchema);
+
+export const deleteLeadContract = oc
+  .input(z.uuid())
+  .output(z.instanceof(DeleteResult));

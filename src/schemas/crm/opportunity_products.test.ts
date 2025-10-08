@@ -1,182 +1,182 @@
-import { describe, test, expect } from "bun:test";
-import { ZodError } from "zod";
+import { describe, expect, test } from 'bun:test';
+import { ZodError } from 'zod';
 import {
-  crmOpportunityProductSchema,
   crmOpportunityProductInsertSchema,
+  crmOpportunityProductSchema,
   crmOpportunityProductUpdateSchema,
-} from "./opportunity_products";
+} from './opportunity_products';
 
-describe("CrmOpportunityProductSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmOpportunityProductSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data",
+        name: 'minimum valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
       },
       {
-        name: "complete valid data",
+        name: 'complete valid data',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174003",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174004",
-          productId: "123e4567-e89b-12d3-a456-426614174005",
+          id: '123e4567-e89b-12d3-a456-426614174003',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174004',
+          productId: '123e4567-e89b-12d3-a456-426614174005',
           quantity: 10000,
         },
       },
       {
-        name: "quantity at minimum",
+        name: 'quantity at minimum',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174006",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174007",
-          productId: "123e4567-e89b-12d3-a456-426614174008",
+          id: '123e4567-e89b-12d3-a456-426614174006',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174007',
+          productId: '123e4567-e89b-12d3-a456-426614174008',
           quantity: 1,
         },
       },
       {
-        name: "quantity at maximum",
+        name: 'quantity at maximum',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174009",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174010",
-          productId: "123e4567-e89b-12d3-a456-426614174011",
+          id: '123e4567-e89b-12d3-a456-426614174009',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174010',
+          productId: '123e4567-e89b-12d3-a456-426614174011',
           quantity: 10000,
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() => crmOpportunityProductSchema.parse(input)).not.toThrow();
       const result = crmOpportunityProductSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "missing id",
+        name: 'missing id',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "invalid id format",
+        name: 'invalid id format',
         input: {
-          id: "invalid-uuid",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: 'invalid-uuid',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for ID",
+        expectedError: 'Invalid UUID format for ID',
       },
       {
-        name: "missing opportunityId",
+        name: 'missing opportunityId',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for opportunity ID",
+        expectedError: 'Invalid UUID format for opportunity ID',
       },
       {
-        name: "invalid opportunityId format",
+        name: 'invalid opportunityId format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "invalid-uuid",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: 'invalid-uuid',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for opportunity ID",
+        expectedError: 'Invalid UUID format for opportunity ID',
       },
       {
-        name: "missing productId",
+        name: 'missing productId',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for product ID",
+        expectedError: 'Invalid UUID format for product ID',
       },
       {
-        name: "invalid productId format",
+        name: 'invalid productId format',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "invalid-uuid",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: 'invalid-uuid',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for product ID",
+        expectedError: 'Invalid UUID format for product ID',
       },
       {
-        name: "missing quantity",
+        name: 'missing quantity',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
         },
-        expectedError: "Quantity must be a number",
+        expectedError: 'Quantity must be a number',
       },
       {
-        name: "quantity wrong type",
+        name: 'quantity wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
-          quantity: "one",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
+          quantity: 'one',
         },
-        expectedError: "Quantity must be a number",
+        expectedError: 'Quantity must be a number',
       },
       {
-        name: "quantity not an integer",
+        name: 'quantity not an integer',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1.5,
         },
-        expectedError: "Quantity must be an integer",
+        expectedError: 'Quantity must be an integer',
       },
       {
-        name: "quantity below minimum",
+        name: 'quantity below minimum',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 0,
         },
-        expectedError: "Quantity must be at least 1",
+        expectedError: 'Quantity must be at least 1',
       },
       {
-        name: "quantity above maximum",
+        name: 'quantity above maximum',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 10001,
         },
-        expectedError: "Quantity must be at most 10,000",
+        expectedError: 'Quantity must be at most 10,000',
       },
       {
-        name: "unrecognized field",
+        name: 'unrecognized field',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
-          extraField: "someValue",
+          extraField: 'someValue',
         },
-        expectedError: "Unrecognized key: \"extraField\"",
+        expectedError: 'Unrecognized key: "extraField"',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -188,17 +188,19 @@ describe("CrmOpportunityProductSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmOpportunityProductSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmOpportunityProductSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-        productId: "123e4567-e89b-12d3-a456-426614174002",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+        productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
       const result = crmOpportunityProductSchema.safeParse(validData);
@@ -209,11 +211,11 @@ describe("CrmOpportunityProductSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "invalid-uuid",
-        opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-        productId: "123e4567-e89b-12d3-a456-426614174002",
+        id: 'invalid-uuid',
+        opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+        productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
       const result = crmOpportunityProductSchema.safeParse(invalidData);
@@ -227,74 +229,76 @@ describe("CrmOpportunityProductSchema Validation", () => {
   });
 });
 
-describe("CrmOpportunityProductInsertSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmOpportunityProductInsertSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "minimum valid data (no id)",
+        name: 'minimum valid data (no id)',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
       },
       {
-        name: "complete valid data (no id)",
+        name: 'complete valid data (no id)',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174004",
-          productId: "123e4567-e89b-12d3-a456-426614174005",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174004',
+          productId: '123e4567-e89b-12d3-a456-426614174005',
           quantity: 10000,
         },
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
-      expect(() => crmOpportunityProductInsertSchema.parse(input)).not.toThrow();
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
+      expect(() =>
+        crmOpportunityProductInsertSchema.parse(input),
+      ).not.toThrow();
       const result = crmOpportunityProductInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "missing opportunityId",
+        name: 'missing opportunityId',
         input: {
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for opportunity ID",
+        expectedError: 'Invalid UUID format for opportunity ID',
       },
       {
-        name: "missing productId",
+        name: 'missing productId',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
           quantity: 1,
         },
-        expectedError: "Invalid UUID format for product ID",
+        expectedError: 'Invalid UUID format for product ID',
       },
       {
-        name: "missing quantity",
+        name: 'missing quantity',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
         },
-        expectedError: "Quantity must be a number",
+        expectedError: 'Quantity must be a number',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -306,16 +310,18 @@ describe("CrmOpportunityProductInsertSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmOpportunityProductInsertSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmOpportunityProductInsertSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
-        opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-        productId: "123e4567-e89b-12d3-a456-426614174002",
+        opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+        productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
       const result = crmOpportunityProductInsertSchema.safeParse(validData);
@@ -326,11 +332,11 @@ describe("CrmOpportunityProductInsertSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-        productId: "123e4567-e89b-12d3-a456-426614174002",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+        productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
       const result = crmOpportunityProductInsertSchema.safeParse(invalidData);
@@ -344,92 +350,94 @@ describe("CrmOpportunityProductInsertSchema Validation", () => {
   });
 });
 
-describe("CrmOpportunityProductUpdateSchema Validation", () => {
-  describe("Valid Cases", () => {
+describe('CrmOpportunityProductUpdateSchema Validation', () => {
+  describe('Valid Cases', () => {
     const validTestCases = [
       {
-        name: "partial update: only quantity",
+        name: 'partial update: only quantity',
         input: {
           quantity: 5,
         },
       },
       {
-        name: "partial update: all allowed fields",
+        name: 'partial update: all allowed fields',
         input: {
-          opportunityId: "123e4567-e89b-12d3-a456-426614174001",
-          productId: "123e4567-e89b-12d3-a456-426614174002",
+          opportunityId: '123e4567-e89b-12d3-a456-426614174001',
+          productId: '123e4567-e89b-12d3-a456-426614174002',
           quantity: 10,
         },
       },
       {
-        name: "empty object (no changes)",
+        name: 'empty object (no changes)',
         input: {},
       },
     ];
 
-    test.each(validTestCases)("should validate: $name", ({ input }) => {
-      expect(() => crmOpportunityProductUpdateSchema.parse(input)).not.toThrow();
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
+      expect(() =>
+        crmOpportunityProductUpdateSchema.parse(input),
+      ).not.toThrow();
       const result = crmOpportunityProductUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
 
-  describe("Invalid Cases", () => {
+  describe('Invalid Cases', () => {
     const invalidTestCases = [
       {
-        name: "should reject with id present",
+        name: 'should reject with id present',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
+          id: '123e4567-e89b-12d3-a456-426614174000',
           quantity: 1,
         },
-        expectedError: "Unrecognized key: \"id\"",
+        expectedError: 'Unrecognized key: "id"',
       },
       {
-        name: "opportunityId invalid format",
+        name: 'opportunityId invalid format',
         input: {
-          opportunityId: "invalid-uuid",
+          opportunityId: 'invalid-uuid',
         },
-        expectedError: "Invalid UUID format for opportunity ID",
+        expectedError: 'Invalid UUID format for opportunity ID',
       },
       {
-        name: "productId invalid format",
+        name: 'productId invalid format',
         input: {
-          productId: "invalid-uuid",
+          productId: 'invalid-uuid',
         },
-        expectedError: "Invalid UUID format for product ID",
+        expectedError: 'Invalid UUID format for product ID',
       },
       {
-        name: "quantity wrong type",
+        name: 'quantity wrong type',
         input: {
-          quantity: "one",
+          quantity: 'one',
         },
-        expectedError: "Quantity must be a number",
+        expectedError: 'Quantity must be a number',
       },
       {
-        name: "quantity not an integer",
+        name: 'quantity not an integer',
         input: {
           quantity: 1.5,
         },
-        expectedError: "Quantity must be an integer",
+        expectedError: 'Quantity must be an integer',
       },
       {
-        name: "quantity below minimum",
+        name: 'quantity below minimum',
         input: {
           quantity: 0,
         },
-        expectedError: "Quantity must be at least 1",
+        expectedError: 'Quantity must be at least 1',
       },
       {
-        name: "quantity above maximum",
+        name: 'quantity above maximum',
         input: {
           quantity: 10001,
         },
-        expectedError: "Quantity must be at most 10,000",
+        expectedError: 'Quantity must be at most 10,000',
       },
     ];
 
     test.each(invalidTestCases)(
-      "should reject: $name",
+      'should reject: $name',
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
@@ -441,13 +449,15 @@ describe("CrmOpportunityProductUpdateSchema Validation", () => {
         }
         expect(error).toBeDefined();
         expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues.some(issue => issue.message.includes(expectedError))).toBe(true);
+        expect(
+          error?.issues.some((issue) => issue.message.includes(expectedError)),
+        ).toBe(true);
       },
     );
   });
 
-  describe("SafeParse Tests for crmOpportunityProductUpdateSchema", () => {
-    test("should return success for valid data", () => {
+  describe('SafeParse Tests for crmOpportunityProductUpdateSchema', () => {
+    test('should return success for valid data', () => {
       const validData = {
         quantity: 10,
       };
@@ -459,9 +469,9 @@ describe("CrmOpportunityProductUpdateSchema Validation", () => {
       }
     });
 
-    test("should return error for invalid data", () => {
+    test('should return error for invalid data', () => {
       const invalidData = {
-        id: "123e4567-e89b-12d3-a456-426614174000",
+        id: '123e4567-e89b-12d3-a456-426614174000',
         quantity: 10,
       };
       const result = crmOpportunityProductUpdateSchema.safeParse(invalidData);

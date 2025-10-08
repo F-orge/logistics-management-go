@@ -6,8 +6,8 @@ import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { crmInvoiceUpdateMutationOption } from '@/queries/crm/invoices'; // Assuming this query exists
 import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types'; // Import enums
+import { crmInvoiceUpdateMutationOption } from '@/queries/crm/invoices'; // Assuming this query exists
 
 const crmInvoiceStatusOptions = Object.values(CrmInvoiceStatus).map((type) => ({
   value: type,

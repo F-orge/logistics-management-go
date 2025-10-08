@@ -1,11 +1,6 @@
-import { Hono } from 'hono';
 import { RPCHandler } from '@orpc/server/fetch';
-import orpcRouter from '@/orpc';
-import { authFactoryV2 } from '@/lib/auth';
-import * as path from 'path';
-import { Pool } from 'pg';
 import { promises as fs } from 'fs';
-import { DB } from '@/db/types';
+import { Hono } from 'hono';
 import {
   CamelCasePlugin,
   FileMigrationProvider,
@@ -13,6 +8,11 @@ import {
   Migrator,
   PostgresDialect,
 } from 'kysely';
+import * as path from 'path';
+import { Pool } from 'pg';
+import { DB } from '@/db/types';
+import { authFactoryV2 } from '@/lib/auth';
+import orpcRouter from '@/orpc';
 
 type ServerFactory = {
   pool: Pool;

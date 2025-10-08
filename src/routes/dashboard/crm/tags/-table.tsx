@@ -13,9 +13,7 @@ export const columns: ColumnDef<
     accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => {
-      const mutation = useMutation(
-        crmTagUpdateMutationOption(row.original.id),
-      );
+      const mutation = useMutation(crmTagUpdateMutationOption(row.original.id));
 
       return (
         <StringCell

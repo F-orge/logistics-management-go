@@ -1,11 +1,11 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
+import { CrmInteractionType } from '@/db/types';
 import {
-  crmInteractionSchema,
   crmInteractionInsertSchema,
+  crmInteractionSchema,
   crmInteractionUpdateSchema,
 } from './interactions';
-import { CrmInteractionType } from '@/db/types';
 
 describe('CrmInteractionSchema Validation', () => {
   describe('Valid Cases', () => {

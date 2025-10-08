@@ -6,8 +6,8 @@ import DateCell from '@/components/table/cells/date';
 import EnumCell from '@/components/table/cells/enum';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { crmLeadUpdateMutationOption } from '@/queries/crm/leads'; // Assuming this query exists
 import { CrmLeadSource, CrmLeadStatus } from '@/db/types'; // Import enums
+import { crmLeadUpdateMutationOption } from '@/queries/crm/leads'; // Assuming this query exists
 
 const crmLeadSourceOptions = Object.values(CrmLeadSource).map((type) => ({
   value: type,
