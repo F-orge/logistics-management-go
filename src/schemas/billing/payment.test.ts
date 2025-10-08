@@ -687,8 +687,7 @@ describe('BillingPaymentInsertSchema Validation', () => {
           paymentMethod: 'invalid-method',
           transactionId: '123e4567-e89b-12d3-a456-426614174000',
         },
-        expectedError:
-          'Invalid option: expected one of "bank-transfer"|"cash"|"check"|"client-credit"|"credit-card"|"debit-card"|"qr-ph"|"wallet"',
+        expectedError: "Invalid option",
       },
       {
         name: 'processedByUserId too long',

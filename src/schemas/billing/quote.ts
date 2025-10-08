@@ -74,6 +74,6 @@ export const billingQuoteInsertSchema = billingQuoteSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+}).strict();
 
-export const billingQuoteUpdateSchema = billingQuoteInsertSchema.partial();
+export const billingQuoteUpdateSchema = billingQuoteInsertSchema.partial().strict();

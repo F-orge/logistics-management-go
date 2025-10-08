@@ -24,7 +24,7 @@ export const billingRateCardSchema = z.object({
   updatedAt: z.date().optional(),
   validFrom: z.date(),
   validTo: z.date().optional(),
-});
+}).strict();
 
 export type BillingRateCard = z.infer<typeof billingRateCardSchema>;
 

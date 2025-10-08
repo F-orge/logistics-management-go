@@ -90,18 +90,16 @@ describe("SchemaName Validation", () => {
     ];
 
     test.each(invalidTestCases)("should reject: $name", ({ input, expectedError }) => {
-      expect(() => schemaName.parse(input)).toThrow(ZodError);
-      
+      let error: ZodError | undefined;
       try {
         schemaName.parse(input);
-      } catch (error) {
-        if (error instanceof ZodError) {
-          expect(error.errors.some(e => 
-            e.message.includes(expectedError) || 
-            e.code === expectedError
-          )).toBe(true);
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e;
         }
       }
+      expect(error).toBeInstanceOf(ZodError);
+      expect(error?.issues[0].message).toContain(expectedError);
     });
   });
 

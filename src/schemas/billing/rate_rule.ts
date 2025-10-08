@@ -36,7 +36,7 @@ export const billingRateRuleSchema = z.object({
     .string()
     .min(1, { error: 'Value is required' })
     .max(255, { error: 'Value must be at most 255 characters' }),
-});
+}).strict();
 
 export type BillingRateRule = z.infer<typeof billingRateRuleSchema>;
 
@@ -44,7 +44,7 @@ export const billingRateRuleInsertSchema = billingRateRuleSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+}).strict();
 
 export const billingRateRuleUpdateSchema =
-  billingRateRuleInsertSchema.partial();
+  billingRateRuleInsertSchema.partial().strict();

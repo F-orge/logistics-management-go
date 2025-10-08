@@ -1,5 +1,4 @@
 import {
-  ColumnType,
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -204,8 +203,8 @@ export class CompanyRepository implements GenericRepository<'crm.companies'> {
     let query = this.db
       .selectFrom('crm.companies')
       .selectAll()
-      .where('createdAt', '>', from)
-      .where('createdAt', '<', to);
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
 
     for (const sortCol of sort || []) {
       query = query.orderBy(sortCol.column, sortCol.order);

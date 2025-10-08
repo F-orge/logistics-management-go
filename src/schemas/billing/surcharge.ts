@@ -27,7 +27,7 @@ export const billingSurchargeSchema = z.object({
   updatedAt: z.date().optional(),
   validFrom: z.date().optional(),
   validTo: z.date().optional(),
-});
+}).strict();
 
 export type BillingSurcharge = z.infer<typeof billingSurchargeSchema>;
 
@@ -35,7 +35,7 @@ export const billingSurchargeInsertSchema = billingSurchargeSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+}).strict();
 
 export const billingSurchargeUpdateSchema =
-  billingSurchargeInsertSchema.partial();
+  billingSurchargeInsertSchema.partial().strict();
