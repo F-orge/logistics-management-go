@@ -1,11 +1,23 @@
 import { insertCompanySchema, updateCompanySchema } from '@/db/schemas';
+import {
+  filterTransformer,
+  paginateTransformer,
+  sortTransformer,
+} from '@/repositories/utils';
 import { crmCompanySchema } from '@/schemas/crm/companies';
 import { oc } from '@orpc/contract';
 import { DeleteResult } from 'kysely';
 import z from 'zod';
 
 export const paginateCompanyContract = oc
-  .input(z.object({}))
+  .input(
+    paginateTransformer().and(
+      z.object({
+        filters: filterTransformer(crmCompanySchema),
+        sort: sortTransformer(crmCompanySchema),
+      }),
+    ),
+  )
   .output(z.array(crmCompanySchema));
 
 export const rangeCompanyContract = oc
