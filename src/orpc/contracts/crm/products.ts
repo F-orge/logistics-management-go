@@ -1,12 +1,16 @@
 import { oc } from '@orpc/contract';
 import { DeleteResult } from 'kysely';
 import z from 'zod';
-import { crmProductInsertSchema, crmProductSchema, crmProductUpdateSchema } from '@/schemas/crm/products';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
+import {
+  crmProductInsertSchema,
+  crmProductSchema,
+  crmProductUpdateSchema,
+} from '@/schemas/crm/products';
 
 export const paginateProductContract = oc
   .input(
@@ -27,7 +31,8 @@ export const rangeProductContract = oc
         sort: sortTransformer(crmProductSchema),
       }),
     ),
-  )  .output(z.array(crmProductSchema));
+  )
+  .output(z.array(crmProductSchema));
 
 export const inProductContract = oc
   .input(z.array(z.uuid()))

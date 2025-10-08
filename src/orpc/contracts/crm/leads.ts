@@ -1,12 +1,16 @@
 import { oc } from '@orpc/contract';
 import { DeleteResult } from 'kysely';
 import z from 'zod';
-import { crmLeadInsertSchema, crmLeadSchema, crmLeadUpdateSchema } from '@/schemas/crm/leads';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
+import {
+  crmLeadInsertSchema,
+  crmLeadSchema,
+  crmLeadUpdateSchema,
+} from '@/schemas/crm/leads';
 
 export const paginateLeadContract = oc
   .input(

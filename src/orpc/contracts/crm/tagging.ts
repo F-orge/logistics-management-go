@@ -2,15 +2,15 @@ import { oc } from '@orpc/contract';
 import { DeleteResult } from 'kysely';
 import z from 'zod';
 import {
-  crmTaggingInsertSchema,
-  crmTaggingSchema,
-  crmTaggingUpdateSchema,
-} from '@/schemas/crm/tagging';
-import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
+import {
+  crmTaggingInsertSchema,
+  crmTaggingSchema,
+  crmTaggingUpdateSchema,
+} from '@/schemas/crm/tagging';
 
 export const paginateTaggingContract = oc
   .input(

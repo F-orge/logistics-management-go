@@ -1,12 +1,16 @@
 import { oc } from '@orpc/contract';
 import { DeleteResult } from 'kysely';
 import z from 'zod';
-import { crmOpportunityInsertSchema, crmOpportunitySchema, crmOpportunityUpdateSchema } from '@/schemas/crm/opportunities';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
+import {
+  crmOpportunityInsertSchema,
+  crmOpportunitySchema,
+  crmOpportunityUpdateSchema,
+} from '@/schemas/crm/opportunities';
 
 export const paginateOpportunityContract = oc
   .input(
