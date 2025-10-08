@@ -13,7 +13,7 @@ export const uploadAttachmentContract = oc
 
 export const downloadAttachmentContract = oc
   .input(crmAttachmentSchema.pick({ recordId: true, recordType: true }))
-  .output(z.file());
+  .output(z.instanceof(File));
 
 export const showAttachmentMetadataContract = oc
   .input(crmAttachmentSchema.pick({ recordId: true, recordType: true }))
