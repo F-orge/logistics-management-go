@@ -1,12 +1,179 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class InvoiceItemRepository
+  implements GenericRepository<'crm.invoiceItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'crm.invoiceItems'> | undefined,
+    filter?: FilterConfig<'crm.invoiceItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.invoiceItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      invoiceId: string;
+      price: string;
+      productId: string;
+      quantity: number;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('crm.invoiceItems').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'crm.invoiceItems'> | undefined,
+    filter?: FilterConfig<'crm.invoiceItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.invoiceItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      invoiceId: string;
+      price: string;
+      productId: string;
+      quantity: number;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('crm.invoiceItems')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'crm.invoiceItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      invoiceId: string;
+      price: string;
+      productId: string;
+      quantity: number;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('crm.invoiceItems')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: {
+      invoiceId: string;
+      price: string | number;
+      productId: string;
+      quantity: number;
+    } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'crm.invoiceItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      invoiceId: string;
+      price: string;
+      productId: string;
+      quantity: number;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('crm.invoiceItems').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      invoiceId?: string | undefined;
+      price?: string | number | undefined;
+      productId?: string | undefined;
+      quantity?: number | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'crm.invoiceItems',
+    'crm.invoiceItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      invoiceId: string;
+      price: string;
+      productId: string;
+      quantity: number;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('crm.invoiceItems')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'crm.invoiceItems', DeleteResult> {
+    return this.db.deleteFrom('crm.invoiceItems').where('id', '=', id);
+  }
+}
 
 export class CrmInvoiceItemRepository {
   constructor(private db: Kysely<DB>) {}

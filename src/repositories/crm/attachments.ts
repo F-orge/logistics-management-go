@@ -1,12 +1,183 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { CrmRecordType, DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class AttachmentRepository
+  implements GenericRepository<'crm.attachments'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'crm.attachments'> | undefined,
+    filter?: FilterConfig<'crm.attachments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.attachments',
+    {
+      createdAt: Date | null;
+      fileName: string;
+      filePath: string;
+      id: string;
+      mimeType: string | null;
+      recordId: string | null;
+      recordType: CrmRecordType | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('crm.attachments').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'crm.attachments'> | undefined,
+    filter?: FilterConfig<'crm.attachments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.attachments',
+    {
+      createdAt: Date | null;
+      fileName: string;
+      filePath: string;
+      id: string;
+      mimeType: string | null;
+      recordId: string | null;
+      recordType: CrmRecordType | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('crm.attachments')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'crm.attachments',
+    {
+      createdAt: Date | null;
+      fileName: string;
+      filePath: string;
+      id: string;
+      mimeType: string | null;
+      recordId: string | null;
+      recordType: CrmRecordType | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('crm.attachments')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: { fileName: string; filePath: string } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      mimeType?: string | null | undefined;
+      recordId?: string | null | undefined;
+      recordType?: CrmRecordType | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'crm.attachments',
+    {
+      createdAt: Date | null;
+      fileName: string;
+      filePath: string;
+      id: string;
+      mimeType: string | null;
+      recordId: string | null;
+      recordType: CrmRecordType | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('crm.attachments').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      fileName?: string | undefined;
+      filePath?: string | undefined;
+      id?: string | undefined;
+      mimeType?: string | null | undefined;
+      recordId?: string | null | undefined;
+      recordType?: CrmRecordType | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'crm.attachments',
+    'crm.attachments',
+    {
+      createdAt: Date | null;
+      fileName: string;
+      filePath: string;
+      id: string;
+      mimeType: string | null;
+      recordId: string | null;
+      recordType: CrmRecordType | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('crm.attachments')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'crm.attachments', DeleteResult> {
+    return this.db.deleteFrom('crm.attachments').where('id', '=', id);
+  }
+}
 
 export class CrmAttachmentRepository {
   constructor(private db: Kysely<DB>) {}

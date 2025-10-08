@@ -1,12 +1,206 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { CrmInvoiceStatus, CrmPaymentMethod, DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class InvoiceRepository implements GenericRepository<'crm.invoices'> {
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'crm.invoices'> | undefined,
+    filter?: FilterConfig<'crm.invoices'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.invoices',
+    {
+      createdAt: Date | null;
+      dueDate: Date | null;
+      id: string;
+      issueDate: Date | null;
+      opportunityId: string | null;
+      paidAt: Date | null;
+      paymentMethod: CrmPaymentMethod | null;
+      sentAt: Date | null;
+      status: CrmInvoiceStatus | null;
+      total: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('crm.invoices').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'crm.invoices'> | undefined,
+    filter?: FilterConfig<'crm.invoices'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.invoices',
+    {
+      createdAt: Date | null;
+      dueDate: Date | null;
+      id: string;
+      issueDate: Date | null;
+      opportunityId: string | null;
+      paidAt: Date | null;
+      paymentMethod: CrmPaymentMethod | null;
+      sentAt: Date | null;
+      status: CrmInvoiceStatus | null;
+      total: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('crm.invoices')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'crm.invoices',
+    {
+      createdAt: Date | null;
+      dueDate: Date | null;
+      id: string;
+      issueDate: Date | null;
+      opportunityId: string | null;
+      paidAt: Date | null;
+      paymentMethod: CrmPaymentMethod | null;
+      sentAt: Date | null;
+      status: CrmInvoiceStatus | null;
+      total: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('crm.invoices')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: {} & {
+      createdAt?: string | Date | null | undefined;
+      dueDate?: string | Date | null | undefined;
+      id?: string | undefined;
+      issueDate?: string | Date | null | undefined;
+      opportunityId?: string | null | undefined;
+      paidAt?: string | Date | null | undefined;
+      paymentMethod?: CrmPaymentMethod | null | undefined;
+      sentAt?: string | Date | null | undefined;
+      status?: CrmInvoiceStatus | null | undefined;
+      total?: string | number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'crm.invoices',
+    {
+      createdAt: Date | null;
+      dueDate: Date | null;
+      id: string;
+      issueDate: Date | null;
+      opportunityId: string | null;
+      paidAt: Date | null;
+      paymentMethod: CrmPaymentMethod | null;
+      sentAt: Date | null;
+      status: CrmInvoiceStatus | null;
+      total: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('crm.invoices').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      dueDate?: string | Date | null | undefined;
+      id?: string | undefined;
+      issueDate?: string | Date | null | undefined;
+      opportunityId?: string | null | undefined;
+      paidAt?: string | Date | null | undefined;
+      paymentMethod?: CrmPaymentMethod | null | undefined;
+      sentAt?: string | Date | null | undefined;
+      status?: CrmInvoiceStatus | null | undefined;
+      total?: string | number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'crm.invoices',
+    'crm.invoices',
+    {
+      createdAt: Date | null;
+      dueDate: Date | null;
+      id: string;
+      issueDate: Date | null;
+      opportunityId: string | null;
+      paidAt: Date | null;
+      paymentMethod: CrmPaymentMethod | null;
+      sentAt: Date | null;
+      status: CrmInvoiceStatus | null;
+      total: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('crm.invoices')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'crm.invoices', DeleteResult> {
+    return this.db.deleteFrom('crm.invoices').where('id', '=', id);
+  }
+}
 
 export class CrmInvoiceRepository {
   constructor(private db: Kysely<DB>) {}

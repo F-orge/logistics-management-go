@@ -1,12 +1,219 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { CrmLeadSource, CrmLeadStatus, DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class LeadRepository implements GenericRepository<'crm.leads'> {
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'crm.leads'> | undefined,
+    filter?: FilterConfig<'crm.leads'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.leads',
+    {
+      campaignId: string | null;
+      convertedAt: Date | null;
+      convertedCompanyId: string | null;
+      convertedContactId: string | null;
+      convertedOpportunityId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      leadScore: number | null;
+      leadSource: CrmLeadSource | null;
+      name: string;
+      ownerId: string;
+      status: CrmLeadStatus | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('crm.leads').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'crm.leads'> | undefined,
+    filter?: FilterConfig<'crm.leads'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.leads',
+    {
+      campaignId: string | null;
+      convertedAt: Date | null;
+      convertedCompanyId: string | null;
+      convertedContactId: string | null;
+      convertedOpportunityId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      leadScore: number | null;
+      leadSource: CrmLeadSource | null;
+      name: string;
+      ownerId: string;
+      status: CrmLeadStatus | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('crm.leads')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'crm.leads',
+    {
+      campaignId: string | null;
+      convertedAt: Date | null;
+      convertedCompanyId: string | null;
+      convertedContactId: string | null;
+      convertedOpportunityId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      leadScore: number | null;
+      leadSource: CrmLeadSource | null;
+      name: string;
+      ownerId: string;
+      status: CrmLeadStatus | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.selectFrom('crm.leads').selectAll().where('id', 'in', values);
+  }
+  create(
+    value: { email: string; name: string; ownerId: string } & {
+      campaignId?: string | null | undefined;
+      convertedAt?: string | Date | null | undefined;
+      convertedCompanyId?: string | null | undefined;
+      convertedContactId?: string | null | undefined;
+      convertedOpportunityId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      leadScore?: number | null | undefined;
+      leadSource?: CrmLeadSource | null | undefined;
+      status?: CrmLeadStatus | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'crm.leads',
+    {
+      campaignId: string | null;
+      convertedAt: Date | null;
+      convertedCompanyId: string | null;
+      convertedContactId: string | null;
+      convertedOpportunityId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      leadScore: number | null;
+      leadSource: CrmLeadSource | null;
+      name: string;
+      ownerId: string;
+      status: CrmLeadStatus | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('crm.leads').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      campaignId?: string | null | undefined;
+      convertedAt?: string | Date | null | undefined;
+      convertedCompanyId?: string | null | undefined;
+      convertedContactId?: string | null | undefined;
+      convertedOpportunityId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      email?: string | undefined;
+      id?: string | undefined;
+      leadScore?: number | null | undefined;
+      leadSource?: CrmLeadSource | null | undefined;
+      name?: string | undefined;
+      ownerId?: string | undefined;
+      status?: CrmLeadStatus | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'crm.leads',
+    'crm.leads',
+    {
+      campaignId: string | null;
+      convertedAt: Date | null;
+      convertedCompanyId: string | null;
+      convertedContactId: string | null;
+      convertedOpportunityId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      leadScore: number | null;
+      leadSource: CrmLeadSource | null;
+      name: string;
+      ownerId: string;
+      status: CrmLeadStatus | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('crm.leads')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'crm.leads', DeleteResult> {
+    return this.db.deleteFrom('crm.leads').where('id', '=', id);
+  }
+}
 
 export class CrmLeadRepository {
   constructor(private db: Kysely<DB>) {}

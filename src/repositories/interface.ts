@@ -7,6 +7,7 @@ import {
   OrderByDirection,
   Selectable,
   SelectQueryBuilder,
+  Updateable,
   UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
@@ -70,11 +71,11 @@ export interface GenericRepository<
     filter?: FilterConfig<Table>,
   ): ReturnType;
 
-  in(...values: Array<PrimaryKey<Table>>): ReturnType;
+  in(values: Array<PrimaryKey<Table>>): ReturnType;
 
   create(value: Insertable<DB[Table]>): InsertReturnType;
 
-  update(id: PrimaryKey<Table>, value: Insertable<DB[Table]>): UpdateReturnType;
+  update(id: PrimaryKey<Table>, value: Updateable<DB[Table]>): UpdateReturnType;
 
   delete(id: PrimaryKey<Table>): DeleteReturnType;
 }

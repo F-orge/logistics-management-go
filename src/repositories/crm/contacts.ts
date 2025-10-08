@@ -1,12 +1,189 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class ContactRepository implements GenericRepository<'crm.contacts'> {
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'crm.contacts'> | undefined,
+    filter?: FilterConfig<'crm.contacts'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.contacts',
+    {
+      companyId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      jobTitle: string | null;
+      name: string;
+      ownerId: string;
+      phoneNumber: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('crm.contacts').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'crm.contacts'> | undefined,
+    filter?: FilterConfig<'crm.contacts'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'crm.contacts',
+    {
+      companyId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      jobTitle: string | null;
+      name: string;
+      ownerId: string;
+      phoneNumber: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('crm.contacts')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'crm.contacts',
+    {
+      companyId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      jobTitle: string | null;
+      name: string;
+      ownerId: string;
+      phoneNumber: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('crm.contacts')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: { email: string; name: string; ownerId: string } & {
+      companyId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      jobTitle?: string | null | undefined;
+      phoneNumber?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'crm.contacts',
+    {
+      companyId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      jobTitle: string | null;
+      name: string;
+      ownerId: string;
+      phoneNumber: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('crm.contacts').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      companyId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      email?: string | undefined;
+      id?: string | undefined;
+      jobTitle?: string | null | undefined;
+      name?: string | undefined;
+      ownerId?: string | undefined;
+      phoneNumber?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'crm.contacts',
+    'crm.contacts',
+    {
+      companyId: string | null;
+      createdAt: Date | null;
+      email: string;
+      id: string;
+      jobTitle: string | null;
+      name: string;
+      ownerId: string;
+      phoneNumber: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('crm.contacts')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'crm.contacts', DeleteResult> {
+    return this.db.deleteFrom('crm.contacts').where('id', '=', id);
+  }
+}
 
 export class CrmContactRepository {
   constructor(private db: Kysely<DB>) {}

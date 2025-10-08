@@ -56,7 +56,7 @@ export const filterTransformer = <T extends ZodRawShape>(
   return z
     .object({
       column: schema.keyof(),
-      operator: ComparisonOperatorSchema,
+      operation: ComparisonOperatorSchema,
       value: z.unknown(),
     })
     .array()

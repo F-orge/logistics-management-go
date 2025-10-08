@@ -57,13 +57,14 @@ export class CompanyRepository implements GenericRepository<'crm.companies'> {
 
   update(
     id: string,
-    value: { name: string } & {
+    value: {
       annualRevenue?: string | number | null | undefined;
       city?: string | null | undefined;
       country?: string | null | undefined;
       createdAt?: string | Date | null | undefined;
       id?: string | undefined;
       industry?: string | null | undefined;
+      name?: string | undefined;
       ownerId?: string | null | undefined;
       phoneNumber?: string | null | undefined;
       postalCode?: string | null | undefined;
@@ -104,7 +105,7 @@ export class CompanyRepository implements GenericRepository<'crm.companies'> {
     return this.db.deleteFrom('crm.companies').where('id', '=', id);
   }
 
-  in(...values: string[]): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.companies',
     {
