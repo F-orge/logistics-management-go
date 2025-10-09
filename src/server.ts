@@ -12,7 +12,8 @@ import * as path from 'path';
 import { Pool } from 'pg';
 import { DB } from '@/db/types';
 import { authFactoryV2 } from '@/lib/auth';
-import orpcRouter from '@/orpc';
+import * as orpcRouter from '@/orpc';
+import { BunStorageRepository } from './repositories/storage';
 
 type ServerFactory = {
   pool: Pool;
@@ -24,6 +25,7 @@ export type HonoVariables = {
     | ReturnType<typeof authFactoryV2>['$Infer']['Session']['session']
     | null;
   db: Kysely<DB>;
+  storage: BunStorageRepository;
 };
 
 export const serverFactory = async ({ pool }: ServerFactory) => {
@@ -48,6 +50,10 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   router.use('*', async (c, next) => {
     c.set('db', db);
+    c.set(
+      'storage',
+      new BunStorageRepository(process.env.STORAGE_PAGE ?? '.data/files'),
+    );
     return next();
   });
 

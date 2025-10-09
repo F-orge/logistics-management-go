@@ -1,4 +1,4 @@
-import * as crm from './contracts/crm';
+import * as crm from './handlers/crm';
 
 export const contracts = {
   crm,
