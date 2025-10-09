@@ -12,9 +12,11 @@ import { authClient } from '@/lib/client-auth';
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
   beforeLoad: async () => {
-    const { data, error } = await authClient.getSession();
+    const { data } = await authClient.getSession();
     if (!data) throw redirect({ to: '/auth/login' });
+    return { userSession: data };
   },
+  loader: async (ctx) => ctx.context.userSession,
 });
 
 function RouteComponent() {
