@@ -1,5 +1,5 @@
 import { Eye, EyeClosed } from 'lucide-react';
-import type React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useFieldContext } from '@/components/form';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ export const TextField = ({
   return (
     <Field className={cn('grid gap-2.5', className)}>
       {label &&
-        (typeof label === 'object' ? (
+        (!React.isValidElement(label) ? (
           <FieldLabel
             className={cn(
               field.state.meta.errorMap.onSubmit && 'text-destructive',

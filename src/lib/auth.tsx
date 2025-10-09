@@ -1,6 +1,5 @@
 import { betterAuth } from 'better-auth';
 import { admin as adminPlugin, bearer } from 'better-auth/plugins';
-import { reactStartCookies } from 'better-auth/react-start';
 import { Pool } from 'pg';
 import {
   ac,
@@ -41,6 +40,7 @@ import { pgPool } from '@/db';
 import nodemailer from 'nodemailer';
 import VerifyEmail from '@/emails/verify-email';
 import ReactDOMServer from 'react-dom/server';
+import ResetPassword from '@/emails/reset-password';
 
 export const authFactory = (
   dbClient: Pool,
@@ -52,30 +52,38 @@ export const authFactory = (
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: true,
+      sendResetPassword: async ({ user, url, token }) => {
+        await mailer.sendMail({
+          from: process.env.MAIL_FROM_ADDRESS,
+          to: user.email,
+          subject: 'Reset your password',
+          html: ReactDOMServer.renderToString(
+            <ResetPassword
+              url={
+                process.env.NODE_ENV === 'development'
+                  ? `http://localhost:3001/auth/reset-password`
+                  : url
+              }
+              token={token}
+            />,
+          ),
+        });
+      },
     },
     emailVerification: {
       sendOnSignUp: true,
       sendVerificationEmail: async ({ user, url, token }) => {
-        console.log('sending verification email');
-        try {
-          if (!user?.email || !url || !token) {
-            throw new Error('Missing required email verification parameters');
-          }
-          await mailer.sendMail({
-            from: process.env.MAIL_FROM_ADDRESS,
-            to: user.email,
-            subject: 'Verify your email address',
-            html: ReactDOMServer.renderToString(
-              <VerifyEmail url={url} token={token} />,
-            ),
-          });
-        } catch (e) {
-          console.error('Failed to send verification email:', e);
-        }
+        await mailer.sendMail({
+          from: process.env.MAIL_FROM_ADDRESS,
+          to: user.email,
+          subject: 'Verify your email address',
+          html: ReactDOMServer.renderToString(
+            <VerifyEmail url={url} token={token} />,
+          ),
+        });
       },
     },
     plugins: [
-      bearer(),
       adminPlugin({
         ac,
         roles: {
@@ -113,6 +121,5 @@ export const authFactory = (
           packer,
         },
       }),
-      reactStartCookies(),
     ],
   });

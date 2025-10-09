@@ -4,12 +4,15 @@ import z from 'zod';
 import { useAppForm } from '@/components/form';
 import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
 import { authClient } from '@/lib/client-auth';
+import { Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/auth/signup/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
+
   const form = useAppForm({
     defaultValues: {} as {
       email: string;
@@ -19,8 +22,18 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) =>
       toast.promise(
-        authClient.signUp.email({ ...value, callbackURL: '/auth/login' }),
+        authClient.signUp.email({
+          ...value,
+          callbackURL: `${window.location.origin}/auth/login`,
+        }),
         {
+          success: ({ data }) => {
+            navigate({
+              to: `/auth/verify-email`,
+              search: { email: data!.user.email },
+            });
+            return 'Success registration';
+          },
           error: 'Unable to register',
         },
       ),
@@ -88,7 +101,7 @@ function RouteComponent() {
           </Field>
           <Field>
             <FieldDescription className="px-6 text-center">
-              Already have an account? <a href="#">Sign in</a>
+              Already have an account? <Link to="/auth/login">Sign in</Link>
             </FieldDescription>
           </Field>
         </FieldGroup>

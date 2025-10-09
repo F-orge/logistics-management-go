@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -13,12 +13,26 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp';
 import { cn } from '@/lib/utils';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import { authClient } from '@/lib/client-auth';
 
 export const Route = createFileRoute('/auth/verify-email/')({
   component: RouteComponent,
+  validateSearch: zodValidator(
+    z.object({
+      email: z.email(),
+    }),
+  ),
+  beforeLoad: (ctx) => {
+    if (ctx.search.email === undefined || ctx.search.email === null)
+      throw redirect({ to: '/auth/login' });
+  },
 });
 
 function RouteComponent() {
+  const searchQuery = Route.useSearch();
+
   return (
     <div className={'flex flex-col gap-6'}>
       <form>
@@ -26,37 +40,12 @@ function RouteComponent() {
           <div className="flex flex-col items-center gap-1 text-center">
             <h1 className="text-2xl font-bold">Enter verification code</h1>
             <p className="text-muted-foreground text-sm text-balance">
-              We sent a 6-digit code to your email.
+              We sent a URL Link to your email. {searchQuery.email}
             </p>
           </div>
-          <Field>
-            <FieldLabel htmlFor="otp" className="sr-only">
-              Verification code
-            </FieldLabel>
-            <InputOTP maxLength={6} id="otp" required>
-              <InputOTPGroup className="gap-2 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border">
-                <InputOTPSlot index={0} />
-                <InputOTPSlot index={1} />
-              </InputOTPGroup>
-              <InputOTPSeparator />
-              <InputOTPGroup className="gap-2 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border">
-                <InputOTPSlot index={2} />
-                <InputOTPSlot index={3} />
-              </InputOTPGroup>
-              <InputOTPSeparator />
-              <InputOTPGroup className="gap-2 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border">
-                <InputOTPSlot index={4} />
-                <InputOTPSlot index={5} />
-              </InputOTPGroup>
-            </InputOTP>
-            <FieldDescription className="text-center">
-              Enter the 6-digit code sent to your email.
-            </FieldDescription>
-          </Field>
-          <Button type="submit">Verify</Button>
-          <FieldDescription className="text-center">
-            Didn&apos;t receive the code? <a href="#">Resend</a>
-          </FieldDescription>
+          <Button asChild>
+            <Link to="/auth/login">Already verified? Go to login</Link>
+          </Button>
         </FieldGroup>
       </form>
     </div>

@@ -11,7 +11,7 @@ dev-frontend:
   bun rsbuild dev --open
 
 dev:
-  docker compose up postgres -d
+  docker compose -f compose.dev.yaml up -d
   bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
 
 build-frontend:
