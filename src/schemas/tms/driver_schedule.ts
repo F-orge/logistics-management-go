@@ -10,13 +10,16 @@ export const tmsDriverScheduleSchema = z.object({
     .enum(TmsDriverScheduleReasonEnum, {
       message: 'Invalid driver schedule reason',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsDriverSchedule = z.infer<typeof tmsDriverScheduleSchema>;

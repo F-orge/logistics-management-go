@@ -11,22 +11,29 @@ export const wmsSalesOrderSchema = z.object({
   crmOpportunityId: z
     .uuid({ message: 'Invalid UUID format for CRM opportunity ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   shippingAddress: z
     .string({ message: 'Shipping address must be a string' })
     .min(1, { error: 'Shipping address cannot be empty' })
     .max(255, { error: 'Shipping address must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   status: z
     .enum(WmsSalesOrderStatusEnum, { message: 'Invalid sales order status' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsSalesOrder = z.infer<typeof wmsSalesOrderSchema>;

@@ -5,26 +5,28 @@ import { BillingServiceTypeEnum } from '@/db/types';
 export const billingRateCardSchema = z
   .object({
     id: z.uuid(),
-    createdAt: z.date().optional(),
+    createdAt: z.date().optional().nullable(),
     createdByUserId: z
       .string()
       .min(1, { error: 'Created by user ID is required' })
       .max(255, { error: 'Created by user ID must be at most 255 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     description: z
       .string()
       .min(1, { error: 'Description is required' })
       .max(1024, { error: 'Description must be at most 1024 characters' })
-      .optional(),
-    isActive: z.boolean().optional(),
+      .optional()
+      .nullable(),
+    isActive: z.boolean().optional().nullable(),
     name: z
       .string()
       .min(1, { error: 'Name is required' })
       .max(255, { error: 'Name must be at most 255 characters' }),
     serviceType: z.enum(BillingServiceTypeEnum),
-    updatedAt: z.date().optional(),
+    updatedAt: z.date().optional().nullable(),
     validFrom: z.date(),
-    validTo: z.date().optional(),
+    validTo: z.date().optional().nullable(),
   })
   .strict();
 

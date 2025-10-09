@@ -17,23 +17,28 @@ export const crmAttachmentSchema = z
       .min(1, { message: 'MIME type is required' })
       .max(127, { message: 'MIME type must be at most 127 characters' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     recordId: z
       .string({ message: 'Record ID must be a string' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     recordType: z
       .enum(CrmRecordType, { message: 'Invalid CRM record type' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 

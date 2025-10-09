@@ -3,25 +3,33 @@ import { WmsInboundShipmentStatusEnum } from '@/db/types';
 
 export const wmsInboundShipmentSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
-  clientId: z.uuid({ message: 'Invalid UUID format for client ID' }).optional(),
+  clientId: z
+    .uuid({ message: 'Invalid UUID format for client ID' })
+    .optional()
+    .nullable(),
   warehouseId: z.uuid({ message: 'Invalid UUID format for warehouse ID' }),
   status: z
     .enum(WmsInboundShipmentStatusEnum, {
       message: 'Invalid inbound shipment status',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   expectedArrivalDate: z
     .date({ message: 'Invalid date format for expected arrival date' })
-    .optional(),
+    .optional()
+    .nullable(),
   actualArrivalDate: z
     .date({ message: 'Invalid date format for actual arrival date' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsInboundShipment = z.infer<typeof wmsInboundShipmentSchema>;

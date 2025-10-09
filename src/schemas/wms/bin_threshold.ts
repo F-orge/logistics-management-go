@@ -9,7 +9,8 @@ export const wmsBinThresholdSchema = z.object({
     .int({ message: 'Minimum quantity must be an integer' })
     .min(0, { error: 'Minimum quantity must be at least 0' })
     .max(1000000, { error: 'Minimum quantity must be at most 1,000,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   maxQuantity: z
     .number({ message: 'Maximum quantity must be a number' })
     .int({ message: 'Maximum quantity must be an integer' })
@@ -21,24 +22,32 @@ export const wmsBinThresholdSchema = z.object({
     .min(0, { error: 'Alert threshold must be at least 0' })
     .max(1000000, { error: 'Alert threshold must be at most 1,000,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   reorderQuantity: z
     .number({ message: 'Reorder quantity must be a number' })
     .int({ message: 'Reorder quantity must be an integer' })
     .min(0, { error: 'Reorder quantity must be at least 0' })
     .max(1000000, { error: 'Reorder quantity must be at most 1,000,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   isActive: z
     .boolean({ message: 'Is active must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsBinThreshold = z.infer<typeof wmsBinThresholdSchema>;

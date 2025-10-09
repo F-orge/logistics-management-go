@@ -1,9 +1,11 @@
 import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
-import { OpportunityProductRepository } from '@/repositories/crm/opportunity_products';
+import { OpportunityProductRepository } from '@/repositories/crm/opportunityProducts';
 
-export const paginateOpportunityProduct = implement(crmContracts.paginateOpportunityProductContract)
+export const paginateOpportunityProduct = implement(
+  crmContracts.paginateOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
@@ -13,7 +15,9 @@ export const paginateOpportunityProduct = implement(crmContracts.paginateOpportu
       .execute();
   });
 
-export const rangeOpportunityProduct = implement(crmContracts.rangeOpportunityProductContract)
+export const rangeOpportunityProduct = implement(
+  crmContracts.rangeOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
@@ -23,7 +27,9 @@ export const rangeOpportunityProduct = implement(crmContracts.rangeOpportunityPr
       .execute();
   });
 
-export const inOpportunityProduct = implement(crmContracts.inOpportunityProductContract)
+export const inOpportunityProduct = implement(
+  crmContracts.inOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
@@ -31,7 +37,9 @@ export const inOpportunityProduct = implement(crmContracts.inOpportunityProductC
     return repo.in(input).execute();
   });
 
-export const createOpportunityProduct = implement(crmContracts.createOpportunityProductContract)
+export const createOpportunityProduct = implement(
+  crmContracts.createOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
@@ -39,7 +47,9 @@ export const createOpportunityProduct = implement(crmContracts.createOpportunity
     return repo.create(input).execute() as any;
   });
 
-export const updateOpportunityProduct = implement(crmContracts.updateOpportunityProductContract)
+export const updateOpportunityProduct = implement(
+  crmContracts.updateOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
@@ -47,7 +57,9 @@ export const updateOpportunityProduct = implement(crmContracts.updateOpportunity
     return repo.update(input.id, input.value).execute() as any;
   });
 
-export const deleteOpportunityProduct = implement(crmContracts.deleteOpportunityProductContract)
+export const deleteOpportunityProduct = implement(
+  crmContracts.deleteOpportunityProductContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);

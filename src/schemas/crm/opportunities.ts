@@ -15,45 +15,56 @@ export const crmOpportunitySchema = z
       .max(255, { message: 'Owner ID must be at most 255 characters' }),
     campaignId: z
       .uuid({ message: 'Invalid UUID format for campaign ID' })
-      .optional(),
+      .optional()
+      .nullable(),
     companyId: z
       .uuid({ message: 'Invalid UUID format for company ID' })
-      .optional(),
+      .optional()
+      .nullable(),
     contactId: z
       .uuid({ message: 'Invalid UUID format for contact ID' })
-      .optional(),
+      .optional()
+      .nullable(),
     dealValue: z.coerce
       .number({ message: 'Deal value must be a number' })
       .min(0, { message: 'Deal value must be at least 0' })
       .max(100000000, { message: 'Deal value must be at most 100,000,000' })
-      .optional(),
+      .optional()
+      .nullable(),
     expectedCloseDate: z
       .date({
         message: 'Invalid ISO datetime format for expected close date',
       })
-      .optional(),
+      .optional()
+      .nullable(),
     lostReason: z
       .string({ message: 'Lost reason must be a string' })
       .min(1, { message: 'Lost reason is required' })
       .max(1024, { message: 'Lost reason must be at most 1024 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     probability: z
       .number({ message: 'Probability must be a number' })
       .min(0, { message: 'Probability must be at least 0' })
       .max(100, { message: 'Probability must be at most 100' })
-      .optional(),
+      .optional()
+      .nullable(),
     source: z
       .enum(CrmOpportunitySource, { message: 'Invalid opportunity source' })
-      .optional(),
+      .optional()
+      .nullable(),
     stage: z
       .enum(CrmOpportunityStage, { message: 'Invalid opportunity stage' })
-      .optional(),
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 
@@ -66,7 +77,7 @@ export const crmOpportunityInsertSchema = crmOpportunitySchema
     updatedAt: true,
   })
   .extend({
-    products: z.array(crmOpportunityProductInsertSchema).optional(),
+    products: z.array(crmOpportunityProductInsertSchema).optional().nullable(),
   });
 
 export const crmOpportunityUpdateSchema = crmOpportunityInsertSchema.partial();

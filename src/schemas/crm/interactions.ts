@@ -5,33 +5,42 @@ export const crmInteractionSchema = z
   .object({
     id: z.uuid({ message: 'Invalid UUID format for ID' }),
     contactId: z.uuid({ message: 'Invalid UUID format for contact ID' }),
-    caseId: z.uuid({ message: 'Invalid UUID format for case ID' }).optional(),
+    caseId: z
+      .uuid({ message: 'Invalid UUID format for case ID' })
+      .optional()
+      .nullable(),
     userId: z
       .string({ message: 'User ID must be a string' })
       .min(1, { message: 'User ID is required' })
       .max(255, { message: 'User ID must be at most 255 characters' }),
     type: z
       .enum(CrmInteractionType, { message: 'Invalid interaction type' })
-      .optional(),
+      .optional()
+      .nullable(),
     interactionDate: z
       .date({ message: 'Invalid ISO datetime format for interaction date' })
-      .optional(),
+      .optional()
+      .nullable(),
     notes: z
       .string({ message: 'Notes must be a string' })
       .min(1, { message: 'Notes are required' })
       .max(1024, { message: 'Notes must be at most 1024 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     outcome: z
       .string({ message: 'Outcome must be a string' })
       .min(1, { message: 'Outcome is required' })
       .max(255, { message: 'Outcome must be at most 255 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 

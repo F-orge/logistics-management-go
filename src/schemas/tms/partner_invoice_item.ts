@@ -12,10 +12,12 @@ export const tmsPartnerInvoiceItemSchema = z.object({
     .max(1000000, { error: 'Amount must be at most 1,000,000' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsPartnerInvoiceItem = z.infer<typeof tmsPartnerInvoiceItemSchema>;

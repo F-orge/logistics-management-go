@@ -11,66 +11,88 @@ export const wmsWarehouseSchema = z.object({
     .min(1, { error: 'Address cannot be empty' })
     .max(255, { error: 'Address must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   city: z
     .string({ message: 'City must be a string' })
     .min(1, { error: 'City cannot be empty' })
     .max(127, { error: 'City must be at most 127 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   state: z
     .string({ message: 'State must be a string' })
     .min(1, { error: 'State cannot be empty' })
     .max(127, { error: 'State must be at most 127 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   postalCode: z
     .string({ message: 'Postal code must be a string' })
     .min(1, { error: 'Postal code cannot be empty' })
     .max(20, { error: 'Postal code must be at most 20 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   country: z
     .string({ message: 'Country must be a string' })
     .min(1, { error: 'Country cannot be empty' })
     .max(127, { error: 'Country must be at most 127 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   contactPerson: z
     .string({ message: 'Contact person must be a string' })
     .min(1, { error: 'Contact person cannot be empty' })
     .max(255, { error: 'Contact person must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   contactEmail: z
     .string({ message: 'Contact email must be a string' })
     .email({ message: 'Invalid email format' })
     .min(1, { error: 'Contact email cannot be empty' })
     .max(255, { error: 'Contact email must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   contactPhone: z
     .string({ message: 'Contact phone must be a string' })
     .min(1, { error: 'Contact phone cannot be empty' })
     .max(32, { error: 'Contact phone must be at most 32 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   timezone: z
     .string({ message: 'Timezone must be a string' })
     .min(1, { error: 'Timezone cannot be empty' })
     .max(64, { error: 'Timezone must be at most 64 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   isActive: z
     .boolean({ message: 'Is active must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsWarehouse = z.infer<typeof wmsWarehouseSchema>;

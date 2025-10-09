@@ -11,30 +11,36 @@ export const tmsVehicleSchema = z.object({
     .string({ message: 'Model must be a string' })
     .min(1, { error: 'Model is required' })
     .max(255, { error: 'Model must be at most 255 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   serviceType: z
     .enum(TmsVehicleServiceTypeEnum, {
       message: 'Invalid vehicle service type',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   status: z
     .enum(TmsVehicleStatusEnum, { message: 'Invalid vehicle status' })
-    .optional(),
+    .optional()
+    .nullable(),
   capacity: z.coerce
     .number({ message: 'Capacity must be a number' })
     .min(0, { error: 'Capacity must be at least 0' })
     .max(100000, { error: 'Capacity must be at most 100,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   registrationNumber: z
     .string({ message: 'Registration number must be a string' })
     .min(1, { error: 'Registration Number is required' })
     .max(100, { error: 'Registration Number must be at most 100 characters' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsVehicle = z.infer<typeof tmsVehicleSchema>;

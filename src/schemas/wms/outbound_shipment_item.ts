@@ -14,16 +14,20 @@ export const wmsOutboundShipmentItemSchema = z.object({
   batchId: z
     .uuid({ message: 'Invalid UUID format for batch ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   salesOrderItemId: z.uuid({
     message: 'Invalid UUID format for sales order item ID',
   }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsOutboundShipmentItem = z.infer<

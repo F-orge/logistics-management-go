@@ -14,81 +14,113 @@ export const wmsLocationSchema = z.object({
     .min(1, { error: 'Barcode cannot be empty' })
     .max(255, { error: 'Barcode must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   hazmatApproved: z
     .boolean({ message: 'Hazmat approved must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   isActive: z
     .boolean({ message: 'Is active must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   isPickable: z
     .boolean({ message: 'Is pickable must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   isReceivable: z
     .boolean({ message: 'Is receivable must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   level: z
     .number({ message: 'Level must be a number' })
     .int({ message: 'Level must be an integer' })
     .min(0, { error: 'Level must be at least 0' })
     .max(10, { error: 'Level must be at most 10' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   maxPallets: z
     .number({ message: 'Max pallets must be a number' })
     .int({ message: 'Max pallets must be an integer' })
     .min(0, { error: 'Max pallets must be at least 0' })
     .max(1000, { error: 'Max pallets must be at most 1000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   maxVolume: z
     .number({ message: 'Max volume must be a number' })
     .min(0, { error: 'Max volume must be at least 0' })
     .max(100000, { error: 'Max volume must be at most 100,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   maxWeight: z
     .number({ message: 'Max weight must be a number' })
     .min(0, { error: 'Max weight must be at least 0' })
     .max(100000, { error: 'Max weight must be at most 100,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   parentLocationId: z
     .uuid({ message: 'Invalid UUID format for parent location ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   path: z
     .string({ message: 'Path must be a string' })
     .min(1, { error: 'Path cannot be empty' })
     .max(1024, { error: 'Path must be at most 1024 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   temperatureControlled: z
     .boolean({ message: 'Temperature controlled must be a boolean' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   xCoordinate: z
     .number({ message: 'X coordinate must be a number' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   yCoordinate: z
     .number({ message: 'Y coordinate must be a number' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   zCoordinate: z
     .number({ message: 'Z coordinate must be a number' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsLocation = z.infer<typeof wmsLocationSchema>;

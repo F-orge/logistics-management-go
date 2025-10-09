@@ -7,32 +7,44 @@ export const crmInvoiceSchema = z
     id: z.uuid({ message: 'Invalid UUID format for ID' }),
     issueDate: z
       .date({ message: 'Invalid ISO datetime format for issue date' })
-      .optional(),
+      .optional()
+      .nullable(),
     dueDate: z
       .date({ message: 'Invalid ISO datetime format for due date' })
-      .optional(),
+      .optional()
+      .nullable(),
     paidAt: z
       .date({ message: 'Invalid ISO datetime format for paid at date' })
-      .optional(),
+      .optional()
+      .nullable(),
     sentAt: z
       .date({ message: 'Invalid ISO datetime format for sent at date' })
-      .optional(),
+      .optional()
+      .nullable(),
     opportunityId: z
       .uuid({ message: 'Invalid UUID format for opportunity ID' })
-      .optional(),
+      .optional()
+      .nullable(),
     paymentMethod: z
       .enum(CrmPaymentMethod, { message: 'Invalid payment method' })
-      .optional(),
+      .optional()
+      .nullable(),
     status: z
       .enum(CrmInvoiceStatus, { message: 'Invalid invoice status' })
-      .optional(),
-    total: z.coerce.number({ message: 'Total must be a number' }).optional(),
+      .optional()
+      .nullable(),
+    total: z.coerce
+      .number({ message: 'Total must be a number' })
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 
@@ -45,7 +57,7 @@ export const crmInvoiceInsertSchema = crmInvoiceSchema
     updatedAt: true,
   })
   .extend({
-    items: z.array(crmInvoiceItemInsertSchema).optional(),
+    items: z.array(crmInvoiceItemInsertSchema).optional().nullable(),
   });
 
 export const crmInvoiceUpdateSchema = crmInvoiceSchema

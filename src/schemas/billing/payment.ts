@@ -9,51 +9,58 @@ export const billingPaymentSchema = z
       .number()
       .min(0, { error: 'Amount must be at least 0' })
       .max(10000000, { error: 'Amount must be at most 10,000,000' }),
-    createdAt: z.date().optional(),
+    createdAt: z.date().optional().nullable(),
     currency: z
       .string()
       .min(1, { error: 'Currency is required' })
       .max(8, { error: 'Currency must be at most 8 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     exchangeRate: z.coerce
       .number()
       .min(0, { error: 'Exchange rate must be at least 0' })
       .max(1000, { error: 'Exchange rate must be at most 1000' })
-      .optional(),
+      .optional()
+      .nullable(),
     fees: z.coerce
       .number()
       .min(0, { error: 'Fees must be at least 0' })
       .max(100000, { error: 'Fees must be at most 100,000' })
-      .optional(),
+      .optional()
+      .nullable(),
     gatewayReference: z
       .string()
       .min(1, { error: 'Gateway reference is required' })
       .max(255, { error: 'Gateway reference must be at most 255 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     invoiceId: z.uuid(),
     netAmount: z.coerce
       .number()
       .min(0, { error: 'Net amount must be at least 0' })
       .max(10000000, { error: 'Net amount must be at most 10,000,000' })
-      .optional(),
+      .optional()
+      .nullable(),
     notes: z
       .string()
       .min(1, { error: 'Notes are required' })
       .max(1024, { error: 'Notes must be at most 1024 characters' })
-      .optional(),
-    paymentDate: z.date().optional(),
+      .optional()
+      .nullable(),
+    paymentDate: z.date().optional().nullable(),
     paymentMethod: z.enum(BillingPaymentMethodEnum),
-    processedAt: z.date().optional(),
+    processedAt: z.date().optional().nullable(),
     processedByUserId: z
       .string()
       .min(1, { error: 'Processed by user ID is required' })
       .max(255, {
         error: 'Processed by user ID must be at most 255 characters',
       })
-      .optional(),
-    status: z.enum(BillingPaymentStatusEnum).optional(),
-    transactionId: z.uuid().optional(),
-    updatedAt: z.date().optional(),
+      .optional()
+      .nullable(),
+    status: z.enum(BillingPaymentStatusEnum).optional().nullable(),
+    transactionId: z.uuid().optional().nullable(),
+    updatedAt: z.date().optional().nullable(),
   })
   .strict();
 

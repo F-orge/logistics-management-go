@@ -4,33 +4,37 @@ import { BillingQuoteStatusEnum } from '@/db/types';
 // Zod schema for billing.quote table
 export const billingQuoteSchema = z.object({
   id: z.uuid(),
-  clientId: z.uuid().optional(),
-  createdAt: z.date().optional(),
+  clientId: z.uuid().optional().nullable(),
+  createdAt: z.date().optional().nullable(),
   createdByUserId: z
     .string()
     .min(1, { error: 'Created by user ID is required' })
     .max(255, { error: 'Created by user ID must be at most 255 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   destinationDetails: z
     .string()
     .min(1, { error: 'Destination details are required' })
     .max(255, { error: 'Destination details must be at most 255 characters' }),
-  expiresAt: z.date().optional(),
+  expiresAt: z.date().optional().nullable(),
   height: z.coerce
     .number()
     .min(0, { error: 'Height must be at least 0' })
     .max(10000, { error: 'Height must be at most 10,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   length: z.coerce
     .number()
     .min(0, { error: 'Length must be at least 0' })
     .max(10000, { error: 'Length must be at most 10,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   notes: z
     .string()
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   originDetails: z
     .string()
     .min(1, { error: 'Origin details are required' })
@@ -43,29 +47,34 @@ export const billingQuoteSchema = z.object({
     .string()
     .min(1, { error: 'Quote number is required' })
     .max(64, { error: 'Quote number must be at most 64 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   serviceLevel: z
     .string()
     .min(1, { error: 'Service level is required' })
     .max(64, { error: 'Service level must be at most 64 characters' })
-    .optional(),
-  status: z.enum(BillingQuoteStatusEnum).optional(),
-  updatedAt: z.date().optional(),
+    .optional()
+    .nullable(),
+  status: z.enum(BillingQuoteStatusEnum).optional().nullable(),
+  updatedAt: z.date().optional().nullable(),
   volume: z.coerce
     .number()
     .min(0, { error: 'Volume must be at least 0' })
     .max(100000, { error: 'Volume must be at most 100,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   weight: z.coerce
     .number()
     .min(0, { error: 'Weight must be at least 0' })
     .max(100000, { error: 'Weight must be at most 100,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   width: z.coerce
     .number()
     .min(0, { error: 'Width must be at least 0' })
     .max(10000, { error: 'Width must be at most 10,000' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type BillingQuote = z.infer<typeof billingQuoteSchema>;

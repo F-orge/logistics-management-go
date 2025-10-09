@@ -30,8 +30,6 @@ import {
   generateCrmOpportunity,
   generateCrmOpportunityProduct,
   generateCrmProduct,
-  generateCrmTag,
-  generateCrmTagging,
 } from '@/seeds/crm-helpers';
 
 export async function seed(db: Kysely<DB>): Promise<void> {
@@ -89,15 +87,6 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     .onConflict((oc) => oc.doNothing())
     .execute();
   console.log(`✅ Created ${products.length} products`);
-
-  // Create tags
-  console.log('🏷️ Creating tags...');
-  const tagData = Array.from({ length: 30 }, () => generateCrmTag(faker));
-  const tags = await tagRepo
-    .batchCreate(tagData)
-    .onConflict((oc) => oc.doNothing())
-    .execute();
-  console.log(`✅ Created ${tags.length} tags`);
 
   // 2. Create companies
   console.log('🏢 Creating companies...');
@@ -320,51 +309,10 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     .execute();
   console.log(`✅ Created ${attachments.length} attachments`);
 
-  // 13. Create taggings to associate tags with records
-  console.log('🏷️ Creating tag associations...');
-  const taggingData: Array<ReturnType<typeof generateCrmTagging>> = [];
-
-  // Tag companies
-  companies.slice(0, 40).forEach((company) => {
-    const tagCount = faker.number.int({ min: 1, max: 3 });
-    for (let i = 0; i < tagCount; i++) {
-      taggingData.push(
-        generateCrmTagging(
-          faker,
-          company.id,
-          faker.helpers.arrayElement(tags).id,
-          CrmRecordType.Companies,
-        ),
-      );
-    }
-  });
-
-  // Tag contacts
-  contacts.slice(0, 60).forEach((contact) => {
-    const tagCount = faker.number.int({ min: 1, max: 2 });
-    for (let i = 0; i < tagCount; i++) {
-      taggingData.push(
-        generateCrmTagging(
-          faker,
-          contact.id,
-          faker.helpers.arrayElement(tags).id,
-          CrmRecordType.Contacts,
-        ),
-      );
-    }
-  });
-
-  const taggings = await taggingRepo
-    .batchCreate(taggingData)
-    .onConflict((oc) => oc.doNothing())
-    .execute();
-  console.log(`✅ Created ${taggings.length} tag associations`);
-
   console.log('🎉 CRM seed data generation completed successfully!');
   console.log('📊 Summary:');
   console.log(`  - ${campaigns.length} campaigns`);
   console.log(`  - ${products.length} products`);
-  console.log(`  - ${tags.length} tags`);
   console.log(`  - ${companies.length} companies`);
   console.log(`  - ${contacts.length} contacts`);
   console.log(`  - ${leads.length} leads`);
@@ -376,5 +324,4 @@ export async function seed(db: Kysely<DB>): Promise<void> {
   console.log(`  - ${opportunityProducts.length} opportunity products`);
   console.log(`  - ${notifications.length} notifications`);
   console.log(`  - ${attachments.length} attachments`);
-  console.log(`  - ${taggings.length} tag associations`);
 }

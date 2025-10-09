@@ -6,28 +6,34 @@ export const tmsTripStopSchema = z.object({
   tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
   status: z
     .enum(TmsTripStopStatusEnum, { message: 'Invalid trip stop status' })
-    .optional(),
+    .optional()
+    .nullable(),
   address: z
     .string({ message: 'Address must be a string' })
     .min(1, { error: 'Address is required' })
     .max(255, { error: 'Address must be at most 255 characters' }),
   arrivalAt: z
     .date({ message: 'Invalid date format for arrival at' })
-    .optional(),
+    .optional()
+    .nullable(),
   departureAt: z
     .date({ message: 'Invalid date format for departure at' })
-    .optional(),
+    .optional()
+    .nullable(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsTripStop = z.infer<typeof tmsTripStopSchema>;

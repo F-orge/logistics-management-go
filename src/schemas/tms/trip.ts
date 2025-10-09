@@ -12,19 +12,24 @@ export const tmsTripSchema = z.object({
   vehicleId: z.uuid({ message: 'Invalid UUID format for vehicle ID' }),
   status: z
     .enum(TmsTripStatusEnum, { message: 'Invalid trip status' })
-    .optional(),
+    .optional()
+    .nullable(),
   startedAt: z
     .date({ message: 'Invalid date format for started at' })
-    .optional(),
+    .optional()
+    .nullable(),
   completedAt: z
     .date({ message: 'Invalid date format for completed at' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsTrip = z.infer<typeof tmsTripSchema>;
@@ -36,10 +41,13 @@ export const tmsTripInsertSchema = tmsTripSchema
     updatedAt: true,
   })
   .extend({
-    stops: z.array(tmsTripStopInsertSchema).optional(),
-    expenses: z.array(tmsExpenseInsertSchema).optional(),
-    gpsPings: z.array(tmsGpsPingInsertSchema).optional(),
-    proofOfDeliveries: z.array(tmsProofOfDeliveryInsertSchema).optional(),
+    stops: z.array(tmsTripStopInsertSchema).optional().nullable(),
+    expenses: z.array(tmsExpenseInsertSchema).optional().nullable(),
+    gpsPings: z.array(tmsGpsPingInsertSchema).optional().nullable(),
+    proofOfDeliveries: z
+      .array(tmsProofOfDeliveryInsertSchema)
+      .optional()
+      .nullable(),
   });
 
 export const tmsTripUpdateSchema = tmsTripInsertSchema.partial();

@@ -16,25 +16,32 @@ export const wmsReturnItemSchema = z.object({
     .min(0, { error: 'Quantity received must be at least 0' })
     .max(1000000, { error: 'Quantity received must be at most 1,000,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   quantityVariance: z
     .number({ message: 'Quantity variance must be a number' })
     .int({ message: 'Quantity variance must be an integer' })
     .min(-1000000, { error: 'Quantity variance must be at least -1,000,000' })
     .max(1000000, { error: 'Quantity variance must be at most 1,000,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   condition: z
     .enum(WmsReturnItemConditionEnum, {
       message: 'Invalid return item condition',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsReturnItem = z.infer<typeof wmsReturnItemSchema>;

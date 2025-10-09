@@ -12,10 +12,12 @@ export const tmsGeofenceSchema = z.object({
     .max(8192, { error: 'Coordinates must be at most 8192 characters' }), // GeoJSON or WKT as string
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsGeofence = z.infer<typeof tmsGeofenceSchema>;

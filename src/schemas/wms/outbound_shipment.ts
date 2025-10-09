@@ -9,25 +9,32 @@ export const wmsOutboundShipmentSchema = z.object({
     .enum(WmsOutboundShipmentStatusEnum, {
       message: 'Invalid outbound shipment status',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   carrier: z
     .string({ message: 'Carrier must be a string' })
     .min(1, { error: 'Carrier cannot be empty' })
     .max(255, { error: 'Carrier must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   trackingNumber: z
     .string({ message: 'Tracking number must be a string' })
     .min(1, { error: 'Tracking number cannot be empty' })
     .max(255, { error: 'Tracking number must be at most 255 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsOutboundShipment = z.infer<typeof wmsOutboundShipmentSchema>;

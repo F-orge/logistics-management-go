@@ -9,7 +9,8 @@ export const tmsPartnerInvoiceSchema = z.object({
     .enum(TmsPartnerInvoiceStatusEnum, {
       message: 'Invalid partner invoice status',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   totalAmount: z.coerce
     .number({ message: 'Total amount must be a number' })
     .min(0, { error: 'Total amount must be at least 0' })
@@ -21,14 +22,22 @@ export const tmsPartnerInvoiceSchema = z.object({
     .string({ message: 'Invoice number must be a string' })
     .min(1, { error: 'Invoice number is required' })
     .max(64, { error: 'Invoice number must be at most 64 characters' }),
-  dueAt: z.date({ message: 'Invalid date format for due date' }).optional(),
-  paidAt: z.date({ message: 'Invalid date format for paid at' }).optional(),
+  dueAt: z
+    .date({ message: 'Invalid date format for due date' })
+    .optional()
+    .nullable(),
+  paidAt: z
+    .date({ message: 'Invalid date format for paid at' })
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsPartnerInvoice = z.infer<typeof tmsPartnerInvoiceSchema>;
@@ -40,7 +49,7 @@ export const tmsPartnerInvoiceInsertSchema = tmsPartnerInvoiceSchema
     updatedAt: true,
   })
   .extend({
-    items: z.array(tmsPartnerInvoiceItemInsertSchema).optional(),
+    items: z.array(tmsPartnerInvoiceItemInsertSchema).optional().nullable(),
   });
 
 export const tmsPartnerInvoiceUpdateSchema =

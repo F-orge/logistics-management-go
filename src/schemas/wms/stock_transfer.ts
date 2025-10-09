@@ -19,13 +19,16 @@ export const wmsStockTransferSchema = z.object({
     .enum(WmsStockTransferStatusEnum, {
       message: 'Invalid stock transfer status',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsStockTransfer = z.infer<typeof wmsStockTransferSchema>;

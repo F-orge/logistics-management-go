@@ -4,7 +4,7 @@ import { BillingDocumentTypeEnum } from '@/db/types';
 // Zod schema for billing.document table
 export const billingDocumentSchema = z.object({
   id: z.uuid(),
-  createdAt: z.date().optional(),
+  createdAt: z.date().optional().nullable(),
   documentType: z.enum(BillingDocumentTypeEnum),
   fileName: z
     .string()
@@ -18,23 +18,26 @@ export const billingDocumentSchema = z.object({
     .number()
     .min(0, { error: 'File size must be at least 0' })
     .max(100000000, { error: 'File size must be at most 100,000,000' })
-    .optional(),
+    .optional()
+    .nullable(),
   mimeType: z
     .string()
     .min(1, { error: 'MIME type is required' })
     .max(127, { error: 'MIME type must be at most 127 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   recordId: z.uuid(),
   recordType: z
     .string()
     .min(1, { error: 'Record type is required' })
     .max(64, { error: 'Record type must be at most 64 characters' }),
-  updatedAt: z.date().optional(),
+  updatedAt: z.date().optional().nullable(),
   uploadedByUserId: z
     .string()
     .min(1, { error: 'Uploaded by user ID is required' })
     .max(255, { error: 'Uploaded by user ID must be at most 255 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type BillingDocument = z.infer<typeof billingDocumentSchema>;

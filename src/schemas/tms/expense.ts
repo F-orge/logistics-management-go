@@ -3,13 +3,18 @@ import { TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '@/db/types';
 
 export const tmsExpenseSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
-  tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }).optional(),
+  tripId: z
+    .uuid({ message: 'Invalid UUID format for trip ID' })
+    .optional()
+    .nullable(),
   type: z
     .enum(TmsExpenseTypeEnum, { message: 'Invalid expense type' })
-    .optional(),
+    .optional()
+    .nullable(),
   status: z
     .enum(TmsExpenseStatusEnum, { message: 'Invalid expense status' })
-    .optional(),
+    .optional()
+    .nullable(),
   amount: z.coerce
     .number({ message: 'Amount must be a number' })
     .min(0, { error: 'Amount must be at least 0' })
@@ -18,13 +23,16 @@ export const tmsExpenseSchema = z.object({
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsExpense = z.infer<typeof tmsExpenseSchema>;

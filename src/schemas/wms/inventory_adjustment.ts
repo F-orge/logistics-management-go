@@ -15,19 +15,24 @@ export const wmsInventoryAdjustmentSchema = z.object({
     .enum(WmsInventoryAdjustmentReasonEnum, {
       message: 'Invalid inventory adjustment reason',
     })
-    .optional(),
+    .optional()
+    .nullable(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes are required' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsInventoryAdjustment = z.infer<

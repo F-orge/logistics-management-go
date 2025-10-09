@@ -11,22 +11,29 @@ export const wmsReturnSchema = z.object({
   salesOrderId: z
     .uuid({ message: 'Invalid UUID format for sales order ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   status: z
     .enum(WmsReturnStatusEnum, { message: 'Invalid return status' })
-    .optional(),
+    .optional()
+    .nullable(),
   reason: z
     .string({ message: 'Reason must be a string' })
     .min(1, { error: 'Reason cannot be empty' })
     .max(1024, { error: 'Reason must be at most 1024 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsReturn = z.infer<typeof wmsReturnSchema>;

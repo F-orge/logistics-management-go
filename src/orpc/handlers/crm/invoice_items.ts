@@ -1,9 +1,11 @@
 import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
-import { InvoiceItemRepository } from '@/repositories/crm/invoice_items';
+import { InvoiceItemRepository } from '@/repositories/crm/invoiceItems';
 
-export const paginateInvoiceItem = implement(crmContracts.paginateInvoiceItemContract)
+export const paginateInvoiceItem = implement(
+  crmContracts.paginateInvoiceItemContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InvoiceItemRepository(context.db);
@@ -31,26 +33,32 @@ export const inInvoiceItem = implement(crmContracts.inInvoiceItemContract)
     return repo.in(input).execute();
   });
 
-export const createInvoiceItem = implement(crmContracts.createInvoiceItemContract)
+export const createInvoiceItem = implement(
+  crmContracts.createInvoiceItemContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InvoiceItemRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
-export const updateInvoiceItem = implement(crmContracts.updateInvoiceItemContract)
+export const updateInvoiceItem = implement(
+  crmContracts.updateInvoiceItemContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InvoiceItemRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
-export const deleteInvoiceItem = implement(crmContracts.deleteInvoiceItemContract)
+export const deleteInvoiceItem = implement(
+  crmContracts.deleteInvoiceItemContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InvoiceItemRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

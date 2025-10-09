@@ -4,12 +4,16 @@ import { TmsProofTypeEnum } from '@/db/types';
 export const tmsProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
-  type: z.enum(TmsProofTypeEnum, { message: 'Invalid proof type' }).optional(),
+  type: z
+    .enum(TmsProofTypeEnum, { message: 'Invalid proof type' })
+    .optional()
+    .nullable(),
   filePath: z
     .string({ message: 'File path must be a string' })
     .min(1, { error: 'File path is required' })
     .max(1024, { error: 'File path must be at most 1024 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   latitude: z.coerce
     .number({ message: 'Latitude must be a number' })
     .min(-90, { error: 'Latitude must be at least -90' })
@@ -22,10 +26,12 @@ export const tmsProofOfDeliverySchema = z.object({
   tripStopId: z.uuid({ message: 'Invalid UUID format for trip stop ID' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsProofOfDelivery = z.infer<typeof tmsProofOfDeliverySchema>;

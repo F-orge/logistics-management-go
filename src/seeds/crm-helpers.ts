@@ -198,19 +198,3 @@ export const generateCrmProduct = (
   sku: faker.string.alphanumeric(10).toUpperCase(),
   type: faker.helpers.arrayElement(Object.values(CrmProductType)),
 });
-
-export const generateCrmTagging = (
-  faker: Faker,
-  recordId: string,
-  tagId: string,
-  recordType?: CrmRecordType,
-): Insertable<DB['crm.taggings']> => ({
-  recordId: recordId,
-  recordType:
-    recordType || faker.helpers.arrayElement(Object.values(CrmRecordType)),
-  tagId: tagId,
-});
-
-export const generateCrmTag = (faker: Faker): Insertable<DB['crm.tags']> => ({
-  name: faker.lorem.word(),
-});

@@ -11,10 +11,12 @@ export const wmsReorderPointSchema = z.object({
     .max(1000000, { error: 'Threshold must be at most 1,000,000' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsReorderPoint = z.infer<typeof wmsReorderPointSchema>;

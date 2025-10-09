@@ -11,79 +11,106 @@ export const wmsTaskSchema = z.object({
   type: z.enum(WmsTaskTypeEnum, { message: 'Invalid task type' }),
   status: z
     .enum(WmsTaskStatusEnum, { message: 'Invalid task status' })
-    .optional(),
+    .optional()
+    .nullable(),
   userId: z
     .uuid({ message: 'Invalid UUID format for user ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   pickBatchId: z
     .uuid({ message: 'Invalid UUID format for pick batch ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   priority: z
     .number({ message: 'Priority must be a number' })
     .int({ message: 'Priority must be an integer' })
     .min(0, { error: 'Priority must be at least 0' })
     .max(1000, { error: 'Priority must be at most 1000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   instructions: z
     .string({ message: 'Instructions must be a string' })
     .min(1, { error: 'Instructions cannot be empty' })
     .max(1024, { error: 'Instructions must be at most 1024 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   notes: z
     .string({ message: 'Notes must be a string' })
     .min(1, { error: 'Notes cannot be empty' })
     .max(1024, { error: 'Notes must be at most 1024 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   sourceEntityId: z
     .uuid({ message: 'Invalid UUID format for source entity ID' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   sourceEntityType: z
     .string({ message: 'Source entity type must be a string' })
     .min(1, { error: 'Source entity type cannot be empty' })
     .max(64, { error: 'Source entity type must be at most 64 characters' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   estimatedDuration: z
     .number({ message: 'Estimated duration must be a number' })
     .int({ message: 'Estimated duration must be an integer' })
     .min(0, { error: 'Estimated duration must be at least 0' })
     .max(10000, { error: 'Estimated duration must be at most 10,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   actualDuration: z
     .number({ message: 'Actual duration must be a number' })
     .int({ message: 'Actual duration must be an integer' })
     .min(0, { error: 'Actual duration must be at least 0' })
     .max(10000, { error: 'Actual duration must be at most 10,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   durationSeconds: z
     .number({ message: 'Duration in seconds must be a number' })
     .int({ message: 'Duration in seconds must be an integer' })
     .min(0, { error: 'Duration in seconds must be at least 0' })
     .max(1000000, { error: 'Duration in seconds must be at most 1,000,000' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   startTime: z
     .date({ message: 'Invalid date format for start time' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   endTime: z
     .date({ message: 'Invalid date format for end time' })
     .optional()
-    .optional(),
+    .nullable()
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsTask = z.infer<typeof wmsTaskSchema>;

@@ -16,10 +16,14 @@ export const crmInvoiceItemSchema = z
       .max(10000, { message: 'Quantity must be at most 10,000' }),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .nullable()
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .nullable()
+      .optional()
+      .nullable(),
   })
   .strict();
 

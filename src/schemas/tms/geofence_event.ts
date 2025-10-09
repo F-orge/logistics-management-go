@@ -11,10 +11,12 @@ export const tmsGeofenceEventSchema = z.object({
   timestamp: z.date({ message: 'Invalid date format for timestamp' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsGeofenceEvent = z.infer<typeof tmsGeofenceEventSchema>;

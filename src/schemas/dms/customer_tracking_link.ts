@@ -8,12 +8,12 @@ export const dmsCustomerTrackingLinkSchema = z.object({
     .string()
     .min(1, { error: 'Tracking token is required' })
     .max(255, { error: 'Tracking token must be at most 255 characters' }),
-  expiresAt: z.date().optional(),
-  accessCount: z.number().int().min(0).optional(),
-  isActive: z.boolean().optional(),
-  lastAccessedAt: z.date().optional(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  expiresAt: z.date().optional().nullable(),
+  accessCount: z.number().int().min(0).optional().nullable(),
+  isActive: z.boolean().optional().nullable(),
+  lastAccessedAt: z.date().optional().nullable(),
+  createdAt: z.date().optional().nullable(),
+  updatedAt: z.date().optional().nullable(),
 });
 
 export type DmsCustomerTrackingLink = z.infer<

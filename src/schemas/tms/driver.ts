@@ -15,21 +15,29 @@ export const tmsDriverSchema = z.object({
     .string({ message: 'Phone number must be a string' })
     .min(1, { error: 'Phone is required' })
     .max(32, { error: 'Phone must be at most 32 characters' })
-    .optional(),
+    .optional()
+    .nullable(),
   status: z
     .enum(TmsDriverStatusEnum, { message: 'Invalid driver status' })
-    .optional(),
-  hiredAt: z.date({ message: 'Invalid date format for hired at' }).optional(),
+    .optional()
+    .nullable(),
+  hiredAt: z
+    .date({ message: 'Invalid date format for hired at' })
+    .optional()
+    .nullable(),
   terminatedAt: z
     .date({ message: 'Invalid date format for terminated at' })
-    .optional(),
+    .optional()
+    .nullable(),
   userId: z.uuid({ message: 'Invalid UUID format for user ID' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type TmsDriver = z.infer<typeof tmsDriverSchema>;

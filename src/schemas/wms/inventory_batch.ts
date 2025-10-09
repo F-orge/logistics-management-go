@@ -9,13 +9,16 @@ export const wmsInventoryBatchSchema = z.object({
     .max(64, { error: 'Batch number must be at most 64 characters' }),
   expirationDate: z
     .date({ message: 'Invalid date format for expiration date' })
-    .optional(),
+    .optional()
+    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional(),
+    .optional()
+    .nullable(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type WmsInventoryBatch = z.infer<typeof wmsInventoryBatchSchema>;

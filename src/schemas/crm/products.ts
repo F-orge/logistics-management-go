@@ -12,7 +12,8 @@ export const crmProductSchema = z
       .string({ message: 'Description must be a string' })
       .min(1, { message: 'Description is required' })
       .max(1024, { message: 'Description must be at most 1024 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     price: z.coerce
       .number({ message: 'Price must be a number' })
       .min(0, { message: 'Price must be at least 0' })
@@ -21,16 +22,20 @@ export const crmProductSchema = z
       .string({ message: 'SKU must be a string' })
       .min(1, { message: 'SKU is required' })
       .max(127, { message: 'SKU must be at most 127 characters' })
-      .optional(),
+      .optional()
+      .nullable(),
     type: z
       .enum(CrmProductType, { message: 'Invalid product type' })
-      .optional(),
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 

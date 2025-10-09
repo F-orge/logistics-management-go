@@ -16,14 +16,20 @@ export const crmNotificationSchema = z
       .url({ message: 'Invalid URL format for link' })
       .min(1, { message: 'Link is required' })
       .max(1024, { message: 'Link must be at most 1024 characters' })
-      .optional(),
-    isRead: z.boolean({ message: 'Is read must be a boolean' }).optional(),
+      .optional()
+      .nullable(),
+    isRead: z
+      .boolean({ message: 'Is read must be a boolean' })
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 

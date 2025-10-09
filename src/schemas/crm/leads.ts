@@ -20,43 +20,53 @@ export const crmLeadSchema = z
       .max(255, { message: 'Owner ID must be at most 255 characters' }),
     campaignId: z
       .uuid({ message: 'Invalid UUID format for campaign ID' })
-      .optional(),
+      .optional()
+      .nullable(),
     convertedAt: z
       .date({ message: 'Invalid ISO datetime format for conversion date' })
-      .optional(),
+      .optional()
+      .nullable(),
     convertedCompanyId: z
       .string()
       .uuid({ message: 'Invalid UUID format for converted company ID' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     convertedContactId: z
       .string()
       .uuid({ message: 'Invalid UUID format for converted contact ID' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     convertedOpportunityId: z
       .string()
       .uuid({ message: 'Invalid UUID format for converted opportunity ID' })
       .nullable()
-      .optional(),
+      .optional()
+      .nullable(),
     leadScore: z
       .number({ message: 'Lead score must be a number' })
       .int({ message: 'Lead score must be an integer' })
       .min(0, { message: 'Lead score must be at least 0' })
       .max(100, { message: 'Lead score must be at most 100' })
-      .optional(),
+      .optional()
+      .nullable(),
     leadSource: z
       .enum(CrmLeadSource, { message: 'Invalid lead source' })
-      .optional(),
+      .optional()
+      .nullable(),
     status: z
       .enum(CrmLeadStatus, { message: 'Invalid lead status' })
-      .optional(),
+      .optional()
+      .nullable(),
     createdAt: z
       .date({ message: 'Invalid ISO datetime format for creation date' })
-      .optional(),
+      .optional()
+      .nullable(),
     updatedAt: z
       .date({ message: 'Invalid ISO datetime format for update date' })
-      .optional(),
+      .optional()
+      .nullable(),
   })
   .strict();
 
@@ -69,7 +79,7 @@ export const crmLeadInsertSchema = crmLeadSchema
     updatedAt: true,
   })
   .extend({
-    opportunities: z.array(crmOpportunityInsertSchema).optional(),
+    opportunities: z.array(crmOpportunityInsertSchema).optional().nullable(),
   });
 
 export const crmLeadUpdateSchema = crmLeadInsertSchema.partial();
