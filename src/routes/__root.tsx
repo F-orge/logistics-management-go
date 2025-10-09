@@ -1,64 +1,14 @@
-import type { QueryClient } from '@tanstack/react-query';
-import {
-  createRootRouteWithContext,
-  HeadContent,
-  Outlet,
-  Scripts,
-} from '@tanstack/react-router';
-import type { ReactNode } from 'react';
-import { ThemeProvider, useTheme } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
-import { getThemeServerFn } from '@/lib/theme';
-import appCss from '../styles/globals.css?url';
+import * as React from 'react';
+import { Outlet, createRootRoute } from '@tanstack/react-router';
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
-      },
-    ],
-    links: [{ rel: 'stylesheet', href: appCss }],
-  }),
+export const Route = createRootRoute({
   component: RootComponent,
-  loader: () => getThemeServerFn(),
-  notFoundComponent: () => <div>Not found</div>,
 });
 
 function RootComponent() {
-  const theme = Route.useLoaderData();
-
   return (
-    <ThemeProvider theme={theme}>
-      <RootDocument>
-        <Outlet />
-        <Toaster />
-      </RootDocument>
-    </ThemeProvider>
-  );
-}
-
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-  const { theme } = useTheme();
-
-  return (
-    <html className={theme} suppressHydrationWarning>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
+    <React.Fragment>
+      <Outlet />
+    </React.Fragment>
   );
 }

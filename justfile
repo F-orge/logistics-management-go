@@ -4,11 +4,25 @@ APP_NAME := `cat package.json | jq -r '.name'`
 APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
+dev-backend:
+  bun --hot run src/server.ts
+
+dev-frontend:
+  bun rsbuild dev --open
+
 dev:
-  bun vite dev
+  docker compose up postgres -d
+  bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
+
+build-frontend:
+  bun rsbuild build
+
+build-backend:
+  bun build src/server.ts --target node --outfile server.js
 
 build:
-  bun vite build
+  just build-frontend
+  just build-backend
 
 check:
   bun biome check --fix
@@ -18,15 +32,6 @@ start:
 
 auth-generate:
   bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth/schema.ts
-
-drizzle-generate:
-  bunx drizzle-kit generate
-
-drizzle-migrate:
-  bunx drizzle-kit migrate
-
-drizzle-studio:
-  bunx drizzle-kit studio
 
 docker-build:
   @if docker manifest inspect ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \

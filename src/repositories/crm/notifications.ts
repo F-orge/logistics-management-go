@@ -14,7 +14,7 @@ import {
 import { DB } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 
-export class NotificationRepositry
+export class NotificationRepository
   implements GenericRepository<'crm.notifications'>
 {
   constructor(private db: Kysely<DB>) {}
@@ -95,9 +95,7 @@ export class NotificationRepositry
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.notifications',
     {

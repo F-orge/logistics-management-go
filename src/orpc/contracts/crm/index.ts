@@ -11,5 +11,3 @@ export * from './notifications';
 export * from './opportunities';
 export * from './opportunity_products';
 export * from './products';
-export * from './tagging';
-export * from './tags';

@@ -2,7 +2,6 @@ import { betterAuth } from 'better-auth';
 import { admin as adminPlugin, bearer } from 'better-auth/plugins';
 import { reactStartCookies } from 'better-auth/react-start';
 import { Pool } from 'pg';
-import { db } from '@/db';
 import {
   ac,
   accountant,
@@ -38,12 +37,42 @@ import {
   warehouseManager,
   warehouseOperator,
 } from '@/lib/permissions';
+import { pgPool } from '@/db';
+import nodemailer from 'nodemailer';
+import VerifyEmail from '@/emails/verify-email';
+import ReactDOMServer from 'react-dom/server';
 
-export const authFactory = (dbClient: typeof db) =>
+export const authFactory = (
+  dbClient: Pool,
+  mailer: ReturnType<typeof nodemailer.createTransport>,
+) =>
   betterAuth({
-    database: new Pool({ connectionString: process.env.DATABASE_URL! }),
+    database: dbClient,
+    trustedOrigins: ['http://localhost:3001'],
     emailAndPassword: {
       enabled: true,
+      requireEmailVerification: true,
+    },
+    emailVerification: {
+      sendOnSignUp: true,
+      sendVerificationEmail: async ({ user, url, token }) => {
+        console.log('sending verification email');
+        try {
+          if (!user?.email || !url || !token) {
+            throw new Error('Missing required email verification parameters');
+          }
+          await mailer.sendMail({
+            from: process.env.MAIL_FROM_ADDRESS,
+            to: user.email,
+            subject: 'Verify your email address',
+            html: ReactDOMServer.renderToString(
+              <VerifyEmail url={url} token={token} />,
+            ),
+          });
+        } catch (e) {
+          console.error('Failed to send verification email:', e);
+        }
+      },
     },
     plugins: [
       bearer(),
@@ -87,14 +116,3 @@ export const authFactory = (dbClient: typeof db) =>
       reactStartCookies(),
     ],
   });
-
-export const authFactoryV2 = (dbClient: Pool) =>
-  betterAuth({
-    database: dbClient,
-    emailAndPassword: {
-      enabled: true,
-    },
-    plugins: [bearer(), adminPlugin({ roles: {} }), reactStartCookies()],
-  });
-
-export const auth = authFactory(db);

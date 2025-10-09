@@ -11,21 +11,27 @@ import {
 import * as path from 'path';
 import { Pool } from 'pg';
 import { DB } from '@/db/types';
-import { authFactoryV2 } from '@/lib/auth';
+import { authFactory } from '@/lib/auth';
 import * as orpcRouter from '@/orpc';
 import { BunStorageRepository } from './repositories/storage';
+import { logger } from 'hono/logger';
+import { prettyJSON } from 'hono/pretty-json';
+import { requestId } from 'hono/request-id';
+import nodemailer from 'nodemailer';
+import { cors } from 'hono/cors';
 
 type ServerFactory = {
   pool: Pool;
 };
 
 export type HonoVariables = {
-  user: ReturnType<typeof authFactoryV2>['$Infer']['Session']['user'] | null;
+  user: ReturnType<typeof authFactory>['$Infer']['Session']['user'] | null;
   session:
-    | ReturnType<typeof authFactoryV2>['$Infer']['Session']['session']
+    | ReturnType<typeof authFactory>['$Infer']['Session']['session']
     | null;
   db: Kysely<DB>;
   storage: BunStorageRepository;
+  mailer: ReturnType<typeof nodemailer.createTransport>;
 };
 
 export const serverFactory = async ({ pool }: ServerFactory) => {
@@ -48,17 +54,46 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   await migrator.migrateToLatest();
 
+  // middlewares
+  router.use(logger());
+  router.use(prettyJSON());
+  router.use(requestId());
+
+  // mailer
+  const transporter = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: Number(process.env.MAIL_PORT),
+    // secure: Boolean(process.env.MAIL_SECURE), // true for 465, false for other ports
+    // auth: {
+    //   user: process.env.MAIL_USERNAME,
+    //   pass: process.env.MAIL_PASSWORD,
+    // },
+  });
+
   router.use('*', async (c, next) => {
     c.set('db', db);
     c.set(
       'storage',
       new BunStorageRepository(process.env.STORAGE_PAGE ?? '.data/files'),
     );
+    c.set('mailer', transporter);
     return next();
   });
 
   // better auth
-  const auth = authFactoryV2(pool);
+  const auth = authFactory(pool, transporter);
+
+  router.use(
+    '/api/auth/*', // or replace with "*" to enable cors for all routes
+    cors({
+      origin: 'http://localhost:3001', // replace with your origin
+      allowHeaders: ['Content-Type', 'Authorization'],
+      allowMethods: ['POST', 'GET', 'OPTIONS'],
+      exposeHeaders: ['Content-Length'],
+      maxAge: 600,
+      credentials: true,
+    }),
+  );
 
   router.on(['POST', 'GET'], '/api/auth/*', (c) => {
     return auth.handler(c.req.raw);
@@ -79,13 +114,15 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   // orpc
   const handler = new RPCHandler(orpcRouter);
 
-  router.use('/api/rpc/*', async (c, next) => {
+  router.use('/api/orpc/*', async (c, next) => {
     const { matched, response } = await handler.handle(c.req.raw, {
-      prefix: '/api/rpc',
+      prefix: '/api/orpc',
       context: {
         db: c.get('db'),
         user: c.get('user'),
         session: c.get('session'),
+        storage: c.get('storage'),
+        mailer: c.get('mailer'),
       },
     });
 

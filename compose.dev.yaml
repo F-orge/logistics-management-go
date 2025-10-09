@@ -7,5 +7,16 @@
 # This will build the app service from the Dockerfile in the current directory.
 
 services:
-  app:
-    build: .
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025" # SMTP port for sending emails
+      - "8025:8025" # Web interface for viewing emails
+  postgres:
+    image: postgres:17.2-alpine3.20
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DOCKER_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DOCKER_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DOCKER_POSTGRES_DB}

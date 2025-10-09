@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import z from 'zod';
-import { type AuthSignUpInput, authSignUpEmail } from '@/actions/auth/email';
 import { useAppForm } from '@/components/form';
 import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
+import { authClient } from '@/lib/client-auth';
 
 export const Route = createFileRoute('/auth/signup/')({
   component: RouteComponent,
@@ -11,13 +11,19 @@ export const Route = createFileRoute('/auth/signup/')({
 
 function RouteComponent() {
   const form = useAppForm({
-    defaultValues: {} as z.infer<typeof AuthSignUpInput> & {
+    defaultValues: {} as {
+      email: string;
+      name: string;
+      password: string;
       confirmPassword: string;
     },
     onSubmit: async ({ value }) =>
-      toast.promise(authSignUpEmail({ data: value }), {
-        error: 'Unable to register',
-      }),
+      toast.promise(
+        authClient.signUp.email({ ...value, callbackURL: '/auth/login' }),
+        {
+          error: 'Unable to register',
+        },
+      ),
   });
 
   return (
