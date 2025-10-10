@@ -63,11 +63,17 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: Number(process.env.MAIL_PORT),
-    // secure: Boolean(process.env.MAIL_SECURE), // true for 465, false for other ports
-    // auth: {
-    //   user: process.env.MAIL_USERNAME,
-    //   pass: process.env.MAIL_PASSWORD,
-    // },
+    secure:
+      process.env.NODE_ENV === 'production'
+        ? Boolean(process.env.MAIL_SECURE)
+        : false, // true for 465, false for other ports
+    auth:
+      process.env.NODE_ENV === 'production'
+        ? {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+          }
+        : undefined,
   });
 
   router.use('*', async (c, next) => {
@@ -81,7 +87,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   });
 
   // better auth
-  const auth = authFactory(pool, transporter);
+  const auth = authFactory(pool, transporter, true);
 
   router.use(
     '/api/auth/*', // or replace with "*" to enable cors for all routes

@@ -113,6 +113,7 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     .batchCreate(clientAccountsData)
     .onConflict((oc) => oc.doNothing())
     .execute();
+
   console.log(`✅ Created ${clientAccounts.length} client accounts`);
 
   // 5. Create Quotes

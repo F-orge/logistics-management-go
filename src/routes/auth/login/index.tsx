@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { useAppForm } from '@/components/form';
 import { toast } from 'sonner';
-import { authClient } from '@/lib/client-auth';
 
 export const Route = createFileRoute('/auth/login/')({
   component: RouteComponent,
@@ -18,6 +17,7 @@ export const Route = createFileRoute('/auth/login/')({
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
+  const { authClient } = Route.useRouteContext();
 
   const form = useAppForm({
     defaultValues: {} as {
@@ -33,7 +33,18 @@ function RouteComponent() {
           rememberMe: value.rememberMe,
         }),
         {
-          success: ({ data }) => {
+          success: ({ data, error }) => {
+            if (error) {
+              toast.error(error.message);
+              if (error.message === 'Email not verified') {
+                navigate({
+                  to: '/auth/verify-email',
+                  search: { email: value.email },
+                });
+              }
+              return;
+            }
+
             if (data?.redirect) {
               navigate({ to: data.url });
             }

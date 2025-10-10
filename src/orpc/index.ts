@@ -1,5 +1,1 @@
-import * as crm from './handlers/crm';
-
-export const contracts = {
-  crm,
-};
+export * as crm from './handlers/crm';

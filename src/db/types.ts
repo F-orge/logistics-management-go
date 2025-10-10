@@ -3,545 +3,545 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
 export enum BillingDisputeStatusEnum {
-  Approved = 'approved',
-  Closed = 'closed',
-  Denied = 'denied',
-  Escalated = 'escalated',
-  Open = 'open',
-  UnderReview = 'under-review',
+  APPROVED = "approved",
+  CLOSED = "closed",
+  DENIED = "denied",
+  ESCALATED = "escalated",
+  OPEN = "open",
+  UNDER_REVIEW = "under-review",
 }
 
 export enum BillingDocumentTypeEnum {
-  Bol = 'bol',
-  CommercialInvoice = 'commercial-invoice',
-  CreditNote = 'credit-note',
-  CustomsDeclaration = 'customs-declaration',
-  PackingList = 'packing-list',
-  ProofOfDelivery = 'proof-of-delivery',
-  Receipt = 'receipt',
-  ShippingLabel = 'shipping-label',
+  BOL = "bol",
+  COMMERCIAL_INVOICE = "commercial-invoice",
+  CREDIT_NOTE = "credit-note",
+  CUSTOMS_DECLARATION = "customs-declaration",
+  PACKING_LIST = "packing-list",
+  PROOF_OF_DELIVERY = "proof-of-delivery",
+  RECEIPT = "receipt",
+  SHIPPING_LABEL = "shipping-label",
 }
 
 export enum BillingInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Draft = 'draft',
-  Paid = 'paid',
-  PartialPaid = 'partial-paid',
-  PastDue = 'past-due',
-  Sent = 'sent',
-  Viewed = 'viewed',
-  Void = 'void',
+  CANCELLED = "cancelled",
+  DISPUTED = "disputed",
+  DRAFT = "draft",
+  PAID = "paid",
+  PARTIAL_PAID = "partial-paid",
+  PAST_DUE = "past-due",
+  SENT = "sent",
+  VIEWED = "viewed",
+  VOID = "void",
 }
 
 export enum BillingPaymentMethodEnum {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  ClientCredit = 'client-credit',
-  CreditCard = 'credit-card',
-  DebitCard = 'debit-card',
-  QrPh = 'qr-ph',
-  Wallet = 'wallet',
+  BANK_TRANSFER = "bank-transfer",
+  CASH = "cash",
+  CHECK = "check",
+  CLIENT_CREDIT = "client-credit",
+  CREDIT_CARD = "credit-card",
+  DEBIT_CARD = "debit-card",
+  QR_PH = "qr-ph",
+  WALLET = "wallet",
 }
 
 export enum BillingPaymentStatusEnum {
-  Cancelled = 'cancelled',
-  Failed = 'failed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Refunded = 'refunded',
-  Successful = 'successful',
+  CANCELLED = "cancelled",
+  FAILED = "failed",
+  PENDING = "pending",
+  PROCESSING = "processing",
+  REFUNDED = "refunded",
+  SUCCESSFUL = "successful",
 }
 
 export enum BillingPricingModelEnum {
-  FlatRate = 'flat-rate',
-  PerCubicMeter = 'per-cubic-meter',
-  PerItem = 'per-item',
-  PerKg = 'per-kg',
-  PerZone = 'per-zone',
-  Percentage = 'percentage',
-  Tiered = 'tiered',
+  FLAT_RATE = "flat-rate",
+  PER_CUBIC_METER = "per-cubic-meter",
+  PER_ITEM = "per-item",
+  PER_KG = "per-kg",
+  PER_ZONE = "per-zone",
+  PERCENTAGE = "percentage",
+  TIERED = "tiered",
 }
 
 export enum BillingQuoteStatusEnum {
-  Accepted = 'accepted',
-  Cancelled = 'cancelled',
-  Converted = 'converted',
-  Expired = 'expired',
-  Pending = 'pending',
+  ACCEPTED = "accepted",
+  CANCELLED = "cancelled",
+  CONVERTED = "converted",
+  EXPIRED = "expired",
+  PENDING = "pending",
 }
 
 export enum BillingServiceTypeEnum {
-  Customs = 'customs',
-  Fulfillment = 'fulfillment',
-  Handling = 'handling',
-  Insurance = 'insurance',
-  Packaging = 'packaging',
-  Returns = 'returns',
-  Shipping = 'shipping',
-  Storage = 'storage',
+  CUSTOMS = "customs",
+  FULFILLMENT = "fulfillment",
+  HANDLING = "handling",
+  INSURANCE = "insurance",
+  PACKAGING = "packaging",
+  RETURNS = "returns",
+  SHIPPING = "shipping",
+  STORAGE = "storage",
 }
 
 export enum BillingSurchargeCalculationMethodEnum {
-  Fixed = 'fixed',
-  PerUnit = 'per-unit',
-  Percentage = 'percentage',
-  SlidingScale = 'sliding-scale',
+  FIXED = "fixed",
+  PER_UNIT = "per-unit",
+  PERCENTAGE = "percentage",
+  SLIDING_SCALE = "sliding-scale",
 }
 
 export enum BillingSyncStatusEnum {
-  Failed = 'failed',
-  InProgress = 'in-progress',
-  Pending = 'pending',
-  Retry = 'retry',
-  Success = 'success',
+  FAILED = "failed",
+  IN_PROGRESS = "in-progress",
+  PENDING = "pending",
+  RETRY = "retry",
+  SUCCESS = "success",
 }
 
 export enum BillingTransactionTypeEnum {
-  Adjustment = 'adjustment',
-  Credit = 'credit',
-  Debit = 'debit',
-  Fee = 'fee',
-  Refund = 'refund',
-  TopUp = 'top-up',
+  ADJUSTMENT = "adjustment",
+  CREDIT = "credit",
+  DEBIT = "debit",
+  FEE = "fee",
+  REFUND = "refund",
+  TOP_UP = "top-up",
 }
 
 export enum CrmCasePriority {
-  Critical = 'critical',
-  High = 'high',
-  Low = 'low',
-  Medium = 'medium',
+  CRITICAL = "critical",
+  HIGH = "high",
+  LOW = "low",
+  MEDIUM = "medium",
 }
 
 export enum CrmCaseStatus {
-  Cancelled = 'cancelled',
-  Closed = 'closed',
-  Escalated = 'escalated',
-  InProgress = 'in-progress',
-  New = 'new',
-  Resolved = 'resolved',
-  WaitingForCustomer = 'waiting-for-customer',
-  WaitingForInternal = 'waiting-for-internal',
+  CANCELLED = "cancelled",
+  CLOSED = "closed",
+  ESCALATED = "escalated",
+  IN_PROGRESS = "in-progress",
+  NEW = "new",
+  RESOLVED = "resolved",
+  WAITING_FOR_CUSTOMER = "waiting-for-customer",
+  WAITING_FOR_INTERNAL = "waiting-for-internal",
 }
 
 export enum CrmCaseType {
-  BugReport = 'bug-report',
-  Complaint = 'complaint',
-  FeatureRequest = 'feature-request',
-  Problem = 'problem',
-  Question = 'question',
-  TechnicalSupport = 'technical-support',
+  BUG_REPORT = "bug-report",
+  COMPLAINT = "complaint",
+  FEATURE_REQUEST = "feature-request",
+  PROBLEM = "problem",
+  QUESTION = "question",
+  TECHNICAL_SUPPORT = "technical-support",
 }
 
 export enum CrmInteractionType {
-  Call = 'call',
-  Email = 'email',
-  Meeting = 'meeting',
-  Text = 'text',
+  CALL = "call",
+  EMAIL = "email",
+  MEETING = "meeting",
+  TEXT = "text",
 }
 
 export enum CrmInvoiceStatus {
-  Cancelled = 'cancelled',
-  Draft = 'draft',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Sent = 'sent',
+  CANCELLED = "cancelled",
+  DRAFT = "draft",
+  OVERDUE = "overdue",
+  PAID = "paid",
+  SENT = "sent",
 }
 
 export enum CrmLeadSource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  ADVERTISEMENT = "advertisement",
+  COLD_CALL = "cold-call",
+  EMAIL_CAMPAIGN = "email-campaign",
+  EVENT = "event",
+  OTHER = "other",
+  PARTNER = "partner",
+  REFERRAL = "referral",
+  SOCIAL_MEDIA = "social-media",
+  WEBSITE = "website",
 }
 
 export enum CrmLeadStatus {
-  Contacted = 'contacted',
-  Converted = 'converted',
-  New = 'new',
-  Qualified = 'qualified',
-  Unqualified = 'unqualified',
+  CONTACTED = "contacted",
+  CONVERTED = "converted",
+  NEW = "new",
+  QUALIFIED = "qualified",
+  UNQUALIFIED = "unqualified",
 }
 
 export enum CrmOpportunitySource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  ExistingCustomer = 'existing-customer',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  ADVERTISEMENT = "advertisement",
+  COLD_CALL = "cold-call",
+  EMAIL_CAMPAIGN = "email-campaign",
+  EVENT = "event",
+  EXISTING_CUSTOMER = "existing-customer",
+  OTHER = "other",
+  PARTNER = "partner",
+  REFERRAL = "referral",
+  SOCIAL_MEDIA = "social-media",
+  WEBSITE = "website",
 }
 
 export enum CrmOpportunityStage {
-  ClosedLost = 'closed-lost',
-  ClosedWon = 'closed-won',
-  Demo = 'demo',
-  NeedAnalysis = 'need-analysis',
-  Negotiation = 'negotiation',
-  Proposal = 'proposal',
-  Prospecting = 'prospecting',
-  Qualification = 'qualification',
+  CLOSED_LOST = "closed-lost",
+  CLOSED_WON = "closed-won",
+  DEMO = "demo",
+  NEED_ANALYSIS = "need-analysis",
+  NEGOTIATION = "negotiation",
+  PROPOSAL = "proposal",
+  PROSPECTING = "prospecting",
+  QUALIFICATION = "qualification",
 }
 
 export enum CrmPaymentMethod {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  CreditCard = 'credit-card',
-  Paypal = 'paypal',
-  Stripe = 'stripe',
-  WireTransfer = 'wire-transfer',
+  BANK_TRANSFER = "bank-transfer",
+  CASH = "cash",
+  CHECK = "check",
+  CREDIT_CARD = "credit-card",
+  PAYPAL = "paypal",
+  STRIPE = "stripe",
+  WIRE_TRANSFER = "wire-transfer",
 }
 
 export enum CrmProductType {
-  Digital = 'digital',
-  Good = 'good',
-  Service = 'service',
-  Subscription = 'subscription',
+  DIGITAL = "digital",
+  GOOD = "good",
+  SERVICE = "service",
+  SUBSCRIPTION = "subscription",
 }
 
 export enum CrmRecordType {
-  Campaigns = 'campaigns',
-  Cases = 'cases',
-  Companies = 'companies',
-  Contacts = 'contacts',
-  Interactions = 'interactions',
-  Invoices = 'invoices',
-  Leads = 'leads',
-  Opportunities = 'opportunities',
-  Products = 'products',
+  CAMPAIGNS = "campaigns",
+  CASES = "cases",
+  COMPANIES = "companies",
+  CONTACTS = "contacts",
+  INTERACTIONS = "interactions",
+  INVOICES = "invoices",
+  LEADS = "leads",
+  OPPORTUNITIES = "opportunities",
+  PRODUCTS = "products",
 }
 
 export enum DmsDeliveryFailureReasonEnum {
-  AccessDenied = 'access_denied',
-  AddressNotFound = 'address_not_found',
-  DamagedPackage = 'damaged_package',
-  Other = 'other',
-  RecipientNotHome = 'recipient_not_home',
-  RefusedDelivery = 'refused_delivery',
-  VehicleBreakdown = 'vehicle_breakdown',
-  WeatherConditions = 'weather_conditions',
+  ACCESS_DENIED = "access_denied",
+  ADDRESS_NOT_FOUND = "address_not_found",
+  DAMAGED_PACKAGE = "damaged_package",
+  OTHER = "other",
+  RECIPIENT_NOT_HOME = "recipient_not_home",
+  REFUSED_DELIVERY = "refused_delivery",
+  VEHICLE_BREAKDOWN = "vehicle_breakdown",
+  WEATHER_CONDITIONS = "weather_conditions",
 }
 
 export enum DmsDeliveryRouteStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Paused = 'paused',
-  Planned = 'planned',
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  IN_PROGRESS = "in_progress",
+  PAUSED = "paused",
+  PLANNED = "planned",
 }
 
 export enum DmsDeliveryTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  OutForDelivery = 'out_for_delivery',
-  Pending = 'pending',
-  Rescheduled = 'rescheduled',
+  ASSIGNED = "assigned",
+  CANCELLED = "cancelled",
+  DELIVERED = "delivered",
+  FAILED = "failed",
+  OUT_FOR_DELIVERY = "out_for_delivery",
+  PENDING = "pending",
+  RESCHEDULED = "rescheduled",
 }
 
 export enum DmsProofOfDeliveryTypeEnum {
-  CodeVerification = 'code_verification',
-  ContactlessDelivery = 'contactless_delivery',
-  LeftAtDoor = 'left_at_door',
-  Photo = 'photo',
-  Signature = 'signature',
+  CODE_VERIFICATION = "code_verification",
+  CONTACTLESS_DELIVERY = "contactless_delivery",
+  LEFT_AT_DOOR = "left_at_door",
+  PHOTO = "photo",
+  SIGNATURE = "signature",
 }
 
 export enum DmsTaskEventStatusEnum {
-  Arrived = 'arrived',
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Exception = 'exception',
-  Failed = 'failed',
-  Rescheduled = 'rescheduled',
-  Started = 'started',
+  ARRIVED = "arrived",
+  ASSIGNED = "assigned",
+  CANCELLED = "cancelled",
+  DELIVERED = "delivered",
+  EXCEPTION = "exception",
+  FAILED = "failed",
+  RESCHEDULED = "rescheduled",
+  STARTED = "started",
 }
 
 export enum TmsCarrierRateUnitEnum {
-  FlatRate = 'flat_rate',
-  PerContainer = 'per_container',
-  PerKg = 'per_kg',
-  PerKm = 'per_km',
-  PerMile = 'per_mile',
+  FLAT_RATE = "flat_rate",
+  PER_CONTAINER = "per_container",
+  PER_KG = "per_kg",
+  PER_KM = "per_km",
+  PER_MILE = "per_mile",
 }
 
 export enum TmsCurrencyEnum {
-  Aud = 'AUD',
-  Cad = 'CAD',
-  Eur = 'EUR',
-  Gbp = 'GBP',
-  Jpy = 'JPY',
-  Php = 'PHP',
-  Usd = 'USD',
+  AUD = "AUD",
+  CAD = "CAD",
+  EUR = "EUR",
+  GBP = "GBP",
+  JPY = "JPY",
+  PHP = "PHP",
+  USD = "USD",
 }
 
 export enum TmsDriverScheduleReasonEnum {
-  PersonalLeave = 'personal_leave',
-  SickLeave = 'sick_leave',
-  Training = 'training',
-  Vacation = 'vacation',
+  PERSONAL_LEAVE = "personal_leave",
+  SICK_LEAVE = "sick_leave",
+  TRAINING = "training",
+  VACATION = "vacation",
 }
 
 export enum TmsDriverStatusEnum {
-  Active = 'active',
-  Inactive = 'inactive',
-  OnLeave = 'on_leave',
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  ON_LEAVE = "on_leave",
 }
 
 export enum TmsExpenseStatusEnum {
-  Approved = 'approved',
-  Pending = 'pending',
-  Reimbursed = 'reimbursed',
-  Rejected = 'rejected',
+  APPROVED = "approved",
+  PENDING = "pending",
+  REIMBURSED = "reimbursed",
+  REJECTED = "rejected",
 }
 
 export enum TmsExpenseTypeEnum {
-  Accommodation = 'accommodation',
-  Fuel = 'fuel',
-  Maintenance = 'maintenance',
-  Meals = 'meals',
-  Parking = 'parking',
-  Tolls = 'tolls',
+  ACCOMMODATION = "accommodation",
+  FUEL = "fuel",
+  MAINTENANCE = "maintenance",
+  MEALS = "meals",
+  PARKING = "parking",
+  TOLLS = "tolls",
 }
 
 export enum TmsGeofenceEventTypeEnum {
-  Enter = 'enter',
-  Exit = 'exit',
+  ENTER = "enter",
+  EXIT = "exit",
 }
 
 export enum TmsPartnerInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Pending = 'pending',
+  CANCELLED = "cancelled",
+  DISPUTED = "disputed",
+  OVERDUE = "overdue",
+  PAID = "paid",
+  PENDING = "pending",
 }
 
 export enum TmsProofTypeEnum {
-  BarcodeScan = 'barcode_scan',
-  Photo = 'photo',
-  PinVerification = 'pin_verification',
-  Signature = 'signature',
+  BARCODE_SCAN = "barcode_scan",
+  PHOTO = "photo",
+  PIN_VERIFICATION = "pin_verification",
+  SIGNATURE = "signature",
 }
 
 export enum TmsShipmentLegStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  InTransit = 'in_transit',
-  Pending = 'pending',
+  CANCELLED = "cancelled",
+  DELIVERED = "delivered",
+  FAILED = "failed",
+  IN_TRANSIT = "in_transit",
+  PENDING = "pending",
 }
 
 export enum TmsTripStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Planned = 'planned',
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  IN_PROGRESS = "in_progress",
+  PLANNED = "planned",
 }
 
 export enum TmsTripStopStatusEnum {
-  Arrived = 'arrived',
-  Completed = 'completed',
-  Pending = 'pending',
-  Skipped = 'skipped',
+  ARRIVED = "arrived",
+  COMPLETED = "completed",
+  PENDING = "pending",
+  SKIPPED = "skipped",
 }
 
 export enum TmsVehicleServiceTypeEnum {
-  BrakeService = 'brake_service',
-  Inspection = 'inspection',
-  OilChange = 'oil_change',
-  Repair = 'repair',
-  RoutineMaintenance = 'routine_maintenance',
-  TireReplacement = 'tire_replacement',
+  BRAKE_SERVICE = "brake_service",
+  INSPECTION = "inspection",
+  OIL_CHANGE = "oil_change",
+  REPAIR = "repair",
+  ROUTINE_MAINTENANCE = "routine_maintenance",
+  TIRE_REPLACEMENT = "tire_replacement",
 }
 
 export enum TmsVehicleStatusEnum {
-  Available = 'available',
-  InMaintenance = 'in_maintenance',
-  OnTrip = 'on_trip',
-  OutOfService = 'out_of_service',
+  AVAILABLE = "available",
+  IN_MAINTENANCE = "in_maintenance",
+  ON_TRIP = "on_trip",
+  OUT_OF_SERVICE = "out_of_service",
 }
 
 export enum UserRole {
-  AccountManager = 'account-manager',
-  Accountant = 'accountant',
-  Admin = 'admin',
-  Carrier = 'carrier',
-  Client = 'client',
-  ClientAdmin = 'client-admin',
-  CustomerSupportAgent = 'customer-support-agent',
-  Developer = 'developer',
-  Dispatcher = 'dispatcher',
-  Driver = 'driver',
-  EndCustomer = 'end-customer',
-  FinanceManager = 'finance-manager',
-  FleetManager = 'fleet-manager',
-  InventoryManager = 'inventory-manager',
-  LogisticsCoordinator = 'logistics-coordinator',
-  LogisticsManager = 'logistics-manager',
-  LogisticsPlanner = 'logistics-planner',
-  MarketingManager = 'marketing-manager',
-  Packer = 'packer',
-  Picker = 'picker',
-  PricingAnalyst = 'pricing-analyst',
-  ProductManager = 'product-manager',
-  QcManager = 'qc-manager',
-  ReceivingManager = 'receiving-manager',
-  ReturnsProcessor = 'returns-processor',
-  SalesManager = 'sales-manager',
-  SalesRep = 'sales-rep',
-  Sdr = 'sdr',
-  TransportManager = 'transport-manager',
-  User = 'user',
-  WarehouseManager = 'warehouse-manager',
-  WarehouseOperator = 'warehouse-operator',
+  ACCOUNT_MANAGER = "account-manager",
+  ACCOUNTANT = "accountant",
+  ADMIN = "admin",
+  CARRIER = "carrier",
+  CLIENT = "client",
+  CLIENT_ADMIN = "client-admin",
+  CUSTOMER_SUPPORT_AGENT = "customer-support-agent",
+  DEVELOPER = "developer",
+  DISPATCHER = "dispatcher",
+  DRIVER = "driver",
+  END_CUSTOMER = "end-customer",
+  FINANCE_MANAGER = "finance-manager",
+  FLEET_MANAGER = "fleet-manager",
+  INVENTORY_MANAGER = "inventory-manager",
+  LOGISTICS_COORDINATOR = "logistics-coordinator",
+  LOGISTICS_MANAGER = "logistics-manager",
+  LOGISTICS_PLANNER = "logistics-planner",
+  MARKETING_MANAGER = "marketing-manager",
+  PACKER = "packer",
+  PICKER = "picker",
+  PRICING_ANALYST = "pricing-analyst",
+  PRODUCT_MANAGER = "product-manager",
+  QC_MANAGER = "qc-manager",
+  RECEIVING_MANAGER = "receiving-manager",
+  RETURNS_PROCESSOR = "returns-processor",
+  SALES_MANAGER = "sales-manager",
+  SALES_REP = "sales-rep",
+  SDR = "sdr",
+  TRANSPORT_MANAGER = "transport-manager",
+  USER = "user",
+  WAREHOUSE_MANAGER = "warehouse-manager",
+  WAREHOUSE_OPERATOR = "warehouse-operator",
 }
 
 export enum WmsInboundShipmentStatusEnum {
-  Arrived = 'arrived',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
+  ARRIVED = "arrived",
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  PENDING = "pending",
+  PROCESSING = "processing",
 }
 
 export enum WmsInventoryAdjustmentReasonEnum {
-  CycleCount = 'cycle_count',
-  DamagedGoods = 'damaged_goods',
-  Expired = 'expired',
-  ManualCorrection = 'manual_correction',
-  ReturnToVendor = 'return_to_vendor',
-  Theft = 'theft',
+  CYCLE_COUNT = "cycle_count",
+  DAMAGED_GOODS = "damaged_goods",
+  EXPIRED = "expired",
+  MANUAL_CORRECTION = "manual_correction",
+  RETURN_TO_VENDOR = "return_to_vendor",
+  THEFT = "theft",
 }
 
 export enum WmsInventoryStockStatusEnum {
-  Allocated = 'allocated',
-  Available = 'available',
-  Damaged = 'damaged',
-  Expired = 'expired',
-  Hold = 'hold',
-  Quarantine = 'quarantine',
-  Shipped = 'shipped',
+  ALLOCATED = "allocated",
+  AVAILABLE = "available",
+  DAMAGED = "damaged",
+  EXPIRED = "expired",
+  HOLD = "hold",
+  QUARANTINE = "quarantine",
+  SHIPPED = "shipped",
 }
 
 export enum WmsLocationTypeEnum {
-  BulkStorage = 'bulk_storage',
-  CrossDockArea = 'cross_dock_area',
-  DamagedGoods = 'damaged_goods',
-  PackingStation = 'packing_station',
-  PickBin = 'pick_bin',
-  QualityControl = 'quality_control',
-  ReceivingDock = 'receiving_dock',
-  ReserveStorage = 'reserve_storage',
-  ReturnsArea = 'returns_area',
-  StagingArea = 'staging_area',
+  BULK_STORAGE = "bulk_storage",
+  CROSS_DOCK_AREA = "cross_dock_area",
+  DAMAGED_GOODS = "damaged_goods",
+  PACKING_STATION = "packing_station",
+  PICK_BIN = "pick_bin",
+  QUALITY_CONTROL = "quality_control",
+  RECEIVING_DOCK = "receiving_dock",
+  RESERVE_STORAGE = "reserve_storage",
+  RETURNS_AREA = "returns_area",
+  STAGING_AREA = "staging_area",
 }
 
 export enum WmsOutboundShipmentStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Packed = 'packed',
-  Picking = 'picking',
-  Shipped = 'shipped',
+  CANCELLED = "cancelled",
+  DELIVERED = "delivered",
+  PACKED = "packed",
+  PICKING = "picking",
+  SHIPPED = "shipped",
 }
 
 export enum WmsPickBatchStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Open = 'open',
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  IN_PROGRESS = "in_progress",
+  OPEN = "open",
 }
 
 export enum WmsPickStrategyEnum {
-  BatchPicking = 'batch_picking',
-  ClusterPicking = 'cluster_picking',
-  SingleOrderPicking = 'single_order_picking',
-  WavePicking = 'wave_picking',
-  ZonePicking = 'zone_picking',
+  BATCH_PICKING = "batch_picking",
+  CLUSTER_PICKING = "cluster_picking",
+  SINGLE_ORDER_PICKING = "single_order_picking",
+  WAVE_PICKING = "wave_picking",
+  ZONE_PICKING = "zone_picking",
 }
 
 export enum WmsProductStatusEnum {
-  Active = 'active',
-  Discontinued = 'discontinued',
-  Inactive = 'inactive',
-  Obsolete = 'obsolete',
+  ACTIVE = "active",
+  DISCONTINUED = "discontinued",
+  INACTIVE = "inactive",
+  OBSOLETE = "obsolete",
 }
 
 export enum WmsReturnItemConditionEnum {
-  Damaged = 'damaged',
-  Defective = 'defective',
-  Expired = 'expired',
-  Sellable = 'sellable',
-  Unsellable = 'unsellable',
+  DAMAGED = "damaged",
+  DEFECTIVE = "defective",
+  EXPIRED = "expired",
+  SELLABLE = "sellable",
+  UNSELLABLE = "unsellable",
 }
 
 export enum WmsReturnStatusEnum {
-  Approved = 'approved',
-  Processed = 'processed',
-  Received = 'received',
-  Rejected = 'rejected',
-  Requested = 'requested',
+  APPROVED = "approved",
+  PROCESSED = "processed",
+  RECEIVED = "received",
+  REJECTED = "rejected",
+  REQUESTED = "requested",
 }
 
 export enum WmsSalesOrderStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Shipped = 'shipped',
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  PENDING = "pending",
+  PROCESSING = "processing",
+  SHIPPED = "shipped",
 }
 
 export enum WmsStockTransferStatusEnum {
-  Cancelled = 'cancelled',
-  InTransit = 'in_transit',
-  Pending = 'pending',
-  Received = 'received',
+  CANCELLED = "cancelled",
+  IN_TRANSIT = "in_transit",
+  PENDING = "pending",
+  RECEIVED = "received",
 }
 
 export enum WmsTaskItemStatusEnum {
-  Completed = 'completed',
-  Damaged = 'damaged',
-  InProgress = 'in_progress',
-  NotFound = 'not_found',
-  Pending = 'pending',
-  ShortPicked = 'short_picked',
+  COMPLETED = "completed",
+  DAMAGED = "damaged",
+  IN_PROGRESS = "in_progress",
+  NOT_FOUND = "not_found",
+  PENDING = "pending",
+  SHORT_PICKED = "short_picked",
 }
 
 export enum WmsTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Error = 'error',
-  InProgress = 'in_progress',
-  Pending = 'pending',
+  ASSIGNED = "assigned",
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  ERROR = "error",
+  IN_PROGRESS = "in_progress",
+  PENDING = "pending",
 }
 
 export enum WmsTaskTypeEnum {
-  CrossDock = 'cross_dock',
-  CycleCount = 'cycle_count',
-  DamageInspection = 'damage_inspection',
-  Pack = 'pack',
-  Pick = 'pick',
-  Putaway = 'putaway',
-  QualityCheck = 'quality_check',
-  Replenishment = 'replenishment',
-  ReturnsProcessing = 'returns_processing',
+  CROSS_DOCK = "cross_dock",
+  CYCLE_COUNT = "cycle_count",
+  DAMAGE_INSPECTION = "damage_inspection",
+  PACK = "pack",
+  PICK = "pick",
+  PUTAWAY = "putaway",
+  QUALITY_CHECK = "quality_check",
+  REPLENISHMENT = "replenishment",
+  RETURNS_PROCESSING = "returns_processing",
 }
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
@@ -1843,41 +1843,6 @@ export interface CrmProduct {
   type: Generated<CrmProductType | null>;
   /**
    * timestamptz when the product was last updated.
-   */
-  updatedAt: Generated<Timestamp | null>;
-}
-
-export interface CrmTagging {
-  id: Generated<string>;
-  /**
-   * Identifier of the tagged record.
-   */
-  recordId: string;
-  /**
-   * Type of record associated with the tag.
-   */
-  recordType: CrmRecordType;
-  /**
-   * Linked tag identifier.
-   */
-  tagId: string;
-}
-
-export interface CrmTag {
-  /**
-   * timestamptz when the tag was created.
-   */
-  createdAt: Generated<Timestamp | null>;
-  /**
-   * Primary key
-   */
-  id: Generated<string>;
-  /**
-   * Label or tag name.
-   */
-  name: string;
-  /**
-   * timestamptz when the tag was last updated.
    */
   updatedAt: Generated<Timestamp | null>;
 }
@@ -4014,84 +3979,82 @@ export interface WmsWarehouse {
 
 export interface DB {
   account: Account;
-  'billing.accountingSyncLog': BillingAccountingSyncLog;
-  'billing.accountTransactions': BillingAccountTransaction;
-  'billing.clientAccounts': BillingClientAccount;
-  'billing.creditNotes': BillingCreditNote;
-  'billing.disputes': BillingDispute;
-  'billing.documents': BillingDocument;
-  'billing.invoiceLineItems': BillingInvoiceLineItem;
-  'billing.invoices': BillingInvoice;
-  'billing.payments': BillingPayment;
-  'billing.quotes': BillingQuote;
-  'billing.rateCards': BillingRateCard;
-  'billing.rateRules': BillingRateRule;
-  'billing.surcharges': BillingSurcharge;
-  'crm.attachments': CrmAttachment;
-  'crm.campaigns': CrmCampaign;
-  'crm.cases': CrmCase;
-  'crm.companies': CrmCompany;
-  'crm.contacts': CrmContact;
-  'crm.interactions': CrmInteraction;
-  'crm.invoiceItems': CrmInvoiceItem;
-  'crm.invoices': CrmInvoice;
-  'crm.leads': CrmLead;
-  'crm.notifications': CrmNotification;
-  'crm.opportunities': CrmOpportunity;
-  'crm.opportunityProducts': CrmOpportunityProduct;
-  'crm.products': CrmProduct;
-  'crm.taggings': CrmTagging;
-  'crm.tags': CrmTag;
-  'dms.customerTrackingLinks': DmsCustomerTrackingLink;
-  'dms.deliveryRoutes': DmsDeliveryRoute;
-  'dms.deliveryTasks': DmsDeliveryTask;
-  'dms.driverLocations': DmsDriverLocation;
-  'dms.proofOfDeliveries': DmsProofOfDelivery;
-  'dms.taskEvents': DmsTaskEvent;
+  "billing.accountingSyncLog": BillingAccountingSyncLog;
+  "billing.accountTransactions": BillingAccountTransaction;
+  "billing.clientAccounts": BillingClientAccount;
+  "billing.creditNotes": BillingCreditNote;
+  "billing.disputes": BillingDispute;
+  "billing.documents": BillingDocument;
+  "billing.invoiceLineItems": BillingInvoiceLineItem;
+  "billing.invoices": BillingInvoice;
+  "billing.payments": BillingPayment;
+  "billing.quotes": BillingQuote;
+  "billing.rateCards": BillingRateCard;
+  "billing.rateRules": BillingRateRule;
+  "billing.surcharges": BillingSurcharge;
+  "crm.attachments": CrmAttachment;
+  "crm.campaigns": CrmCampaign;
+  "crm.cases": CrmCase;
+  "crm.companies": CrmCompany;
+  "crm.contacts": CrmContact;
+  "crm.interactions": CrmInteraction;
+  "crm.invoiceItems": CrmInvoiceItem;
+  "crm.invoices": CrmInvoice;
+  "crm.leads": CrmLead;
+  "crm.notifications": CrmNotification;
+  "crm.opportunities": CrmOpportunity;
+  "crm.opportunityProducts": CrmOpportunityProduct;
+  "crm.products": CrmProduct;
+  "dms.customerTrackingLinks": DmsCustomerTrackingLink;
+  "dms.deliveryRoutes": DmsDeliveryRoute;
+  "dms.deliveryTasks": DmsDeliveryTask;
+  "dms.driverLocations": DmsDriverLocation;
+  "dms.proofOfDeliveries": DmsProofOfDelivery;
+  "dms.taskEvents": DmsTaskEvent;
   session: Session;
-  'tms.carrierRates': TmsCarrierRate;
-  'tms.carriers': TmsCarrier;
-  'tms.drivers': TmsDriver;
-  'tms.driverSchedules': TmsDriverSchedule;
-  'tms.expenses': TmsExpense;
-  'tms.geofenceEvents': TmsGeofenceEvent;
-  'tms.geofences': TmsGeofence;
-  'tms.gpsPings': TmsGpsPing;
-  'tms.partnerInvoiceItems': TmsPartnerInvoiceItem;
-  'tms.partnerInvoices': TmsPartnerInvoice;
-  'tms.proofOfDeliveries': TmsProofOfDelivery;
-  'tms.routes': TmsRoute;
-  'tms.shipmentLegEvents': TmsShipmentLegEvent;
-  'tms.shipmentLegs': TmsShipmentLeg;
-  'tms.trips': TmsTrip;
-  'tms.tripStops': TmsTripStop;
-  'tms.vehicleMaintenance': TmsVehicleMaintenance;
-  'tms.vehicles': TmsVehicle;
+  "tms.carrierRates": TmsCarrierRate;
+  "tms.carriers": TmsCarrier;
+  "tms.drivers": TmsDriver;
+  "tms.driverSchedules": TmsDriverSchedule;
+  "tms.expenses": TmsExpense;
+  "tms.geofenceEvents": TmsGeofenceEvent;
+  "tms.geofences": TmsGeofence;
+  "tms.gpsPings": TmsGpsPing;
+  "tms.partnerInvoiceItems": TmsPartnerInvoiceItem;
+  "tms.partnerInvoices": TmsPartnerInvoice;
+  "tms.proofOfDeliveries": TmsProofOfDelivery;
+  "tms.routes": TmsRoute;
+  "tms.shipmentLegEvents": TmsShipmentLegEvent;
+  "tms.shipmentLegs": TmsShipmentLeg;
+  "tms.trips": TmsTrip;
+  "tms.tripStops": TmsTripStop;
+  "tms.vehicleMaintenance": TmsVehicleMaintenance;
+  "tms.vehicles": TmsVehicle;
   user: User;
   verification: Verification;
-  'wms.binThresholds': WmsBinThreshold;
-  'wms.inboundShipmentItems': WmsInboundShipmentItem;
-  'wms.inboundShipments': WmsInboundShipment;
-  'wms.inventoryAdjustments': WmsInventoryAdjustment;
-  'wms.inventoryBatches': WmsInventoryBatch;
-  'wms.inventoryStock': WmsInventoryStock;
-  'wms.locations': WmsLocation;
-  'wms.outboundShipmentItems': WmsOutboundShipmentItem;
-  'wms.outboundShipments': WmsOutboundShipment;
-  'wms.packageItems': WmsPackageItem;
-  'wms.packages': WmsPackage;
-  'wms.pickBatches': WmsPickBatch;
-  'wms.pickBatchItems': WmsPickBatchItem;
-  'wms.products': WmsProduct;
-  'wms.putawayRules': WmsPutawayRule;
-  'wms.reorderPoints': WmsReorderPoint;
-  'wms.returnItems': WmsReturnItem;
-  'wms.returns': WmsReturn;
-  'wms.salesOrderItems': WmsSalesOrderItem;
-  'wms.salesOrders': WmsSalesOrder;
-  'wms.stockTransfers': WmsStockTransfer;
-  'wms.suppliers': WmsSupplier;
-  'wms.taskItems': WmsTaskItem;
-  'wms.tasks': WmsTask;
-  'wms.warehouses': WmsWarehouse;
+  "wms.binThresholds": WmsBinThreshold;
+  "wms.inboundShipmentItems": WmsInboundShipmentItem;
+  "wms.inboundShipments": WmsInboundShipment;
+  "wms.inventoryAdjustments": WmsInventoryAdjustment;
+  "wms.inventoryBatches": WmsInventoryBatch;
+  "wms.inventoryStock": WmsInventoryStock;
+  "wms.locations": WmsLocation;
+  "wms.outboundShipmentItems": WmsOutboundShipmentItem;
+  "wms.outboundShipments": WmsOutboundShipment;
+  "wms.packageItems": WmsPackageItem;
+  "wms.packages": WmsPackage;
+  "wms.pickBatches": WmsPickBatch;
+  "wms.pickBatchItems": WmsPickBatchItem;
+  "wms.products": WmsProduct;
+  "wms.putawayRules": WmsPutawayRule;
+  "wms.reorderPoints": WmsReorderPoint;
+  "wms.returnItems": WmsReturnItem;
+  "wms.returns": WmsReturn;
+  "wms.salesOrderItems": WmsSalesOrderItem;
+  "wms.salesOrders": WmsSalesOrder;
+  "wms.stockTransfers": WmsStockTransfer;
+  "wms.suppliers": WmsSupplier;
+  "wms.taskItems": WmsTaskItem;
+  "wms.tasks": WmsTask;
+  "wms.warehouses": WmsWarehouse;
 }

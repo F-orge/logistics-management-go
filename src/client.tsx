@@ -6,11 +6,16 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { routeTree } from './routeTree.gen';
 import './styles/globals.css';
+import { orpcClient } from '@/orpc/client';
+import { authClient } from './lib/client-auth';
 
 // tanstack query integration
 const queryClient = new QueryClient();
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  context: { orpcClient, queryClient, authClient },
+});
 
 declare module '@tanstack/react-router' {
   interface Register {

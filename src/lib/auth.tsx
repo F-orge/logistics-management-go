@@ -45,13 +45,52 @@ import ResetPassword from '@/emails/reset-password';
 export const authFactory = (
   dbClient: Pool,
   mailer: ReturnType<typeof nodemailer.createTransport>,
+  enableEmailVerification: boolean,
 ) =>
   betterAuth({
+    user: {
+      fields: {
+        emailVerified: 'email_verified',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+    },
+    account: {
+      fields: {
+        accessToken: 'access_token',
+        accessTokenExpiresAt: 'access_token_expires_at',
+        accountId: 'account_id',
+        createdAt: 'created_at',
+        idToken: 'id_token',
+        providerId: 'provider_id',
+        refreshToken: 'refresh_token',
+        refreshTokenExpiresAt: 'refresh_token_expires_at',
+        updatedAt: 'updated_at',
+        userId: 'user_id',
+      },
+    },
+    session: {
+      fields: {
+        createdAt: 'created_at',
+        expiresAt: 'expires_at',
+        ipAddress: 'ip_address',
+        updatedAt: 'updated_at',
+        userAgent: 'user_agent',
+        userId: 'user_id',
+      },
+    },
+    verification: {
+      fields: {
+        createdAt: 'created_at',
+        expiresAt: 'expires_at',
+        updatedAt: 'updated_at',
+      },
+    },
     database: dbClient,
     trustedOrigins: ['http://localhost:3001'],
     emailAndPassword: {
       enabled: true,
-      requireEmailVerification: true,
+      requireEmailVerification: enableEmailVerification,
       sendResetPassword: async ({ user, url, token }) => {
         await mailer.sendMail({
           from: process.env.MAIL_FROM_ADDRESS,
@@ -71,7 +110,7 @@ export const authFactory = (
       },
     },
     emailVerification: {
-      sendOnSignUp: true,
+      sendOnSignUp: enableEmailVerification,
       sendVerificationEmail: async ({ user, url, token }) => {
         await mailer.sendMail({
           from: process.env.MAIL_FROM_ADDRESS,

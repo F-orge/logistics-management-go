@@ -27,6 +27,13 @@ export const Route = createFileRoute('/auth/verify-email/')({
   beforeLoad: (ctx) => {
     if (ctx.search.email === undefined || ctx.search.email === null)
       throw redirect({ to: '/auth/login' });
+    return { email: ctx.search.email };
+  },
+  loader: async ({ context }) => {
+    const { data } = await context.authClient.sendVerificationEmail({
+      email: context.email,
+    });
+    if (!data?.status) throw new Error('Unable to send verification email');
   },
 });
 

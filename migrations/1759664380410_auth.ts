@@ -6,51 +6,51 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"id" text not null primary key,
 			"name" text not null,
 			"email" text not null unique,
-			"emailVerified" boolean not null,
+			"email_verified" boolean not null,
 			"image" text,
-			"createdAt" timestamptz default current_timestamp not null,
-			"updatedAt" timestamptz default current_timestamp not null,
+			"created_at" timestamptz default current_timestamp not null,
+			"updated_at" timestamptz default current_timestamp not null,
 			"role" text,
 			"banned" boolean,
-			"banReason" text,
-			"banExpires" timestamptz
+			"ban_reason" text,
+			"ban_expires" timestamptz
 		);
 
 		create table "session"(
 			"id" text not null primary key,
-			"expiresAt" timestamptz not null,
+			"expires_at" timestamptz not null,
 			"token" text not null unique,
-			"createdAt" timestamptz default current_timestamp not null,
-			"updatedAt" timestamptz not null,
-			"ipAddress" text,
-			"userAgent" text,
-			"userId" text not null references "user"("id") on delete cascade,
-			"impersonatedBy" text
+			"created_at" timestamptz default current_timestamp not null,
+			"updated_at" timestamptz not null,
+			"ip_address" text,
+			"user_agent" text,
+			"user_id" text not null references "user"("id") on delete cascade,
+			"impersonated_by" text
 		);
 
 		create table "account"(
 			"id" text not null primary key,
-			"accountId" text not null,
-			"providerId" text not null,
-			"userId" text not null references "user"("id") on delete cascade,
-			"accessToken" text,
-			"refreshToken" text,
-			"idToken" text,
-			"accessTokenExpiresAt" timestamptz,
-			"refreshTokenExpiresAt" timestamptz,
+			"account_id" text not null,
+			"provider_id" text not null,
+			"user_id" text not null references "user"("id") on delete cascade,
+			"access_token" text,
+			"refresh_token" text,
+			"id_token" text,
+			"access_token_expires_at" timestamptz,
+			"refresh_token_expires_at" timestamptz,
 			"scope" text,
 			"password" text,
-			"createdAt" timestamptz default current_timestamp not null,
-			"updatedAt" timestamptz not null
+			"created_at" timestamptz default current_timestamp not null,
+			"updated_at" timestamptz not null
 		);
 
 		create table "verification"(
 			"id" text not null primary key,
 			"identifier" text not null,
 			"value" text not null,
-			"expiresAt" timestamptz not null,
-			"createdAt" timestamptz default current_timestamp not null,
-			"updatedAt" timestamptz default current_timestamp not null
+			"expires_at" timestamptz not null,
+			"created_at" timestamptz default current_timestamp not null,
+			"updated_at" timestamptz default current_timestamp not null
 		);
 	`.execute(db);
 }
