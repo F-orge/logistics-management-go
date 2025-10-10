@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table';
-import { paginateNotification, rangeNotification } from '@/queries/crm/notifications';
+import { deleteNotification, paginateNotification, rangeNotification } from '@/queries/crm/notifications';
 import { createFileRoute } from '@tanstack/react-router';
 import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,10 @@ import {
 } from '@/repositories/utils';
 import { crmNotificationSchema } from '@/schemas/crm/notifications';
 import { useState } from 'react';
+import z from 'zod';
+import { ContextMenuItem } from '@/components/ui/context-menu';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
+import { useMutation } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/dashboard/crm/notifications/')({
   component: RouteComponent,
@@ -21,6 +25,8 @@ export const Route = createFileRoute('/dashboard/crm/notifications/')({
     paginateTransformer().extend({
       filters: filterTransformer(crmNotificationSchema),
       sort: sortTransformer(crmNotificationSchema),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     }),
   ),
   beforeLoad: (ctx) => ({ search: ctx.search }),
@@ -44,6 +50,8 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
   const [currentSearch, setCurrentSearch] = useState<string>();
+
+  const deleteMutation = useMutation(deleteNotification, queryClient);
 
   return (
     <article className="grid grid-cols-12 gap-5">
@@ -107,6 +115,65 @@ function RouteComponent() {
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}
+        >
+          {(row) => (
+            <>
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: true,
+                      id: row.original.id,
+                    }),
+                    replace: true,
+                  })
+                }
+                variant="destructive"
+              >
+                Delete
+              </ContextMenuItem>
+            </>
+          )}
+        </DataTable>
+      </section>
+      <section>
+        <DeleteRecordDialog
+          open={searchQuery.delete}
+          onOpenChange={() =>
+            navigate({
+              search: (prev) => ({ ...prev, delete: undefined, id: undefined }),
+              replace: true,
+            })
+          }
+          title="Are you sure you want to delete this record"
+          description="Deleting this record is permanent"
+          onConfirm={async () =>
+            deleteMutation.mutateAsync(searchQuery.id!,
+              {
+                onSuccess: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: undefined,
+                      id: undefined,
+                    }),
+                    replace: true,
+                  });
+                },
+                onError: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: undefined,
+                      id: undefined,
+                    }),
+                    replace: true,
+                  });
+                },
+              },
+            )
+          }
         />
       </section>
     </article>

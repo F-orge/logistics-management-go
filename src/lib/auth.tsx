@@ -87,7 +87,11 @@ export const authFactory = (
       },
     },
     database: dbClient,
-    trustedOrigins: ['http://localhost:3001'],
+    trustedOrigins: [
+      process.env.NODE_ENV === 'production'
+        ? process.env.DOMAIN_ORIGIN!
+        : 'http://localhost:3001',
+    ],
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: enableEmailVerification,

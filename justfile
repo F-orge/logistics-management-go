@@ -18,7 +18,7 @@ build-frontend:
   bun rsbuild build
 
 build-backend:
-  bun build src/server.ts --target node --outfile server.js
+  bun build src/server.ts --target node --outfile .output/server.js
 
 build:
   just build-frontend

@@ -5,6 +5,7 @@ import { SelectField } from '@/components/form/fields/select-field';
 import { TextAreaField } from '@/components/form/fields/text-area-field';
 import { TextField } from '@/components/form/fields/text-field';
 import { Button } from '@/components/ui/button';
+import NumberField from './fields/number-field';
 
 export const SubmitButton = ({ ...props }: React.ComponentProps<'button'>) => {
   const form = useFormContext();
@@ -30,6 +31,7 @@ export const { useAppForm, withForm, withFieldGroup } = createFormHook({
     DateField,
     CheckBoxField,
     TextAreaField,
+    NumberField,
   },
   formComponents: { SubmitButton },
 });

@@ -25,6 +25,11 @@ export default defineConfig({
       ],
     },
   },
+  output: {
+    distPath: {
+      root: '.output/frontend',
+    },
+  },
   server: {
     port: 3001,
     proxy: {

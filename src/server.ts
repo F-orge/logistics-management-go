@@ -19,6 +19,7 @@ import { prettyJSON } from 'hono/pretty-json';
 import { requestId } from 'hono/request-id';
 import nodemailer from 'nodemailer';
 import { cors } from 'hono/cors';
+import { serveStatic } from 'hono/bun';
 
 type ServerFactory = {
   pool: Pool;
@@ -76,6 +77,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
         : undefined,
   });
 
+  // dependency injection
   router.use('*', async (c, next) => {
     c.set('db', db);
     c.set(
@@ -89,10 +91,14 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   // better auth
   const auth = authFactory(pool, transporter, true);
 
+  // better auth cors settings
   router.use(
     '/api/auth/*', // or replace with "*" to enable cors for all routes
     cors({
-      origin: 'http://localhost:3001', // replace with your origin
+      origin:
+        process.env.NODE_ENV === 'production'
+          ? process.env.DOMAIN_ORIGIN!
+          : 'http://localhost:3001', // replace with your origin
       allowHeaders: ['Content-Type', 'Authorization'],
       allowMethods: ['POST', 'GET', 'OPTIONS'],
       exposeHeaders: ['Content-Length'],
@@ -104,6 +110,26 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   router.on(['POST', 'GET'], '/api/auth/*', (c) => {
     return auth.handler(c.req.raw);
   });
+
+  // frontend mounting
+  if (process.env.NODE_ENV === 'production') {
+    router.get(
+      '*',
+      serveStatic({
+        root: `${import.meta.dir}/frontend`,
+        precompressed: true,
+      }),
+    );
+
+    router.get(
+      '*',
+      serveStatic({
+        root: `${import.meta.dir}/frontend`,
+        path: 'index.html',
+        precompressed: true,
+      }),
+    );
+  }
 
   router.use('*', async (c, next) => {
     const session = await auth.api.getSession({ headers: c.req.raw.headers });

@@ -1,5 +1,9 @@
 import { DataTable } from '@/components/table';
-import { paginateCompany, rangeCompany } from '@/queries/crm/companies';
+import {
+  deleteCompany,
+  paginateCompany,
+  rangeCompany,
+} from '@/queries/crm/companies';
 import { createFileRoute } from '@tanstack/react-router';
 import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
@@ -14,13 +18,25 @@ import {
 } from '@/repositories/utils';
 import { crmCompanySchema } from '@/schemas/crm/companies';
 import { useState } from 'react';
+import z from 'zod';
+import NewCompanyFormDialog from './-components/new';
+import { ContextMenuItem } from '@/components/ui/context-menu';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
+import { useMutation } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   component: RouteComponent,
   validateSearch: zodValidator(
     paginateTransformer().extend({
       filters: filterTransformer(crmCompanySchema),
-      sort: sortTransformer(crmCompanySchema),
+      sort: sortTransformer(crmCompanySchema).default([
+        { column: 'createdAt', order: 'desc' },
+      ]),
+      new: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      view: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      id: z.string().optional(),
     }),
   ),
   beforeLoad: (ctx) => ({ search: ctx.search }),
@@ -44,6 +60,8 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
   const [currentSearch, setCurrentSearch] = useState<string>();
+
+  const deleteMutation = useMutation(deleteCompany, queryClient);
 
   return (
     <article className="grid grid-cols-12 gap-5">
@@ -78,7 +96,17 @@ function RouteComponent() {
           </Button>
         </ButtonGroup>
         <ButtonGroup className="col-span-6 col-start-10">
-          <Button variant={'outline'}>
+          <Button
+            onClick={() => {
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  new: true,
+                }),
+              });
+            }}
+            variant={'outline'}
+          >
             Create
             <Plus />
           </Button>
@@ -96,18 +124,74 @@ function RouteComponent() {
               search: (prev) => ({ ...prev, page: prev.page + 1 }),
               replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           onPreviousPage={() => {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page - 1 }),
               replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}
+        >
+          {(row) => (
+            <>
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: true,
+                      id: row.original.id,
+                    }),
+                    replace: true,
+                  })
+                }
+                variant="destructive"
+              >
+                Delete
+              </ContextMenuItem>
+            </>
+          )}
+        </DataTable>
+      </section>
+      <section>
+        <DeleteRecordDialog
+          open={searchQuery.delete}
+          onOpenChange={() =>
+            navigate({
+              search: (prev) => ({ ...prev, delete: undefined, id: undefined }),
+              replace: true,
+            })
+          }
+          title="Are you sure you want to delete this record"
+          description="Deleting this record is permanent"
+          onConfirm={async () =>
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
+          }
         />
+        <NewCompanyFormDialog />
       </section>
     </article>
   );

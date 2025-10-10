@@ -24,6 +24,19 @@ export const TextField = ({
   const field = useFieldContext<string>();
   const [inputType, setInputType] = useState<string | undefined>(props.type);
 
+  if (props.hidden) {
+    return (
+      <Input
+        aria-invalid={!!field.state.meta.errorMap.onSubmit}
+        value={field.state.value}
+        onChange={(e) => field.handleChange(e.target.value)}
+        id={props.id}
+        {...props}
+        type={inputType}
+      />
+    );
+  }
+
   return (
     <Field className={cn('grid gap-2.5', className)}>
       {label &&
@@ -34,7 +47,7 @@ export const TextField = ({
             )}
             htmlFor={props.id}
           >
-            {label}
+            {props.required && '*'} {label}
           </FieldLabel>
         ) : (
           label

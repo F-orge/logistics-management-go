@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table';
-import { paginateContact, rangeContact } from '@/queries/crm/contacts';
+import { deleteContact, paginateContact, rangeContact } from '@/queries/crm/contacts';
 import { createFileRoute } from '@tanstack/react-router';
 import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,11 @@ import {
 } from '@/repositories/utils';
 import { crmContactSchema } from '@/schemas/crm/contacts';
 import { useState } from 'react';
+import z from 'zod';
+import NewContactFormDialog from './-components/new';
+import { ContextMenuItem } from '@/components/ui/context-menu';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
+import { useMutation } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/dashboard/crm/contacts/')({
   component: RouteComponent,
@@ -21,6 +26,9 @@ export const Route = createFileRoute('/dashboard/crm/contacts/')({
     paginateTransformer().extend({
       filters: filterTransformer(crmContactSchema),
       sort: sortTransformer(crmContactSchema),
+      new: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     }),
   ),
   beforeLoad: (ctx) => ({ search: ctx.search }),
@@ -44,6 +52,8 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
   const [currentSearch, setCurrentSearch] = useState<string>();
+
+  const deleteMutation = useMutation(deleteContact, queryClient);
 
   return (
     <article className="grid grid-cols-12 gap-5">
@@ -78,7 +88,17 @@ function RouteComponent() {
           </Button>
         </ButtonGroup>
         <ButtonGroup className="col-span-6 col-start-10">
-          <Button variant={'outline'}>
+          <Button
+            onClick={() => {
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  new: true,
+                }),
+              });
+            }}
+            variant={'outline'}
+          >
             Create
             <Plus />
           </Button>
@@ -107,7 +127,67 @@ function RouteComponent() {
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}
+        >
+          {(row) => (
+            <>
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: true,
+                      id: row.original.id,
+                    }),
+                    replace: true,
+                  })
+                }
+                variant="destructive"
+              >
+                Delete
+              </ContextMenuItem>
+            </>
+          )}
+        </DataTable>
+      </section>
+      <section>
+        <DeleteRecordDialog
+          open={searchQuery.delete}
+          onOpenChange={() =>
+            navigate({
+              search: (prev) => ({ ...prev, delete: undefined, id: undefined }),
+              replace: true,
+            })
+          }
+          title="Are you sure you want to delete this record"
+          description="Deleting this record is permanent"
+          onConfirm={async () =>
+            deleteMutation.mutateAsync(searchQuery.id!,
+              {
+                onSuccess: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: undefined,
+                      id: undefined,
+                    }),
+                    replace: true,
+                  });
+                },
+                onError: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      delete: undefined,
+                      id: undefined,
+                    }),
+                    replace: true,
+                  });
+                },
+              },
+            )
+          }
         />
+        <NewContactFormDialog />
       </section>
     </article>
   );
