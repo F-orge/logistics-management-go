@@ -9,7 +9,14 @@ import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+  Trash,
+} from 'lucide-react';
 import { zodValidator } from '@tanstack/zod-adapter';
 import {
   filterTransformer,
@@ -20,9 +27,13 @@ import { crmCompanySchema } from '@/schemas/crm/companies';
 import { useState } from 'react';
 import z from 'zod';
 import NewCompanyFormDialog from './-components/new';
-import { ContextMenuItem } from '@/components/ui/context-menu';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
+import ViewCompanyFormDialog from './-components/view';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({
   component: RouteComponent,
@@ -59,7 +70,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteCompany, queryClient);
 
@@ -141,6 +152,36 @@ function RouteComponent() {
                   navigate({
                     search: (prev) => ({
                       ...prev,
+                      view: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <ScanSearch />
+                View Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <Pencil />
+                Edit Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
                       delete: true,
                       id: row.original.id,
                     }),
@@ -149,6 +190,7 @@ function RouteComponent() {
                 }
                 variant="destructive"
               >
+                <Trash />
                 Delete
               </ContextMenuItem>
             </>
@@ -192,6 +234,7 @@ function RouteComponent() {
           }
         />
         <NewCompanyFormDialog />
+        <ViewCompanyFormDialog />
       </section>
     </article>
   );

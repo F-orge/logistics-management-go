@@ -5,7 +5,7 @@ import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
+import { MoreHorizontal, Pencil, Plus, ScanSearch, SearchIcon, Trash } from 'lucide-react';
 import { zodValidator } from '@tanstack/zod-adapter';
 import {
   filterTransformer,
@@ -16,9 +16,13 @@ import { crmCampaignSchema } from '@/schemas/crm/campaigns';
 import { useState } from 'react';
 import z from 'zod';
 import NewCampaignFormDialog from './-components/new';
-import { ContextMenuItem } from '@/components/ui/context-menu';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
+import ViewCampaignFormDialog from './-components/view';
 
 export const Route = createFileRoute('/dashboard/crm/campaigns/')({
   component: RouteComponent,
@@ -28,6 +32,8 @@ export const Route = createFileRoute('/dashboard/crm/campaigns/')({
       sort: sortTransformer(crmCampaignSchema),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
+      view: z.boolean().optional(),
+      edit: z.boolean().optional(),
       id: z.string().optional(),
     }),
   ),
@@ -51,7 +57,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteCampaign, queryClient);
 
@@ -116,20 +122,48 @@ function RouteComponent() {
               search: (prev) => ({ ...prev, page: prev.page + 1 }),
               replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           onPreviousPage={() => {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page - 1 }),
               replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}
         >
           {(row) => (
             <>
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      view: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <ScanSearch />
+                View Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <Pencil />
+                Edit Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
               <ContextMenuItem
                 onClick={() =>
                   navigate({
@@ -143,6 +177,7 @@ function RouteComponent() {
                 }
                 variant="destructive"
               >
+                <Trash />
                 Delete
               </ContextMenuItem>
             </>
@@ -188,6 +223,7 @@ function RouteComponent() {
           }
         />
         <NewCampaignFormDialog />
+        <ViewCampaignFormDialog />
       </section>
     </article>
   );

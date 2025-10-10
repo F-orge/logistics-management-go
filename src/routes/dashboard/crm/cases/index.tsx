@@ -16,9 +16,11 @@ import { crmCaseSchema } from '@/schemas/crm/cases';
 import { useState } from 'react';
 import z from 'zod';
 import NewCaseFormDialog from './-components/new';
-import { ContextMenuItem } from '@/components/ui/context-menu';
+import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
+import ViewCaseFormDialog from './-components/view';
+import { ScanSearch, Pencil } from 'lucide-react';
 
 export const Route = createFileRoute('/dashboard/crm/cases/')({
   component: RouteComponent,
@@ -28,6 +30,8 @@ export const Route = createFileRoute('/dashboard/crm/cases/')({
       sort: sortTransformer(crmCaseSchema),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
+      view: z.boolean().optional(),
+      edit: z.boolean().optional(),
       id: z.string().optional(),
     }),
   ),
@@ -135,6 +139,36 @@ function RouteComponent() {
                   navigate({
                     search: (prev) => ({
                       ...prev,
+                      view: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <ScanSearch />
+                View Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <Pencil />
+                Edit Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
                       delete: true,
                       id: row.original.id,
                     }),
@@ -188,6 +222,7 @@ function RouteComponent() {
           }
         />
         <NewCaseFormDialog />
+        <ViewCaseFormDialog />
       </section>
     </article>
   );

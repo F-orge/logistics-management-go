@@ -41,10 +41,11 @@ import nodemailer from 'nodemailer';
 import VerifyEmail from '@/emails/verify-email';
 import ReactDOMServer from 'react-dom/server';
 import ResetPassword from '@/emails/reset-password';
+import sgMailer, { MailService } from '@sendgrid/mail';
 
 export const authFactory = (
   dbClient: Pool,
-  mailer: ReturnType<typeof nodemailer.createTransport>,
+  mailer: ReturnType<typeof nodemailer.createTransport> | sgMailer.MailService,
   enableEmailVerification: boolean,
 ) =>
   betterAuth({
@@ -96,34 +97,66 @@ export const authFactory = (
       enabled: true,
       requireEmailVerification: enableEmailVerification,
       sendResetPassword: async ({ user, url, token }) => {
-        await mailer.sendMail({
-          from: process.env.MAIL_FROM_ADDRESS,
-          to: user.email,
-          subject: 'Reset your password',
-          html: ReactDOMServer.renderToString(
-            <ResetPassword
-              url={
-                process.env.NODE_ENV === 'development'
-                  ? `http://localhost:3001/auth/reset-password`
-                  : url
-              }
-              token={token}
-            />,
-          ),
-        });
+        if (
+          process.env.NODE_ENV === 'production' &&
+          mailer instanceof MailService
+        ) {
+          await sgMailer.send({
+            from: process.env.MAIL_FROM_ADDRESS!,
+            to: user.email,
+            subject: 'Reset your password',
+            html: ReactDOMServer.renderToString(
+              <ResetPassword url={url} token={token} />,
+            ),
+          });
+        } else {
+          await (
+            mailer as ReturnType<typeof nodemailer.createTransport>
+          ).sendMail({
+            from: process.env.MAIL_FROM_ADDRESS,
+            to: user.email,
+            subject: 'Reset your password',
+            html: ReactDOMServer.renderToString(
+              <ResetPassword
+                url={
+                  process.env.NODE_ENV === 'development'
+                    ? `http://localhost:3001/auth/reset-password`
+                    : url
+                }
+                token={token}
+              />,
+            ),
+          });
+        }
       },
     },
     emailVerification: {
       sendOnSignUp: enableEmailVerification,
       sendVerificationEmail: async ({ user, url, token }) => {
-        await mailer.sendMail({
-          from: process.env.MAIL_FROM_ADDRESS,
-          to: user.email,
-          subject: 'Verify your email address',
-          html: ReactDOMServer.renderToString(
-            <VerifyEmail url={url} token={token} />,
-          ),
-        });
+        if (
+          process.env.NODE_ENV === 'production' &&
+          mailer instanceof MailService
+        ) {
+          await sgMailer.send({
+            from: process.env.MAIL_FROM_ADDRESS!,
+            to: user.email,
+            subject: 'Verify your email address',
+            html: ReactDOMServer.renderToString(
+              <VerifyEmail url={url} token={token} />,
+            ),
+          });
+        } else {
+          await (
+            mailer as ReturnType<typeof nodemailer.createTransport>
+          ).sendMail({
+            from: process.env.MAIL_FROM_ADDRESS,
+            to: user.email,
+            subject: 'Verify your email address',
+            html: ReactDOMServer.renderToString(
+              <VerifyEmail url={url} token={token} />,
+            ),
+          });
+        }
       },
     },
     plugins: [

@@ -20,6 +20,7 @@ import { requestId } from 'hono/request-id';
 import nodemailer from 'nodemailer';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/bun';
+import sgMail from '@sendgrid/mail';
 
 type ServerFactory = {
   pool: Pool;
@@ -32,7 +33,7 @@ export type HonoVariables = {
     | null;
   db: Kysely<DB>;
   storage: BunStorageRepository;
-  mailer: ReturnType<typeof nodemailer.createTransport>;
+  mailer: ReturnType<typeof nodemailer.createTransport> | sgMail.MailService;
 };
 
 export const serverFactory = async ({ pool }: ServerFactory) => {
@@ -75,38 +76,31 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   router.use(prettyJSON());
   router.use(requestId());
 
-  let transporter: ReturnType<typeof nodemailer.createTransport>;
+  // mail
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
-  if (process.env.NODE_ENV === 'production') {
-    transporter = nodemailer.createTransport({
-      host: 'smtp.sendgrid.net',
-      port: 587,
-      auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-  } else {
-    transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: Number(process.env.MAIL_PORT),
-      secure: false,
-    });
-  }
+  const localMailer = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: Number(process.env.MAIL_PORT),
+  });
 
   // dependency injection
   router.use('*', async (c, next) => {
     c.set('db', db);
     c.set(
       'storage',
-      new BunStorageRepository(process.env.STORAGE_PAGE ?? '.data/files'),
+      new BunStorageRepository(process.env.STORAGE_PATH ?? '.data/files'),
     );
-    c.set('mailer', transporter);
+    c.set('mailer', sgMail || localMailer);
     return next();
   });
 
   // better auth
-  const auth = authFactory(pool, transporter, true);
+  const auth = authFactory(
+    pool,
+    process.env.NODE_ENV === 'production' ? sgMail : localMailer,
+    true,
+  );
 
   // better auth cors settings
   router.use(

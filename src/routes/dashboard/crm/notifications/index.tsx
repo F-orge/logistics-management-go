@@ -15,9 +15,11 @@ import {
 import { crmNotificationSchema } from '@/schemas/crm/notifications';
 import { useState } from 'react';
 import z from 'zod';
-import { ContextMenuItem } from '@/components/ui/context-menu';
+import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
+import ViewNotificationFormDialog from './-components/view';
+import { ScanSearch, Pencil } from 'lucide-react';
 
 export const Route = createFileRoute('/dashboard/crm/notifications/')({
   component: RouteComponent,
@@ -25,7 +27,10 @@ export const Route = createFileRoute('/dashboard/crm/notifications/')({
     paginateTransformer().extend({
       filters: filterTransformer(crmNotificationSchema),
       sort: sortTransformer(crmNotificationSchema),
+      new: z.boolean().optional(),
       delete: z.boolean().optional(),
+      view: z.boolean().optional(),
+      edit: z.boolean().optional(),
       id: z.string().optional(),
     }),
   ),
@@ -86,7 +91,17 @@ function RouteComponent() {
           </Button>
         </ButtonGroup>
         <ButtonGroup className="col-span-6 col-start-10">
-          <Button variant={'outline'}>
+          <Button
+            onClick={() => {
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  new: true,
+                }),
+              });
+            }}
+            variant={'outline'}
+          >
             Create
             <Plus />
           </Button>
@@ -118,6 +133,36 @@ function RouteComponent() {
         >
           {(row) => (
             <>
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      view: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <ScanSearch />
+                View Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() =>
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: true,
+                      id: row.original.id,
+                    }),
+                  })
+                }
+              >
+                <Pencil />
+                Edit Information
+              </ContextMenuItem>
+              <ContextMenuSeparator />
               <ContextMenuItem
                 onClick={() =>
                   navigate({
@@ -175,6 +220,7 @@ function RouteComponent() {
             )
           }
         />
+        <ViewNotificationFormDialog />
       </section>
     </article>
   );

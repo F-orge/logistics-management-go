@@ -8,27 +8,23 @@ import {
 } from '@/components/ui/dialog';
 import {
   Field,
-  FieldContent,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSeparator,
   FieldSet,
-  FieldTitle,
 } from '@/components/ui/field';
 import {
   useLoaderData,
   useNavigate,
-  useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
 
-const ViewCompanyFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/companies' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/companies/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/companies/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/companies/' });
+const ViewOpportunityFormDialog = () => {
+  const navigate = useNavigate({ from: '/dashboard/crm/opportunities' });
+  const searchQuery = useSearch({ from: '/dashboard/crm/opportunities/' });
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/opportunities/' });
   const data = dataTable.find((row) => row.id === searchQuery.id);
 
   if (!data) {
@@ -46,7 +42,7 @@ const ViewCompanyFormDialog = () => {
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Company Details</DialogTitle>
+          <DialogTitle>Opportunity Details</DialogTitle>
           <DialogDescription>
             Detailed information about {data.name}.
           </DialogDescription>
@@ -57,7 +53,7 @@ const ViewCompanyFormDialog = () => {
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
               <FieldDescription>
-                Fundamental details about the company.
+                Fundamental details about the opportunity.
               </FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
@@ -74,98 +70,60 @@ const ViewCompanyFormDialog = () => {
                     <FieldDescription>{data.ownerId}</FieldDescription>
                   </Field>
                 )}
-                {data.industry && (
+                {data.campaignId && (
                   <Field orientation="horizontal">
-                    <FieldLabel>Industry</FieldLabel>
-                    <FieldDescription>{data.industry}</FieldDescription>
+                    <FieldLabel>Campaign ID</FieldLabel>
+                    <FieldDescription>{data.campaignId}</FieldDescription>
                   </Field>
                 )}
-                {data.website && (
+                {data.companyId && (
                   <Field orientation="horizontal">
-                    <FieldLabel>Website</FieldLabel>
+                    <FieldLabel>Company ID</FieldLabel>
+                    <FieldDescription>{data.companyId}</FieldDescription>
+                  </Field>
+                )}
+                {data.contactId && (
+                  <Field orientation="horizontal">
+                    <FieldLabel>Contact ID</FieldLabel>
+                    <FieldDescription>{data.contactId}</FieldDescription>
+                  </Field>
+                )}
+                {data.dealValue && (
+                  <Field orientation="horizontal">
+                    <FieldLabel>Deal Value</FieldLabel>
+                    <FieldDescription>{data.dealValue}</FieldDescription>
+                  </Field>
+                )}
+                {data.expectedCloseDate && (
+                  <Field orientation="horizontal">
+                    <FieldLabel>Expected Close Date</FieldLabel>
                     <FieldDescription>
-                      <a
-                        href={data.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {data.website}
-                      </a>
+                      {new Date(data.expectedCloseDate).toLocaleString()}
                     </FieldDescription>
                   </Field>
                 )}
-              </FieldGroup>
-            </FieldSet>
-            <FieldSeparator />
-            <FieldSet>
-              <FieldLegend>Contact Information</FieldLegend>
-              <FieldDescription>
-                Primary contact details for the company.
-              </FieldDescription>
-              <FieldGroup>
-                {data.phoneNumber && (
-                  <Field orientation="responsive">
-                    <FieldLabel>Phone Number</FieldLabel>
-                    <FieldDescription>{data.phoneNumber}</FieldDescription>
+                {data.lostReason && (
+                  <Field orientation="horizontal">
+                    <FieldLabel>Lost Reason</FieldLabel>
+                    <FieldDescription>{data.lostReason}</FieldDescription>
                   </Field>
                 )}
-              </FieldGroup>
-            </FieldSet>
-            <FieldSeparator />
-            <FieldSet>
-              <FieldLegend>Address Information</FieldLegend>
-              <FieldDescription>
-                Physical address of the company.
-              </FieldDescription>
-              <FieldGroup>
-                {data.street && (
+                {data.probability && (
                   <Field orientation="horizontal">
-                    <FieldLabel>Street</FieldLabel>
-                    <FieldDescription>{data.street}</FieldDescription>
+                    <FieldLabel>Probability</FieldLabel>
+                    <FieldDescription>{data.probability}</FieldDescription>
                   </Field>
                 )}
-                {data.city && (
+                {data.source && (
                   <Field orientation="horizontal">
-                    <FieldLabel>City</FieldLabel>
-                    <FieldDescription>{data.city}</FieldDescription>
+                    <FieldLabel>Source</FieldLabel>
+                    <FieldDescription>{data.source}</FieldDescription>
                   </Field>
                 )}
-                {data.state && (
+                {data.stage && (
                   <Field orientation="horizontal">
-                    <FieldLabel>State</FieldLabel>
-                    <FieldDescription>{data.state}</FieldDescription>
-                  </Field>
-                )}
-                {data.postalCode && (
-                  <Field orientation="horizontal">
-                    <FieldLabel>Postal Code</FieldLabel>
-                    <FieldDescription>{data.postalCode}</FieldDescription>
-                  </Field>
-                )}
-                {data.country && (
-                  <Field orientation="horizontal">
-                    <FieldLabel>Country</FieldLabel>
-                    <FieldDescription>{data.country}</FieldDescription>
-                  </Field>
-                )}
-              </FieldGroup>
-            </FieldSet>
-            <FieldSeparator />
-            <FieldSet>
-              <FieldLegend>Financial Information</FieldLegend>
-              <FieldDescription>
-                Details regarding the company's financial status.
-              </FieldDescription>
-              <FieldGroup>
-                {data.annualRevenue && (
-                  <Field orientation="horizontal">
-                    <FieldLabel>Annual Revenue</FieldLabel>
-                    <FieldDescription>
-                      {new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                      }).format(data.annualRevenue)}
-                    </FieldDescription>
+                    <FieldLabel>Stage</FieldLabel>
+                    <FieldDescription>{data.stage}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -202,4 +160,4 @@ const ViewCompanyFormDialog = () => {
   );
 };
 
-export default ViewCompanyFormDialog;
+export default ViewOpportunityFormDialog;
