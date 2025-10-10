@@ -36,7 +36,7 @@ export const createCompany = implement(crmContracts.createCompanyContract)
   .handler(async ({ context, input }) => {
     const repo = new CompanyRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateCompany = implement(crmContracts.updateCompanyContract)
@@ -44,7 +44,7 @@ export const updateCompany = implement(crmContracts.updateCompanyContract)
   .handler(async ({ context, input }) => {
     const repo = new CompanyRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteCompany = implement(crmContracts.deleteCompanyContract)
@@ -52,5 +52,5 @@ export const deleteCompany = implement(crmContracts.deleteCompanyContract)
   .handler(async ({ context, input }) => {
     const repo = new CompanyRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

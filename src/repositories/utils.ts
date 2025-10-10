@@ -46,8 +46,8 @@ export const OrderByDirectionSchema = z.enum(['asc', 'desc']);
 
 export const paginateTransformer = () =>
   z.object({
-    page: z.number().default(1).optional(),
-    perPage: z.number().default(10).optional(),
+    page: z.number().nonnegative().default(1).catch(1),
+    perPage: z.number().nonnegative().default(10).catch(10),
   });
 
 export const filterTransformer = <T extends ZodRawShape>(

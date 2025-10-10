@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ZodString } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
@@ -24,6 +24,12 @@ const StringCell = (props: StringCellProps) => {
   const [value, setValue] = React.useState<string | undefined>(
     props.value || undefined,
   );
+
+  useEffect(() => {
+    if (props.value !== value) {
+      setValue(props.value || undefined);
+    }
+  }, [props.value]);
 
   if (props.value !== undefined) {
     return (

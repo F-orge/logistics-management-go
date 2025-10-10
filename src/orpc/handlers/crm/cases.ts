@@ -36,7 +36,7 @@ export const createCase = implement(crmContracts.createCaseContract)
   .handler(async ({ context, input }) => {
     const repo = new CaseRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateCase = implement(crmContracts.updateCaseContract)
@@ -44,7 +44,7 @@ export const updateCase = implement(crmContracts.updateCaseContract)
   .handler(async ({ context, input }) => {
     const repo = new CaseRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteCase = implement(crmContracts.deleteCaseContract)
@@ -52,5 +52,5 @@ export const deleteCase = implement(crmContracts.deleteCaseContract)
   .handler(async ({ context, input }) => {
     const repo = new CaseRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

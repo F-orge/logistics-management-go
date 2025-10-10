@@ -11,7 +11,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'name',
     header: 'Company Name',
-    cell: ({ row }) => <StringCell value={row.original.name} />,
+    cell: ({ row }) => {
+      return <StringCell value={row.original.name} />;
+    },
   },
   {
     accessorKey: 'annualRevenue',

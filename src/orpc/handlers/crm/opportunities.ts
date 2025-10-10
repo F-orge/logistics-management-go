@@ -3,7 +3,9 @@ import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
 import { OpportunityRepository } from '@/repositories/crm/opportunities';
 
-export const paginateOpportunity = implement(crmContracts.paginateOpportunityContract)
+export const paginateOpportunity = implement(
+  crmContracts.paginateOpportunityContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityRepository(context.db);
@@ -31,26 +33,32 @@ export const inOpportunity = implement(crmContracts.inOpportunityContract)
     return repo.in(input).execute();
   });
 
-export const createOpportunity = implement(crmContracts.createOpportunityContract)
+export const createOpportunity = implement(
+  crmContracts.createOpportunityContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
-export const updateOpportunity = implement(crmContracts.updateOpportunityContract)
+export const updateOpportunity = implement(
+  crmContracts.updateOpportunityContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
-export const deleteOpportunity = implement(crmContracts.deleteOpportunityContract)
+export const deleteOpportunity = implement(
+  crmContracts.deleteOpportunityContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new OpportunityRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

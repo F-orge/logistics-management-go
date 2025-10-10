@@ -3,7 +3,9 @@ import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
 import { NotificationRepository } from '@/repositories/crm/notifications';
 
-export const paginateNotification = implement(crmContracts.paginateNotificationContract)
+export const paginateNotification = implement(
+  crmContracts.paginateNotificationContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new NotificationRepository(context.db);
@@ -13,7 +15,9 @@ export const paginateNotification = implement(crmContracts.paginateNotificationC
       .execute();
   });
 
-export const rangeNotification = implement(crmContracts.rangeNotificationContract)
+export const rangeNotification = implement(
+  crmContracts.rangeNotificationContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new NotificationRepository(context.db);
@@ -31,26 +35,32 @@ export const inNotification = implement(crmContracts.inNotificationContract)
     return repo.in(input).execute();
   });
 
-export const createNotification = implement(crmContracts.createNotificationContract)
+export const createNotification = implement(
+  crmContracts.createNotificationContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new NotificationRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
-export const updateNotification = implement(crmContracts.updateNotificationContract)
+export const updateNotification = implement(
+  crmContracts.updateNotificationContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new NotificationRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
-export const deleteNotification = implement(crmContracts.deleteNotificationContract)
+export const deleteNotification = implement(
+  crmContracts.deleteNotificationContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new NotificationRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

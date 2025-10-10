@@ -7,7 +7,7 @@ export const paginateCompany = (
   options: Parameters<typeof orpcClient.crm.paginateCompany>[0],
 ) =>
   queryOptions({
-    queryKey: ['crm.companies', options],
+    queryKey: ['crm.companies', options.page, options.perPage],
     queryFn: () => orpcClient.crm.paginateCompany(options),
     enabled: !!options,
   });

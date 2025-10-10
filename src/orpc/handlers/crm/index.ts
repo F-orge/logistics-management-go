@@ -18,3 +18,4 @@ export * from './products';
 export * from './attachments';
 export * from './campaigns';
 export * from './cases';
+export * from './contacts';

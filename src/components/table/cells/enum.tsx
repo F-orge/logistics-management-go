@@ -1,5 +1,5 @@
 import { Check, ChevronDown } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
@@ -29,6 +29,12 @@ export type EnumCellProps = {
 const EnumCell = (props: EnumCellProps) => {
   const [edit, setEdit] = React.useState(false);
   const [value, setValue] = React.useState<string | undefined>(props.value);
+
+  useEffect(() => {
+    if (props.value !== value) {
+      setValue(props.value || undefined);
+    }
+  }, [props.value]);
 
   const handleSelect = (selectedValue: string) => {
     setValue(selectedValue);

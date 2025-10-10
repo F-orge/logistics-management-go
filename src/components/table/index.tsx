@@ -94,7 +94,9 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => onPreviousPage?.()}
+          onClick={() => {
+            onPreviousPage?.();
+          }}
           disabled={!enablePreviousPage}
         >
           Previous
@@ -102,7 +104,9 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => onNextPage?.()}
+          onClick={() => {
+            onNextPage?.();
+          }}
           disabled={!enableNextPage}
         >
           Next

@@ -36,7 +36,7 @@ export const createCampaign = implement(crmContracts.createCampaignContract)
   .handler(async ({ context, input }) => {
     const repo = new CampaignRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateCampaign = implement(crmContracts.updateCampaignContract)
@@ -44,7 +44,7 @@ export const updateCampaign = implement(crmContracts.updateCampaignContract)
   .handler(async ({ context, input }) => {
     const repo = new CampaignRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteCampaign = implement(crmContracts.deleteCampaignContract)
@@ -52,5 +52,5 @@ export const deleteCampaign = implement(crmContracts.deleteCampaignContract)
   .handler(async ({ context, input }) => {
     const repo = new CampaignRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

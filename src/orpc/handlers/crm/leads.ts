@@ -36,7 +36,7 @@ export const createLead = implement(crmContracts.createLeadContract)
   .handler(async ({ context, input }) => {
     const repo = new LeadRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateLead = implement(crmContracts.updateLeadContract)
@@ -44,7 +44,7 @@ export const updateLead = implement(crmContracts.updateLeadContract)
   .handler(async ({ context, input }) => {
     const repo = new LeadRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteLead = implement(crmContracts.deleteLeadContract)
@@ -52,5 +52,5 @@ export const deleteLead = implement(crmContracts.deleteLeadContract)
   .handler(async ({ context, input }) => {
     const repo = new LeadRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

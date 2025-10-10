@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,12 @@ const NumberCell = (props: NumberCellProps) => {
   const [value, setValue] = React.useState<number | undefined | null>(
     props.value,
   );
+
+  useEffect(() => {
+    if (props.value !== value) {
+      setValue(props.value || undefined);
+    }
+  }, [props.value]);
 
   return (
     <Field className={cn(edit && 'min-w-xs')}>

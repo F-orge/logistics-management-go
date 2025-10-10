@@ -1,0 +1,54 @@
+import DateCell from '@/components/table/cells/date';
+import StringCell from '@/components/table/cells/string';
+import { orpcClient } from '@/orpc/client';
+import { ColumnDef } from '@tanstack/react-table';
+
+export const columns: ColumnDef<
+  Awaited<ReturnType<typeof orpcClient.crm.paginateInteraction>>[number]
+>[] = [
+  {
+    accessorKey: 'contactId',
+    header: 'Contact ID',
+    cell: ({ row }) => <StringCell value={row.original.contactId} />,
+  },
+  {
+    accessorKey: 'caseId',
+    header: 'Case ID',
+    cell: ({ row }) => <StringCell value={row.original.caseId} />,
+  },
+  {
+    accessorKey: 'userId',
+    header: 'User ID',
+    cell: ({ row }) => <StringCell value={row.original.userId} />,
+  },
+  {
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => <StringCell value={row.original.type} />,
+  },
+  {
+    accessorKey: 'interactionDate',
+    header: 'Interaction Date',
+    cell: ({ row }) => <DateCell value={row.original.interactionDate} showTime />,
+  },
+  {
+    accessorKey: 'notes',
+    header: 'Notes',
+    cell: ({ row }) => <StringCell value={row.original.notes} />,
+  },
+  {
+    accessorKey: 'outcome',
+    header: 'Outcome',
+    cell: ({ row }) => <StringCell value={row.original.outcome} />,
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created At',
+    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
+  },
+];

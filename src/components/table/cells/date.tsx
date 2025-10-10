@@ -1,6 +1,6 @@
 import { format, formatISO, isValid, parseISO } from 'date-fns';
 import { Calendar, CalendarIcon, Check } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Field, FieldLabel } from '@/components/ui/field';
@@ -40,6 +40,25 @@ const DateCell = (props: DateCellProps) => {
       return undefined;
     }
   });
+
+  useEffect(() => {
+    if (props.value !== value) {
+      setValue(() => {
+        if (!props.value) return undefined;
+
+        try {
+          const date =
+            typeof props.value === 'string'
+              ? parseISO(props.value)
+              : props.value;
+
+          return isValid(date) ? date : undefined;
+        } catch {
+          return undefined;
+        }
+      });
+    }
+  }, [props.value]);
 
   const formatDate = (dateValue: string | Date | undefined): string => {
     if (!dateValue) return '';

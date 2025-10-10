@@ -36,7 +36,7 @@ export const createInvoice = implement(crmContracts.createInvoiceContract)
   .handler(async ({ context, input }) => {
     const repo = new InvoiceRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateInvoice = implement(crmContracts.updateInvoiceContract)
@@ -44,7 +44,7 @@ export const updateInvoice = implement(crmContracts.updateInvoiceContract)
   .handler(async ({ context, input }) => {
     const repo = new InvoiceRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteInvoice = implement(crmContracts.deleteInvoiceContract)
@@ -52,5 +52,5 @@ export const deleteInvoice = implement(crmContracts.deleteInvoiceContract)
   .handler(async ({ context, input }) => {
     const repo = new InvoiceRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

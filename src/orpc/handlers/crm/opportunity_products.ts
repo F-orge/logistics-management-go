@@ -44,7 +44,7 @@ export const createOpportunityProduct = implement(
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateOpportunityProduct = implement(
@@ -54,7 +54,7 @@ export const updateOpportunityProduct = implement(
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteOpportunityProduct = implement(
@@ -64,5 +64,5 @@ export const deleteOpportunityProduct = implement(
   .handler(async ({ context, input }) => {
     const repo = new OpportunityProductRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

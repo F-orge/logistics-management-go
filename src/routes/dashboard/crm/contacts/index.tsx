@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/table';
-import { paginateCompany, rangeCompany } from '@/queries/crm/companies';
+import { paginateContact, rangeContact } from '@/queries/crm/contacts';
 import { createFileRoute } from '@tanstack/react-router';
 import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
@@ -12,15 +12,15 @@ import {
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
-import { crmCompanySchema } from '@/schemas/crm/companies';
+import { crmContactSchema } from '@/schemas/crm/contacts';
 import { useState } from 'react';
 
-export const Route = createFileRoute('/dashboard/crm/companies/')({
+export const Route = createFileRoute('/dashboard/crm/contacts/')({
   component: RouteComponent,
   validateSearch: zodValidator(
     paginateTransformer().extend({
-      filters: filterTransformer(crmCompanySchema),
-      sort: sortTransformer(crmCompanySchema),
+      filters: filterTransformer(crmContactSchema),
+      sort: sortTransformer(crmContactSchema),
     }),
   ),
   beforeLoad: (ctx) => ({ search: ctx.search }),
@@ -31,9 +31,9 @@ export const Route = createFileRoute('/dashboard/crm/companies/')({
 
     return {
       dataTable: await context.queryClient.fetchQuery(
-        paginateCompany(context.search),
+        paginateContact(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(rangeCompany({ from, to })),
+      chart: await context.queryClient.fetchQuery(rangeContact({ from, to })),
     };
   },
 });
@@ -48,7 +48,7 @@ function RouteComponent() {
   return (
     <article className="grid grid-cols-12 gap-5">
       <section className="col-span-full">
-        <h1 className="text-2xl font-bold">Companies</h1>
+        <h1 className="text-2xl font-bold">Contacts</h1>
       </section>
       <section className="col-span-full flex justify-between items-center">
         <ButtonGroup className="col-span-4">

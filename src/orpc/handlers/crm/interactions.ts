@@ -3,7 +3,9 @@ import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
 import { InteractionRepository } from '@/repositories/crm/interactions';
 
-export const paginateInteraction = implement(crmContracts.paginateInteractionContract)
+export const paginateInteraction = implement(
+  crmContracts.paginateInteractionContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InteractionRepository(context.db);
@@ -31,26 +33,32 @@ export const inInteraction = implement(crmContracts.inInteractionContract)
     return repo.in(input).execute();
   });
 
-export const createInteraction = implement(crmContracts.createInteractionContract)
+export const createInteraction = implement(
+  crmContracts.createInteractionContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InteractionRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
-export const updateInteraction = implement(crmContracts.updateInteractionContract)
+export const updateInteraction = implement(
+  crmContracts.updateInteractionContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InteractionRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
-export const deleteInteraction = implement(crmContracts.deleteInteractionContract)
+export const deleteInteraction = implement(
+  crmContracts.deleteInteractionContract,
+)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new InteractionRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });

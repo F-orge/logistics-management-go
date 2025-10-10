@@ -1,6 +1,6 @@
 import parsePhoneNumber, { type PhoneNumber } from 'libphonenumber-js';
 import { Check, Phone } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,12 @@ const PhoneCell = (props: PhoneCellProps) => {
     props.value || undefined,
   );
   const [error, setError] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    if (props.value !== value) {
+      setValue(props.value || undefined);
+    }
+  }, [props.value]);
 
   const formatPhoneNumber = (phoneString: string): string => {
     if (!phoneString) return '';

@@ -36,7 +36,7 @@ export const createProduct = implement(crmContracts.createProductContract)
   .handler(async ({ context, input }) => {
     const repo = new ProductRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.create(input).executeTakeFirstOrThrow();
   });
 
 export const updateProduct = implement(crmContracts.updateProductContract)
@@ -44,7 +44,7 @@ export const updateProduct = implement(crmContracts.updateProductContract)
   .handler(async ({ context, input }) => {
     const repo = new ProductRepository(context.db);
 
-    return repo.update(input.id, input.value).execute() as any;
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
   });
 
 export const deleteProduct = implement(crmContracts.deleteProductContract)
@@ -52,5 +52,5 @@ export const deleteProduct = implement(crmContracts.deleteProductContract)
   .handler(async ({ context, input }) => {
     const repo = new ProductRepository(context.db);
 
-    return repo.delete(input).execute() as any;
+    return repo.delete(input).executeTakeFirstOrThrow();
   });
