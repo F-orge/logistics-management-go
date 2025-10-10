@@ -13,15 +13,17 @@ import { cn } from '@/lib/utils';
 
 export type StringCellProps = {
   validator?: ZodString;
-  value?: string;
-  onSave?: (value: string) => Promise<unknown> | unknown;
+  value?: string | null;
+  onSave?: (value: string | undefined) => Promise<unknown> | unknown;
   length?: number; /// number of characters to show. if exceed convert to tooltip
   editable?: boolean;
 };
 
 const StringCell = (props: StringCellProps) => {
   const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(props.value);
+  const [value, setValue] = React.useState<string | undefined>(
+    props.value || undefined,
+  );
 
   if (props.value !== undefined) {
     return (
@@ -44,10 +46,10 @@ const StringCell = (props: StringCellProps) => {
             <Button
               onClick={() => {
                 if (props.onSave) {
-                  props.onSave(value!);
+                  props.onSave(value);
                   setEdit(false);
                 } else {
-                  setValue(props.value);
+                  setValue(props.value || undefined);
                   setEdit(false);
                 }
               }}

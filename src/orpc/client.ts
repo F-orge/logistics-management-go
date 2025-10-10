@@ -6,7 +6,7 @@ import * as orpcRouter from '@/orpc/index';
 
 // orpc integration
 const link = new RPCLink({
-  url: '/api/orpc',
+  url: `${window.location.origin}/api/orpc`,
   interceptors: [
     onError((error) => {
       console.error(error);

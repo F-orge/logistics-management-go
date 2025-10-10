@@ -12,7 +12,7 @@ import {
 import { cn } from '@/lib/utils';
 
 export type PhoneCellProps = {
-  value?: string;
+  value?: string | null;
   onSave?: (value: string) => Promise<unknown> | unknown;
   editable?: boolean;
   format?: 'international' | 'national' | 'e164' | 'rfc3966';
@@ -21,7 +21,9 @@ export type PhoneCellProps = {
 
 const PhoneCell = (props: PhoneCellProps) => {
   const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(props.value);
+  const [value, setValue] = React.useState<string | undefined>(
+    props.value || undefined,
+  );
   const [error, setError] = React.useState<string | null>(null);
 
   const formatPhoneNumber = (phoneString: string): string => {
@@ -82,7 +84,7 @@ const PhoneCell = (props: PhoneCellProps) => {
       props.onSave(value);
       setEdit(false);
     } else {
-      setValue(props.value);
+      setValue(props.value || undefined);
       setEdit(false);
     }
   };

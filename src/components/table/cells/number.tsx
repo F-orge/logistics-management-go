@@ -6,15 +6,17 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 export type NumberCellProps = {
-  value: number;
-  onSave?: (value: number) => Promise<unknown> | unknown;
+  value: number | undefined | null;
+  onSave?: (value: number | undefined | null) => Promise<unknown> | unknown;
   editable?: boolean;
   currency?: string;
 };
 
 const NumberCell = (props: NumberCellProps) => {
   const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<number>(props.value);
+  const [value, setValue] = React.useState<number | undefined | null>(
+    props.value,
+  );
 
   return (
     <Field className={cn(edit && 'min-w-xs')}>
@@ -22,7 +24,7 @@ const NumberCell = (props: NumberCellProps) => {
         <div className="flex gap-2.5">
           <Input
             onDoubleClick={() => setEdit(false)}
-            value={value}
+            value={value || undefined}
             onChange={(e) => setValue(Number(e.target.value))}
           />
           <Button
@@ -48,7 +50,7 @@ const NumberCell = (props: NumberCellProps) => {
             }
           }}
         >
-          {props.currency
+          {props.currency && value
             ? new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: props.currency,

@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 
 export type DateCellProps = {
-  value?: string | Date;
+  value?: string | Date | null;
   onSave?: (value: string) => Promise<unknown> | unknown;
   editable?: boolean;
   format?: string;
@@ -85,7 +85,7 @@ const DateCell = (props: DateCellProps) => {
     setOpen(false);
   };
 
-  if (props.value !== undefined) {
+  if (props.value) {
     const formattedValue = formatDate(props.value);
 
     return (

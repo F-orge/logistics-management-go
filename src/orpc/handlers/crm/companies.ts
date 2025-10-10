@@ -47,10 +47,10 @@ export const updateCompany = implement(crmContracts.updateCompanyContract)
     return repo.update(input.id, input.value).execute() as any;
   });
 
-export const deleteCompany = implement(crmContracts.createCompanyContract)
+export const deleteCompany = implement(crmContracts.deleteCompanyContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const repo = new CompanyRepository(context.db);
 
-    return repo.create(input).execute() as any;
+    return repo.delete(input).execute() as any;
   });
