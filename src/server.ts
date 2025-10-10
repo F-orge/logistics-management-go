@@ -49,33 +49,50 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
     provider: new FileMigrationProvider({
       fs,
       path,
-      migrationFolder: path.join(__dirname, '../migrations'),
+      migrationFolder: path.join(
+        import.meta.dir,
+        process.env.NODE_ENV === 'production' ? 'migrations' : '../migrations',
+      ),
     }),
   });
 
-  await migrator.migrateToLatest();
+  const migrationResult = await migrator.migrateToLatest();
+
+  if (migrationResult.error) {
+    throw migrationResult.error;
+  }
+
+  for (const migration of migrationResult.results || []) {
+    console.info(
+      migration.migrationName,
+      migration.direction,
+      migration.status,
+    );
+  }
 
   // middlewares
   router.use(logger());
   router.use(prettyJSON());
   router.use(requestId());
 
-  // mailer
-  const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: Number(process.env.MAIL_PORT),
-    secure:
-      process.env.NODE_ENV === 'production'
-        ? Boolean(process.env.MAIL_SECURE)
-        : false, // true for 465, false for other ports
-    auth:
-      process.env.NODE_ENV === 'production'
-        ? {
-            user: process.env.MAIL_USERNAME,
-            pass: process.env.MAIL_PASSWORD,
-          }
-        : undefined,
-  });
+  let transporter: ReturnType<typeof nodemailer.createTransport>;
+
+  if (process.env.NODE_ENV === 'production') {
+    transporter = nodemailer.createTransport({
+      host: 'smtp.sendgrid.net',
+      port: 587,
+      auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+      },
+    });
+  } else {
+    transporter = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: Number(process.env.MAIL_PORT),
+      secure: false,
+    });
+  }
 
   // dependency injection
   router.use('*', async (c, next) => {
@@ -110,6 +127,8 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   router.on(['POST', 'GET'], '/api/auth/*', (c) => {
     return auth.handler(c.req.raw);
   });
+
+  console.log(process.env.NODE_ENV);
 
   // frontend mounting
   if (process.env.NODE_ENV === 'production') {
