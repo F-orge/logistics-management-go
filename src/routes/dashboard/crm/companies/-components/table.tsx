@@ -16,6 +16,11 @@ export const columns: ColumnDef<
     },
   },
   {
+    accessorKey: 'industry',
+    header: 'Industry',
+    cell: ({ row }) => <StringCell value={row.original.industry} />,
+  },
+  {
     accessorKey: 'annualRevenue',
     header: 'Annual Revenue',
     cell: ({ row }) => (
@@ -23,44 +28,28 @@ export const columns: ColumnDef<
     ),
   },
   {
-    accessorKey: 'city',
-    header: 'City',
-    cell: ({ row }) => <StringCell value={row.original.city} />,
-  },
-  {
-    accessorKey: 'country',
-    header: 'Country',
-    cell: ({ row }) => <StringCell value={row.original.country} />,
-  },
-  {
-    accessorKey: 'industry',
-    header: 'Industry',
-    cell: ({ row }) => <StringCell value={row.original.industry} />,
-  },
-  {
     accessorKey: 'phoneNumber',
     header: 'Phone Number',
     cell: ({ row }) => <PhoneCell value={row.original.phoneNumber} />,
   },
   {
-    accessorKey: 'postalCode',
-    header: 'Postal Code',
-    cell: ({ row }) => <StringCell value={row.original.postalCode} />,
-  },
-  {
-    accessorKey: 'state',
-    header: 'State',
-    cell: ({ row }) => <StringCell value={row.original.state} />,
-  },
-  {
-    accessorKey: 'street',
-    header: 'Street',
-    cell: ({ row }) => <StringCell value={row.original.street} />,
-  },
-  {
     accessorKey: 'website',
     header: 'Website',
     cell: ({ row }) => <StringCell value={row.original.website} />,
+  },
+  {
+    id: 'address',
+    header: 'Address',
+    cell: ({ row }) => {
+      const addressParts = [
+        row.original.street,
+        row.original.city,
+        row.original.state,
+        row.original.postalCode,
+        row.original.country,
+      ].filter(Boolean);
+      return <StringCell value={addressParts.join(', ')} />;
+    },
   },
   {
     accessorKey: 'createdAt',

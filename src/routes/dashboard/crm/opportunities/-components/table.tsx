@@ -15,54 +15,32 @@ export const columns: ColumnDef<
     },
   },
   {
-    accessorKey: 'ownerId',
-    header: 'Owner ID',
-    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
+    id: 'relatedEntities',
+    header: 'Related Entities',
+    cell: ({ row }) => {
+      const entities = [
+        row.original.ownerId ? `Owner ID: ${row.original.ownerId}` : null,
+        row.original.campaignId ? `Campaign ID: ${row.original.campaignId}` : null,
+        row.original.companyId ? `Company ID: ${row.original.companyId}` : null,
+        row.original.contactId ? `Contact ID: ${row.original.contactId}` : null,
+      ].filter(Boolean);
+      return <StringCell value={entities.join(' | ')} />;
+    },
   },
   {
-    accessorKey: 'campaignId',
-    header: 'Campaign ID',
-    cell: ({ row }) => <StringCell value={row.original.campaignId} />,
-  },
-  {
-    accessorKey: 'companyId',
-    header: 'Company ID',
-    cell: ({ row }) => <StringCell value={row.original.companyId} />,
-  },
-  {
-    accessorKey: 'contactId',
-    header: 'Contact ID',
-    cell: ({ row }) => <StringCell value={row.original.contactId} />,
-  },
-  {
-    accessorKey: 'dealValue',
-    header: 'Deal Value',
-    cell: ({ row }) => <NumberCell value={row.original.dealValue} currency="PHP" />,
-  },
-  {
-    accessorKey: 'expectedCloseDate',
-    header: 'Expected Close Date',
-    cell: ({ row }) => <DateCell value={row.original.expectedCloseDate} showTime />,
-  },
-  {
-    accessorKey: 'lostReason',
-    header: 'Lost Reason',
-    cell: ({ row }) => <StringCell value={row.original.lostReason} />,
-  },
-  {
-    accessorKey: 'probability',
-    header: 'Probability',
-    cell: ({ row }) => <NumberCell value={row.original.probability} />,
-  },
-  {
-    accessorKey: 'source',
-    header: 'Source',
-    cell: ({ row }) => <StringCell value={row.original.source} />,
-  },
-  {
-    accessorKey: 'stage',
-    header: 'Stage',
-    cell: ({ row }) => <StringCell value={row.original.stage} />,
+    id: 'opportunityDetails',
+    header: 'Opportunity Details',
+    cell: ({ row }) => {
+      const details = [
+        row.original.dealValue ? `Deal Value: ${row.original.dealValue} PHP` : null,
+        row.original.probability ? `Probability: ${row.original.probability}%` : null,
+        row.original.source ? `Source: ${row.original.source}` : null,
+        row.original.stage ? `Stage: ${row.original.stage}` : null,
+        row.original.expectedCloseDate ? `Expected Close: ${new Date(row.original.expectedCloseDate).toLocaleDateString()}` : null,
+        row.original.lostReason ? `Lost Reason: ${row.original.lostReason}` : null,
+      ].filter(Boolean);
+      return <StringCell value={details.join(' | ')} />;
+    },
   },
   {
     accessorKey: 'createdAt',
