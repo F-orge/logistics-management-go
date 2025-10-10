@@ -21,6 +21,7 @@ import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
 import ViewInvoiceFormDialog from './-components/view';
 import { ScanSearch, Pencil } from 'lucide-react';
+import { inOpportunity, inInvoiceItem, inProduct } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/invoices/')({
   component: RouteComponent,
@@ -41,10 +42,66 @@ export const Route = createFileRoute('/dashboard/crm/invoices/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
+    const invoices = await context.queryClient.fetchQuery(
+      paginateInvoice(context.search),
+    );
+
+    // opportunities
+    const opportunityIds = invoices
+      .map((row) => row.opportunityId)
+      .filter((id) => id !== null && id !== undefined);
+
+    const opportunities = await context.queryClient.fetchQuery(
+      inOpportunity(opportunityIds),
+    );
+
+    // invoice items
+    const invoiceIds = invoices.map((row) => row.id);
+    const invoiceItems = await context.queryClient.fetchQuery(
+      inInvoiceItem(invoiceIds),
+    );
+
+    // products for invoice items
+    const productIds = invoiceItems
+      .map((item) => item.productId)
+      .filter((id) => id !== null && id !== undefined);
+
+    const products = await context.queryClient.fetchQuery(
+      inProduct(productIds),
+    );
+
+    // Create maps for quick lookup
+    const opportunityMap = new Map(
+      opportunities.map((opportunity) => [opportunity.id, opportunity]),
+    );
+    const productMap = new Map(
+      products.map((product) => [product.id, product]),
+    );
+
+    // Merge product data into invoice items
+    const invoiceItemsWithProducts = invoiceItems.map((item) => ({
+      ...item,
+      product: item.productId ? (productMap.get(item.productId) ?? null) : null,
+    }));
+
+    // Group invoice items by invoiceId
+    const groupedInvoiceItems = invoiceItemsWithProducts.reduce<Record<string, typeof invoiceItemsWithProducts>>((acc, item) => {
+      if (!acc[item.invoiceId]) {
+        acc[item.invoiceId] = [];
+      }
+      acc[item.invoiceId].push(item);
+      return acc;
+    }, {});
+
+    // Merge opportunity and invoice items data into each invoice row
+    const dataTable = invoices.map((row) => ({
+      ...row,
+      opportunity: row.opportunityId ? (opportunityMap.get(row.opportunityId) ?? null) : null,
+      items: groupedInvoiceItems[row.id] || [],
+    }));
+
     return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateInvoice(context.search),
-      ),
+      dataTable,
       chart: await context.queryClient.fetchQuery(rangeInvoice({ from, to })),
     };
   },

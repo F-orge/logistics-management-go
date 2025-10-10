@@ -2,6 +2,7 @@ import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
 import { HonoVariables } from '@/server';
 import { LeadRepository } from '@/repositories/crm/leads';
+import { jsonObjectFrom } from 'kysely/helpers/postgres';
 
 export const paginateLead = implement(crmContracts.paginateLeadContract)
   .$context<HonoVariables>()

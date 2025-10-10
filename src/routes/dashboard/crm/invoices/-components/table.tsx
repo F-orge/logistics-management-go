@@ -3,9 +3,17 @@ import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { CrmOpportunity } from '@/schemas/crm/opportunities';
+import { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
+import { CrmProduct } from '@/schemas/crm/products';
+import { Button } from '@/components/ui/button';
+import { Link } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateInvoice>>[number]
+  Awaited<ReturnType<typeof orpcClient.crm.paginateInvoice>>[number] & {
+    opportunity: CrmOpportunity | null;
+    items: (CrmInvoiceItem & { product: CrmProduct | null })[] | null;
+  }
 >[] = [
   {
     accessorKey: 'issueDate',
@@ -28,9 +36,52 @@ export const columns: ColumnDef<
     cell: ({ row }) => <DateCell value={row.original.sentAt} showTime />,
   },
   {
-    accessorKey: 'opportunityId',
-    header: 'Opportunity ID',
-    cell: ({ row }) => <StringCell value={row.original.opportunityId} />,
+    accessorKey: 'opportunity.name',
+    header: 'Opportunity',
+    cell: ({ row }) => (
+      <>
+        {row.original.opportunity ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/opportunities"
+              search={{
+                view: true,
+                id: row.original.opportunity.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.opportunity.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={row.original.opportunity?.name} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
+  },
+  {
+    accessorKey: 'items',
+    header: 'Items',
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-1">
+        {row.original.items?.length ? (
+          row.original.items.map((item) => (
+            <div key={item.id} className="flex justify-between">
+              <StringCell value={item.product?.name || 'Unknown Product'} />
+              <StringCell value={`x${item.quantity}`} />
+            </div>
+          ))
+        ) : (
+          <StringCell value={'No Items'} />
+        )}
+      </div>
+    ),
   },
   {
     accessorKey: 'paymentMethod',

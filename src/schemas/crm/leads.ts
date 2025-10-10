@@ -10,7 +10,6 @@ export const crmLeadSchema = z
       .min(1, { message: 'Lead name is required' })
       .max(255, { message: 'Lead name must be at most 255 characters' }),
     email: z
-      .string({ message: 'Email must be a string' })
       .email({ message: 'Invalid email format' })
       .min(1, { message: 'Email is required' })
       .max(255, { message: 'Email must be at most 255 characters' }),
@@ -27,19 +26,16 @@ export const crmLeadSchema = z
       .optional()
       .nullable(),
     convertedCompanyId: z
-      .string()
       .uuid({ message: 'Invalid UUID format for converted company ID' })
       .nullable()
       .optional()
       .nullable(),
     convertedContactId: z
-      .string()
       .uuid({ message: 'Invalid UUID format for converted contact ID' })
       .nullable()
       .optional()
       .nullable(),
     convertedOpportunityId: z
-      .string()
       .uuid({ message: 'Invalid UUID format for converted opportunity ID' })
       .nullable()
       .optional()

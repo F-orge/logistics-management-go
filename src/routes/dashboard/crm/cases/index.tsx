@@ -21,6 +21,7 @@ import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
 import ViewCaseFormDialog from './-components/view';
 import { ScanSearch, Pencil } from 'lucide-react';
+import { inContact } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/cases/')({
   component: RouteComponent,
@@ -41,10 +42,32 @@ export const Route = createFileRoute('/dashboard/crm/cases/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
+    const cases = await context.queryClient.fetchQuery(
+      paginateCase(context.search),
+    );
+
+    // contacts
+    const contactIds = cases
+      .map((row) => row.contactId)
+      .filter((id) => id !== null && id !== undefined);
+
+    const contacts = await context.queryClient.fetchQuery(
+      inContact(contactIds),
+    );
+
+    // Create a map for quick lookup
+    const contactMap = new Map(
+      contacts.map((contact) => [contact.id, contact]),
+    );
+
+    // Merge contact data into each row
+    const dataTable = cases.map((row) => ({
+      ...row,
+      contact: row.contactId ? (contactMap.get(row.contactId) ?? null) : null,
+    }));
+
     return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateCase(context.search),
-      ),
+      dataTable,
       chart: await context.queryClient.fetchQuery(rangeCase({ from, to })),
     };
   },

@@ -6,6 +6,7 @@ import {
   Kysely,
   OrderByExpression,
   OrderByModifiers,
+  Selectable,
   SelectExpression,
   SelectQueryBuilder,
   Updateable,
@@ -13,6 +14,7 @@ import {
 } from 'kysely';
 import { CrmLeadSource, CrmLeadStatus, DB } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+import { jsonObjectFrom } from 'kysely/helpers/postgres';
 
 export class LeadRepository implements GenericRepository<'crm.leads'> {
   constructor(private db: Kysely<DB>) {}
@@ -59,6 +61,8 @@ export class LeadRepository implements GenericRepository<'crm.leads'> {
         filterCol.value,
       );
     }
+
+    const test = query.executeTakeFirstOrThrow();
 
     return query;
   }
@@ -127,7 +131,10 @@ export class LeadRepository implements GenericRepository<'crm.leads'> {
       updatedAt: Date | null;
     }
   > {
-    return this.db.selectFrom('crm.leads').selectAll().where('id', 'in', values);
+    return this.db
+      .selectFrom('crm.leads')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { email: string; name: string; ownerId: string } & {

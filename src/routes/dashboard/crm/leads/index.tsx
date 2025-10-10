@@ -16,11 +16,15 @@ import { crmLeadSchema } from '@/schemas/crm/leads';
 import { useState } from 'react';
 import z from 'zod';
 import NewLeadFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
 import ViewLeadFormDialog from './-components/view';
 import { ScanSearch, Pencil } from 'lucide-react';
+import { inCampaign, inCompany, inContact, inOpportunity } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/leads/')({
   component: RouteComponent,
@@ -41,10 +45,12 @@ export const Route = createFileRoute('/dashboard/crm/leads/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
+    const dataTable = await context.queryClient.fetchQuery(
+      paginateLead(context.search),
+    );
+
     return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateLead(context.search),
-      ),
+      dataTable,
       chart: await context.queryClient.fetchQuery(rangeLead({ from, to })),
     };
   },
@@ -195,30 +201,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewLeadFormDialog />

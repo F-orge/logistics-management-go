@@ -1,5 +1,9 @@
 import { DataTable } from '@/components/table';
-import { deleteContact, paginateContact, rangeContact } from '@/queries/crm/contacts';
+import {
+  deleteContact,
+  paginateContact,
+  rangeContact,
+} from '@/queries/crm/contacts';
 import { createFileRoute } from '@tanstack/react-router';
 import { columns } from './-components/table';
 import { Button } from '@/components/ui/button';
@@ -16,11 +20,15 @@ import { crmContactSchema } from '@/schemas/crm/contacts';
 import { useState } from 'react';
 import z from 'zod';
 import NewContactFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { useMutation } from '@tanstack/react-query';
 import ViewContactFormDialog from './-components/view';
 import { ScanSearch, Pencil } from 'lucide-react';
+import { inCompany } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/contacts/')({
   component: RouteComponent,
@@ -41,10 +49,32 @@ export const Route = createFileRoute('/dashboard/crm/contacts/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
+    const contacts = await context.queryClient.fetchQuery(
+      paginateContact(context.search),
+    );
+
+    // companies
+    const companyIds = contacts
+      .map((row) => row.companyId)
+      .filter((id) => id !== null && id !== undefined);
+
+    const companies = await context.queryClient.fetchQuery(
+      inCompany(companyIds),
+    );
+
+    // Create a map for quick lookup
+    const companyMap = new Map(
+      companies.map((company) => [company.id, company]),
+    );
+
+    // Merge company data into each row
+    const dataTable = contacts.map((row) => ({
+      ...row,
+      company: row.companyId ? (companyMap.get(row.companyId) ?? null) : null,
+    }));
+
     return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateContact(context.search),
-      ),
+      dataTable,
       chart: await context.queryClient.fetchQuery(rangeContact({ from, to })),
     };
   },
@@ -195,30 +225,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewContactFormDialog />

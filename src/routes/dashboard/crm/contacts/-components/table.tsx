@@ -1,11 +1,17 @@
 import DateCell from '@/components/table/cells/date';
 import PhoneCell from '@/components/table/cells/phone';
 import StringCell from '@/components/table/cells/string';
+import { Button } from '@/components/ui/button';
 import { orpcClient } from '@/orpc/client';
+import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateContact>>[number]
+  Awaited<ReturnType<typeof orpcClient.crm.paginateContact>>[number] & {
+    company:
+      | Awaited<ReturnType<typeof orpcClient.crm.inCompany>>[number]
+      | null;
+  }
 >[] = [
   {
     accessorKey: 'name',
@@ -25,19 +31,39 @@ export const columns: ColumnDef<
     cell: ({ row }) => <PhoneCell value={row.original.phoneNumber} />,
   },
   {
-    accessorKey: 'companyId',
-    header: 'Company ID',
-    cell: ({ row }) => <StringCell value={row.original.companyId} />,
+    accessorKey: 'company',
+    header: 'Company',
+    cell: ({ row }) => (
+      <>
+        {row.original.company ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/companies"
+              search={{
+                view: true,
+                id: row.original.company.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.company.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={row.original.company?.name} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
   },
   {
     accessorKey: 'jobTitle',
     header: 'Job Title',
     cell: ({ row }) => <StringCell value={row.original.jobTitle} />,
-  },
-  {
-    accessorKey: 'ownerId',
-    header: 'Owner ID',
-    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
   },
   {
     accessorKey: 'createdAt',

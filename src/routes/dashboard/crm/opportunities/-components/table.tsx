@@ -3,9 +3,21 @@ import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { CrmCampaign } from '@/schemas/crm/campaigns';
+import { CrmCompany } from '@/schemas/crm/companies';
+import { CrmContact } from '@/schemas/crm/contacts';
+import { CrmOpportunityProduct } from '@/schemas/crm/opportunity_products';
+import { CrmProduct } from '@/schemas/crm/products';
+import { Button } from '@/components/ui/button';
+import { Link } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateOpportunity>>[number]
+  Awaited<ReturnType<typeof orpcClient.crm.paginateOpportunity>>[number] & {
+    campaign: CrmCampaign | null;
+    company: CrmCompany | null;
+    contact: CrmContact | null;
+    products: (CrmOpportunityProduct & { product: CrmProduct | null })[] | null;
+  }
 >[] = [
   {
     accessorKey: 'name',
@@ -20,12 +32,87 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const entities = [
         row.original.ownerId ? `Owner ID: ${row.original.ownerId}` : null,
-        row.original.campaignId ? `Campaign ID: ${row.original.campaignId}` : null,
-        row.original.companyId ? `Company ID: ${row.original.companyId}` : null,
-        row.original.contactId ? `Contact ID: ${row.original.contactId}` : null,
+        row.original.campaign ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/campaigns"
+              search={{
+                view: true,
+                id: row.original.campaign.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.campaign.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={`Campaign: ${row.original.campaign?.name}`} />
+            </Link>
+          </Button>
+        ) : null,
+        row.original.company ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/companies"
+              search={{
+                view: true,
+                id: row.original.company.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.company.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={`Company: ${row.original.company?.name}`} />
+            </Link>
+          </Button>
+        ) : null,
+        row.original.contact ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/contacts"
+              search={{
+                view: true,
+                id: row.original.contact.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.contact.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={`Contact: ${row.original.contact?.name}`} />
+            </Link>
+          </Button>
+        ) : null,
       ].filter(Boolean);
-      return <StringCell value={entities.join(' | ')} />;
+      return <div className="flex flex-col gap-2">{entities}</div>;
     },
+  },
+  {
+    id: 'products',
+    header: 'Products',
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-1">
+        {row.original.products?.length ? (
+          row.original.products.map((item) => (
+            <div key={item.id} className="flex justify-between">
+              <StringCell value={item.product?.name || 'Unknown Product'} />
+              <StringCell value={`x${item.quantity}`} />
+            </div>
+          ))
+        ) : (
+          <StringCell value={'No Products'} />
+        )}
+      </div>
+    ),
   },
   {
     id: 'opportunityDetails',

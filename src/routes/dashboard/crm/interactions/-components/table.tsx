@@ -2,19 +2,76 @@ import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { CrmContact } from '@/schemas/crm/contacts';
+import { CrmCase } from '@/schemas/crm/cases';
+import { Button } from '@/components/ui/button';
+import { Link } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateInteraction>>[number]
+  Awaited<ReturnType<typeof orpcClient.crm.paginateInteraction>>[number] & {
+    contact: CrmContact | null;
+    case: CrmCase | null;
+  }
 >[] = [
   {
-    accessorKey: 'contactId',
-    header: 'Contact ID',
-    cell: ({ row }) => <StringCell value={row.original.contactId} />,
+    accessorKey: 'contact.name',
+    header: 'Contact',
+    cell: ({ row }) => (
+      <>
+        {row.original.contact ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/contacts"
+              search={{
+                view: true,
+                id: row.original.contact.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.contact.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={row.original.contact?.name} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
   },
   {
-    accessorKey: 'caseId',
-    header: 'Case ID',
-    cell: ({ row }) => <StringCell value={row.original.caseId} />,
+    accessorKey: 'case.caseNumber',
+    header: 'Case',
+    cell: ({ row }) => (
+      <>
+        {row.original.case ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/cases"
+              search={{
+                view: true,
+                id: row.original.case.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.case.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={row.original.case?.caseNumber} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
   },
   {
     accessorKey: 'userId',

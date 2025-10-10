@@ -3,9 +3,20 @@ import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
 import { ColumnDef } from '@tanstack/react-table';
+import { CrmCampaign } from '@/schemas/crm/campaigns';
+import { CrmCompany } from '@/schemas/crm/companies';
+import { CrmContact } from '@/schemas/crm/contacts';
+import { CrmOpportunity } from '@/schemas/crm/opportunities';
+import { Button } from '@/components/ui/button';
+import { Link } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateLead>>[number]
+  Awaited<ReturnType<typeof orpcClient.crm.paginateLead>>[number] & {
+    campaign: CrmCampaign | null;
+    convertedCompany: CrmCompany | null;
+    convertedContact: CrmContact | null;
+    convertedOpportunity: CrmOpportunity | null;
+  }
 >[] = [
   {
     accessorKey: 'name',
@@ -20,14 +31,34 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.email} />,
   },
   {
-    accessorKey: 'ownerId',
-    header: 'Owner ID',
-    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
-  },
-  {
-    accessorKey: 'campaignId',
-    header: 'Campaign ID',
-    cell: ({ row }) => <StringCell value={row.original.campaignId} />,
+    accessorKey: 'campaign.name',
+    header: 'Campaign',
+    cell: ({ row }) => (
+      <>
+        {row.original.campaign ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/campaigns"
+              search={{
+                view: true,
+                id: row.original.campaign.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.campaign.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell value={row.original.campaign?.name} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
   },
   {
     accessorKey: 'leadScore',
@@ -49,12 +80,77 @@ export const columns: ColumnDef<
     header: 'Conversion Info',
     cell: ({ row }) => {
       const conversionParts = [
-        row.original.convertedAt ? `Converted: ${new Date(row.original.convertedAt).toLocaleString()}` : null,
-        row.original.convertedCompanyId ? `Company ID: ${row.original.convertedCompanyId}` : null,
-        row.original.convertedContactId ? `Contact ID: ${row.original.convertedContactId}` : null,
-        row.original.convertedOpportunityId ? `Opportunity ID: ${row.original.convertedOpportunityId}` : null,
+        row.original.convertedAt
+          ? `Converted: ${new Date(row.original.convertedAt).toLocaleString()}`
+          : null,
+        row.original.convertedCompany ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/companies"
+              search={{
+                view: true,
+                id: row.original.convertedCompany.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.convertedCompany.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell
+                value={`Company: ${row.original.convertedCompany?.name}`}
+              />
+            </Link>
+          </Button>
+        ) : null,
+        row.original.convertedContact ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/contacts"
+              search={{
+                view: true,
+                id: row.original.convertedContact.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.convertedContact.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell
+                value={`Contact: ${row.original.convertedContact?.name}`}
+              />
+            </Link>
+          </Button>
+        ) : null,
+        row.original.convertedOpportunity ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/opportunities"
+              search={{
+                view: true,
+                id: row.original.convertedOpportunity.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: row.original.convertedOpportunity.id,
+                  },
+                ],
+              }}
+            >
+              <StringCell
+                value={`Opportunity: ${row.original.convertedOpportunity?.name}`}
+              />
+            </Link>
+          </Button>
+        ) : null,
       ].filter(Boolean);
-      return <StringCell value={conversionParts.join(' | ')} />;
+      return <div className="flex flex-col gap-2">{conversionParts}</div>;
     },
   },
   {

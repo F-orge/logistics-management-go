@@ -11,6 +11,9 @@ import {
   crmLeadSchema,
   crmLeadUpdateSchema,
 } from '@/schemas/crm/leads';
+import { crmCampaignSchema } from '@/schemas/crm/campaigns';
+import { crmCompanySchema } from '@/schemas/crm/companies';
+import { crmOpportunitySchema } from '@/schemas/crm/opportunities';
 
 export const paginateLeadContract = oc
   .input(
