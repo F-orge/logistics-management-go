@@ -4,15 +4,17 @@ import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient } from '@/orpc/client';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 import { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
 import { CrmOpportunity } from '@/schemas/crm/opportunities';
 import { CrmProduct } from '@/schemas/crm/products';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateInvoice>>[number] & {
-    opportunity: CrmOpportunity | null;
-    items: (CrmInvoiceItem & { product: CrmProduct | null })[] | null;
+  ORPCOutputs['crm']['paginateInvoice'][number] & {
+    opportunity?: ORPCOutputs['crm']['inOpportunity'][number];
+    items?: (ORPCOutputs['crm']['inInvoiceItem'][number] & {
+      product?: ORPCOutputs['crm']['inProduct'][number];
+    })[];
   }
 >[] = [
   {

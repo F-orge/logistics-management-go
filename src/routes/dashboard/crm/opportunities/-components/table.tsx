@@ -4,7 +4,7 @@ import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient } from '@/orpc/client';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 import { CrmCampaign } from '@/schemas/crm/campaigns';
 import { CrmCompany } from '@/schemas/crm/companies';
 import { CrmContact } from '@/schemas/crm/contacts';
@@ -12,11 +12,13 @@ import { CrmOpportunityProduct } from '@/schemas/crm/opportunity_products';
 import { CrmProduct } from '@/schemas/crm/products';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateOpportunity>>[number] & {
-    campaign: CrmCampaign | null;
-    company: CrmCompany | null;
-    contact: CrmContact | null;
-    products: (CrmOpportunityProduct & { product: CrmProduct | null })[] | null;
+  ORPCOutputs['crm']['paginateOpportunity'][number] & {
+    campaign?: ORPCOutputs['crm']['inCampaign'][number];
+    company?: ORPCOutputs['crm']['inCompany'][number];
+    contact?: ORPCOutputs['crm']['inContact'][number];
+    products?: (ORPCOutputs['crm']['inOpportunityProduct'][number] & {
+      product?: ORPCOutputs['crm']['inProduct'][number];
+    })[];
   }
 >[] = [
   {

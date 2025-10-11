@@ -8,197 +8,257 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index';
-import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index';
-import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index';
-import { Route as AuthRouteRouteImport } from './routes/auth/route';
-import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index';
-import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-email/index';
-import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index';
-import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index';
-import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index';
-import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index';
-import { Route as DashboardCrmIndexRouteImport } from './routes/dashboard/crm/index';
-import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index';
-import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index';
-import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index';
-import { Route as DashboardCrmNotificationsIndexRouteImport } from './routes/dashboard/crm/notifications/index';
-import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index';
-import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index';
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route';
-import { Route as IndexRouteImport } from './routes/index';
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as AuthRouteRouteImport } from './routes/auth/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardCrmIndexRouteImport } from './routes/dashboard/crm/index'
+import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-email/index'
+import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
+import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index'
+import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
+import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
+import { Route as DashboardDmsTaskEventIndexRouteImport } from './routes/dashboard/dms/task-event/index'
+import { Route as DashboardDmsProofOfDeliveryIndexRouteImport } from './routes/dashboard/dms/proof-of-delivery/index'
+import { Route as DashboardDmsDriverLocationIndexRouteImport } from './routes/dashboard/dms/driver-location/index'
+import { Route as DashboardDmsDeliveryTaskIndexRouteImport } from './routes/dashboard/dms/delivery-task/index'
+import { Route as DashboardDmsDeliveryRouteIndexRouteImport } from './routes/dashboard/dms/delivery-route/index'
+import { Route as DashboardDmsCustomerTrackingLinkIndexRouteImport } from './routes/dashboard/dms/customer-tracking-link/index'
+import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index'
+import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index'
+import { Route as DashboardCrmNotificationsIndexRouteImport } from './routes/dashboard/crm/notifications/index'
+import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
+import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
+import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
+import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index'
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
+import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
+import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const DashboardCrmIndexRoute = DashboardCrmIndexRouteImport.update({
   id: '/crm/',
   path: '/crm/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   id: '/verify-email/',
   path: '/verify-email/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
   id: '/signup/',
   path: '/signup/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthResetPasswordIndexRoute = AuthResetPasswordIndexRouteImport.update({
   id: '/reset-password/',
   path: '/reset-password/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
   id: '/forgot-password/',
   path: '/forgot-password/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
+const DashboardDmsTaskEventIndexRoute =
+  DashboardDmsTaskEventIndexRouteImport.update({
+    id: '/dms/task-event/',
+    path: '/dms/task-event/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDmsProofOfDeliveryIndexRoute =
+  DashboardDmsProofOfDeliveryIndexRouteImport.update({
+    id: '/dms/proof-of-delivery/',
+    path: '/dms/proof-of-delivery/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDmsDriverLocationIndexRoute =
+  DashboardDmsDriverLocationIndexRouteImport.update({
+    id: '/dms/driver-location/',
+    path: '/dms/driver-location/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDmsDeliveryTaskIndexRoute =
+  DashboardDmsDeliveryTaskIndexRouteImport.update({
+    id: '/dms/delivery-task/',
+    path: '/dms/delivery-task/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDmsDeliveryRouteIndexRoute =
+  DashboardDmsDeliveryRouteIndexRouteImport.update({
+    id: '/dms/delivery-route/',
+    path: '/dms/delivery-route/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDmsCustomerTrackingLinkIndexRoute =
+  DashboardDmsCustomerTrackingLinkIndexRouteImport.update({
+    id: '/dms/customer-tracking-link/',
+    path: '/dms/customer-tracking-link/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardCrmProductsIndexRoute =
   DashboardCrmProductsIndexRouteImport.update({
     id: '/crm/products/',
     path: '/crm/products/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmOpportunitiesIndexRoute =
   DashboardCrmOpportunitiesIndexRouteImport.update({
     id: '/crm/opportunities/',
     path: '/crm/opportunities/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmNotificationsIndexRoute =
   DashboardCrmNotificationsIndexRouteImport.update({
     id: '/crm/notifications/',
     path: '/crm/notifications/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
   id: '/crm/leads/',
   path: '/crm/leads/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const DashboardCrmInvoicesIndexRoute =
   DashboardCrmInvoicesIndexRouteImport.update({
     id: '/crm/invoices/',
     path: '/crm/invoices/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmInteractionsIndexRoute =
   DashboardCrmInteractionsIndexRouteImport.update({
     id: '/crm/interactions/',
     path: '/crm/interactions/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmContactsIndexRoute =
   DashboardCrmContactsIndexRouteImport.update({
     id: '/crm/contacts/',
     path: '/crm/contacts/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmCompaniesIndexRoute =
   DashboardCrmCompaniesIndexRouteImport.update({
     id: '/crm/companies/',
     path: '/crm/companies/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardCrmCasesIndexRoute = DashboardCrmCasesIndexRouteImport.update({
   id: '/crm/cases/',
   path: '/crm/cases/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const DashboardCrmCampaignsIndexRoute =
   DashboardCrmCampaignsIndexRouteImport.update({
     id: '/crm/campaigns/',
     path: '/crm/campaigns/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login': typeof AuthLoginIndexRoute;
-  '/auth/reset-password': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup': typeof AuthSignupIndexRoute;
-  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm': typeof DashboardCrmIndexRoute;
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute
+  '/auth/login': typeof AuthLoginIndexRoute
+  '/auth/reset-password': typeof AuthResetPasswordIndexRoute
+  '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login': typeof AuthLoginIndexRoute;
-  '/auth/reset-password': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup': typeof AuthSignupIndexRoute;
-  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm': typeof DashboardCrmIndexRoute;
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute
+  '/auth/login': typeof AuthLoginIndexRoute
+  '/auth/reset-password': typeof AuthResetPasswordIndexRoute
+  '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login/': typeof AuthLoginIndexRoute;
-  '/auth/reset-password/': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup/': typeof AuthSignupIndexRoute;
-  '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm/': typeof DashboardCrmIndexRoute;
-  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications/': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
+  '/auth/login/': typeof AuthLoginIndexRoute
+  '/auth/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm/': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications/': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link/': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route/': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task/': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location/': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery/': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event/': typeof DashboardDmsTaskEventIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
@@ -218,8 +278,14 @@ export interface FileRouteTypes {
     | '/dashboard/crm/leads'
     | '/dashboard/crm/notifications'
     | '/dashboard/crm/opportunities'
-    | '/dashboard/crm/products';
-  fileRoutesByTo: FileRoutesByTo;
+    | '/dashboard/crm/products'
+    | '/dashboard/dms/customer-tracking-link'
+    | '/dashboard/dms/delivery-route'
+    | '/dashboard/dms/delivery-task'
+    | '/dashboard/dms/driver-location'
+    | '/dashboard/dms/proof-of-delivery'
+    | '/dashboard/dms/task-event'
+  fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
@@ -239,7 +305,13 @@ export interface FileRouteTypes {
     | '/dashboard/crm/leads'
     | '/dashboard/crm/notifications'
     | '/dashboard/crm/opportunities'
-    | '/dashboard/crm/products';
+    | '/dashboard/crm/products'
+    | '/dashboard/dms/customer-tracking-link'
+    | '/dashboard/dms/delivery-route'
+    | '/dashboard/dms/delivery-task'
+    | '/dashboard/dms/driver-location'
+    | '/dashboard/dms/proof-of-delivery'
+    | '/dashboard/dms/task-event'
   id:
     | '__root__'
     | '/'
@@ -260,159 +332,207 @@ export interface FileRouteTypes {
     | '/dashboard/crm/leads/'
     | '/dashboard/crm/notifications/'
     | '/dashboard/crm/opportunities/'
-    | '/dashboard/crm/products/';
-  fileRoutesById: FileRoutesById;
+    | '/dashboard/crm/products/'
+    | '/dashboard/dms/customer-tracking-link/'
+    | '/dashboard/dms/delivery-route/'
+    | '/dashboard/dms/delivery-task/'
+    | '/dashboard/dms/driver-location/'
+    | '/dashboard/dms/proof-of-delivery/'
+    | '/dashboard/dms/task-event/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren;
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
+  IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/dashboard': {
-      id: '/dashboard';
-      path: '/dashboard';
-      fullPath: '/dashboard';
-      preLoaderRoute: typeof DashboardRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
-      id: '/auth';
-      path: '/auth';
-      fullPath: '/auth';
-      preLoaderRoute: typeof AuthRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/crm/': {
-      id: '/dashboard/crm/';
-      path: '/crm';
-      fullPath: '/dashboard/crm';
-      preLoaderRoute: typeof DashboardCrmIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/'
+      path: '/crm'
+      fullPath: '/dashboard/crm'
+      preLoaderRoute: typeof DashboardCrmIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/auth/verify-email/': {
-      id: '/auth/verify-email/';
-      path: '/verify-email';
-      fullPath: '/auth/verify-email';
-      preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/verify-email/'
+      path: '/verify-email'
+      fullPath: '/auth/verify-email'
+      preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/signup/': {
-      id: '/auth/signup/';
-      path: '/signup';
-      fullPath: '/auth/signup';
-      preLoaderRoute: typeof AuthSignupIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/signup/'
+      path: '/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/reset-password/': {
-      id: '/auth/reset-password/';
-      path: '/reset-password';
-      fullPath: '/auth/reset-password';
-      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/reset-password/'
+      path: '/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/login/': {
-      id: '/auth/login/';
-      path: '/login';
-      fullPath: '/auth/login';
-      preLoaderRoute: typeof AuthLoginIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/login/'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/forgot-password/': {
-      id: '/auth/forgot-password/';
-      path: '/forgot-password';
-      fullPath: '/auth/forgot-password';
-      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/dashboard/dms/task-event/': {
+      id: '/dashboard/dms/task-event/'
+      path: '/dms/task-event'
+      fullPath: '/dashboard/dms/task-event'
+      preLoaderRoute: typeof DashboardDmsTaskEventIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dms/proof-of-delivery/': {
+      id: '/dashboard/dms/proof-of-delivery/'
+      path: '/dms/proof-of-delivery'
+      fullPath: '/dashboard/dms/proof-of-delivery'
+      preLoaderRoute: typeof DashboardDmsProofOfDeliveryIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dms/driver-location/': {
+      id: '/dashboard/dms/driver-location/'
+      path: '/dms/driver-location'
+      fullPath: '/dashboard/dms/driver-location'
+      preLoaderRoute: typeof DashboardDmsDriverLocationIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dms/delivery-task/': {
+      id: '/dashboard/dms/delivery-task/'
+      path: '/dms/delivery-task'
+      fullPath: '/dashboard/dms/delivery-task'
+      preLoaderRoute: typeof DashboardDmsDeliveryTaskIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dms/delivery-route/': {
+      id: '/dashboard/dms/delivery-route/'
+      path: '/dms/delivery-route'
+      fullPath: '/dashboard/dms/delivery-route'
+      preLoaderRoute: typeof DashboardDmsDeliveryRouteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dms/customer-tracking-link/': {
+      id: '/dashboard/dms/customer-tracking-link/'
+      path: '/dms/customer-tracking-link'
+      fullPath: '/dashboard/dms/customer-tracking-link'
+      preLoaderRoute: typeof DashboardDmsCustomerTrackingLinkIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/products/': {
-      id: '/dashboard/crm/products/';
-      path: '/crm/products';
-      fullPath: '/dashboard/crm/products';
-      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/products/'
+      path: '/crm/products'
+      fullPath: '/dashboard/crm/products'
+      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/opportunities/': {
-      id: '/dashboard/crm/opportunities/';
-      path: '/crm/opportunities';
-      fullPath: '/dashboard/crm/opportunities';
-      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/opportunities/'
+      path: '/crm/opportunities'
+      fullPath: '/dashboard/crm/opportunities'
+      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/notifications/': {
-      id: '/dashboard/crm/notifications/';
-      path: '/crm/notifications';
-      fullPath: '/dashboard/crm/notifications';
-      preLoaderRoute: typeof DashboardCrmNotificationsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/notifications/'
+      path: '/crm/notifications'
+      fullPath: '/dashboard/crm/notifications'
+      preLoaderRoute: typeof DashboardCrmNotificationsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/leads/': {
-      id: '/dashboard/crm/leads/';
-      path: '/crm/leads';
-      fullPath: '/dashboard/crm/leads';
-      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/leads/'
+      path: '/crm/leads'
+      fullPath: '/dashboard/crm/leads'
+      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/invoices/': {
-      id: '/dashboard/crm/invoices/';
-      path: '/crm/invoices';
-      fullPath: '/dashboard/crm/invoices';
-      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/invoices/'
+      path: '/crm/invoices'
+      fullPath: '/dashboard/crm/invoices'
+      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/interactions/': {
-      id: '/dashboard/crm/interactions/';
-      path: '/crm/interactions';
-      fullPath: '/dashboard/crm/interactions';
-      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/interactions/'
+      path: '/crm/interactions'
+      fullPath: '/dashboard/crm/interactions'
+      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/contacts/': {
-      id: '/dashboard/crm/contacts/';
-      path: '/crm/contacts';
-      fullPath: '/dashboard/crm/contacts';
-      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/contacts/'
+      path: '/crm/contacts'
+      fullPath: '/dashboard/crm/contacts'
+      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/companies/': {
-      id: '/dashboard/crm/companies/';
-      path: '/crm/companies';
-      fullPath: '/dashboard/crm/companies';
-      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/dashboard/crm/companies'
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/cases/': {
-      id: '/dashboard/crm/cases/';
-      path: '/crm/cases';
-      fullPath: '/dashboard/crm/cases';
-      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/cases/'
+      path: '/crm/cases'
+      fullPath: '/dashboard/crm/cases'
+      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/campaigns/': {
-      id: '/dashboard/crm/campaigns/';
-      path: '/crm/campaigns';
-      fullPath: '/dashboard/crm/campaigns';
-      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/campaigns/'
+      path: '/crm/campaigns'
+      fullPath: '/dashboard/crm/campaigns'
+      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface AuthRouteRouteChildren {
-  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute;
-  AuthLoginIndexRoute: typeof AuthLoginIndexRoute;
-  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute;
-  AuthSignupIndexRoute: typeof AuthSignupIndexRoute;
-  AuthVerifyEmailIndexRoute: typeof AuthVerifyEmailIndexRoute;
+  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
+  AuthLoginIndexRoute: typeof AuthLoginIndexRoute
+  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute
+  AuthSignupIndexRoute: typeof AuthSignupIndexRoute
+  AuthVerifyEmailIndexRoute: typeof AuthVerifyEmailIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -421,24 +541,30 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthResetPasswordIndexRoute: AuthResetPasswordIndexRoute,
   AuthSignupIndexRoute: AuthSignupIndexRoute,
   AuthVerifyEmailIndexRoute: AuthVerifyEmailIndexRoute,
-};
+}
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
-);
+)
 
 interface DashboardRouteRouteChildren {
-  DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute;
-  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute;
-  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute;
-  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute;
-  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute;
-  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute;
-  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute;
-  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute;
-  DashboardCrmNotificationsIndexRoute: typeof DashboardCrmNotificationsIndexRoute;
-  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute;
-  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute;
+  DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute
+  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
+  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
+  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute
+  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
+  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
+  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
+  DashboardCrmNotificationsIndexRoute: typeof DashboardCrmNotificationsIndexRoute
+  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute
+  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute
+  DashboardDmsCustomerTrackingLinkIndexRoute: typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  DashboardDmsDeliveryRouteIndexRoute: typeof DashboardDmsDeliveryRouteIndexRoute
+  DashboardDmsDeliveryTaskIndexRoute: typeof DashboardDmsDeliveryTaskIndexRoute
+  DashboardDmsDriverLocationIndexRoute: typeof DashboardDmsDriverLocationIndexRoute
+  DashboardDmsProofOfDeliveryIndexRoute: typeof DashboardDmsProofOfDeliveryIndexRoute
+  DashboardDmsTaskEventIndexRoute: typeof DashboardDmsTaskEventIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -453,17 +579,24 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmNotificationsIndexRoute: DashboardCrmNotificationsIndexRoute,
   DashboardCrmOpportunitiesIndexRoute: DashboardCrmOpportunitiesIndexRoute,
   DashboardCrmProductsIndexRoute: DashboardCrmProductsIndexRoute,
-};
+  DashboardDmsCustomerTrackingLinkIndexRoute:
+    DashboardDmsCustomerTrackingLinkIndexRoute,
+  DashboardDmsDeliveryRouteIndexRoute: DashboardDmsDeliveryRouteIndexRoute,
+  DashboardDmsDeliveryTaskIndexRoute: DashboardDmsDeliveryTaskIndexRoute,
+  DashboardDmsDriverLocationIndexRoute: DashboardDmsDriverLocationIndexRoute,
+  DashboardDmsProofOfDeliveryIndexRoute: DashboardDmsProofOfDeliveryIndexRoute,
+  DashboardDmsTaskEventIndexRoute: DashboardDmsTaskEventIndexRoute,
+}
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

@@ -4,18 +4,18 @@ import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient } from '@/orpc/client';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 import { CrmCampaign } from '@/schemas/crm/campaigns';
 import { CrmCompany } from '@/schemas/crm/companies';
 import { CrmContact } from '@/schemas/crm/contacts';
 import { CrmOpportunity } from '@/schemas/crm/opportunities';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateLead>>[number] & {
-    campaign: CrmCampaign | null;
-    convertedCompany: CrmCompany | null;
-    convertedContact: CrmContact | null;
-    convertedOpportunity: CrmOpportunity | null;
+  ORPCOutputs['crm']['paginateLead'][number] & {
+    campaign?: ORPCOutputs['crm']['inCampaign'][number];
+    convertedCompany?: ORPCOutputs['crm']['inCompany'][number];
+    convertedContact?: ORPCOutputs['crm']['inContact'][number];
+    convertedOpportunity?: ORPCOutputs['crm']['inOpportunity'][number];
   }
 >[] = [
   {

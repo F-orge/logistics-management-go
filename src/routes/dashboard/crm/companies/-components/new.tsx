@@ -21,16 +21,19 @@ import {
 } from '@/components/ui/field';
 import { createCompany } from '@/queries/crm';
 import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
+import { ORPCInputs } from '@/orpc/client';
 
 const NewCompanyFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/companies' });
   const searchQuery = useSearch({ from: '/dashboard/crm/companies/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/companies/' });
+  const { orpcClient, queryClient } = useRouteContext({
+    from: '/dashboard/crm/companies/',
+  });
 
-  const createMutation = useMutation(createCompany);
+  const createMutation = useMutation(createCompany, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createCompany>[0],
+    defaultValues: {} as ORPCInputs['crm']['createCompany'],
     validators: {
       onChange: crmCompanyInsertSchema,
     },

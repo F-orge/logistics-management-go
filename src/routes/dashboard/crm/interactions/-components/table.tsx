@@ -3,14 +3,12 @@ import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient } from '@/orpc/client';
-import { CrmCase } from '@/schemas/crm/cases';
-import { CrmContact } from '@/schemas/crm/contacts';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateInteraction>>[number] & {
-    contact: CrmContact | null;
-    case: CrmCase | null;
+  ORPCOutputs['crm']['paginateInteraction'][number] & {
+    contact?: ORPCOutputs['crm']['inContact'][number];
+    case?: ORPCOutputs['crm']['inCase'][number];
   }
 >[] = [
   {

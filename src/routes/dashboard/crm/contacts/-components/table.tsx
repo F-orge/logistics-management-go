@@ -4,13 +4,11 @@ import DateCell from '@/components/table/cells/date';
 import PhoneCell from '@/components/table/cells/phone';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient } from '@/orpc/client';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateContact>>[number] & {
-    company:
-      | Awaited<ReturnType<typeof orpcClient.crm.inCompany>>[number]
-      | undefined;
+  ORPCOutputs['crm']['paginateContact'][number] & {
+    company: ORPCOutputs['crm']['inCompany'][number] | undefined;
   }
 >[] = [
   {

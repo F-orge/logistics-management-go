@@ -2,10 +2,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import BooleanCell from '@/components/table/cells/boolean';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
-import { orpcClient } from '@/orpc/client';
+import { orpcClient, ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
-  Awaited<ReturnType<typeof orpcClient.crm.paginateNotification>>[number]
+  ORPCOutputs['crm']['paginateNotification'][number]
 >[] = [
   {
     accessorKey: 'id',
