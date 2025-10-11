@@ -91,9 +91,7 @@ export class CarrierRepository implements GenericRepository<'tms.carriers'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.carriers',
     {

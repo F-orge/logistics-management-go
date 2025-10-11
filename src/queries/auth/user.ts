@@ -1,5 +1,5 @@
-import { orpcClient } from '@/orpc/client';
 import { queryOptions } from '@tanstack/react-query';
+import { orpcClient } from '@/orpc/client';
 
 export const inUser = (options: string[]) =>
   queryOptions({

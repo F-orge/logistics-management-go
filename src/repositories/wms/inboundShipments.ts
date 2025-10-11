@@ -140,7 +140,10 @@ export class InboundShipmentRepository
       warehouseId: string;
     }
   > {
-    return this.db.insertInto('wms.inboundShipments').values(value).returningAll();
+    return this.db
+      .insertInto('wms.inboundShipments')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

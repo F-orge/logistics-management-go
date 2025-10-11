@@ -89,9 +89,7 @@ export class GpsPingRepository implements GenericRepository<'tms.gpsPings'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.gpsPings',
     {

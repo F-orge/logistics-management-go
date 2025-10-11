@@ -96,9 +96,7 @@ export class PartnerInvoiceRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.partnerInvoices',
     {
@@ -143,7 +141,10 @@ export class PartnerInvoiceRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('tms.partnerInvoices').values(value).returningAll();
+    return this.db
+      .insertInto('tms.partnerInvoices')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

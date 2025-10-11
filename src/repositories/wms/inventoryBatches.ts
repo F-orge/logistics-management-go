@@ -93,9 +93,7 @@ export class InventoryBatchRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.inventoryBatches',
     {
@@ -131,7 +129,10 @@ export class InventoryBatchRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.inventoryBatches').values(value).returningAll();
+    return this.db
+      .insertInto('wms.inventoryBatches')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

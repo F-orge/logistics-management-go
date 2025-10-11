@@ -1,5 +1,5 @@
 import { access, stat as fsStat, readdir, unlink } from 'node:fs/promises';
-import { CrmRecordType } from '@/db/types';
+import { BillingDocumentTypeEnum, CrmRecordType } from '@/db/types';
 
 // Custom error classes
 export class FileNotFoundError extends Error {
@@ -37,14 +37,22 @@ export class BunStorageRepository {
     }
   }
 
-  async save(recordId: string, recordType: CrmRecordType, file: File) {
+  async save(
+    recordId: string,
+    recordType: CrmRecordType | BillingDocumentTypeEnum,
+    file: File,
+  ) {
     return Bun.write(
       `${this.path}/${recordType}/${recordId}/${file.name}`,
       file,
     );
   }
 
-  async get(recordId: string, recordType: CrmRecordType, name: string) {
+  async get(
+    recordId: string,
+    recordType: CrmRecordType | BillingDocumentTypeEnum,
+    name: string,
+  ) {
     const filePath = `${this.path}/${recordType}/${recordId}/${name}`;
     try {
       // Bun.file does not throw, but we can check existence
@@ -64,7 +72,10 @@ export class BunStorageRepository {
   /**
    * List all files for a given recordId and recordType
    */
-  async list(recordId: string, recordType: CrmRecordType): Promise<string[]> {
+  async list(
+    recordId: string,
+    recordType: CrmRecordType | BillingDocumentTypeEnum,
+  ): Promise<string[]> {
     const dir = `${this.path}/${recordType}/${recordId}`;
     try {
       return await readdir(dir);
@@ -82,7 +93,7 @@ export class BunStorageRepository {
    */
   async delete(
     recordId: string,
-    recordType: CrmRecordType,
+    recordType: CrmRecordType | BillingDocumentTypeEnum,
     name: string,
   ): Promise<boolean> {
     const filePath = `${this.path}/${recordType}/${recordId}/${name}`;
@@ -103,7 +114,7 @@ export class BunStorageRepository {
    */
   async exists(
     recordId: string,
-    recordType: CrmRecordType,
+    recordType: CrmRecordType | BillingDocumentTypeEnum,
     name: string,
   ): Promise<boolean> {
     const filePath = `${this.path}/${recordType}/${recordId}/${name}`;

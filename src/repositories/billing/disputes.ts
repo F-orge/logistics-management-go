@@ -105,9 +105,7 @@ export class DisputeRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.disputes',
     {

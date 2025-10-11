@@ -94,9 +94,7 @@ export class VehicleRepository implements GenericRepository<'tms.vehicles'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.vehicles',
     {

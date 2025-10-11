@@ -102,9 +102,7 @@ export class TripStopRepository implements GenericRepository<'tms.tripStops'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.tripStops',
     {

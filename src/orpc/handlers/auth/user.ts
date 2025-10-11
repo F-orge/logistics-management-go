@@ -1,6 +1,6 @@
+import { implement } from '@orpc/server';
 import { inUserContract } from '@/orpc/contracts/auth/user';
 import { HonoVariables } from '@/server';
-import { implement } from '@orpc/server';
 
 export const inUser = implement(inUserContract)
   .$context<HonoVariables>()

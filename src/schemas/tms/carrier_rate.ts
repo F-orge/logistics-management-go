@@ -7,11 +7,15 @@ export const tmsCarrierRateSchema = z.object({
   origin: z
     .string({ message: 'Origin must be a string' })
     .min(1, { error: 'Origin is required' })
-    .max(255, { error: 'Origin must be at most 255 characters' }),
+    .max(255, { error: 'Origin must be at most 255 characters' })
+    .optional()
+    .nullable(),
   destination: z
     .string({ message: 'Destination must be a string' })
     .min(1, { error: 'Destination is required' })
-    .max(255, { error: 'Destination must be at most 255 characters' }),
+    .max(255, { error: 'Destination must be at most 255 characters' })
+    .optional()
+    .nullable(),
   unit: z
     .enum(TmsCarrierRateUnitEnum, { message: 'Invalid carrier rate unit' })
     .optional()
@@ -20,16 +24,8 @@ export const tmsCarrierRateSchema = z.object({
     .number({ message: 'Rate must be a number' })
     .min(0, { error: 'Rate must be at least 0' })
     .max(10000000, { error: 'Rate must be at most 10,000,000' }),
-  currency: z
-    .enum(TmsCurrencyEnum, { message: 'Invalid currency type' })
-    .optional()
-    .nullable(),
-  effectiveFrom: z
-    .date({ message: 'Invalid date format for effective from' })
-    .optional()
-    .nullable(),
-  effectiveTo: z
-    .date({ message: 'Invalid date format for effective to' })
+  serviceType: z
+    .string({ message: 'Service type must be a string' })
     .optional()
     .nullable(),
   createdAt: z

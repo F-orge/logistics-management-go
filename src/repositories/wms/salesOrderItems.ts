@@ -92,9 +92,7 @@ export class SalesOrderItemRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.salesOrderItems',
     {
@@ -133,7 +131,10 @@ export class SalesOrderItemRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.salesOrderItems').values(value).returningAll();
+    return this.db
+      .insertInto('wms.salesOrderItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

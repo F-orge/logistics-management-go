@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '@/db/types';
+import {
+  TmsCurrencyEnum,
+  TmsExpenseStatusEnum,
+  TmsExpenseTypeEnum,
+} from '@/db/types';
 
 export const tmsExpenseSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -19,10 +23,24 @@ export const tmsExpenseSchema = z.object({
     .number({ message: 'Amount must be a number' })
     .min(0, { error: 'Amount must be at least 0' })
     .max(1000000, { error: 'Amount must be at most 1,000,000' }),
-  notes: z
-    .string({ message: 'Notes must be a string' })
-    .min(1, { error: 'Notes are required' })
-    .max(1024, { error: 'Notes must be at most 1024 characters' })
+  currency: z
+    .enum(TmsCurrencyEnum, { message: 'Invalid currency type' })
+    .optional()
+    .nullable(),
+  driverId: z
+    .uuid({ message: 'Invalid UUID format for driver ID' })
+    .optional()
+    .nullable(),
+  fuelQuantity: z
+    .number({ message: 'Fuel quantity must be a number' })
+    .optional()
+    .nullable(),
+  odometerReading: z
+    .number({ message: 'Odometer reading must be a number' })
+    .optional()
+    .nullable(),
+  receiptUrl: z
+    .string({ message: 'Receipt URL must be a string' })
     .optional()
     .nullable(),
   createdAt: z

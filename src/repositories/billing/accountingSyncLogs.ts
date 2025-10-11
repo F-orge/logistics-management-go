@@ -109,9 +109,7 @@ export class AccountingSyncLogRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.accountingSyncLog',
     {
@@ -170,7 +168,10 @@ export class AccountingSyncLogRepository
       status: BillingSyncStatusEnum | null;
     }
   > {
-    return this.db.insertInto('billing.accountingSyncLog').values(value).returningAll();
+    return this.db
+      .insertInto('billing.accountingSyncLog')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

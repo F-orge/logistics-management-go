@@ -104,9 +104,7 @@ export class InventoryStockRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.inventoryStock',
     {
@@ -160,7 +158,10 @@ export class InventoryStockRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.inventoryStock').values(value).returningAll();
+    return this.db
+      .insertInto('wms.inventoryStock')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

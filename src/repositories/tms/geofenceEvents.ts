@@ -91,9 +91,7 @@ export class GeofenceEventRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.geofenceEvents',
     {
@@ -126,7 +124,10 @@ export class GeofenceEventRepository
       vehicleId: string;
     }
   > {
-    return this.db.insertInto('tms.geofenceEvents').values(value).returningAll();
+    return this.db
+      .insertInto('tms.geofenceEvents')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

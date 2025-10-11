@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const tmsRouteSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
-  optimizeRouteData: z
+  optimizedRouteData: z
     .string({ message: 'Optimized route data must be a string' })
     .min(1, { error: 'Optimized route data cannot be empty' })
     .max(4096, {

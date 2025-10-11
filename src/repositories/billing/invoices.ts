@@ -122,9 +122,7 @@ export class InvoiceRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.invoices',
     {

@@ -43,7 +43,9 @@ export const createAccountTransactionContract = oc
   .output(billingAccountTransactionSchema);
 
 export const updateAccountTransactionContract = oc
-  .input(z.object({ id: z.uuid(), value: billingAccountTransactionUpdateSchema }))
+  .input(
+    z.object({ id: z.uuid(), value: billingAccountTransactionUpdateSchema }),
+  )
   .output(billingAccountTransactionSchema);
 
 export const deleteAccountTransactionContract = oc

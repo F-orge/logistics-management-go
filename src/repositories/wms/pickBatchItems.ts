@@ -139,7 +139,10 @@ export class PickBatchItemRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.pickBatchItems').values(value).returningAll();
+    return this.db
+      .insertInto('wms.pickBatchItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

@@ -100,9 +100,7 @@ export class ShipmentLegRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.shipmentLegs',
     {

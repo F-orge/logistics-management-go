@@ -96,9 +96,7 @@ export class StockTransferRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.stockTransfers',
     {
@@ -143,7 +141,10 @@ export class StockTransferRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.stockTransfers').values(value).returningAll();
+    return this.db
+      .insertInto('wms.stockTransfers')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

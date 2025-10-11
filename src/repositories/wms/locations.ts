@@ -121,9 +121,7 @@ export class LocationRepository implements GenericRepository<'wms.locations'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.locations',
     {

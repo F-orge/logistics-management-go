@@ -93,9 +93,7 @@ export class ReorderPointRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.reorderPoints',
     {

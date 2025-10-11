@@ -99,9 +99,7 @@ export class InboundShipmentItemRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.inboundShipmentItems',
     {
@@ -149,7 +147,10 @@ export class InboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('wms.inboundShipmentItems').values(value).returningAll();
+    return this.db
+      .insertInto('wms.inboundShipmentItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

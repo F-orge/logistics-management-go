@@ -43,7 +43,9 @@ export const createAccountingSyncLogContract = oc
   .output(billingAccountingSyncLogSchema);
 
 export const updateAccountingSyncLogContract = oc
-  .input(z.object({ id: z.uuid(), value: billingAccountingSyncLogUpdateSchema }))
+  .input(
+    z.object({ id: z.uuid(), value: billingAccountingSyncLogUpdateSchema }),
+  )
   .output(billingAccountingSyncLogSchema);
 
 export const deleteAccountingSyncLogContract = oc

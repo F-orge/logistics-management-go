@@ -9,7 +9,9 @@ export const tmsGeofenceSchema = z.object({
   coordinates: z
     .string({ message: 'Coordinates must be a string' })
     .min(1, { error: 'Coordinates are required' })
-    .max(8192, { error: 'Coordinates must be at most 8192 characters' }), // GeoJSON or WKT as string
+    .max(8192, { error: 'Coordinates must be at most 8192 characters' })
+    .optional()
+    .nullable(), // GeoJSON or WKT as string
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

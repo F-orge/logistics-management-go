@@ -1,9 +1,9 @@
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inUser } from '../auth/user';
-import { nonEmpty } from '@/lib/utils';
 
 export const paginateCompany = (
   options: Parameters<typeof orpcClient.crm.paginateCompany>[0],

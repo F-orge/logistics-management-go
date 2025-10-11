@@ -90,9 +90,7 @@ export class ShipmentLegEventRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.shipmentLegEvents',
     {
@@ -126,7 +124,10 @@ export class ShipmentLegEventRepository
       statusMessage: string | null;
     }
   > {
-    return this.db.insertInto('tms.shipmentLegEvents').values(value).returningAll();
+    return this.db
+      .insertInto('tms.shipmentLegEvents')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

@@ -97,9 +97,7 @@ export class VehicleMaintenanceRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.vehicleMaintenance',
     {
@@ -141,7 +139,10 @@ export class VehicleMaintenanceRepository
       vehicleId: string;
     }
   > {
-    return this.db.insertInto('tms.vehicleMaintenance').values(value).returningAll();
+    return this.db
+      .insertInto('tms.vehicleMaintenance')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

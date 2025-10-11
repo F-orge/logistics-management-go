@@ -11,19 +11,31 @@ export const tmsTripStopSchema = z.object({
   address: z
     .string({ message: 'Address must be a string' })
     .min(1, { error: 'Address is required' })
-    .max(255, { error: 'Address must be at most 255 characters' }),
-  arrivalAt: z
-    .date({ message: 'Invalid date format for arrival at' })
+    .max(255, { error: 'Address must be at most 255 characters' })
     .optional()
     .nullable(),
-  departureAt: z
-    .date({ message: 'Invalid date format for departure at' })
+  actualArrivalTime: z
+    .date({ message: 'Invalid date format for actual arrival time' })
     .optional()
     .nullable(),
-  notes: z
-    .string({ message: 'Notes must be a string' })
-    .min(1, { error: 'Notes are required' })
-    .max(1024, { error: 'Notes must be at most 1024 characters' })
+  actualDepartureTime: z
+    .date({ message: 'Invalid date format for actual departure time' })
+    .optional()
+    .nullable(),
+  estimatedArrivalTime: z
+    .date({ message: 'Invalid date format for estimated arrival time' })
+    .optional()
+    .nullable(),
+  estimatedDepartureTime: z
+    .date({ message: 'Invalid date format for estimated departure time' })
+    .optional()
+    .nullable(),
+  sequence: z
+    .number({ message: 'Sequence must be a number' })
+    .int({ message: 'Sequence must be an integer' })
+    .min(0, { message: 'Sequence must be at least 0' }),
+  shipmentId: z
+    .uuid({ message: 'Invalid UUID format for shipment ID' })
     .optional()
     .nullable(),
   createdAt: z

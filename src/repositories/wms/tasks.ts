@@ -116,9 +116,7 @@ export class TaskRepository implements GenericRepository<'wms.tasks'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.tasks',
     {

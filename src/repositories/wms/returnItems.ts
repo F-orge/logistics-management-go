@@ -98,9 +98,7 @@ export class ReturnItemRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.returnItems',
     {

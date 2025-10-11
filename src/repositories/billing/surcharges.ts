@@ -102,9 +102,7 @@ export class SurchargeRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.surcharges',
     {
@@ -158,7 +156,10 @@ export class SurchargeRepository
       validTo: Date | null;
     }
   > {
-    return this.db.insertInto('billing.surcharges').values(value).returningAll();
+    return this.db
+      .insertInto('billing.surcharges')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

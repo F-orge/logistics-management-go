@@ -93,9 +93,7 @@ export class RouteRepository implements GenericRepository<'tms.routes'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.routes',
     {

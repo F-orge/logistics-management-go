@@ -111,9 +111,7 @@ export class ProductRepository implements GenericRepository<'wms.products'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.products',
     {

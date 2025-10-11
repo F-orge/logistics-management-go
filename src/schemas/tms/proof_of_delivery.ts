@@ -3,7 +3,6 @@ import { TmsProofTypeEnum } from '@/db/types';
 
 export const tmsProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
-  tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
   type: z
     .enum(TmsProofTypeEnum, { message: 'Invalid proof type' })
     .optional()
@@ -17,11 +16,15 @@ export const tmsProofOfDeliverySchema = z.object({
   latitude: z.coerce
     .number({ message: 'Latitude must be a number' })
     .min(-90, { error: 'Latitude must be at least -90' })
-    .max(90, { error: 'Latitude must be at most 90' }),
+    .max(90, { error: 'Latitude must be at most 90' })
+    .optional()
+    .nullable(),
   longitude: z.coerce
     .number({ message: 'Longitude must be a number' })
     .min(-180, { error: 'Longitude must be at least -180' })
-    .max(180, { error: 'Longitude must be at most 180' }),
+    .max(180, { error: 'Longitude must be at most 180' })
+    .optional()
+    .nullable(),
   timestamp: z.date({ message: 'Invalid date format for timestamp' }),
   tripStopId: z.uuid({ message: 'Invalid UUID format for trip stop ID' }),
   createdAt: z

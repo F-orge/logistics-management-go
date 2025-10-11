@@ -112,9 +112,7 @@ export class PutawayRuleRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.putawayRules',
     {

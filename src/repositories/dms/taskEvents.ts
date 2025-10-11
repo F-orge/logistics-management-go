@@ -14,7 +14,9 @@ import {
 import { DB, DmsTaskEventStatusEnum } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 
-export class TaskEventRepository implements GenericRepository<'dms.taskEvents'> {
+export class TaskEventRepository
+  implements GenericRepository<'dms.taskEvents'>
+{
   constructor(private db: Kysely<DB>) {}
 
   paginate(

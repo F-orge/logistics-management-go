@@ -110,9 +110,7 @@ export class InvoiceLineItemRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.invoiceLineItems',
     {
@@ -178,7 +176,10 @@ export class InvoiceLineItemRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('billing.invoiceLineItems').values(value).returningAll();
+    return this.db
+      .insertInto('billing.invoiceLineItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

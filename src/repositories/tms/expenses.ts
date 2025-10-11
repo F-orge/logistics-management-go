@@ -108,9 +108,7 @@ export class ExpenseRepository implements GenericRepository<'tms.expenses'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.expenses',
     {

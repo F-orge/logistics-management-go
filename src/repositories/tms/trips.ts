@@ -90,9 +90,7 @@ export class TripRepository implements GenericRepository<'tms.trips'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.trips',
     {

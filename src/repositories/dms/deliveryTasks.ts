@@ -18,7 +18,9 @@ import {
 } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 
-export class DeliveryTaskRepository implements GenericRepository<'dms.deliveryTasks'> {
+export class DeliveryTaskRepository
+  implements GenericRepository<'dms.deliveryTasks'>
+{
   constructor(private db: Kysely<DB>) {}
 
   paginate(

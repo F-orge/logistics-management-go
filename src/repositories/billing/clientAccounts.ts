@@ -103,9 +103,7 @@ export class ClientAccountRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.clientAccounts',
     {
@@ -157,7 +155,10 @@ export class ClientAccountRepository
       walletBalance: string | null;
     }
   > {
-    return this.db.insertInto('billing.clientAccounts').values(value).returningAll();
+    return this.db
+      .insertInto('billing.clientAccounts')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

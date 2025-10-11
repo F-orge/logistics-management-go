@@ -108,9 +108,7 @@ export class WarehouseRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.warehouses',
     {

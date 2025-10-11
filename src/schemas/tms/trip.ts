@@ -7,19 +7,16 @@ import { tmsTripStopInsertSchema } from './trip_stop';
 
 export const tmsTripSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
-  routeId: z.uuid({ message: 'Invalid UUID format for route ID' }),
-  driverId: z.uuid({ message: 'Invalid UUID format for driver ID' }),
-  vehicleId: z.uuid({ message: 'Invalid UUID format for vehicle ID' }),
+  driverId: z
+    .uuid({ message: 'Invalid UUID format for driver ID' })
+    .optional()
+    .nullable(),
+  vehicleId: z
+    .uuid({ message: 'Invalid UUID format for vehicle ID' })
+    .optional()
+    .nullable(),
   status: z
     .enum(TmsTripStatusEnum, { message: 'Invalid trip status' })
-    .optional()
-    .nullable(),
-  startedAt: z
-    .date({ message: 'Invalid date format for started at' })
-    .optional()
-    .nullable(),
-  completedAt: z
-    .date({ message: 'Invalid date format for completed at' })
     .optional()
     .nullable(),
   createdAt: z

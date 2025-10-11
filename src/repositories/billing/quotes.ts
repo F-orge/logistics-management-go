@@ -114,9 +114,7 @@ export class QuoteRepository implements GenericRepository<'billing.quotes'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.quotes',
     {

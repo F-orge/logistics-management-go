@@ -94,9 +94,7 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.returns',
     {

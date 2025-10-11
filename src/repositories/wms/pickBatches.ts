@@ -114,9 +114,7 @@ export class PickBatchRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.pickBatches',
     {

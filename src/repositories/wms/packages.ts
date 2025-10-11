@@ -122,9 +122,7 @@ export class PackageRepository implements GenericRepository<'wms.packages'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.packages',
     {

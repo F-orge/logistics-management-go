@@ -22,14 +22,6 @@ export const tmsPartnerInvoiceSchema = z.object({
     .string({ message: 'Invoice number must be a string' })
     .min(1, { error: 'Invoice number is required' })
     .max(64, { error: 'Invoice number must be at most 64 characters' }),
-  dueAt: z
-    .date({ message: 'Invalid date format for due date' })
-    .optional()
-    .nullable(),
-  paidAt: z
-    .date({ message: 'Invalid date format for paid at' })
-    .optional()
-    .nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

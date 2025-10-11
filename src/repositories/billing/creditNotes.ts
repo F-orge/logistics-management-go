@@ -106,9 +106,7 @@ export class CreditNoteRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.creditNotes',
     {
@@ -168,7 +166,10 @@ export class CreditNoteRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('billing.creditNotes').values(value).returningAll();
+    return this.db
+      .insertInto('billing.creditNotes')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

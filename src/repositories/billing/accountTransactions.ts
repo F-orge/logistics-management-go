@@ -107,9 +107,7 @@ export class AccountTransactionRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'billing.accountTransactions',
     {
@@ -169,7 +167,10 @@ export class AccountTransactionRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('billing.accountTransactions').values(value).returningAll();
+    return this.db
+      .insertInto('billing.accountTransactions')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,
@@ -217,7 +218,9 @@ export class AccountTransactionRepository
   delete(
     id: string,
   ): DeleteQueryBuilder<DB, 'billing.accountTransactions', DeleteResult> {
-    return this.db.deleteFrom('billing.accountTransactions').where('id', '=', id);
+    return this.db
+      .deleteFrom('billing.accountTransactions')
+      .where('id', '=', id);
   }
 }
 

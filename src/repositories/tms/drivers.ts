@@ -93,9 +93,7 @@ export class DriverRepository implements GenericRepository<'tms.drivers'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.drivers',
     {
