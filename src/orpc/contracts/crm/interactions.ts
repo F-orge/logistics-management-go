@@ -35,7 +35,7 @@ export const rangeInteractionContract = oc
   .output(z.array(crmInteractionSchema));
 
 export const inInteractionContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmInteractionSchema));
 
 export const createInteractionContract = oc

@@ -35,7 +35,7 @@ export const rangeCaseContract = oc
   .output(z.array(crmCaseSchema));
 
 export const inCaseContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmCaseSchema));
 
 export const createCaseContract = oc

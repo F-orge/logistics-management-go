@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
 import { useAppForm } from '@/components/form';
 import {
   Dialog,
@@ -13,20 +19,16 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { CrmInteractionType } from '@/db/types';
 import { createInteraction } from '@/queries/crm/interactions';
 import { crmInteractionInsertSchema } from '@/schemas/crm/interactions';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import { CrmInteractionType } from '@/db/types';
 
 const NewInteractionFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/interactions' });
   const searchQuery = useSearch({ from: '/dashboard/crm/interactions/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/interactions/' });
+  const { orpcClient } = useRouteContext({
+    from: '/dashboard/crm/interactions/',
+  });
 
   const createMutation = useMutation(createInteraction);
 
@@ -103,10 +105,12 @@ const NewInteractionFormDialog = () => {
                       <field.SelectField
                         label="Type"
                         description="The type of interaction."
-                        options={Object.values(CrmInteractionType).map((type) => ({
-                          label: type,
-                          value: type,
-                        }))}
+                        options={Object.values(CrmInteractionType).map(
+                          (type) => ({
+                            label: type,
+                            value: type,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>

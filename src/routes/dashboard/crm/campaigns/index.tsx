@@ -1,27 +1,38 @@
-import { DataTable } from '@/components/table';
-import { deleteCampaign, paginateCampaign, rangeCampaign } from '@/queries/crm/campaigns';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+  Trash,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Pencil, Plus, ScanSearch, SearchIcon, Trash } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  deleteCampaign,
+  paginateCampaign,
+  rangeCampaign,
+} from '@/queries/crm/campaigns';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmCampaignSchema } from '@/schemas/crm/campaigns';
-import { useState } from 'react';
-import z from 'zod';
 import NewCampaignFormDialog from './-components/new';
-import {
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewCampaignFormDialog from './-components/view';
 
 export const Route = createFileRoute('/dashboard/crm/campaigns/')({
@@ -196,30 +207,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewCampaignFormDialog />

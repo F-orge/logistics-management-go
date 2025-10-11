@@ -1,10 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import z from 'zod';
 import { useAppForm } from '@/components/form';
 import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
 import { authClient } from '@/lib/client-auth';
-import { Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/auth/signup/')({
   component: RouteComponent,

@@ -1,7 +1,7 @@
 import { Check, X } from 'lucide-react';
 import React, { useEffect } from 'react';
-import { Switch } from '@/components/ui/switch';
 import { Field, FieldLabel } from '@/components/ui/field';
+import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
 export type BooleanCellProps = {

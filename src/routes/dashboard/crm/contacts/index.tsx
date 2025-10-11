@@ -1,34 +1,39 @@
+import { useMutation } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
 import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
+import { Input } from '@/components/ui/input';
+import { inCompany } from '@/queries/crm';
 import {
   deleteContact,
   paginateContact,
   rangeContact,
 } from '@/queries/crm/contacts';
-import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
-import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmContactSchema } from '@/schemas/crm/contacts';
-import { useState } from 'react';
-import z from 'zod';
 import NewContactFormDialog from './-components/new';
-import {
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewContactFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inCompany } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/contacts/')({
   component: RouteComponent,
@@ -49,32 +54,10 @@ export const Route = createFileRoute('/dashboard/crm/contacts/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
-    const contacts = await context.queryClient.fetchQuery(
-      paginateContact(context.search),
-    );
-
-    // companies
-    const companyIds = contacts
-      .map((row) => row.companyId)
-      .filter((id) => id !== null && id !== undefined);
-
-    const companies = await context.queryClient.fetchQuery(
-      inCompany(companyIds),
-    );
-
-    // Create a map for quick lookup
-    const companyMap = new Map(
-      companies.map((company) => [company.id, company]),
-    );
-
-    // Merge company data into each row
-    const dataTable = contacts.map((row) => ({
-      ...row,
-      company: row.companyId ? (companyMap.get(row.companyId) ?? null) : null,
-    }));
-
     return {
-      dataTable,
+      dataTable: await context.queryClient.fetchQuery(
+        paginateContact(context.search),
+      ),
       chart: await context.queryClient.fetchQuery(rangeContact({ from, to })),
     };
   },
@@ -85,7 +68,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteContact, queryClient);
 

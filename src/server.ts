@@ -1,6 +1,14 @@
+import { onError } from '@orpc/client';
 import { RPCHandler } from '@orpc/server/fetch';
+import { BatchHandlerPlugin } from '@orpc/server/plugins';
+import sgMail from '@sendgrid/mail';
 import { promises as fs } from 'fs';
 import { Hono } from 'hono';
+import { serveStatic } from 'hono/bun';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
+import { prettyJSON } from 'hono/pretty-json';
+import { requestId } from 'hono/request-id';
 import {
   CamelCasePlugin,
   FileMigrationProvider,
@@ -8,19 +16,13 @@ import {
   Migrator,
   PostgresDialect,
 } from 'kysely';
+import nodemailer from 'nodemailer';
 import * as path from 'path';
 import { Pool } from 'pg';
 import { DB } from '@/db/types';
 import { authFactory } from '@/lib/auth';
 import * as orpcRouter from '@/orpc';
 import { BunStorageRepository } from './repositories/storage';
-import { logger } from 'hono/logger';
-import { prettyJSON } from 'hono/pretty-json';
-import { requestId } from 'hono/request-id';
-import nodemailer from 'nodemailer';
-import { cors } from 'hono/cors';
-import { serveStatic } from 'hono/bun';
-import sgMail from '@sendgrid/mail';
 
 type ServerFactory = {
   pool: Pool;
@@ -157,7 +159,10 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   });
 
   // orpc
-  const handler = new RPCHandler(orpcRouter);
+  const handler = new RPCHandler(orpcRouter, {
+    plugins: [new BatchHandlerPlugin()],
+    interceptors: [onError((error) => console.log(error))],
+  });
 
   router.use('/api/orpc/*', async (c, next) => {
     const { matched, response } = await handler.handle(c.req.raw, {

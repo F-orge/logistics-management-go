@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
 import { useAppForm } from '@/components/form';
 import {
   Dialog,
@@ -13,15 +19,9 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types';
 import { createInvoice } from '@/queries/crm/invoices';
 import { crmInvoiceInsertSchema } from '@/schemas/crm/invoices';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types';
 
 const NewInvoiceFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/invoices' });
@@ -117,10 +117,12 @@ const NewInvoiceFormDialog = () => {
                       <field.SelectField
                         label="Payment Method"
                         description="The method of payment for the invoice."
-                        options={Object.values(CrmPaymentMethod).map((method) => ({
-                          label: method,
-                          value: method,
-                        }))}
+                        options={Object.values(CrmPaymentMethod).map(
+                          (method) => ({
+                            label: method,
+                            value: method,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>
@@ -129,10 +131,12 @@ const NewInvoiceFormDialog = () => {
                       <field.SelectField
                         label="Status"
                         description="The current status of the invoice."
-                        options={Object.values(CrmInvoiceStatus).map((status) => ({
-                          label: status,
-                          value: status,
-                        }))}
+                        options={Object.values(CrmInvoiceStatus).map(
+                          (status) => ({
+                            label: status,
+                            value: status,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>

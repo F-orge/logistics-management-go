@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
 import { useAppForm } from '@/components/form';
 import {
   Dialog,
@@ -13,15 +19,9 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
 import { createCase } from '@/queries/crm/cases';
 import { crmCaseInsertSchema } from '@/schemas/crm/cases';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
 
 const NewCaseFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/cases' });
@@ -111,10 +111,12 @@ const NewCaseFormDialog = () => {
                       <field.SelectField
                         label="Priority"
                         description="The priority level of the case."
-                        options={Object.values(CrmCasePriority).map((priority) => ({
-                          label: priority,
-                          value: priority,
-                        }))}
+                        options={Object.values(CrmCasePriority).map(
+                          (priority) => ({
+                            label: priority,
+                            value: priority,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>

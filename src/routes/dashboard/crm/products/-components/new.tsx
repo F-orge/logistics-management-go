@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
 import { useAppForm } from '@/components/form';
 import {
   Dialog,
@@ -13,15 +19,9 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { CrmProductType } from '@/db/types';
 import { createProduct } from '@/queries/crm/products';
 import { crmProductInsertSchema } from '@/schemas/crm/products';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import { CrmProductType } from '@/db/types';
 
 const NewProductFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/products' });

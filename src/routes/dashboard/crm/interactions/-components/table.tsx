@@ -1,11 +1,11 @@
+import { Link } from '@tanstack/react-router';
+import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
-import { orpcClient } from '@/orpc/client';
-import { ColumnDef } from '@tanstack/react-table';
-import { CrmContact } from '@/schemas/crm/contacts';
-import { CrmCase } from '@/schemas/crm/cases';
 import { Button } from '@/components/ui/button';
-import { Link } from '@tanstack/react-router';
+import { orpcClient } from '@/orpc/client';
+import { CrmCase } from '@/schemas/crm/cases';
+import { CrmContact } from '@/schemas/crm/contacts';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateInteraction>>[number] & {
@@ -86,7 +86,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'interactionDate',
     header: 'Interaction Date',
-    cell: ({ row }) => <DateCell value={row.original.interactionDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.interactionDate} showTime />
+    ),
   },
   {
     accessorKey: 'notes',

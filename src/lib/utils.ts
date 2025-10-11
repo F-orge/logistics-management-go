@@ -17,3 +17,6 @@ export const selectClientQueryValidator = (fields: ZodEnum) =>
     delete: z.boolean().optional(),
     new: z.boolean().optional(),
   });
+
+export const nonEmpty = (value: unknown): value is string =>
+  typeof value === 'string' && value.length > 0;

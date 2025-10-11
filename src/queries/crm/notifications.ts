@@ -1,14 +1,26 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { orpcClient } from '@/orpc/client';
+import { inUser } from '../auth/user';
 
 export const paginateNotification = (
   options: Parameters<typeof orpcClient.crm.paginateNotification>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.notifications', options],
-    queryFn: () => orpcClient.crm.paginateNotification(options),
+    queryFn: async ({ client }) => {
+      const notifications = await orpcClient.crm.paginateNotification(options);
+
+      const users = await client.ensureQueryData(
+        inUser(notifications.map((row) => row.userId)),
+      );
+
+      return notifications.map((row) => ({
+        ...row,
+        user: users.find((subRow) => subRow.id === row.userId)!,
+      }));
+    },
     enabled: !!options,
   });
 

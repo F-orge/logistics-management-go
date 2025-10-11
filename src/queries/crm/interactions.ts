@@ -2,13 +2,42 @@ import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { inContact } from './contacts';
+import { nonEmpty } from '@/lib/utils';
 
 export const paginateInteraction = (
   options: Parameters<typeof orpcClient.crm.paginateInteraction>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.interactions', options],
-    queryFn: () => orpcClient.crm.paginateInteraction(options),
+    queryFn: async ({ client }) => {
+      const interactions = await orpcClient.crm.paginateInteraction(options);
+
+      const contactPromises = client.ensureQueryData(
+        inContact(interactions.map((row) => row.contactId)),
+      );
+
+      const casePromises = client.ensureQueryData(
+        inContact(interactions.map((row) => row.caseId).filter(nonEmpty)),
+      );
+
+      const userPromises = client.ensureQueryData(
+        inContact(interactions.map((row) => row.userId)),
+      );
+
+      const [contacts, cases, users] = await Promise.all([
+        contactPromises,
+        casePromises,
+        userPromises,
+      ]);
+
+      return interactions.map((row) => ({
+        ...row,
+        contact: contacts.find((subRow) => subRow.id === row.contactId)!,
+        case: cases.find((subRow) => subRow.id === row.caseId),
+        user: users.find((subRow) => subRow.id === row.userId)!,
+      }));
+    },
     enabled: !!options,
   });
 
@@ -38,7 +67,7 @@ export const createInteraction = mutationOptions<
   mutationFn: (options) => orpcClient.crm.createInteraction(options),
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
-      description: `Interaction: ${data.name} has been added successfully`,
+      description: `Interaction: ${data.caseId} has been added successfully`,
     });
     await context.client.invalidateQueries({ queryKey: ['crm.interactions'] });
   },
@@ -55,7 +84,7 @@ export const updateInteraction = mutationOptions<
   mutationFn: (options) => orpcClient.crm.updateInteraction(options),
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
-      description: `Interaction: ${data.name} has been updated successfully`,
+      description: `Interaction: ${data.caseId} has been updated successfully`,
     });
     await context.client.invalidateQueries({ queryKey: ['crm.interactions'] });
   },

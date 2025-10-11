@@ -1,14 +1,6 @@
-import { DataTable } from '@/components/table';
-import {
-  deleteCompany,
-  paginateCompany,
-  rangeCompany,
-} from '@/queries/crm/companies';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
-import { Input } from '@/components/ui/input';
+import { zodValidator } from '@tanstack/zod-adapter';
 import {
   MoreHorizontal,
   Pencil,
@@ -17,22 +9,30 @@ import {
   SearchIcon,
   Trash,
 } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
+import { Input } from '@/components/ui/input';
+import {
+  deleteCompany,
+  paginateCompany,
+  rangeCompany,
+} from '@/queries/crm/companies';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmCompanySchema } from '@/schemas/crm/companies';
-import { useState } from 'react';
-import z from 'zod';
 import NewCompanyFormDialog from './-components/new';
-import {
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewCompanyFormDialog from './-components/view';
 
 export const Route = createFileRoute('/dashboard/crm/companies/')({

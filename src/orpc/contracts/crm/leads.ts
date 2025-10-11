@@ -6,13 +6,13 @@ import {
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
+import { crmCampaignSchema } from '@/schemas/crm/campaigns';
+import { crmCompanySchema } from '@/schemas/crm/companies';
 import {
   crmLeadInsertSchema,
   crmLeadSchema,
   crmLeadUpdateSchema,
 } from '@/schemas/crm/leads';
-import { crmCampaignSchema } from '@/schemas/crm/campaigns';
-import { crmCompanySchema } from '@/schemas/crm/companies';
 import { crmOpportunitySchema } from '@/schemas/crm/opportunities';
 
 export const paginateLeadContract = oc
@@ -38,7 +38,7 @@ export const rangeLeadContract = oc
   .output(z.array(crmLeadSchema));
 
 export const inLeadContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmLeadSchema));
 
 export const createLeadContract = oc

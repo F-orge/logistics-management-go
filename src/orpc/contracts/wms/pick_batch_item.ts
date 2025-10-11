@@ -1,0 +1,51 @@
+import { oc } from '@orpc/contract';
+import { DeleteResult } from 'kysely';
+import z from 'zod';
+import {
+  filterTransformer,
+  paginateTransformer,
+  sortTransformer,
+} from '@/repositories/utils';
+import {
+  wmsPickBatchItemInsertSchema,
+  wmsPickBatchItemSchema,
+  wmsPickBatchItemUpdateSchema,
+} from '@/schemas/wms/pick_batch_item';
+
+export const paginatePickBatchItemContract = oc
+  .input(
+    paginateTransformer().and(
+      z.object({
+        filters: filterTransformer(wmsPickBatchItemSchema),
+        sort: sortTransformer(wmsPickBatchItemSchema),
+      }),
+    ),
+  )
+  .output(z.array(wmsPickBatchItemSchema));
+
+export const rangePickBatchItemContract = oc
+  .input(
+    z.object({ from: z.date(), to: z.date() }).and(
+      z.object({
+        filters: filterTransformer(wmsPickBatchItemSchema),
+        sort: sortTransformer(wmsPickBatchItemSchema),
+      }),
+    ),
+  )
+  .output(z.array(wmsPickBatchItemSchema));
+
+export const inPickBatchItemContract = oc
+  .input(z.array(z.uuid()).nonempty())
+  .output(z.array(wmsPickBatchItemSchema));
+
+export const createPickBatchItemContract = oc
+  .input(wmsPickBatchItemInsertSchema)
+  .output(wmsPickBatchItemSchema);
+
+export const updatePickBatchItemContract = oc
+  .input(z.object({ id: z.uuid(), value: wmsPickBatchItemUpdateSchema }))
+  .output(wmsPickBatchItemSchema);
+
+export const deletePickBatchItemContract = oc
+  .input(z.uuid())
+  .output(z.instanceof(DeleteResult));

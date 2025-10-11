@@ -115,7 +115,10 @@ export class CaseRepository implements GenericRepository<'crm.cases'> {
       updatedAt: Date | null;
     }
   > {
-    return this.db.selectFrom('crm.cases').selectAll().where('id', 'in', values);
+    return this.db
+      .selectFrom('crm.cases')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { caseNumber: string; ownerId: string } & {

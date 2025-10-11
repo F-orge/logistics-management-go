@@ -1,5 +1,5 @@
-import { orpcClient } from '@/orpc/client';
 import React from 'react';
+import { orpcClient } from '@/orpc/client';
 
 const CompaniesChart = ({
   data,

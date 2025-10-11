@@ -101,9 +101,7 @@ export class InvoiceRepository implements GenericRepository<'crm.invoices'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.invoices',
     {

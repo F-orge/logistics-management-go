@@ -1,9 +1,9 @@
+import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import PhoneCell from '@/components/table/cells/phone';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
-import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateCompany>>[number]

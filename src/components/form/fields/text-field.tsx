@@ -1,6 +1,5 @@
 import { Eye, EyeClosed } from 'lucide-react';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useFieldContext } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import {

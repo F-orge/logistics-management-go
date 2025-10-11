@@ -95,9 +95,7 @@ export class ProductRepository implements GenericRepository<'crm.products'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.products',
     {

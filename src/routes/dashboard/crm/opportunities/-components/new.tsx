@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
 import { useAppForm } from '@/components/form';
 import {
   Dialog,
@@ -13,20 +19,16 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types';
 import { createOpportunity } from '@/queries/crm/opportunities';
 import { crmOpportunityInsertSchema } from '@/schemas/crm/opportunities';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types';
 
 const NewOpportunityFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/opportunities' });
   const searchQuery = useSearch({ from: '/dashboard/crm/opportunities/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/opportunities/' });
+  const { orpcClient } = useRouteContext({
+    from: '/dashboard/crm/opportunities/',
+  });
 
   const createMutation = useMutation(createOpportunity);
 
@@ -151,10 +153,12 @@ const NewOpportunityFormDialog = () => {
                       <field.SelectField
                         label="Source"
                         description="The source of the opportunity."
-                        options={Object.values(CrmOpportunitySource).map((source) => ({
-                          label: source,
-                          value: source,
-                        }))}
+                        options={Object.values(CrmOpportunitySource).map(
+                          (source) => ({
+                            label: source,
+                            value: source,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>
@@ -163,10 +167,12 @@ const NewOpportunityFormDialog = () => {
                       <field.SelectField
                         label="Stage"
                         description="The current stage of the opportunity."
-                        options={Object.values(CrmOpportunityStage).map((stage) => ({
-                          label: stage,
-                          value: stage,
-                        }))}
+                        options={Object.values(CrmOpportunityStage).map(
+                          (stage) => ({
+                            label: stage,
+                            value: stage,
+                          }),
+                        )}
                       />
                     )}
                   </form.AppField>

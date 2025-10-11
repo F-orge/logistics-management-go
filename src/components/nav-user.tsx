@@ -1,3 +1,4 @@
+import { useLoaderData, useNavigate } from '@tanstack/react-router';
 import {
   BadgeCheck,
   Bell,
@@ -6,7 +7,6 @@ import {
   LogOut,
   Sparkles,
 } from 'lucide-react';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -23,7 +23,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useLoaderData, useNavigate } from '@tanstack/react-router';
 import { authClient } from '@/lib/client-auth';
 
 export function NavUser() {

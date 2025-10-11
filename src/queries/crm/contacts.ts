@@ -1,14 +1,33 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inCompany } from './companies';
+import { inUser } from '../auth/user';
 
 export const paginateContact = (
   options: Parameters<typeof orpcClient.crm.paginateContact>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.contacts', options],
-    queryFn: () => orpcClient.crm.paginateContact(options),
+    queryFn: async ({ client }) => {
+      const contacts = await orpcClient.crm.paginateContact(options);
+
+      const companies = await client.ensureQueryData(
+        inCompany(contacts.map((row) => row.companyId).filter(nonEmpty)),
+      );
+
+      const owners = await client.ensureQueryData(
+        inUser(contacts.map((row) => row.ownerId)),
+      );
+
+      return contacts.map((row) => ({
+        ...row,
+        company: companies.find((subRow) => subRow.id === row.companyId),
+        owner: owners.find((subRow) => subRow.id === row.ownerId)!,
+      }));
+    },
     enabled: !!options,
   });
 
@@ -26,7 +45,8 @@ export const inContact = (
 ) =>
   queryOptions({
     queryKey: ['crm.contacts', options],
-    queryFn: () => orpcClient.crm.inContact(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inContact(options) : [],
     enabled: !!options,
   });
 

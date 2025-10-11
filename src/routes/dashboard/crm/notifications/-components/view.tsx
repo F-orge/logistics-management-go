@@ -1,4 +1,6 @@
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
+import BooleanCell from '@/components/table/cells/boolean';
 import {
   Dialog,
   DialogContent,
@@ -15,17 +17,13 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
-import {
-  useLoaderData,
-  useNavigate,
-  useSearch,
-} from '@tanstack/react-router';
-import BooleanCell from '@/components/table/cells/boolean';
 
 const ViewNotificationFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/notifications' });
   const searchQuery = useSearch({ from: '/dashboard/crm/notifications/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/notifications/' });
+  const { dataTable } = useLoaderData({
+    from: '/dashboard/crm/notifications/',
+  });
   const data = dataTable.find((row) => row.id === searchQuery.id);
 
   if (!data) {

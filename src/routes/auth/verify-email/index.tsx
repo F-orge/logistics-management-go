@@ -1,4 +1,6 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -12,10 +14,8 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp';
-import { cn } from '@/lib/utils';
-import { zodValidator } from '@tanstack/zod-adapter';
-import z from 'zod';
 import { authClient } from '@/lib/client-auth';
+import { cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/auth/verify-email/')({
   component: RouteComponent,

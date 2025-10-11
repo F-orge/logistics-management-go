@@ -97,9 +97,7 @@ export class ContactRepository implements GenericRepository<'crm.contacts'> {
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.contacts',
     {

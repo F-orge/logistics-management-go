@@ -35,7 +35,7 @@ export const rangeInvoiceContract = oc
   .output(z.array(crmInvoiceSchema));
 
 export const inInvoiceContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmInvoiceSchema));
 
 export const createInvoiceContract = oc

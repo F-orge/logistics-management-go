@@ -12,9 +12,9 @@ import {
   Updateable,
   UpdateQueryBuilder,
 } from 'kysely';
+import { jsonObjectFrom } from 'kysely/helpers/postgres';
 import { CrmLeadSource, CrmLeadStatus, DB } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
-import { jsonObjectFrom } from 'kysely/helpers/postgres';
 
 export class LeadRepository implements GenericRepository<'crm.leads'> {
   constructor(private db: Kysely<DB>) {}

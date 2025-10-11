@@ -1,7 +1,7 @@
 import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
-import { HonoVariables } from '@/server';
 import { OpportunityProductRepository } from '@/repositories/crm/opportunityProducts';
+import { HonoVariables } from '@/server';
 
 export const paginateOpportunityProduct = implement(
   crmContracts.paginateOpportunityProductContract,

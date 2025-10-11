@@ -1,27 +1,35 @@
-import { DataTable } from '@/components/table';
-import { deleteCase, paginateCase, rangeCase } from '@/queries/crm/cases';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import { inContact } from '@/queries/crm';
+import { deleteCase, paginateCase, rangeCase } from '@/queries/crm/cases';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmCaseSchema } from '@/schemas/crm/cases';
-import { useState } from 'react';
-import z from 'zod';
 import NewCaseFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewCaseFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inContact } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/cases/')({
   component: RouteComponent,
@@ -42,33 +50,12 @@ export const Route = createFileRoute('/dashboard/crm/cases/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
-    const cases = await context.queryClient.fetchQuery(
+    const dataTable = await context.queryClient.ensureQueryData(
       paginateCase(context.search),
     );
 
-    // contacts
-    const contactIds = cases
-      .map((row) => row.contactId)
-      .filter((id) => id !== null && id !== undefined);
-
-    const contacts = await context.queryClient.fetchQuery(
-      inContact(contactIds),
-    );
-
-    // Create a map for quick lookup
-    const contactMap = new Map(
-      contacts.map((contact) => [contact.id, contact]),
-    );
-
-    // Merge contact data into each row
-    const dataTable = cases.map((row) => ({
-      ...row,
-      contact: row.contactId ? (contactMap.get(row.contactId) ?? null) : null,
-    }));
-
     return {
       dataTable,
-      chart: await context.queryClient.fetchQuery(rangeCase({ from, to })),
     };
   },
 });
@@ -78,7 +65,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteCase, queryClient);
 
@@ -218,30 +205,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewCaseFormDialog />

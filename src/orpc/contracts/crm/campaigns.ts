@@ -35,7 +35,7 @@ export const rangeCampaignContract = oc
   .output(z.array(crmCampaignSchema));
 
 export const inCampaignContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmCampaignSchema));
 
 export const createCampaignContract = oc

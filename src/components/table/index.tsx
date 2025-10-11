@@ -5,7 +5,7 @@ import {
   Row,
   useReactTable,
 } from '@tanstack/react-table';
-
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -21,7 +21,6 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '../ui/context-menu';
-import React from 'react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

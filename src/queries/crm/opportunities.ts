@@ -1,14 +1,52 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { orpcClient } from '@/orpc/client';
+import { inUser } from '../auth/user';
+import { nonEmpty } from '@/lib/utils';
+import { inCampaign } from './campaigns';
+import { inCompany } from './companies';
+import { inContact } from './contacts';
 
 export const paginateOpportunity = (
   options: Parameters<typeof orpcClient.crm.paginateOpportunity>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.opportunities', options],
-    queryFn: () => orpcClient.crm.paginateOpportunity(options),
+    queryFn: async ({ client }) => {
+      const opportunities = await orpcClient.crm.paginateOpportunity(options);
+
+      const ownerPromises = client.ensureQueryData(
+        inUser(opportunities.map((row) => row.ownerId)),
+      );
+
+      const campaignPromises = client.ensureQueryData(
+        inCampaign(opportunities.map((row) => row.campaignId).filter(nonEmpty)),
+      );
+
+      const companyPromises = client.ensureQueryData(
+        inCompany(opportunities.map((row) => row.companyId).filter(nonEmpty)),
+      );
+
+      const contactPromises = client.ensureQueryData(
+        inContact(opportunities.map((row) => row.contactId).filter(nonEmpty)),
+      );
+
+      const [owners, campaigns, companies, contacts] = await Promise.all([
+        ownerPromises,
+        campaignPromises,
+        companyPromises,
+        contactPromises,
+      ]);
+
+      return opportunities.map((row) => ({
+        ...row,
+        owner: owners.find((subRow) => subRow.id === row.ownerId)!,
+        campaign: campaigns.find((subRow) => subRow.id === row.campaignId),
+        company: companies.find((subRow) => subRow.id === row.companyId),
+        contact: contacts.find((subRow) => subRow.id === row.contactId),
+      }));
+    },
     enabled: !!options,
   });
 

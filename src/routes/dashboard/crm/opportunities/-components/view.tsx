@@ -1,3 +1,4 @@
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 import {
   Dialog,
@@ -15,16 +16,13 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
-import {
-  useLoaderData,
-  useNavigate,
-  useSearch,
-} from '@tanstack/react-router';
 
 const ViewOpportunityFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/opportunities' });
   const searchQuery = useSearch({ from: '/dashboard/crm/opportunities/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/opportunities/' });
+  const { dataTable } = useLoaderData({
+    from: '/dashboard/crm/opportunities/',
+  });
   const data = dataTable.find((row) => row.id === searchQuery.id);
 
   if (!data) {

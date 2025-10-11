@@ -35,7 +35,7 @@ export const rangeProductContract = oc
   .output(z.array(crmProductSchema));
 
 export const inProductContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmProductSchema));
 
 export const createProductContract = oc

@@ -1,27 +1,39 @@
-import { DataTable } from '@/components/table';
-import { deleteInvoice, paginateInvoice, rangeInvoice } from '@/queries/crm/invoices';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import { inInvoiceItem, inOpportunity, inProduct } from '@/queries/crm';
+import {
+  deleteInvoice,
+  paginateInvoice,
+  rangeInvoice,
+} from '@/queries/crm/invoices';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmInvoiceSchema } from '@/schemas/crm/invoices';
-import { useState } from 'react';
-import z from 'zod';
 import NewInvoiceFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewInvoiceFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inOpportunity, inInvoiceItem, inProduct } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/invoices/')({
   component: RouteComponent,
@@ -49,7 +61,7 @@ export const Route = createFileRoute('/dashboard/crm/invoices/')({
     // opportunities
     const opportunityIds = invoices
       .map((row) => row.opportunityId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const opportunities = await context.queryClient.fetchQuery(
       inOpportunity(opportunityIds),
@@ -64,7 +76,7 @@ export const Route = createFileRoute('/dashboard/crm/invoices/')({
     // products for invoice items
     const productIds = invoiceItems
       .map((item) => item.productId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const products = await context.queryClient.fetchQuery(
       inProduct(productIds),
@@ -85,7 +97,9 @@ export const Route = createFileRoute('/dashboard/crm/invoices/')({
     }));
 
     // Group invoice items by invoiceId
-    const groupedInvoiceItems = invoiceItemsWithProducts.reduce<Record<string, typeof invoiceItemsWithProducts>>((acc, item) => {
+    const groupedInvoiceItems = invoiceItemsWithProducts.reduce<
+      Record<string, typeof invoiceItemsWithProducts>
+    >((acc, item) => {
       if (!acc[item.invoiceId]) {
         acc[item.invoiceId] = [];
       }
@@ -96,7 +110,9 @@ export const Route = createFileRoute('/dashboard/crm/invoices/')({
     // Merge opportunity and invoice items data into each invoice row
     const dataTable = invoices.map((row) => ({
       ...row,
-      opportunity: row.opportunityId ? (opportunityMap.get(row.opportunityId) ?? null) : null,
+      opportunity: row.opportunityId
+        ? (opportunityMap.get(row.opportunityId) ?? null)
+        : null,
       items: groupedInvoiceItems[row.id] || [],
     }));
 
@@ -112,7 +128,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteInvoice, queryClient);
 
@@ -252,30 +268,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewInvoiceFormDialog />

@@ -1,10 +1,10 @@
 import { base, de, de_AT, en, Faker } from '@faker-js/faker';
-import type { Insertable, Kysely } from 'kysely';
-import { Pool } from 'pg';
-import { authFactory } from '@/lib/auth';
-import nodemailer from 'nodemailer';
 import { hashPassword } from 'better-auth/crypto';
+import type { Insertable, Kysely } from 'kysely';
+import nodemailer from 'nodemailer';
+import { Pool } from 'pg';
 import { DB } from '@/db/types';
+import { authFactory } from '@/lib/auth';
 
 // replace `any` with your database interface.
 export async function seed(db: Kysely<DB>): Promise<void> {

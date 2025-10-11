@@ -1,6 +1,8 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+import { toast } from 'sonner';
 import z from 'zod';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -9,10 +11,8 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { useAppForm } from '@/components/form';
-import { toast } from 'sonner';
 import { authClient } from '@/lib/client-auth';
+import { cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/auth/reset-password/')({
   component: RouteComponent,

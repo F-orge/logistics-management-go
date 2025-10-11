@@ -1,7 +1,7 @@
 import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
-import { HonoVariables } from '@/server';
 import { CaseRepository } from '@/repositories/crm/cases';
+import { HonoVariables } from '@/server';
 
 export const paginateCase = implement(crmContracts.paginateCaseContract)
   .$context<HonoVariables>()

@@ -35,7 +35,7 @@ export const rangeContactContract = oc
   .output(z.array(crmContactSchema));
 
 export const inContactContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty().nonempty())
   .output(z.array(crmContactSchema));
 
 export const createContactContract = oc

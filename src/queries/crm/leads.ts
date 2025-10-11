@@ -1,14 +1,71 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { orpcClient } from '@/orpc/client';
+import { inCampaign } from './campaigns';
+import { nonEmpty } from '@/lib/utils';
+import { inUser } from '../auth/user';
+import { inCompany } from './companies';
+import { inContact } from './contacts';
+import { inOpportunity } from './opportunities';
 
 export const paginateLead = (
   options: Parameters<typeof orpcClient.crm.paginateLead>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.leads', options],
-    queryFn: () => orpcClient.crm.paginateLead(options),
+    queryFn: async ({ client }) => {
+      const leads = await orpcClient.crm.paginateLead(options);
+
+      const campaignPromises = client.ensureQueryData(
+        inCampaign(leads.map((row) => row.campaignId).filter(nonEmpty)),
+      );
+
+      const ownerPromises = client.ensureQueryData(
+        inUser(leads.map((row) => row.ownerId).filter(nonEmpty)),
+      );
+
+      const convertedCompanyPromises = client.ensureQueryData(
+        inCompany(leads.map((row) => row.campaignId).filter(nonEmpty)),
+      );
+
+      const convertedContactPromises = client.ensureQueryData(
+        inContact(leads.map((row) => row.campaignId).filter(nonEmpty)),
+      );
+
+      const convertedOpportunityPromises = client.ensureQueryData(
+        inOpportunity(leads.map((row) => row.campaignId).filter(nonEmpty)),
+      );
+
+      const [
+        campaigns,
+        owners,
+        convertedCompanies,
+        convertedContacts,
+        convertedOpportunities,
+      ] = await Promise.all([
+        campaignPromises,
+        ownerPromises,
+        convertedCompanyPromises,
+        convertedContactPromises,
+        convertedOpportunityPromises,
+      ]);
+
+      return leads.map((row) => ({
+        ...row,
+        campaign: campaigns.find((subRow) => subRow.id === row.campaignId),
+        owner: owners.find((subRow) => subRow.id === row.ownerId)!,
+        convertedCompany: convertedCompanies.find(
+          (subRow) => subRow.id === row.convertedCompanyId,
+        ),
+        convertedContact: convertedContacts.find(
+          (subRow) => subRow.id === row.convertedContactId,
+        ),
+        convertedOpportunity: convertedOpportunities.find(
+          (subRow) => subRow.id === row.convertedOpportunityId,
+        ),
+      }));
+    },
     enabled: !!options,
   });
 
@@ -21,9 +78,7 @@ export const rangeLead = (
     enabled: !!options,
   });
 
-export const inLead = (
-  options: Parameters<typeof orpcClient.crm.inLead>[0],
-) =>
+export const inLead = (options: Parameters<typeof orpcClient.crm.inLead>[0]) =>
   queryOptions({
     queryKey: ['crm.leads', options],
     queryFn: () => orpcClient.crm.inLead(options),

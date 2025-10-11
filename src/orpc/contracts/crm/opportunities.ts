@@ -35,7 +35,7 @@ export const rangeOpportunityContract = oc
   .output(z.array(crmOpportunitySchema));
 
 export const inOpportunityContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmOpportunitySchema));
 
 export const createOpportunityContract = oc

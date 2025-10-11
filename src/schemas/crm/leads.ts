@@ -10,8 +10,8 @@ export const crmLeadSchema = z
       .min(1, { message: 'Lead name is required' })
       .max(255, { message: 'Lead name must be at most 255 characters' }),
     email: z
+      .string({ message: 'Email must be a string' })
       .email({ message: 'Invalid email format' })
-      .min(1, { message: 'Email is required' })
       .max(255, { message: 'Email must be at most 255 characters' }),
     ownerId: z
       .string({ message: 'Owner ID must be a string' })

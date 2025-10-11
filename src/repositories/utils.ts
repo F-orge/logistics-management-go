@@ -57,10 +57,13 @@ export const filterTransformer = <T extends ZodRawShape>(
     .object({
       column: schema.keyof(),
       operation: ComparisonOperatorSchema,
-      value: z.unknown(),
+      value: z.string().refine((value) => value !== undefined, {
+        message: 'Value cannot be undefined',
+      }),
     })
     .array()
-    .optional();
+    .optional()
+    .default([]);
 };
 
 export const sortTransformer = <T extends ZodRawShape>(

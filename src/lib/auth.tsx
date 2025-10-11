@@ -1,6 +1,12 @@
+import sgMailer, { MailService } from '@sendgrid/mail';
 import { betterAuth } from 'better-auth';
 import { admin as adminPlugin, bearer } from 'better-auth/plugins';
+import nodemailer from 'nodemailer';
 import { Pool } from 'pg';
+import ReactDOMServer from 'react-dom/server';
+import { pgPool } from '@/db';
+import ResetPassword from '@/emails/reset-password';
+import VerifyEmail from '@/emails/verify-email';
 import {
   ac,
   accountant,
@@ -36,12 +42,6 @@ import {
   warehouseManager,
   warehouseOperator,
 } from '@/lib/permissions';
-import { pgPool } from '@/db';
-import nodemailer from 'nodemailer';
-import VerifyEmail from '@/emails/verify-email';
-import ReactDOMServer from 'react-dom/server';
-import ResetPassword from '@/emails/reset-password';
-import sgMailer, { MailService } from '@sendgrid/mail';
 
 export const authFactory = (
   dbClient: Pool,

@@ -7,8 +7,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import {
-  crmCompanySchema,
   crmCompanyInsertSchema,
+  crmCompanySchema,
   crmCompanyUpdateSchema,
 } from '@/schemas/crm/companies';
 
@@ -35,7 +35,7 @@ export const rangeCompanyContract = oc
   .output(z.array(crmCompanySchema));
 
 export const inCompanyContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmCompanySchema));
 
 export const createCompanyContract = oc

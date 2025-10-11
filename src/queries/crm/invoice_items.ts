@@ -1,14 +1,26 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { orpcClient } from '@/orpc/client';
+import { inProduct } from './products';
 
 export const paginateInvoiceItem = (
   options: Parameters<typeof orpcClient.crm.paginateInvoiceItem>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.invoiceItems', options],
-    queryFn: () => orpcClient.crm.paginateInvoiceItem(options),
+    queryFn: async ({ client }) => {
+      const invoiceItems = await orpcClient.crm.paginateInvoiceItem(options);
+
+      const products = await client.ensureQueryData(
+        inProduct(invoiceItems.map((row) => row.productId)),
+      );
+
+      return invoiceItems.map((row) => ({
+        ...row,
+        product: products.find((subRow) => subRow.id === row.productId)!,
+      }));
+    },
     enabled: !!options,
   });
 

@@ -1,13 +1,13 @@
+import { Link } from '@tanstack/react-router';
+import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { orpcClient } from '@/orpc/client';
-import { ColumnDef } from '@tanstack/react-table';
-import { CrmOpportunity } from '@/schemas/crm/opportunities';
-import { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
-import { CrmProduct } from '@/schemas/crm/products';
 import { Button } from '@/components/ui/button';
-import { Link } from '@tanstack/react-router';
+import { orpcClient } from '@/orpc/client';
+import { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
+import { CrmOpportunity } from '@/schemas/crm/opportunities';
+import { CrmProduct } from '@/schemas/crm/products';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateInvoice>>[number] & {

@@ -35,7 +35,7 @@ export const rangeNotificationContract = oc
   .output(z.array(crmNotificationSchema));
 
 export const inNotificationContract = oc
-  .input(z.array(z.uuid()))
+  .input(z.array(z.uuid()).nonempty())
   .output(z.array(crmNotificationSchema));
 
 export const createNotificationContract = oc

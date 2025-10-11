@@ -1,30 +1,35 @@
-import { DataTable } from '@/components/table';
-import { deleteLead, paginateLead, rangeLead } from '@/queries/crm/leads';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import { inCampaign, inCompany, inContact, inOpportunity } from '@/queries/crm';
+import { deleteLead, paginateLead, rangeLead } from '@/queries/crm/leads';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmLeadSchema } from '@/schemas/crm/leads';
-import { useState } from 'react';
-import z from 'zod';
 import NewLeadFormDialog from './-components/new';
-import {
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewLeadFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inCampaign, inCompany, inContact, inOpportunity } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/leads/')({
   component: RouteComponent,
@@ -61,7 +66,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteLead, queryClient);
 

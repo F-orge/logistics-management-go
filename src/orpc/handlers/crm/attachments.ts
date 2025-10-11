@@ -1,7 +1,7 @@
 import { implement } from '@orpc/server';
 import * as crmSchema from '@/orpc/contracts/crm';
-import { HonoVariables } from '@/server';
 import { AttachmentRepository } from '@/repositories/crm/attachments';
+import { HonoVariables } from '@/server';
 
 export const uploadAttachment = implement(crmSchema.uploadAttachmentContract)
   .$context<HonoVariables>()

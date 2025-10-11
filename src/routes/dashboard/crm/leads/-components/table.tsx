@@ -1,14 +1,14 @@
+import { Link } from '@tanstack/react-router';
+import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
+import { Button } from '@/components/ui/button';
 import { orpcClient } from '@/orpc/client';
-import { ColumnDef } from '@tanstack/react-table';
 import { CrmCampaign } from '@/schemas/crm/campaigns';
 import { CrmCompany } from '@/schemas/crm/companies';
 import { CrmContact } from '@/schemas/crm/contacts';
 import { CrmOpportunity } from '@/schemas/crm/opportunities';
-import { Button } from '@/components/ui/button';
-import { Link } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateLead>>[number] & {

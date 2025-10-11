@@ -1,14 +1,31 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { orpcClient } from '@/orpc/client';
+import { inOpportunity } from './opportunities';
+import { nonEmpty } from '@/lib/utils';
 
 export const paginateInvoice = (
   options: Parameters<typeof orpcClient.crm.paginateInvoice>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.invoices', options],
-    queryFn: () => orpcClient.crm.paginateInvoice(options),
+    queryFn: async ({ client }) => {
+      const invoices = await orpcClient.crm.paginateInvoice(options);
+
+      const opportunities = await client.ensureQueryData(
+        inOpportunity(
+          invoices.map((row) => row.opportunityId).filter(nonEmpty),
+        ),
+      );
+
+      return invoices.map((row) => ({
+        ...row,
+        opportunity: opportunities.find(
+          (subRow) => subRow.id === row.opportunityId,
+        ),
+      }));
+    },
     enabled: !!options,
   });
 

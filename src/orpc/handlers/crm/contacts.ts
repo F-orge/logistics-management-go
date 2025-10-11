@@ -1,7 +1,7 @@
 import { implement } from '@orpc/server';
 import * as crmContracts from '@/orpc/contracts/crm';
-import { HonoVariables } from '@/server';
 import { ContactRepository } from '@/repositories/crm/contacts';
+import { HonoVariables } from '@/server';
 
 export const paginateContact = implement(crmContracts.paginateContactContract)
   .$context<HonoVariables>()
@@ -28,7 +28,9 @@ export const inContact = implement(crmContracts.inContactContract)
   .handler(async ({ context, input }) => {
     const repo = new ContactRepository(context.db);
 
-    return repo.in(input).execute();
+    const result = await repo.in(input).execute();
+
+    return result;
   });
 
 export const createContact = implement(crmContracts.createContactContract)

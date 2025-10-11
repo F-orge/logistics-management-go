@@ -1,14 +1,33 @@
-import { orpcClient } from '@/orpc/client';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inContact } from './contacts';
+import { inUser } from '../auth/user';
 
 export const paginateCase = (
   options: Parameters<typeof orpcClient.crm.paginateCase>[0],
 ) =>
   queryOptions({
     queryKey: ['crm.cases', options],
-    queryFn: () => orpcClient.crm.paginateCase(options),
+    queryFn: async ({ client }) => {
+      const cases = await orpcClient.crm.paginateCase(options);
+
+      const contacts = await client.ensureQueryData(
+        inContact(cases.map((row) => row.contactId).filter(nonEmpty)),
+      );
+
+      const owners = await client.ensureQueryData(
+        inUser(cases.map((row) => row.ownerId)),
+      );
+
+      return cases.map((row) => ({
+        ...row,
+        contact: contacts.find((subRow) => subRow.id === row.contactId),
+        owner: owners.find((subRow) => subRow.id === row.ownerId)!,
+      }));
+    },
     enabled: !!options,
   });
 
@@ -17,14 +36,36 @@ export const rangeCase = (
 ) =>
   queryOptions({
     queryKey: ['crm.cases', options],
-    queryFn: () => orpcClient.crm.rangeCase(options),
+    queryFn: async ({ client }) => {
+      const cases = await orpcClient.crm.rangeCase(options);
+
+      const contacts = await client.ensureQueryData(
+        inContact(cases.map((row) => row.contactId).filter(nonEmpty)),
+      );
+
+      return cases.map((row) => ({
+        ...row,
+        contact: contacts.find((subRow) => subRow.id === row.contactId),
+      }));
+    },
     enabled: !!options,
   });
 
 export const inCase = (options: Parameters<typeof orpcClient.crm.inCase>[0]) =>
   queryOptions({
-    queryKey: ['crm.cases', options],
-    queryFn: () => orpcClient.crm.inCase(options),
+    queryKey: ['crm.cases', ...options],
+    queryFn: async ({ client }) => {
+      const cases = await orpcClient.crm.inCase(options);
+
+      const contacts = await client.fetchQuery(
+        inContact(cases.map((row) => row.contactId).filter(nonEmpty)),
+      );
+
+      return cases.map((row) => ({
+        ...row,
+        contact: contacts.find((subRow) => subRow.id === row.contactId),
+      }));
+    },
     enabled: !!options,
   });
 

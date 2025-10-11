@@ -1,27 +1,39 @@
-import { DataTable } from '@/components/table';
-import { deleteInteraction, paginateInteraction, rangeInteraction } from '@/queries/crm/interactions';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import { inCase, inContact } from '@/queries/crm';
+import {
+  deleteInteraction,
+  paginateInteraction,
+  rangeInteraction,
+} from '@/queries/crm/interactions';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmInteractionSchema } from '@/schemas/crm/interactions';
-import { useState } from 'react';
-import z from 'zod';
 import NewInteractionFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewInteractionFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inContact, inCase } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/interactions/')({
   component: RouteComponent,
@@ -49,28 +61,22 @@ export const Route = createFileRoute('/dashboard/crm/interactions/')({
     // contacts
     const contactIds = interactions
       .map((row) => row.contactId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const contacts = await context.queryClient.fetchQuery(
       inContact(contactIds),
     );
 
     // cases
-    const caseIds = interactions
-      .map((row) => row.caseId)
-      .filter((id) => id !== null && id !== undefined);
+    const caseIds = interactions.map((row) => row.caseId).filter(nonEmpty);
 
-    const cases = await context.queryClient.fetchQuery(
-      inCase(caseIds),
-    );
+    const cases = await context.queryClient.fetchQuery(inCase(caseIds));
 
     // Create maps for quick lookup
     const contactMap = new Map(
       contacts.map((contact) => [contact.id, contact]),
     );
-    const caseMap = new Map(
-      cases.map((caseItem) => [caseItem.id, caseItem]),
-    );
+    const caseMap = new Map(cases.map((caseItem) => [caseItem.id, caseItem]));
 
     // Merge contact and case data into each row
     const dataTable = interactions.map((row) => ({
@@ -81,7 +87,9 @@ export const Route = createFileRoute('/dashboard/crm/interactions/')({
 
     return {
       dataTable,
-      chart: await context.queryClient.fetchQuery(rangeInteraction({ from, to })),
+      chart: await context.queryClient.fetchQuery(
+        rangeInteraction({ from, to }),
+      ),
     };
   },
 });
@@ -91,7 +99,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteInteraction, queryClient);
 
@@ -231,30 +239,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewInteractionFormDialog />

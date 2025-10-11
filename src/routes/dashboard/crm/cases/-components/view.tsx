@@ -1,3 +1,4 @@
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
 import React from 'react';
 import {
   Dialog,
@@ -15,11 +16,6 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
-import {
-  useLoaderData,
-  useNavigate,
-  useSearch,
-} from '@tanstack/react-router';
 
 const ViewCaseFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/cases' });

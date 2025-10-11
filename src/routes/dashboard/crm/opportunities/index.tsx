@@ -1,27 +1,45 @@
-import { DataTable } from '@/components/table';
-import { deleteOpportunity, paginateOpportunity, rangeOpportunity } from '@/queries/crm/opportunities';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { columns } from './-components/table';
+import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  ScanSearch,
+  SearchIcon,
+} from 'lucide-react';
+import { useState } from 'react';
+import z from 'zod';
+import { DataTable } from '@/components/table';
+import DeleteRecordDialog from '@/components/table/dialogs/delete';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ContextMenuItem,
+  ContextMenuSeparator,
+} from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { MoreHorizontal, Plus, SearchIcon } from 'lucide-react';
-import { zodValidator } from '@tanstack/zod-adapter';
+import {
+  inCampaign,
+  inCompany,
+  inContact,
+  inOpportunityProduct,
+  inProduct,
+} from '@/queries/crm';
+import {
+  deleteOpportunity,
+  paginateOpportunity,
+  rangeOpportunity,
+} from '@/queries/crm/opportunities';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { crmOpportunitySchema } from '@/schemas/crm/opportunities';
-import { useState } from 'react';
-import z from 'zod';
 import NewOpportunityFormDialog from './-components/new';
-import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { useMutation } from '@tanstack/react-query';
+import { columns } from './-components/table';
 import ViewOpportunityFormDialog from './-components/view';
-import { ScanSearch, Pencil } from 'lucide-react';
-import { inCampaign, inCompany, inContact, inOpportunityProduct, inProduct } from '@/queries/crm';
 
 export const Route = createFileRoute('/dashboard/crm/opportunities/')({
   component: RouteComponent,
@@ -49,7 +67,7 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     // campaigns
     const campaignIds = opportunities
       .map((row) => row.campaignId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const campaigns = await context.queryClient.fetchQuery(
       inCampaign(campaignIds),
@@ -58,7 +76,7 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     // companies
     const companyIds = opportunities
       .map((row) => row.companyId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const companies = await context.queryClient.fetchQuery(
       inCompany(companyIds),
@@ -67,7 +85,7 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     // contacts
     const contactIds = opportunities
       .map((row) => row.contactId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const contacts = await context.queryClient.fetchQuery(
       inContact(contactIds),
@@ -82,7 +100,7 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     // products for opportunity products
     const productIds = opportunityProducts
       .map((item) => item.productId)
-      .filter((id) => id !== null && id !== undefined);
+      .filter(nonEmpty);
 
     const products = await context.queryClient.fetchQuery(
       inProduct(productIds),
@@ -109,7 +127,9 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     }));
 
     // Group opportunity products by opportunityId
-    const groupedOpportunityProducts = opportunityProductsWithProducts.reduce<Record<string, typeof opportunityProductsWithProducts>>((acc, item) => {
+    const groupedOpportunityProducts = opportunityProductsWithProducts.reduce<
+      Record<string, typeof opportunityProductsWithProducts>
+    >((acc, item) => {
       if (!acc[item.opportunityId]) {
         acc[item.opportunityId] = [];
       }
@@ -120,7 +140,9 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     // Merge related data into each opportunity row
     const dataTable = opportunities.map((row) => ({
       ...row,
-      campaign: row.campaignId ? (campaignMap.get(row.campaignId) ?? null) : null,
+      campaign: row.campaignId
+        ? (campaignMap.get(row.campaignId) ?? null)
+        : null,
       company: row.companyId ? (companyMap.get(row.companyId) ?? null) : null,
       contact: row.contactId ? (contactMap.get(row.contactId) ?? null) : null,
       products: groupedOpportunityProducts[row.id] || [],
@@ -128,7 +150,9 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
 
     return {
       dataTable,
-      chart: await context.queryClient.fetchQuery(rangeOpportunity({ from, to })),
+      chart: await context.queryClient.fetchQuery(
+        rangeOpportunity({ from, to }),
+      ),
     };
   },
 });
@@ -138,7 +162,7 @@ function RouteComponent() {
   const searchQuery = Route.useSearch();
   const data = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>();
+  const [currentSearch, setCurrentSearch] = useState<string>('');
 
   const deleteMutation = useMutation(deleteOpportunity, queryClient);
 
@@ -278,30 +302,28 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
               },
-            )
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
         <NewOpportunityFormDialog />

@@ -109,9 +109,7 @@ export class OpportunityRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.opportunities',
     {
