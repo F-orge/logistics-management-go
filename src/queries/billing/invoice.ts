@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inQuote } from './quote';
 
@@ -24,7 +23,9 @@ export const paginateInvoice = (
 
       return invoices.map((row) => ({
         ...row,
-        createdByUser: createdByUsers.find((subRow) => subRow.id === row.createdByUserId),
+        createdByUser: createdByUsers.find(
+          (subRow) => subRow.id === row.createdByUserId,
+        ),
         quote: quotes.find((subRow) => subRow.id === row.quoteId),
       }));
     },

@@ -1,12 +1,11 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inUser } from '@/queries/auth/user';
 import { inSalesOrder } from './sales_order';
 import { inWarehouse } from './warehouse';
-import { inUser } from '@/queries/auth/user';
 
 export const paginatePackage = (
   options: Parameters<typeof orpcClient.wms.paginatePackage>[0],
@@ -28,9 +27,13 @@ export const paginatePackage = (
 
       return packages.map((row) => ({
         ...row,
-        salesOrder: salesOrders.find((subRow) => subRow.id === row.salesOrderId),
+        salesOrder: salesOrders.find(
+          (subRow) => subRow.id === row.salesOrderId,
+        ),
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
-        packedByUser: packedByUsers.find((subRow) => subRow.id === row.packedByUserId),
+        packedByUser: packedByUsers.find(
+          (subRow) => subRow.id === row.packedByUserId,
+        ),
       }));
     },
     enabled: !!options,

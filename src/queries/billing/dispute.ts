@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inInvoiceLineItem } from './invoice_line_item';
+import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
+import { inInvoiceLineItem } from './invoice_line_item';
 
 export const paginateDispute = (
   options: Parameters<typeof orpcClient.billing.paginateDispute>[0],
@@ -16,7 +15,9 @@ export const paginateDispute = (
       const disputes = await orpcClient.billing.paginateDispute(options);
 
       const lineItems = await client.ensureQueryData(
-        inInvoiceLineItem(disputes.map((row) => row.lineItemId).filter(nonEmpty)),
+        inInvoiceLineItem(
+          disputes.map((row) => row.lineItemId).filter(nonEmpty),
+        ),
       );
       const resolvedByUsers = await client.ensureQueryData(
         inUser(disputes.map((row) => row.resolvedByUserId).filter(nonEmpty)),
@@ -25,7 +26,9 @@ export const paginateDispute = (
       return disputes.map((row) => ({
         ...row,
         lineItem: lineItems.find((subRow) => subRow.id === row.lineItemId),
-        resolvedByUser: resolvedByUsers.find((subRow) => subRow.id === row.resolvedByUserId),
+        resolvedByUser: resolvedByUsers.find(
+          (subRow) => subRow.id === row.resolvedByUserId,
+        ),
       }));
     },
     enabled: !!options,

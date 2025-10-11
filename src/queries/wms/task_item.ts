@@ -1,13 +1,12 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inTask } from './task';
-import { inProduct } from './product';
+import { orpcClient } from '@/orpc/client';
 import { inInventoryBatch } from './inventory_batch';
 import { inLocation } from './location';
+import { inProduct } from './product';
+import { inTask } from './task';
 
 export const paginateTaskItem = (
   options: Parameters<typeof orpcClient.wms.paginateTaskItem>[0],
@@ -40,8 +39,12 @@ export const paginateTaskItem = (
         task: tasks.find((subRow) => subRow.id === row.taskId),
         product: products.find((subRow) => subRow.id === row.productId),
         batch: inventoryBatches.find((subRow) => subRow.id === row.batchId),
-        destinationLocation: locations.find((subRow) => subRow.id === row.destinationLocationId),
-        sourceLocation: locations.find((subRow) => subRow.id === row.sourceLocationId),
+        destinationLocation: locations.find(
+          (subRow) => subRow.id === row.destinationLocationId,
+        ),
+        sourceLocation: locations.find(
+          (subRow) => subRow.id === row.sourceLocationId,
+        ),
       }));
     },
     enabled: !!options,

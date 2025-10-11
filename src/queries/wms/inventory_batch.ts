@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inProduct } from './product';
 
 export const paginateInventoryBatch = (
@@ -12,10 +11,13 @@ export const paginateInventoryBatch = (
   queryOptions({
     queryKey: ['wms.inventoryBatch', 'paginate', options],
     queryFn: async ({ client }) => {
-      const inventoryBatches = await orpcClient.wms.paginateInventoryBatch(options);
+      const inventoryBatches =
+        await orpcClient.wms.paginateInventoryBatch(options);
 
       const products = await client.ensureQueryData(
-        inProduct(inventoryBatches.map((row) => row.productId).filter(nonEmpty)),
+        inProduct(
+          inventoryBatches.map((row) => row.productId).filter(nonEmpty),
+        ),
       );
 
       return inventoryBatches.map((row) => ({
@@ -54,7 +56,9 @@ export const createInventoryBatch = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Batch: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryBatch'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryBatch'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +75,9 @@ export const updateInventoryBatch = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Batch: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryBatch'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryBatch'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +94,9 @@ export const deleteInventoryBatch = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Batch has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryBatch'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryBatch'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

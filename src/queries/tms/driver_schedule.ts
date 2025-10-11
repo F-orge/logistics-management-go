@@ -1,5 +1,5 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
@@ -11,7 +11,8 @@ export const paginateDriverSchedule = (
   queryOptions({
     queryKey: ['tms.driverSchedule', 'paginate', options],
     queryFn: async ({ client }) => {
-      const driverSchedules = await orpcClient.tms.paginateDriverSchedule(options);
+      const driverSchedules =
+        await orpcClient.tms.paginateDriverSchedule(options);
 
       const drivers = await client.ensureQueryData(
         inDriver(driverSchedules.map((row) => row.driverId)),
@@ -53,7 +54,9 @@ export const createDriverSchedule = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Schedule: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.driverSchedule'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.driverSchedule'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -70,7 +73,9 @@ export const updateDriverSchedule = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Schedule: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.driverSchedule'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.driverSchedule'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -87,7 +92,9 @@ export const deleteDriverSchedule = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Schedule has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.driverSchedule'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.driverSchedule'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

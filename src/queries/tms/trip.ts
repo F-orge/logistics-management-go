@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inDriver } from './driver';
 import { inVehicle } from './vehicle';
 
@@ -40,9 +39,7 @@ export const rangeTrip = (
     enabled: !!options,
   });
 
-export const inTrip = (
-  options: Parameters<typeof orpcClient.tms.inTrip>[0],
-) =>
+export const inTrip = (options: Parameters<typeof orpcClient.tms.inTrip>[0]) =>
   queryOptions({
     queryKey: ['tms.trip', 'in', options],
     queryFn: () => orpcClient.tms.inTrip(options),

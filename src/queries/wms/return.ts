@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inSalesOrder } from './sales_order';
 
 export const paginateReturn = (
@@ -20,7 +19,9 @@ export const paginateReturn = (
 
       return returns.map((row) => ({
         ...row,
-        salesOrder: salesOrders.find((subRow) => subRow.id === row.salesOrderId),
+        salesOrder: salesOrders.find(
+          (subRow) => subRow.id === row.salesOrderId,
+        ),
       }));
     },
     enabled: !!options,

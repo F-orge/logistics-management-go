@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inWarehouse } from './warehouse';
+import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
+import { inWarehouse } from './warehouse';
 
 export const paginatePickBatch = (
   options: Parameters<typeof orpcClient.wms.paginatePickBatch>[0],
@@ -25,7 +24,9 @@ export const paginatePickBatch = (
       return pickBatches.map((row) => ({
         ...row,
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
-        assignedUser: assignedUsers.find((subRow) => subRow.id === row.assignedUserId),
+        assignedUser: assignedUsers.find(
+          (subRow) => subRow.id === row.assignedUserId,
+        ),
       }));
     },
     enabled: !!options,

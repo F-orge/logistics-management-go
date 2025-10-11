@@ -1,12 +1,11 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inWarehouse } from './warehouse';
+import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inPickBatch } from './pick_batch';
+import { inWarehouse } from './warehouse';
 
 export const paginateTask = (
   options: Parameters<typeof orpcClient.wms.paginateTask>[0],
@@ -45,9 +44,7 @@ export const rangeTask = (
     enabled: !!options,
   });
 
-export const inTask = (
-  options: Parameters<typeof orpcClient.wms.inTask>[0],
-) =>
+export const inTask = (options: Parameters<typeof orpcClient.wms.inTask>[0]) =>
   queryOptions({
     queryKey: ['wms.task', 'in', options],
     queryFn: () => orpcClient.wms.inTask(options),

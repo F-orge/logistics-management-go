@@ -1,12 +1,11 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inInventoryBatch } from './inventory_batch';
 import { inPackage } from './package';
 import { inProduct } from './product';
-import { inInventoryBatch } from './inventory_batch';
 
 export const paginatePackageItem = (
   options: Parameters<typeof orpcClient.wms.paginatePackageItem>[0],
@@ -23,7 +22,9 @@ export const paginatePackageItem = (
         inProduct(packageItems.map((row) => row.productId).filter(nonEmpty)),
       );
       const inventoryBatches = await client.ensureQueryData(
-        inInventoryBatch(packageItems.map((row) => row.batchId).filter(nonEmpty)),
+        inInventoryBatch(
+          packageItems.map((row) => row.batchId).filter(nonEmpty),
+        ),
       );
 
       return packageItems.map((row) => ({

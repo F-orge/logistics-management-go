@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inInvoice } from './invoice';
 
 export const paginateInvoiceLineItem = (
@@ -12,10 +11,13 @@ export const paginateInvoiceLineItem = (
   queryOptions({
     queryKey: ['billing.invoiceLineItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const invoiceLineItems = await orpcClient.billing.paginateInvoiceLineItem(options);
+      const invoiceLineItems =
+        await orpcClient.billing.paginateInvoiceLineItem(options);
 
       const invoices = await client.ensureQueryData(
-        inInvoice(invoiceLineItems.map((row) => row.invoiceId).filter(nonEmpty)),
+        inInvoice(
+          invoiceLineItems.map((row) => row.invoiceId).filter(nonEmpty),
+        ),
       );
 
       return invoiceLineItems.map((row) => ({
@@ -54,7 +56,9 @@ export const createInvoiceLineItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Invoice Line Item: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.invoiceLineItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.invoiceLineItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +75,9 @@ export const updateInvoiceLineItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Invoice Line Item: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.invoiceLineItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.invoiceLineItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +94,9 @@ export const deleteInvoiceLineItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Invoice Line Item has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.invoiceLineItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.invoiceLineItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

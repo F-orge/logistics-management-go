@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inShipmentLeg } from './shipment_leg';
 
 export const paginateShipmentLegEvent = (
@@ -12,15 +11,20 @@ export const paginateShipmentLegEvent = (
   queryOptions({
     queryKey: ['tms.shipmentLegEvent', 'paginate', options],
     queryFn: async ({ client }) => {
-      const shipmentLegEvents = await orpcClient.tms.paginateShipmentLegEvent(options);
+      const shipmentLegEvents =
+        await orpcClient.tms.paginateShipmentLegEvent(options);
 
       const shipmentLegs = await client.ensureQueryData(
-        inShipmentLeg(shipmentLegEvents.map((row) => row.shipmentLegId).filter(nonEmpty)),
+        inShipmentLeg(
+          shipmentLegEvents.map((row) => row.shipmentLegId).filter(nonEmpty),
+        ),
       );
 
       return shipmentLegEvents.map((row) => ({
         ...row,
-        shipmentLeg: shipmentLegs.find((subRow) => subRow.id === row.shipmentLegId),
+        shipmentLeg: shipmentLegs.find(
+          (subRow) => subRow.id === row.shipmentLegId,
+        ),
       }));
     },
     enabled: !!options,
@@ -54,7 +58,9 @@ export const createShipmentLegEvent = mutationOptions<
     toast.success(`Operation success`, {
       description: `Shipment Leg Event: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLegEvent'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.shipmentLegEvent'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +77,9 @@ export const updateShipmentLegEvent = mutationOptions<
     toast.success(`Operation success`, {
       description: `Shipment Leg Event: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLegEvent'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.shipmentLegEvent'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +96,9 @@ export const deleteShipmentLegEvent = mutationOptions<
     toast.success(`Operation success`, {
       description: `Shipment Leg Event has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLegEvent'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.shipmentLegEvent'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

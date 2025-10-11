@@ -1,12 +1,11 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inUser } from '@/queries/auth/user';
 import { inProduct } from './product';
 import { inWarehouse } from './warehouse';
-import { inUser } from '@/queries/auth/user';
 
 export const paginateInventoryAdjustment = (
   options: Parameters<typeof orpcClient.wms.paginateInventoryAdjustment>[0],
@@ -14,13 +13,18 @@ export const paginateInventoryAdjustment = (
   queryOptions({
     queryKey: ['wms.inventoryAdjustment', 'paginate', options],
     queryFn: async ({ client }) => {
-      const inventoryAdjustments = await orpcClient.wms.paginateInventoryAdjustment(options);
+      const inventoryAdjustments =
+        await orpcClient.wms.paginateInventoryAdjustment(options);
 
       const products = await client.ensureQueryData(
-        inProduct(inventoryAdjustments.map((row) => row.productId).filter(nonEmpty)),
+        inProduct(
+          inventoryAdjustments.map((row) => row.productId).filter(nonEmpty),
+        ),
       );
       const warehouses = await client.ensureQueryData(
-        inWarehouse(inventoryAdjustments.map((row) => row.warehouseId).filter(nonEmpty)),
+        inWarehouse(
+          inventoryAdjustments.map((row) => row.warehouseId).filter(nonEmpty),
+        ),
       );
       const users = await client.ensureQueryData(
         inUser(inventoryAdjustments.map((row) => row.userId).filter(nonEmpty)),
@@ -64,7 +68,9 @@ export const createInventoryAdjustment = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Adjustment: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryAdjustment'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryAdjustment'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -81,7 +87,9 @@ export const updateInventoryAdjustment = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Adjustment: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryAdjustment'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryAdjustment'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -98,7 +106,9 @@ export const deleteInventoryAdjustment = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inventory Adjustment has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inventoryAdjustment'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inventoryAdjustment'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

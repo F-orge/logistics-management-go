@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inDeliveryTask } from './delivery_task';
 
 export const paginateTaskEvent = (
@@ -15,12 +14,16 @@ export const paginateTaskEvent = (
       const taskEvents = await orpcClient.dms.paginateTaskEvent(options);
 
       const deliveryTasks = await client.ensureQueryData(
-        inDeliveryTask(taskEvents.map((row) => row.deliveryTaskId).filter(nonEmpty)),
+        inDeliveryTask(
+          taskEvents.map((row) => row.deliveryTaskId).filter(nonEmpty),
+        ),
       );
 
       return taskEvents.map((row) => ({
         ...row,
-        deliveryTask: deliveryTasks.find((subRow) => subRow.id === row.deliveryTaskId),
+        deliveryTask: deliveryTasks.find(
+          (subRow) => subRow.id === row.deliveryTaskId,
+        ),
       }));
     },
     enabled: !!options,

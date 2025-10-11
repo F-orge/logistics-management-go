@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inSalesOrder } from './sales_order';
+import { orpcClient } from '@/orpc/client';
 import { inProduct } from './product';
+import { inSalesOrder } from './sales_order';
 
 export const paginateSalesOrderItem = (
   options: Parameters<typeof orpcClient.wms.paginateSalesOrderItem>[0],
@@ -13,10 +12,13 @@ export const paginateSalesOrderItem = (
   queryOptions({
     queryKey: ['wms.salesOrderItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const salesOrderItems = await orpcClient.wms.paginateSalesOrderItem(options);
+      const salesOrderItems =
+        await orpcClient.wms.paginateSalesOrderItem(options);
 
       const salesOrders = await client.ensureQueryData(
-        inSalesOrder(salesOrderItems.map((row) => row.salesOrderId).filter(nonEmpty)),
+        inSalesOrder(
+          salesOrderItems.map((row) => row.salesOrderId).filter(nonEmpty),
+        ),
       );
       const products = await client.ensureQueryData(
         inProduct(salesOrderItems.map((row) => row.productId).filter(nonEmpty)),
@@ -24,7 +26,9 @@ export const paginateSalesOrderItem = (
 
       return salesOrderItems.map((row) => ({
         ...row,
-        salesOrder: salesOrders.find((subRow) => subRow.id === row.salesOrderId),
+        salesOrder: salesOrders.find(
+          (subRow) => subRow.id === row.salesOrderId,
+        ),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },
@@ -59,7 +63,9 @@ export const createSalesOrderItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Sales Order Item: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrderItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.salesOrderItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -76,7 +82,9 @@ export const updateSalesOrderItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Sales Order Item: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrderItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.salesOrderItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -93,7 +101,9 @@ export const deleteSalesOrderItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Sales Order Item has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrderItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.salesOrderItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

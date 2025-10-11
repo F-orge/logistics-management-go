@@ -1,5 +1,5 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
@@ -9,7 +9,8 @@ export const paginateClientAccount = (
   queryOptions({
     queryKey: ['billing.clientAccount', 'paginate', options],
     queryFn: async ({ client }) => {
-      const clientAccounts = await orpcClient.billing.paginateClientAccount(options);
+      const clientAccounts =
+        await orpcClient.billing.paginateClientAccount(options);
 
       // No inClient available, so no relations added for clientId
 
@@ -48,7 +49,9 @@ export const createClientAccount = mutationOptions<
     toast.success(`Operation success`, {
       description: `Client Account: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.clientAccount'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.clientAccount'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -65,7 +68,9 @@ export const updateClientAccount = mutationOptions<
     toast.success(`Operation success`, {
       description: `Client Account: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.clientAccount'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.clientAccount'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -82,7 +87,9 @@ export const deleteClientAccount = mutationOptions<
     toast.success(`Operation success`, {
       description: `Client Account has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.clientAccount'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.clientAccount'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

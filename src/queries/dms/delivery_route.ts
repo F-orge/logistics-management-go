@@ -1,5 +1,5 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
@@ -11,7 +11,8 @@ export const paginateDeliveryRoute = (
   queryOptions({
     queryKey: ['dms.deliveryRoute', 'paginate', options],
     queryFn: async ({ client }) => {
-      const deliveryRoutes = await orpcClient.dms.paginateDeliveryRoute(options);
+      const deliveryRoutes =
+        await orpcClient.dms.paginateDeliveryRoute(options);
 
       const drivers = await client.ensureQueryData(
         inUser(deliveryRoutes.map((row) => row.driverId)),

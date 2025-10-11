@@ -1,5 +1,5 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
@@ -40,7 +40,9 @@ export const createAccountingSyncLog = mutationOptions<
     toast.success(`Operation success`, {
       description: `Accounting Sync Log: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.accountingSyncLog'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.accountingSyncLog'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -57,7 +59,9 @@ export const updateAccountingSyncLog = mutationOptions<
     toast.success(`Operation success`, {
       description: `Accounting Sync Log: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.accountingSyncLog'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.accountingSyncLog'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -74,7 +78,9 @@ export const deleteAccountingSyncLog = mutationOptions<
     toast.success(`Operation success`, {
       description: `Accounting Sync Log has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.accountingSyncLog'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.accountingSyncLog'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inPartnerInvoice } from './partner_invoice';
 import { inShipmentLeg } from './shipment_leg';
 
@@ -13,19 +12,30 @@ export const paginatePartnerInvoiceItem = (
   queryOptions({
     queryKey: ['tms.partnerInvoiceItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const partnerInvoiceItems = await orpcClient.tms.paginatePartnerInvoiceItem(options);
+      const partnerInvoiceItems =
+        await orpcClient.tms.paginatePartnerInvoiceItem(options);
 
       const partnerInvoices = await client.ensureQueryData(
-        inPartnerInvoice(partnerInvoiceItems.map((row) => row.partnerInvoiceId).filter(nonEmpty)),
+        inPartnerInvoice(
+          partnerInvoiceItems
+            .map((row) => row.partnerInvoiceId)
+            .filter(nonEmpty),
+        ),
       );
       const shipmentLegs = await client.ensureQueryData(
-        inShipmentLeg(partnerInvoiceItems.map((row) => row.shipmentLegId).filter(nonEmpty)),
+        inShipmentLeg(
+          partnerInvoiceItems.map((row) => row.shipmentLegId).filter(nonEmpty),
+        ),
       );
 
       return partnerInvoiceItems.map((row) => ({
         ...row,
-        partnerInvoice: partnerInvoices.find((subRow) => subRow.id === row.partnerInvoiceId),
-        shipmentLeg: shipmentLegs.find((subRow) => subRow.id === row.shipmentLegId),
+        partnerInvoice: partnerInvoices.find(
+          (subRow) => subRow.id === row.partnerInvoiceId,
+        ),
+        shipmentLeg: shipmentLegs.find(
+          (subRow) => subRow.id === row.shipmentLegId,
+        ),
       }));
     },
     enabled: !!options,
@@ -59,7 +69,9 @@ export const createPartnerInvoiceItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice Item: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoiceItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoiceItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -76,7 +88,9 @@ export const updatePartnerInvoiceItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice Item: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoiceItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoiceItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -93,7 +107,9 @@ export const deletePartnerInvoiceItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice Item has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoiceItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoiceItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

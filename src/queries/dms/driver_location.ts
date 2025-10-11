@@ -1,5 +1,5 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
@@ -11,7 +11,8 @@ export const paginateDriverLocation = (
   queryOptions({
     queryKey: ['dms.driverLocation', 'paginate', options],
     queryFn: async ({ client }) => {
-      const driverLocations = await orpcClient.dms.paginateDriverLocation(options);
+      const driverLocations =
+        await orpcClient.dms.paginateDriverLocation(options);
 
       const drivers = await client.ensureQueryData(
         inUser(driverLocations.map((row) => row.driverId)),
@@ -53,7 +54,9 @@ export const createDriverLocation = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Location: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['dms.driverLocation'] });
+    await context.client.invalidateQueries({
+      queryKey: ['dms.driverLocation'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -70,7 +73,9 @@ export const updateDriverLocation = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Location: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['dms.driverLocation'] });
+    await context.client.invalidateQueries({
+      queryKey: ['dms.driverLocation'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -87,7 +92,9 @@ export const deleteDriverLocation = mutationOptions<
     toast.success(`Operation success`, {
       description: `Driver Location has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['dms.driverLocation'] });
+    await context.client.invalidateQueries({
+      queryKey: ['dms.driverLocation'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

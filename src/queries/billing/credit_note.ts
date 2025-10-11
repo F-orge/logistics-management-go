@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inDispute } from './dispute';
 import { inInvoice } from './invoice';
@@ -28,7 +27,9 @@ export const paginateCreditNote = (
 
       return creditNotes.map((row) => ({
         ...row,
-        createdByUser: createdByUsers.find((subRow) => subRow.id === row.createdByUserId),
+        createdByUser: createdByUsers.find(
+          (subRow) => subRow.id === row.createdByUserId,
+        ),
         dispute: disputes.find((subRow) => subRow.id === row.disputeId),
         invoice: invoices.find((subRow) => subRow.id === row.invoiceId),
       }));
@@ -64,7 +65,9 @@ export const createCreditNote = mutationOptions<
     toast.success(`Operation success`, {
       description: `Credit Note: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.creditNote'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.creditNote'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -81,7 +84,9 @@ export const updateCreditNote = mutationOptions<
     toast.success(`Operation success`, {
       description: `Credit Note: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.creditNote'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.creditNote'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -98,7 +103,9 @@ export const deleteCreditNote = mutationOptions<
     toast.success(`Operation success`, {
       description: `Credit Note has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['billing.creditNote'] });
+    await context.client.invalidateQueries({
+      queryKey: ['billing.creditNote'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

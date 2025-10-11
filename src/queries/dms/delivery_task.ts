@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inDeliveryRoute } from './delivery_route';
+import { orpcClient } from '@/orpc/client';
 import { inProduct } from '@/queries/crm/products';
+import { inDeliveryRoute } from './delivery_route';
 
 export const paginateDeliveryTask = (
   options: Parameters<typeof orpcClient.dms.paginateDeliveryTask>[0],
@@ -16,7 +15,9 @@ export const paginateDeliveryTask = (
       const deliveryTasks = await orpcClient.dms.paginateDeliveryTask(options);
 
       const deliveryRoutes = await client.ensureQueryData(
-        inDeliveryRoute(deliveryTasks.map((row) => row.deliveryRouteId).filter(nonEmpty)),
+        inDeliveryRoute(
+          deliveryTasks.map((row) => row.deliveryRouteId).filter(nonEmpty),
+        ),
       );
       const packages = await client.ensureQueryData(
         inProduct(deliveryTasks.map((row) => row.packageId).filter(nonEmpty)),
@@ -24,7 +25,9 @@ export const paginateDeliveryTask = (
 
       return deliveryTasks.map((row) => ({
         ...row,
-        deliveryRoute: deliveryRoutes.find((subRow) => subRow.id === row.deliveryRouteId),
+        deliveryRoute: deliveryRoutes.find(
+          (subRow) => subRow.id === row.deliveryRouteId,
+        ),
         package: packages.find((subRow) => subRow.id === row.packageId),
       }));
     },

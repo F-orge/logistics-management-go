@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inPickBatch } from './pick_batch';
 import { inSalesOrder } from './sales_order';
 
@@ -13,19 +12,26 @@ export const paginatePickBatchItem = (
   queryOptions({
     queryKey: ['wms.pickBatchItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const pickBatchItems = await orpcClient.wms.paginatePickBatchItem(options);
+      const pickBatchItems =
+        await orpcClient.wms.paginatePickBatchItem(options);
 
       const pickBatches = await client.ensureQueryData(
-        inPickBatch(pickBatchItems.map((row) => row.pickBatchId).filter(nonEmpty)),
+        inPickBatch(
+          pickBatchItems.map((row) => row.pickBatchId).filter(nonEmpty),
+        ),
       );
       const salesOrders = await client.ensureQueryData(
-        inSalesOrder(pickBatchItems.map((row) => row.salesOrderId).filter(nonEmpty)),
+        inSalesOrder(
+          pickBatchItems.map((row) => row.salesOrderId).filter(nonEmpty),
+        ),
       );
 
       return pickBatchItems.map((row) => ({
         ...row,
         pickBatch: pickBatches.find((subRow) => subRow.id === row.pickBatchId),
-        salesOrder: salesOrders.find((subRow) => subRow.id === row.salesOrderId),
+        salesOrder: salesOrders.find(
+          (subRow) => subRow.id === row.salesOrderId,
+        ),
       }));
     },
     enabled: !!options,

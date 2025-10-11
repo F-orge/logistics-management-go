@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inWarehouse } from './warehouse';
+import { orpcClient } from '@/orpc/client';
 import { inProduct } from './product';
+import { inWarehouse } from './warehouse';
 
 export const paginateStockTransfer = (
   options: Parameters<typeof orpcClient.wms.paginateStockTransfer>[0],
@@ -13,7 +12,8 @@ export const paginateStockTransfer = (
   queryOptions({
     queryKey: ['wms.stockTransfer', 'paginate', options],
     queryFn: async ({ client }) => {
-      const stockTransfers = await orpcClient.wms.paginateStockTransfer(options);
+      const stockTransfers =
+        await orpcClient.wms.paginateStockTransfer(options);
 
       const warehouses = await client.ensureQueryData(
         inWarehouse(
@@ -29,8 +29,12 @@ export const paginateStockTransfer = (
 
       return stockTransfers.map((row) => ({
         ...row,
-        sourceWarehouse: warehouses.find((subRow) => subRow.id === row.sourceWarehouseId),
-        destinationWarehouse: warehouses.find((subRow) => subRow.id === row.destinationWarehouseId),
+        sourceWarehouse: warehouses.find(
+          (subRow) => subRow.id === row.sourceWarehouseId,
+        ),
+        destinationWarehouse: warehouses.find(
+          (subRow) => subRow.id === row.destinationWarehouseId,
+        ),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },

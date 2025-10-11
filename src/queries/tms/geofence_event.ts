@@ -1,11 +1,10 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
-import { inVehicle } from './vehicle';
+import { orpcClient } from '@/orpc/client';
 import { inGeofence } from './geofence';
+import { inVehicle } from './vehicle';
 
 export const paginateGeofenceEvent = (
   options: Parameters<typeof orpcClient.tms.paginateGeofenceEvent>[0],
@@ -13,13 +12,16 @@ export const paginateGeofenceEvent = (
   queryOptions({
     queryKey: ['tms.geofenceEvent', 'paginate', options],
     queryFn: async ({ client }) => {
-      const geofenceEvents = await orpcClient.tms.paginateGeofenceEvent(options);
+      const geofenceEvents =
+        await orpcClient.tms.paginateGeofenceEvent(options);
 
       const vehicles = await client.ensureQueryData(
         inVehicle(geofenceEvents.map((row) => row.vehicleId).filter(nonEmpty)),
       );
       const geofences = await client.ensureQueryData(
-        inGeofence(geofenceEvents.map((row) => row.geofenceId).filter(nonEmpty)),
+        inGeofence(
+          geofenceEvents.map((row) => row.geofenceId).filter(nonEmpty),
+        ),
       );
 
       return geofenceEvents.map((row) => ({

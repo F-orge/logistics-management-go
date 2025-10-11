@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inVehicle } from './vehicle';
 
 export const paginateVehicleMaintenance = (
@@ -12,10 +11,13 @@ export const paginateVehicleMaintenance = (
   queryOptions({
     queryKey: ['tms.vehicleMaintenance', 'paginate', options],
     queryFn: async ({ client }) => {
-      const vehicleMaintenances = await orpcClient.tms.paginateVehicleMaintenance(options);
+      const vehicleMaintenances =
+        await orpcClient.tms.paginateVehicleMaintenance(options);
 
       const vehicles = await client.ensureQueryData(
-        inVehicle(vehicleMaintenances.map((row) => row.vehicleId).filter(nonEmpty)),
+        inVehicle(
+          vehicleMaintenances.map((row) => row.vehicleId).filter(nonEmpty),
+        ),
       );
 
       return vehicleMaintenances.map((row) => ({
@@ -54,7 +56,9 @@ export const createVehicleMaintenance = mutationOptions<
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.vehicleMaintenance'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.vehicleMaintenance'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +75,9 @@ export const updateVehicleMaintenance = mutationOptions<
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.vehicleMaintenance'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.vehicleMaintenance'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +94,9 @@ export const deleteVehicleMaintenance = mutationOptions<
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.vehicleMaintenance'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.vehicleMaintenance'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

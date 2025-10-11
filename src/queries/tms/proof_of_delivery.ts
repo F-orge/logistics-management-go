@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inTripStop } from './trip_stop';
 
 export const paginateProofOfDelivery = (
@@ -12,10 +11,13 @@ export const paginateProofOfDelivery = (
   queryOptions({
     queryKey: ['tms.proofOfDelivery', 'paginate', options],
     queryFn: async ({ client }) => {
-      const proofOfDeliveries = await orpcClient.tms.paginateProofOfDelivery(options);
+      const proofOfDeliveries =
+        await orpcClient.tms.paginateProofOfDelivery(options);
 
       const tripStops = await client.ensureQueryData(
-        inTripStop(proofOfDeliveries.map((row) => row.tripStopId).filter(nonEmpty)),
+        inTripStop(
+          proofOfDeliveries.map((row) => row.tripStopId).filter(nonEmpty),
+        ),
       );
 
       return proofOfDeliveries.map((row) => ({
@@ -54,7 +56,9 @@ export const createProofOfDelivery = mutationOptions<
     toast.success(`Operation success`, {
       description: `Proof Of Delivery: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.proofOfDelivery'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.proofOfDelivery'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +75,9 @@ export const updateProofOfDelivery = mutationOptions<
     toast.success(`Operation success`, {
       description: `Proof Of Delivery: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.proofOfDelivery'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.proofOfDelivery'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +94,9 @@ export const deleteProofOfDelivery = mutationOptions<
     toast.success(`Operation success`, {
       description: `Proof Of Delivery has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.proofOfDelivery'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.proofOfDelivery'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

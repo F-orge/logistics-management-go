@@ -1,12 +1,11 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
+import { inLocation } from './location';
 import { inProduct } from './product';
 import { inWarehouse } from './warehouse';
-import { inLocation } from './location';
 
 export const paginatePutawayRule = (
   options: Parameters<typeof orpcClient.wms.paginatePutawayRule>[0],
@@ -20,17 +19,23 @@ export const paginatePutawayRule = (
         inProduct(putawayRules.map((row) => row.productId).filter(nonEmpty)),
       );
       const warehouses = await client.ensureQueryData(
-        inWarehouse(putawayRules.map((row) => row.warehouseId).filter(nonEmpty)),
+        inWarehouse(
+          putawayRules.map((row) => row.warehouseId).filter(nonEmpty),
+        ),
       );
       const preferredLocations = await client.ensureQueryData(
-        inLocation(putawayRules.map((row) => row.preferredLocationId).filter(nonEmpty)),
+        inLocation(
+          putawayRules.map((row) => row.preferredLocationId).filter(nonEmpty),
+        ),
       );
 
       return putawayRules.map((row) => ({
         ...row,
         product: products.find((subRow) => subRow.id === row.productId),
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
-        preferredLocation: preferredLocations.find((subRow) => subRow.id === row.preferredLocationId),
+        preferredLocation: preferredLocations.find(
+          (subRow) => subRow.id === row.preferredLocationId,
+        ),
       }));
     },
     enabled: !!options,

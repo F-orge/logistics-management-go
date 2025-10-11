@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inInboundShipment } from './inbound_shipment';
 import { inProduct } from './product';
 
@@ -13,18 +12,27 @@ export const paginateInboundShipmentItem = (
   queryOptions({
     queryKey: ['wms.inboundShipmentItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const inboundShipmentItems = await orpcClient.wms.paginateInboundShipmentItem(options);
+      const inboundShipmentItems =
+        await orpcClient.wms.paginateInboundShipmentItem(options);
 
       const inboundShipments = await client.ensureQueryData(
-        inInboundShipment(inboundShipmentItems.map((row) => row.inboundShipmentId).filter(nonEmpty)),
+        inInboundShipment(
+          inboundShipmentItems
+            .map((row) => row.inboundShipmentId)
+            .filter(nonEmpty),
+        ),
       );
       const products = await client.ensureQueryData(
-        inProduct(inboundShipmentItems.map((row) => row.productId).filter(nonEmpty)),
+        inProduct(
+          inboundShipmentItems.map((row) => row.productId).filter(nonEmpty),
+        ),
       );
 
       return inboundShipmentItems.map((row) => ({
         ...row,
-        inboundShipment: inboundShipments.find((subRow) => subRow.id === row.inboundShipmentId),
+        inboundShipment: inboundShipments.find(
+          (subRow) => subRow.id === row.inboundShipmentId,
+        ),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },
@@ -59,7 +67,9 @@ export const createInboundShipmentItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inbound Shipment Item: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inboundShipmentItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inboundShipmentItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -76,7 +86,9 @@ export const updateInboundShipmentItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inbound Shipment Item: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inboundShipmentItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inboundShipmentItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -93,7 +105,9 @@ export const deleteInboundShipmentItem = mutationOptions<
     toast.success(`Operation success`, {
       description: `Inbound Shipment Item has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['wms.inboundShipmentItem'] });
+    await context.client.invalidateQueries({
+      queryKey: ['wms.inboundShipmentItem'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });

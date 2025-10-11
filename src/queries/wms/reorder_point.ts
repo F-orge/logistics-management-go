@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inProduct } from './product';
 import { inWarehouse } from './warehouse';
 
@@ -19,7 +18,9 @@ export const paginateReorderPoint = (
         inProduct(reorderPoints.map((row) => row.productId).filter(nonEmpty)),
       );
       const warehouses = await client.ensureQueryData(
-        inWarehouse(reorderPoints.map((row) => row.warehouseId).filter(nonEmpty)),
+        inWarehouse(
+          reorderPoints.map((row) => row.warehouseId).filter(nonEmpty),
+        ),
       );
 
       return reorderPoints.map((row) => ({

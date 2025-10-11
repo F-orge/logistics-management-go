@@ -1,9 +1,8 @@
-import { queryOptions, mutationOptions } from '@tanstack/react-query';
 import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-
 import { nonEmpty } from '@/lib/utils';
+import { orpcClient } from '@/orpc/client';
 import { inCarrier } from './carrier';
 
 export const paginatePartnerInvoice = (
@@ -12,7 +11,8 @@ export const paginatePartnerInvoice = (
   queryOptions({
     queryKey: ['tms.partnerInvoice', 'paginate', options],
     queryFn: async ({ client }) => {
-      const partnerInvoices = await orpcClient.tms.paginatePartnerInvoice(options);
+      const partnerInvoices =
+        await orpcClient.tms.paginatePartnerInvoice(options);
 
       const carriers = await client.ensureQueryData(
         inCarrier(partnerInvoices.map((row) => row.carrierId).filter(nonEmpty)),
@@ -54,7 +54,9 @@ export const createPartnerInvoice = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice: ${data.id} has been added successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoice'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoice'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -71,7 +73,9 @@ export const updatePartnerInvoice = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice: ${data.id} has been updated successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoice'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoice'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
@@ -88,7 +92,9 @@ export const deletePartnerInvoice = mutationOptions<
     toast.success(`Operation success`, {
       description: `Partner Invoice has been deleted successfully`,
     });
-    await context.client.invalidateQueries({ queryKey: ['tms.partnerInvoice'] });
+    await context.client.invalidateQueries({
+      queryKey: ['tms.partnerInvoice'],
+    });
   },
   async onError(error, _variables, _onMutateResult, _context) {
     toast.error('Operation failed', { description: error.message });
