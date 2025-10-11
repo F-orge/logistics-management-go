@@ -54,39 +54,10 @@ export const Route = createFileRoute('/dashboard/crm/interactions/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
-    const interactions = await context.queryClient.fetchQuery(
-      paginateInteraction(context.search),
-    );
-
-    // contacts
-    const contactIds = interactions
-      .map((row) => row.contactId)
-      .filter(nonEmpty);
-
-    const contacts = await context.queryClient.fetchQuery(
-      inContact(contactIds),
-    );
-
-    // cases
-    const caseIds = interactions.map((row) => row.caseId).filter(nonEmpty);
-
-    const cases = await context.queryClient.fetchQuery(inCase(caseIds));
-
-    // Create maps for quick lookup
-    const contactMap = new Map(
-      contacts.map((contact) => [contact.id, contact]),
-    );
-    const caseMap = new Map(cases.map((caseItem) => [caseItem.id, caseItem]));
-
-    // Merge contact and case data into each row
-    const dataTable = interactions.map((row) => ({
-      ...row,
-      contact: row.contactId ? (contactMap.get(row.contactId) ?? null) : null,
-      case: row.caseId ? (caseMap.get(row.caseId) ?? null) : null,
-    }));
-
     return {
-      dataTable,
+      dataTable: await context.queryClient.fetchQuery(
+        paginateInteraction(context.search),
+      ),
       chart: await context.queryClient.fetchQuery(
         rangeInteraction({ from, to }),
       ),

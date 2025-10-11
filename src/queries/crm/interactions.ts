@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inContact } from './contacts';
+import { inCase } from './cases';
+import { inUser } from '../auth/user';
 
 export const paginateInteraction = (
   options: Parameters<typeof orpcClient.crm.paginateInteraction>[0],
@@ -18,11 +20,11 @@ export const paginateInteraction = (
       );
 
       const casePromises = client.ensureQueryData(
-        inContact(interactions.map((row) => row.caseId).filter(nonEmpty)),
+        inCase(interactions.map((row) => row.caseId).filter(nonEmpty)),
       );
 
       const userPromises = client.ensureQueryData(
-        inContact(interactions.map((row) => row.userId)),
+        inUser(interactions.map((row) => row.userId)),
       );
 
       const [contacts, cases, users] = await Promise.all([

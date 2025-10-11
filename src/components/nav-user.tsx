@@ -5,6 +5,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Settings,
   Sparkles,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -83,6 +84,17 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() =>
+                navigate({
+                  to: window.location.pathname,
+                  search: (prev) => ({ ...prev, settings: true }),
+                })
+              }
+            >
+              <Settings />
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
                 const { data } = await authClient.signOut();

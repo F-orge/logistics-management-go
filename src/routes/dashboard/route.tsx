@@ -8,9 +8,13 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/client-auth';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
+import SettingsDialog from './-settings';
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
+  validateSearch: zodValidator(z.object({ settings: z.boolean().optional() })),
   beforeLoad: async () => {
     const { data, error } = await authClient.getSession();
     console.log(data, error);
@@ -43,6 +47,7 @@ function RouteComponent() {
           <Outlet />
         </div>
       </SidebarInset>
+      <SettingsDialog />
     </SidebarProvider>
   );
 }

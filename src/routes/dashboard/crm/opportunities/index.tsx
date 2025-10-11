@@ -60,96 +60,10 @@ export const Route = createFileRoute('/dashboard/crm/opportunities/')({
     const to = new Date();
     to.setFullYear(from.getFullYear() + 1);
 
-    const opportunities = await context.queryClient.fetchQuery(
-      paginateOpportunity(context.search),
-    );
-
-    // campaigns
-    const campaignIds = opportunities
-      .map((row) => row.campaignId)
-      .filter(nonEmpty);
-
-    const campaigns = await context.queryClient.fetchQuery(
-      inCampaign(campaignIds),
-    );
-
-    // companies
-    const companyIds = opportunities
-      .map((row) => row.companyId)
-      .filter(nonEmpty);
-
-    const companies = await context.queryClient.fetchQuery(
-      inCompany(companyIds),
-    );
-
-    // contacts
-    const contactIds = opportunities
-      .map((row) => row.contactId)
-      .filter(nonEmpty);
-
-    const contacts = await context.queryClient.fetchQuery(
-      inContact(contactIds),
-    );
-
-    // opportunity products
-    const opportunityIds = opportunities.map((row) => row.id);
-    const opportunityProducts = await context.queryClient.fetchQuery(
-      inOpportunityProduct(opportunityIds),
-    );
-
-    // products for opportunity products
-    const productIds = opportunityProducts
-      .map((item) => item.productId)
-      .filter(nonEmpty);
-
-    const products = await context.queryClient.fetchQuery(
-      inProduct(productIds),
-    );
-
-    // Create maps for quick lookup
-    const campaignMap = new Map(
-      campaigns.map((campaign) => [campaign.id, campaign]),
-    );
-    const companyMap = new Map(
-      companies.map((company) => [company.id, company]),
-    );
-    const contactMap = new Map(
-      contacts.map((contact) => [contact.id, contact]),
-    );
-    const productMap = new Map(
-      products.map((product) => [product.id, product]),
-    );
-
-    // Merge product data into opportunity products
-    const opportunityProductsWithProducts = opportunityProducts.map((item) => ({
-      ...item,
-      product: item.productId ? (productMap.get(item.productId) ?? null) : null,
-    }));
-
-    // Group opportunity products by opportunityId
-    const groupedOpportunityProducts = opportunityProductsWithProducts.reduce<
-      Record<string, typeof opportunityProductsWithProducts>
-    >((acc, item) => {
-      if (!acc[item.opportunityId]) {
-        acc[item.opportunityId] = [];
-      }
-      acc[item.opportunityId].push(item);
-      return acc;
-    }, {});
-
-    // Merge related data into each opportunity row
-    const dataTable = opportunities.map((row) => ({
-      ...row,
-      campaign: row.campaignId
-        ? (campaignMap.get(row.campaignId) ?? null)
-        : null,
-      company: row.companyId ? (companyMap.get(row.companyId) ?? null) : null,
-      contact: row.contactId ? (contactMap.get(row.contactId) ?? null) : null,
-      products: groupedOpportunityProducts[row.id] || [],
-    }));
-
     return {
-      dataTable,
+      dataTable: await context.queryClient.fetchQuery(
+        paginateOpportunity(context.search),
+      ),
       chart: await context.queryClient.fetchQuery(
         rangeOpportunity({ from, to }),
       ),

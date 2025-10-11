@@ -9,6 +9,7 @@ export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInteraction'][number] & {
     contact?: ORPCOutputs['crm']['inContact'][number];
     case?: ORPCOutputs['crm']['inCase'][number];
+    user?: ORPCOutputs['auth']['inUser'][number];
   }
 >[] = [
   {
@@ -42,7 +43,7 @@ export const columns: ColumnDef<
     ),
   },
   {
-    accessorKey: 'case.caseNumber',
+    accessorFn: (row) => row.case?.caseNumber,
     header: 'Case',
     cell: ({ row }) => (
       <>
@@ -73,8 +74,8 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: 'userId',
-    header: 'User ID',
-    cell: ({ row }) => <StringCell value={row.original.userId} />,
+    header: 'User Name',
+    cell: ({ row }) => <StringCell value={row.original.user?.name} />,
   },
   {
     accessorKey: 'type',
