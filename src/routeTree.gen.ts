@@ -34,6 +34,12 @@ import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboar
 import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
 import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
 import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
+import { Route as DashboardBillingInvoiceIndexRouteImport } from './routes/dashboard/billing/invoice/index'
+import { Route as DashboardBillingDisputeIndexRouteImport } from './routes/dashboard/billing/dispute/index'
+import { Route as DashboardBillingCreditNoteIndexRouteImport } from './routes/dashboard/billing/credit-note/index'
+import { Route as DashboardBillingClientAccountIndexRouteImport } from './routes/dashboard/billing/client-account/index'
+import { Route as DashboardBillingAccountingSyncLogIndexRouteImport } from './routes/dashboard/billing/accounting-sync-log/index'
+import { Route as DashboardBillingAccountTransactionIndexRouteImport } from './routes/dashboard/billing/account-transaction/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -174,6 +180,42 @@ const DashboardCrmCampaignsIndexRoute =
     path: '/crm/campaigns/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardBillingInvoiceIndexRoute =
+  DashboardBillingInvoiceIndexRouteImport.update({
+    id: '/billing/invoice/',
+    path: '/billing/invoice/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardBillingDisputeIndexRoute =
+  DashboardBillingDisputeIndexRouteImport.update({
+    id: '/billing/dispute/',
+    path: '/billing/dispute/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardBillingCreditNoteIndexRoute =
+  DashboardBillingCreditNoteIndexRouteImport.update({
+    id: '/billing/credit-note/',
+    path: '/billing/credit-note/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardBillingClientAccountIndexRoute =
+  DashboardBillingClientAccountIndexRouteImport.update({
+    id: '/billing/client-account/',
+    path: '/billing/client-account/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardBillingAccountingSyncLogIndexRoute =
+  DashboardBillingAccountingSyncLogIndexRouteImport.update({
+    id: '/billing/accounting-sync-log/',
+    path: '/billing/accounting-sync-log/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardBillingAccountTransactionIndexRoute =
+  DashboardBillingAccountTransactionIndexRouteImport.update({
+    id: '/billing/account-transaction/',
+    path: '/billing/account-transaction/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -185,6 +227,12 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
   '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
@@ -212,6 +260,12 @@ export interface FileRoutesByTo {
   '/auth/signup': typeof AuthSignupIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute
   '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
   '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
@@ -240,6 +294,12 @@ export interface FileRoutesById {
   '/auth/signup/': typeof AuthSignupIndexRoute
   '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm/': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction/': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log/': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account/': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note/': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute/': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice/': typeof DashboardBillingInvoiceIndexRoute
   '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
   '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
   '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
@@ -269,6 +329,12 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/auth/verify-email'
     | '/dashboard/crm'
+    | '/dashboard/billing/account-transaction'
+    | '/dashboard/billing/accounting-sync-log'
+    | '/dashboard/billing/client-account'
+    | '/dashboard/billing/credit-note'
+    | '/dashboard/billing/dispute'
+    | '/dashboard/billing/invoice'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
     | '/dashboard/crm/companies'
@@ -296,6 +362,12 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/auth/verify-email'
     | '/dashboard/crm'
+    | '/dashboard/billing/account-transaction'
+    | '/dashboard/billing/accounting-sync-log'
+    | '/dashboard/billing/client-account'
+    | '/dashboard/billing/credit-note'
+    | '/dashboard/billing/dispute'
+    | '/dashboard/billing/invoice'
     | '/dashboard/crm/campaigns'
     | '/dashboard/crm/cases'
     | '/dashboard/crm/companies'
@@ -323,6 +395,12 @@ export interface FileRouteTypes {
     | '/auth/signup/'
     | '/auth/verify-email/'
     | '/dashboard/crm/'
+    | '/dashboard/billing/account-transaction/'
+    | '/dashboard/billing/accounting-sync-log/'
+    | '/dashboard/billing/client-account/'
+    | '/dashboard/billing/credit-note/'
+    | '/dashboard/billing/dispute/'
+    | '/dashboard/billing/invoice/'
     | '/dashboard/crm/campaigns/'
     | '/dashboard/crm/cases/'
     | '/dashboard/crm/companies/'
@@ -524,6 +602,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/billing/invoice/': {
+      id: '/dashboard/billing/invoice/'
+      path: '/billing/invoice'
+      fullPath: '/dashboard/billing/invoice'
+      preLoaderRoute: typeof DashboardBillingInvoiceIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/billing/dispute/': {
+      id: '/dashboard/billing/dispute/'
+      path: '/billing/dispute'
+      fullPath: '/dashboard/billing/dispute'
+      preLoaderRoute: typeof DashboardBillingDisputeIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/billing/credit-note/': {
+      id: '/dashboard/billing/credit-note/'
+      path: '/billing/credit-note'
+      fullPath: '/dashboard/billing/credit-note'
+      preLoaderRoute: typeof DashboardBillingCreditNoteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/billing/client-account/': {
+      id: '/dashboard/billing/client-account/'
+      path: '/billing/client-account'
+      fullPath: '/dashboard/billing/client-account'
+      preLoaderRoute: typeof DashboardBillingClientAccountIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/billing/accounting-sync-log/': {
+      id: '/dashboard/billing/accounting-sync-log/'
+      path: '/billing/accounting-sync-log'
+      fullPath: '/dashboard/billing/accounting-sync-log'
+      preLoaderRoute: typeof DashboardBillingAccountingSyncLogIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/billing/account-transaction/': {
+      id: '/dashboard/billing/account-transaction/'
+      path: '/billing/account-transaction'
+      fullPath: '/dashboard/billing/account-transaction'
+      preLoaderRoute: typeof DashboardBillingAccountTransactionIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
@@ -549,6 +669,12 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute
+  DashboardBillingAccountTransactionIndexRoute: typeof DashboardBillingAccountTransactionIndexRoute
+  DashboardBillingAccountingSyncLogIndexRoute: typeof DashboardBillingAccountingSyncLogIndexRoute
+  DashboardBillingClientAccountIndexRoute: typeof DashboardBillingClientAccountIndexRoute
+  DashboardBillingCreditNoteIndexRoute: typeof DashboardBillingCreditNoteIndexRoute
+  DashboardBillingDisputeIndexRoute: typeof DashboardBillingDisputeIndexRoute
+  DashboardBillingInvoiceIndexRoute: typeof DashboardBillingInvoiceIndexRoute
   DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
   DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
   DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
@@ -569,6 +695,15 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmIndexRoute: DashboardCrmIndexRoute,
+  DashboardBillingAccountTransactionIndexRoute:
+    DashboardBillingAccountTransactionIndexRoute,
+  DashboardBillingAccountingSyncLogIndexRoute:
+    DashboardBillingAccountingSyncLogIndexRoute,
+  DashboardBillingClientAccountIndexRoute:
+    DashboardBillingClientAccountIndexRoute,
+  DashboardBillingCreditNoteIndexRoute: DashboardBillingCreditNoteIndexRoute,
+  DashboardBillingDisputeIndexRoute: DashboardBillingDisputeIndexRoute,
+  DashboardBillingInvoiceIndexRoute: DashboardBillingInvoiceIndexRoute,
   DashboardCrmCampaignsIndexRoute: DashboardCrmCampaignsIndexRoute,
   DashboardCrmCasesIndexRoute: DashboardCrmCasesIndexRoute,
   DashboardCrmCompaniesIndexRoute: DashboardCrmCompaniesIndexRoute,
