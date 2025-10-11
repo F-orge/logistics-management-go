@@ -1,0 +1,107 @@
+description = "Creates a TanStack Table component file from a Zod schema."
+prompt = """
+# Task: Create TanStack Table Component from Zod Schema
+
+You are an expert React developer specializing in TanStack Table and Zod. The user has invoked this command to generate a new table component from a Zod schema file.
+
+Your task is to perform the following steps:
+
+1.  **Analyze Existing Patterns:**
+    - First, thoroughly analyze all existing `table.tsx` files within the `src/routes/dashboard/crm/**` directory using the `glob` and `read_many_files` tools.
+    - Identify common patterns for column definitions, cell rendering, and handling relationships.
+
+2.  **Process the Schema File:**
+    - The user has provided a path to a Zod schema file as an argument: `{{args}}`
+    - Use the `read_file` tool to get the content of this schema file. **Note:** You must treat the leading `@` as part of the path and resolve it to an absolute path before reading.
+
+3.  **Generate the Table Component:**
+    - Based on your analysis and the provided Zod schema, generate a new `table.tsx` file.
+    - **Infer Columns:** Automatically create `ColumnDef` entries for each field in the Zod schema.
+    - **Map Data Types:** Use the appropriate cell component from `@/components/table/cells/**` for each column based on its Zod type.
+    - **Column Headers:** Use a human-readable version of the field name for the column header (e.g., `firstName` becomes "First Name").
+    - **Relationships:** If a field is a foreign key (e.g., `companyId`), render it as a `<Link>` to the related entity's page, following the pattern in existing tables.
+    - **Styling:** Ensure the generated code uses components from `@/components/ui/**` and follows the existing styling conventions.
+
+4.  **Output the File:**
+    - Ask the user for the desired output path and then use the `write_file` tool to create the new `table.tsx` file.
+
+---
+
+## Example
+
+**User Command:**
+```
+/tanstack:create-table @src/schemas/crm/contacts.ts
+```
+
+**Your First Step:**
+Use the `read_file` tool on the absolute path for `src/schemas/crm/contacts.ts`.
+
+**Your Second Step:**
+Analyze the content of the schema and the existing `table.tsx` files to generate the new component code.
+
+---
+
+## Template
+
+Use the following structure as a building block for the generated `table.tsx` file. Adapt it based on the specific schema provided.
+
+```typescript
+import { Link } from '@tanstack/react-router';
+import { ColumnDef } from '@tanstack/react-table';
+import DateCell from '@/components/table/cells/date';
+import NumberCell from '@/components/table/cells/number';
+import PhoneCell from '@/components/table/cells/phone';
+import StringCell from '@/components/table/cells/string';
+import { Button } from '@/components/ui/button';
+import { orpcClient } from '@/orpc/client';
+
+// This data type will be inferred from the oRPC client and the provided schema.
+// Example for contacts:
+type DataType = Awaited<ReturnType<typeof orpcClient.crm.paginateContact>>[number] & {
+  company?: Awaited<ReturnType<typeof orpcClient.crm.inCompany>>[number];
+};
+
+
+export const columns: ColumnDef<DataType>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Contact Name',
+    cell: ({ row }) => <StringCell value={row.original.name} />,
+  },
+  {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => <StringCell value={row.original.email} />,
+  },
+  {
+    accessorKey: 'company', // This corresponds to the joined data
+    header: 'Company',
+    cell: ({ row }) => (
+      <>
+        {row.original.company ? (
+          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+            <Link
+              to="/dashboard/crm/companies" // The path to the related entity
+              search={{
+                view: true,
+                id: row.original.company.id,
+              }}
+            >
+              <StringCell value={row.original.company?.name} />
+            </Link>
+          </Button>
+        ) : (
+          <StringCell value={'Not Available'} />
+        )}
+      </>
+    ),
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created At',
+    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+  },
+];
+```
+"""
