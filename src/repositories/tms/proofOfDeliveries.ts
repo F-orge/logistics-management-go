@@ -85,7 +85,7 @@ export class ProofOfDeliveryRepository
       .where('createdAt', '<=', to);
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.column);
+      query = query.orderBy(sortCol.column, sortCol.order);
     }
 
     for (const filterCol of filter || []) {
@@ -98,9 +98,7 @@ export class ProofOfDeliveryRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.proofOfDeliveries',
     {
@@ -146,7 +144,10 @@ export class ProofOfDeliveryRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('tms.proofOfDeliveries').values(value).returningAll();
+    return this.db
+      .insertInto('tms.proofOfDeliveries')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

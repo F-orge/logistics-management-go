@@ -45,7 +45,25 @@ export class PutawayRuleRepository
       weightThreshold: number | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.putawayRules').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -74,7 +92,25 @@ export class PutawayRuleRepository
       weightThreshold: number | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.putawayRules')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   in(
     values: string[],
@@ -100,7 +136,10 @@ export class PutawayRuleRepository
       weightThreshold: number | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.putawayRules')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { productId: string; warehouseId: string } & {
@@ -141,7 +180,7 @@ export class PutawayRuleRepository
       weightThreshold: number | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.putawayRules').values(value).returningAll();
   }
   update(
     id: string,
@@ -186,10 +225,14 @@ export class PutawayRuleRepository
       weightThreshold: number | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.putawayRules')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.putawayRules', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.putawayRules').where('id', '=', id);
   }
 }
 

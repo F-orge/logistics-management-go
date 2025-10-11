@@ -17,6 +17,8 @@ import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 export class OutboundShipmentItemRepository
   implements GenericRepository<'wms.outboundShipmentItems'>
 {
+  constructor(private db: Kysely<DB>) {}
+
   paginate(
     page?: number,
     limit?: number,
@@ -36,7 +38,25 @@ export class OutboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.outboundShipmentItems').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -57,11 +77,27 @@ export class OutboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.outboundShipmentItems')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.outboundShipmentItems',
     {
@@ -75,7 +111,10 @@ export class OutboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.outboundShipmentItems')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: {
@@ -103,7 +142,10 @@ export class OutboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .insertInto('wms.outboundShipmentItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,
@@ -132,12 +174,16 @@ export class OutboundShipmentItemRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.outboundShipmentItems')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(
     id: string,
   ): DeleteQueryBuilder<DB, 'wms.outboundShipmentItems', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.outboundShipmentItems').where('id', '=', id);
   }
 }
 

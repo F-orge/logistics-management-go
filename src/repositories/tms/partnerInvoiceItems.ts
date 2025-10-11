@@ -69,29 +69,9 @@ export class PartnerInvoiceItemRepository
       shipmentLegId: string;
     }
   > {
-    let query = this.db
-      .selectFrom('tms.partnerInvoiceItems')
-      .selectAll()
-      .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
-
-    for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
-    }
-
-    for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
-    }
-
-    return query;
+    throw new Error('Method not implemented');
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.partnerInvoiceItems',
     {
@@ -122,7 +102,10 @@ export class PartnerInvoiceItemRepository
       shipmentLegId: string;
     }
   > {
-    return this.db.insertInto('tms.partnerInvoiceItems').values(value).returningAll();
+    return this.db
+      .insertInto('tms.partnerInvoiceItems')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,

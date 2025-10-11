@@ -15,6 +15,8 @@ import { DB } from '@/db/types';
 import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 
 export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
+  constructor(private db: Kysely<DB>) {}
+
   paginate(
     page?: number,
     limit?: number,
@@ -33,7 +35,25 @@ export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.suppliers').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -53,11 +73,27 @@ export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.suppliers')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.suppliers',
     {
@@ -70,7 +106,10 @@ export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.suppliers')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { name: string } & {
@@ -94,7 +133,7 @@ export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.suppliers').values(value).returningAll();
   }
   update(
     id: string,
@@ -121,10 +160,14 @@ export class SupplierRepository implements GenericRepository<'wms.suppliers'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.suppliers')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.suppliers', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.suppliers').where('id', '=', id);
   }
 }
 

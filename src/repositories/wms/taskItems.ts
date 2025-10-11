@@ -44,7 +44,25 @@ export class TaskItemRepository implements GenericRepository<'wms.taskItems'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.taskItems').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -74,7 +92,25 @@ export class TaskItemRepository implements GenericRepository<'wms.taskItems'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.taskItems')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   in(
     values: string[],
@@ -101,7 +137,10 @@ export class TaskItemRepository implements GenericRepository<'wms.taskItems'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.taskItems')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { productId: string; quantityRequired: number; taskId: string } & {
@@ -143,7 +182,7 @@ export class TaskItemRepository implements GenericRepository<'wms.taskItems'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.taskItems').values(value).returningAll();
   }
   update(
     id: string,
@@ -190,10 +229,14 @@ export class TaskItemRepository implements GenericRepository<'wms.taskItems'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.taskItems')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.taskItems', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.taskItems').where('id', '=', id);
   }
 }
 

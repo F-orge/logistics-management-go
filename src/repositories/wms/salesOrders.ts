@@ -37,7 +37,25 @@ export class SalesOrderRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.salesOrders').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -58,7 +76,25 @@ export class SalesOrderRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.salesOrders')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   in(
     values: string[],
@@ -76,7 +112,10 @@ export class SalesOrderRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.salesOrders')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { clientId: string; orderNumber: string } & {
@@ -101,7 +140,7 @@ export class SalesOrderRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.salesOrders').values(value).returningAll();
   }
   update(
     id: string,
@@ -130,10 +169,14 @@ export class SalesOrderRepository
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.salesOrders')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.salesOrders', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.salesOrders').where('id', '=', id);
   }
 }
 

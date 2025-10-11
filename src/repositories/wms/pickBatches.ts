@@ -46,7 +46,25 @@ export class PickBatchRepository
       zoneRestrictions: string[] | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.pickBatches').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -76,7 +94,25 @@ export class PickBatchRepository
       zoneRestrictions: string[] | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.pickBatches')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   in(
     values: string[],
@@ -103,7 +139,10 @@ export class PickBatchRepository
       zoneRestrictions: string[] | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.pickBatches')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: {
@@ -149,7 +188,7 @@ export class PickBatchRepository
       zoneRestrictions: string[] | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.pickBatches').values(value).returningAll();
   }
   update(
     id: string,
@@ -196,10 +235,14 @@ export class PickBatchRepository
       zoneRestrictions: string[] | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.pickBatches')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.pickBatches', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.pickBatches').where('id', '=', id);
   }
 }
 

@@ -35,7 +35,25 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.returns').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -56,7 +74,25 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.returns')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   in(
     values: string[],
@@ -74,7 +110,10 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.returns')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: { clientId: string; returnNumber: string } & {
@@ -99,7 +138,7 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db.insertInto('wms.returns').values(value).returningAll();
   }
   update(
     id: string,
@@ -128,10 +167,14 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
       updatedAt: Date | null;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.returns')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.returns', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.returns').where('id', '=', id);
   }
 }
 

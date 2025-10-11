@@ -17,6 +17,8 @@ import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 export class InventoryAdjustmentRepository
   implements GenericRepository<'wms.inventoryAdjustments'>
 {
+  constructor(private db: Kysely<DB>) {}
+
   paginate(
     page?: number,
     limit?: number,
@@ -37,7 +39,25 @@ export class InventoryAdjustmentRepository
       warehouseId: string;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db.selectFrom('wms.inventoryAdjustments').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
   range(
     from: Date,
@@ -59,11 +79,27 @@ export class InventoryAdjustmentRepository
       warehouseId: string;
     }
   > {
-    throw new Error('Method not implemented.');
+    let query = this.db
+      .selectFrom('wms.inventoryAdjustments')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.inventoryAdjustments',
     {
@@ -78,7 +114,10 @@ export class InventoryAdjustmentRepository
       warehouseId: string;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .selectFrom('wms.inventoryAdjustments')
+      .selectAll()
+      .where('id', 'in', values);
   }
   create(
     value: {
@@ -108,7 +147,10 @@ export class InventoryAdjustmentRepository
       warehouseId: string;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .insertInto('wms.inventoryAdjustments')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,
@@ -139,12 +181,16 @@ export class InventoryAdjustmentRepository
       warehouseId: string;
     }
   > {
-    throw new Error('Method not implemented.');
+    return this.db
+      .updateTable('wms.inventoryAdjustments')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
   }
   delete(
     id: string,
   ): DeleteQueryBuilder<DB, 'wms.inventoryAdjustments', DeleteResult> {
-    throw new Error('Method not implemented.');
+    return this.db.deleteFrom('wms.inventoryAdjustments').where('id', '=', id);
   }
 }
 
