@@ -1,12 +1,208 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class DriverLocationRepository
+  implements GenericRepository<'dms.driverLocations'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'dms.driverLocations'> | undefined,
+    filter?: FilterConfig<'dms.driverLocations'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'dms.driverLocations',
+    {
+      accuracy: number | null;
+      altitude: number | null;
+      createdAt: Date | null;
+      driverId: string;
+      heading: number | null;
+      id: string;
+      latitude: number;
+      longitude: number;
+      speedKmh: number | null;
+      timestamp: Date | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('dms.driverLocations').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'dms.driverLocations'> | undefined,
+    filter?: FilterConfig<'dms.driverLocations'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'dms.driverLocations',
+    {
+      accuracy: number | null;
+      altitude: number | null;
+      createdAt: Date | null;
+      driverId: string;
+      heading: number | null;
+      id: string;
+      latitude: number;
+      longitude: number;
+      speedKmh: number | null;
+      timestamp: Date | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('dms.driverLocations')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'dms.driverLocations',
+    {
+      accuracy: number | null;
+      altitude: number | null;
+      createdAt: Date | null;
+      driverId: string;
+      heading: number | null;
+      id: string;
+      latitude: number;
+      longitude: number;
+      speedKmh: number | null;
+      timestamp: Date | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('dms.driverLocations')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: { driverId: string; latitude: number; longitude: number } & {
+      accuracy?: number | null | undefined;
+      altitude?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      heading?: number | null | undefined;
+      id?: string | undefined;
+      speedKmh?: number | null | undefined;
+      timestamp?: string | Date | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'dms.driverLocations',
+    {
+      accuracy: number | null;
+      altitude: number | null;
+      createdAt: Date | null;
+      driverId: string;
+      heading: number | null;
+      id: string;
+      latitude: number;
+      longitude: number;
+      speedKmh: number | null;
+      timestamp: Date | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .insertInto('dms.driverLocations')
+      .values(value)
+      .returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      accuracy?: number | null | undefined;
+      altitude?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      driverId?: string | undefined;
+      heading?: number | null | undefined;
+      id?: string | undefined;
+      latitude?: number | undefined;
+      longitude?: number | undefined;
+      speedKmh?: number | null | undefined;
+      timestamp?: string | Date | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'dms.driverLocations',
+    'dms.driverLocations',
+    {
+      accuracy: number | null;
+      altitude: number | null;
+      createdAt: Date | null;
+      driverId: string;
+      heading: number | null;
+      id: string;
+      latitude: number;
+      longitude: number;
+      speedKmh: number | null;
+      timestamp: Date | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('dms.driverLocations')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'dms.driverLocations', DeleteResult> {
+    return this.db.deleteFrom('dms.driverLocations').where('id', '=', id);
+  }
+}
 
 export class DmsDriverLocationRepository {
   constructor(private db: Kysely<DB>) {}
