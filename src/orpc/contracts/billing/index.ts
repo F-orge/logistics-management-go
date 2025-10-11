@@ -3,7 +3,7 @@ export * from './accounting_sync_log';
 export * from './client_account';
 export * from './credit_note';
 export * from './dispute';
-export * from './document';
+export * from './documents';
 export * from './invoice';
 export * from './invoice_line_item';
 export * from './payment';

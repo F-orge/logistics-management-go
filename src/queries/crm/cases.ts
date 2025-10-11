@@ -36,36 +36,15 @@ export const rangeCase = (
 ) =>
   queryOptions({
     queryKey: ['crm.cases', options],
-    queryFn: async ({ client }) => {
-      const cases = await orpcClient.crm.rangeCase(options);
-
-      const contacts = await client.ensureQueryData(
-        inContact(cases.map((row) => row.contactId).filter(nonEmpty)),
-      );
-
-      return cases.map((row) => ({
-        ...row,
-        contact: contacts.find((subRow) => subRow.id === row.contactId),
-      }));
-    },
+    queryFn: async () => orpcClient.crm.rangeCase(options),
     enabled: !!options,
   });
 
 export const inCase = (options: Parameters<typeof orpcClient.crm.inCase>[0]) =>
   queryOptions({
-    queryKey: ['crm.cases', ...options],
-    queryFn: async ({ client }) => {
-      const cases = await orpcClient.crm.inCase(options);
-
-      const contacts = await client.fetchQuery(
-        inContact(cases.map((row) => row.contactId).filter(nonEmpty)),
-      );
-
-      return cases.map((row) => ({
-        ...row,
-        contact: contacts.find((subRow) => subRow.id === row.contactId),
-      }));
-    },
+    queryKey: ['crm.cases', options],
+    queryFn: async () =>
+      options.length >= 1 ? orpcClient.crm.inCase(options) : [],
     enabled: !!options,
   });
 

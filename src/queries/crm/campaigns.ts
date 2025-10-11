@@ -26,7 +26,8 @@ export const inCampaign = (
 ) =>
   queryOptions({
     queryKey: ['crm.campaigns', options],
-    queryFn: () => orpcClient.crm.inCampaign(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inCampaign(options) : [],
     enabled: !!options,
   });
 

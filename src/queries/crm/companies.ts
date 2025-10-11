@@ -39,7 +39,8 @@ export const inCompany = (
 ) =>
   queryOptions({
     queryKey: ['crm.companies', options],
-    queryFn: () => orpcClient.crm.inCompany(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inCompany(options) : [],
     enabled: !!options,
   });
 

@@ -64,7 +64,8 @@ export const inOpportunity = (
 ) =>
   queryOptions({
     queryKey: ['crm.opportunities', options],
-    queryFn: () => orpcClient.crm.inOpportunity(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inOpportunity(options) : [],
     enabled: !!options,
   });
 

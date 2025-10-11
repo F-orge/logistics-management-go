@@ -38,7 +38,8 @@ export const inInvoiceItem = (
 ) =>
   queryOptions({
     queryKey: ['crm.invoiceItems', options],
-    queryFn: () => orpcClient.crm.inInvoiceItem(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inInvoiceItem(options) : [],
     enabled: !!options,
   });
 

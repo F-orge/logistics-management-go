@@ -23,6 +23,10 @@ export interface BunStorageRepositoryOptions {
 export class BunStorageRepository {
   private path: string;
 
+  getStoragePath(): string {
+    return this.path;
+  }
+
   constructor(optionsOrPath?: BunStorageRepositoryOptions | string) {
     if (typeof optionsOrPath === 'string') {
       this.path = optionsOrPath;

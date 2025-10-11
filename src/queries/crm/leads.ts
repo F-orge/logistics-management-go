@@ -81,7 +81,7 @@ export const rangeLead = (
 export const inLead = (options: Parameters<typeof orpcClient.crm.inLead>[0]) =>
   queryOptions({
     queryKey: ['crm.leads', options],
-    queryFn: () => orpcClient.crm.inLead(options),
+    queryFn: () => (options.length >= 1 ? orpcClient.crm.inLead(options) : []),
     enabled: !!options,
   });
 

@@ -38,7 +38,8 @@ export const inNotification = (
 ) =>
   queryOptions({
     queryKey: ['crm.notifications', options],
-    queryFn: () => orpcClient.crm.inNotification(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inNotification(options) : [],
     enabled: !!options,
   });
 

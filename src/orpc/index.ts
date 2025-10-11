@@ -1,4 +1,5 @@
 export * as auth from './handlers/auth';
+export * as billing from './handlers/billing';
 export * as crm from './handlers/crm';
 export * as dms from './handlers/dms';
 export * as tms from './handlers/tms';

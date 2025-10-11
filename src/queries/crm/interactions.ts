@@ -55,7 +55,8 @@ export const inInteraction = (
 ) =>
   queryOptions({
     queryKey: ['crm.interactions', options],
-    queryFn: () => orpcClient.crm.inInteraction(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.crm.inInteraction(options) : [],
     enabled: !!options,
   });
 
