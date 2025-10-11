@@ -14,14 +14,6 @@ export const tmsShipmentLegEventSchema = z.object({
     .string({ message: 'Status message must be a string' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
 });
 
 export type TmsShipmentLegEvent = z.infer<typeof tmsShipmentLegEventSchema>;

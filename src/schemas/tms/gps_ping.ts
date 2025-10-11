@@ -12,14 +12,6 @@ export const tmsGpsPingSchema = z.object({
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
   timestamp: z.date({ message: 'Invalid date format for timestamp' }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
 });
 
 export type TmsGpsPing = z.infer<typeof tmsGpsPingSchema>;
