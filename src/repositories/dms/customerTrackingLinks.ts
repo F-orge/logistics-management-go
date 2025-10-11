@@ -17,6 +17,8 @@ import { FilterConfig, GenericRepository, SortConfig } from '../interface';
 export class CustomerTrackingLinkRepository
   implements GenericRepository<'dms.customerTrackingLinks'>
 {
+  constructor(private db: Kysely<DB>) {}
+
   paginate(
     page?: number,
     limit?: number,
@@ -97,9 +99,7 @@ export class CustomerTrackingLinkRepository
 
     return query;
   }
-  in(
-    values: string[],
-  ): SelectQueryBuilder<
+  in(values: string[]): SelectQueryBuilder<
     DB,
     'dms.customerTrackingLinks',
     {
@@ -144,7 +144,10 @@ export class CustomerTrackingLinkRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db.insertInto('dms.customerTrackingLinks').values(value).returningAll();
+    return this.db
+      .insertInto('dms.customerTrackingLinks')
+      .values(value)
+      .returningAll();
   }
   update(
     id: string,
@@ -175,16 +178,12 @@ export class CustomerTrackingLinkRepository
       updatedAt: Date | null;
     }
   > {
-    return this.db
-      .updateTable('dms.customerTrackingLinks')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    throw new Error('Method not implemented.');
   }
   delete(
     id: string,
   ): DeleteQueryBuilder<DB, 'dms.customerTrackingLinks', DeleteResult> {
-    return this.db.deleteFrom('dms.customerTrackingLinks').where('id', '=', id);
+    throw new Error('Method not implemented.');
   }
 }
 

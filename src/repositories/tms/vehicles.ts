@@ -1,12 +1,183 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, TmsVehicleStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class VehicleRepository implements GenericRepository<'tms.vehicles'> {
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'tms.vehicles'> | undefined,
+    filter?: FilterConfig<'tms.vehicles'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.vehicles',
+    {
+      capacityVolume: number | null;
+      capacityWeight: number | null;
+      createdAt: Date | null;
+      id: string;
+      model: string | null;
+      registrationNumber: string;
+      status: TmsVehicleStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('tms.vehicles').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'tms.vehicles'> | undefined,
+    filter?: FilterConfig<'tms.vehicles'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.vehicles',
+    {
+      capacityVolume: number | null;
+      capacityWeight: number | null;
+      createdAt: Date | null;
+      id: string;
+      model: string | null;
+      registrationNumber: string;
+      status: TmsVehicleStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('tms.vehicles')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'tms.vehicles',
+    {
+      capacityVolume: number | null;
+      capacityWeight: number | null;
+      createdAt: Date | null;
+      id: string;
+      model: string | null;
+      registrationNumber: string;
+      status: TmsVehicleStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('tms.vehicles')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: { registrationNumber: string } & {
+      capacityVolume?: number | null | undefined;
+      capacityWeight?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      model?: string | null | undefined;
+      status?: TmsVehicleStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'tms.vehicles',
+    {
+      capacityVolume: number | null;
+      capacityWeight: number | null;
+      createdAt: Date | null;
+      id: string;
+      model: string | null;
+      registrationNumber: string;
+      status: TmsVehicleStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('tms.vehicles').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      capacityVolume?: number | null | undefined;
+      capacityWeight?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      model?: string | null | undefined;
+      registrationNumber?: string | undefined;
+      status?: TmsVehicleStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'tms.vehicles',
+    'tms.vehicles',
+    {
+      capacityVolume: number | null;
+      capacityWeight: number | null;
+      createdAt: Date | null;
+      id: string;
+      model: string | null;
+      registrationNumber: string;
+      status: TmsVehicleStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('tms.vehicles')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'tms.vehicles', DeleteResult> {
+    return this.db.deleteFrom('tms.vehicles').where('id', '=', id);
+  }
+}
 
 export class TmsVehicleRepository {
   constructor(private db: Kysely<DB>) {}

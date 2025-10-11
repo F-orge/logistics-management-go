@@ -1,12 +1,157 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class BinThresholdRepository
+  implements GenericRepository<'wms.binThresholds'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.binThresholds'> | undefined,
+    filter?: FilterConfig<'wms.binThresholds'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.binThresholds',
+    {
+      alertThreshold: number | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationId: string;
+      maxQuantity: number;
+      minQuantity: number;
+      productId: string;
+      reorderQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.binThresholds'> | undefined,
+    filter?: FilterConfig<'wms.binThresholds'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.binThresholds',
+    {
+      alertThreshold: number | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationId: string;
+      maxQuantity: number;
+      minQuantity: number;
+      productId: string;
+      reorderQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.binThresholds',
+    {
+      alertThreshold: number | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationId: string;
+      maxQuantity: number;
+      minQuantity: number;
+      productId: string;
+      reorderQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { locationId: string; maxQuantity: number; productId: string } & {
+      alertThreshold?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      minQuantity?: number | undefined;
+      reorderQuantity?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.binThresholds',
+    {
+      alertThreshold: number | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationId: string;
+      maxQuantity: number;
+      minQuantity: number;
+      productId: string;
+      reorderQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      alertThreshold?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      locationId?: string | undefined;
+      maxQuantity?: number | undefined;
+      minQuantity?: number | undefined;
+      productId?: string | undefined;
+      reorderQuantity?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.binThresholds',
+    'wms.binThresholds',
+    {
+      alertThreshold: number | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationId: string;
+      maxQuantity: number;
+      minQuantity: number;
+      productId: string;
+      reorderQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.binThresholds', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsBinThresholdRepository {
   constructor(private db: Kysely<DB>) {}

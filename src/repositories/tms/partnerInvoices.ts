@@ -1,12 +1,189 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, TmsPartnerInvoiceStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class PartnerInvoiceRepository
+  implements GenericRepository<'tms.partnerInvoices'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'tms.partnerInvoices'> | undefined,
+    filter?: FilterConfig<'tms.partnerInvoices'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoices',
+    {
+      carrierId: string;
+      createdAt: Date | null;
+      id: string;
+      invoiceDate: Date;
+      invoiceNumber: string;
+      status: TmsPartnerInvoiceStatusEnum | null;
+      totalAmount: string;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('tms.partnerInvoices').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'tms.partnerInvoices'> | undefined,
+    filter?: FilterConfig<'tms.partnerInvoices'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoices',
+    {
+      carrierId: string;
+      createdAt: Date | null;
+      id: string;
+      invoiceDate: Date;
+      invoiceNumber: string;
+      status: TmsPartnerInvoiceStatusEnum | null;
+      totalAmount: string;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('tms.partnerInvoices')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoices',
+    {
+      carrierId: string;
+      createdAt: Date | null;
+      id: string;
+      invoiceDate: Date;
+      invoiceNumber: string;
+      status: TmsPartnerInvoiceStatusEnum | null;
+      totalAmount: string;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('tms.partnerInvoices')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: {
+      carrierId: string;
+      invoiceDate: string | Date;
+      invoiceNumber: string;
+      totalAmount: string | number;
+    } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      status?: TmsPartnerInvoiceStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'tms.partnerInvoices',
+    {
+      carrierId: string;
+      createdAt: Date | null;
+      id: string;
+      invoiceDate: Date;
+      invoiceNumber: string;
+      status: TmsPartnerInvoiceStatusEnum | null;
+      totalAmount: string;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('tms.partnerInvoices').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      carrierId?: string | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      invoiceDate?: string | Date | undefined;
+      invoiceNumber?: string | undefined;
+      status?: TmsPartnerInvoiceStatusEnum | null | undefined;
+      totalAmount?: string | number | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'tms.partnerInvoices',
+    'tms.partnerInvoices',
+    {
+      carrierId: string;
+      createdAt: Date | null;
+      id: string;
+      invoiceDate: Date;
+      invoiceNumber: string;
+      status: TmsPartnerInvoiceStatusEnum | null;
+      totalAmount: string;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('tms.partnerInvoices')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'tms.partnerInvoices', DeleteResult> {
+    return this.db.deleteFrom('tms.partnerInvoices').where('id', '=', id);
+  }
+}
 
 export class TmsPartnerInvoiceRepository {
   constructor(private db: Kysely<DB>) {}

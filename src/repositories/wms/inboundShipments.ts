@@ -1,12 +1,143 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsInboundShipmentStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class InboundShipmentRepository
+  implements GenericRepository<'wms.inboundShipments'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.inboundShipments'> | undefined,
+    filter?: FilterConfig<'wms.inboundShipments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipments',
+    {
+      id: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      status: WmsInboundShipmentStatusEnum | null;
+      actualArrivalDate: Date | null;
+      clientId: string | null;
+      expectedArrivalDate: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.inboundShipments'> | undefined,
+    filter?: FilterConfig<'wms.inboundShipments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipments',
+    {
+      id: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      status: WmsInboundShipmentStatusEnum | null;
+      actualArrivalDate: Date | null;
+      clientId: string | null;
+      expectedArrivalDate: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipments',
+    {
+      id: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      status: WmsInboundShipmentStatusEnum | null;
+      actualArrivalDate: Date | null;
+      clientId: string | null;
+      expectedArrivalDate: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { warehouseId: string } & {
+      id?: string | undefined;
+      createdAt?: string | Date | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      status?: WmsInboundShipmentStatusEnum | null | undefined;
+      actualArrivalDate?: string | Date | null | undefined;
+      clientId?: string | null | undefined;
+      expectedArrivalDate?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.inboundShipments',
+    {
+      id: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      status: WmsInboundShipmentStatusEnum | null;
+      actualArrivalDate: Date | null;
+      clientId: string | null;
+      expectedArrivalDate: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      id?: string | undefined;
+      createdAt?: string | Date | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      status?: WmsInboundShipmentStatusEnum | null | undefined;
+      actualArrivalDate?: string | Date | null | undefined;
+      clientId?: string | null | undefined;
+      expectedArrivalDate?: string | Date | null | undefined;
+      warehouseId?: string | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.inboundShipments',
+    'wms.inboundShipments',
+    {
+      id: string;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      status: WmsInboundShipmentStatusEnum | null;
+      actualArrivalDate: Date | null;
+      clientId: string | null;
+      expectedArrivalDate: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.inboundShipments', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsInboundShipmentRepository {
   constructor(private db: Kysely<DB>) {}

@@ -1,12 +1,132 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class SalesOrderItemRepository
+  implements GenericRepository<'wms.salesOrderItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.salesOrderItems'> | undefined,
+    filter?: FilterConfig<'wms.salesOrderItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrderItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.salesOrderItems'> | undefined,
+    filter?: FilterConfig<'wms.salesOrderItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrderItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrderItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: {
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+    } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.salesOrderItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      productId?: string | undefined;
+      quantityOrdered?: number | undefined;
+      salesOrderId?: string | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.salesOrderItems',
+    'wms.salesOrderItems',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      quantityOrdered: number;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.salesOrderItems', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsSalesOrderItemRepository {
   constructor(private db: Kysely<DB>) {}

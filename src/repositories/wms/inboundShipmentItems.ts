@@ -1,12 +1,154 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class InboundShipmentItemRepository
+  implements GenericRepository<'wms.inboundShipmentItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.inboundShipmentItems'> | undefined,
+    filter?: FilterConfig<'wms.inboundShipmentItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipmentItems',
+    {
+      createdAt: Date | null;
+      discrepancyNotes: string | null;
+      discrepancyQuantity: number | null;
+      expectedQuantity: number;
+      id: string;
+      inboundShipmentId: string;
+      productId: string;
+      receivedQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.inboundShipmentItems'> | undefined,
+    filter?: FilterConfig<'wms.inboundShipmentItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipmentItems',
+    {
+      createdAt: Date | null;
+      discrepancyNotes: string | null;
+      discrepancyQuantity: number | null;
+      expectedQuantity: number;
+      id: string;
+      inboundShipmentId: string;
+      productId: string;
+      receivedQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inboundShipmentItems',
+    {
+      createdAt: Date | null;
+      discrepancyNotes: string | null;
+      discrepancyQuantity: number | null;
+      expectedQuantity: number;
+      id: string;
+      inboundShipmentId: string;
+      productId: string;
+      receivedQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: {
+      expectedQuantity: number;
+      inboundShipmentId: string;
+      productId: string;
+    } & {
+      createdAt?: string | Date | null | undefined;
+      discrepancyNotes?: string | null | undefined;
+      discrepancyQuantity?: number | null | undefined;
+      id?: string | undefined;
+      receivedQuantity?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.inboundShipmentItems',
+    {
+      createdAt: Date | null;
+      discrepancyNotes: string | null;
+      discrepancyQuantity: number | null;
+      expectedQuantity: number;
+      id: string;
+      inboundShipmentId: string;
+      productId: string;
+      receivedQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      discrepancyNotes?: string | null | undefined;
+      discrepancyQuantity?: number | null | undefined;
+      expectedQuantity?: number | undefined;
+      id?: string | undefined;
+      inboundShipmentId?: string | undefined;
+      productId?: string | undefined;
+      receivedQuantity?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.inboundShipmentItems',
+    'wms.inboundShipmentItems',
+    {
+      createdAt: Date | null;
+      discrepancyNotes: string | null;
+      discrepancyQuantity: number | null;
+      expectedQuantity: number;
+      id: string;
+      inboundShipmentId: string;
+      productId: string;
+      receivedQuantity: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.inboundShipmentItems', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsInboundShipmentItemRepository {
   constructor(private db: Kysely<DB>) {}

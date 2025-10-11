@@ -1,12 +1,197 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsLocationTypeEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class PutawayRuleRepository
+  implements GenericRepository<'wms.putawayRules'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.putawayRules'> | undefined,
+    filter?: FilterConfig<'wms.putawayRules'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.putawayRules',
+    {
+      clientId: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationType: WmsLocationTypeEnum | null;
+      maxQuantity: number | null;
+      minQuantity: number | null;
+      preferredLocationId: string | null;
+      priority: number;
+      productId: string;
+      requiresHazmatApproval: boolean | null;
+      requiresTemperatureControl: boolean | null;
+      updatedAt: Date | null;
+      volumeThreshold: number | null;
+      warehouseId: string;
+      weightThreshold: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.putawayRules'> | undefined,
+    filter?: FilterConfig<'wms.putawayRules'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.putawayRules',
+    {
+      clientId: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationType: WmsLocationTypeEnum | null;
+      maxQuantity: number | null;
+      minQuantity: number | null;
+      preferredLocationId: string | null;
+      priority: number;
+      productId: string;
+      requiresHazmatApproval: boolean | null;
+      requiresTemperatureControl: boolean | null;
+      updatedAt: Date | null;
+      volumeThreshold: number | null;
+      warehouseId: string;
+      weightThreshold: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.putawayRules',
+    {
+      clientId: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationType: WmsLocationTypeEnum | null;
+      maxQuantity: number | null;
+      minQuantity: number | null;
+      preferredLocationId: string | null;
+      priority: number;
+      productId: string;
+      requiresHazmatApproval: boolean | null;
+      requiresTemperatureControl: boolean | null;
+      updatedAt: Date | null;
+      volumeThreshold: number | null;
+      warehouseId: string;
+      weightThreshold: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { productId: string; warehouseId: string } & {
+      clientId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      locationType?: WmsLocationTypeEnum | null | undefined;
+      maxQuantity?: number | null | undefined;
+      minQuantity?: number | null | undefined;
+      preferredLocationId?: string | null | undefined;
+      priority?: number | undefined;
+      requiresHazmatApproval?: boolean | null | undefined;
+      requiresTemperatureControl?: boolean | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      volumeThreshold?: number | null | undefined;
+      weightThreshold?: number | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.putawayRules',
+    {
+      clientId: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationType: WmsLocationTypeEnum | null;
+      maxQuantity: number | null;
+      minQuantity: number | null;
+      preferredLocationId: string | null;
+      priority: number;
+      productId: string;
+      requiresHazmatApproval: boolean | null;
+      requiresTemperatureControl: boolean | null;
+      updatedAt: Date | null;
+      volumeThreshold: number | null;
+      warehouseId: string;
+      weightThreshold: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      clientId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      locationType?: WmsLocationTypeEnum | null | undefined;
+      maxQuantity?: number | null | undefined;
+      minQuantity?: number | null | undefined;
+      preferredLocationId?: string | null | undefined;
+      priority?: number | undefined;
+      productId?: string | undefined;
+      requiresHazmatApproval?: boolean | null | undefined;
+      requiresTemperatureControl?: boolean | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      volumeThreshold?: number | null | undefined;
+      warehouseId?: string | undefined;
+      weightThreshold?: number | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.putawayRules',
+    'wms.putawayRules',
+    {
+      clientId: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      locationType: WmsLocationTypeEnum | null;
+      maxQuantity: number | null;
+      minQuantity: number | null;
+      preferredLocationId: string | null;
+      priority: number;
+      productId: string;
+      requiresHazmatApproval: boolean | null;
+      requiresTemperatureControl: boolean | null;
+      updatedAt: Date | null;
+      volumeThreshold: number | null;
+      warehouseId: string;
+      weightThreshold: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.putawayRules', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsPutawayRuleRepository {
   constructor(private db: Kysely<DB>) {}

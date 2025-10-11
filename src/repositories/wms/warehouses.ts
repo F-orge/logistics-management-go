@@ -1,12 +1,184 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class WarehouseRepository
+  implements GenericRepository<'wms.warehouses'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.warehouses'> | undefined,
+    filter?: FilterConfig<'wms.warehouses'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.warehouses',
+    {
+      address: string | null;
+      city: string | null;
+      contactEmail: string | null;
+      contactPerson: string | null;
+      contactPhone: string | null;
+      country: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      name: string;
+      postalCode: string | null;
+      state: string | null;
+      timezone: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.warehouses'> | undefined,
+    filter?: FilterConfig<'wms.warehouses'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.warehouses',
+    {
+      address: string | null;
+      city: string | null;
+      contactEmail: string | null;
+      contactPerson: string | null;
+      contactPhone: string | null;
+      country: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      name: string;
+      postalCode: string | null;
+      state: string | null;
+      timezone: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.warehouses',
+    {
+      address: string | null;
+      city: string | null;
+      contactEmail: string | null;
+      contactPerson: string | null;
+      contactPhone: string | null;
+      country: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      name: string;
+      postalCode: string | null;
+      state: string | null;
+      timezone: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { name: string } & {
+      address?: string | null | undefined;
+      city?: string | null | undefined;
+      contactEmail?: string | null | undefined;
+      contactPerson?: string | null | undefined;
+      contactPhone?: string | null | undefined;
+      country?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      postalCode?: string | null | undefined;
+      state?: string | null | undefined;
+      timezone?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.warehouses',
+    {
+      address: string | null;
+      city: string | null;
+      contactEmail: string | null;
+      contactPerson: string | null;
+      contactPhone: string | null;
+      country: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      name: string;
+      postalCode: string | null;
+      state: string | null;
+      timezone: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      address?: string | null | undefined;
+      city?: string | null | undefined;
+      contactEmail?: string | null | undefined;
+      contactPerson?: string | null | undefined;
+      contactPhone?: string | null | undefined;
+      country?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      name?: string | undefined;
+      postalCode?: string | null | undefined;
+      state?: string | null | undefined;
+      timezone?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.warehouses',
+    'wms.warehouses',
+    {
+      address: string | null;
+      city: string | null;
+      contactEmail: string | null;
+      contactPerson: string | null;
+      contactPhone: string | null;
+      country: string | null;
+      createdAt: Date | null;
+      id: string;
+      isActive: boolean | null;
+      name: string;
+      postalCode: string | null;
+      state: string | null;
+      timezone: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.warehouses', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsWarehouseRepository {
   constructor(private db: Kysely<DB>) {}

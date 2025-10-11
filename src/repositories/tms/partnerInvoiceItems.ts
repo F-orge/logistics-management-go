@@ -1,12 +1,160 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class PartnerInvoiceItemRepository
+  implements GenericRepository<'tms.partnerInvoiceItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'tms.partnerInvoiceItems'> | undefined,
+    filter?: FilterConfig<'tms.partnerInvoiceItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoiceItems',
+    {
+      amount: string;
+      id: string;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    }
+  > {
+    let query = this.db.selectFrom('tms.partnerInvoiceItems').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'tms.partnerInvoiceItems'> | undefined,
+    filter?: FilterConfig<'tms.partnerInvoiceItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoiceItems',
+    {
+      amount: string;
+      id: string;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    }
+  > {
+    let query = this.db
+      .selectFrom('tms.partnerInvoiceItems')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'tms.partnerInvoiceItems',
+    {
+      amount: string;
+      id: string;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    }
+  > {
+    return this.db
+      .selectFrom('tms.partnerInvoiceItems')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: {
+      amount: string | number;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    } & { id?: string | undefined },
+  ): InsertQueryBuilder<
+    DB,
+    'tms.partnerInvoiceItems',
+    {
+      amount: string;
+      id: string;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    }
+  > {
+    return this.db.insertInto('tms.partnerInvoiceItems').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      amount?: string | number | undefined;
+      id?: string | undefined;
+      partnerInvoiceId?: string | undefined;
+      shipmentLegId?: string | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'tms.partnerInvoiceItems',
+    'tms.partnerInvoiceItems',
+    {
+      amount: string;
+      id: string;
+      partnerInvoiceId: string;
+      shipmentLegId: string;
+    }
+  > {
+    return this.db
+      .updateTable('tms.partnerInvoiceItems')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'tms.partnerInvoiceItems', DeleteResult> {
+    return this.db.deleteFrom('tms.partnerInvoiceItems').where('id', '=', id);
+  }
+}
 
 export class TmsPartnerInvoiceItemRepository {
   constructor(private db: Kysely<DB>) {}

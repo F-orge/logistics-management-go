@@ -1,12 +1,139 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsReturnStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class ReturnRepository implements GenericRepository<'wms.returns'> {
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.returns'> | undefined,
+    filter?: FilterConfig<'wms.returns'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.returns',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      id: string;
+      reason: string | null;
+      returnNumber: string;
+      salesOrderId: string | null;
+      status: WmsReturnStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.returns'> | undefined,
+    filter?: FilterConfig<'wms.returns'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.returns',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      id: string;
+      reason: string | null;
+      returnNumber: string;
+      salesOrderId: string | null;
+      status: WmsReturnStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.returns',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      id: string;
+      reason: string | null;
+      returnNumber: string;
+      salesOrderId: string | null;
+      status: WmsReturnStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { clientId: string; returnNumber: string } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      reason?: string | null | undefined;
+      salesOrderId?: string | null | undefined;
+      status?: WmsReturnStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.returns',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      id: string;
+      reason: string | null;
+      returnNumber: string;
+      salesOrderId: string | null;
+      status: WmsReturnStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      clientId?: string | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      reason?: string | null | undefined;
+      returnNumber?: string | undefined;
+      salesOrderId?: string | null | undefined;
+      status?: WmsReturnStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.returns',
+    'wms.returns',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      id: string;
+      reason: string | null;
+      returnNumber: string;
+      salesOrderId: string | null;
+      status: WmsReturnStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.returns', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsReturnRepository {
   constructor(private db: Kysely<DB>) {}

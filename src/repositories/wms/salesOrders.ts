@@ -1,12 +1,141 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsSalesOrderStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class SalesOrderRepository
+  implements GenericRepository<'wms.salesOrders'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.salesOrders'> | undefined,
+    filter?: FilterConfig<'wms.salesOrders'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrders',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      crmOpportunityId: string | null;
+      id: string;
+      orderNumber: string;
+      shippingAddress: string | null;
+      status: WmsSalesOrderStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.salesOrders'> | undefined,
+    filter?: FilterConfig<'wms.salesOrders'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrders',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      crmOpportunityId: string | null;
+      id: string;
+      orderNumber: string;
+      shippingAddress: string | null;
+      status: WmsSalesOrderStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.salesOrders',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      crmOpportunityId: string | null;
+      id: string;
+      orderNumber: string;
+      shippingAddress: string | null;
+      status: WmsSalesOrderStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { clientId: string; orderNumber: string } & {
+      createdAt?: string | Date | null | undefined;
+      crmOpportunityId?: string | null | undefined;
+      id?: string | undefined;
+      shippingAddress?: string | null | undefined;
+      status?: WmsSalesOrderStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.salesOrders',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      crmOpportunityId: string | null;
+      id: string;
+      orderNumber: string;
+      shippingAddress: string | null;
+      status: WmsSalesOrderStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      clientId?: string | undefined;
+      createdAt?: string | Date | null | undefined;
+      crmOpportunityId?: string | null | undefined;
+      id?: string | undefined;
+      orderNumber?: string | undefined;
+      shippingAddress?: string | null | undefined;
+      status?: WmsSalesOrderStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.salesOrders',
+    'wms.salesOrders',
+    {
+      clientId: string;
+      createdAt: Date | null;
+      crmOpportunityId: string | null;
+      id: string;
+      orderNumber: string;
+      shippingAddress: string | null;
+      status: WmsSalesOrderStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.salesOrders', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsSalesOrderRepository {
   constructor(private db: Kysely<DB>) {}

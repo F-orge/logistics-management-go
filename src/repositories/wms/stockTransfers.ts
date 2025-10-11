@@ -1,12 +1,146 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsStockTransferStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class StockTransferRepository
+  implements GenericRepository<'wms.stockTransfers'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.stockTransfers'> | undefined,
+    filter?: FilterConfig<'wms.stockTransfers'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.stockTransfers',
+    {
+      createdAt: Date | null;
+      destinationWarehouseId: string;
+      id: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+      status: WmsStockTransferStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.stockTransfers'> | undefined,
+    filter?: FilterConfig<'wms.stockTransfers'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.stockTransfers',
+    {
+      createdAt: Date | null;
+      destinationWarehouseId: string;
+      id: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+      status: WmsStockTransferStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.stockTransfers',
+    {
+      createdAt: Date | null;
+      destinationWarehouseId: string;
+      id: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+      status: WmsStockTransferStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: {
+      destinationWarehouseId: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+    } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      status?: WmsStockTransferStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.stockTransfers',
+    {
+      createdAt: Date | null;
+      destinationWarehouseId: string;
+      id: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+      status: WmsStockTransferStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      destinationWarehouseId?: string | undefined;
+      id?: string | undefined;
+      productId?: string | undefined;
+      quantity?: number | undefined;
+      sourceWarehouseId?: string | undefined;
+      status?: WmsStockTransferStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.stockTransfers',
+    'wms.stockTransfers',
+    {
+      createdAt: Date | null;
+      destinationWarehouseId: string;
+      id: string;
+      productId: string;
+      quantity: number;
+      sourceWarehouseId: string;
+      status: WmsStockTransferStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.stockTransfers', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsStockTransferRepository {
   constructor(private db: Kysely<DB>) {}

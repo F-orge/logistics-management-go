@@ -1,12 +1,171 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsInventoryStockStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class InventoryStockRepository
+  implements GenericRepository<'wms.inventoryStock'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.inventoryStock'> | undefined,
+    filter?: FilterConfig<'wms.inventoryStock'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inventoryStock',
+    {
+      availableQuantity: number | null;
+      batchId: string | null;
+      createdAt: Date | null;
+      id: string;
+      lastCountedAt: Date | null;
+      lastMovementAt: Date | null;
+      locationId: string;
+      productId: string;
+      quantity: number;
+      reservedQuantity: number;
+      status: WmsInventoryStockStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.inventoryStock'> | undefined,
+    filter?: FilterConfig<'wms.inventoryStock'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inventoryStock',
+    {
+      availableQuantity: number | null;
+      batchId: string | null;
+      createdAt: Date | null;
+      id: string;
+      lastCountedAt: Date | null;
+      lastMovementAt: Date | null;
+      locationId: string;
+      productId: string;
+      quantity: number;
+      reservedQuantity: number;
+      status: WmsInventoryStockStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.inventoryStock',
+    {
+      availableQuantity: number | null;
+      batchId: string | null;
+      createdAt: Date | null;
+      id: string;
+      lastCountedAt: Date | null;
+      lastMovementAt: Date | null;
+      locationId: string;
+      productId: string;
+      quantity: number;
+      reservedQuantity: number;
+      status: WmsInventoryStockStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { locationId: string; productId: string } & {
+      availableQuantity?: number | null | undefined;
+      batchId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      lastCountedAt?: string | Date | null | undefined;
+      lastMovementAt?: string | Date | null | undefined;
+      quantity?: number | undefined;
+      reservedQuantity?: number | undefined;
+      status?: WmsInventoryStockStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.inventoryStock',
+    {
+      availableQuantity: number | null;
+      batchId: string | null;
+      createdAt: Date | null;
+      id: string;
+      lastCountedAt: Date | null;
+      lastMovementAt: Date | null;
+      locationId: string;
+      productId: string;
+      quantity: number;
+      reservedQuantity: number;
+      status: WmsInventoryStockStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      availableQuantity?: number | null | undefined;
+      batchId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      lastCountedAt?: string | Date | null | undefined;
+      lastMovementAt?: string | Date | null | undefined;
+      locationId?: string | undefined;
+      productId?: string | undefined;
+      quantity?: number | undefined;
+      reservedQuantity?: number | undefined;
+      status?: WmsInventoryStockStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.inventoryStock',
+    'wms.inventoryStock',
+    {
+      availableQuantity: number | null;
+      batchId: string | null;
+      createdAt: Date | null;
+      id: string;
+      lastCountedAt: Date | null;
+      lastMovementAt: Date | null;
+      locationId: string;
+      productId: string;
+      quantity: number;
+      reservedQuantity: number;
+      status: WmsInventoryStockStatusEnum | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.inventoryStock', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsInventoryStockRepository {
   constructor(private db: Kysely<DB>) {}

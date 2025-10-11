@@ -1,12 +1,219 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsTaskStatusEnum, WmsTaskTypeEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class TaskRepository implements GenericRepository<'wms.tasks'> {
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.tasks'> | undefined,
+    filter?: FilterConfig<'wms.tasks'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.tasks',
+    {
+      actualDuration: number | null;
+      createdAt: Date | null;
+      durationSeconds: number | null;
+      endTime: Date | null;
+      estimatedDuration: number | null;
+      id: string;
+      instructions: string | null;
+      notes: string | null;
+      pickBatchId: string | null;
+      priority: number | null;
+      sourceEntityId: string | null;
+      sourceEntityType: string | null;
+      startTime: Date | null;
+      status: WmsTaskStatusEnum | null;
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      updatedAt: Date | null;
+      userId: string | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.tasks'> | undefined,
+    filter?: FilterConfig<'wms.tasks'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.tasks',
+    {
+      actualDuration: number | null;
+      createdAt: Date | null;
+      durationSeconds: number | null;
+      endTime: Date | null;
+      estimatedDuration: number | null;
+      id: string;
+      instructions: string | null;
+      notes: string | null;
+      pickBatchId: string | null;
+      priority: number | null;
+      sourceEntityId: string | null;
+      sourceEntityType: string | null;
+      startTime: Date | null;
+      status: WmsTaskStatusEnum | null;
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      updatedAt: Date | null;
+      userId: string | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.tasks',
+    {
+      actualDuration: number | null;
+      createdAt: Date | null;
+      durationSeconds: number | null;
+      endTime: Date | null;
+      estimatedDuration: number | null;
+      id: string;
+      instructions: string | null;
+      notes: string | null;
+      pickBatchId: string | null;
+      priority: number | null;
+      sourceEntityId: string | null;
+      sourceEntityType: string | null;
+      startTime: Date | null;
+      status: WmsTaskStatusEnum | null;
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      updatedAt: Date | null;
+      userId: string | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: {
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      warehouseId: string;
+    } & {
+      actualDuration?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      durationSeconds?: number | null | undefined;
+      endTime?: string | Date | null | undefined;
+      estimatedDuration?: number | null | undefined;
+      id?: string | undefined;
+      instructions?: string | null | undefined;
+      notes?: string | null | undefined;
+      pickBatchId?: string | null | undefined;
+      priority?: number | null | undefined;
+      sourceEntityId?: string | null | undefined;
+      sourceEntityType?: string | null | undefined;
+      startTime?: string | Date | null | undefined;
+      status?: WmsTaskStatusEnum | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      userId?: string | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.tasks',
+    {
+      actualDuration: number | null;
+      createdAt: Date | null;
+      durationSeconds: number | null;
+      endTime: Date | null;
+      estimatedDuration: number | null;
+      id: string;
+      instructions: string | null;
+      notes: string | null;
+      pickBatchId: string | null;
+      priority: number | null;
+      sourceEntityId: string | null;
+      sourceEntityType: string | null;
+      startTime: Date | null;
+      status: WmsTaskStatusEnum | null;
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      updatedAt: Date | null;
+      userId: string | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      actualDuration?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      durationSeconds?: number | null | undefined;
+      endTime?: string | Date | null | undefined;
+      estimatedDuration?: number | null | undefined;
+      id?: string | undefined;
+      instructions?: string | null | undefined;
+      notes?: string | null | undefined;
+      pickBatchId?: string | null | undefined;
+      priority?: number | null | undefined;
+      sourceEntityId?: string | null | undefined;
+      sourceEntityType?: string | null | undefined;
+      startTime?: string | Date | null | undefined;
+      status?: WmsTaskStatusEnum | null | undefined;
+      taskNumber?: string | undefined;
+      type?: WmsTaskTypeEnum | undefined;
+      updatedAt?: string | Date | null | undefined;
+      userId?: string | null | undefined;
+      warehouseId?: string | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.tasks',
+    'wms.tasks',
+    {
+      actualDuration: number | null;
+      createdAt: Date | null;
+      durationSeconds: number | null;
+      endTime: Date | null;
+      estimatedDuration: number | null;
+      id: string;
+      instructions: string | null;
+      notes: string | null;
+      pickBatchId: string | null;
+      priority: number | null;
+      sourceEntityId: string | null;
+      sourceEntityType: string | null;
+      startTime: Date | null;
+      status: WmsTaskStatusEnum | null;
+      taskNumber: string;
+      type: WmsTaskTypeEnum;
+      updatedAt: Date | null;
+      userId: string | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.tasks', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsTaskRepository {
   constructor(private db: Kysely<DB>) {}

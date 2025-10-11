@@ -1,12 +1,168 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class PackageItemRepository
+  implements GenericRepository<'wms.packageItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.packageItems'> | undefined,
+    filter?: FilterConfig<'wms.packageItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.packageItems',
+    {
+      batchId: string | null;
+      createdAt: Date | null;
+      expiryDate: Date | null;
+      id: string;
+      lotNumber: string | null;
+      packageId: string;
+      productId: string;
+      quantity: number;
+      serialNumbers: string[] | null;
+      totalWeight: number | null;
+      unitWeight: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.packageItems'> | undefined,
+    filter?: FilterConfig<'wms.packageItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.packageItems',
+    {
+      batchId: string | null;
+      createdAt: Date | null;
+      expiryDate: Date | null;
+      id: string;
+      lotNumber: string | null;
+      packageId: string;
+      productId: string;
+      quantity: number;
+      serialNumbers: string[] | null;
+      totalWeight: number | null;
+      unitWeight: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.packageItems',
+    {
+      batchId: string | null;
+      createdAt: Date | null;
+      expiryDate: Date | null;
+      id: string;
+      lotNumber: string | null;
+      packageId: string;
+      productId: string;
+      quantity: number;
+      serialNumbers: string[] | null;
+      totalWeight: number | null;
+      unitWeight: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { packageId: string; productId: string; quantity: number } & {
+      batchId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      expiryDate?: string | Date | null | undefined;
+      id?: string | undefined;
+      lotNumber?: string | null | undefined;
+      serialNumbers?: string[] | null | undefined;
+      totalWeight?: number | null | undefined;
+      unitWeight?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.packageItems',
+    {
+      batchId: string | null;
+      createdAt: Date | null;
+      expiryDate: Date | null;
+      id: string;
+      lotNumber: string | null;
+      packageId: string;
+      productId: string;
+      quantity: number;
+      serialNumbers: string[] | null;
+      totalWeight: number | null;
+      unitWeight: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      batchId?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      expiryDate?: string | Date | null | undefined;
+      id?: string | undefined;
+      lotNumber?: string | null | undefined;
+      packageId?: string | undefined;
+      productId?: string | undefined;
+      quantity?: number | undefined;
+      serialNumbers?: string[] | null | undefined;
+      totalWeight?: number | null | undefined;
+      unitWeight?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.packageItems',
+    'wms.packageItems',
+    {
+      batchId: string | null;
+      createdAt: Date | null;
+      expiryDate: Date | null;
+      id: string;
+      lotNumber: string | null;
+      packageId: string;
+      productId: string;
+      quantity: number;
+      serialNumbers: string[] | null;
+      totalWeight: number | null;
+      unitWeight: number | null;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.packageItems', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsPackageItemRepository {
   constructor(private db: Kysely<DB>) {}

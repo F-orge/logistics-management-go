@@ -1,12 +1,170 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class CarrierRepository implements GenericRepository<'tms.carriers'> {
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'tms.carriers'> | undefined,
+    filter?: FilterConfig<'tms.carriers'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.carriers',
+    {
+      contactDetails: string | null;
+      createdAt: Date | null;
+      id: string;
+      name: string;
+      servicesOffered: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db.selectFrom('tms.carriers').selectAll();
+
+    if (limit) query = query.limit(limit);
+
+    if (page && limit) query = query.offset((page - 1) * limit);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'tms.carriers'> | undefined,
+    filter?: FilterConfig<'tms.carriers'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'tms.carriers',
+    {
+      contactDetails: string | null;
+      createdAt: Date | null;
+      id: string;
+      name: string;
+      servicesOffered: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    let query = this.db
+      .selectFrom('tms.carriers')
+      .selectAll()
+      .where('createdAt', '>=', from)
+      .where('createdAt', '<=', to);
+
+    for (const sortCol of sort || []) {
+      query = query.orderBy(sortCol.column, sortCol.order);
+    }
+
+    for (const filterCol of filter || []) {
+      query = query.where(
+        filterCol.column,
+        filterCol.operation,
+        filterCol.value,
+      );
+    }
+
+    return query;
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'tms.carriers',
+    {
+      contactDetails: string | null;
+      createdAt: Date | null;
+      id: string;
+      name: string;
+      servicesOffered: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .selectFrom('tms.carriers')
+      .selectAll()
+      .where('id', 'in', values);
+  }
+  create(
+    value: { name: string } & {
+      contactDetails?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      servicesOffered?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'tms.carriers',
+    {
+      contactDetails: string | null;
+      createdAt: Date | null;
+      id: string;
+      name: string;
+      servicesOffered: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db.insertInto('tms.carriers').values(value).returningAll();
+  }
+  update(
+    id: string,
+    value: {
+      contactDetails?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      name?: string | undefined;
+      servicesOffered?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'tms.carriers',
+    'tms.carriers',
+    {
+      contactDetails: string | null;
+      createdAt: Date | null;
+      id: string;
+      name: string;
+      servicesOffered: string | null;
+      updatedAt: Date | null;
+    }
+  > {
+    return this.db
+      .updateTable('tms.carriers')
+      .set(value)
+      .where('id', '=', id)
+      .returningAll();
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'tms.carriers', DeleteResult> {
+    return this.db.deleteFrom('tms.carriers').where('id', '=', id);
+  }
+}
 
 export class TmsCarrierRepository {
   constructor(private db: Kysely<DB>) {}

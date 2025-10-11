@@ -1,12 +1,142 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class PickBatchItemRepository
+  implements GenericRepository<'wms.pickBatchItems'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.pickBatchItems'> | undefined,
+    filter?: FilterConfig<'wms.pickBatchItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.pickBatchItems',
+    {
+      actualPickTime: number | null;
+      createdAt: Date | null;
+      estimatedPickTime: number | null;
+      id: string;
+      orderPriority: number | null;
+      pickBatchId: string;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.pickBatchItems'> | undefined,
+    filter?: FilterConfig<'wms.pickBatchItems'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.pickBatchItems',
+    {
+      actualPickTime: number | null;
+      createdAt: Date | null;
+      estimatedPickTime: number | null;
+      id: string;
+      orderPriority: number | null;
+      pickBatchId: string;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(values: string[]): SelectQueryBuilder<
+    DB,
+    'wms.pickBatchItems',
+    {
+      actualPickTime: number | null;
+      createdAt: Date | null;
+      estimatedPickTime: number | null;
+      id: string;
+      orderPriority: number | null;
+      pickBatchId: string;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { pickBatchId: string; salesOrderId: string } & {
+      actualPickTime?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      estimatedPickTime?: number | null | undefined;
+      id?: string | undefined;
+      orderPriority?: number | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.pickBatchItems',
+    {
+      actualPickTime: number | null;
+      createdAt: Date | null;
+      estimatedPickTime: number | null;
+      id: string;
+      orderPriority: number | null;
+      pickBatchId: string;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      actualPickTime?: number | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      estimatedPickTime?: number | null | undefined;
+      id?: string | undefined;
+      orderPriority?: number | null | undefined;
+      pickBatchId?: string | undefined;
+      salesOrderId?: string | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.pickBatchItems',
+    'wms.pickBatchItems',
+    {
+      actualPickTime: number | null;
+      createdAt: Date | null;
+      estimatedPickTime: number | null;
+      id: string;
+      orderPriority: number | null;
+      pickBatchId: string;
+      salesOrderId: string;
+      updatedAt: Date | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.pickBatchItems', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsPickBatchItemRepository {
   constructor(private db: Kysely<DB>) {}

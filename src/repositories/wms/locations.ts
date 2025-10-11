@@ -1,12 +1,230 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsLocationTypeEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class LocationRepository implements GenericRepository<'wms.locations'> {
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.locations'> | undefined,
+    filter?: FilterConfig<'wms.locations'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.locations',
+    {
+      barcode: string | null;
+      createdAt: Date | null;
+      hazmatApproved: boolean | null;
+      id: string;
+      isActive: boolean | null;
+      isPickable: boolean | null;
+      isReceivable: boolean | null;
+      level: number | null;
+      maxPallets: number | null;
+      maxVolume: number | null;
+      maxWeight: number | null;
+      name: string;
+      parentLocationId: string | null;
+      path: string | null;
+      temperatureControlled: boolean | null;
+      type: WmsLocationTypeEnum;
+      updatedAt: Date | null;
+      warehouseId: string;
+      xCoordinate: number | null;
+      yCoordinate: number | null;
+      zCoordinate: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.locations'> | undefined,
+    filter?: FilterConfig<'wms.locations'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.locations',
+    {
+      barcode: string | null;
+      createdAt: Date | null;
+      hazmatApproved: boolean | null;
+      id: string;
+      isActive: boolean | null;
+      isPickable: boolean | null;
+      isReceivable: boolean | null;
+      level: number | null;
+      maxPallets: number | null;
+      maxVolume: number | null;
+      maxWeight: number | null;
+      name: string;
+      parentLocationId: string | null;
+      path: string | null;
+      temperatureControlled: boolean | null;
+      type: WmsLocationTypeEnum;
+      updatedAt: Date | null;
+      warehouseId: string;
+      xCoordinate: number | null;
+      yCoordinate: number | null;
+      zCoordinate: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.locations',
+    {
+      barcode: string | null;
+      createdAt: Date | null;
+      hazmatApproved: boolean | null;
+      id: string;
+      isActive: boolean | null;
+      isPickable: boolean | null;
+      isReceivable: boolean | null;
+      level: number | null;
+      maxPallets: number | null;
+      maxVolume: number | null;
+      maxWeight: number | null;
+      name: string;
+      parentLocationId: string | null;
+      path: string | null;
+      temperatureControlled: boolean | null;
+      type: WmsLocationTypeEnum;
+      updatedAt: Date | null;
+      warehouseId: string;
+      xCoordinate: number | null;
+      yCoordinate: number | null;
+      zCoordinate: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { name: string; type: WmsLocationTypeEnum; warehouseId: string } & {
+      barcode?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      hazmatApproved?: boolean | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      isPickable?: boolean | null | undefined;
+      isReceivable?: boolean | null | undefined;
+      level?: number | null | undefined;
+      maxPallets?: number | null | undefined;
+      maxVolume?: number | null | undefined;
+      maxWeight?: number | null | undefined;
+      parentLocationId?: string | null | undefined;
+      path?: string | null | undefined;
+      temperatureControlled?: boolean | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      xCoordinate?: number | null | undefined;
+      yCoordinate?: number | null | undefined;
+      zCoordinate?: number | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.locations',
+    {
+      barcode: string | null;
+      createdAt: Date | null;
+      hazmatApproved: boolean | null;
+      id: string;
+      isActive: boolean | null;
+      isPickable: boolean | null;
+      isReceivable: boolean | null;
+      level: number | null;
+      maxPallets: number | null;
+      maxVolume: number | null;
+      maxWeight: number | null;
+      name: string;
+      parentLocationId: string | null;
+      path: string | null;
+      temperatureControlled: boolean | null;
+      type: WmsLocationTypeEnum;
+      updatedAt: Date | null;
+      warehouseId: string;
+      xCoordinate: number | null;
+      yCoordinate: number | null;
+      zCoordinate: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      barcode?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      hazmatApproved?: boolean | null | undefined;
+      id?: string | undefined;
+      isActive?: boolean | null | undefined;
+      isPickable?: boolean | null | undefined;
+      isReceivable?: boolean | null | undefined;
+      level?: number | null | undefined;
+      maxPallets?: number | null | undefined;
+      maxVolume?: number | null | undefined;
+      maxWeight?: number | null | undefined;
+      name?: string | undefined;
+      parentLocationId?: string | null | undefined;
+      path?: string | null | undefined;
+      temperatureControlled?: boolean | null | undefined;
+      type?: WmsLocationTypeEnum | undefined;
+      updatedAt?: string | Date | null | undefined;
+      warehouseId?: string | undefined;
+      xCoordinate?: number | null | undefined;
+      yCoordinate?: number | null | undefined;
+      zCoordinate?: number | null | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.locations',
+    'wms.locations',
+    {
+      barcode: string | null;
+      createdAt: Date | null;
+      hazmatApproved: boolean | null;
+      id: string;
+      isActive: boolean | null;
+      isPickable: boolean | null;
+      isReceivable: boolean | null;
+      level: number | null;
+      maxPallets: number | null;
+      maxVolume: number | null;
+      maxWeight: number | null;
+      name: string;
+      parentLocationId: string | null;
+      path: string | null;
+      temperatureControlled: boolean | null;
+      type: WmsLocationTypeEnum;
+      updatedAt: Date | null;
+      warehouseId: string;
+      xCoordinate: number | null;
+      yCoordinate: number | null;
+      zCoordinate: number | null;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.locations', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsLocationRepository {
   constructor(private db: Kysely<DB>) {}

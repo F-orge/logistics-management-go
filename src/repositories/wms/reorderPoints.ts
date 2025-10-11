@@ -1,12 +1,129 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
 import { DB } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class ReorderPointRepository
+  implements GenericRepository<'wms.reorderPoints'>
+{
+  constructor(private db: Kysely<DB>) {}
+
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.reorderPoints'> | undefined,
+    filter?: FilterConfig<'wms.reorderPoints'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.reorderPoints',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      threshold: number;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.reorderPoints'> | undefined,
+    filter?: FilterConfig<'wms.reorderPoints'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.reorderPoints',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      threshold: number;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.reorderPoints',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      threshold: number;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { productId: string; threshold: number; warehouseId: string } & {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.reorderPoints',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      threshold: number;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      productId?: string | undefined;
+      threshold?: number | undefined;
+      updatedAt?: string | Date | null | undefined;
+      warehouseId?: string | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.reorderPoints',
+    'wms.reorderPoints',
+    {
+      createdAt: Date | null;
+      id: string;
+      productId: string;
+      threshold: number;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.reorderPoints', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsReorderPointRepository {
   constructor(private db: Kysely<DB>) {}

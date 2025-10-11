@@ -1,12 +1,142 @@
 import {
+  DeleteQueryBuilder,
+  DeleteResult,
   Insertable,
+  InsertQueryBuilder,
   Kysely,
   OrderByExpression,
   OrderByModifiers,
   SelectExpression,
+  SelectQueryBuilder,
   Updateable,
+  UpdateQueryBuilder,
 } from 'kysely';
-import { DB } from '@/db/types';
+import { DB, WmsOutboundShipmentStatusEnum } from '@/db/types';
+import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+
+export class OutboundShipmentRepository
+  implements GenericRepository<'wms.outboundShipments'>
+{
+  paginate(
+    page?: number,
+    limit?: number,
+    sort?: SortConfig<'wms.outboundShipments'> | undefined,
+    filter?: FilterConfig<'wms.outboundShipments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.outboundShipments',
+    {
+      carrier: string | null;
+      createdAt: Date | null;
+      id: string;
+      salesOrderId: string;
+      status: WmsOutboundShipmentStatusEnum | null;
+      trackingNumber: string | null;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  range(
+    from: Date,
+    to: Date,
+    sort?: SortConfig<'wms.outboundShipments'> | undefined,
+    filter?: FilterConfig<'wms.outboundShipments'> | undefined,
+  ): SelectQueryBuilder<
+    DB,
+    'wms.outboundShipments',
+    {
+      carrier: string | null;
+      createdAt: Date | null;
+      id: string;
+      salesOrderId: string;
+      status: WmsOutboundShipmentStatusEnum | null;
+      trackingNumber: string | null;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  in(
+    values: string[],
+  ): SelectQueryBuilder<
+    DB,
+    'wms.outboundShipments',
+    {
+      carrier: string | null;
+      createdAt: Date | null;
+      id: string;
+      salesOrderId: string;
+      status: WmsOutboundShipmentStatusEnum | null;
+      trackingNumber: string | null;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  create(
+    value: { salesOrderId: string; warehouseId: string } & {
+      carrier?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      status?: WmsOutboundShipmentStatusEnum | null | undefined;
+      trackingNumber?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+    },
+  ): InsertQueryBuilder<
+    DB,
+    'wms.outboundShipments',
+    {
+      carrier: string | null;
+      createdAt: Date | null;
+      id: string;
+      salesOrderId: string;
+      status: WmsOutboundShipmentStatusEnum | null;
+      trackingNumber: string | null;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    id: string,
+    value: {
+      carrier?: string | null | undefined;
+      createdAt?: string | Date | null | undefined;
+      id?: string | undefined;
+      salesOrderId?: string | undefined;
+      status?: WmsOutboundShipmentStatusEnum | null | undefined;
+      trackingNumber?: string | null | undefined;
+      updatedAt?: string | Date | null | undefined;
+      warehouseId?: string | undefined;
+    },
+  ): UpdateQueryBuilder<
+    DB,
+    'wms.outboundShipments',
+    'wms.outboundShipments',
+    {
+      carrier: string | null;
+      createdAt: Date | null;
+      id: string;
+      salesOrderId: string;
+      status: WmsOutboundShipmentStatusEnum | null;
+      trackingNumber: string | null;
+      updatedAt: Date | null;
+      warehouseId: string;
+    }
+  > {
+    throw new Error('Method not implemented.');
+  }
+  delete(
+    id: string,
+  ): DeleteQueryBuilder<DB, 'wms.outboundShipments', DeleteResult> {
+    throw new Error('Method not implemented.');
+  }
+}
 
 export class WmsOutboundShipmentRepository {
   constructor(private db: Kysely<DB>) {}
