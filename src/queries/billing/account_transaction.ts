@@ -22,6 +22,7 @@ export const paginateAccountTransaction = (
             .filter(nonEmpty),
         ),
       );
+
       const processedByUsers = await client.ensureQueryData(
         inUser(
           accountTransactions

@@ -2,6 +2,7 @@ import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
+import { inCompany } from '../crm';
 
 export const paginateClientAccount = (
   options: Parameters<typeof orpcClient.billing.paginateClientAccount>[0],
@@ -13,9 +14,13 @@ export const paginateClientAccount = (
         await orpcClient.billing.paginateClientAccount(options);
 
       // No inClient available, so no relations added for clientId
+      const clients = await client.ensureQueryData(
+        inCompany(clientAccounts.map((row) => row.clientId)),
+      );
 
       return clientAccounts.map((row) => ({
         ...row,
+        client: clients.find((subRow) => subRow.id === row.clientId)!,
       }));
     },
     enabled: !!options,

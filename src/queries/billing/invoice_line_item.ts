@@ -14,15 +14,8 @@ export const paginateInvoiceLineItem = (
       const invoiceLineItems =
         await orpcClient.billing.paginateInvoiceLineItem(options);
 
-      const invoices = await client.ensureQueryData(
-        inInvoice(
-          invoiceLineItems.map((row) => row.invoiceId).filter(nonEmpty),
-        ),
-      );
-
       return invoiceLineItems.map((row) => ({
         ...row,
-        invoice: invoices.find((subRow) => subRow.id === row.invoiceId),
       }));
     },
     enabled: !!options,

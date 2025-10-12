@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inQuote } from './quote';
+import { paginateInvoiceLineItem } from './invoice_line_item';
 
 export const paginateInvoice = (
   options: Parameters<typeof orpcClient.billing.paginateInvoice>[0],
@@ -17,8 +18,23 @@ export const paginateInvoice = (
       const createdByUsers = await client.ensureQueryData(
         inUser(invoices.map((row) => row.createdByUserId).filter(nonEmpty)),
       );
+
       const quotes = await client.ensureQueryData(
         inQuote(invoices.map((row) => row.quoteId).filter(nonEmpty)),
+      );
+
+      const items = await client.ensureQueryData(
+        paginateInvoiceLineItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'invoiceId',
+              operation: 'in',
+              value: invoices.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return invoices.map((row) => ({
@@ -27,6 +43,7 @@ export const paginateInvoice = (
           (subRow) => subRow.id === row.createdByUserId,
         ),
         quote: quotes.find((subRow) => subRow.id === row.quoteId),
+        items: items.filter((subRow) => subRow.invoiceId === row.id),
       }));
     },
     enabled: !!options,
