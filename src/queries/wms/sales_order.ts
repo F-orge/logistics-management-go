@@ -2,6 +2,9 @@ import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
+import { inCompany, inOpportunity } from '../crm';
+import { nonEmpty } from '@/lib/utils';
+import { paginateSalesOrderItem } from './sales_order_item';
 
 export const paginateSalesOrder = (
   options: Parameters<typeof orpcClient.wms.paginateSalesOrder>[0],
@@ -11,10 +14,37 @@ export const paginateSalesOrder = (
     queryFn: async ({ client }) => {
       const salesOrders = await orpcClient.wms.paginateSalesOrder(options);
 
-      // No inClient or inOpportunity available, so no relations added for clientId or crmOpportunityId
+      const clients = await client.ensureQueryData(
+        inCompany(salesOrders.map((row) => row.clientId)),
+      );
+
+      const opportunities = await client.ensureQueryData(
+        inOpportunity(
+          salesOrders.map((row) => row.crmOpportunityId).filter(nonEmpty),
+        ),
+      );
+
+      const items = await client.ensureQueryData(
+        paginateSalesOrderItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'salesOrderId',
+              operation: 'in',
+              value: salesOrders.map((row) => row.id),
+            },
+          ],
+        }),
+      );
 
       return salesOrders.map((row) => ({
         ...row,
+        client: clients.find((subRow) => subRow.id === row.clientId)!,
+        opportunity: opportunities.find(
+          (subRow) => subRow.id === row.crmOpportunityId,
+        ),
+        items: items.filter((subRow) => subRow.salesOrderId === row.id),
       }));
     },
     enabled: !!options,

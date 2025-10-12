@@ -16,6 +16,7 @@ export const paginateLocation = (
       const warehouses = await client.ensureQueryData(
         inWarehouse(locations.map((row) => row.warehouseId).filter(nonEmpty)),
       );
+
       const parentLocations = await client.ensureQueryData(
         inLocation(
           locations.map((row) => row.parentLocationId).filter(nonEmpty),

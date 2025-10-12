@@ -14,16 +14,12 @@ export const paginateReturnItem = (
     queryFn: async ({ client }) => {
       const returnItems = await orpcClient.wms.paginateReturnItem(options);
 
-      const returns = await client.ensureQueryData(
-        inReturn(returnItems.map((row) => row.returnId).filter(nonEmpty)),
-      );
       const products = await client.ensureQueryData(
         inProduct(returnItems.map((row) => row.productId).filter(nonEmpty)),
       );
 
       return returnItems.map((row) => ({
         ...row,
-        return: returns.find((subRow) => subRow.id === row.returnId),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },

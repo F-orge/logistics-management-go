@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inWarehouse } from './warehouse';
+import { paginateInboundShipmentItem } from './inbound_shipment_item';
 
 export const paginateInboundShipment = (
   options: Parameters<typeof orpcClient.wms.paginateInboundShipment>[0],
@@ -20,9 +21,24 @@ export const paginateInboundShipment = (
         ),
       );
 
+      const items = await client.ensureQueryData(
+        paginateInboundShipmentItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'inboundShipmentId',
+              operation: 'in',
+              value: inboundShipments.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return inboundShipments.map((row) => ({
         ...row,
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
+        items: items.filter((subRow) => subRow.inboundShipmentId === row.id),
       }));
     },
     enabled: !!options,

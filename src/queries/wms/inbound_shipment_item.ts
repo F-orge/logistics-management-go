@@ -15,13 +15,6 @@ export const paginateInboundShipmentItem = (
       const inboundShipmentItems =
         await orpcClient.wms.paginateInboundShipmentItem(options);
 
-      const inboundShipments = await client.ensureQueryData(
-        inInboundShipment(
-          inboundShipmentItems
-            .map((row) => row.inboundShipmentId)
-            .filter(nonEmpty),
-        ),
-      );
       const products = await client.ensureQueryData(
         inProduct(
           inboundShipmentItems.map((row) => row.productId).filter(nonEmpty),
@@ -30,9 +23,6 @@ export const paginateInboundShipmentItem = (
 
       return inboundShipmentItems.map((row) => ({
         ...row,
-        inboundShipment: inboundShipments.find(
-          (subRow) => subRow.id === row.inboundShipmentId,
-        ),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },

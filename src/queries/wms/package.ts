@@ -6,6 +6,7 @@ import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inSalesOrder } from './sales_order';
 import { inWarehouse } from './warehouse';
+import { paginatePackageItem } from './package_item';
 
 export const paginatePackage = (
   options: Parameters<typeof orpcClient.wms.paginatePackage>[0],
@@ -25,6 +26,20 @@ export const paginatePackage = (
         inUser(packages.map((row) => row.packedByUserId).filter(nonEmpty)),
       );
 
+      const items = await client.ensureQueryData(
+        paginatePackageItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'packageId',
+              operation: 'in',
+              value: packages.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return packages.map((row) => ({
         ...row,
         salesOrder: salesOrders.find(
@@ -34,6 +49,7 @@ export const paginatePackage = (
         packedByUser: packedByUsers.find(
           (subRow) => subRow.id === row.packedByUserId,
         ),
+        items: items.filter((subRow) => subRow.packageId === row.id),
       }));
     },
     enabled: !!options,

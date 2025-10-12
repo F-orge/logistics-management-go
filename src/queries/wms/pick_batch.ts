@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inWarehouse } from './warehouse';
+import { paginatePickBatchItem } from './pick_batch_item';
 
 export const paginatePickBatch = (
   options: Parameters<typeof orpcClient.wms.paginatePickBatch>[0],
@@ -21,12 +22,27 @@ export const paginatePickBatch = (
         inUser(pickBatches.map((row) => row.assignedUserId).filter(nonEmpty)),
       );
 
+      const items = await client.ensureQueryData(
+        paginatePickBatchItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'pickBatchId',
+              operation: 'in',
+              value: pickBatches.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return pickBatches.map((row) => ({
         ...row,
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
         assignedUser: assignedUsers.find(
           (subRow) => subRow.id === row.assignedUserId,
         ),
+        items: items.filter((subRow) => subRow.pickBatchId === row.id),
       }));
     },
     enabled: !!options,

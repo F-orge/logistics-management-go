@@ -15,20 +15,12 @@ export const paginateSalesOrderItem = (
       const salesOrderItems =
         await orpcClient.wms.paginateSalesOrderItem(options);
 
-      const salesOrders = await client.ensureQueryData(
-        inSalesOrder(
-          salesOrderItems.map((row) => row.salesOrderId).filter(nonEmpty),
-        ),
-      );
       const products = await client.ensureQueryData(
         inProduct(salesOrderItems.map((row) => row.productId).filter(nonEmpty)),
       );
 
       return salesOrderItems.map((row) => ({
         ...row,
-        salesOrder: salesOrders.find(
-          (subRow) => subRow.id === row.salesOrderId,
-        ),
         product: products.find((subRow) => subRow.id === row.productId),
       }));
     },

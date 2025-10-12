@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inSalesOrder } from './sales_order';
 import { inWarehouse } from './warehouse';
+import { paginateOutboundShipmentItem } from './outbound_shipment_item';
 
 export const paginateOutboundShipment = (
   options: Parameters<typeof orpcClient.wms.paginateOutboundShipment>[0],
@@ -20,10 +21,25 @@ export const paginateOutboundShipment = (
           outboundShipments.map((row) => row.salesOrderId).filter(nonEmpty),
         ),
       );
+
       const warehouses = await client.ensureQueryData(
         inWarehouse(
           outboundShipments.map((row) => row.warehouseId).filter(nonEmpty),
         ),
+      );
+
+      const items = await client.ensureQueryData(
+        paginateOutboundShipmentItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'outboundShipmentId',
+              operation: 'in',
+              value: outboundShipments.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return outboundShipments.map((row) => ({
@@ -32,6 +48,7 @@ export const paginateOutboundShipment = (
           (subRow) => subRow.id === row.salesOrderId,
         ),
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
+        items: items.filter((subRow) => subRow.outboundShipmentId === row.id),
       }));
     },
     enabled: !!options,

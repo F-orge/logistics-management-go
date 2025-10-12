@@ -15,11 +15,6 @@ export const paginatePickBatchItem = (
       const pickBatchItems =
         await orpcClient.wms.paginatePickBatchItem(options);
 
-      const pickBatches = await client.ensureQueryData(
-        inPickBatch(
-          pickBatchItems.map((row) => row.pickBatchId).filter(nonEmpty),
-        ),
-      );
       const salesOrders = await client.ensureQueryData(
         inSalesOrder(
           pickBatchItems.map((row) => row.salesOrderId).filter(nonEmpty),
@@ -28,7 +23,6 @@ export const paginatePickBatchItem = (
 
       return pickBatchItems.map((row) => ({
         ...row,
-        pickBatch: pickBatches.find((subRow) => subRow.id === row.pickBatchId),
         salesOrder: salesOrders.find(
           (subRow) => subRow.id === row.salesOrderId,
         ),

@@ -17,13 +17,6 @@ export const paginateOutboundShipmentItem = (
       const outboundShipmentItems =
         await orpcClient.wms.paginateOutboundShipmentItem(options);
 
-      const outboundShipments = await client.ensureQueryData(
-        inOutboundShipment(
-          outboundShipmentItems
-            .map((row) => row.outboundShipmentId)
-            .filter(nonEmpty),
-        ),
-      );
       const products = await client.ensureQueryData(
         inProduct(
           outboundShipmentItems.map((row) => row.productId).filter(nonEmpty),
@@ -44,9 +37,6 @@ export const paginateOutboundShipmentItem = (
 
       return outboundShipmentItems.map((row) => ({
         ...row,
-        outboundShipment: outboundShipments.find(
-          (subRow) => subRow.id === row.outboundShipmentId,
-        ),
         product: products.find((subRow) => subRow.id === row.productId),
         batch: inventoryBatches.find((subRow) => subRow.id === row.batchId),
         salesOrderItem: salesOrderItems.find(

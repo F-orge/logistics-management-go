@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inSalesOrder } from './sales_order';
+import { paginateReturnItem } from './return_item';
 
 export const paginateReturn = (
   options: Parameters<typeof orpcClient.wms.paginateReturn>[0],
@@ -17,11 +18,26 @@ export const paginateReturn = (
         inSalesOrder(returns.map((row) => row.salesOrderId).filter(nonEmpty)),
       );
 
+      const items = await client.ensureQueryData(
+        paginateReturnItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'productId',
+              operation: 'in',
+              value: returns.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return returns.map((row) => ({
         ...row,
         salesOrder: salesOrders.find(
           (subRow) => subRow.id === row.salesOrderId,
         ),
+        items: items.filter((subRow) => subRow.returnId === row.id),
       }));
     },
     enabled: !!options,

@@ -16,9 +16,6 @@ export const paginateTaskItem = (
     queryFn: async ({ client }) => {
       const taskItems = await orpcClient.wms.paginateTaskItem(options);
 
-      const tasks = await client.ensureQueryData(
-        inTask(taskItems.map((row) => row.taskId).filter(nonEmpty)),
-      );
       const products = await client.ensureQueryData(
         inProduct(taskItems.map((row) => row.productId).filter(nonEmpty)),
       );
@@ -36,7 +33,6 @@ export const paginateTaskItem = (
 
       return taskItems.map((row) => ({
         ...row,
-        task: tasks.find((subRow) => subRow.id === row.taskId),
         product: products.find((subRow) => subRow.id === row.productId),
         batch: inventoryBatches.find((subRow) => subRow.id === row.batchId),
         destinationLocation: locations.find(

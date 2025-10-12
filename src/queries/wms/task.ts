@@ -6,6 +6,7 @@ import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inPickBatch } from './pick_batch';
 import { inWarehouse } from './warehouse';
+import { paginateTaskItem } from './task_item';
 
 export const paginateTask = (
   options: Parameters<typeof orpcClient.wms.paginateTask>[0],
@@ -18,11 +19,27 @@ export const paginateTask = (
       const warehouses = await client.ensureQueryData(
         inWarehouse(tasks.map((row) => row.warehouseId).filter(nonEmpty)),
       );
+
       const users = await client.ensureQueryData(
         inUser(tasks.map((row) => row.userId).filter(nonEmpty)),
       );
+
       const pickBatches = await client.ensureQueryData(
         inPickBatch(tasks.map((row) => row.pickBatchId).filter(nonEmpty)),
+      );
+
+      const items = await client.ensureQueryData(
+        paginateTaskItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'taskId',
+              operation: 'in',
+              value: tasks.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return tasks.map((row) => ({
@@ -30,6 +47,7 @@ export const paginateTask = (
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
         user: users.find((subRow) => subRow.id === row.userId),
         pickBatch: pickBatches.find((subRow) => subRow.id === row.pickBatchId),
+        items: items.filter((subRow) => subRow.taskId === row.id),
       }));
     },
     enabled: !!options,
