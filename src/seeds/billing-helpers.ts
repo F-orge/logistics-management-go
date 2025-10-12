@@ -72,8 +72,8 @@ export const generateBillingQuote = (
   expiresAt: faker.date.future(),
   notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   weight: faker.number.float({ min: 1, max: 1000 }),
-  length: faker.number.float({ min: 10, max: 200 }),
-  width: faker.number.float({ min: 10, max: 200 }),
+  length: faker.number.float({ min: 10, max: 10 }),
+  width: faker.number.float({ min: 10, max: 10 }),
   height: faker.number.float({ min: 10, max: 200 }),
 });
 
@@ -98,7 +98,7 @@ export const generateBillingInvoice = (
     status: faker.helpers.arrayElement(Object.values(BillingInvoiceStatusEnum)),
     currency: faker.finance.currencyCode(),
     notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-    paymentTerms: faker.datatype.boolean() ? faker.lorem.word() : null,
+    paymentTerms: faker.datatype.boolean() ? faker.lorem.words(3) : null,
     paidAt: faker.datatype.boolean() ? faker.date.recent() : null,
     sentAt: faker.datatype.boolean() ? faker.date.recent() : null,
     subtotal: faker.number.float({ min: 90, max: 9000 }),
@@ -137,7 +137,7 @@ export const generateBillingPayment = (
   status: faker.helpers.arrayElement(Object.values(BillingPaymentStatusEnum)),
   paymentDate: faker.date.recent(),
   currency: faker.finance.currencyCode(),
-  transactionId: faker.string.alphanumeric(15).toUpperCase(),
+  transactionId: faker.string.uuid(),
   gatewayReference: faker.string.alphanumeric(20).toUpperCase(),
   fees: faker.number.float({ min: 0, max: 50 }),
   exchangeRate: faker.number.float({ min: 0.5, max: 1.5 }),
@@ -217,12 +217,12 @@ export const generateBillingRateRule = (
   rateCardId: string,
 ): Insertable<DB['billing.rateRules']> => ({
   rateCardId: rateCardId,
-  condition: faker.lorem.word(),
+  condition: faker.lorem.words(2),
   pricingModel: faker.helpers.arrayElement(
     Object.values(BillingPricingModelEnum),
   ),
   price: faker.number.float({ min: 0.1, max: 100 }),
-  value: faker.lorem.word(),
+  value: faker.lorem.words(2),
   priority: faker.number.int({ min: 1, max: 100 }),
   isActive: faker.datatype.boolean(),
   minValue: faker.datatype.boolean()
@@ -237,7 +237,7 @@ export const generateBillingSurcharge = (
   faker: Faker,
 ): Insertable<DB['billing.surcharges']> => ({
   name: faker.lorem.words(2),
-  type: faker.lorem.word(),
+  type: faker.lorem.slug(1),
   amount: faker.number.float({ min: 1, max: 100 }),
   calculationMethod: faker.helpers.arrayElement(
     Object.values(BillingSurchargeCalculationMethodEnum),
@@ -257,7 +257,7 @@ export const generateBillingAccountTransaction = (
 ): Insertable<DB['billing.accountTransactions']> => ({
   clientAccountId: clientAccountId,
   type: faker.helpers.arrayElement(Object.values(BillingTransactionTypeEnum)),
-  amount: faker.number.float({ min: -5000, max: 5000 }),
+  amount: faker.number.float({ min: 0, max: 5000 }),
   runningBalance: faker.number.float({ min: 0, max: 10000 }),
   sourceRecordId: sourceRecordId,
   sourceRecordType: sourceRecordType,

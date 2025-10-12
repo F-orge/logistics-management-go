@@ -31,9 +31,7 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsCustomerTrackingLinkSchema } from '@/schemas/dms/customer_tracking_link';
-import NewCustomerTrackingLinkFormDialog from './-components/new';
 import { columns } from './-components/table';
-import ViewCustomerTrackingLinkFormDialog from './-components/view';
 
 export const Route = createFileRoute('/dashboard/dms/customer-tracking-link/')({
   component: RouteComponent,
@@ -60,7 +58,9 @@ export const Route = createFileRoute('/dashboard/dms/customer-tracking-link/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateCustomerTrackingLink(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(rangeCustomerTrackingLink({ from, to })),
+      chart: await context.queryClient.fetchQuery(
+        rangeCustomerTrackingLink({ from, to }),
+      ),
     };
   },
 });
@@ -147,35 +147,6 @@ function RouteComponent() {
         >
           {(row) => (
             <>
-              <ContextMenuItem
-                onClick={() =>
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      view: true,
-                      id: row.original.id,
-                    }),
-                  })
-                }
-              >
-                <ScanSearch />
-                View Information
-              </ContextMenuItem>
-              <ContextMenuSeparator />
-              <ContextMenuItem
-                onClick={() =>
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      edit: true,
-                      id: row.original.id,
-                    }),
-                  })
-                }
-              >
-                <Pencil />
-                Edit Information
-              </ContextMenuItem>
               <ContextMenuSeparator />
               <ContextMenuItem
                 onClick={() =>
@@ -209,33 +180,30 @@ function RouteComponent() {
           title="Are you sure you want to delete this record"
           description="Deleting this record is permanent"
           onConfirm={async () =>
-            deleteMutation.mutateAsync(searchQuery.id!,
-              {
-                onSuccess: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-                onError: () => {
-                  navigate({
-                    search: (prev) => ({
-                      ...prev,
-                      delete: undefined,
-                      id: undefined,
-                    }),
-                    replace: true,
-                  });
-                },
-              })
+            deleteMutation.mutateAsync(searchQuery.id!, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+              onError: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                  replace: true,
+                });
+              },
+            })
           }
         />
-        <NewCustomerTrackingLinkFormDialog />
-        <ViewCustomerTrackingLinkFormDialog />
       </section>
     </article>
   );

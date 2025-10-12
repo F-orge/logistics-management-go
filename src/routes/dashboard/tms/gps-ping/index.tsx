@@ -21,25 +21,25 @@ import {
 } from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
 import {
-  deleteDeliveryTask,
-  paginateDeliveryTask,
-  rangeDeliveryTask,
-} from '@/queries/dms/delivery_task';
+  deleteGpsPing,
+  paginateGpsPing,
+  rangeGpsPing,
+} from '@/queries/tms/gps_ping';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
-import { dmsDeliveryTaskSchema } from '@/schemas/dms/delivery_task';
+import { tmsGpsPingSchema } from '@/schemas/tms/gps_ping';
 import { columns } from './-components/table';
 
-export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
+export const Route = createFileRoute('/dashboard/tms/gps-ping/')({
   component: RouteComponent,
   validateSearch: zodValidator(
     paginateTransformer().extend({
-      filters: filterTransformer(dmsDeliveryTaskSchema),
-      sort: sortTransformer(dmsDeliveryTaskSchema).default([
-        { column: 'createdAt', order: 'desc' },
+      filters: filterTransformer(tmsGpsPingSchema),
+      sort: sortTransformer(tmsGpsPingSchema).default([
+        { column: 'timestamp', order: 'desc' },
       ]),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
@@ -56,11 +56,9 @@ export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
 
     return {
       dataTable: await context.queryClient.fetchQuery(
-        paginateDeliveryTask(context.search),
+        paginateGpsPing(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeDeliveryTask({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeGpsPing({ from, to })),
     };
   },
 });
@@ -72,12 +70,12 @@ function RouteComponent() {
   const { queryClient } = Route.useRouteContext();
   const [currentSearch, setCurrentSearch] = useState<string>('');
 
-  const deleteMutation = useMutation(deleteDeliveryTask, queryClient);
+  const deleteMutation = useMutation(deleteGpsPing, queryClient);
 
   return (
     <article className="grid grid-cols-12 gap-5">
       <section className="col-span-full">
-        <h1 className="text-2xl font-bold">Delivery Tasks</h1>
+        <h1 className="text-2xl font-bold">GPS Pings</h1>
       </section>
       <section className="col-span-full flex justify-between items-center">
         <ButtonGroup className="col-span-4">
@@ -92,7 +90,7 @@ function RouteComponent() {
                   ...prev,
                   filters: [
                     {
-                      column: 'status', // Assuming 'status' is a searchable field
+                      column: 'id',
                       operation: 'like',
                       value: `%${currentSearch}%`,
                     },

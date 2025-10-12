@@ -2,6 +2,7 @@ import { implement } from '@orpc/server';
 import * as dmsContracts from '@/orpc/contracts/dms/delivery_route';
 import { DeliveryRouteRepository } from '@/repositories/dms/deliveryRoutes';
 import { HonoVariables } from '@/server';
+import { ZodError } from 'zod';
 
 export const paginateDeliveryRoute = implement(
   dmsContracts.paginateDeliveryRouteContract,
@@ -13,8 +14,6 @@ export const paginateDeliveryRoute = implement(
     const result = await repo
       .paginate(input.page, input.perPage, input.sort, input.filters as any)
       .execute();
-
-    console.log(result);
 
     return result;
   });
@@ -36,7 +35,17 @@ export const inDeliveryRoute = implement(dmsContracts.inDeliveryRouteContract)
   .handler(async ({ context, input }) => {
     const repo = new DeliveryRouteRepository(context.db);
 
-    return repo.in(input).execute();
+    const result = await repo.in(input).execute();
+
+    try {
+      dmsContracts.inDeliveryRouteContract['~orpc'].outputSchema?.parse(result);
+    } catch (e) {
+      if (e instanceof ZodError) {
+        console.log(e.issues);
+      }
+    }
+
+    return result;
   });
 
 export const createDeliveryRoute = implement(

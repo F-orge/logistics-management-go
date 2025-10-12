@@ -29,7 +29,7 @@ export const wmsProductSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  costPrice: z
+  costPrice: z.coerce
     .number({ message: 'Cost price must be a number' })
     .min(0, { error: 'Cost price must be at least 0' })
     .max(10000000, { error: 'Cost price must be at most 10,000,000' })

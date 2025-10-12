@@ -21,24 +21,24 @@ import {
 } from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
 import {
-  deleteDeliveryTask,
-  paginateDeliveryTask,
-  rangeDeliveryTask,
-} from '@/queries/dms/delivery_task';
+  deleteProofOfDelivery,
+  paginateProofOfDelivery,
+  rangeProofOfDelivery,
+} from '@/queries/tms/proof_of_delivery';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
-import { dmsDeliveryTaskSchema } from '@/schemas/dms/delivery_task';
+import { tmsProofOfDeliverySchema } from '@/schemas/tms/proof_of_delivery';
 import { columns } from './-components/table';
 
-export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
+export const Route = createFileRoute('/dashboard/tms/proof-of-delivery/')({
   component: RouteComponent,
   validateSearch: zodValidator(
     paginateTransformer().extend({
-      filters: filterTransformer(dmsDeliveryTaskSchema),
-      sort: sortTransformer(dmsDeliveryTaskSchema).default([
+      filters: filterTransformer(tmsProofOfDeliverySchema),
+      sort: sortTransformer(tmsProofOfDeliverySchema).default([
         { column: 'createdAt', order: 'desc' },
       ]),
       new: z.boolean().optional(),
@@ -56,10 +56,10 @@ export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
 
     return {
       dataTable: await context.queryClient.fetchQuery(
-        paginateDeliveryTask(context.search),
+        paginateProofOfDelivery(context.search),
       ),
       chart: await context.queryClient.fetchQuery(
-        rangeDeliveryTask({ from, to }),
+        rangeProofOfDelivery({ from, to }),
       ),
     };
   },
@@ -72,12 +72,12 @@ function RouteComponent() {
   const { queryClient } = Route.useRouteContext();
   const [currentSearch, setCurrentSearch] = useState<string>('');
 
-  const deleteMutation = useMutation(deleteDeliveryTask, queryClient);
+  const deleteMutation = useMutation(deleteProofOfDelivery, queryClient);
 
   return (
     <article className="grid grid-cols-12 gap-5">
       <section className="col-span-full">
-        <h1 className="text-2xl font-bold">Delivery Tasks</h1>
+        <h1 className="text-2xl font-bold">Proof of Deliveries</h1>
       </section>
       <section className="col-span-full flex justify-between items-center">
         <ButtonGroup className="col-span-4">
@@ -92,7 +92,7 @@ function RouteComponent() {
                   ...prev,
                   filters: [
                     {
-                      column: 'status', // Assuming 'status' is a searchable field
+                      column: 'type',
                       operation: 'like',
                       value: `%${currentSearch}%`,
                     },

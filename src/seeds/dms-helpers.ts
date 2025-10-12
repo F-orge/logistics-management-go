@@ -20,7 +20,9 @@ export const generateDmsDeliveryRoute = (
   status: faker.helpers.arrayElement(Object.values(DmsDeliveryRouteStatusEnum)),
   startedAt: faker.datatype.boolean() ? faker.date.recent() : null,
   completedAt: faker.datatype.boolean() ? faker.date.recent() : null,
-  optimizedRouteData: faker.datatype.boolean() ? faker.lorem.sentence() : null,
+  optimizedRouteData: faker.datatype.boolean()
+    ? faker.lorem.paragraphs(2)
+    : null,
 });
 
 export const generateDmsDeliveryTask = (
@@ -82,7 +84,7 @@ export const generateDmsProofOfDelivery = (
   timestamp: faker.date.recent(),
   filePath: faker.datatype.boolean() ? faker.system.filePath() : null,
   signatureData: faker.datatype.boolean()
-    ? faker.string.alphanumeric(50)
+    ? faker.string.alphanumeric(256)
     : null,
   recipientName: faker.person.fullName(),
   latitude: faker.location.latitude(),

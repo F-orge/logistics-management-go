@@ -30,7 +30,7 @@ export const generateWmsWarehouse = (
   country: faker.location.country(),
   contactPerson: faker.person.fullName(),
   contactEmail: faker.internet.email(),
-  contactPhone: faker.phone.number(),
+  contactPhone: faker.phone.number({ style: 'international' }),
   timezone: faker.location.timeZone(),
   isActive: faker.datatype.boolean(),
 });
@@ -41,7 +41,7 @@ export const generateWmsSupplier = (
   name: faker.company.name() + ' Supplier',
   contactPerson: faker.person.fullName(),
   email: faker.internet.email(),
-  phoneNumber: faker.phone.number(),
+  phoneNumber: faker.phone.number({ style: 'international' }),
 });
 
 export const generateWmsProduct = (
@@ -54,9 +54,9 @@ export const generateWmsProduct = (
   description: faker.commerce.productDescription(),
   costPrice: faker.number.float({ min: 1, max: 1000 }),
   weight: faker.number.float({ min: 0.1, max: 50 }),
-  length: faker.number.float({ min: 1, max: 100 }),
-  width: faker.number.float({ min: 1, max: 100 }),
-  height: faker.number.float({ min: 1, max: 100 }),
+  length: faker.number.float({ min: 1, max: 10 }),
+  width: faker.number.float({ min: 1, max: 10 }),
+  height: faker.number.float({ min: 1, max: 10 }),
   barcode: faker.string.numeric(12),
   status: faker.helpers.arrayElement(Object.values(WmsProductStatusEnum)),
   clientId: clientId,
@@ -85,7 +85,7 @@ export const generateWmsLocation = (
   zCoordinate: faker.number.int({ min: 0, max: 10 }),
   parentLocationId: parentLocationId,
   level: parentLocationId ? faker.number.int({ min: 1, max: 5 }) : 0,
-  path: parentLocationId ? faker.lorem.word() : faker.lorem.word(), // This would be dynamically generated in a real scenario
+  path: parentLocationId ? faker.lorem.slug() : faker.lorem.slug(), // This would be dynamically generated in a real scenario
 });
 
 export const generateWmsBinThreshold = (
@@ -290,7 +290,7 @@ export const generateWmsPickBatch = (
   startedAt: faker.date.recent(),
   completedAt: faker.date.recent(),
   assignedUserId: assignedUserId,
-  waveId: faker.string.alphanumeric(8).toUpperCase(),
+  waveId: faker.string.uuid(),
   zoneRestrictions: faker.helpers.arrayElements(
     [faker.lorem.word(), faker.lorem.word()],
     { min: 0, max: 2 },

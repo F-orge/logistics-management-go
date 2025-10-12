@@ -1,4 +1,4 @@
-import { onError } from '@orpc/client';
+import { onError, ORPCError } from '@orpc/client';
 import { RPCHandler } from '@orpc/server/fetch';
 import { BatchHandlerPlugin } from '@orpc/server/plugins';
 import sgMail from '@sendgrid/mail';
@@ -23,6 +23,7 @@ import { DB } from '@/db/types';
 import { authFactory } from '@/lib/auth';
 import * as orpcRouter from '@/orpc';
 import { BunStorageRepository } from './repositories/storage';
+import { ZodError } from 'zod';
 
 type ServerFactory = {
   pool: Pool;
@@ -161,7 +162,14 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   // orpc
   const handler = new RPCHandler(orpcRouter, {
     plugins: [new BatchHandlerPlugin()],
-    interceptors: [onError((error) => console.log(error))],
+    interceptors: [
+      onError((error) => {
+        if (error instanceof ORPCError) {
+          const zodError = error.cause as ZodError;
+          console.error(zodError.issues);
+        }
+      }),
+    ],
   });
 
   router.use('/api/orpc/*', async (c, next) => {

@@ -5,7 +5,7 @@ APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
 dev-backend:
-  bun --hot run src/server.ts
+  bun --bun --hot run src/server.ts --console-depth 5
 
 dev-frontend:
   bun rsbuild dev --open

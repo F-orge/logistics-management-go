@@ -22,7 +22,7 @@ export const generateTmsCarrier = (
   faker: Faker,
 ): Insertable<DB['tms.carriers']> => ({
   name: faker.company.name(),
-  contactDetails: faker.phone.number(),
+  contactDetails: faker.phone.number({ style: 'international' }),
   servicesOffered: faker.lorem.words(5),
 });
 
@@ -146,7 +146,7 @@ export const generateTmsRoute = (
   tripId: string,
 ): Insertable<DB['tms.routes']> => ({
   tripId: tripId,
-  optimizedRouteData: faker.lorem.sentence(),
+  optimizedRouteData: faker.lorem.paragraphs(2),
   totalDistance: faker.number.float({ min: 10, max: 1000 }),
   totalDuration: faker.number.int({ min: 10, max: 600 }),
 });

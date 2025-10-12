@@ -174,7 +174,7 @@ export const generateCrmOpportunity = (
   }),
   expectedCloseDate: faker.date.future(),
   lostReason: faker.lorem.sentence(),
-  probability: faker.number.float({ min: 0, max: 1 }),
+  probability: faker.number.int({ min: 0, max: 100 }),
   source: faker.helpers.arrayElement(Object.values(CrmOpportunitySource)),
   stage: faker.helpers.arrayElement(Object.values(CrmOpportunityStage)),
 });

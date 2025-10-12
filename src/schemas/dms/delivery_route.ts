@@ -22,7 +22,6 @@ export const dmsDeliveryRouteSchema = z.object({
   actualDurationMinutes: z
     .number({ message: 'Actual duration must be a number' })
     .int({ message: 'Actual duration must be an integer' })
-    .min(0, { message: 'Actual duration must be at least 0' })
     .optional()
     .nullable(),
   estimatedDurationMinutes: z
