@@ -32,11 +32,13 @@ export const billingRateCardSchema = z
 
 export type BillingRateCard = z.infer<typeof billingRateCardSchema>;
 
-export const billingRateCardInsertSchema = billingRateCardSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const billingRateCardInsertSchema = billingRateCardSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .strict();
 
 export const billingRateCardUpdateSchema =
-  billingRateCardInsertSchema.partial();
+  billingRateCardInsertSchema.partial().strict();

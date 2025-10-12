@@ -11,12 +11,10 @@ export const wmsSalesOrderItemSchema = z.object({
     .max(1000000, { error: 'Quantity ordered must be at most 1,000,000' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
+    .optional(),
   updatedAt: z
     .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
+    .optional(),
 });
 
 export type WmsSalesOrderItem = z.infer<typeof wmsSalesOrderItemSchema>;

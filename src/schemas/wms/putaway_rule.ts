@@ -5,7 +5,7 @@ export const wmsPutawayRuleSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   productId: z.uuid({ message: 'Invalid UUID format for product ID' }),
   warehouseId: z.uuid({ message: 'Invalid UUID format for warehouse ID' }),
-  priority: z
+  priority: z.coerce
     .number({ message: 'Priority must be a number' })
     .int({ message: 'Priority must be an integer' })
     .min(0, { error: 'Priority must be at least 0' })
@@ -28,7 +28,7 @@ export const wmsPutawayRuleSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  maxQuantity: z
+  maxQuantity: z.coerce
     .number({ message: 'Maximum quantity must be a number' })
     .int({ message: 'Maximum quantity must be an integer' })
     .min(0, { error: 'Maximum quantity must be at least 0' })
@@ -37,7 +37,7 @@ export const wmsPutawayRuleSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  minQuantity: z
+  minQuantity: z.coerce
     .number({ message: 'Minimum quantity must be a number' })
     .int({ message: 'Minimum quantity must be an integer' })
     .min(0, { error: 'Minimum quantity must be at least 0' })
@@ -64,7 +64,7 @@ export const wmsPutawayRuleSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  volumeThreshold: z
+  volumeThreshold: z.coerce
     .number({ message: 'Volume threshold must be a number' })
     .min(0, { error: 'Volume threshold must be at least 0' })
     .max(100000, { error: 'Volume threshold must be at most 100,000' })
@@ -72,7 +72,7 @@ export const wmsPutawayRuleSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  weightThreshold: z
+  weightThreshold: z.coerce
     .number({ message: 'Weight threshold must be a number' })
     .min(0, { error: 'Weight threshold must be at least 0' })
     .max(100000, { error: 'Weight threshold must be at most 100,000' })

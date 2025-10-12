@@ -14,13 +14,8 @@ export const paginateDriverSchedule = (
       const driverSchedules =
         await orpcClient.tms.paginateDriverSchedule(options);
 
-      const drivers = await client.ensureQueryData(
-        inDriver(driverSchedules.map((row) => row.driverId)),
-      );
-
       return driverSchedules.map((row) => ({
         ...row,
-        driver: drivers.find((subRow) => subRow.id === row.driverId)!,
       }));
     },
     enabled: !!options,

@@ -18,19 +18,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.name} />,
   },
   {
-    accessorKey: 'latitude',
-    header: 'Latitude',
-    cell: ({ row }) => <NumberCell value={row.original.latitude} />,
-  },
-  {
-    accessorKey: 'longitude',
-    header: 'Longitude',
-    cell: ({ row }) => <NumberCell value={row.original.longitude} />,
-  },
-  {
-    accessorKey: 'radius',
-    header: 'Radius (meters)',
-    cell: ({ row }) => <NumberCell value={row.original.radius} />,
+    accessorKey: 'coordinates',
+    header: 'Coordinates',
+    cell: ({ row }) => <StringCell value={row.original.coordinates} />,
   },
   {
     accessorKey: 'createdAt',

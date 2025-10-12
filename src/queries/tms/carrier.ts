@@ -2,13 +2,35 @@ import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
+import { paginateCarrierRate } from './carrier_rate';
 
 export const paginateCarrier = (
   options: Parameters<typeof orpcClient.tms.paginateCarrier>[0],
 ) =>
   queryOptions({
     queryKey: ['tms.carrier', 'paginate', options],
-    queryFn: () => orpcClient.tms.paginateCarrier(options),
+    queryFn: async ({ client }) => {
+      const carriers = await orpcClient.tms.paginateCarrier(options);
+
+      const carrierRates = await client.ensureQueryData(
+        paginateCarrierRate({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'carrierId',
+              operation: 'in',
+              value: carriers.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
+      return carriers.map((row) => ({
+        ...row,
+        rates: carrierRates.filter((subRow) => subRow.carrierId === row.id),
+      }));
+    },
     enabled: !!options,
   });
 

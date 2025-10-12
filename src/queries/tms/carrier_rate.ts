@@ -13,13 +13,8 @@ export const paginateCarrierRate = (
     queryFn: async ({ client }) => {
       const carrierRates = await orpcClient.tms.paginateCarrierRate(options);
 
-      const carriers = await client.ensureQueryData(
-        inCarrier(carrierRates.map((row) => row.carrierId).filter(nonEmpty)),
-      );
-
       return carrierRates.map((row) => ({
         ...row,
-        carrier: carriers.find((subRow) => subRow.id === row.carrierId),
       }));
     },
     enabled: !!options,

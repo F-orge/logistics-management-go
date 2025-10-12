@@ -7,44 +7,44 @@ export const billingPaymentSchema = z
     id: z.uuid(),
     amount: z.coerce
       .number()
-      .min(0, { error: 'Amount must be at least 0' })
-      .max(10000000, { error: 'Amount must be at most 10,000,000' }),
+      .min(0, { message: 'Amount must be at least 0' })
+      .max(10000000, { message: 'Amount must be at most 10,000,000' }),
     createdAt: z.date().optional().nullable(),
     currency: z
       .string()
-      .min(1, { error: 'Currency is required' })
-      .max(8, { error: 'Currency must be at most 8 characters' })
+      .min(1, { message: 'Currency is required' })
+      .max(8, { message: 'Currency must be at most 8 characters' })
       .optional()
       .nullable(),
     exchangeRate: z.coerce
       .number()
-      .min(0, { error: 'Exchange rate must be at least 0' })
-      .max(1000, { error: 'Exchange rate must be at most 1000' })
+      .min(0, { message: 'Exchange rate must be at least 0' })
+      .max(1000, { message: 'Exchange rate must be at most 1000' })
       .optional()
       .nullable(),
     fees: z.coerce
       .number()
-      .min(0, { error: 'Fees must be at least 0' })
-      .max(100000, { error: 'Fees must be at most 100,000' })
+      .min(0, { message: 'Fees must be at least 0' })
+      .max(100000, { message: 'Fees must be at most 100,000' })
       .optional()
       .nullable(),
     gatewayReference: z
       .string()
-      .min(1, { error: 'Gateway reference is required' })
-      .max(255, { error: 'Gateway reference must be at most 255 characters' })
+      .min(1, { message: 'Gateway reference is required' })
+      .max(255, { message: 'Gateway reference must be at most 255 characters' })
       .optional()
       .nullable(),
     invoiceId: z.uuid(),
     netAmount: z.coerce
       .number()
-      .min(0, { error: 'Net amount must be at least 0' })
-      .max(10000000, { error: 'Net amount must be at most 10,000,000' })
+      .min(0, { message: 'Net amount must be at least 0' })
+      .max(10000000, { message: 'Net amount must be at most 10,000,000' })
       .optional()
       .nullable(),
     notes: z
       .string()
-      .min(1, { error: 'Notes are required' })
-      .max(1024, { error: 'Notes must be at most 1024 characters' })
+      .min(1, { message: 'Notes are required' })
+      .max(1024, { message: 'Notes must be at most 1024 characters' })
       .optional()
       .nullable(),
     paymentDate: z.date().optional().nullable(),
@@ -52,9 +52,9 @@ export const billingPaymentSchema = z
     processedAt: z.date().optional().nullable(),
     processedByUserId: z
       .string()
-      .min(1, { error: 'Processed by user ID is required' })
+      .min(1, { message: 'Processed by user ID is required' })
       .max(255, {
-        error: 'Processed by user ID must be at most 255 characters',
+        message: 'Processed by user ID must be at most 255 characters',
       })
       .optional()
       .nullable(),
@@ -66,10 +66,14 @@ export const billingPaymentSchema = z
 
 export type BillingPayment = z.infer<typeof billingPaymentSchema>;
 
-export const billingPaymentInsertSchema = billingPaymentSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const billingPaymentInsertSchema = billingPaymentSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .strict();
 
-export const billingPaymentUpdateSchema = billingPaymentInsertSchema.partial();
+export const billingPaymentUpdateSchema = billingPaymentInsertSchema
+  .partial()
+  .strict();

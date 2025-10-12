@@ -2,13 +2,35 @@ import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
+import { paginateGeofenceEvent } from './geofence_event';
 
 export const paginateGeofence = (
   options: Parameters<typeof orpcClient.tms.paginateGeofence>[0],
 ) =>
   queryOptions({
     queryKey: ['tms.geofence', 'paginate', options],
-    queryFn: () => orpcClient.tms.paginateGeofence(options),
+    queryFn: async ({ client }) => {
+      const geofence = await orpcClient.tms.paginateGeofence(options);
+
+      const events = await client.ensureQueryData(
+        paginateGeofenceEvent({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'geofenceId',
+              operation: 'in',
+              value: geofence.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
+      return geofence.map((row) => ({
+        ...row,
+        events: events.map((subRow) => subRow.geofenceId === row.id),
+      }));
+    },
     enabled: !!options,
   });
 

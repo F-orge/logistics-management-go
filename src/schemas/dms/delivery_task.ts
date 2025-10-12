@@ -9,6 +9,7 @@ export const dmsDeliveryTaskSchema = z.object({
   deliveryRouteId: z.uuid({
     message: 'Invalid UUID format for delivery route ID',
   }),
+  packageId: z.uuid({ message: 'Invalid UUID format for package ID' }),
   status: z
     .enum(DmsDeliveryTaskStatusEnum, {
       message: 'Invalid delivery task status',
@@ -57,17 +58,16 @@ export const dmsDeliveryTaskSchema = z.object({
     .date({ message: 'Invalid date format for actual arrival time' })
     .optional()
     .nullable(),
-  attemptCount: z
+  routeSequence: z.coerce
+    .number({ message: 'Route sequence must be a number' })
+    .int({ message: 'Route sequence must be an integer' })
+    .min(0, { message: 'Route sequence must be at least 0' }),
+  attemptCount: z.coerce
     .number({ message: 'Attempt count must be a number' })
     .int({ message: 'Attempt count must be an integer' })
     .min(0, { message: 'Attempt count must be at least 0' })
     .optional()
     .nullable(),
-  packageId: z.uuid({ message: 'Invalid UUID format for package ID' }),
-  routeSequence: z
-    .number({ message: 'Route sequence must be a number' })
-    .int({ message: 'Route sequence must be an integer' })
-    .min(0, { message: 'Route sequence must be at least 0' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

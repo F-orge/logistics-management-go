@@ -24,7 +24,7 @@ import {
   deleteCustomerTrackingLink,
   paginateCustomerTrackingLink,
   rangeCustomerTrackingLink,
-} from '@/queries/dms/customer-tracking-links';
+} from '@/queries/dms/customer_tracking_link';
 import {
   filterTransformer,
   paginateTransformer,

@@ -13,17 +13,8 @@ export const paginateTaskEvent = (
     queryFn: async ({ client }) => {
       const taskEvents = await orpcClient.dms.paginateTaskEvent(options);
 
-      const deliveryTasks = await client.ensureQueryData(
-        inDeliveryTask(
-          taskEvents.map((row) => row.deliveryTaskId).filter(nonEmpty),
-        ),
-      );
-
       return taskEvents.map((row) => ({
         ...row,
-        deliveryTask: deliveryTasks.find(
-          (subRow) => subRow.id === row.deliveryTaskId,
-        ),
       }));
     },
     enabled: !!options,

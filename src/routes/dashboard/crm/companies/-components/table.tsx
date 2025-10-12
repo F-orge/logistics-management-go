@@ -16,6 +16,11 @@ export const columns: ColumnDef<
     },
   },
   {
+    accessorKey: 'ownerId',
+    header: 'Owner ID',
+    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
+  },
+  {
     accessorKey: 'industry',
     header: 'Industry',
     cell: ({ row }) => <StringCell value={row.original.industry} />,

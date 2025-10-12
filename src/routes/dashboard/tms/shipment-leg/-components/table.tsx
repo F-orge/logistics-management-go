@@ -63,7 +63,7 @@ export const columns: ColumnDef<
               ],
             }}
           >
-            <StringCell value={row.original.internalTrip.id} />
+    cell: ({ row }) => <StringCell value={row.original.internalTrip.id} />,
           </Link>
         </Button>
       ) : (
@@ -71,45 +71,24 @@ export const columns: ColumnDef<
       ),
   },
   {
-    accessorKey: 'origin',
-    header: 'Origin',
-    cell: ({ row }) => <StringCell value={row.original.origin} />,
+    accessorKey: 'endLocation',
+    header: 'End Location',
+    cell: ({ row }) => <StringCell value={row.original.endLocation} />,
   },
   {
-    accessorKey: 'destination',
-    header: 'Destination',
-    cell: ({ row }) => <StringCell value={row.original.destination} />,
+    accessorKey: 'legSequence',
+    header: 'Leg Sequence',
+    cell: ({ row }) => <NumberCell value={row.original.legSequence} />,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => <StringCell value={row.original.status} />,
+    accessorKey: 'shipmentId',
+    header: 'Shipment ID',
+    cell: ({ row }) => <StringCell value={row.original.shipmentId} />,
   },
   {
-    accessorKey: 'scheduledPickup',
-    header: 'Scheduled Pickup',
-    cell: ({ row }) => (
-      <DateCell value={row.original.scheduledPickup} showTime />
-    ),
-  },
-  {
-    accessorKey: 'scheduledDelivery',
-    header: 'Scheduled Delivery',
-    cell: ({ row }) => (
-      <DateCell value={row.original.scheduledDelivery} showTime />
-    ),
-  },
-  {
-    accessorKey: 'actualPickup',
-    header: 'Actual Pickup',
-    cell: ({ row }) => <DateCell value={row.original.actualPickup} showTime />,
-  },
-  {
-    accessorKey: 'actualDelivery',
-    header: 'Actual Delivery',
-    cell: ({ row }) => (
-      <DateCell value={row.original.actualDelivery} showTime />
-    ),
+    accessorKey: 'startLocation',
+    header: 'Start Location',
+    cell: ({ row }) => <StringCell value={row.original.startLocation} />,
   },
   {
     accessorKey: 'createdAt',

@@ -13,13 +13,8 @@ export const paginateTripStop = (
     queryFn: async ({ client }) => {
       const tripStops = await orpcClient.tms.paginateTripStop(options);
 
-      const trips = await client.ensureQueryData(
-        inTrip(tripStops.map((row) => row.tripId).filter(nonEmpty)),
-      );
-
       return tripStops.map((row) => ({
         ...row,
-        trip: trips.find((subRow) => subRow.id === row.tripId),
       }));
     },
     enabled: !!options,

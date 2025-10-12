@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inOpportunity } from './opportunities';
+import { paginateInvoiceItem } from './invoice_items';
 
 export const paginateInvoice = (
   options: Parameters<typeof orpcClient.crm.paginateInvoice>[0],
@@ -19,11 +20,26 @@ export const paginateInvoice = (
         ),
       );
 
+      const items = await client.ensureQueryData(
+        paginateInvoiceItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'invoiceId',
+              operation: 'in',
+              value: invoices.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return invoices.map((row) => ({
         ...row,
         opportunity: opportunities.find(
           (subRow) => subRow.id === row.opportunityId,
         ),
+        items: items.filter((subRow) => subRow.invoiceId === row.id),
       }));
     },
     enabled: !!options,

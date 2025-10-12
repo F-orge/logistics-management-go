@@ -7,6 +7,12 @@ export const tmsDriverSchema = z.object({
     .string({ message: 'License number must be a string' })
     .min(1, { error: 'License number is required' })
     .max(64, { error: 'License number must be at most 64 characters' }),
+  contactNumber: z
+    .string({
+      message: 'Contact number must be a string',
+    })
+    .optional()
+    .nullable(),
   licenseExpiryDate: z
     .date({ message: 'Invalid date format for license expiry date' })
     .optional()

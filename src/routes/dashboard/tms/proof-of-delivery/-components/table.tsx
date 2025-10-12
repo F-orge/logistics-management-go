@@ -42,30 +42,37 @@ export const columns: ColumnDef<
         <StringCell value="N/A" />
       ),
   },
-  {
-    accessorKey: 'deliveryStatus',
-    header: 'Delivery Status',
-    cell: ({ row }) => <StringCell value={row.original.deliveryStatus} />,
+    cell: ({ row }) => <StringCell value={row.original.tripStop.id} />,
+          </Link>
+        </Button>
+      ) : (
+        <StringCell value="N/A" />
+      ),
   },
   {
-    accessorKey: 'recipientName',
-    header: 'Recipient Name',
-    cell: ({ row }) => <StringCell value={row.original.recipientName} />,
+    accessorKey: 'type',
+    header: 'Type',
+    cell: ({ row }) => <StringCell value={row.original.type} />,
   },
   {
-    accessorKey: 'signature',
-    header: 'Signature',
-    cell: ({ row }) => <StringCell value={row.original.signature} />,
+    accessorKey: 'filePath',
+    header: 'File Path',
+    cell: ({ row }) => <StringCell value={row.original.filePath} />,
   },
   {
-    accessorKey: 'deliveryImage',
-    header: 'Delivery Image',
-    cell: ({ row }) => <StringCell value={row.original.deliveryImage} />,
+    accessorKey: 'latitude',
+    header: 'Latitude',
+    cell: ({ row }) => <NumberCell value={row.original.latitude} />,
   },
   {
-    accessorKey: 'notes',
-    header: 'Notes',
-    cell: ({ row }) => <StringCell value={row.original.notes} />,
+    accessorKey: 'longitude',
+    header: 'Longitude',
+    cell: ({ row }) => <NumberCell value={row.original.longitude} />,
+  },
+  {
+    accessorKey: 'timestamp',
+    header: 'Timestamp',
+    cell: ({ row }) => <DateCell value={row.original.timestamp} showTime />,
   },
   {
     accessorKey: 'createdAt',

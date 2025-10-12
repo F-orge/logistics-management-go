@@ -30,7 +30,7 @@ export const tmsTripStopSchema = z.object({
     .date({ message: 'Invalid date format for estimated departure time' })
     .optional()
     .nullable(),
-  sequence: z
+  sequence: z.coerce
     .number({ message: 'Sequence must be a number' })
     .int({ message: 'Sequence must be an integer' })
     .min(0, { message: 'Sequence must be at least 0' }),

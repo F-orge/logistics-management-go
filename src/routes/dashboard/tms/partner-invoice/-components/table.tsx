@@ -42,6 +42,7 @@ export const columns: ColumnDef<
             }}
           >
             <StringCell value={row.original.carrier.name} />
+    cell: ({ row }) => <StringCell value={row.original.carrier.name} />,
           </Link>
         </Button>
       ) : (
@@ -49,25 +50,16 @@ export const columns: ColumnDef<
       ),
   },
   {
-    accessorKey: 'issueDate',
-    header: 'Issue Date',
-    cell: ({ row }) => <DateCell value={row.original.issueDate} showTime />,
-  },
-  {
-    accessorKey: 'dueDate',
-    header: 'Due Date',
-    cell: ({ row }) => <DateCell value={row.original.dueDate} showTime />,
+    accessorKey: 'invoiceDate',
+    header: 'Invoice Date',
+    cell: ({ row }) => <DateCell value={row.original.invoiceDate} showTime />,
   },
   {
     accessorKey: 'totalAmount',
     header: 'Total Amount',
     cell: ({ row }) => <NumberCell value={row.original.totalAmount} />,
   },
-  {
-    accessorKey: 'currency',
-    header: 'Currency',
-    cell: ({ row }) => <StringCell value={row.original.currency} />,
-  },
+
   {
     accessorKey: 'status',
     header: 'Status',

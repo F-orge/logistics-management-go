@@ -21,10 +21,13 @@ export const tmsVehicleSchema = z.object({
     .max(100000, { error: 'Capacity weight must be at most 100,000' })
     .optional()
     .nullable(),
-  registrationNumber: z
-    .string({ message: 'Registration number must be a string' })
-    .min(1, { error: 'Registration Number is required' })
-    .max(100, { error: 'Registration Number must be at most 100 characters' }),
+  licensePlate: z.string().optional(),
+  make: z.string().optional().nullable(),
+  year: z.coerce.number().optional().nullable(),
+  vin: z.string().optional().nullable(),
+  status: z.enum(TmsVehicleStatusEnum).optional().nullable(),
+  currentMileage: z.coerce.number().optional().nullable(),
+  lastMaintenanceDate: z.date().optional().nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

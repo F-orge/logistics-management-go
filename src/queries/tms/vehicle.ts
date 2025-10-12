@@ -2,13 +2,32 @@ import { ORPCError, ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
+import { paginateVehicleMaintenance } from './vehicle_maintenance';
 
 export const paginateVehicle = (
   options: Parameters<typeof orpcClient.tms.paginateVehicle>[0],
 ) =>
   queryOptions({
     queryKey: ['tms.vehicle', 'paginate', options],
-    queryFn: () => orpcClient.tms.paginateVehicle(options),
+    queryFn: async ({ client }) => {
+      const vehicles = await orpcClient.tms.paginateVehicle(options);
+
+      const maintenances = client.ensureQueryData(
+        paginateVehicleMaintenance({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'vehicleId',
+              operation: 'in',
+              value: vehicles.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
+      return vehicles.map((row) => ({ ...row }));
+    },
     enabled: !!options,
   });
 

@@ -19,6 +19,10 @@ export const tmsTripSchema = z.object({
     .enum(TmsTripStatusEnum, { message: 'Invalid trip status' })
     .optional()
     .nullable(),
+  endLocation: z.string().optional().nullable(),
+  endTime: z.date().optional().nullable(),
+  startLocation: z.string().optional().nullable(),
+  startTime: z.date().optional().nullable(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

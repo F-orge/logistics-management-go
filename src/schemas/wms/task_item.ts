@@ -15,17 +15,15 @@ export const wmsTaskItemSchema = z.object({
     .int({ message: 'Quantity completed must be an integer' })
     .min(0, { error: 'Quantity completed must be at least 0' })
     .max(1000000, { error: 'Quantity completed must be at most 1,000,000' })
-    .optional()
-    .nullable(),
-  quantityRemaining: z
+    .nullable()
+    .optional(),
+  quantityRemaining: z.coerce
     .number({ message: 'Quantity remaining must be a number' })
     .int({ message: 'Quantity remaining must be an integer' })
     .min(-1000000, { error: 'Quantity remaining must be at least -1,000,000' })
     .max(1000000, { error: 'Quantity remaining must be at most 1,000,000' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   status: z
     .enum(WmsTaskItemStatusEnum, { message: 'Invalid task item status' })
     .optional()

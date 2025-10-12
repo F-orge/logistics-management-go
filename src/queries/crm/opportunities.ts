@@ -7,6 +7,7 @@ import { inUser } from '../auth/user';
 import { inCampaign } from './campaigns';
 import { inCompany } from './companies';
 import { inContact } from './contacts';
+import { paginateOpportunityProduct } from './opportunity_products';
 
 export const paginateOpportunity = (
   options: Parameters<typeof orpcClient.crm.paginateOpportunity>[0],
@@ -39,12 +40,29 @@ export const paginateOpportunity = (
         contactPromises,
       ]);
 
+      const opportunityProducts = await client.ensureQueryData(
+        paginateOpportunityProduct({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'opportunityId',
+              operation: 'in',
+              value: opportunities.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return opportunities.map((row) => ({
         ...row,
         owner: owners.find((subRow) => subRow.id === row.ownerId)!,
         campaign: campaigns.find((subRow) => subRow.id === row.campaignId),
         company: companies.find((subRow) => subRow.id === row.companyId),
         contact: contacts.find((subRow) => subRow.id === row.contactId),
+        opportunityProducts: opportunityProducts.filter(
+          (subRow) => subRow.opportunityId === row.id,
+        ),
       }));
     },
     enabled: !!options,

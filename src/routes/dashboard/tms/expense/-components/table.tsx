@@ -97,6 +97,26 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.description} />,
   },
   {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => <StringCell value={row.original.status} />,
+  },
+  {
+    accessorKey: 'fuelQuantity',
+    header: 'Fuel Quantity',
+    cell: ({ row }) => <NumberCell value={row.original.fuelQuantity} />,
+  },
+  {
+    accessorKey: 'odometerReading',
+    header: 'Odometer Reading',
+    cell: ({ row }) => <NumberCell value={row.original.odometerReading} />,
+  },
+  {
+    accessorKey: 'receiptUrl',
+    header: 'Receipt URL',
+    cell: ({ row }) => <StringCell value={row.original.receiptUrl} />,
+  },
+  {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,

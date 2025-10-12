@@ -19,6 +19,8 @@ export const tmsExpenseSchema = z.object({
     .enum(TmsExpenseStatusEnum, { message: 'Invalid expense status' })
     .optional()
     .nullable(),
+  description: z.string().optional().nullable(),
+  expenseDate: z.date().optional().nullable(),
   amount: z.coerce
     .number({ message: 'Amount must be a number' })
     .min(0, { error: 'Amount must be at least 0' })
@@ -31,14 +33,7 @@ export const tmsExpenseSchema = z.object({
     .uuid({ message: 'Invalid UUID format for driver ID' })
     .optional()
     .nullable(),
-  fuelQuantity: z
-    .number({ message: 'Fuel quantity must be a number' })
-    .optional()
-    .nullable(),
-  odometerReading: z
-    .number({ message: 'Odometer reading must be a number' })
-    .optional()
-    .nullable(),
+
   receiptUrl: z
     .string({ message: 'Receipt URL must be a string' })
     .optional()

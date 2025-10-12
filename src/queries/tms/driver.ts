@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { orpcClient } from '@/orpc/client';
 
 import { inUser } from '@/queries/auth/user';
+import { paginateDriverSchedule } from './driver_schedule';
 
 export const paginateDriver = (
   options: Parameters<typeof orpcClient.tms.paginateDriver>[0],
@@ -17,9 +18,24 @@ export const paginateDriver = (
         inUser(drivers.map((row) => row.userId)),
       );
 
+      const schedules = await client.ensureQueryData(
+        paginateDriverSchedule({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'driverId',
+              operation: 'in',
+              value: drivers.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return drivers.map((row) => ({
         ...row,
         user: users.find((subRow) => subRow.id === row.userId)!,
+        schedules: schedules.filter((subRow) => subRow.driverId === row.id),
       }));
     },
     enabled: !!options,

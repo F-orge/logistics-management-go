@@ -77,49 +77,20 @@ export const columns: ColumnDef<
     header: 'Adjusted By',
     cell: ({ row }) =>
       row.original.user ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/auth/users"
-            search={{
-              view: true,
-              id: row.original.user.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.user.id,
-                },
-              ],
-            }}
-          >
-            <StringCell value={row.original.user.name} />
-          </Link>
-        </Button>
+        <StringCell value={row.original.user.name} />
       ) : (
         <StringCell value="N/A" />
       ),
   },
   {
-    accessorKey: 'adjustmentType',
-    header: 'Adjustment Type',
-    cell: ({ row }) => <StringCell value={row.original.adjustmentType} />,
-  },
-  {
-    accessorKey: 'quantityAdjusted',
-    header: 'Quantity Adjusted',
-    cell: ({ row }) => <NumberCell value={row.original.quantityAdjusted} />,
+    accessorKey: 'quantityChange',
+    header: 'Quantity Changed',
+    cell: ({ row }) => <NumberCell value={row.original.quantityChange} />,
   },
   {
     accessorKey: 'reason',
     header: 'Reason',
     cell: ({ row }) => <StringCell value={row.original.reason} />,
-  },
-  {
-    accessorKey: 'adjustmentDate',
-    header: 'Adjustment Date',
-    cell: ({ row }) => (
-      <DateCell value={row.original.adjustmentDate} showTime />
-    ),
   },
   {
     accessorKey: 'createdAt',

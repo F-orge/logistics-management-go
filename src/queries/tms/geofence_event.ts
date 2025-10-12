@@ -18,16 +18,10 @@ export const paginateGeofenceEvent = (
       const vehicles = await client.ensureQueryData(
         inVehicle(geofenceEvents.map((row) => row.vehicleId).filter(nonEmpty)),
       );
-      const geofences = await client.ensureQueryData(
-        inGeofence(
-          geofenceEvents.map((row) => row.geofenceId).filter(nonEmpty),
-        ),
-      );
 
       return geofenceEvents.map((row) => ({
         ...row,
         vehicle: vehicles.find((subRow) => subRow.id === row.vehicleId),
-        geofence: geofences.find((subRow) => subRow.id === row.geofenceId),
       }));
     },
     enabled: !!options,

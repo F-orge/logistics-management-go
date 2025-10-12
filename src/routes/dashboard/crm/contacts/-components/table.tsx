@@ -64,6 +64,11 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.jobTitle} />,
   },
   {
+    accessorKey: 'ownerId',
+    header: 'Owner ID',
+    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
+  },
+  {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,

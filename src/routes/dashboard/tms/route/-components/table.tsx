@@ -35,7 +35,9 @@ export const columns: ColumnDef<
               ],
             }}
           >
-            <StringCell value={row.original.trip.id} />
+            <StringCell
+              value={`${row.original.trip.startLocation} - ${row.original.trip.endLocation}`}
+            />
           </Link>
         </Button>
       ) : (
@@ -43,29 +45,19 @@ export const columns: ColumnDef<
       ),
   },
   {
-    accessorKey: 'name',
-    header: 'Route Name',
-    cell: ({ row }) => <StringCell value={row.original.name} />,
+    accessorKey: 'optimizedRouteData',
+    header: 'Optimized Route Data',
+    cell: ({ row }) => <StringCell value={row.original.optimizedRouteData} />,
   },
   {
-    accessorKey: 'origin',
-    header: 'Origin',
-    cell: ({ row }) => <StringCell value={row.original.origin} />,
+    accessorKey: 'totalDistance',
+    header: 'Total Distance',
+    cell: ({ row }) => <NumberCell value={row.original.totalDistance} />,
   },
   {
-    accessorKey: 'destination',
-    header: 'Destination',
-    cell: ({ row }) => <StringCell value={row.original.destination} />,
-  },
-  {
-    accessorKey: 'distance',
-    header: 'Distance',
-    cell: ({ row }) => <StringCell value={row.original.distance} />,
-  },
-  {
-    accessorKey: 'duration',
-    header: 'Duration',
-    cell: ({ row }) => <StringCell value={row.original.duration} />,
+    accessorKey: 'totalDuration',
+    header: 'Total Duration',
+    cell: ({ row }) => <NumberCell value={row.original.totalDuration} />,
   },
   {
     accessorKey: 'createdAt',

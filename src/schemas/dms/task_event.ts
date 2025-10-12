@@ -19,13 +19,13 @@ export const dmsTaskEventSchema = z.object({
     .max(1024, { error: 'Notes must be at most 1024 characters' })
     .optional()
     .nullable(),
-  latitude: z
+  latitude: z.coerce
     .number({ message: 'Latitude must be a number' })
     .min(-90, { message: 'Latitude must be at least -90' })
     .max(90, { message: 'Latitude must be at most 90' })
     .optional()
     .nullable(),
-  longitude: z
+  longitude: z.coerce
     .number({ message: 'Longitude must be a number' })
     .min(-180, { message: 'Longitude must be at least -180' })
     .max(180, { message: 'Longitude must be at most 180' })

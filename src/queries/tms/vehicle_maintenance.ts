@@ -14,15 +14,8 @@ export const paginateVehicleMaintenance = (
       const vehicleMaintenances =
         await orpcClient.tms.paginateVehicleMaintenance(options);
 
-      const vehicles = await client.ensureQueryData(
-        inVehicle(
-          vehicleMaintenances.map((row) => row.vehicleId).filter(nonEmpty),
-        ),
-      );
-
       return vehicleMaintenances.map((row) => ({
         ...row,
-        vehicle: vehicles.find((subRow) => subRow.id === row.vehicleId),
       }));
     },
     enabled: !!options,

@@ -3,29 +3,11 @@ import { TmsProofTypeEnum } from '@/db/types';
 
 export const tmsProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
-  type: z
-    .enum(TmsProofTypeEnum, { message: 'Invalid proof type' })
-    .optional()
-    .nullable(),
-  filePath: z
-    .string({ message: 'File path must be a string' })
-    .min(1, { error: 'File path is required' })
-    .max(1024, { error: 'File path must be at most 1024 characters' })
-    .optional()
-    .nullable(),
-  latitude: z.coerce
-    .number({ message: 'Latitude must be a number' })
-    .min(-90, { error: 'Latitude must be at least -90' })
-    .max(90, { error: 'Latitude must be at most 90' })
-    .optional()
-    .nullable(),
-  longitude: z.coerce
-    .number({ message: 'Longitude must be a number' })
-    .min(-180, { error: 'Longitude must be at least -180' })
-    .max(180, { error: 'Longitude must be at most 180' })
-    .optional()
-    .nullable(),
-  timestamp: z.date({ message: 'Invalid date format for timestamp' }),
+  deliveryImage: z.string().optional().nullable(),
+  deliveryStatus: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
+  recipientName: z.string().optional().nullable(),
+  signature: z.string().optional().nullable(),
   tripStopId: z.uuid({ message: 'Invalid UUID format for trip stop ID' }),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })

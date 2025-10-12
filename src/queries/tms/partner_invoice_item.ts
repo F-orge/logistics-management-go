@@ -15,13 +15,6 @@ export const paginatePartnerInvoiceItem = (
       const partnerInvoiceItems =
         await orpcClient.tms.paginatePartnerInvoiceItem(options);
 
-      const partnerInvoices = await client.ensureQueryData(
-        inPartnerInvoice(
-          partnerInvoiceItems
-            .map((row) => row.partnerInvoiceId)
-            .filter(nonEmpty),
-        ),
-      );
       const shipmentLegs = await client.ensureQueryData(
         inShipmentLeg(
           partnerInvoiceItems.map((row) => row.shipmentLegId).filter(nonEmpty),
@@ -30,9 +23,6 @@ export const paginatePartnerInvoiceItem = (
 
       return partnerInvoiceItems.map((row) => ({
         ...row,
-        partnerInvoice: partnerInvoices.find(
-          (subRow) => subRow.id === row.partnerInvoiceId,
-        ),
         shipmentLeg: shipmentLegs.find(
           (subRow) => subRow.id === row.shipmentLegId,
         ),

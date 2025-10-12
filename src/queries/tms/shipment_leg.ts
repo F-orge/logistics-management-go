@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inCarrier } from './carrier';
 import { inTrip } from './trip';
+import { paginateShipmentLegEvent } from './shipment_leg_event';
 
 export const paginateShipmentLeg = (
   options: Parameters<typeof orpcClient.tms.paginateShipmentLeg>[0],
@@ -17,14 +18,30 @@ export const paginateShipmentLeg = (
       const carriers = await client.ensureQueryData(
         inCarrier(shipmentLegs.map((row) => row.carrierId).filter(nonEmpty)),
       );
+
       const trips = await client.ensureQueryData(
         inTrip(shipmentLegs.map((row) => row.internalTripId).filter(nonEmpty)),
+      );
+
+      const events = await client.ensureQueryData(
+        paginateShipmentLegEvent({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'shipmentLegId',
+              operation: 'in',
+              value: shipmentLegs.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return shipmentLegs.map((row) => ({
         ...row,
         carrier: carriers.find((subRow) => subRow.id === row.carrierId),
         internalTrip: trips.find((subRow) => subRow.id === row.internalTripId),
+        events: events.filter((subRow) => subRow.shipmentLegId === row.id),
       }));
     },
     enabled: !!options,

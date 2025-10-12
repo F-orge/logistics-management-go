@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inCarrier } from './carrier';
+import { paginatePartnerInvoiceItem } from './partner_invoice_item';
 
 export const paginatePartnerInvoice = (
   options: Parameters<typeof orpcClient.tms.paginatePartnerInvoice>[0],
@@ -18,9 +19,26 @@ export const paginatePartnerInvoice = (
         inCarrier(partnerInvoices.map((row) => row.carrierId).filter(nonEmpty)),
       );
 
+      const invoiceItems = await client.ensureQueryData(
+        paginatePartnerInvoiceItem({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'partnerInvoiceId',
+              operation: 'in',
+              value: partnerInvoices.map((row) => row.id),
+            },
+          ],
+        }),
+      );
+
       return partnerInvoices.map((row) => ({
         ...row,
         carrier: carriers.find((subRow) => subRow.id === row.carrierId),
+        items: invoiceItems.filter(
+          (subRow) => subRow.partnerInvoiceId === row.id,
+        ),
       }));
     },
     enabled: !!options,

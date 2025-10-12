@@ -76,26 +76,6 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.status} />,
   },
   {
-    accessorKey: 'startTime',
-    header: 'Start Time',
-    cell: ({ row }) => <DateCell value={row.original.startTime} showTime />,
-  },
-  {
-    accessorKey: 'endTime',
-    header: 'End Time',
-    cell: ({ row }) => <DateCell value={row.original.endTime} showTime />,
-  },
-  {
-    accessorKey: 'startLocation',
-    header: 'Start Location',
-    cell: ({ row }) => <StringCell value={row.original.startLocation} />,
-  },
-  {
-    accessorKey: 'endLocation',
-    header: 'End Location',
-    cell: ({ row }) => <StringCell value={row.original.endLocation} />,
-  },
-  {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,

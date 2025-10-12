@@ -37,6 +37,11 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.address} />,
   },
   {
+    accessorKey: 'servicesOffered',
+    header: 'Services Offered',
+    cell: ({ row }) => <StringCell value={row.original.servicesOffered} />,
+  },
+  {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,

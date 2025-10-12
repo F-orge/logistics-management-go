@@ -6,12 +6,12 @@ export const wmsInboundShipmentItemSchema = z.object({
     message: 'Invalid UUID format for inbound shipment ID',
   }),
   productId: z.uuid({ message: 'Invalid UUID format for product ID' }),
-  expectedQuantity: z
+  expectedQuantity: z.coerce
     .number({ message: 'Expected quantity must be a number' })
     .int({ message: 'Expected quantity must be an integer' })
     .min(0, { error: 'Expected quantity must be at least 0' })
     .max(1000000, { error: 'Expected quantity must be at most 1,000,000' }),
-  receivedQuantity: z
+  receivedQuantity: z.coerce
     .number({ message: 'Received quantity must be a number' })
     .int({ message: 'Received quantity must be an integer' })
     .min(0, { error: 'Received quantity must be at least 0' })
@@ -26,7 +26,7 @@ export const wmsInboundShipmentItemSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  discrepancyQuantity: z
+  discrepancyQuantity: z.coerce
     .number({ message: 'Discrepancy quantity must be a number' })
     .int({ message: 'Discrepancy quantity must be an integer' })
     .min(-1000000, {

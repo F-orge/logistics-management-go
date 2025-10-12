@@ -14,17 +14,8 @@ export const paginateShipmentLegEvent = (
       const shipmentLegEvents =
         await orpcClient.tms.paginateShipmentLegEvent(options);
 
-      const shipmentLegs = await client.ensureQueryData(
-        inShipmentLeg(
-          shipmentLegEvents.map((row) => row.shipmentLegId).filter(nonEmpty),
-        ),
-      );
-
       return shipmentLegEvents.map((row) => ({
         ...row,
-        shipmentLeg: shipmentLegs.find(
-          (subRow) => subRow.id === row.shipmentLegId,
-        ),
       }));
     },
     enabled: !!options,

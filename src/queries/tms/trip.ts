@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inDriver } from './driver';
 import { inVehicle } from './vehicle';
+import { paginateTripStop } from './trip_stop';
 
 export const paginateTrip = (
   options: Parameters<typeof orpcClient.tms.paginateTrip>[0],
@@ -17,14 +18,30 @@ export const paginateTrip = (
       const drivers = await client.ensureQueryData(
         inDriver(trips.map((row) => row.driverId).filter(nonEmpty)),
       );
+
       const vehicles = await client.ensureQueryData(
         inVehicle(trips.map((row) => row.vehicleId).filter(nonEmpty)),
+      );
+
+      const stops = await client.ensureQueryData(
+        paginateTripStop({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'tripId',
+              operation: 'in',
+              value: trips.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return trips.map((row) => ({
         ...row,
         driver: drivers.find((subRow) => subRow.id === row.driverId),
         vehicle: vehicles.find((subRow) => subRow.id === row.vehicleId),
+        stops: stops.filter((subRow) => subRow.tripId === row.id),
       }));
     },
     enabled: !!options,

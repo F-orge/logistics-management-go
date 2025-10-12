@@ -76,6 +76,11 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.status} />,
   },
   {
+    accessorKey: 'ownerId',
+    header: 'Owner ID',
+    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
+  },
+  {
     id: 'conversionInfo',
     header: 'Conversion Info',
     cell: ({ row }) => {

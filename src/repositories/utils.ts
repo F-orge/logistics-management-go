@@ -57,7 +57,7 @@ export const filterTransformer = <T extends ZodRawShape>(
     .object({
       column: schema.keyof(),
       operation: ComparisonOperatorSchema,
-      value: z.string().refine((value) => value !== undefined, {
+      value: z.unknown().refine((value) => value !== undefined, {
         message: 'Value cannot be undefined',
       }),
     })

@@ -5,6 +5,7 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inProduct } from '@/queries/crm/products';
 import { inDeliveryRoute } from './delivery_route';
+import { paginateTaskEvent } from './task_event';
 
 export const paginateDeliveryTask = (
   options: Parameters<typeof orpcClient.dms.paginateDeliveryTask>[0],
@@ -19,8 +20,23 @@ export const paginateDeliveryTask = (
           deliveryTasks.map((row) => row.deliveryRouteId).filter(nonEmpty),
         ),
       );
+
       const packages = await client.ensureQueryData(
         inProduct(deliveryTasks.map((row) => row.packageId).filter(nonEmpty)),
+      );
+
+      const taskEvents = await client.ensureQueryData(
+        paginateTaskEvent({
+          page: 1,
+          perPage: 100,
+          filters: [
+            {
+              column: 'deliveryTaskId',
+              operation: 'in',
+              value: deliveryTasks.map((row) => row.id),
+            },
+          ],
+        }),
       );
 
       return deliveryTasks.map((row) => ({
@@ -29,6 +45,9 @@ export const paginateDeliveryTask = (
           (subRow) => subRow.id === row.deliveryRouteId,
         ),
         package: packages.find((subRow) => subRow.id === row.packageId),
+        taskEvents: taskEvents.filter(
+          (subRow) => subRow.deliveryTaskId === row.id,
+        ),
       }));
     },
     enabled: !!options,

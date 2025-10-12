@@ -15,22 +15,22 @@ export const dmsDriverLocationSchema = z.object({
     .date({ message: 'Invalid date format for timestamp' })
     .optional()
     .nullable(),
-  accuracy: z
+  accuracy: z.coerce
     .number({ message: 'Accuracy must be a number' })
     .min(0, { message: 'Accuracy must be at least 0' })
     .optional()
     .nullable(),
-  altitude: z
+  altitude: z.coerce
     .number({ message: 'Altitude must be a number' })
     .optional()
     .nullable(),
-  heading: z
+  heading: z.coerce
     .number({ message: 'Heading must be a number' })
     .min(0, { message: 'Heading must be at least 0' })
     .max(359, { message: 'Heading must be at most 359' })
     .optional()
     .nullable(),
-  speedKmh: z
+  speedKmh: z.coerce
     .number({ message: 'Speed in Kmh must be a number' })
     .min(0, { message: 'Speed in Kmh must be at least 0' })
     .optional()

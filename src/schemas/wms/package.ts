@@ -12,43 +12,33 @@ export const wmsPackageSchema = z.object({
     .string({ message: 'Tracking number must be a string' })
     .min(1, { error: 'Tracking number cannot be empty' })
     .max(255, { error: 'Tracking number must be at most 255 characters' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   carrier: z
     .string({ message: 'Carrier must be a string' })
     .min(1, { error: 'Carrier cannot be empty' })
     .max(255, { error: 'Carrier must be at most 255 characters' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   serviceLevel: z
     .string({ message: 'Service level must be a string' })
     .min(1, { error: 'Service level cannot be empty' })
     .max(64, { error: 'Service level must be at most 64 characters' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   packageType: z
     .string({ message: 'Package type must be a string' })
     .min(1, { error: 'Package type cannot be empty' })
     .max(64, { error: 'Package type must be at most 64 characters' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
-  weight: z
+    .optional(),
+  weight: z.coerce
     .number({ message: 'Weight must be a number' })
     .min(0, { error: 'Weight must be at least 0' })
     .max(100000, { error: 'Weight must be at most 100,000' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
-  length: z
+    .optional(),
+  length: z.coerce
     .number({ message: 'Length must be a number' })
     .min(0, { error: 'Length must be at least 0' })
     .max(10000, { error: 'Length must be at most 10,000' })
@@ -56,7 +46,7 @@ export const wmsPackageSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  width: z
+  width: z.coerce
     .number({ message: 'Width must be a number' })
     .min(0, { error: 'Width must be at least 0' })
     .max(10000, { error: 'Width must be at most 10,000' })
@@ -64,7 +54,7 @@ export const wmsPackageSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  height: z
+  height: z.coerce
     .number({ message: 'Height must be a number' })
     .min(0, { error: 'Height must be at least 0' })
     .max(10000, { error: 'Height must be at most 10,000' })
@@ -72,7 +62,7 @@ export const wmsPackageSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  volume: z
+  volume: z.coerce
     .number({ message: 'Volume must be a number' })
     .min(0, { error: 'Volume must be at least 0' })
     .max(100000, { error: 'Volume must be at most 100,000' })
@@ -80,7 +70,7 @@ export const wmsPackageSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  insuranceValue: z
+  insuranceValue: z.coerce
     .number({ message: 'Insurance value must be a number' })
     .min(0, { error: 'Insurance value must be at least 0' })
     .max(10000000, { error: 'Insurance value must be at most 10,000,000' })

@@ -10,22 +10,20 @@ export const wmsSalesOrderSchema = z.object({
     .max(64, { error: 'Order number must be at most 64 characters' }),
   crmOpportunityId: z
     .uuid({ message: 'Invalid UUID format for CRM opportunity ID' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   shippingAddress: z
     .string({ message: 'Shipping address must be a string' })
     .min(1, { error: 'Shipping address cannot be empty' })
     .max(255, { error: 'Shipping address must be at most 255 characters' })
-    .optional()
     .nullable()
-    .optional()
-    .nullable(),
+    .optional(),
   status: z
-    .enum(WmsSalesOrderStatusEnum, { message: 'Invalid sales order status' })
-    .optional()
-    .nullable(),
+    .enum(WmsSalesOrderStatusEnum, {
+      message: 'Invalid sales order status',
+    })
+    .nullable()
+    .optional(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

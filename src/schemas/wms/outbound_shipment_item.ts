@@ -6,7 +6,7 @@ export const wmsOutboundShipmentItemSchema = z.object({
     message: 'Invalid UUID format for outbound shipment ID',
   }),
   productId: z.uuid({ message: 'Invalid UUID format for product ID' }),
-  quantityShipped: z
+  quantityShipped: z.coerce
     .number({ message: 'Quantity shipped must be a number' })
     .int({ message: 'Quantity shipped must be an integer' })
     .min(0, { error: 'Quantity shipped must be at least 0' })
