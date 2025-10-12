@@ -19,25 +19,29 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { ORPCInputs } from '@/orpc/client';
 import { createCampaign } from '@/queries/crm/campaigns';
 import { crmCampaignInsertSchema } from '@/schemas/crm/campaigns';
 
 const NewCampaignFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/campaigns' });
   const searchQuery = useSearch({ from: '/dashboard/crm/campaigns/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/campaigns/' });
+  const { queryClient } = useRouteContext({
+    from: '/dashboard/crm/campaigns/',
+  });
 
-  const createMutation = useMutation(createCampaign);
+  const createMutation = useMutation(createCampaign, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createCampaign>[0],
+    defaultValues: {} as ORPCInputs['crm']['createCampaign'],
     validators: {
       onChange: crmCampaignInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
-import StringCell from '@/components/table/cells/string';
 import NumberCell from '@/components/table/cells/number';
+import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
 import { ORPCOutputs } from '@/orpc/client';
 
@@ -56,12 +56,16 @@ export const columns: ColumnDef<
   {
     accessorKey: 'expirationDate',
     header: 'Expiration Date',
-    cell: ({ row }) => <DateCell value={row.original.expirationDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.expirationDate} showTime />
+    ),
   },
   {
     accessorKey: 'manufactureDate',
     header: 'Manufacture Date',
-    cell: ({ row }) => <DateCell value={row.original.manufactureDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.manufactureDate} showTime />
+    ),
   },
   {
     accessorKey: 'status',

@@ -50,7 +50,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'licenseExpiryDate',
     header: 'License Expiry Date',
-    cell: ({ row }) => <DateCell value={row.original.licenseExpiryDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.licenseExpiryDate} showTime />
+    ),
   },
   {
     accessorKey: 'contactNumber',

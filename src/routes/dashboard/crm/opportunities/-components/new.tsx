@@ -20,27 +20,29 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createOpportunity } from '@/queries/crm/opportunities';
 import { crmOpportunityInsertSchema } from '@/schemas/crm/opportunities';
 
 const NewOpportunityFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/opportunities' });
   const searchQuery = useSearch({ from: '/dashboard/crm/opportunities/' });
-  const { orpcClient } = useRouteContext({
+  const { queryClient } = useRouteContext({
     from: '/dashboard/crm/opportunities/',
   });
 
-  const createMutation = useMutation(createOpportunity);
+  const createMutation = useMutation(createOpportunity, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createOpportunity>[0],
+    defaultValues: {} as ORPCInputs['crm']['createOpportunity'],
     validators: {
       onChange: crmOpportunityInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 
@@ -96,7 +98,7 @@ const NewOpportunityFormDialog = () => {
                     {(field) => (
                       <field.TextField
                         label="Campaign ID"
-                        description="The ID of the campaign associated with this opportunity."
+                        description="The ID of the campaign this opportunity is associated with."
                       />
                     )}
                   </form.AppField>

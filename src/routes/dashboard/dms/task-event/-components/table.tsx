@@ -1,14 +1,13 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
+import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
 import { ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
-  ORPCOutputs['dms']['paginateTaskEvent'][number] & {
-    deliveryTask?: ORPCOutputs['dms']['inDeliveryTask'][number];
-  }
+  ORPCOutputs['dms']['paginateTaskEvent'][number]
 >[] = [
   {
     accessorKey: 'id',
@@ -16,46 +15,58 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.id} />,
   },
   {
-    accessorKey: 'deliveryTask',
-    header: 'Delivery Task',
-    cell: ({ row }) =>
-      row.original.deliveryTask ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/dms/delivery-task"
-            search={{
-              view: true,
-              id: row.original.deliveryTask.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.deliveryTask.id,
-                },
-              ],
-            }}
-          >
-            <StringCell value={row.original.deliveryTask.id} />
-          </Link>
-        </Button>
-      ) : (
-        <StringCell value="N/A" />
-      ),
+    accessorKey: 'deliveryTaskId',
+    header: 'Delivery Task ID',
+    cell: ({ row }) => (
+      <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+        <Link
+          to="/dashboard/dms/delivery-task"
+          search={{
+            view: true,
+            id: row.original.deliveryTaskId,
+            filters: [
+              {
+                column: 'id',
+                operation: '=',
+                value: row.original.deliveryTaskId,
+              },
+            ],
+          }}
+        >
+          <StringCell value={row.original.deliveryTaskId} />
+        </Link>
+      </Button>
+    ),
   },
   {
-    accessorKey: 'eventType',
-    header: 'Event Type',
-    cell: ({ row }) => <StringCell value={row.original.eventType} />,
-  },
-  {
-    accessorKey: 'eventDetails',
-    header: 'Event Details',
-    cell: ({ row }) => <StringCell value={row.original.eventDetails} />,
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }) => <StringCell value={row.original.status} />,
   },
   {
     accessorKey: 'timestamp',
     header: 'Timestamp',
     cell: ({ row }) => <DateCell value={row.original.timestamp} showTime />,
+  },
+  {
+    accessorKey: 'notes',
+    header: 'Notes',
+    cell: ({ row }) => <StringCell value={row.original.notes} />,
+  },
+  {
+    accessorKey: 'latitude',
+    header: 'Latitude',
+    cell: ({ row }) => <NumberCell value={row.original.latitude} />,
+  },
+  {
+    accessorKey: 'longitude',
+    header: 'Longitude',
+    cell: ({ row }) => <NumberCell value={row.original.longitude} />,
+  },
+  {
+    accessorKey: 'reason',
+    header: 'Reason',
+    cell: ({ row }) => <StringCell value={row.original.reason} />,
   },
   {
     accessorKey: 'createdAt',

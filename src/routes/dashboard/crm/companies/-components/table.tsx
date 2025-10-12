@@ -3,9 +3,11 @@ import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import PhoneCell from '@/components/table/cells/phone';
 import StringCell from '@/components/table/cells/string';
-import { orpcClient, ORPCOutputs } from '@/orpc/client';
+import { ORPCOutputs, orpcClient } from '@/orpc/client';
 
-export const columns: ColumnDef<ORPCOutputs['crm']['paginateCompany'][number]>[] = [
+export const columns: ColumnDef<
+  ORPCOutputs['crm']['paginateCompany'][number]
+>[] = [
   {
     accessorKey: 'name',
     header: 'Company Name',

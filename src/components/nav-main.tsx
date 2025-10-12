@@ -17,6 +17,7 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { SidebarType } from './app-sidebar';
+import { useLocation } from '@tanstack/react-router';
 
 export function NavMain({
   systemNavs,
@@ -24,60 +25,63 @@ export function NavMain({
   systemNavs: SidebarType['navMain'];
 }) {
   const navigate = useNavigate({ from: '/dashboard' });
+  const location = useLocation();
 
   return (
     <SidebarGroup>
-      {systemNavs.map((system) => (
-        <React.Fragment key={system.subSystemUrl}>
-          {system.navigation.map((nav) => (
-            <React.Fragment key={nav.title}>
-              <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
-              {nav.items.map((navItem) =>
-                navItem.items ? (
-                  <Collapsible
-                    key={navItem.title}
-                    asChild
-                    className="group/collapsible"
-                  >
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={navItem.title}>
-                          {navItem.icon && <navItem.icon />}
-                          <span>{navItem.title}</span>
-                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {navItem.items.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.title}>
-                              <SidebarMenuSubButton asChild>
-                                <a href={subItem.url}>
-                                  <span>{subItem.title}</span>
-                                </a>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                ) : (
-                  <SidebarMenuItem key={navItem.title}>
-                    <SidebarMenuButton
-                      tooltip={navItem.title}
-                      onClick={() => navigate({ to: navItem.url })}
+      {systemNavs
+        .filter((system) => location.pathname.startsWith(system.subSystemUrl))
+        .map((system) => (
+          <React.Fragment key={system.subSystemUrl}>
+            {system.navigation.map((nav) => (
+              <React.Fragment key={nav.title}>
+                <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
+                {nav.items.map((navItem) =>
+                  navItem.items ? (
+                    <Collapsible
+                      key={navItem.title}
+                      asChild
+                      className="group/collapsible"
                     >
-                      {navItem.icon && <navItem.icon />}
-                      {navItem.title}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ),
-              )}
-            </React.Fragment>
-          ))}
-        </React.Fragment>
-      ))}
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton tooltip={navItem.title}>
+                            {navItem.icon && <navItem.icon />}
+                            <span>{navItem.title}</span>
+                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <SidebarMenuSub>
+                            {navItem.items.map((subItem) => (
+                              <SidebarMenuSubItem key={subItem.title}>
+                                <SidebarMenuSubButton asChild>
+                                  <a href={subItem.url}>
+                                    <span>{subItem.title}</span>
+                                  </a>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            ))}
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+                  ) : (
+                    <SidebarMenuItem key={navItem.title}>
+                      <SidebarMenuButton
+                        tooltip={navItem.title}
+                        onClick={() => navigate({ to: navItem.url })}
+                      >
+                        {navItem.icon && <navItem.icon />}
+                        {navItem.title}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ),
+                )}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        ))}
     </SidebarGroup>
   );
 }

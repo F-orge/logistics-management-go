@@ -93,12 +93,16 @@ export const columns: ColumnDef<
   {
     accessorKey: 'expectedShipDate',
     header: 'Expected Ship Date',
-    cell: ({ row }) => <DateCell value={row.original.expectedShipDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.expectedShipDate} showTime />
+    ),
   },
   {
     accessorKey: 'actualShipDate',
     header: 'Actual Ship Date',
-    cell: ({ row }) => <DateCell value={row.original.actualShipDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.actualShipDate} showTime />
+    ),
   },
   {
     accessorKey: 'deliveryAddress',

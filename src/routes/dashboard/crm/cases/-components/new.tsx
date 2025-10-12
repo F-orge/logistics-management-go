@@ -20,25 +20,27 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createCase } from '@/queries/crm/cases';
 import { crmCaseInsertSchema } from '@/schemas/crm/cases';
 
 const NewCaseFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/cases' });
   const searchQuery = useSearch({ from: '/dashboard/crm/cases/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/cases/' });
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/cases/' });
 
-  const createMutation = useMutation(createCase);
+  const createMutation = useMutation(createCase, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createCase>[0],
+    defaultValues: {} as ORPCInputs['crm']['createCase'],
     validators: {
       onChange: crmCaseInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

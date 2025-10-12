@@ -1,4 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+import z from 'zod';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SystemBreadcrumbs } from '@/components/system-breadcrumbs';
 import { Separator } from '@/components/ui/separator';
@@ -8,8 +10,6 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/client-auth';
-import { zodValidator } from '@tanstack/zod-adapter';
-import z from 'zod';
 import SettingsDialog from './-settings';
 
 export const Route = createFileRoute('/dashboard')({

@@ -1,5 +1,27 @@
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import {
+  Bell,
+  Check,
+  Globe,
+  Home,
+  Keyboard,
+  Link,
+  Lock,
+  Menu,
+  MessageCircle,
+  Paintbrush,
+  Settings,
+  Video,
+} from 'lucide-react';
 import React from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import {
   Dialog,
   DialogContent,
@@ -17,28 +39,6 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from '@/components/ui/sidebar';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import {
-  Bell,
-  Check,
-  Globe,
-  Home,
-  Keyboard,
-  Link,
-  Lock,
-  Menu,
-  MessageCircle,
-  Paintbrush,
-  Settings,
-  Video,
-} from 'lucide-react';
 
 const data = {
   nav: [

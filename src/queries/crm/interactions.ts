@@ -3,9 +3,9 @@ import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
-import { inContact } from './contacts';
-import { inCase } from './cases';
 import { inUser } from '../auth/user';
+import { inCase } from './cases';
+import { inContact } from './contacts';
 
 export const paginateInteraction = (
   options: Parameters<typeof orpcClient.crm.paginateInteraction>[0],

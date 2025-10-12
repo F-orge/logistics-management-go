@@ -20,27 +20,29 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmInteractionType } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createInteraction } from '@/queries/crm/interactions';
 import { crmInteractionInsertSchema } from '@/schemas/crm/interactions';
 
 const NewInteractionFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/interactions' });
   const searchQuery = useSearch({ from: '/dashboard/crm/interactions/' });
-  const { orpcClient } = useRouteContext({
+  const { queryClient } = useRouteContext({
     from: '/dashboard/crm/interactions/',
   });
 
-  const createMutation = useMutation(createInteraction);
+  const createMutation = useMutation(createInteraction, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createInteraction>[0],
+    defaultValues: {} as ORPCInputs['crm']['createInteraction'],
     validators: {
       onChange: crmInteractionInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

@@ -19,25 +19,27 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
+import { ORPCInputs } from '@/orpc/client';
 import { createContact } from '@/queries/crm/contacts';
 import { crmContactInsertSchema } from '@/schemas/crm/contacts';
 
 const NewContactFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/contacts' });
   const searchQuery = useSearch({ from: '/dashboard/crm/contacts/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/contacts/' });
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/contacts/' });
 
-  const createMutation = useMutation(createContact);
+  const createMutation = useMutation(createContact, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createContact>[0],
+    defaultValues: {} as ORPCInputs['crm']['createContact'],
     validators: {
       onChange: crmContactInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

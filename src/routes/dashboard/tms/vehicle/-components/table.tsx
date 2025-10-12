@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
-import StringCell from '@/components/table/cells/string';
 import NumberCell from '@/components/table/cells/number';
+import StringCell from '@/components/table/cells/string';
 import { ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
@@ -50,7 +50,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'lastMaintenanceDate',
     header: 'Last Maintenance Date',
-    cell: ({ row }) => <DateCell value={row.original.lastMaintenanceDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.lastMaintenanceDate} showTime />
+    ),
   },
   {
     accessorKey: 'createdAt',

@@ -20,25 +20,27 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmProductType } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createProduct } from '@/queries/crm/products';
 import { crmProductInsertSchema } from '@/schemas/crm/products';
 
 const NewProductFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/products' });
   const searchQuery = useSearch({ from: '/dashboard/crm/products/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/products/' });
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/products/' });
 
-  const createMutation = useMutation(createProduct);
+  const createMutation = useMutation(createProduct, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createProduct>[0],
+    defaultValues: {} as ORPCInputs['crm']['createProduct'],
     validators: {
       onChange: crmProductInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

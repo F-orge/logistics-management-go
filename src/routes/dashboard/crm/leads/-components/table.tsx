@@ -4,7 +4,7 @@ import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient, ORPCOutputs } from '@/orpc/client';
+import { ORPCOutputs, orpcClient } from '@/orpc/client';
 import { CrmCampaign } from '@/schemas/crm/campaigns';
 import { CrmCompany } from '@/schemas/crm/companies';
 import { CrmContact } from '@/schemas/crm/contacts';

@@ -88,12 +88,16 @@ export const columns: ColumnDef<
   {
     accessorKey: 'scheduledPickup',
     header: 'Scheduled Pickup',
-    cell: ({ row }) => <DateCell value={row.original.scheduledPickup} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.scheduledPickup} showTime />
+    ),
   },
   {
     accessorKey: 'scheduledDelivery',
     header: 'Scheduled Delivery',
-    cell: ({ row }) => <DateCell value={row.original.scheduledDelivery} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.scheduledDelivery} showTime />
+    ),
   },
   {
     accessorKey: 'actualPickup',
@@ -103,7 +107,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'actualDelivery',
     header: 'Actual Delivery',
-    cell: ({ row }) => <DateCell value={row.original.actualDelivery} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.actualDelivery} showTime />
+    ),
   },
   {
     accessorKey: 'createdAt',

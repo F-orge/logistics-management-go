@@ -10,9 +10,13 @@ export const paginateDeliveryRoute = implement(
   .handler(async ({ context, input }) => {
     const repo = new DeliveryRouteRepository(context.db);
 
-    return repo
+    const result = await repo
       .paginate(input.page, input.perPage, input.sort, input.filters as any)
       .execute();
+
+    console.log(result);
+
+    return result;
   });
 
 export const rangeDeliveryRoute = implement(

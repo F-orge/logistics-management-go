@@ -1,16 +1,13 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
-import StringCell from '@/components/table/cells/string';
 import NumberCell from '@/components/table/cells/number';
+import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
 import { ORPCOutputs } from '@/orpc/client';
 
 export const columns: ColumnDef<
-  ORPCOutputs['dms']['paginateDeliveryTask'][number] & {
-    deliveryRoute?: ORPCOutputs['dms']['inDeliveryRoute'][number];
-    package?: ORPCOutputs['crm']['inProduct'][number];
-  }
+  ORPCOutputs['dms']['paginateDeliveryTask'][number]
 >[] = [
   {
     accessorKey: 'id',
@@ -18,73 +15,48 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.id} />,
   },
   {
+    accessorKey: 'deliveryRouteId',
+    header: 'Delivery Route ID',
+    cell: ({ row }) => (
+      <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+        <Link
+          to="/dashboard/dms/delivery-route"
+          search={{
+            view: true,
+            id: row.original.deliveryRouteId,
+            filters: [
+              {
+                column: 'id',
+                operation: '=',
+                value: row.original.deliveryRouteId,
+              },
+            ],
+          }}
+        >
+          <StringCell value={row.original.deliveryRouteId} />
+        </Link>
+      </Button>
+    ),
+  },
+  {
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => <StringCell value={row.original.status} />,
   },
   {
-    accessorKey: 'deliveryRoute',
-    header: 'Delivery Route',
-    cell: ({ row }) =>
-      row.original.deliveryRoute ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/dms/delivery-route"
-            search={{
-              view: true,
-              id: row.original.deliveryRoute.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.deliveryRoute.id,
-                },
-              ],
-            }}
-          >
-            <StringCell value={row.original.deliveryRoute.name} />
-          </Link>
-        </Button>
-      ) : (
-        <StringCell value="N/A" />
-      ),
+    accessorKey: 'failureReason',
+    header: 'Failure Reason',
+    cell: ({ row }) => <StringCell value={row.original.failureReason} />,
   },
   {
-    accessorKey: 'package',
-    header: 'Package',
-    cell: ({ row }) =>
-      row.original.package ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/crm/products"
-            search={{
-              view: true,
-              id: row.original.package.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.package.id,
-                },
-              ],
-            }}
-          >
-            <StringCell value={row.original.package.name} />
-          </Link>
-        </Button>
-      ) : (
-        <StringCell value="N/A" />
-      ),
+    accessorKey: 'estimatedArrivalTime',
+    header: 'Estimated Arrival Time',
+    cell: ({ row }) => <DateCell value={row.original.estimatedArrivalTime} showTime />,
   },
   {
-    accessorKey: 'expectedDeliveryDate',
-    header: 'Expected Delivery Date',
-    cell: ({ row }) => <DateCell value={row.original.expectedDeliveryDate} showTime />,
-  },
-  {
-    accessorKey: 'actualDeliveryDate',
-    header: 'Actual Delivery Date',
-    cell: ({ row }) => <DateCell value={row.original.actualDeliveryDate} showTime />,
+    accessorKey: 'deliveryTime',
+    header: 'Delivery Time',
+    cell: ({ row }) => <DateCell value={row.original.deliveryTime} showTime />,
   },
   {
     accessorKey: 'deliveryAddress',
@@ -97,14 +69,53 @@ export const columns: ColumnDef<
     cell: ({ row }) => <StringCell value={row.original.recipientName} />,
   },
   {
-    accessorKey: 'recipientContact',
-    header: 'Recipient Contact',
-    cell: ({ row }) => <StringCell value={row.original.recipientContact} />,
+    accessorKey: 'recipientPhone',
+    header: 'Recipient Phone',
+    cell: ({ row }) => <StringCell value={row.original.recipientPhone} />,
   },
   {
-    accessorKey: 'notes',
-    header: 'Notes',
-    cell: ({ row }) => <StringCell value={row.original.notes} />,
+    accessorKey: 'deliveryInstructions',
+    header: 'Delivery Instructions',
+    cell: ({ row }) => <StringCell value={row.original.deliveryInstructions} />,
+  },
+  {
+    accessorKey: 'actualArrivalTime',
+    header: 'Actual Arrival Time',
+    cell: ({ row }) => <DateCell value={row.original.actualArrivalTime} showTime />,
+  },
+  {
+    accessorKey: 'attemptCount',
+    header: 'Attempt Count',
+    cell: ({ row }) => <NumberCell value={row.original.attemptCount} />,
+  },
+  {
+    accessorKey: 'packageId',
+    header: 'Package ID',
+    cell: ({ row }) => (
+      <Button size={'sm'} variant={'outline'} className="w-full" asChild>
+        <Link
+          to="/dashboard/dms/packages"
+          search={{
+            view: true,
+            id: row.original.packageId,
+            filters: [
+              {
+                column: 'id',
+                operation: '=',
+                value: row.original.packageId,
+              },
+            ],
+          }}
+        >
+          <StringCell value={row.original.packageId} />
+        </Link>
+      </Button>
+    ),
+  },
+  {
+    accessorKey: 'routeSequence',
+    header: 'Route Sequence',
+    cell: ({ row }) => <NumberCell value={row.original.routeSequence} />,
   },
   {
     accessorKey: 'createdAt',

@@ -1,53 +1,40 @@
-description = "Creates a TanStack table component from a given query file."
+description = "Creates a TanStack table component from a given Zod schema file."
 prompt = """
-You are an expert at creating Tanstack table components.
+You are an expert at creating Tanstack table column definitions.
 
-Your task is to create a new TanStack table component based on the provided query file: `{{args}}`.
+Your task is to create a new TanStack table `columns` definition based on the provided Zod schema file: `{{args}}`.
 
 **Instructions:**
 
-1.  **Analyze the Query:** Read the content of the file at `{{args}}` to understand the data structure returned by the `paginate` query. Pay close attention to the main entity and any related entities being fetched.
-2.  **Generate Columns:** Create a `columns` definition for the TanStack table, similar to the example provided below.
-    *   Infer the data type for each column and use the appropriate cell components (`DateCell`, `StringCell`, `NumberCell`).
-    *   For related entities, create links to their respective dashboard pages.
-    *   For nested data, display it in a clear and readable format.
-3.  **Create the Component:** Generate a new React component that uses these columns to render a data table.
-4.  **File Path:** The new component should be created in the same directory as the `{{args}}` file, under a `-components/table.tsx` file. For example, if the input is `src/queries/crm/new-entity.ts`, the output should be `src/routes/dashboard/crm/new-entity/-components/table.tsx`.
+1.  **Analyze Schema:** Read the content of the file at `{{args}}` to understand the data structure. The path will be in the format `src/schemas/<subsystem>/<table>.ts`.
 
-**Example Column Definition (`opportunities/table.tsx`):**
+2.  **Extract Information:**
+    *   From the file path, identify the `<subsystem>` (e.g., `crm`) and the `<table>` (e.g., `companies`).
+    *   From the Zod schema, identify the fields and their types.
 
+3.  **Generate Columns (`table.tsx`):**
+    *   Create a new file at `src/routes/dashboard/<subsystem>/<table>/-components/table.tsx`.
+    *   Define the columns using `ColumnDef<ORPCOutputs['<subsystem>']['paginate<Table>'][number]>`.
+    *   For each relevant field in the Zod schema, create a column definition with a `header` and a `cell` renderer.
+    *   Use appropriate cell components from `@/components/table/cells/*` (e.g., `StringCell`, `DateCell`, `NumberCell`) based on the data type.
+    *   **Handling Relations:** If the schema contains a foreign key (e.g., `contactId`), create a column for the related entity.
+        *   Augment the `ColumnDef` type with the related entity's type from `ORPCOutputs`, like `& { contact: ORPCOutputs['crm']['inContact'][number] | undefined; }`.
+        *   The `accessorKey` should point to the display field of the relation (e.g., `contact.name`).
+        *   The `cell` renderer should check for the existence of the related data and render a `<Link>` from `@tanstack/react-router` pointing to the entity's dashboard page. Wrap the link in a `<Button>` for styling. See the `cases` table component for an example.
+    *   Combine related fields if necessary (e.g., address components).
+
+**Reference Files:**
+
+*   **Columns (`table.tsx`):** Here is a good example of a table component.
+    @{src/routes/dashboard/crm/companies/-components/table.tsx}
+
+*   **Relations Example (`table.tsx`):** Here is a good example of a table with relations.
+    @{src/routes/dashboard/crm/cases/-components/table.tsx}
+
+Now, generate the `columns` definition for the Zod schema file `{{args}}`.
+
+Here is the content of the Zod schema file:
 ```typescript
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { orpcClient, ORPCOutputs } from '@/orpc/client';
-
-export const columns: ColumnDef<
-  ORPCOutputs['crm']['paginateOpportunity'][number] & {
-    // ... related entities
-  }
->[] = [
-  {
-    accessorKey: 'name',
-    header: 'Opportunity Name',
-    cell: ({ row }) => <StringCell value={row.original.name} />,
-  },
-  // ... other columns
-];
+!{cat {{args}}}
 ```
-
-Here is a good example of a table component.
-@{src/routes/dashboard/crm/opportunities/-components/table.tsx}
-
-Here is the corresponding query file.
-@{src/queries/crm/opportunities.ts}
-
-Now, generate the table component for the following query file.
-
-Note: use ReadManyFiles tool to get all of the files from a directory
-
-{{args}}
 """

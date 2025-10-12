@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import BooleanCell from '@/components/table/cells/boolean';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
-import { orpcClient, ORPCOutputs } from '@/orpc/client';
+import { ORPCOutputs, orpcClient } from '@/orpc/client';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateNotification'][number]

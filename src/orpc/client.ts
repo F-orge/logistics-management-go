@@ -3,9 +3,9 @@ import { RPCLink } from '@orpc/client/fetch';
 import { BatchLinkPlugin } from '@orpc/client/plugins';
 import { ContractRouterClient } from '@orpc/contract';
 import {
-  RouterClient,
   InferRouterInputs,
   InferRouterOutputs,
+  RouterClient,
 } from '@orpc/server';
 import * as orpcRouter from '@/orpc/index';
 

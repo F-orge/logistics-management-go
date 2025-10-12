@@ -19,14 +19,14 @@ import {
   FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
-import { createCompany } from '@/queries/crm';
-import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
 import { ORPCInputs } from '@/orpc/client';
+import { createCompany } from '@/queries/crm/companies';
+import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
 
 const NewCompanyFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/companies' });
   const searchQuery = useSearch({ from: '/dashboard/crm/companies/' });
-  const { orpcClient, queryClient } = useRouteContext({
+  const { queryClient } = useRouteContext({
     from: '/dashboard/crm/companies/',
   });
 
@@ -39,8 +39,9 @@ const NewCompanyFormDialog = () => {
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 
@@ -86,9 +87,16 @@ const NewCompanyFormDialog = () => {
                   <form.AppField name="ownerId">
                     {(field) => (
                       <field.TextField
-                        hidden
                         label="Owner ID"
-                        description="The ID of the user who owns this company record."
+                        description="The ID of the company owner."
+                      />
+                    )}
+                  </form.AppField>
+                  <form.AppField name="annualRevenue">
+                    {(field) => (
+                      <field.NumberField
+                        label="Annual Revenue"
+                        description="The company's annual revenue."
                       />
                     )}
                   </form.AppField>
@@ -108,20 +116,11 @@ const NewCompanyFormDialog = () => {
                       />
                     )}
                   </form.AppField>
-                </FieldGroup>
-              </FieldSet>
-              <FieldSeparator />
-              <FieldSet>
-                <FieldLegend>Contact Information</FieldLegend>
-                <FieldDescription>
-                  Enter the primary contact details for the company.
-                </FieldDescription>
-                <FieldGroup>
                   <form.AppField name="phoneNumber">
                     {(field) => (
                       <field.TextField
                         label="Phone Number"
-                        description="The primary phone number of the company."
+                        description="The company's contact phone number."
                       />
                     )}
                   </form.AppField>
@@ -131,14 +130,14 @@ const NewCompanyFormDialog = () => {
               <FieldSet>
                 <FieldLegend>Address Information</FieldLegend>
                 <FieldDescription>
-                  Provide the physical address of the company.
+                  Provide the physical address details for the company.
                 </FieldDescription>
                 <FieldGroup>
                   <form.AppField name="street">
                     {(field) => (
                       <field.TextField
                         label="Street"
-                        description="The street address of the company."
+                        description="Street address of the company."
                       />
                     )}
                   </form.AppField>
@@ -146,7 +145,7 @@ const NewCompanyFormDialog = () => {
                     {(field) => (
                       <field.TextField
                         label="City"
-                        description="The city where the company is located."
+                        description="City where the company is located."
                       />
                     )}
                   </form.AppField>
@@ -154,7 +153,7 @@ const NewCompanyFormDialog = () => {
                     {(field) => (
                       <field.TextField
                         label="State"
-                        description="The state or province where the company is located."
+                        description="State/Province where the company is located."
                       />
                     )}
                   </form.AppField>
@@ -162,7 +161,7 @@ const NewCompanyFormDialog = () => {
                     {(field) => (
                       <field.TextField
                         label="Postal Code"
-                        description="The postal code of the company's location."
+                        description="Postal code of the company's location."
                       />
                     )}
                   </form.AppField>
@@ -170,31 +169,12 @@ const NewCompanyFormDialog = () => {
                     {(field) => (
                       <field.TextField
                         label="Country"
-                        description="The country where the company is located."
+                        description="Country where the company is located."
                       />
                     )}
                   </form.AppField>
                 </FieldGroup>
               </FieldSet>
-              <FieldSeparator />
-              <FieldGroup>
-                <FieldSet>
-                  <FieldLegend>Financial Information</FieldLegend>
-                  <FieldDescription>
-                    Details regarding the company's financial status.
-                  </FieldDescription>
-                  <FieldGroup>
-                    <form.AppField name="annualRevenue">
-                      {(field) => (
-                        <field.NumberField
-                          label="Annual Revenue"
-                          description="The company's annual revenue."
-                        />
-                      )}
-                    </form.AppField>
-                  </FieldGroup>
-                </FieldSet>
-              </FieldGroup>
               <form.SubmitButton>Create Company</form.SubmitButton>
             </FieldGroup>
           </form.AppForm>

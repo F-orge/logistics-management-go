@@ -20,25 +20,27 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmLeadSource, CrmLeadStatus } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createLead } from '@/queries/crm/leads';
 import { crmLeadInsertSchema } from '@/schemas/crm/leads';
 
 const NewLeadFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/leads' });
   const searchQuery = useSearch({ from: '/dashboard/crm/leads/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/leads/' });
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/leads/' });
 
-  const createMutation = useMutation(createLead);
+  const createMutation = useMutation(createLead, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createLead>[0],
+    defaultValues: {} as ORPCInputs['crm']['createLead'],
     validators: {
       onChange: crmLeadInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 

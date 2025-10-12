@@ -55,12 +55,16 @@ export const columns: ColumnDef<
   {
     accessorKey: 'expectedArrivalDate',
     header: 'Expected Arrival Date',
-    cell: ({ row }) => <DateCell value={row.original.expectedArrivalDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.expectedArrivalDate} showTime />
+    ),
   },
   {
     accessorKey: 'actualArrivalDate',
     header: 'Actual Arrival Date',
-    cell: ({ row }) => <DateCell value={row.original.actualArrivalDate} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.actualArrivalDate} showTime />
+    ),
   },
   {
     accessorKey: 'supplierName',

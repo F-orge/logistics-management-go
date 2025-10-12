@@ -4,7 +4,7 @@ import DateCell from '@/components/table/cells/date';
 import PhoneCell from '@/components/table/cells/phone';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { orpcClient, ORPCOutputs } from '@/orpc/client';
+import { ORPCOutputs, orpcClient } from '@/orpc/client';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateContact'][number] & {

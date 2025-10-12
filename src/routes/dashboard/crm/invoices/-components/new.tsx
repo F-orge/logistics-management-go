@@ -20,25 +20,27 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types';
+import { ORPCInputs } from '@/orpc/client';
 import { createInvoice } from '@/queries/crm/invoices';
 import { crmInvoiceInsertSchema } from '@/schemas/crm/invoices';
 
 const NewInvoiceFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/invoices' });
   const searchQuery = useSearch({ from: '/dashboard/crm/invoices/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/invoices/' });
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/invoices/' });
 
-  const createMutation = useMutation(createInvoice);
+  const createMutation = useMutation(createInvoice, queryClient);
 
   const form = useAppForm({
-    defaultValues: {} as Parameters<typeof orpcClient.crm.createInvoice>[0],
+    defaultValues: {} as ORPCInputs['crm']['createInvoice'],
     validators: {
       onChange: crmInvoiceInsertSchema,
     },
     onSubmit: async ({ value }) =>
       createMutation.mutateAsync(value, {
-        onSuccess: () =>
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+        onSuccess: () => {
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+        },
       }),
   });
 
