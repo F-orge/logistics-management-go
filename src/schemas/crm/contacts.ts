@@ -8,10 +8,10 @@ export const crmContactSchema = z
       .min(1, { message: 'Name is required' })
       .max(255, { message: 'Name must be at most 255 characters' }),
     email: z
-      .string({ message: 'Email must be a string' })
       .email({ message: 'Invalid email format' })
       .min(1, { message: 'Email is required' })
-      .max(255, { message: 'Email must be at most 255 characters' }),
+      .max(255, { message: 'Email must be at most 255 characters' })
+      .nonempty(),
     companyId: z
       .uuid({ message: 'Invalid UUID format for company ID' })
       .optional()

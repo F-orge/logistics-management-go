@@ -107,7 +107,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   // better auth cors settings
   router.use(
-    '/api/auth/*', // or replace with "*" to enable cors for all routes
+    '/api/auth/*',
     cors({
       origin:
         process.env.NODE_ENV === 'production'
@@ -124,8 +124,6 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   router.on(['POST', 'GET'], '/api/auth/*', (c) => {
     return auth.handler(c.req.raw);
   });
-
-  console.log(process.env.NODE_ENV);
 
   // frontend mounting
   if (process.env.NODE_ENV === 'production') {

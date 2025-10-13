@@ -12,19 +12,19 @@ export const crmCampaignSchema = z
       .min(0, { message: 'Budget must be at least 0' })
       .optional()
       .nullable(),
-    startDate: z
+    startDate: z.coerce
       .date({ message: 'Invalid ISO datetime format for start date' })
       .optional()
       .nullable(),
-    endDate: z
+    endDate: z.coerce
       .date({ message: 'Invalid ISO datetime format for end date' })
       .optional()
       .nullable(),
-    createdAt: z
+    createdAt: z.coerce
       .date({ message: 'Invalid ISO datetime format for creation date' })
       .optional()
       .nullable(),
-    updatedAt: z
+    updatedAt: z.coerce
       .date({ message: 'Invalid ISO datetime format for update date' })
       .optional()
       .nullable(),

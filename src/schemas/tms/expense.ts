@@ -33,7 +33,8 @@ export const tmsExpenseSchema = z.object({
     .uuid({ message: 'Invalid UUID format for driver ID' })
     .optional()
     .nullable(),
-
+  fuelQuantity: z.number().int().nullable().optional(),
+  odometerReading: z.number().int().nullable().optional(),
   receiptUrl: z
     .string({ message: 'Receipt URL must be a string' })
     .optional()

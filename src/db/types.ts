@@ -3,545 +3,545 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType } from "kysely";
 
 export enum BillingDisputeStatusEnum {
-  Approved = 'approved',
-  Closed = 'closed',
-  Denied = 'denied',
-  Escalated = 'escalated',
-  Open = 'open',
-  UnderReview = 'under-review',
+  Approved = "approved",
+  Closed = "closed",
+  Denied = "denied",
+  Escalated = "escalated",
+  Open = "open",
+  UnderReview = "under-review",
 }
 
 export enum BillingDocumentTypeEnum {
-  Bol = 'bol',
-  CommercialInvoice = 'commercial-invoice',
-  CreditNote = 'credit-note',
-  CustomsDeclaration = 'customs-declaration',
-  PackingList = 'packing-list',
-  ProofOfDelivery = 'proof-of-delivery',
-  Receipt = 'receipt',
-  ShippingLabel = 'shipping-label',
+  Bol = "bol",
+  CommercialInvoice = "commercial-invoice",
+  CreditNote = "credit-note",
+  CustomsDeclaration = "customs-declaration",
+  PackingList = "packing-list",
+  ProofOfDelivery = "proof-of-delivery",
+  Receipt = "receipt",
+  ShippingLabel = "shipping-label",
 }
 
 export enum BillingInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Draft = 'draft',
-  Paid = 'paid',
-  PartialPaid = 'partial-paid',
-  PastDue = 'past-due',
-  Sent = 'sent',
-  Viewed = 'viewed',
-  Void = 'void',
+  Cancelled = "cancelled",
+  Disputed = "disputed",
+  Draft = "draft",
+  Paid = "paid",
+  PartialPaid = "partial-paid",
+  PastDue = "past-due",
+  Sent = "sent",
+  Viewed = "viewed",
+  Void = "void",
 }
 
 export enum BillingPaymentMethodEnum {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  ClientCredit = 'client-credit',
-  CreditCard = 'credit-card',
-  DebitCard = 'debit-card',
-  QrPh = 'qr-ph',
-  Wallet = 'wallet',
+  BankTransfer = "bank-transfer",
+  Cash = "cash",
+  Check = "check",
+  ClientCredit = "client-credit",
+  CreditCard = "credit-card",
+  DebitCard = "debit-card",
+  QrPh = "qr-ph",
+  Wallet = "wallet",
 }
 
 export enum BillingPaymentStatusEnum {
-  Cancelled = 'cancelled',
-  Failed = 'failed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Refunded = 'refunded',
-  Successful = 'successful',
+  Cancelled = "cancelled",
+  Failed = "failed",
+  Pending = "pending",
+  Processing = "processing",
+  Refunded = "refunded",
+  Successful = "successful",
 }
 
 export enum BillingPricingModelEnum {
-  FlatRate = 'flat-rate',
-  PerCubicMeter = 'per-cubic-meter',
-  PerItem = 'per-item',
-  PerKg = 'per-kg',
-  PerZone = 'per-zone',
-  Percentage = 'percentage',
-  Tiered = 'tiered',
+  FlatRate = "flat-rate",
+  PerCubicMeter = "per-cubic-meter",
+  PerItem = "per-item",
+  PerKg = "per-kg",
+  PerZone = "per-zone",
+  Percentage = "percentage",
+  Tiered = "tiered",
 }
 
 export enum BillingQuoteStatusEnum {
-  Accepted = 'accepted',
-  Cancelled = 'cancelled',
-  Converted = 'converted',
-  Expired = 'expired',
-  Pending = 'pending',
+  Accepted = "accepted",
+  Cancelled = "cancelled",
+  Converted = "converted",
+  Expired = "expired",
+  Pending = "pending",
 }
 
 export enum BillingServiceTypeEnum {
-  Customs = 'customs',
-  Fulfillment = 'fulfillment',
-  Handling = 'handling',
-  Insurance = 'insurance',
-  Packaging = 'packaging',
-  Returns = 'returns',
-  Shipping = 'shipping',
-  Storage = 'storage',
+  Customs = "customs",
+  Fulfillment = "fulfillment",
+  Handling = "handling",
+  Insurance = "insurance",
+  Packaging = "packaging",
+  Returns = "returns",
+  Shipping = "shipping",
+  Storage = "storage",
 }
 
 export enum BillingSurchargeCalculationMethodEnum {
-  Fixed = 'fixed',
-  PerUnit = 'per-unit',
-  Percentage = 'percentage',
-  SlidingScale = 'sliding-scale',
+  Fixed = "fixed",
+  PerUnit = "per-unit",
+  Percentage = "percentage",
+  SlidingScale = "sliding-scale",
 }
 
 export enum BillingSyncStatusEnum {
-  Failed = 'failed',
-  InProgress = 'in-progress',
-  Pending = 'pending',
-  Retry = 'retry',
-  Success = 'success',
+  Failed = "failed",
+  InProgress = "in-progress",
+  Pending = "pending",
+  Retry = "retry",
+  Success = "success",
 }
 
 export enum BillingTransactionTypeEnum {
-  Adjustment = 'adjustment',
-  Credit = 'credit',
-  Debit = 'debit',
-  Fee = 'fee',
-  Refund = 'refund',
-  TopUp = 'top-up',
+  Adjustment = "adjustment",
+  Credit = "credit",
+  Debit = "debit",
+  Fee = "fee",
+  Refund = "refund",
+  TopUp = "top-up",
 }
 
 export enum CrmCasePriority {
-  Critical = 'critical',
-  High = 'high',
-  Low = 'low',
-  Medium = 'medium',
+  Critical = "critical",
+  High = "high",
+  Low = "low",
+  Medium = "medium",
 }
 
 export enum CrmCaseStatus {
-  Cancelled = 'cancelled',
-  Closed = 'closed',
-  Escalated = 'escalated',
-  InProgress = 'in-progress',
-  New = 'new',
-  Resolved = 'resolved',
-  WaitingForCustomer = 'waiting-for-customer',
-  WaitingForInternal = 'waiting-for-internal',
+  Cancelled = "cancelled",
+  Closed = "closed",
+  Escalated = "escalated",
+  InProgress = "in-progress",
+  New = "new",
+  Resolved = "resolved",
+  WaitingForCustomer = "waiting-for-customer",
+  WaitingForInternal = "waiting-for-internal",
 }
 
 export enum CrmCaseType {
-  BugReport = 'bug-report',
-  Complaint = 'complaint',
-  FeatureRequest = 'feature-request',
-  Problem = 'problem',
-  Question = 'question',
-  TechnicalSupport = 'technical-support',
+  BugReport = "bug-report",
+  Complaint = "complaint",
+  FeatureRequest = "feature-request",
+  Problem = "problem",
+  Question = "question",
+  TechnicalSupport = "technical-support",
 }
 
 export enum CrmInteractionType {
-  Call = 'call',
-  Email = 'email',
-  Meeting = 'meeting',
-  Text = 'text',
+  Call = "call",
+  Email = "email",
+  Meeting = "meeting",
+  Text = "text",
 }
 
 export enum CrmInvoiceStatus {
-  Cancelled = 'cancelled',
-  Draft = 'draft',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Sent = 'sent',
+  Cancelled = "cancelled",
+  Draft = "draft",
+  Overdue = "overdue",
+  Paid = "paid",
+  Sent = "sent",
 }
 
 export enum CrmLeadSource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  Advertisement = "advertisement",
+  ColdCall = "cold-call",
+  EmailCampaign = "email-campaign",
+  Event = "event",
+  Other = "other",
+  Partner = "partner",
+  Referral = "referral",
+  SocialMedia = "social-media",
+  Website = "website",
 }
 
 export enum CrmLeadStatus {
-  Contacted = 'contacted',
-  Converted = 'converted',
-  New = 'new',
-  Qualified = 'qualified',
-  Unqualified = 'unqualified',
+  Contacted = "contacted",
+  Converted = "converted",
+  New = "new",
+  Qualified = "qualified",
+  Unqualified = "unqualified",
 }
 
 export enum CrmOpportunitySource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  ExistingCustomer = 'existing-customer',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  Advertisement = "advertisement",
+  ColdCall = "cold-call",
+  EmailCampaign = "email-campaign",
+  Event = "event",
+  ExistingCustomer = "existing-customer",
+  Other = "other",
+  Partner = "partner",
+  Referral = "referral",
+  SocialMedia = "social-media",
+  Website = "website",
 }
 
 export enum CrmOpportunityStage {
-  ClosedLost = 'closed-lost',
-  ClosedWon = 'closed-won',
-  Demo = 'demo',
-  NeedAnalysis = 'need-analysis',
-  Negotiation = 'negotiation',
-  Proposal = 'proposal',
-  Prospecting = 'prospecting',
-  Qualification = 'qualification',
+  ClosedLost = "closed-lost",
+  ClosedWon = "closed-won",
+  Demo = "demo",
+  NeedAnalysis = "need-analysis",
+  Negotiation = "negotiation",
+  Proposal = "proposal",
+  Prospecting = "prospecting",
+  Qualification = "qualification",
 }
 
 export enum CrmPaymentMethod {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  CreditCard = 'credit-card',
-  Paypal = 'paypal',
-  Stripe = 'stripe',
-  WireTransfer = 'wire-transfer',
+  BankTransfer = "bank-transfer",
+  Cash = "cash",
+  Check = "check",
+  CreditCard = "credit-card",
+  Paypal = "paypal",
+  Stripe = "stripe",
+  WireTransfer = "wire-transfer",
 }
 
 export enum CrmProductType {
-  Digital = 'digital',
-  Good = 'good',
-  Service = 'service',
-  Subscription = 'subscription',
+  Digital = "digital",
+  Good = "good",
+  Service = "service",
+  Subscription = "subscription",
 }
 
 export enum CrmRecordType {
-  Campaigns = 'campaigns',
-  Cases = 'cases',
-  Companies = 'companies',
-  Contacts = 'contacts',
-  Interactions = 'interactions',
-  Invoices = 'invoices',
-  Leads = 'leads',
-  Opportunities = 'opportunities',
-  Products = 'products',
+  Campaigns = "campaigns",
+  Cases = "cases",
+  Companies = "companies",
+  Contacts = "contacts",
+  Interactions = "interactions",
+  Invoices = "invoices",
+  Leads = "leads",
+  Opportunities = "opportunities",
+  Products = "products",
 }
 
 export enum DmsDeliveryFailureReasonEnum {
-  AccessDenied = 'access_denied',
-  AddressNotFound = 'address_not_found',
-  DamagedPackage = 'damaged_package',
-  Other = 'other',
-  RecipientNotHome = 'recipient_not_home',
-  RefusedDelivery = 'refused_delivery',
-  VehicleBreakdown = 'vehicle_breakdown',
-  WeatherConditions = 'weather_conditions',
+  AccessDenied = "access_denied",
+  AddressNotFound = "address_not_found",
+  DamagedPackage = "damaged_package",
+  Other = "other",
+  RecipientNotHome = "recipient_not_home",
+  RefusedDelivery = "refused_delivery",
+  VehicleBreakdown = "vehicle_breakdown",
+  WeatherConditions = "weather_conditions",
 }
 
 export enum DmsDeliveryRouteStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Paused = 'paused',
-  Planned = 'planned',
+  Cancelled = "cancelled",
+  Completed = "completed",
+  InProgress = "in_progress",
+  Paused = "paused",
+  Planned = "planned",
 }
 
 export enum DmsDeliveryTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  OutForDelivery = 'out_for_delivery',
-  Pending = 'pending',
-  Rescheduled = 'rescheduled',
+  Assigned = "assigned",
+  Cancelled = "cancelled",
+  Delivered = "delivered",
+  Failed = "failed",
+  OutForDelivery = "out_for_delivery",
+  Pending = "pending",
+  Rescheduled = "rescheduled",
 }
 
 export enum DmsProofOfDeliveryTypeEnum {
-  CodeVerification = 'code_verification',
-  ContactlessDelivery = 'contactless_delivery',
-  LeftAtDoor = 'left_at_door',
-  Photo = 'photo',
-  Signature = 'signature',
+  CodeVerification = "code_verification",
+  ContactlessDelivery = "contactless_delivery",
+  LeftAtDoor = "left_at_door",
+  Photo = "photo",
+  Signature = "signature",
 }
 
 export enum DmsTaskEventStatusEnum {
-  Arrived = 'arrived',
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Exception = 'exception',
-  Failed = 'failed',
-  Rescheduled = 'rescheduled',
-  Started = 'started',
+  Arrived = "arrived",
+  Assigned = "assigned",
+  Cancelled = "cancelled",
+  Delivered = "delivered",
+  Exception = "exception",
+  Failed = "failed",
+  Rescheduled = "rescheduled",
+  Started = "started",
 }
 
 export enum TmsCarrierRateUnitEnum {
-  FlatRate = 'flat_rate',
-  PerContainer = 'per_container',
-  PerKg = 'per_kg',
-  PerKm = 'per_km',
-  PerMile = 'per_mile',
+  FlatRate = "flat_rate",
+  PerContainer = "per_container",
+  PerKg = "per_kg",
+  PerKm = "per_km",
+  PerMile = "per_mile",
 }
 
 export enum TmsCurrencyEnum {
-  Aud = 'AUD',
-  Cad = 'CAD',
-  Eur = 'EUR',
-  Gbp = 'GBP',
-  Jpy = 'JPY',
-  Php = 'PHP',
-  Usd = 'USD',
+  Aud = "AUD",
+  Cad = "CAD",
+  Eur = "EUR",
+  Gbp = "GBP",
+  Jpy = "JPY",
+  Php = "PHP",
+  Usd = "USD",
 }
 
 export enum TmsDriverScheduleReasonEnum {
-  PersonalLeave = 'personal_leave',
-  SickLeave = 'sick_leave',
-  Training = 'training',
-  Vacation = 'vacation',
+  PersonalLeave = "personal_leave",
+  SickLeave = "sick_leave",
+  Training = "training",
+  Vacation = "vacation",
 }
 
 export enum TmsDriverStatusEnum {
-  Active = 'active',
-  Inactive = 'inactive',
-  OnLeave = 'on_leave',
+  Active = "active",
+  Inactive = "inactive",
+  OnLeave = "on_leave",
 }
 
 export enum TmsExpenseStatusEnum {
-  Approved = 'approved',
-  Pending = 'pending',
-  Reimbursed = 'reimbursed',
-  Rejected = 'rejected',
+  Approved = "approved",
+  Pending = "pending",
+  Reimbursed = "reimbursed",
+  Rejected = "rejected",
 }
 
 export enum TmsExpenseTypeEnum {
-  Accommodation = 'accommodation',
-  Fuel = 'fuel',
-  Maintenance = 'maintenance',
-  Meals = 'meals',
-  Parking = 'parking',
-  Tolls = 'tolls',
+  Accommodation = "accommodation",
+  Fuel = "fuel",
+  Maintenance = "maintenance",
+  Meals = "meals",
+  Parking = "parking",
+  Tolls = "tolls",
 }
 
 export enum TmsGeofenceEventTypeEnum {
-  Enter = 'enter',
-  Exit = 'exit',
+  Enter = "enter",
+  Exit = "exit",
 }
 
 export enum TmsPartnerInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Pending = 'pending',
+  Cancelled = "cancelled",
+  Disputed = "disputed",
+  Overdue = "overdue",
+  Paid = "paid",
+  Pending = "pending",
 }
 
 export enum TmsProofTypeEnum {
-  BarcodeScan = 'barcode_scan',
-  Photo = 'photo',
-  PinVerification = 'pin_verification',
-  Signature = 'signature',
+  BarcodeScan = "barcode_scan",
+  Photo = "photo",
+  PinVerification = "pin_verification",
+  Signature = "signature",
 }
 
 export enum TmsShipmentLegStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  InTransit = 'in_transit',
-  Pending = 'pending',
+  Cancelled = "cancelled",
+  Delivered = "delivered",
+  Failed = "failed",
+  InTransit = "in_transit",
+  Pending = "pending",
 }
 
 export enum TmsTripStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Planned = 'planned',
+  Cancelled = "cancelled",
+  Completed = "completed",
+  InProgress = "in_progress",
+  Planned = "planned",
 }
 
 export enum TmsTripStopStatusEnum {
-  Arrived = 'arrived',
-  Completed = 'completed',
-  Pending = 'pending',
-  Skipped = 'skipped',
+  Arrived = "arrived",
+  Completed = "completed",
+  Pending = "pending",
+  Skipped = "skipped",
 }
 
 export enum TmsVehicleServiceTypeEnum {
-  BrakeService = 'brake_service',
-  Inspection = 'inspection',
-  OilChange = 'oil_change',
-  Repair = 'repair',
-  RoutineMaintenance = 'routine_maintenance',
-  TireReplacement = 'tire_replacement',
+  BrakeService = "brake_service",
+  Inspection = "inspection",
+  OilChange = "oil_change",
+  Repair = "repair",
+  RoutineMaintenance = "routine_maintenance",
+  TireReplacement = "tire_replacement",
 }
 
 export enum TmsVehicleStatusEnum {
-  Available = 'available',
-  InMaintenance = 'in_maintenance',
-  OnTrip = 'on_trip',
-  OutOfService = 'out_of_service',
+  Available = "available",
+  InMaintenance = "in_maintenance",
+  OnTrip = "on_trip",
+  OutOfService = "out_of_service",
 }
 
 export enum UserRole {
-  AccountManager = 'account-manager',
-  Accountant = 'accountant',
-  Admin = 'admin',
-  Carrier = 'carrier',
-  Client = 'client',
-  ClientAdmin = 'client-admin',
-  CustomerSupportAgent = 'customer-support-agent',
-  Developer = 'developer',
-  Dispatcher = 'dispatcher',
-  Driver = 'driver',
-  EndCustomer = 'end-customer',
-  FinanceManager = 'finance-manager',
-  FleetManager = 'fleet-manager',
-  InventoryManager = 'inventory-manager',
-  LogisticsCoordinator = 'logistics-coordinator',
-  LogisticsManager = 'logistics-manager',
-  LogisticsPlanner = 'logistics-planner',
-  MarketingManager = 'marketing-manager',
-  Packer = 'packer',
-  Picker = 'picker',
-  PricingAnalyst = 'pricing-analyst',
-  ProductManager = 'product-manager',
-  QcManager = 'qc-manager',
-  ReceivingManager = 'receiving-manager',
-  ReturnsProcessor = 'returns-processor',
-  SalesManager = 'sales-manager',
-  SalesRep = 'sales-rep',
-  Sdr = 'sdr',
-  TransportManager = 'transport-manager',
-  User = 'user',
-  WarehouseManager = 'warehouse-manager',
-  WarehouseOperator = 'warehouse-operator',
+  AccountManager = "account-manager",
+  Accountant = "accountant",
+  Admin = "admin",
+  Carrier = "carrier",
+  Client = "client",
+  ClientAdmin = "client-admin",
+  CustomerSupportAgent = "customer-support-agent",
+  Developer = "developer",
+  Dispatcher = "dispatcher",
+  Driver = "driver",
+  EndCustomer = "end-customer",
+  FinanceManager = "finance-manager",
+  FleetManager = "fleet-manager",
+  InventoryManager = "inventory-manager",
+  LogisticsCoordinator = "logistics-coordinator",
+  LogisticsManager = "logistics-manager",
+  LogisticsPlanner = "logistics-planner",
+  MarketingManager = "marketing-manager",
+  Packer = "packer",
+  Picker = "picker",
+  PricingAnalyst = "pricing-analyst",
+  ProductManager = "product-manager",
+  QcManager = "qc-manager",
+  ReceivingManager = "receiving-manager",
+  ReturnsProcessor = "returns-processor",
+  SalesManager = "sales-manager",
+  SalesRep = "sales-rep",
+  Sdr = "sdr",
+  TransportManager = "transport-manager",
+  User = "user",
+  WarehouseManager = "warehouse-manager",
+  WarehouseOperator = "warehouse-operator",
 }
 
 export enum WmsInboundShipmentStatusEnum {
-  Arrived = 'arrived',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
+  Arrived = "arrived",
+  Cancelled = "cancelled",
+  Completed = "completed",
+  Pending = "pending",
+  Processing = "processing",
 }
 
 export enum WmsInventoryAdjustmentReasonEnum {
-  CycleCount = 'cycle_count',
-  DamagedGoods = 'damaged_goods',
-  Expired = 'expired',
-  ManualCorrection = 'manual_correction',
-  ReturnToVendor = 'return_to_vendor',
-  Theft = 'theft',
+  CycleCount = "cycle_count",
+  DamagedGoods = "damaged_goods",
+  Expired = "expired",
+  ManualCorrection = "manual_correction",
+  ReturnToVendor = "return_to_vendor",
+  Theft = "theft",
 }
 
 export enum WmsInventoryStockStatusEnum {
-  Allocated = 'allocated',
-  Available = 'available',
-  Damaged = 'damaged',
-  Expired = 'expired',
-  Hold = 'hold',
-  Quarantine = 'quarantine',
-  Shipped = 'shipped',
+  Allocated = "allocated",
+  Available = "available",
+  Damaged = "damaged",
+  Expired = "expired",
+  Hold = "hold",
+  Quarantine = "quarantine",
+  Shipped = "shipped",
 }
 
 export enum WmsLocationTypeEnum {
-  BulkStorage = 'bulk_storage',
-  CrossDockArea = 'cross_dock_area',
-  DamagedGoods = 'damaged_goods',
-  PackingStation = 'packing_station',
-  PickBin = 'pick_bin',
-  QualityControl = 'quality_control',
-  ReceivingDock = 'receiving_dock',
-  ReserveStorage = 'reserve_storage',
-  ReturnsArea = 'returns_area',
-  StagingArea = 'staging_area',
+  BulkStorage = "bulk_storage",
+  CrossDockArea = "cross_dock_area",
+  DamagedGoods = "damaged_goods",
+  PackingStation = "packing_station",
+  PickBin = "pick_bin",
+  QualityControl = "quality_control",
+  ReceivingDock = "receiving_dock",
+  ReserveStorage = "reserve_storage",
+  ReturnsArea = "returns_area",
+  StagingArea = "staging_area",
 }
 
 export enum WmsOutboundShipmentStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Packed = 'packed',
-  Picking = 'picking',
-  Shipped = 'shipped',
+  Cancelled = "cancelled",
+  Delivered = "delivered",
+  Packed = "packed",
+  Picking = "picking",
+  Shipped = "shipped",
 }
 
 export enum WmsPickBatchStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Open = 'open',
+  Cancelled = "cancelled",
+  Completed = "completed",
+  InProgress = "in_progress",
+  Open = "open",
 }
 
 export enum WmsPickStrategyEnum {
-  BatchPicking = 'batch_picking',
-  ClusterPicking = 'cluster_picking',
-  SingleOrderPicking = 'single_order_picking',
-  WavePicking = 'wave_picking',
-  ZonePicking = 'zone_picking',
+  BatchPicking = "batch_picking",
+  ClusterPicking = "cluster_picking",
+  SingleOrderPicking = "single_order_picking",
+  WavePicking = "wave_picking",
+  ZonePicking = "zone_picking",
 }
 
 export enum WmsProductStatusEnum {
-  Active = 'active',
-  Discontinued = 'discontinued',
-  Inactive = 'inactive',
-  Obsolete = 'obsolete',
+  Active = "active",
+  Discontinued = "discontinued",
+  Inactive = "inactive",
+  Obsolete = "obsolete",
 }
 
 export enum WmsReturnItemConditionEnum {
-  Damaged = 'damaged',
-  Defective = 'defective',
-  Expired = 'expired',
-  Sellable = 'sellable',
-  Unsellable = 'unsellable',
+  Damaged = "damaged",
+  Defective = "defective",
+  Expired = "expired",
+  Sellable = "sellable",
+  Unsellable = "unsellable",
 }
 
 export enum WmsReturnStatusEnum {
-  Approved = 'approved',
-  Processed = 'processed',
-  Received = 'received',
-  Rejected = 'rejected',
-  Requested = 'requested',
+  Approved = "approved",
+  Processed = "processed",
+  Received = "received",
+  Rejected = "rejected",
+  Requested = "requested",
 }
 
 export enum WmsSalesOrderStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Shipped = 'shipped',
+  Cancelled = "cancelled",
+  Completed = "completed",
+  Pending = "pending",
+  Processing = "processing",
+  Shipped = "shipped",
 }
 
 export enum WmsStockTransferStatusEnum {
-  Cancelled = 'cancelled',
-  InTransit = 'in_transit',
-  Pending = 'pending',
-  Received = 'received',
+  Cancelled = "cancelled",
+  InTransit = "in_transit",
+  Pending = "pending",
+  Received = "received",
 }
 
 export enum WmsTaskItemStatusEnum {
-  Completed = 'completed',
-  Damaged = 'damaged',
-  InProgress = 'in_progress',
-  NotFound = 'not_found',
-  Pending = 'pending',
-  ShortPicked = 'short_picked',
+  Completed = "completed",
+  Damaged = "damaged",
+  InProgress = "in_progress",
+  NotFound = "not_found",
+  Pending = "pending",
+  ShortPicked = "short_picked",
 }
 
 export enum WmsTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Error = 'error',
-  InProgress = 'in_progress',
-  Pending = 'pending',
+  Assigned = "assigned",
+  Cancelled = "cancelled",
+  Completed = "completed",
+  Error = "error",
+  InProgress = "in_progress",
+  Pending = "pending",
 }
 
 export enum WmsTaskTypeEnum {
-  CrossDock = 'cross_dock',
-  CycleCount = 'cycle_count',
-  DamageInspection = 'damage_inspection',
-  Pack = 'pack',
-  Pick = 'pick',
-  Putaway = 'putaway',
-  QualityCheck = 'quality_check',
-  Replenishment = 'replenishment',
-  ReturnsProcessing = 'returns_processing',
+  CrossDock = "cross_dock",
+  CycleCount = "cycle_count",
+  DamageInspection = "damage_inspection",
+  Pack = "pack",
+  Pick = "pick",
+  Putaway = "putaway",
+  QualityCheck = "quality_check",
+  Replenishment = "replenishment",
+  ReturnsProcessing = "returns_processing",
 }
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
@@ -627,7 +627,7 @@ export interface BillingAccountingSyncLog {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingAccountTransactions {
+export interface BillingAccountTransaction {
   /**
    * Transaction amount (positive for credits, negative for debits).
    */
@@ -682,7 +682,7 @@ export interface BillingAccountTransactions {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingClientAccounts {
+export interface BillingClientAccount {
   /**
    * Current available credit balance.
    */
@@ -729,7 +729,7 @@ export interface BillingClientAccounts {
   walletBalance: Generated<Numeric | null>;
 }
 
-export interface BillingCreditNotes {
+export interface BillingCreditNote {
   /**
    * Credit amount being issued.
    */
@@ -784,7 +784,7 @@ export interface BillingCreditNotes {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingDisputes {
+export interface BillingDispute {
   /**
    * Reference to the client raising the dispute.
    */
@@ -835,7 +835,7 @@ export interface BillingDisputes {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingDocuments {
+export interface BillingDocument {
   /**
    * Timestamp when the document was created.
    */
@@ -882,7 +882,7 @@ export interface BillingDocuments {
   uploadedByUserId: string | null;
 }
 
-export interface BillingInvoiceLineItems {
+export interface BillingInvoiceLineItem {
   /**
    * Timestamp when the line item was created.
    */
@@ -945,7 +945,7 @@ export interface BillingInvoiceLineItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingInvoices {
+export interface BillingInvoice {
   /**
    * Outstanding amount (automatically calculated).
    */
@@ -1032,7 +1032,7 @@ export interface BillingInvoices {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingPayments {
+export interface BillingPayment {
   /**
    * Payment amount.
    */
@@ -1103,7 +1103,7 @@ export interface BillingPayments {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface BillingQuotes {
+export interface BillingQuote {
   /**
    * Reference to the client requesting the quote (optional for anonymous quotes).
    */
@@ -1178,7 +1178,7 @@ export interface BillingQuotes {
   width: Numeric | null;
 }
 
-export interface BillingRateCards {
+export interface BillingRateCard {
   /**
    * Timestamp when the rate card was created.
    */
@@ -1221,7 +1221,7 @@ export interface BillingRateCards {
   validTo: Timestamp | null;
 }
 
-export interface BillingRateRules {
+export interface BillingRateRule {
   /**
    * Condition that must be met for this rule to apply (e.g., weight_gt, zone_eq).
    */
@@ -1272,7 +1272,7 @@ export interface BillingRateRules {
   value: string;
 }
 
-export interface BillingSurcharges {
+export interface BillingSurcharge {
   /**
    * Surcharge amount or percentage.
    */
@@ -1319,7 +1319,7 @@ export interface BillingSurcharges {
   validTo: Timestamp | null;
 }
 
-export interface CrmAttachments {
+export interface CrmAttachment {
   /**
    * timestamptz when the attachment was created.
    */
@@ -1354,7 +1354,7 @@ export interface CrmAttachments {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmCampaigns {
+export interface CrmCampaign {
   /**
    * Allocated budget for the campaign.
    */
@@ -1385,7 +1385,7 @@ export interface CrmCampaigns {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmCases {
+export interface CrmCase {
   /**
    * Unique number assigned to the case.
    */
@@ -1428,7 +1428,7 @@ export interface CrmCases {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmCompanies {
+export interface CrmCompany {
   /**
    * Yearly revenue figure.
    */
@@ -1487,7 +1487,7 @@ export interface CrmCompanies {
   website: string | null;
 }
 
-export interface CrmContacts {
+export interface CrmContact {
   /**
    * Identifier linking to the associated company.
    */
@@ -1526,7 +1526,7 @@ export interface CrmContacts {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmInteractions {
+export interface CrmInteraction {
   /**
    * Associated case (if applicable).
    */
@@ -1569,7 +1569,7 @@ export interface CrmInteractions {
   userId: string;
 }
 
-export interface CrmInvoiceItems {
+export interface CrmInvoiceItem {
   /**
    * timestamptz when the invoice item was created.
    */
@@ -1600,7 +1600,7 @@ export interface CrmInvoiceItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmInvoices {
+export interface CrmInvoice {
   /**
    * timestamptz when the invoice was created.
    */
@@ -1647,7 +1647,7 @@ export interface CrmInvoices {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmLeads {
+export interface CrmLead {
   /**
    * Associated marketing campaign.
    */
@@ -1706,7 +1706,7 @@ export interface CrmLeads {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmNotifications {
+export interface CrmNotification {
   /**
    * timestamptz when the notification was created.
    */
@@ -1737,7 +1737,7 @@ export interface CrmNotifications {
   userId: string;
 }
 
-export interface CrmOpportunities {
+export interface CrmOpportunity {
   /**
    * Related campaign.
    */
@@ -1796,7 +1796,7 @@ export interface CrmOpportunities {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface CrmOpportunityProducts {
+export interface CrmOpportunityProduct {
   id: Generated<string>;
   /**
    * Identifier linking to the related opportunity.
@@ -1812,7 +1812,7 @@ export interface CrmOpportunityProducts {
   quantity: number;
 }
 
-export interface CrmProducts {
+export interface CrmProduct {
   /**
    * timestamptz when the product was created.
    */
@@ -1847,7 +1847,7 @@ export interface CrmProducts {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface DmsCustomerTrackingLinks {
+export interface DmsCustomerTrackingLink {
   /**
    * Number of times the tracking link has been accessed.
    */
@@ -1886,7 +1886,7 @@ export interface DmsCustomerTrackingLinks {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface DmsDeliveryRoutes {
+export interface DmsDeliveryRoute {
   /**
    * Actual time taken to complete the route in minutes (automatically calculated from start and completion times).
    */
@@ -1937,7 +1937,7 @@ export interface DmsDeliveryRoutes {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface DmsDeliveryTasks {
+export interface DmsDeliveryTask {
   /**
    * When the driver actually arrived at the delivery location.
    */
@@ -2004,7 +2004,7 @@ export interface DmsDeliveryTasks {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface DmsDriverLocations {
+export interface DmsDriverLocation {
   /**
    * GPS accuracy in meters.
    */
@@ -2051,7 +2051,7 @@ export interface DmsDriverLocations {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface DmsProofOfDeliveries {
+export interface DmsProofOfDelivery {
   /**
    * Timestamp when the proof of delivery was created.
    */
@@ -2102,7 +2102,7 @@ export interface DmsProofOfDeliveries {
   verificationCode: string | null;
 }
 
-export interface DmsTaskEvents {
+export interface DmsTaskEvent {
   /**
    * Timestamp when the task event was created.
    */
@@ -2157,7 +2157,7 @@ export interface Session {
   userId: string;
 }
 
-export interface TmsCarrierRates {
+export interface TmsCarrierRate {
   /**
    * Reference to the carrier providing the service.
    */
@@ -2196,11 +2196,10 @@ export interface TmsCarrierRates {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsCarriers {
-  /**
-   * Contact information for the carrier.
-   */
-  contactDetails: string | null;
+export interface TmsCarrier {
+  contactEmail: string | null;
+  contactPerson: string | null;
+  contactPhone: string | null;
   /**
    * Timestamp when the carrier was created.
    */
@@ -2223,7 +2222,8 @@ export interface TmsCarriers {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsDrivers {
+export interface TmsDriver {
+  contactPhone: string | null;
   /**
    * Timestamp when the driver was created.
    */
@@ -2254,7 +2254,7 @@ export interface TmsDrivers {
   userId: string;
 }
 
-export interface TmsDriverSchedules {
+export interface TmsDriverSchedule {
   /**
    * Timestamp when the schedule was created.
    */
@@ -2285,7 +2285,7 @@ export interface TmsDriverSchedules {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsExpenses {
+export interface TmsExpense {
   /**
    * Financial amount of the expense.
    */
@@ -2298,10 +2298,12 @@ export interface TmsExpenses {
    * Currency denomination using currency_enum.
    */
   currency: Generated<TmsCurrencyEnum | null>;
+  description: string | null;
   /**
    * Reference to the driver who logged the expense.
    */
   driverId: string | null;
+  expenseDate: Timestamp | null;
   /**
    * Amount of fuel purchased (if applicable).
    */
@@ -2336,7 +2338,7 @@ export interface TmsExpenses {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsGeofenceEvents {
+export interface TmsGeofenceEvent {
   /**
    * Type of boundary event using geofence_event_type_enum.
    */
@@ -2359,7 +2361,7 @@ export interface TmsGeofenceEvents {
   vehicleId: string;
 }
 
-export interface TmsGeofences {
+export interface TmsGeofence {
   /**
    * Geographic boundary data (e.g., polygon coordinates).
    */
@@ -2382,7 +2384,7 @@ export interface TmsGeofences {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsGpsPings {
+export interface TmsGpsPing {
   /**
    * Primary key
    */
@@ -2405,7 +2407,7 @@ export interface TmsGpsPings {
   vehicleId: string;
 }
 
-export interface TmsPartnerInvoiceItems {
+export interface TmsPartnerInvoiceItem {
   /**
    * Amount charged for this specific shipment leg.
    */
@@ -2424,7 +2426,7 @@ export interface TmsPartnerInvoiceItems {
   shipmentLegId: string;
 }
 
-export interface TmsPartnerInvoices {
+export interface TmsPartnerInvoice {
   /**
    * Reference to the carrier sending the invoice.
    */
@@ -2459,7 +2461,7 @@ export interface TmsPartnerInvoices {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsProofOfDeliveries {
+export interface TmsProofOfDelivery {
   /**
    * Timestamp when the proof was created.
    */
@@ -2498,7 +2500,7 @@ export interface TmsProofOfDeliveries {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsRoutes {
+export interface TmsRoute {
   /**
    * Timestamp when the route was created.
    */
@@ -2529,7 +2531,7 @@ export interface TmsRoutes {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsShipmentLegEvents {
+export interface TmsShipmentLegEvent {
   /**
    * When the event was recorded.
    */
@@ -2552,7 +2554,7 @@ export interface TmsShipmentLegEvents {
   statusMessage: string | null;
 }
 
-export interface TmsShipmentLegs {
+export interface TmsShipmentLeg {
   /**
    * Reference to third-party carrier (if external).
    */
@@ -2595,7 +2597,7 @@ export interface TmsShipmentLegs {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface TmsTrips {
+export interface TmsTrip {
   /**
    * Timestamp when the trip was created.
    */
@@ -2604,10 +2606,14 @@ export interface TmsTrips {
    * Reference to the assigned driver.
    */
   driverId: string | null;
+  endLocation: string | null;
+  endTime: Timestamp | null;
   /**
    * Primary key
    */
   id: Generated<string>;
+  startLocation: string | null;
+  startTime: Timestamp | null;
   /**
    * Current trip status using trip_status_enum.
    */
@@ -2622,7 +2628,7 @@ export interface TmsTrips {
   vehicleId: string | null;
 }
 
-export interface TmsTripStops {
+export interface TmsTripStop {
   /**
    * Actual recorded arrival time.
    */
@@ -2708,7 +2714,7 @@ export interface TmsVehicleMaintenance {
   vehicleId: string;
 }
 
-export interface TmsVehicles {
+export interface TmsVehicle {
   /**
    * Maximum cargo volume the vehicle can carry.
    */
@@ -2721,10 +2727,13 @@ export interface TmsVehicles {
    * Timestamp when the vehicle was created.
    */
   createdAt: Generated<Timestamp | null>;
+  currentMileage: number | null;
   /**
    * Primary key
    */
   id: Generated<string>;
+  lastMaintenanceDate: Timestamp | null;
+  make: string | null;
   /**
    * Vehicle make and model information.
    */
@@ -2741,6 +2750,8 @@ export interface TmsVehicles {
    * Timestamp when the vehicle was last updated.
    */
   updatedAt: Generated<Timestamp | null>;
+  vin: string | null;
+  year: number | null;
 }
 
 export interface User {
@@ -2766,7 +2777,7 @@ export interface Verification {
   value: string;
 }
 
-export interface WmsBinThresholds {
+export interface WmsBinThreshold {
   /**
    * Quantity that triggers low stock alerts.
    */
@@ -2809,7 +2820,7 @@ export interface WmsBinThresholds {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsInboundShipmentItems {
+export interface WmsInboundShipmentItem {
   /**
    * Timestamp when the inbound shipment item was created.
    */
@@ -2848,7 +2859,7 @@ export interface WmsInboundShipmentItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsInboundShipments {
+export interface WmsInboundShipment {
   /**
    * The date the shipment actually arrived.
    */
@@ -2883,7 +2894,7 @@ export interface WmsInboundShipments {
   warehouseId: string;
 }
 
-export interface WmsInventoryAdjustments {
+export interface WmsInventoryAdjustment {
   /**
    * Timestamp when the adjustment was created.
    */
@@ -2922,7 +2933,7 @@ export interface WmsInventoryAdjustments {
   warehouseId: string;
 }
 
-export interface WmsInventoryBatches {
+export interface WmsInventoryBatch {
   /**
    * The unique identifier for the batch/lot.
    */
@@ -3000,7 +3011,7 @@ export interface WmsInventoryStock {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsLocations {
+export interface WmsLocation {
   /**
    * Machine-readable location identifier for scanning operations.
    */
@@ -3087,7 +3098,7 @@ export interface WmsLocations {
   zCoordinate: number | null;
 }
 
-export interface WmsOutboundShipmentItems {
+export interface WmsOutboundShipmentItem {
   /**
    * The specific batch the item was picked from (if applicable).
    */
@@ -3122,7 +3133,7 @@ export interface WmsOutboundShipmentItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsOutboundShipments {
+export interface WmsOutboundShipment {
   /**
    * The shipping carrier (e.g., FedEx, UPS).
    */
@@ -3157,7 +3168,7 @@ export interface WmsOutboundShipments {
   warehouseId: string;
 }
 
-export interface WmsPackageItems {
+export interface WmsPackageItem {
   /**
    * Reference to the batch of the product (from IMS).
    */
@@ -3208,7 +3219,7 @@ export interface WmsPackageItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsPackages {
+export interface WmsPackage {
   /**
    * Shipping carrier (e.g., "FedEx", "UPS", "DHL").
    */
@@ -3299,7 +3310,7 @@ export interface WmsPackages {
   width: number | null;
 }
 
-export interface WmsPickBatches {
+export interface WmsPickBatch {
   /**
    * Actual time taken to complete the batch (in minutes).
    */
@@ -3370,7 +3381,7 @@ export interface WmsPickBatches {
   zoneRestrictions: string[] | null;
 }
 
-export interface WmsPickBatchItems {
+export interface WmsPickBatchItem {
   /**
    * Actual time taken to pick this order (in minutes).
    */
@@ -3405,7 +3416,7 @@ export interface WmsPickBatchItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsProducts {
+export interface WmsProduct {
   /**
    * The product's barcode (e.g., UPC, EAN) for scanning.
    */
@@ -3472,7 +3483,7 @@ export interface WmsProducts {
   width: number | null;
 }
 
-export interface WmsPutawayRules {
+export interface WmsPutawayRule {
   /**
    * Reference to the client (for multi-tenant warehouses).
    */
@@ -3539,7 +3550,7 @@ export interface WmsPutawayRules {
   weightThreshold: number | null;
 }
 
-export interface WmsReorderPoints {
+export interface WmsReorderPoint {
   /**
    * Timestamp when the reorder point was created.
    */
@@ -3566,7 +3577,7 @@ export interface WmsReorderPoints {
   warehouseId: string;
 }
 
-export interface WmsReturnItems {
+export interface WmsReturnItem {
   /**
    * The condition of the returned item using return_item_condition_enum.
    */
@@ -3605,7 +3616,7 @@ export interface WmsReturnItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsReturns {
+export interface WmsReturn {
   /**
    * The client initiating the return.
    */
@@ -3640,7 +3651,7 @@ export interface WmsReturns {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsSalesOrderItems {
+export interface WmsSalesOrderItem {
   /**
    * Timestamp when the sales order item was created.
    */
@@ -3667,7 +3678,7 @@ export interface WmsSalesOrderItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsSalesOrders {
+export interface WmsSalesOrder {
   /**
    * The client company that placed the order.
    */
@@ -3702,7 +3713,7 @@ export interface WmsSalesOrders {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsStockTransfers {
+export interface WmsStockTransfer {
   /**
    * Timestamp when the stock transfer was created.
    */
@@ -3737,7 +3748,7 @@ export interface WmsStockTransfers {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsSuppliers {
+export interface WmsSupplier {
   /**
    * The primary contact at the supplier.
    */
@@ -3768,7 +3779,7 @@ export interface WmsSuppliers {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsTaskItems {
+export interface WmsTaskItem {
   /**
    * Reference to the specific batch being handled (from IMS).
    */
@@ -3839,7 +3850,7 @@ export interface WmsTaskItems {
   updatedAt: Generated<Timestamp | null>;
 }
 
-export interface WmsTasks {
+export interface WmsTask {
   /**
    * Actual time taken to complete the task (in minutes).
    */
@@ -3918,7 +3929,7 @@ export interface WmsTasks {
   warehouseId: string;
 }
 
-export interface WmsWarehouses {
+export interface WmsWarehouse {
   /**
    * The physical street address of the warehouse.
    */
@@ -3979,82 +3990,82 @@ export interface WmsWarehouses {
 
 export interface DB {
   account: Account;
-  'billing.accountingSyncLog': BillingAccountingSyncLog;
-  'billing.accountTransactions': BillingAccountTransactions;
-  'billing.clientAccounts': BillingClientAccounts;
-  'billing.creditNotes': BillingCreditNotes;
-  'billing.disputes': BillingDisputes;
-  'billing.documents': BillingDocuments;
-  'billing.invoiceLineItems': BillingInvoiceLineItems;
-  'billing.invoices': BillingInvoices;
-  'billing.payments': BillingPayments;
-  'billing.quotes': BillingQuotes;
-  'billing.rateCards': BillingRateCards;
-  'billing.rateRules': BillingRateRules;
-  'billing.surcharges': BillingSurcharges;
-  'crm.attachments': CrmAttachments;
-  'crm.campaigns': CrmCampaigns;
-  'crm.cases': CrmCases;
-  'crm.companies': CrmCompanies;
-  'crm.contacts': CrmContacts;
-  'crm.interactions': CrmInteractions;
-  'crm.invoiceItems': CrmInvoiceItems;
-  'crm.invoices': CrmInvoices;
-  'crm.leads': CrmLeads;
-  'crm.notifications': CrmNotifications;
-  'crm.opportunities': CrmOpportunities;
-  'crm.opportunityProducts': CrmOpportunityProducts;
-  'crm.products': CrmProducts;
-  'dms.customerTrackingLinks': DmsCustomerTrackingLinks;
-  'dms.deliveryRoutes': DmsDeliveryRoutes;
-  'dms.deliveryTasks': DmsDeliveryTasks;
-  'dms.driverLocations': DmsDriverLocations;
-  'dms.proofOfDeliveries': DmsProofOfDeliveries;
-  'dms.taskEvents': DmsTaskEvents;
+  "billing.accountingSyncLog": BillingAccountingSyncLog;
+  "billing.accountTransactions": BillingAccountTransaction;
+  "billing.clientAccounts": BillingClientAccount;
+  "billing.creditNotes": BillingCreditNote;
+  "billing.disputes": BillingDispute;
+  "billing.documents": BillingDocument;
+  "billing.invoiceLineItems": BillingInvoiceLineItem;
+  "billing.invoices": BillingInvoice;
+  "billing.payments": BillingPayment;
+  "billing.quotes": BillingQuote;
+  "billing.rateCards": BillingRateCard;
+  "billing.rateRules": BillingRateRule;
+  "billing.surcharges": BillingSurcharge;
+  "crm.attachments": CrmAttachment;
+  "crm.campaigns": CrmCampaign;
+  "crm.cases": CrmCase;
+  "crm.companies": CrmCompany;
+  "crm.contacts": CrmContact;
+  "crm.interactions": CrmInteraction;
+  "crm.invoiceItems": CrmInvoiceItem;
+  "crm.invoices": CrmInvoice;
+  "crm.leads": CrmLead;
+  "crm.notifications": CrmNotification;
+  "crm.opportunities": CrmOpportunity;
+  "crm.opportunityProducts": CrmOpportunityProduct;
+  "crm.products": CrmProduct;
+  "dms.customerTrackingLinks": DmsCustomerTrackingLink;
+  "dms.deliveryRoutes": DmsDeliveryRoute;
+  "dms.deliveryTasks": DmsDeliveryTask;
+  "dms.driverLocations": DmsDriverLocation;
+  "dms.proofOfDeliveries": DmsProofOfDelivery;
+  "dms.taskEvents": DmsTaskEvent;
   session: Session;
-  'tms.carrierRates': TmsCarrierRates;
-  'tms.carriers': TmsCarriers;
-  'tms.drivers': TmsDrivers;
-  'tms.driverSchedules': TmsDriverSchedules;
-  'tms.expenses': TmsExpenses;
-  'tms.geofenceEvents': TmsGeofenceEvents;
-  'tms.geofences': TmsGeofences;
-  'tms.gpsPings': TmsGpsPings;
-  'tms.partnerInvoiceItems': TmsPartnerInvoiceItems;
-  'tms.partnerInvoices': TmsPartnerInvoices;
-  'tms.proofOfDeliveries': TmsProofOfDeliveries;
-  'tms.routes': TmsRoutes;
-  'tms.shipmentLegEvents': TmsShipmentLegEvents;
-  'tms.shipmentLegs': TmsShipmentLegs;
-  'tms.trips': TmsTrips;
-  'tms.tripStops': TmsTripStops;
-  'tms.vehicleMaintenance': TmsVehicleMaintenance;
-  'tms.vehicles': TmsVehicles;
+  "tms.carrierRates": TmsCarrierRate;
+  "tms.carriers": TmsCarrier;
+  "tms.drivers": TmsDriver;
+  "tms.driverSchedules": TmsDriverSchedule;
+  "tms.expenses": TmsExpense;
+  "tms.geofenceEvents": TmsGeofenceEvent;
+  "tms.geofences": TmsGeofence;
+  "tms.gpsPings": TmsGpsPing;
+  "tms.partnerInvoiceItems": TmsPartnerInvoiceItem;
+  "tms.partnerInvoices": TmsPartnerInvoice;
+  "tms.proofOfDeliveries": TmsProofOfDelivery;
+  "tms.routes": TmsRoute;
+  "tms.shipmentLegEvents": TmsShipmentLegEvent;
+  "tms.shipmentLegs": TmsShipmentLeg;
+  "tms.trips": TmsTrip;
+  "tms.tripStops": TmsTripStop;
+  "tms.vehicleMaintenance": TmsVehicleMaintenance;
+  "tms.vehicles": TmsVehicle;
   user: User;
   verification: Verification;
-  'wms.binThresholds': WmsBinThresholds;
-  'wms.inboundShipmentItems': WmsInboundShipmentItems;
-  'wms.inboundShipments': WmsInboundShipments;
-  'wms.inventoryAdjustments': WmsInventoryAdjustments;
-  'wms.inventoryBatches': WmsInventoryBatches;
-  'wms.inventoryStock': WmsInventoryStock;
-  'wms.locations': WmsLocations;
-  'wms.outboundShipmentItems': WmsOutboundShipmentItems;
-  'wms.outboundShipments': WmsOutboundShipments;
-  'wms.packageItems': WmsPackageItems;
-  'wms.packages': WmsPackages;
-  'wms.pickBatches': WmsPickBatches;
-  'wms.pickBatchItems': WmsPickBatchItems;
-  'wms.products': WmsProducts;
-  'wms.putawayRules': WmsPutawayRules;
-  'wms.reorderPoints': WmsReorderPoints;
-  'wms.returnItems': WmsReturnItems;
-  'wms.returns': WmsReturns;
-  'wms.salesOrderItems': WmsSalesOrderItems;
-  'wms.salesOrders': WmsSalesOrders;
-  'wms.stockTransfers': WmsStockTransfers;
-  'wms.suppliers': WmsSuppliers;
-  'wms.taskItems': WmsTaskItems;
-  'wms.tasks': WmsTasks;
-  'wms.warehouses': WmsWarehouses;
+  "wms.binThresholds": WmsBinThreshold;
+  "wms.inboundShipmentItems": WmsInboundShipmentItem;
+  "wms.inboundShipments": WmsInboundShipment;
+  "wms.inventoryAdjustments": WmsInventoryAdjustment;
+  "wms.inventoryBatches": WmsInventoryBatch;
+  "wms.inventoryStock": WmsInventoryStock;
+  "wms.locations": WmsLocation;
+  "wms.outboundShipmentItems": WmsOutboundShipmentItem;
+  "wms.outboundShipments": WmsOutboundShipment;
+  "wms.packageItems": WmsPackageItem;
+  "wms.packages": WmsPackage;
+  "wms.pickBatches": WmsPickBatch;
+  "wms.pickBatchItems": WmsPickBatchItem;
+  "wms.products": WmsProduct;
+  "wms.putawayRules": WmsPutawayRule;
+  "wms.reorderPoints": WmsReorderPoint;
+  "wms.returnItems": WmsReturnItem;
+  "wms.returns": WmsReturn;
+  "wms.salesOrderItems": WmsSalesOrderItem;
+  "wms.salesOrders": WmsSalesOrder;
+  "wms.stockTransfers": WmsStockTransfer;
+  "wms.suppliers": WmsSupplier;
+  "wms.taskItems": WmsTaskItem;
+  "wms.tasks": WmsTask;
+  "wms.warehouses": WmsWarehouse;
 }

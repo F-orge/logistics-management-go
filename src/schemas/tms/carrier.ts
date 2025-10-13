@@ -6,17 +6,8 @@ export const tmsCarrierSchema = z.object({
     .string({ message: 'Carrier name must be a string' })
     .min(1, { error: 'Carrier name is required' })
     .max(255, { error: 'Carrier name must be at most 255 characters' }),
-  contactPerson: z
+  contactDetails: z
     .string({ message: 'Contact person must be a string' })
-    .optional()
-    .nullable(),
-  contactEmail: z
-    .string({ message: 'Contact email must be a string' })
-    .email()
-    .optional()
-    .nullable(),
-  contactPhone: z
-    .string({ message: 'Contact phone must be a string' })
     .optional()
     .nullable(),
   address: z

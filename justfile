@@ -21,6 +21,9 @@ build-backend:
   bun build src/server.ts --target node --outfile .output/server.js --production
   cp -r migrations .output/migrations
 
+introspect:
+  bun kysely-codegen --out-file src/db/types.ts --camel-case --runtime-enums pascal-case --singularize
+
 build:
   just build-frontend
   just build-backend

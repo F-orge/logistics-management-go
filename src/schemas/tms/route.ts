@@ -3,11 +3,9 @@ import { z } from 'zod';
 export const tmsRouteSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
   tripId: z.uuid({ message: 'Invalid UUID format for trip ID' }),
-  name: z.string().optional().nullable(),
-  origin: z.string().optional().nullable(),
-  destination: z.string().optional().nullable(),
-  distance: z.string().optional().nullable(),
-  duration: z.string().optional().nullable(),
+  optimizedRouteData: z.string().nullable().optional(),
+  totalDistance: z.coerce.number().nullable().optional(),
+  totalDuration: z.coerce.number().nullable().optional(),
   createdAt: z
     .date({ message: 'Invalid date format for created at' })
     .optional()

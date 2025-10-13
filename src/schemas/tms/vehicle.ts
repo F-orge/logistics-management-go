@@ -21,7 +21,7 @@ export const tmsVehicleSchema = z.object({
     .max(100000, { error: 'Capacity weight must be at most 100,000' })
     .optional()
     .nullable(),
-  licensePlate: z.string().optional(),
+  registrationNumber: z.string().optional(),
   make: z.string().optional().nullable(),
   year: z.coerce.number().optional().nullable(),
   vin: z.string().optional().nullable(),

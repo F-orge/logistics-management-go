@@ -164,7 +164,7 @@ describe('CrmContactSchema Validation', () => {
           name: 'John Doe',
           ownerId: 'user-123',
         },
-        expectedError: 'Email must be a string',
+        expectedError: 'Invalid email format',
       },
       {
         name: 'email too short',
@@ -196,19 +196,16 @@ describe('CrmContactSchema Validation', () => {
         },
         expectedError: 'Invalid email format',
       },
-      /*
-      /*
       {
-        name: "email wrong type",
+        name: 'email wrong type',
         input: {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "John Doe",
+          id: '123e4567-e89b-12d3-a456-426614174000',
+          name: 'John Doe',
           email: 123,
-          ownerId: "user-123",
+          ownerId: 'user-123',
         },
-        expectedError: "Email must be a string", // Custom message
+        expectedError: 'Invalid email format', // Custom message
       },
-      */
       {
         name: 'invalid companyId format',
         input: {
@@ -478,7 +475,7 @@ describe('CrmContactInsertSchema Validation', () => {
           name: 'Insert Fail',
           ownerId: 'user-fail',
         },
-        expectedError: 'Email must be a string',
+        expectedError: 'Invalid email format',
       },
       {
         name: 'missing ownerId',
@@ -630,7 +627,7 @@ describe('CrmContactUpdateSchema Validation', () => {
         input: {
           email: 123,
         },
-        expectedError: 'Email must be a string',
+        expectedError: 'Invalid email format',
       },
       {
         name: 'companyId invalid format',
