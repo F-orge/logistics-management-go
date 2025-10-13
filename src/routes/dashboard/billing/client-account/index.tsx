@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingClientAccountSchema } from '@/schemas/billing/client_account';
 import { columns } from './-components/table';
+import NewClientAccountFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/client-account/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewClientAccountFormDialog />
       </section>
     </article>
   );

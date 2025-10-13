@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { tmsTripSchema } from '@/schemas/tms/trip';
 import { columns } from './-components/table';
+import NewTripFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/trip/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewTripFormDialog />
       </section>
     </article>
   );

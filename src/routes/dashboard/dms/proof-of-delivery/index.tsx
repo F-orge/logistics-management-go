@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { dmsProofOfDeliverySchema } from '@/schemas/dms/proof_of_delivery';
 import { columns } from './-components/table';
+import NewProofOfDeliveryFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/dms/proof-of-delivery/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewProofOfDeliveryFormDialog />
       </section>
     </article>
   );

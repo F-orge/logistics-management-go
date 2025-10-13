@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { dmsDeliveryTaskSchema } from '@/schemas/dms/delivery_task';
 import { columns } from './-components/table';
+import NewDeliveryTaskFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewDeliveryTaskFormDialog />
       </section>
     </article>
   );

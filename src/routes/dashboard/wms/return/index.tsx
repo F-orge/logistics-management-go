@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { wmsReturnSchema } from '@/schemas/wms/return';
 import { columns } from './-components/table';
+import NewReturnFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/return/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewReturnFormDialog />
       </section>
     </article>
   );

@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingQuoteSchema } from '@/schemas/billing/quote';
 import { columns } from './-components/table';
+import NewQuoteFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/quote/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewQuoteFormDialog />
       </section>
     </article>
   );

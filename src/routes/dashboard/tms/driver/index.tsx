@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsDriverSchema } from '@/schemas/tms/driver';
 import { columns } from './-components/table';
+import NewDriverFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/driver/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewDriverFormDialog />
       </section>
     </article>
   );

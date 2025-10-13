@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsCarrierSchema } from '@/schemas/tms/carrier';
 import { columns } from './-components/table';
+import NewCarrierFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/carrier/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewCarrierFormDialog />
       </section>
     </article>
   );

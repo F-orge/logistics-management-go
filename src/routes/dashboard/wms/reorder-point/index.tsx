@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsReorderPointSchema } from '@/schemas/wms/reorder_point';
 import { columns } from './-components/table';
+import NewReorderPointFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/reorder-point/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewReorderPointFormDialog />
       </section>
     </article>
   );

@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsLocationSchema } from '@/schemas/wms/location';
 import { columns } from './-components/table';
+import NewLocationFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/location/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewLocationFormDialog />
       </section>
     </article>
   );

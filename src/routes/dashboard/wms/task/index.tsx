@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { wmsTaskSchema } from '@/schemas/wms/task';
 import { columns } from './-components/table';
+import NewTaskFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/task/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewTaskFormDialog />
       </section>
     </article>
   );

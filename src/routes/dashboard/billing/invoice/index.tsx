@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingInvoiceSchema } from '@/schemas/billing/invoice';
 import { columns } from './-components/table';
+import NewInvoiceFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/invoice/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewInvoiceFormDialog />
       </section>
     </article>
   );

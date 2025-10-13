@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { wmsPackageSchema } from '@/schemas/wms/package';
 import { columns } from './-components/table';
+import NewPackageFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/package/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewPackageFormDialog />
       </section>
     </article>
   );

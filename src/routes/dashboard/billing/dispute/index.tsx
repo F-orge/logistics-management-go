@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingDisputeSchema } from '@/schemas/billing/dispute';
 import { columns } from './-components/table';
+import NewDisputeFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/dispute/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewDisputeFormDialog />
       </section>
     </article>
   );

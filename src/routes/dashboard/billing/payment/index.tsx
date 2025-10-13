@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingPaymentSchema } from '@/schemas/billing/payment';
 import { columns } from './-components/table';
+import NewPaymentFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/payment/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewPaymentFormDialog />
       </section>
     </article>
   );

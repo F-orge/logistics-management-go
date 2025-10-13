@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { dmsDriverLocationSchema } from '@/schemas/dms/driver_location';
 import { columns } from './-components/table';
+import NewDriverLocationFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/dms/driver-location/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewDriverLocationFormDialog />
       </section>
     </article>
   );

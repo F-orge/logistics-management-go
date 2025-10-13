@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsGeofenceSchema } from '@/schemas/tms/geofence';
 import { columns } from './-components/table';
+import NewGeofenceFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/geofence/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewGeofenceFormDialog />
       </section>
     </article>
   );

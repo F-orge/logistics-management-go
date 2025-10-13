@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingSurchargeSchema } from '@/schemas/billing/surcharge';
 import { columns } from './-components/table';
+import NewSurchargeFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/surcharge/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewSurchargeFormDialog />
       </section>
     </article>
   );

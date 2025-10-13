@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsWarehouseSchema } from '@/schemas/wms/warehouse';
 import { columns } from './-components/table';
+import NewWarehouseFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/warehouse/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewWarehouseFormDialog />
       </section>
     </article>
   );

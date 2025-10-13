@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsInventoryAdjustmentSchema } from '@/schemas/wms/inventory_adjustment';
 import { columns } from './-components/table';
+import NewInventoryAdjustmentFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/inventory-adjustment/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewInventoryAdjustmentFormDialog />
       </section>
     </article>
   );

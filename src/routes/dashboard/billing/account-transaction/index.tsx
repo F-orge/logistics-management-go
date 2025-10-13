@@ -32,38 +32,41 @@ import {
 } from '@/repositories/utils';
 import { billingAccountTransactionSchema } from '@/schemas/billing/account_transaction';
 import { columns } from './-components/table';
+import NewAccountTransactionFormDialog from './-components/new';
 
-export const Route = createFileRoute('/dashboard/billing/account-transaction/')({
-  component: RouteComponent,
-  validateSearch: zodValidator(
-    paginateTransformer().extend({
-      filters: filterTransformer(billingAccountTransactionSchema),
-      sort: sortTransformer(billingAccountTransactionSchema).default([
-        { column: 'createdAt', order: 'desc' },
-      ]),
-      new: z.boolean().optional(),
-      delete: z.boolean().optional(),
-      view: z.boolean().optional(),
-      edit: z.boolean().optional(),
-      id: z.string().optional(),
-    }),
-  ),
-  beforeLoad: (ctx) => ({ search: ctx.search }),
-  async loader({ context }) {
-    const from = new Date();
-    const to = new Date();
-    to.setFullYear(from.getFullYear() + 1);
+export const Route = createFileRoute('/dashboard/billing/account-transaction/')(
+  {
+    component: RouteComponent,
+    validateSearch: zodValidator(
+      paginateTransformer().extend({
+        filters: filterTransformer(billingAccountTransactionSchema),
+        sort: sortTransformer(billingAccountTransactionSchema).default([
+          { column: 'createdAt', order: 'desc' },
+        ]),
+        new: z.boolean().optional(),
+        delete: z.boolean().optional(),
+        view: z.boolean().optional(),
+        edit: z.boolean().optional(),
+        id: z.string().optional(),
+      }),
+    ),
+    beforeLoad: (ctx) => ({ search: ctx.search }),
+    async loader({ context }) {
+      const from = new Date();
+      const to = new Date();
+      to.setFullYear(from.getFullYear() + 1);
 
-    return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateAccountTransaction(context.search),
-      ),
-      chart: await context.queryClient.fetchQuery(
-        rangeAccountTransaction({ from, to }),
-      ),
-    };
+      return {
+        dataTable: await context.queryClient.fetchQuery(
+          paginateAccountTransaction(context.search),
+        ),
+        chart: await context.queryClient.fetchQuery(
+          rangeAccountTransaction({ from, to }),
+        ),
+      };
+    },
   },
-});
+);
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
@@ -92,7 +95,7 @@ function RouteComponent() {
                   ...prev,
                   filters: [
                     {
-                      column: 'transactionType', // Assuming 'transactionType' is a searchable field
+                      column: 'referenceNumber',
                       operation: 'like',
                       value: `%${currentSearch}%`,
                     },
@@ -204,6 +207,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewAccountTransactionFormDialog />
       </section>
     </article>
   );

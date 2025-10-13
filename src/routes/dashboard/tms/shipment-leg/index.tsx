@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsShipmentLegSchema } from '@/schemas/tms/shipment_leg';
 import { columns } from './-components/table';
+import NewShipmentLegFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/shipment-leg/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewShipmentLegFormDialog />
       </section>
     </article>
   );

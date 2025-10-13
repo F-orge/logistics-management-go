@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingRateCardSchema } from '@/schemas/billing/rate_card';
 import { columns } from './-components/table';
+import NewRateCardFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/rate-card/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewRateCardFormDialog />
       </section>
     </article>
   );

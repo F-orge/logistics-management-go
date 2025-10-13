@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsPutawayRuleSchema } from '@/schemas/wms/putaway_rule';
 import { columns } from './-components/table';
+import NewPutawayRuleFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/putaway-rule/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewPutawayRuleFormDialog />
       </section>
     </article>
   );

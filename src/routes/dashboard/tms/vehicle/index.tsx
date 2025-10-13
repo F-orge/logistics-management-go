@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsVehicleSchema } from '@/schemas/tms/vehicle';
 import { columns } from './-components/table';
+import NewVehicleFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/vehicle/')({
   component: RouteComponent,
@@ -202,6 +203,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewVehicleFormDialog />
       </section>
     </article>
   );

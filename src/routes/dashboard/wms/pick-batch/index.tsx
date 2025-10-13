@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsPickBatchSchema } from '@/schemas/wms/pick_batch';
 import { columns } from './-components/table';
+import NewPickBatchFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/pick-batch/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewPickBatchFormDialog />
       </section>
     </article>
   );

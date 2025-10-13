@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsInventoryBatchSchema } from '@/schemas/wms/inventory_batch';
 import { columns } from './-components/table';
+import NewInventoryBatchFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/inventory-batch/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewInventoryBatchFormDialog />
       </section>
     </article>
   );

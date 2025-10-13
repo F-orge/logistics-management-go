@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingCreditNoteSchema } from '@/schemas/billing/credit_note';
 import { columns } from './-components/table';
+import NewCreditNoteFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/credit-note/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewCreditNoteFormDialog />
       </section>
     </article>
   );

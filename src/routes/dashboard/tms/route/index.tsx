@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { tmsRouteSchema } from '@/schemas/tms/route';
 import { columns } from './-components/table';
+import NewRouteFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/route/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewRouteFormDialog />
       </section>
     </article>
   );

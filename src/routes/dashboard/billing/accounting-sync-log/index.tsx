@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { billingAccountingSyncLogSchema } from '@/schemas/billing/accounting_sync_log';
 import { columns } from './-components/table';
+import NewAccountingSyncLogFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/billing/accounting-sync-log/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewAccountingSyncLogFormDialog />
       </section>
     </article>
   );

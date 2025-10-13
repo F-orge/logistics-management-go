@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { dmsTaskEventSchema } from '@/schemas/dms/task_event';
 import { columns } from './-components/table';
+import NewTaskEventFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/dms/task-event/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewTaskEventFormDialog />
       </section>
     </article>
   );

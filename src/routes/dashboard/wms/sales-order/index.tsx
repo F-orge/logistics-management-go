@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsSalesOrderSchema } from '@/schemas/wms/sales_order';
 import { columns } from './-components/table';
+import NewSalesOrderFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/sales-order/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewSalesOrderFormDialog />
       </section>
     </article>
   );

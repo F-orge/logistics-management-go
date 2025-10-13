@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { tmsPartnerInvoiceSchema } from '@/schemas/tms/partner_invoice';
 import { columns } from './-components/table';
+import NewPartnerInvoiceFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/tms/partner-invoice/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewPartnerInvoiceFormDialog />
       </section>
     </article>
   );

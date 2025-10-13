@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsStockTransferSchema } from '@/schemas/wms/stock_transfer';
 import { columns } from './-components/table';
+import NewStockTransferFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/stock-transfer/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewStockTransferFormDialog />
       </section>
     </article>
   );

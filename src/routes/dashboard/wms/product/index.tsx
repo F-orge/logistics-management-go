@@ -28,6 +28,7 @@ import {
 } from '@/repositories/utils';
 import { wmsProductSchema } from '@/schemas/wms/product';
 import { columns } from './-components/table';
+import NewProductFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/product/')({
   component: RouteComponent,
@@ -198,6 +199,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewProductFormDialog />
       </section>
     </article>
   );

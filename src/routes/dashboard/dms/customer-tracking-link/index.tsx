@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { dmsCustomerTrackingLinkSchema } from '@/schemas/dms/customer_tracking_link';
 import { columns } from './-components/table';
+import NewCustomerTrackingLinkFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/dms/customer-tracking-link/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewCustomerTrackingLinkFormDialog />
       </section>
     </article>
   );

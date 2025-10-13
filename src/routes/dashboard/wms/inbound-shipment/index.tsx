@@ -32,6 +32,7 @@ import {
 } from '@/repositories/utils';
 import { wmsInboundShipmentSchema } from '@/schemas/wms/inbound_shipment';
 import { columns } from './-components/table';
+import NewInboundShipmentFormDialog from './-components/new';
 
 export const Route = createFileRoute('/dashboard/wms/inbound-shipment/')({
   component: RouteComponent,
@@ -204,6 +205,9 @@ function RouteComponent() {
             })
           }
         />
+      </section>
+      <section>
+        <NewInboundShipmentFormDialog />
       </section>
     </article>
   );
