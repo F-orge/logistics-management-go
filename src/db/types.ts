@@ -2363,10 +2363,6 @@ export interface TmsGeofenceEvent {
 
 export interface TmsGeofence {
   /**
-   * Geographic boundary data (e.g., polygon coordinates).
-   */
-  coordinates: string | null;
-  /**
    * Timestamp when the geofence was created.
    */
   createdAt: Generated<Timestamp | null>;
@@ -2374,6 +2370,8 @@ export interface TmsGeofence {
    * Primary key
    */
   id: Generated<string>;
+  latitude: number | null;
+  longitude: number | null;
   /**
    * Descriptive name for the geofenced area.
    */
