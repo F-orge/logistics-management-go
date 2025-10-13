@@ -42,7 +42,6 @@ export const columns: ColumnDef<
             }}
           >
             <StringCell value={row.original.carrier.name} />
-    cell: ({ row }) => <StringCell value={row.original.carrier.name} />,
           </Link>
         </Button>
       ) : (

@@ -42,13 +42,6 @@ export const columns: ColumnDef<
         <StringCell value="N/A" />
       ),
   },
-    cell: ({ row }) => <StringCell value={row.original.tripStop.id} />,
-          </Link>
-        </Button>
-      ) : (
-        <StringCell value="N/A" />
-      ),
-  },
   {
     accessorKey: 'type',
     header: 'Type',

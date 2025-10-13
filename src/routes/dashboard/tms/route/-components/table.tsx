@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
+import NumberCell from '@/components/table/cells/number';
 import { Button } from '@/components/ui/button';
 import { ORPCOutputs } from '@/orpc/client';
 

@@ -36,7 +36,9 @@ export const Route = createFileRoute('/dashboard/crm/cases/')({
   validateSearch: zodValidator(
     paginateTransformer().extend({
       filters: filterTransformer(crmCaseSchema),
-      sort: sortTransformer(crmCaseSchema),
+      sort: sortTransformer(crmCaseSchema).default([
+        { column: 'createdAt', order: 'desc' },
+      ]),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
       view: z.boolean().optional(),
@@ -128,16 +130,12 @@ function RouteComponent() {
           onNextPage={() => {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page + 1 }),
-              replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           onPreviousPage={() => {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page - 1 }),
-              replace: true,
             });
-            queryClient.invalidateQueries();
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}

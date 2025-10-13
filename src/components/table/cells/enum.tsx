@@ -1,7 +1,7 @@
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, Edit } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Field, FieldLabel } from '@/components/ui/field';
+import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
 import {
   Select,
   SelectContent,
@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { Command } from '@/components/ui/command';
 
 export type EnumOption = {
   value: string;
@@ -24,6 +25,7 @@ export type EnumCellProps = {
   options: EnumOption[];
   placeholder?: string;
   showIcon?: boolean;
+  children?: React.ReactNode;
 };
 
 const EnumCell = (props: EnumCellProps) => {
@@ -42,6 +44,7 @@ const EnumCell = (props: EnumCellProps) => {
     if (props.onSave) {
       props.onSave(selectedValue);
     }
+
     setEdit(false);
   };
 
@@ -62,7 +65,12 @@ const EnumCell = (props: EnumCellProps) => {
       <Field className={cn(edit && 'min-w-xs')}>
         {edit ? (
           <div className="flex gap-2.5">
-            <Select value={value} onValueChange={handleSelect}>
+            <Select
+              value={value}
+              onValueChange={(value) => {
+                handleSelect(value);
+              }}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue
                   placeholder={props.placeholder || 'Select an option'}
@@ -86,10 +94,7 @@ const EnumCell = (props: EnumCellProps) => {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            {props.showIcon && (
-              <ChevronDown className="h-3 w-3 text-muted-foreground" />
-            )}
-            <FieldLabel
+            <FieldContent
               onDoubleClick={() => {
                 if (props.editable) {
                   setEdit(true);
@@ -97,8 +102,8 @@ const EnumCell = (props: EnumCellProps) => {
               }}
               className="cursor-pointer"
             >
-              {displayLabel}
-            </FieldLabel>
+              {props.children}
+            </FieldContent>
           </div>
         )}
       </Field>

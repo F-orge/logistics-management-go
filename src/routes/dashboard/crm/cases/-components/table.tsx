@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef, type Column } from '@tanstack/react-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge, badgeVariants } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/table';
 import StringCell from '@/components/table/cells/string';
 import {
@@ -10,10 +10,16 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { ORPCOutputs } from '@/orpc/client';
-import type { VariantProps } from 'class-variance-authority';
+import EnumCell from '@/components/table/cells/enum';
+import { useRouteContext } from '@tanstack/react-router';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { paginateContact, updateCase } from '@/queries/crm';
+import RelationCell from '@/components/table/cells/relation';
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
+import DateCell from '@/components/table/cells/date';
 
 type Case = ORPCOutputs['crm']['paginateCase'][number] & {
-  contact: ORPCOutputs['crm']['inContact'][number] | undefined;
+  contact?: ORPCOutputs['crm']['inContact'][number];
   owner: {
     name: string;
     image: string;
@@ -22,99 +28,173 @@ type Case = ORPCOutputs['crm']['paginateCase'][number] & {
   };
 };
 
-const priorityVariantMap: Record<
-  string,
-  VariantProps<typeof badgeVariants>['variant']
-> = {
-  low: 'secondary',
-  medium: 'outline',
-  high: 'destructive',
-};
-
-const statusVariantMap: Record<
-  string,
-  VariantProps<typeof badgeVariants>['variant']
-> = {
-  open: 'secondary',
-  'in-progress': 'outline',
-  closed: 'default',
-};
-
 export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'caseNumber',
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Case Number" />
     ),
-    cell: ({ row }: { row: any }) => (
-      <StringCell value={row.original.caseNumber} />
-    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
+      return (
+        <StringCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { caseNumber: value },
+            })
+          }
+          value={row.original.caseNumber}
+        />
+      );
+    },
   },
   {
     accessorKey: 'description',
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Description" />
     ),
-    cell: ({ row }: { row: any }) => (
-      <StringCell value={row.original.description} />
-    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
+      return (
+        <StringCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { description: value },
+            })
+          }
+          value={row.original.description}
+        />
+      );
+    },
   },
   {
     accessorKey: 'contact.name',
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Contact" />
     ),
-    cell: ({ row }: { row: any }) => {
+    cell: ({ row }) => {
       const contact = row.original.contact;
+
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
+      const { data: contacts } = useQuery(
+        {
+          ...paginateContact({
+            page: 1,
+            perPage: 100,
+          }),
+          enabled: !!contact,
+        },
+        queryClient,
+      );
+
       if (!contact) {
         return <div className="text-muted-foreground">N/A</div>;
       }
+
       return (
-        <div className="flex items-center gap-2">
-          <Avatar className="size-8">
-            <AvatarFallback>
-              {contact.name
-                .split(' ')
-                .filter(
-                  (n: any, i: any, arr: any) => i === 0 || i === arr.length - 1,
-                )
-                .map((n: any) => n[0])
-                .join('')
-                .toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <Link
-            to="/dashboard/crm/contacts"
-            search={{
-              view: true,
-              id: contact.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: contact.id,
-                },
-              ],
-            }}
-            className="hover:underline"
-          >
-            {contact.name}
-          </Link>
-        </div>
+        <RelationCell
+          editable
+          value={contact.id}
+          options={
+            contacts?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { contactId: value },
+            })
+          }
+        >
+          <div className="flex items-center gap-2">
+            <Avatar className="size-8">
+              <AvatarFallback>
+                {contact.name
+                  .split(' ')
+                  .filter(
+                    (n: any, i: any, arr: any) =>
+                      i === 0 || i === arr.length - 1,
+                  )
+                  .map((n: any) => n[0])
+                  .join('')
+                  .toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <Link
+              to="/dashboard/crm/contacts"
+              search={{
+                view: true,
+                id: contact.id,
+                filters: [
+                  {
+                    column: 'id',
+                    operation: '=',
+                    value: contact.id,
+                  },
+                ],
+              }}
+              className="hover:underline"
+            >
+              {contact.name}
+            </Link>
+          </div>
+        </RelationCell>
       );
     },
   },
   {
     accessorKey: 'status',
-    header: ({ column }: { column: Column<Case> }) => (
+    header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    cell: ({ row }: { row: any }) => {
-      const status = row.original.status?.toLowerCase() || '';
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
       return (
-        <Badge variant={statusVariantMap[status] ?? 'default'}>
-          {row.original.status}
-        </Badge>
+        <EnumCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { status: value as CrmCaseStatus },
+            })
+          }
+          value={row.original.status!}
+          options={Object.values(CrmCaseStatus).map((obj) => ({
+            label: obj,
+            value: obj,
+          }))}
+        >
+          <Badge className="w-full justify-start" variant={'secondary'}>
+            {row.original.status}
+          </Badge>
+        </EnumCell>
       );
     },
   },
@@ -123,12 +203,32 @@ export const columns: ColumnDef<Case>[] = [
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Priority" />
     ),
-    cell: ({ row }: { row: any }) => {
-      const priority = row.original.priority?.toLowerCase() || '';
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
       return (
-        <Badge variant={priorityVariantMap[priority] ?? 'default'}>
-          {row.original.priority}
-        </Badge>
+        <EnumCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { priority: value as CrmCasePriority },
+            })
+          }
+          value={row.original.priority!}
+          options={Object.values(CrmCasePriority).map((obj) => ({
+            label: obj,
+            value: obj,
+          }))}
+        >
+          <Badge className="w-full justify-start" variant={'secondary'}>
+            {row.original.priority}
+          </Badge>
+        </EnumCell>
       );
     },
   },
@@ -137,16 +237,41 @@ export const columns: ColumnDef<Case>[] = [
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Type" />
     ),
-    cell: ({ row }: { row: any }) => (
-      <Badge variant="outline">{row.original.type}</Badge>
-    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/cases/',
+      });
+
+      const updateMutation = useMutation(updateCase, queryClient);
+
+      return (
+        <EnumCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { type: value as CrmCaseType },
+            })
+          }
+          value={row.original.type!}
+          options={Object.values(CrmCaseType).map((obj) => ({
+            label: obj,
+            value: obj,
+          }))}
+        >
+          <Badge className="w-full justify-start" variant={'secondary'}>
+            {row.original.type}
+          </Badge>
+        </EnumCell>
+      );
+    },
   },
   {
     accessorKey: 'owner.name',
     header: ({ column }: { column: Column<Case> }) => (
       <DataTableColumnHeader column={column} title="Owner" />
     ),
-    cell: ({ row }: { row: any }) => {
+    cell: ({ row }) => {
       const owner = row.original.owner;
       if (!owner) {
         return <div className="text-muted-foreground">N/A</div>;
@@ -181,24 +306,16 @@ export const columns: ColumnDef<Case>[] = [
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }: { column: Column<Case> }) => (
+    header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created At" />
     ),
-    cell: ({ row }: { row: any }) => (
-      <div className="whitespace-nowrap">
-        {new Date(row.original.createdAt).toLocaleString()}
-      </div>
-    ),
+    cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: ({ column }: { column: Column<Case> }) => (
+    header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Updated At" />
     ),
-    cell: ({ row }: { row: any }) => (
-      <div className="whitespace-nowrap">
-        {new Date(row.original.updatedAt).toLocaleString()}
-      </div>
-    ),
+    cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
 ];

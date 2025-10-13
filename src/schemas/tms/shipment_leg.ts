@@ -12,8 +12,8 @@ export const tmsShipmentLegSchema = z.object({
     .uuid({ message: 'Invalid UUID format for internal trip ID' })
     .optional()
     .nullable(),
-  origin: z.string(),
-  destination: z.string(),
+  origin: z.string().nullable().optional(),
+  destination: z.string().nullable().optional(),
   status: z
     .enum(TmsShipmentLegStatusEnum, { message: 'Invalid shipment leg status' })
     .optional()

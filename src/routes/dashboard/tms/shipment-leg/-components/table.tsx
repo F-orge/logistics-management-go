@@ -63,7 +63,7 @@ export const columns: ColumnDef<
               ],
             }}
           >
-    cell: ({ row }) => <StringCell value={row.original.internalTrip.id} />,
+            <StringCell value={row.original.internalTrip.id} />
           </Link>
         </Button>
       ) : (
