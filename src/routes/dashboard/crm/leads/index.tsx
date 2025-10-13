@@ -36,7 +36,9 @@ export const Route = createFileRoute('/dashboard/crm/leads/')({
   validateSearch: zodValidator(
     paginateTransformer().extend({
       filters: filterTransformer(crmLeadSchema),
-      sort: sortTransformer(crmLeadSchema),
+      sort: sortTransformer(crmLeadSchema).default([
+        { column: 'createdAt', order: 'desc' },
+      ]),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
       view: z.boolean().optional(),

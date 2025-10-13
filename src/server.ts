@@ -19,7 +19,7 @@ import {
 import nodemailer from 'nodemailer';
 import * as path from 'path';
 import { Pool } from 'pg';
-import { DB } from '@/db/types';
+import type { DB } from '@/db/types';
 import { authFactory } from '@/lib/auth';
 import * as orpcRouter from '@/orpc';
 import { BunStorageRepository } from './repositories/storage';
