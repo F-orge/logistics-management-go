@@ -23,7 +23,8 @@ import { ORPCInputs } from '@/orpc/client';
 import { createCompany } from '@/queries/crm/companies';
 import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
 import { AutoForm } from '@/components/ui/autoform';
-import { ZodProvider } from '@autoform/zod';
+import { ZodProvider, fieldConfig } from '@autoform/zod';
+import z from 'zod';
 
 const NewCompanyFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/companies' });
@@ -33,19 +34,6 @@ const NewCompanyFormDialog = () => {
   });
 
   const createMutation = useMutation(createCompany, queryClient);
-
-  const form = useAppForm({
-    defaultValues: {} as ORPCInputs['crm']['createCompany'],
-    validators: {
-      onChange: crmCompanyInsertSchema,
-    },
-    onSubmit: async ({ value }) =>
-      createMutation.mutateAsync(value, {
-        onSuccess: () => {
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-        },
-      }),
-  });
 
   return (
     <Dialog
@@ -62,15 +50,17 @@ const NewCompanyFormDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+        <AutoForm
+          schema={new ZodProvider(crmCompanyInsertSchema)}
+          onSubmit={async (value: z.infer<typeof crmCompanyInsertSchema>) => {
+            await createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+              },
+            });
           }}
-        >
-          <AutoForm schema={new ZodProvider(crmCompanyInsertSchema)} />
-        </form>
+          withSubmit
+        />
       </DialogContent>
     </Dialog>
   );

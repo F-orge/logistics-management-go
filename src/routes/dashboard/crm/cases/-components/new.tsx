@@ -4,7 +4,7 @@ import {
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
-import { useAppForm } from '@/components/form';
+import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
   DialogContent,
@@ -12,17 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  FieldDescription,
-  FieldGroup,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from '@/components/ui/field';
-import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
-import { ORPCInputs } from '@/orpc/client';
+import { FieldSeparator } from '@/components/ui/field';
 import { createCase } from '@/queries/crm/cases';
 import { crmCaseInsertSchema } from '@/schemas/crm/cases';
+import { ZodProvider } from '@autoform/zod';
+import z from 'zod';
 
 const NewCaseFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/cases' });
@@ -30,19 +24,6 @@ const NewCaseFormDialog = () => {
   const { queryClient } = useRouteContext({ from: '/dashboard/crm/cases/' });
 
   const createMutation = useMutation(createCase, queryClient);
-
-  const form = useAppForm({
-    defaultValues: {} as ORPCInputs['crm']['createCase'],
-    validators: {
-      onChange: crmCaseInsertSchema,
-    },
-    onSubmit: async ({ value }) =>
-      createMutation.mutateAsync(value, {
-        onSuccess: () => {
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-        },
-      }),
-  });
 
   return (
     <Dialog
@@ -59,99 +40,17 @@ const NewCaseFormDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+        <AutoForm
+          schema={new ZodProvider(crmCaseInsertSchema)}
+          onSubmit={async (value: z.infer<typeof crmCaseInsertSchema>) => {
+            await createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+              },
+            });
           }}
-        >
-          <form.AppForm>
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend>Case Details</FieldLegend>
-                <FieldDescription>
-                  Provide the essential information for the case.
-                </FieldDescription>
-                <FieldGroup>
-                  <form.AppField name="caseNumber">
-                    {(field) => (
-                      <field.TextField
-                        label="Case Number"
-                        description="The unique identifier for the case."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="ownerId">
-                    {(field) => (
-                      <field.TextField
-                        label="Owner ID"
-                        description="The ID of the user who owns this case record."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="contactId">
-                    {(field) => (
-                      <field.TextField
-                        label="Contact ID"
-                        description="The ID of the contact associated with this case."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="description">
-                    {(field) => (
-                      <field.TextAreaField
-                        label="Description"
-                        description="A detailed description of the case."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="priority">
-                    {(field) => (
-                      <field.SelectField
-                        label="Priority"
-                        description="The priority level of the case."
-                        options={Object.values(CrmCasePriority).map(
-                          (priority) => ({
-                            label: priority,
-                            value: priority,
-                          }),
-                        )}
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="status">
-                    {(field) => (
-                      <field.SelectField
-                        label="Status"
-                        description="The current status of the case."
-                        options={Object.values(CrmCaseStatus).map((status) => ({
-                          label: status,
-                          value: status,
-                        }))}
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="type">
-                    {(field) => (
-                      <field.SelectField
-                        label="Type"
-                        description="The type of case."
-                        options={Object.values(CrmCaseType).map((type) => ({
-                          label: type,
-                          value: type,
-                        }))}
-                      />
-                    )}
-                  </form.AppField>
-                </FieldGroup>
-              </FieldSet>
-              <form.SubmitButton>Create Case</form.SubmitButton>
-            </FieldGroup>
-          </form.AppForm>
-        </form>
+          withSubmit
+        />
       </DialogContent>
     </Dialog>
   );

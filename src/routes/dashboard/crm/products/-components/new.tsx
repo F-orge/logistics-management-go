@@ -4,7 +4,7 @@ import {
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
-import { useAppForm } from '@/components/form';
+import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
   DialogContent,
@@ -12,17 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  FieldDescription,
-  FieldGroup,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from '@/components/ui/field';
-import { CrmProductType } from '@/db/types';
-import { ORPCInputs } from '@/orpc/client';
+import { FieldSeparator } from '@/components/ui/field';
 import { createProduct } from '@/queries/crm/products';
 import { crmProductInsertSchema } from '@/schemas/crm/products';
+import { ZodProvider } from '@autoform/zod';
+import z from 'zod';
 
 const NewProductFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/products' });
@@ -30,19 +24,6 @@ const NewProductFormDialog = () => {
   const { queryClient } = useRouteContext({ from: '/dashboard/crm/products/' });
 
   const createMutation = useMutation(createProduct, queryClient);
-
-  const form = useAppForm({
-    defaultValues: {} as ORPCInputs['crm']['createProduct'],
-    validators: {
-      onChange: crmProductInsertSchema,
-    },
-    onSubmit: async ({ value }) =>
-      createMutation.mutateAsync(value, {
-        onSuccess: () => {
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-        },
-      }),
-  });
 
   return (
     <Dialog
@@ -59,73 +40,17 @@ const NewProductFormDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+        <AutoForm
+          schema={new ZodProvider(crmProductInsertSchema)}
+          onSubmit={async (value: z.infer<typeof crmProductInsertSchema>) => {
+            await createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+              },
+            });
           }}
-        >
-          <form.AppForm>
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend>Product Details</FieldLegend>
-                <FieldDescription>
-                  Provide the essential information for the product.
-                </FieldDescription>
-                <FieldGroup>
-                  <form.AppField name="name">
-                    {(field) => (
-                      <field.TextField
-                        label="Product Name"
-                        description="The name of the product."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="description">
-                    {(field) => (
-                      <field.TextAreaField
-                        label="Description"
-                        description="A brief description of the product."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="price">
-                    {(field) => (
-                      <field.NumberField
-                        label="Price"
-                        description="The price of the product."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="sku">
-                    {(field) => (
-                      <field.TextField
-                        label="SKU"
-                        description="The Stock Keeping Unit for the product."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="type">
-                    {(field) => (
-                      <field.SelectField
-                        label="Type"
-                        description="The type or category of the product."
-                        options={Object.values(CrmProductType).map((type) => ({
-                          label: type,
-                          value: type,
-                        }))}
-                      />
-                    )}
-                  </form.AppField>
-                </FieldGroup>
-              </FieldSet>
-              <form.SubmitButton>Create Product</form.SubmitButton>
-            </FieldGroup>
-          </form.AppForm>
-        </form>
+          withSubmit
+        />
       </DialogContent>
     </Dialog>
   );

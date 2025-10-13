@@ -4,7 +4,7 @@ import {
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
-import { useAppForm } from '@/components/form';
+import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
   DialogContent,
@@ -12,16 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  FieldDescription,
-  FieldGroup,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from '@/components/ui/field';
-import { ORPCInputs } from '@/orpc/client';
+import { FieldSeparator } from '@/components/ui/field';
 import { createNotification } from '@/queries/crm/notifications';
 import { crmNotificationInsertSchema } from '@/schemas/crm/notifications';
+import { ZodProvider } from '@autoform/zod';
+import z from 'zod';
 
 const NewNotificationFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/notifications' });
@@ -31,19 +26,6 @@ const NewNotificationFormDialog = () => {
   });
 
   const createMutation = useMutation(createNotification, queryClient);
-
-  const form = useAppForm({
-    defaultValues: {} as ORPCInputs['crm']['createNotification'],
-    validators: {
-      onChange: crmNotificationInsertSchema,
-    },
-    onSubmit: async ({ value }) =>
-      createMutation.mutateAsync(value, {
-        onSuccess: () => {
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-        },
-      }),
-  });
 
   return (
     <Dialog
@@ -60,61 +42,19 @@ const NewNotificationFormDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+        <AutoForm
+          schema={new ZodProvider(crmNotificationInsertSchema)}
+          onSubmit={async (
+            value: z.infer<typeof crmNotificationInsertSchema>,
+          ) => {
+            await createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+              },
+            });
           }}
-        >
-          <form.AppForm>
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend>Notification Details</FieldLegend>
-                <FieldDescription>
-                  Provide the essential information for the notification.
-                </FieldDescription>
-                <FieldGroup>
-                  <form.AppField name="userId">
-                    {(field) => (
-                      <field.TextField
-                        label="User ID"
-                        description="The ID of the user to whom the notification is sent."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="message">
-                    {(field) => (
-                      <field.TextAreaField
-                        label="Message"
-                        description="The content of the notification."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="link">
-                    {(field) => (
-                      <field.TextField
-                        label="Link"
-                        description="The URL associated with the notification."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="isRead">
-                    {(field) => (
-                      <field.CheckBoxField
-                        label="Is Read"
-                        description="Indicates whether the notification has been read."
-                      />
-                    )}
-                  </form.AppField>
-                </FieldGroup>
-              </FieldSet>
-              <form.SubmitButton>Create Notification</form.SubmitButton>
-            </FieldGroup>
-          </form.AppForm>
-        </form>
+          withSubmit
+        />
       </DialogContent>
     </Dialog>
   );

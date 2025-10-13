@@ -4,7 +4,7 @@ import {
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
-import { useAppForm } from '@/components/form';
+import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
   DialogContent,
@@ -12,16 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  FieldDescription,
-  FieldGroup,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from '@/components/ui/field';
-import { ORPCInputs } from '@/orpc/client';
+import { FieldSeparator } from '@/components/ui/field';
 import { createContact } from '@/queries/crm/contacts';
 import { crmContactInsertSchema } from '@/schemas/crm/contacts';
+import { ZodProvider } from '@autoform/zod';
+import z from 'zod';
 
 const NewContactFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/contacts' });
@@ -29,19 +24,6 @@ const NewContactFormDialog = () => {
   const { queryClient } = useRouteContext({ from: '/dashboard/crm/contacts/' });
 
   const createMutation = useMutation(createContact, queryClient);
-
-  const form = useAppForm({
-    defaultValues: {} as ORPCInputs['crm']['createContact'],
-    validators: {
-      onChange: crmContactInsertSchema,
-    },
-    onSubmit: async ({ value }) =>
-      createMutation.mutateAsync(value, {
-        onSuccess: () => {
-          navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-        },
-      }),
-  });
 
   return (
     <Dialog
@@ -58,78 +40,17 @@ const NewContactFormDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
+        <AutoForm
+          schema={new ZodProvider(crmContactInsertSchema)}
+          onSubmit={async (value: z.infer<typeof crmContactInsertSchema>) => {
+            await createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+              },
+            });
           }}
-        >
-          <form.AppForm>
-            <FieldGroup>
-              <FieldSet>
-                <FieldLegend>Contact Information</FieldLegend>
-                <FieldDescription>
-                  Provide the essential information for the contact.
-                </FieldDescription>
-                <FieldGroup>
-                  <form.AppField name="name">
-                    {(field) => (
-                      <field.TextField
-                        label="Name"
-                        description="The full name of the contact."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="email">
-                    {(field) => (
-                      <field.TextField
-                        label="Email"
-                        description="The email address of the contact."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="phoneNumber">
-                    {(field) => (
-                      <field.TextField
-                        label="Phone Number"
-                        description="The primary phone number of the contact."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="jobTitle">
-                    {(field) => (
-                      <field.TextField
-                        label="Job Title"
-                        description="The job title of the contact."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="companyId">
-                    {(field) => (
-                      <field.TextField
-                        label="Company ID"
-                        description="The ID of the company this contact is associated with."
-                      />
-                    )}
-                  </form.AppField>
-                  <form.AppField name="ownerId">
-                    {(field) => (
-                      <field.TextField
-                        label="Owner ID"
-                        description="The ID of the user who owns this contact record."
-                        required
-                      />
-                    )}
-                  </form.AppField>
-                </FieldGroup>
-              </FieldSet>
-              <form.SubmitButton>Create Contact</form.SubmitButton>
-            </FieldGroup>
-          </form.AppForm>
-        </form>
+          withSubmit
+        />
       </DialogContent>
     </Dialog>
   );
