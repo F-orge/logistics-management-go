@@ -14,7 +14,13 @@ import {
 } from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { paginateCampaign, updateLead } from '@/queries/crm';
+import {
+  paginateOpportunity,
+  paginateCampaign,
+  paginateCompany,
+  paginateContact,
+  updateLead,
+} from '@/queries/crm';
 import RelationCell from '@/components/table/cells/relation';
 import { type CrmLeadSource, CrmLeadStatus } from '@/db/types';
 import EnumCell from '@/components/table/cells/enum';
@@ -120,7 +126,7 @@ export const columns: ColumnDef<
           }
         >
           <Button size={'sm'} variant={'outline'}>
-            {row.original.campaign?.name || 'Not Avaiable'}
+            {row.original.campaign?.name || 'Not Available'}
           </Button>
         </RelationCell>
       );
@@ -224,7 +230,39 @@ export const columns: ColumnDef<
 
       const updateMutation = useMutation(updateLead, queryClient);
 
-      return <Badge variant="outline">{row.original.status}</Badge>;
+      const { data: companies } = useQuery(
+        {
+          ...paginateCompany({
+            page: 1,
+            perPage: 100,
+          }),
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.convertedCompanyId}
+          options={
+            companies?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { convertedCompanyId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.convertedCompany?.name || 'Not Available'}
+          </Button>
+        </RelationCell>
+      );
     },
   },
   {
@@ -239,7 +277,39 @@ export const columns: ColumnDef<
 
       const updateMutation = useMutation(updateLead, queryClient);
 
-      return <Badge variant="outline">{row.original.status}</Badge>;
+      const { data: contacts } = useQuery(
+        {
+          ...paginateContact({
+            page: 1,
+            perPage: 100,
+          }),
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.convertedContactId}
+          options={
+            contacts?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { convertedContactId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.convertedContact?.name || 'Not Available'}
+          </Button>
+        </RelationCell>
+      );
     },
   },
   {
@@ -254,7 +324,39 @@ export const columns: ColumnDef<
 
       const updateMutation = useMutation(updateLead, queryClient);
 
-      return <Badge variant="outline">{row.original.status}</Badge>;
+      const { data: opportunities } = useQuery(
+        {
+          ...paginateOpportunity({
+            page: 1,
+            perPage: 100,
+          }),
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.convertedOpportunityId}
+          options={
+            opportunities?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { convertedOpportunityId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.convertedOpportunity?.name || 'Not Available'}
+          </Button>
+        </RelationCell>
+      );
     },
   },
   {

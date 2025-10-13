@@ -1,8 +1,8 @@
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import NumberCell from '@/components/table/cells/number';
 import TextCell from '@/components/table/cells/string';
 import { DataTableColumnHeader } from '@/components/table';
-import { ORPCOutputs } from '@/orpc/client';
+import type { ORPCOutputs } from '@/orpc/client';
 import DateCell from '@/components/table/cells/date';
 import { useRouteContext } from '@tanstack/react-router';
 import { useMutation } from '@tanstack/react-query';
@@ -283,9 +283,11 @@ export const columns: ColumnDef<Company>[] = [
     ),
     cell: ({ row }) => {
       const owner = row.original.owner;
+
       if (!owner) {
         return <div className="text-muted-foreground">N/A</div>;
       }
+
       return (
         <Tooltip>
           <TooltipTrigger asChild>

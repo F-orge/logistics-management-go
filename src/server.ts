@@ -167,6 +167,9 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
           console.error(zodError.issues);
         }
       }),
+      onError((error) => {
+        console.error(error);
+      }),
     ],
   });
 

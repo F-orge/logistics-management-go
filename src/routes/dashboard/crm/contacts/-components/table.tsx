@@ -1,9 +1,9 @@
 import { Link, useRouteContext } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { DataTableColumnHeader } from '@/components/table';
 import StringCell from '@/components/table/cells/string';
-import { ORPCOutputs } from '@/orpc/client';
+import type { ORPCOutputs } from '@/orpc/client';
 import DateCell from '@/components/table/cells/date';
 import {
   Tooltip,

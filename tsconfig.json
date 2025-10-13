@@ -15,6 +15,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "apps", "scripts", ".config", "seeds", "tests"],
-  "exclude": ["node_modules","apps/**/graphql/resolver-types.ts"]
+  "include": ["src", "seeds","migrations"],
+  "exclude": ["node_modules","apps/**/graphql/resolver-types.ts","dist"]
 }
