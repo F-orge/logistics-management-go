@@ -72,8 +72,8 @@ export const generateBillingQuote = (
   expiresAt: faker.date.future(),
   notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   weight: faker.number.float({ min: 1, max: 1000 }),
-  length: faker.number.float({ min: 10, max: 10 }),
-  width: faker.number.float({ min: 10, max: 10 }),
+  length: faker.number.float({ min: 10, max: 200 }),
+  width: faker.number.float({ min: 10, max: 200 }),
   height: faker.number.float({ min: 10, max: 200 }),
 });
 
@@ -136,6 +136,7 @@ export const generateBillingPayment = (
   ),
   status: faker.helpers.arrayElement(Object.values(BillingPaymentStatusEnum)),
   paymentDate: faker.date.recent(),
+  processedAt: faker.datatype.boolean() ? faker.date.recent() : null,
   currency: faker.finance.currencyCode(),
   transactionId: faker.string.uuid(),
   gatewayReference: faker.string.alphanumeric(20).toUpperCase(),

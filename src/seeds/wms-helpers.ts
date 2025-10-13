@@ -433,5 +433,6 @@ export const generateWmsTaskItem = (
       [faker.string.alphanumeric(12), faker.string.alphanumeric(12)],
       { min: 0, max: 3 },
     ),
+    completedAt: faker.date.recent(),
   };
 };

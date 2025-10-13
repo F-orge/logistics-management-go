@@ -22,7 +22,9 @@ export const generateTmsCarrier = (
   faker: Faker,
 ): Insertable<DB['tms.carriers']> => ({
   name: faker.company.name(),
-  contactDetails: faker.phone.number({ style: 'international' }),
+  contactPerson: faker.person.fullName(),
+  contactEmail: faker.internet.email(),
+  contactPhone: faker.phone.number(),
   servicesOffered: faker.lorem.words(5),
 });
 
@@ -43,6 +45,7 @@ export const generateTmsDriver = (
   userId: string,
 ): Insertable<DB['tms.drivers']> => ({
   userId: userId,
+  contactPhone: faker.phone.number(),
   licenseNumber: faker.string.alphanumeric(10).toUpperCase(),
   licenseExpiryDate: faker.date.future(),
   status: faker.helpers.arrayElement(Object.values(TmsDriverStatusEnum)),
@@ -67,7 +70,9 @@ export const generateTmsExpense = (
 ): Insertable<DB['tms.expenses']> => ({
   amount: faker.number.float({ min: 10, max: 500 }),
   currency: faker.helpers.arrayElement(Object.values(TmsCurrencyEnum)),
+  description: faker.lorem.sentence(),
   driverId: driverId,
+  expenseDate: faker.date.recent(),
   fuelQuantity: faker.number.float({ min: 10, max: 100 }),
   odometerReading: faker.number.int({ min: 1000, max: 100000 }),
   receiptUrl: faker.internet.url(),
@@ -80,7 +85,8 @@ export const generateTmsGeofence = (
   faker: Faker,
 ): Insertable<DB['tms.geofences']> => ({
   name: faker.lorem.word(),
-  coordinates: faker.location.latitude() + ',' + faker.location.longitude(),
+  latitude: faker.location.latitude(),
+  longitude: faker.location.longitude(),
 });
 
 export const generateTmsGeofenceEvent = (
@@ -183,6 +189,10 @@ export const generateTmsTrip = (
 ): Insertable<DB['tms.trips']> => ({
   driverId: driverId,
   vehicleId: vehicleId,
+  endLocation: faker.location.city(),
+  endTime: faker.date.future(),
+  startLocation: faker.location.city(),
+  startTime: faker.date.recent(),
   status: faker.helpers.arrayElement(Object.values(TmsTripStatusEnum)),
 });
 
@@ -196,6 +206,8 @@ export const generateTmsTripStop = (
   sequence: faker.number.int({ min: 1, max: 20 }),
   estimatedArrivalTime: faker.date.soon(),
   estimatedDepartureTime: faker.date.soon(),
+  actualArrivalTime: faker.date.recent(),
+  actualDepartureTime: faker.date.recent(),
   shipmentId: shipmentId,
   status: faker.helpers.arrayElement(Object.values(TmsTripStopStatusEnum)),
 });
@@ -204,9 +216,14 @@ export const generateTmsVehicle = (
   faker: Faker,
 ): Insertable<DB['tms.vehicles']> => ({
   registrationNumber: faker.vehicle.vrm(),
+  make: faker.vehicle.manufacturer(),
   model: faker.vehicle.model(),
+  year: faker.number.int({ min: 2010, max: new Date().getFullYear() }),
+  vin: faker.vehicle.vin(),
   capacityVolume: faker.number.float({ min: 10, max: 100 }),
   capacityWeight: faker.number.float({ min: 1000, max: 10000 }),
+  currentMileage: faker.number.int({ min: 1000, max: 200000 }),
+  lastMaintenanceDate: faker.date.past(),
   status: faker.helpers.arrayElement(Object.values(TmsVehicleStatusEnum)),
 });
 
