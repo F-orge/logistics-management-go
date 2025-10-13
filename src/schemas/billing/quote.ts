@@ -65,7 +65,6 @@ export const billingQuoteSchema = z
     volume: z.coerce
       .number()
       .min(0, { message: 'Volume must be at least 0' })
-      .max(100000, { message: 'Volume must be at most 100,000' })
       .optional()
       .nullable(),
     weight: z.coerce

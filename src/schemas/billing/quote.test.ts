@@ -649,17 +649,6 @@ describe('BillingQuoteSchema Validation', () => {
         expectedError: 'Volume must be at least 0',
       },
       {
-        name: 'volume too large',
-        input: {
-          id: '123e4567-e89b-12d3-a456-426614174000',
-          destinationDetails: 'Destination N',
-          originDetails: 'Origin N',
-          quotedPrice: 130.0,
-          volume: 100001,
-        },
-        expectedError: 'Volume must be at most 100,000',
-      },
-      {
         name: 'volume wrong type (not coercible)',
         input: {
           id: '123e4567-e89b-12d3-a456-426614174000',

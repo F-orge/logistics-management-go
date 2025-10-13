@@ -1,86 +1,203 @@
 import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
-import { CrmContact } from '@/schemas/crm/contacts';
+import { ColumnDef, type Column } from '@tanstack/react-table';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
+import { Badge, badgeVariants } from '@/components/ui/badge';
+import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
+import TextCell from '@/components/ui/kibo-ui/table/cells/text';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ORPCOutputs } from '@/orpc/client';
+import type { VariantProps } from 'class-variance-authority';
 
-export const columns: ColumnDef<
-  ORPCOutputs['crm']['paginateCase'][number] & {
-    contact: ORPCOutputs['crm']['inContact'][number] | undefined;
-  }
->[] = [
+type Case = ORPCOutputs['crm']['paginateCase'][number] & {
+  contact: ORPCOutputs['crm']['inContact'][number] | undefined;
+  owner: {
+    name: string;
+    image: string;
+    email: string;
+    id: string;
+  };
+};
+
+const priorityVariantMap: Record<
+  string,
+  VariantProps<typeof badgeVariants>['variant']
+> = {
+  low: 'secondary',
+  medium: 'outline',
+  high: 'destructive',
+};
+
+const statusVariantMap: Record<
+  string,
+  VariantProps<typeof badgeVariants>['variant']
+> = {
+  open: 'secondary',
+  'in-progress': 'outline',
+  closed: 'default',
+};
+
+export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'caseNumber',
-    header: 'Case Number',
-    cell: ({ row }) => {
-      return <StringCell value={row.original.caseNumber} />;
-    },
-  },
-  {
-    accessorKey: 'contact.name',
-    header: 'Contact',
-    cell: ({ row }) => (
-      <>
-        {row.original.contact ? (
-          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-            <Link
-              to="/dashboard/crm/contacts"
-              search={{
-                view: true,
-                id: row.original.contact.id,
-                filters: [
-                  {
-                    column: 'id',
-                    operation: '=',
-                    value: row.original.contact.id,
-                  },
-                ],
-              }}
-            >
-              <StringCell value={row.original.contact?.name} />
-            </Link>
-          </Button>
-        ) : (
-          <StringCell value={'Not Available'} />
-        )}
-      </>
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Case Number" />
+    ),
+    cell: ({ row }: { row: any }) => (
+      <TextCell value={row.original.caseNumber} />
     ),
   },
   {
     accessorKey: 'description',
-    header: 'Description',
-    cell: ({ row }) => <StringCell value={row.original.description} />,
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Description" />
+    ),
+    cell: ({ row }: { row: any }) => (
+      <TextCell value={row.original.description} truncateAfter={50} />
+    ),
   },
   {
-    accessorKey: 'ownerId',
-    header: 'Owner ID',
-    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
-  },
-  {
-    accessorKey: 'priority',
-    header: 'Priority',
-    cell: ({ row }) => <StringCell value={row.original.priority} />,
+    accessorKey: 'contact.name',
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Contact" />
+    ),
+    cell: ({ row }: { row: any }) => {
+      const contact = row.original.contact;
+      if (!contact) {
+        return <div className="text-muted-foreground">N/A</div>;
+      }
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar className="size-8">
+            <AvatarFallback>
+              {contact.name
+                .split(' ')
+                .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
+                .map((n: any) => n[0])
+                .join('')
+                .toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <Link
+            to="/dashboard/crm/contacts"
+            search={{
+              view: true,
+              id: contact.id,
+              filters: [
+                {
+                  column: 'id',
+                  operation: '=',
+                  value: contact.id,
+                },
+              ],
+            }}
+            className="hover:underline"
+          >
+            {contact.name}
+          </Link>
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => <StringCell value={row.original.status} />,
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }: { row: any }) => {
+      const status = row.original.status?.toLowerCase() || '';
+      return (
+        <Badge variant={statusVariantMap[status] ?? 'default'}>
+          {row.original.status}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: 'priority',
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Priority" />
+    ),
+    cell: ({ row }: { row: any }) => {
+      const priority = row.original.priority?.toLowerCase() || '';
+      return (
+        <Badge variant={priorityVariantMap[priority] ?? 'default'}>
+          {row.original.priority}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: 'type',
-    header: 'Type',
-    cell: ({ row }) => <StringCell value={row.original.type} />,
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Type" />
+    ),
+    cell: ({ row }: { row: any }) => (
+      <Badge variant="outline">{row.original.type}</Badge>
+    ),
+  },
+  {
+    accessorKey: 'owner.name',
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Owner" />
+    ),
+    cell: ({ row }: { row: any }) => {
+      const owner = row.original.owner;
+      if (!owner) {
+        return <div className="text-muted-foreground">N/A</div>;
+      }
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-2">
+              <Avatar className="size-8">
+                <AvatarImage src={owner.image} alt={owner.name} />
+                <AvatarFallback>
+                  {owner.name
+                    .split(' ')
+                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
+                    .map((n: any) => n[0])
+                    .join('')
+                    .toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="truncate">{owner.name}</span>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{owner.email}</p>
+          </TooltipContent>
+        </Tooltip>
+      );
+    },
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
-    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }: { row: any }) => (
+      <div className="whitespace-nowrap">
+        {new Date(row.original.createdAt).toLocaleString()}
+      </div>
+    ),
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At',
-    cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
+    header: ({ column }: { column: Column<Case> }) => (
+      <TableColumnHeader column={column} title="Updated At" />
+    ),
+    cell: ({ row }: { row: any }) => (
+      <div className="whitespace-nowrap">
+        {new Date(row.original.updatedAt).toLocaleString()}
+      </div>
+    ),
   },
 ];
