@@ -38,7 +38,6 @@ export async function seed(db: Kysely<DB>): Promise<void> {
   // Initialize repositories
   const campaignRepo = new CrmCampaignRepository(db);
   const productRepo = new CrmProductRepository(db);
-  const tagRepo = new CrmTagRepository(db);
   const companyRepo = new CrmCompanyRepository(db);
   const contactRepo = new CrmContactRepository(db);
   const leadRepo = new CrmLeadRepository(db);
@@ -50,7 +49,6 @@ export async function seed(db: Kysely<DB>): Promise<void> {
   const opportunityProductRepo = new CrmOpportunityProductRepository(db);
   const notificationRepo = new CrmNotificationRepository(db);
   const attachmentRepo = new CrmAttachmentRepository(db);
-  const taggingRepo = new CrmTaggingRepository(db);
 
   console.log('🌱 Starting CRM seed data generation...');
 
