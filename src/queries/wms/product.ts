@@ -39,7 +39,8 @@ export const inProduct = (
 ) =>
   queryOptions({
     queryKey: ['wms.product', 'in', options],
-    queryFn: () => orpcClient.wms.inProduct(options),
+    queryFn: () =>
+      options.length >= 1 ? orpcClient.wms.inProduct(options) : [],
     enabled: !!options,
   });
 

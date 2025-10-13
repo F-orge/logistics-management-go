@@ -48,4 +48,8 @@ export const updateShipmentLegEventContract = oc
 
 export const deleteShipmentLegEventContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

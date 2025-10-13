@@ -51,4 +51,8 @@ export const updateLeadContract = oc
 
 export const deleteLeadContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

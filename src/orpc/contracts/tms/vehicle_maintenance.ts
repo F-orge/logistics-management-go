@@ -48,4 +48,8 @@ export const updateVehicleMaintenanceContract = oc
 
 export const deleteVehicleMaintenanceContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

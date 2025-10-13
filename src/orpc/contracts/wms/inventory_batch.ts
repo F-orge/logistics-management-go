@@ -48,4 +48,8 @@ export const updateInventoryBatchContract = oc
 
 export const deleteInventoryBatchContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

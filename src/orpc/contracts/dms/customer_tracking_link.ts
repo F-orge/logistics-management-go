@@ -48,4 +48,8 @@ export const updateCustomerTrackingLinkContract = oc
 
 export const deleteCustomerTrackingLinkContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

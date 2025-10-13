@@ -46,4 +46,8 @@ export const deleteAttachmentContract = oc
       })
       .required(),
   )
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

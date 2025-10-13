@@ -12,7 +12,6 @@ import {
   crmCampaignUpdateSchema,
 } from '@/schemas/crm/campaigns';
 
-
 export const paginateCampaignContract = oc
   .input(
     paginateTransformer().and(
@@ -49,4 +48,8 @@ export const updateCampaignContract = oc
 
 export const deleteCampaignContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

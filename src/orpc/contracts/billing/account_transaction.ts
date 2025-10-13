@@ -50,4 +50,8 @@ export const updateAccountTransactionContract = oc
 
 export const deleteAccountTransactionContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

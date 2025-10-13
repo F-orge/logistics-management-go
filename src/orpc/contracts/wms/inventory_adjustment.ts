@@ -48,4 +48,8 @@ export const updateInventoryAdjustmentContract = oc
 
 export const deleteInventoryAdjustmentContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

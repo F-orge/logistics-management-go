@@ -48,4 +48,8 @@ export const updateDriverLocationContract = oc
 
 export const deleteDriverLocationContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );

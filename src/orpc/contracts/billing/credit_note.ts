@@ -48,4 +48,8 @@ export const updateCreditNoteContract = oc
 
 export const deleteCreditNoteContract = oc
   .input(z.uuid())
-  .output(z.instanceof(DeleteResult));
+  .output(
+    z
+      .instanceof(DeleteResult)
+      .transform((arg) => arg.numDeletedRows.toString()),
+  );
