@@ -43,8 +43,7 @@ export const rangeCase = (
 export const inCase = (options: Parameters<typeof orpcClient.crm.inCase>[0]) =>
   queryOptions({
     queryKey: ['crm.cases', options],
-    queryFn: async () =>
-      options.length >= 1 ? orpcClient.crm.inCase(options) : [],
+    queryFn: async () => orpcClient.crm.inCase(options),
     enabled: !!options,
   });
 

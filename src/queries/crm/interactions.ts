@@ -87,7 +87,7 @@ export const updateInteraction = mutationOptions<
   mutationFn: (options) => orpcClient.crm.updateInteraction(options),
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
-      description: `Interaction: ${data.caseId} has been updated successfully`,
+      description: `Interaction: ${data.id} has been updated successfully`,
     });
     await context.client.invalidateQueries({ queryKey: ['crm.interactions'] });
   },

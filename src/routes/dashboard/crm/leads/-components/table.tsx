@@ -1,12 +1,23 @@
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
+import { Link, useRouteContext } from '@tanstack/react-router';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DataTableColumnHeader } from '@/components/table';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
-import { ORPCOutputs } from '@/orpc/client';
+import type { ORPCOutputs } from '@/orpc/client';
 import DateCell from '@/components/table/cells/date';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { paginateCampaign, updateLead } from '@/queries/crm';
+import RelationCell from '@/components/table/cells/relation';
+import { type CrmLeadSource, CrmLeadStatus } from '@/db/types';
+import EnumCell from '@/components/table/cells/enum';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateLead'][number] & {
@@ -23,7 +34,24 @@ export const columns: ColumnDef<
       <DataTableColumnHeader column={column} title="Lead Name" />
     ),
     cell: ({ row }) => {
-      return <StringCell value={row.original.name} />;
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { name: value },
+            })
+          }
+          editable
+          value={row.original.name}
+        />
+      );
     },
   },
   {
@@ -31,149 +59,239 @@ export const columns: ColumnDef<
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
-    cell: ({ row }) => <StringCell value={row.original.email} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { email: value },
+            })
+          }
+          editable
+          value={row.original.email}
+        />
+      );
+    },
   },
   {
     accessorKey: 'campaign.name',
     header: 'Campaign',
-    cell: ({ row }) => (
-      <>
-        {row.original.campaign ? (
-          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-            <Link
-              to="/dashboard/crm/campaigns"
-              search={{
-                view: true,
-                id: row.original.campaign.id,
-                filters: [
-                  {
-                    column: 'id',
-                    operation: '=',
-                    value: row.original.campaign.id,
-                  },
-                ],
-              }}
-            >
-              {row.original.campaign?.name}
-            </Link>
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      const { data: campaigns } = useQuery(
+        {
+          ...paginateCampaign({
+            page: 1,
+            perPage: 100,
+          }),
+          enabled: !!row.original.campaign,
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.campaignId}
+          options={
+            campaigns?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { campaignId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.campaign?.name || 'Not Avaiable'}
           </Button>
-        ) : (
-          <StringCell value={'Not Available'} />
-        )}
-      </>
-    ),
+        </RelationCell>
+      );
+    },
   },
   {
     accessorKey: 'leadScore',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Lead Score" />
     ),
-    cell: ({ row }) => <NumberCell value={row.original.leadScore} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return (
+        <NumberCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { leadScore: value },
+            })
+          }
+          editable
+          value={row.original.leadScore}
+        />
+      );
+    },
   },
   {
     accessorKey: 'leadSource',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Lead Source" />
     ),
-    cell: ({ row }) => <StringCell value={row.original.leadSource} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { leadSource: value as CrmLeadSource },
+            })
+          }
+          editable
+          value={row.original.leadSource}
+        />
+      );
+    },
   },
   {
     accessorKey: 'status',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    cell: ({ row }) => <Badge variant="outline">{row.original.status}</Badge>,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return (
+        <EnumCell
+          editable
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { status: value as CrmLeadStatus },
+            })
+          }
+          value={row.original.status!}
+          options={Object.values(CrmLeadStatus).map((obj) => ({
+            label: obj,
+            value: obj,
+          }))}
+        >
+          <Badge className="w-full justify-start" variant={'secondary'}>
+            {row.original.status}
+          </Badge>
+        </EnumCell>
+      );
+    },
+  },
+  {
+    accessorKey: 'convertedCompany',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Converted Company" />
+    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return <Badge variant="outline">{row.original.status}</Badge>;
+    },
+  },
+  {
+    accessorKey: 'convertedContact',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Converted Contact" />
+    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return <Badge variant="outline">{row.original.status}</Badge>;
+    },
+  },
+  {
+    accessorKey: 'convertedOpportunity',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Converted Opportunity" />
+    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/leads/',
+      });
+
+      const updateMutation = useMutation(updateLead, queryClient);
+
+      return <Badge variant="outline">{row.original.status}</Badge>;
+    },
   },
   {
     accessorKey: 'ownerId',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Owner ID" />
-    ),
-    cell: ({ row }) => <StringCell value={row.original.owner?.name} />,
-  },
-  {
-    id: 'conversionInfo',
-    header: 'Conversion Info',
+    header: 'Owner',
     cell: ({ row }) => {
-      const convertedAt = row.original.convertedAt ? (
-        <StringCell
-          value={`Converted: ${new Date(
-            row.original.convertedAt,
-          ).toLocaleString()}`}
-        />
-      ) : null;
+      const owner = row.original.owner;
 
-      const companyLink = row.original.convertedCompany ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/crm/companies"
-            search={{
-              view: true,
-              id: row.original.convertedCompany.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.convertedCompany.id,
-                },
-              ],
-            }}
-          >
-            {`Company: ${row.original.convertedCompany?.name}`}
-          </Link>
-        </Button>
-      ) : null;
-
-      const contactLink = row.original.convertedContact ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/crm/contacts"
-            search={{
-              view: true,
-
-              id: row.original.convertedContact.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.convertedContact.id,
-                },
-              ],
-            }}
-          >
-            {`Contact: ${row.original.convertedContact?.name}`}
-          </Link>
-        </Button>
-      ) : null;
-
-      const opportunityLink = row.original.convertedOpportunity ? (
-        <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-          <Link
-            to="/dashboard/crm/opportunities"
-            search={{
-              view: true,
-              id: row.original.convertedOpportunity.id,
-              filters: [
-                {
-                  column: 'id',
-                  operation: '=',
-                  value: row.original.convertedOpportunity.id,
-                },
-              ],
-            }}
-          >
-            {`Opportunity: ${row.original.convertedOpportunity?.name}`}
-          </Link>
-        </Button>
-      ) : null;
+      if (!owner) {
+        return <div className="text-muted-foreground">N/A</div>;
+      }
 
       return (
-        <div className="flex flex-col gap-2">
-          {convertedAt}
-          {companyLink}
-          {contactLink}
-          {opportunityLink}
-        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-2">
+              <Avatar className="size-8">
+                <AvatarImage src={owner.image ?? ''} alt={owner.name} />
+                <AvatarFallback>
+                  {owner.name
+                    .split(' ')
+                    .filter(
+                      (n: any, i: any, arr: any) =>
+                        i === 0 || i === arr.length - 1,
+                    )
+                    .map((n: any) => n[0])
+                    .join('')
+                    .toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="truncate">{owner.name}</span>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{owner.email}</p>
+          </TooltipContent>
+        </Tooltip>
       );
     },
   },

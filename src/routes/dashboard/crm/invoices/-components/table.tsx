@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
-import { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
-import { CrmOpportunity } from '@/schemas/crm/opportunities';
-import { CrmProduct } from '@/schemas/crm/products';
+import { type ORPCOutputs, orpcClient } from '@/orpc/client';
+import type { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
+import type { CrmOpportunity } from '@/schemas/crm/opportunities';
+import type { CrmProduct } from '@/schemas/crm/products';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInvoice'][number] & {
@@ -65,24 +65,6 @@ export const columns: ColumnDef<
           <StringCell value={'Not Available'} />
         )}
       </>
-    ),
-  },
-  {
-    accessorKey: 'items',
-    header: 'Items',
-    cell: ({ row }) => (
-      <div className="flex flex-col gap-1">
-        {row.original.items?.length ? (
-          row.original.items.map((item) => (
-            <div key={item.id} className="flex justify-between">
-              <StringCell value={item.product?.name || 'Unknown Product'} />
-              <StringCell value={`x${item.quantity}`} />
-            </div>
-          ))
-        ) : (
-          <StringCell value={'No Items'} />
-        )}
-      </div>
     ),
   },
   {

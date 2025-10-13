@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { ColumnDef, type Column } from '@tanstack/react-table';
+import type { ColumnDef, Column } from '@tanstack/react-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/table';
@@ -9,7 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ORPCOutputs } from '@/orpc/client';
+import type { ORPCOutputs } from '@/orpc/client';
 import EnumCell from '@/components/table/cells/enum';
 import { useRouteContext } from '@tanstack/react-router';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -22,7 +22,7 @@ type Case = ORPCOutputs['crm']['paginateCase'][number] & {
   contact?: ORPCOutputs['crm']['inContact'][number];
   owner: {
     name: string;
-    image: string;
+    image?: string | null;
     email: string;
     id: string;
   };
@@ -281,7 +281,7 @@ export const columns: ColumnDef<Case>[] = [
           <TooltipTrigger asChild>
             <div className="flex items-center gap-2">
               <Avatar className="size-8">
-                <AvatarImage src={owner.image} alt={owner.name} />
+                <AvatarImage src={owner.image ?? ''} alt={owner.name} />
                 <AvatarFallback>
                   {owner.name
                     .split(' ')

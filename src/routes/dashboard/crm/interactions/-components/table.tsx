@@ -1,9 +1,24 @@
 import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
 import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
+import { type ORPCOutputs, orpcClient } from '@/orpc/client';
+import {
+  paginateCase,
+  paginateContact,
+  updateInteraction,
+} from '@/queries/crm';
+import { useRouteContext } from '@tanstack/react-router';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import RelationCell from '@/components/table/cells/relation';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CrmInteractionType } from '@/db/types';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInteraction'][number] & {
@@ -15,72 +30,154 @@ export const columns: ColumnDef<
   {
     accessorKey: 'contact.name',
     header: 'Contact',
-    cell: ({ row }) => (
-      <>
-        {row.original.contact ? (
-          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-            <Link
-              to="/dashboard/crm/contacts"
-              search={{
-                view: true,
-                id: row.original.contact.id,
-                filters: [
-                  {
-                    column: 'id',
-                    operation: '=',
-                    value: row.original.contact.id,
-                  },
-                ],
-              }}
-            >
-              <StringCell value={row.original.contact?.name} />
-            </Link>
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/interactions/',
+      });
+
+      const updateMutation = useMutation(updateInteraction, queryClient);
+
+      const { data: contacts } = useQuery(
+        {
+          ...paginateContact({
+            page: 1,
+            perPage: 100,
+          }),
+          enabled: !!row.original.contact,
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.contactId}
+          options={
+            contacts?.map((row) => ({
+              label: row.name,
+              value: row.id,
+              searchValue: row.name,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { contactId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.contact?.name || 'Not Avaiable'}
           </Button>
-        ) : (
-          <StringCell value={'Not Available'} />
-        )}
-      </>
-    ),
+        </RelationCell>
+      );
+    },
   },
   {
     accessorFn: (row) => row.case?.caseNumber,
     header: 'Case',
-    cell: ({ row }) => (
-      <>
-        {row.original.case ? (
-          <Button size={'sm'} variant={'outline'} className="w-full" asChild>
-            <Link
-              to="/dashboard/crm/cases"
-              search={{
-                view: true,
-                id: row.original.case.id,
-                filters: [
-                  {
-                    column: 'id',
-                    operation: '=',
-                    value: row.original.case.id,
-                  },
-                ],
-              }}
-            >
-              <StringCell value={row.original.case?.caseNumber} />
-            </Link>
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/interactions/',
+      });
+
+      const updateMutation = useMutation(updateInteraction, queryClient);
+
+      const { data: cases } = useQuery(
+        {
+          ...paginateCase({
+            page: 1,
+            perPage: 100,
+          }),
+          enabled: !!row.original.case,
+        },
+        queryClient,
+      );
+
+      return (
+        <RelationCell
+          editable
+          value={row.original.caseId}
+          options={
+            cases?.map((row) => ({
+              label: row.caseNumber,
+              value: row.id,
+              searchValue: row.caseNumber,
+            })) || []
+          }
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { caseId: value },
+            })
+          }
+        >
+          <Button size={'sm'} variant={'outline'}>
+            {row.original.case?.caseNumber || 'Not Available'}
           </Button>
-        ) : (
-          <StringCell value={'Not Available'} />
-        )}
-      </>
-    ),
+        </RelationCell>
+      );
+    },
   },
   {
     accessorKey: 'userId',
-    header: 'User Name',
-    cell: ({ row }) => <StringCell value={row.original.user?.name} />,
+    header: 'User',
+    cell: ({ row }) => {
+      const user = row.original.user;
+      if (!user) {
+        return <div className="text-muted-foreground">N/A</div>;
+      }
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-2">
+              <Avatar className="size-8">
+                <AvatarImage src={user.image ?? ''} alt={user.name} />
+                <AvatarFallback>
+                  {user.name
+                    .split(' ')
+                    .filter(
+                      (n: any, i: any, arr: any) =>
+                        i === 0 || i === arr.length - 1,
+                    )
+                    .map((n: any) => n[0])
+                    .join('')
+                    .toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="truncate">{user.name}</span>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{user.email}</p>
+          </TooltipContent>
+        </Tooltip>
+      );
+    },
   },
   {
     accessorKey: 'type',
     header: 'Type',
-    cell: ({ row }) => <StringCell value={row.original.type} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/interactions/',
+      });
+
+      const updateMutation = useMutation(updateInteraction, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { type: value as CrmInteractionType },
+            })
+          }
+          editable
+          value={row.original.type}
+        />
+      );
+    },
   },
   {
     accessorKey: 'interactionDate',
@@ -92,12 +189,50 @@ export const columns: ColumnDef<
   {
     accessorKey: 'notes',
     header: 'Notes',
-    cell: ({ row }) => <StringCell value={row.original.notes} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/interactions/',
+      });
+
+      const updateMutation = useMutation(updateInteraction, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { notes: value },
+            })
+          }
+          editable
+          value={row.original.notes}
+        />
+      );
+    },
   },
   {
     accessorKey: 'outcome',
     header: 'Outcome',
-    cell: ({ row }) => <StringCell value={row.original.outcome} />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/interactions/',
+      });
+
+      const updateMutation = useMutation(updateInteraction, queryClient);
+
+      return (
+        <StringCell
+          onSave={async (value) =>
+            updateMutation.mutateAsync({
+              id: row.original.id,
+              value: { outcome: value },
+            })
+          }
+          editable
+          value={row.original.outcome}
+        />
+      );
+    },
   },
   {
     accessorKey: 'createdAt',

@@ -6,6 +6,8 @@
     "target": "ES2022",
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "incremental": true,
+    "verbatimModuleSyntax": true,
 
     /* path aliases */
     "baseUrl": ".",
@@ -14,5 +16,5 @@
     }
   },
   "include": ["src", "apps", "scripts", ".config", "seeds", "tests"],
-  "exclude": ["apps/**/graphql/resolver-types.ts"]
+  "exclude": ["node_modules","apps/**/graphql/resolver-types.ts"]
 }
