@@ -1,46 +1,56 @@
 import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
-import PhoneCell from '@/components/table/cells/phone';
-import StringCell from '@/components/table/cells/string';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
+import TextCell from '@/components/table/cells/string';
+import { DataTableColumnHeader } from '@/components/table';
+import { ORPCOutputs } from '@/orpc/client';
+import DateCell from '@/components/table/cells/date';
 
-export const columns: ColumnDef<
-  ORPCOutputs['crm']['paginateCompany'][number]
->[] = [
+type Company = ORPCOutputs['crm']['paginateCompany'][number];
+
+export const columns: ColumnDef<Company>[] = [
   {
     accessorKey: 'name',
-    header: 'Company Name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Company Name" />
+    ),
     cell: ({ row }) => {
-      return <StringCell value={row.original.name} />;
+      return <TextCell value={row.original.name} />;
     },
   },
   {
     accessorKey: 'ownerId',
-    header: 'Owner ID',
-    cell: ({ row }) => <StringCell value={row.original.ownerId} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Owner ID" />
+    ),
+    cell: ({ row }) => <TextCell value={row.original.ownerId} />,
   },
   {
     accessorKey: 'industry',
-    header: 'Industry',
-    cell: ({ row }) => <StringCell value={row.original.industry} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Industry" />
+    ),
+    cell: ({ row }) => <TextCell value={row.original.industry} />,
   },
   {
     accessorKey: 'annualRevenue',
-    header: 'Annual Revenue',
-    cell: ({ row }) => (
-      <NumberCell value={row.original.annualRevenue} currency="PHP" />
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Annual Revenue" />
     ),
+    cell: ({ row }) => <NumberCell value={row.original.annualRevenue} />,
   },
   {
     accessorKey: 'phoneNumber',
-    header: 'Phone Number',
-    cell: ({ row }) => <PhoneCell value={row.original.phoneNumber} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone Number" />
+    ),
+    cell: ({ row }) => <TextCell value={row.original.phoneNumber} />,
   },
   {
     accessorKey: 'website',
-    header: 'Website',
-    cell: ({ row }) => <StringCell value={row.original.website} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Website" />
+    ),
+    cell: ({ row }) => <TextCell value={row.original.website} />,
   },
   {
     id: 'address',
@@ -53,17 +63,21 @@ export const columns: ColumnDef<
         row.original.postalCode,
         row.original.country,
       ].filter(Boolean);
-      return <StringCell value={addressParts.join(', ')} />;
+      return <TextCell value={addressParts.join(', ')} />;
     },
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
-    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At',
-    cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Updated At" />
+    ),
+    cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
 ];

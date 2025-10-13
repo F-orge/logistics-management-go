@@ -1,13 +1,9 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef, type Column } from '@tanstack/react-table';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, badgeVariants } from '@/components/ui/badge';
-import { TableColumnHeader } from '@/components/ui/kibo-ui/table';
-import TextCell from '@/components/ui/kibo-ui/table/cells/text';
+import { DataTableColumnHeader } from '@/components/table';
+import StringCell from '@/components/table/cells/string';
 import {
   Tooltip,
   TooltipContent,
@@ -48,25 +44,25 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'caseNumber',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Case Number" />
+      <DataTableColumnHeader column={column} title="Case Number" />
     ),
     cell: ({ row }: { row: any }) => (
-      <TextCell value={row.original.caseNumber} />
+      <StringCell value={row.original.caseNumber} />
     ),
   },
   {
     accessorKey: 'description',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }: { row: any }) => (
-      <TextCell value={row.original.description} truncateAfter={50} />
+      <StringCell value={row.original.description} />
     ),
   },
   {
     accessorKey: 'contact.name',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Contact" />
+      <DataTableColumnHeader column={column} title="Contact" />
     ),
     cell: ({ row }: { row: any }) => {
       const contact = row.original.contact;
@@ -79,7 +75,9 @@ export const columns: ColumnDef<Case>[] = [
             <AvatarFallback>
               {contact.name
                 .split(' ')
-                .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
+                .filter(
+                  (n: any, i: any, arr: any) => i === 0 || i === arr.length - 1,
+                )
                 .map((n: any) => n[0])
                 .join('')
                 .toUpperCase()}
@@ -109,7 +107,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'status',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }: { row: any }) => {
       const status = row.original.status?.toLowerCase() || '';
@@ -123,7 +121,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'priority',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Priority" />
+      <DataTableColumnHeader column={column} title="Priority" />
     ),
     cell: ({ row }: { row: any }) => {
       const priority = row.original.priority?.toLowerCase() || '';
@@ -137,7 +135,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'type',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Type" />
+      <DataTableColumnHeader column={column} title="Type" />
     ),
     cell: ({ row }: { row: any }) => (
       <Badge variant="outline">{row.original.type}</Badge>
@@ -146,7 +144,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'owner.name',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Owner" />
+      <DataTableColumnHeader column={column} title="Owner" />
     ),
     cell: ({ row }: { row: any }) => {
       const owner = row.original.owner;
@@ -162,7 +160,10 @@ export const columns: ColumnDef<Case>[] = [
                 <AvatarFallback>
                   {owner.name
                     .split(' ')
-                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
+                    .filter(
+                      (n: any, i: any, arr: any) =>
+                        i === 0 || i === arr.length - 1,
+                    )
                     .map((n: any) => n[0])
                     .join('')
                     .toUpperCase()}
@@ -181,7 +182,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'createdAt',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Created At" />
+      <DataTableColumnHeader column={column} title="Created At" />
     ),
     cell: ({ row }: { row: any }) => (
       <div className="whitespace-nowrap">
@@ -192,7 +193,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: 'updatedAt',
     header: ({ column }: { column: Column<Case> }) => (
-      <TableColumnHeader column={column} title="Updated At" />
+      <DataTableColumnHeader column={column} title="Updated At" />
     ),
     cell: ({ row }: { row: any }) => (
       <div className="whitespace-nowrap">

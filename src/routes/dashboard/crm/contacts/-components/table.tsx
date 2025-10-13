@@ -1,32 +1,38 @@
 import { Link } from '@tanstack/react-router';
 import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import PhoneCell from '@/components/table/cells/phone';
-import StringCell from '@/components/table/cells/string';
 import { Button } from '@/components/ui/button';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
+import { DataTableColumnHeader } from '@/components/table';
+import StringCell from '@/components/table/cells/string';
+import { ORPCOutputs } from '@/orpc/client';
+import DateCell from '@/components/table/cells/date';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateContact'][number] & {
-    company: ORPCOutputs['crm']['inCompany'][number] | undefined;
+    company?: ORPCOutputs['crm']['inCompany'][number];
   }
 >[] = [
   {
     accessorKey: 'name',
-    header: 'Contact Name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Contact Name" />
+    ),
     cell: ({ row }) => {
       return <StringCell value={row.original.name} />;
     },
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Email" />
+    ),
     cell: ({ row }) => <StringCell value={row.original.email} />,
   },
   {
     accessorKey: 'phoneNumber',
-    header: 'Phone Number',
-    cell: ({ row }) => <PhoneCell value={row.original.phoneNumber} />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone Number" />
+    ),
+    cell: ({ row }) => <StringCell value={row.original.phoneNumber} />,
   },
   {
     accessorKey: 'company',
@@ -49,7 +55,7 @@ export const columns: ColumnDef<
                 ],
               }}
             >
-              <StringCell value={row.original.company?.name} />
+              {row.original.company?.name}
             </Link>
           </Button>
         ) : (
@@ -60,22 +66,30 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: 'jobTitle',
-    header: 'Job Title',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Job Title" />
+    ),
     cell: ({ row }) => <StringCell value={row.original.jobTitle} />,
   },
   {
     accessorKey: 'ownerId',
-    header: 'Owner ID',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Owner ID" />
+    ),
     cell: ({ row }) => <StringCell value={row.original.ownerId} />,
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
-    cell: ({ row }) => <DateCell value={row.original.createdAt} showTime />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At',
-    cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Updated At" />
+    ),
+    cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
 ];

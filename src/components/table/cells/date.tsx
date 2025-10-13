@@ -110,13 +110,13 @@ const DateCell = (props: DateCellProps) => {
     return (
       <Field className={cn(edit && 'min-w-xs')}>
         {edit ? (
-          <div className="flex gap-2.5">
+          <div className="flex gap-2.5 justify-between">
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    'w-full justify-start text-left font-normal',
+                    'w-3/4 justify-start text-left font-normal',
                     !value && 'text-muted-foreground',
                   )}
                 >

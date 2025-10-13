@@ -1,8 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { useMutation } from '@tanstack/react-query';
 import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import StringCell from '@/components/table/cells/string';
 import { orpcClient } from '@/orpc/client';
+import { updateCampaign } from '@/queries/crm/campaigns';
+import { useRouteContext } from '@tanstack/react-router';
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateCampaign>>[number]
@@ -11,25 +14,96 @@ export const columns: ColumnDef<
     accessorKey: 'name',
     header: 'Campaign Name',
     cell: ({ row }) => {
-      return <StringCell value={row.original.name} />;
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/campaigns/',
+      });
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+
+      return (
+        <StringCell
+          value={row.original.name}
+          editable
+          onSave={async (value) => {
+            updateCampaignMutation.mutateAsync({
+              id: row.original.id,
+              value: { name: value },
+            });
+          }}
+        />
+      );
     },
   },
   {
     accessorKey: 'startDate',
     header: 'Start Date',
-    cell: ({ row }) => <DateCell value={row.original.startDate} showTime />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/campaigns/',
+      });
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+
+      return (
+        <DateCell
+          value={row.original.startDate}
+          showTime
+          editable
+          onSave={async (value) => {
+            updateCampaignMutation.mutateAsync({
+              id: row.original.id,
+              value: { startDate: value },
+            });
+          }}
+        />
+      );
+    },
   },
   {
     accessorKey: 'endDate',
     header: 'End Date',
-    cell: ({ row }) => <DateCell value={row.original.endDate} showTime />,
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/campaigns/',
+      });
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+
+      return (
+        <DateCell
+          value={row.original.endDate}
+          showTime
+          editable
+          onSave={async (value) => {
+            updateCampaignMutation.mutateAsync({
+              id: row.original.id,
+              value: { endDate: value },
+            });
+          }}
+        />
+      );
+    },
   },
   {
     accessorKey: 'budget',
     header: 'Budget',
-    cell: ({ row }) => (
-      <NumberCell value={row.original.budget} currency="PHP" />
-    ),
+    cell: ({ row }) => {
+      const { queryClient } = useRouteContext({
+        from: '/dashboard/crm/campaigns/',
+      });
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+
+      return (
+        <NumberCell
+          value={row.original.budget}
+          currency="PHP"
+          editable
+          onSave={async (value) => {
+            updateCampaignMutation.mutateAsync({
+              id: row.original.id,
+              value: { budget: value },
+            });
+          }}
+        />
+      );
+    },
   },
   {
     accessorKey: 'createdAt',
