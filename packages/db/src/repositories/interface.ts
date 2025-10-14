@@ -1,5 +1,5 @@
 import type { DeleteResult, Kysely } from "kysely";
-import { ZodObject, type ZodRawShape, z } from "zod";
+import { type ZodObject, type ZodRawShape, z } from "zod";
 import type { DB } from "@/db.types";
 
 export const ComparisonOperatorSchema = z.enum([

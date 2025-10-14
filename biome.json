@@ -34,7 +34,8 @@
     "includes": [
       "!src/lib/graphql/client/graphql.ts",
       "!src/routeTree.gen.ts",
-      "apps/**"
+      "apps/**",
+      "packages/**"
     ]
   }
 }
