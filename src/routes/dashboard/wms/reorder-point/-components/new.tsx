@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsReorderPointInsertSchema } from '@/schemas/wms/reorder_point';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createReorderPoint } from '@/queries/wms';
+import { wmsReorderPointInsertSchema } from '@/schemas/wms/reorder_point';
 
 const NewReorderPointFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewReorderPointFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(wmsReorderPointInsertSchema)}
-          onSubmit={async (value: z.infer<typeof wmsReorderPointInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof wmsReorderPointInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

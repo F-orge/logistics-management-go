@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsOutboundShipmentSchema } from '@/schemas/wms/outbound_shipment';
-import { columns } from './-components/table';
 import NewOutboundShipmentFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/outbound-shipment/')({
   component: RouteComponent,

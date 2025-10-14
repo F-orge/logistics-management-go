@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -15,8 +17,6 @@ import {
 import { FieldSeparator } from '@/components/ui/field';
 import { createProduct } from '@/queries/crm/products';
 import { crmProductInsertSchema } from '@/schemas/crm/products';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 
 const NewProductFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/products' });

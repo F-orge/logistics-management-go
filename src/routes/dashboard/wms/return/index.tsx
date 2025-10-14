@@ -20,15 +20,19 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { deleteReturn, paginateReturn, rangeReturn } from '@/queries/wms/return';
+import {
+  deleteReturn,
+  paginateReturn,
+  rangeReturn,
+} from '@/queries/wms/return';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsReturnSchema } from '@/schemas/wms/return';
-import { columns } from './-components/table';
 import NewReturnFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/return/')({
   component: RouteComponent,

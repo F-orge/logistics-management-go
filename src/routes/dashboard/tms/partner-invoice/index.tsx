@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsPartnerInvoiceSchema } from '@/schemas/tms/partner_invoice';
-import { columns } from './-components/table';
 import NewPartnerInvoiceFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/partner-invoice/')({
   component: RouteComponent,

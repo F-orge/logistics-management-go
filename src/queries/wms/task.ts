@@ -5,8 +5,8 @@ import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inUser } from '@/queries/auth/user';
 import { inPickBatch } from './pick_batch';
-import { inWarehouse } from './warehouse';
 import { paginateTaskItem } from './task_item';
+import { inWarehouse } from './warehouse';
 
 export const paginateTask = (
   options: Parameters<typeof orpcClient.wms.paginateTask>[0],

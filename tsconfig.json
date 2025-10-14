@@ -8,13 +8,12 @@
     "strictNullChecks": true,
     "incremental": true,
     "verbatimModuleSyntax": true,
-
     /* path aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "seeds","migrations"],
-  "exclude": ["node_modules","apps/**/graphql/resolver-types.ts","dist"]
+  "include": ["src", "seeds", "migrations", "apps", "packages"],
+  "exclude": ["node_modules", "apps/**/graphql/resolver-types.ts", "dist"]
 }

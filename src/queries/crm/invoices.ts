@@ -3,8 +3,8 @@ import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
-import { inOpportunity } from './opportunities';
 import { paginateInvoiceItem } from './invoice_items';
+import { inOpportunity } from './opportunities';
 
 export const paginateInvoice = (
   options: Parameters<typeof orpcClient.crm.paginateInvoice>[0],

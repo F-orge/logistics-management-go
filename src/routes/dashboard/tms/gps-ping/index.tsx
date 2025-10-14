@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsGpsPingSchema } from '@/schemas/tms/gps_ping';
-import { columns } from './-components/table';
 import NewGpsPingFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/gps-ping/')({
   component: RouteComponent,

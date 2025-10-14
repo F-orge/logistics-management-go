@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsBinThresholdSchema } from '@/schemas/wms/bin_threshold';
-import { columns } from './-components/table';
 import NewBinThresholdFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/bin-threshold/')({
   component: RouteComponent,

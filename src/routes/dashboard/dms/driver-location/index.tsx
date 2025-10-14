@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsDriverLocationSchema } from '@/schemas/dms/driver_location';
-import { columns } from './-components/table';
 import NewDriverLocationFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/dms/driver-location/')({
   component: RouteComponent,

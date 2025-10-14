@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingClientAccountSchema } from '@/schemas/billing/client_account';
-import { columns } from './-components/table';
 import NewClientAccountFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/client-account/')({
   component: RouteComponent,

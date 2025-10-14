@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -15,8 +17,6 @@ import {
 import { FieldSeparator } from '@/components/ui/field';
 import { createContact } from '@/queries/crm/contacts';
 import { crmContactInsertSchema } from '@/schemas/crm/contacts';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 
 const NewContactFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/contacts' });

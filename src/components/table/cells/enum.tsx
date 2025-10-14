@@ -1,6 +1,7 @@
 import { Check, ChevronDown, Edit } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Command } from '@/components/ui/command';
 import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
 import {
   Select,
@@ -10,7 +11,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Command } from '@/components/ui/command';
 
 export type EnumOption = {
   value: string;

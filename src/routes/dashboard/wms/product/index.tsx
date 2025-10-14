@@ -20,15 +20,19 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { deleteProduct, paginateProduct, rangeProduct } from '@/queries/wms/product';
+import {
+  deleteProduct,
+  paginateProduct,
+  rangeProduct,
+} from '@/queries/wms/product';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsProductSchema } from '@/schemas/wms/product';
-import { columns } from './-components/table';
 import NewProductFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/product/')({
   component: RouteComponent,

@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsWarehouseSchema } from '@/schemas/wms/warehouse';
-import { columns } from './-components/table';
 import NewWarehouseFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/warehouse/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/wms/warehouse/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateWarehouse(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeWarehouse({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeWarehouse({ from, to })),
     };
   },
 });

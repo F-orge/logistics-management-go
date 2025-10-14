@@ -4,8 +4,8 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inCarrier } from './carrier';
-import { inTrip } from './trip';
 import { paginateShipmentLegEvent } from './shipment_leg_event';
+import { inTrip } from './trip';
 
 export const paginateShipmentLeg = (
   options: Parameters<typeof orpcClient.tms.paginateShipmentLeg>[0],

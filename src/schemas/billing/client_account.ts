@@ -54,5 +54,6 @@ export const billingClientAccountInsertSchema = billingClientAccountSchema
   })
   .strict();
 
-export const billingClientAccountUpdateSchema =
-  billingClientAccountInsertSchema.partial().strict();
+export const billingClientAccountUpdateSchema = billingClientAccountInsertSchema
+  .partial()
+  .strict();

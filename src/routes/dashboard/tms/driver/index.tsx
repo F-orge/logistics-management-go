@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsDriverSchema } from '@/schemas/tms/driver';
-import { columns } from './-components/table';
 import NewDriverFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/driver/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/tms/driver/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateDriver(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeDriver({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeDriver({ from, to })),
     };
   },
 });

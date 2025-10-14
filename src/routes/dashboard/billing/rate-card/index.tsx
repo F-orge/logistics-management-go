@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingRateCardSchema } from '@/schemas/billing/rate_card';
-import { columns } from './-components/table';
 import NewRateCardFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/rate-card/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/rate-card/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateRateCard(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeRateCard({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeRateCard({ from, to })),
     };
   },
 });

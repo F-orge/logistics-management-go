@@ -1,23 +1,23 @@
-import React from 'react';
 import {
-  AutoForm as BaseAutoForm,
   AutoFormUIComponents,
+  AutoForm as BaseAutoForm,
 } from '@autoform/react';
-import { AutoFormProps } from './types';
-import { Form } from './components/Form';
-import { FieldWrapper } from './components/FieldWrapper';
-import { ErrorMessage } from './components/ErrorMessage';
-import { SubmitButton } from './components/SubmitButton';
-import { StringField } from './components/StringField';
-import { NumberField } from './components/NumberField';
+import React from 'react';
+import { ZodObject } from 'zod';
+import { withForm } from '@/components/form';
+import { ArrayElementWrapper } from './components/ArrayElementWrapper';
+import { ArrayWrapper } from './components/ArrayWrapper';
 import { BooleanField } from './components/BooleanField';
 import { DateField } from './components/DateField';
-import { SelectField } from './components/SelectField';
+import { ErrorMessage } from './components/ErrorMessage';
+import { FieldWrapper } from './components/FieldWrapper';
+import { Form } from './components/Form';
+import { NumberField } from './components/NumberField';
 import { ObjectWrapper } from './components/ObjectWrapper';
-import { ArrayWrapper } from './components/ArrayWrapper';
-import { ArrayElementWrapper } from './components/ArrayElementWrapper';
-import { withForm } from '@/components/form';
-import { ZodObject } from 'zod';
+import { SelectField } from './components/SelectField';
+import { StringField } from './components/StringField';
+import { SubmitButton } from './components/SubmitButton';
+import { AutoFormProps } from './types';
 
 const ShadcnUIComponents: AutoFormUIComponents = {
   Form,

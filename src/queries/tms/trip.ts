@@ -4,8 +4,8 @@ import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
 import { inDriver } from './driver';
-import { inVehicle } from './vehicle';
 import { paginateTripStop } from './trip_stop';
+import { inVehicle } from './vehicle';
 
 export const paginateTrip = (
   options: Parameters<typeof orpcClient.tms.paginateTrip>[0],

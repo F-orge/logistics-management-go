@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingPaymentSchema } from '@/schemas/billing/payment';
-import { columns } from './-components/table';
 import NewPaymentFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/payment/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/payment/')({
       dataTable: await context.queryClient.fetchQuery(
         paginatePayment(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangePayment({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangePayment({ from, to })),
     };
   },
 });

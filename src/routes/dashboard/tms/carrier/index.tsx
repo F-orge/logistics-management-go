@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsCarrierSchema } from '@/schemas/tms/carrier';
-import { columns } from './-components/table';
 import NewCarrierFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/carrier/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/tms/carrier/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateCarrier(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeCarrier({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeCarrier({ from, to })),
     };
   },
 });

@@ -56,12 +56,16 @@ export const columns: ColumnDef<
   {
     accessorKey: 'isActive',
     header: 'Is Active',
-    cell: ({ row }) => <StringCell value={row.original.isActive ? 'Yes' : 'No'} />,
+    cell: ({ row }) => (
+      <StringCell value={row.original.isActive ? 'Yes' : 'No'} />
+    ),
   },
   {
     accessorKey: 'lastAccessedAt',
     header: 'Last Accessed At',
-    cell: ({ row }) => <DateCell value={row.original.lastAccessedAt} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.lastAccessedAt} showTime />
+    ),
   },
   {
     accessorKey: 'createdAt',

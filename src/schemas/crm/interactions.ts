@@ -5,14 +5,12 @@ import { CrmInteractionType } from '@/db/types';
 export const crmInteractionSchema = z
   .object({
     id: z.uuid({ message: 'Invalid UUID format for ID' }),
-    contactId: z
-      .uuid({ message: 'Invalid UUID format for contact ID' })
-      .check(
-        fieldConfig({
-          label: 'Contact ID',
-          description: 'The ID of the contact for this interaction.',
-        }),
-      ),
+    contactId: z.uuid({ message: 'Invalid UUID format for contact ID' }).check(
+      fieldConfig({
+        label: 'Contact ID',
+        description: 'The ID of the contact for this interaction.',
+      }),
+    ),
     caseId: z
       .uuid({ message: 'Invalid UUID format for case ID' })
       .check(

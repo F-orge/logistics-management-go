@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingSurchargeSchema } from '@/schemas/billing/surcharge';
-import { columns } from './-components/table';
 import NewSurchargeFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/surcharge/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/surcharge/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateSurcharge(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeSurcharge({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeSurcharge({ from, to })),
     };
   },
 });

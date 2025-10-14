@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsInventoryAdjustmentInsertSchema } from '@/schemas/wms/inventory_adjustment';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createInventoryAdjustment } from '@/queries/wms';
+import { wmsInventoryAdjustmentInsertSchema } from '@/schemas/wms/inventory_adjustment';
 
 const NewInventoryAdjustmentFormDialog = () => {
   const navigate = useNavigate({
@@ -42,7 +42,8 @@ const NewInventoryAdjustmentFormDialog = () => {
         <DialogHeader>
           <DialogTitle>Create New Inventory Adjustment</DialogTitle>
           <DialogDescription>
-            Fill in the details below to create a new inventory adjustment record.
+            Fill in the details below to create a new inventory adjustment
+            record.
           </DialogDescription>
         </DialogHeader>
         <FieldSeparator />

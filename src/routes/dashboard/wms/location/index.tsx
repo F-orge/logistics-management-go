@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsLocationSchema } from '@/schemas/wms/location';
-import { columns } from './-components/table';
 import NewLocationFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/location/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/wms/location/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateLocation(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeLocation({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeLocation({ from, to })),
     };
   },
 });

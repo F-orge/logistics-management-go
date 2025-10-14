@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsTaskEventSchema } from '@/schemas/dms/task_event';
-import { columns } from './-components/table';
 import NewTaskEventFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/dms/task-event/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/dms/task-event/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateTaskEvent(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeTaskEvent({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeTaskEvent({ from, to })),
     };
   },
 });

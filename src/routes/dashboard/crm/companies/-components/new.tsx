@@ -1,10 +1,13 @@
+import { fieldConfig, ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { useAppForm } from '@/components/form';
+import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
   DialogContent,
@@ -22,9 +25,6 @@ import {
 import { ORPCInputs } from '@/orpc/client';
 import { createCompany } from '@/queries/crm/companies';
 import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
-import { AutoForm } from '@/components/ui/autoform';
-import { ZodProvider, fieldConfig } from '@autoform/zod';
-import z from 'zod';
 
 const NewCompanyFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/companies' });

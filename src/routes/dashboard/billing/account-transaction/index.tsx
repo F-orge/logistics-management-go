@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingAccountTransactionSchema } from '@/schemas/billing/account_transaction';
-import { columns } from './-components/table';
 import NewAccountTransactionFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/account-transaction/')(
   {

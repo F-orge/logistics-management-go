@@ -119,7 +119,8 @@ export const crmOpportunitySchema = z
       .check(
         fieldConfig({
           label: 'Stage',
-          description: 'The current stage of the opportunity in the sales pipeline.',
+          description:
+            'The current stage of the opportunity in the sales pipeline.',
         }),
       )
       .optional()

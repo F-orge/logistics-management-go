@@ -27,8 +27,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsTripSchema } from '@/schemas/tms/trip';
-import { columns } from './-components/table';
 import NewTripFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/trip/')({
   component: RouteComponent,

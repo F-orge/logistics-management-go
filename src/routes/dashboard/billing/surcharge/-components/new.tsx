@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { billingSurchargeInsertSchema } from '@/schemas/billing/surcharge';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createSurcharge } from '@/queries/billing';
+import { billingSurchargeInsertSchema } from '@/schemas/billing/surcharge';
 
 const NewSurchargeFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewSurchargeFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(billingSurchargeInsertSchema)}
-          onSubmit={async (value: z.infer<typeof billingSurchargeInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof billingSurchargeInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

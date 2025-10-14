@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsExpenseSchema } from '@/schemas/tms/expense';
-import { columns } from './-components/table';
 import NewExpenseFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/expense/')({
   component: RouteComponent,

@@ -27,8 +27,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsRouteSchema } from '@/schemas/tms/route';
-import { columns } from './-components/table';
 import NewRouteFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/route/')({
   component: RouteComponent,

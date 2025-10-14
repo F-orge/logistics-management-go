@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { billingRateRuleInsertSchema } from '@/schemas/billing/rate_rule';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createRateRule } from '@/queries/billing';
+import { billingRateRuleInsertSchema } from '@/schemas/billing/rate_rule';
 
 const NewRateRuleFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewRateRuleFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(billingRateRuleInsertSchema)}
-          onSubmit={async (value: z.infer<typeof billingRateRuleInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof billingRateRuleInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsPutawayRuleSchema } from '@/schemas/wms/putaway_rule';
-import { columns } from './-components/table';
 import NewPutawayRuleFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/putaway-rule/')({
   component: RouteComponent,

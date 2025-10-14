@@ -1,0 +1,67 @@
+import { fieldConfig } from '@autoform/zod';
+import { z } from 'zod';
+
+export const CampaignSchema = z
+  .object({
+    id: z.uuid({ message: 'Invalid UUID format for ID' }),
+    name: z
+      .string({ message: 'Campaign name must be a string' })
+      .min(1, { message: 'Campaign name is required' })
+      .max(255, { message: 'Campaign name must be at most 255 characters' })
+      .check(
+        fieldConfig({
+          label: 'Campaign Name',
+          description: 'The name of the marketing campaign.',
+        }),
+      ),
+    budget: z.coerce
+      .number({ message: 'Budget must be a number' })
+      .min(0, { message: 'Budget must be at least 0' })
+      .check(
+        fieldConfig({
+          label: 'Budget',
+          description: 'The budget allocated for this campaign.',
+        }),
+      )
+      .optional()
+      .nullable(),
+    startDate: z.coerce
+      .date({ message: 'Invalid ISO datetime format for start date' })
+      .check(
+        fieldConfig({
+          label: 'Start Date',
+          description: 'The start date of the campaign.',
+        }),
+      )
+      .optional()
+      .nullable(),
+    endDate: z.coerce
+      .date({ message: 'Invalid ISO datetime format for end date' })
+      .check(
+        fieldConfig({
+          label: 'End Date',
+          description: 'The end date of the campaign.',
+        }),
+      )
+      .optional()
+      .nullable(),
+    createdAt: z.coerce
+      .date({ message: 'Invalid ISO datetime format for creation date' })
+      .optional()
+      .nullable(),
+    updatedAt: z.coerce
+      .date({ message: 'Invalid ISO datetime format for update date' })
+      .optional()
+      .nullable(),
+  })
+  .strict();
+
+export type CrmCampaign = z.infer<typeof CampaignSchema>;
+
+export const CampaignInsertSchema = CampaignSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const CampaignUpdateSchema = CampaignInsertSchema.partial();

@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsProofOfDeliverySchema } from '@/schemas/tms/proof_of_delivery';
-import { columns } from './-components/table';
 import NewProofOfDeliveryFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/proof-of-delivery/')({
   component: RouteComponent,

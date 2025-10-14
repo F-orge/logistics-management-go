@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsCustomerTrackingLinkSchema } from '@/schemas/dms/customer_tracking_link';
-import { columns } from './-components/table';
 import NewCustomerTrackingLinkFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/dms/customer-tracking-link/')({
   component: RouteComponent,

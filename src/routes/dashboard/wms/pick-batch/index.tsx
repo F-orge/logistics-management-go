@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsPickBatchSchema } from '@/schemas/wms/pick_batch';
-import { columns } from './-components/table';
 import NewPickBatchFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/pick-batch/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/wms/pick-batch/')({
       dataTable: await context.queryClient.fetchQuery(
         paginatePickBatch(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangePickBatch({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangePickBatch({ from, to })),
     };
   },
 });

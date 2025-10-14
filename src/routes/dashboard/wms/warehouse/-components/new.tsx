@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsWarehouseInsertSchema } from '@/schemas/wms/warehouse';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createWarehouse } from '@/queries/wms';
+import { wmsWarehouseInsertSchema } from '@/schemas/wms/warehouse';
 
 const NewWarehouseFormDialog = () => {
   const navigate = useNavigate({

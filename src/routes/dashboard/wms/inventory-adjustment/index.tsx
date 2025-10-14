@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsInventoryAdjustmentSchema } from '@/schemas/wms/inventory_adjustment';
-import { columns } from './-components/table';
 import NewInventoryAdjustmentFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/inventory-adjustment/')({
   component: RouteComponent,

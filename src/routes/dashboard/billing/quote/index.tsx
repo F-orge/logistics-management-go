@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingQuoteSchema } from '@/schemas/billing/quote';
-import { columns } from './-components/table';
 import NewQuoteFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/quote/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/quote/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateQuote(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeQuote({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeQuote({ from, to })),
     };
   },
 });

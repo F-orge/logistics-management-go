@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsSalesOrderSchema } from '@/schemas/wms/sales_order';
-import { columns } from './-components/table';
 import NewSalesOrderFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/sales-order/')({
   component: RouteComponent,

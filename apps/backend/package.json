@@ -1,0 +1,20 @@
+{
+  "name": "@apps/backend",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build src/index.ts --target node --outfile .output/server.js --production",
+    "start": "bun run .output/server.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "@packages/db": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

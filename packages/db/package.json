@@ -1,0 +1,33 @@
+{
+  "name": "@packages/db",
+  "module": "src/index.ts",
+  "type": "module",
+  "types": ".output/types/index.d.ts",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./.output/types/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "types": "./.output/types/*.d.ts",
+      "default": "./src/*"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        ".output/types/*"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "bun tsc"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

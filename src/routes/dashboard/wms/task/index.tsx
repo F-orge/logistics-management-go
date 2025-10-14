@@ -27,8 +27,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsTaskSchema } from '@/schemas/wms/task';
-import { columns } from './-components/table';
 import NewTaskFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/task/')({
   component: RouteComponent,

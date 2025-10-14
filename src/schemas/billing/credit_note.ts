@@ -55,5 +55,6 @@ export const billingCreditNoteInsertSchema = billingCreditNoteSchema
   })
   .strict();
 
-export const billingCreditNoteUpdateSchema =
-  billingCreditNoteInsertSchema.partial().strict();
+export const billingCreditNoteUpdateSchema = billingCreditNoteInsertSchema
+  .partial()
+  .strict();

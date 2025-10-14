@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingRateRuleSchema } from '@/schemas/billing/rate_rule';
-import { columns } from './-components/table';
 import NewRateRuleFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/rate-rule/')({
   component: RouteComponent,

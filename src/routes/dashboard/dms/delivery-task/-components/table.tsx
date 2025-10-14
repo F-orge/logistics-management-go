@@ -51,7 +51,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'estimatedArrivalTime',
     header: 'Estimated Arrival Time',
-    cell: ({ row }) => <DateCell value={row.original.estimatedArrivalTime} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.estimatedArrivalTime} showTime />
+    ),
   },
   {
     accessorKey: 'deliveryTime',
@@ -81,7 +83,9 @@ export const columns: ColumnDef<
   {
     accessorKey: 'actualArrivalTime',
     header: 'Actual Arrival Time',
-    cell: ({ row }) => <DateCell value={row.original.actualArrivalTime} showTime />,
+    cell: ({ row }) => (
+      <DateCell value={row.original.actualArrivalTime} showTime />
+    ),
   },
   {
     accessorKey: 'attemptCount',

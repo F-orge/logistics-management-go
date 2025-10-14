@@ -2,19 +2,6 @@ import { Check, CheckIcon, ChevronsUpDownIcon, Edit } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { ZodString } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import {
   Command,
   CommandEmpty,
@@ -23,6 +10,19 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 export type RelationOption = {
   value: string;

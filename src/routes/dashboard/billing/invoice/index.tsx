@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingInvoiceSchema } from '@/schemas/billing/invoice';
-import { columns } from './-components/table';
 import NewInvoiceFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/invoice/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/invoice/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateInvoice(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeInvoice({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeInvoice({ from, to })),
     };
   },
 });

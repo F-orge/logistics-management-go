@@ -1,3 +1,5 @@
+import { AutoFormFieldProps } from '@autoform/react';
+import React from 'react';
 import {
   Select,
   SelectContent,
@@ -6,8 +8,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { AutoFormFieldProps } from '@autoform/react';
-import React from 'react';
 
 export const SelectField: React.FC<AutoFormFieldProps> = ({
   field,

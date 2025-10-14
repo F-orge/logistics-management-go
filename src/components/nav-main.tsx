@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 import React from 'react';
 import {
@@ -17,7 +17,6 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { SidebarType } from './app-sidebar';
-import { useLocation } from '@tanstack/react-router';
 
 export function NavMain({
   systemNavs,

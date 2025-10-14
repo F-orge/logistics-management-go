@@ -1,7 +1,7 @@
+import { buildZodFieldConfig } from '@autoform/react';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import z, { ZodEnum } from 'zod';
-import { buildZodFieldConfig } from '@autoform/react';
 import { FieldTypes } from '@/components/ui/autoform';
 
 export function cn(...inputs: ClassValue[]) {

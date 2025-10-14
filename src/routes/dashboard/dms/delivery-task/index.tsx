@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsDeliveryTaskSchema } from '@/schemas/dms/delivery_task';
-import { columns } from './-components/table';
 import NewDeliveryTaskFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/dms/delivery-task/')({
   component: RouteComponent,

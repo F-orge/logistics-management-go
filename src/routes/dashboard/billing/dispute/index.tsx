@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingDisputeSchema } from '@/schemas/billing/dispute';
-import { columns } from './-components/table';
 import NewDisputeFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/billing/dispute/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/billing/dispute/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateDispute(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeDispute({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeDispute({ from, to })),
     };
   },
 });

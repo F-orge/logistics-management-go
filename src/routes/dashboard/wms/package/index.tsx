@@ -20,15 +20,19 @@ import {
   ContextMenuSeparator,
 } from '@/components/ui/context-menu';
 import { Input } from '@/components/ui/input';
-import { deletePackage, paginatePackage, rangePackage } from '@/queries/wms/package';
+import {
+  deletePackage,
+  paginatePackage,
+  rangePackage,
+} from '@/queries/wms/package';
 import {
   filterTransformer,
   paginateTransformer,
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsPackageSchema } from '@/schemas/wms/package';
-import { columns } from './-components/table';
 import NewPackageFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/package/')({
   component: RouteComponent,

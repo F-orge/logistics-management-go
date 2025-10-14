@@ -40,5 +40,6 @@ export const billingRateCardInsertSchema = billingRateCardSchema
   })
   .strict();
 
-export const billingRateCardUpdateSchema =
-  billingRateCardInsertSchema.partial().strict();
+export const billingRateCardUpdateSchema = billingRateCardInsertSchema
+  .partial()
+  .strict();

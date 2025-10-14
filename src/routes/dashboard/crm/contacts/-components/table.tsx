@@ -1,19 +1,19 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, useRouteContext } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
 import { DataTableColumnHeader } from '@/components/table';
-import StringCell from '@/components/table/cells/string';
-import type { ORPCOutputs } from '@/orpc/client';
 import DateCell from '@/components/table/cells/date';
+import RelationCell from '@/components/table/cells/relation';
+import StringCell from '@/components/table/cells/string';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import type { ORPCOutputs } from '@/orpc/client';
 import { paginateCompany, updateCompany, updateContact } from '@/queries/crm';
-import RelationCell from '@/components/table/cells/relation';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateContact'][number] & {

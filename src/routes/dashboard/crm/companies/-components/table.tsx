@@ -1,18 +1,18 @@
+import { useMutation } from '@tanstack/react-query';
+import { useRouteContext } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
+import { DataTableColumnHeader } from '@/components/table';
+import DateCell from '@/components/table/cells/date';
 import NumberCell from '@/components/table/cells/number';
 import TextCell from '@/components/table/cells/string';
-import { DataTableColumnHeader } from '@/components/table';
-import type { ORPCOutputs } from '@/orpc/client';
-import DateCell from '@/components/table/cells/date';
-import { useRouteContext } from '@tanstack/react-router';
-import { useMutation } from '@tanstack/react-query';
-import { updateCompany } from '@/queries/crm';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import type { ORPCOutputs } from '@/orpc/client';
+import { updateCompany } from '@/queries/crm';
 
 type Company = ORPCOutputs['crm']['paginateCompany'][number] & {
   owner?: {

@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { wmsInventoryBatchSchema } from '@/schemas/wms/inventory_batch';
-import { columns } from './-components/table';
 import NewInventoryBatchFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/wms/inventory-batch/')({
   component: RouteComponent,

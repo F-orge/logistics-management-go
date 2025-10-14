@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsShipmentLegSchema } from '@/schemas/tms/shipment_leg';
-import { columns } from './-components/table';
 import NewShipmentLegFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/shipment-leg/')({
   component: RouteComponent,

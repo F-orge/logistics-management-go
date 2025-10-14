@@ -54,7 +54,7 @@ export const crmProductSchema = z
       .check(
         fieldConfig({
           label: 'Type',
-          description: 'The type of product (e.g., Good, Service).'
+          description: 'The type of product (e.g., Good, Service).',
         }),
       )
       .optional()

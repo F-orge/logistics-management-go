@@ -4,22 +4,18 @@ import { z } from 'zod';
 export const crmInvoiceItemSchema = z
   .object({
     id: z.uuid({ message: 'Invalid UUID format for ID' }),
-    invoiceId: z
-      .uuid({ message: 'Invalid UUID format for invoice ID' })
-      .check(
-        fieldConfig({
-          label: 'Invoice ID',
-          description: 'The ID of the invoice this item belongs to.',
-        }),
-      ),
-    productId: z
-      .uuid({ message: 'Invalid UUID format for product ID' })
-      .check(
-        fieldConfig({
-          label: 'Product ID',
-          description: 'The ID of the product for this item.',
-        }),
-      ),
+    invoiceId: z.uuid({ message: 'Invalid UUID format for invoice ID' }).check(
+      fieldConfig({
+        label: 'Invoice ID',
+        description: 'The ID of the invoice this item belongs to.',
+      }),
+    ),
+    productId: z.uuid({ message: 'Invalid UUID format for product ID' }).check(
+      fieldConfig({
+        label: 'Product ID',
+        description: 'The ID of the product for this item.',
+      }),
+    ),
     price: z.coerce
       .number({ message: 'Price must be a number' })
       .min(0, { message: 'Price must be at least 0' })

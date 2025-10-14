@@ -31,40 +31,42 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { billingAccountingSyncLogSchema } from '@/schemas/billing/accounting_sync_log';
-import { columns } from './-components/table';
 import NewAccountingSyncLogFormDialog from './-components/new';
+import { columns } from './-components/table';
 
-export const Route = createFileRoute('/dashboard/billing/accounting-sync-log/')({
-  component: RouteComponent,
-  validateSearch: zodValidator(
-    paginateTransformer().extend({
-      filters: filterTransformer(billingAccountingSyncLogSchema),
-      sort: sortTransformer(billingAccountingSyncLogSchema).default([
-        { column: 'createdAt', order: 'desc' },
-      ]),
-      new: z.boolean().optional(),
-      delete: z.boolean().optional(),
-      view: z.boolean().optional(),
-      edit: z.boolean().optional(),
-      id: z.string().optional(),
-    }),
-  ),
-  beforeLoad: (ctx) => ({ search: ctx.search }),
-  async loader({ context }) {
-    const from = new Date();
-    const to = new Date();
-    to.setFullYear(from.getFullYear() + 1);
+export const Route = createFileRoute('/dashboard/billing/accounting-sync-log/')(
+  {
+    component: RouteComponent,
+    validateSearch: zodValidator(
+      paginateTransformer().extend({
+        filters: filterTransformer(billingAccountingSyncLogSchema),
+        sort: sortTransformer(billingAccountingSyncLogSchema).default([
+          { column: 'createdAt', order: 'desc' },
+        ]),
+        new: z.boolean().optional(),
+        delete: z.boolean().optional(),
+        view: z.boolean().optional(),
+        edit: z.boolean().optional(),
+        id: z.string().optional(),
+      }),
+    ),
+    beforeLoad: (ctx) => ({ search: ctx.search }),
+    async loader({ context }) {
+      const from = new Date();
+      const to = new Date();
+      to.setFullYear(from.getFullYear() + 1);
 
-    return {
-      dataTable: await context.queryClient.fetchQuery(
-        paginateAccountingSyncLog(context.search),
-      ),
-      chart: await context.queryClient.fetchQuery(
-        rangeAccountingSyncLog({ from, to }),
-      ),
-    };
+      return {
+        dataTable: await context.queryClient.fetchQuery(
+          paginateAccountingSyncLog(context.search),
+        ),
+        chart: await context.queryClient.fetchQuery(
+          rangeAccountingSyncLog({ from, to }),
+        ),
+      };
+    },
   },
-});
+);
 
 function RouteComponent() {
   const navigate = Route.useNavigate();

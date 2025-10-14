@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsSalesOrderInsertSchema } from '@/schemas/wms/sales_order';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createSalesOrder } from '@/queries/wms';
+import { wmsSalesOrderInsertSchema } from '@/schemas/wms/sales_order';
 
 const NewSalesOrderFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewSalesOrderFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(wmsSalesOrderInsertSchema)}
-          onSubmit={async (value: z.infer<typeof wmsSalesOrderInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof wmsSalesOrderInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

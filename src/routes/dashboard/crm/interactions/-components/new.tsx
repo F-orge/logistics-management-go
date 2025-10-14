@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -15,8 +17,6 @@ import {
 import { FieldSeparator } from '@/components/ui/field';
 import { createInteraction } from '@/queries/crm/interactions';
 import { crmInteractionInsertSchema } from '@/schemas/crm/interactions';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 
 const NewInteractionFormDialog = () => {
   const navigate = useNavigate({ from: '/dashboard/crm/interactions' });
@@ -44,7 +44,9 @@ const NewInteractionFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(crmInteractionInsertSchema)}
-          onSubmit={async (value: z.infer<typeof crmInteractionInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof crmInteractionInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

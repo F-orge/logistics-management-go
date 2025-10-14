@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { dmsDeliveryRouteSchema } from '@/schemas/dms/delivery_route';
-import { columns } from './-components/table';
 import NewDeliveryRouteFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/dms/delivery-route/')({
   component: RouteComponent,

@@ -31,8 +31,8 @@ import {
   sortTransformer,
 } from '@/repositories/utils';
 import { tmsGeofenceSchema } from '@/schemas/tms/geofence';
-import { columns } from './-components/table';
 import NewGeofenceFormDialog from './-components/new';
+import { columns } from './-components/table';
 
 export const Route = createFileRoute('/dashboard/tms/geofence/')({
   component: RouteComponent,
@@ -59,9 +59,7 @@ export const Route = createFileRoute('/dashboard/tms/geofence/')({
       dataTable: await context.queryClient.fetchQuery(
         paginateGeofence(context.search),
       ),
-      chart: await context.queryClient.fetchQuery(
-        rangeGeofence({ from, to }),
-      ),
+      chart: await context.queryClient.fetchQuery(rangeGeofence({ from, to })),
     };
   },
 });

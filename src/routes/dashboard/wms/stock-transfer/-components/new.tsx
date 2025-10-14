@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsStockTransferInsertSchema } from '@/schemas/wms/stock_transfer';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createStockTransfer } from '@/queries/wms';
+import { wmsStockTransferInsertSchema } from '@/schemas/wms/stock_transfer';
 
 const NewStockTransferFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewStockTransferFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(wmsStockTransferInsertSchema)}
-          onSubmit={async (value: z.infer<typeof wmsStockTransferInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof wmsStockTransferInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

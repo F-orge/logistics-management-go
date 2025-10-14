@@ -13,7 +13,8 @@
     "useIgnoreFile": true
   },
   "formatter": {
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "includes": ["apps/**"]
   },
   "javascript": {
     "formatter": {
@@ -33,7 +34,7 @@
     "includes": [
       "!src/lib/graphql/client/graphql.ts",
       "!src/routeTree.gen.ts",
-      "!apps/**/graphql/resolver-types.ts"
+      "apps/**"
     ]
   }
 }

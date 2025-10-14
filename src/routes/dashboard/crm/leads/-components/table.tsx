@@ -1,29 +1,29 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, useRouteContext } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
+import { DataTableColumnHeader } from '@/components/table';
+import DateCell from '@/components/table/cells/date';
+import EnumCell from '@/components/table/cells/enum';
+import NumberCell from '@/components/table/cells/number';
+import RelationCell from '@/components/table/cells/relation';
+import StringCell from '@/components/table/cells/string';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { DataTableColumnHeader } from '@/components/table';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import type { ORPCOutputs } from '@/orpc/client';
-import DateCell from '@/components/table/cells/date';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { type CrmLeadSource, CrmLeadStatus } from '@/db/types';
+import type { ORPCOutputs } from '@/orpc/client';
 import {
-  paginateOpportunity,
   paginateCampaign,
   paginateCompany,
   paginateContact,
+  paginateOpportunity,
   updateLead,
 } from '@/queries/crm';
-import RelationCell from '@/components/table/cells/relation';
-import { type CrmLeadSource, CrmLeadStatus } from '@/db/types';
-import EnumCell from '@/components/table/cells/enum';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateLead'][number] & {

@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { wmsPutawayRuleInsertSchema } from '@/schemas/wms/putaway_rule';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createPutawayRule } from '@/queries/wms';
+import { wmsPutawayRuleInsertSchema } from '@/schemas/wms/putaway_rule';
 
 const NewPutawayRuleFormDialog = () => {
   const navigate = useNavigate({
@@ -48,7 +48,9 @@ const NewPutawayRuleFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(wmsPutawayRuleInsertSchema)}
-          onSubmit={async (value: z.infer<typeof wmsPutawayRuleInsertSchema>) => {
+          onSubmit={async (
+            value: z.infer<typeof wmsPutawayRuleInsertSchema>,
+          ) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });

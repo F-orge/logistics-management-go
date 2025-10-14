@@ -3,8 +3,8 @@ import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
 import { orpcClient } from '@/orpc/client';
-import { inWarehouse } from './warehouse';
 import { paginateInboundShipmentItem } from './inbound_shipment_item';
+import { inWarehouse } from './warehouse';
 
 export const paginateInboundShipment = (
   options: Parameters<typeof orpcClient.wms.paginateInboundShipment>[0],

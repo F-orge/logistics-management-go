@@ -1,9 +1,11 @@
+import { ZodProvider } from '@autoform/zod';
 import { useMutation } from '@tanstack/react-query';
 import {
   useNavigate,
   useRouteContext,
   useSearch,
 } from '@tanstack/react-router';
+import z from 'zod';
 import { AutoForm } from '@/components/ui/autoform';
 import {
   Dialog,
@@ -13,10 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { FieldSeparator } from '@/components/ui/field';
-import { dmsCustomerTrackingLinkInsertSchema } from '@/schemas/dms/customer_tracking_link';
-import { ZodProvider } from '@autoform/zod';
-import z from 'zod';
 import { createCustomerTrackingLink } from '@/queries/dms';
+import { dmsCustomerTrackingLinkInsertSchema } from '@/schemas/dms/customer_tracking_link';
 
 const NewCustomerTrackingLinkFormDialog = () => {
   const navigate = useNavigate({
@@ -29,10 +29,7 @@ const NewCustomerTrackingLinkFormDialog = () => {
     from: '/dashboard/dms/customer-tracking-link/',
   });
 
-  const createMutation = useMutation(
-    createCustomerTrackingLink,
-    queryClient,
-  );
+  const createMutation = useMutation(createCustomerTrackingLink, queryClient);
 
   return (
     <Dialog

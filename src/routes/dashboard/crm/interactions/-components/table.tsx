@@ -1,24 +1,23 @@
-import { Link } from '@tanstack/react-router';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Link, useRouteContext } from '@tanstack/react-router';
 import type { ColumnDef } from '@tanstack/react-table';
 import DateCell from '@/components/table/cells/date';
+import RelationCell from '@/components/table/cells/relation';
 import StringCell from '@/components/table/cells/string';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { CrmInteractionType } from '@/db/types';
 import { type ORPCOutputs, orpcClient } from '@/orpc/client';
 import {
   paginateCase,
   paginateContact,
   updateInteraction,
 } from '@/queries/crm';
-import { useRouteContext } from '@tanstack/react-router';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import RelationCell from '@/components/table/cells/relation';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { CrmInteractionType } from '@/db/types';
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInteraction'][number] & {

@@ -42,7 +42,8 @@ export const crmAttachmentSchema = z
       .check(
         fieldConfig({
           label: 'Record ID',
-          description: 'The ID of the record this attachment is associated with.',
+          description:
+            'The ID of the record this attachment is associated with.',
         }),
       )
       .nullable()

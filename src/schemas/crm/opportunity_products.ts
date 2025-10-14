@@ -11,17 +11,16 @@ export const crmOpportunityProductSchema = z
       .check(
         fieldConfig({
           label: 'Opportunity ID',
-          description: 'The ID of the opportunity this product is associated with.',
+          description:
+            'The ID of the opportunity this product is associated with.',
         }),
       ),
-    productId: z
-      .uuid({ message: 'Invalid UUID format for product ID' })
-      .check(
-        fieldConfig({
-          label: 'Product ID',
-          description: 'The ID of the product.',
-        }),
-      ),
+    productId: z.uuid({ message: 'Invalid UUID format for product ID' }).check(
+      fieldConfig({
+        label: 'Product ID',
+        description: 'The ID of the product.',
+      }),
+    ),
     quantity: z
       .number({ message: 'Quantity must be a number' })
       .int({ message: 'Quantity must be an integer' })
