@@ -45,13 +45,3 @@ export const DriverLocationSchema = z.object({
     .nullable(),
 });
 
-export type DmsDriverLocation = z.infer<typeof DriverLocationSchema>;
-
-export const DriverLocationInsertSchema = DriverLocationSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const DriverLocationUpdateSchema =
-  DriverLocationInsertSchema.partial();

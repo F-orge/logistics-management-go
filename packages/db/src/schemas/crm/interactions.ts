@@ -86,12 +86,3 @@ export const InteractionSchema = z
   })
   .strict();
 
-export type CrmInteraction = z.infer<typeof InteractionSchema>;
-
-export const InteractionInsertSchema = InteractionSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const InteractionUpdateSchema = InteractionInsertSchema.partial();

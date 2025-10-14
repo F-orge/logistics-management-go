@@ -58,13 +58,3 @@ export const NotificationSchema = z
   })
   .strict();
 
-export type CrmNotification = z.infer<typeof NotificationSchema>;
-
-export const NotificationInsertSchema = NotificationSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const NotificationUpdateSchema =
-  NotificationInsertSchema.partial();

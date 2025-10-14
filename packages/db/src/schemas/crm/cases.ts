@@ -87,13 +87,3 @@ export const CaseSchema = z
       .nullable(),
   })
   .strict();
-
-export type CrmCase = z.infer<typeof CaseSchema>;
-
-export const CaseInsertSchema = CaseSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const CaseUpdateSchema = CaseInsertSchema.partial();

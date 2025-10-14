@@ -53,13 +53,3 @@ export const DeliveryRouteSchema = z.object({
     .nullable(),
 });
 
-export type DmsDeliveryRoute = z.infer<typeof DeliveryRouteSchema>;
-
-export const DeliveryRouteInsertSchema = DeliveryRouteSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const DeliveryRouteUpdateSchema =
-  DeliveryRouteInsertSchema.partial();

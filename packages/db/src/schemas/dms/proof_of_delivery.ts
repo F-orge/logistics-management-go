@@ -59,13 +59,3 @@ export const ProofOfDeliverySchema = z.object({
     .nullable(),
 });
 
-export type DmsProofOfDelivery = z.infer<typeof ProofOfDeliverySchema>;
-
-export const ProofOfDeliveryInsertSchema = ProofOfDeliverySchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const ProofOfDeliveryUpdateSchema =
-  ProofOfDeliveryInsertSchema.partial();

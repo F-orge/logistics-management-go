@@ -8,8 +8,6 @@
     "strictNullChecks": true,
     "incremental": true,
     "verbatimModuleSyntax": true,
-    /* path aliases */
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

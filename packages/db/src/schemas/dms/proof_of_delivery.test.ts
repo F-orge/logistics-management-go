@@ -1,9 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  ProofOfDeliveryInsertSchema,
   ProofOfDeliverySchema,
-  ProofOfDeliveryUpdateSchema
 } from './proof_of_delivery';
 
 interface ValidCase {
@@ -37,70 +35,6 @@ describe('DmsProofOfDeliverySchema Validation', () => {
         let error: ZodError | undefined;
         try {
           ProofOfDeliverySchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
-        }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
-});
-
-describe('DmsProofOfDeliveryInsertSchema Validation', () => {
-  describe('Valid Cases', () => {
-    const validTestCases:ValidCase[] = [];
-
-    test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => ProofOfDeliveryInsertSchema.parse(input)).not.toThrow();
-      const result = ProofOfDeliveryInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
-
-  describe('Invalid Cases', () => {
-    const invalidTestCases:InvalidCase[] = [];
-
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          ProofOfDeliveryInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
-        }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
-});
-
-describe('DmsProofOfDeliveryUpdateSchema Validation', () => {
-  describe('Valid Cases', () => {
-    const validTestCases:ValidCase[] = [];
-
-    test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => ProofOfDeliveryUpdateSchema.parse(input)).not.toThrow();
-      const result = ProofOfDeliveryUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
-
-  describe('Invalid Cases', () => {
-    const invalidTestCases:InvalidCase[] = [];
-
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          ProofOfDeliveryUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;

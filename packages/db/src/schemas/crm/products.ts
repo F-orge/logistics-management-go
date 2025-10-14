@@ -70,12 +70,3 @@ export const ProductSchema = z
   })
   .strict();
 
-export type CrmProduct = z.infer<typeof ProductSchema>;
-
-export const ProductInsertSchema = ProductSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const ProductUpdateSchema = ProductInsertSchema.partial();

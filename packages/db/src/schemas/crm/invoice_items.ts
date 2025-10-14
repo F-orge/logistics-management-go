@@ -47,13 +47,3 @@ export const InvoiceItemSchema = z
       .optional(),
   })
   .strict();
-
-export type CrmInvoiceItem = z.infer<typeof InvoiceItemSchema>;
-
-export const InvoiceItemInsertSchema = InvoiceItemSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const InvoiceItemUpdateSchema = InvoiceItemInsertSchema.partial();

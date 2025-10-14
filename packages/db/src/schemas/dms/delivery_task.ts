@@ -78,13 +78,3 @@ export const DeliveryTaskSchema = z.object({
     .nullable(),
 });
 
-export type DmsDeliveryTask = z.infer<typeof DeliveryTaskSchema>;
-
-export const DeliveryTaskInsertSchema = DeliveryTaskSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const DeliveryTaskUpdateSchema =
-  DeliveryTaskInsertSchema.partial();

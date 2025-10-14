@@ -1,4 +1,3 @@
-
 export interface ConfigInterface {
-  databaseUrl:string
+  databaseUrl: string;
 }

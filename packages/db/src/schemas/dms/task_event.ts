@@ -47,12 +47,3 @@ export const TaskEventSchema = z.object({
     .nullable(),
 });
 
-export type DmsTaskEvent = z.infer<typeof TaskEventSchema>;
-
-export const TaskEventInsertSchema = TaskEventSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const TaskEventUpdateSchema = TaskEventInsertSchema.partial();

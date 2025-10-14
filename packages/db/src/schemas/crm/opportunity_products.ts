@@ -35,12 +35,3 @@ export const OpportunityProductSchema = z
   })
   .strict();
 
-export type CrmOpportunityProduct = z.infer<typeof OpportunityProductSchema>;
-
-export const OpportunityProductInsertSchema =
-  OpportunityProductSchema.omit({
-    id: true,
-  });
-
-export const OpportunityProductUpdateSchema =
-  OpportunityProductInsertSchema.partial();

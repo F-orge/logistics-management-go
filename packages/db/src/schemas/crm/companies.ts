@@ -148,15 +148,3 @@ export const CompanySchema = z
       .nullable(),
   })
   .strict();
-
-export type CrmCompany = z.infer<typeof CompanySchema>;
-
-// Insert schema omits id, createdAt, updatedAt
-export const CompanyInsertSchema = CompanySchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-// Update schema is a partial of insert schema
-export const CompanyUpdateSchema = CompanyInsertSchema.partial();

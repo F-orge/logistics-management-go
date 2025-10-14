@@ -1,7 +1,6 @@
 import { fieldConfig } from '@autoform/zod';
 import { z } from 'zod';
 import { CrmLeadSource, CrmLeadStatus } from '@/db.types';
-import { OpportunityInsertSchema } from './opportunities';
 
 export const LeadSchema = z
   .object({
@@ -130,16 +129,3 @@ export const LeadSchema = z
   })
   .strict();
 
-export type CrmLead = z.infer<typeof LeadSchema>;
-
-export const LeadInsertSchema = LeadSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    opportunities: z.array(OpportunityInsertSchema).optional().nullable(),
-  });
-
-export const LeadUpdateSchema = LeadInsertSchema.partial();

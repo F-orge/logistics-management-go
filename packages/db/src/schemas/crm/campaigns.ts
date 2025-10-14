@@ -55,13 +55,3 @@ export const CampaignSchema = z
       .nullable(),
   })
   .strict();
-
-export type CrmCampaign = z.infer<typeof CampaignSchema>;
-
-export const CampaignInsertSchema = CampaignSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const CampaignUpdateSchema = CampaignInsertSchema.partial();

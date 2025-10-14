@@ -1,7 +1,6 @@
 import { fieldConfig } from '@autoform/zod';
 import { z } from 'zod';
 import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db.types';
-import { InvoiceItemInsertSchema } from './invoice_items';
 
 export const InvoiceSchema = z
   .object({
@@ -97,22 +96,3 @@ export const InvoiceSchema = z
   })
   .strict();
 
-export type CrmInvoice = z.infer<typeof InvoiceSchema>;
-
-export const InvoiceInsertSchema = InvoiceSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    items: z.array(InvoiceItemInsertSchema).optional().nullable(),
-  });
-
-export const InvoiceUpdateSchema = InvoiceSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .partial();

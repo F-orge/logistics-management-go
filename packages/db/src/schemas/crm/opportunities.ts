@@ -1,7 +1,6 @@
 import { fieldConfig } from '@autoform/zod';
 import { z } from 'zod';
 import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types';
-import { OpportunityProductInsertSchema } from './opportunity_products';
 
 export const OpportunitySchema = z
   .object({
@@ -136,16 +135,3 @@ export const OpportunitySchema = z
   })
   .strict();
 
-export type CrmOpportunity = z.infer<typeof OpportunitySchema>;
-
-export const OpportunityInsertSchema = OpportunitySchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    products: z.array(OpportunityProductInsertSchema).optional().nullable(),
-  });
-
-export const OpportunityUpdateSchema = OpportunityInsertSchema.partial();

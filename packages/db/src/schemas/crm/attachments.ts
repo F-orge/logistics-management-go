@@ -68,13 +68,3 @@ export const AttachmentSchema = z
       .optional(),
   })
   .strict();
-
-export type CrmAttachment = z.infer<typeof AttachmentSchema>;
-
-export const AttachmentInsertSchema = AttachmentSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const AttachmentUpdateSchema = AttachmentInsertSchema.partial();

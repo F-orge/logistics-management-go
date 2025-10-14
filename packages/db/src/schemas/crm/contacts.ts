@@ -79,12 +79,3 @@ export const ContactSchema = z
   })
   .strict();
 
-export type CrmContact = z.infer<typeof ContactSchema>;
-
-export const ContactInsertSchema = ContactSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const ContactUpdateSchema = ContactInsertSchema.partial();

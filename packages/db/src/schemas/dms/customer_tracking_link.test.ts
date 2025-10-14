@@ -1,9 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  CustomerTrackingLinkInsertSchema,
   CustomerTrackingLinkSchema,
-  CustomerTrackingLinkUpdateSchema,
 } from './customer_tracking_link';
 
 interface ValidCase {
@@ -49,66 +47,3 @@ describe('DmsCustomerTrackingLinkSchema Validation', () => {
   });
 });
 
-describe('DmsCustomerTrackingLinkInsertSchema Validation', () => {
-  describe('Valid Cases', () => {
-    const validTestCases:ValidCase[] = [];
-
-    test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => CustomerTrackingLinkInsertSchema.parse(input)).not.toThrow();
-      const result = CustomerTrackingLinkInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
-
-  describe('Invalid Cases', () => {
-    const invalidTestCases:InvalidCase[] = [];
-
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          CustomerTrackingLinkInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
-        }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
-});
-
-describe('DmsCustomerTrackingLinkUpdateSchema Validation', () => {
-  describe('Valid Cases', () => {
-    const validTestCases:ValidCase[] = [];
-
-    test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => CustomerTrackingLinkUpdateSchema.parse(input)).not.toThrow();
-      const result = CustomerTrackingLinkUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
-
-  describe('Invalid Cases', () => {
-    const invalidTestCases:InvalidCase[] = [];
-
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          CustomerTrackingLinkUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
-        }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
-});
