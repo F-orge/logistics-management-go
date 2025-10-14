@@ -101,19 +101,14 @@ export const columns: ColumnDef<Case>[] = [
             page: 1,
             perPage: 100,
           }),
-          enabled: !!contact,
         },
         queryClient,
       );
 
-      if (!contact) {
-        return <div className="text-muted-foreground">N/A</div>;
-      }
-
       return (
         <RelationCell
           editable
-          value={contact.id}
+          value={contact?.id}
           options={
             contacts?.map((row) => ({
               label: row.name,
@@ -131,7 +126,7 @@ export const columns: ColumnDef<Case>[] = [
           <div className="flex items-center gap-2">
             <Avatar className="size-8">
               <AvatarFallback>
-                {contact.name
+                {contact?.name
                   .split(' ')
                   .filter(
                     (n: any, i: any, arr: any) =>
@@ -146,18 +141,18 @@ export const columns: ColumnDef<Case>[] = [
               to="/dashboard/crm/contacts"
               search={{
                 view: true,
-                id: contact.id,
+                id: contact?.id,
                 filters: [
                   {
                     column: 'id',
                     operation: '=',
-                    value: contact.id,
+                    value: contact?.id,
                   },
                 ],
               }}
               className="hover:underline"
             >
-              {contact.name}
+              {contact?.name}
             </Link>
           </div>
         </RelationCell>

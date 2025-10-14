@@ -298,12 +298,13 @@ export const columns: ColumnDef<
               searchValue: row.name,
             })) || []
           }
-          onSave={async (value) =>
+          onSave={async (value) => {
+            console.log(row.original);
             updateMutation.mutateAsync({
               id: row.original.id,
               value: { convertedContactId: value },
-            })
-          }
+            });
+          }}
         >
           <Button size={'sm'} variant={'outline'}>
             {row.original.convertedContact?.name || 'Not Available'}

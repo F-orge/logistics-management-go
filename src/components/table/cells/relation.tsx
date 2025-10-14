@@ -54,90 +54,83 @@ const RelationCell = (props: RelationCellProps) => {
     }
   }, [props.value]);
 
-  if (props.value !== undefined) {
-    return (
-      <Field className={cn(edit && 'min-w-xs')}>
-        {edit ? (
-          <div className="flex gap-2.5">
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-3/4 justify-between"
-                >
-                  {value &&
-                    props.options.find((option) => option.value === value)
-                      ?.label}
-                  <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
-                <Command>
-                  <CommandInput placeholder="Search Record" />
-                  <CommandList>
-                    <CommandEmpty>No record found.</CommandEmpty>
-                    <CommandGroup>
-                      {props.options.map((option) => (
-                        <CommandItem
-                          keywords={[option.label]}
-                          key={option.value}
-                          value={option.value}
-                          onSelect={(currentValue) => {
-                            setValue(
-                              currentValue === value ? '' : currentValue,
-                            );
-                            setOpen(false);
-                            props.onSave?.(value);
-                            setEdit(false);
-                          }}
-                        >
-                          <CheckIcon
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              value === option.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
-                          />
-                          {option.label}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            <Button
-              onClick={() => setEdit(false)}
-              variant="outline"
-              size={'icon'}
-            >
-              ✕
-            </Button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Button
-              onDoubleClick={() => {
-                if (props.editable) {
-                  setEdit(true);
-                }
-              }}
-              variant={'outline'}
-              size={'icon-sm'}
-            >
-              <Edit className=" text-muted-foreground" />
-            </Button>
-            <FieldContent>{props.children}</FieldContent>
-          </div>
-        )}
-      </Field>
-    );
-  } else {
-    return <>-</>;
-  }
+  return (
+    <Field className={cn(edit && 'min-w-xs')}>
+      {edit ? (
+        <div className="flex gap-2.5">
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-3/4 justify-between"
+              >
+                {value &&
+                  props.options.find((option) => option.value === value)?.label}
+                <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0">
+              <Command value={value} onValueChange={(value) => setValue(value)}>
+                <CommandInput placeholder="Search Record" />
+                <CommandList>
+                  <CommandEmpty>No record found.</CommandEmpty>
+                  <CommandGroup>
+                    {props.options.map((option) => (
+                      <CommandItem
+                        keywords={[option.label]}
+                        key={option.value}
+                        value={option.value}
+                        onSelect={(currentValue) => {
+                          setValue(currentValue === value ? '' : currentValue);
+                          setOpen(false);
+                          props.onSave?.(currentValue);
+                          setEdit(false);
+                        }}
+                      >
+                        <CheckIcon
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            value === option.value
+                              ? 'opacity-100'
+                              : 'opacity-0',
+                          )}
+                        />
+                        {option.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          <Button
+            onClick={() => setEdit(false)}
+            variant="outline"
+            size={'icon'}
+          >
+            ✕
+          </Button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => {
+              if (props.editable) {
+                setEdit(true);
+              }
+            }}
+            variant={'outline'}
+            size={'icon-sm'}
+          >
+            <Edit className=" text-muted-foreground" />
+          </Button>
+          <FieldContent>{props.children}</FieldContent>
+        </div>
+      )}
+    </Field>
+  );
 };
 
 export default RelationCell;

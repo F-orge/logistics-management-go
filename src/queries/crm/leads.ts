@@ -1,4 +1,4 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
+import { ORPCError, type ORPCErrorCode } from '@orpc/client';
 import { mutationOptions, queryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { nonEmpty } from '@/lib/utils';
@@ -26,15 +26,17 @@ export const paginateLead = (
       );
 
       const convertedCompanyPromises = client.ensureQueryData(
-        inCompany(leads.map((row) => row.campaignId).filter(nonEmpty)),
+        inCompany(leads.map((row) => row.convertedCompanyId).filter(nonEmpty)),
       );
 
       const convertedContactPromises = client.ensureQueryData(
-        inContact(leads.map((row) => row.campaignId).filter(nonEmpty)),
+        inContact(leads.map((row) => row.convertedContactId).filter(nonEmpty)),
       );
 
       const convertedOpportunityPromises = client.ensureQueryData(
-        inOpportunity(leads.map((row) => row.campaignId).filter(nonEmpty)),
+        inOpportunity(
+          leads.map((row) => row.convertedOpportunityId).filter(nonEmpty),
+        ),
       );
 
       const [
