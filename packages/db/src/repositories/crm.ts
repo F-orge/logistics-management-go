@@ -30,6 +30,7 @@ export const InteractionRepository = repositoryFactory(
   'crm.interactions',
   InteractionSchema,
 );
+
 export const InvoiceRepository = repositoryFactory('crm.invoices', InvoiceSchema);
 export const InvoiceItemRepository = repositoryFactory(
   'crm.invoiceItems',

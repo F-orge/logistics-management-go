@@ -130,6 +130,10 @@ export const repositoryFactory = <Schema extends ZodRawShape,Table extends keyof
     return query.execute() as any
   }
 
+  const any = async (values:string[]): Promise<Array<z.infer<typeof schema>>>  => {
+    return await kysely.selectFrom(table as any).selectAll().where('id','in',values).execute() as any
+  }
+
   const insert = async (value:z.infer<typeof InsertSchema>): Promise<z.infer<typeof schema>> => {
     return await kysely.insertInto(table as any).values(value).returningAll().executeTakeFirstOrThrow() as any
   }
@@ -145,7 +149,7 @@ export const repositoryFactory = <Schema extends ZodRawShape,Table extends keyof
   const remove = async (id:string): Promise<DeleteResult> => {
     return await kysely.deleteFrom(table as any).where('id','=',id).executeTakeFirstOrThrow()
   }
-    return {paginate,range,insert,insertMany,update,remove}
+    return {paginate,range,any,insert,insertMany,update,remove}
   }
   
   return {fns,schemas:{paginateOptionSchema,rangeOptionSchema,InsertSchema,UpdateSchema}}
