@@ -2,9 +2,9 @@ import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import { CrmInteractionType } from '@/db.types';
 import {
-  crmInteractionInsertSchema,
-  crmInteractionSchema,
-  crmInteractionUpdateSchema,
+  InteractionInsertSchema,
+  InteractionSchema,
+  InteractionUpdateSchema,
 } from './interactions';
 
 describe('CrmInteractionSchema Validation', () => {
@@ -71,8 +71,8 @@ describe('CrmInteractionSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInteractionSchema.parse(input)).not.toThrow();
-      const result = crmInteractionSchema.parse(input);
+      expect(() => InteractionSchema.parse(input)).not.toThrow();
+      const result = InteractionSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -277,7 +277,7 @@ describe('CrmInteractionSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInteractionSchema.parse(input);
+          InteractionSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -292,14 +292,14 @@ describe('CrmInteractionSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInteractionSchema', () => {
+  describe('SafeParse Tests for InteractionSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-valid',
       };
-      const result = crmInteractionSchema.safeParse(validData);
+      const result = InteractionSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -313,7 +313,7 @@ describe('CrmInteractionSchema Validation', () => {
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-invalid',
       };
-      const result = crmInteractionSchema.safeParse(invalidData);
+      const result = InteractionSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -349,8 +349,8 @@ describe('CrmInteractionInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInteractionInsertSchema.parse(input)).not.toThrow();
-      const result = crmInteractionInsertSchema.parse(input);
+      expect(() => InteractionInsertSchema.parse(input)).not.toThrow();
+      const result = InteractionInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -405,7 +405,7 @@ describe('CrmInteractionInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInteractionInsertSchema.parse(input);
+          InteractionInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -420,13 +420,13 @@ describe('CrmInteractionInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInteractionInsertSchema', () => {
+  describe('SafeParse Tests for InteractionInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-valid-insert',
       };
-      const result = crmInteractionInsertSchema.safeParse(validData);
+      const result = InteractionInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -440,7 +440,7 @@ describe('CrmInteractionInsertSchema Validation', () => {
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-invalid-insert',
       };
-      const result = crmInteractionInsertSchema.safeParse(invalidData);
+      const result = InteractionInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -485,8 +485,8 @@ describe('CrmInteractionUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInteractionUpdateSchema.parse(input)).not.toThrow();
-      const result = crmInteractionUpdateSchema.parse(input);
+      expect(() => InteractionUpdateSchema.parse(input)).not.toThrow();
+      const result = InteractionUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -571,7 +571,7 @@ describe('CrmInteractionUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInteractionUpdateSchema.parse(input);
+          InteractionUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -586,12 +586,12 @@ describe('CrmInteractionUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInteractionUpdateSchema', () => {
+  describe('SafeParse Tests for InteractionUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         notes: 'Valid update notes.',
       };
-      const result = crmInteractionUpdateSchema.safeParse(validData);
+      const result = InteractionUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -604,7 +604,7 @@ describe('CrmInteractionUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         notes: 'Invalid update notes.',
       };
-      const result = crmInteractionUpdateSchema.safeParse(invalidData);
+      const result = InteractionUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

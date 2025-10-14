@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmContactInsertSchema,
-  crmContactSchema,
-  crmContactUpdateSchema,
+  ContactInsertSchema,
+  ContactSchema,
+  ContactUpdateSchema,
 } from './contacts';
 
 describe('CrmContactSchema Validation', () => {
@@ -91,8 +91,8 @@ describe('CrmContactSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmContactSchema.parse(input)).not.toThrow();
-      const result = crmContactSchema.parse(input);
+      expect(() => ContactSchema.parse(input)).not.toThrow();
+      const result = ContactSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -351,7 +351,7 @@ describe('CrmContactSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmContactSchema.parse(input);
+          ContactSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -364,7 +364,7 @@ describe('CrmContactSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmContactSchema', () => {
+  describe('SafeParse Tests for ContactSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
@@ -372,7 +372,7 @@ describe('CrmContactSchema Validation', () => {
         email: 'valid.contact@example.com',
         ownerId: 'user-valid',
       };
-      const result = crmContactSchema.safeParse(validData);
+      const result = ContactSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -387,7 +387,7 @@ describe('CrmContactSchema Validation', () => {
         email: 'invalid.contact@example.com',
         ownerId: 'user-invalid',
       };
-      const result = crmContactSchema.safeParse(invalidData);
+      const result = ContactSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -423,8 +423,8 @@ describe('CrmContactInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmContactInsertSchema.parse(input)).not.toThrow();
-      const result = crmContactInsertSchema.parse(input);
+      expect(() => ContactInsertSchema.parse(input)).not.toThrow();
+      const result = ContactInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -492,7 +492,7 @@ describe('CrmContactInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmContactInsertSchema.parse(input);
+          ContactInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -504,14 +504,14 @@ describe('CrmContactInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmContactInsertSchema', () => {
+  describe('SafeParse Tests for ContactInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Insert Contact',
         email: 'valid.insert@example.com',
         ownerId: 'user-valid-insert',
       };
-      const result = crmContactInsertSchema.safeParse(validData);
+      const result = ContactInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -526,7 +526,7 @@ describe('CrmContactInsertSchema Validation', () => {
         email: 'invalid.insert@example.com',
         ownerId: 'user-invalid-insert',
       };
-      const result = crmContactInsertSchema.safeParse(invalidData);
+      const result = ContactInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -570,8 +570,8 @@ describe('CrmContactUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmContactUpdateSchema.parse(input)).not.toThrow();
-      const result = crmContactUpdateSchema.parse(input);
+      expect(() => ContactUpdateSchema.parse(input)).not.toThrow();
+      const result = ContactUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -671,7 +671,7 @@ describe('CrmContactUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmContactUpdateSchema.parse(input);
+          ContactUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -684,14 +684,14 @@ describe('CrmContactUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmContactUpdateSchema', () => {
+  describe('SafeParse Tests for ContactUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Update Contact',
         email: 'valid.update@example.com',
         ownerId: 'user-valid-update',
       };
-      const result = crmContactUpdateSchema.safeParse(validData);
+      const result = ContactUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -706,7 +706,7 @@ describe('CrmContactUpdateSchema Validation', () => {
         email: 'invalid.update@example.com',
         ownerId: 'user-invalid-update',
       };
-      const result = crmContactUpdateSchema.safeParse(invalidData);
+      const result = ContactUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

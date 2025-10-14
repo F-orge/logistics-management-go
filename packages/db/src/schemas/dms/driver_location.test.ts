@@ -1,0 +1,114 @@
+import { describe, expect, test } from 'bun:test';
+import { ZodError } from 'zod';
+import {
+  DriverLocationInsertSchema,
+  DriverLocationSchema,
+  DriverLocationUpdateSchema
+} from './driver_location';
+
+interface ValidCase {
+  name:string,
+  input:any,
+}
+
+interface InvalidCase {
+  name:string,
+  input:any,
+  expectedError:string;
+}
+
+describe('DmsDriverLocationSchema Validation', () => {
+  describe('Valid Cases', () => {
+    const validTestCases:ValidCase[] = [];
+
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
+      expect(() => DriverLocationSchema.parse(input)).not.toThrow();
+      const result = DriverLocationSchema.parse(input);
+      expect(result).toEqual(expect.objectContaining(input));
+    });
+  });
+
+  describe('Invalid Cases', () => {
+    const invalidTestCases:InvalidCase[] = [];
+
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          DriverLocationSchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
+        }
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0]?.message).toContain(expectedError);
+      },
+    );
+  });
+});
+
+describe('DmsDriverLocationInsertSchema Validation', () => {
+  describe('Valid Cases', () => {
+    const validTestCases:ValidCase[] = [];
+
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
+      expect(() => DriverLocationInsertSchema.parse(input)).not.toThrow();
+      const result = DriverLocationInsertSchema.parse(input);
+      expect(result).toEqual(expect.objectContaining(input));
+    });
+  });
+
+  describe('Invalid Cases', () => {
+    const invalidTestCases:InvalidCase[] = [];
+
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          DriverLocationInsertSchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
+        }
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0]?.message).toContain(expectedError);
+      },
+    );
+  });
+});
+
+describe('DmsDriverLocationUpdateSchema Validation', () => {
+  describe('Valid Cases', () => {
+    const validTestCases:ValidCase[] = [];
+
+    test.each(validTestCases)('should validate: $name', ({ input }) => {
+      expect(() => DriverLocationUpdateSchema.parse(input)).not.toThrow();
+      const result = DriverLocationUpdateSchema.parse(input);
+      expect(result).toEqual(expect.objectContaining(input));
+    });
+  });
+
+  describe('Invalid Cases', () => {
+    const invalidTestCases:InvalidCase[] = [];
+
+    test.each(invalidTestCases)(
+      'should reject: $name',
+      ({ input, expectedError }) => {
+        let error: ZodError | undefined;
+        try {
+          DriverLocationUpdateSchema.parse(input);
+        } catch (e) {
+          if (e instanceof ZodError) {
+            error = e;
+          }
+        }
+        expect(error).toBeInstanceOf(ZodError);
+        expect(error?.issues[0]?.message).toContain(expectedError);
+      },
+    );
+  });
+});

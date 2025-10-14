@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmOpportunityProductInsertSchema,
-  crmOpportunityProductSchema,
-  crmOpportunityProductUpdateSchema,
+  OpportunityProductInsertSchema,
+  OpportunityProductSchema,
+  OpportunityProductUpdateSchema,
 } from './opportunity_products';
 
 describe('CrmOpportunityProductSchema Validation', () => {
@@ -48,8 +48,8 @@ describe('CrmOpportunityProductSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmOpportunityProductSchema.parse(input)).not.toThrow();
-      const result = crmOpportunityProductSchema.parse(input);
+      expect(() => OpportunityProductSchema.parse(input)).not.toThrow();
+      const result = OpportunityProductSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -180,7 +180,7 @@ describe('CrmOpportunityProductSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunityProductSchema.parse(input);
+          OpportunityProductSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -195,7 +195,7 @@ describe('CrmOpportunityProductSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunityProductSchema', () => {
+  describe('SafeParse Tests for OpportunityProductSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
@@ -203,7 +203,7 @@ describe('CrmOpportunityProductSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
-      const result = crmOpportunityProductSchema.safeParse(validData);
+      const result = OpportunityProductSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -218,7 +218,7 @@ describe('CrmOpportunityProductSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
-      const result = crmOpportunityProductSchema.safeParse(invalidData);
+      const result = OpportunityProductSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -252,9 +252,9 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() =>
-        crmOpportunityProductInsertSchema.parse(input),
+        OpportunityProductInsertSchema.parse(input),
       ).not.toThrow();
-      const result = crmOpportunityProductInsertSchema.parse(input);
+      const result = OpportunityProductInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -302,7 +302,7 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunityProductInsertSchema.parse(input);
+          OpportunityProductInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -317,14 +317,14 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunityProductInsertSchema', () => {
+  describe('SafeParse Tests for OpportunityProductInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
-      const result = crmOpportunityProductInsertSchema.safeParse(validData);
+      const result = OpportunityProductInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -339,7 +339,7 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
       };
-      const result = crmOpportunityProductInsertSchema.safeParse(invalidData);
+      const result = OpportunityProductInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -375,9 +375,9 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
       expect(() =>
-        crmOpportunityProductUpdateSchema.parse(input),
+        OpportunityProductUpdateSchema.parse(input),
       ).not.toThrow();
-      const result = crmOpportunityProductUpdateSchema.parse(input);
+      const result = OpportunityProductUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -441,7 +441,7 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunityProductUpdateSchema.parse(input);
+          OpportunityProductUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -456,12 +456,12 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunityProductUpdateSchema', () => {
+  describe('SafeParse Tests for OpportunityProductUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         quantity: 10,
       };
-      const result = crmOpportunityProductUpdateSchema.safeParse(validData);
+      const result = OpportunityProductUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -474,7 +474,7 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         quantity: 10,
       };
-      const result = crmOpportunityProductUpdateSchema.safeParse(invalidData);
+      const result = OpportunityProductUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

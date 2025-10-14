@@ -2,11 +2,11 @@ import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types';
 import {
-  crmOpportunityInsertSchema,
-  crmOpportunitySchema,
-  crmOpportunityUpdateSchema,
+  OpportunityInsertSchema,
+  OpportunitySchema,
+  OpportunityUpdateSchema,
 } from './opportunities';
-import { crmOpportunityProductInsertSchema } from './opportunity_products'; // Import for nested schema
+import { OpportunityProductInsertSchema } from './opportunity_products'; // Import for nested schema
 
 describe('CrmOpportunitySchema Validation', () => {
   describe('Valid Cases', () => {
@@ -103,8 +103,8 @@ describe('CrmOpportunitySchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmOpportunitySchema.parse(input)).not.toThrow();
-      const result = crmOpportunitySchema.parse(input);
+      expect(() => OpportunitySchema.parse(input)).not.toThrow();
+      const result = OpportunitySchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -385,7 +385,7 @@ describe('CrmOpportunitySchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunitySchema.parse(input);
+          OpportunitySchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -400,14 +400,14 @@ describe('CrmOpportunitySchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunitySchema', () => {
+  describe('SafeParse Tests for OpportunitySchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Opportunity',
         ownerId: 'user-valid',
       };
-      const result = crmOpportunitySchema.safeParse(validData);
+      const result = OpportunitySchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -421,7 +421,7 @@ describe('CrmOpportunitySchema Validation', () => {
         name: 'Invalid Opportunity',
         ownerId: 'user-invalid',
       };
-      const result = crmOpportunitySchema.safeParse(invalidData);
+      const result = OpportunitySchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -469,8 +469,8 @@ describe('CrmOpportunityInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmOpportunityInsertSchema.parse(input)).not.toThrow();
-      const result = crmOpportunityInsertSchema.parse(input);
+      expect(() => OpportunityInsertSchema.parse(input)).not.toThrow();
+      const result = OpportunityInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -539,7 +539,7 @@ describe('CrmOpportunityInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunityInsertSchema.parse(input);
+          OpportunityInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -554,13 +554,13 @@ describe('CrmOpportunityInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunityInsertSchema', () => {
+  describe('SafeParse Tests for OpportunityInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Insert Opp',
         ownerId: 'user-valid-insert',
       };
-      const result = crmOpportunityInsertSchema.safeParse(validData);
+      const result = OpportunityInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -574,7 +574,7 @@ describe('CrmOpportunityInsertSchema Validation', () => {
         name: 'Invalid Insert Opp',
         ownerId: 'user-invalid-insert',
       };
-      const result = crmOpportunityInsertSchema.safeParse(invalidData);
+      const result = OpportunityInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -623,8 +623,8 @@ describe('CrmOpportunityUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmOpportunityUpdateSchema.parse(input)).not.toThrow();
-      const result = crmOpportunityUpdateSchema.parse(input);
+      expect(() => OpportunityUpdateSchema.parse(input)).not.toThrow();
+      const result = OpportunityUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -716,7 +716,7 @@ describe('CrmOpportunityUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmOpportunityUpdateSchema.parse(input);
+          OpportunityUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -731,13 +731,13 @@ describe('CrmOpportunityUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmOpportunityUpdateSchema', () => {
+  describe('SafeParse Tests for OpportunityUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Update Opp',
         dealValue: 1000,
       };
-      const result = crmOpportunityUpdateSchema.safeParse(validData);
+      const result = OpportunityUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -750,7 +750,7 @@ describe('CrmOpportunityUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Update Opp',
       };
-      const result = crmOpportunityUpdateSchema.safeParse(invalidData);
+      const result = OpportunityUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

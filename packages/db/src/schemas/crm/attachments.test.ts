@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmAttachmentInsertSchema,
-  crmAttachmentSchema,
-  crmAttachmentUpdateSchema,
+  AttachmentInsertSchema,
+  AttachmentSchema,
+  AttachmentUpdateSchema,
 } from './attachments';
 
 // Define CrmRecordType for testing purposes, mirroring the original enum
@@ -92,8 +92,8 @@ describe('CrmAttachmentSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmAttachmentSchema.parse(input)).not.toThrow();
-      const result = crmAttachmentSchema.parse(input);
+      expect(() => AttachmentSchema.parse(input)).not.toThrow();
+      const result = AttachmentSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -256,7 +256,7 @@ describe('CrmAttachmentSchema Validation', () => {
         try {
           // Add console.log to debug filePath length
 
-          crmAttachmentSchema.parse(input);
+          AttachmentSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -268,14 +268,14 @@ describe('CrmAttachmentSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmAttachmentSchema', () => {
+  describe('SafeParse Tests for AttachmentSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         fileName: 'document.pdf',
         filePath: '/uploads/document.pdf',
       };
-      const result = crmAttachmentSchema.safeParse(validData);
+      const result = AttachmentSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -289,7 +289,7 @@ describe('CrmAttachmentSchema Validation', () => {
         fileName: 'document.pdf',
         filePath: '/uploads/document.pdf',
       };
-      const result = crmAttachmentSchema.safeParse(invalidData);
+      const result = AttachmentSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -323,8 +323,8 @@ describe('CrmAttachmentInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmAttachmentInsertSchema.parse(input)).not.toThrow();
-      const result = crmAttachmentInsertSchema.parse(input);
+      expect(() => AttachmentInsertSchema.parse(input)).not.toThrow();
+      const result = AttachmentInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -379,7 +379,7 @@ describe('CrmAttachmentInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmAttachmentInsertSchema.parse(input);
+          AttachmentInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -391,13 +391,13 @@ describe('CrmAttachmentInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmAttachmentInsertSchema', () => {
+  describe('SafeParse Tests for AttachmentInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         fileName: 'new_doc.docx',
         filePath: '/new_uploads/new_doc.docx',
       };
-      const result = crmAttachmentInsertSchema.safeParse(validData);
+      const result = AttachmentInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -411,7 +411,7 @@ describe('CrmAttachmentInsertSchema Validation', () => {
         fileName: 'new_doc.docx',
         filePath: '/new_uploads/new_doc.docx',
       };
-      const result = crmAttachmentInsertSchema.safeParse(invalidData);
+      const result = AttachmentInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -461,8 +461,8 @@ describe('CrmAttachmentUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmAttachmentUpdateSchema.parse(input)).not.toThrow();
-      const result = crmAttachmentUpdateSchema.parse(input);
+      expect(() => AttachmentUpdateSchema.parse(input)).not.toThrow();
+      const result = AttachmentUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -521,7 +521,7 @@ describe('CrmAttachmentUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmAttachmentUpdateSchema.parse(input);
+          AttachmentUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -533,12 +533,12 @@ describe('CrmAttachmentUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmAttachmentUpdateSchema', () => {
+  describe('SafeParse Tests for AttachmentUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         fileName: 'updated_name.pdf',
       };
-      const result = crmAttachmentUpdateSchema.safeParse(validData);
+      const result = AttachmentUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -550,7 +550,7 @@ describe('CrmAttachmentUpdateSchema Validation', () => {
       const invalidData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
       };
-      const result = crmAttachmentUpdateSchema.safeParse(invalidData);
+      const result = AttachmentUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

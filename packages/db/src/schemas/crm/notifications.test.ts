@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmNotificationInsertSchema,
-  crmNotificationSchema,
-  crmNotificationUpdateSchema,
+  NotificationInsertSchema,
+  NotificationSchema,
+  NotificationUpdateSchema,
 } from './notifications';
 
 describe('CrmNotificationSchema Validation', () => {
@@ -66,8 +66,8 @@ describe('CrmNotificationSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmNotificationSchema.parse(input)).not.toThrow();
-      const result = crmNotificationSchema.parse(input);
+      expect(() => NotificationSchema.parse(input)).not.toThrow();
+      const result = NotificationSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -248,7 +248,7 @@ describe('CrmNotificationSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmNotificationSchema.parse(input);
+          NotificationSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -263,14 +263,14 @@ describe('CrmNotificationSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmNotificationSchema', () => {
+  describe('SafeParse Tests for NotificationSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         userId: 'user-valid',
         message: 'Valid notification.',
       };
-      const result = crmNotificationSchema.safeParse(validData);
+      const result = NotificationSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -284,7 +284,7 @@ describe('CrmNotificationSchema Validation', () => {
         userId: 'user-invalid',
         message: 'Invalid notification.',
       };
-      const result = crmNotificationSchema.safeParse(invalidData);
+      const result = NotificationSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -317,8 +317,8 @@ describe('CrmNotificationInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmNotificationInsertSchema.parse(input)).not.toThrow();
-      const result = crmNotificationInsertSchema.parse(input);
+      expect(() => NotificationInsertSchema.parse(input)).not.toThrow();
+      const result = NotificationInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -382,7 +382,7 @@ describe('CrmNotificationInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmNotificationInsertSchema.parse(input);
+          NotificationInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -397,13 +397,13 @@ describe('CrmNotificationInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmNotificationInsertSchema', () => {
+  describe('SafeParse Tests for NotificationInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         userId: 'user-valid-insert',
         message: 'Valid insert notification.',
       };
-      const result = crmNotificationInsertSchema.safeParse(validData);
+      const result = NotificationInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -417,7 +417,7 @@ describe('CrmNotificationInsertSchema Validation', () => {
         userId: 'user-invalid-insert',
         message: 'Invalid insert notification.',
       };
-      const result = crmNotificationInsertSchema.safeParse(invalidData);
+      const result = NotificationInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -459,8 +459,8 @@ describe('CrmNotificationUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmNotificationUpdateSchema.parse(input)).not.toThrow();
-      const result = crmNotificationUpdateSchema.parse(input);
+      expect(() => NotificationUpdateSchema.parse(input)).not.toThrow();
+      const result = NotificationUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -524,7 +524,7 @@ describe('CrmNotificationUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmNotificationUpdateSchema.parse(input);
+          NotificationUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -539,12 +539,12 @@ describe('CrmNotificationUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmNotificationUpdateSchema', () => {
+  describe('SafeParse Tests for NotificationUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         message: 'Valid update.',
       };
-      const result = crmNotificationUpdateSchema.safeParse(validData);
+      const result = NotificationUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -557,7 +557,7 @@ describe('CrmNotificationUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         message: 'Invalid update.',
       };
-      const result = crmNotificationUpdateSchema.safeParse(invalidData);
+      const result = NotificationUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

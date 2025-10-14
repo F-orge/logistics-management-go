@@ -22,7 +22,7 @@
     }
   },
   "scripts": {
-    "build": "bun tsc"
+    "build": "rm -rf .output && bun tsc"
   },
   "devDependencies": {
     "@types/bun": "latest"

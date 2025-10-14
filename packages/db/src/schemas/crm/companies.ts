@@ -1,7 +1,7 @@
 import { fieldConfig } from '@autoform/zod';
 import { z } from 'zod';
 
-// Zod schema for crm.companies table
+// Zod schema for .companies table
 
 export const CompanySchema = z
   .object({

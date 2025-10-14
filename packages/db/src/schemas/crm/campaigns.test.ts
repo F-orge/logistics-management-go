@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmCampaignInsertSchema,
-  crmCampaignSchema,
-  crmCampaignUpdateSchema,
+  CampaignInsertSchema,
+  CampaignSchema,
+  CampaignUpdateSchema,
 } from './campaigns';
 
 describe('CrmCampaignSchema Validation', () => {
@@ -55,8 +55,8 @@ describe('CrmCampaignSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCampaignSchema.parse(input)).not.toThrow();
-      const result = crmCampaignSchema.parse(input);
+      expect(() => CampaignSchema.parse(input)).not.toThrow();
+      const result = CampaignSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -170,7 +170,7 @@ describe('CrmCampaignSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCampaignSchema.parse(input);
+          CampaignSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -182,13 +182,13 @@ describe('CrmCampaignSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCampaignSchema', () => {
+  describe('SafeParse Tests for CampaignSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Campaign',
       };
-      const result = crmCampaignSchema.safeParse(validData);
+      const result = CampaignSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -201,7 +201,7 @@ describe('CrmCampaignSchema Validation', () => {
         id: 'invalid-uuid',
         name: 'Invalid Campaign',
       };
-      const result = crmCampaignSchema.safeParse(invalidData);
+      const result = CampaignSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -233,8 +233,8 @@ describe('CrmCampaignInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCampaignInsertSchema.parse(input)).not.toThrow();
-      const result = crmCampaignInsertSchema.parse(input);
+      expect(() => CampaignInsertSchema.parse(input)).not.toThrow();
+      const result = CampaignInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -285,7 +285,7 @@ describe('CrmCampaignInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCampaignInsertSchema.parse(input);
+          CampaignInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -297,12 +297,12 @@ describe('CrmCampaignInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCampaignInsertSchema', () => {
+  describe('SafeParse Tests for CampaignInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Insert Campaign',
       };
-      const result = crmCampaignInsertSchema.safeParse(validData);
+      const result = CampaignInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -315,7 +315,7 @@ describe('CrmCampaignInsertSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Insert Campaign',
       };
-      const result = crmCampaignInsertSchema.safeParse(invalidData);
+      const result = CampaignInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -357,8 +357,8 @@ describe('CrmCampaignUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCampaignUpdateSchema.parse(input)).not.toThrow();
-      const result = crmCampaignUpdateSchema.parse(input);
+      expect(() => CampaignUpdateSchema.parse(input)).not.toThrow();
+      const result = CampaignUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -411,7 +411,7 @@ describe('CrmCampaignUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCampaignUpdateSchema.parse(input);
+          CampaignUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -423,12 +423,12 @@ describe('CrmCampaignUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCampaignUpdateSchema', () => {
+  describe('SafeParse Tests for CampaignUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Update Campaign',
       };
-      const result = crmCampaignUpdateSchema.safeParse(validData);
+      const result = CampaignUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -441,7 +441,7 @@ describe('CrmCampaignUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Update Campaign',
       };
-      const result = crmCampaignUpdateSchema.safeParse(invalidData);
+      const result = CampaignUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

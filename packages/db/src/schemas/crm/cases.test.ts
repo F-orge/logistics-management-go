@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmCaseInsertSchema,
-  crmCaseSchema,
-  crmCaseUpdateSchema,
+  CaseInsertSchema,
+  CaseSchema,
+  CaseUpdateSchema,
 } from './cases';
 
 // Define enums for testing purposes, mirroring the original enums from @/db/types
@@ -96,8 +96,8 @@ describe('CrmCaseSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCaseSchema.parse(input)).not.toThrow();
-      const result = crmCaseSchema.parse(input);
+      expect(() => CaseSchema.parse(input)).not.toThrow();
+      const result = CaseSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -288,7 +288,7 @@ describe('CrmCaseSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCaseSchema.parse(input);
+          CaseSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -300,14 +300,14 @@ describe('CrmCaseSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCaseSchema', () => {
+  describe('SafeParse Tests for CaseSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         caseNumber: 'CASE-VALID',
         ownerId: 'user-valid',
       };
-      const result = crmCaseSchema.safeParse(validData);
+      const result = CaseSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -321,7 +321,7 @@ describe('CrmCaseSchema Validation', () => {
         caseNumber: 'CASE-INVALID',
         ownerId: 'user-invalid',
       };
-      const result = crmCaseSchema.safeParse(invalidData);
+      const result = CaseSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -357,8 +357,8 @@ describe('CrmCaseInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCaseInsertSchema.parse(input)).not.toThrow();
-      const result = crmCaseInsertSchema.parse(input);
+      expect(() => CaseInsertSchema.parse(input)).not.toThrow();
+      const result = CaseInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -413,7 +413,7 @@ describe('CrmCaseInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCaseInsertSchema.parse(input);
+          CaseInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -425,13 +425,13 @@ describe('CrmCaseInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCaseInsertSchema', () => {
+  describe('SafeParse Tests for CaseInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         caseNumber: 'INSERT-SAFE',
         ownerId: 'user-safe',
       };
-      const result = crmCaseInsertSchema.safeParse(validData);
+      const result = CaseInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -445,7 +445,7 @@ describe('CrmCaseInsertSchema Validation', () => {
         caseNumber: 'INSERT-SAFE-FAIL',
         ownerId: 'user-safe-fail',
       };
-      const result = crmCaseInsertSchema.safeParse(invalidData);
+      const result = CaseInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -490,8 +490,8 @@ describe('CrmCaseUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCaseUpdateSchema.parse(input)).not.toThrow();
-      const result = crmCaseUpdateSchema.parse(input);
+      expect(() => CaseUpdateSchema.parse(input)).not.toThrow();
+      const result = CaseUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -578,7 +578,7 @@ describe('CrmCaseUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCaseUpdateSchema.parse(input);
+          CaseUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -590,12 +590,12 @@ describe('CrmCaseUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCaseUpdateSchema', () => {
+  describe('SafeParse Tests for CaseUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         caseNumber: 'UPDATE-SAFE',
       };
-      const result = crmCaseUpdateSchema.safeParse(validData);
+      const result = CaseUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -608,7 +608,7 @@ describe('CrmCaseUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         caseNumber: 'UPDATE-SAFE-FAIL',
       };
-      const result = crmCaseUpdateSchema.safeParse(invalidData);
+      const result = CaseUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmInvoiceItemInsertSchema,
-  crmInvoiceItemSchema,
-  crmInvoiceItemUpdateSchema,
+  InvoiceItemInsertSchema,
+  InvoiceItemSchema,
+  InvoiceItemUpdateSchema,
 } from './invoice_items';
 
 describe('CrmInvoiceItemSchema Validation', () => {
@@ -64,8 +64,8 @@ describe('CrmInvoiceItemSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemSchema.parse(input);
+      expect(() => InvoiceItemSchema.parse(input)).not.toThrow();
+      const result = InvoiceItemSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -275,7 +275,7 @@ describe('CrmInvoiceItemSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInvoiceItemSchema.parse(input);
+          InvoiceItemSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -290,7 +290,7 @@ describe('CrmInvoiceItemSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInvoiceItemSchema', () => {
+  describe('SafeParse Tests for InvoiceItemSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
@@ -299,7 +299,7 @@ describe('CrmInvoiceItemSchema Validation', () => {
         price: 100,
         quantity: 5,
       };
-      const result = crmInvoiceItemSchema.safeParse(validData);
+      const result = InvoiceItemSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -315,7 +315,7 @@ describe('CrmInvoiceItemSchema Validation', () => {
         price: 100,
         quantity: 5,
       };
-      const result = crmInvoiceItemSchema.safeParse(invalidData);
+      const result = InvoiceItemSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -350,8 +350,8 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemInsertSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemInsertSchema.parse(input);
+      expect(() => InvoiceItemInsertSchema.parse(input)).not.toThrow();
+      const result = InvoiceItemInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -434,7 +434,7 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInvoiceItemInsertSchema.parse(input);
+          InvoiceItemInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -449,7 +449,7 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInvoiceItemInsertSchema', () => {
+  describe('SafeParse Tests for InvoiceItemInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
@@ -457,7 +457,7 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
         price: 100,
         quantity: 5,
       };
-      const result = crmInvoiceItemInsertSchema.safeParse(validData);
+      const result = InvoiceItemInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -473,7 +473,7 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
         price: 100,
         quantity: 5,
       };
-      const result = crmInvoiceItemInsertSchema.safeParse(invalidData);
+      const result = InvoiceItemInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -515,8 +515,8 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemUpdateSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemUpdateSchema.parse(input);
+      expect(() => InvoiceItemUpdateSchema.parse(input)).not.toThrow();
+      const result = InvoiceItemUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -601,7 +601,7 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmInvoiceItemUpdateSchema.parse(input);
+          InvoiceItemUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -616,13 +616,13 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmInvoiceItemUpdateSchema', () => {
+  describe('SafeParse Tests for InvoiceItemUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         price: 75,
         quantity: 8,
       };
-      const result = crmInvoiceItemUpdateSchema.safeParse(validData);
+      const result = InvoiceItemUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -635,7 +635,7 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         price: 75,
       };
-      const result = crmInvoiceItemUpdateSchema.safeParse(invalidData);
+      const result = InvoiceItemUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {

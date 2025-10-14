@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  crmCompanyInsertSchema,
-  crmCompanySchema,
-  crmCompanyUpdateSchema,
+  CompanyInsertSchema,
+  CompanySchema,
+  CompanyUpdateSchema,
 } from './companies';
 
 describe('CrmCompanySchema Validation', () => {
@@ -111,8 +111,8 @@ describe('CrmCompanySchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCompanySchema.parse(input)).not.toThrow();
-      const result = crmCompanySchema.parse(input);
+      expect(() => CompanySchema.parse(input)).not.toThrow();
+      const result = CompanySchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -388,7 +388,7 @@ describe('CrmCompanySchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCompanySchema.parse(input);
+          CompanySchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -400,13 +400,13 @@ describe('CrmCompanySchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCompanySchema', () => {
+  describe('SafeParse Tests for CompanySchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Company',
       };
-      const result = crmCompanySchema.safeParse(validData);
+      const result = CompanySchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -419,7 +419,7 @@ describe('CrmCompanySchema Validation', () => {
         id: 'invalid-uuid',
         name: 'Invalid Company',
       };
-      const result = crmCompanySchema.safeParse(invalidData);
+      const result = CompanySchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -458,8 +458,8 @@ describe('CrmCompanyInsertSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCompanyInsertSchema.parse(input)).not.toThrow();
-      const result = crmCompanyInsertSchema.parse(input);
+      expect(() => CompanyInsertSchema.parse(input)).not.toThrow();
+      const result = CompanyInsertSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -510,7 +510,7 @@ describe('CrmCompanyInsertSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCompanyInsertSchema.parse(input);
+          CompanyInsertSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -522,12 +522,12 @@ describe('CrmCompanyInsertSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCompanyInsertSchema', () => {
+  describe('SafeParse Tests for CompanyInsertSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Insert Company',
       };
-      const result = crmCompanyInsertSchema.safeParse(validData);
+      const result = CompanyInsertSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -540,7 +540,7 @@ describe('CrmCompanyInsertSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Insert Company',
       };
-      const result = crmCompanyInsertSchema.safeParse(invalidData);
+      const result = CompanyInsertSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
@@ -589,8 +589,8 @@ describe('CrmCompanyUpdateSchema Validation', () => {
     ];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmCompanyUpdateSchema.parse(input)).not.toThrow();
-      const result = crmCompanyUpdateSchema.parse(input);
+      expect(() => CompanyUpdateSchema.parse(input)).not.toThrow();
+      const result = CompanyUpdateSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -657,7 +657,7 @@ describe('CrmCompanyUpdateSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          crmCompanyUpdateSchema.parse(input);
+          CompanyUpdateSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;
@@ -669,12 +669,12 @@ describe('CrmCompanyUpdateSchema Validation', () => {
     );
   });
 
-  describe('SafeParse Tests for crmCompanyUpdateSchema', () => {
+  describe('SafeParse Tests for CompanyUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Update Company',
       };
-      const result = crmCompanyUpdateSchema.safeParse(validData);
+      const result = CompanyUpdateSchema.safeParse(validData);
 
       expect(result.success).toBe(true);
       if (result.success) {
@@ -687,7 +687,7 @@ describe('CrmCompanyUpdateSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Update Company',
       };
-      const result = crmCompanyUpdateSchema.safeParse(invalidData);
+      const result = CompanyUpdateSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
       if (!result.success) {
