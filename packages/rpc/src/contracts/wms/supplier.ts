@@ -4,6 +4,7 @@ import { SupplierSchema } from "@packages/db/schemas/wms/supplier";
 import { DeleteResult } from "kysely";
 import z from "zod";
 
+
 export const PaginateSupplierContract = oc.input(SupplierRepository.schemas.paginateOptionSchema).output(SupplierSchema.array());
 
 export const RangeSupplierContract = oc.input(SupplierRepository.schemas.rangeOptionSchema).output(SupplierSchema.array());
