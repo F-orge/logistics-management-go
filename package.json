@@ -23,6 +23,14 @@
     }
   ],
   "type": "module",
+  "scripts": {
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
+    "lint:all": "bun run --filter '*' lint",
+    "format:all": "bun run --filter '*' format"
+  },
   "dependencies": {
     "@autoform/react": "^4.0.0",
     "@autoform/zod": "^5.0.0",

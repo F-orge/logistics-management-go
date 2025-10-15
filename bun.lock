@@ -128,6 +128,7 @@
       "name": "@apps/backend",
       "dependencies": {
         "@packages/db": "workspace:*",
+        "@packages/rpc": "workspace:*",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -138,6 +139,15 @@
     },
     "apps/frontend": {
       "name": "@logistics-management-system/frontend",
+      "devDependencies": {
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "packages/auth": {
+      "name": "auth",
       "devDependencies": {
         "@types/bun": "latest",
       },
@@ -1256,6 +1266,8 @@
     "asynckit": ["asynckit@0.4.0", "", {}, "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="],
 
     "attr-accept": ["attr-accept@2.2.5", "", {}, "sha512-0bDNnY/u6pPwHDMoF0FieU354oBi0a8rD9FcsLwzcGWbc8KS8KPIi7y+s13OlVY+gMWc/9xEMUgNE6Qm8ZllYQ=="],
+
+    "auth": ["auth@workspace:packages/auth"],
 
     "auto-bind": ["auto-bind@4.0.0", "", {}, "sha512-Hdw8qdNiqdJ8LqT0iK0sVzkFbzg6fhnQqqfWhBDxcHZvU75+B+ayzTy8x+k5Ix0Y92XOhOUlx74ps+bA6BeYMQ=="],
 

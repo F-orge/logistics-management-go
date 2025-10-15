@@ -2,6 +2,9 @@ import { kyselyFactory } from '@packages/db';
 import { Hono } from 'hono';
 import { Pool } from 'pg';
 import type { ConfigInterface } from './config';
+import { RPCHandler } from '@orpc/server/fetch';
+import * as orpcRouter from '@packages/rpc';
+import { BatchHandlerPlugin } from '@orpc/server/plugins';
 
 interface HonoVariables {
   kysely: ReturnType<typeof kyselyFactory>;
@@ -14,11 +17,8 @@ export const serverFactory = (config: ConfigInterface) => {
     new Pool({ connectionString: config.databaseUrl }),
   );
 
-  // db
-  router.use('*', (c, next) => {
-    c.set('kysely', kysely);
-
-    return next();
+  const orpcHandler = new RPCHandler(orpcRouter, {
+    plugins: [new BatchHandlerPlugin()],
   });
 
   return router;
