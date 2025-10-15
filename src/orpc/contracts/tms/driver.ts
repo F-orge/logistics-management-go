@@ -1,16 +1,8 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
-import {
-  tmsDriverInsertSchema,
-  tmsDriverSchema,
-  tmsDriverUpdateSchema,
-} from '@/schemas/tms/driver';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
+import { tmsDriverInsertSchema, tmsDriverSchema, tmsDriverUpdateSchema } from '@/schemas/tms/driver'
 
 export const paginateDriverContract = oc
   .input(
@@ -21,7 +13,7 @@ export const paginateDriverContract = oc
       }),
     ),
   )
-  .output(z.array(tmsDriverSchema));
+  .output(z.array(tmsDriverSchema))
 
 export const rangeDriverContract = oc
   .input(
@@ -32,24 +24,18 @@ export const rangeDriverContract = oc
       }),
     ),
   )
-  .output(z.array(tmsDriverSchema));
+  .output(z.array(tmsDriverSchema))
 
 export const inDriverContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsDriverSchema));
+  .output(z.array(tmsDriverSchema))
 
-export const createDriverContract = oc
-  .input(tmsDriverInsertSchema)
-  .output(tmsDriverSchema);
+export const createDriverContract = oc.input(tmsDriverInsertSchema).output(tmsDriverSchema)
 
 export const updateDriverContract = oc
   .input(z.object({ id: z.uuid(), value: tmsDriverUpdateSchema }))
-  .output(tmsDriverSchema);
+  .output(tmsDriverSchema)
 
 export const deleteDriverContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

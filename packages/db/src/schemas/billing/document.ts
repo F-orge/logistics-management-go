@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingDocumentTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { BillingDocumentTypeEnum } from '@/db.types'
 
 // Zod schema for .document table
 export const DocumentSchema = z
@@ -42,18 +42,14 @@ export const DocumentSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingDocument = z.infer<typeof DocumentSchema>;
+export type BillingDocument = z.infer<typeof DocumentSchema>
 
-export const DocumentInsertSchema = DocumentSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .strict();
+export const DocumentInsertSchema = DocumentSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).strict()
 
-export const DocumentUpdateSchema = DocumentInsertSchema
-  .partial()
-  .strict();
+export const DocumentUpdateSchema = DocumentInsertSchema.partial().strict()

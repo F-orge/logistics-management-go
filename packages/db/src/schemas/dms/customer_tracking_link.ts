@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 // Import enums if needed from '@/db.types'
 
 export const CustomerTrackingLinkSchema = z.object({
@@ -14,5 +14,4 @@ export const CustomerTrackingLinkSchema = z.object({
   lastAccessedAt: z.date().optional().nullable(),
   createdAt: z.date().optional().nullable(),
   updatedAt: z.date().optional().nullable(),
-});
-
+})

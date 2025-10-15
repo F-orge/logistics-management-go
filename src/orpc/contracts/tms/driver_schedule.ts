@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsDriverScheduleInsertSchema,
   tmsDriverScheduleSchema,
   tmsDriverScheduleUpdateSchema,
-} from '@/schemas/tms/driver_schedule';
+} from '@/schemas/tms/driver_schedule'
 
 export const paginateDriverScheduleContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateDriverScheduleContract = oc
       }),
     ),
   )
-  .output(z.array(tmsDriverScheduleSchema));
+  .output(z.array(tmsDriverScheduleSchema))
 
 export const rangeDriverScheduleContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeDriverScheduleContract = oc
       }),
     ),
   )
-  .output(z.array(tmsDriverScheduleSchema));
+  .output(z.array(tmsDriverScheduleSchema))
 
 export const inDriverScheduleContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsDriverScheduleSchema));
+  .output(z.array(tmsDriverScheduleSchema))
 
 export const createDriverScheduleContract = oc
   .input(tmsDriverScheduleInsertSchema)
-  .output(tmsDriverScheduleSchema);
+  .output(tmsDriverScheduleSchema)
 
 export const updateDriverScheduleContract = oc
   .input(z.object({ id: z.uuid(), value: tmsDriverScheduleUpdateSchema }))
-  .output(tmsDriverScheduleSchema);
+  .output(tmsDriverScheduleSchema)
 
 export const deleteDriverScheduleContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

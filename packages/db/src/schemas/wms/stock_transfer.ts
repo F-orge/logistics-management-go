@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsStockTransferStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { WmsStockTransferStatusEnum } from '@/db.types'
 
 export const StockTransferSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -21,23 +21,16 @@ export const StockTransferSchema = z.object({
     })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsStockTransfer = z.infer<typeof StockTransferSchema>;
+export type WmsStockTransfer = z.infer<typeof StockTransferSchema>
 
 export const StockTransferInsertSchema = StockTransferSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const StockTransferUpdateSchema =
-  StockTransferInsertSchema.partial();
+export const StockTransferUpdateSchema = StockTransferInsertSchema.partial()

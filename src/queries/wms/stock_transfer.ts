@@ -1,10 +1,10 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inProduct } from './product';
-import { inWarehouse } from './warehouse';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inProduct } from './product'
+import { inWarehouse } from './warehouse'
 
 export const paginateStockTransfer = (
   options: Parameters<typeof orpcClient.wms.paginateStockTransfer>[0],
@@ -12,34 +12,28 @@ export const paginateStockTransfer = (
   queryOptions({
     queryKey: ['wms.stockTransfer', 'paginate', options],
     queryFn: async ({ client }) => {
-      const stockTransfers =
-        await orpcClient.wms.paginateStockTransfer(options);
+      const stockTransfers = await orpcClient.wms.paginateStockTransfer(options)
 
       const warehouses = await client.ensureQueryData(
         inWarehouse(
           stockTransfers
-            .map((row) => [row.sourceWarehouseId, row.destinationWarehouseId])
-            .flat()
+            .flatMap((row) => [row.sourceWarehouseId, row.destinationWarehouseId])
             .filter(nonEmpty),
         ),
-      );
+      )
       const products = await client.ensureQueryData(
         inProduct(stockTransfers.map((row) => row.productId).filter(nonEmpty)),
-      );
+      )
 
       return stockTransfers.map((row) => ({
         ...row,
-        sourceWarehouse: warehouses.find(
-          (subRow) => subRow.id === row.sourceWarehouseId,
-        ),
-        destinationWarehouse: warehouses.find(
-          (subRow) => subRow.id === row.destinationWarehouseId,
-        ),
+        sourceWarehouse: warehouses.find((subRow) => subRow.id === row.sourceWarehouseId),
+        destinationWarehouse: warehouses.find((subRow) => subRow.id === row.destinationWarehouseId),
         product: products.find((subRow) => subRow.id === row.productId),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeStockTransfer = (
   options: Parameters<typeof orpcClient.wms.rangeStockTransfer>[0],
@@ -48,16 +42,14 @@ export const rangeStockTransfer = (
     queryKey: ['wms.stockTransfer', 'range', options],
     queryFn: () => orpcClient.wms.rangeStockTransfer(options),
     enabled: !!options,
-  });
+  })
 
-export const inStockTransfer = (
-  options: Parameters<typeof orpcClient.wms.inStockTransfer>[0],
-) =>
+export const inStockTransfer = (options: Parameters<typeof orpcClient.wms.inStockTransfer>[0]) =>
   queryOptions({
     queryKey: ['wms.stockTransfer', 'in', options],
     queryFn: () => orpcClient.wms.inStockTransfer(options),
     enabled: !!options,
-  });
+  })
 
 export const createStockTransfer = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createStockTransfer>>,
@@ -68,13 +60,13 @@ export const createStockTransfer = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Stock Transfer: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateStockTransfer = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updateStockTransfer>>,
@@ -85,13 +77,13 @@ export const updateStockTransfer = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Stock Transfer: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteStockTransfer = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deleteStockTransfer>>,
@@ -102,10 +94,10 @@ export const deleteStockTransfer = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Stock Transfer has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.stockTransfer'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   wmsSalesOrderInsertSchema,
   wmsSalesOrderSchema,
   wmsSalesOrderUpdateSchema,
-} from '@/schemas/wms/sales_order';
+} from '@/schemas/wms/sales_order'
 
 export const paginateSalesOrderContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateSalesOrderContract = oc
       }),
     ),
   )
-  .output(z.array(wmsSalesOrderSchema));
+  .output(z.array(wmsSalesOrderSchema))
 
 export const rangeSalesOrderContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeSalesOrderContract = oc
       }),
     ),
   )
-  .output(z.array(wmsSalesOrderSchema));
+  .output(z.array(wmsSalesOrderSchema))
 
 export const inSalesOrderContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(wmsSalesOrderSchema));
+  .output(z.array(wmsSalesOrderSchema))
 
 export const createSalesOrderContract = oc
   .input(wmsSalesOrderInsertSchema)
-  .output(wmsSalesOrderSchema);
+  .output(wmsSalesOrderSchema)
 
 export const updateSalesOrderContract = oc
   .input(z.object({ id: z.uuid(), value: wmsSalesOrderUpdateSchema }))
-  .output(wmsSalesOrderSchema);
+  .output(wmsSalesOrderSchema)
 
 export const deleteSalesOrderContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

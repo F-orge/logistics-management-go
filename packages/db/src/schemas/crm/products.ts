@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmProductType } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmProductType } from '@/db.types'
 
 export const ProductSchema = z
   .object({
@@ -68,5 +68,4 @@ export const ProductSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

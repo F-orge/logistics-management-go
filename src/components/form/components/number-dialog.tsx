@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const EditNumberDialog = () => {
-  return <div>EditNumberDialog</div>;
-};
+  return <div>EditNumberDialog</div>
+}
 
-export default EditNumberDialog;
+export default EditNumberDialog

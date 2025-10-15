@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { DmsProofOfDeliveryTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { DmsProofOfDeliveryTypeEnum } from '@/db.types'
 
 export const ProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -39,23 +39,13 @@ export const ProofOfDeliverySchema = z.object({
     .max(4096, { error: 'Signature data must be at most 4096 characters' })
     .optional()
     .nullable(),
-  timestamp: z
-    .date({ message: 'Invalid date format for timestamp' })
-    .optional()
-    .nullable(),
+  timestamp: z.date({ message: 'Invalid date format for timestamp' }).optional().nullable(),
   verificationCode: z
     .string({ message: 'Verification code must be a string' })
     .min(1, { error: 'Verification code is required' })
     .max(64, { error: 'Verification code must be at most 64 characters' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
-
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})

@@ -1,16 +1,8 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
-import {
-  tmsTripInsertSchema,
-  tmsTripSchema,
-  tmsTripUpdateSchema,
-} from '@/schemas/tms/trip';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
+import { tmsTripInsertSchema, tmsTripSchema, tmsTripUpdateSchema } from '@/schemas/tms/trip'
 
 export const paginateTripContract = oc
   .input(
@@ -21,7 +13,7 @@ export const paginateTripContract = oc
       }),
     ),
   )
-  .output(z.array(tmsTripSchema));
+  .output(z.array(tmsTripSchema))
 
 export const rangeTripContract = oc
   .input(
@@ -32,24 +24,16 @@ export const rangeTripContract = oc
       }),
     ),
   )
-  .output(z.array(tmsTripSchema));
+  .output(z.array(tmsTripSchema))
 
-export const inTripContract = oc
-  .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsTripSchema));
+export const inTripContract = oc.input(z.array(z.uuid()).nonempty()).output(z.array(tmsTripSchema))
 
-export const createTripContract = oc
-  .input(tmsTripInsertSchema)
-  .output(tmsTripSchema);
+export const createTripContract = oc.input(tmsTripInsertSchema).output(tmsTripSchema)
 
 export const updateTripContract = oc
   .input(z.object({ id: z.uuid(), value: tmsTripUpdateSchema }))
-  .output(tmsTripSchema);
+  .output(tmsTripSchema)
 
 export const deleteTripContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

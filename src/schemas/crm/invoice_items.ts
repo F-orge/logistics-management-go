@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const crmInvoiceItemSchema = z
   .object({
@@ -46,14 +46,14 @@ export const crmInvoiceItemSchema = z
       .nullable()
       .optional(),
   })
-  .strict();
+  .strict()
 
-export type CrmInvoiceItem = z.infer<typeof crmInvoiceItemSchema>;
+export type CrmInvoiceItem = z.infer<typeof crmInvoiceItemSchema>
 
 export const crmInvoiceItemInsertSchema = crmInvoiceItemSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const crmInvoiceItemUpdateSchema = crmInvoiceItemInsertSchema.partial();
+export const crmInvoiceItemUpdateSchema = crmInvoiceItemInsertSchema.partial()

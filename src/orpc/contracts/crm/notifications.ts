@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   crmNotificationInsertSchema,
   crmNotificationSchema,
   crmNotificationUpdateSchema,
-} from '@/schemas/crm/notifications';
+} from '@/schemas/crm/notifications'
 
 export const paginateNotificationContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateNotificationContract = oc
       }),
     ),
   )
-  .output(z.array(crmNotificationSchema));
+  .output(z.array(crmNotificationSchema))
 
 export const rangeNotificationContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeNotificationContract = oc
       }),
     ),
   )
-  .output(z.array(crmNotificationSchema));
+  .output(z.array(crmNotificationSchema))
 
 export const inNotificationContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(crmNotificationSchema));
+  .output(z.array(crmNotificationSchema))
 
 export const createNotificationContract = oc
   .input(crmNotificationInsertSchema)
-  .output(crmNotificationSchema);
+  .output(crmNotificationSchema)
 
 export const updateNotificationContract = oc
   .input(z.object({ id: z.uuid(), value: crmNotificationUpdateSchema }))
-  .output(crmNotificationSchema);
+  .output(crmNotificationSchema)
 
 export const deleteNotificationContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

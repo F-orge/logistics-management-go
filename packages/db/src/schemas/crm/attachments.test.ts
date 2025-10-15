@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  AttachmentSchema,
-} from './attachments';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { AttachmentSchema } from './attachments'
 
 // Define CrmRecordType for testing purposes, mirroring the original enum
 enum CrmRecordType {
@@ -18,8 +16,7 @@ enum CrmRecordType {
 }
 
 describe('CrmAttachmentSchema Validation', () => {
-  const UUID_REGEX =
-    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
   describe('Valid Cases', () => {
     const validTestCases = [
@@ -87,14 +84,14 @@ describe('CrmAttachmentSchema Validation', () => {
           recordType: CrmRecordType.Opportunities,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => AttachmentSchema.parse(input)).not.toThrow();
-      const result = AttachmentSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => AttachmentSchema.parse(input)).not.toThrow()
+      const result = AttachmentSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -245,26 +242,23 @@ describe('CrmAttachmentSchema Validation', () => {
         },
         expectedError: 'Invalid ISO datetime format for update date',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          // Add console.log to debug filePath length
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        // Add console.log to debug filePath length
 
-          AttachmentSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+        AttachmentSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for AttachmentSchema', () => {
     test('should return success for valid data', () => {
@@ -272,28 +266,28 @@ describe('CrmAttachmentSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         fileName: 'document.pdf',
         filePath: '/uploads/document.pdf',
-      };
-      const result = AttachmentSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = AttachmentSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         fileName: 'document.pdf',
         filePath: '/uploads/document.pdf',
-      };
-      const result = AttachmentSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = AttachmentSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

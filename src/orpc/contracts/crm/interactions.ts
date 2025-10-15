@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   crmInteractionInsertSchema,
   crmInteractionSchema,
   crmInteractionUpdateSchema,
-} from '@/schemas/crm/interactions';
+} from '@/schemas/crm/interactions'
 
 export const paginateInteractionContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateInteractionContract = oc
       }),
     ),
   )
-  .output(z.array(crmInteractionSchema));
+  .output(z.array(crmInteractionSchema))
 
 export const rangeInteractionContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeInteractionContract = oc
       }),
     ),
   )
-  .output(z.array(crmInteractionSchema));
+  .output(z.array(crmInteractionSchema))
 
 export const inInteractionContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(crmInteractionSchema));
+  .output(z.array(crmInteractionSchema))
 
 export const createInteractionContract = oc
   .input(crmInteractionInsertSchema)
-  .output(crmInteractionSchema);
+  .output(crmInteractionSchema)
 
 export const updateInteractionContract = oc
   .input(z.object({ id: z.uuid(), value: crmInteractionUpdateSchema }))
-  .output(crmInteractionSchema);
+  .output(crmInteractionSchema)
 
 export const deleteInteractionContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

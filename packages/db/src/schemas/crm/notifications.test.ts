@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  NotificationSchema,
-} from './notifications';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { NotificationSchema } from './notifications'
 
 describe('CrmNotificationSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -61,14 +59,14 @@ describe('CrmNotificationSchema Validation', () => {
           isRead: false,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => NotificationSchema.parse(input)).not.toThrow();
-      const result = NotificationSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => NotificationSchema.parse(input)).not.toThrow()
+      const result = NotificationSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -239,27 +237,22 @@ describe('CrmNotificationSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          NotificationSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        NotificationSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for NotificationSchema', () => {
     test('should return success for valid data', () => {
@@ -267,29 +260,28 @@ describe('CrmNotificationSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         userId: 'user-valid',
         message: 'Valid notification.',
-      };
-      const result = NotificationSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = NotificationSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         userId: 'user-invalid',
         message: 'Invalid notification.',
-      };
-      const result = NotificationSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = NotificationSchema.safeParse(invalidData)
 
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

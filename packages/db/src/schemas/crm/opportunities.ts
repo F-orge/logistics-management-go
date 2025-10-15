@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types'
 
 export const OpportunitySchema = z
   .object({
@@ -118,8 +118,7 @@ export const OpportunitySchema = z
       .check(
         fieldConfig({
           label: 'Stage',
-          description:
-            'The current stage of the opportunity in the sales pipeline.',
+          description: 'The current stage of the opportunity in the sales pipeline.',
         }),
       )
       .optional()
@@ -133,5 +132,4 @@ export const OpportunitySchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

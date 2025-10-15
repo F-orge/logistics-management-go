@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const SalesOrderItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -9,21 +9,16 @@ export const SalesOrderItemSchema = z.object({
     .int({ message: 'Quantity ordered must be an integer' })
     .min(0, { error: 'Quantity ordered must be at least 0' })
     .max(1000000, { error: 'Quantity ordered must be at most 1,000,000' }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional(),
+})
 
-export type WmsSalesOrderItem = z.infer<typeof SalesOrderItemSchema>;
+export type WmsSalesOrderItem = z.infer<typeof SalesOrderItemSchema>
 
 export const SalesOrderItemInsertSchema = SalesOrderItemSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const SalesOrderItemUpdateSchema =
-  SalesOrderItemInsertSchema.partial();
+export const SalesOrderItemUpdateSchema = SalesOrderItemInsertSchema.partial()

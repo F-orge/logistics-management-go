@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsShipmentLegEventInsertSchema,
   tmsShipmentLegEventSchema,
   tmsShipmentLegEventUpdateSchema,
-} from '@/schemas/tms/shipment_leg_event';
+} from '@/schemas/tms/shipment_leg_event'
 
 export const paginateShipmentLegEventContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateShipmentLegEventContract = oc
       }),
     ),
   )
-  .output(z.array(tmsShipmentLegEventSchema));
+  .output(z.array(tmsShipmentLegEventSchema))
 
 export const rangeShipmentLegEventContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeShipmentLegEventContract = oc
       }),
     ),
   )
-  .output(z.array(tmsShipmentLegEventSchema));
+  .output(z.array(tmsShipmentLegEventSchema))
 
 export const inShipmentLegEventContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsShipmentLegEventSchema));
+  .output(z.array(tmsShipmentLegEventSchema))
 
 export const createShipmentLegEventContract = oc
   .input(tmsShipmentLegEventInsertSchema)
-  .output(tmsShipmentLegEventSchema);
+  .output(tmsShipmentLegEventSchema)
 
 export const updateShipmentLegEventContract = oc
   .input(z.object({ id: z.uuid(), value: tmsShipmentLegEventUpdateSchema }))
-  .output(tmsShipmentLegEventSchema);
+  .output(tmsShipmentLegEventSchema)
 
 export const deleteShipmentLegEventContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

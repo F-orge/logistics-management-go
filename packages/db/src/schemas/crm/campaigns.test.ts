@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  CampaignSchema,
-} from './campaigns';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CampaignSchema } from './campaigns'
 
 describe('CrmCampaignSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -50,14 +48,14 @@ describe('CrmCampaignSchema Validation', () => {
           endDate: new Date('2025-01-15T17:00:00Z'),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => CampaignSchema.parse(input)).not.toThrow();
-      const result = CampaignSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => CampaignSchema.parse(input)).not.toThrow()
+      const result = CampaignSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -161,51 +159,48 @@ describe('CrmCampaignSchema Validation', () => {
         },
         expectedError: 'Invalid ISO datetime format for update date',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          CampaignSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        CampaignSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for CampaignSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Campaign',
-      };
-      const result = CampaignSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = CampaignSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         name: 'Invalid Campaign',
-      };
-      const result = CampaignSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = CampaignSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

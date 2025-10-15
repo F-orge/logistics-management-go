@@ -1,18 +1,13 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import { toast } from 'sonner';
-import z from 'zod';
-import { useAppForm } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { authClient } from '@/lib/client-auth';
-import { cn } from '@/lib/utils';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { zodValidator } from '@tanstack/zod-adapter'
+import { toast } from 'sonner'
+import z from 'zod'
+import { useAppForm } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/client-auth'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/auth/reset-password/')({
   component: RouteComponent,
@@ -20,14 +15,13 @@ export const Route = createFileRoute('/auth/reset-password/')({
     z.object({ token: z.string().optional(), email: z.email().optional() }),
   ),
   beforeLoad: (ctx) => {
-    if (!ctx.search.token && !ctx.search.email)
-      throw redirect({ to: '/auth/login' });
+    if (!ctx.search.token && !ctx.search.email) throw redirect({ to: '/auth/login' })
   },
-});
+})
 
 function RouteComponent() {
-  const searchQuery = Route.useSearch();
-  const navigate = Route.useNavigate();
+  const searchQuery = Route.useSearch()
+  const navigate = Route.useNavigate()
 
   const form = useAppForm({
     defaultValues: {} as { newPassword: string; confirmPassword: string },
@@ -40,16 +34,16 @@ function RouteComponent() {
         {
           success: ({ data }) => {
             if (data?.status) {
-              navigate({ to: '/auth/login' });
-              return 'Successfully changed password';
+              navigate({ to: '/auth/login' })
+              return 'Successfully changed password'
             } else {
-              return 'Unable to update your password';
+              return 'Unable to update your password'
             }
           },
           error: 'Unable to update your password',
         },
       ),
-  });
+  })
 
   if (!searchQuery.token && searchQuery.email) {
     return (
@@ -61,15 +55,15 @@ function RouteComponent() {
           </p>
         </div>
       </FieldGroup>
-    );
+    )
   }
 
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit();
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
       }}
       className={cn('flex flex-col gap-2.5')}
     >
@@ -107,5 +101,5 @@ function RouteComponent() {
         </FieldGroup>
       </form.AppForm>
     </form>
-  );
+  )
 }

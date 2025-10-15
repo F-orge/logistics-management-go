@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsLocationTypeEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsLocationTypeEnum } from '@/db/types'
 
 export const wmsLocationSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -15,22 +15,10 @@ export const wmsLocationSchema = z.object({
     .max(255, { error: 'Barcode must be at most 255 characters' })
     .nullable()
     .optional(),
-  hazmatApproved: z
-    .boolean({ message: 'Hazmat approved must be a boolean' })
-    .nullable()
-    .optional(),
-  isActive: z
-    .boolean({ message: 'Is active must be a boolean' })
-    .nullable()
-    .optional(),
-  isPickable: z
-    .boolean({ message: 'Is pickable must be a boolean' })
-    .nullable()
-    .optional(),
-  isReceivable: z
-    .boolean({ message: 'Is receivable must be a boolean' })
-    .nullable()
-    .optional(),
+  hazmatApproved: z.boolean({ message: 'Hazmat approved must be a boolean' }).nullable().optional(),
+  isActive: z.boolean({ message: 'Is active must be a boolean' }).nullable().optional(),
+  isPickable: z.boolean({ message: 'Is pickable must be a boolean' }).nullable().optional(),
+  isReceivable: z.boolean({ message: 'Is receivable must be a boolean' }).nullable().optional(),
   level: z.coerce
     .number({ message: 'Level must be a number' })
     .int({ message: 'Level must be an integer' })
@@ -71,34 +59,19 @@ export const wmsLocationSchema = z.object({
     .boolean({ message: 'Temperature controlled must be a boolean' })
     .nullable()
     .optional(),
-  xCoordinate: z.coerce
-    .number({ message: 'X coordinate must be a number' })
-    .nullable()
-    .optional(),
-  yCoordinate: z.coerce
-    .number({ message: 'Y coordinate must be a number' })
-    .nullable()
-    .optional(),
-  zCoordinate: z.coerce
-    .number({ message: 'Z coordinate must be a number' })
-    .nullable()
-    .optional(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  xCoordinate: z.coerce.number({ message: 'X coordinate must be a number' }).nullable().optional(),
+  yCoordinate: z.coerce.number({ message: 'Y coordinate must be a number' }).nullable().optional(),
+  zCoordinate: z.coerce.number({ message: 'Z coordinate must be a number' }).nullable().optional(),
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsLocation = z.infer<typeof wmsLocationSchema>;
+export type WmsLocation = z.infer<typeof wmsLocationSchema>
 
 export const wmsLocationInsertSchema = wmsLocationSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsLocationUpdateSchema = wmsLocationInsertSchema.partial();
+export const wmsLocationUpdateSchema = wmsLocationInsertSchema.partial()

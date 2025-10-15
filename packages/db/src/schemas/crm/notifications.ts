@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const NotificationSchema = z
   .object({
@@ -56,5 +56,4 @@ export const NotificationSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

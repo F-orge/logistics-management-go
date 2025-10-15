@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  CompanySchema,
-} from './companies';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CompanySchema } from './companies'
 
 describe('CrmCompanySchema Validation', () => {
   describe('Valid Cases', () => {
@@ -106,14 +104,14 @@ describe('CrmCompanySchema Validation', () => {
           name: 'Company I',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => CompanySchema.parse(input)).not.toThrow();
-      const result = CompanySchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => CompanySchema.parse(input)).not.toThrow()
+      const result = CompanySchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -379,51 +377,48 @@ describe('CrmCompanySchema Validation', () => {
         },
         expectedError: 'Invalid ISO datetime format for update date',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          CompanySchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        CompanySchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for CompanySchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Company',
-      };
-      const result = CompanySchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = CompanySchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         name: 'Invalid Company',
-      };
-      const result = CompanySchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = CompanySchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   AudioWaveform,
@@ -25,43 +25,43 @@ import {
   TrendingUp,
   User2,
   UserPlus,
-} from 'lucide-react';
-import * as React from 'react';
+} from 'lucide-react'
+import type * as React from 'react'
 
-import { NavMain } from '@/components/nav-main';
-import { SubSystemSwitcher } from '@/components/subsystem-switcher';
+import { NavMain } from '@/components/nav-main'
+import { SubSystemSwitcher } from '@/components/subsystem-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from '@/components/ui/sidebar';
-import { NavUser } from './nav-user';
+} from '@/components/ui/sidebar'
+import { NavUser } from './nav-user'
 
 export type SidebarType = {
   subSystems: {
-    name: string;
-    logo: React.ElementType;
-    urlToMatch: string;
-    href: string;
-  }[];
+    name: string
+    logo: React.ElementType
+    urlToMatch: string
+    href: string
+  }[]
   navMain: {
-    subSystemUrl: string;
+    subSystemUrl: string
     navigation: {
-      title: string;
+      title: string
       items: {
-        title: string;
-        url: string;
-        icon: React.ElementType;
+        title: string
+        url: string
+        icon: React.ElementType
         items?: {
-          title: string;
-          url: string;
-        }[];
-      }[];
-    }[];
-  }[];
-};
+          title: string
+          url: string
+        }[]
+      }[]
+    }[]
+  }[]
+}
 
 const data: SidebarType = {
   subSystems: [
@@ -458,7 +458,7 @@ const data: SidebarType = {
       ],
     },
   ],
-};
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -474,5 +474,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  );
+  )
 }

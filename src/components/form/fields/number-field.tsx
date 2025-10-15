@@ -1,7 +1,7 @@
-import React from 'react';
-import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { useFieldContext } from '..';
+import type React from 'react'
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { useFieldContext } from '..'
 
 const NumberField = ({
   className,
@@ -9,10 +9,10 @@ const NumberField = ({
   description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
+  label?: React.ReactNode
+  description?: React.ReactNode
 }) => {
-  const field = useFieldContext<number>();
+  const field = useFieldContext<number>()
 
   return (
     <Field className={className}>
@@ -24,7 +24,7 @@ const NumberField = ({
       />
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>
-  );
-};
+  )
+}
 
-export default NumberField;
+export default NumberField

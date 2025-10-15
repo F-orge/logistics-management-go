@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingDisputeStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingDisputeStatusEnum } from '@/db/types'
 
 // Zod schema for billing.dispute table
 export const billingDisputeSchema = z
@@ -41,9 +41,9 @@ export const billingDisputeSchema = z
     submittedAt: z.date().optional().nullable(),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingDispute = z.infer<typeof billingDisputeSchema>;
+export type BillingDispute = z.infer<typeof billingDisputeSchema>
 
 export const billingDisputeInsertSchema = billingDisputeSchema
   .omit({
@@ -51,8 +51,6 @@ export const billingDisputeInsertSchema = billingDisputeSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingDisputeUpdateSchema = billingDisputeInsertSchema
-  .partial()
-  .strict();
+export const billingDisputeUpdateSchema = billingDisputeInsertSchema.partial().strict()

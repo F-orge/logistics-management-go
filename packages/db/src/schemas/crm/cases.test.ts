@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  CaseSchema,
-} from './cases';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CaseSchema } from './cases'
 
 // Define enums for testing purposes, mirroring the original enums from @/db.types
 enum CrmCasePriority {
@@ -91,14 +89,14 @@ describe('CrmCaseSchema Validation', () => {
           ownerId: 'user-xyz',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => CaseSchema.parse(input)).not.toThrow();
-      const result = CaseSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => CaseSchema.parse(input)).not.toThrow()
+      const result = CaseSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -279,24 +277,21 @@ describe('CrmCaseSchema Validation', () => {
         },
         expectedError: 'Invalid ISO datetime format for update date',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          CaseSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        CaseSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for CaseSchema', () => {
     test('should return success for valid data', () => {
@@ -304,28 +299,28 @@ describe('CrmCaseSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         caseNumber: 'CASE-VALID',
         ownerId: 'user-valid',
-      };
-      const result = CaseSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = CaseSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         caseNumber: 'CASE-INVALID',
         ownerId: 'user-invalid',
-      };
-      const result = CaseSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = CaseSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

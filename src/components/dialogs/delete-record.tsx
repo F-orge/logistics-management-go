@@ -1,4 +1,4 @@
-import { Row } from '@tanstack/react-table';
+import type { Row } from '@tanstack/react-table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,7 +8,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog'
 
 function DeleteRecord<TData>({
   row,
@@ -18,31 +18,27 @@ function DeleteRecord<TData>({
   title,
   description,
 }: {
-  row: Row<TData>;
-  onConfirm?: (row: Row<TData>) => Promise<unknown> | unknown;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
+  row: Row<TData>
+  onConfirm?: (row: Row<TData>) => Promise<unknown> | unknown
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  title?: React.ReactNode
+  description?: React.ReactNode
 }) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle hidden={!!!title}>{title}</AlertDialogTitle>
-          <AlertDialogDescription hidden={!!!description}>
-            {description}
-          </AlertDialogDescription>
+          <AlertDialogTitle hidden={!title}>{title}</AlertDialogTitle>
+          <AlertDialogDescription hidden={!description}>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onConfirm?.(row)}>
-            Confirm
-          </AlertDialogAction>
+          <AlertDialogAction onClick={() => onConfirm?.(row)}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
-export default DeleteRecord;
+export default DeleteRecord

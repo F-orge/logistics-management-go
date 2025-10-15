@@ -1,14 +1,14 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingSyncStatusEnum } from '@/db.types';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingSyncStatusEnum } from '@/db.types'
 import {
   AccountingSyncLogInsertSchema,
   AccountingSyncLogSchema,
   AccountingSyncLogUpdateSchema,
-} from './accounting_sync_log';
+} from './accounting_sync_log'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingAccountingSyncLogSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -118,14 +118,14 @@ describe('BillingAccountingSyncLogSchema Validation', () => {
           recordType: 'Report',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => AccountingSyncLogSchema.parse(input)).not.toThrow();
-      const result = AccountingSyncLogSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => AccountingSyncLogSchema.parse(input)).not.toThrow()
+      const result = AccountingSyncLogSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -372,24 +372,21 @@ describe('BillingAccountingSyncLogSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          AccountingSyncLogSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        AccountingSyncLogSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for AccountingSyncLogSchema', () => {
     test('should return success for valid data', () => {
@@ -398,14 +395,14 @@ describe('BillingAccountingSyncLogSchema Validation', () => {
         externalSystem: 'QuickBooks',
         recordId: '123e4567-e89b-12d3-a456-426614174001',
         recordType: 'Invoice',
-      };
-      const result = AccountingSyncLogSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = AccountingSyncLogSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -413,17 +410,17 @@ describe('BillingAccountingSyncLogSchema Validation', () => {
         externalSystem: 'QuickBooks',
         recordId: '123e4567-e89b-12d3-a456-426614174001',
         recordType: 'Invoice',
-      };
-      const result = AccountingSyncLogSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = AccountingSyncLogSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingAccountingSyncLogInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -452,16 +449,14 @@ describe('BillingAccountingSyncLogInsertSchema Validation', () => {
           status: BillingSyncStatusEnum.InProgress,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        AccountingSyncLogInsertSchema.parse(input),
-      ).not.toThrow();
-      const result = AccountingSyncLogInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => AccountingSyncLogInsertSchema.parse(input)).not.toThrow()
+      const result = AccountingSyncLogInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -509,24 +504,21 @@ describe('BillingAccountingSyncLogInsertSchema Validation', () => {
         },
         expectedError: 'Retry count must be at most 100',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          AccountingSyncLogInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        AccountingSyncLogInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for AccountingSyncLogInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -534,30 +526,29 @@ describe('BillingAccountingSyncLogInsertSchema Validation', () => {
         externalSystem: 'Xero',
         recordId: '123e4567-e89b-12d3-a456-426614174000',
         recordType: 'Bill',
-      };
-      const result = AccountingSyncLogInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = AccountingSyncLogInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         retryCount: -1,
-      };
-      const result =
-        AccountingSyncLogInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = AccountingSyncLogInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingAccountingSyncLogUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -588,16 +579,14 @@ describe('BillingAccountingSyncLogUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        AccountingSyncLogUpdateSchema.parse(input),
-      ).not.toThrow();
-      const result = AccountingSyncLogUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => AccountingSyncLogUpdateSchema.parse(input)).not.toThrow()
+      const result = AccountingSyncLogUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -651,50 +640,46 @@ describe('BillingAccountingSyncLogUpdateSchema Validation', () => {
         expectedError:
           'Invalid option: expected one of "failed"|"in-progress"|"pending"|"retry"|"success"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          AccountingSyncLogUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        AccountingSyncLogUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for AccountingSyncLogUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         errorMessage: 'Valid update',
-      };
-      const result = AccountingSyncLogUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = AccountingSyncLogUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         retryCount: -1,
-      };
-      const result =
-        AccountingSyncLogUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = AccountingSyncLogUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

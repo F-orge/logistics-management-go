@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db.types'
 
 export const InvoiceSchema = z
   .object({
@@ -94,5 +94,4 @@ export const InvoiceSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

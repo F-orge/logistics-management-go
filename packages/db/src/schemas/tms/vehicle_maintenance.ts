@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TmsVehicleServiceTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { TmsVehicleServiceTypeEnum } from '@/db.types'
 
 export const VehicleMaintenanceSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -16,24 +16,16 @@ export const VehicleMaintenanceSchema = z.object({
     })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsVehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>;
+export type TmsVehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>
 
-export const VehicleMaintenanceInsertSchema =
-  VehicleMaintenanceSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const VehicleMaintenanceInsertSchema = VehicleMaintenanceSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const VehicleMaintenanceUpdateSchema =
-  VehicleMaintenanceInsertSchema.partial();
+export const VehicleMaintenanceUpdateSchema = VehicleMaintenanceInsertSchema.partial()

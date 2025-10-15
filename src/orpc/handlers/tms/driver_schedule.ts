@@ -1,66 +1,52 @@
-import { implement } from '@orpc/server';
-import * as tmsContracts from '@/orpc/contracts/tms/driver_schedule';
-import { DriverScheduleRepository } from '@/repositories/tms/driverSchedules';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import * as tmsContracts from '@/orpc/contracts/tms/driver_schedule'
+import { DriverScheduleRepository } from '@/repositories/tms/driverSchedules'
+import type { HonoVariables } from '@/server'
 
-export const paginateDriverSchedule = implement(
-  tmsContracts.paginateDriverScheduleContract,
-)
+export const paginateDriverSchedule = implement(tmsContracts.paginateDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo
-      .paginate(input.page, input.perPage, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.paginate(input.page, input.perPage, input.sort, input.filters as any).execute()
+  })
 
-export const rangeDriverSchedule = implement(
-  tmsContracts.rangeDriverScheduleContract,
-)
+export const rangeDriverSchedule = implement(tmsContracts.rangeDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo
-      .range(input.from, input.to, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.range(input.from, input.to, input.sort, input.filters as any).execute()
+  })
 
 export const inDriverSchedule = implement(tmsContracts.inDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo.in(input).execute();
-  });
+    return repo.in(input).execute()
+  })
 
-export const createDriverSchedule = implement(
-  tmsContracts.createDriverScheduleContract,
-)
+export const createDriverSchedule = implement(tmsContracts.createDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo.create(input).executeTakeFirstOrThrow();
-  });
+    return repo.create(input).executeTakeFirstOrThrow()
+  })
 
-export const updateDriverSchedule = implement(
-  tmsContracts.updateDriverScheduleContract,
-)
+export const updateDriverSchedule = implement(tmsContracts.updateDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
-  });
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow()
+  })
 
-export const deleteDriverSchedule = implement(
-  tmsContracts.deleteDriverScheduleContract,
-)
+export const deleteDriverSchedule = implement(tmsContracts.deleteDriverScheduleContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DriverScheduleRepository(context.db);
+    const repo = new DriverScheduleRepository(context.db)
 
-    return repo.delete(input).executeTakeFirstOrThrow();
-  });
+    return repo.delete(input).executeTakeFirstOrThrow()
+  })

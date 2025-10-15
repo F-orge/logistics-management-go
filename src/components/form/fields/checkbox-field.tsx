@@ -1,14 +1,9 @@
-import React from 'react';
-import { useFieldContext } from '@/components/form';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import type React from 'react'
+import { useFieldContext } from '@/components/form'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Field, FieldContent, FieldDescription, FieldLabel } from '@/components/ui/field'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 
 const CheckBoxField = ({
   className,
@@ -16,10 +11,10 @@ const CheckBoxField = ({
   description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: string;
-  description?: string;
+  label?: string
+  description?: string
 }) => {
-  const field = useFieldContext<boolean>();
+  const field = useFieldContext<boolean>()
 
   return (
     <Field orientation="horizontal" className={className}>
@@ -32,7 +27,7 @@ const CheckBoxField = ({
         {description && <FieldDescription>{description}</FieldDescription>}
       </FieldContent>
     </Field>
-  );
-};
+  )
+}
 
-export default CheckBoxField;
+export default CheckBoxField

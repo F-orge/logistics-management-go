@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmInteractionType } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmInteractionType } from '@/db.types'
 
 export const InteractionSchema = z
   .object({
@@ -84,5 +84,4 @@ export const InteractionSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

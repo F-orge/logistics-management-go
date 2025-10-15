@@ -1,13 +1,13 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
 import {
   billingInvoiceLineItemInsertSchema,
   billingInvoiceLineItemSchema,
   billingInvoiceLineItemUpdateSchema,
-} from './invoice_line_item';
+} from './invoice_line_item'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingInvoiceLineItemSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -246,14 +246,14 @@ describe('BillingInvoiceLineItemSchema Validation', () => {
           unitPrice: 1.0,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingInvoiceLineItemSchema.parse(input)).not.toThrow();
-      const result = billingInvoiceLineItemSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingInvoiceLineItemSchema.parse(input)).not.toThrow()
+      const result = billingInvoiceLineItemSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -587,24 +587,21 @@ describe('BillingInvoiceLineItemSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingInvoiceLineItemSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingInvoiceLineItemSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingInvoiceLineItemSchema', () => {
     test('should return success for valid data', () => {
@@ -614,14 +611,14 @@ describe('BillingInvoiceLineItemSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         quantity: 1,
         unitPrice: 100.0,
-      };
-      const result = billingInvoiceLineItemSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingInvoiceLineItemSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -630,17 +627,17 @@ describe('BillingInvoiceLineItemSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         quantity: 1,
         unitPrice: 100.0,
-      };
-      const result = billingInvoiceLineItemSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingInvoiceLineItemSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingInvoiceLineItemInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -671,16 +668,14 @@ describe('BillingInvoiceLineItemInsertSchema Validation', () => {
           unitPrice: 500000,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        billingInvoiceLineItemInsertSchema.parse(input),
-      ).not.toThrow();
-      const result = billingInvoiceLineItemInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingInvoiceLineItemInsertSchema.parse(input)).not.toThrow()
+      const result = billingInvoiceLineItemInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -740,24 +735,21 @@ describe('BillingInvoiceLineItemInsertSchema Validation', () => {
         },
         expectedError: 'Unit price must be at least 0',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingInvoiceLineItemInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingInvoiceLineItemInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingInvoiceLineItemInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -766,14 +758,14 @@ describe('BillingInvoiceLineItemInsertSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         quantity: 1,
         unitPrice: 50.0,
-      };
-      const result = billingInvoiceLineItemInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingInvoiceLineItemInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -781,17 +773,17 @@ describe('BillingInvoiceLineItemInsertSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         quantity: 0, // Invalid quantity
         unitPrice: 50.0,
-      };
-      const result = billingInvoiceLineItemInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingInvoiceLineItemInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingInvoiceLineItemUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -822,16 +814,14 @@ describe('BillingInvoiceLineItemUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        billingInvoiceLineItemUpdateSchema.parse(input),
-      ).not.toThrow();
-      const result = billingInvoiceLineItemUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingInvoiceLineItemUpdateSchema.parse(input)).not.toThrow()
+      const result = billingInvoiceLineItemUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -905,49 +895,46 @@ describe('BillingInvoiceLineItemUpdateSchema Validation', () => {
         },
         expectedError: 'Unit price must be at most 1,000,000',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingInvoiceLineItemUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingInvoiceLineItemUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingInvoiceLineItemUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         description: 'Updated Service Fee',
-      };
-      const result = billingInvoiceLineItemUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingInvoiceLineItemUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         quantity: 0, // Invalid quantity
-      };
-      const result = billingInvoiceLineItemUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingInvoiceLineItemUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

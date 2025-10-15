@@ -6,6 +6,11 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "dependencies": {
+    "@packages/rpc":"workspace:*",
+    "@packages/db":"workspace:*",
+    "@packages/ui":"workspace:*"
+  },
   "peerDependencies": {
     "typescript": "^5"
   }

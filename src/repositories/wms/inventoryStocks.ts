@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,13 +10,11 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, WmsInventoryStockStatusEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, WmsInventoryStockStatusEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
-export class InventoryStockRepository
-  implements GenericRepository<'wms.inventoryStock'>
-{
+export class InventoryStockRepository implements GenericRepository<'wms.inventoryStock'> {
   constructor(private db: Kysely<DB>) {}
   paginate(
     page?: number,
@@ -27,39 +25,35 @@ export class InventoryStockRepository
     DB,
     'wms.inventoryStock',
     {
-      availableQuantity: number | null;
-      batchId: string | null;
-      createdAt: Date | null;
-      id: string;
-      lastCountedAt: Date | null;
-      lastMovementAt: Date | null;
-      locationId: string;
-      productId: string;
-      quantity: number;
-      reservedQuantity: number;
-      status: WmsInventoryStockStatusEnum | null;
-      updatedAt: Date | null;
+      availableQuantity: number | null
+      batchId: string | null
+      createdAt: Date | null
+      id: string
+      lastCountedAt: Date | null
+      lastMovementAt: Date | null
+      locationId: string
+      productId: string
+      quantity: number
+      reservedQuantity: number
+      status: WmsInventoryStockStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('wms.inventoryStock').selectAll();
+    let query = this.db.selectFrom('wms.inventoryStock').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -70,144 +64,128 @@ export class InventoryStockRepository
     DB,
     'wms.inventoryStock',
     {
-      availableQuantity: number | null;
-      batchId: string | null;
-      createdAt: Date | null;
-      id: string;
-      lastCountedAt: Date | null;
-      lastMovementAt: Date | null;
-      locationId: string;
-      productId: string;
-      quantity: number;
-      reservedQuantity: number;
-      status: WmsInventoryStockStatusEnum | null;
-      updatedAt: Date | null;
+      availableQuantity: number | null
+      batchId: string | null
+      createdAt: Date | null
+      id: string
+      lastCountedAt: Date | null
+      lastMovementAt: Date | null
+      locationId: string
+      productId: string
+      quantity: number
+      reservedQuantity: number
+      status: WmsInventoryStockStatusEnum | null
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('wms.inventoryStock')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.inventoryStock',
     {
-      availableQuantity: number | null;
-      batchId: string | null;
-      createdAt: Date | null;
-      id: string;
-      lastCountedAt: Date | null;
-      lastMovementAt: Date | null;
-      locationId: string;
-      productId: string;
-      quantity: number;
-      reservedQuantity: number;
-      status: WmsInventoryStockStatusEnum | null;
-      updatedAt: Date | null;
+      availableQuantity: number | null
+      batchId: string | null
+      createdAt: Date | null
+      id: string
+      lastCountedAt: Date | null
+      lastMovementAt: Date | null
+      locationId: string
+      productId: string
+      quantity: number
+      reservedQuantity: number
+      status: WmsInventoryStockStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('wms.inventoryStock')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('wms.inventoryStock').selectAll().where('id', 'in', values)
   }
   create(
     value: { locationId: string; productId: string } & {
-      availableQuantity?: number | null | undefined;
-      batchId?: string | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      lastCountedAt?: string | Date | null | undefined;
-      lastMovementAt?: string | Date | null | undefined;
-      quantity?: number | undefined;
-      reservedQuantity?: number | undefined;
-      status?: WmsInventoryStockStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      availableQuantity?: number | null | undefined
+      batchId?: string | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      lastCountedAt?: string | Date | null | undefined
+      lastMovementAt?: string | Date | null | undefined
+      quantity?: number | undefined
+      reservedQuantity?: number | undefined
+      status?: WmsInventoryStockStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'wms.inventoryStock',
     {
-      availableQuantity: number | null;
-      batchId: string | null;
-      createdAt: Date | null;
-      id: string;
-      lastCountedAt: Date | null;
-      lastMovementAt: Date | null;
-      locationId: string;
-      productId: string;
-      quantity: number;
-      reservedQuantity: number;
-      status: WmsInventoryStockStatusEnum | null;
-      updatedAt: Date | null;
+      availableQuantity: number | null
+      batchId: string | null
+      createdAt: Date | null
+      id: string
+      lastCountedAt: Date | null
+      lastMovementAt: Date | null
+      locationId: string
+      productId: string
+      quantity: number
+      reservedQuantity: number
+      status: WmsInventoryStockStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .insertInto('wms.inventoryStock')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('wms.inventoryStock').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      availableQuantity?: number | null | undefined;
-      batchId?: string | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      lastCountedAt?: string | Date | null | undefined;
-      lastMovementAt?: string | Date | null | undefined;
-      locationId?: string | undefined;
-      productId?: string | undefined;
-      quantity?: number | undefined;
-      reservedQuantity?: number | undefined;
-      status?: WmsInventoryStockStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      availableQuantity?: number | null | undefined
+      batchId?: string | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      lastCountedAt?: string | Date | null | undefined
+      lastMovementAt?: string | Date | null | undefined
+      locationId?: string | undefined
+      productId?: string | undefined
+      quantity?: number | undefined
+      reservedQuantity?: number | undefined
+      status?: WmsInventoryStockStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'wms.inventoryStock',
     'wms.inventoryStock',
     {
-      availableQuantity: number | null;
-      batchId: string | null;
-      createdAt: Date | null;
-      id: string;
-      lastCountedAt: Date | null;
-      lastMovementAt: Date | null;
-      locationId: string;
-      productId: string;
-      quantity: number;
-      reservedQuantity: number;
-      status: WmsInventoryStockStatusEnum | null;
-      updatedAt: Date | null;
+      availableQuantity: number | null
+      batchId: string | null
+      createdAt: Date | null
+      id: string
+      lastCountedAt: Date | null
+      lastMovementAt: Date | null
+      locationId: string
+      productId: string
+      quantity: number
+      reservedQuantity: number
+      status: WmsInventoryStockStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('wms.inventoryStock')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('wms.inventoryStock').set(value).where('id', '=', id).returningAll()
   }
-  delete(
-    id: string,
-  ): DeleteQueryBuilder<DB, 'wms.inventoryStock', DeleteResult> {
-    return this.db.deleteFrom('wms.inventoryStock').where('id', '=', id);
+  delete(id: string): DeleteQueryBuilder<DB, 'wms.inventoryStock', DeleteResult> {
+    return this.db.deleteFrom('wms.inventoryStock').where('id', '=', id)
   }
 }
 
@@ -220,44 +198,37 @@ export class WmsInventoryStockRepository {
     fields?: SelectExpression<DB, 'wms.inventoryStock'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'wms.inventoryStock', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'wms.inventoryStock', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('wms.inventoryStock')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('wms.inventoryStock.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('wms.inventoryStock.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['wms.inventoryStock']>) {
-    return this.db
-      .insertInto('wms.inventoryStock')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('wms.inventoryStock').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['wms.inventoryStock']>[]) {
-    return this.db
-      .insertInto('wms.inventoryStock')
-      .values(values)
-      .returningAll();
+    return this.db.insertInto('wms.inventoryStock').values(values).returningAll()
   }
 
   update(
@@ -268,12 +239,10 @@ export class WmsInventoryStockRepository {
       .updateTable('wms.inventoryStock')
       .set(value)
       .where('wms.inventoryStock.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['wms.inventoryStock']['id']['__update__']) {
-    return this.db
-      .deleteFrom('wms.inventoryStock')
-      .where('wms.inventoryStock.id', '=', id);
+    return this.db.deleteFrom('wms.inventoryStock').where('wms.inventoryStock.id', '=', id)
   }
 }

@@ -1,16 +1,8 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
-import {
-  wmsTaskInsertSchema,
-  wmsTaskSchema,
-  wmsTaskUpdateSchema,
-} from '@/schemas/wms/task';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
+import { wmsTaskInsertSchema, wmsTaskSchema, wmsTaskUpdateSchema } from '@/schemas/wms/task'
 
 export const paginateTaskContract = oc
   .input(
@@ -21,7 +13,7 @@ export const paginateTaskContract = oc
       }),
     ),
   )
-  .output(z.array(wmsTaskSchema));
+  .output(z.array(wmsTaskSchema))
 
 export const rangeTaskContract = oc
   .input(
@@ -32,24 +24,16 @@ export const rangeTaskContract = oc
       }),
     ),
   )
-  .output(z.array(wmsTaskSchema));
+  .output(z.array(wmsTaskSchema))
 
-export const inTaskContract = oc
-  .input(z.array(z.uuid()).nonempty())
-  .output(z.array(wmsTaskSchema));
+export const inTaskContract = oc.input(z.array(z.uuid()).nonempty()).output(z.array(wmsTaskSchema))
 
-export const createTaskContract = oc
-  .input(wmsTaskInsertSchema)
-  .output(wmsTaskSchema);
+export const createTaskContract = oc.input(wmsTaskInsertSchema).output(wmsTaskSchema)
 
 export const updateTaskContract = oc
   .input(z.object({ id: z.uuid(), value: wmsTaskUpdateSchema }))
-  .output(wmsTaskSchema);
+  .output(wmsTaskSchema)
 
 export const deleteTaskContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

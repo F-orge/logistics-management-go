@@ -1,10 +1,10 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { paginateInboundShipmentItem } from './inbound_shipment_item';
-import { inWarehouse } from './warehouse';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { paginateInboundShipmentItem } from './inbound_shipment_item'
+import { inWarehouse } from './warehouse'
 
 export const paginateInboundShipment = (
   options: Parameters<typeof orpcClient.wms.paginateInboundShipment>[0],
@@ -12,14 +12,11 @@ export const paginateInboundShipment = (
   queryOptions({
     queryKey: ['wms.inboundShipment', 'paginate', options],
     queryFn: async ({ client }) => {
-      const inboundShipments =
-        await orpcClient.wms.paginateInboundShipment(options);
+      const inboundShipments = await orpcClient.wms.paginateInboundShipment(options)
 
       const warehouses = await client.ensureQueryData(
-        inWarehouse(
-          inboundShipments.map((row) => row.warehouseId).filter(nonEmpty),
-        ),
-      );
+        inWarehouse(inboundShipments.map((row) => row.warehouseId).filter(nonEmpty)),
+      )
 
       const items = await client.ensureQueryData(
         paginateInboundShipmentItem({
@@ -33,16 +30,16 @@ export const paginateInboundShipment = (
             },
           ],
         }),
-      );
+      )
 
       return inboundShipments.map((row) => ({
         ...row,
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
         items: items.filter((subRow) => subRow.inboundShipmentId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeInboundShipment = (
   options: Parameters<typeof orpcClient.wms.rangeInboundShipment>[0],
@@ -51,7 +48,7 @@ export const rangeInboundShipment = (
     queryKey: ['wms.inboundShipment', 'range', options],
     queryFn: () => orpcClient.wms.rangeInboundShipment(options),
     enabled: !!options,
-  });
+  })
 
 export const inInboundShipment = (
   options: Parameters<typeof orpcClient.wms.inInboundShipment>[0],
@@ -60,7 +57,7 @@ export const inInboundShipment = (
     queryKey: ['wms.inboundShipment', 'in', options],
     queryFn: () => orpcClient.wms.inInboundShipment(options),
     enabled: !!options,
-  });
+  })
 
 export const createInboundShipment = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createInboundShipment>>,
@@ -71,15 +68,15 @@ export const createInboundShipment = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Inbound Shipment: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['wms.inboundShipment'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateInboundShipment = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updateInboundShipment>>,
@@ -90,15 +87,15 @@ export const updateInboundShipment = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Inbound Shipment: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['wms.inboundShipment'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteInboundShipment = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deleteInboundShipment>>,
@@ -109,12 +106,12 @@ export const deleteInboundShipment = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Inbound Shipment has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['wms.inboundShipment'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

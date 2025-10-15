@@ -1,12 +1,12 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -15,16 +15,16 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewLeadFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/leads' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/leads/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/leads/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/leads' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/leads/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/leads/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -39,18 +39,14 @@ const ViewLeadFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Lead Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about {data.name}.
-          </DialogDescription>
+          <DialogDescription>Detailed information about {data.name}.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the lead.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the lead.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -107,25 +103,19 @@ const ViewLeadFormDialog = () => {
                 {data.convertedCompanyId && (
                   <Field orientation="horizontal">
                     <FieldLabel>Converted Company ID</FieldLabel>
-                    <FieldDescription>
-                      {data.convertedCompanyId}
-                    </FieldDescription>
+                    <FieldDescription>{data.convertedCompanyId}</FieldDescription>
                   </Field>
                 )}
                 {data.convertedContactId && (
                   <Field orientation="horizontal">
                     <FieldLabel>Converted Contact ID</FieldLabel>
-                    <FieldDescription>
-                      {data.convertedContactId}
-                    </FieldDescription>
+                    <FieldDescription>{data.convertedContactId}</FieldDescription>
                   </Field>
                 )}
                 {data.convertedOpportunityId && (
                   <Field orientation="horizontal">
                     <FieldLabel>Converted Opportunity ID</FieldLabel>
-                    <FieldDescription>
-                      {data.convertedOpportunityId}
-                    </FieldDescription>
+                    <FieldDescription>{data.convertedOpportunityId}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -133,24 +123,18 @@ const ViewLeadFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -159,7 +143,7 @@ const ViewLeadFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewLeadFormDialog;
+export default ViewLeadFormDialog

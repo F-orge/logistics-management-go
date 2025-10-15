@@ -1,65 +1,65 @@
-import { Check, ChevronDown, Edit } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Command } from '@/components/ui/command';
-import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
+import { Check, ChevronDown, Edit } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Command } from '@/components/ui/command'
+import { Field, FieldContent, FieldLabel } from '@/components/ui/field'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 
 export type EnumOption = {
-  value: string;
-  label: string;
-  disabled?: boolean;
-};
+  value: string
+  label: string
+  disabled?: boolean
+}
 
 export type EnumCellProps = {
-  value?: string;
-  onSave?: (value: string) => Promise<unknown> | unknown;
-  editable?: boolean;
-  options: EnumOption[];
-  placeholder?: string;
-  showIcon?: boolean;
-  children?: React.ReactNode;
-};
+  value?: string
+  onSave?: (value: string) => Promise<unknown> | unknown
+  editable?: boolean
+  options: EnumOption[]
+  placeholder?: string
+  showIcon?: boolean
+  children?: React.ReactNode
+}
 
 const EnumCell = (props: EnumCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(props.value);
+  const [edit, setEdit] = React.useState(false)
+  const [value, setValue] = React.useState<string | undefined>(props.value)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   const handleSelect = (selectedValue: string) => {
-    setValue(selectedValue);
+    setValue(selectedValue)
 
     if (props.onSave) {
-      props.onSave(selectedValue);
+      props.onSave(selectedValue)
     }
 
-    setEdit(false);
-  };
+    setEdit(false)
+  }
 
   const handleCancel = () => {
-    setValue(props.value);
-    setEdit(false);
-  };
+    setValue(props.value)
+    setEdit(false)
+  }
 
   const getCurrentLabel = () => {
-    const option = props.options.find((opt) => opt.value === value);
-    return option?.label || value || '';
-  };
+    const option = props.options.find((opt) => opt.value === value)
+    return option?.label || value || ''
+  }
 
   if (props.value !== undefined) {
-    const displayLabel = getCurrentLabel();
+    const displayLabel = getCurrentLabel()
 
     return (
       <Field className={cn(edit && 'min-w-xs')}>
@@ -68,21 +68,15 @@ const EnumCell = (props: EnumCellProps) => {
             <Select
               value={value}
               onValueChange={(value) => {
-                handleSelect(value);
+                handleSelect(value)
               }}
             >
               <SelectTrigger className="w-full">
-                <SelectValue
-                  placeholder={props.placeholder || 'Select an option'}
-                />
+                <SelectValue placeholder={props.placeholder || 'Select an option'} />
               </SelectTrigger>
               <SelectContent>
                 {props.options.map((option) => (
-                  <SelectItem
-                    key={option.value}
-                    value={option.value}
-                    disabled={option.disabled}
-                  >
+                  <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
                     {option.label}
                   </SelectItem>
                 ))}
@@ -97,7 +91,7 @@ const EnumCell = (props: EnumCellProps) => {
             <FieldContent
               onDoubleClick={() => {
                 if (props.editable) {
-                  setEdit(true);
+                  setEdit(true)
                 }
               }}
               className="cursor-pointer"
@@ -107,10 +101,10 @@ const EnumCell = (props: EnumCellProps) => {
           </div>
         )}
       </Field>
-    );
+    )
   } else {
-    return <>-</>;
+    return <>-</>
   }
-};
+}
 
-export default EnumCell;
+export default EnumCell

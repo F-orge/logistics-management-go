@@ -1,12 +1,12 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -15,16 +15,16 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewCampaignFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/campaigns' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/campaigns/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/campaigns/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/campaigns' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/campaigns/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/campaigns/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -39,18 +39,14 @@ const ViewCampaignFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Campaign Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about {data.name}.
-          </DialogDescription>
+          <DialogDescription>Detailed information about {data.name}.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the campaign.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the campaign.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -74,17 +70,13 @@ const ViewCampaignFormDialog = () => {
                 {data.startDate && (
                   <Field orientation="horizontal">
                     <FieldLabel>Start Date</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.startDate).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.startDate).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.endDate && (
                   <Field orientation="horizontal">
                     <FieldLabel>End Date</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.endDate).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.endDate).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -92,24 +84,18 @@ const ViewCampaignFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -118,7 +104,7 @@ const ViewCampaignFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewCampaignFormDialog;
+export default ViewCampaignFormDialog

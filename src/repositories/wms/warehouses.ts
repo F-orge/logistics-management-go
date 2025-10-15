@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,13 +10,11 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
-export class WarehouseRepository
-  implements GenericRepository<'wms.warehouses'>
-{
+export class WarehouseRepository implements GenericRepository<'wms.warehouses'> {
   constructor(private db: Kysely<DB>) {}
   paginate(
     page?: number,
@@ -27,41 +25,37 @@ export class WarehouseRepository
     DB,
     'wms.warehouses',
     {
-      address: string | null;
-      city: string | null;
-      contactEmail: string | null;
-      contactPerson: string | null;
-      contactPhone: string | null;
-      country: string | null;
-      createdAt: Date | null;
-      id: string;
-      isActive: boolean | null;
-      name: string;
-      postalCode: string | null;
-      state: string | null;
-      timezone: string | null;
-      updatedAt: Date | null;
+      address: string | null
+      city: string | null
+      contactEmail: string | null
+      contactPerson: string | null
+      contactPhone: string | null
+      country: string | null
+      createdAt: Date | null
+      id: string
+      isActive: boolean | null
+      name: string
+      postalCode: string | null
+      state: string | null
+      timezone: string | null
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('wms.warehouses').selectAll();
+    let query = this.db.selectFrom('wms.warehouses').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -72,152 +66,141 @@ export class WarehouseRepository
     DB,
     'wms.warehouses',
     {
-      address: string | null;
-      city: string | null;
-      contactEmail: string | null;
-      contactPerson: string | null;
-      contactPhone: string | null;
-      country: string | null;
-      createdAt: Date | null;
-      id: string;
-      isActive: boolean | null;
-      name: string;
-      postalCode: string | null;
-      state: string | null;
-      timezone: string | null;
-      updatedAt: Date | null;
+      address: string | null
+      city: string | null
+      contactEmail: string | null
+      contactPerson: string | null
+      contactPhone: string | null
+      country: string | null
+      createdAt: Date | null
+      id: string
+      isActive: boolean | null
+      name: string
+      postalCode: string | null
+      state: string | null
+      timezone: string | null
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('wms.warehouses')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.warehouses',
     {
-      address: string | null;
-      city: string | null;
-      contactEmail: string | null;
-      contactPerson: string | null;
-      contactPhone: string | null;
-      country: string | null;
-      createdAt: Date | null;
-      id: string;
-      isActive: boolean | null;
-      name: string;
-      postalCode: string | null;
-      state: string | null;
-      timezone: string | null;
-      updatedAt: Date | null;
+      address: string | null
+      city: string | null
+      contactEmail: string | null
+      contactPerson: string | null
+      contactPhone: string | null
+      country: string | null
+      createdAt: Date | null
+      id: string
+      isActive: boolean | null
+      name: string
+      postalCode: string | null
+      state: string | null
+      timezone: string | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('wms.warehouses')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('wms.warehouses').selectAll().where('id', 'in', values)
   }
   create(
     value: { name: string } & {
-      address?: string | null | undefined;
-      city?: string | null | undefined;
-      contactEmail?: string | null | undefined;
-      contactPerson?: string | null | undefined;
-      contactPhone?: string | null | undefined;
-      country?: string | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      isActive?: boolean | null | undefined;
-      postalCode?: string | null | undefined;
-      state?: string | null | undefined;
-      timezone?: string | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      address?: string | null | undefined
+      city?: string | null | undefined
+      contactEmail?: string | null | undefined
+      contactPerson?: string | null | undefined
+      contactPhone?: string | null | undefined
+      country?: string | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      isActive?: boolean | null | undefined
+      postalCode?: string | null | undefined
+      state?: string | null | undefined
+      timezone?: string | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'wms.warehouses',
     {
-      address: string | null;
-      city: string | null;
-      contactEmail: string | null;
-      contactPerson: string | null;
-      contactPhone: string | null;
-      country: string | null;
-      createdAt: Date | null;
-      id: string;
-      isActive: boolean | null;
-      name: string;
-      postalCode: string | null;
-      state: string | null;
-      timezone: string | null;
-      updatedAt: Date | null;
+      address: string | null
+      city: string | null
+      contactEmail: string | null
+      contactPerson: string | null
+      contactPhone: string | null
+      country: string | null
+      createdAt: Date | null
+      id: string
+      isActive: boolean | null
+      name: string
+      postalCode: string | null
+      state: string | null
+      timezone: string | null
+      updatedAt: Date | null
     }
   > {
-    return this.db.insertInto('wms.warehouses').values(value).returningAll();
+    return this.db.insertInto('wms.warehouses').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      address?: string | null | undefined;
-      city?: string | null | undefined;
-      contactEmail?: string | null | undefined;
-      contactPerson?: string | null | undefined;
-      contactPhone?: string | null | undefined;
-      country?: string | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      isActive?: boolean | null | undefined;
-      name?: string | undefined;
-      postalCode?: string | null | undefined;
-      state?: string | null | undefined;
-      timezone?: string | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      address?: string | null | undefined
+      city?: string | null | undefined
+      contactEmail?: string | null | undefined
+      contactPerson?: string | null | undefined
+      contactPhone?: string | null | undefined
+      country?: string | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      isActive?: boolean | null | undefined
+      name?: string | undefined
+      postalCode?: string | null | undefined
+      state?: string | null | undefined
+      timezone?: string | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'wms.warehouses',
     'wms.warehouses',
     {
-      address: string | null;
-      city: string | null;
-      contactEmail: string | null;
-      contactPerson: string | null;
-      contactPhone: string | null;
-      country: string | null;
-      createdAt: Date | null;
-      id: string;
-      isActive: boolean | null;
-      name: string;
-      postalCode: string | null;
-      state: string | null;
-      timezone: string | null;
-      updatedAt: Date | null;
+      address: string | null
+      city: string | null
+      contactEmail: string | null
+      contactPerson: string | null
+      contactPhone: string | null
+      country: string | null
+      createdAt: Date | null
+      id: string
+      isActive: boolean | null
+      name: string
+      postalCode: string | null
+      state: string | null
+      timezone: string | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('wms.warehouses')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('wms.warehouses').set(value).where('id', '=', id).returningAll()
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.warehouses', DeleteResult> {
-    return this.db.deleteFrom('wms.warehouses').where('id', '=', id);
+    return this.db.deleteFrom('wms.warehouses').where('id', '=', id)
   }
 }
 
@@ -230,54 +213,48 @@ export class WmsWarehouseRepository {
     fields?: SelectExpression<DB, 'wms.warehouses'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'wms.warehouses', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'wms.warehouses', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('wms.warehouses')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('wms.warehouses.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('wms.warehouses.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['wms.warehouses']>) {
-    return this.db.insertInto('wms.warehouses').values(value).returningAll();
+    return this.db.insertInto('wms.warehouses').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['wms.warehouses']>[]) {
-    return this.db.insertInto('wms.warehouses').values(values).returningAll();
+    return this.db.insertInto('wms.warehouses').values(values).returningAll()
   }
 
-  update(
-    id: DB['wms.warehouses']['id']['__update__'],
-    value: Updateable<DB['wms.warehouses']>,
-  ) {
+  update(id: DB['wms.warehouses']['id']['__update__'], value: Updateable<DB['wms.warehouses']>) {
     return this.db
       .updateTable('wms.warehouses')
       .set(value)
       .where('wms.warehouses.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['wms.warehouses']['id']['__update__']) {
-    return this.db
-      .deleteFrom('wms.warehouses')
-      .where('wms.warehouses.id', '=', id);
+    return this.db.deleteFrom('wms.warehouses').where('wms.warehouses.id', '=', id)
   }
 }

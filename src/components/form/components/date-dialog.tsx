@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const EditDateDialog = () => {
-  return <div>EditDateDialog</div>;
-};
+  return <div>EditDateDialog</div>
+}
 
-export default EditDateDialog;
+export default EditDateDialog

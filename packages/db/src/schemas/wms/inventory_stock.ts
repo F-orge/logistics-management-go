@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsInventoryStockStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { WmsInventoryStockStatusEnum } from '@/db.types'
 
 export const InventoryStockSchema = z
   .object({
@@ -23,10 +23,7 @@ export const InventoryStockSchema = z
       .max(1000000, { error: 'Available quantity must be at most 1,000,000' })
       .nullable()
       .optional(),
-    batchId: z
-      .uuid({ message: 'Invalid UUID format for batch ID' })
-      .nullable()
-      .optional(),
+    batchId: z.uuid({ message: 'Invalid UUID format for batch ID' }).nullable().optional(),
     status: z
       .nativeEnum(WmsInventoryStockStatusEnum, {
         message: 'Invalid inventory stock status',
@@ -37,15 +34,9 @@ export const InventoryStockSchema = z
       .date({ message: 'Invalid date format for last counted at' })
       .nullable()
       .optional(),
-    lastMovementAt: z
-      .date({ message: 'Invalid date format for last movement at' })
-      .optional(),
-    createdAt: z
-      .date({ message: 'Invalid date format for created at' })
-      .optional(),
-    updatedAt: z
-      .date({ message: 'Invalid date format for updated at' })
-      .optional(),
+    lastMovementAt: z.date({ message: 'Invalid date format for last movement at' }).optional(),
+    createdAt: z.date({ message: 'Invalid date format for created at' }).optional(),
+    updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional(),
   })
   .refine((data) => data.reservedQuantity <= data.quantity, {
     message: 'Reserved quantity cannot exceed total quantity',
@@ -54,9 +45,9 @@ export const InventoryStockSchema = z
   .refine((data) => !data.lastCountedAt || data.lastCountedAt <= new Date(), {
     message: 'Last counted date cannot be in the future',
     path: ['lastCountedAt'],
-  });
+  })
 
-export type WmsInventoryStock = z.infer<typeof InventoryStockSchema>;
+export type WmsInventoryStock = z.infer<typeof InventoryStockSchema>
 
 // Schema for creating new inventory records (excludes auto-generated fields)
 export const InventoryStockInsertSchema = InventoryStockSchema.omit({
@@ -65,7 +56,7 @@ export const InventoryStockInsertSchema = InventoryStockSchema.omit({
   lastMovementAt: true, // Auto-generated field
   createdAt: true,
   updatedAt: true,
-});
+})
 
 // Schema for updating inventory (only allow quantity updates and status changes)
 export const InventoryStockUpdateSchema = z
@@ -78,18 +69,18 @@ export const InventoryStockUpdateSchema = z
   .refine(
     (data) => {
       if (data.quantity !== undefined && data.reservedQuantity !== undefined) {
-        return data.reservedQuantity <= data.quantity;
+        return data.reservedQuantity <= data.quantity
       }
-      return true;
+      return true
     },
     {
       message: 'Reserved quantity cannot exceed total quantity',
       path: ['reservedQuantity'],
     },
-  );
+  )
 
 // Schema for API responses (includes all fields)
-export const InventoryStockResponseSchema = InventoryStockSchema;
+export const InventoryStockResponseSchema = InventoryStockSchema
 
 // Schema for inventory adjustments
 export const InventoryStockAdjustmentSchema = z.object({
@@ -98,18 +89,10 @@ export const InventoryStockAdjustmentSchema = z.object({
   quantityChange: z.coerce.number().int(),
   reason: z.string().min(1).max(255),
   notes: z.string().max(1024).optional(),
-});
+})
 
 // Type exports
-export type WmsInventoryStockInsert = z.infer<
-  typeof InventoryStockInsertSchema
->;
-export type WmsInventoryStockUpdate = z.infer<
-  typeof InventoryStockUpdateSchema
->;
-export type WmsInventoryStockResponse = z.infer<
-  typeof InventoryStockResponseSchema
->;
-export type WmsInventoryStockAdjustment = z.infer<
-  typeof InventoryStockAdjustmentSchema
->;
+export type WmsInventoryStockInsert = z.infer<typeof InventoryStockInsertSchema>
+export type WmsInventoryStockUpdate = z.infer<typeof InventoryStockUpdateSchema>
+export type WmsInventoryStockResponse = z.infer<typeof InventoryStockResponseSchema>
+export type WmsInventoryStockAdjustment = z.infer<typeof InventoryStockAdjustmentSchema>

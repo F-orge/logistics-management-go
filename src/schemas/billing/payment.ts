@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db/types'
 
 // Zod schema for billing.payment table
 export const billingPaymentSchema = z
@@ -62,9 +62,9 @@ export const billingPaymentSchema = z
     transactionId: z.uuid().optional().nullable(),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingPayment = z.infer<typeof billingPaymentSchema>;
+export type BillingPayment = z.infer<typeof billingPaymentSchema>
 
 export const billingPaymentInsertSchema = billingPaymentSchema
   .omit({
@@ -72,8 +72,6 @@ export const billingPaymentInsertSchema = billingPaymentSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingPaymentUpdateSchema = billingPaymentInsertSchema
-  .partial()
-  .strict();
+export const billingPaymentUpdateSchema = billingPaymentInsertSchema.partial().strict()

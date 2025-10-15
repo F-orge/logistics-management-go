@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const PackageSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -114,22 +114,16 @@ export const PackageSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsPackage = z.infer<typeof PackageSchema>;
+export type WmsPackage = z.infer<typeof PackageSchema>
 
 export const PackageInsertSchema = PackageSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const PackageUpdateSchema = PackageInsertSchema.partial();
+export const PackageUpdateSchema = PackageInsertSchema.partial()

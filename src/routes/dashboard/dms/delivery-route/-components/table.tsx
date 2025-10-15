@@ -1,14 +1,12 @@
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { ORPCOutputs } from '@/orpc/client';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import { Button } from '@/components/ui/button'
+import type { ORPCOutputs } from '@/orpc/client'
 
-export const columns: ColumnDef<
-  ORPCOutputs['dms']['paginateDeliveryRoute'][number]
->[] = [
+export const columns: ColumnDef<ORPCOutputs['dms']['paginateDeliveryRoute'][number]>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -61,16 +59,12 @@ export const columns: ColumnDef<
   {
     accessorKey: 'actualDurationMinutes',
     header: 'Actual Duration (Minutes)',
-    cell: ({ row }) => (
-      <NumberCell value={row.original.actualDurationMinutes} />
-    ),
+    cell: ({ row }) => <NumberCell value={row.original.actualDurationMinutes} />,
   },
   {
     accessorKey: 'estimatedDurationMinutes',
     header: 'Estimated Duration (Minutes)',
-    cell: ({ row }) => (
-      <NumberCell value={row.original.estimatedDurationMinutes} />
-    ),
+    cell: ({ row }) => <NumberCell value={row.original.estimatedDurationMinutes} />,
   },
   {
     accessorKey: 'optimizedRouteData',
@@ -92,4 +86,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

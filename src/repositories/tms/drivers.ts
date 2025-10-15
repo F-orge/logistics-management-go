@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,9 +10,9 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, TmsDriverStatusEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, TmsDriverStatusEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
 export class DriverRepository implements GenericRepository<'tms.drivers'> {
   constructor(private db: Kysely<DB>) {}
@@ -26,34 +26,30 @@ export class DriverRepository implements GenericRepository<'tms.drivers'> {
     DB,
     'tms.drivers',
     {
-      createdAt: Date | null;
-      id: string;
-      licenseExpiryDate: Date | null;
-      licenseNumber: string;
-      status: TmsDriverStatusEnum | null;
-      updatedAt: Date | null;
-      userId: string;
+      createdAt: Date | null
+      id: string
+      licenseExpiryDate: Date | null
+      licenseNumber: string
+      status: TmsDriverStatusEnum | null
+      updatedAt: Date | null
+      userId: string
     }
   > {
-    let query = this.db.selectFrom('tms.drivers').selectAll();
+    let query = this.db.selectFrom('tms.drivers').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -64,109 +60,98 @@ export class DriverRepository implements GenericRepository<'tms.drivers'> {
     DB,
     'tms.drivers',
     {
-      createdAt: Date | null;
-      id: string;
-      licenseExpiryDate: Date | null;
-      licenseNumber: string;
-      status: TmsDriverStatusEnum | null;
-      updatedAt: Date | null;
-      userId: string;
+      createdAt: Date | null
+      id: string
+      licenseExpiryDate: Date | null
+      licenseNumber: string
+      status: TmsDriverStatusEnum | null
+      updatedAt: Date | null
+      userId: string
     }
   > {
     let query = this.db
       .selectFrom('tms.drivers')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.drivers',
     {
-      createdAt: Date | null;
-      id: string;
-      licenseExpiryDate: Date | null;
-      licenseNumber: string;
-      status: TmsDriverStatusEnum | null;
-      updatedAt: Date | null;
-      userId: string;
+      createdAt: Date | null
+      id: string
+      licenseExpiryDate: Date | null
+      licenseNumber: string
+      status: TmsDriverStatusEnum | null
+      updatedAt: Date | null
+      userId: string
     }
   > {
-    return this.db
-      .selectFrom('tms.drivers')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('tms.drivers').selectAll().where('id', 'in', values)
   }
   create(
     value: { licenseNumber: string; userId: string } & {
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      licenseExpiryDate?: string | Date | null | undefined;
-      status?: TmsDriverStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      licenseExpiryDate?: string | Date | null | undefined
+      status?: TmsDriverStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'tms.drivers',
     {
-      createdAt: Date | null;
-      id: string;
-      licenseExpiryDate: Date | null;
-      licenseNumber: string;
-      status: TmsDriverStatusEnum | null;
-      updatedAt: Date | null;
-      userId: string;
+      createdAt: Date | null
+      id: string
+      licenseExpiryDate: Date | null
+      licenseNumber: string
+      status: TmsDriverStatusEnum | null
+      updatedAt: Date | null
+      userId: string
     }
   > {
-    return this.db.insertInto('tms.drivers').values(value).returningAll();
+    return this.db.insertInto('tms.drivers').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      licenseExpiryDate?: string | Date | null | undefined;
-      licenseNumber?: string | undefined;
-      status?: TmsDriverStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
-      userId?: string | undefined;
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      licenseExpiryDate?: string | Date | null | undefined
+      licenseNumber?: string | undefined
+      status?: TmsDriverStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
+      userId?: string | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'tms.drivers',
     'tms.drivers',
     {
-      createdAt: Date | null;
-      id: string;
-      licenseExpiryDate: Date | null;
-      licenseNumber: string;
-      status: TmsDriverStatusEnum | null;
-      updatedAt: Date | null;
-      userId: string;
+      createdAt: Date | null
+      id: string
+      licenseExpiryDate: Date | null
+      licenseNumber: string
+      status: TmsDriverStatusEnum | null
+      updatedAt: Date | null
+      userId: string
     }
   > {
-    return this.db
-      .updateTable('tms.drivers')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('tms.drivers').set(value).where('id', '=', id).returningAll()
   }
   delete(id: string): DeleteQueryBuilder<DB, 'tms.drivers', DeleteResult> {
-    return this.db.deleteFrom('tms.drivers').where('id', '=', id);
+    return this.db.deleteFrom('tms.drivers').where('id', '=', id)
   }
 }
 
@@ -179,52 +164,48 @@ export class TmsDriverRepository {
     fields?: SelectExpression<DB, 'tms.drivers'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'tms.drivers', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'tms.drivers', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('tms.drivers')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('tms.drivers.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('tms.drivers.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['tms.drivers']>) {
-    return this.db.insertInto('tms.drivers').values(value).returningAll();
+    return this.db.insertInto('tms.drivers').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['tms.drivers']>[]) {
-    return this.db.insertInto('tms.drivers').values(values).returningAll();
+    return this.db.insertInto('tms.drivers').values(values).returningAll()
   }
 
-  update(
-    id: DB['tms.drivers']['id']['__update__'],
-    value: Updateable<DB['tms.drivers']>,
-  ) {
+  update(id: DB['tms.drivers']['id']['__update__'], value: Updateable<DB['tms.drivers']>) {
     return this.db
       .updateTable('tms.drivers')
       .set(value)
       .where('tms.drivers.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['tms.drivers']['id']['__update__']) {
-    return this.db.deleteFrom('tms.drivers').where('tms.drivers.id', '=', id);
+    return this.db.deleteFrom('tms.drivers').where('tms.drivers.id', '=', id)
   }
 }

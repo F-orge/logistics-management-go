@@ -1,42 +1,36 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createInventoryStock } from '@/queries/wms';
-import { wmsInventoryStockInsertSchema } from '@/schemas/wms/inventory_stock';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createInventoryStock } from '@/queries/wms'
+import { wmsInventoryStockInsertSchema } from '@/schemas/wms/inventory_stock'
 
 const NewInventoryStockFormDialog = () => {
   const navigate = useNavigate({
     from: '/dashboard/wms/inventory-stock',
-  });
+  })
   const searchQuery = useSearch({
     from: '/dashboard/wms/inventory-stock/',
-  });
+  })
   const { queryClient } = useRouteContext({
     from: '/dashboard/wms/inventory-stock/',
-  });
+  })
 
-  const createMutation = useMutation(createInventoryStock, queryClient);
+  const createMutation = useMutation(createInventoryStock, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -48,20 +42,18 @@ const NewInventoryStockFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(wmsInventoryStockInsertSchema)}
-          onSubmit={async (
-            value: z.infer<typeof wmsInventoryStockInsertSchema>,
-          ) => {
+          onSubmit={async (value: z.infer<typeof wmsInventoryStockInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewInventoryStockFormDialog;
+export default NewInventoryStockFormDialog

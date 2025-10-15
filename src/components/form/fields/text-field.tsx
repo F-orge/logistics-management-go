@@ -1,15 +1,10 @@
-import { Eye, EyeClosed } from 'lucide-react';
-import React, { useState } from 'react';
-import { useFieldContext } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import { Eye, EyeClosed } from 'lucide-react'
+import React, { useState } from 'react'
+import { useFieldContext } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 export const TextField = ({
   className,
@@ -17,11 +12,11 @@ export const TextField = ({
   description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
+  label?: React.ReactNode
+  description?: React.ReactNode
 }) => {
-  const field = useFieldContext<string>();
-  const [inputType, setInputType] = useState<string | undefined>(props.type);
+  const field = useFieldContext<string>()
+  const [inputType, setInputType] = useState<string | undefined>(props.type)
 
   if (props.hidden) {
     return (
@@ -33,7 +28,7 @@ export const TextField = ({
         {...props}
         type={inputType}
       />
-    );
+    )
   }
 
   return (
@@ -41,9 +36,7 @@ export const TextField = ({
       {label &&
         (!React.isValidElement(label) ? (
           <FieldLabel
-            className={cn(
-              field.state.meta.errorMap.onSubmit && 'text-destructive',
-            )}
+            className={cn(field.state.meta.errorMap.onSubmit && 'text-destructive')}
             htmlFor={props.id}
           >
             {props.required && '*'} {label}
@@ -64,9 +57,9 @@ export const TextField = ({
           <Button
             onClick={() => {
               if (inputType === 'password') {
-                setInputType('text');
+                setInputType('text')
               } else {
-                setInputType('password');
+                setInputType('password')
               }
             }}
             type="button"
@@ -84,5 +77,5 @@ export const TextField = ({
         </FieldError>
       )}
     </Field>
-  );
-};
+  )
+}

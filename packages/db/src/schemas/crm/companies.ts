@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 // Zod schema for .companies table
 
@@ -147,4 +147,4 @@ export const CompanySchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()

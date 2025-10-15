@@ -1,8 +1,5 @@
-import { z } from 'zod';
-import {
-  DmsDeliveryFailureReasonEnum,
-  DmsDeliveryTaskStatusEnum,
-} from '@/db.types';
+import { z } from 'zod'
+import { DmsDeliveryFailureReasonEnum, DmsDeliveryTaskStatusEnum } from '@/db.types'
 
 export const DeliveryTaskSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -26,10 +23,7 @@ export const DeliveryTaskSchema = z.object({
     .date({ message: 'Invalid date format for estimated arrival time' })
     .optional()
     .nullable(),
-  deliveryTime: z
-    .date({ message: 'Invalid date format for delivery time' })
-    .optional()
-    .nullable(),
+  deliveryTime: z.date({ message: 'Invalid date format for delivery time' }).optional().nullable(),
   deliveryAddress: z
     .string()
     .min(1, { error: 'Delivery address is required' })
@@ -68,13 +62,6 @@ export const DeliveryTaskSchema = z.object({
     .min(0, { message: 'Attempt count must be at least 0' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
-
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})

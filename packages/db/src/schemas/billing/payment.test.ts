@@ -1,14 +1,10 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db.types';
-import {
-  PaymentInsertSchema,
-  PaymentSchema,
-  PaymentUpdateSchema,
-} from './payment';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db.types'
+import { PaymentInsertSchema, PaymentSchema, PaymentUpdateSchema } from './payment'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingPaymentSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -171,14 +167,14 @@ describe('BillingPaymentSchema Validation', () => {
           paymentMethod: BillingPaymentMethodEnum.CreditCard,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => PaymentSchema.parse(input)).not.toThrow();
-      const result = PaymentSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => PaymentSchema.parse(input)).not.toThrow()
+      const result = PaymentSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -491,24 +487,21 @@ describe('BillingPaymentSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          PaymentSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        PaymentSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for PaymentSchema', () => {
     test('should return success for valid data', () => {
@@ -517,14 +510,14 @@ describe('BillingPaymentSchema Validation', () => {
         amount: 100.5,
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         paymentMethod: BillingPaymentMethodEnum.CreditCard,
-      };
-      const result = PaymentSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = PaymentSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -532,17 +525,17 @@ describe('BillingPaymentSchema Validation', () => {
         amount: 100,
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         paymentMethod: BillingPaymentMethodEnum.CreditCard,
-      };
-      const result = PaymentSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = PaymentSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingPaymentInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -574,14 +567,14 @@ describe('BillingPaymentInsertSchema Validation', () => {
           transactionId: '123e4567-e89b-12d3-a456-426614174002',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => PaymentInsertSchema.parse(input)).not.toThrow();
-      const result = PaymentInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => PaymentInsertSchema.parse(input)).not.toThrow()
+      const result = PaymentInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -710,24 +703,21 @@ describe('BillingPaymentInsertSchema Validation', () => {
         expectedError:
           'Invalid option: expected one of "cancelled"|"failed"|"pending"|"processing"|"refunded"|"successful"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          PaymentInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        PaymentInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for PaymentInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -735,31 +725,31 @@ describe('BillingPaymentInsertSchema Validation', () => {
         amount: 100.5,
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         paymentMethod: BillingPaymentMethodEnum.DebitCard,
-      };
-      const result = PaymentInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = PaymentInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         amount: -1, // Invalid amount
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         paymentMethod: BillingPaymentMethodEnum.CreditCard,
-      };
-      const result = PaymentInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = PaymentInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingPaymentUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -793,14 +783,14 @@ describe('BillingPaymentUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => PaymentUpdateSchema.parse(input)).not.toThrow();
-      const result = PaymentUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => PaymentUpdateSchema.parse(input)).not.toThrow()
+      const result = PaymentUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -883,51 +873,48 @@ describe('BillingPaymentUpdateSchema Validation', () => {
         },
         expectedError: 'Invalid UUID',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          PaymentUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        PaymentUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        for (const issue of error?.issues || []) {
-          expect(issue.message).toContain(expectedError);
-        }
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      for (const issue of error?.issues || []) {
+        expect(issue.message).toContain(expectedError)
+      }
+    })
+  })
 
   describe('SafeParse Tests for PaymentUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         amount: 100.5,
-      };
-      const result = PaymentUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = PaymentUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         amount: -1, // Invalid amount
-      };
-      const result = PaymentUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = PaymentUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

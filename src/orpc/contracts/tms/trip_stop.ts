@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsTripStopInsertSchema,
   tmsTripStopSchema,
   tmsTripStopUpdateSchema,
-} from '@/schemas/tms/trip_stop';
+} from '@/schemas/tms/trip_stop'
 
 export const paginateTripStopContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateTripStopContract = oc
       }),
     ),
   )
-  .output(z.array(tmsTripStopSchema));
+  .output(z.array(tmsTripStopSchema))
 
 export const rangeTripStopContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeTripStopContract = oc
       }),
     ),
   )
-  .output(z.array(tmsTripStopSchema));
+  .output(z.array(tmsTripStopSchema))
 
 export const inTripStopContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsTripStopSchema));
+  .output(z.array(tmsTripStopSchema))
 
-export const createTripStopContract = oc
-  .input(tmsTripStopInsertSchema)
-  .output(tmsTripStopSchema);
+export const createTripStopContract = oc.input(tmsTripStopInsertSchema).output(tmsTripStopSchema)
 
 export const updateTripStopContract = oc
   .input(z.object({ id: z.uuid(), value: tmsTripStopUpdateSchema }))
-  .output(tmsTripStopSchema);
+  .output(tmsTripStopSchema)
 
 export const deleteTripStopContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

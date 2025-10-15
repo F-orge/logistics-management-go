@@ -1,9 +1,7 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { CrmProductType } from '@/db.types';
-import {
-  ProductSchema,
-} from './products';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CrmProductType } from '@/db.types'
+import { ProductSchema } from './products'
 
 describe('CrmProductSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -21,8 +19,7 @@ describe('CrmProductSchema Validation', () => {
         input: {
           id: '123e4567-e89b-12d3-a456-426614174001',
           name: 'Product B',
-          description:
-            'A detailed description of Product B. ' + 'D'.repeat(987), // 33 + 987 = 1020 chars
+          description: 'A detailed description of Product B. ' + 'D'.repeat(987), // 33 + 987 = 1020 chars
           price: 999999.99,
           sku: 'SKU-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567', // 127 chars
           type: CrmProductType.Good,
@@ -88,14 +85,14 @@ describe('CrmProductSchema Validation', () => {
           price: 123.45, // Expect number after coercion
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => ProductSchema.parse(input)).not.toThrow();
-      const result = ProductSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => ProductSchema.parse(input)).not.toThrow()
+      const result = ProductSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -286,27 +283,22 @@ describe('CrmProductSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          ProductSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        ProductSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for ProductSchema', () => {
     test('should return success for valid data', () => {
@@ -314,28 +306,28 @@ describe('CrmProductSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Product',
         price: 100,
-      };
-      const result = ProductSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = ProductSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         name: 'Invalid Product',
         price: 100,
-      };
-      const result = ProductSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = ProductSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

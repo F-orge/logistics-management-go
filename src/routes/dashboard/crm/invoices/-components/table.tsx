@@ -1,20 +1,20 @@
-import { Link } from '@tanstack/react-router';
-import type { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { type ORPCOutputs, orpcClient } from '@/orpc/client';
-import type { CrmInvoiceItem } from '@/schemas/crm/invoice_items';
-import type { CrmOpportunity } from '@/schemas/crm/opportunities';
-import type { CrmProduct } from '@/schemas/crm/products';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import { Button } from '@/components/ui/button'
+import { type ORPCOutputs, orpcClient } from '@/orpc/client'
+import type { CrmInvoiceItem } from '@/schemas/crm/invoice_items'
+import type { CrmOpportunity } from '@/schemas/crm/opportunities'
+import type { CrmProduct } from '@/schemas/crm/products'
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInvoice'][number] & {
-    opportunity?: ORPCOutputs['crm']['inOpportunity'][number];
+    opportunity?: ORPCOutputs['crm']['inOpportunity'][number]
     items?: (ORPCOutputs['crm']['inInvoiceItem'][number] & {
-      product?: ORPCOutputs['crm']['inProduct'][number];
-    })[];
+      product?: ORPCOutputs['crm']['inProduct'][number]
+    })[]
   }
 >[] = [
   {
@@ -92,4 +92,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

@@ -1,35 +1,29 @@
-import { Check } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { ZodString } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { Check } from 'lucide-react'
+import React, { useEffect } from 'react'
+import type { ZodString } from 'zod'
+import { Button } from '@/components/ui/button'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type StringCellProps = {
-  validator?: ZodString;
-  value?: string | null;
-  onSave?: (value: string | undefined) => Promise<unknown> | unknown;
-  length?: number; /// number of characters to show. if exceed convert to tooltip
-  editable?: boolean;
-};
+  validator?: ZodString
+  value?: string | null
+  onSave?: (value: string | undefined) => Promise<unknown> | unknown
+  length?: number /// number of characters to show. if exceed convert to tooltip
+  editable?: boolean
+}
 
 const StringCell = (props: StringCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(
-    props.value || undefined,
-  );
+  const [edit, setEdit] = React.useState(false)
+  const [value, setValue] = React.useState<string | undefined>(props.value || undefined)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   if (props.value !== undefined) {
     return (
@@ -38,25 +32,21 @@ const StringCell = (props: StringCellProps) => {
           <div className="flex gap-2.5 ">
             <Input
               onDoubleClick={() => {
-                setEdit(false);
+                setEdit(false)
               }}
               value={value}
               onChange={(e) =>
-                setValue(
-                  props.validator
-                    ? props.validator.parse(e.target.value)
-                    : e.target.value,
-                )
+                setValue(props.validator ? props.validator.parse(e.target.value) : e.target.value)
               }
             />
             <Button
               onClick={() => {
                 if (props.onSave) {
-                  props.onSave(value);
-                  setEdit(false);
+                  props.onSave(value)
+                  setEdit(false)
                 } else {
-                  setValue(props.value || undefined);
-                  setEdit(false);
+                  setValue(props.value || undefined)
+                  setEdit(false)
                 }
               }}
               size={'icon'}
@@ -70,7 +60,7 @@ const StringCell = (props: StringCellProps) => {
               <FieldLabel
                 onDoubleClick={() => {
                   if (props.editable) {
-                    setEdit(true);
+                    setEdit(true)
                   }
                 }}
               >
@@ -83,10 +73,10 @@ const StringCell = (props: StringCellProps) => {
           </Tooltip>
         )}
       </Field>
-    );
+    )
   } else {
-    return <>-</>;
+    return <>-</>
   }
-};
+}
 
-export default StringCell;
+export default StringCell

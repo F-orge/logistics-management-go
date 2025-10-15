@@ -1,17 +1,12 @@
-import {
-  useLoaderData,
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldContent,
@@ -22,17 +17,17 @@ import {
   FieldSeparator,
   FieldSet,
   FieldTitle,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewCompanyFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/companies' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/companies/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/companies/' });
-  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/companies/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/companies' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/companies/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/companies/' })
+  const { orpcClient } = useRouteContext({ from: '/dashboard/crm/companies/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -47,18 +42,14 @@ const ViewCompanyFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Company Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about {data.name}.
-          </DialogDescription>
+          <DialogDescription>Detailed information about {data.name}.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the company.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the company.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -84,11 +75,7 @@ const ViewCompanyFormDialog = () => {
                   <Field orientation="horizontal">
                     <FieldLabel>Website</FieldLabel>
                     <FieldDescription>
-                      <a
-                        href={data.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={data.website} target="_blank" rel="noopener noreferrer">
                         {data.website}
                       </a>
                     </FieldDescription>
@@ -99,9 +86,7 @@ const ViewCompanyFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Contact Information</FieldLegend>
-              <FieldDescription>
-                Primary contact details for the company.
-              </FieldDescription>
+              <FieldDescription>Primary contact details for the company.</FieldDescription>
               <FieldGroup>
                 {data.phoneNumber && (
                   <Field orientation="responsive">
@@ -114,9 +99,7 @@ const ViewCompanyFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Address Information</FieldLegend>
-              <FieldDescription>
-                Physical address of the company.
-              </FieldDescription>
+              <FieldDescription>Physical address of the company.</FieldDescription>
               <FieldGroup>
                 {data.street && (
                   <Field orientation="horizontal">
@@ -153,9 +136,7 @@ const ViewCompanyFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Financial Information</FieldLegend>
-              <FieldDescription>
-                Details regarding the company's financial status.
-              </FieldDescription>
+              <FieldDescription>Details regarding the company's financial status.</FieldDescription>
               <FieldGroup>
                 {data.annualRevenue && (
                   <Field orientation="horizontal">
@@ -173,24 +154,18 @@ const ViewCompanyFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -199,7 +174,7 @@ const ViewCompanyFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewCompanyFormDialog;
+export default ViewCompanyFormDialog

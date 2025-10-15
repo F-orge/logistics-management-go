@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   billingInvoiceInsertSchema,
   billingInvoiceSchema,
   billingInvoiceUpdateSchema,
-} from '@/schemas/billing/invoice';
+} from '@/schemas/billing/invoice'
 
 export const paginateInvoiceContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateInvoiceContract = oc
       }),
     ),
   )
-  .output(z.array(billingInvoiceSchema));
+  .output(z.array(billingInvoiceSchema))
 
 export const rangeInvoiceContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeInvoiceContract = oc
       }),
     ),
   )
-  .output(z.array(billingInvoiceSchema));
+  .output(z.array(billingInvoiceSchema))
 
 export const inInvoiceContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(billingInvoiceSchema));
+  .output(z.array(billingInvoiceSchema))
 
 export const createInvoiceContract = oc
   .input(billingInvoiceInsertSchema)
-  .output(billingInvoiceSchema);
+  .output(billingInvoiceSchema)
 
 export const updateInvoiceContract = oc
   .input(z.object({ id: z.uuid(), value: billingInvoiceUpdateSchema }))
-  .output(billingInvoiceSchema);
+  .output(billingInvoiceSchema)
 
 export const deleteInvoiceContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

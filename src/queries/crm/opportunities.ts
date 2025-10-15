@@ -1,13 +1,13 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inUser } from '../auth/user';
-import { inCampaign } from './campaigns';
-import { inCompany } from './companies';
-import { inContact } from './contacts';
-import { paginateOpportunityProduct } from './opportunity_products';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inUser } from '../auth/user'
+import { inCampaign } from './campaigns'
+import { inCompany } from './companies'
+import { inContact } from './contacts'
+import { paginateOpportunityProduct } from './opportunity_products'
 
 export const paginateOpportunity = (
   options: Parameters<typeof orpcClient.crm.paginateOpportunity>[0],
@@ -15,30 +15,28 @@ export const paginateOpportunity = (
   queryOptions({
     queryKey: ['crm.opportunities', options],
     queryFn: async ({ client }) => {
-      const opportunities = await orpcClient.crm.paginateOpportunity(options);
+      const opportunities = await orpcClient.crm.paginateOpportunity(options)
 
-      const ownerPromises = client.ensureQueryData(
-        inUser(opportunities.map((row) => row.ownerId)),
-      );
+      const ownerPromises = client.ensureQueryData(inUser(opportunities.map((row) => row.ownerId)))
 
       const campaignPromises = client.ensureQueryData(
         inCampaign(opportunities.map((row) => row.campaignId).filter(nonEmpty)),
-      );
+      )
 
       const companyPromises = client.ensureQueryData(
         inCompany(opportunities.map((row) => row.companyId).filter(nonEmpty)),
-      );
+      )
 
       const contactPromises = client.ensureQueryData(
         inContact(opportunities.map((row) => row.contactId).filter(nonEmpty)),
-      );
+      )
 
       const [owners, campaigns, companies, contacts] = await Promise.all([
         ownerPromises,
         campaignPromises,
         companyPromises,
         contactPromises,
-      ]);
+      ])
 
       const opportunityProducts = await client.ensureQueryData(
         paginateOpportunityProduct({
@@ -52,7 +50,7 @@ export const paginateOpportunity = (
             },
           ],
         }),
-      );
+      )
 
       return opportunities.map((row) => ({
         ...row,
@@ -63,29 +61,24 @@ export const paginateOpportunity = (
         opportunityProducts: opportunityProducts.filter(
           (subRow) => subRow.opportunityId === row.id,
         ),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeOpportunity = (
-  options: Parameters<typeof orpcClient.crm.rangeOpportunity>[0],
-) =>
+export const rangeOpportunity = (options: Parameters<typeof orpcClient.crm.rangeOpportunity>[0]) =>
   queryOptions({
     queryKey: ['crm.opportunities', options],
     queryFn: () => orpcClient.crm.rangeOpportunity(options),
     enabled: !!options,
-  });
+  })
 
-export const inOpportunity = (
-  options: Parameters<typeof orpcClient.crm.inOpportunity>[0],
-) =>
+export const inOpportunity = (options: Parameters<typeof orpcClient.crm.inOpportunity>[0]) =>
   queryOptions({
     queryKey: ['crm.opportunities', options],
-    queryFn: () =>
-      options.length >= 1 ? orpcClient.crm.inOpportunity(options) : [],
+    queryFn: () => (options.length >= 1 ? orpcClient.crm.inOpportunity(options) : []),
     enabled: !!options,
-  });
+  })
 
 export const createOpportunity = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.createOpportunity>>,
@@ -96,13 +89,13 @@ export const createOpportunity = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Opportunity: ${data.name} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateOpportunity = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.updateOpportunity>>,
@@ -113,13 +106,13 @@ export const updateOpportunity = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Opportunity: ${data.name} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteOpportunity = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.deleteOpportunity>>,
@@ -130,10 +123,10 @@ export const deleteOpportunity = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `A record has been deleted`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.opportunities'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

@@ -1,66 +1,52 @@
-import { implement } from '@orpc/server';
-import * as wmsContracts from '@/orpc/contracts/wms/inventory_batch';
-import { InventoryBatchRepository } from '@/repositories/wms/inventoryBatches';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import * as wmsContracts from '@/orpc/contracts/wms/inventory_batch'
+import { InventoryBatchRepository } from '@/repositories/wms/inventoryBatches'
+import type { HonoVariables } from '@/server'
 
-export const paginateInventoryBatch = implement(
-  wmsContracts.paginateInventoryBatchContract,
-)
+export const paginateInventoryBatch = implement(wmsContracts.paginateInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo
-      .paginate(input.page, input.perPage, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.paginate(input.page, input.perPage, input.sort, input.filters as any).execute()
+  })
 
-export const rangeInventoryBatch = implement(
-  wmsContracts.rangeInventoryBatchContract,
-)
+export const rangeInventoryBatch = implement(wmsContracts.rangeInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo
-      .range(input.from, input.to, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.range(input.from, input.to, input.sort, input.filters as any).execute()
+  })
 
 export const inInventoryBatch = implement(wmsContracts.inInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo.in(input).execute();
-  });
+    return repo.in(input).execute()
+  })
 
-export const createInventoryBatch = implement(
-  wmsContracts.createInventoryBatchContract,
-)
+export const createInventoryBatch = implement(wmsContracts.createInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo.create(input).executeTakeFirstOrThrow();
-  });
+    return repo.create(input).executeTakeFirstOrThrow()
+  })
 
-export const updateInventoryBatch = implement(
-  wmsContracts.updateInventoryBatchContract,
-)
+export const updateInventoryBatch = implement(wmsContracts.updateInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
-  });
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow()
+  })
 
-export const deleteInventoryBatch = implement(
-  wmsContracts.deleteInventoryBatchContract,
-)
+export const deleteInventoryBatch = implement(wmsContracts.deleteInventoryBatchContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new InventoryBatchRepository(context.db);
+    const repo = new InventoryBatchRepository(context.db)
 
-    return repo.delete(input).executeTakeFirstOrThrow();
-  });
+    return repo.delete(input).executeTakeFirstOrThrow()
+  })

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsSalesOrderStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsSalesOrderStatusEnum } from '@/db/types'
 
 export const wmsSalesOrderSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -24,22 +24,16 @@ export const wmsSalesOrderSchema = z.object({
     })
     .nullable()
     .optional(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsSalesOrder = z.infer<typeof wmsSalesOrderSchema>;
+export type WmsSalesOrder = z.infer<typeof wmsSalesOrderSchema>
 
 export const wmsSalesOrderInsertSchema = wmsSalesOrderSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsSalesOrderUpdateSchema = wmsSalesOrderInsertSchema.partial();
+export const wmsSalesOrderUpdateSchema = wmsSalesOrderInsertSchema.partial()

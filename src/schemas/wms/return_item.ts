@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsReturnItemConditionEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsReturnItemConditionEnum } from '@/db/types'
 
 export const wmsReturnItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -30,22 +30,16 @@ export const wmsReturnItemSchema = z.object({
     })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsReturnItem = z.infer<typeof wmsReturnItemSchema>;
+export type WmsReturnItem = z.infer<typeof wmsReturnItemSchema>
 
 export const wmsReturnItemInsertSchema = wmsReturnItemSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsReturnItemUpdateSchema = wmsReturnItemInsertSchema.partial();
+export const wmsReturnItemUpdateSchema = wmsReturnItemInsertSchema.partial()

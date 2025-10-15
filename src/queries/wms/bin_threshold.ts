@@ -1,10 +1,10 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inLocation } from './location';
-import { inProduct } from './product';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inLocation } from './location'
+import { inProduct } from './product'
 
 export const paginateBinThreshold = (
   options: Parameters<typeof orpcClient.wms.paginateBinThreshold>[0],
@@ -12,23 +12,23 @@ export const paginateBinThreshold = (
   queryOptions({
     queryKey: ['wms.binThreshold', 'paginate', options],
     queryFn: async ({ client }) => {
-      const binThresholds = await orpcClient.wms.paginateBinThreshold(options);
+      const binThresholds = await orpcClient.wms.paginateBinThreshold(options)
 
       const locations = await client.ensureQueryData(
         inLocation(binThresholds.map((row) => row.locationId).filter(nonEmpty)),
-      );
+      )
       const products = await client.ensureQueryData(
         inProduct(binThresholds.map((row) => row.productId).filter(nonEmpty)),
-      );
+      )
 
       return binThresholds.map((row) => ({
         ...row,
         location: locations.find((subRow) => subRow.id === row.locationId),
         product: products.find((subRow) => subRow.id === row.productId),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeBinThreshold = (
   options: Parameters<typeof orpcClient.wms.rangeBinThreshold>[0],
@@ -37,16 +37,14 @@ export const rangeBinThreshold = (
     queryKey: ['wms.binThreshold', 'range', options],
     queryFn: () => orpcClient.wms.rangeBinThreshold(options),
     enabled: !!options,
-  });
+  })
 
-export const inBinThreshold = (
-  options: Parameters<typeof orpcClient.wms.inBinThreshold>[0],
-) =>
+export const inBinThreshold = (options: Parameters<typeof orpcClient.wms.inBinThreshold>[0]) =>
   queryOptions({
     queryKey: ['wms.binThreshold', 'in', options],
     queryFn: () => orpcClient.wms.inBinThreshold(options),
     enabled: !!options,
-  });
+  })
 
 export const createBinThreshold = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createBinThreshold>>,
@@ -57,13 +55,13 @@ export const createBinThreshold = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Bin Threshold: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateBinThreshold = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updateBinThreshold>>,
@@ -74,13 +72,13 @@ export const updateBinThreshold = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Bin Threshold: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteBinThreshold = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deleteBinThreshold>>,
@@ -91,10 +89,10 @@ export const deleteBinThreshold = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Bin Threshold has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.binThreshold'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

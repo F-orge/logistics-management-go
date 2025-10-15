@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const wmsBinThresholdSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -28,25 +28,17 @@ export const wmsBinThresholdSchema = z.object({
     .max(1000000, { error: 'Reorder quantity must be at most 1,000,000' })
     .nullable()
     .optional(),
-  isActive: z
-    .boolean({ message: 'Is active must be a boolean' })
-    .nullable()
-    .optional(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional(),
-});
+  isActive: z.boolean({ message: 'Is active must be a boolean' }).nullable().optional(),
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional(),
+})
 
-export type WmsBinThreshold = z.infer<typeof wmsBinThresholdSchema>;
+export type WmsBinThreshold = z.infer<typeof wmsBinThresholdSchema>
 
 export const wmsBinThresholdInsertSchema = wmsBinThresholdSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsBinThresholdUpdateSchema =
-  wmsBinThresholdInsertSchema.partial();
+export const wmsBinThresholdUpdateSchema = wmsBinThresholdInsertSchema.partial()

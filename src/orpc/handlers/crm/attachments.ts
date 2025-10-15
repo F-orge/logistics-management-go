@@ -1,16 +1,16 @@
-import { implement } from '@orpc/server';
-import * as crmSchema from '@/orpc/contracts/crm';
-import { AttachmentRepository } from '@/repositories/crm/attachments';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import * as crmSchema from '@/orpc/contracts/crm'
+import { AttachmentRepository } from '@/repositories/crm/attachments'
+import type { HonoVariables } from '@/server'
 
 export const uploadAttachment = implement(crmSchema.uploadAttachmentContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new AttachmentRepository(context.db);
+    const repo = new AttachmentRepository(context.db)
 
     // get the metadata
-    const fileName = input.file.name;
-    const mimeType = input.file.type;
+    const fileName = input.file.name
+    const mimeType = input.file.type
 
     const result = await repo
       .create({
@@ -20,25 +20,19 @@ export const uploadAttachment = implement(crmSchema.uploadAttachmentContract)
         recordType: input.recordType,
         filePath: '',
       })
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!result.recordId || !result.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
-    const size = await context.storage.save(
-      result.recordId,
-      result.recordType,
-      input.file,
-    );
+    const size = await context.storage.save(result.recordId, result.recordType, input.file)
 
-    if (input.file.size !== size) throw new Error('File size mismatch');
+    if (input.file.size !== size) throw new Error('File size mismatch')
 
-    return result;
-  });
+    return result
+  })
 
-export const downloadAttachment = implement(
-  crmSchema.downloadAttachmentContract,
-)
+export const downloadAttachment = implement(crmSchema.downloadAttachmentContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const attachment = await context.db
@@ -47,29 +41,27 @@ export const downloadAttachment = implement(
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!attachment.recordId || !attachment.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
     const file = await context.storage.get(
       attachment.recordId,
       attachment.recordType,
       attachment.fileName,
-    );
+    )
 
-    if (!file.name) throw new Error('No file name');
+    if (!file.name) throw new Error('No file name')
 
     const newFile = new File([await file.bytes()], file.name, {
       type: file.type,
-    });
+    })
 
-    return newFile;
-  });
+    return newFile
+  })
 
-export const showAttachmentMetadata = implement(
-  crmSchema.showAttachmentMetadataContract,
-)
+export const showAttachmentMetadata = implement(crmSchema.showAttachmentMetadataContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const attachment = await context.db
@@ -78,10 +70,10 @@ export const showAttachmentMetadata = implement(
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
-    return attachment;
-  });
+    return attachment
+  })
 
 export const deleteAttachment = implement(crmSchema.deleteAttachmentContract)
   .$context<HonoVariables>()
@@ -92,10 +84,10 @@ export const deleteAttachment = implement(crmSchema.deleteAttachmentContract)
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!attachment.recordId || !attachment.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
     const result = context.db.transaction().execute(async (trx) => {
       const deleteResult = await trx
@@ -103,22 +95,22 @@ export const deleteAttachment = implement(crmSchema.deleteAttachmentContract)
         .where('recordId', '=', input.recordId)
         .where('recordType', '=', input.recordType)
         .where('fileName', '=', input.fileName)
-        .executeTakeFirstOrThrow();
+        .executeTakeFirstOrThrow()
 
       if (!deleteResult.numDeletedRows) {
-        throw new Error('Unable to delete file');
+        throw new Error('Unable to delete file')
       }
 
       const file = await context.storage.get(
         attachment.recordId!,
         attachment.recordType!,
         attachment.fileName,
-      );
+      )
 
-      await file.delete();
+      await file.delete()
 
-      return deleteResult;
-    });
+      return deleteResult
+    })
 
-    return result;
-  });
+    return result
+  })

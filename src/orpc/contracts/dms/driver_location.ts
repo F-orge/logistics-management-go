@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   dmsDriverLocationInsertSchema,
   dmsDriverLocationSchema,
   dmsDriverLocationUpdateSchema,
-} from '@/schemas/dms/driver_location';
+} from '@/schemas/dms/driver_location'
 
 export const paginateDriverLocationContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateDriverLocationContract = oc
       }),
     ),
   )
-  .output(z.array(dmsDriverLocationSchema));
+  .output(z.array(dmsDriverLocationSchema))
 
 export const rangeDriverLocationContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeDriverLocationContract = oc
       }),
     ),
   )
-  .output(z.array(dmsDriverLocationSchema));
+  .output(z.array(dmsDriverLocationSchema))
 
 export const inDriverLocationContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(dmsDriverLocationSchema));
+  .output(z.array(dmsDriverLocationSchema))
 
 export const createDriverLocationContract = oc
   .input(dmsDriverLocationInsertSchema)
-  .output(dmsDriverLocationSchema);
+  .output(dmsDriverLocationSchema)
 
 export const updateDriverLocationContract = oc
   .input(z.object({ id: z.uuid(), value: dmsDriverLocationUpdateSchema }))
-  .output(dmsDriverLocationSchema);
+  .output(dmsDriverLocationSchema)
 
 export const deleteDriverLocationContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

@@ -1,9 +1,7 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types';
-import {
-  OpportunitySchema,
-} from './opportunities';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types'
+import { OpportunitySchema } from './opportunities'
 
 describe('CrmOpportunitySchema Validation', () => {
   describe('Valid Cases', () => {
@@ -97,14 +95,14 @@ describe('CrmOpportunitySchema Validation', () => {
           dealValue: 50000.75, // Expect number after coercion
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => OpportunitySchema.parse(input)).not.toThrow();
-      const result = OpportunitySchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => OpportunitySchema.parse(input)).not.toThrow()
+      const result = OpportunitySchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -375,27 +373,22 @@ describe('CrmOpportunitySchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          OpportunitySchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        OpportunitySchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for OpportunitySchema', () => {
     test('should return success for valid data', () => {
@@ -403,30 +396,28 @@ describe('CrmOpportunitySchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Valid Opportunity',
         ownerId: 'user-valid',
-      };
-      const result = OpportunitySchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = OpportunitySchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         name: 'Invalid Opportunity',
         ownerId: 'user-invalid',
-      };
-      const result = OpportunitySchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = OpportunitySchema.safeParse(invalidData)
 
-
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

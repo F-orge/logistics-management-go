@@ -1,4 +1,4 @@
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import {
   Bell,
   Check,
@@ -12,8 +12,8 @@ import {
   Paintbrush,
   Settings,
   Video,
-} from 'lucide-react';
-import React from 'react';
+} from 'lucide-react'
+import React from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,14 +21,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '@/components/ui/breadcrumb'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +38,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from '@/components/ui/sidebar';
+} from '@/components/ui/sidebar'
 
 const data = {
   nav: [
@@ -55,11 +55,11 @@ const data = {
     { name: 'Privacy & visibility', icon: Lock },
     { name: 'Advanced', icon: Settings },
   ],
-};
+}
 
 const SettingsDialog = () => {
-  const searchQuery = useSearch({ from: '/dashboard' });
-  const navigate = useNavigate({ from: '/dashboard' });
+  const searchQuery = useSearch({ from: '/dashboard' })
+  const navigate = useNavigate({ from: '/dashboard' })
 
   return (
     <Dialog
@@ -73,9 +73,7 @@ const SettingsDialog = () => {
     >
       <DialogContent className="overflow-hidden p-0 md:max-h-[500px] md:max-w-[700px] lg:max-w-[800px]">
         <DialogTitle className="sr-only">Settings</DialogTitle>
-        <DialogDescription className="sr-only">
-          Customize your settings here.
-        </DialogDescription>
+        <DialogDescription className="sr-only">Customize your settings here.</DialogDescription>
         <SidebarProvider className="items-start">
           <Sidebar collapsible="none" className="hidden md:flex">
             <SidebarContent>
@@ -84,10 +82,7 @@ const SettingsDialog = () => {
                   <SidebarMenu>
                     {data.nav.map((item) => (
                       <SidebarMenuItem key={item.name}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={item.name === 'Messages & media'}
-                        >
+                        <SidebarMenuButton asChild isActive={item.name === 'Messages & media'}>
                           <a href="#">
                             <item.icon />
                             <span>{item.name}</span>
@@ -118,17 +113,14 @@ const SettingsDialog = () => {
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {Array.from({ length: 10 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-muted/50 aspect-video max-w-3xl rounded-xl"
-                />
+                <div key={i} className="bg-muted/50 aspect-video max-w-3xl rounded-xl" />
               ))}
             </div>
           </main>
         </SidebarProvider>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default SettingsDialog;
+export default SettingsDialog

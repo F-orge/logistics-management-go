@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingQuoteStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { BillingQuoteStatusEnum } from '@/db.types'
 
 // Zod schema for .quote table
 export const QuoteSchema = z
@@ -80,18 +80,14 @@ export const QuoteSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingQuote = z.infer<typeof QuoteSchema>;
+export type BillingQuote = z.infer<typeof QuoteSchema>
 
-export const QuoteInsertSchema = QuoteSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .strict();
+export const QuoteInsertSchema = QuoteSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).strict()
 
-export const QuoteUpdateSchema = QuoteInsertSchema
-  .partial()
-  .strict();
+export const QuoteUpdateSchema = QuoteInsertSchema.partial().strict()

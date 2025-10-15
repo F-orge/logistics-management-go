@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmRecordType } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmRecordType } from '@/db.types'
 
 export const AttachmentSchema = z
   .object({
@@ -42,8 +42,7 @@ export const AttachmentSchema = z
       .check(
         fieldConfig({
           label: 'Record ID',
-          description:
-            'The ID of the record this attachment is associated with.',
+          description: 'The ID of the record this attachment is associated with.',
         }),
       )
       .nullable()
@@ -67,4 +66,4 @@ export const AttachmentSchema = z
       .nullable()
       .optional(),
   })
-  .strict();
+  .strict()

@@ -1,5 +1,5 @@
-import z, { ZodAny, ZodObject, ZodRawShape } from 'zod';
-import { crmCompanySchema } from '@/schemas/crm/companies';
+import z, { ZodAny, type ZodObject, type ZodRawShape } from 'zod'
+import { crmCompanySchema } from '@/schemas/crm/companies'
 
 export const ComparisonOperatorSchema = z.enum([
   '=',
@@ -40,19 +40,17 @@ export const ComparisonOperatorSchema = z.enum([
   'regexp',
   'is distinct from',
   'is not distinct from',
-]);
+])
 
-export const OrderByDirectionSchema = z.enum(['asc', 'desc']);
+export const OrderByDirectionSchema = z.enum(['asc', 'desc'])
 
 export const paginateTransformer = () =>
   z.object({
     page: z.number().nonnegative().default(1).catch(1),
     perPage: z.number().nonnegative().default(10).catch(10),
-  });
+  })
 
-export const filterTransformer = <T extends ZodRawShape>(
-  schema: ZodObject<T>,
-) => {
+export const filterTransformer = <T extends ZodRawShape>(schema: ZodObject<T>) => {
   return z
     .object({
       column: schema.keyof(),
@@ -63,17 +61,15 @@ export const filterTransformer = <T extends ZodRawShape>(
     })
     .array()
     .optional()
-    .default([]);
-};
+    .default([])
+}
 
-export const sortTransformer = <T extends ZodRawShape>(
-  schema: ZodObject<T>,
-) => {
+export const sortTransformer = <T extends ZodRawShape>(schema: ZodObject<T>) => {
   return z
     .object({
       column: schema.keyof(),
       order: OrderByDirectionSchema,
     })
     .array()
-    .optional();
-};
+    .optional()
+}

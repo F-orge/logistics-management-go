@@ -1,8 +1,8 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
-import { inCompany } from '../crm';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { orpcClient } from '@/orpc/client'
+import { inCompany } from '../crm'
 
 export const paginateClientAccount = (
   options: Parameters<typeof orpcClient.billing.paginateClientAccount>[0],
@@ -10,21 +10,20 @@ export const paginateClientAccount = (
   queryOptions({
     queryKey: ['billing.clientAccount', 'paginate', options],
     queryFn: async ({ client }) => {
-      const clientAccounts =
-        await orpcClient.billing.paginateClientAccount(options);
+      const clientAccounts = await orpcClient.billing.paginateClientAccount(options)
 
       // No inClient available, so no relations added for clientId
       const clients = await client.ensureQueryData(
         inCompany(clientAccounts.map((row) => row.clientId)),
-      );
+      )
 
       return clientAccounts.map((row) => ({
         ...row,
         client: clients.find((subRow) => subRow.id === row.clientId)!,
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeClientAccount = (
   options: Parameters<typeof orpcClient.billing.rangeClientAccount>[0],
@@ -33,7 +32,7 @@ export const rangeClientAccount = (
     queryKey: ['billing.clientAccount', 'range', options],
     queryFn: () => orpcClient.billing.rangeClientAccount(options),
     enabled: !!options,
-  });
+  })
 
 export const inClientAccount = (
   options: Parameters<typeof orpcClient.billing.inClientAccount>[0],
@@ -42,7 +41,7 @@ export const inClientAccount = (
     queryKey: ['billing.clientAccount', 'in', options],
     queryFn: () => orpcClient.billing.inClientAccount(options),
     enabled: !!options,
-  });
+  })
 
 export const createClientAccount = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.createClientAccount>>,
@@ -53,15 +52,15 @@ export const createClientAccount = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Client Account: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.clientAccount'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateClientAccount = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.updateClientAccount>>,
@@ -72,15 +71,15 @@ export const updateClientAccount = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Client Account: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.clientAccount'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteClientAccount = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.deleteClientAccount>>,
@@ -91,12 +90,12 @@ export const deleteClientAccount = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Client Account has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.clientAccount'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

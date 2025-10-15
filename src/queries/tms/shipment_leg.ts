@@ -1,11 +1,11 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inCarrier } from './carrier';
-import { paginateShipmentLegEvent } from './shipment_leg_event';
-import { inTrip } from './trip';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inCarrier } from './carrier'
+import { paginateShipmentLegEvent } from './shipment_leg_event'
+import { inTrip } from './trip'
 
 export const paginateShipmentLeg = (
   options: Parameters<typeof orpcClient.tms.paginateShipmentLeg>[0],
@@ -13,15 +13,15 @@ export const paginateShipmentLeg = (
   queryOptions({
     queryKey: ['tms.shipmentLeg', 'paginate', options],
     queryFn: async ({ client }) => {
-      const shipmentLegs = await orpcClient.tms.paginateShipmentLeg(options);
+      const shipmentLegs = await orpcClient.tms.paginateShipmentLeg(options)
 
       const carriers = await client.ensureQueryData(
         inCarrier(shipmentLegs.map((row) => row.carrierId).filter(nonEmpty)),
-      );
+      )
 
       const trips = await client.ensureQueryData(
         inTrip(shipmentLegs.map((row) => row.internalTripId).filter(nonEmpty)),
-      );
+      )
 
       const events = await client.ensureQueryData(
         paginateShipmentLegEvent({
@@ -35,35 +35,31 @@ export const paginateShipmentLeg = (
             },
           ],
         }),
-      );
+      )
 
       return shipmentLegs.map((row) => ({
         ...row,
         carrier: carriers.find((subRow) => subRow.id === row.carrierId),
         internalTrip: trips.find((subRow) => subRow.id === row.internalTripId),
         events: events.filter((subRow) => subRow.shipmentLegId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeShipmentLeg = (
-  options: Parameters<typeof orpcClient.tms.rangeShipmentLeg>[0],
-) =>
+export const rangeShipmentLeg = (options: Parameters<typeof orpcClient.tms.rangeShipmentLeg>[0]) =>
   queryOptions({
     queryKey: ['tms.shipmentLeg', 'range', options],
     queryFn: () => orpcClient.tms.rangeShipmentLeg(options),
     enabled: !!options,
-  });
+  })
 
-export const inShipmentLeg = (
-  options: Parameters<typeof orpcClient.tms.inShipmentLeg>[0],
-) =>
+export const inShipmentLeg = (options: Parameters<typeof orpcClient.tms.inShipmentLeg>[0]) =>
   queryOptions({
     queryKey: ['tms.shipmentLeg', 'in', options],
     queryFn: () => orpcClient.tms.inShipmentLeg(options),
     enabled: !!options,
-  });
+  })
 
 export const createShipmentLeg = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.createShipmentLeg>>,
@@ -74,13 +70,13 @@ export const createShipmentLeg = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateShipmentLeg = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.updateShipmentLeg>>,
@@ -91,13 +87,13 @@ export const updateShipmentLeg = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteShipmentLeg = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.deleteShipmentLeg>>,
@@ -108,10 +104,10 @@ export const deleteShipmentLeg = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.shipmentLeg'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

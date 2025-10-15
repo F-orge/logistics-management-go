@@ -1,9 +1,7 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { CrmInteractionType } from '@/db.types';
-import {
-  InteractionSchema,
-} from './interactions';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CrmInteractionType } from '@/db.types'
+import { InteractionSchema } from './interactions'
 
 describe('CrmInteractionSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -66,14 +64,14 @@ describe('CrmInteractionSchema Validation', () => {
           type: CrmInteractionType.Call,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => InteractionSchema.parse(input)).not.toThrow();
-      const result = InteractionSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => InteractionSchema.parse(input)).not.toThrow()
+      const result = InteractionSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -268,27 +266,22 @@ describe('CrmInteractionSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          InteractionSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        InteractionSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for InteractionSchema', () => {
     test('should return success for valid data', () => {
@@ -296,29 +289,28 @@ describe('CrmInteractionSchema Validation', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-valid',
-      };
-      const result = InteractionSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = InteractionSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: 'invalid-uuid',
         contactId: '123e4567-e89b-12d3-a456-426614174001',
         userId: 'user-invalid',
-      };
-      const result = InteractionSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = InteractionSchema.safeParse(invalidData)
 
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

@@ -1,14 +1,13 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingSurchargeCalculationMethodEnum } from '@/db/types';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingSurchargeCalculationMethodEnum } from '@/db/types'
 import {
   billingSurchargeInsertSchema,
   billingSurchargeSchema,
   billingSurchargeUpdateSchema,
-} from './surcharge';
+} from './surcharge'
 
-const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
 describe('BillingSurchargeSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -100,14 +99,14 @@ describe('BillingSurchargeSchema Validation', () => {
           description: 'D'.repeat(1024),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingSurchargeSchema.parse(input)).not.toThrow();
-      const result = billingSurchargeSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingSurchargeSchema.parse(input)).not.toThrow()
+      const result = billingSurchargeSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -320,24 +319,21 @@ describe('BillingSurchargeSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingSurchargeSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingSurchargeSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingSurchargeSchema', () => {
     test('should return success for valid data', () => {
@@ -347,14 +343,14 @@ describe('BillingSurchargeSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Fuel Surcharge',
         type: 'fuel',
-      };
-      const result = billingSurchargeSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingSurchargeSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -363,17 +359,17 @@ describe('BillingSurchargeSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Fuel Surcharge',
         type: 'fuel',
-      };
-      const result = billingSurchargeSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingSurchargeSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingSurchargeInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -400,14 +396,14 @@ describe('BillingSurchargeInsertSchema Validation', () => {
           validTo: new Date('2023-12-31T23:59:59Z'),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingSurchargeInsertSchema.parse(input)).not.toThrow();
-      const result = billingSurchargeInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingSurchargeInsertSchema.parse(input)).not.toThrow()
+      const result = billingSurchargeInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -480,24 +476,21 @@ describe('BillingSurchargeInsertSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected string, received undefined',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingSurchargeInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingSurchargeInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingSurchargeInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -506,14 +499,14 @@ describe('BillingSurchargeInsertSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Fuel Surcharge',
         type: 'fuel',
-      };
-      const result = billingSurchargeInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingSurchargeInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -522,17 +515,17 @@ describe('BillingSurchargeInsertSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Fuel Surcharge',
         type: 'fuel',
-      };
-      const result = billingSurchargeInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingSurchargeInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingSurchargeUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -566,14 +559,14 @@ describe('BillingSurchargeUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingSurchargeUpdateSchema.parse(input)).not.toThrow();
-      const result = billingSurchargeUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingSurchargeUpdateSchema.parse(input)).not.toThrow()
+      const result = billingSurchargeUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -666,24 +659,21 @@ describe('BillingSurchargeUpdateSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingSurchargeUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingSurchargeUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingSurchargeUpdateSchema', () => {
     test('should return success for valid data', () => {
@@ -692,14 +682,14 @@ describe('BillingSurchargeUpdateSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Updated Surcharge Name',
         type: 'updated-type',
-      };
-      const result = billingSurchargeUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingSurchargeUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -708,14 +698,14 @@ describe('BillingSurchargeUpdateSchema Validation', () => {
         calculationMethod: BillingSurchargeCalculationMethodEnum.Fixed,
         name: 'Fuel Surcharge',
         type: 'fuel',
-      };
-      const result = billingSurchargeUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingSurchargeUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

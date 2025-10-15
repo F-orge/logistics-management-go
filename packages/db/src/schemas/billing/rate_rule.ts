@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingPricingModelEnum } from '@/db.types';
+import { z } from 'zod'
+import { BillingPricingModelEnum } from '@/db.types'
 
 // Zod schema for .rate_rule table
 export const RateRuleSchema = z
@@ -41,18 +41,14 @@ export const RateRuleSchema = z
       .min(1, { error: 'Value is required' })
       .max(255, { error: 'Value must be at most 255 characters' }),
   })
-  .strict();
+  .strict()
 
-export type BillingRateRule = z.infer<typeof RateRuleSchema>;
+export type BillingRateRule = z.infer<typeof RateRuleSchema>
 
-export const RateRuleInsertSchema = RateRuleSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .strict();
+export const RateRuleInsertSchema = RateRuleSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).strict()
 
-export const RateRuleUpdateSchema = RateRuleInsertSchema
-  .partial()
-  .strict();
+export const RateRuleUpdateSchema = RateRuleInsertSchema.partial().strict()

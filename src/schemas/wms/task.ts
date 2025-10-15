@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsTaskStatusEnum, WmsTaskTypeEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsTaskStatusEnum, WmsTaskTypeEnum } from '@/db/types'
 
 export const wmsTaskSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -9,15 +9,9 @@ export const wmsTaskSchema = z.object({
     .min(1, { error: 'Task number is required' })
     .max(64, { error: 'Task number must be at most 64 characters' }),
   type: z.enum(WmsTaskTypeEnum, { message: 'Invalid task type' }),
-  status: z
-    .enum(WmsTaskStatusEnum, { message: 'Invalid task status' })
-    .nullable()
-    .optional(),
+  status: z.enum(WmsTaskStatusEnum, { message: 'Invalid task status' }).nullable().optional(),
   userId: z.string().nullable().optional(),
-  pickBatchId: z
-    .uuid({ message: 'Invalid UUID format for pick batch ID' })
-    .nullable()
-    .optional(),
+  pickBatchId: z.uuid({ message: 'Invalid UUID format for pick batch ID' }).nullable().optional(),
   priority: z
     .number({ message: 'Priority must be a number' })
     .int({ message: 'Priority must be an integer' })
@@ -67,28 +61,18 @@ export const wmsTaskSchema = z.object({
     .max(1000000, { error: 'Duration in seconds must be at most 1,000,000' })
     .nullable()
     .optional(),
-  startTime: z
-    .date({ message: 'Invalid date format for start time' })
-    .nullable()
-    .optional(),
-  endTime: z
-    .date({ message: 'Invalid date format for end time' })
-    .nullable()
-    .optional(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional(),
-});
+  startTime: z.date({ message: 'Invalid date format for start time' }).nullable().optional(),
+  endTime: z.date({ message: 'Invalid date format for end time' }).nullable().optional(),
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional(),
+})
 
-export type WmsTask = z.infer<typeof wmsTaskSchema>;
+export type WmsTask = z.infer<typeof wmsTaskSchema>
 
 export const wmsTaskInsertSchema = wmsTaskSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsTaskUpdateSchema = wmsTaskInsertSchema.partial();
+export const wmsTaskUpdateSchema = wmsTaskInsertSchema.partial()

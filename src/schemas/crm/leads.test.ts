@@ -1,12 +1,8 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { CrmLeadSource, CrmLeadStatus } from '@/db/types';
-import {
-  crmLeadInsertSchema,
-  crmLeadSchema,
-  crmLeadUpdateSchema,
-} from './leads';
-import { crmOpportunityInsertSchema } from './opportunities'; // Import for nested schema
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { CrmLeadSource, CrmLeadStatus } from '@/db/types'
+import { crmLeadInsertSchema, crmLeadSchema, crmLeadUpdateSchema } from './leads'
+import { crmOpportunityInsertSchema } from './opportunities' // Import for nested schema
 
 describe('CrmLeadSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -100,14 +96,14 @@ describe('CrmLeadSchema Validation', () => {
           status: CrmLeadStatus.New,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmLeadSchema.parse(input)).not.toThrow();
-      const result = crmLeadSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmLeadSchema.parse(input)).not.toThrow()
+      const result = crmLeadSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -411,27 +407,22 @@ describe('CrmLeadSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmLeadSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmLeadSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmLeadSchema', () => {
     test('should return success for valid data', () => {
@@ -440,14 +431,14 @@ describe('CrmLeadSchema Validation', () => {
         name: 'Valid Lead',
         email: 'valid.lead@example.com',
         ownerId: 'user-valid',
-      };
-      const result = crmLeadSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmLeadSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -455,17 +446,17 @@ describe('CrmLeadSchema Validation', () => {
         name: 'Invalid Lead',
         email: 'invalid.lead@example.com',
         ownerId: 'user-invalid',
-      };
-      const result = crmLeadSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmLeadSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmLeadInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -521,14 +512,14 @@ describe('CrmLeadInsertSchema Validation', () => {
           opportunities: [],
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmLeadInsertSchema.parse(input)).not.toThrow();
-      const result = crmLeadInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmLeadInsertSchema.parse(input)).not.toThrow()
+      const result = crmLeadInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -602,27 +593,22 @@ describe('CrmLeadInsertSchema Validation', () => {
         },
         expectedError: 'Owner ID must be a string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmLeadInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmLeadInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmLeadInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -630,14 +616,14 @@ describe('CrmLeadInsertSchema Validation', () => {
         name: 'Valid Insert Lead',
         email: 'valid.insert@example.com',
         ownerId: 'user-valid-insert',
-      };
-      const result = crmLeadInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmLeadInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -645,17 +631,17 @@ describe('CrmLeadInsertSchema Validation', () => {
         name: 'Invalid Insert Lead',
         email: 'invalid.insert@example.com',
         ownerId: 'user-invalid-insert',
-      };
-      const result = crmLeadInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmLeadInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmLeadUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -692,14 +678,14 @@ describe('CrmLeadUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmLeadUpdateSchema.parse(input)).not.toThrow();
-      const result = crmLeadUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmLeadUpdateSchema.parse(input)).not.toThrow()
+      const result = crmLeadUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -767,54 +753,49 @@ describe('CrmLeadUpdateSchema Validation', () => {
         },
         expectedError: 'Invalid lead source',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmLeadUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmLeadUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmLeadUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         name: 'Valid Update Lead',
         leadScore: 50,
-      };
-      const result = crmLeadUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmLeadUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         name: 'Invalid Update Lead',
-      };
-      const result = crmLeadUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmLeadUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   crmCampaignInsertSchema,
   crmCampaignSchema,
   crmCampaignUpdateSchema,
-} from '@/schemas/crm/campaigns';
+} from '@/schemas/crm/campaigns'
 
 export const paginateCampaignContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateCampaignContract = oc
       }),
     ),
   )
-  .output(z.array(crmCampaignSchema));
+  .output(z.array(crmCampaignSchema))
 
 export const rangeCampaignContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeCampaignContract = oc
       }),
     ),
   )
-  .output(z.array(crmCampaignSchema));
+  .output(z.array(crmCampaignSchema))
 
 export const inCampaignContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(crmCampaignSchema));
+  .output(z.array(crmCampaignSchema))
 
-export const createCampaignContract = oc
-  .input(crmCampaignInsertSchema)
-  .output(crmCampaignSchema);
+export const createCampaignContract = oc.input(crmCampaignInsertSchema).output(crmCampaignSchema)
 
 export const updateCampaignContract = oc
   .input(z.object({ id: z.uuid(), value: crmCampaignUpdateSchema }))
-  .output(crmCampaignSchema);
+  .output(crmCampaignSchema)
 
 export const deleteCampaignContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

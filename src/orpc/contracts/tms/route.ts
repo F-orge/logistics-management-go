@@ -1,16 +1,8 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
-import {
-  tmsRouteInsertSchema,
-  tmsRouteSchema,
-  tmsRouteUpdateSchema,
-} from '@/schemas/tms/route';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
+import { tmsRouteInsertSchema, tmsRouteSchema, tmsRouteUpdateSchema } from '@/schemas/tms/route'
 
 export const paginateRouteContract = oc
   .input(
@@ -21,7 +13,7 @@ export const paginateRouteContract = oc
       }),
     ),
   )
-  .output(z.array(tmsRouteSchema));
+  .output(z.array(tmsRouteSchema))
 
 export const rangeRouteContract = oc
   .input(
@@ -32,24 +24,18 @@ export const rangeRouteContract = oc
       }),
     ),
   )
-  .output(z.array(tmsRouteSchema));
+  .output(z.array(tmsRouteSchema))
 
 export const inRouteContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsRouteSchema));
+  .output(z.array(tmsRouteSchema))
 
-export const createRouteContract = oc
-  .input(tmsRouteInsertSchema)
-  .output(tmsRouteSchema);
+export const createRouteContract = oc.input(tmsRouteInsertSchema).output(tmsRouteSchema)
 
 export const updateRouteContract = oc
   .input(z.object({ id: z.uuid(), value: tmsRouteUpdateSchema }))
-  .output(tmsRouteSchema);
+  .output(tmsRouteSchema)
 
 export const deleteRouteContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

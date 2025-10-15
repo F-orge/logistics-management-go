@@ -1,27 +1,25 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inDriver } from './driver';
-import { paginateTripStop } from './trip_stop';
-import { inVehicle } from './vehicle';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inDriver } from './driver'
+import { paginateTripStop } from './trip_stop'
+import { inVehicle } from './vehicle'
 
-export const paginateTrip = (
-  options: Parameters<typeof orpcClient.tms.paginateTrip>[0],
-) =>
+export const paginateTrip = (options: Parameters<typeof orpcClient.tms.paginateTrip>[0]) =>
   queryOptions({
     queryKey: ['tms.trip', 'paginate', options],
     queryFn: async ({ client }) => {
-      const trips = await orpcClient.tms.paginateTrip(options);
+      const trips = await orpcClient.tms.paginateTrip(options)
 
       const drivers = await client.ensureQueryData(
         inDriver(trips.map((row) => row.driverId).filter(nonEmpty)),
-      );
+      )
 
       const vehicles = await client.ensureQueryData(
         inVehicle(trips.map((row) => row.vehicleId).filter(nonEmpty)),
-      );
+      )
 
       const stops = await client.ensureQueryData(
         paginateTripStop({
@@ -35,33 +33,31 @@ export const paginateTrip = (
             },
           ],
         }),
-      );
+      )
 
       return trips.map((row) => ({
         ...row,
         driver: drivers.find((subRow) => subRow.id === row.driverId),
         vehicle: vehicles.find((subRow) => subRow.id === row.vehicleId),
         stops: stops.filter((subRow) => subRow.tripId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeTrip = (
-  options: Parameters<typeof orpcClient.tms.rangeTrip>[0],
-) =>
+export const rangeTrip = (options: Parameters<typeof orpcClient.tms.rangeTrip>[0]) =>
   queryOptions({
     queryKey: ['tms.trip', 'range', options],
     queryFn: () => orpcClient.tms.rangeTrip(options),
     enabled: !!options,
-  });
+  })
 
 export const inTrip = (options: Parameters<typeof orpcClient.tms.inTrip>[0]) =>
   queryOptions({
     queryKey: ['tms.trip', 'in', options],
     queryFn: () => orpcClient.tms.inTrip(options),
     enabled: !!options,
-  });
+  })
 
 export const createTrip = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.createTrip>>,
@@ -72,13 +68,13 @@ export const createTrip = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Trip: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.trip'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.trip'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateTrip = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.updateTrip>>,
@@ -89,13 +85,13 @@ export const updateTrip = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Trip: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.trip'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.trip'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteTrip = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.deleteTrip>>,
@@ -106,10 +102,10 @@ export const deleteTrip = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Trip has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.trip'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.trip'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

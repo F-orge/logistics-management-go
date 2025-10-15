@@ -1,14 +1,9 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingPricingModelEnum } from '@/db.types';
-import {
-  RateRuleInsertSchema,
-  RateRuleSchema,
-  RateRuleUpdateSchema,
-} from './rate_rule';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingPricingModelEnum } from '@/db.types'
+import { RateRuleInsertSchema, RateRuleSchema, RateRuleUpdateSchema } from './rate_rule'
 
-const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 
 describe('BillingRateRuleSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -133,14 +128,14 @@ describe('BillingRateRuleSchema Validation', () => {
           value: 'priority_max',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => RateRuleSchema.parse(input)).not.toThrow();
-      const result = RateRuleSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => RateRuleSchema.parse(input)).not.toThrow()
+      const result = RateRuleSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -434,24 +429,21 @@ describe('BillingRateRuleSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          RateRuleSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        RateRuleSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for RateRuleSchema', () => {
     test('should return success for valid data', () => {
@@ -462,14 +454,14 @@ describe('BillingRateRuleSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174001',
         value: '10kg',
-      };
-      const result = RateRuleSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = RateRuleSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -479,17 +471,17 @@ describe('BillingRateRuleSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174001',
         value: '10kg',
-      };
-      const result = RateRuleSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = RateRuleSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingRateRuleInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -518,14 +510,14 @@ describe('BillingRateRuleInsertSchema Validation', () => {
           value: '50cbm',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => RateRuleInsertSchema.parse(input)).not.toThrow();
-      const result = RateRuleInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => RateRuleInsertSchema.parse(input)).not.toThrow()
+      const result = RateRuleInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -615,24 +607,21 @@ describe('BillingRateRuleInsertSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected string, received undefined',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          RateRuleInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        RateRuleInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for RateRuleInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -642,14 +631,14 @@ describe('BillingRateRuleInsertSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174001',
         value: '10kg',
-      };
-      const result = RateRuleInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = RateRuleInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -659,17 +648,17 @@ describe('BillingRateRuleInsertSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174001',
         value: '10kg',
-      };
-      const result = RateRuleInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = RateRuleInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingRateRuleUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -704,14 +693,14 @@ describe('BillingRateRuleUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => RateRuleUpdateSchema.parse(input)).not.toThrow();
-      const result = RateRuleUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => RateRuleUpdateSchema.parse(input)).not.toThrow()
+      const result = RateRuleUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -807,24 +796,21 @@ describe('BillingRateRuleUpdateSchema Validation', () => {
         },
         expectedError: 'Priority must be at most 1000',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          RateRuleUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        RateRuleUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for RateRuleUpdateSchema', () => {
     test('should return success for valid data', () => {
@@ -834,14 +820,14 @@ describe('BillingRateRuleUpdateSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174000',
         value: '10kg',
-      };
-      const result = RateRuleUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = RateRuleUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -851,14 +837,14 @@ describe('BillingRateRuleUpdateSchema Validation', () => {
         pricingModel: BillingPricingModelEnum.FlatRate,
         rateCardId: '123e4567-e89b-12d3-a456-426614174001',
         value: '10kg',
-      };
-      const result = RateRuleUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = RateRuleUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

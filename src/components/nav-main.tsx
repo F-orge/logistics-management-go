@@ -1,11 +1,7 @@
-import { useLocation, useNavigate } from '@tanstack/react-router';
-import { ChevronRight, type LucideIcon } from 'lucide-react';
-import React from 'react';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { ChevronRight, type LucideIcon } from 'lucide-react'
+import React from 'react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,16 +11,12 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@/components/ui/sidebar';
-import { SidebarType } from './app-sidebar';
+} from '@/components/ui/sidebar'
+import type { SidebarType } from './app-sidebar'
 
-export function NavMain({
-  systemNavs,
-}: {
-  systemNavs: SidebarType['navMain'];
-}) {
-  const navigate = useNavigate({ from: '/dashboard' });
-  const location = useLocation();
+export function NavMain({ systemNavs }: { systemNavs: SidebarType['navMain'] }) {
+  const navigate = useNavigate({ from: '/dashboard' })
+  const location = useLocation()
 
   return (
     <SidebarGroup>
@@ -37,11 +29,7 @@ export function NavMain({
                 <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
                 {nav.items.map((navItem) =>
                   navItem.items ? (
-                    <Collapsible
-                      key={navItem.title}
-                      asChild
-                      className="group/collapsible"
-                    >
+                    <Collapsible key={navItem.title} asChild className="group/collapsible">
                       <SidebarMenuItem>
                         <CollapsibleTrigger asChild>
                           <SidebarMenuButton tooltip={navItem.title}>
@@ -82,5 +70,5 @@ export function NavMain({
           </React.Fragment>
         ))}
     </SidebarGroup>
-  );
+  )
 }

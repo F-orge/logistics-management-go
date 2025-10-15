@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   wmsReturnItemInsertSchema,
   wmsReturnItemSchema,
   wmsReturnItemUpdateSchema,
-} from '@/schemas/wms/return_item';
+} from '@/schemas/wms/return_item'
 
 export const paginateReturnItemContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateReturnItemContract = oc
       }),
     ),
   )
-  .output(z.array(wmsReturnItemSchema));
+  .output(z.array(wmsReturnItemSchema))
 
 export const rangeReturnItemContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeReturnItemContract = oc
       }),
     ),
   )
-  .output(z.array(wmsReturnItemSchema));
+  .output(z.array(wmsReturnItemSchema))
 
 export const inReturnItemContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(wmsReturnItemSchema));
+  .output(z.array(wmsReturnItemSchema))
 
 export const createReturnItemContract = oc
   .input(wmsReturnItemInsertSchema)
-  .output(wmsReturnItemSchema);
+  .output(wmsReturnItemSchema)
 
 export const updateReturnItemContract = oc
   .input(z.object({ id: z.uuid(), value: wmsReturnItemUpdateSchema }))
-  .output(wmsReturnItemSchema);
+  .output(wmsReturnItemSchema)
 
 export const deleteReturnItemContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

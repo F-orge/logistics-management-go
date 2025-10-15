@@ -1,48 +1,41 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inUser } from '../auth/user';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inUser } from '../auth/user'
 
-export const paginateCompany = (
-  options: Parameters<typeof orpcClient.crm.paginateCompany>[0],
-) =>
+export const paginateCompany = (options: Parameters<typeof orpcClient.crm.paginateCompany>[0]) =>
   queryOptions({
     queryKey: ['crm.companies', options.page, options.perPage],
     queryFn: async ({ client }) => {
-      const companies = await orpcClient.crm.paginateCompany(options);
+      const companies = await orpcClient.crm.paginateCompany(options)
 
       const owners = await client.ensureQueryData(
         inUser(companies.map((row) => row.ownerId).filter(nonEmpty)),
-      );
+      )
 
       return companies.map((row) => ({
         ...row,
         owner: owners.find((subRow) => subRow.id === row.ownerId),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeCompany = (
-  options: Parameters<typeof orpcClient.crm.rangeCompany>[0],
-) =>
+export const rangeCompany = (options: Parameters<typeof orpcClient.crm.rangeCompany>[0]) =>
   queryOptions({
     queryKey: ['crm.companies', options],
     queryFn: () => orpcClient.crm.rangeCompany(options),
     enabled: !!options,
-  });
+  })
 
-export const inCompany = (
-  options: Parameters<typeof orpcClient.crm.inCompany>[0],
-) =>
+export const inCompany = (options: Parameters<typeof orpcClient.crm.inCompany>[0]) =>
   queryOptions({
     queryKey: ['crm.companies', options],
-    queryFn: () =>
-      options.length >= 1 ? orpcClient.crm.inCompany(options) : [],
+    queryFn: () => (options.length >= 1 ? orpcClient.crm.inCompany(options) : []),
     enabled: !!options,
-  });
+  })
 
 export const createCompany = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.createCompany>>,
@@ -53,13 +46,13 @@ export const createCompany = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Company: ${data.name} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.companies'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.companies'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateCompany = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.updateCompany>>,
@@ -70,10 +63,10 @@ export const updateCompany = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Company: ${data.name} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.companies'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.companies'] })
   },
-});
+})
 
 export const deleteCompany = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.deleteCompany>>,
@@ -84,7 +77,7 @@ export const deleteCompany = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `A record has been deleted`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.companies'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.companies'] })
   },
-});
+})

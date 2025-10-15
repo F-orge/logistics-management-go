@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingInvoiceStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { BillingInvoiceStatusEnum } from '@/db.types'
 
 // Zod schema for .invoice table
 export const InvoiceSchema = z
@@ -81,18 +81,14 @@ export const InvoiceSchema = z
       .max(10000000, { message: 'Total amount must be at most 10,000,000' }),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingInvoice = z.infer<typeof InvoiceSchema>;
+export type BillingInvoice = z.infer<typeof InvoiceSchema>
 
-export const InvoiceInsertSchema = InvoiceSchema
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .strict();
+export const InvoiceInsertSchema = InvoiceSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).strict()
 
-export const InvoiceUpdateSchema = InvoiceInsertSchema
-  .partial()
-  .strict();
+export const InvoiceUpdateSchema = InvoiceInsertSchema.partial().strict()

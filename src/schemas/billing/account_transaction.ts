@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingTransactionTypeEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingTransactionTypeEnum } from '@/db/types'
 
 // Zod schema for billing.account_transaction table
 export const billingAccountTransactionSchema = z
@@ -9,12 +9,9 @@ export const billingAccountTransactionSchema = z
       .number()
       .min(0, { message: 'Amount must be at least 0' })
       .max(10000000, { message: 'Amount must be at most 10,000,000' }),
-    clientAccountId: z
-      .string()
-      .min(1, { message: 'Client account ID is required' })
-      .max(255, {
-        message: 'Client account ID must be at most 255 characters',
-      }),
+    clientAccountId: z.string().min(1, { message: 'Client account ID is required' }).max(255, {
+      message: 'Client account ID must be at most 255 characters',
+    }),
     createdAt: z.date().optional().nullable(),
     description: z
       .string()
@@ -55,18 +52,16 @@ export const billingAccountTransactionSchema = z
     type: z.enum(BillingTransactionTypeEnum),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingAccountTransaction = z.infer<
-  typeof billingAccountTransactionSchema
->;
+export type BillingAccountTransaction = z.infer<typeof billingAccountTransactionSchema>
 
-export const billingAccountTransactionInsertSchema =
-  billingAccountTransactionSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const billingAccountTransactionInsertSchema = billingAccountTransactionSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const billingAccountTransactionUpdateSchema =
-  billingAccountTransactionInsertSchema.partial().strict();
+export const billingAccountTransactionUpdateSchema = billingAccountTransactionInsertSchema
+  .partial()
+  .strict()

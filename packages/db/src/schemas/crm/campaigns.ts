@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const CampaignSchema = z
   .object({
@@ -54,4 +54,4 @@ export const CampaignSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()

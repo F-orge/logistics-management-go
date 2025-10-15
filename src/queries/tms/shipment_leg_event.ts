@@ -1,9 +1,9 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inShipmentLeg } from './shipment_leg';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inShipmentLeg } from './shipment_leg'
 
 export const paginateShipmentLegEvent = (
   options: Parameters<typeof orpcClient.tms.paginateShipmentLegEvent>[0],
@@ -11,15 +11,14 @@ export const paginateShipmentLegEvent = (
   queryOptions({
     queryKey: ['tms.shipmentLegEvent', 'paginate', options],
     queryFn: async ({ client }) => {
-      const shipmentLegEvents =
-        await orpcClient.tms.paginateShipmentLegEvent(options);
+      const shipmentLegEvents = await orpcClient.tms.paginateShipmentLegEvent(options)
 
       return shipmentLegEvents.map((row) => ({
         ...row,
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeShipmentLegEvent = (
   options: Parameters<typeof orpcClient.tms.rangeShipmentLegEvent>[0],
@@ -28,7 +27,7 @@ export const rangeShipmentLegEvent = (
     queryKey: ['tms.shipmentLegEvent', 'range', options],
     queryFn: () => orpcClient.tms.rangeShipmentLegEvent(options),
     enabled: !!options,
-  });
+  })
 
 export const inShipmentLegEvent = (
   options: Parameters<typeof orpcClient.tms.inShipmentLegEvent>[0],
@@ -37,7 +36,7 @@ export const inShipmentLegEvent = (
     queryKey: ['tms.shipmentLegEvent', 'in', options],
     queryFn: () => orpcClient.tms.inShipmentLegEvent(options),
     enabled: !!options,
-  });
+  })
 
 export const createShipmentLegEvent = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.createShipmentLegEvent>>,
@@ -48,15 +47,15 @@ export const createShipmentLegEvent = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg Event: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.shipmentLegEvent'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateShipmentLegEvent = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.updateShipmentLegEvent>>,
@@ -67,15 +66,15 @@ export const updateShipmentLegEvent = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg Event: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.shipmentLegEvent'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteShipmentLegEvent = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.deleteShipmentLegEvent>>,
@@ -86,12 +85,12 @@ export const deleteShipmentLegEvent = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Shipment Leg Event has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.shipmentLegEvent'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

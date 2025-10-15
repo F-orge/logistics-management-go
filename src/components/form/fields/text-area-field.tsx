@@ -1,13 +1,8 @@
-import type React from 'react';
-import { useFieldContext } from '@/components/form';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
+import type React from 'react'
+import { useFieldContext } from '@/components/form'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
 
 export const TextAreaField = ({
   className,
@@ -15,19 +10,17 @@ export const TextAreaField = ({
   description,
   ...props
 }: React.ComponentProps<'textarea'> & {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
+  label?: React.ReactNode
+  description?: React.ReactNode
 }) => {
-  const field = useFieldContext<string>();
+  const field = useFieldContext<string>()
 
   return (
     <Field className={cn('grid gap-2.5', className)}>
       {label &&
         (typeof label === 'object' ? (
           <FieldLabel
-            className={cn(
-              field.state.meta.errorMap.onSubmit && 'text-destructive',
-            )}
+            className={cn(field.state.meta.errorMap.onSubmit && 'text-destructive')}
             htmlFor={props.id}
           >
             {label}
@@ -49,5 +42,5 @@ export const TextAreaField = ({
         </FieldError>
       )}
     </Field>
-  );
-};
+  )
+}

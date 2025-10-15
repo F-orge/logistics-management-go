@@ -1,7 +1,7 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types';
-import { crmInvoiceItemInsertSchema } from './invoice_items';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db/types'
+import { crmInvoiceItemInsertSchema } from './invoice_items'
 
 export const crmInvoiceSchema = z
   .object({
@@ -95,9 +95,9 @@ export const crmInvoiceSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmInvoice = z.infer<typeof crmInvoiceSchema>;
+export type CrmInvoice = z.infer<typeof crmInvoiceSchema>
 
 export const crmInvoiceInsertSchema = crmInvoiceSchema
   .omit({
@@ -107,7 +107,7 @@ export const crmInvoiceInsertSchema = crmInvoiceSchema
   })
   .extend({
     items: z.array(crmInvoiceItemInsertSchema).optional().nullable(),
-  });
+  })
 
 export const crmInvoiceUpdateSchema = crmInvoiceSchema
   .omit({
@@ -115,4 +115,4 @@ export const crmInvoiceUpdateSchema = crmInvoiceSchema
     createdAt: true,
     updatedAt: true,
   })
-  .partial();
+  .partial()

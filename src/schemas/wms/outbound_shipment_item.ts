@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const wmsOutboundShipmentItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -20,26 +20,16 @@ export const wmsOutboundShipmentItemSchema = z.object({
   salesOrderItemId: z.uuid({
     message: 'Invalid UUID format for sales order item ID',
   }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsOutboundShipmentItem = z.infer<
-  typeof wmsOutboundShipmentItemSchema
->;
+export type WmsOutboundShipmentItem = z.infer<typeof wmsOutboundShipmentItemSchema>
 
-export const wmsOutboundShipmentItemInsertSchema =
-  wmsOutboundShipmentItemSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const wmsOutboundShipmentItemInsertSchema = wmsOutboundShipmentItemSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const wmsOutboundShipmentItemUpdateSchema =
-  wmsOutboundShipmentItemInsertSchema.partial();
+export const wmsOutboundShipmentItemUpdateSchema = wmsOutboundShipmentItemInsertSchema.partial()

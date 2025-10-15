@@ -1,31 +1,31 @@
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
-import { CrmCampaign } from '@/schemas/crm/campaigns';
-import { CrmCompany } from '@/schemas/crm/companies';
-import { CrmContact } from '@/schemas/crm/contacts';
-import { CrmOpportunityProduct } from '@/schemas/crm/opportunity_products';
-import { CrmProduct } from '@/schemas/crm/products';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import { Button } from '@/components/ui/button'
+import { type ORPCOutputs, orpcClient } from '@/orpc/client'
+import { CrmCampaign } from '@/schemas/crm/campaigns'
+import { CrmCompany } from '@/schemas/crm/companies'
+import { CrmContact } from '@/schemas/crm/contacts'
+import { CrmOpportunityProduct } from '@/schemas/crm/opportunity_products'
+import { CrmProduct } from '@/schemas/crm/products'
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateOpportunity'][number] & {
-    campaign?: ORPCOutputs['crm']['inCampaign'][number];
-    company?: ORPCOutputs['crm']['inCompany'][number];
-    contact?: ORPCOutputs['crm']['inContact'][number];
+    campaign?: ORPCOutputs['crm']['inCampaign'][number]
+    company?: ORPCOutputs['crm']['inCompany'][number]
+    contact?: ORPCOutputs['crm']['inContact'][number]
     products?: (ORPCOutputs['crm']['inOpportunityProduct'][number] & {
-      product?: ORPCOutputs['crm']['inProduct'][number];
-    })[];
+      product?: ORPCOutputs['crm']['inProduct'][number]
+    })[]
   }
 >[] = [
   {
     accessorKey: 'name',
     header: 'Opportunity Name',
     cell: ({ row }) => {
-      return <StringCell value={row.original.name} />;
+      return <StringCell value={row.original.name} />
     },
   },
   {
@@ -94,8 +94,8 @@ export const columns: ColumnDef<
             </Link>
           </Button>
         ) : null,
-      ].filter(Boolean);
-      return <div className="flex flex-col gap-2">{entities}</div>;
+      ].filter(Boolean)
+      return <div className="flex flex-col gap-2">{entities}</div>
     },
   },
   {
@@ -121,22 +121,16 @@ export const columns: ColumnDef<
     header: 'Opportunity Details',
     cell: ({ row }) => {
       const details = [
-        row.original.dealValue
-          ? `Deal Value: ${row.original.dealValue} PHP`
-          : null,
-        row.original.probability
-          ? `Probability: ${row.original.probability}%`
-          : null,
+        row.original.dealValue ? `Deal Value: ${row.original.dealValue} PHP` : null,
+        row.original.probability ? `Probability: ${row.original.probability}%` : null,
         row.original.source ? `Source: ${row.original.source}` : null,
         row.original.stage ? `Stage: ${row.original.stage}` : null,
         row.original.expectedCloseDate
           ? `Expected Close: ${new Date(row.original.expectedCloseDate).toLocaleDateString()}`
           : null,
-        row.original.lostReason
-          ? `Lost Reason: ${row.original.lostReason}`
-          : null,
-      ].filter(Boolean);
-      return <StringCell value={details.join(' | ')} />;
+        row.original.lostReason ? `Lost Reason: ${row.original.lostReason}` : null,
+      ].filter(Boolean)
+      return <StringCell value={details.join(' | ')} />
     },
   },
   {
@@ -149,4 +143,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

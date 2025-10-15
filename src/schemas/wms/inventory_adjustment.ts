@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsInventoryAdjustmentReasonEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsInventoryAdjustmentReasonEnum } from '@/db/types'
 
 export const wmsInventoryAdjustmentSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -25,26 +25,16 @@ export const wmsInventoryAdjustmentSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsInventoryAdjustment = z.infer<
-  typeof wmsInventoryAdjustmentSchema
->;
+export type WmsInventoryAdjustment = z.infer<typeof wmsInventoryAdjustmentSchema>
 
-export const wmsInventoryAdjustmentInsertSchema =
-  wmsInventoryAdjustmentSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const wmsInventoryAdjustmentInsertSchema = wmsInventoryAdjustmentSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const wmsInventoryAdjustmentUpdateSchema =
-  wmsInventoryAdjustmentInsertSchema.partial();
+export const wmsInventoryAdjustmentUpdateSchema = wmsInventoryAdjustmentInsertSchema.partial()

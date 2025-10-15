@@ -1,22 +1,18 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { orpcClient } from '@/orpc/client'
 
-import { inUser } from '@/queries/auth/user';
-import { paginateDriverSchedule } from './driver_schedule';
+import { inUser } from '@/queries/auth/user'
+import { paginateDriverSchedule } from './driver_schedule'
 
-export const paginateDriver = (
-  options: Parameters<typeof orpcClient.tms.paginateDriver>[0],
-) =>
+export const paginateDriver = (options: Parameters<typeof orpcClient.tms.paginateDriver>[0]) =>
   queryOptions({
     queryKey: ['tms.driver', 'paginate', options],
     queryFn: async ({ client }) => {
-      const drivers = await orpcClient.tms.paginateDriver(options);
+      const drivers = await orpcClient.tms.paginateDriver(options)
 
-      const users = await client.ensureQueryData(
-        inUser(drivers.map((row) => row.userId)),
-      );
+      const users = await client.ensureQueryData(inUser(drivers.map((row) => row.userId)))
 
       const schedules = await client.ensureQueryData(
         paginateDriverSchedule({
@@ -30,34 +26,30 @@ export const paginateDriver = (
             },
           ],
         }),
-      );
+      )
 
       return drivers.map((row) => ({
         ...row,
         user: users.find((subRow) => subRow.id === row.userId)!,
         schedules: schedules.filter((subRow) => subRow.driverId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeDriver = (
-  options: Parameters<typeof orpcClient.tms.rangeDriver>[0],
-) =>
+export const rangeDriver = (options: Parameters<typeof orpcClient.tms.rangeDriver>[0]) =>
   queryOptions({
     queryKey: ['tms.driver', 'range', options],
     queryFn: () => orpcClient.tms.rangeDriver(options),
     enabled: !!options,
-  });
+  })
 
-export const inDriver = (
-  options: Parameters<typeof orpcClient.tms.inDriver>[0],
-) =>
+export const inDriver = (options: Parameters<typeof orpcClient.tms.inDriver>[0]) =>
   queryOptions({
     queryKey: ['tms.driver', 'in', options],
     queryFn: () => orpcClient.tms.inDriver(options),
     enabled: !!options,
-  });
+  })
 
 export const createDriver = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.createDriver>>,
@@ -68,13 +60,13 @@ export const createDriver = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Driver: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.driver'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.driver'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateDriver = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.updateDriver>>,
@@ -85,13 +77,13 @@ export const updateDriver = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Driver: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.driver'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.driver'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteDriver = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.deleteDriver>>,
@@ -102,10 +94,10 @@ export const deleteDriver = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Driver has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['tms.driver'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['tms.driver'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

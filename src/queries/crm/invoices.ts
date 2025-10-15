@@ -1,24 +1,20 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { paginateInvoiceItem } from './invoice_items';
-import { inOpportunity } from './opportunities';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { paginateInvoiceItem } from './invoice_items'
+import { inOpportunity } from './opportunities'
 
-export const paginateInvoice = (
-  options: Parameters<typeof orpcClient.crm.paginateInvoice>[0],
-) =>
+export const paginateInvoice = (options: Parameters<typeof orpcClient.crm.paginateInvoice>[0]) =>
   queryOptions({
     queryKey: ['crm.invoices', options],
     queryFn: async ({ client }) => {
-      const invoices = await orpcClient.crm.paginateInvoice(options);
+      const invoices = await orpcClient.crm.paginateInvoice(options)
 
       const opportunities = await client.ensureQueryData(
-        inOpportunity(
-          invoices.map((row) => row.opportunityId).filter(nonEmpty),
-        ),
-      );
+        inOpportunity(invoices.map((row) => row.opportunityId).filter(nonEmpty)),
+      )
 
       const items = await client.ensureQueryData(
         paginateInvoiceItem({
@@ -32,37 +28,30 @@ export const paginateInvoice = (
             },
           ],
         }),
-      );
+      )
 
       return invoices.map((row) => ({
         ...row,
-        opportunity: opportunities.find(
-          (subRow) => subRow.id === row.opportunityId,
-        ),
+        opportunity: opportunities.find((subRow) => subRow.id === row.opportunityId),
         items: items.filter((subRow) => subRow.invoiceId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeInvoice = (
-  options: Parameters<typeof orpcClient.crm.rangeInvoice>[0],
-) =>
+export const rangeInvoice = (options: Parameters<typeof orpcClient.crm.rangeInvoice>[0]) =>
   queryOptions({
     queryKey: ['crm.invoices', options],
     queryFn: () => orpcClient.crm.rangeInvoice(options),
     enabled: !!options,
-  });
+  })
 
-export const inInvoice = (
-  options: Parameters<typeof orpcClient.crm.inInvoice>[0],
-) =>
+export const inInvoice = (options: Parameters<typeof orpcClient.crm.inInvoice>[0]) =>
   queryOptions({
     queryKey: ['crm.invoices', options],
-    queryFn: () =>
-      options.length >= 1 ? orpcClient.crm.inInvoice(options) : [],
+    queryFn: () => (options.length >= 1 ? orpcClient.crm.inInvoice(options) : []),
     enabled: !!options,
-  });
+  })
 
 export const createInvoice = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.createInvoice>>,
@@ -73,13 +62,13 @@ export const createInvoice = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Invoice: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateInvoice = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.updateInvoice>>,
@@ -90,13 +79,13 @@ export const updateInvoice = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Invoice: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteInvoice = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.deleteInvoice>>,
@@ -107,10 +96,10 @@ export const deleteInvoice = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `A record has been deleted`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.invoices'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

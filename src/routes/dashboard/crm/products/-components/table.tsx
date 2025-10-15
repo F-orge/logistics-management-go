@@ -1,8 +1,8 @@
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { orpcClient } from '@/orpc/client';
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import type { orpcClient } from '@/orpc/client'
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateProduct>>[number]
@@ -11,7 +11,7 @@ export const columns: ColumnDef<
     accessorKey: 'name',
     header: 'Product Name',
     cell: ({ row }) => {
-      return <StringCell value={row.original.name} />;
+      return <StringCell value={row.original.name} />
     },
   },
   {
@@ -44,4 +44,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

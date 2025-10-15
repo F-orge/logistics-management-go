@@ -1,12 +1,12 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -15,16 +15,16 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewProductFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/products' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/products/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/products/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/products' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/products/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/products/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -39,18 +39,14 @@ const ViewProductFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Product Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about {data.name}.
-          </DialogDescription>
+          <DialogDescription>Detailed information about {data.name}.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the product.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the product.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -94,24 +90,18 @@ const ViewProductFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -120,7 +110,7 @@ const ViewProductFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewProductFormDialog;
+export default ViewProductFormDialog

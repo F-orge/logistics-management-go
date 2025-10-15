@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const crmContactSchema = z
   .object({
@@ -77,14 +77,14 @@ export const crmContactSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmContact = z.infer<typeof crmContactSchema>;
+export type CrmContact = z.infer<typeof crmContactSchema>
 
 export const crmContactInsertSchema = crmContactSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const crmContactUpdateSchema = crmContactInsertSchema.partial();
+export const crmContactUpdateSchema = crmContactInsertSchema.partial()

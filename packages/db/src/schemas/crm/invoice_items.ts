@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const InvoiceItemSchema = z
   .object({
@@ -46,4 +46,4 @@ export const InvoiceItemSchema = z
       .nullable()
       .optional(),
   })
-  .strict();
+  .strict()

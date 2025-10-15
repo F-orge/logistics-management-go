@@ -1,13 +1,13 @@
-import { Faker } from '@faker-js/faker';
-import { Insertable } from 'kysely';
+import type { Faker } from '@faker-js/faker'
+import type { Insertable } from 'kysely'
 import {
-  DB,
+  type DB,
   DmsDeliveryFailureReasonEnum,
   DmsDeliveryRouteStatusEnum,
   DmsDeliveryTaskStatusEnum,
   DmsProofOfDeliveryTypeEnum,
   DmsTaskEventStatusEnum,
-} from '@/db/types';
+} from '@/db/types'
 
 export const generateDmsDeliveryRoute = (
   faker: Faker,
@@ -20,10 +20,8 @@ export const generateDmsDeliveryRoute = (
   status: faker.helpers.arrayElement(Object.values(DmsDeliveryRouteStatusEnum)),
   startedAt: faker.datatype.boolean() ? faker.date.recent() : null,
   completedAt: faker.datatype.boolean() ? faker.date.recent() : null,
-  optimizedRouteData: faker.datatype.boolean()
-    ? faker.lorem.paragraphs(2)
-    : null,
-});
+  optimizedRouteData: faker.datatype.boolean() ? faker.lorem.paragraphs(2) : null,
+})
 
 export const generateDmsDeliveryTask = (
   faker: Faker,
@@ -36,9 +34,7 @@ export const generateDmsDeliveryTask = (
   routeSequence: faker.number.int({ min: 1, max: 20 }),
   estimatedArrivalTime: faker.date.future(),
   status: faker.helpers.arrayElement(Object.values(DmsDeliveryTaskStatusEnum)),
-  deliveryInstructions: faker.datatype.boolean()
-    ? faker.lorem.sentence()
-    : null,
+  deliveryInstructions: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   recipientName: faker.person.fullName(),
   recipientPhone: faker.phone.number({ style: 'international' }),
   actualArrivalTime: faker.datatype.boolean() ? faker.date.recent() : null,
@@ -47,7 +43,7 @@ export const generateDmsDeliveryTask = (
   failureReason: faker.datatype.boolean()
     ? faker.helpers.arrayElement(Object.values(DmsDeliveryFailureReasonEnum))
     : null,
-});
+})
 
 export const generateDmsCustomerTrackingLink = (
   faker: Faker,
@@ -59,7 +55,7 @@ export const generateDmsCustomerTrackingLink = (
   isActive: faker.datatype.boolean(),
   accessCount: faker.number.int({ min: 0, max: 100 }),
   lastAccessedAt: faker.datatype.boolean() ? faker.date.recent() : null,
-});
+})
 
 export const generateDmsDriverLocation = (
   faker: Faker,
@@ -73,7 +69,7 @@ export const generateDmsDriverLocation = (
   altitude: faker.number.float({ min: 0, max: 1000 }),
   heading: faker.number.int({ min: 0, max: 359 }),
   speedKmh: faker.number.float({ min: 0, max: 120 }),
-});
+})
 
 export const generateDmsProofOfDelivery = (
   faker: Faker,
@@ -83,14 +79,12 @@ export const generateDmsProofOfDelivery = (
   type: faker.helpers.arrayElement(Object.values(DmsProofOfDeliveryTypeEnum)),
   timestamp: faker.date.recent(),
   filePath: faker.datatype.boolean() ? faker.system.filePath() : null,
-  signatureData: faker.datatype.boolean()
-    ? faker.string.alphanumeric(256)
-    : null,
+  signatureData: faker.datatype.boolean() ? faker.string.alphanumeric(256) : null,
   recipientName: faker.person.fullName(),
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   verificationCode: faker.datatype.boolean() ? faker.string.numeric(6) : null,
-});
+})
 
 export const generateDmsTaskEvent = (
   faker: Faker,
@@ -103,4 +97,4 @@ export const generateDmsTaskEvent = (
   longitude: faker.location.longitude(),
   notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   reason: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-});
+})

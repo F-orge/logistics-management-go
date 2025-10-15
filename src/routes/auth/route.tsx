@@ -1,9 +1,9 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router';
-import { GalleryVerticalEnd } from 'lucide-react';
+import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { GalleryVerticalEnd } from 'lucide-react'
 
 export const Route = createFileRoute('/auth')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   return (
@@ -31,5 +31,5 @@ function RouteComponent() {
         />
       </div>
     </div>
-  );
+  )
 }

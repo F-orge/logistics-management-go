@@ -1,7 +1,7 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import { crmAttachmentSchema } from '@/schemas/crm/attachments';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { crmAttachmentSchema } from '@/schemas/crm/attachments'
 
 export const uploadAttachmentContract = oc
   .input(
@@ -10,7 +10,7 @@ export const uploadAttachmentContract = oc
       .required()
       .extend({ file: z.file() }),
   )
-  .output(crmAttachmentSchema);
+  .output(crmAttachmentSchema)
 
 export const downloadAttachmentContract = oc
   .input(
@@ -22,7 +22,7 @@ export const downloadAttachmentContract = oc
       })
       .required(),
   )
-  .output(z.instanceof(File));
+  .output(z.instanceof(File))
 
 export const showAttachmentMetadataContract = oc
   .input(
@@ -34,7 +34,7 @@ export const showAttachmentMetadataContract = oc
       })
       .required(),
   )
-  .output(crmAttachmentSchema);
+  .output(crmAttachmentSchema)
 
 export const deleteAttachmentContract = oc
   .input(
@@ -46,8 +46,4 @@ export const deleteAttachmentContract = oc
       })
       .required(),
   )
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

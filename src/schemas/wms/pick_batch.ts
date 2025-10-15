@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsPickBatchStatusEnum, WmsPickStrategyEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsPickBatchStatusEnum, WmsPickStrategyEnum } from '@/db/types'
 
 export const wmsPickBatchSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -89,22 +89,16 @@ export const wmsPickBatchSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsPickBatch = z.infer<typeof wmsPickBatchSchema>;
+export type WmsPickBatch = z.infer<typeof wmsPickBatchSchema>
 
 export const wmsPickBatchInsertSchema = wmsPickBatchSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsPickBatchUpdateSchema = wmsPickBatchInsertSchema.partial();
+export const wmsPickBatchUpdateSchema = wmsPickBatchInsertSchema.partial()

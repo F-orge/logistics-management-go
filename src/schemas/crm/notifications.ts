@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const crmNotificationSchema = z
   .object({
@@ -56,15 +56,14 @@ export const crmNotificationSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmNotification = z.infer<typeof crmNotificationSchema>;
+export type CrmNotification = z.infer<typeof crmNotificationSchema>
 
 export const crmNotificationInsertSchema = crmNotificationSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const crmNotificationUpdateSchema =
-  crmNotificationInsertSchema.partial();
+export const crmNotificationUpdateSchema = crmNotificationInsertSchema.partial()

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { DmsDeliveryRouteStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { DmsDeliveryRouteStatusEnum } from '@/db/types'
 
 export const dmsDeliveryRouteSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -10,14 +10,8 @@ export const dmsDeliveryRouteSchema = z.object({
     .optional()
     .nullable(),
   routeDate: z.date({ message: 'Invalid date format for route date' }),
-  startedAt: z
-    .date({ message: 'Invalid date format for started at' })
-    .optional()
-    .nullable(),
-  completedAt: z
-    .date({ message: 'Invalid date format for completed at' })
-    .optional()
-    .nullable(),
+  startedAt: z.date({ message: 'Invalid date format for started at' }).optional().nullable(),
+  completedAt: z.date({ message: 'Invalid date format for completed at' }).optional().nullable(),
   driverId: z.uuid({ message: 'Invalid UUID format for driver ID' }),
   actualDurationMinutes: z.coerce
     .number({ message: 'Actual duration must be a number' })
@@ -43,23 +37,16 @@ export const dmsDeliveryRouteSchema = z.object({
     .min(0, { message: 'Total distance must be at least 0' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type DmsDeliveryRoute = z.infer<typeof dmsDeliveryRouteSchema>;
+export type DmsDeliveryRoute = z.infer<typeof dmsDeliveryRouteSchema>
 
 export const dmsDeliveryRouteInsertSchema = dmsDeliveryRouteSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const dmsDeliveryRouteUpdateSchema =
-  dmsDeliveryRouteInsertSchema.partial();
+export const dmsDeliveryRouteUpdateSchema = dmsDeliveryRouteInsertSchema.partial()

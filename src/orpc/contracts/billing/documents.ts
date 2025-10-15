@@ -1,7 +1,7 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import { billingDocumentSchema } from '@/schemas/billing/document';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { billingDocumentSchema } from '@/schemas/billing/document'
 
 export const uploadDocumentContract = oc
   .input(
@@ -10,7 +10,7 @@ export const uploadDocumentContract = oc
       .required()
       .extend({ file: z.file() }),
   )
-  .output(billingDocumentSchema);
+  .output(billingDocumentSchema)
 
 export const downloadDocumentContract = oc
   .input(
@@ -22,7 +22,7 @@ export const downloadDocumentContract = oc
       })
       .required(),
   )
-  .output(z.instanceof(File));
+  .output(z.instanceof(File))
 
 export const showDocumentMetadataContract = oc
   .input(
@@ -34,7 +34,7 @@ export const showDocumentMetadataContract = oc
       })
       .required(),
   )
-  .output(billingDocumentSchema);
+  .output(billingDocumentSchema)
 
 export const deleteDocumentContract = oc
   .input(
@@ -46,8 +46,4 @@ export const deleteDocumentContract = oc
       })
       .required(),
   )
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

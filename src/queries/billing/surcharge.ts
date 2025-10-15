@@ -1,7 +1,7 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { orpcClient } from '@/orpc/client'
 
 export const paginateSurcharge = (
   options: Parameters<typeof orpcClient.billing.paginateSurcharge>[0],
@@ -10,25 +10,21 @@ export const paginateSurcharge = (
     queryKey: ['billing.surcharge', 'paginate', options],
     queryFn: () => orpcClient.billing.paginateSurcharge(options),
     enabled: !!options,
-  });
+  })
 
-export const rangeSurcharge = (
-  options: Parameters<typeof orpcClient.billing.rangeSurcharge>[0],
-) =>
+export const rangeSurcharge = (options: Parameters<typeof orpcClient.billing.rangeSurcharge>[0]) =>
   queryOptions({
     queryKey: ['billing.surcharge', 'range', options],
     queryFn: () => orpcClient.billing.rangeSurcharge(options),
     enabled: !!options,
-  });
+  })
 
-export const inSurcharge = (
-  options: Parameters<typeof orpcClient.billing.inSurcharge>[0],
-) =>
+export const inSurcharge = (options: Parameters<typeof orpcClient.billing.inSurcharge>[0]) =>
   queryOptions({
     queryKey: ['billing.surcharge', 'in', options],
     queryFn: () => orpcClient.billing.inSurcharge(options),
     enabled: !!options,
-  });
+  })
 
 export const createSurcharge = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.createSurcharge>>,
@@ -39,13 +35,13 @@ export const createSurcharge = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Surcharge: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateSurcharge = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.updateSurcharge>>,
@@ -56,13 +52,13 @@ export const updateSurcharge = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Surcharge: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteSurcharge = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.deleteSurcharge>>,
@@ -73,10 +69,10 @@ export const deleteSurcharge = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Surcharge has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.surcharge'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

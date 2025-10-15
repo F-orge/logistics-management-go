@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const DriverLocationSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -11,19 +11,13 @@ export const DriverLocationSchema = z.object({
     .number({ message: 'Longitude must be a number' })
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
-  timestamp: z
-    .date({ message: 'Invalid date format for timestamp' })
-    .optional()
-    .nullable(),
+  timestamp: z.date({ message: 'Invalid date format for timestamp' }).optional().nullable(),
   accuracy: z.coerce
     .number({ message: 'Accuracy must be a number' })
     .min(0, { message: 'Accuracy must be at least 0' })
     .optional()
     .nullable(),
-  altitude: z.coerce
-    .number({ message: 'Altitude must be a number' })
-    .optional()
-    .nullable(),
+  altitude: z.coerce.number({ message: 'Altitude must be a number' }).optional().nullable(),
   heading: z.coerce
     .number({ message: 'Heading must be a number' })
     .min(0, { message: 'Heading must be at least 0' })
@@ -35,13 +29,6 @@ export const DriverLocationSchema = z.object({
     .min(0, { message: 'Speed in Kmh must be at least 0' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
-
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})

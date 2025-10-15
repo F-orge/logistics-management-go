@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingServiceTypeEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingServiceTypeEnum } from '@/db/types'
 
 // Zod schema for billing.rate_card table
 export const billingRateCardSchema = z
@@ -28,9 +28,9 @@ export const billingRateCardSchema = z
     validFrom: z.date(),
     validTo: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingRateCard = z.infer<typeof billingRateCardSchema>;
+export type BillingRateCard = z.infer<typeof billingRateCardSchema>
 
 export const billingRateCardInsertSchema = billingRateCardSchema
   .omit({
@@ -38,8 +38,6 @@ export const billingRateCardInsertSchema = billingRateCardSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingRateCardUpdateSchema = billingRateCardInsertSchema
-  .partial()
-  .strict();
+export const billingRateCardUpdateSchema = billingRateCardInsertSchema.partial().strict()

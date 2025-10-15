@@ -1,13 +1,13 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
 import {
   billingCreditNoteInsertSchema,
   billingCreditNoteSchema,
   billingCreditNoteUpdateSchema,
-} from './credit_note';
+} from './credit_note'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingCreditNoteSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -132,14 +132,14 @@ describe('BillingCreditNoteSchema Validation', () => {
           reason: 'Optional fields absent',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingCreditNoteSchema.parse(input)).not.toThrow();
-      const result = billingCreditNoteSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingCreditNoteSchema.parse(input)).not.toThrow()
+      const result = billingCreditNoteSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -434,24 +434,21 @@ describe('BillingCreditNoteSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingCreditNoteSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingCreditNoteSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingCreditNoteSchema', () => {
     test('should return success for valid data', () => {
@@ -462,14 +459,14 @@ describe('BillingCreditNoteSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         issueDate: new Date('2023-01-01T00:00:00Z'),
         reason: 'Overcharge',
-      };
-      const result = billingCreditNoteSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingCreditNoteSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -479,17 +476,17 @@ describe('BillingCreditNoteSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174001',
         issueDate: new Date('2023-01-01T00:00:00Z'),
         reason: 'Overcharge',
-      };
-      const result = billingCreditNoteSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingCreditNoteSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingCreditNoteInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -519,14 +516,14 @@ describe('BillingCreditNoteInsertSchema Validation', () => {
           reason: 'Insert reason ' + 'h'.repeat(240),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingCreditNoteInsertSchema.parse(input)).not.toThrow();
-      const result = billingCreditNoteInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingCreditNoteInsertSchema.parse(input)).not.toThrow()
+      const result = billingCreditNoteInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -591,24 +588,21 @@ describe('BillingCreditNoteInsertSchema Validation', () => {
         },
         expectedError: 'Amount must be at least 0',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingCreditNoteInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingCreditNoteInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingCreditNoteInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -618,14 +612,14 @@ describe('BillingCreditNoteInsertSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         issueDate: new Date('2023-01-01T00:00:00Z'),
         reason: 'New Overcharge',
-      };
-      const result = billingCreditNoteInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingCreditNoteInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -634,17 +628,17 @@ describe('BillingCreditNoteInsertSchema Validation', () => {
         invoiceId: '123e4567-e89b-12d3-a456-426614174000',
         issueDate: new Date('2023-01-01T00:00:00Z'),
         reason: 'New Overcharge',
-      };
-      const result = billingCreditNoteInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingCreditNoteInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingCreditNoteUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -674,14 +668,14 @@ describe('BillingCreditNoteUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingCreditNoteUpdateSchema.parse(input)).not.toThrow();
-      const result = billingCreditNoteUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingCreditNoteUpdateSchema.parse(input)).not.toThrow()
+      const result = billingCreditNoteUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -720,49 +714,46 @@ describe('BillingCreditNoteUpdateSchema Validation', () => {
         },
         expectedError: 'Reason must be at most 255 characters',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingCreditNoteUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingCreditNoteUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingCreditNoteUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         amount: 100.5,
-      };
-      const result = billingCreditNoteUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingCreditNoteUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         amount: -1,
-      };
-      const result = billingCreditNoteUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingCreditNoteUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

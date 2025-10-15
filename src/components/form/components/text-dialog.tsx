@@ -1,19 +1,19 @@
-import React from 'react';
-import { withForm } from '@/components/form';
-import FormDialog from '@/components/ui/form-dialog';
+import type React from 'react'
+import { withForm } from '@/components/form'
+import FormDialog from '@/components/ui/form-dialog'
 
 const EditTextDialog = withForm({
   props: {} as {
-    defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
-    onSave: () => void;
-    title?: string;
-    description?: string;
-    name: string;
-    inputLabel?: React.ReactNode;
-    inputDescription?: React.ReactNode;
+    defaultOpen?: boolean
+    onOpenChange?: (open: boolean) => void
+    onSave: () => void
+    title?: string
+    description?: string
+    name: string
+    inputLabel?: React.ReactNode
+    inputDescription?: React.ReactNode
   },
-  render: function ({
+  render: ({
     form,
     name,
     inputLabel,
@@ -23,28 +23,21 @@ const EditTextDialog = withForm({
     defaultOpen,
     onOpenChange,
     onSave,
-  }) {
-    return (
-      <form.AppForm>
-        <FormDialog
-          onSave={onSave}
-          open={defaultOpen}
-          onOpenChange={onOpenChange}
-          title={title}
-          description={description}
-        >
-          <form.AppField name={name}>
-            {(field) => (
-              <field.TextField
-                label={inputLabel}
-                description={inputDescription}
-              />
-            )}
-          </form.AppField>
-        </FormDialog>
-      </form.AppForm>
-    );
-  },
-});
+  }) => (
+    <form.AppForm>
+      <FormDialog
+        onSave={onSave}
+        open={defaultOpen}
+        onOpenChange={onOpenChange}
+        title={title}
+        description={description}
+      >
+        <form.AppField name={name}>
+          {(field) => <field.TextField label={inputLabel} description={inputDescription} />}
+        </form.AppField>
+      </FormDialog>
+    </form.AppForm>
+  ),
+})
 
-export default EditTextDialog;
+export default EditTextDialog

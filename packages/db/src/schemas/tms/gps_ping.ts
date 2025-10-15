@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const GpsPingSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -12,15 +12,15 @@ export const GpsPingSchema = z.object({
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
   timestamp: z.date({ message: 'Invalid date format for timestamp' }),
-});
+})
 
-export type TmsGpsPing = z.infer<typeof GpsPingSchema>;
+export type TmsGpsPing = z.infer<typeof GpsPingSchema>
 
 export const GpsPingInsertSchema = GpsPingSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
   timestamp: true,
-});
+})
 
-export const GpsPingUpdateSchema = GpsPingInsertSchema.partial();
+export const GpsPingUpdateSchema = GpsPingInsertSchema.partial()

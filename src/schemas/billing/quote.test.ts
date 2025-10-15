@@ -1,14 +1,10 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingQuoteStatusEnum } from '@/db/types';
-import {
-  billingQuoteInsertSchema,
-  billingQuoteSchema,
-  billingQuoteUpdateSchema,
-} from './quote';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingQuoteStatusEnum } from '@/db/types'
+import { billingQuoteInsertSchema, billingQuoteSchema, billingQuoteUpdateSchema } from './quote'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingQuoteSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -203,14 +199,14 @@ describe('BillingQuoteSchema Validation', () => {
           status: BillingQuoteStatusEnum.Pending,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingQuoteSchema.parse(input)).not.toThrow();
-      const result = billingQuoteSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingQuoteSchema.parse(input)).not.toThrow()
+      const result = billingQuoteSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -725,15 +721,12 @@ describe('BillingQuoteSchema Validation', () => {
         },
         expectedError: 'Invalid input',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        expect(() => billingQuoteSchema.parse(input)).toThrow(ZodError);
-      },
-    );
-  });
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      expect(() => billingQuoteSchema.parse(input)).toThrow(ZodError)
+    })
+  })
 
   describe('SafeParse Tests for billingQuoteSchema', () => {
     test('should return success for valid data', () => {
@@ -742,14 +735,14 @@ describe('BillingQuoteSchema Validation', () => {
         destinationDetails: 'Valid Destination',
         originDetails: 'Valid Origin',
         quotedPrice: 100.0,
-      };
-      const result = billingQuoteSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingQuoteSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -757,17 +750,17 @@ describe('BillingQuoteSchema Validation', () => {
         destinationDetails: 'Valid Destination',
         originDetails: 'Valid Origin',
         quotedPrice: 100.0,
-      };
-      const result = billingQuoteSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingQuoteSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingQuoteInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -808,14 +801,14 @@ describe('BillingQuoteInsertSchema Validation', () => {
           quotedPrice: 10.0,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingQuoteInsertSchema.parse(input)).not.toThrow();
-      const result = billingQuoteInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingQuoteInsertSchema.parse(input)).not.toThrow()
+      const result = billingQuoteInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -866,15 +859,12 @@ describe('BillingQuoteInsertSchema Validation', () => {
         },
         expectedError: 'Quoted price must be at least 0',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        expect(() => billingQuoteInsertSchema.parse(input)).toThrow(ZodError);
-      },
-    );
-  });
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      expect(() => billingQuoteInsertSchema.parse(input)).toThrow(ZodError)
+    })
+  })
 
   describe('SafeParse Tests for billingQuoteInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -882,14 +872,14 @@ describe('BillingQuoteInsertSchema Validation', () => {
         destinationDetails: 'Valid Insert Destination',
         originDetails: 'Valid Insert Origin',
         quotedPrice: 300.0,
-      };
-      const result = billingQuoteInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingQuoteInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -897,17 +887,17 @@ describe('BillingQuoteInsertSchema Validation', () => {
         destinationDetails: 'Invalid Insert Destination',
         originDetails: 'Invalid Insert Origin',
         quotedPrice: 300.0,
-      };
-      const result = billingQuoteInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingQuoteInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingQuoteUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -956,14 +946,14 @@ describe('BillingQuoteUpdateSchema Validation', () => {
           width: 80,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingQuoteUpdateSchema.parse(input)).not.toThrow();
-      const result = billingQuoteUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingQuoteUpdateSchema.parse(input)).not.toThrow()
+      const result = billingQuoteUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -1013,41 +1003,38 @@ describe('BillingQuoteUpdateSchema Validation', () => {
         expectedError:
           "Invalid enum value. Expected 'accepted' | 'cancelled' | 'converted' | 'expired' | 'pending', received 'non-existent-status'",
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        expect(() => billingQuoteUpdateSchema.parse(input)).toThrow(ZodError);
-      },
-    );
-  });
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      expect(() => billingQuoteUpdateSchema.parse(input)).toThrow(ZodError)
+    })
+  })
 
   describe('SafeParse Tests for billingQuoteUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         notes: 'Valid Update Notes',
-      };
-      const result = billingQuoteUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingQuoteUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         notes: 'Invalid Update Notes',
-      };
-      const result = billingQuoteUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingQuoteUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

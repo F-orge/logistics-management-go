@@ -1,9 +1,9 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inVehicle } from './vehicle';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inVehicle } from './vehicle'
 
 export const paginateVehicleMaintenance = (
   options: Parameters<typeof orpcClient.tms.paginateVehicleMaintenance>[0],
@@ -11,15 +11,14 @@ export const paginateVehicleMaintenance = (
   queryOptions({
     queryKey: ['tms.vehicleMaintenance', 'paginate', options],
     queryFn: async ({ client }) => {
-      const vehicleMaintenances =
-        await orpcClient.tms.paginateVehicleMaintenance(options);
+      const vehicleMaintenances = await orpcClient.tms.paginateVehicleMaintenance(options)
 
       return vehicleMaintenances.map((row) => ({
         ...row,
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeVehicleMaintenance = (
   options: Parameters<typeof orpcClient.tms.rangeVehicleMaintenance>[0],
@@ -28,7 +27,7 @@ export const rangeVehicleMaintenance = (
     queryKey: ['tms.vehicleMaintenance', 'range', options],
     queryFn: () => orpcClient.tms.rangeVehicleMaintenance(options),
     enabled: !!options,
-  });
+  })
 
 export const inVehicleMaintenance = (
   options: Parameters<typeof orpcClient.tms.inVehicleMaintenance>[0],
@@ -37,7 +36,7 @@ export const inVehicleMaintenance = (
     queryKey: ['tms.vehicleMaintenance', 'in', options],
     queryFn: () => orpcClient.tms.inVehicleMaintenance(options),
     enabled: !!options,
-  });
+  })
 
 export const createVehicleMaintenance = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.createVehicleMaintenance>>,
@@ -48,15 +47,15 @@ export const createVehicleMaintenance = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.vehicleMaintenance'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateVehicleMaintenance = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.updateVehicleMaintenance>>,
@@ -67,15 +66,15 @@ export const updateVehicleMaintenance = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.vehicleMaintenance'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteVehicleMaintenance = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.tms.deleteVehicleMaintenance>>,
@@ -86,12 +85,12 @@ export const deleteVehicleMaintenance = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Vehicle Maintenance has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['tms.vehicleMaintenance'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

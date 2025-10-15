@@ -1,30 +1,28 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inUser } from '@/queries/auth/user';
-import { paginatePackageItem } from './package_item';
-import { inSalesOrder } from './sales_order';
-import { inWarehouse } from './warehouse';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inUser } from '@/queries/auth/user'
+import { paginatePackageItem } from './package_item'
+import { inSalesOrder } from './sales_order'
+import { inWarehouse } from './warehouse'
 
-export const paginatePackage = (
-  options: Parameters<typeof orpcClient.wms.paginatePackage>[0],
-) =>
+export const paginatePackage = (options: Parameters<typeof orpcClient.wms.paginatePackage>[0]) =>
   queryOptions({
     queryKey: ['wms.package', 'paginate', options],
     queryFn: async ({ client }) => {
-      const packages = await orpcClient.wms.paginatePackage(options);
+      const packages = await orpcClient.wms.paginatePackage(options)
 
       const salesOrders = await client.ensureQueryData(
         inSalesOrder(packages.map((row) => row.salesOrderId).filter(nonEmpty)),
-      );
+      )
       const warehouses = await client.ensureQueryData(
         inWarehouse(packages.map((row) => row.warehouseId).filter(nonEmpty)),
-      );
+      )
       const packedByUsers = await client.ensureQueryData(
         inUser(packages.map((row) => row.packedByUserId).filter(nonEmpty)),
-      );
+      )
 
       const items = await client.ensureQueryData(
         paginatePackageItem({
@@ -38,40 +36,32 @@ export const paginatePackage = (
             },
           ],
         }),
-      );
+      )
 
       return packages.map((row) => ({
         ...row,
-        salesOrder: salesOrders.find(
-          (subRow) => subRow.id === row.salesOrderId,
-        ),
+        salesOrder: salesOrders.find((subRow) => subRow.id === row.salesOrderId),
         warehouse: warehouses.find((subRow) => subRow.id === row.warehouseId),
-        packedByUser: packedByUsers.find(
-          (subRow) => subRow.id === row.packedByUserId,
-        ),
+        packedByUser: packedByUsers.find((subRow) => subRow.id === row.packedByUserId),
         items: items.filter((subRow) => subRow.packageId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangePackage = (
-  options: Parameters<typeof orpcClient.wms.rangePackage>[0],
-) =>
+export const rangePackage = (options: Parameters<typeof orpcClient.wms.rangePackage>[0]) =>
   queryOptions({
     queryKey: ['wms.package', 'range', options],
     queryFn: () => orpcClient.wms.rangePackage(options),
     enabled: !!options,
-  });
+  })
 
-export const inPackage = (
-  options: Parameters<typeof orpcClient.wms.inPackage>[0],
-) =>
+export const inPackage = (options: Parameters<typeof orpcClient.wms.inPackage>[0]) =>
   queryOptions({
     queryKey: ['wms.package', 'in', options],
     queryFn: () => orpcClient.wms.inPackage(options),
     enabled: !!options,
-  });
+  })
 
 export const createPackage = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createPackage>>,
@@ -82,13 +72,13 @@ export const createPackage = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Package: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.package'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.package'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updatePackage = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updatePackage>>,
@@ -99,13 +89,13 @@ export const updatePackage = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Package: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.package'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.package'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deletePackage = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deletePackage>>,
@@ -116,10 +106,10 @@ export const deletePackage = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Package has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.package'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.package'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

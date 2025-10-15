@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TmsProofTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { TmsProofTypeEnum } from '@/db.types'
 
 export const ProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -15,24 +15,17 @@ export const ProofOfDeliverySchema = z.object({
   timestamp: z.date(),
   type: z.enum(TmsProofTypeEnum).nullable().optional(),
   tripStopId: z.uuid({ message: 'Invalid UUID format for trip stop ID' }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsProofOfDelivery = z.infer<typeof ProofOfDeliverySchema>;
+export type TmsProofOfDelivery = z.infer<typeof ProofOfDeliverySchema>
 
 export const ProofOfDeliveryInsertSchema = ProofOfDeliverySchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
   timestamp: true,
-});
+})
 
-export const ProofOfDeliveryUpdateSchema =
-  ProofOfDeliveryInsertSchema.partial();
+export const ProofOfDeliveryUpdateSchema = ProofOfDeliveryInsertSchema.partial()

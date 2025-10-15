@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsVehicleInsertSchema,
   tmsVehicleSchema,
   tmsVehicleUpdateSchema,
-} from '@/schemas/tms/vehicle';
+} from '@/schemas/tms/vehicle'
 
 export const paginateVehicleContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateVehicleContract = oc
       }),
     ),
   )
-  .output(z.array(tmsVehicleSchema));
+  .output(z.array(tmsVehicleSchema))
 
 export const rangeVehicleContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeVehicleContract = oc
       }),
     ),
   )
-  .output(z.array(tmsVehicleSchema));
+  .output(z.array(tmsVehicleSchema))
 
 export const inVehicleContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsVehicleSchema));
+  .output(z.array(tmsVehicleSchema))
 
-export const createVehicleContract = oc
-  .input(tmsVehicleInsertSchema)
-  .output(tmsVehicleSchema);
+export const createVehicleContract = oc.input(tmsVehicleInsertSchema).output(tmsVehicleSchema)
 
 export const updateVehicleContract = oc
   .input(z.object({ id: z.uuid(), value: tmsVehicleUpdateSchema }))
-  .output(tmsVehicleSchema);
+  .output(tmsVehicleSchema)
 
 export const deleteVehicleContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

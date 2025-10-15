@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TmsTripStopStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { TmsTripStopStatusEnum } from '@/db.types'
 
 export const TripStopSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -34,26 +34,17 @@ export const TripStopSchema = z.object({
     .number({ message: 'Sequence must be a number' })
     .int({ message: 'Sequence must be an integer' })
     .min(0, { message: 'Sequence must be at least 0' }),
-  shipmentId: z
-    .uuid({ message: 'Invalid UUID format for shipment ID' })
-    .optional()
-    .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  shipmentId: z.uuid({ message: 'Invalid UUID format for shipment ID' }).optional().nullable(),
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsTripStop = z.infer<typeof TripStopSchema>;
+export type TmsTripStop = z.infer<typeof TripStopSchema>
 
 export const TripStopInsertSchema = TripStopSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const TripStopUpdateSchema = TripStopInsertSchema.partial();
+export const TripStopUpdateSchema = TripStopInsertSchema.partial()

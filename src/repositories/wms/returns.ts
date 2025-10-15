@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,9 +10,9 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, WmsReturnStatusEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, WmsReturnStatusEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
 export class ReturnRepository implements GenericRepository<'wms.returns'> {
   constructor(private db: Kysely<DB>) {}
@@ -25,35 +25,31 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
     DB,
     'wms.returns',
     {
-      clientId: string;
-      createdAt: Date | null;
-      id: string;
-      reason: string | null;
-      returnNumber: string;
-      salesOrderId: string | null;
-      status: WmsReturnStatusEnum | null;
-      updatedAt: Date | null;
+      clientId: string
+      createdAt: Date | null
+      id: string
+      reason: string | null
+      returnNumber: string
+      salesOrderId: string | null
+      status: WmsReturnStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('wms.returns').selectAll();
+    let query = this.db.selectFrom('wms.returns').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -64,115 +60,104 @@ export class ReturnRepository implements GenericRepository<'wms.returns'> {
     DB,
     'wms.returns',
     {
-      clientId: string;
-      createdAt: Date | null;
-      id: string;
-      reason: string | null;
-      returnNumber: string;
-      salesOrderId: string | null;
-      status: WmsReturnStatusEnum | null;
-      updatedAt: Date | null;
+      clientId: string
+      createdAt: Date | null
+      id: string
+      reason: string | null
+      returnNumber: string
+      salesOrderId: string | null
+      status: WmsReturnStatusEnum | null
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('wms.returns')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'wms.returns',
     {
-      clientId: string;
-      createdAt: Date | null;
-      id: string;
-      reason: string | null;
-      returnNumber: string;
-      salesOrderId: string | null;
-      status: WmsReturnStatusEnum | null;
-      updatedAt: Date | null;
+      clientId: string
+      createdAt: Date | null
+      id: string
+      reason: string | null
+      returnNumber: string
+      salesOrderId: string | null
+      status: WmsReturnStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('wms.returns')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('wms.returns').selectAll().where('id', 'in', values)
   }
   create(
     value: { clientId: string; returnNumber: string } & {
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      reason?: string | null | undefined;
-      salesOrderId?: string | null | undefined;
-      status?: WmsReturnStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      reason?: string | null | undefined
+      salesOrderId?: string | null | undefined
+      status?: WmsReturnStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'wms.returns',
     {
-      clientId: string;
-      createdAt: Date | null;
-      id: string;
-      reason: string | null;
-      returnNumber: string;
-      salesOrderId: string | null;
-      status: WmsReturnStatusEnum | null;
-      updatedAt: Date | null;
+      clientId: string
+      createdAt: Date | null
+      id: string
+      reason: string | null
+      returnNumber: string
+      salesOrderId: string | null
+      status: WmsReturnStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db.insertInto('wms.returns').values(value).returningAll();
+    return this.db.insertInto('wms.returns').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      clientId?: string | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      reason?: string | null | undefined;
-      returnNumber?: string | undefined;
-      salesOrderId?: string | null | undefined;
-      status?: WmsReturnStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      clientId?: string | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      reason?: string | null | undefined
+      returnNumber?: string | undefined
+      salesOrderId?: string | null | undefined
+      status?: WmsReturnStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'wms.returns',
     'wms.returns',
     {
-      clientId: string;
-      createdAt: Date | null;
-      id: string;
-      reason: string | null;
-      returnNumber: string;
-      salesOrderId: string | null;
-      status: WmsReturnStatusEnum | null;
-      updatedAt: Date | null;
+      clientId: string
+      createdAt: Date | null
+      id: string
+      reason: string | null
+      returnNumber: string
+      salesOrderId: string | null
+      status: WmsReturnStatusEnum | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('wms.returns')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('wms.returns').set(value).where('id', '=', id).returningAll()
   }
   delete(id: string): DeleteQueryBuilder<DB, 'wms.returns', DeleteResult> {
-    return this.db.deleteFrom('wms.returns').where('id', '=', id);
+    return this.db.deleteFrom('wms.returns').where('id', '=', id)
   }
 }
 
@@ -185,52 +170,48 @@ export class WmsReturnRepository {
     fields?: SelectExpression<DB, 'wms.returns'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'wms.returns', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'wms.returns', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('wms.returns')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('wms.returns.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('wms.returns.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['wms.returns']>) {
-    return this.db.insertInto('wms.returns').values(value).returningAll();
+    return this.db.insertInto('wms.returns').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['wms.returns']>[]) {
-    return this.db.insertInto('wms.returns').values(values).returningAll();
+    return this.db.insertInto('wms.returns').values(values).returningAll()
   }
 
-  update(
-    id: DB['wms.returns']['id']['__update__'],
-    value: Updateable<DB['wms.returns']>,
-  ) {
+  update(id: DB['wms.returns']['id']['__update__'], value: Updateable<DB['wms.returns']>) {
     return this.db
       .updateTable('wms.returns')
       .set(value)
       .where('wms.returns.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['wms.returns']['id']['__update__']) {
-    return this.db.deleteFrom('wms.returns').where('wms.returns.id', '=', id);
+    return this.db.deleteFrom('wms.returns').where('wms.returns.id', '=', id)
   }
 }

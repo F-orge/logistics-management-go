@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const wmsWarehouseSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -61,26 +61,17 @@ export const wmsWarehouseSchema = z.object({
     .max(64, { error: 'Timezone must be at most 64 characters' })
     .nullable()
     .optional(),
-  isActive: z
-    .boolean({ message: 'Is active must be a boolean' })
-    .nullable()
-    .optional(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  isActive: z.boolean({ message: 'Is active must be a boolean' }).nullable().optional(),
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsWarehouse = z.infer<typeof wmsWarehouseSchema>;
+export type WmsWarehouse = z.infer<typeof wmsWarehouseSchema>
 
 export const wmsWarehouseInsertSchema = wmsWarehouseSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsWarehouseUpdateSchema = wmsWarehouseInsertSchema.partial();
+export const wmsWarehouseUpdateSchema = wmsWarehouseInsertSchema.partial()

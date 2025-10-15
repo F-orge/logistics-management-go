@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const InboundShipmentItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -37,26 +37,16 @@ export const InboundShipmentItemSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsInboundShipmentItem = z.infer<
-  typeof InboundShipmentItemSchema
->;
+export type WmsInboundShipmentItem = z.infer<typeof InboundShipmentItemSchema>
 
-export const InboundShipmentItemInsertSchema =
-  InboundShipmentItemSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const InboundShipmentItemInsertSchema = InboundShipmentItemSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const InboundShipmentItemUpdateSchema =
-  InboundShipmentItemInsertSchema.partial();
+export const InboundShipmentItemUpdateSchema = InboundShipmentItemInsertSchema.partial()

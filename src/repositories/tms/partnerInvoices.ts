@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,13 +10,11 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, TmsPartnerInvoiceStatusEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, TmsPartnerInvoiceStatusEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
-export class PartnerInvoiceRepository
-  implements GenericRepository<'tms.partnerInvoices'>
-{
+export class PartnerInvoiceRepository implements GenericRepository<'tms.partnerInvoices'> {
   constructor(private db: Kysely<DB>) {}
   paginate(
     page?: number,
@@ -27,35 +25,31 @@ export class PartnerInvoiceRepository
     DB,
     'tms.partnerInvoices',
     {
-      carrierId: string;
-      createdAt: Date | null;
-      id: string;
-      invoiceDate: Date;
-      invoiceNumber: string;
-      status: TmsPartnerInvoiceStatusEnum | null;
-      totalAmount: string;
-      updatedAt: Date | null;
+      carrierId: string
+      createdAt: Date | null
+      id: string
+      invoiceDate: Date
+      invoiceNumber: string
+      status: TmsPartnerInvoiceStatusEnum | null
+      totalAmount: string
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('tms.partnerInvoices').selectAll();
+    let query = this.db.selectFrom('tms.partnerInvoices').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -66,123 +60,107 @@ export class PartnerInvoiceRepository
     DB,
     'tms.partnerInvoices',
     {
-      carrierId: string;
-      createdAt: Date | null;
-      id: string;
-      invoiceDate: Date;
-      invoiceNumber: string;
-      status: TmsPartnerInvoiceStatusEnum | null;
-      totalAmount: string;
-      updatedAt: Date | null;
+      carrierId: string
+      createdAt: Date | null
+      id: string
+      invoiceDate: Date
+      invoiceNumber: string
+      status: TmsPartnerInvoiceStatusEnum | null
+      totalAmount: string
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('tms.partnerInvoices')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.partnerInvoices',
     {
-      carrierId: string;
-      createdAt: Date | null;
-      id: string;
-      invoiceDate: Date;
-      invoiceNumber: string;
-      status: TmsPartnerInvoiceStatusEnum | null;
-      totalAmount: string;
-      updatedAt: Date | null;
+      carrierId: string
+      createdAt: Date | null
+      id: string
+      invoiceDate: Date
+      invoiceNumber: string
+      status: TmsPartnerInvoiceStatusEnum | null
+      totalAmount: string
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('tms.partnerInvoices')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('tms.partnerInvoices').selectAll().where('id', 'in', values)
   }
   create(
     value: {
-      carrierId: string;
-      invoiceDate: string | Date;
-      invoiceNumber: string;
-      totalAmount: string | number;
+      carrierId: string
+      invoiceDate: string | Date
+      invoiceNumber: string
+      totalAmount: string | number
     } & {
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      status?: TmsPartnerInvoiceStatusEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      status?: TmsPartnerInvoiceStatusEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'tms.partnerInvoices',
     {
-      carrierId: string;
-      createdAt: Date | null;
-      id: string;
-      invoiceDate: Date;
-      invoiceNumber: string;
-      status: TmsPartnerInvoiceStatusEnum | null;
-      totalAmount: string;
-      updatedAt: Date | null;
+      carrierId: string
+      createdAt: Date | null
+      id: string
+      invoiceDate: Date
+      invoiceNumber: string
+      status: TmsPartnerInvoiceStatusEnum | null
+      totalAmount: string
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .insertInto('tms.partnerInvoices')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.partnerInvoices').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      carrierId?: string | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      invoiceDate?: string | Date | undefined;
-      invoiceNumber?: string | undefined;
-      status?: TmsPartnerInvoiceStatusEnum | null | undefined;
-      totalAmount?: string | number | undefined;
-      updatedAt?: string | Date | null | undefined;
+      carrierId?: string | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      invoiceDate?: string | Date | undefined
+      invoiceNumber?: string | undefined
+      status?: TmsPartnerInvoiceStatusEnum | null | undefined
+      totalAmount?: string | number | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'tms.partnerInvoices',
     'tms.partnerInvoices',
     {
-      carrierId: string;
-      createdAt: Date | null;
-      id: string;
-      invoiceDate: Date;
-      invoiceNumber: string;
-      status: TmsPartnerInvoiceStatusEnum | null;
-      totalAmount: string;
-      updatedAt: Date | null;
+      carrierId: string
+      createdAt: Date | null
+      id: string
+      invoiceDate: Date
+      invoiceNumber: string
+      status: TmsPartnerInvoiceStatusEnum | null
+      totalAmount: string
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('tms.partnerInvoices')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('tms.partnerInvoices').set(value).where('id', '=', id).returningAll()
   }
-  delete(
-    id: string,
-  ): DeleteQueryBuilder<DB, 'tms.partnerInvoices', DeleteResult> {
-    return this.db.deleteFrom('tms.partnerInvoices').where('id', '=', id);
+  delete(id: string): DeleteQueryBuilder<DB, 'tms.partnerInvoices', DeleteResult> {
+    return this.db.deleteFrom('tms.partnerInvoices').where('id', '=', id)
   }
 }
 
@@ -195,44 +173,37 @@ export class TmsPartnerInvoiceRepository {
     fields?: SelectExpression<DB, 'tms.partnerInvoices'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'tms.partnerInvoices', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'tms.partnerInvoices', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('tms.partnerInvoices')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('tms.partnerInvoices.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('tms.partnerInvoices.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['tms.partnerInvoices']>) {
-    return this.db
-      .insertInto('tms.partnerInvoices')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.partnerInvoices').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['tms.partnerInvoices']>[]) {
-    return this.db
-      .insertInto('tms.partnerInvoices')
-      .values(values)
-      .returningAll();
+    return this.db.insertInto('tms.partnerInvoices').values(values).returningAll()
   }
 
   update(
@@ -243,12 +214,10 @@ export class TmsPartnerInvoiceRepository {
       .updateTable('tms.partnerInvoices')
       .set(value)
       .where('tms.partnerInvoices.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['tms.partnerInvoices']['id']['__update__']) {
-    return this.db
-      .deleteFrom('tms.partnerInvoices')
-      .where('tms.partnerInvoices.id', '=', id);
+    return this.db.deleteFrom('tms.partnerInvoices').where('tms.partnerInvoices.id', '=', id)
   }
 }

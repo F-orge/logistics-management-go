@@ -1,11 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
-import { useRouteContext } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { orpcClient } from '@/orpc/client';
-import { updateCampaign } from '@/queries/crm/campaigns';
+import { useMutation } from '@tanstack/react-query'
+import { useRouteContext } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import type { orpcClient } from '@/orpc/client'
+import { updateCampaign } from '@/queries/crm/campaigns'
 
 export const columns: ColumnDef<
   Awaited<ReturnType<typeof orpcClient.crm.paginateCampaign>>[number]
@@ -16,8 +16,8 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/campaigns/',
-      });
-      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+      })
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient)
 
       return (
         <StringCell
@@ -27,10 +27,10 @@ export const columns: ColumnDef<
             updateCampaignMutation.mutateAsync({
               id: row.original.id,
               value: { name: value },
-            });
+            })
           }}
         />
-      );
+      )
     },
   },
   {
@@ -39,8 +39,8 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/campaigns/',
-      });
-      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+      })
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient)
 
       return (
         <DateCell
@@ -51,10 +51,10 @@ export const columns: ColumnDef<
             updateCampaignMutation.mutateAsync({
               id: row.original.id,
               value: { startDate: value },
-            });
+            })
           }}
         />
-      );
+      )
     },
   },
   {
@@ -63,8 +63,8 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/campaigns/',
-      });
-      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+      })
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient)
 
       return (
         <DateCell
@@ -75,10 +75,10 @@ export const columns: ColumnDef<
             updateCampaignMutation.mutateAsync({
               id: row.original.id,
               value: { endDate: value },
-            });
+            })
           }}
         />
-      );
+      )
     },
   },
   {
@@ -87,8 +87,8 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/campaigns/',
-      });
-      const updateCampaignMutation = useMutation(updateCampaign, queryClient);
+      })
+      const updateCampaignMutation = useMutation(updateCampaign, queryClient)
 
       return (
         <NumberCell
@@ -99,10 +99,10 @@ export const columns: ColumnDef<
             updateCampaignMutation.mutateAsync({
               id: row.original.id,
               value: { budget: value },
-            });
+            })
           }}
         />
-      );
+      )
     },
   },
   {
@@ -115,4 +115,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

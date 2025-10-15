@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const crmOpportunityProductSchema = z
   .object({
@@ -11,8 +11,7 @@ export const crmOpportunityProductSchema = z
       .check(
         fieldConfig({
           label: 'Opportunity ID',
-          description:
-            'The ID of the opportunity this product is associated with.',
+          description: 'The ID of the opportunity this product is associated with.',
         }),
       ),
     productId: z.uuid({ message: 'Invalid UUID format for product ID' }).check(
@@ -33,14 +32,12 @@ export const crmOpportunityProductSchema = z
         }),
       ),
   })
-  .strict();
+  .strict()
 
-export type CrmOpportunityProduct = z.infer<typeof crmOpportunityProductSchema>;
+export type CrmOpportunityProduct = z.infer<typeof crmOpportunityProductSchema>
 
-export const crmOpportunityProductInsertSchema =
-  crmOpportunityProductSchema.omit({
-    id: true,
-  });
+export const crmOpportunityProductInsertSchema = crmOpportunityProductSchema.omit({
+  id: true,
+})
 
-export const crmOpportunityProductUpdateSchema =
-  crmOpportunityProductInsertSchema.partial();
+export const crmOpportunityProductUpdateSchema = crmOpportunityProductInsertSchema.partial()

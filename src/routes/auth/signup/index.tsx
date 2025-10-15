@@ -1,23 +1,23 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { toast } from 'sonner';
-import z from 'zod';
-import { useAppForm } from '@/components/form';
-import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
-import { authClient } from '@/lib/client-auth';
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
+import z from 'zod'
+import { useAppForm } from '@/components/form'
+import { Field, FieldDescription, FieldGroup } from '@/components/ui/field'
+import { authClient } from '@/lib/client-auth'
 
 export const Route = createFileRoute('/auth/signup/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const navigate = Route.useNavigate();
+  const navigate = Route.useNavigate()
 
   const form = useAppForm({
     defaultValues: {} as {
-      email: string;
-      name: string;
-      password: string;
-      confirmPassword: string;
+      email: string
+      name: string
+      password: string
+      confirmPassword: string
     },
     onSubmit: async ({ value }) =>
       toast.promise(
@@ -30,20 +30,20 @@ function RouteComponent() {
             navigate({
               to: `/auth/verify-email`,
               search: { email: data!.user.email },
-            });
-            return 'Success registration';
+            })
+            return 'Success registration'
           },
           error: 'Unable to register',
         },
       ),
-  });
+  })
 
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit();
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
       }}
       className="flex flex-col gap-6"
     >
@@ -56,13 +56,7 @@ function RouteComponent() {
             </p>
           </div>
           <form.AppField name="name">
-            {(field) => (
-              <field.TextField
-                label="Full name"
-                placeholder="John Doe"
-                required
-              />
-            )}
+            {(field) => <field.TextField label="Full name" placeholder="John Doe" required />}
           </form.AppField>
           <form.AppField name="email">
             {(field) => (
@@ -106,5 +100,5 @@ function RouteComponent() {
         </FieldGroup>
       </form.AppForm>
     </form>
-  );
+  )
 }

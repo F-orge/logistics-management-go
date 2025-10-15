@@ -1,6 +1,6 @@
-import { implement } from '@orpc/server';
-import { inUserContract } from '@/orpc/contracts/auth/user';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import { inUserContract } from '@/orpc/contracts/auth/user'
+import type { HonoVariables } from '@/server'
 
 export const inUser = implement(inUserContract)
   .$context<HonoVariables>()
@@ -9,5 +9,5 @@ export const inUser = implement(inUserContract)
       .selectFrom('user')
       .select(['id', 'name', 'email', 'image'])
       .where('id', 'in', input)
-      .execute();
-  });
+      .execute()
+  })

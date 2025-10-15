@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingSyncStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingSyncStatusEnum } from '@/db/types'
 
 // Zod schema for billing.accounting_sync_log table
 export const billingAccountingSyncLogSchema = z
@@ -47,18 +47,16 @@ export const billingAccountingSyncLogSchema = z
     status: z.enum(BillingSyncStatusEnum).optional().nullable(),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingAccountingSyncLog = z.infer<
-  typeof billingAccountingSyncLogSchema
->;
+export type BillingAccountingSyncLog = z.infer<typeof billingAccountingSyncLogSchema>
 
-export const billingAccountingSyncLogInsertSchema =
-  billingAccountingSyncLogSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const billingAccountingSyncLogInsertSchema = billingAccountingSyncLogSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const billingAccountingSyncLogUpdateSchema =
-  billingAccountingSyncLogInsertSchema.partial().strict();
+export const billingAccountingSyncLogUpdateSchema = billingAccountingSyncLogInsertSchema
+  .partial()
+  .strict()

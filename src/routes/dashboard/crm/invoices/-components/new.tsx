@@ -1,36 +1,30 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createInvoice } from '@/queries/crm/invoices';
-import { crmInvoiceInsertSchema } from '@/schemas/crm/invoices';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createInvoice } from '@/queries/crm/invoices'
+import { crmInvoiceInsertSchema } from '@/schemas/crm/invoices'
 
 const NewInvoiceFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/invoices' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/invoices/' });
-  const { queryClient } = useRouteContext({ from: '/dashboard/crm/invoices/' });
+  const navigate = useNavigate({ from: '/dashboard/crm/invoices' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/invoices/' })
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/invoices/' })
 
-  const createMutation = useMutation(createInvoice, queryClient);
+  const createMutation = useMutation(createInvoice, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -45,15 +39,15 @@ const NewInvoiceFormDialog = () => {
           onSubmit={async (value: z.infer<typeof crmInvoiceInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewInvoiceFormDialog;
+export default NewInvoiceFormDialog

@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsCarrierInsertSchema,
   tmsCarrierSchema,
   tmsCarrierUpdateSchema,
-} from '@/schemas/tms/carrier';
+} from '@/schemas/tms/carrier'
 
 export const paginateCarrierContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateCarrierContract = oc
       }),
     ),
   )
-  .output(z.array(tmsCarrierSchema));
+  .output(z.array(tmsCarrierSchema))
 
 export const rangeCarrierContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeCarrierContract = oc
       }),
     ),
   )
-  .output(z.array(tmsCarrierSchema));
+  .output(z.array(tmsCarrierSchema))
 
 export const inCarrierContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsCarrierSchema));
+  .output(z.array(tmsCarrierSchema))
 
-export const createCarrierContract = oc
-  .input(tmsCarrierInsertSchema)
-  .output(tmsCarrierSchema);
+export const createCarrierContract = oc.input(tmsCarrierInsertSchema).output(tmsCarrierSchema)
 
 export const updateCarrierContract = oc
   .input(z.object({ id: z.uuid(), value: tmsCarrierUpdateSchema }))
-  .output(tmsCarrierSchema);
+  .output(tmsCarrierSchema)
 
 export const deleteCarrierContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

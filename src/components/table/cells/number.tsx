@@ -1,28 +1,26 @@
-import { Check } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+import { Check } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 
 export type NumberCellProps = {
-  value: number | undefined | null;
-  onSave?: (value: number | undefined | null) => Promise<unknown> | unknown;
-  editable?: boolean;
-  currency?: string;
-};
+  value: number | undefined | null
+  onSave?: (value: number | undefined | null) => Promise<unknown> | unknown
+  editable?: boolean
+  currency?: string
+}
 
 const NumberCell = (props: NumberCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<number | undefined | null>(
-    props.value,
-  );
+  const [edit, setEdit] = React.useState(false)
+  const [value, setValue] = React.useState<number | undefined | null>(props.value)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   return (
     <Field className={cn(edit && 'min-w-xs')}>
@@ -36,11 +34,11 @@ const NumberCell = (props: NumberCellProps) => {
           <Button
             onClick={() => {
               if (props.onSave) {
-                props.onSave(value);
-                setEdit(false);
+                props.onSave(value)
+                setEdit(false)
               } else {
-                setValue(props.value);
-                setEdit(false);
+                setValue(props.value)
+                setEdit(false)
               }
             }}
             size={'icon'}
@@ -52,7 +50,7 @@ const NumberCell = (props: NumberCellProps) => {
         <FieldLabel
           onDoubleClick={() => {
             if (props.editable) {
-              setEdit(true);
+              setEdit(true)
             }
           }}
         >
@@ -65,7 +63,7 @@ const NumberCell = (props: NumberCellProps) => {
         </FieldLabel>
       )}
     </Field>
-  );
-};
+  )
+}
 
-export default NumberCell;
+export default NumberCell

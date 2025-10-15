@@ -1,42 +1,36 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createCarrier } from '@/queries/tms';
-import { tmsCarrierInsertSchema } from '@/schemas/tms/carrier';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createCarrier } from '@/queries/tms'
+import { tmsCarrierInsertSchema } from '@/schemas/tms/carrier'
 
 const NewCarrierFormDialog = () => {
   const navigate = useNavigate({
     from: '/dashboard/tms/carrier',
-  });
+  })
   const searchQuery = useSearch({
     from: '/dashboard/tms/carrier/',
-  });
+  })
   const { queryClient } = useRouteContext({
     from: '/dashboard/tms/carrier/',
-  });
+  })
 
-  const createMutation = useMutation(createCarrier, queryClient);
+  const createMutation = useMutation(createCarrier, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -51,15 +45,15 @@ const NewCarrierFormDialog = () => {
           onSubmit={async (value: z.infer<typeof tmsCarrierInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewCarrierFormDialog;
+export default NewCarrierFormDialog

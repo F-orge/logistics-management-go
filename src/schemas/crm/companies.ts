@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 // Zod schema for crm.companies table
 
@@ -147,16 +147,16 @@ export const crmCompanySchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmCompany = z.infer<typeof crmCompanySchema>;
+export type CrmCompany = z.infer<typeof crmCompanySchema>
 
 // Insert schema omits id, createdAt, updatedAt
 export const crmCompanyInsertSchema = crmCompanySchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
 // Update schema is a partial of insert schema
-export const crmCompanyUpdateSchema = crmCompanyInsertSchema.partial();
+export const crmCompanyUpdateSchema = crmCompanyInsertSchema.partial()

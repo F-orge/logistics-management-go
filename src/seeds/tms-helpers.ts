@@ -1,7 +1,7 @@
-import { Faker } from '@faker-js/faker';
-import { Insertable } from 'kysely';
+import type { Faker } from '@faker-js/faker'
+import type { Insertable } from 'kysely'
 import {
-  DB,
+  type DB,
   TmsCarrierRateUnitEnum,
   TmsCurrencyEnum,
   TmsDriverScheduleReasonEnum,
@@ -16,17 +16,15 @@ import {
   TmsTripStopStatusEnum,
   TmsVehicleServiceTypeEnum,
   TmsVehicleStatusEnum,
-} from '@/db/types';
+} from '@/db/types'
 
-export const generateTmsCarrier = (
-  faker: Faker,
-): Insertable<DB['tms.carriers']> => ({
+export const generateTmsCarrier = (faker: Faker): Insertable<DB['tms.carriers']> => ({
   name: faker.company.name(),
   contactPerson: faker.person.fullName(),
   contactEmail: faker.internet.email(),
   contactPhone: faker.phone.number(),
   servicesOffered: faker.lorem.words(5),
-});
+})
 
 export const generateTmsCarrierRate = (
   faker: Faker,
@@ -38,18 +36,15 @@ export const generateTmsCarrierRate = (
   rate: faker.number.float({ min: 10, max: 1000 }),
   serviceType: faker.lorem.word(),
   unit: faker.helpers.arrayElement(Object.values(TmsCarrierRateUnitEnum)),
-});
+})
 
-export const generateTmsDriver = (
-  faker: Faker,
-  userId: string,
-): Insertable<DB['tms.drivers']> => ({
+export const generateTmsDriver = (faker: Faker, userId: string): Insertable<DB['tms.drivers']> => ({
   userId: userId,
   contactPhone: faker.phone.number(),
   licenseNumber: faker.string.alphanumeric(10).toUpperCase(),
   licenseExpiryDate: faker.date.future(),
   status: faker.helpers.arrayElement(Object.values(TmsDriverStatusEnum)),
-});
+})
 
 export const generateTmsDriverSchedule = (
   faker: Faker,
@@ -58,10 +53,8 @@ export const generateTmsDriverSchedule = (
   driverId: driverId,
   startDate: faker.date.past(),
   endDate: faker.date.future(),
-  reason: faker.helpers.arrayElement(
-    Object.values(TmsDriverScheduleReasonEnum),
-  ),
-});
+  reason: faker.helpers.arrayElement(Object.values(TmsDriverScheduleReasonEnum)),
+})
 
 export const generateTmsExpense = (
   faker: Faker,
@@ -79,15 +72,13 @@ export const generateTmsExpense = (
   status: faker.helpers.arrayElement(Object.values(TmsExpenseStatusEnum)),
   tripId: tripId,
   type: faker.helpers.arrayElement(Object.values(TmsExpenseTypeEnum)),
-});
+})
 
-export const generateTmsGeofence = (
-  faker: Faker,
-): Insertable<DB['tms.geofences']> => ({
+export const generateTmsGeofence = (faker: Faker): Insertable<DB['tms.geofences']> => ({
   name: faker.lorem.word(),
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
-});
+})
 
 export const generateTmsGeofenceEvent = (
   faker: Faker,
@@ -96,11 +87,9 @@ export const generateTmsGeofenceEvent = (
 ): Insertable<DB['tms.geofenceEvents']> => ({
   geofenceId: geofenceId,
   vehicleId: vehicleId,
-  eventType: faker.helpers.arrayElement(
-    Object.values(TmsGeofenceEventTypeEnum),
-  ),
+  eventType: faker.helpers.arrayElement(Object.values(TmsGeofenceEventTypeEnum)),
   timestamp: faker.date.recent(),
-});
+})
 
 export const generateTmsGpsPing = (
   faker: Faker,
@@ -110,7 +99,7 @@ export const generateTmsGpsPing = (
   latitude: faker.location.latitude(),
   longitude: faker.location.longitude(),
   timestamp: faker.date.recent(),
-});
+})
 
 export const generateTmsPartnerInvoice = (
   faker: Faker,
@@ -119,11 +108,9 @@ export const generateTmsPartnerInvoice = (
   carrierId: carrierId,
   invoiceDate: faker.date.past(),
   invoiceNumber: faker.string.alphanumeric(10).toUpperCase(),
-  status: faker.helpers.arrayElement(
-    Object.values(TmsPartnerInvoiceStatusEnum),
-  ),
+  status: faker.helpers.arrayElement(Object.values(TmsPartnerInvoiceStatusEnum)),
   totalAmount: faker.number.float({ min: 100, max: 10000 }),
-});
+})
 
 export const generateTmsPartnerInvoiceItem = (
   faker: Faker,
@@ -133,7 +120,7 @@ export const generateTmsPartnerInvoiceItem = (
   partnerInvoiceId: partnerInvoiceId,
   shipmentLegId: shipmentLegId,
   amount: faker.number.float({ min: 10, max: 1000 }),
-});
+})
 
 export const generateTmsProofOfDelivery = (
   faker: Faker,
@@ -145,17 +132,14 @@ export const generateTmsProofOfDelivery = (
   longitude: faker.location.longitude(),
   timestamp: faker.date.recent(),
   type: faker.helpers.arrayElement(Object.values(TmsProofTypeEnum)),
-});
+})
 
-export const generateTmsRoute = (
-  faker: Faker,
-  tripId: string,
-): Insertable<DB['tms.routes']> => ({
+export const generateTmsRoute = (faker: Faker, tripId: string): Insertable<DB['tms.routes']> => ({
   tripId: tripId,
   optimizedRouteData: faker.lorem.paragraphs(2),
   totalDistance: faker.number.float({ min: 10, max: 1000 }),
   totalDuration: faker.number.int({ min: 10, max: 600 }),
-});
+})
 
 export const generateTmsShipmentLeg = (
   faker: Faker,
@@ -170,7 +154,7 @@ export const generateTmsShipmentLeg = (
   carrierId: carrierId,
   internalTripId: internalTripId,
   status: faker.helpers.arrayElement(Object.values(TmsShipmentLegStatusEnum)),
-});
+})
 
 export const generateTmsShipmentLegEvent = (
   faker: Faker,
@@ -180,7 +164,7 @@ export const generateTmsShipmentLegEvent = (
   eventTimestamp: faker.date.recent(),
   location: faker.location.city(),
   statusMessage: faker.lorem.sentence(),
-});
+})
 
 export const generateTmsTrip = (
   faker: Faker,
@@ -194,7 +178,7 @@ export const generateTmsTrip = (
   startLocation: faker.location.city(),
   startTime: faker.date.recent(),
   status: faker.helpers.arrayElement(Object.values(TmsTripStatusEnum)),
-});
+})
 
 export const generateTmsTripStop = (
   faker: Faker,
@@ -210,11 +194,9 @@ export const generateTmsTripStop = (
   actualDepartureTime: faker.date.recent(),
   shipmentId: shipmentId,
   status: faker.helpers.arrayElement(Object.values(TmsTripStopStatusEnum)),
-});
+})
 
-export const generateTmsVehicle = (
-  faker: Faker,
-): Insertable<DB['tms.vehicles']> => ({
+export const generateTmsVehicle = (faker: Faker): Insertable<DB['tms.vehicles']> => ({
   registrationNumber: faker.vehicle.vrm(),
   make: faker.vehicle.manufacturer(),
   model: faker.vehicle.model(),
@@ -225,7 +207,7 @@ export const generateTmsVehicle = (
   currentMileage: faker.number.int({ min: 1000, max: 200000 }),
   lastMaintenanceDate: faker.date.past(),
   status: faker.helpers.arrayElement(Object.values(TmsVehicleStatusEnum)),
-});
+})
 
 export const generateTmsVehicleMaintenance = (
   faker: Faker,
@@ -234,8 +216,6 @@ export const generateTmsVehicleMaintenance = (
   vehicleId: vehicleId,
   serviceDate: faker.date.past(),
   cost: faker.number.float({ min: 50, max: 2000 }),
-  serviceType: faker.helpers.arrayElement(
-    Object.values(TmsVehicleServiceTypeEnum),
-  ),
+  serviceType: faker.helpers.arrayElement(Object.values(TmsVehicleServiceTypeEnum)),
   notes: faker.lorem.sentence(),
-});
+})

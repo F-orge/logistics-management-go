@@ -1,10 +1,10 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
 import {
   crmInvoiceItemInsertSchema,
   crmInvoiceItemSchema,
   crmInvoiceItemUpdateSchema,
-} from './invoice_items';
+} from './invoice_items'
 
 describe('CrmInvoiceItemSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -61,14 +61,14 @@ describe('CrmInvoiceItemSchema Validation', () => {
           quantity: 2,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmInvoiceItemSchema.parse(input)).not.toThrow()
+      const result = crmInvoiceItemSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -268,27 +268,22 @@ describe('CrmInvoiceItemSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmInvoiceItemSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmInvoiceItemSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmInvoiceItemSchema', () => {
     test('should return success for valid data', () => {
@@ -298,14 +293,14 @@ describe('CrmInvoiceItemSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = crmInvoiceItemSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmInvoiceItemSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -314,17 +309,17 @@ describe('CrmInvoiceItemSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = crmInvoiceItemSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmInvoiceItemSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmInvoiceItemInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -347,14 +342,14 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
           quantity: 5000,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemInsertSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmInvoiceItemInsertSchema.parse(input)).not.toThrow()
+      const result = crmInvoiceItemInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -427,27 +422,22 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
         },
         expectedError: 'Quantity must be a number',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmInvoiceItemInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmInvoiceItemInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmInvoiceItemInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -456,14 +446,14 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = crmInvoiceItemInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmInvoiceItemInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -472,17 +462,17 @@ describe('CrmInvoiceItemInsertSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = crmInvoiceItemInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmInvoiceItemInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmInvoiceItemUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -512,14 +502,14 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmInvoiceItemUpdateSchema.parse(input)).not.toThrow();
-      const result = crmInvoiceItemUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmInvoiceItemUpdateSchema.parse(input)).not.toThrow()
+      const result = crmInvoiceItemUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -594,54 +584,49 @@ describe('CrmInvoiceItemUpdateSchema Validation', () => {
         },
         expectedError: 'Quantity must be at least 1',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmInvoiceItemUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmInvoiceItemUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmInvoiceItemUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         price: 75,
         quantity: 8,
-      };
-      const result = crmInvoiceItemUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmInvoiceItemUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         price: 75,
-      };
-      const result = crmInvoiceItemUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmInvoiceItemUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

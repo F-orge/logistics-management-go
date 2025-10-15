@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const tmsShipmentLegEventSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -6,23 +6,16 @@ export const tmsShipmentLegEventSchema = z.object({
   eventTimestamp: z.date({
     message: 'Invalid date format for event timestamp',
   }),
-  location: z
-    .string({ message: 'Location must be a string' })
-    .optional()
-    .nullable(),
-  statusMessage: z
-    .string({ message: 'Status message must be a string' })
-    .optional()
-    .nullable(),
-});
+  location: z.string({ message: 'Location must be a string' }).optional().nullable(),
+  statusMessage: z.string({ message: 'Status message must be a string' }).optional().nullable(),
+})
 
-export type TmsShipmentLegEvent = z.infer<typeof tmsShipmentLegEventSchema>;
+export type TmsShipmentLegEvent = z.infer<typeof tmsShipmentLegEventSchema>
 
 export const tmsShipmentLegEventInsertSchema = tmsShipmentLegEventSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const tmsShipmentLegEventUpdateSchema =
-  tmsShipmentLegEventInsertSchema.partial();
+export const tmsShipmentLegEventUpdateSchema = tmsShipmentLegEventInsertSchema.partial()

@@ -1,14 +1,14 @@
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { ORPCOutputs } from '@/orpc/client';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import { Button } from '@/components/ui/button'
+import type { ORPCOutputs } from '@/orpc/client'
 
 export const columns: ColumnDef<
   ORPCOutputs['tms']['paginatePartnerInvoice'][number] & {
-    carrier?: ORPCOutputs['tms']['inCarrier'][number];
+    carrier?: ORPCOutputs['tms']['inCarrier'][number]
   }
 >[] = [
   {
@@ -74,4 +74,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

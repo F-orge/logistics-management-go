@@ -1,9 +1,9 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inInvoice } from './invoice';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inInvoice } from './invoice'
 
 export const paginateInvoiceLineItem = (
   options: Parameters<typeof orpcClient.billing.paginateInvoiceLineItem>[0],
@@ -11,15 +11,14 @@ export const paginateInvoiceLineItem = (
   queryOptions({
     queryKey: ['billing.invoiceLineItem', 'paginate', options],
     queryFn: async ({ client }) => {
-      const invoiceLineItems =
-        await orpcClient.billing.paginateInvoiceLineItem(options);
+      const invoiceLineItems = await orpcClient.billing.paginateInvoiceLineItem(options)
 
       return invoiceLineItems.map((row) => ({
         ...row,
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeInvoiceLineItem = (
   options: Parameters<typeof orpcClient.billing.rangeInvoiceLineItem>[0],
@@ -28,7 +27,7 @@ export const rangeInvoiceLineItem = (
     queryKey: ['billing.invoiceLineItem', 'range', options],
     queryFn: () => orpcClient.billing.rangeInvoiceLineItem(options),
     enabled: !!options,
-  });
+  })
 
 export const inInvoiceLineItem = (
   options: Parameters<typeof orpcClient.billing.inInvoiceLineItem>[0],
@@ -37,7 +36,7 @@ export const inInvoiceLineItem = (
     queryKey: ['billing.invoiceLineItem', 'in', options],
     queryFn: () => orpcClient.billing.inInvoiceLineItem(options),
     enabled: !!options,
-  });
+  })
 
 export const createInvoiceLineItem = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.createInvoiceLineItem>>,
@@ -48,15 +47,15 @@ export const createInvoiceLineItem = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Invoice Line Item: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.invoiceLineItem'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateInvoiceLineItem = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.updateInvoiceLineItem>>,
@@ -67,15 +66,15 @@ export const updateInvoiceLineItem = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Invoice Line Item: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.invoiceLineItem'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteInvoiceLineItem = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.deleteInvoiceLineItem>>,
@@ -86,12 +85,12 @@ export const deleteInvoiceLineItem = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Invoice Line Item has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.invoiceLineItem'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

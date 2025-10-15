@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmProductType } from '@/db/types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmProductType } from '@/db/types'
 
 export const crmProductSchema = z
   .object({
@@ -68,14 +68,14 @@ export const crmProductSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmProduct = z.infer<typeof crmProductSchema>;
+export type CrmProduct = z.infer<typeof crmProductSchema>
 
 export const crmProductInsertSchema = crmProductSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const crmProductUpdateSchema = crmProductInsertSchema.partial();
+export const crmProductUpdateSchema = crmProductInsertSchema.partial()

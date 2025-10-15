@@ -1,42 +1,36 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createInvoice } from '@/queries/billing';
-import { billingInvoiceInsertSchema } from '@/schemas/billing/invoice';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createInvoice } from '@/queries/billing'
+import { billingInvoiceInsertSchema } from '@/schemas/billing/invoice'
 
 const NewInvoiceFormDialog = () => {
   const navigate = useNavigate({
     from: '/dashboard/billing/invoice',
-  });
+  })
   const searchQuery = useSearch({
     from: '/dashboard/billing/invoice/',
-  });
+  })
   const { queryClient } = useRouteContext({
     from: '/dashboard/billing/invoice/',
-  });
+  })
 
-  const createMutation = useMutation(createInvoice, queryClient);
+  const createMutation = useMutation(createInvoice, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -48,20 +42,18 @@ const NewInvoiceFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(billingInvoiceInsertSchema)}
-          onSubmit={async (
-            value: z.infer<typeof billingInvoiceInsertSchema>,
-          ) => {
+          onSubmit={async (value: z.infer<typeof billingInvoiceInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewInvoiceFormDialog;
+export default NewInvoiceFormDialog

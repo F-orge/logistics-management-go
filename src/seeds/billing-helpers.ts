@@ -1,5 +1,5 @@
-import { Faker } from '@faker-js/faker';
-import { Insertable } from 'kysely';
+import type { Faker } from '@faker-js/faker'
+import type { Insertable } from 'kysely'
 import {
   BillingDisputeStatusEnum,
   BillingDocumentTypeEnum,
@@ -12,8 +12,8 @@ import {
   BillingSurchargeCalculationMethodEnum,
   BillingSyncStatusEnum,
   BillingTransactionTypeEnum,
-  DB,
-} from '@/db/types';
+  type DB,
+} from '@/db/types'
 
 export const generateBillingAccountingSyncLog = (
   faker: Faker,
@@ -35,14 +35,14 @@ export const generateBillingAccountingSyncLog = (
     ? JSON.stringify({ data: faker.lorem.sentence() })
     : null,
   retryCount: faker.number.int({ min: 0, max: 5 }),
-});
+})
 
 export const generateBillingClientAccount = (
   faker: Faker,
   clientId: string,
 ): Insertable<DB['billing.clientAccounts']> => {
-  const creditLimit = faker.number.float({ min: 1000, max: 100000 });
-  const availableCredit = faker.number.float({ min: 0, max: creditLimit });
+  const creditLimit = faker.number.float({ min: 1000, max: 100000 })
+  const availableCredit = faker.number.float({ min: 0, max: creditLimit })
 
   return {
     clientId: clientId,
@@ -53,8 +53,8 @@ export const generateBillingClientAccount = (
     isCreditApproved: faker.datatype.boolean(),
     paymentTermsDays: faker.number.int({ min: 15, max: 90 }),
     lastPaymentDate: faker.datatype.boolean() ? faker.date.recent() : null,
-  };
-};
+  }
+}
 
 export const generateBillingQuote = (
   faker: Faker,
@@ -75,7 +75,7 @@ export const generateBillingQuote = (
   length: faker.number.float({ min: 10, max: 200 }),
   width: faker.number.float({ min: 10, max: 200 }),
   height: faker.number.float({ min: 10, max: 200 }),
-});
+})
 
 export const generateBillingInvoice = (
   faker: Faker,
@@ -83,8 +83,8 @@ export const generateBillingInvoice = (
   createdByUserId?: string,
   quoteId?: string,
 ): Insertable<DB['billing.invoices']> => {
-  const totalAmount = faker.number.float({ min: 100, max: 10000 });
-  const amountPaid = faker.number.float({ min: 0, max: totalAmount });
+  const totalAmount = faker.number.float({ min: 100, max: 10000 })
+  const amountPaid = faker.number.float({ min: 0, max: totalAmount })
 
   return {
     clientId: clientId,
@@ -104,8 +104,8 @@ export const generateBillingInvoice = (
     subtotal: faker.number.float({ min: 90, max: 9000 }),
     taxAmount: faker.number.float({ min: 5, max: 1000 }),
     discountAmount: faker.number.float({ min: 0, max: 500 }),
-  };
-};
+  }
+}
 
 export const generateBillingInvoiceLineItem = (
   faker: Faker,
@@ -121,7 +121,7 @@ export const generateBillingInvoiceLineItem = (
   discountRate: faker.number.float({ min: 0, max: 0.05 }),
   sourceRecordId: sourceRecordId,
   sourceRecordType: sourceRecordType,
-});
+})
 
 export const generateBillingPayment = (
   faker: Faker,
@@ -131,9 +131,7 @@ export const generateBillingPayment = (
   invoiceId: invoiceId,
   processedByUserId: processedByUserId,
   amount: faker.number.float({ min: 10, max: 5000 }),
-  paymentMethod: faker.helpers.arrayElement(
-    Object.values(BillingPaymentMethodEnum),
-  ),
+  paymentMethod: faker.helpers.arrayElement(Object.values(BillingPaymentMethodEnum)),
   status: faker.helpers.arrayElement(Object.values(BillingPaymentStatusEnum)),
   paymentDate: faker.date.recent(),
   processedAt: faker.datatype.boolean() ? faker.date.recent() : null,
@@ -143,7 +141,7 @@ export const generateBillingPayment = (
   fees: faker.number.float({ min: 0, max: 50 }),
   exchangeRate: faker.number.float({ min: 0.5, max: 1.5 }),
   notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-});
+})
 
 export const generateBillingDispute = (
   faker: Faker,
@@ -160,7 +158,7 @@ export const generateBillingDispute = (
   submittedAt: faker.date.recent(),
   resolvedAt: faker.datatype.boolean() ? faker.date.recent() : null,
   resolutionNotes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-});
+})
 
 export const generateBillingCreditNote = (
   faker: Faker,
@@ -178,7 +176,7 @@ export const generateBillingCreditNote = (
   currency: faker.finance.currencyCode(),
   appliedAt: faker.datatype.boolean() ? faker.date.recent() : null,
   notes: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-});
+})
 
 export const generateBillingDocument = (
   faker: Faker,
@@ -188,30 +186,26 @@ export const generateBillingDocument = (
 ): Insertable<DB['billing.documents']> => ({
   recordId: recordId,
   recordType: recordType,
-  documentType: faker.helpers.arrayElement(
-    Object.values(BillingDocumentTypeEnum),
-  ),
+  documentType: faker.helpers.arrayElement(Object.values(BillingDocumentTypeEnum)),
   fileName: faker.system.fileName(),
   filePath: faker.system.filePath(),
   mimeType: faker.system.mimeType(),
   fileSize: faker.number.int({ min: 1000, max: 5000000 }),
   uploadedByUserId: uploadedByUserId,
-});
+})
 
 export const generateBillingRateCard = (
   faker: Faker,
   createdByUserId?: string,
 ): Insertable<DB['billing.rateCards']> => ({
   name: faker.lorem.words(3),
-  serviceType: faker.helpers.arrayElement(
-    Object.values(BillingServiceTypeEnum),
-  ),
+  serviceType: faker.helpers.arrayElement(Object.values(BillingServiceTypeEnum)),
   validFrom: faker.date.past(),
   validTo: faker.datatype.boolean() ? faker.date.future() : null,
   isActive: faker.datatype.boolean(),
   description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   createdByUserId: createdByUserId,
-});
+})
 
 export const generateBillingRateRule = (
   faker: Faker,
@@ -219,24 +213,16 @@ export const generateBillingRateRule = (
 ): Insertable<DB['billing.rateRules']> => ({
   rateCardId: rateCardId,
   condition: faker.lorem.words(2),
-  pricingModel: faker.helpers.arrayElement(
-    Object.values(BillingPricingModelEnum),
-  ),
+  pricingModel: faker.helpers.arrayElement(Object.values(BillingPricingModelEnum)),
   price: faker.number.float({ min: 0.1, max: 100 }),
   value: faker.lorem.words(2),
   priority: faker.number.int({ min: 1, max: 100 }),
   isActive: faker.datatype.boolean(),
-  minValue: faker.datatype.boolean()
-    ? faker.number.float({ min: 0, max: 100 })
-    : null,
-  maxValue: faker.datatype.boolean()
-    ? faker.number.float({ min: 101, max: 1000 })
-    : null,
-});
+  minValue: faker.datatype.boolean() ? faker.number.float({ min: 0, max: 100 }) : null,
+  maxValue: faker.datatype.boolean() ? faker.number.float({ min: 101, max: 1000 }) : null,
+})
 
-export const generateBillingSurcharge = (
-  faker: Faker,
-): Insertable<DB['billing.surcharges']> => ({
+export const generateBillingSurcharge = (faker: Faker): Insertable<DB['billing.surcharges']> => ({
   name: faker.lorem.words(2),
   type: faker.lorem.slug(1),
   amount: faker.number.float({ min: 1, max: 100 }),
@@ -247,7 +233,7 @@ export const generateBillingSurcharge = (
   description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
   validFrom: faker.datatype.boolean() ? faker.date.past() : null,
   validTo: faker.datatype.boolean() ? faker.date.future() : null,
-});
+})
 
 export const generateBillingAccountTransaction = (
   faker: Faker,
@@ -266,4 +252,4 @@ export const generateBillingAccountTransaction = (
   referenceNumber: faker.string.alphanumeric(10).toUpperCase(),
   transactionDate: faker.date.recent(),
   processedByUserId: processedByUserId,
-});
+})

@@ -1,11 +1,11 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inLocation } from './location';
-import { inProduct } from './product';
-import { inWarehouse } from './warehouse';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inLocation } from './location'
+import { inProduct } from './product'
+import { inWarehouse } from './warehouse'
 
 export const paginatePutawayRule = (
   options: Parameters<typeof orpcClient.wms.paginatePutawayRule>[0],
@@ -13,21 +13,17 @@ export const paginatePutawayRule = (
   queryOptions({
     queryKey: ['wms.putawayRule', 'paginate', options],
     queryFn: async ({ client }) => {
-      const putawayRules = await orpcClient.wms.paginatePutawayRule(options);
+      const putawayRules = await orpcClient.wms.paginatePutawayRule(options)
 
       const products = await client.ensureQueryData(
         inProduct(putawayRules.map((row) => row.productId).filter(nonEmpty)),
-      );
+      )
       const warehouses = await client.ensureQueryData(
-        inWarehouse(
-          putawayRules.map((row) => row.warehouseId).filter(nonEmpty),
-        ),
-      );
+        inWarehouse(putawayRules.map((row) => row.warehouseId).filter(nonEmpty)),
+      )
       const preferredLocations = await client.ensureQueryData(
-        inLocation(
-          putawayRules.map((row) => row.preferredLocationId).filter(nonEmpty),
-        ),
-      );
+        inLocation(putawayRules.map((row) => row.preferredLocationId).filter(nonEmpty)),
+      )
 
       return putawayRules.map((row) => ({
         ...row,
@@ -36,28 +32,24 @@ export const paginatePutawayRule = (
         preferredLocation: preferredLocations.find(
           (subRow) => subRow.id === row.preferredLocationId,
         ),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangePutawayRule = (
-  options: Parameters<typeof orpcClient.wms.rangePutawayRule>[0],
-) =>
+export const rangePutawayRule = (options: Parameters<typeof orpcClient.wms.rangePutawayRule>[0]) =>
   queryOptions({
     queryKey: ['wms.putawayRule', 'range', options],
     queryFn: () => orpcClient.wms.rangePutawayRule(options),
     enabled: !!options,
-  });
+  })
 
-export const inPutawayRule = (
-  options: Parameters<typeof orpcClient.wms.inPutawayRule>[0],
-) =>
+export const inPutawayRule = (options: Parameters<typeof orpcClient.wms.inPutawayRule>[0]) =>
   queryOptions({
     queryKey: ['wms.putawayRule', 'in', options],
     queryFn: () => orpcClient.wms.inPutawayRule(options),
     enabled: !!options,
-  });
+  })
 
 export const createPutawayRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createPutawayRule>>,
@@ -68,13 +60,13 @@ export const createPutawayRule = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Putaway Rule: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updatePutawayRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updatePutawayRule>>,
@@ -85,13 +77,13 @@ export const updatePutawayRule = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Putaway Rule: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deletePutawayRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deletePutawayRule>>,
@@ -102,10 +94,10 @@ export const deletePutawayRule = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Putaway Rule has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.putawayRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

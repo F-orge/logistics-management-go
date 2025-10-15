@@ -1,40 +1,34 @@
-import { useMutation } from '@tanstack/react-query';
-import { useRouteContext } from '@tanstack/react-router';
-import type { ColumnDef } from '@tanstack/react-table';
-import { DataTableColumnHeader } from '@/components/table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import TextCell from '@/components/table/cells/string';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { ORPCOutputs } from '@/orpc/client';
-import { updateCompany } from '@/queries/crm';
+import { useMutation } from '@tanstack/react-query'
+import { useRouteContext } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import { DataTableColumnHeader } from '@/components/table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import TextCell from '@/components/table/cells/string'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import type { ORPCOutputs } from '@/orpc/client'
+import { updateCompany } from '@/queries/crm'
 
 type Company = ORPCOutputs['crm']['paginateCompany'][number] & {
   owner?: {
-    name: string;
-    image?: string | null;
-    email: string;
-    id: string;
-  };
-};
+    name: string
+    image?: string | null
+    email: string
+    id: string
+  }
+}
 
 export const columns: ColumnDef<Company>[] = [
   {
     accessorKey: 'name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Company Name" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Company Name" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -47,21 +41,19 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.name}
         />
-      );
+      )
     },
   },
 
   {
     accessorKey: 'industry',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Industry" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Industry" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -74,20 +66,18 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.industry}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'annualRevenue',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Annual Revenue" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Annual Revenue" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <NumberCell
@@ -101,20 +91,18 @@ export const columns: ColumnDef<Company>[] = [
           }
           value={row.original.annualRevenue}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'phoneNumber',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Phone Number" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Phone Number" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -127,20 +115,18 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.phoneNumber}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'website',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Website" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Website" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -153,7 +139,7 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.website}
         />
-      );
+      )
     },
   },
   {
@@ -162,9 +148,9 @@ export const columns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -177,7 +163,7 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.street}
         />
-      );
+      )
     },
   },
   {
@@ -186,9 +172,9 @@ export const columns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -201,7 +187,7 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.city}
         />
-      );
+      )
     },
   },
   {
@@ -210,9 +196,9 @@ export const columns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -225,7 +211,7 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.state}
         />
-      );
+      )
     },
   },
   {
@@ -234,9 +220,9 @@ export const columns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -249,7 +235,7 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.postalCode}
         />
-      );
+      )
     },
   },
   {
@@ -258,9 +244,9 @@ export const columns: ColumnDef<Company>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/companies/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCompany, queryClient);
+      const updateMutation = useMutation(updateCompany, queryClient)
 
       return (
         <TextCell
@@ -273,19 +259,17 @@ export const columns: ColumnDef<Company>[] = [
           editable
           value={row.original.country}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'owner.name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Owner" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Owner" />,
     cell: ({ row }) => {
-      const owner = row.original.owner;
+      const owner = row.original.owner
 
       if (!owner) {
-        return <div className="text-muted-foreground">N/A</div>;
+        return <div className="text-muted-foreground">N/A</div>
       }
 
       return (
@@ -297,10 +281,7 @@ export const columns: ColumnDef<Company>[] = [
                 <AvatarFallback>
                   {owner.name
                     .split(' ')
-                    .filter(
-                      (n: any, i: any, arr: any) =>
-                        i === 0 || i === arr.length - 1,
-                    )
+                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
                     .map((n: any) => n[0])
                     .join('')
                     .toUpperCase()}
@@ -313,21 +294,17 @@ export const columns: ColumnDef<Company>[] = [
             <p>{owner.email}</p>
           </TooltipContent>
         </Tooltip>
-      );
+      )
     },
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
     cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Updated At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Updated At" />,
     cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
-];
+]

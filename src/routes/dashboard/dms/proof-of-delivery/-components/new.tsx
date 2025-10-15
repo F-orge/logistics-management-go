@@ -1,42 +1,36 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createProofOfDelivery } from '@/queries/dms';
-import { dmsProofOfDeliveryInsertSchema } from '@/schemas/dms/proof_of_delivery';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createProofOfDelivery } from '@/queries/dms'
+import { dmsProofOfDeliveryInsertSchema } from '@/schemas/dms/proof_of_delivery'
 
 const NewProofOfDeliveryFormDialog = () => {
   const navigate = useNavigate({
     from: '/dashboard/dms/proof-of-delivery',
-  });
+  })
   const searchQuery = useSearch({
     from: '/dashboard/dms/proof-of-delivery/',
-  });
+  })
   const { queryClient } = useRouteContext({
     from: '/dashboard/dms/proof-of-delivery/',
-  });
+  })
 
-  const createMutation = useMutation(createProofOfDelivery, queryClient);
+  const createMutation = useMutation(createProofOfDelivery, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -48,20 +42,18 @@ const NewProofOfDeliveryFormDialog = () => {
         <FieldSeparator />
         <AutoForm
           schema={new ZodProvider(dmsProofOfDeliveryInsertSchema)}
-          onSubmit={async (
-            value: z.infer<typeof dmsProofOfDeliveryInsertSchema>,
-          ) => {
+          onSubmit={async (value: z.infer<typeof dmsProofOfDeliveryInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewProofOfDeliveryFormDialog;
+export default NewProofOfDeliveryFormDialog

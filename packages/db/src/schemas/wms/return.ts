@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsReturnStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { WmsReturnStatusEnum } from '@/db.types'
 
 export const ReturnSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -14,10 +14,7 @@ export const ReturnSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  status: z
-    .enum(WmsReturnStatusEnum, { message: 'Invalid return status' })
-    .optional()
-    .nullable(),
+  status: z.enum(WmsReturnStatusEnum, { message: 'Invalid return status' }).optional().nullable(),
   reason: z
     .string({ message: 'Reason must be a string' })
     .min(1, { error: 'Reason cannot be empty' })
@@ -26,22 +23,16 @@ export const ReturnSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsReturn = z.infer<typeof ReturnSchema>;
+export type WmsReturn = z.infer<typeof ReturnSchema>
 
 export const ReturnInsertSchema = ReturnSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const ReturnUpdateSchema = ReturnInsertSchema.partial();
+export const ReturnUpdateSchema = ReturnInsertSchema.partial()

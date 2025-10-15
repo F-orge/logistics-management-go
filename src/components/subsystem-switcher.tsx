@@ -1,13 +1,8 @@
-'use client';
+'use client'
 
-import {
-  getRouteApi,
-  useNavigate,
-  useRouter,
-  useRouterState,
-} from '@tanstack/react-router';
-import { ChevronsUpDown, Plus } from 'lucide-react';
-import * as React from 'react';
+import { getRouteApi, useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
+import { ChevronsUpDown, Plus } from 'lucide-react'
+import * as React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,34 +11,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import { SidebarType } from './app-sidebar';
+} from '@/components/ui/sidebar'
+import type { SidebarType } from './app-sidebar'
 
-export function SubSystemSwitcher({
-  subSystems,
-}: {
-  subSystems: SidebarType['subSystems'];
-}) {
-  const navigate = useNavigate({ from: '/dashboard' });
-  const router = useRouterState();
+export function SubSystemSwitcher({ subSystems }: { subSystems: SidebarType['subSystems'] }) {
+  const navigate = useNavigate({ from: '/dashboard' })
+  const router = useRouterState()
 
-  const { isMobile } = useSidebar();
+  const { isMobile } = useSidebar()
   const activeSubSystem = React.useMemo(
-    () =>
-      subSystems.find((system) =>
-        router.location.pathname.startsWith(system.urlToMatch),
-      ),
+    () => subSystems.find((system) => router.location.pathname.startsWith(system.urlToMatch)),
     [router.location.pathname, subSystems],
-  );
+  )
 
   if (!activeSubSystem) {
-    return null;
+    return null
   }
 
   return (
@@ -59,9 +47,7 @@ export function SubSystemSwitcher({
                 <activeSubSystem.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
-                  {activeSubSystem.name}
-                </span>
+                <span className="truncate font-medium">{activeSubSystem.name}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -79,7 +65,7 @@ export function SubSystemSwitcher({
               <DropdownMenuItem
                 key={subSystem.name}
                 onClick={() => {
-                  navigate({ to: subSystem.href });
+                  navigate({ to: subSystem.href })
                 }}
                 className="gap-2 p-2"
               >
@@ -94,5 +80,5 @@ export function SubSystemSwitcher({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  );
+  )
 }

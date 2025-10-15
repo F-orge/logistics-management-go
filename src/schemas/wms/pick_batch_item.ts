@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const wmsPickBatchItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -31,23 +31,16 @@ export const wmsPickBatchItemSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsPickBatchItem = z.infer<typeof wmsPickBatchItemSchema>;
+export type WmsPickBatchItem = z.infer<typeof wmsPickBatchItemSchema>
 
 export const wmsPickBatchItemInsertSchema = wmsPickBatchItemSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsPickBatchItemUpdateSchema =
-  wmsPickBatchItemInsertSchema.partial();
+export const wmsPickBatchItemUpdateSchema = wmsPickBatchItemInsertSchema.partial()

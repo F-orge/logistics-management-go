@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db.types'
 
 export const CaseSchema = z
   .object({
@@ -86,4 +86,4 @@ export const CaseSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()

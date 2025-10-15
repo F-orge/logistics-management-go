@@ -1,13 +1,13 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
-import BooleanCell from '@/components/table/cells/boolean';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
+import BooleanCell from '@/components/table/cells/boolean'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -16,18 +16,18 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewNotificationFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/notifications' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/notifications/' });
+  const navigate = useNavigate({ from: '/dashboard/crm/notifications' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/notifications/' })
   const { dataTable } = useLoaderData({
     from: '/dashboard/crm/notifications/',
-  });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -42,18 +42,14 @@ const ViewNotificationFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Notification Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about the notification.
-          </DialogDescription>
+          <DialogDescription>Detailed information about the notification.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the notification.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the notification.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -88,24 +84,18 @@ const ViewNotificationFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -114,7 +104,7 @@ const ViewNotificationFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewNotificationFormDialog;
+export default ViewNotificationFormDialog

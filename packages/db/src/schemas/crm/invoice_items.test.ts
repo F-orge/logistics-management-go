@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  InvoiceItemSchema,
-} from './invoice_items';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { InvoiceItemSchema } from './invoice_items'
 
 describe('CrmInvoiceItemSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -59,14 +57,14 @@ describe('CrmInvoiceItemSchema Validation', () => {
           quantity: 2,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => InvoiceItemSchema.parse(input)).not.toThrow();
-      const result = InvoiceItemSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => InvoiceItemSchema.parse(input)).not.toThrow()
+      const result = InvoiceItemSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -266,27 +264,22 @@ describe('CrmInvoiceItemSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          InvoiceItemSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        InvoiceItemSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for InvoiceItemSchema', () => {
     test('should return success for valid data', () => {
@@ -296,14 +289,14 @@ describe('CrmInvoiceItemSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = InvoiceItemSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = InvoiceItemSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -312,15 +305,14 @@ describe('CrmInvoiceItemSchema Validation', () => {
         productId: '123e4567-e89b-12d3-a456-426614174002',
         price: 100,
         quantity: 5,
-      };
-      const result = InvoiceItemSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = InvoiceItemSchema.safeParse(invalidData)
 
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

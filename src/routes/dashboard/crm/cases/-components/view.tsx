@@ -1,12 +1,12 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -15,16 +15,16 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewCaseFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/cases' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/cases/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/cases/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/cases' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/cases/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/cases/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -48,9 +48,7 @@ const ViewCaseFormDialog = () => {
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the case.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the case.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -83,9 +81,7 @@ const ViewCaseFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Status Information</FieldLegend>
-              <FieldDescription>
-                Details regarding the case status and priority.
-              </FieldDescription>
+              <FieldDescription>Details regarding the case status and priority.</FieldDescription>
               <FieldGroup>
                 {data.priority && (
                   <Field orientation="horizontal">
@@ -110,24 +106,18 @@ const ViewCaseFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -136,7 +126,7 @@ const ViewCaseFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewCaseFormDialog;
+export default ViewCaseFormDialog

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const GeofenceSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -14,22 +14,16 @@ export const GeofenceSchema = z.object({
     .number({ message: 'Longitude must be a number' })
     .min(-180, { error: 'Longitude must be at least -180' })
     .max(180, { error: 'Longitude must be at most 180' }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsGeofence = z.infer<typeof GeofenceSchema>;
+export type TmsGeofence = z.infer<typeof GeofenceSchema>
 
 export const GeofenceInsertSchema = GeofenceSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const GeofenceUpdateSchema = GeofenceInsertSchema.partial();
+export const GeofenceUpdateSchema = GeofenceInsertSchema.partial()

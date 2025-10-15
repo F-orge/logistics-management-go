@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Zod schema for billing.invoice_line_item table
 export const billingInvoiceLineItemSchema = z
@@ -63,18 +63,16 @@ export const billingInvoiceLineItemSchema = z
       .max(1000000, { message: 'Unit price must be at most 1,000,000' }),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingInvoiceLineItem = z.infer<
-  typeof billingInvoiceLineItemSchema
->;
+export type BillingInvoiceLineItem = z.infer<typeof billingInvoiceLineItemSchema>
 
-export const billingInvoiceLineItemInsertSchema =
-  billingInvoiceLineItemSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const billingInvoiceLineItemInsertSchema = billingInvoiceLineItemSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const billingInvoiceLineItemUpdateSchema =
-  billingInvoiceLineItemInsertSchema.partial().strict();
+export const billingInvoiceLineItemUpdateSchema = billingInvoiceLineItemInsertSchema
+  .partial()
+  .strict()

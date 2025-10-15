@@ -1,11 +1,6 @@
-import { useFieldContext } from '@/components/form';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Label } from '@/components/ui/label';
+import { useFieldContext } from '@/components/form'
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
+import { Label } from '@/components/ui/label'
 import {
   MultiSelect,
   MultiSelectContent,
@@ -13,15 +8,15 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from '@/components/ui/multi-select';
+} from '@/components/ui/multi-select'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 
 export const SelectField = ({
   className,
@@ -32,16 +27,16 @@ export const SelectField = ({
   description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: string;
-  description?: string;
-  multiple?: boolean;
+  label?: string
+  description?: string
+  multiple?: boolean
   options: {
-    label: string;
-    value: string;
-    icon?: React.ComponentType<{ className?: string }>;
-  }[];
+    label: string
+    value: string
+    icon?: React.ComponentType<{ className?: string }>
+  }[]
 }) => {
-  const field = useFieldContext<string | string[]>();
+  const field = useFieldContext<string | string[]>()
 
   return (
     <Field className={className}>
@@ -62,10 +57,7 @@ export const SelectField = ({
           </MultiSelectContent>
         </MultiSelect>
       ) : (
-        <Select
-          onValueChange={field.handleChange}
-          value={field.state.value as string}
-        >
+        <Select onValueChange={field.handleChange} value={field.state.value as string}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
@@ -85,5 +77,5 @@ export const SelectField = ({
         </FieldError>
       )}
     </Field>
-  );
-};
+  )
+}

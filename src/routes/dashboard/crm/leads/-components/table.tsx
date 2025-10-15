@@ -1,50 +1,44 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link, useRouteContext } from '@tanstack/react-router';
-import type { ColumnDef } from '@tanstack/react-table';
-import { DataTableColumnHeader } from '@/components/table';
-import DateCell from '@/components/table/cells/date';
-import EnumCell from '@/components/table/cells/enum';
-import NumberCell from '@/components/table/cells/number';
-import RelationCell from '@/components/table/cells/relation';
-import StringCell from '@/components/table/cells/string';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { type CrmLeadSource, CrmLeadStatus } from '@/db/types';
-import type { ORPCOutputs } from '@/orpc/client';
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Link, useRouteContext } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import { DataTableColumnHeader } from '@/components/table'
+import DateCell from '@/components/table/cells/date'
+import EnumCell from '@/components/table/cells/enum'
+import NumberCell from '@/components/table/cells/number'
+import RelationCell from '@/components/table/cells/relation'
+import StringCell from '@/components/table/cells/string'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { type CrmLeadSource, CrmLeadStatus } from '@/db/types'
+import type { ORPCOutputs } from '@/orpc/client'
 import {
   paginateCampaign,
   paginateCompany,
   paginateContact,
   paginateOpportunity,
   updateLead,
-} from '@/queries/crm';
+} from '@/queries/crm'
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateLead'][number] & {
-    campaign?: ORPCOutputs['crm']['inCampaign'][number];
-    convertedCompany?: ORPCOutputs['crm']['inCompany'][number];
-    convertedContact?: ORPCOutputs['crm']['inContact'][number];
-    convertedOpportunity?: ORPCOutputs['crm']['inOpportunity'][number];
-    owner?: ORPCOutputs['auth']['inUser'][number];
+    campaign?: ORPCOutputs['crm']['inCampaign'][number]
+    convertedCompany?: ORPCOutputs['crm']['inCompany'][number]
+    convertedContact?: ORPCOutputs['crm']['inContact'][number]
+    convertedOpportunity?: ORPCOutputs['crm']['inOpportunity'][number]
+    owner?: ORPCOutputs['auth']['inUser'][number]
   }
 >[] = [
   {
     accessorKey: 'name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Lead Name" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Lead Name" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       return (
         <StringCell
@@ -57,20 +51,18 @@ export const columns: ColumnDef<
           editable
           value={row.original.name}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'email',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       return (
         <StringCell
@@ -83,7 +75,7 @@ export const columns: ColumnDef<
           editable
           value={row.original.email}
         />
-      );
+      )
     },
   },
   {
@@ -92,9 +84,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       const { data: campaigns } = useQuery(
         {
@@ -105,7 +97,7 @@ export const columns: ColumnDef<
           enabled: !!row.original.campaign,
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -129,20 +121,18 @@ export const columns: ColumnDef<
             {row.original.campaign?.name || 'Not Available'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'leadScore',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Lead Score" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Lead Score" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       return (
         <NumberCell
@@ -155,20 +145,18 @@ export const columns: ColumnDef<
           editable
           value={row.original.leadScore}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'leadSource',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Lead Source" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Lead Source" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       return (
         <StringCell
@@ -181,20 +169,18 @@ export const columns: ColumnDef<
           editable
           value={row.original.leadSource}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       return (
         <EnumCell
@@ -215,20 +201,18 @@ export const columns: ColumnDef<
             {row.original.status}
           </Badge>
         </EnumCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'convertedCompany',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Converted Company" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Converted Company" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       const { data: companies } = useQuery(
         {
@@ -238,7 +222,7 @@ export const columns: ColumnDef<
           }),
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -262,20 +246,18 @@ export const columns: ColumnDef<
             {row.original.convertedCompany?.name || 'Not Available'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'convertedContact',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Converted Contact" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Converted Contact" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       const { data: contacts } = useQuery(
         {
@@ -285,7 +267,7 @@ export const columns: ColumnDef<
           }),
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -299,31 +281,29 @@ export const columns: ColumnDef<
             })) || []
           }
           onSave={async (value) => {
-            console.log(row.original);
+            console.log(row.original)
             updateMutation.mutateAsync({
               id: row.original.id,
               value: { convertedContactId: value },
-            });
+            })
           }}
         >
           <Button size={'sm'} variant={'outline'}>
             {row.original.convertedContact?.name || 'Not Available'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'convertedOpportunity',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Converted Opportunity" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Converted Opportunity" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/leads/',
-      });
+      })
 
-      const updateMutation = useMutation(updateLead, queryClient);
+      const updateMutation = useMutation(updateLead, queryClient)
 
       const { data: opportunities } = useQuery(
         {
@@ -333,7 +313,7 @@ export const columns: ColumnDef<
           }),
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -357,17 +337,17 @@ export const columns: ColumnDef<
             {row.original.convertedOpportunity?.name || 'Not Available'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'ownerId',
     header: 'Owner',
     cell: ({ row }) => {
-      const owner = row.original.owner;
+      const owner = row.original.owner
 
       if (!owner) {
-        return <div className="text-muted-foreground">N/A</div>;
+        return <div className="text-muted-foreground">N/A</div>
       }
 
       return (
@@ -379,10 +359,7 @@ export const columns: ColumnDef<
                 <AvatarFallback>
                   {owner.name
                     .split(' ')
-                    .filter(
-                      (n: any, i: any, arr: any) =>
-                        i === 0 || i === arr.length - 1,
-                    )
+                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
                     .map((n: any) => n[0])
                     .join('')
                     .toUpperCase()}
@@ -395,21 +372,17 @@ export const columns: ColumnDef<
             <p>{owner.email}</p>
           </TooltipContent>
         </Tooltip>
-      );
+      )
     },
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
     cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Updated At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Updated At" />,
     cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
-];
+]

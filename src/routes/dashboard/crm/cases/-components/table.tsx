@@ -1,31 +1,27 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link, useRouteContext } from '@tanstack/react-router';
-import type { Column, ColumnDef } from '@tanstack/react-table';
-import { DataTableColumnHeader } from '@/components/table';
-import DateCell from '@/components/table/cells/date';
-import EnumCell from '@/components/table/cells/enum';
-import RelationCell from '@/components/table/cells/relation';
-import StringCell from '@/components/table/cells/string';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
-import type { ORPCOutputs } from '@/orpc/client';
-import { paginateContact, updateCase } from '@/queries/crm';
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Link, useRouteContext } from '@tanstack/react-router'
+import type { Column, ColumnDef } from '@tanstack/react-table'
+import { DataTableColumnHeader } from '@/components/table'
+import DateCell from '@/components/table/cells/date'
+import EnumCell from '@/components/table/cells/enum'
+import RelationCell from '@/components/table/cells/relation'
+import StringCell from '@/components/table/cells/string'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types'
+import type { ORPCOutputs } from '@/orpc/client'
+import { paginateContact, updateCase } from '@/queries/crm'
 
 type Case = ORPCOutputs['crm']['paginateCase'][number] & {
-  contact?: ORPCOutputs['crm']['inContact'][number];
+  contact?: ORPCOutputs['crm']['inContact'][number]
   owner: {
-    name: string;
-    image?: string | null;
-    email: string;
-    id: string;
-  };
-};
+    name: string
+    image?: string | null
+    email: string
+    id: string
+  }
+}
 
 export const columns: ColumnDef<Case>[] = [
   {
@@ -36,9 +32,9 @@ export const columns: ColumnDef<Case>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       return (
         <StringCell
@@ -51,7 +47,7 @@ export const columns: ColumnDef<Case>[] = [
           }
           value={row.original.caseNumber}
         />
-      );
+      )
     },
   },
   {
@@ -62,9 +58,9 @@ export const columns: ColumnDef<Case>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       return (
         <StringCell
@@ -77,7 +73,7 @@ export const columns: ColumnDef<Case>[] = [
           }
           value={row.original.description}
         />
-      );
+      )
     },
   },
   {
@@ -86,13 +82,13 @@ export const columns: ColumnDef<Case>[] = [
       <DataTableColumnHeader column={column} title="Contact" />
     ),
     cell: ({ row }) => {
-      const contact = row.original.contact;
+      const contact = row.original.contact
 
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       const { data: contacts } = useQuery(
         {
@@ -102,7 +98,7 @@ export const columns: ColumnDef<Case>[] = [
           }),
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -127,10 +123,7 @@ export const columns: ColumnDef<Case>[] = [
               <AvatarFallback>
                 {contact?.name
                   .split(' ')
-                  .filter(
-                    (n: any, i: any, arr: any) =>
-                      i === 0 || i === arr.length - 1,
-                  )
+                  .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
                   .map((n: any) => n[0])
                   .join('')
                   .toUpperCase()}
@@ -155,20 +148,18 @@ export const columns: ColumnDef<Case>[] = [
             </Link>
           </div>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       return (
         <EnumCell
@@ -189,7 +180,7 @@ export const columns: ColumnDef<Case>[] = [
             {row.original.status}
           </Badge>
         </EnumCell>
-      );
+      )
     },
   },
   {
@@ -200,9 +191,9 @@ export const columns: ColumnDef<Case>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       return (
         <EnumCell
@@ -223,7 +214,7 @@ export const columns: ColumnDef<Case>[] = [
             {row.original.priority}
           </Badge>
         </EnumCell>
-      );
+      )
     },
   },
   {
@@ -234,9 +225,9 @@ export const columns: ColumnDef<Case>[] = [
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/cases/',
-      });
+      })
 
-      const updateMutation = useMutation(updateCase, queryClient);
+      const updateMutation = useMutation(updateCase, queryClient)
 
       return (
         <EnumCell
@@ -257,7 +248,7 @@ export const columns: ColumnDef<Case>[] = [
             {row.original.type}
           </Badge>
         </EnumCell>
-      );
+      )
     },
   },
   {
@@ -266,9 +257,9 @@ export const columns: ColumnDef<Case>[] = [
       <DataTableColumnHeader column={column} title="Owner" />
     ),
     cell: ({ row }) => {
-      const owner = row.original.owner;
+      const owner = row.original.owner
       if (!owner) {
-        return <div className="text-muted-foreground">N/A</div>;
+        return <div className="text-muted-foreground">N/A</div>
       }
       return (
         <Tooltip>
@@ -279,10 +270,7 @@ export const columns: ColumnDef<Case>[] = [
                 <AvatarFallback>
                   {owner.name
                     .split(' ')
-                    .filter(
-                      (n: any, i: any, arr: any) =>
-                        i === 0 || i === arr.length - 1,
-                    )
+                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
                     .map((n: any) => n[0])
                     .join('')
                     .toUpperCase()}
@@ -295,21 +283,17 @@ export const columns: ColumnDef<Case>[] = [
             <p>{owner.email}</p>
           </TooltipContent>
         </Tooltip>
-      );
+      )
     },
   },
   {
     accessorKey: 'createdAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
     cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     accessorKey: 'updatedAt',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Updated At" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Updated At" />,
     cell: ({ row }) => <DateCell value={row.original.updatedAt} />,
   },
-];
+]

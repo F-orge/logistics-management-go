@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Zod schema for billing.client_account table
 export const billingClientAccountSchema = z
@@ -42,9 +42,9 @@ export const billingClientAccountSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingClientAccount = z.infer<typeof billingClientAccountSchema>;
+export type BillingClientAccount = z.infer<typeof billingClientAccountSchema>
 
 export const billingClientAccountInsertSchema = billingClientAccountSchema
   .omit({
@@ -52,8 +52,6 @@ export const billingClientAccountInsertSchema = billingClientAccountSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingClientAccountUpdateSchema = billingClientAccountInsertSchema
-  .partial()
-  .strict();
+export const billingClientAccountUpdateSchema = billingClientAccountInsertSchema.partial().strict()

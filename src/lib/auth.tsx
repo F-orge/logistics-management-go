@@ -1,12 +1,12 @@
-import sgMailer, { MailService } from '@sendgrid/mail';
-import { betterAuth } from 'better-auth';
-import { admin as adminPlugin, bearer } from 'better-auth/plugins';
-import nodemailer from 'nodemailer';
-import { Pool } from 'pg';
-import ReactDOMServer from 'react-dom/server';
-import { pgPool } from '@/db';
-import ResetPassword from '@/emails/reset-password';
-import VerifyEmail from '@/emails/verify-email';
+import sgMailer, { MailService } from '@sendgrid/mail'
+import { betterAuth } from 'better-auth'
+import { admin as adminPlugin, bearer } from 'better-auth/plugins'
+import type nodemailer from 'nodemailer'
+import type { Pool } from 'pg'
+import ReactDOMServer from 'react-dom/server'
+import { pgPool } from '@/db'
+import ResetPassword from '@/emails/reset-password'
+import VerifyEmail from '@/emails/verify-email'
 import {
   ac,
   accountant,
@@ -41,7 +41,7 @@ import {
   user,
   warehouseManager,
   warehouseOperator,
-} from '@/lib/permissions';
+} from '@/lib/permissions'
 
 export const authFactory = (
   dbClient: Pool,
@@ -89,30 +89,21 @@ export const authFactory = (
     },
     database: dbClient,
     trustedOrigins: [
-      process.env.NODE_ENV === 'production'
-        ? process.env.DOMAIN_ORIGIN!
-        : 'http://localhost:3001',
+      process.env.NODE_ENV === 'production' ? process.env.DOMAIN_ORIGIN! : 'http://localhost:3001',
     ],
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: enableEmailVerification,
       sendResetPassword: async ({ user, url, token }) => {
-        if (
-          process.env.NODE_ENV === 'production' &&
-          mailer instanceof MailService
-        ) {
+        if (process.env.NODE_ENV === 'production' && mailer instanceof MailService) {
           await sgMailer.send({
             from: process.env.MAIL_FROM_ADDRESS!,
             to: user.email,
             subject: 'Reset your password',
-            html: ReactDOMServer.renderToString(
-              <ResetPassword url={url} token={token} />,
-            ),
-          });
+            html: ReactDOMServer.renderToString(<ResetPassword url={url} token={token} />),
+          })
         } else {
-          await (
-            mailer as ReturnType<typeof nodemailer.createTransport>
-          ).sendMail({
+          await (mailer as ReturnType<typeof nodemailer.createTransport>).sendMail({
             from: process.env.MAIL_FROM_ADDRESS,
             to: user.email,
             subject: 'Reset your password',
@@ -126,36 +117,27 @@ export const authFactory = (
                 token={token}
               />,
             ),
-          });
+          })
         }
       },
     },
     emailVerification: {
       sendOnSignUp: enableEmailVerification,
       sendVerificationEmail: async ({ user, url, token }) => {
-        if (
-          process.env.NODE_ENV === 'production' &&
-          mailer instanceof MailService
-        ) {
+        if (process.env.NODE_ENV === 'production' && mailer instanceof MailService) {
           await sgMailer.send({
             from: process.env.MAIL_FROM_ADDRESS!,
             to: user.email,
             subject: 'Verify your email address',
-            html: ReactDOMServer.renderToString(
-              <VerifyEmail url={url} token={token} />,
-            ),
-          });
+            html: ReactDOMServer.renderToString(<VerifyEmail url={url} token={token} />),
+          })
         } else {
-          await (
-            mailer as ReturnType<typeof nodemailer.createTransport>
-          ).sendMail({
+          await (mailer as ReturnType<typeof nodemailer.createTransport>).sendMail({
             from: process.env.MAIL_FROM_ADDRESS,
             to: user.email,
             subject: 'Verify your email address',
-            html: ReactDOMServer.renderToString(
-              <VerifyEmail url={url} token={token} />,
-            ),
-          });
+            html: ReactDOMServer.renderToString(<VerifyEmail url={url} token={token} />),
+          })
         }
       },
     },
@@ -198,4 +180,4 @@ export const authFactory = (
         },
       }),
     ],
-  });
+  })

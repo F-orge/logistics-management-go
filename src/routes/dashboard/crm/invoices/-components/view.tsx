@@ -1,12 +1,12 @@
-import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router';
-import React from 'react';
+import { useLoaderData, useNavigate, useSearch } from '@tanstack/react-router'
+import React from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 import {
   Field,
   FieldDescription,
@@ -15,16 +15,16 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@/components/ui/field';
+} from '@/components/ui/field'
 
 const ViewInvoiceFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/invoices' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/invoices/' });
-  const { dataTable } = useLoaderData({ from: '/dashboard/crm/invoices/' });
-  const data = dataTable.find((row) => row.id === searchQuery.id);
+  const navigate = useNavigate({ from: '/dashboard/crm/invoices' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/invoices/' })
+  const { dataTable } = useLoaderData({ from: '/dashboard/crm/invoices/' })
+  const data = dataTable.find((row) => row.id === searchQuery.id)
 
   if (!data) {
-    return <></>;
+    return <></>
   }
 
   return (
@@ -39,18 +39,14 @@ const ViewInvoiceFormDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Invoice Details</DialogTitle>
-          <DialogDescription>
-            Detailed information about the invoice.
-          </DialogDescription>
+          <DialogDescription>Detailed information about the invoice.</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <div className="grid gap-4 py-4">
           <FieldGroup>
             <FieldSet>
               <FieldLegend>Basic Information</FieldLegend>
-              <FieldDescription>
-                Fundamental details about the invoice.
-              </FieldDescription>
+              <FieldDescription>Fundamental details about the invoice.</FieldDescription>
               <FieldGroup>
                 <Field orientation="horizontal">
                   <FieldLabel>ID</FieldLabel>
@@ -59,33 +55,25 @@ const ViewInvoiceFormDialog = () => {
                 {data.issueDate && (
                   <Field orientation="horizontal">
                     <FieldLabel>Issue Date</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.issueDate).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.issueDate).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.dueDate && (
                   <Field orientation="horizontal">
                     <FieldLabel>Due Date</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.dueDate).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.dueDate).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.paidAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Paid At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.paidAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.paidAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.sentAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Sent At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.sentAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.sentAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.opportunityId && (
@@ -122,24 +110,18 @@ const ViewInvoiceFormDialog = () => {
             <FieldSeparator />
             <FieldSet>
               <FieldLegend>Timestamps</FieldLegend>
-              <FieldDescription>
-                Creation and last update times.
-              </FieldDescription>
+              <FieldDescription>Creation and last update times.</FieldDescription>
               <FieldGroup>
                 {data.createdAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Created At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.createdAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.createdAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
                 {data.updatedAt && (
                   <Field orientation="horizontal">
                     <FieldLabel>Updated At</FieldLabel>
-                    <FieldDescription>
-                      {new Date(data.updatedAt).toLocaleString()}
-                    </FieldDescription>
+                    <FieldDescription>{new Date(data.updatedAt).toLocaleString()}</FieldDescription>
                   </Field>
                 )}
               </FieldGroup>
@@ -148,7 +130,7 @@ const ViewInvoiceFormDialog = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ViewInvoiceFormDialog;
+export default ViewInvoiceFormDialog

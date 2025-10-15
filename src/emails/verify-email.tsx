@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const VerifyEmail = ({ url, token }: { url: string; token: string }) => {
   return (
@@ -11,7 +11,7 @@ const VerifyEmail = ({ url, token }: { url: string; token: string }) => {
         <a href={url}>Click here to verify your email</a>
       </body>
     </html>
-  );
-};
+  )
+}
 
-export default VerifyEmail;
+export default VerifyEmail

@@ -1,7 +1,7 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { orpcClient } from '@/orpc/client';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { orpcClient } from '@/orpc/client'
 
 export const uploadAttachment = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.uploadAttachment>>,
@@ -12,13 +12,13 @@ export const uploadAttachment = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Attachment: ${data.fileName} has been uploaded successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.attachments'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.attachments'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const downloadAttachment = (
   options: Parameters<typeof orpcClient.crm.downloadAttachment>[0],
@@ -27,7 +27,7 @@ export const downloadAttachment = (
     queryKey: ['crm.attachments', options],
     queryFn: () => orpcClient.crm.downloadAttachment(options),
     enabled: !!options,
-  });
+  })
 
 export const showAttachmentMetadata = (
   options: Parameters<typeof orpcClient.crm.showAttachmentMetadata>[0],
@@ -36,7 +36,7 @@ export const showAttachmentMetadata = (
     queryKey: ['crm.attachments', options],
     queryFn: () => orpcClient.crm.showAttachmentMetadata(options),
     enabled: !!options,
-  });
+  })
 
 export const deleteAttachment = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.deleteAttachment>>,
@@ -47,10 +47,10 @@ export const deleteAttachment = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `A record has been deleted`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.attachments'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.attachments'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

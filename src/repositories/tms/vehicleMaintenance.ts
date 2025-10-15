@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,13 +10,11 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, TmsVehicleServiceTypeEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, TmsVehicleServiceTypeEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
-export class VehicleMaintenanceRepository
-  implements GenericRepository<'tms.vehicleMaintenance'>
-{
+export class VehicleMaintenanceRepository implements GenericRepository<'tms.vehicleMaintenance'> {
   constructor(private db: Kysely<DB>) {}
 
   paginate(
@@ -28,35 +26,31 @@ export class VehicleMaintenanceRepository
     DB,
     'tms.vehicleMaintenance',
     {
-      cost: string | null;
-      createdAt: Date | null;
-      id: string;
-      notes: string | null;
-      serviceDate: Date;
-      serviceType: TmsVehicleServiceTypeEnum | null;
-      updatedAt: Date | null;
-      vehicleId: string;
+      cost: string | null
+      createdAt: Date | null
+      id: string
+      notes: string | null
+      serviceDate: Date
+      serviceType: TmsVehicleServiceTypeEnum | null
+      updatedAt: Date | null
+      vehicleId: string
     }
   > {
-    let query = this.db.selectFrom('tms.vehicleMaintenance').selectAll();
+    let query = this.db.selectFrom('tms.vehicleMaintenance').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -67,120 +61,108 @@ export class VehicleMaintenanceRepository
     DB,
     'tms.vehicleMaintenance',
     {
-      cost: string | null;
-      createdAt: Date | null;
-      id: string;
-      notes: string | null;
-      serviceDate: Date;
-      serviceType: TmsVehicleServiceTypeEnum | null;
-      updatedAt: Date | null;
-      vehicleId: string;
+      cost: string | null
+      createdAt: Date | null
+      id: string
+      notes: string | null
+      serviceDate: Date
+      serviceType: TmsVehicleServiceTypeEnum | null
+      updatedAt: Date | null
+      vehicleId: string
     }
   > {
     let query = this.db
       .selectFrom('tms.vehicleMaintenance')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.vehicleMaintenance',
     {
-      cost: string | null;
-      createdAt: Date | null;
-      id: string;
-      notes: string | null;
-      serviceDate: Date;
-      serviceType: TmsVehicleServiceTypeEnum | null;
-      updatedAt: Date | null;
-      vehicleId: string;
+      cost: string | null
+      createdAt: Date | null
+      id: string
+      notes: string | null
+      serviceDate: Date
+      serviceType: TmsVehicleServiceTypeEnum | null
+      updatedAt: Date | null
+      vehicleId: string
     }
   > {
-    return this.db
-      .selectFrom('tms.vehicleMaintenance')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('tms.vehicleMaintenance').selectAll().where('id', 'in', values)
   }
   create(
     value: { serviceDate: string | Date; vehicleId: string } & {
-      cost?: string | number | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      notes?: string | null | undefined;
-      serviceType?: TmsVehicleServiceTypeEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      cost?: string | number | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      notes?: string | null | undefined
+      serviceType?: TmsVehicleServiceTypeEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'tms.vehicleMaintenance',
     {
-      cost: string | null;
-      createdAt: Date | null;
-      id: string;
-      notes: string | null;
-      serviceDate: Date;
-      serviceType: TmsVehicleServiceTypeEnum | null;
-      updatedAt: Date | null;
-      vehicleId: string;
+      cost: string | null
+      createdAt: Date | null
+      id: string
+      notes: string | null
+      serviceDate: Date
+      serviceType: TmsVehicleServiceTypeEnum | null
+      updatedAt: Date | null
+      vehicleId: string
     }
   > {
-    return this.db
-      .insertInto('tms.vehicleMaintenance')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.vehicleMaintenance').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      cost?: string | number | null | undefined;
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      notes?: string | null | undefined;
-      serviceDate?: string | Date | undefined;
-      serviceType?: TmsVehicleServiceTypeEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
-      vehicleId?: string | undefined;
+      cost?: string | number | null | undefined
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      notes?: string | null | undefined
+      serviceDate?: string | Date | undefined
+      serviceType?: TmsVehicleServiceTypeEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
+      vehicleId?: string | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'tms.vehicleMaintenance',
     'tms.vehicleMaintenance',
     {
-      cost: string | null;
-      createdAt: Date | null;
-      id: string;
-      notes: string | null;
-      serviceDate: Date;
-      serviceType: TmsVehicleServiceTypeEnum | null;
-      updatedAt: Date | null;
-      vehicleId: string;
+      cost: string | null
+      createdAt: Date | null
+      id: string
+      notes: string | null
+      serviceDate: Date
+      serviceType: TmsVehicleServiceTypeEnum | null
+      updatedAt: Date | null
+      vehicleId: string
     }
   > {
     return this.db
       .updateTable('tms.vehicleMaintenance')
       .set(value)
       .where('id', '=', id)
-      .returningAll();
+      .returningAll()
   }
-  delete(
-    id: string,
-  ): DeleteQueryBuilder<DB, 'tms.vehicleMaintenance', DeleteResult> {
-    return this.db.deleteFrom('tms.vehicleMaintenance').where('id', '=', id);
+  delete(id: string): DeleteQueryBuilder<DB, 'tms.vehicleMaintenance', DeleteResult> {
+    return this.db.deleteFrom('tms.vehicleMaintenance').where('id', '=', id)
   }
 }
 
@@ -193,48 +175,37 @@ export class TmsVehicleMaintenanceRepository {
     fields?: SelectExpression<DB, 'tms.vehicleMaintenance'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'tms.vehicleMaintenance', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'tms.vehicleMaintenance', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('tms.vehicleMaintenance')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where(
-        'tms.vehicleMaintenance.id',
-        'like',
-        `%${search}%`,
-      );
+    if (search) builder = builder.where('tms.vehicleMaintenance.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['tms.vehicleMaintenance']>) {
-    return this.db
-      .insertInto('tms.vehicleMaintenance')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.vehicleMaintenance').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['tms.vehicleMaintenance']>[]) {
-    return this.db
-      .insertInto('tms.vehicleMaintenance')
-      .values(values)
-      .returningAll();
+    return this.db.insertInto('tms.vehicleMaintenance').values(values).returningAll()
   }
 
   update(
@@ -245,12 +216,10 @@ export class TmsVehicleMaintenanceRepository {
       .updateTable('tms.vehicleMaintenance')
       .set(value)
       .where('tms.vehicleMaintenance.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['tms.vehicleMaintenance']['id']['__update__']) {
-    return this.db
-      .deleteFrom('tms.vehicleMaintenance')
-      .where('tms.vehicleMaintenance.id', '=', id);
+    return this.db.deleteFrom('tms.vehicleMaintenance').where('tms.vehicleMaintenance.id', '=', id)
   }
 }

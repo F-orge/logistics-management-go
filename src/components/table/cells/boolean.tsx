@@ -1,34 +1,32 @@
-import { Check, X } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { Switch } from '@/components/ui/switch';
-import { cn } from '@/lib/utils';
+import { Check, X } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/utils'
 
 export type BooleanCellProps = {
-  value?: boolean | null;
-  onSave?: (value: boolean) => Promise<unknown> | unknown;
-  editable?: boolean;
-};
+  value?: boolean | null
+  onSave?: (value: boolean) => Promise<unknown> | unknown
+  editable?: boolean
+}
 
 const BooleanCell = (props: BooleanCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<boolean | undefined>(
-    props.value || undefined,
-  );
+  const [edit, setEdit] = React.useState(false)
+  const [value, setValue] = React.useState<boolean | undefined>(props.value || undefined)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   const handleSave = (newValue: boolean) => {
     if (props.onSave) {
-      props.onSave(newValue);
+      props.onSave(newValue)
     }
-    setValue(newValue);
-    setEdit(false);
-  };
+    setValue(newValue)
+    setEdit(false)
+  }
 
   if (value !== undefined && value !== null) {
     return (
@@ -41,7 +39,7 @@ const BooleanCell = (props: BooleanCellProps) => {
           <div
             onDoubleClick={() => {
               if (props.editable) {
-                setEdit(true);
+                setEdit(true)
               }
             }}
           >
@@ -53,10 +51,10 @@ const BooleanCell = (props: BooleanCellProps) => {
           </div>
         )}
       </Field>
-    );
+    )
   } else {
-    return <>-</>;
+    return <>-</>
   }
-};
+}
 
-export default BooleanCell;
+export default BooleanCell

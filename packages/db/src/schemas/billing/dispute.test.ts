@@ -1,14 +1,10 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingDisputeStatusEnum } from '@/db.types';
-import {
-  DisputeInsertSchema,
-  DisputeSchema,
-  DisputeUpdateSchema,
-} from './dispute';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingDisputeStatusEnum } from '@/db.types'
+import { DisputeInsertSchema, DisputeSchema, DisputeUpdateSchema } from './dispute'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingDisputeSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -97,14 +93,14 @@ describe('BillingDisputeSchema Validation', () => {
           reason: 'Optional fields absent',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => DisputeSchema.parse(input)).not.toThrow();
-      const result = DisputeSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => DisputeSchema.parse(input)).not.toThrow()
+      const result = DisputeSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -316,24 +312,21 @@ describe('BillingDisputeSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          DisputeSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        DisputeSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for DisputeSchema', () => {
     test('should return success for valid data', () => {
@@ -342,14 +335,14 @@ describe('BillingDisputeSchema Validation', () => {
         clientId: '123e4567-e89b-12d3-a456-426614174001',
         lineItemId: '123e4567-e89b-12d3-a456-426614174002',
         reason: 'Incorrect charge',
-      };
-      const result = DisputeSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = DisputeSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -357,17 +350,17 @@ describe('BillingDisputeSchema Validation', () => {
         clientId: '123e4567-e89b-12d3-a456-426614174001',
         lineItemId: '123e4567-e89b-12d3-a456-426614174002',
         reason: 'Incorrect charge',
-      };
-      const result = DisputeSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = DisputeSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingDisputeInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -394,14 +387,14 @@ describe('BillingDisputeInsertSchema Validation', () => {
           submittedAt: new Date('2023-01-02T11:00:00Z'),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => DisputeInsertSchema.parse(input)).not.toThrow();
-      const result = DisputeInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => DisputeInsertSchema.parse(input)).not.toThrow()
+      const result = DisputeInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -479,24 +472,21 @@ describe('BillingDisputeInsertSchema Validation', () => {
         expectedError:
           'Invalid option: expected one of "approved"|"closed"|"denied"|"escalated"|"open"|"under-review"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          DisputeInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        DisputeInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for DisputeInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -504,14 +494,14 @@ describe('BillingDisputeInsertSchema Validation', () => {
         clientId: '123e4567-e89b-12d3-a456-426614174000',
         lineItemId: '123e4567-e89b-12d3-a456-426614174001',
         reason: 'New Incorrect charge',
-      };
-      const result = DisputeInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = DisputeInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -519,17 +509,17 @@ describe('BillingDisputeInsertSchema Validation', () => {
         lineItemId: '123e4567-e89b-12d3-a456-426614174002',
         reason: 'Incorrect charge',
         disputedAmount: -1,
-      };
-      const result = DisputeInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = DisputeInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingDisputeUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -556,14 +546,14 @@ describe('BillingDisputeUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => DisputeUpdateSchema.parse(input)).not.toThrow();
-      const result = DisputeUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => DisputeUpdateSchema.parse(input)).not.toThrow()
+      const result = DisputeUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -603,49 +593,46 @@ describe('BillingDisputeUpdateSchema Validation', () => {
         expectedError:
           'Invalid option: expected one of "approved"|"closed"|"denied"|"escalated"|"open"|"under-review"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          DisputeUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        DisputeUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0]?.message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0]?.message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for DisputeUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         disputedAmount: 100.5,
-      };
-      const result = DisputeUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = DisputeUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         disputedAmount: -1,
-      };
-      const result = DisputeUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = DisputeUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

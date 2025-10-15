@@ -1,36 +1,30 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createLead } from '@/queries/crm/leads';
-import { crmLeadInsertSchema } from '@/schemas/crm/leads';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createLead } from '@/queries/crm/leads'
+import { crmLeadInsertSchema } from '@/schemas/crm/leads'
 
 const NewLeadFormDialog = () => {
-  const navigate = useNavigate({ from: '/dashboard/crm/leads' });
-  const searchQuery = useSearch({ from: '/dashboard/crm/leads/' });
-  const { queryClient } = useRouteContext({ from: '/dashboard/crm/leads/' });
+  const navigate = useNavigate({ from: '/dashboard/crm/leads' })
+  const searchQuery = useSearch({ from: '/dashboard/crm/leads/' })
+  const { queryClient } = useRouteContext({ from: '/dashboard/crm/leads/' })
 
-  const createMutation = useMutation(createLead, queryClient);
+  const createMutation = useMutation(createLead, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -45,15 +39,15 @@ const NewLeadFormDialog = () => {
           onSubmit={async (value: z.infer<typeof crmLeadInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewLeadFormDialog;
+export default NewLeadFormDialog

@@ -1,16 +1,16 @@
-import { implement } from '@orpc/server';
-import * as billingSchema from '@/orpc/contracts/billing';
-import { DocumentRepository } from '@/repositories/billing/documents';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import * as billingSchema from '@/orpc/contracts/billing'
+import { DocumentRepository } from '@/repositories/billing/documents'
+import type { HonoVariables } from '@/server'
 
 export const uploadDocument = implement(billingSchema.uploadDocumentContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new DocumentRepository(context.db);
+    const repo = new DocumentRepository(context.db)
 
     // get the metadata
-    const fileName = input.file.name;
-    const mimeType = input.file.type;
+    const fileName = input.file.name
+    const mimeType = input.file.type
 
     const result = await repo
       .create({
@@ -21,25 +21,19 @@ export const uploadDocument = implement(billingSchema.uploadDocumentContract)
         recordType: input.recordType,
         filePath: `${context.storage.getStoragePath()}/${input.recordId}/${input.documentType}/${fileName}`,
       })
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!result.recordId || !result.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
-    const size = await context.storage.save(
-      result.recordId,
-      result.documentType,
-      input.file,
-    );
+    const size = await context.storage.save(result.recordId, result.documentType, input.file)
 
-    if (input.file.size !== size) throw new Error('File size mismatch');
+    if (input.file.size !== size) throw new Error('File size mismatch')
 
-    return result;
-  });
+    return result
+  })
 
-export const downloadDocument = implement(
-  billingSchema.downloadDocumentContract,
-)
+export const downloadDocument = implement(billingSchema.downloadDocumentContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const attachment = await context.db
@@ -48,29 +42,27 @@ export const downloadDocument = implement(
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!attachment.recordId || !attachment.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
     const file = await context.storage.get(
       attachment.recordId,
       attachment.documentType,
       attachment.fileName,
-    );
+    )
 
-    if (!file.name) throw new Error('No file name');
+    if (!file.name) throw new Error('No file name')
 
     const newFile = new File([await file.bytes()], file.name, {
       type: file.type,
-    });
+    })
 
-    return newFile;
-  });
+    return newFile
+  })
 
-export const showDocumentMetadata = implement(
-  billingSchema.showDocumentMetadataContract,
-)
+export const showDocumentMetadata = implement(billingSchema.showDocumentMetadataContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
     const attachment = await context.db
@@ -79,10 +71,10 @@ export const showDocumentMetadata = implement(
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
-    return attachment;
-  });
+    return attachment
+  })
 
 export const deleteDocument = implement(billingSchema.deleteDocumentContract)
   .$context<HonoVariables>()
@@ -93,10 +85,10 @@ export const deleteDocument = implement(billingSchema.deleteDocumentContract)
       .where('recordId', '=', input.recordId)
       .where('recordType', '=', input.recordType)
       .where('fileName', '=', input.fileName)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     if (!attachment.recordId || !attachment.recordType)
-      throw new Error('Unable to save file record id must be present');
+      throw new Error('Unable to save file record id must be present')
 
     const result = context.db.transaction().execute(async (trx) => {
       const deleteResult = await trx
@@ -104,22 +96,22 @@ export const deleteDocument = implement(billingSchema.deleteDocumentContract)
         .where('recordId', '=', input.recordId)
         .where('recordType', '=', input.recordType)
         .where('fileName', '=', input.fileName)
-        .executeTakeFirstOrThrow();
+        .executeTakeFirstOrThrow()
 
       if (!deleteResult.numDeletedRows) {
-        throw new Error('Unable to delete file');
+        throw new Error('Unable to delete file')
       }
 
       const file = await context.storage.get(
         attachment.recordId!,
         attachment.documentType!,
         attachment.fileName,
-      );
+      )
 
-      await file.delete();
+      await file.delete()
 
-      return deleteResult;
-    });
+      return deleteResult
+    })
 
-    return result;
-  });
+    return result
+  })

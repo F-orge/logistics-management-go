@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { BillingSurchargeCalculationMethodEnum } from '@/db/types';
+import { z } from 'zod'
+import { BillingSurchargeCalculationMethodEnum } from '@/db/types'
 
 // Zod schema for billing.surcharge table
 export const billingSurchargeSchema = z
@@ -30,9 +30,9 @@ export const billingSurchargeSchema = z
     validFrom: z.date().optional().nullable(),
     validTo: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingSurcharge = z.infer<typeof billingSurchargeSchema>;
+export type BillingSurcharge = z.infer<typeof billingSurchargeSchema>
 
 export const billingSurchargeInsertSchema = billingSurchargeSchema
   .omit({
@@ -40,8 +40,6 @@ export const billingSurchargeInsertSchema = billingSurchargeSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingSurchargeUpdateSchema = billingSurchargeInsertSchema
-  .partial()
-  .strict();
+export const billingSurchargeUpdateSchema = billingSurchargeInsertSchema.partial().strict()

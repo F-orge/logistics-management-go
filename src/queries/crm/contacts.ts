@@ -1,54 +1,45 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inUser } from '../auth/user';
-import { inCompany } from './companies';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inUser } from '../auth/user'
+import { inCompany } from './companies'
 
-export const paginateContact = (
-  options: Parameters<typeof orpcClient.crm.paginateContact>[0],
-) =>
+export const paginateContact = (options: Parameters<typeof orpcClient.crm.paginateContact>[0]) =>
   queryOptions({
     queryKey: ['crm.contacts', options],
     queryFn: async ({ client }) => {
-      const contacts = await orpcClient.crm.paginateContact(options);
+      const contacts = await orpcClient.crm.paginateContact(options)
 
       const companies = await client.ensureQueryData(
         inCompany(contacts.map((row) => row.companyId).filter(nonEmpty)),
-      );
+      )
 
-      const owners = await client.ensureQueryData(
-        inUser(contacts.map((row) => row.ownerId)),
-      );
+      const owners = await client.ensureQueryData(inUser(contacts.map((row) => row.ownerId)))
 
       return contacts.map((row) => ({
         ...row,
         company: companies.find((subRow) => subRow.id === row.companyId),
         owner: owners.find((subRow) => subRow.id === row.ownerId)!,
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeContact = (
-  options: Parameters<typeof orpcClient.crm.rangeContact>[0],
-) =>
+export const rangeContact = (options: Parameters<typeof orpcClient.crm.rangeContact>[0]) =>
   queryOptions({
     queryKey: ['crm.contacts', options],
     queryFn: () => orpcClient.crm.rangeContact(options),
     enabled: !!options,
-  });
+  })
 
-export const inContact = (
-  options: Parameters<typeof orpcClient.crm.inContact>[0],
-) =>
+export const inContact = (options: Parameters<typeof orpcClient.crm.inContact>[0]) =>
   queryOptions({
     queryKey: ['crm.contacts', options],
-    queryFn: () =>
-      options.length >= 1 ? orpcClient.crm.inContact(options) : [],
+    queryFn: () => (options.length >= 1 ? orpcClient.crm.inContact(options) : []),
     enabled: !!options,
-  });
+  })
 
 export const createContact = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.createContact>>,
@@ -59,13 +50,13 @@ export const createContact = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Contact: ${data.name} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateContact = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.updateContact>>,
@@ -76,13 +67,13 @@ export const updateContact = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Contact: ${data.name} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteContact = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.crm.deleteContact>>,
@@ -93,10 +84,10 @@ export const deleteContact = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `A record has been deleted`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['crm.contacts'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

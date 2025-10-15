@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TmsDriverStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { TmsDriverStatusEnum } from '@/db.types'
 
 export const DriverSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -17,27 +17,18 @@ export const DriverSchema = z.object({
     .date({ message: 'Invalid date format for license expiry date' })
     .optional()
     .nullable(),
-  status: z
-    .enum(TmsDriverStatusEnum, { message: 'Invalid driver status' })
-    .optional()
-    .nullable(),
+  status: z.enum(TmsDriverStatusEnum, { message: 'Invalid driver status' }).optional().nullable(),
   userId: z.uuid({ message: 'Invalid UUID format for user ID' }),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsDriver = z.infer<typeof DriverSchema>;
+export type TmsDriver = z.infer<typeof DriverSchema>
 
 export const DriverInsertSchema = DriverSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const DriverUpdateSchema = DriverInsertSchema.partial();
+export const DriverUpdateSchema = DriverInsertSchema.partial()

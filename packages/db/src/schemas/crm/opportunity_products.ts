@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const OpportunityProductSchema = z
   .object({
@@ -11,8 +11,7 @@ export const OpportunityProductSchema = z
       .check(
         fieldConfig({
           label: 'Opportunity ID',
-          description:
-            'The ID of the opportunity this product is associated with.',
+          description: 'The ID of the opportunity this product is associated with.',
         }),
       ),
     productId: z.uuid({ message: 'Invalid UUID format for product ID' }).check(
@@ -33,5 +32,4 @@ export const OpportunityProductSchema = z
         }),
       ),
   })
-  .strict();
-
+  .strict()

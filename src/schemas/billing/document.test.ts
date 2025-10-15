@@ -1,14 +1,14 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import { BillingDocumentTypeEnum } from '@/db/types';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { BillingDocumentTypeEnum } from '@/db/types'
 import {
   billingDocumentInsertSchema,
   billingDocumentSchema,
   billingDocumentUpdateSchema,
-} from './document';
+} from './document'
 
 const UUID_REGEX =
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 describe('BillingDocumentSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -31,8 +31,7 @@ describe('BillingDocumentSchema Validation', () => {
           createdAt: new Date('2023-01-01T10:00:00Z'),
           documentType: BillingDocumentTypeEnum.CommercialInvoice,
           fileName: 'commercial_invoice_' + 'a'.repeat(230) + '.pdf',
-          filePath:
-            '/path/to/invoices/commercial_invoice_' + 'b'.repeat(970) + '.pdf',
+          filePath: '/path/to/invoices/commercial_invoice_' + 'b'.repeat(970) + '.pdf',
           fileSize: 100000000,
           mimeType: 'application/pdf-' + 'c'.repeat(108),
           recordId: '123e4567-e89b-12d3-a456-426614174003',
@@ -133,14 +132,14 @@ describe('BillingDocumentSchema Validation', () => {
           recordType: 'Minimal',
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingDocumentSchema.parse(input)).not.toThrow();
-      const result = billingDocumentSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingDocumentSchema.parse(input)).not.toThrow()
+      const result = billingDocumentSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -411,24 +410,21 @@ describe('BillingDocumentSchema Validation', () => {
         },
         expectedError: 'Invalid input: expected date, received string',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingDocumentSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingDocumentSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingDocumentSchema', () => {
     test('should return success for valid data', () => {
@@ -439,14 +435,14 @@ describe('BillingDocumentSchema Validation', () => {
         filePath: '/path/to/receipt.pdf',
         recordId: '123e4567-e89b-12d3-a456-426614174001',
         recordType: 'Payment',
-      };
-      const result = billingDocumentSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingDocumentSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -456,17 +452,17 @@ describe('BillingDocumentSchema Validation', () => {
         filePath: '/path/to/receipt.pdf',
         recordId: '123e4567-e89b-12d3-a456-426614174001',
         recordType: 'Payment',
-      };
-      const result = billingDocumentSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingDocumentSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingDocumentInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -486,10 +482,7 @@ describe('BillingDocumentInsertSchema Validation', () => {
         input: {
           documentType: BillingDocumentTypeEnum.CommercialInvoice,
           fileName: 'new_commercial_invoice_' + 'f'.repeat(220) + '.pdf',
-          filePath:
-            '/path/to/new_invoices/commercial_invoice_' +
-            'g'.repeat(960) +
-            '.pdf',
+          filePath: '/path/to/new_invoices/commercial_invoice_' + 'g'.repeat(960) + '.pdf',
           fileSize: 50000000,
           mimeType: 'application/json-' + 'h'.repeat(109),
           recordId: '123e4567-e89b-12d3-a456-426614174001',
@@ -497,14 +490,14 @@ describe('BillingDocumentInsertSchema Validation', () => {
           uploadedByUserId: 'new-user-upload-123-' + 'j'.repeat(220),
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingDocumentInsertSchema.parse(input)).not.toThrow();
-      const result = billingDocumentInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingDocumentInsertSchema.parse(input)).not.toThrow()
+      const result = billingDocumentInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -617,24 +610,21 @@ describe('BillingDocumentInsertSchema Validation', () => {
         },
         expectedError: 'Uploaded by user ID must be at most 255 characters',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingDocumentInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingDocumentInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingDocumentInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -644,14 +634,14 @@ describe('BillingDocumentInsertSchema Validation', () => {
         filePath: '/path/to/new_receipt.pdf',
         recordId: '123e4567-e89b-12d3-a456-426614174000',
         recordType: 'NewPayment',
-      };
-      const result = billingDocumentInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingDocumentInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -661,17 +651,17 @@ describe('BillingDocumentInsertSchema Validation', () => {
         recordId: '123e4567-e89b-12d3-a456-426614174000',
         recordType: 'NewPayment',
         fileSize: -1,
-      };
-      const result = billingDocumentInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingDocumentInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('BillingDocumentUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -687,10 +677,7 @@ describe('BillingDocumentUpdateSchema Validation', () => {
         input: {
           documentType: BillingDocumentTypeEnum.CustomsDeclaration,
           fileName: 'updated_commercial_invoice_' + 'k'.repeat(210) + '.pdf',
-          filePath:
-            '/path/to/updated_invoices/commercial_invoice_' +
-            'l'.repeat(950) +
-            '.pdf',
+          filePath: '/path/to/updated_invoices/commercial_invoice_' + 'l'.repeat(950) + '.pdf',
           fileSize: 10000000,
           mimeType: 'image/jpeg-' + 'm'.repeat(110),
           recordId: '123e4567-e89b-12d3-a456-426614174004',
@@ -702,14 +689,14 @@ describe('BillingDocumentUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => billingDocumentUpdateSchema.parse(input)).not.toThrow();
-      const result = billingDocumentUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => billingDocumentUpdateSchema.parse(input)).not.toThrow()
+      const result = billingDocumentUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -763,49 +750,46 @@ describe('BillingDocumentUpdateSchema Validation', () => {
         },
         expectedError: 'Uploaded by user ID must be at most 255 characters',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          billingDocumentUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        billingDocumentUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeInstanceOf(ZodError);
-        expect(error?.issues[0].message).toContain(expectedError);
-      },
-    );
-  });
+      }
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues[0].message).toContain(expectedError)
+    })
+  })
 
   describe('SafeParse Tests for billingDocumentUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         fileName: 'updated_file.pdf',
-      };
-      const result = billingDocumentUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = billingDocumentUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         fileSize: -1,
-      };
-      const result = billingDocumentUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = billingDocumentUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

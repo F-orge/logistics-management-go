@@ -1,7 +1,5 @@
-import { createMiddleware } from '@tanstack/react-start';
+import { createMiddleware } from '@tanstack/react-start'
 
-export const requestMiddleware = createMiddleware().server(
-  ({ request, next }) => {
-    return next({ context: { request } });
-  },
-);
+export const requestMiddleware = createMiddleware().server(({ request, next }) => {
+  return next({ context: { request } })
+})

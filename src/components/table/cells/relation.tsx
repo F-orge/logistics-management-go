@@ -1,7 +1,7 @@
-import { Check, CheckIcon, ChevronsUpDownIcon, Edit } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { ZodString } from 'zod';
-import { Button } from '@/components/ui/button';
+import { Check, CheckIcon, ChevronsUpDownIcon, Edit } from 'lucide-react'
+import React, { useEffect } from 'react'
+import type { ZodString } from 'zod'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -9,50 +9,40 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from '@/components/ui/command'
+import { Field, FieldContent, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type RelationOption = {
-  value: string;
-  label: string;
-  searchValue: string;
-  disabled?: boolean;
-};
+  value: string
+  label: string
+  searchValue: string
+  disabled?: boolean
+}
 
 export type RelationCellProps = {
-  validator?: ZodString;
-  value?: string | null; // id
-  onSave?: (value: string | undefined) => Promise<unknown> | unknown;
-  editable?: boolean;
-  children?: React.ReactNode;
-  options: RelationOption[];
-  onSearch?: (search: string) => Promise<unknown> | unknown;
-};
+  validator?: ZodString
+  value?: string | null // id
+  onSave?: (value: string | undefined) => Promise<unknown> | unknown
+  editable?: boolean
+  children?: React.ReactNode
+  options: RelationOption[]
+  onSearch?: (search: string) => Promise<unknown> | unknown
+}
 
 const RelationCell = (props: RelationCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(
-    props.value || undefined,
-  );
+  const [edit, setEdit] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState<string | undefined>(props.value || undefined)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   return (
     <Field className={cn(edit && 'min-w-xs')}>
@@ -66,8 +56,7 @@ const RelationCell = (props: RelationCellProps) => {
                 aria-expanded={open}
                 className="w-3/4 justify-between"
               >
-                {value &&
-                  props.options.find((option) => option.value === value)?.label}
+                {value && props.options.find((option) => option.value === value)?.label}
                 <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -83,18 +72,16 @@ const RelationCell = (props: RelationCellProps) => {
                         key={option.value}
                         value={option.value}
                         onSelect={(currentValue) => {
-                          setValue(currentValue === value ? '' : currentValue);
-                          setOpen(false);
-                          props.onSave?.(currentValue);
-                          setEdit(false);
+                          setValue(currentValue === value ? '' : currentValue)
+                          setOpen(false)
+                          props.onSave?.(currentValue)
+                          setEdit(false)
                         }}
                       >
                         <CheckIcon
                           className={cn(
                             'mr-2 h-4 w-4',
-                            value === option.value
-                              ? 'opacity-100'
-                              : 'opacity-0',
+                            value === option.value ? 'opacity-100' : 'opacity-0',
                           )}
                         />
                         {option.label}
@@ -105,11 +92,7 @@ const RelationCell = (props: RelationCellProps) => {
               </Command>
             </PopoverContent>
           </Popover>
-          <Button
-            onClick={() => setEdit(false)}
-            variant="outline"
-            size={'icon'}
-          >
+          <Button onClick={() => setEdit(false)} variant="outline" size={'icon'}>
             ✕
           </Button>
         </div>
@@ -118,7 +101,7 @@ const RelationCell = (props: RelationCellProps) => {
           <Button
             onClick={() => {
               if (props.editable) {
-                setEdit(true);
+                setEdit(true)
               }
             }}
             variant={'outline'}
@@ -130,7 +113,7 @@ const RelationCell = (props: RelationCellProps) => {
         </div>
       )}
     </Field>
-  );
-};
+  )
+}
 
-export default RelationCell;
+export default RelationCell

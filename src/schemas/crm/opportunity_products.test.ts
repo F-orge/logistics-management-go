@@ -1,10 +1,10 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
 import {
   crmOpportunityProductInsertSchema,
   crmOpportunityProductSchema,
   crmOpportunityProductUpdateSchema,
-} from './opportunity_products';
+} from './opportunity_products'
 
 describe('CrmOpportunityProductSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -45,14 +45,14 @@ describe('CrmOpportunityProductSchema Validation', () => {
           quantity: 10000,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => crmOpportunityProductSchema.parse(input)).not.toThrow();
-      const result = crmOpportunityProductSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmOpportunityProductSchema.parse(input)).not.toThrow()
+      const result = crmOpportunityProductSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -173,27 +173,22 @@ describe('CrmOpportunityProductSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmOpportunityProductSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmOpportunityProductSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmOpportunityProductSchema', () => {
     test('should return success for valid data', () => {
@@ -202,14 +197,14 @@ describe('CrmOpportunityProductSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = crmOpportunityProductSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmOpportunityProductSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -217,17 +212,17 @@ describe('CrmOpportunityProductSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = crmOpportunityProductSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmOpportunityProductSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmOpportunityProductInsertSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -248,16 +243,14 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
           quantity: 10000,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        crmOpportunityProductInsertSchema.parse(input),
-      ).not.toThrow();
-      const result = crmOpportunityProductInsertSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmOpportunityProductInsertSchema.parse(input)).not.toThrow()
+      const result = crmOpportunityProductInsertSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -295,27 +288,22 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
         },
         expectedError: 'Quantity must be a number',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmOpportunityProductInsertSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmOpportunityProductInsertSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmOpportunityProductInsertSchema', () => {
     test('should return success for valid data', () => {
@@ -323,14 +311,14 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = crmOpportunityProductInsertSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmOpportunityProductInsertSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -338,17 +326,17 @@ describe('CrmOpportunityProductInsertSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = crmOpportunityProductInsertSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmOpportunityProductInsertSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})
 
 describe('CrmOpportunityProductUpdateSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -371,16 +359,14 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
         name: 'empty object (no changes)',
         input: {},
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() =>
-        crmOpportunityProductUpdateSchema.parse(input),
-      ).not.toThrow();
-      const result = crmOpportunityProductUpdateSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => crmOpportunityProductUpdateSchema.parse(input)).not.toThrow()
+      const result = crmOpportunityProductUpdateSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -434,53 +420,48 @@ describe('CrmOpportunityProductUpdateSchema Validation', () => {
         },
         expectedError: 'Quantity must be at most 10,000',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          crmOpportunityProductUpdateSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        crmOpportunityProductUpdateSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for crmOpportunityProductUpdateSchema', () => {
     test('should return success for valid data', () => {
       const validData = {
         quantity: 10,
-      };
-      const result = crmOpportunityProductUpdateSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = crmOpportunityProductUpdateSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         quantity: 10,
-      };
-      const result = crmOpportunityProductUpdateSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = crmOpportunityProductUpdateSchema.safeParse(invalidData)
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from './button';
+import type React from 'react'
+import { Button } from './button'
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from './dialog';
+} from './dialog'
 
 const FormDialog = ({
   children,
@@ -20,23 +20,21 @@ const FormDialog = ({
   onSave,
   className,
 }: {
-  title?: string;
-  description?: string;
-  children: React.ReactNode;
-  open?: boolean;
-  className?: string;
-  onOpenChange?: (open: boolean) => void;
-  onSave: () => void;
-  footer?: React.ReactNode;
+  title?: string
+  description?: string
+  children: React.ReactNode
+  open?: boolean
+  className?: string
+  onOpenChange?: (open: boolean) => void
+  onSave: () => void
+  footer?: React.ReactNode
 }) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={className}>
         <DialogHeader>
-          <DialogTitle hidden={!!!title}>{title}</DialogTitle>
-          <DialogDescription hidden={!!!description}>
-            {description}
-          </DialogDescription>
+          <DialogTitle hidden={!title}>{title}</DialogTitle>
+          <DialogDescription hidden={!description}>{description}</DialogDescription>
         </DialogHeader>
         {children}
         {footer ?? (
@@ -49,7 +47,7 @@ const FormDialog = ({
         )}
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FormDialog;
+export default FormDialog

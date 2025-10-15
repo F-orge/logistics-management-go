@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   dmsCustomerTrackingLinkInsertSchema,
   dmsCustomerTrackingLinkSchema,
   dmsCustomerTrackingLinkUpdateSchema,
-} from '@/schemas/dms/customer_tracking_link';
+} from '@/schemas/dms/customer_tracking_link'
 
 export const paginateCustomerTrackingLinkContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateCustomerTrackingLinkContract = oc
       }),
     ),
   )
-  .output(z.array(dmsCustomerTrackingLinkSchema));
+  .output(z.array(dmsCustomerTrackingLinkSchema))
 
 export const rangeCustomerTrackingLinkContract = oc
   .input(
@@ -32,24 +28,20 @@ export const rangeCustomerTrackingLinkContract = oc
       }),
     ),
   )
-  .output(z.array(dmsCustomerTrackingLinkSchema));
+  .output(z.array(dmsCustomerTrackingLinkSchema))
 
 export const inCustomerTrackingLinkContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(dmsCustomerTrackingLinkSchema));
+  .output(z.array(dmsCustomerTrackingLinkSchema))
 
 export const createCustomerTrackingLinkContract = oc
   .input(dmsCustomerTrackingLinkInsertSchema)
-  .output(dmsCustomerTrackingLinkSchema);
+  .output(dmsCustomerTrackingLinkSchema)
 
 export const updateCustomerTrackingLinkContract = oc
   .input(z.object({ id: z.uuid(), value: dmsCustomerTrackingLinkUpdateSchema }))
-  .output(dmsCustomerTrackingLinkSchema);
+  .output(dmsCustomerTrackingLinkSchema)
 
 export const deleteCustomerTrackingLinkContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

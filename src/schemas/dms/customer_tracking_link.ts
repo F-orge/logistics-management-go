@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 // Import enums if needed from '@/db/types'
 
 export const dmsCustomerTrackingLinkSchema = z.object({
@@ -14,18 +14,14 @@ export const dmsCustomerTrackingLinkSchema = z.object({
   lastAccessedAt: z.date().optional().nullable(),
   createdAt: z.date().optional().nullable(),
   updatedAt: z.date().optional().nullable(),
-});
+})
 
-export type DmsCustomerTrackingLink = z.infer<
-  typeof dmsCustomerTrackingLinkSchema
->;
+export type DmsCustomerTrackingLink = z.infer<typeof dmsCustomerTrackingLinkSchema>
 
-export const dmsCustomerTrackingLinkInsertSchema =
-  dmsCustomerTrackingLinkSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  });
+export const dmsCustomerTrackingLinkInsertSchema = dmsCustomerTrackingLinkSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
 
-export const dmsCustomerTrackingLinkUpdateSchema =
-  dmsCustomerTrackingLinkInsertSchema.partial();
+export const dmsCustomerTrackingLinkUpdateSchema = dmsCustomerTrackingLinkInsertSchema.partial()

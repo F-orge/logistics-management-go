@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Zod schema for billing.credit_note table
 export const billingCreditNoteSchema = z
@@ -43,9 +43,9 @@ export const billingCreditNoteSchema = z
       .max(255, { message: 'Reason must be at most 255 characters' }),
     updatedAt: z.date().optional().nullable(),
   })
-  .strict();
+  .strict()
 
-export type BillingCreditNote = z.infer<typeof billingCreditNoteSchema>;
+export type BillingCreditNote = z.infer<typeof billingCreditNoteSchema>
 
 export const billingCreditNoteInsertSchema = billingCreditNoteSchema
   .omit({
@@ -53,8 +53,6 @@ export const billingCreditNoteInsertSchema = billingCreditNoteSchema
     createdAt: true,
     updatedAt: true,
   })
-  .strict();
+  .strict()
 
-export const billingCreditNoteUpdateSchema = billingCreditNoteInsertSchema
-  .partial()
-  .strict();
+export const billingCreditNoteUpdateSchema = billingCreditNoteInsertSchema.partial().strict()

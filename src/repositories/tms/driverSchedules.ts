@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,13 +10,11 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { DB, TmsDriverScheduleReasonEnum } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { DB, TmsDriverScheduleReasonEnum } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
-export class DriverScheduleRepository
-  implements GenericRepository<'tms.driverSchedules'>
-{
+export class DriverScheduleRepository implements GenericRepository<'tms.driverSchedules'> {
   constructor(private db: Kysely<DB>) {}
 
   paginate(
@@ -28,34 +26,30 @@ export class DriverScheduleRepository
     DB,
     'tms.driverSchedules',
     {
-      createdAt: Date | null;
-      driverId: string;
-      endDate: Date;
-      id: string;
-      reason: TmsDriverScheduleReasonEnum | null;
-      startDate: Date;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      driverId: string
+      endDate: Date
+      id: string
+      reason: TmsDriverScheduleReasonEnum | null
+      startDate: Date
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('tms.driverSchedules').selectAll();
+    let query = this.db.selectFrom('tms.driverSchedules').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -66,117 +60,101 @@ export class DriverScheduleRepository
     DB,
     'tms.driverSchedules',
     {
-      createdAt: Date | null;
-      driverId: string;
-      endDate: Date;
-      id: string;
-      reason: TmsDriverScheduleReasonEnum | null;
-      startDate: Date;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      driverId: string
+      endDate: Date
+      id: string
+      reason: TmsDriverScheduleReasonEnum | null
+      startDate: Date
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('tms.driverSchedules')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'tms.driverSchedules',
     {
-      createdAt: Date | null;
-      driverId: string;
-      endDate: Date;
-      id: string;
-      reason: TmsDriverScheduleReasonEnum | null;
-      startDate: Date;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      driverId: string
+      endDate: Date
+      id: string
+      reason: TmsDriverScheduleReasonEnum | null
+      startDate: Date
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('tms.driverSchedules')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('tms.driverSchedules').selectAll().where('id', 'in', values)
   }
   create(
     value: {
-      driverId: string;
-      endDate: string | Date;
-      startDate: string | Date;
+      driverId: string
+      endDate: string | Date
+      startDate: string | Date
     } & {
-      createdAt?: string | Date | null | undefined;
-      id?: string | undefined;
-      reason?: TmsDriverScheduleReasonEnum | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      id?: string | undefined
+      reason?: TmsDriverScheduleReasonEnum | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'tms.driverSchedules',
     {
-      createdAt: Date | null;
-      driverId: string;
-      endDate: Date;
-      id: string;
-      reason: TmsDriverScheduleReasonEnum | null;
-      startDate: Date;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      driverId: string
+      endDate: Date
+      id: string
+      reason: TmsDriverScheduleReasonEnum | null
+      startDate: Date
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .insertInto('tms.driverSchedules')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.driverSchedules').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      createdAt?: string | Date | null | undefined;
-      driverId?: string | undefined;
-      endDate?: string | Date | undefined;
-      id?: string | undefined;
-      reason?: TmsDriverScheduleReasonEnum | null | undefined;
-      startDate?: string | Date | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      driverId?: string | undefined
+      endDate?: string | Date | undefined
+      id?: string | undefined
+      reason?: TmsDriverScheduleReasonEnum | null | undefined
+      startDate?: string | Date | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'tms.driverSchedules',
     'tms.driverSchedules',
     {
-      createdAt: Date | null;
-      driverId: string;
-      endDate: Date;
-      id: string;
-      reason: TmsDriverScheduleReasonEnum | null;
-      startDate: Date;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      driverId: string
+      endDate: Date
+      id: string
+      reason: TmsDriverScheduleReasonEnum | null
+      startDate: Date
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('tms.driverSchedules')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('tms.driverSchedules').set(value).where('id', '=', id).returningAll()
   }
-  delete(
-    id: string,
-  ): DeleteQueryBuilder<DB, 'tms.driverSchedules', DeleteResult> {
-    return this.db.deleteFrom('tms.driverSchedules').where('id', '=', id);
+  delete(id: string): DeleteQueryBuilder<DB, 'tms.driverSchedules', DeleteResult> {
+    return this.db.deleteFrom('tms.driverSchedules').where('id', '=', id)
   }
 }
 
@@ -189,44 +167,37 @@ export class TmsDriverScheduleRepository {
     fields?: SelectExpression<DB, 'tms.driverSchedules'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'tms.driverSchedules', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'tms.driverSchedules', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('tms.driverSchedules')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('tms.driverSchedules.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('tms.driverSchedules.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['tms.driverSchedules']>) {
-    return this.db
-      .insertInto('tms.driverSchedules')
-      .values(value)
-      .returningAll();
+    return this.db.insertInto('tms.driverSchedules').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['tms.driverSchedules']>[]) {
-    return this.db
-      .insertInto('tms.driverSchedules')
-      .values(values)
-      .returningAll();
+    return this.db.insertInto('tms.driverSchedules').values(values).returningAll()
   }
 
   update(
@@ -237,12 +208,10 @@ export class TmsDriverScheduleRepository {
       .updateTable('tms.driverSchedules')
       .set(value)
       .where('tms.driverSchedules.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['tms.driverSchedules']['id']['__update__']) {
-    return this.db
-      .deleteFrom('tms.driverSchedules')
-      .where('tms.driverSchedules.id', '=', id);
+    return this.db.deleteFrom('tms.driverSchedules').where('tms.driverSchedules.id', '=', id)
   }
 }

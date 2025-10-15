@@ -1,6 +1,6 @@
-import { createAccessControl } from 'better-auth/plugins/access';
-import { adminAc, defaultStatements } from 'better-auth/plugins/admin/access';
-import { z } from 'zod';
+import { createAccessControl } from 'better-auth/plugins/access'
+import { adminAc, defaultStatements } from 'better-auth/plugins/admin/access'
+import { z } from 'zod'
 
 export const statement = {
   ...defaultStatements,
@@ -98,9 +98,9 @@ export const statement = {
   wmsTaskItems: ['create', 'read', 'update', 'delete'],
   wmsPackages: ['create', 'read', 'update', 'delete'],
   wmsPackageItems: ['create', 'read', 'update', 'delete'],
-} as const;
+} as const
 
-export const ac = createAccessControl(statement);
+export const ac = createAccessControl(statement)
 
 export const admin = ac.newRole({
   ...adminAc.statements, // Inherit default admin permissions
@@ -198,7 +198,7 @@ export const admin = ac.newRole({
   wmsTaskItems: ['create', 'read', 'update', 'delete'],
   wmsPackages: ['create', 'read', 'update', 'delete'],
   wmsPackageItems: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const developer = ac.newRole({
   ...adminAc.statements, // Inherit default admin permissions
@@ -296,7 +296,7 @@ export const developer = ac.newRole({
   wmsTaskItems: ['create', 'read', 'update', 'delete'],
   wmsPackages: ['create', 'read', 'update', 'delete'],
   wmsPackageItems: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const clientAdmin = ac.newRole({
   user: ['create', 'read', 'update', 'delete'],
@@ -324,7 +324,7 @@ export const clientAdmin = ac.newRole({
   attachments: ['read', 'update'],
   tags: ['read', 'update'],
   taggings: ['read', 'update'],
-});
+})
 
 export const user = ac.newRole({
   user: ['read', 'update'],
@@ -343,13 +343,13 @@ export const user = ac.newRole({
   billingDocuments: ['read'],
 
   notifications: ['read', 'update', 'delete'],
-});
+})
 
 export const pricingAnalyst = ac.newRole({
   billingRateCards: ['create', 'read', 'update', 'delete'],
   billingRateRules: ['create', 'read', 'update', 'delete'],
   billingSurcharges: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const accountsManager = ac.newRole({
   billingRateCards: ['read'],
@@ -382,7 +382,7 @@ export const accountsManager = ac.newRole({
   imsSalesOrders: ['create', 'read', 'update', 'delete'],
   imsSalesOrderItems: ['create', 'read', 'update', 'delete'],
   imsReturns: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const financeManager = ac.newRole({
   billingRateCards: ['read'],
@@ -398,7 +398,7 @@ export const financeManager = ac.newRole({
   billingCreditNotes: ['read'],
   billingDocuments: ['read'],
   billingAccountingSyncLog: ['read'],
-});
+})
 
 export const salesManager = ac.newRole({
   companies: ['create', 'read', 'update', 'delete'],
@@ -416,7 +416,7 @@ export const salesManager = ac.newRole({
   taggings: ['create', 'read', 'update', 'delete'],
 
   billingQuotes: ['create', 'read', 'update'],
-});
+})
 
 export const client = ac.newRole({
   billingQuotes: ['create', 'read'],
@@ -428,11 +428,11 @@ export const client = ac.newRole({
   billingDisputes: ['create', 'read'],
   billingCreditNotes: ['read'],
   billingDocuments: ['read'],
-});
+})
 
 export const accountant = ac.newRole({
   billingAccountingSyncLog: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const salesRep = ac.newRole({
   companies: ['create', 'read', 'update'],
@@ -446,7 +446,7 @@ export const salesRep = ac.newRole({
   attachments: ['create', 'read', 'update', 'delete'],
   tags: ['read'],
   taggings: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const customerSupportAgent = ac.newRole({
   companies: ['read'],
@@ -456,16 +456,16 @@ export const customerSupportAgent = ac.newRole({
   attachments: ['create', 'read', 'update', 'delete'],
 
   dmsCustomerTrackingLinks: ['read'],
-});
+})
 
 export const marketingManager = ac.newRole({
   campaigns: ['create', 'read', 'update', 'delete'],
   leads: ['read'],
-});
+})
 
 export const SDR = ac.newRole({
   leads: ['create', 'read', 'update'],
-});
+})
 
 export const dispatchManager = ac.newRole({
   dmsDeliveryRoutes: ['create', 'read', 'update', 'delete'],
@@ -489,7 +489,7 @@ export const dispatchManager = ac.newRole({
   tmsCarrierRates: ['read'],
   tmsShipmentLegs: ['read'],
   tmsShipmentLegEvents: ['read'],
-});
+})
 
 export const routePlanner = ac.newRole({
   dmsDeliveryRoutes: ['create', 'read', 'update'],
@@ -497,7 +497,7 @@ export const routePlanner = ac.newRole({
   dmsTaskEvents: ['read'],
   dmsProofOfDeliveries: ['read'],
   dmsDriverLocations: ['read'],
-});
+})
 
 export const deliveryDriver = ac.newRole({
   dmsDeliveryRoutes: ['read'],
@@ -511,7 +511,7 @@ export const deliveryDriver = ac.newRole({
   tmsRoutes: ['read'],
   tmsProofOfDeliveries: ['create', 'read'],
   tmsExpenses: ['create', 'read'],
-});
+})
 
 export const logisticsCoordinator = ac.newRole({
   dmsDeliveryRoutes: ['read'],
@@ -531,7 +531,7 @@ export const logisticsCoordinator = ac.newRole({
   tmsCarrierRates: ['read'],
   tmsShipmentLegs: ['read'],
   tmsShipmentLegEvents: ['read'],
-});
+})
 
 export const inventoryManager = ac.newRole({
   imsProducts: ['create', 'read', 'update', 'delete'],
@@ -548,7 +548,7 @@ export const inventoryManager = ac.newRole({
   imsOutboundShipmentItems: ['read'],
   imsReturns: ['read'],
   imsReturnItems: ['read'],
-});
+})
 
 export const warehouseManager = ac.newRole({
   imsProducts: ['read'],
@@ -576,7 +576,7 @@ export const warehouseManager = ac.newRole({
   wmsTaskItems: ['create', 'read', 'update', 'delete'],
   wmsPackages: ['read'],
   wmsPackageItems: ['read'],
-});
+})
 
 export const warehouseOperator = ac.newRole({
   imsProducts: ['read'],
@@ -594,16 +594,16 @@ export const warehouseOperator = ac.newRole({
   wmsInventoryStock: ['read', 'update'],
   wmsTasks: ['read', 'update'],
   wmsTaskItems: ['read', 'update'],
-});
+})
 
 export const qualityControlManager = ac.newRole({
   imsInventoryBatches: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const receivingManager = ac.newRole({
   imsInboundShipments: ['create', 'read', 'update', 'delete'],
   imsInboundShipmentItems: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const transportManager = ac.newRole({
   tmsDrivers: ['create', 'read', 'update', 'delete'],
@@ -622,7 +622,7 @@ export const transportManager = ac.newRole({
   tmsCarrierRates: ['read'],
   tmsShipmentLegs: ['read'],
   tmsShipmentLegEvents: ['read'],
-});
+})
 
 export const fleetManager = ac.newRole({
   tmsDrivers: ['read'],
@@ -632,7 +632,7 @@ export const fleetManager = ac.newRole({
   tmsTrips: ['read'],
   tmsTripStops: ['read'],
   tmsGpsPings: ['read'],
-});
+})
 
 export const dispatcher = ac.newRole({
   tmsDrivers: ['read'],
@@ -649,7 +649,7 @@ export const dispatcher = ac.newRole({
   tmsCarrierRates: ['read'],
   tmsShipmentLegs: ['read'],
   tmsShipmentLegEvents: ['read'],
-});
+})
 
 export const driver = ac.newRole({
   tmsDriverSchedules: ['read'],
@@ -658,21 +658,21 @@ export const driver = ac.newRole({
   tmsRoutes: ['read'],
   tmsProofOfDeliveries: ['create', 'read'],
   tmsExpenses: ['create', 'read'],
-});
+})
 
 export const logisticsManager = ac.newRole({
   tmsCarriers: ['create', 'read', 'update', 'delete'],
   tmsCarrierRates: ['create', 'read', 'update', 'delete'],
   tmsPartnerInvoices: ['read'],
   tmsPartnerInvoiceItems: ['read'],
-});
+})
 
 export const logisticsPlanner = ac.newRole({
   tmsCarriers: ['read'],
   tmsCarrierRates: ['read'],
   tmsShipmentLegs: ['create', 'read', 'update', 'delete'],
   tmsShipmentLegEvents: ['read'],
-});
+})
 
 export const supervisor = ac.newRole({
   wmsLocations: ['read'],
@@ -686,7 +686,7 @@ export const supervisor = ac.newRole({
   wmsTaskItems: ['read'],
   wmsPackages: ['read'],
   wmsPackageItems: ['read'],
-});
+})
 
 export const picker = ac.newRole({
   wmsInventoryStock: ['read'],
@@ -694,7 +694,7 @@ export const picker = ac.newRole({
   wmsPickBatchItems: ['read'],
   wmsTasks: ['read', 'update'],
   wmsTaskItems: ['read', 'update'],
-});
+})
 
 export const packer = ac.newRole({
   wmsInventoryStock: ['read'],
@@ -702,7 +702,7 @@ export const packer = ac.newRole({
   wmsTaskItems: ['read', 'update'],
   wmsPackages: ['create', 'read', 'update', 'delete'],
   wmsPackageItems: ['create', 'read', 'update', 'delete'],
-});
+})
 
 export const AllRoles = z.enum([
   'admin',
@@ -737,4 +737,4 @@ export const AllRoles = z.enum([
   'supervisor',
   'picker',
   'packer',
-]);
+])

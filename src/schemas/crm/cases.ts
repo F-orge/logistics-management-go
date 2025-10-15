@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from '@/db/types'
 
 export const crmCaseSchema = z
   .object({
@@ -86,14 +86,14 @@ export const crmCaseSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmCase = z.infer<typeof crmCaseSchema>;
+export type CrmCase = z.infer<typeof crmCaseSchema>
 
 export const crmCaseInsertSchema = crmCaseSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const crmCaseUpdateSchema = crmCaseInsertSchema.partial();
+export const crmCaseUpdateSchema = crmCaseInsertSchema.partial()

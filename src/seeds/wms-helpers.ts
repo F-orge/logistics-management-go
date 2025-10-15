@@ -1,7 +1,7 @@
-import { Faker } from '@faker-js/faker';
-import { Insertable } from 'kysely';
+import type { Faker } from '@faker-js/faker'
+import type { Insertable } from 'kysely'
 import {
-  DB,
+  type DB,
   WmsInboundShipmentStatusEnum,
   WmsInventoryAdjustmentReasonEnum,
   WmsInventoryStockStatusEnum,
@@ -16,12 +16,10 @@ import {
   WmsStockTransferStatusEnum,
   WmsTaskItemStatusEnum,
   WmsTaskStatusEnum,
-  WmsTaskTypeEnum,
-} from '@/db/types';
+  type WmsTaskTypeEnum,
+} from '@/db/types'
 
-export const generateWmsWarehouse = (
-  faker: Faker,
-): Insertable<DB['wms.warehouses']> => ({
+export const generateWmsWarehouse = (faker: Faker): Insertable<DB['wms.warehouses']> => ({
   name: faker.company.name() + ' Warehouse',
   address: faker.location.streetAddress(),
   city: faker.location.city(),
@@ -33,16 +31,14 @@ export const generateWmsWarehouse = (
   contactPhone: faker.phone.number({ style: 'international' }),
   timezone: faker.location.timeZone(),
   isActive: faker.datatype.boolean(),
-});
+})
 
-export const generateWmsSupplier = (
-  faker: Faker,
-): Insertable<DB['wms.suppliers']> => ({
+export const generateWmsSupplier = (faker: Faker): Insertable<DB['wms.suppliers']> => ({
   name: faker.company.name() + ' Supplier',
   contactPerson: faker.person.fullName(),
   email: faker.internet.email(),
   phoneNumber: faker.phone.number({ style: 'international' }),
-});
+})
 
 export const generateWmsProduct = (
   faker: Faker,
@@ -61,7 +57,7 @@ export const generateWmsProduct = (
   status: faker.helpers.arrayElement(Object.values(WmsProductStatusEnum)),
   clientId: clientId,
   supplierId: supplierId,
-});
+})
 
 export const generateWmsLocation = (
   faker: Faker,
@@ -86,7 +82,7 @@ export const generateWmsLocation = (
   parentLocationId: parentLocationId,
   level: parentLocationId ? faker.number.int({ min: 1, max: 5 }) : 0,
   path: parentLocationId ? faker.lorem.slug() : faker.lorem.slug(), // This would be dynamically generated in a real scenario
-});
+})
 
 export const generateWmsBinThreshold = (
   faker: Faker,
@@ -100,7 +96,7 @@ export const generateWmsBinThreshold = (
   alertThreshold: faker.number.int({ min: 1, max: 10 }),
   reorderQuantity: faker.number.int({ min: 20, max: 100 }),
   isActive: faker.datatype.boolean(),
-});
+})
 
 export const generateWmsInventoryBatch = (
   faker: Faker,
@@ -109,7 +105,7 @@ export const generateWmsInventoryBatch = (
   productId: productId,
   batchNumber: faker.string.alphanumeric(10).toUpperCase(),
   expirationDate: faker.date.future(),
-});
+})
 
 export const generateWmsInventoryStock = (
   faker: Faker,
@@ -117,11 +113,11 @@ export const generateWmsInventoryStock = (
   productId: string,
   batchId?: string,
 ): Insertable<DB['wms.inventoryStock']> => {
-  const quantity = faker.number.int({ min: 1, max: 1000 });
+  const quantity = faker.number.int({ min: 1, max: 1000 })
   const reservedQuantity = faker.number.int({
     min: 0,
     max: Math.min(quantity, 100),
-  });
+  })
 
   return {
     locationId: locationId,
@@ -129,12 +125,10 @@ export const generateWmsInventoryStock = (
     batchId: batchId,
     quantity: quantity,
     reservedQuantity: reservedQuantity,
-    status: faker.helpers.arrayElement(
-      Object.values(WmsInventoryStockStatusEnum),
-    ),
+    status: faker.helpers.arrayElement(Object.values(WmsInventoryStockStatusEnum)),
     lastCountedAt: faker.date.recent(),
-  };
-};
+  }
+}
 
 export const generateWmsInventoryAdjustment = (
   faker: Faker,
@@ -146,11 +140,9 @@ export const generateWmsInventoryAdjustment = (
   userId: userId,
   warehouseId: warehouseId,
   quantityChange: faker.number.int({ min: -50, max: 50 }),
-  reason: faker.helpers.arrayElement(
-    Object.values(WmsInventoryAdjustmentReasonEnum),
-  ),
+  reason: faker.helpers.arrayElement(Object.values(WmsInventoryAdjustmentReasonEnum)),
   notes: faker.lorem.sentence(),
-});
+})
 
 export const generateWmsInboundShipment = (
   faker: Faker,
@@ -161,10 +153,8 @@ export const generateWmsInboundShipment = (
   clientId: clientId,
   expectedArrivalDate: faker.date.future(),
   actualArrivalDate: faker.date.recent(),
-  status: faker.helpers.arrayElement(
-    Object.values(WmsInboundShipmentStatusEnum),
-  ),
-});
+  status: faker.helpers.arrayElement(Object.values(WmsInboundShipmentStatusEnum)),
+})
 
 export const generateWmsInboundShipmentItem = (
   faker: Faker,
@@ -176,7 +166,7 @@ export const generateWmsInboundShipmentItem = (
   expectedQuantity: faker.number.int({ min: 1, max: 100 }),
   receivedQuantity: faker.number.int({ min: 1, max: 100 }),
   discrepancyNotes: faker.lorem.sentence(),
-});
+})
 
 export const generateWmsSalesOrder = (
   faker: Faker,
@@ -188,7 +178,7 @@ export const generateWmsSalesOrder = (
   shippingAddress: faker.location.streetAddress(true),
   status: faker.helpers.arrayElement(Object.values(WmsSalesOrderStatusEnum)),
   crmOpportunityId: crmOpportunityId,
-});
+})
 
 export const generateWmsSalesOrderItem = (
   faker: Faker,
@@ -198,7 +188,7 @@ export const generateWmsSalesOrderItem = (
   salesOrderId: salesOrderId,
   productId: productId,
   quantityOrdered: faker.number.int({ min: 1, max: 50 }),
-});
+})
 
 export const generateWmsOutboundShipment = (
   faker: Faker,
@@ -209,10 +199,8 @@ export const generateWmsOutboundShipment = (
   warehouseId: warehouseId,
   carrier: faker.company.name(),
   trackingNumber: faker.string.alphanumeric(15).toUpperCase(),
-  status: faker.helpers.arrayElement(
-    Object.values(WmsOutboundShipmentStatusEnum),
-  ),
-});
+  status: faker.helpers.arrayElement(Object.values(WmsOutboundShipmentStatusEnum)),
+})
 
 export const generateWmsOutboundShipmentItem = (
   faker: Faker,
@@ -226,7 +214,7 @@ export const generateWmsOutboundShipmentItem = (
   salesOrderItemId: salesOrderItemId,
   quantityShipped: faker.number.int({ min: 1, max: 50 }),
   batchId: batchId,
-});
+})
 
 export const generateWmsPackage = (
   faker: Faker,
@@ -252,7 +240,7 @@ export const generateWmsPackage = (
   packedAt: faker.date.recent(),
   shippedAt: faker.date.recent(),
   packedByUserId: packedByUserId,
-});
+})
 
 export const generateWmsPackageItem = (
   faker: Faker,
@@ -271,7 +259,7 @@ export const generateWmsPackageItem = (
     { min: 0, max: 3 },
   ),
   unitWeight: faker.number.float({ min: 0.1, max: 10 }),
-});
+})
 
 export const generateWmsPickBatch = (
   faker: Faker,
@@ -291,11 +279,11 @@ export const generateWmsPickBatch = (
   completedAt: faker.date.recent(),
   assignedUserId: assignedUserId,
   waveId: faker.string.uuid(),
-  zoneRestrictions: faker.helpers.arrayElements(
-    [faker.lorem.word(), faker.lorem.word()],
-    { min: 0, max: 2 },
-  ),
-});
+  zoneRestrictions: faker.helpers.arrayElements([faker.lorem.word(), faker.lorem.word()], {
+    min: 0,
+    max: 2,
+  }),
+})
 
 export const generateWmsPickBatchItem = (
   faker: Faker,
@@ -307,7 +295,7 @@ export const generateWmsPickBatchItem = (
   orderPriority: faker.number.int({ min: 1, max: 10 }),
   estimatedPickTime: faker.number.int({ min: 5, max: 60 }),
   actualPickTime: faker.number.int({ min: 5, max: 60 }),
-});
+})
 
 export const generateWmsPutawayRule = (
   faker: Faker,
@@ -329,7 +317,7 @@ export const generateWmsPutawayRule = (
   locationType: faker.helpers.arrayElement(Object.values(WmsLocationTypeEnum)),
   clientId: clientId,
   preferredLocationId: preferredLocationId,
-});
+})
 
 export const generateWmsReorderPoint = (
   faker: Faker,
@@ -339,7 +327,7 @@ export const generateWmsReorderPoint = (
   warehouseId: warehouseId,
   productId: productId,
   threshold: faker.number.int({ min: 10, max: 100 }),
-});
+})
 
 export const generateWmsReturn = (
   faker: Faker,
@@ -351,7 +339,7 @@ export const generateWmsReturn = (
   reason: faker.lorem.sentence(),
   status: faker.helpers.arrayElement(Object.values(WmsReturnStatusEnum)),
   salesOrderId: salesOrderId,
-});
+})
 
 export const generateWmsReturnItem = (
   faker: Faker,
@@ -362,10 +350,8 @@ export const generateWmsReturnItem = (
   productId: productId,
   quantityExpected: faker.number.int({ min: 1, max: 50 }),
   quantityReceived: faker.number.int({ min: 0, max: 50 }),
-  condition: faker.helpers.arrayElement(
-    Object.values(WmsReturnItemConditionEnum),
-  ),
-});
+  condition: faker.helpers.arrayElement(Object.values(WmsReturnItemConditionEnum)),
+})
 
 export const generateWmsStockTransfer = (
   faker: Faker,
@@ -378,7 +364,7 @@ export const generateWmsStockTransfer = (
   productId: productId,
   quantity: faker.number.int({ min: 1, max: 100 }),
   status: faker.helpers.arrayElement(Object.values(WmsStockTransferStatusEnum)),
-});
+})
 
 export const generateWmsTask = (
   faker: Faker,
@@ -404,7 +390,7 @@ export const generateWmsTask = (
   pickBatchId: pickBatchId,
   sourceEntityId: sourceEntityId,
   sourceEntityType: sourceEntityType,
-});
+})
 
 export const generateWmsTaskItem = (
   faker: Faker,
@@ -414,8 +400,8 @@ export const generateWmsTaskItem = (
   destinationLocationId?: string,
   batchId?: string,
 ): Insertable<DB['wms.taskItems']> => {
-  const quantityRequired = faker.number.int({ min: 1, max: 50 });
-  const quantityCompleted = faker.number.int({ min: 0, max: quantityRequired });
+  const quantityRequired = faker.number.int({ min: 1, max: 50 })
+  const quantityCompleted = faker.number.int({ min: 0, max: quantityRequired })
 
   return {
     taskId: taskId,
@@ -434,5 +420,5 @@ export const generateWmsTaskItem = (
       { min: 0, max: 3 },
     ),
     completedAt: faker.date.recent(),
-  };
-};
+  }
+}

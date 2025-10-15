@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsExpenseInsertSchema,
   tmsExpenseSchema,
   tmsExpenseUpdateSchema,
-} from '@/schemas/tms/expense';
+} from '@/schemas/tms/expense'
 
 export const paginateExpenseContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateExpenseContract = oc
       }),
     ),
   )
-  .output(z.array(tmsExpenseSchema));
+  .output(z.array(tmsExpenseSchema))
 
 export const rangeExpenseContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeExpenseContract = oc
       }),
     ),
   )
-  .output(z.array(tmsExpenseSchema));
+  .output(z.array(tmsExpenseSchema))
 
 export const inExpenseContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsExpenseSchema));
+  .output(z.array(tmsExpenseSchema))
 
-export const createExpenseContract = oc
-  .input(tmsExpenseInsertSchema)
-  .output(tmsExpenseSchema);
+export const createExpenseContract = oc.input(tmsExpenseInsertSchema).output(tmsExpenseSchema)
 
 export const updateExpenseContract = oc
   .input(z.object({ id: z.uuid(), value: tmsExpenseUpdateSchema }))
-  .output(tmsExpenseSchema);
+  .output(tmsExpenseSchema)
 
 export const deleteExpenseContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

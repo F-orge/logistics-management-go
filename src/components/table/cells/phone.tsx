@@ -1,102 +1,90 @@
-import parsePhoneNumber, { type PhoneNumber } from 'libphonenumber-js';
-import { Check, Phone } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import parsePhoneNumber, { type PhoneNumber } from 'libphonenumber-js'
+import { Check, Phone } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type PhoneCellProps = {
-  value?: string | null;
-  onSave?: (value: string) => Promise<unknown> | unknown;
-  editable?: boolean;
-  format?: 'international' | 'national' | 'e164' | 'rfc3966';
-  defaultCountry?: string;
-};
+  value?: string | null
+  onSave?: (value: string) => Promise<unknown> | unknown
+  editable?: boolean
+  format?: 'international' | 'national' | 'e164' | 'rfc3966'
+  defaultCountry?: string
+}
 
 const PhoneCell = (props: PhoneCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [value, setValue] = React.useState<string | undefined>(
-    props.value || undefined,
-  );
-  const [error, setError] = React.useState<string | null>(null);
+  const [edit, setEdit] = React.useState(false)
+  const [value, setValue] = React.useState<string | undefined>(props.value || undefined)
+  const [error, setError] = React.useState<string | null>(null)
 
   useEffect(() => {
     if (props.value !== value) {
-      setValue(props.value || undefined);
+      setValue(props.value || undefined)
     }
-  }, [props.value]);
+  }, [props.value])
 
   const formatPhoneNumber = (phoneString: string): string => {
-    if (!phoneString) return '';
+    if (!phoneString) return ''
 
     try {
-      const phoneNumber = parsePhoneNumber(
-        phoneString,
-        props.defaultCountry as any,
-      );
+      const phoneNumber = parsePhoneNumber(phoneString, props.defaultCountry as any)
 
-      if (!phoneNumber) return phoneString;
+      if (!phoneNumber) return phoneString
 
       switch (props.format || 'international') {
         case 'national':
-          return phoneNumber.formatNational();
+          return phoneNumber.formatNational()
         case 'e164':
-          return phoneNumber.format('E.164');
+          return phoneNumber.format('E.164')
         case 'rfc3966':
-          return phoneNumber.getURI();
+          return phoneNumber.getURI()
         case 'international':
         default:
-          return phoneNumber.formatInternational();
+          return phoneNumber.formatInternational()
       }
     } catch (error) {
-      return phoneString;
+      return phoneString
     }
-  };
+  }
 
   const validatePhoneNumber = (phoneString: string): boolean => {
-    if (!phoneString) return true; // Empty is valid
+    if (!phoneString) return true // Empty is valid
 
     try {
-      const phoneNumber = parsePhoneNumber(
-        phoneString,
-        props.defaultCountry as any,
-      );
-      return phoneNumber ? phoneNumber.isValid() : false;
+      const phoneNumber = parsePhoneNumber(phoneString, props.defaultCountry as any)
+      return phoneNumber ? phoneNumber.isValid() : false
     } catch (error) {
-      return false;
+      return false
     }
-  };
+  }
 
   const handleInputChange = (inputValue: string) => {
-    setValue(inputValue);
+    setValue(inputValue)
 
     if (inputValue && !validatePhoneNumber(inputValue)) {
-      setError('Invalid phone number');
+      setError('Invalid phone number')
     } else {
-      setError(null);
+      setError(null)
     }
-  };
+  }
 
   const handleSave = () => {
-    if (error) return;
+    if (error) return
 
     if (props.onSave && value !== undefined) {
-      props.onSave(value);
-      setEdit(false);
+      props.onSave(value)
+      setEdit(false)
     } else {
-      setValue(props.value || undefined);
-      setEdit(false);
+      setValue(props.value || undefined)
+      setEdit(false)
     }
-  };
+  }
 
   if (props.value !== undefined) {
-    const formattedValue = formatPhoneNumber(value || '');
+    const formattedValue = formatPhoneNumber(value || '')
 
     return (
       <Field className={cn(edit && 'min-w-xs')}>
@@ -123,7 +111,7 @@ const PhoneCell = (props: PhoneCellProps) => {
                 asChild
                 onDoubleClick={() => {
                   if (props.editable) {
-                    setEdit(true);
+                    setEdit(true)
                   }
                 }}
                 className="cursor-pointer"
@@ -131,10 +119,8 @@ const PhoneCell = (props: PhoneCellProps) => {
                 <Button variant={'link'} className="p-0">
                   <a
                     href={
-                      parsePhoneNumber(
-                        value || '',
-                        props.defaultCountry as any,
-                      )?.getURI() || `tel:${value || ''}`
+                      parsePhoneNumber(value || '', props.defaultCountry as any)?.getURI() ||
+                      `tel:${value || ''}`
                     }
                   >
                     {formattedValue}
@@ -149,26 +135,22 @@ const PhoneCell = (props: PhoneCellProps) => {
                 </p>
                 {props.format !== 'e164' && (
                   <p>
-                    <strong>E.164:</strong>{' '}
-                    {formatPhoneNumber(value || '').replace(/\s/g, '')}
+                    <strong>E.164:</strong> {formatPhoneNumber(value || '').replace(/\s/g, '')}
                   </p>
                 )}
                 <p>
                   <strong>Click to call:</strong>{' '}
-                  {parsePhoneNumber(
-                    value || '',
-                    props.defaultCountry as any,
-                  )?.getURI()}
+                  {parsePhoneNumber(value || '', props.defaultCountry as any)?.getURI()}
                 </p>
               </div>
             </TooltipContent>
           </Tooltip>
         )}
       </Field>
-    );
+    )
   } else {
-    return <>-</>;
+    return <>-</>
   }
-};
+}
 
-export default PhoneCell;
+export default PhoneCell

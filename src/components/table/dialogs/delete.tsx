@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/components/ui/alert-dialog'
 
 const DeleteRecordDialog = ({
   open,
@@ -18,11 +18,11 @@ const DeleteRecordDialog = ({
   description,
   onConfirm,
 }: {
-  open: boolean | undefined;
-  onOpenChange: (open: boolean) => void;
-  title: React.ReactNode;
-  description: React.ReactNode;
-  onConfirm: () => Promise<unknown> | unknown;
+  open: boolean | undefined
+  onOpenChange: (open: boolean) => void
+  title: React.ReactNode
+  description: React.ReactNode
+  onConfirm: () => Promise<unknown> | unknown
 }) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -37,7 +37,7 @@ const DeleteRecordDialog = ({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
+  )
+}
 
-export default DeleteRecordDialog;
+export default DeleteRecordDialog

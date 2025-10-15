@@ -1,17 +1,15 @@
-import { ColumnDef } from '@tanstack/react-table';
-import BooleanCell from '@/components/table/cells/boolean';
-import DateCell from '@/components/table/cells/date';
-import StringCell from '@/components/table/cells/string';
-import { ORPCOutputs, orpcClient } from '@/orpc/client';
+import type { ColumnDef } from '@tanstack/react-table'
+import BooleanCell from '@/components/table/cells/boolean'
+import DateCell from '@/components/table/cells/date'
+import StringCell from '@/components/table/cells/string'
+import { type ORPCOutputs, orpcClient } from '@/orpc/client'
 
-export const columns: ColumnDef<
-  ORPCOutputs['crm']['paginateNotification'][number]
->[] = [
+export const columns: ColumnDef<ORPCOutputs['crm']['paginateNotification'][number]>[] = [
   {
     accessorKey: 'id',
     header: 'Notification ID',
     cell: ({ row }) => {
-      return <StringCell value={row.original.id} />;
+      return <StringCell value={row.original.id} />
     },
   },
   {
@@ -44,4 +42,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

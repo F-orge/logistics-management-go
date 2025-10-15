@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsOutboundShipmentStatusEnum } from '@/db/types';
+import { z } from 'zod'
+import { WmsOutboundShipmentStatusEnum } from '@/db/types'
 
 export const wmsOutboundShipmentSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -27,23 +27,16 @@ export const wmsOutboundShipmentSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsOutboundShipment = z.infer<typeof wmsOutboundShipmentSchema>;
+export type WmsOutboundShipment = z.infer<typeof wmsOutboundShipmentSchema>
 
 export const wmsOutboundShipmentInsertSchema = wmsOutboundShipmentSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsOutboundShipmentUpdateSchema =
-  wmsOutboundShipmentInsertSchema.partial();
+export const wmsOutboundShipmentUpdateSchema = wmsOutboundShipmentInsertSchema.partial()

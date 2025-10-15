@@ -1,10 +1,10 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inUser } from '@/queries/auth/user';
-import { inClientAccount } from './client_account';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inUser } from '@/queries/auth/user'
+import { inClientAccount } from './client_account'
 
 export const paginateAccountTransaction = (
   options: Parameters<typeof orpcClient.billing.paginateAccountTransaction>[0],
@@ -12,37 +12,24 @@ export const paginateAccountTransaction = (
   queryOptions({
     queryKey: ['billing.accountTransaction', 'paginate', options],
     queryFn: async ({ client }) => {
-      const accountTransactions =
-        await orpcClient.billing.paginateAccountTransaction(options);
+      const accountTransactions = await orpcClient.billing.paginateAccountTransaction(options)
 
       const clientAccounts = await client.ensureQueryData(
-        inClientAccount(
-          accountTransactions
-            .map((row) => row.clientAccountId)
-            .filter(nonEmpty),
-        ),
-      );
+        inClientAccount(accountTransactions.map((row) => row.clientAccountId).filter(nonEmpty)),
+      )
 
       const processedByUsers = await client.ensureQueryData(
-        inUser(
-          accountTransactions
-            .map((row) => row.processedByUserId)
-            .filter(nonEmpty),
-        ),
-      );
+        inUser(accountTransactions.map((row) => row.processedByUserId).filter(nonEmpty)),
+      )
 
       return accountTransactions.map((row) => ({
         ...row,
-        clientAccount: clientAccounts.find(
-          (subRow) => subRow.id === row.clientAccountId,
-        ),
-        processedByUser: processedByUsers.find(
-          (subRow) => subRow.id === row.processedByUserId,
-        ),
-      }));
+        clientAccount: clientAccounts.find((subRow) => subRow.id === row.clientAccountId),
+        processedByUser: processedByUsers.find((subRow) => subRow.id === row.processedByUserId),
+      }))
     },
     enabled: !!options,
-  });
+  })
 
 export const rangeAccountTransaction = (
   options: Parameters<typeof orpcClient.billing.rangeAccountTransaction>[0],
@@ -51,7 +38,7 @@ export const rangeAccountTransaction = (
     queryKey: ['billing.accountTransaction', 'range', options],
     queryFn: () => orpcClient.billing.rangeAccountTransaction(options),
     enabled: !!options,
-  });
+  })
 
 export const inAccountTransaction = (
   options: Parameters<typeof orpcClient.billing.inAccountTransaction>[0],
@@ -60,7 +47,7 @@ export const inAccountTransaction = (
     queryKey: ['billing.accountTransaction', 'in', options],
     queryFn: () => orpcClient.billing.inAccountTransaction(options),
     enabled: !!options,
-  });
+  })
 
 export const createAccountTransaction = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.createAccountTransaction>>,
@@ -71,15 +58,15 @@ export const createAccountTransaction = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Account Transaction: ${data.id} has been added successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.accountTransaction'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateAccountTransaction = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.updateAccountTransaction>>,
@@ -90,15 +77,15 @@ export const updateAccountTransaction = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Account Transaction: ${data.id} has been updated successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.accountTransaction'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteAccountTransaction = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.deleteAccountTransaction>>,
@@ -109,12 +96,12 @@ export const deleteAccountTransaction = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Account Transaction has been deleted successfully`,
-    });
+    })
     await context.client.invalidateQueries({
       queryKey: ['billing.accountTransaction'],
-    });
+    })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

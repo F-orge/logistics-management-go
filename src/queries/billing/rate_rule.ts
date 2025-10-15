@@ -1,9 +1,9 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inRateCard } from './rate_card';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inRateCard } from './rate_card'
 
 export const paginateRateRule = (
   options: Parameters<typeof orpcClient.billing.paginateRateRule>[0],
@@ -11,37 +11,33 @@ export const paginateRateRule = (
   queryOptions({
     queryKey: ['billing.rateRule', 'paginate', options],
     queryFn: async ({ client }) => {
-      const rateRules = await orpcClient.billing.paginateRateRule(options);
+      const rateRules = await orpcClient.billing.paginateRateRule(options)
 
       const rateCards = await client.ensureQueryData(
         inRateCard(rateRules.map((row) => row.rateCardId).filter(nonEmpty)),
-      );
+      )
 
       return rateRules.map((row) => ({
         ...row,
         rateCard: rateCards.find((subRow) => subRow.id === row.rateCardId),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeRateRule = (
-  options: Parameters<typeof orpcClient.billing.rangeRateRule>[0],
-) =>
+export const rangeRateRule = (options: Parameters<typeof orpcClient.billing.rangeRateRule>[0]) =>
   queryOptions({
     queryKey: ['billing.rateRule', 'range', options],
     queryFn: () => orpcClient.billing.rangeRateRule(options),
     enabled: !!options,
-  });
+  })
 
-export const inRateRule = (
-  options: Parameters<typeof orpcClient.billing.inRateRule>[0],
-) =>
+export const inRateRule = (options: Parameters<typeof orpcClient.billing.inRateRule>[0]) =>
   queryOptions({
     queryKey: ['billing.rateRule', 'in', options],
     queryFn: () => orpcClient.billing.inRateRule(options),
     enabled: !!options,
-  });
+  })
 
 export const createRateRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.createRateRule>>,
@@ -52,13 +48,13 @@ export const createRateRule = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Rate Rule: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateRateRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.updateRateRule>>,
@@ -69,13 +65,13 @@ export const updateRateRule = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Rate Rule: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteRateRule = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.billing.deleteRateRule>>,
@@ -86,10 +82,10 @@ export const deleteRateRule = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Rate Rule has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['billing.rateRule'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

@@ -1,5 +1,5 @@
-import { Faker } from '@faker-js/faker';
-import { Insertable } from 'kysely';
+import type { Faker } from '@faker-js/faker'
+import type { Insertable } from 'kysely'
 import {
   CrmCasePriority,
   CrmCaseStatus,
@@ -13,8 +13,8 @@ import {
   CrmPaymentMethod,
   CrmProductType,
   CrmRecordType,
-  DB,
-} from '@/db/types';
+  type DB,
+} from '@/db/types'
 
 export const generateCrmAttachment = (
   faker: Faker,
@@ -25,18 +25,15 @@ export const generateCrmAttachment = (
   filePath: faker.system.filePath(),
   mimeType: faker.system.mimeType(),
   recordId: recordId,
-  recordType:
-    recordType || faker.helpers.arrayElement(Object.values(CrmRecordType)),
-});
+  recordType: recordType || faker.helpers.arrayElement(Object.values(CrmRecordType)),
+})
 
-export const generateCrmCampaign = (
-  faker: Faker,
-): Insertable<DB['crm.campaigns']> => ({
+export const generateCrmCampaign = (faker: Faker): Insertable<DB['crm.campaigns']> => ({
   name: faker.lorem.words(3),
   budget: faker.number.float({ min: 1000, max: 100000 }),
   startDate: faker.date.past(),
   endDate: faker.date.future(),
-});
+})
 
 export const generateCrmCase = (
   faker: Faker,
@@ -50,7 +47,7 @@ export const generateCrmCase = (
   priority: faker.helpers.arrayElement(Object.values(CrmCasePriority)),
   status: faker.helpers.arrayElement(Object.values(CrmCaseStatus)),
   type: faker.helpers.arrayElement(Object.values(CrmCaseType)),
-});
+})
 
 export const generateCrmCompany = (
   faker: Faker,
@@ -70,7 +67,7 @@ export const generateCrmCompany = (
   state: faker.location.state(),
   street: faker.location.streetAddress(),
   website: faker.internet.url(),
-});
+})
 
 export const generateCrmContact = (
   faker: Faker,
@@ -83,7 +80,7 @@ export const generateCrmContact = (
   jobTitle: faker.person.jobTitle(),
   ownerId: ownerId,
   phoneNumber: faker.phone.number({ style: 'international' }),
-});
+})
 
 export const generateCrmInteraction = (
   faker: Faker,
@@ -98,7 +95,7 @@ export const generateCrmInteraction = (
   outcome: faker.lorem.words(2),
   type: faker.helpers.arrayElement(Object.values(CrmInteractionType)),
   userId: userId,
-});
+})
 
 export const generateCrmInvoiceItem = (
   faker: Faker,
@@ -109,7 +106,7 @@ export const generateCrmInvoiceItem = (
   productId: productId,
   price: faker.number.float({ min: 10, max: 1000 }),
   quantity: faker.number.int({ min: 1, max: 10 }),
-});
+})
 
 export const generateCrmInvoice = (
   faker: Faker,
@@ -123,7 +120,7 @@ export const generateCrmInvoice = (
   sentAt: faker.date.recent(),
   status: faker.helpers.arrayElement(Object.values(CrmInvoiceStatus)),
   total: faker.number.float({ min: 100, max: 5000 }),
-});
+})
 
 export const generateCrmLead = (
   faker: Faker,
@@ -144,7 +141,7 @@ export const generateCrmLead = (
   leadSource: faker.helpers.arrayElement(Object.values(CrmLeadSource)),
   ownerId: ownerId,
   status: faker.helpers.arrayElement(Object.values(CrmLeadStatus)),
-});
+})
 
 export const generateCrmNotification = (
   faker: Faker,
@@ -154,7 +151,7 @@ export const generateCrmNotification = (
   message: faker.lorem.sentence(),
   isRead: faker.datatype.boolean(),
   link: faker.internet.url(),
-});
+})
 
 export const generateCrmOpportunity = (
   faker: Faker,
@@ -177,7 +174,7 @@ export const generateCrmOpportunity = (
   probability: faker.number.int({ min: 0, max: 100 }),
   source: faker.helpers.arrayElement(Object.values(CrmOpportunitySource)),
   stage: faker.helpers.arrayElement(Object.values(CrmOpportunityStage)),
-});
+})
 
 export const generateCrmOpportunityProduct = (
   faker: Faker,
@@ -187,14 +184,12 @@ export const generateCrmOpportunityProduct = (
   opportunityId: opportunityId,
   productId: productId,
   quantity: faker.number.int({ min: 1, max: 100 }),
-});
+})
 
-export const generateCrmProduct = (
-  faker: Faker,
-): Insertable<DB['crm.products']> => ({
+export const generateCrmProduct = (faker: Faker): Insertable<DB['crm.products']> => ({
   name: faker.commerce.productName(),
   price: faker.number.float({ min: 1, max: 1000 }),
   description: faker.lorem.paragraph(),
   sku: faker.string.alphanumeric(10).toUpperCase(),
   type: faker.helpers.arrayElement(Object.values(CrmProductType)),
-});
+})

@@ -1,42 +1,36 @@
-import { ZodProvider } from '@autoform/zod';
-import { useMutation } from '@tanstack/react-query';
-import {
-  useNavigate,
-  useRouteContext,
-  useSearch,
-} from '@tanstack/react-router';
-import z from 'zod';
-import { AutoForm } from '@/components/ui/autoform';
+import { ZodProvider } from '@autoform/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useNavigate, useRouteContext, useSearch } from '@tanstack/react-router'
+import type z from 'zod'
+import { AutoForm } from '@/components/ui/autoform'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { FieldSeparator } from '@/components/ui/field';
-import { createGpsPing } from '@/queries/tms';
-import { tmsGpsPingInsertSchema } from '@/schemas/tms/gps_ping';
+} from '@/components/ui/dialog'
+import { FieldSeparator } from '@/components/ui/field'
+import { createGpsPing } from '@/queries/tms'
+import { tmsGpsPingInsertSchema } from '@/schemas/tms/gps_ping'
 
 const NewGpsPingFormDialog = () => {
   const navigate = useNavigate({
     from: '/dashboard/tms/gps-ping',
-  });
+  })
   const searchQuery = useSearch({
     from: '/dashboard/tms/gps-ping/',
-  });
+  })
   const { queryClient } = useRouteContext({
     from: '/dashboard/tms/gps-ping/',
-  });
+  })
 
-  const createMutation = useMutation(createGpsPing, queryClient);
+  const createMutation = useMutation(createGpsPing, queryClient)
 
   return (
     <Dialog
       open={searchQuery.new}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
-      }
+      onOpenChange={() => navigate({ search: (prev) => ({ ...prev, new: undefined }) })}
     >
       <DialogContent>
         <DialogHeader>
@@ -51,15 +45,15 @@ const NewGpsPingFormDialog = () => {
           onSubmit={async (value: z.infer<typeof tmsGpsPingInsertSchema>) => {
             await createMutation.mutateAsync(value, {
               onSuccess: () => {
-                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) })
               },
-            });
+            })
           }}
           withSubmit
         />
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NewGpsPingFormDialog;
+export default NewGpsPingFormDialog

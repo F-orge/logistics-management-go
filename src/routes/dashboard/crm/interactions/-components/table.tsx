@@ -1,29 +1,21 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link, useRouteContext } from '@tanstack/react-router';
-import type { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import RelationCell from '@/components/table/cells/relation';
-import StringCell from '@/components/table/cells/string';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { CrmInteractionType } from '@/db/types';
-import { type ORPCOutputs, orpcClient } from '@/orpc/client';
-import {
-  paginateCase,
-  paginateContact,
-  updateInteraction,
-} from '@/queries/crm';
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { Link, useRouteContext } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import RelationCell from '@/components/table/cells/relation'
+import StringCell from '@/components/table/cells/string'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import type { CrmInteractionType } from '@/db/types'
+import { type ORPCOutputs, orpcClient } from '@/orpc/client'
+import { paginateCase, paginateContact, updateInteraction } from '@/queries/crm'
 
 export const columns: ColumnDef<
   ORPCOutputs['crm']['paginateInteraction'][number] & {
-    contact?: ORPCOutputs['crm']['inContact'][number];
-    case?: ORPCOutputs['crm']['inCase'][number];
-    user?: ORPCOutputs['auth']['inUser'][number];
+    contact?: ORPCOutputs['crm']['inContact'][number]
+    case?: ORPCOutputs['crm']['inCase'][number]
+    user?: ORPCOutputs['auth']['inUser'][number]
   }
 >[] = [
   {
@@ -32,9 +24,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/interactions/',
-      });
+      })
 
-      const updateMutation = useMutation(updateInteraction, queryClient);
+      const updateMutation = useMutation(updateInteraction, queryClient)
 
       const { data: contacts } = useQuery(
         {
@@ -45,7 +37,7 @@ export const columns: ColumnDef<
           enabled: !!row.original.contact,
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -69,7 +61,7 @@ export const columns: ColumnDef<
             {row.original.contact?.name || 'Not Avaiable'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
@@ -78,9 +70,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/interactions/',
-      });
+      })
 
-      const updateMutation = useMutation(updateInteraction, queryClient);
+      const updateMutation = useMutation(updateInteraction, queryClient)
 
       const { data: cases } = useQuery(
         {
@@ -91,7 +83,7 @@ export const columns: ColumnDef<
           enabled: !!row.original.case,
         },
         queryClient,
-      );
+      )
 
       return (
         <RelationCell
@@ -115,16 +107,16 @@ export const columns: ColumnDef<
             {row.original.case?.caseNumber || 'Not Available'}
           </Button>
         </RelationCell>
-      );
+      )
     },
   },
   {
     accessorKey: 'userId',
     header: 'User',
     cell: ({ row }) => {
-      const user = row.original.user;
+      const user = row.original.user
       if (!user) {
-        return <div className="text-muted-foreground">N/A</div>;
+        return <div className="text-muted-foreground">N/A</div>
       }
       return (
         <Tooltip>
@@ -135,10 +127,7 @@ export const columns: ColumnDef<
                 <AvatarFallback>
                   {user.name
                     .split(' ')
-                    .filter(
-                      (n: any, i: any, arr: any) =>
-                        i === 0 || i === arr.length - 1,
-                    )
+                    .filter((n: any, i: any, arr: any) => i === 0 || i === arr.length - 1)
                     .map((n: any) => n[0])
                     .join('')
                     .toUpperCase()}
@@ -151,7 +140,7 @@ export const columns: ColumnDef<
             <p>{user.email}</p>
           </TooltipContent>
         </Tooltip>
-      );
+      )
     },
   },
   {
@@ -160,9 +149,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/interactions/',
-      });
+      })
 
-      const updateMutation = useMutation(updateInteraction, queryClient);
+      const updateMutation = useMutation(updateInteraction, queryClient)
 
       return (
         <StringCell
@@ -175,15 +164,13 @@ export const columns: ColumnDef<
           editable
           value={row.original.type}
         />
-      );
+      )
     },
   },
   {
     accessorKey: 'interactionDate',
     header: 'Interaction Date',
-    cell: ({ row }) => (
-      <DateCell value={row.original.interactionDate} showTime />
-    ),
+    cell: ({ row }) => <DateCell value={row.original.interactionDate} showTime />,
   },
   {
     accessorKey: 'notes',
@@ -191,9 +178,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/interactions/',
-      });
+      })
 
-      const updateMutation = useMutation(updateInteraction, queryClient);
+      const updateMutation = useMutation(updateInteraction, queryClient)
 
       return (
         <StringCell
@@ -206,7 +193,7 @@ export const columns: ColumnDef<
           editable
           value={row.original.notes}
         />
-      );
+      )
     },
   },
   {
@@ -215,9 +202,9 @@ export const columns: ColumnDef<
     cell: ({ row }) => {
       const { queryClient } = useRouteContext({
         from: '/dashboard/crm/interactions/',
-      });
+      })
 
-      const updateMutation = useMutation(updateInteraction, queryClient);
+      const updateMutation = useMutation(updateInteraction, queryClient)
 
       return (
         <StringCell
@@ -230,7 +217,7 @@ export const columns: ColumnDef<
           editable
           value={row.original.outcome}
         />
-      );
+      )
     },
   },
   {
@@ -243,4 +230,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

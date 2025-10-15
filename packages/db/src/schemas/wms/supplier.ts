@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const SupplierSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -25,22 +25,16 @@ export const SupplierSchema = z.object({
     .max(32, { error: 'Phone number must be at most 32 characters' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsSupplier = z.infer<typeof SupplierSchema>;
+export type WmsSupplier = z.infer<typeof SupplierSchema>
 
 export const SupplierInsertSchema = SupplierSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const SupplierUpdateSchema = SupplierInsertSchema.partial();
+export const SupplierUpdateSchema = SupplierInsertSchema.partial()

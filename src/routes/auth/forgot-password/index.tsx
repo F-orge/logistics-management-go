@@ -1,23 +1,18 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { toast } from 'sonner';
-import { useAppForm } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { authClient } from '@/lib/client-auth';
-import { cn } from '@/lib/utils';
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
+import { useAppForm } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/client-auth'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/auth/forgot-password/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const navigate = Route.useNavigate();
+  const navigate = Route.useNavigate()
 
   const form = useAppForm({
     defaultValues: {} as { email: string },
@@ -32,20 +27,20 @@ function RouteComponent() {
             navigate({
               to: '/auth/reset-password',
               search: { email: value.email },
-            });
-            return data?.message;
+            })
+            return data?.message
           },
           error: 'Unable to reset your password',
         },
       ),
-  });
+  })
 
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit();
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
       }}
       className={cn('flex flex-col gap-6')}
     >
@@ -59,12 +54,7 @@ function RouteComponent() {
           </div>
           <form.AppField name="email">
             {(field) => (
-              <field.TextField
-                label="Email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
+              <field.TextField label="Email" type="email" placeholder="m@example.com" required />
             )}
           </form.AppField>
           <Field>
@@ -81,5 +71,5 @@ function RouteComponent() {
         </FieldGroup>
       </form.AppForm>
     </form>
-  );
+  )
 }

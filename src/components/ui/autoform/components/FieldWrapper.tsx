@@ -1,14 +1,8 @@
-import { FieldWrapperProps } from '@autoform/react';
-import React from 'react';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from '../../field';
+import type { FieldWrapperProps } from '@autoform/react'
+import type React from 'react'
+import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from '../../field'
 
-const DISABLED_LABELS = ['boolean', 'object', 'array'];
+const DISABLED_LABELS = ['boolean', 'object', 'array']
 
 export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   label,
@@ -17,7 +11,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   field,
   error,
 }) => {
-  const isDisabled = DISABLED_LABELS.includes(field.type);
+  const isDisabled = DISABLED_LABELS.includes(field.type)
 
   return (
     <Field>
@@ -34,10 +28,8 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
             {field.fieldConfig.description}
           </FieldDescription>
         )}
-        {error && (
-          <FieldError className="text-sm text-destructive">{error}</FieldError>
-        )}
+        {error && <FieldError className="text-sm text-destructive">{error}</FieldError>}
       </FieldContent>
     </Field>
-  );
-};
+  )
+}

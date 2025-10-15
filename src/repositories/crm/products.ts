@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteQueryBuilder,
   DeleteResult,
   Insertable,
@@ -10,9 +10,9 @@ import {
   SelectQueryBuilder,
   Updateable,
   UpdateQueryBuilder,
-} from 'kysely';
-import { CrmProductType, DB } from '@/db/types';
-import { FilterConfig, GenericRepository, SortConfig } from '../interface';
+} from 'kysely'
+import type { CrmProductType, DB } from '@/db/types'
+import type { FilterConfig, GenericRepository, SortConfig } from '../interface'
 
 export class ProductRepository implements GenericRepository<'crm.products'> {
   constructor(private db: Kysely<DB>) {}
@@ -26,35 +26,31 @@ export class ProductRepository implements GenericRepository<'crm.products'> {
     DB,
     'crm.products',
     {
-      createdAt: Date | null;
-      description: string | null;
-      id: string;
-      name: string;
-      price: string;
-      sku: string | null;
-      type: CrmProductType | null;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      description: string | null
+      id: string
+      name: string
+      price: string
+      sku: string | null
+      type: CrmProductType | null
+      updatedAt: Date | null
     }
   > {
-    let query = this.db.selectFrom('crm.products').selectAll();
+    let query = this.db.selectFrom('crm.products').selectAll()
 
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.limit(limit)
 
-    if (page && limit) query = query.offset((page - 1) * limit);
+    if (page && limit) query = query.offset((page - 1) * limit)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   range(
     from: Date,
@@ -65,115 +61,104 @@ export class ProductRepository implements GenericRepository<'crm.products'> {
     DB,
     'crm.products',
     {
-      createdAt: Date | null;
-      description: string | null;
-      id: string;
-      name: string;
-      price: string;
-      sku: string | null;
-      type: CrmProductType | null;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      description: string | null
+      id: string
+      name: string
+      price: string
+      sku: string | null
+      type: CrmProductType | null
+      updatedAt: Date | null
     }
   > {
     let query = this.db
       .selectFrom('crm.products')
       .selectAll()
       .where('createdAt', '>=', from)
-      .where('createdAt', '<=', to);
+      .where('createdAt', '<=', to)
 
     for (const sortCol of sort || []) {
-      query = query.orderBy(sortCol.column, sortCol.order);
+      query = query.orderBy(sortCol.column, sortCol.order)
     }
 
     for (const filterCol of filter || []) {
-      query = query.where(
-        filterCol.column,
-        filterCol.operation,
-        filterCol.value,
-      );
+      query = query.where(filterCol.column, filterCol.operation, filterCol.value)
     }
 
-    return query;
+    return query
   }
   in(values: string[]): SelectQueryBuilder<
     DB,
     'crm.products',
     {
-      createdAt: Date | null;
-      description: string | null;
-      id: string;
-      name: string;
-      price: string;
-      sku: string | null;
-      type: CrmProductType | null;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      description: string | null
+      id: string
+      name: string
+      price: string
+      sku: string | null
+      type: CrmProductType | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .selectFrom('crm.products')
-      .selectAll()
-      .where('id', 'in', values);
+    return this.db.selectFrom('crm.products').selectAll().where('id', 'in', values)
   }
   create(
     value: { name: string; price: string | number } & {
-      createdAt?: string | Date | null | undefined;
-      description?: string | null | undefined;
-      id?: string | undefined;
-      sku?: string | null | undefined;
-      type?: CrmProductType | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      description?: string | null | undefined
+      id?: string | undefined
+      sku?: string | null | undefined
+      type?: CrmProductType | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): InsertQueryBuilder<
     DB,
     'crm.products',
     {
-      createdAt: Date | null;
-      description: string | null;
-      id: string;
-      name: string;
-      price: string;
-      sku: string | null;
-      type: CrmProductType | null;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      description: string | null
+      id: string
+      name: string
+      price: string
+      sku: string | null
+      type: CrmProductType | null
+      updatedAt: Date | null
     }
   > {
-    return this.db.insertInto('crm.products').values(value).returningAll();
+    return this.db.insertInto('crm.products').values(value).returningAll()
   }
   update(
     id: string,
     value: {
-      createdAt?: string | Date | null | undefined;
-      description?: string | null | undefined;
-      id?: string | undefined;
-      name?: string | undefined;
-      price?: string | number | undefined;
-      sku?: string | null | undefined;
-      type?: CrmProductType | null | undefined;
-      updatedAt?: string | Date | null | undefined;
+      createdAt?: string | Date | null | undefined
+      description?: string | null | undefined
+      id?: string | undefined
+      name?: string | undefined
+      price?: string | number | undefined
+      sku?: string | null | undefined
+      type?: CrmProductType | null | undefined
+      updatedAt?: string | Date | null | undefined
     },
   ): UpdateQueryBuilder<
     DB,
     'crm.products',
     'crm.products',
     {
-      createdAt: Date | null;
-      description: string | null;
-      id: string;
-      name: string;
-      price: string;
-      sku: string | null;
-      type: CrmProductType | null;
-      updatedAt: Date | null;
+      createdAt: Date | null
+      description: string | null
+      id: string
+      name: string
+      price: string
+      sku: string | null
+      type: CrmProductType | null
+      updatedAt: Date | null
     }
   > {
-    return this.db
-      .updateTable('crm.products')
-      .set(value)
-      .where('id', '=', id)
-      .returningAll();
+    return this.db.updateTable('crm.products').set(value).where('id', '=', id).returningAll()
   }
   delete(id: string): DeleteQueryBuilder<DB, 'crm.products', DeleteResult> {
-    return this.db.deleteFrom('crm.products').where('id', '=', id);
+    return this.db.deleteFrom('crm.products').where('id', '=', id)
   }
 }
 
@@ -186,52 +171,48 @@ export class CrmProductRepository {
     fields?: SelectExpression<DB, 'crm.products'>,
     search?: string,
     sort?: {
-      field: OrderByExpression<DB, 'crm.products', {}>;
-      order: OrderByModifiers;
+      field: OrderByExpression<DB, 'crm.products', {}>
+      order: OrderByModifiers
     }[],
   ) {
     let builder = this.db
       .selectFrom('crm.products')
       .limit(perPage)
-      .offset((page - 1) * perPage);
+      .offset((page - 1) * perPage)
 
     if (fields) {
-      builder = builder.select(fields);
+      builder = builder.select(fields)
     } else {
-      builder = builder.selectAll();
+      builder = builder.selectAll()
     }
 
     // sort
     for (const field of sort || []) {
-      builder = builder.orderBy(field.field, field.order);
+      builder = builder.orderBy(field.field, field.order)
     }
 
-    if (search)
-      builder = builder.where('crm.products.id', 'like', `%${search}%`);
+    if (search) builder = builder.where('crm.products.id', 'like', `%${search}%`)
 
-    return builder;
+    return builder
   }
 
   create(value: Insertable<DB['crm.products']>) {
-    return this.db.insertInto('crm.products').values(value).returningAll();
+    return this.db.insertInto('crm.products').values(value).returningAll()
   }
 
   batchCreate(values: Insertable<DB['crm.products']>[]) {
-    return this.db.insertInto('crm.products').values(values).returningAll();
+    return this.db.insertInto('crm.products').values(values).returningAll()
   }
 
-  update(
-    id: DB['crm.products']['id']['__update__'],
-    value: Updateable<DB['crm.products']>,
-  ) {
+  update(id: DB['crm.products']['id']['__update__'], value: Updateable<DB['crm.products']>) {
     return this.db
       .updateTable('crm.products')
       .set(value)
       .where('crm.products.id', '=', id)
-      .returningAll();
+      .returningAll()
   }
 
   delete(id: DB['crm.products']['id']['__update__']) {
-    return this.db.deleteFrom('crm.products').where('crm.products.id', '=', id);
+    return this.db.deleteFrom('crm.products').where('crm.products.id', '=', id)
   }
 }

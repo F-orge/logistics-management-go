@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const CheckboxDialog = () => {
-  return <div>CheckboxDialog</div>;
-};
+  return <div>CheckboxDialog</div>
+}
 
-export default CheckboxDialog;
+export default CheckboxDialog

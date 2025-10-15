@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { DmsProofOfDeliveryTypeEnum } from '@/db/types';
+import { z } from 'zod'
+import { DmsProofOfDeliveryTypeEnum } from '@/db/types'
 
 export const dmsProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -39,33 +39,23 @@ export const dmsProofOfDeliverySchema = z.object({
     .max(4096, { error: 'Signature data must be at most 4096 characters' })
     .optional()
     .nullable(),
-  timestamp: z
-    .date({ message: 'Invalid date format for timestamp' })
-    .optional()
-    .nullable(),
+  timestamp: z.date({ message: 'Invalid date format for timestamp' }).optional().nullable(),
   verificationCode: z
     .string({ message: 'Verification code must be a string' })
     .min(1, { error: 'Verification code is required' })
     .max(64, { error: 'Verification code must be at most 64 characters' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type DmsProofOfDelivery = z.infer<typeof dmsProofOfDeliverySchema>;
+export type DmsProofOfDelivery = z.infer<typeof dmsProofOfDeliverySchema>
 
 export const dmsProofOfDeliveryInsertSchema = dmsProofOfDeliverySchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const dmsProofOfDeliveryUpdateSchema =
-  dmsProofOfDeliveryInsertSchema.partial();
+export const dmsProofOfDeliveryUpdateSchema = dmsProofOfDeliveryInsertSchema.partial()

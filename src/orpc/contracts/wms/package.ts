@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   wmsPackageInsertSchema,
   wmsPackageSchema,
   wmsPackageUpdateSchema,
-} from '@/schemas/wms/package';
+} from '@/schemas/wms/package'
 
 export const paginatePackageContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginatePackageContract = oc
       }),
     ),
   )
-  .output(z.array(wmsPackageSchema));
+  .output(z.array(wmsPackageSchema))
 
 export const rangePackageContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangePackageContract = oc
       }),
     ),
   )
-  .output(z.array(wmsPackageSchema));
+  .output(z.array(wmsPackageSchema))
 
 export const inPackageContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(wmsPackageSchema));
+  .output(z.array(wmsPackageSchema))
 
-export const createPackageContract = oc
-  .input(wmsPackageInsertSchema)
-  .output(wmsPackageSchema);
+export const createPackageContract = oc.input(wmsPackageInsertSchema).output(wmsPackageSchema)
 
 export const updatePackageContract = oc
   .input(z.object({ id: z.uuid(), value: wmsPackageUpdateSchema }))
-  .output(wmsPackageSchema);
+  .output(wmsPackageSchema)
 
 export const deletePackageContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

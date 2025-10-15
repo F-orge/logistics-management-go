@@ -1,10 +1,10 @@
-import { ORPCError, ORPCErrorCode } from '@orpc/client';
-import { mutationOptions, queryOptions } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { nonEmpty } from '@/lib/utils';
-import { orpcClient } from '@/orpc/client';
-import { inCompany, inOpportunity } from '../crm';
-import { paginateSalesOrderItem } from './sales_order_item';
+import type { ORPCError, ORPCErrorCode } from '@orpc/client'
+import { mutationOptions, queryOptions } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { nonEmpty } from '@/lib/utils'
+import { orpcClient } from '@/orpc/client'
+import { inCompany, inOpportunity } from '../crm'
+import { paginateSalesOrderItem } from './sales_order_item'
 
 export const paginateSalesOrder = (
   options: Parameters<typeof orpcClient.wms.paginateSalesOrder>[0],
@@ -12,17 +12,15 @@ export const paginateSalesOrder = (
   queryOptions({
     queryKey: ['wms.salesOrder', 'paginate', options],
     queryFn: async ({ client }) => {
-      const salesOrders = await orpcClient.wms.paginateSalesOrder(options);
+      const salesOrders = await orpcClient.wms.paginateSalesOrder(options)
 
       const clients = await client.ensureQueryData(
         inCompany(salesOrders.map((row) => row.clientId)),
-      );
+      )
 
       const opportunities = await client.ensureQueryData(
-        inOpportunity(
-          salesOrders.map((row) => row.crmOpportunityId).filter(nonEmpty),
-        ),
-      );
+        inOpportunity(salesOrders.map((row) => row.crmOpportunityId).filter(nonEmpty)),
+      )
 
       const items = await client.ensureQueryData(
         paginateSalesOrderItem({
@@ -36,37 +34,31 @@ export const paginateSalesOrder = (
             },
           ],
         }),
-      );
+      )
 
       return salesOrders.map((row) => ({
         ...row,
         client: clients.find((subRow) => subRow.id === row.clientId)!,
-        opportunity: opportunities.find(
-          (subRow) => subRow.id === row.crmOpportunityId,
-        ),
+        opportunity: opportunities.find((subRow) => subRow.id === row.crmOpportunityId),
         items: items.filter((subRow) => subRow.salesOrderId === row.id),
-      }));
+      }))
     },
     enabled: !!options,
-  });
+  })
 
-export const rangeSalesOrder = (
-  options: Parameters<typeof orpcClient.wms.rangeSalesOrder>[0],
-) =>
+export const rangeSalesOrder = (options: Parameters<typeof orpcClient.wms.rangeSalesOrder>[0]) =>
   queryOptions({
     queryKey: ['wms.salesOrder', 'range', options],
     queryFn: () => orpcClient.wms.rangeSalesOrder(options),
     enabled: !!options,
-  });
+  })
 
-export const inSalesOrder = (
-  options: Parameters<typeof orpcClient.wms.inSalesOrder>[0],
-) =>
+export const inSalesOrder = (options: Parameters<typeof orpcClient.wms.inSalesOrder>[0]) =>
   queryOptions({
     queryKey: ['wms.salesOrder', 'in', options],
     queryFn: () => orpcClient.wms.inSalesOrder(options),
     enabled: !!options,
-  });
+  })
 
 export const createSalesOrder = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.createSalesOrder>>,
@@ -77,13 +69,13 @@ export const createSalesOrder = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Sales Order: ${data.id} has been added successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const updateSalesOrder = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.updateSalesOrder>>,
@@ -94,13 +86,13 @@ export const updateSalesOrder = mutationOptions<
   async onSuccess(data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Sales Order: ${data.id} has been updated successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})
 
 export const deleteSalesOrder = mutationOptions<
   Awaited<ReturnType<typeof orpcClient.wms.deleteSalesOrder>>,
@@ -111,10 +103,10 @@ export const deleteSalesOrder = mutationOptions<
   async onSuccess(_data, _variables, _onMutateResult, context) {
     toast.success(`Operation success`, {
       description: `Sales Order has been deleted successfully`,
-    });
-    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] });
+    })
+    await context.client.invalidateQueries({ queryKey: ['wms.salesOrder'] })
   },
   async onError(error, _variables, _onMutateResult, _context) {
-    toast.error('Operation failed', { description: error.message });
+    toast.error('Operation failed', { description: error.message })
   },
-});
+})

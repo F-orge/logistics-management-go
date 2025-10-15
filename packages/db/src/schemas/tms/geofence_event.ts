@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TmsGeofenceEventTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { TmsGeofenceEventTypeEnum } from '@/db.types'
 
 export const GeofenceEventSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -9,16 +9,15 @@ export const GeofenceEventSchema = z.object({
     message: 'Invalid geofence event type',
   }),
   timestamp: z.date({ message: 'Invalid date format for timestamp' }),
-});
+})
 
-export type TmsGeofenceEvent = z.infer<typeof GeofenceEventSchema>;
+export type TmsGeofenceEvent = z.infer<typeof GeofenceEventSchema>
 
 export const GeofenceEventInsertSchema = GeofenceEventSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
   timestamp: true,
-});
+})
 
-export const GeofenceEventUpdateSchema =
-  GeofenceEventInsertSchema.partial();
+export const GeofenceEventUpdateSchema = GeofenceEventInsertSchema.partial()

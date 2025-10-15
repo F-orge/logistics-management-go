@@ -1,15 +1,11 @@
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import React from 'react';
-import { useFieldContext } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
+import type React from 'react'
+import { useFieldContext } from '@/components/form'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import { Field, FieldDescription, FieldLabel } from '@/components/ui/field'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 export const DateField = ({
   className,
@@ -17,10 +13,10 @@ export const DateField = ({
   description,
   ...props
 }: React.ComponentProps<'input'> & {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
+  label?: React.ReactNode
+  description?: React.ReactNode
 }) => {
-  const field = useFieldContext<Date>();
+  const field = useFieldContext<Date>()
 
   return (
     <Field className={className}>
@@ -33,11 +29,7 @@ export const DateField = ({
             className="data-[empty=true]:text-muted-foreground justify-start text-left font-normal"
           >
             <CalendarIcon />
-            {field.state.value ? (
-              format(field.state.value, 'PPP')
-            ) : (
-              <span>Pick a date</span>
-            )}
+            {field.state.value ? format(field.state.value, 'PPP') : <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
@@ -51,5 +43,5 @@ export const DateField = ({
       </Popover>
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>
-  );
-};
+  )
+}

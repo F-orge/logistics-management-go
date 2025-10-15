@@ -1,14 +1,12 @@
-import { Link } from '@tanstack/react-router';
-import { ColumnDef } from '@tanstack/react-table';
-import DateCell from '@/components/table/cells/date';
-import NumberCell from '@/components/table/cells/number';
-import StringCell from '@/components/table/cells/string';
-import { Button } from '@/components/ui/button';
-import { ORPCOutputs } from '@/orpc/client';
+import { Link } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import DateCell from '@/components/table/cells/date'
+import NumberCell from '@/components/table/cells/number'
+import StringCell from '@/components/table/cells/string'
+import { Button } from '@/components/ui/button'
+import type { ORPCOutputs } from '@/orpc/client'
 
-export const columns: ColumnDef<
-  ORPCOutputs['dms']['paginateCustomerTrackingLink'][number]
->[] = [
+export const columns: ColumnDef<ORPCOutputs['dms']['paginateCustomerTrackingLink'][number]>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -56,16 +54,12 @@ export const columns: ColumnDef<
   {
     accessorKey: 'isActive',
     header: 'Is Active',
-    cell: ({ row }) => (
-      <StringCell value={row.original.isActive ? 'Yes' : 'No'} />
-    ),
+    cell: ({ row }) => <StringCell value={row.original.isActive ? 'Yes' : 'No'} />,
   },
   {
     accessorKey: 'lastAccessedAt',
     header: 'Last Accessed At',
-    cell: ({ row }) => (
-      <DateCell value={row.original.lastAccessedAt} showTime />
-    ),
+    cell: ({ row }) => <DateCell value={row.original.lastAccessedAt} showTime />,
   },
   {
     accessorKey: 'createdAt',
@@ -77,4 +71,4 @@ export const columns: ColumnDef<
     header: 'Updated At',
     cell: ({ row }) => <DateCell value={row.original.updatedAt} showTime />,
   },
-];
+]

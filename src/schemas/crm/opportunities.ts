@@ -1,7 +1,7 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types';
-import { crmOpportunityProductInsertSchema } from './opportunity_products';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmOpportunitySource, CrmOpportunityStage } from '@/db/types'
+import { crmOpportunityProductInsertSchema } from './opportunity_products'
 
 export const crmOpportunitySchema = z
   .object({
@@ -119,8 +119,7 @@ export const crmOpportunitySchema = z
       .check(
         fieldConfig({
           label: 'Stage',
-          description:
-            'The current stage of the opportunity in the sales pipeline.',
+          description: 'The current stage of the opportunity in the sales pipeline.',
         }),
       )
       .optional()
@@ -134,9 +133,9 @@ export const crmOpportunitySchema = z
       .optional()
       .nullable(),
   })
-  .strict();
+  .strict()
 
-export type CrmOpportunity = z.infer<typeof crmOpportunitySchema>;
+export type CrmOpportunity = z.infer<typeof crmOpportunitySchema>
 
 export const crmOpportunityInsertSchema = crmOpportunitySchema
   .omit({
@@ -146,6 +145,6 @@ export const crmOpportunityInsertSchema = crmOpportunitySchema
   })
   .extend({
     products: z.array(crmOpportunityProductInsertSchema).optional().nullable(),
-  });
+  })
 
-export const crmOpportunityUpdateSchema = crmOpportunityInsertSchema.partial();
+export const crmOpportunityUpdateSchema = crmOpportunityInsertSchema.partial()

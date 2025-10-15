@@ -1,6 +1,6 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
-import { CrmLeadSource, CrmLeadStatus } from '@/db.types';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
+import { CrmLeadSource, CrmLeadStatus } from '@/db.types'
 
 export const LeadSchema = z
   .object({
@@ -127,5 +127,4 @@ export const LeadSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import { TmsCurrencyEnum, TmsPartnerInvoiceStatusEnum } from '@/db/types';
-import { tmsPartnerInvoiceItemInsertSchema } from './partner_invoice_item';
+import { z } from 'zod'
+import { TmsCurrencyEnum, TmsPartnerInvoiceStatusEnum } from '@/db/types'
+import { tmsPartnerInvoiceItemInsertSchema } from './partner_invoice_item'
 
 export const tmsPartnerInvoiceSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -24,17 +24,11 @@ export const tmsPartnerInvoiceSchema = z.object({
     .max(64, { error: 'Invoice number must be at most 64 characters' }),
   currency: z.enum(TmsCurrencyEnum).optional().nullable(),
   dueDate: z.date().optional().nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type TmsPartnerInvoice = z.infer<typeof tmsPartnerInvoiceSchema>;
+export type TmsPartnerInvoice = z.infer<typeof tmsPartnerInvoiceSchema>
 
 export const tmsPartnerInvoiceInsertSchema = tmsPartnerInvoiceSchema
   .omit({
@@ -44,7 +38,6 @@ export const tmsPartnerInvoiceInsertSchema = tmsPartnerInvoiceSchema
   })
   .extend({
     items: z.array(tmsPartnerInvoiceItemInsertSchema).optional().nullable(),
-  });
+  })
 
-export const tmsPartnerInvoiceUpdateSchema =
-  tmsPartnerInvoiceInsertSchema.partial();
+export const tmsPartnerInvoiceUpdateSchema = tmsPartnerInvoiceInsertSchema.partial()

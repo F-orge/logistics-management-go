@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsLocationTypeEnum } from '@/db.types';
+import { z } from 'zod'
+import { WmsLocationTypeEnum } from '@/db.types'
 
 export const PutawayRuleSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -80,22 +80,16 @@ export const PutawayRuleSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsPutawayRule = z.infer<typeof PutawayRuleSchema>;
+export type WmsPutawayRule = z.infer<typeof PutawayRuleSchema>
 
 export const PutawayRuleInsertSchema = PutawayRuleSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const PutawayRuleUpdateSchema = PutawayRuleInsertSchema.partial();
+export const PutawayRuleUpdateSchema = PutawayRuleInsertSchema.partial()

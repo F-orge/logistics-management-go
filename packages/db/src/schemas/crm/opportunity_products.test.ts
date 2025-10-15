@@ -1,8 +1,6 @@
-import { describe, expect, test } from 'bun:test';
-import { ZodError } from 'zod';
-import {
-  OpportunityProductSchema,
-} from './opportunity_products';
+import { describe, expect, test } from 'bun:test'
+import { ZodError } from 'zod'
+import { OpportunityProductSchema } from './opportunity_products'
 
 describe('CrmOpportunityProductSchema Validation', () => {
   describe('Valid Cases', () => {
@@ -43,14 +41,14 @@ describe('CrmOpportunityProductSchema Validation', () => {
           quantity: 10000,
         },
       },
-    ];
+    ]
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => OpportunityProductSchema.parse(input)).not.toThrow();
-      const result = OpportunityProductSchema.parse(input);
-      expect(result).toEqual(expect.objectContaining(input));
-    });
-  });
+      expect(() => OpportunityProductSchema.parse(input)).not.toThrow()
+      const result = OpportunityProductSchema.parse(input)
+      expect(result).toEqual(expect.objectContaining(input))
+    })
+  })
 
   describe('Invalid Cases', () => {
     const invalidTestCases = [
@@ -171,27 +169,22 @@ describe('CrmOpportunityProductSchema Validation', () => {
         },
         expectedError: 'Unrecognized key: "extraField"',
       },
-    ];
+    ]
 
-    test.each(invalidTestCases)(
-      'should reject: $name',
-      ({ input, expectedError }) => {
-        let error: ZodError | undefined;
-        try {
-          OpportunityProductSchema.parse(input);
-        } catch (e) {
-          if (e instanceof ZodError) {
-            error = e;
-          }
+    test.each(invalidTestCases)('should reject: $name', ({ input, expectedError }) => {
+      let error: ZodError | undefined
+      try {
+        OpportunityProductSchema.parse(input)
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e
         }
-        expect(error).toBeDefined();
-        expect(error).toBeInstanceOf(ZodError);
-        expect(
-          error?.issues.some((issue) => issue.message.includes(expectedError)),
-        ).toBe(true);
-      },
-    );
-  });
+      }
+      expect(error).toBeDefined()
+      expect(error).toBeInstanceOf(ZodError)
+      expect(error?.issues.some((issue) => issue.message.includes(expectedError))).toBe(true)
+    })
+  })
 
   describe('SafeParse Tests for OpportunityProductSchema', () => {
     test('should return success for valid data', () => {
@@ -200,14 +193,14 @@ describe('CrmOpportunityProductSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = OpportunityProductSchema.safeParse(validData);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data).toEqual(validData);
       }
-    });
+      const result = OpportunityProductSchema.safeParse(validData)
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(result.data).toEqual(validData)
+      }
+    })
 
     test('should return error for invalid data', () => {
       const invalidData = {
@@ -215,15 +208,14 @@ describe('CrmOpportunityProductSchema Validation', () => {
         opportunityId: '123e4567-e89b-12d3-a456-426614174001',
         productId: '123e4567-e89b-12d3-a456-426614174002',
         quantity: 5,
-      };
-      const result = OpportunityProductSchema.safeParse(invalidData);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toBeInstanceOf(ZodError);
-        expect(result.error.issues.length).toBeGreaterThan(0);
       }
-    });
-  });
-});
+      const result = OpportunityProductSchema.safeParse(invalidData)
 
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError)
+        expect(result.error.issues.length).toBeGreaterThan(0)
+      }
+    })
+  })
+})

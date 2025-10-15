@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const wmsInventoryBatchSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -11,23 +11,16 @@ export const wmsInventoryBatchSchema = z.object({
     .date({ message: 'Invalid date format for expiration date' })
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsInventoryBatch = z.infer<typeof wmsInventoryBatchSchema>;
+export type WmsInventoryBatch = z.infer<typeof wmsInventoryBatchSchema>
 
 export const wmsInventoryBatchInsertSchema = wmsInventoryBatchSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const wmsInventoryBatchUpdateSchema =
-  wmsInventoryBatchInsertSchema.partial();
+export const wmsInventoryBatchUpdateSchema = wmsInventoryBatchInsertSchema.partial()

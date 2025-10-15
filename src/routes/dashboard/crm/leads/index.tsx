@@ -1,44 +1,29 @@
-import { useMutation } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
-import {
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  ScanSearch,
-  SearchIcon,
-} from 'lucide-react';
-import { useState } from 'react';
-import z from 'zod';
-import { DataTable } from '@/components/table';
-import DeleteRecordDialog from '@/components/table/dialogs/delete';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
-import {
-  ContextMenuItem,
-  ContextMenuSeparator,
-} from '@/components/ui/context-menu';
-import { Input } from '@/components/ui/input';
-import { inCampaign, inCompany, inContact, inOpportunity } from '@/queries/crm';
-import { deleteLead, paginateLead, rangeLead } from '@/queries/crm/leads';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
-import { crmLeadSchema } from '@/schemas/crm/leads';
-import NewLeadFormDialog from './-components/new';
-import { columns } from './-components/table';
-import ViewLeadFormDialog from './-components/view';
+import { useMutation } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
+import { zodValidator } from '@tanstack/zod-adapter'
+import { MoreHorizontal, Pencil, Plus, ScanSearch, SearchIcon } from 'lucide-react'
+import { useState } from 'react'
+import z from 'zod'
+import { DataTable } from '@/components/table'
+import DeleteRecordDialog from '@/components/table/dialogs/delete'
+import { Button } from '@/components/ui/button'
+import { ButtonGroup } from '@/components/ui/button-group'
+import { ContextMenuItem, ContextMenuSeparator } from '@/components/ui/context-menu'
+import { Input } from '@/components/ui/input'
+import { inCampaign, inCompany, inContact, inOpportunity } from '@/queries/crm'
+import { deleteLead, paginateLead, rangeLead } from '@/queries/crm/leads'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
+import { crmLeadSchema } from '@/schemas/crm/leads'
+import NewLeadFormDialog from './-components/new'
+import { columns } from './-components/table'
+import ViewLeadFormDialog from './-components/view'
 
 export const Route = createFileRoute('/dashboard/crm/leads/')({
   component: RouteComponent,
   validateSearch: zodValidator(
     paginateTransformer().extend({
       filters: filterTransformer(crmLeadSchema),
-      sort: sortTransformer(crmLeadSchema).default([
-        { column: 'createdAt', order: 'desc' },
-      ]),
+      sort: sortTransformer(crmLeadSchema).default([{ column: 'createdAt', order: 'desc' }]),
       new: z.boolean().optional(),
       delete: z.boolean().optional(),
       view: z.boolean().optional(),
@@ -48,29 +33,27 @@ export const Route = createFileRoute('/dashboard/crm/leads/')({
   ),
   beforeLoad: (ctx) => ({ search: ctx.search }),
   async loader({ context }) {
-    const from = new Date();
-    const to = new Date();
-    to.setFullYear(from.getFullYear() + 1);
+    const from = new Date()
+    const to = new Date()
+    to.setFullYear(from.getFullYear() + 1)
 
-    const dataTable = await context.queryClient.fetchQuery(
-      paginateLead(context.search),
-    );
+    const dataTable = await context.queryClient.fetchQuery(paginateLead(context.search))
 
     return {
       dataTable,
       chart: await context.queryClient.fetchQuery(rangeLead({ from, to })),
-    };
+    }
   },
-});
+})
 
 function RouteComponent() {
-  const navigate = Route.useNavigate();
-  const searchQuery = Route.useSearch();
-  const data = Route.useLoaderData();
-  const { queryClient } = Route.useRouteContext();
-  const [currentSearch, setCurrentSearch] = useState<string>('');
+  const navigate = Route.useNavigate()
+  const searchQuery = Route.useSearch()
+  const data = Route.useLoaderData()
+  const { queryClient } = Route.useRouteContext()
+  const [currentSearch, setCurrentSearch] = useState<string>('')
 
-  const deleteMutation = useMutation(deleteLead, queryClient);
+  const deleteMutation = useMutation(deleteLead, queryClient)
 
   return (
     <article className="grid grid-cols-12 gap-5">
@@ -79,10 +62,7 @@ function RouteComponent() {
       </section>
       <section className="col-span-full flex justify-between items-center">
         <ButtonGroup className="col-span-4">
-          <Input
-            onChange={(e) => setCurrentSearch(e.target.value)}
-            placeholder="Search..."
-          />
+          <Input onChange={(e) => setCurrentSearch(e.target.value)} placeholder="Search..." />
           <Button
             onClick={() =>
               navigate({
@@ -112,7 +92,7 @@ function RouteComponent() {
                   ...prev,
                   new: true,
                 }),
-              });
+              })
             }}
             variant={'outline'}
           >
@@ -132,15 +112,15 @@ function RouteComponent() {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page + 1 }),
               replace: true,
-            });
-            queryClient.invalidateQueries();
+            })
+            queryClient.invalidateQueries()
           }}
           onPreviousPage={() => {
             navigate({
               search: (prev) => ({ ...prev, page: prev.page - 1 }),
               replace: true,
-            });
-            queryClient.invalidateQueries();
+            })
+            queryClient.invalidateQueries()
           }}
           enableNextPage={data.dataTable.length !== 0}
           enablePreviousPage={searchQuery.page !== 1}
@@ -217,7 +197,7 @@ function RouteComponent() {
                     id: undefined,
                   }),
                   replace: true,
-                });
+                })
               },
               onError: () => {
                 navigate({
@@ -227,7 +207,7 @@ function RouteComponent() {
                     id: undefined,
                   }),
                   replace: true,
-                });
+                })
               },
             })
           }
@@ -236,5 +216,5 @@ function RouteComponent() {
         <ViewLeadFormDialog />
       </section>
     </article>
-  );
+  )
 }

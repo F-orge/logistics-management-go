@@ -1,66 +1,52 @@
-import { implement } from '@orpc/server';
-import * as wmsContracts from '@/orpc/contracts/wms/reorder_point';
-import { ReorderPointRepository } from '@/repositories/wms/reorderPoints';
-import { HonoVariables } from '@/server';
+import { implement } from '@orpc/server'
+import * as wmsContracts from '@/orpc/contracts/wms/reorder_point'
+import { ReorderPointRepository } from '@/repositories/wms/reorderPoints'
+import type { HonoVariables } from '@/server'
 
-export const paginateReorderPoint = implement(
-  wmsContracts.paginateReorderPointContract,
-)
+export const paginateReorderPoint = implement(wmsContracts.paginateReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo
-      .paginate(input.page, input.perPage, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.paginate(input.page, input.perPage, input.sort, input.filters as any).execute()
+  })
 
-export const rangeReorderPoint = implement(
-  wmsContracts.rangeReorderPointContract,
-)
+export const rangeReorderPoint = implement(wmsContracts.rangeReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo
-      .range(input.from, input.to, input.sort, input.filters as any)
-      .execute();
-  });
+    return repo.range(input.from, input.to, input.sort, input.filters as any).execute()
+  })
 
 export const inReorderPoint = implement(wmsContracts.inReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo.in(input).execute();
-  });
+    return repo.in(input).execute()
+  })
 
-export const createReorderPoint = implement(
-  wmsContracts.createReorderPointContract,
-)
+export const createReorderPoint = implement(wmsContracts.createReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo.create(input).executeTakeFirstOrThrow();
-  });
+    return repo.create(input).executeTakeFirstOrThrow()
+  })
 
-export const updateReorderPoint = implement(
-  wmsContracts.updateReorderPointContract,
-)
+export const updateReorderPoint = implement(wmsContracts.updateReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo.update(input.id, input.value).executeTakeFirstOrThrow();
-  });
+    return repo.update(input.id, input.value).executeTakeFirstOrThrow()
+  })
 
-export const deleteReorderPoint = implement(
-  wmsContracts.deleteReorderPointContract,
-)
+export const deleteReorderPoint = implement(wmsContracts.deleteReorderPointContract)
   .$context<HonoVariables>()
   .handler(async ({ context, input }) => {
-    const repo = new ReorderPointRepository(context.db);
+    const repo = new ReorderPointRepository(context.db)
 
-    return repo.delete(input).executeTakeFirstOrThrow();
-  });
+    return repo.delete(input).executeTakeFirstOrThrow()
+  })

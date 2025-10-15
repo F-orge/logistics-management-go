@@ -1,5 +1,5 @@
-import { fieldConfig } from '@autoform/zod';
-import { z } from 'zod';
+import { fieldConfig } from '@autoform/zod'
+import { z } from 'zod'
 
 export const ContactSchema = z
   .object({
@@ -77,5 +77,4 @@ export const ContactSchema = z
       .optional()
       .nullable(),
   })
-  .strict();
-
+  .strict()

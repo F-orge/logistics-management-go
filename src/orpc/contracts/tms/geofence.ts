@@ -1,16 +1,12 @@
-import { oc } from '@orpc/contract';
-import { DeleteResult } from 'kysely';
-import z from 'zod';
-import {
-  filterTransformer,
-  paginateTransformer,
-  sortTransformer,
-} from '@/repositories/utils';
+import { oc } from '@orpc/contract'
+import { DeleteResult } from 'kysely'
+import z from 'zod'
+import { filterTransformer, paginateTransformer, sortTransformer } from '@/repositories/utils'
 import {
   tmsGeofenceInsertSchema,
   tmsGeofenceSchema,
   tmsGeofenceUpdateSchema,
-} from '@/schemas/tms/geofence';
+} from '@/schemas/tms/geofence'
 
 export const paginateGeofenceContract = oc
   .input(
@@ -21,7 +17,7 @@ export const paginateGeofenceContract = oc
       }),
     ),
   )
-  .output(z.array(tmsGeofenceSchema));
+  .output(z.array(tmsGeofenceSchema))
 
 export const rangeGeofenceContract = oc
   .input(
@@ -32,24 +28,18 @@ export const rangeGeofenceContract = oc
       }),
     ),
   )
-  .output(z.array(tmsGeofenceSchema));
+  .output(z.array(tmsGeofenceSchema))
 
 export const inGeofenceContract = oc
   .input(z.array(z.uuid()).nonempty())
-  .output(z.array(tmsGeofenceSchema));
+  .output(z.array(tmsGeofenceSchema))
 
-export const createGeofenceContract = oc
-  .input(tmsGeofenceInsertSchema)
-  .output(tmsGeofenceSchema);
+export const createGeofenceContract = oc.input(tmsGeofenceInsertSchema).output(tmsGeofenceSchema)
 
 export const updateGeofenceContract = oc
   .input(z.object({ id: z.uuid(), value: tmsGeofenceUpdateSchema }))
-  .output(tmsGeofenceSchema);
+  .output(tmsGeofenceSchema)
 
 export const deleteGeofenceContract = oc
   .input(z.uuid())
-  .output(
-    z
-      .instanceof(DeleteResult)
-      .transform((arg) => arg.numDeletedRows.toString()),
-  );
+  .output(z.instanceof(DeleteResult).transform((arg) => arg.numDeletedRows.toString()))

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { WmsTaskItemStatusEnum } from '@/db.types';
+import { z } from 'zod'
+import { WmsTaskItemStatusEnum } from '@/db.types'
 
 export const TaskItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),
@@ -85,22 +85,16 @@ export const TaskItemSchema = z.object({
     .nullable()
     .optional()
     .nullable(),
-  createdAt: z
-    .date({ message: 'Invalid date format for created at' })
-    .optional()
-    .nullable(),
-  updatedAt: z
-    .date({ message: 'Invalid date format for updated at' })
-    .optional()
-    .nullable(),
-});
+  createdAt: z.date({ message: 'Invalid date format for created at' }).optional().nullable(),
+  updatedAt: z.date({ message: 'Invalid date format for updated at' }).optional().nullable(),
+})
 
-export type WmsTaskItem = z.infer<typeof TaskItemSchema>;
+export type WmsTaskItem = z.infer<typeof TaskItemSchema>
 
 export const TaskItemInsertSchema = TaskItemSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
-});
+})
 
-export const TaskItemUpdateSchema = TaskItemInsertSchema.partial();
+export const TaskItemUpdateSchema = TaskItemInsertSchema.partial()

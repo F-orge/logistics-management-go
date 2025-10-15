@@ -1,111 +1,97 @@
-import { format, formatISO, isValid, parseISO } from 'date-fns';
-import { Calendar, CalendarIcon, Check } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Calendar as CalendarComponent } from '@/components/ui/calendar';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { format, formatISO, isValid, parseISO } from 'date-fns'
+import { Calendar, CalendarIcon, Check } from 'lucide-react'
+import React, { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Calendar as CalendarComponent } from '@/components/ui/calendar'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 
 export type DateCellProps = {
-  value?: string | Date | null;
-  onSave?: (value: string) => Promise<unknown> | unknown;
-  editable?: boolean;
-  format?: string;
-  showTime?: boolean;
-};
+  value?: string | Date | null
+  onSave?: (value: string) => Promise<unknown> | unknown
+  editable?: boolean
+  format?: string
+  showTime?: boolean
+}
 
 const DateCell = (props: DateCellProps) => {
-  const [edit, setEdit] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [edit, setEdit] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState<Date | undefined>(() => {
-    if (!props.value) return undefined;
+    if (!props.value) return undefined
 
     try {
-      const date =
-        typeof props.value === 'string' ? parseISO(props.value) : props.value;
+      const date = typeof props.value === 'string' ? parseISO(props.value) : props.value
 
-      return isValid(date) ? date : undefined;
+      return isValid(date) ? date : undefined
     } catch {
-      return undefined;
+      return undefined
     }
-  });
+  })
 
   useEffect(() => {
     if (props.value !== value) {
       setValue(() => {
-        if (!props.value) return undefined;
+        if (!props.value) return undefined
 
         try {
-          const date =
-            typeof props.value === 'string'
-              ? parseISO(props.value)
-              : props.value;
+          const date = typeof props.value === 'string' ? parseISO(props.value) : props.value
 
-          return isValid(date) ? date : undefined;
+          return isValid(date) ? date : undefined
         } catch {
-          return undefined;
+          return undefined
         }
-      });
+      })
     }
-  }, [props.value]);
+  }, [props.value])
 
   const formatDate = (dateValue: string | Date | undefined): string => {
-    if (!dateValue) return '';
+    if (!dateValue) return ''
 
     try {
-      const date =
-        typeof dateValue === 'string' ? parseISO(dateValue) : dateValue;
+      const date = typeof dateValue === 'string' ? parseISO(dateValue) : dateValue
 
-      if (!isValid(date)) return '';
+      if (!isValid(date)) return ''
 
-      const formatString = props.format || (props.showTime ? 'PPp' : 'PP');
-      return format(date, formatString);
+      const formatString = props.format || (props.showTime ? 'PPp' : 'PP')
+      return format(date, formatString)
     } catch {
-      return '';
+      return ''
     }
-  };
+  }
 
   const handleSelect = (selectedDate: Date | undefined) => {
-    setValue(selectedDate);
-    setOpen(false);
+    setValue(selectedDate)
+    setOpen(false)
 
     if (props.onSave && selectedDate) {
-      const isoString = formatISO(selectedDate, { representation: 'date' });
-      props.onSave(isoString);
+      const isoString = formatISO(selectedDate, { representation: 'date' })
+      props.onSave(isoString)
     }
-    setEdit(false);
-  };
+    setEdit(false)
+  }
 
   const handleCancel = () => {
     setValue(() => {
-      if (!props.value) return undefined;
+      if (!props.value) return undefined
 
       try {
-        const date =
-          typeof props.value === 'string' ? parseISO(props.value) : props.value;
+        const date = typeof props.value === 'string' ? parseISO(props.value) : props.value
 
-        return isValid(date) ? date : undefined;
+        return isValid(date) ? date : undefined
       } catch {
-        return undefined;
+        return undefined
       }
-    });
-    setEdit(false);
-    setOpen(false);
-  };
+    })
+    setEdit(false)
+    setOpen(false)
+  }
 
   if (props.value) {
-    const formattedValue = formatDate(props.value);
+    const formattedValue = formatDate(props.value)
 
     return (
       <Field className={cn(edit && 'min-w-xs')}>
@@ -143,7 +129,7 @@ const DateCell = (props: DateCellProps) => {
             <FieldLabel
               onDoubleClick={() => {
                 if (props.editable) {
-                  setEdit(true);
+                  setEdit(true)
                 }
               }}
               className="cursor-pointer"
@@ -153,10 +139,10 @@ const DateCell = (props: DateCellProps) => {
           </div>
         )}
       </Field>
-    );
+    )
   } else {
-    return <>-</>;
+    return <>-</>
   }
-};
+}
 
-export default DateCell;
+export default DateCell
