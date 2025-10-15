@@ -1,10 +1,13 @@
 {
-  "name": "@logistics-management-system/frontend",
+  "name": "@apps/frontend",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
     "@types/bun": "latest"
+  },
+  "scripts": {
+    "dev":"bun rsbuild dev --open"
   },
   "dependencies": {
     "@packages/rpc":"workspace:*",
