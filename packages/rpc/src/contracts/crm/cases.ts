@@ -1,10 +1,10 @@
-import { CaseRepository } from "@packages/db/repositories/crm";
-import { CaseSchema } from "@packages/db/schemas/crm/cases";
 import { oc } from "@orpc/contract";
-import z from "zod";
-import { DeleteResult } from "kysely";
-import { ContactSchema } from "@packages/db/schemas/crm/contacts";
+import { CaseRepository } from "@packages/db/repositories/crm";
 import { UserSchema } from "@packages/db/schemas/auth/user";
+import { CaseSchema } from "@packages/db/schemas/crm/cases";
+import { ContactSchema } from "@packages/db/schemas/crm/contacts";
+import { DeleteResult } from "kysely";
+import z from "zod";
 
 export const OutputSchema = CaseSchema.extend({
   contact:ContactSchema.optional(),
