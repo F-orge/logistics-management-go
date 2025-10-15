@@ -4,6 +4,7 @@ import { SurchargeSchema } from "@packages/db/schemas/billing/surcharge";
 import { DeleteResult } from "kysely";
 import z from "zod";
 
+
 export const PaginateSurchargeContract = oc.input(SurchargeRepository.schemas.paginateOptionSchema).output(SurchargeSchema.array());
 
 export const RangeSurchargeContract = oc.input(SurchargeRepository.schemas.rangeOptionSchema).output(SurchargeSchema.array());

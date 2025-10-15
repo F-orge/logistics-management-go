@@ -3,8 +3,21 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "exports": {
+    ".": {
+      "types": "./.output/types/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "types": "./.output/types/*.d.ts",
+      "default": "./src/*"
+    }
+  },
   "devDependencies": {
     "@types/bun": "latest"
+  },
+  "scripts": {
+    "build":"bun tsc"
   },
   "dependencies": {
     "@packages/db":"workspace:*"
