@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run src/index.ts",
+    "dev": "bun --bun --hot run src/index.ts --console-depth 5",
     "build": "bun build src/index.ts --target node --outfile .output/server.js --production",
     "start": "bun run .output/server.js"
   },

@@ -22,8 +22,11 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
+    
     "paths": {
-      "@logistics-management-system/db": ["./packages/db/src"]
+      "@/*": ["./src/*"],
+      "@packages/db/*": ["../../packages/db/*"],
+      "@packages/rpc/*": ["../../packages/rpc/*"]
     }
   }
 }
