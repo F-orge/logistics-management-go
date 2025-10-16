@@ -49,7 +49,7 @@ import { nonEmpty } from '@packages/db/utils'
             ```typescript
             const opportunityProducts = await opportunityProductRepo.paginate({
               page: 1,
-              perPage: Infinity,
+              perPage: 1000,
               filters: [{ column: 'opportunityId', operator: 'in', value: result.map((row) => row.id) }],
             })
             ```
@@ -74,7 +74,7 @@ export const PaginateOpportunity = implement(contracts.PaginateOpportunityContra
     // Fetch intermediary records for many-to-many relationship
     const opportunityProducts = await opportunityProductRepo.paginate({
       page: 1,
-      perPage: Infinity,
+      perPage: 1000,
       filters: [{ column: 'opportunityId', operator: 'in', value: result.map((row) => row.id) }],
     })
 
@@ -119,7 +119,7 @@ export const InsertOpportunity = implement(contracts.InsertOpportunityContract)
 
     const opportunityProducts = await opportunityProductRepo.paginate({
       page: 1,
-      perPage: Infinity,
+      perPage: 1000,
       filters: [{ column: 'opportunityId', operator: 'in', value: [result.id] }],
     })
 
@@ -166,7 +166,7 @@ export const InsertOpportunityProduct = implement(contracts.InsertOpportunityPro
     // 3. Fetch all related child entities for the parent (all OpportunityProducts for this Opportunity)
     const opportunityProducts = await opportunityProductRepo.paginate({
       page: 1,
-      perPage: Infinity,
+      perPage: 1000,
       filters: [{ column: 'opportunityId', operator: 'in', value: [result.id] }],
     })
 
@@ -221,7 +221,7 @@ export const UpdateOpportunityProduct = implement(contracts.UpdateOpportunityPro
     // 3. Fetch all related child entities for the parent (all OpportunityProducts for this Opportunity)
     const opportunityProducts = await opportunityProductRepo.paginate({
       page: 1,
-      perPage: Infinity,
+      perPage: 1000,
       filters: [{ column: 'opportunityId', operator: 'in', value: [result.id] }],
     })
 
@@ -284,7 +284,7 @@ export const RemoveOpportunityProduct = implement(contracts.RemoveOpportunityPro
     // 4. Fetch all related child entities for the parent (all remaining OpportunityProducts for this Opportunity)
     const opportunityProducts = await opportunityProductRepo.paginate({
       page: 1,
-      perPage: Infinity,
+      perPage: 1000,
       filters: [{ column: 'opportunityId', operator: 'in', value: [result.id] }],
     })
 

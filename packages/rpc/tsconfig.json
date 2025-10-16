@@ -33,8 +33,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/db": ["../db/src"],
-      "@packages/db/*": ["../db/src/*"]
+      "@packages/db/*": ["../../db/src/*","../db/src/*"]
     }
   }
 }

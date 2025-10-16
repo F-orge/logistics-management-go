@@ -1,5 +1,5 @@
 import { orpcMutationOption, orpcQueryOption } from "@/queries/interface";
-import * as contract from "@packages/rpc/src/contracts/crm/companies";
+import * as contract from "@packages/rpc/src/contracts/crm/invoices";
 import { generateColumn } from "@packages/ui/components/ui/data-table/helpers";
 import { DataTable } from "@packages/ui/components/ui/data-table/index";
 import { useMutation } from "@tanstack/react-query";
@@ -16,13 +16,13 @@ import z from "zod";
 import { Button } from "@packages/ui";
 
 const columns = generateColumn(
-  contract.PaginateCompanyContract["~orpc"].outputSchema?.unwrap()
+  contract.PaginateInvoiceContract["~orpc"].outputSchema?.unwrap()
 );
 
-export const Route = createFileRoute("/dashboard/crm/companies/")({
+export const Route = createFileRoute("/dashboard/crm/invoices")({
   component: RouteComponent,
   validateSearch: zodValidator(
-    contract.PaginateCompanyContract["~orpc"].inputSchema!.extend({
+    contract.PaginateInvoiceContract["~orpc"].inputSchema!.extend({
       new: z.boolean().optional(),
       edit: z.boolean().optional(),
       delete: z.boolean().optional(),
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/dashboard/crm/companies/")({
   beforeLoad: ({ search }) => ({ search }),
   loader: async ({ context }) => {
     return context.queryClient.fetchQuery(
-      orpcQueryOption("crm", "PaginateCompany", context.search)
+      orpcQueryOption("crm", "PaginateInvoice", context.search)
     );
   },
 });
@@ -51,15 +51,15 @@ function RouteComponent() {
   ]);
 
   const createMutation = useMutation(
-    orpcMutationOption("crm", "InsertCompany")
+    orpcMutationOption("crm", "InsertInvoice")
   );
 
   const updateMutation = useMutation(
-    orpcMutationOption("crm", "UpdateCompany")
+    orpcMutationOption("crm", "UpdateInvoice")
   );
 
   const deleteMutation = useMutation(
-    orpcMutationOption("crm", "RemoveCompany")
+    orpcMutationOption("crm", "RemoveInvoice")
   );
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function RouteComponent() {
   return (
     <article className="grid grid-cols-12 gap-2.5">
       <section className="col-span-full border-b pb-2">
-        <h1 className="text-2xl font-bold">Companies</h1>
+        <h1 className="text-2xl font-bold">Invoices</h1>
       </section>
       <section className="col-span-full flex justify-end">
         <Button
@@ -101,7 +101,7 @@ function RouteComponent() {
         <DataTable
           contextMenus={[
             {
-              label: "Edit Company Information",
+              label: "Edit Invoice Information",
               onClick: (row) =>
                 navigate({
                   search: (prev) => ({
@@ -112,7 +112,7 @@ function RouteComponent() {
                 }),
             },
             {
-              label: "Delete Company",
+              label: "Delete Invoice",
               variant: "destructive",
               onClick: (row) =>
                 navigate({
@@ -134,24 +134,24 @@ function RouteComponent() {
       </section>
       <section>
         <AutoFormDialog
-          schema={contract.InsertCompanyContract["~orpc"].inputSchema!}
+          schema={contract.InsertInvoiceContract["~orpc"].inputSchema!}
           open={searchQuery.new}
           onOpenChange={() =>
             navigate({ search: (prev) => ({ ...prev, new: undefined }) })
           }
-          title="New Company"
+          title="New Invoice"
           onSubmit={(value) =>
             createMutation.mutateAsync(value, {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });
-                toast.success("New company has been created");
+                toast.success("New invoice has been created");
               },
             })
           }
         />
         <AutoFormDialog
           schema={
-            contract.UpdateCompanyContract["~orpc"].inputSchema!.shape.value
+            contract.UpdateInvoiceContract["~orpc"].inputSchema!.shape.value
           }
           open={searchQuery.edit && !!searchQuery.id}
           onOpenChange={() =>
@@ -159,7 +159,7 @@ function RouteComponent() {
               search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
             })
           }
-          title="Update Company"
+          title="Update Invoice"
           defaultValues={data.find((row) => row.id === searchQuery.id)}
           onSubmit={(value) =>
             updateMutation.mutateAsync(
@@ -173,7 +173,7 @@ function RouteComponent() {
                       id: undefined,
                     }),
                   });
-                  toast.success("Company record has been updated");
+                  toast.success("Invoice record has been updated");
                 },
               }
             )
