@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "../../checkbox";
 import type { AutoFormFieldProps } from "@autoform/react";
 import { Label } from "../../label";
 

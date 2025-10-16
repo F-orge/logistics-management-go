@@ -22,7 +22,7 @@
     }
   },
   "scripts": {
-    "build": "bun tsc"
+    "build": "bun tsc && bun tsc-alias"
   },
   "devDependencies": {
     "@types/bun": "latest"

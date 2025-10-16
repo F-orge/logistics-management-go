@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { CrmLeadSource, CrmLeadStatus } from '@/db.types'
+import { CrmLeadSource, CrmLeadStatus } from '../../db.types'
 import { LeadSchema } from './leads'
 
 describe('CrmLeadSchema Validation', () => {

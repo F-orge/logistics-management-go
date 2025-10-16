@@ -1,6 +1,6 @@
 import { fieldConfig } from '@autoform/zod'
 import { z } from 'zod'
-import { CrmRecordType } from '@/db.types'
+import { CrmRecordType } from '../../db.types'
 
 export const AttachmentSchema = z
   .object({

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsOutboundShipmentStatusEnum } from '@/db.types'
+import { WmsOutboundShipmentStatusEnum } from '../../db.types'
 
 export const OutboundShipmentSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types'
+import { CrmOpportunitySource, CrmOpportunityStage } from '../../db.types'
 import { OpportunitySchema } from './opportunities'
 
 describe('CrmOpportunitySchema Validation', () => {

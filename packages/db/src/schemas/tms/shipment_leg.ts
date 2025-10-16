@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsShipmentLegStatusEnum } from '@/db.types'
+import { TmsShipmentLegStatusEnum } from '../../db.types'
 import { ShipmentLegEventInsertSchema } from './shipment_leg_event'
 
 export const ShipmentLegSchema = z.object({

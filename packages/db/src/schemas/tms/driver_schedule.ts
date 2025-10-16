@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsDriverScheduleReasonEnum } from '@/db.types'
+import { TmsDriverScheduleReasonEnum } from '../../db.types'
 
 export const DriverScheduleSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

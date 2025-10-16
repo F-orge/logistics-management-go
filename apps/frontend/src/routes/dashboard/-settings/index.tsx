@@ -21,14 +21,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+} from '@packages/ui'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@packages/ui'
 import {
   Sidebar,
   SidebarContent,
@@ -38,7 +38,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from '@/components/ui/sidebar'
+} from '@packages/ui'
 
 const data = {
   nav: [

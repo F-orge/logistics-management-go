@@ -1,5 +1,5 @@
 import React from "react";
-import { Label } from "@/components/ui/label";
+import { Label } from "../../label";
 import type { FieldWrapperProps } from "@autoform/react";
 import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from "../../field";
 

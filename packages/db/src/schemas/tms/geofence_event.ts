@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsGeofenceEventTypeEnum } from '@/db.types'
+import { TmsGeofenceEventTypeEnum } from '../../db.types'
 
 export const GeofenceEventSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

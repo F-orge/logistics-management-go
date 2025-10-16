@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "../../input";
 import type { AutoFormFieldProps } from "@autoform/react";
 import React from "react";
 

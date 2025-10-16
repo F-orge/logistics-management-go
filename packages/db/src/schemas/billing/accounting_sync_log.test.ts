@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { BillingSyncStatusEnum } from '@/db.types'
+import { BillingSyncStatusEnum } from '../../db.types'
 import {
   AccountingSyncLogInsertSchema,
   AccountingSyncLogSchema,

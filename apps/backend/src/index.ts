@@ -26,7 +26,7 @@ type ServerFactory = {
 export type HonoVariables = {
   user: ReturnType<typeof authFactory>['$Infer']['Session']['user'] | null
   session: ReturnType<typeof authFactory>['$Infer']['Session']['session'] | null
-  db: Kysely<DB>
+  kysely: Kysely<DB>
   storage: BunStorageRepository
   mailer: ReturnType<typeof nodemailer.createTransport> | sgMail.MailService
 }
@@ -35,13 +35,13 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   const router = new Hono<{ Variables: HonoVariables }>()
 
   // kysely
-  const db = new Kysely<DB>({
+  const kysely = new Kysely<DB>({
     dialect: new PostgresDialect({ pool }),
     plugins: [new CamelCasePlugin()],
   })
 
   const migrator = new Migrator({
-    db,
+    db:kysely,
     provider: new FileMigrationProvider({
       fs,
       path,
@@ -79,7 +79,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   // dependency injection
   router.use('*', async (c, next) => {
-    c.set('db', db)
+    c.set('kysely', kysely)
     c.set('storage', new BunStorageRepository(process.env.STORAGE_PATH ?? '.data/files'))
     c.set('mailer', sgMail || localMailer)
     return next()
@@ -160,7 +160,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
     const { matched, response } = await handler.handle(c.req.raw, {
       prefix: '/api/orpc',
       context: {
-        db: c.get('db'),
+        kysely: c.get('kysely'),
         user: c.get('user'),
         session: c.get('session'),
         storage: c.get('storage'),

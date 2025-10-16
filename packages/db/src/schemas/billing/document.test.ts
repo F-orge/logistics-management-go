@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { BillingDocumentTypeEnum } from '@/db.types'
+import { BillingDocumentTypeEnum } from '../../db.types'
 import { DocumentInsertSchema, DocumentSchema, DocumentUpdateSchema } from './document'
 
 const UUID_REGEX =

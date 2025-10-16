@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DmsTaskEventStatusEnum } from '@/db.types'
+import { DmsTaskEventStatusEnum } from '../../db.types'
 
 export const TaskEventSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

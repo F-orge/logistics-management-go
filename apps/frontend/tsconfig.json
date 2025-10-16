@@ -29,9 +29,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/ui/*": ["../../packages/ui/*"],
-      "@packages/db/*": ["../../packages/db/*"],
-      "@packages/rpc/*": ["../../packages/rpc/*"]
-    }
-  }
+    },
+  },
+  "references": [
+    { "path": "../../packages/rpc" } 
+  ]
 }

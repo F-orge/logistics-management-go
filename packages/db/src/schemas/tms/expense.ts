@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsCurrencyEnum, TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '@/db.types'
+import { TmsCurrencyEnum, TmsExpenseStatusEnum, TmsExpenseTypeEnum } from '../../db.types'
 
 export const ExpenseSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

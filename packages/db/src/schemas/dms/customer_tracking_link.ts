@@ -1,5 +1,5 @@
 import { z } from 'zod'
-// Import enums if needed from '@/db.types'
+// Import enums if needed from '../../db.types'
 
 export const CustomerTrackingLinkSchema = z.object({
   id: z.uuid(),

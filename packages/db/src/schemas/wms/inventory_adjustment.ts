@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsInventoryAdjustmentReasonEnum } from '@/db.types'
+import { WmsInventoryAdjustmentReasonEnum } from '../../db.types'
 
 export const InventoryAdjustmentSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

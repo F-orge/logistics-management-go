@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../button";
 import { TrashIcon } from "lucide-react";
 import type { ArrayElementWrapperProps } from "@autoform/react";
 

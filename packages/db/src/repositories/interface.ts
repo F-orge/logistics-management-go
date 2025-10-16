@@ -1,6 +1,6 @@
 import type { DeleteResult, Kysely } from 'kysely'
 import { type ZodObject, type ZodRawShape, z } from 'zod'
-import type { DB } from '@/db.types'
+import type { DB } from '../db.types'
 import { id } from 'zod/v4/locales'
 
 export const ComparisonOperatorSchema = z.enum([
@@ -143,6 +143,9 @@ export const repositoryFactory = <Schema extends ZodRawShape, Table extends keyo
     }
 
     const any = async (values: string[]): Promise<Array<z.infer<typeof schema>>> => {
+
+      if (values.length === 0) return []
+
       return (await kysely
         .selectFrom(table as any)
         .selectAll()

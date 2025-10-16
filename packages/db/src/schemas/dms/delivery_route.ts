@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DmsDeliveryRouteStatusEnum } from '@/db.types'
+import { DmsDeliveryRouteStatusEnum } from '../../db.types'
 
 export const DeliveryRouteSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

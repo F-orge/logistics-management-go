@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsTripStopStatusEnum } from '@/db.types'
+import { TmsTripStopStatusEnum } from '../../db.types'
 
 export const TripStopSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

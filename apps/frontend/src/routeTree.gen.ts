@@ -18,6 +18,7 @@ import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
 import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
 import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -64,6 +65,12 @@ const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
   path: '/forgot-password/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const DashboardCrmCompaniesIndexRoute =
+  DashboardCrmCompaniesIndexRouteImport.update({
+    id: '/crm/companies/',
+    path: '/crm/companies/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesByTo {
   '/auth/signup': typeof AuthSignupIndexRoute
   '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +107,7 @@ export interface FileRoutesById {
   '/auth/signup/': typeof AuthSignupIndexRoute
   '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
   '/dashboard/crm/': typeof DashboardCrmIndexRoute
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/auth/verify-email'
     | '/dashboard/crm'
+    | '/dashboard/crm/companies'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/auth/verify-email'
     | '/dashboard/crm'
+    | '/dashboard/crm/companies'
   id:
     | '__root__'
     | '/'
@@ -133,6 +145,7 @@ export interface FileRouteTypes {
     | '/auth/signup/'
     | '/auth/verify-email/'
     | '/dashboard/crm/'
+    | '/dashboard/crm/companies/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/dashboard/crm/companies/': {
+      id: '/dashboard/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/dashboard/crm/companies'
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
@@ -231,10 +251,12 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmIndexRoute: DashboardCrmIndexRoute,
+  DashboardCrmCompaniesIndexRoute: DashboardCrmCompaniesIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

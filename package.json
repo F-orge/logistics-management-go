@@ -146,6 +146,7 @@
     "kysely-ctl": "^0.19.0",
     "shadcn": "^3.3.1",
     "tailwindcss": "^4.1.14",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite-plugin-node-polyfills": "^0.24.0",

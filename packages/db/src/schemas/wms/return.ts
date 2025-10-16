@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsReturnStatusEnum } from '@/db.types'
+import { WmsReturnStatusEnum } from '../../db.types'
 
 export const ReturnSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

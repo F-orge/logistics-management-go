@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsDriverStatusEnum } from '@/db.types'
+import { TmsDriverStatusEnum } from '../../db.types'
 
 export const DriverSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

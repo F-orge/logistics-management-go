@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { BillingPricingModelEnum } from '@/db.types'
+import { BillingPricingModelEnum } from '../../db.types'
 import { RateRuleInsertSchema, RateRuleSchema, RateRuleUpdateSchema } from './rate_rule'
 
 const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/

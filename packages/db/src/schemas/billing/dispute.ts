@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BillingDisputeStatusEnum } from '@/db.types'
+import { BillingDisputeStatusEnum } from '../../db.types'
 
 // Zod schema for .dispute table
 export const DisputeSchema = z

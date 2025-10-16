@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsReturnItemConditionEnum } from '@/db.types'
+import { WmsReturnItemConditionEnum } from '../../db.types'
 
 export const ReturnItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

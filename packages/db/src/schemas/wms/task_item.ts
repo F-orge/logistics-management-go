@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsTaskItemStatusEnum } from '@/db.types'
+import { WmsTaskItemStatusEnum } from '../../db.types'
 
 export const TaskItemSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

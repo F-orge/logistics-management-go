@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsLocationTypeEnum } from '@/db.types'
+import { WmsLocationTypeEnum } from '../../db.types'
 
 export const LocationSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BillingSurchargeCalculationMethodEnum } from '@/db.types'
+import { BillingSurchargeCalculationMethodEnum } from '../../db.types'
 
 // Zod schema for .surcharge table
 export const SurchargeSchema = z

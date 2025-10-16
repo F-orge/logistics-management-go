@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DmsDeliveryFailureReasonEnum, DmsDeliveryTaskStatusEnum } from '@/db.types'
+import { DmsDeliveryFailureReasonEnum, DmsDeliveryTaskStatusEnum } from '../../db.types'
 
 export const DeliveryTaskSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

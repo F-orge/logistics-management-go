@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "composite": true,
     // Environment setup & latest features
     "lib": ["ESNext"],
     "target": "ESNext",
@@ -32,6 +33,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@packages/db": ["../db/src"],
       "@packages/db/*": ["../db/src/*"]
     }
   }

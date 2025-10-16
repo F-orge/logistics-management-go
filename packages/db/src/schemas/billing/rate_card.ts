@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BillingServiceTypeEnum } from '@/db.types'
+import { BillingServiceTypeEnum } from '../../db.types'
 
 // Zod schema for .rate_card table
 export const RateCardSchema = z

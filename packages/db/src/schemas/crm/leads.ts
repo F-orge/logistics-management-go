@@ -1,6 +1,6 @@
 import { fieldConfig } from '@autoform/zod'
 import { z } from 'zod'
-import { CrmLeadSource, CrmLeadStatus } from '@/db.types'
+import { CrmLeadSource, CrmLeadStatus } from '../../db.types'
 
 export const LeadSchema = z
   .object({

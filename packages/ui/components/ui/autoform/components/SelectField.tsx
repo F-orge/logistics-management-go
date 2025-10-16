@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../select";
 import type { AutoFormFieldProps } from "@autoform/react";
 import React from "react";
 

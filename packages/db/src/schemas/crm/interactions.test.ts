@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { CrmInteractionType } from '@/db.types'
+import { CrmInteractionType } from '../../db.types'
 import { InteractionSchema } from './interactions'
 
 describe('CrmInteractionSchema Validation', () => {

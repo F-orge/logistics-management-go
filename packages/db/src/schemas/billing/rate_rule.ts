@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BillingPricingModelEnum } from '@/db.types'
+import { BillingPricingModelEnum } from '../../db.types'
 
 // Zod schema for .rate_rule table
 export const RateRuleSchema = z

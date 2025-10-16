@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsTripStatusEnum } from '@/db.types'
+import { TmsTripStatusEnum } from '../../db.types'
 import { ExpenseInsertSchema } from './expense'
 import { GpsPingInsertSchema } from './gps_ping'
 import { ProofOfDeliveryInsertSchema } from './proof_of_delivery'

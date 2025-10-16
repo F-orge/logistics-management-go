@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { BillingSurchargeCalculationMethodEnum } from '@/db.types'
+import { BillingSurchargeCalculationMethodEnum } from '../../db.types'
 import { SurchargeInsertSchema, SurchargeSchema, SurchargeUpdateSchema } from './surcharge'
 
 const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/

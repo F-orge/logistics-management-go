@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
 import { CaseSchema } from './cases'
 
-// Define enums for testing purposes, mirroring the original enums from @/db.types
+// Define enums for testing purposes, mirroring the original enums from ../../db.types
 enum CrmCasePriority {
   Critical = 'critical',
   High = 'high',

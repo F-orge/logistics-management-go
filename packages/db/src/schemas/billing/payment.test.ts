@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '@/db.types'
+import { BillingPaymentMethodEnum, BillingPaymentStatusEnum } from '../../db.types'
 import { PaymentInsertSchema, PaymentSchema, PaymentUpdateSchema } from './payment'
 
 const UUID_REGEX =

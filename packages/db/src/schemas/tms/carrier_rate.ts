@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsCarrierRateUnitEnum, TmsCurrencyEnum } from '@/db.types'
+import { TmsCarrierRateUnitEnum, TmsCurrencyEnum } from '../../db.types'
 
 export const CarrierRateSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

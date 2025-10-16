@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsPickBatchStatusEnum, WmsPickStrategyEnum } from '@/db.types'
+import { WmsPickBatchStatusEnum, WmsPickStrategyEnum } from '../../db.types'
 
 export const PickBatchSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

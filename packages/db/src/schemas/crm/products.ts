@@ -1,6 +1,6 @@
 import { fieldConfig } from '@autoform/zod'
 import { z } from 'zod'
-import { CrmProductType } from '@/db.types'
+import { CrmProductType } from '../../db.types'
 
 export const ProductSchema = z
   .object({

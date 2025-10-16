@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsProofTypeEnum } from '@/db.types'
+import { TmsProofTypeEnum } from '../../db.types'
 
 export const ProofOfDeliverySchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsCurrencyEnum, TmsPartnerInvoiceStatusEnum } from '@/db.types'
+import { TmsCurrencyEnum, TmsPartnerInvoiceStatusEnum } from '../../db.types'
 import { PartnerInvoiceItemInsertSchema } from './partner_invoice_item'
 
 export const PartnerInvoiceSchema = z.object({

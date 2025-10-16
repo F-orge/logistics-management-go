@@ -1,6 +1,6 @@
 import { fieldConfig } from '@autoform/zod'
 import { z } from 'zod'
-import { CrmInteractionType } from '@/db.types'
+import { CrmInteractionType } from '../../db.types'
 
 export const InteractionSchema = z
   .object({

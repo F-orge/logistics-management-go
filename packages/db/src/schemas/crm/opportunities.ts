@@ -1,6 +1,6 @@
 import { fieldConfig } from '@autoform/zod'
 import { z } from 'zod'
-import { CrmOpportunitySource, CrmOpportunityStage } from '@/db.types'
+import { CrmOpportunitySource, CrmOpportunityStage } from '../../db.types'
 
 export const OpportunitySchema = z
   .object({

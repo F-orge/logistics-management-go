@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BillingInvoiceStatusEnum } from '@/db.types'
+import { BillingInvoiceStatusEnum } from '../../db.types'
 
 // Zod schema for .invoice table
 export const InvoiceSchema = z

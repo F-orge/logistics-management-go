@@ -6,18 +6,18 @@
   "exports": {
     ".": {
       "types": "./.output/types/index.d.ts",
-      "default": "./src/index.ts"
+      "default": "./index.ts"
     },
     "./*": {
       "types": "./.output/types/*.d.ts",
-      "default": "./src/*"
+      "default": "./*"
     }
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "scripts": {
-    "build": "bun tsc"
+    "build": "bun tsc && bun tsc-alias"
   },
   "peerDependencies": {
     "typescript": "^5"

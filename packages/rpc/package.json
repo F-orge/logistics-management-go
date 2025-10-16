@@ -17,7 +17,7 @@
     "@types/bun": "latest"
   },
   "scripts": {
-    "build":"bun tsc"
+    "build":"bun tsc && bun tsc-alias"
   },
   "dependencies": {
     "@packages/db":"workspace:*"

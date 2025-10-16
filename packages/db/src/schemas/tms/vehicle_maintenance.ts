@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TmsVehicleServiceTypeEnum } from '@/db.types'
+import { TmsVehicleServiceTypeEnum } from '../../db.types'
 
 export const VehicleMaintenanceSchema = z.object({
   id: z.uuid({ message: 'Invalid UUID format for ID' }),

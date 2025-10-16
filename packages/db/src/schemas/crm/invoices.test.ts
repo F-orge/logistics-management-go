@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { ZodError } from 'zod'
-import { CrmInvoiceStatus, CrmPaymentMethod } from '@/db.types'
+import { CrmInvoiceStatus, CrmPaymentMethod } from '../../db.types'
 import { InvoiceSchema } from './invoices'
 
 describe('CrmInvoiceSchema Validation', () => {

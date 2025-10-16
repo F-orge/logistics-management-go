@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { WmsInventoryStockStatusEnum } from '@/db.types'
+import { WmsInventoryStockStatusEnum } from '../../db.types'
 
 export const InventoryStockSchema = z
   .object({
