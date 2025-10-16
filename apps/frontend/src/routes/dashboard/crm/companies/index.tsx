@@ -7,7 +7,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { PaginationState, SortingState } from "@tanstack/react-table";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
-import { AutoFormDialog } from "@packages/ui/components/ui/autoform/dialog";
+import {
+  AutoFormDialog,
+  DeleteRecordForm,
+} from "@packages/ui/components/ui/autoform/dialog";
 import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@packages/ui";
@@ -21,6 +24,7 @@ export const Route = createFileRoute("/dashboard/crm/companies/")({
   validateSearch: zodValidator(
     contract.PaginateCompanyContract["~orpc"].inputSchema!.extend({
       new: z.boolean().optional(),
+      edit: z.boolean().optional(),
       delete: z.boolean().optional(),
       id: z.string().optional(),
     })
@@ -95,9 +99,31 @@ function RouteComponent() {
       </section>
       <section className="col-span-full">
         <DataTable
-          schema={contract.PaginateCompanyContract[
-            "~orpc"
-          ].outputSchema?.unwrap()}
+          contextMenus={[
+            {
+              label: "Edit Company Information",
+              onClick: (row) =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    edit: true,
+                    id: row.original.id,
+                  }),
+                }),
+            },
+            {
+              label: "Delete Company",
+              variant: "destructive",
+              onClick: (row) =>
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: true,
+                    id: row.original.id,
+                  }),
+                }),
+            },
+          ]}
           columns={columns}
           data={data}
           onSortingChange={setSort}
@@ -119,6 +145,61 @@ function RouteComponent() {
               onSuccess: () => {
                 navigate({ search: (prev) => ({ ...prev, new: undefined }) });
                 toast.success("New company has been created");
+              },
+            })
+          }
+        />
+        <AutoFormDialog
+          schema={
+            contract.UpdateCompanyContract["~orpc"].inputSchema!.shape.value
+          }
+          open={searchQuery.edit && !!searchQuery.id}
+          onOpenChange={() =>
+            navigate({
+              search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+            })
+          }
+          title="Update Company"
+          defaultValues={data.find((row) => row.id === searchQuery.id)}
+          onSubmit={(value) =>
+            updateMutation.mutateAsync(
+              { id: searchQuery.id as string, value },
+              {
+                onSuccess: () => {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      edit: undefined,
+                      id: undefined,
+                    }),
+                  });
+                  toast.success("Company record has been updated");
+                },
+              }
+            )
+          }
+        />
+        <DeleteRecordForm
+          recordId={searchQuery.id as string}
+          open={searchQuery.delete}
+          onOpenChange={() =>
+            navigate({
+              search: (prev) => ({ ...prev, delete: undefined, id: undefined }),
+            })
+          }
+          title="Are you sure you want to delete this record?"
+          description="Deleting this record is permanent and cannot be undone"
+          onSubmit={async (id) =>
+            deleteMutation.mutateAsync(id, {
+              onSuccess: () => {
+                navigate({
+                  search: (prev) => ({
+                    ...prev,
+                    delete: undefined,
+                    id: undefined,
+                  }),
+                });
+                toast.success("A record has been deleted successfully");
               },
             })
           }

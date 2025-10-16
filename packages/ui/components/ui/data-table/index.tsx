@@ -3,32 +3,46 @@ import {
   flexRender,
   getCoreRowModel,
   type PaginationState,
+  type Row,
   type RowData,
   type SortingState,
   type Updater,
   useReactTable,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table'
-import { DataTablePagination } from './pagination'
-import type { ZodObject } from 'zod'
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    updateData?: (dataId: string, columnId: string, value: unknown) => void
-    schema?: ZodObject
-  }
-}
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../table";
+import { DataTablePagination } from "./pagination";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "../context-menu";
+import type React from "react";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  sortingState?: SortingState
-  onSortingChange?: (updater: Updater<SortingState>) => Promise<unknown> | unknown
-  paginationState?: PaginationState
-  onPaginationChange?: (updater: Updater<PaginationState>) => Promise<unknown> | unknown
-  updateData?: (dataId: string, columnId: string, value: unknown) => void
-  schema?: ZodObject
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  sortingState?: SortingState;
+  onSortingChange?: (
+    updater: Updater<SortingState>
+  ) => Promise<unknown> | unknown;
+  paginationState?: PaginationState;
+  onPaginationChange?: (
+    updater: Updater<PaginationState>
+  ) => Promise<unknown> | unknown;
+  contextMenus?: {
+    label: React.ReactNode;
+    variant?: "default" | "destructive";
+    onClick: (row: Row<TData>) => Promise<unknown> | unknown;
+  }[];
 }
 
 export function DataTable<TData, TValue>({
@@ -38,8 +52,7 @@ export function DataTable<TData, TValue>({
   onPaginationChange,
   paginationState,
   sortingState,
-  schema,
-  updateData,
+  contextMenus,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -51,13 +64,9 @@ export function DataTable<TData, TValue>({
     onPaginationChange,
     state: {
       pagination: paginationState || { pageSize: 10, pageIndex: 1 },
-      sorting: sortingState || [{ id: 'createdAt', desc: true }],
+      sorting: sortingState || [{ id: "createdAt", desc: true }],
     },
-    meta: {
-      schema,
-      updateData,
-    },
-  })
+  });
 
   return (
     <div>
@@ -71,9 +80,12 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -81,17 +93,40 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <ContextMenu key={row.id}>
+                  <ContextMenuTrigger asChild>
+                    <TableRow data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </ContextMenuTrigger>
+                  {contextMenus && (
+                    <ContextMenuContent>
+                      {contextMenus.map((item) => (
+                        <ContextMenuItem
+                          key={item.label?.toString()}
+                          onClick={() => item.onClick(row)}
+                          variant={item.variant}
+                        >
+                          {item.label}
+                        </ContextMenuItem>
+                      ))}
+                    </ContextMenuContent>
+                  )}
+                </ContextMenu>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -101,5 +136,5 @@ export function DataTable<TData, TValue>({
         <DataTablePagination table={table} />
       </div>
     </div>
-  )
+  );
 }
