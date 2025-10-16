@@ -12,9 +12,16 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // UI package internal imports - handle these before the general @ alias
+      '@/components/ui': '../../packages/ui/components/ui',
+      '@/lib/utils': '../../packages/ui/lib/utils',
+      '@/hooks': '../../packages/ui/hooks',
+      '@/styles': '../../packages/ui/styles',
+      // Frontend app alias
       '@': './src',
+      // Package aliases  
       '@packages/ui': '../../packages/ui',
-      '@pacakage/db': '../../packages/db',
+      '@packages/db': '../../packages/db',
       '@packages/rpc': '../../packages/rpc'
     },
   },

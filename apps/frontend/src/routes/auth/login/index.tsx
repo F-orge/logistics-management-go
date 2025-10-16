@@ -1,10 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { useAppForm } from '@/components/form'
+import { AutoForm } from '@packages/ui/components/ui/autoform'
 import { Button } from '@packages/ui/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@packages/ui/components/ui/field'
 import { Input } from '@packages/ui/components/ui/input'
-import { cn } from '@/lib/utils'
+import { cn } from '@packages/ui/lib/utils'
+import z from 'zod'
+
+export const LoginFormSchema = z.object({
+  email: z.email(),
+  password: z.string(),
+  rememberMe: z.boolean(),
+})
 
 export const Route = createFileRoute('/auth/login/')({
   component: RouteComponent,
@@ -14,98 +21,51 @@ function RouteComponent() {
   const navigate = Route.useNavigate()
   const { authClient } = Route.useRouteContext()
 
-  const form = useAppForm({
-    defaultValues: {} as {
-      email: string
-      password: string
-      rememberMe: boolean
-    },
-    onSubmit: ({ value }) =>
-      toast.promise(
-        authClient.signIn.email({
-          email: value.email,
-          password: value.password,
-          rememberMe: value.rememberMe,
-        }),
-        {
-          success: ({ data, error }) => {
-            if (error) {
-              toast.error(error.message)
-              if (error.message === 'Email not verified') {
-                navigate({
-                  to: '/auth/verify-email',
-                  search: { email: value.email },
-                })
-              }
-              return
-            }
-
-            if (data?.redirect) {
-              navigate({ to: data.url })
-            }
-
-            navigate({ to: '/dashboard/crm' })
-
-            return 'Successfully logged in'
-          },
-        },
-      ),
-  })
-
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
-      className={cn('flex flex-col gap-2.5')}
-    >
-      <form.AppForm>
-        <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h1 className="text-2xl font-bold">Login to your account</h1>
-            <p className="text-muted-foreground text-sm text-balance">
-              Enter your email below to login to your account
-            </p>
-          </div>
-          <form.AppField name="email">
-            {(field) => (
-              <field.TextField label="Email" type="email" placeholder="m@example.com" required />
-            )}
-          </form.AppField>
-          <form.AppField name="password">
-            {(field) => (
-              <field.TextField
-                label={
-                  <div className="flex justify-between">
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Link
-                      to="/auth/forgot-password"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </Link>
-                  </div>
-                }
-                type="password"
-                placeholder="**********"
-                required
-              />
-            )}
-          </form.AppField>
-          <form.AppField name="rememberMe">
-            {(field) => (
-              <field.CheckBoxField
-                label={'Remember me'}
-                type="password"
-                placeholder="**********"
-                required
-              />
-            )}
-          </form.AppField>
+    <form className={cn('flex flex-col gap-2.5')}>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h1 className="text-2xl font-bold">Login to your account</h1>
+          <p className="text-muted-foreground text-sm text-balance">
+            Enter your email below to login to your account
+          </p>
+        </div>
+        <AutoForm
+          schema={LoginFormSchema}
+          onSubmit={(value) => {
+            toast.promise(
+              authClient.signIn.email({
+                email: value.email,
+                password: value.password,
+                rememberMe: value.rememberMe,
+              }),
+              {
+                success: ({ data, error }) => {
+                  if (error) {
+                    toast.error(error.message)
+                    if (error.message === 'Email not verified') {
+                      navigate({
+                        to: '/auth/verify-email',
+                        search: { email: value.email },
+                      })
+                    }
+                    return
+                  }
+
+                  if (data?.redirect) {
+                    navigate({ to: data.url })
+                  }
+
+                  navigate({ to: '/dashboard/crm' })
+
+                  return 'Successfully logged in'
+                },
+              },
+            )
+          }}
+        >
           <Field>
-            <form.SubmitButton type="submit">Login</form.SubmitButton>
+            <Button type="submit">Login</Button>
           </Field>
           <Field>
             <FieldDescription className="text-center">
@@ -115,8 +75,8 @@ function RouteComponent() {
               </Link>
             </FieldDescription>
           </Field>
-        </FieldGroup>
-      </form.AppForm>
+        </AutoForm>
+      </FieldGroup>
     </form>
   )
 }

@@ -6,8 +6,8 @@ import { useAppForm } from '@/components/form'
 import { Button } from '@packages/ui/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@packages/ui/components/ui/field'
 import { Input } from '@packages/ui/components/ui/input'
-import { authClient } from '@/lib/client-auth'
-import { cn } from '@/lib/utils'
+import { authClient } from '@/lib/auth'
+import { cn } from '@packages/ui/lib/utils'
 
 export const Route = createFileRoute('/auth/reset-password/')({
   component: RouteComponent,

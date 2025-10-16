@@ -16,6 +16,8 @@ import { SelectField } from "./components/SelectField";
 import { ObjectWrapper } from "./components/ObjectWrapper";
 import { ArrayWrapper } from "./components/ArrayWrapper";
 import { ArrayElementWrapper } from "./components/ArrayElementWrapper";
+import type { z, ZodObject } from "zod";
+import { ZodProvider } from '@autoform/zod'
 
 const ShadcnUIComponents: AutoFormUIComponents = {
   Form,
@@ -36,16 +38,24 @@ export const ShadcnAutoFormFieldComponents = {
 } as const;
 export type FieldTypes = keyof typeof ShadcnAutoFormFieldComponents;
 
-export function AutoForm<T extends Record<string, any>>({
-  uiComponents,
-  formComponents,
-  ...props
-}: AutoFormProps<T>) {
+export function AutoForm<T extends ZodObject>(props:
+    Omit<Parameters<typeof BaseAutoForm>[0],'schema' | 'onSubmit' | 'defaultValues' | 'values' | 'uiComponents' | 'formComponents'> & {
+      schema:T,
+      onSubmit?:(value:z.infer<T>) => Promise<unknown> | unknown
+      defaultValues?:z.infer<T>
+      values?:z.infer<T>
+    }
+  ) {
   return (
     <BaseAutoForm
       {...props}
-      uiComponents={{ ...ShadcnUIComponents, ...uiComponents }}
-      formComponents={{ ...ShadcnAutoFormFieldComponents, ...formComponents }}
+      schema={new ZodProvider(props.schema)}
+      onSubmit={props.onSubmit as any}
+      values={props.values}
+      defaultValues={props.defaultValues}
+      uiComponents={{ ...ShadcnUIComponents, }}
+      formComponents={{ ...ShadcnAutoFormFieldComponents, }}
     />
   );
 }
+
