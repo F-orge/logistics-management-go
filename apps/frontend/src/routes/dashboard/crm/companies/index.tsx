@@ -1,9 +1,5 @@
 import { orpcMutationOption, orpcQueryOption } from "@/queries/interface";
 import * as contract from "@packages/rpc/src/contracts/crm/companies";
-import type {
-  ORPCServerInputs,
-  ORPCServerOutputs,
-} from "@packages/rpc/src/index";
 import { generateColumn } from "@packages/ui/components/ui/data-table/helpers";
 import { DataTable } from "@packages/ui/components/ui/data-table/index";
 import { useMutation } from "@tanstack/react-query";
@@ -11,7 +7,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { PaginationState, SortingState } from "@tanstack/react-table";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
+import { AutoFormDialog } from "@packages/ui/components/ui/autoform/dialog";
 import { toast } from "sonner";
+import z from "zod";
+import { Button } from "@packages/ui";
 
 const columns = generateColumn(
   contract.PaginateCompanyContract["~orpc"].outputSchema?.unwrap()
@@ -20,7 +19,11 @@ const columns = generateColumn(
 export const Route = createFileRoute("/dashboard/crm/companies/")({
   component: RouteComponent,
   validateSearch: zodValidator(
-    contract.PaginateCompanyContract["~orpc"].inputSchema!
+    contract.PaginateCompanyContract["~orpc"].inputSchema!.extend({
+      new: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
+    })
   ),
   beforeLoad: ({ search }) => ({ search }),
   loader: async ({ context }) => {
@@ -33,18 +36,26 @@ export const Route = createFileRoute("/dashboard/crm/companies/")({
 function RouteComponent() {
   const searchQuery = Route.useSearch();
   const navigate = Route.useNavigate();
-  const { orpcClient, queryClient } = Route.useRouteContext();
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageSize: searchQuery.perPage,
     pageIndex: searchQuery.page,
   });
+
   const [sort, setSort] = useState<SortingState>([
     { id: "createdAt", desc: true },
   ]);
 
+  const createMutation = useMutation(
+    orpcMutationOption("crm", "InsertCompany")
+  );
+
   const updateMutation = useMutation(
     orpcMutationOption("crm", "UpdateCompany")
+  );
+
+  const deleteMutation = useMutation(
+    orpcMutationOption("crm", "RemoveCompany")
   );
 
   useEffect(() => {
@@ -68,15 +79,22 @@ function RouteComponent() {
   const data = Route.useLoaderData();
 
   return (
-    <article className="grid grid-cols-12">
+    <article className="grid grid-cols-12 gap-2.5">
+      <section className="col-span-full border-b pb-2">
+        <h1 className="text-2xl font-bold">Companies</h1>
+      </section>
+      <section className="col-span-full flex justify-end">
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+          variant={"outline"}
+        >
+          New
+        </Button>
+      </section>
       <section className="col-span-full">
         <DataTable
-          updateData={async (dataId, col, value) =>
-            await updateMutation.mutateAsync({
-              id: dataId,
-              value: { [col]: value },
-            })
-          }
           schema={contract.PaginateCompanyContract[
             "~orpc"
           ].outputSchema?.unwrap()}
@@ -86,6 +104,24 @@ function RouteComponent() {
           sortingState={sort}
           onPaginationChange={setPagination}
           paginationState={pagination}
+        />
+      </section>
+      <section>
+        <AutoFormDialog
+          schema={contract.InsertCompanyContract["~orpc"].inputSchema!}
+          open={searchQuery.new}
+          onOpenChange={() =>
+            navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+          }
+          title="New Company"
+          onSubmit={(value) =>
+            createMutation.mutateAsync(value, {
+              onSuccess: () => {
+                navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+                toast.success("New company has been created");
+              },
+            })
+          }
         />
       </section>
     </article>
