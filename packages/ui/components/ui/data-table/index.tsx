@@ -22,6 +22,7 @@ import { DataTablePagination } from "./pagination";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
+  sortingState?:SortingState,
   onSortingChange?:(updater:Updater<SortingState>) => Promise<unknown> | unknown,
   paginationState?:PaginationState,
   onPaginationChange?:(updater:Updater<PaginationState>) => Promise<unknown> | unknown
@@ -32,7 +33,8 @@ export function DataTable<TData, TValue>({
   data,
   onSortingChange,
   onPaginationChange,
-  paginationState
+  paginationState,
+  sortingState
 }: DataTableProps<TData, TValue>) {
 
   const table = useReactTable({
@@ -44,7 +46,8 @@ export function DataTable<TData, TValue>({
     onSortingChange,
     onPaginationChange,
     state:{
-      pagination:paginationState || {pageSize:10,pageIndex:1}
+      pagination:paginationState || {pageSize:10,pageIndex:1},
+      sorting:sortingState || [{id:'createdAt',desc:true}]
     }
   })
 
