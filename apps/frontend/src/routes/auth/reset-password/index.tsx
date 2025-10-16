@@ -1,13 +1,19 @@
-import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { toast } from 'sonner'
 import z from 'zod'
-import { useAppForm } from '@/components/form'
-import { Button } from '@packages/ui/components/ui/button'
-import { Field, FieldDescription, FieldGroup, FieldLabel } from '@packages/ui/components/ui/field'
-import { Input } from '@packages/ui/components/ui/input'
+import { AutoForm } from '@packages/ui/components/ui/autoform'
+import { Field, FieldDescription, FieldGroup, FieldLegend, FieldTitle } from '@packages/ui/components/ui/field'
 import { authClient } from '@/lib/auth'
-import { cn } from '@packages/ui/lib/utils'
+import { Button } from '@packages/ui/components/ui/button'
+
+const ResetPasswordForm = z.object({
+  newPassword:z.string(),
+  confirmPassword:z.string()
+}).refine(args => args.newPassword === args.confirmPassword,{
+  error:"Password does not match",
+  path:['confirmPassword','newPassword']
+})
 
 export const Route = createFileRoute('/auth/reset-password/')({
   component: RouteComponent,
@@ -23,10 +29,28 @@ function RouteComponent() {
   const searchQuery = Route.useSearch()
   const navigate = Route.useNavigate()
 
-  const form = useAppForm({
-    defaultValues: {} as { newPassword: string; confirmPassword: string },
-    onSubmit: async ({ value }) =>
-      toast.promise(
+  if (!searchQuery.token && searchQuery.email) {
+    return (
+      <FieldGroup>
+        <FieldLegend className="flex flex-col items-center gap-1 text-center">
+          <FieldTitle className="text-2xl font-bold">Password reset</FieldTitle>
+          <FieldDescription className="text-muted-foreground text-sm text-balance">
+            The reset link has been send to your email: {searchQuery.email}
+          </FieldDescription>
+        </FieldLegend>
+      </FieldGroup>
+    )
+  }
+
+  return (
+    <FieldGroup>
+      <FieldLegend className="flex flex-col items-center gap-1 text-center">
+        <FieldTitle className="text-2xl font-bold">Password reset</FieldTitle>
+        <FieldDescription className="text-muted-foreground text-sm text-balance">
+          Enter your new password below to secure your account
+        </FieldDescription>
+      </FieldLegend>
+      <AutoForm schema={ResetPasswordForm} onSubmit={(value) =>  toast.promise(
         authClient.resetPassword({
           token: searchQuery.token,
           newPassword: value.newPassword,
@@ -42,64 +66,11 @@ function RouteComponent() {
           },
           error: 'Unable to update your password',
         },
-      ),
-  })
-
-  if (!searchQuery.token && searchQuery.email) {
-    return (
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Password reset</h1>
-          <p className="text-muted-foreground text-sm text-balance">
-            The reset link has been send to your email: {searchQuery.email}
-          </p>
-        </div>
-      </FieldGroup>
-    )
-  }
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
-      className={cn('flex flex-col gap-2.5')}
-    >
-      <form.AppForm>
-        <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h1 className="text-2xl font-bold">Password reset</h1>
-            <p className="text-muted-foreground text-sm text-balance">
-              Enter your new password below to secure your account
-            </p>
-          </div>
-          <form.AppField name="newPassword">
-            {(field) => (
-              <field.TextField
-                label="New Password"
-                type="password"
-                placeholder="**********"
-                required
-              />
-            )}
-          </form.AppField>
-          <form.AppField name="confirmPassword">
-            {(field) => (
-              <field.TextField
-                label="Confirm Password"
-                type="password"
-                placeholder="**********"
-                required
-              />
-            )}
-          </form.AppField>
-          <Field>
-            <form.SubmitButton type="submit">Save</form.SubmitButton>
-          </Field>
-        </FieldGroup>
-      </form.AppForm>
-    </form>
+      )}>
+        <Field>
+          <Button type="submit">Save</Button>
+        </Field>
+      </AutoForm>
+    </FieldGroup>
   )
 }

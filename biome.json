@@ -37,21 +37,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["src/**", "apps/**", "packages/**"]
+    "includes": ["apps/**", "packages/**"]
   },
   "overrides": [
     {
       "includes": [
-        "src/routeTree.gen.ts",
-        "src/lib/graphql/client/graphql.ts",
+        "!src/routeTree.gen.ts",
+        "!apps/frontend/src/routeTree.gen.ts",
         "packages/db/src/repositories/interface.ts"
-      ],
-      "linter": {
-        "enabled": false
-      },
-      "formatter": {
-        "enabled": false
-      }
+      ]
     }
   ]
 }
