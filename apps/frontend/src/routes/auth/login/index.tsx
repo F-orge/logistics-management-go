@@ -9,20 +9,33 @@ import z, { email } from 'zod'
 import { fieldConfig } from '@autoform/zod'
 
 export const ResetPasswordComponent = () => {
-  return <div className='flex gap-2.5 justify-between w-full'>
-    <FieldLabel>Password</FieldLabel>
-    <Button variant={'link'} size={'sm'} className='p-0'  asChild>
-      <Link to='/auth/forgot-password'>
-        Forgot password?
-      </Link>
-    </Button>
-  </div>
+  return (
+    <div className="flex gap-2.5 justify-between w-full">
+      <FieldLabel>Password</FieldLabel>
+      <Button variant={'link'} size={'sm'} className="p-0" asChild>
+        <Link to="/auth/forgot-password">Forgot password?</Link>
+      </Button>
+    </div>
+  )
 }
 
 export const LoginFormSchema = z.object({
-  email: z.email().check(fieldConfig({label:"Email address",description:"Enter your email address"})),
-  password: z.string().check(fieldConfig({label:<ResetPasswordComponent />,description:"Enter your password",inputProps:{type:"password"}})),
-  rememberMe: z.boolean().optional().check(fieldConfig({label:"Remember Me"})),
+  email: z
+    .email()
+    .check(fieldConfig({ label: 'Email address', description: 'Enter your email address' })),
+  password: z
+    .string()
+    .check(
+      fieldConfig({
+        label: <ResetPasswordComponent />,
+        description: 'Enter your password',
+        inputProps: { type: 'password' },
+      }),
+    ),
+  rememberMe: z
+    .boolean()
+    .optional()
+    .check(fieldConfig({ label: 'Remember Me' })),
 })
 
 export const Route = createFileRoute('/auth/login/')({
@@ -65,12 +78,11 @@ function RouteComponent() {
                 if (data !== null && data?.redirect) {
                   navigate({ to: data.url })
                 }
-                
+
                 if (data !== null && data.user) {
                   navigate({ to: '/dashboard/crm' })
                   return 'Successfully logged in'
                 }
-
               },
             },
           )

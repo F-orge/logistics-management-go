@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -16,7 +16,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		alter table crm.opportunity_products
 			add constraint unique_opportunity_products unique (opportunity_id, product_id);
-	`.execute(db);
+	`.execute(db)
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -36,5 +36,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 		-- Restore the original composite primary key
 		alter table crm.opportunity_products
 			add primary key (opportunity_id, product_id);
-	`.execute(db);
+	`.execute(db)
 }

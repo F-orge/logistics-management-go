@@ -1,7 +1,11 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { ChevronRight, type LucideIcon } from 'lucide-react'
 import React from 'react'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@packages/ui/components/ui/collapsible'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@packages/ui/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,

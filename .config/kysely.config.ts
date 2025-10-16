@@ -5,9 +5,9 @@ import {
   PostgresDialect,
   PostgresIntrospector,
   PostgresQueryCompiler,
-} from 'kysely';
-import { defineConfig } from 'kysely-ctl';
-import { Pool } from 'pg';
+} from 'kysely'
+import { defineConfig } from 'kysely-ctl'
+import { Pool } from 'pg'
 
 export default defineConfig({
   // replace me with a real dialect instance OR a dialect name + `dialectConfig` prop.
@@ -21,4 +21,4 @@ export default defineConfig({
   seeds: {
     seedFolder: '../seeds',
   },
-});
+})

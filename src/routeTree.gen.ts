@@ -8,652 +8,608 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index';
-import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index';
-import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index';
-import { Route as AuthRouteRouteImport } from './routes/auth/route';
-import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index';
-import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-email/index';
-import { Route as DashboardBillingAccountTransactionIndexRouteImport } from './routes/dashboard/billing/account-transaction/index';
-import { Route as DashboardBillingAccountingSyncLogIndexRouteImport } from './routes/dashboard/billing/accounting-sync-log/index';
-import { Route as DashboardBillingClientAccountIndexRouteImport } from './routes/dashboard/billing/client-account/index';
-import { Route as DashboardBillingCreditNoteIndexRouteImport } from './routes/dashboard/billing/credit-note/index';
-import { Route as DashboardBillingDisputeIndexRouteImport } from './routes/dashboard/billing/dispute/index';
-import { Route as DashboardBillingInvoiceIndexRouteImport } from './routes/dashboard/billing/invoice/index';
-import { Route as DashboardBillingPaymentIndexRouteImport } from './routes/dashboard/billing/payment/index';
-import { Route as DashboardBillingQuoteIndexRouteImport } from './routes/dashboard/billing/quote/index';
-import { Route as DashboardBillingRateCardIndexRouteImport } from './routes/dashboard/billing/rate-card/index';
-import { Route as DashboardBillingRateRuleIndexRouteImport } from './routes/dashboard/billing/rate-rule/index';
-import { Route as DashboardBillingSurchargeIndexRouteImport } from './routes/dashboard/billing/surcharge/index';
-import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index';
-import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index';
-import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index';
-import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index';
-import { Route as DashboardCrmIndexRouteImport } from './routes/dashboard/crm/index';
-import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index';
-import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index';
-import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index';
-import { Route as DashboardCrmNotificationsIndexRouteImport } from './routes/dashboard/crm/notifications/index';
-import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index';
-import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index';
-import { Route as DashboardDmsCustomerTrackingLinkIndexRouteImport } from './routes/dashboard/dms/customer-tracking-link/index';
-import { Route as DashboardDmsDeliveryRouteIndexRouteImport } from './routes/dashboard/dms/delivery-route/index';
-import { Route as DashboardDmsDeliveryTaskIndexRouteImport } from './routes/dashboard/dms/delivery-task/index';
-import { Route as DashboardDmsDriverLocationIndexRouteImport } from './routes/dashboard/dms/driver-location/index';
-import { Route as DashboardDmsProofOfDeliveryIndexRouteImport } from './routes/dashboard/dms/proof-of-delivery/index';
-import { Route as DashboardDmsTaskEventIndexRouteImport } from './routes/dashboard/dms/task-event/index';
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route';
-import { Route as DashboardTmsCarrierIndexRouteImport } from './routes/dashboard/tms/carrier/index';
-import { Route as DashboardTmsDriverIndexRouteImport } from './routes/dashboard/tms/driver/index';
-import { Route as DashboardTmsExpenseIndexRouteImport } from './routes/dashboard/tms/expense/index';
-import { Route as DashboardTmsGeofenceIndexRouteImport } from './routes/dashboard/tms/geofence/index';
-import { Route as DashboardTmsGpsPingIndexRouteImport } from './routes/dashboard/tms/gps-ping/index';
-import { Route as DashboardTmsPartnerInvoiceIndexRouteImport } from './routes/dashboard/tms/partner-invoice/index';
-import { Route as DashboardTmsProofOfDeliveryIndexRouteImport } from './routes/dashboard/tms/proof-of-delivery/index';
-import { Route as DashboardTmsRouteIndexRouteImport } from './routes/dashboard/tms/route/index';
-import { Route as DashboardTmsShipmentLegIndexRouteImport } from './routes/dashboard/tms/shipment-leg/index';
-import { Route as DashboardTmsTripIndexRouteImport } from './routes/dashboard/tms/trip/index';
-import { Route as DashboardTmsVehicleIndexRouteImport } from './routes/dashboard/tms/vehicle/index';
-import { Route as DashboardWmsBinThresholdIndexRouteImport } from './routes/dashboard/wms/bin-threshold/index';
-import { Route as DashboardWmsInboundShipmentIndexRouteImport } from './routes/dashboard/wms/inbound-shipment/index';
-import { Route as DashboardWmsInventoryAdjustmentIndexRouteImport } from './routes/dashboard/wms/inventory-adjustment/index';
-import { Route as DashboardWmsInventoryBatchIndexRouteImport } from './routes/dashboard/wms/inventory-batch/index';
-import { Route as DashboardWmsInventoryStockIndexRouteImport } from './routes/dashboard/wms/inventory-stock/index';
-import { Route as DashboardWmsLocationIndexRouteImport } from './routes/dashboard/wms/location/index';
-import { Route as DashboardWmsOutboundShipmentIndexRouteImport } from './routes/dashboard/wms/outbound-shipment/index';
-import { Route as DashboardWmsPackageIndexRouteImport } from './routes/dashboard/wms/package/index';
-import { Route as DashboardWmsPickBatchIndexRouteImport } from './routes/dashboard/wms/pick-batch/index';
-import { Route as DashboardWmsProductIndexRouteImport } from './routes/dashboard/wms/product/index';
-import { Route as DashboardWmsPutawayRuleIndexRouteImport } from './routes/dashboard/wms/putaway-rule/index';
-import { Route as DashboardWmsReorderPointIndexRouteImport } from './routes/dashboard/wms/reorder-point/index';
-import { Route as DashboardWmsReturnIndexRouteImport } from './routes/dashboard/wms/return/index';
-import { Route as DashboardWmsSalesOrderIndexRouteImport } from './routes/dashboard/wms/sales-order/index';
-import { Route as DashboardWmsStockTransferIndexRouteImport } from './routes/dashboard/wms/stock-transfer/index';
-import { Route as DashboardWmsSupplierIndexRouteImport } from './routes/dashboard/wms/supplier/index';
-import { Route as DashboardWmsTaskIndexRouteImport } from './routes/dashboard/wms/task/index';
-import { Route as DashboardWmsWarehouseIndexRouteImport } from './routes/dashboard/wms/warehouse/index';
-import { Route as IndexRouteImport } from './routes/index';
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthForgotPasswordIndexRouteImport } from './routes/auth/forgot-password/index'
+import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
+import { Route as AuthResetPasswordIndexRouteImport } from './routes/auth/reset-password/index'
+import { Route as AuthRouteRouteImport } from './routes/auth/route'
+import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
+import { Route as AuthVerifyEmailIndexRouteImport } from './routes/auth/verify-email/index'
+import { Route as DashboardBillingAccountTransactionIndexRouteImport } from './routes/dashboard/billing/account-transaction/index'
+import { Route as DashboardBillingAccountingSyncLogIndexRouteImport } from './routes/dashboard/billing/accounting-sync-log/index'
+import { Route as DashboardBillingClientAccountIndexRouteImport } from './routes/dashboard/billing/client-account/index'
+import { Route as DashboardBillingCreditNoteIndexRouteImport } from './routes/dashboard/billing/credit-note/index'
+import { Route as DashboardBillingDisputeIndexRouteImport } from './routes/dashboard/billing/dispute/index'
+import { Route as DashboardBillingInvoiceIndexRouteImport } from './routes/dashboard/billing/invoice/index'
+import { Route as DashboardBillingPaymentIndexRouteImport } from './routes/dashboard/billing/payment/index'
+import { Route as DashboardBillingQuoteIndexRouteImport } from './routes/dashboard/billing/quote/index'
+import { Route as DashboardBillingRateCardIndexRouteImport } from './routes/dashboard/billing/rate-card/index'
+import { Route as DashboardBillingRateRuleIndexRouteImport } from './routes/dashboard/billing/rate-rule/index'
+import { Route as DashboardBillingSurchargeIndexRouteImport } from './routes/dashboard/billing/surcharge/index'
+import { Route as DashboardCrmCampaignsIndexRouteImport } from './routes/dashboard/crm/campaigns/index'
+import { Route as DashboardCrmCasesIndexRouteImport } from './routes/dashboard/crm/cases/index'
+import { Route as DashboardCrmCompaniesIndexRouteImport } from './routes/dashboard/crm/companies/index'
+import { Route as DashboardCrmContactsIndexRouteImport } from './routes/dashboard/crm/contacts/index'
+import { Route as DashboardCrmIndexRouteImport } from './routes/dashboard/crm/index'
+import { Route as DashboardCrmInteractionsIndexRouteImport } from './routes/dashboard/crm/interactions/index'
+import { Route as DashboardCrmInvoicesIndexRouteImport } from './routes/dashboard/crm/invoices/index'
+import { Route as DashboardCrmLeadsIndexRouteImport } from './routes/dashboard/crm/leads/index'
+import { Route as DashboardCrmNotificationsIndexRouteImport } from './routes/dashboard/crm/notifications/index'
+import { Route as DashboardCrmOpportunitiesIndexRouteImport } from './routes/dashboard/crm/opportunities/index'
+import { Route as DashboardCrmProductsIndexRouteImport } from './routes/dashboard/crm/products/index'
+import { Route as DashboardDmsCustomerTrackingLinkIndexRouteImport } from './routes/dashboard/dms/customer-tracking-link/index'
+import { Route as DashboardDmsDeliveryRouteIndexRouteImport } from './routes/dashboard/dms/delivery-route/index'
+import { Route as DashboardDmsDeliveryTaskIndexRouteImport } from './routes/dashboard/dms/delivery-task/index'
+import { Route as DashboardDmsDriverLocationIndexRouteImport } from './routes/dashboard/dms/driver-location/index'
+import { Route as DashboardDmsProofOfDeliveryIndexRouteImport } from './routes/dashboard/dms/proof-of-delivery/index'
+import { Route as DashboardDmsTaskEventIndexRouteImport } from './routes/dashboard/dms/task-event/index'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as DashboardTmsCarrierIndexRouteImport } from './routes/dashboard/tms/carrier/index'
+import { Route as DashboardTmsDriverIndexRouteImport } from './routes/dashboard/tms/driver/index'
+import { Route as DashboardTmsExpenseIndexRouteImport } from './routes/dashboard/tms/expense/index'
+import { Route as DashboardTmsGeofenceIndexRouteImport } from './routes/dashboard/tms/geofence/index'
+import { Route as DashboardTmsGpsPingIndexRouteImport } from './routes/dashboard/tms/gps-ping/index'
+import { Route as DashboardTmsPartnerInvoiceIndexRouteImport } from './routes/dashboard/tms/partner-invoice/index'
+import { Route as DashboardTmsProofOfDeliveryIndexRouteImport } from './routes/dashboard/tms/proof-of-delivery/index'
+import { Route as DashboardTmsRouteIndexRouteImport } from './routes/dashboard/tms/route/index'
+import { Route as DashboardTmsShipmentLegIndexRouteImport } from './routes/dashboard/tms/shipment-leg/index'
+import { Route as DashboardTmsTripIndexRouteImport } from './routes/dashboard/tms/trip/index'
+import { Route as DashboardTmsVehicleIndexRouteImport } from './routes/dashboard/tms/vehicle/index'
+import { Route as DashboardWmsBinThresholdIndexRouteImport } from './routes/dashboard/wms/bin-threshold/index'
+import { Route as DashboardWmsInboundShipmentIndexRouteImport } from './routes/dashboard/wms/inbound-shipment/index'
+import { Route as DashboardWmsInventoryAdjustmentIndexRouteImport } from './routes/dashboard/wms/inventory-adjustment/index'
+import { Route as DashboardWmsInventoryBatchIndexRouteImport } from './routes/dashboard/wms/inventory-batch/index'
+import { Route as DashboardWmsInventoryStockIndexRouteImport } from './routes/dashboard/wms/inventory-stock/index'
+import { Route as DashboardWmsLocationIndexRouteImport } from './routes/dashboard/wms/location/index'
+import { Route as DashboardWmsOutboundShipmentIndexRouteImport } from './routes/dashboard/wms/outbound-shipment/index'
+import { Route as DashboardWmsPackageIndexRouteImport } from './routes/dashboard/wms/package/index'
+import { Route as DashboardWmsPickBatchIndexRouteImport } from './routes/dashboard/wms/pick-batch/index'
+import { Route as DashboardWmsProductIndexRouteImport } from './routes/dashboard/wms/product/index'
+import { Route as DashboardWmsPutawayRuleIndexRouteImport } from './routes/dashboard/wms/putaway-rule/index'
+import { Route as DashboardWmsReorderPointIndexRouteImport } from './routes/dashboard/wms/reorder-point/index'
+import { Route as DashboardWmsReturnIndexRouteImport } from './routes/dashboard/wms/return/index'
+import { Route as DashboardWmsSalesOrderIndexRouteImport } from './routes/dashboard/wms/sales-order/index'
+import { Route as DashboardWmsStockTransferIndexRouteImport } from './routes/dashboard/wms/stock-transfer/index'
+import { Route as DashboardWmsSupplierIndexRouteImport } from './routes/dashboard/wms/supplier/index'
+import { Route as DashboardWmsTaskIndexRouteImport } from './routes/dashboard/wms/task/index'
+import { Route as DashboardWmsWarehouseIndexRouteImport } from './routes/dashboard/wms/warehouse/index'
+import { Route as IndexRouteImport } from './routes/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const DashboardCrmIndexRoute = DashboardCrmIndexRouteImport.update({
   id: '/crm/',
   path: '/crm/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const AuthVerifyEmailIndexRoute = AuthVerifyEmailIndexRouteImport.update({
   id: '/verify-email/',
   path: '/verify-email/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
   id: '/signup/',
   path: '/signup/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthResetPasswordIndexRoute = AuthResetPasswordIndexRouteImport.update({
   id: '/reset-password/',
   path: '/reset-password/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 const AuthForgotPasswordIndexRoute = AuthForgotPasswordIndexRouteImport.update({
   id: '/forgot-password/',
   path: '/forgot-password/',
   getParentRoute: () => AuthRouteRoute,
-} as any);
-const DashboardWmsWarehouseIndexRoute =
-  DashboardWmsWarehouseIndexRouteImport.update({
-    id: '/wms/warehouse/',
-    path: '/wms/warehouse/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardWmsWarehouseIndexRoute = DashboardWmsWarehouseIndexRouteImport.update({
+  id: '/wms/warehouse/',
+  path: '/wms/warehouse/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardWmsTaskIndexRoute = DashboardWmsTaskIndexRouteImport.update({
   id: '/wms/task/',
   path: '/wms/task/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardWmsSupplierIndexRoute =
-  DashboardWmsSupplierIndexRouteImport.update({
-    id: '/wms/supplier/',
-    path: '/wms/supplier/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsStockTransferIndexRoute =
-  DashboardWmsStockTransferIndexRouteImport.update({
-    id: '/wms/stock-transfer/',
-    path: '/wms/stock-transfer/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsSalesOrderIndexRoute =
-  DashboardWmsSalesOrderIndexRouteImport.update({
-    id: '/wms/sales-order/',
-    path: '/wms/sales-order/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardWmsSupplierIndexRoute = DashboardWmsSupplierIndexRouteImport.update({
+  id: '/wms/supplier/',
+  path: '/wms/supplier/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsStockTransferIndexRoute = DashboardWmsStockTransferIndexRouteImport.update({
+  id: '/wms/stock-transfer/',
+  path: '/wms/stock-transfer/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsSalesOrderIndexRoute = DashboardWmsSalesOrderIndexRouteImport.update({
+  id: '/wms/sales-order/',
+  path: '/wms/sales-order/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardWmsReturnIndexRoute = DashboardWmsReturnIndexRouteImport.update({
   id: '/wms/return/',
   path: '/wms/return/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardWmsReorderPointIndexRoute =
-  DashboardWmsReorderPointIndexRouteImport.update({
-    id: '/wms/reorder-point/',
-    path: '/wms/reorder-point/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsPutawayRuleIndexRoute =
-  DashboardWmsPutawayRuleIndexRouteImport.update({
-    id: '/wms/putaway-rule/',
-    path: '/wms/putaway-rule/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsProductIndexRoute =
-  DashboardWmsProductIndexRouteImport.update({
-    id: '/wms/product/',
-    path: '/wms/product/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsPickBatchIndexRoute =
-  DashboardWmsPickBatchIndexRouteImport.update({
-    id: '/wms/pick-batch/',
-    path: '/wms/pick-batch/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsPackageIndexRoute =
-  DashboardWmsPackageIndexRouteImport.update({
-    id: '/wms/package/',
-    path: '/wms/package/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsOutboundShipmentIndexRoute =
-  DashboardWmsOutboundShipmentIndexRouteImport.update({
-    id: '/wms/outbound-shipment/',
-    path: '/wms/outbound-shipment/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsLocationIndexRoute =
-  DashboardWmsLocationIndexRouteImport.update({
-    id: '/wms/location/',
-    path: '/wms/location/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsInventoryStockIndexRoute =
-  DashboardWmsInventoryStockIndexRouteImport.update({
-    id: '/wms/inventory-stock/',
-    path: '/wms/inventory-stock/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsInventoryBatchIndexRoute =
-  DashboardWmsInventoryBatchIndexRouteImport.update({
-    id: '/wms/inventory-batch/',
-    path: '/wms/inventory-batch/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardWmsReorderPointIndexRoute = DashboardWmsReorderPointIndexRouteImport.update({
+  id: '/wms/reorder-point/',
+  path: '/wms/reorder-point/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsPutawayRuleIndexRoute = DashboardWmsPutawayRuleIndexRouteImport.update({
+  id: '/wms/putaway-rule/',
+  path: '/wms/putaway-rule/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsProductIndexRoute = DashboardWmsProductIndexRouteImport.update({
+  id: '/wms/product/',
+  path: '/wms/product/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsPickBatchIndexRoute = DashboardWmsPickBatchIndexRouteImport.update({
+  id: '/wms/pick-batch/',
+  path: '/wms/pick-batch/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsPackageIndexRoute = DashboardWmsPackageIndexRouteImport.update({
+  id: '/wms/package/',
+  path: '/wms/package/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsOutboundShipmentIndexRoute = DashboardWmsOutboundShipmentIndexRouteImport.update({
+  id: '/wms/outbound-shipment/',
+  path: '/wms/outbound-shipment/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsLocationIndexRoute = DashboardWmsLocationIndexRouteImport.update({
+  id: '/wms/location/',
+  path: '/wms/location/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsInventoryStockIndexRoute = DashboardWmsInventoryStockIndexRouteImport.update({
+  id: '/wms/inventory-stock/',
+  path: '/wms/inventory-stock/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsInventoryBatchIndexRoute = DashboardWmsInventoryBatchIndexRouteImport.update({
+  id: '/wms/inventory-batch/',
+  path: '/wms/inventory-batch/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardWmsInventoryAdjustmentIndexRoute =
   DashboardWmsInventoryAdjustmentIndexRouteImport.update({
     id: '/wms/inventory-adjustment/',
     path: '/wms/inventory-adjustment/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsInboundShipmentIndexRoute =
-  DashboardWmsInboundShipmentIndexRouteImport.update({
-    id: '/wms/inbound-shipment/',
-    path: '/wms/inbound-shipment/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardWmsBinThresholdIndexRoute =
-  DashboardWmsBinThresholdIndexRouteImport.update({
-    id: '/wms/bin-threshold/',
-    path: '/wms/bin-threshold/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardTmsVehicleIndexRoute =
-  DashboardTmsVehicleIndexRouteImport.update({
-    id: '/tms/vehicle/',
-    path: '/tms/vehicle/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
+const DashboardWmsInboundShipmentIndexRoute = DashboardWmsInboundShipmentIndexRouteImport.update({
+  id: '/wms/inbound-shipment/',
+  path: '/wms/inbound-shipment/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWmsBinThresholdIndexRoute = DashboardWmsBinThresholdIndexRouteImport.update({
+  id: '/wms/bin-threshold/',
+  path: '/wms/bin-threshold/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTmsVehicleIndexRoute = DashboardTmsVehicleIndexRouteImport.update({
+  id: '/tms/vehicle/',
+  path: '/tms/vehicle/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardTmsTripIndexRoute = DashboardTmsTripIndexRouteImport.update({
   id: '/tms/trip/',
   path: '/tms/trip/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardTmsShipmentLegIndexRoute =
-  DashboardTmsShipmentLegIndexRouteImport.update({
-    id: '/tms/shipment-leg/',
-    path: '/tms/shipment-leg/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardTmsShipmentLegIndexRoute = DashboardTmsShipmentLegIndexRouteImport.update({
+  id: '/tms/shipment-leg/',
+  path: '/tms/shipment-leg/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardTmsRouteIndexRoute = DashboardTmsRouteIndexRouteImport.update({
   id: '/tms/route/',
   path: '/tms/route/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardTmsProofOfDeliveryIndexRoute =
-  DashboardTmsProofOfDeliveryIndexRouteImport.update({
-    id: '/tms/proof-of-delivery/',
-    path: '/tms/proof-of-delivery/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardTmsPartnerInvoiceIndexRoute =
-  DashboardTmsPartnerInvoiceIndexRouteImport.update({
-    id: '/tms/partner-invoice/',
-    path: '/tms/partner-invoice/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardTmsGpsPingIndexRoute =
-  DashboardTmsGpsPingIndexRouteImport.update({
-    id: '/tms/gps-ping/',
-    path: '/tms/gps-ping/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardTmsGeofenceIndexRoute =
-  DashboardTmsGeofenceIndexRouteImport.update({
-    id: '/tms/geofence/',
-    path: '/tms/geofence/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardTmsExpenseIndexRoute =
-  DashboardTmsExpenseIndexRouteImport.update({
-    id: '/tms/expense/',
-    path: '/tms/expense/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardTmsProofOfDeliveryIndexRoute = DashboardTmsProofOfDeliveryIndexRouteImport.update({
+  id: '/tms/proof-of-delivery/',
+  path: '/tms/proof-of-delivery/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTmsPartnerInvoiceIndexRoute = DashboardTmsPartnerInvoiceIndexRouteImport.update({
+  id: '/tms/partner-invoice/',
+  path: '/tms/partner-invoice/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTmsGpsPingIndexRoute = DashboardTmsGpsPingIndexRouteImport.update({
+  id: '/tms/gps-ping/',
+  path: '/tms/gps-ping/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTmsGeofenceIndexRoute = DashboardTmsGeofenceIndexRouteImport.update({
+  id: '/tms/geofence/',
+  path: '/tms/geofence/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTmsExpenseIndexRoute = DashboardTmsExpenseIndexRouteImport.update({
+  id: '/tms/expense/',
+  path: '/tms/expense/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardTmsDriverIndexRoute = DashboardTmsDriverIndexRouteImport.update({
   id: '/tms/driver/',
   path: '/tms/driver/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardTmsCarrierIndexRoute =
-  DashboardTmsCarrierIndexRouteImport.update({
-    id: '/tms/carrier/',
-    path: '/tms/carrier/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardDmsTaskEventIndexRoute =
-  DashboardDmsTaskEventIndexRouteImport.update({
-    id: '/dms/task-event/',
-    path: '/dms/task-event/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardDmsProofOfDeliveryIndexRoute =
-  DashboardDmsProofOfDeliveryIndexRouteImport.update({
-    id: '/dms/proof-of-delivery/',
-    path: '/dms/proof-of-delivery/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardDmsDriverLocationIndexRoute =
-  DashboardDmsDriverLocationIndexRouteImport.update({
-    id: '/dms/driver-location/',
-    path: '/dms/driver-location/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardDmsDeliveryTaskIndexRoute =
-  DashboardDmsDeliveryTaskIndexRouteImport.update({
-    id: '/dms/delivery-task/',
-    path: '/dms/delivery-task/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardDmsDeliveryRouteIndexRoute =
-  DashboardDmsDeliveryRouteIndexRouteImport.update({
-    id: '/dms/delivery-route/',
-    path: '/dms/delivery-route/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardTmsCarrierIndexRoute = DashboardTmsCarrierIndexRouteImport.update({
+  id: '/tms/carrier/',
+  path: '/tms/carrier/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDmsTaskEventIndexRoute = DashboardDmsTaskEventIndexRouteImport.update({
+  id: '/dms/task-event/',
+  path: '/dms/task-event/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDmsProofOfDeliveryIndexRoute = DashboardDmsProofOfDeliveryIndexRouteImport.update({
+  id: '/dms/proof-of-delivery/',
+  path: '/dms/proof-of-delivery/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDmsDriverLocationIndexRoute = DashboardDmsDriverLocationIndexRouteImport.update({
+  id: '/dms/driver-location/',
+  path: '/dms/driver-location/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDmsDeliveryTaskIndexRoute = DashboardDmsDeliveryTaskIndexRouteImport.update({
+  id: '/dms/delivery-task/',
+  path: '/dms/delivery-task/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardDmsDeliveryRouteIndexRoute = DashboardDmsDeliveryRouteIndexRouteImport.update({
+  id: '/dms/delivery-route/',
+  path: '/dms/delivery-route/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardDmsCustomerTrackingLinkIndexRoute =
   DashboardDmsCustomerTrackingLinkIndexRouteImport.update({
     id: '/dms/customer-tracking-link/',
     path: '/dms/customer-tracking-link/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmProductsIndexRoute =
-  DashboardCrmProductsIndexRouteImport.update({
-    id: '/crm/products/',
-    path: '/crm/products/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmOpportunitiesIndexRoute =
-  DashboardCrmOpportunitiesIndexRouteImport.update({
-    id: '/crm/opportunities/',
-    path: '/crm/opportunities/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmNotificationsIndexRoute =
-  DashboardCrmNotificationsIndexRouteImport.update({
-    id: '/crm/notifications/',
-    path: '/crm/notifications/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
+const DashboardCrmProductsIndexRoute = DashboardCrmProductsIndexRouteImport.update({
+  id: '/crm/products/',
+  path: '/crm/products/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmOpportunitiesIndexRoute = DashboardCrmOpportunitiesIndexRouteImport.update({
+  id: '/crm/opportunities/',
+  path: '/crm/opportunities/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmNotificationsIndexRoute = DashboardCrmNotificationsIndexRouteImport.update({
+  id: '/crm/notifications/',
+  path: '/crm/notifications/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardCrmLeadsIndexRoute = DashboardCrmLeadsIndexRouteImport.update({
   id: '/crm/leads/',
   path: '/crm/leads/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardCrmInvoicesIndexRoute =
-  DashboardCrmInvoicesIndexRouteImport.update({
-    id: '/crm/invoices/',
-    path: '/crm/invoices/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmInteractionsIndexRoute =
-  DashboardCrmInteractionsIndexRouteImport.update({
-    id: '/crm/interactions/',
-    path: '/crm/interactions/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmContactsIndexRoute =
-  DashboardCrmContactsIndexRouteImport.update({
-    id: '/crm/contacts/',
-    path: '/crm/contacts/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardCrmCompaniesIndexRoute =
-  DashboardCrmCompaniesIndexRouteImport.update({
-    id: '/crm/companies/',
-    path: '/crm/companies/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardCrmInvoicesIndexRoute = DashboardCrmInvoicesIndexRouteImport.update({
+  id: '/crm/invoices/',
+  path: '/crm/invoices/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmInteractionsIndexRoute = DashboardCrmInteractionsIndexRouteImport.update({
+  id: '/crm/interactions/',
+  path: '/crm/interactions/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmContactsIndexRoute = DashboardCrmContactsIndexRouteImport.update({
+  id: '/crm/contacts/',
+  path: '/crm/contacts/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardCrmCompaniesIndexRoute = DashboardCrmCompaniesIndexRouteImport.update({
+  id: '/crm/companies/',
+  path: '/crm/companies/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardCrmCasesIndexRoute = DashboardCrmCasesIndexRouteImport.update({
   id: '/crm/cases/',
   path: '/crm/cases/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardCrmCampaignsIndexRoute =
-  DashboardCrmCampaignsIndexRouteImport.update({
-    id: '/crm/campaigns/',
-    path: '/crm/campaigns/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingSurchargeIndexRoute =
-  DashboardBillingSurchargeIndexRouteImport.update({
-    id: '/billing/surcharge/',
-    path: '/billing/surcharge/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingRateRuleIndexRoute =
-  DashboardBillingRateRuleIndexRouteImport.update({
-    id: '/billing/rate-rule/',
-    path: '/billing/rate-rule/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingRateCardIndexRoute =
-  DashboardBillingRateCardIndexRouteImport.update({
-    id: '/billing/rate-card/',
-    path: '/billing/rate-card/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingQuoteIndexRoute =
-  DashboardBillingQuoteIndexRouteImport.update({
-    id: '/billing/quote/',
-    path: '/billing/quote/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingPaymentIndexRoute =
-  DashboardBillingPaymentIndexRouteImport.update({
-    id: '/billing/payment/',
-    path: '/billing/payment/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingInvoiceIndexRoute =
-  DashboardBillingInvoiceIndexRouteImport.update({
-    id: '/billing/invoice/',
-    path: '/billing/invoice/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingDisputeIndexRoute =
-  DashboardBillingDisputeIndexRouteImport.update({
-    id: '/billing/dispute/',
-    path: '/billing/dispute/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
-const DashboardBillingCreditNoteIndexRoute =
-  DashboardBillingCreditNoteIndexRouteImport.update({
-    id: '/billing/credit-note/',
-    path: '/billing/credit-note/',
-    getParentRoute: () => DashboardRouteRoute,
-  } as any);
+} as any)
+const DashboardCrmCampaignsIndexRoute = DashboardCrmCampaignsIndexRouteImport.update({
+  id: '/crm/campaigns/',
+  path: '/crm/campaigns/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingSurchargeIndexRoute = DashboardBillingSurchargeIndexRouteImport.update({
+  id: '/billing/surcharge/',
+  path: '/billing/surcharge/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingRateRuleIndexRoute = DashboardBillingRateRuleIndexRouteImport.update({
+  id: '/billing/rate-rule/',
+  path: '/billing/rate-rule/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingRateCardIndexRoute = DashboardBillingRateCardIndexRouteImport.update({
+  id: '/billing/rate-card/',
+  path: '/billing/rate-card/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingQuoteIndexRoute = DashboardBillingQuoteIndexRouteImport.update({
+  id: '/billing/quote/',
+  path: '/billing/quote/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingPaymentIndexRoute = DashboardBillingPaymentIndexRouteImport.update({
+  id: '/billing/payment/',
+  path: '/billing/payment/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingInvoiceIndexRoute = DashboardBillingInvoiceIndexRouteImport.update({
+  id: '/billing/invoice/',
+  path: '/billing/invoice/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingDisputeIndexRoute = DashboardBillingDisputeIndexRouteImport.update({
+  id: '/billing/dispute/',
+  path: '/billing/dispute/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardBillingCreditNoteIndexRoute = DashboardBillingCreditNoteIndexRouteImport.update({
+  id: '/billing/credit-note/',
+  path: '/billing/credit-note/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardBillingClientAccountIndexRoute =
   DashboardBillingClientAccountIndexRouteImport.update({
     id: '/billing/client-account/',
     path: '/billing/client-account/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardBillingAccountingSyncLogIndexRoute =
   DashboardBillingAccountingSyncLogIndexRouteImport.update({
     id: '/billing/accounting-sync-log/',
     path: '/billing/accounting-sync-log/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 const DashboardBillingAccountTransactionIndexRoute =
   DashboardBillingAccountTransactionIndexRouteImport.update({
     id: '/billing/account-transaction/',
     path: '/billing/account-transaction/',
     getParentRoute: () => DashboardRouteRoute,
-  } as any);
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login': typeof AuthLoginIndexRoute;
-  '/auth/reset-password': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup': typeof AuthSignupIndexRoute;
-  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm': typeof DashboardCrmIndexRoute;
-  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute;
-  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute;
-  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute;
-  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute;
-  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute;
-  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute;
-  '/dashboard/billing/payment': typeof DashboardBillingPaymentIndexRoute;
-  '/dashboard/billing/quote': typeof DashboardBillingQuoteIndexRoute;
-  '/dashboard/billing/rate-card': typeof DashboardBillingRateCardIndexRoute;
-  '/dashboard/billing/rate-rule': typeof DashboardBillingRateRuleIndexRoute;
-  '/dashboard/billing/surcharge': typeof DashboardBillingSurchargeIndexRoute;
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
-  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute;
-  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute;
-  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute;
-  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute;
-  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute;
-  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute;
-  '/dashboard/tms/carrier': typeof DashboardTmsCarrierIndexRoute;
-  '/dashboard/tms/driver': typeof DashboardTmsDriverIndexRoute;
-  '/dashboard/tms/expense': typeof DashboardTmsExpenseIndexRoute;
-  '/dashboard/tms/geofence': typeof DashboardTmsGeofenceIndexRoute;
-  '/dashboard/tms/gps-ping': typeof DashboardTmsGpsPingIndexRoute;
-  '/dashboard/tms/partner-invoice': typeof DashboardTmsPartnerInvoiceIndexRoute;
-  '/dashboard/tms/proof-of-delivery': typeof DashboardTmsProofOfDeliveryIndexRoute;
-  '/dashboard/tms/route': typeof DashboardTmsRouteIndexRoute;
-  '/dashboard/tms/shipment-leg': typeof DashboardTmsShipmentLegIndexRoute;
-  '/dashboard/tms/trip': typeof DashboardTmsTripIndexRoute;
-  '/dashboard/tms/vehicle': typeof DashboardTmsVehicleIndexRoute;
-  '/dashboard/wms/bin-threshold': typeof DashboardWmsBinThresholdIndexRoute;
-  '/dashboard/wms/inbound-shipment': typeof DashboardWmsInboundShipmentIndexRoute;
-  '/dashboard/wms/inventory-adjustment': typeof DashboardWmsInventoryAdjustmentIndexRoute;
-  '/dashboard/wms/inventory-batch': typeof DashboardWmsInventoryBatchIndexRoute;
-  '/dashboard/wms/inventory-stock': typeof DashboardWmsInventoryStockIndexRoute;
-  '/dashboard/wms/location': typeof DashboardWmsLocationIndexRoute;
-  '/dashboard/wms/outbound-shipment': typeof DashboardWmsOutboundShipmentIndexRoute;
-  '/dashboard/wms/package': typeof DashboardWmsPackageIndexRoute;
-  '/dashboard/wms/pick-batch': typeof DashboardWmsPickBatchIndexRoute;
-  '/dashboard/wms/product': typeof DashboardWmsProductIndexRoute;
-  '/dashboard/wms/putaway-rule': typeof DashboardWmsPutawayRuleIndexRoute;
-  '/dashboard/wms/reorder-point': typeof DashboardWmsReorderPointIndexRoute;
-  '/dashboard/wms/return': typeof DashboardWmsReturnIndexRoute;
-  '/dashboard/wms/sales-order': typeof DashboardWmsSalesOrderIndexRoute;
-  '/dashboard/wms/stock-transfer': typeof DashboardWmsStockTransferIndexRoute;
-  '/dashboard/wms/supplier': typeof DashboardWmsSupplierIndexRoute;
-  '/dashboard/wms/task': typeof DashboardWmsTaskIndexRoute;
-  '/dashboard/wms/warehouse': typeof DashboardWmsWarehouseIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute
+  '/auth/login': typeof AuthLoginIndexRoute
+  '/auth/reset-password': typeof AuthResetPasswordIndexRoute
+  '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute
+  '/dashboard/billing/payment': typeof DashboardBillingPaymentIndexRoute
+  '/dashboard/billing/quote': typeof DashboardBillingQuoteIndexRoute
+  '/dashboard/billing/rate-card': typeof DashboardBillingRateCardIndexRoute
+  '/dashboard/billing/rate-rule': typeof DashboardBillingRateRuleIndexRoute
+  '/dashboard/billing/surcharge': typeof DashboardBillingSurchargeIndexRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute
+  '/dashboard/tms/carrier': typeof DashboardTmsCarrierIndexRoute
+  '/dashboard/tms/driver': typeof DashboardTmsDriverIndexRoute
+  '/dashboard/tms/expense': typeof DashboardTmsExpenseIndexRoute
+  '/dashboard/tms/geofence': typeof DashboardTmsGeofenceIndexRoute
+  '/dashboard/tms/gps-ping': typeof DashboardTmsGpsPingIndexRoute
+  '/dashboard/tms/partner-invoice': typeof DashboardTmsPartnerInvoiceIndexRoute
+  '/dashboard/tms/proof-of-delivery': typeof DashboardTmsProofOfDeliveryIndexRoute
+  '/dashboard/tms/route': typeof DashboardTmsRouteIndexRoute
+  '/dashboard/tms/shipment-leg': typeof DashboardTmsShipmentLegIndexRoute
+  '/dashboard/tms/trip': typeof DashboardTmsTripIndexRoute
+  '/dashboard/tms/vehicle': typeof DashboardTmsVehicleIndexRoute
+  '/dashboard/wms/bin-threshold': typeof DashboardWmsBinThresholdIndexRoute
+  '/dashboard/wms/inbound-shipment': typeof DashboardWmsInboundShipmentIndexRoute
+  '/dashboard/wms/inventory-adjustment': typeof DashboardWmsInventoryAdjustmentIndexRoute
+  '/dashboard/wms/inventory-batch': typeof DashboardWmsInventoryBatchIndexRoute
+  '/dashboard/wms/inventory-stock': typeof DashboardWmsInventoryStockIndexRoute
+  '/dashboard/wms/location': typeof DashboardWmsLocationIndexRoute
+  '/dashboard/wms/outbound-shipment': typeof DashboardWmsOutboundShipmentIndexRoute
+  '/dashboard/wms/package': typeof DashboardWmsPackageIndexRoute
+  '/dashboard/wms/pick-batch': typeof DashboardWmsPickBatchIndexRoute
+  '/dashboard/wms/product': typeof DashboardWmsProductIndexRoute
+  '/dashboard/wms/putaway-rule': typeof DashboardWmsPutawayRuleIndexRoute
+  '/dashboard/wms/reorder-point': typeof DashboardWmsReorderPointIndexRoute
+  '/dashboard/wms/return': typeof DashboardWmsReturnIndexRoute
+  '/dashboard/wms/sales-order': typeof DashboardWmsSalesOrderIndexRoute
+  '/dashboard/wms/stock-transfer': typeof DashboardWmsStockTransferIndexRoute
+  '/dashboard/wms/supplier': typeof DashboardWmsSupplierIndexRoute
+  '/dashboard/wms/task': typeof DashboardWmsTaskIndexRoute
+  '/dashboard/wms/warehouse': typeof DashboardWmsWarehouseIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login': typeof AuthLoginIndexRoute;
-  '/auth/reset-password': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup': typeof AuthSignupIndexRoute;
-  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm': typeof DashboardCrmIndexRoute;
-  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute;
-  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute;
-  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute;
-  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute;
-  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute;
-  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute;
-  '/dashboard/billing/payment': typeof DashboardBillingPaymentIndexRoute;
-  '/dashboard/billing/quote': typeof DashboardBillingQuoteIndexRoute;
-  '/dashboard/billing/rate-card': typeof DashboardBillingRateCardIndexRoute;
-  '/dashboard/billing/rate-rule': typeof DashboardBillingRateRuleIndexRoute;
-  '/dashboard/billing/surcharge': typeof DashboardBillingSurchargeIndexRoute;
-  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute;
-  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute;
-  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute;
-  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute;
-  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute;
-  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute;
-  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute;
-  '/dashboard/tms/carrier': typeof DashboardTmsCarrierIndexRoute;
-  '/dashboard/tms/driver': typeof DashboardTmsDriverIndexRoute;
-  '/dashboard/tms/expense': typeof DashboardTmsExpenseIndexRoute;
-  '/dashboard/tms/geofence': typeof DashboardTmsGeofenceIndexRoute;
-  '/dashboard/tms/gps-ping': typeof DashboardTmsGpsPingIndexRoute;
-  '/dashboard/tms/partner-invoice': typeof DashboardTmsPartnerInvoiceIndexRoute;
-  '/dashboard/tms/proof-of-delivery': typeof DashboardTmsProofOfDeliveryIndexRoute;
-  '/dashboard/tms/route': typeof DashboardTmsRouteIndexRoute;
-  '/dashboard/tms/shipment-leg': typeof DashboardTmsShipmentLegIndexRoute;
-  '/dashboard/tms/trip': typeof DashboardTmsTripIndexRoute;
-  '/dashboard/tms/vehicle': typeof DashboardTmsVehicleIndexRoute;
-  '/dashboard/wms/bin-threshold': typeof DashboardWmsBinThresholdIndexRoute;
-  '/dashboard/wms/inbound-shipment': typeof DashboardWmsInboundShipmentIndexRoute;
-  '/dashboard/wms/inventory-adjustment': typeof DashboardWmsInventoryAdjustmentIndexRoute;
-  '/dashboard/wms/inventory-batch': typeof DashboardWmsInventoryBatchIndexRoute;
-  '/dashboard/wms/inventory-stock': typeof DashboardWmsInventoryStockIndexRoute;
-  '/dashboard/wms/location': typeof DashboardWmsLocationIndexRoute;
-  '/dashboard/wms/outbound-shipment': typeof DashboardWmsOutboundShipmentIndexRoute;
-  '/dashboard/wms/package': typeof DashboardWmsPackageIndexRoute;
-  '/dashboard/wms/pick-batch': typeof DashboardWmsPickBatchIndexRoute;
-  '/dashboard/wms/product': typeof DashboardWmsProductIndexRoute;
-  '/dashboard/wms/putaway-rule': typeof DashboardWmsPutawayRuleIndexRoute;
-  '/dashboard/wms/reorder-point': typeof DashboardWmsReorderPointIndexRoute;
-  '/dashboard/wms/return': typeof DashboardWmsReturnIndexRoute;
-  '/dashboard/wms/sales-order': typeof DashboardWmsSalesOrderIndexRoute;
-  '/dashboard/wms/stock-transfer': typeof DashboardWmsStockTransferIndexRoute;
-  '/dashboard/wms/supplier': typeof DashboardWmsSupplierIndexRoute;
-  '/dashboard/wms/task': typeof DashboardWmsTaskIndexRoute;
-  '/dashboard/wms/warehouse': typeof DashboardWmsWarehouseIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password': typeof AuthForgotPasswordIndexRoute
+  '/auth/login': typeof AuthLoginIndexRoute
+  '/auth/reset-password': typeof AuthResetPasswordIndexRoute
+  '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/verify-email': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice': typeof DashboardBillingInvoiceIndexRoute
+  '/dashboard/billing/payment': typeof DashboardBillingPaymentIndexRoute
+  '/dashboard/billing/quote': typeof DashboardBillingQuoteIndexRoute
+  '/dashboard/billing/rate-card': typeof DashboardBillingRateCardIndexRoute
+  '/dashboard/billing/rate-rule': typeof DashboardBillingRateRuleIndexRoute
+  '/dashboard/billing/surcharge': typeof DashboardBillingSurchargeIndexRoute
+  '/dashboard/crm/campaigns': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event': typeof DashboardDmsTaskEventIndexRoute
+  '/dashboard/tms/carrier': typeof DashboardTmsCarrierIndexRoute
+  '/dashboard/tms/driver': typeof DashboardTmsDriverIndexRoute
+  '/dashboard/tms/expense': typeof DashboardTmsExpenseIndexRoute
+  '/dashboard/tms/geofence': typeof DashboardTmsGeofenceIndexRoute
+  '/dashboard/tms/gps-ping': typeof DashboardTmsGpsPingIndexRoute
+  '/dashboard/tms/partner-invoice': typeof DashboardTmsPartnerInvoiceIndexRoute
+  '/dashboard/tms/proof-of-delivery': typeof DashboardTmsProofOfDeliveryIndexRoute
+  '/dashboard/tms/route': typeof DashboardTmsRouteIndexRoute
+  '/dashboard/tms/shipment-leg': typeof DashboardTmsShipmentLegIndexRoute
+  '/dashboard/tms/trip': typeof DashboardTmsTripIndexRoute
+  '/dashboard/tms/vehicle': typeof DashboardTmsVehicleIndexRoute
+  '/dashboard/wms/bin-threshold': typeof DashboardWmsBinThresholdIndexRoute
+  '/dashboard/wms/inbound-shipment': typeof DashboardWmsInboundShipmentIndexRoute
+  '/dashboard/wms/inventory-adjustment': typeof DashboardWmsInventoryAdjustmentIndexRoute
+  '/dashboard/wms/inventory-batch': typeof DashboardWmsInventoryBatchIndexRoute
+  '/dashboard/wms/inventory-stock': typeof DashboardWmsInventoryStockIndexRoute
+  '/dashboard/wms/location': typeof DashboardWmsLocationIndexRoute
+  '/dashboard/wms/outbound-shipment': typeof DashboardWmsOutboundShipmentIndexRoute
+  '/dashboard/wms/package': typeof DashboardWmsPackageIndexRoute
+  '/dashboard/wms/pick-batch': typeof DashboardWmsPickBatchIndexRoute
+  '/dashboard/wms/product': typeof DashboardWmsProductIndexRoute
+  '/dashboard/wms/putaway-rule': typeof DashboardWmsPutawayRuleIndexRoute
+  '/dashboard/wms/reorder-point': typeof DashboardWmsReorderPointIndexRoute
+  '/dashboard/wms/return': typeof DashboardWmsReturnIndexRoute
+  '/dashboard/wms/sales-order': typeof DashboardWmsSalesOrderIndexRoute
+  '/dashboard/wms/stock-transfer': typeof DashboardWmsStockTransferIndexRoute
+  '/dashboard/wms/supplier': typeof DashboardWmsSupplierIndexRoute
+  '/dashboard/wms/task': typeof DashboardWmsTaskIndexRoute
+  '/dashboard/wms/warehouse': typeof DashboardWmsWarehouseIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/': typeof IndexRoute;
-  '/auth': typeof AuthRouteRouteWithChildren;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute;
-  '/auth/login/': typeof AuthLoginIndexRoute;
-  '/auth/reset-password/': typeof AuthResetPasswordIndexRoute;
-  '/auth/signup/': typeof AuthSignupIndexRoute;
-  '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute;
-  '/dashboard/crm/': typeof DashboardCrmIndexRoute;
-  '/dashboard/billing/account-transaction/': typeof DashboardBillingAccountTransactionIndexRoute;
-  '/dashboard/billing/accounting-sync-log/': typeof DashboardBillingAccountingSyncLogIndexRoute;
-  '/dashboard/billing/client-account/': typeof DashboardBillingClientAccountIndexRoute;
-  '/dashboard/billing/credit-note/': typeof DashboardBillingCreditNoteIndexRoute;
-  '/dashboard/billing/dispute/': typeof DashboardBillingDisputeIndexRoute;
-  '/dashboard/billing/invoice/': typeof DashboardBillingInvoiceIndexRoute;
-  '/dashboard/billing/payment/': typeof DashboardBillingPaymentIndexRoute;
-  '/dashboard/billing/quote/': typeof DashboardBillingQuoteIndexRoute;
-  '/dashboard/billing/rate-card/': typeof DashboardBillingRateCardIndexRoute;
-  '/dashboard/billing/rate-rule/': typeof DashboardBillingRateRuleIndexRoute;
-  '/dashboard/billing/surcharge/': typeof DashboardBillingSurchargeIndexRoute;
-  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute;
-  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute;
-  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute;
-  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute;
-  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute;
-  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute;
-  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute;
-  '/dashboard/crm/notifications/': typeof DashboardCrmNotificationsIndexRoute;
-  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute;
-  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute;
-  '/dashboard/dms/customer-tracking-link/': typeof DashboardDmsCustomerTrackingLinkIndexRoute;
-  '/dashboard/dms/delivery-route/': typeof DashboardDmsDeliveryRouteIndexRoute;
-  '/dashboard/dms/delivery-task/': typeof DashboardDmsDeliveryTaskIndexRoute;
-  '/dashboard/dms/driver-location/': typeof DashboardDmsDriverLocationIndexRoute;
-  '/dashboard/dms/proof-of-delivery/': typeof DashboardDmsProofOfDeliveryIndexRoute;
-  '/dashboard/dms/task-event/': typeof DashboardDmsTaskEventIndexRoute;
-  '/dashboard/tms/carrier/': typeof DashboardTmsCarrierIndexRoute;
-  '/dashboard/tms/driver/': typeof DashboardTmsDriverIndexRoute;
-  '/dashboard/tms/expense/': typeof DashboardTmsExpenseIndexRoute;
-  '/dashboard/tms/geofence/': typeof DashboardTmsGeofenceIndexRoute;
-  '/dashboard/tms/gps-ping/': typeof DashboardTmsGpsPingIndexRoute;
-  '/dashboard/tms/partner-invoice/': typeof DashboardTmsPartnerInvoiceIndexRoute;
-  '/dashboard/tms/proof-of-delivery/': typeof DashboardTmsProofOfDeliveryIndexRoute;
-  '/dashboard/tms/route/': typeof DashboardTmsRouteIndexRoute;
-  '/dashboard/tms/shipment-leg/': typeof DashboardTmsShipmentLegIndexRoute;
-  '/dashboard/tms/trip/': typeof DashboardTmsTripIndexRoute;
-  '/dashboard/tms/vehicle/': typeof DashboardTmsVehicleIndexRoute;
-  '/dashboard/wms/bin-threshold/': typeof DashboardWmsBinThresholdIndexRoute;
-  '/dashboard/wms/inbound-shipment/': typeof DashboardWmsInboundShipmentIndexRoute;
-  '/dashboard/wms/inventory-adjustment/': typeof DashboardWmsInventoryAdjustmentIndexRoute;
-  '/dashboard/wms/inventory-batch/': typeof DashboardWmsInventoryBatchIndexRoute;
-  '/dashboard/wms/inventory-stock/': typeof DashboardWmsInventoryStockIndexRoute;
-  '/dashboard/wms/location/': typeof DashboardWmsLocationIndexRoute;
-  '/dashboard/wms/outbound-shipment/': typeof DashboardWmsOutboundShipmentIndexRoute;
-  '/dashboard/wms/package/': typeof DashboardWmsPackageIndexRoute;
-  '/dashboard/wms/pick-batch/': typeof DashboardWmsPickBatchIndexRoute;
-  '/dashboard/wms/product/': typeof DashboardWmsProductIndexRoute;
-  '/dashboard/wms/putaway-rule/': typeof DashboardWmsPutawayRuleIndexRoute;
-  '/dashboard/wms/reorder-point/': typeof DashboardWmsReorderPointIndexRoute;
-  '/dashboard/wms/return/': typeof DashboardWmsReturnIndexRoute;
-  '/dashboard/wms/sales-order/': typeof DashboardWmsSalesOrderIndexRoute;
-  '/dashboard/wms/stock-transfer/': typeof DashboardWmsStockTransferIndexRoute;
-  '/dashboard/wms/supplier/': typeof DashboardWmsSupplierIndexRoute;
-  '/dashboard/wms/task/': typeof DashboardWmsTaskIndexRoute;
-  '/dashboard/wms/warehouse/': typeof DashboardWmsWarehouseIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/forgot-password/': typeof AuthForgotPasswordIndexRoute
+  '/auth/login/': typeof AuthLoginIndexRoute
+  '/auth/reset-password/': typeof AuthResetPasswordIndexRoute
+  '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/verify-email/': typeof AuthVerifyEmailIndexRoute
+  '/dashboard/crm/': typeof DashboardCrmIndexRoute
+  '/dashboard/billing/account-transaction/': typeof DashboardBillingAccountTransactionIndexRoute
+  '/dashboard/billing/accounting-sync-log/': typeof DashboardBillingAccountingSyncLogIndexRoute
+  '/dashboard/billing/client-account/': typeof DashboardBillingClientAccountIndexRoute
+  '/dashboard/billing/credit-note/': typeof DashboardBillingCreditNoteIndexRoute
+  '/dashboard/billing/dispute/': typeof DashboardBillingDisputeIndexRoute
+  '/dashboard/billing/invoice/': typeof DashboardBillingInvoiceIndexRoute
+  '/dashboard/billing/payment/': typeof DashboardBillingPaymentIndexRoute
+  '/dashboard/billing/quote/': typeof DashboardBillingQuoteIndexRoute
+  '/dashboard/billing/rate-card/': typeof DashboardBillingRateCardIndexRoute
+  '/dashboard/billing/rate-rule/': typeof DashboardBillingRateRuleIndexRoute
+  '/dashboard/billing/surcharge/': typeof DashboardBillingSurchargeIndexRoute
+  '/dashboard/crm/campaigns/': typeof DashboardCrmCampaignsIndexRoute
+  '/dashboard/crm/cases/': typeof DashboardCrmCasesIndexRoute
+  '/dashboard/crm/companies/': typeof DashboardCrmCompaniesIndexRoute
+  '/dashboard/crm/contacts/': typeof DashboardCrmContactsIndexRoute
+  '/dashboard/crm/interactions/': typeof DashboardCrmInteractionsIndexRoute
+  '/dashboard/crm/invoices/': typeof DashboardCrmInvoicesIndexRoute
+  '/dashboard/crm/leads/': typeof DashboardCrmLeadsIndexRoute
+  '/dashboard/crm/notifications/': typeof DashboardCrmNotificationsIndexRoute
+  '/dashboard/crm/opportunities/': typeof DashboardCrmOpportunitiesIndexRoute
+  '/dashboard/crm/products/': typeof DashboardCrmProductsIndexRoute
+  '/dashboard/dms/customer-tracking-link/': typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  '/dashboard/dms/delivery-route/': typeof DashboardDmsDeliveryRouteIndexRoute
+  '/dashboard/dms/delivery-task/': typeof DashboardDmsDeliveryTaskIndexRoute
+  '/dashboard/dms/driver-location/': typeof DashboardDmsDriverLocationIndexRoute
+  '/dashboard/dms/proof-of-delivery/': typeof DashboardDmsProofOfDeliveryIndexRoute
+  '/dashboard/dms/task-event/': typeof DashboardDmsTaskEventIndexRoute
+  '/dashboard/tms/carrier/': typeof DashboardTmsCarrierIndexRoute
+  '/dashboard/tms/driver/': typeof DashboardTmsDriverIndexRoute
+  '/dashboard/tms/expense/': typeof DashboardTmsExpenseIndexRoute
+  '/dashboard/tms/geofence/': typeof DashboardTmsGeofenceIndexRoute
+  '/dashboard/tms/gps-ping/': typeof DashboardTmsGpsPingIndexRoute
+  '/dashboard/tms/partner-invoice/': typeof DashboardTmsPartnerInvoiceIndexRoute
+  '/dashboard/tms/proof-of-delivery/': typeof DashboardTmsProofOfDeliveryIndexRoute
+  '/dashboard/tms/route/': typeof DashboardTmsRouteIndexRoute
+  '/dashboard/tms/shipment-leg/': typeof DashboardTmsShipmentLegIndexRoute
+  '/dashboard/tms/trip/': typeof DashboardTmsTripIndexRoute
+  '/dashboard/tms/vehicle/': typeof DashboardTmsVehicleIndexRoute
+  '/dashboard/wms/bin-threshold/': typeof DashboardWmsBinThresholdIndexRoute
+  '/dashboard/wms/inbound-shipment/': typeof DashboardWmsInboundShipmentIndexRoute
+  '/dashboard/wms/inventory-adjustment/': typeof DashboardWmsInventoryAdjustmentIndexRoute
+  '/dashboard/wms/inventory-batch/': typeof DashboardWmsInventoryBatchIndexRoute
+  '/dashboard/wms/inventory-stock/': typeof DashboardWmsInventoryStockIndexRoute
+  '/dashboard/wms/location/': typeof DashboardWmsLocationIndexRoute
+  '/dashboard/wms/outbound-shipment/': typeof DashboardWmsOutboundShipmentIndexRoute
+  '/dashboard/wms/package/': typeof DashboardWmsPackageIndexRoute
+  '/dashboard/wms/pick-batch/': typeof DashboardWmsPickBatchIndexRoute
+  '/dashboard/wms/product/': typeof DashboardWmsProductIndexRoute
+  '/dashboard/wms/putaway-rule/': typeof DashboardWmsPutawayRuleIndexRoute
+  '/dashboard/wms/reorder-point/': typeof DashboardWmsReorderPointIndexRoute
+  '/dashboard/wms/return/': typeof DashboardWmsReturnIndexRoute
+  '/dashboard/wms/sales-order/': typeof DashboardWmsSalesOrderIndexRoute
+  '/dashboard/wms/stock-transfer/': typeof DashboardWmsStockTransferIndexRoute
+  '/dashboard/wms/supplier/': typeof DashboardWmsSupplierIndexRoute
+  '/dashboard/wms/task/': typeof DashboardWmsTaskIndexRoute
+  '/dashboard/wms/warehouse/': typeof DashboardWmsWarehouseIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
@@ -719,8 +675,8 @@ export interface FileRouteTypes {
     | '/dashboard/wms/stock-transfer'
     | '/dashboard/wms/supplier'
     | '/dashboard/wms/task'
-    | '/dashboard/wms/warehouse';
-  fileRoutesByTo: FileRoutesByTo;
+    | '/dashboard/wms/warehouse'
+  fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
@@ -786,7 +742,7 @@ export interface FileRouteTypes {
     | '/dashboard/wms/stock-transfer'
     | '/dashboard/wms/supplier'
     | '/dashboard/wms/task'
-    | '/dashboard/wms/warehouse';
+    | '/dashboard/wms/warehouse'
   id:
     | '__root__'
     | '/'
@@ -853,481 +809,481 @@ export interface FileRouteTypes {
     | '/dashboard/wms/stock-transfer/'
     | '/dashboard/wms/supplier/'
     | '/dashboard/wms/task/'
-    | '/dashboard/wms/warehouse/';
-  fileRoutesById: FileRoutesById;
+    | '/dashboard/wms/warehouse/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren;
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
+  IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/dashboard': {
-      id: '/dashboard';
-      path: '/dashboard';
-      fullPath: '/dashboard';
-      preLoaderRoute: typeof DashboardRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
-      id: '/auth';
-      path: '/auth';
-      fullPath: '/auth';
-      preLoaderRoute: typeof AuthRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/crm/': {
-      id: '/dashboard/crm/';
-      path: '/crm';
-      fullPath: '/dashboard/crm';
-      preLoaderRoute: typeof DashboardCrmIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/'
+      path: '/crm'
+      fullPath: '/dashboard/crm'
+      preLoaderRoute: typeof DashboardCrmIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/auth/verify-email/': {
-      id: '/auth/verify-email/';
-      path: '/verify-email';
-      fullPath: '/auth/verify-email';
-      preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/verify-email/'
+      path: '/verify-email'
+      fullPath: '/auth/verify-email'
+      preLoaderRoute: typeof AuthVerifyEmailIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/signup/': {
-      id: '/auth/signup/';
-      path: '/signup';
-      fullPath: '/auth/signup';
-      preLoaderRoute: typeof AuthSignupIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/signup/'
+      path: '/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/reset-password/': {
-      id: '/auth/reset-password/';
-      path: '/reset-password';
-      fullPath: '/auth/reset-password';
-      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/reset-password/'
+      path: '/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/login/': {
-      id: '/auth/login/';
-      path: '/login';
-      fullPath: '/auth/login';
-      preLoaderRoute: typeof AuthLoginIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/login/'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/forgot-password/': {
-      id: '/auth/forgot-password/';
-      path: '/forgot-password';
-      fullPath: '/auth/forgot-password';
-      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport;
-      parentRoute: typeof AuthRouteRoute;
-    };
+      id: '/auth/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/dashboard/wms/warehouse/': {
-      id: '/dashboard/wms/warehouse/';
-      path: '/wms/warehouse';
-      fullPath: '/dashboard/wms/warehouse';
-      preLoaderRoute: typeof DashboardWmsWarehouseIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/warehouse/'
+      path: '/wms/warehouse'
+      fullPath: '/dashboard/wms/warehouse'
+      preLoaderRoute: typeof DashboardWmsWarehouseIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/task/': {
-      id: '/dashboard/wms/task/';
-      path: '/wms/task';
-      fullPath: '/dashboard/wms/task';
-      preLoaderRoute: typeof DashboardWmsTaskIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/task/'
+      path: '/wms/task'
+      fullPath: '/dashboard/wms/task'
+      preLoaderRoute: typeof DashboardWmsTaskIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/supplier/': {
-      id: '/dashboard/wms/supplier/';
-      path: '/wms/supplier';
-      fullPath: '/dashboard/wms/supplier';
-      preLoaderRoute: typeof DashboardWmsSupplierIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/supplier/'
+      path: '/wms/supplier'
+      fullPath: '/dashboard/wms/supplier'
+      preLoaderRoute: typeof DashboardWmsSupplierIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/stock-transfer/': {
-      id: '/dashboard/wms/stock-transfer/';
-      path: '/wms/stock-transfer';
-      fullPath: '/dashboard/wms/stock-transfer';
-      preLoaderRoute: typeof DashboardWmsStockTransferIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/stock-transfer/'
+      path: '/wms/stock-transfer'
+      fullPath: '/dashboard/wms/stock-transfer'
+      preLoaderRoute: typeof DashboardWmsStockTransferIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/sales-order/': {
-      id: '/dashboard/wms/sales-order/';
-      path: '/wms/sales-order';
-      fullPath: '/dashboard/wms/sales-order';
-      preLoaderRoute: typeof DashboardWmsSalesOrderIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/sales-order/'
+      path: '/wms/sales-order'
+      fullPath: '/dashboard/wms/sales-order'
+      preLoaderRoute: typeof DashboardWmsSalesOrderIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/return/': {
-      id: '/dashboard/wms/return/';
-      path: '/wms/return';
-      fullPath: '/dashboard/wms/return';
-      preLoaderRoute: typeof DashboardWmsReturnIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/return/'
+      path: '/wms/return'
+      fullPath: '/dashboard/wms/return'
+      preLoaderRoute: typeof DashboardWmsReturnIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/reorder-point/': {
-      id: '/dashboard/wms/reorder-point/';
-      path: '/wms/reorder-point';
-      fullPath: '/dashboard/wms/reorder-point';
-      preLoaderRoute: typeof DashboardWmsReorderPointIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/reorder-point/'
+      path: '/wms/reorder-point'
+      fullPath: '/dashboard/wms/reorder-point'
+      preLoaderRoute: typeof DashboardWmsReorderPointIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/putaway-rule/': {
-      id: '/dashboard/wms/putaway-rule/';
-      path: '/wms/putaway-rule';
-      fullPath: '/dashboard/wms/putaway-rule';
-      preLoaderRoute: typeof DashboardWmsPutawayRuleIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/putaway-rule/'
+      path: '/wms/putaway-rule'
+      fullPath: '/dashboard/wms/putaway-rule'
+      preLoaderRoute: typeof DashboardWmsPutawayRuleIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/product/': {
-      id: '/dashboard/wms/product/';
-      path: '/wms/product';
-      fullPath: '/dashboard/wms/product';
-      preLoaderRoute: typeof DashboardWmsProductIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/product/'
+      path: '/wms/product'
+      fullPath: '/dashboard/wms/product'
+      preLoaderRoute: typeof DashboardWmsProductIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/pick-batch/': {
-      id: '/dashboard/wms/pick-batch/';
-      path: '/wms/pick-batch';
-      fullPath: '/dashboard/wms/pick-batch';
-      preLoaderRoute: typeof DashboardWmsPickBatchIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/pick-batch/'
+      path: '/wms/pick-batch'
+      fullPath: '/dashboard/wms/pick-batch'
+      preLoaderRoute: typeof DashboardWmsPickBatchIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/package/': {
-      id: '/dashboard/wms/package/';
-      path: '/wms/package';
-      fullPath: '/dashboard/wms/package';
-      preLoaderRoute: typeof DashboardWmsPackageIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/package/'
+      path: '/wms/package'
+      fullPath: '/dashboard/wms/package'
+      preLoaderRoute: typeof DashboardWmsPackageIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/outbound-shipment/': {
-      id: '/dashboard/wms/outbound-shipment/';
-      path: '/wms/outbound-shipment';
-      fullPath: '/dashboard/wms/outbound-shipment';
-      preLoaderRoute: typeof DashboardWmsOutboundShipmentIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/outbound-shipment/'
+      path: '/wms/outbound-shipment'
+      fullPath: '/dashboard/wms/outbound-shipment'
+      preLoaderRoute: typeof DashboardWmsOutboundShipmentIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/location/': {
-      id: '/dashboard/wms/location/';
-      path: '/wms/location';
-      fullPath: '/dashboard/wms/location';
-      preLoaderRoute: typeof DashboardWmsLocationIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/location/'
+      path: '/wms/location'
+      fullPath: '/dashboard/wms/location'
+      preLoaderRoute: typeof DashboardWmsLocationIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/inventory-stock/': {
-      id: '/dashboard/wms/inventory-stock/';
-      path: '/wms/inventory-stock';
-      fullPath: '/dashboard/wms/inventory-stock';
-      preLoaderRoute: typeof DashboardWmsInventoryStockIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/inventory-stock/'
+      path: '/wms/inventory-stock'
+      fullPath: '/dashboard/wms/inventory-stock'
+      preLoaderRoute: typeof DashboardWmsInventoryStockIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/inventory-batch/': {
-      id: '/dashboard/wms/inventory-batch/';
-      path: '/wms/inventory-batch';
-      fullPath: '/dashboard/wms/inventory-batch';
-      preLoaderRoute: typeof DashboardWmsInventoryBatchIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/inventory-batch/'
+      path: '/wms/inventory-batch'
+      fullPath: '/dashboard/wms/inventory-batch'
+      preLoaderRoute: typeof DashboardWmsInventoryBatchIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/inventory-adjustment/': {
-      id: '/dashboard/wms/inventory-adjustment/';
-      path: '/wms/inventory-adjustment';
-      fullPath: '/dashboard/wms/inventory-adjustment';
-      preLoaderRoute: typeof DashboardWmsInventoryAdjustmentIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/inventory-adjustment/'
+      path: '/wms/inventory-adjustment'
+      fullPath: '/dashboard/wms/inventory-adjustment'
+      preLoaderRoute: typeof DashboardWmsInventoryAdjustmentIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/inbound-shipment/': {
-      id: '/dashboard/wms/inbound-shipment/';
-      path: '/wms/inbound-shipment';
-      fullPath: '/dashboard/wms/inbound-shipment';
-      preLoaderRoute: typeof DashboardWmsInboundShipmentIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/inbound-shipment/'
+      path: '/wms/inbound-shipment'
+      fullPath: '/dashboard/wms/inbound-shipment'
+      preLoaderRoute: typeof DashboardWmsInboundShipmentIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/wms/bin-threshold/': {
-      id: '/dashboard/wms/bin-threshold/';
-      path: '/wms/bin-threshold';
-      fullPath: '/dashboard/wms/bin-threshold';
-      preLoaderRoute: typeof DashboardWmsBinThresholdIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/wms/bin-threshold/'
+      path: '/wms/bin-threshold'
+      fullPath: '/dashboard/wms/bin-threshold'
+      preLoaderRoute: typeof DashboardWmsBinThresholdIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/vehicle/': {
-      id: '/dashboard/tms/vehicle/';
-      path: '/tms/vehicle';
-      fullPath: '/dashboard/tms/vehicle';
-      preLoaderRoute: typeof DashboardTmsVehicleIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/vehicle/'
+      path: '/tms/vehicle'
+      fullPath: '/dashboard/tms/vehicle'
+      preLoaderRoute: typeof DashboardTmsVehicleIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/trip/': {
-      id: '/dashboard/tms/trip/';
-      path: '/tms/trip';
-      fullPath: '/dashboard/tms/trip';
-      preLoaderRoute: typeof DashboardTmsTripIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/trip/'
+      path: '/tms/trip'
+      fullPath: '/dashboard/tms/trip'
+      preLoaderRoute: typeof DashboardTmsTripIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/shipment-leg/': {
-      id: '/dashboard/tms/shipment-leg/';
-      path: '/tms/shipment-leg';
-      fullPath: '/dashboard/tms/shipment-leg';
-      preLoaderRoute: typeof DashboardTmsShipmentLegIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/shipment-leg/'
+      path: '/tms/shipment-leg'
+      fullPath: '/dashboard/tms/shipment-leg'
+      preLoaderRoute: typeof DashboardTmsShipmentLegIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/route/': {
-      id: '/dashboard/tms/route/';
-      path: '/tms/route';
-      fullPath: '/dashboard/tms/route';
-      preLoaderRoute: typeof DashboardTmsRouteIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/route/'
+      path: '/tms/route'
+      fullPath: '/dashboard/tms/route'
+      preLoaderRoute: typeof DashboardTmsRouteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/proof-of-delivery/': {
-      id: '/dashboard/tms/proof-of-delivery/';
-      path: '/tms/proof-of-delivery';
-      fullPath: '/dashboard/tms/proof-of-delivery';
-      preLoaderRoute: typeof DashboardTmsProofOfDeliveryIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/proof-of-delivery/'
+      path: '/tms/proof-of-delivery'
+      fullPath: '/dashboard/tms/proof-of-delivery'
+      preLoaderRoute: typeof DashboardTmsProofOfDeliveryIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/partner-invoice/': {
-      id: '/dashboard/tms/partner-invoice/';
-      path: '/tms/partner-invoice';
-      fullPath: '/dashboard/tms/partner-invoice';
-      preLoaderRoute: typeof DashboardTmsPartnerInvoiceIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/partner-invoice/'
+      path: '/tms/partner-invoice'
+      fullPath: '/dashboard/tms/partner-invoice'
+      preLoaderRoute: typeof DashboardTmsPartnerInvoiceIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/gps-ping/': {
-      id: '/dashboard/tms/gps-ping/';
-      path: '/tms/gps-ping';
-      fullPath: '/dashboard/tms/gps-ping';
-      preLoaderRoute: typeof DashboardTmsGpsPingIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/gps-ping/'
+      path: '/tms/gps-ping'
+      fullPath: '/dashboard/tms/gps-ping'
+      preLoaderRoute: typeof DashboardTmsGpsPingIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/geofence/': {
-      id: '/dashboard/tms/geofence/';
-      path: '/tms/geofence';
-      fullPath: '/dashboard/tms/geofence';
-      preLoaderRoute: typeof DashboardTmsGeofenceIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/geofence/'
+      path: '/tms/geofence'
+      fullPath: '/dashboard/tms/geofence'
+      preLoaderRoute: typeof DashboardTmsGeofenceIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/expense/': {
-      id: '/dashboard/tms/expense/';
-      path: '/tms/expense';
-      fullPath: '/dashboard/tms/expense';
-      preLoaderRoute: typeof DashboardTmsExpenseIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/expense/'
+      path: '/tms/expense'
+      fullPath: '/dashboard/tms/expense'
+      preLoaderRoute: typeof DashboardTmsExpenseIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/driver/': {
-      id: '/dashboard/tms/driver/';
-      path: '/tms/driver';
-      fullPath: '/dashboard/tms/driver';
-      preLoaderRoute: typeof DashboardTmsDriverIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/driver/'
+      path: '/tms/driver'
+      fullPath: '/dashboard/tms/driver'
+      preLoaderRoute: typeof DashboardTmsDriverIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tms/carrier/': {
-      id: '/dashboard/tms/carrier/';
-      path: '/tms/carrier';
-      fullPath: '/dashboard/tms/carrier';
-      preLoaderRoute: typeof DashboardTmsCarrierIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tms/carrier/'
+      path: '/tms/carrier'
+      fullPath: '/dashboard/tms/carrier'
+      preLoaderRoute: typeof DashboardTmsCarrierIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/task-event/': {
-      id: '/dashboard/dms/task-event/';
-      path: '/dms/task-event';
-      fullPath: '/dashboard/dms/task-event';
-      preLoaderRoute: typeof DashboardDmsTaskEventIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/task-event/'
+      path: '/dms/task-event'
+      fullPath: '/dashboard/dms/task-event'
+      preLoaderRoute: typeof DashboardDmsTaskEventIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/proof-of-delivery/': {
-      id: '/dashboard/dms/proof-of-delivery/';
-      path: '/dms/proof-of-delivery';
-      fullPath: '/dashboard/dms/proof-of-delivery';
-      preLoaderRoute: typeof DashboardDmsProofOfDeliveryIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/proof-of-delivery/'
+      path: '/dms/proof-of-delivery'
+      fullPath: '/dashboard/dms/proof-of-delivery'
+      preLoaderRoute: typeof DashboardDmsProofOfDeliveryIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/driver-location/': {
-      id: '/dashboard/dms/driver-location/';
-      path: '/dms/driver-location';
-      fullPath: '/dashboard/dms/driver-location';
-      preLoaderRoute: typeof DashboardDmsDriverLocationIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/driver-location/'
+      path: '/dms/driver-location'
+      fullPath: '/dashboard/dms/driver-location'
+      preLoaderRoute: typeof DashboardDmsDriverLocationIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/delivery-task/': {
-      id: '/dashboard/dms/delivery-task/';
-      path: '/dms/delivery-task';
-      fullPath: '/dashboard/dms/delivery-task';
-      preLoaderRoute: typeof DashboardDmsDeliveryTaskIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/delivery-task/'
+      path: '/dms/delivery-task'
+      fullPath: '/dashboard/dms/delivery-task'
+      preLoaderRoute: typeof DashboardDmsDeliveryTaskIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/delivery-route/': {
-      id: '/dashboard/dms/delivery-route/';
-      path: '/dms/delivery-route';
-      fullPath: '/dashboard/dms/delivery-route';
-      preLoaderRoute: typeof DashboardDmsDeliveryRouteIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/delivery-route/'
+      path: '/dms/delivery-route'
+      fullPath: '/dashboard/dms/delivery-route'
+      preLoaderRoute: typeof DashboardDmsDeliveryRouteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/dms/customer-tracking-link/': {
-      id: '/dashboard/dms/customer-tracking-link/';
-      path: '/dms/customer-tracking-link';
-      fullPath: '/dashboard/dms/customer-tracking-link';
-      preLoaderRoute: typeof DashboardDmsCustomerTrackingLinkIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/dms/customer-tracking-link/'
+      path: '/dms/customer-tracking-link'
+      fullPath: '/dashboard/dms/customer-tracking-link'
+      preLoaderRoute: typeof DashboardDmsCustomerTrackingLinkIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/products/': {
-      id: '/dashboard/crm/products/';
-      path: '/crm/products';
-      fullPath: '/dashboard/crm/products';
-      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/products/'
+      path: '/crm/products'
+      fullPath: '/dashboard/crm/products'
+      preLoaderRoute: typeof DashboardCrmProductsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/opportunities/': {
-      id: '/dashboard/crm/opportunities/';
-      path: '/crm/opportunities';
-      fullPath: '/dashboard/crm/opportunities';
-      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/opportunities/'
+      path: '/crm/opportunities'
+      fullPath: '/dashboard/crm/opportunities'
+      preLoaderRoute: typeof DashboardCrmOpportunitiesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/notifications/': {
-      id: '/dashboard/crm/notifications/';
-      path: '/crm/notifications';
-      fullPath: '/dashboard/crm/notifications';
-      preLoaderRoute: typeof DashboardCrmNotificationsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/notifications/'
+      path: '/crm/notifications'
+      fullPath: '/dashboard/crm/notifications'
+      preLoaderRoute: typeof DashboardCrmNotificationsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/leads/': {
-      id: '/dashboard/crm/leads/';
-      path: '/crm/leads';
-      fullPath: '/dashboard/crm/leads';
-      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/leads/'
+      path: '/crm/leads'
+      fullPath: '/dashboard/crm/leads'
+      preLoaderRoute: typeof DashboardCrmLeadsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/invoices/': {
-      id: '/dashboard/crm/invoices/';
-      path: '/crm/invoices';
-      fullPath: '/dashboard/crm/invoices';
-      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/invoices/'
+      path: '/crm/invoices'
+      fullPath: '/dashboard/crm/invoices'
+      preLoaderRoute: typeof DashboardCrmInvoicesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/interactions/': {
-      id: '/dashboard/crm/interactions/';
-      path: '/crm/interactions';
-      fullPath: '/dashboard/crm/interactions';
-      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/interactions/'
+      path: '/crm/interactions'
+      fullPath: '/dashboard/crm/interactions'
+      preLoaderRoute: typeof DashboardCrmInteractionsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/contacts/': {
-      id: '/dashboard/crm/contacts/';
-      path: '/crm/contacts';
-      fullPath: '/dashboard/crm/contacts';
-      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/contacts/'
+      path: '/crm/contacts'
+      fullPath: '/dashboard/crm/contacts'
+      preLoaderRoute: typeof DashboardCrmContactsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/companies/': {
-      id: '/dashboard/crm/companies/';
-      path: '/crm/companies';
-      fullPath: '/dashboard/crm/companies';
-      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/companies/'
+      path: '/crm/companies'
+      fullPath: '/dashboard/crm/companies'
+      preLoaderRoute: typeof DashboardCrmCompaniesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/cases/': {
-      id: '/dashboard/crm/cases/';
-      path: '/crm/cases';
-      fullPath: '/dashboard/crm/cases';
-      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/cases/'
+      path: '/crm/cases'
+      fullPath: '/dashboard/crm/cases'
+      preLoaderRoute: typeof DashboardCrmCasesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/crm/campaigns/': {
-      id: '/dashboard/crm/campaigns/';
-      path: '/crm/campaigns';
-      fullPath: '/dashboard/crm/campaigns';
-      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/crm/campaigns/'
+      path: '/crm/campaigns'
+      fullPath: '/dashboard/crm/campaigns'
+      preLoaderRoute: typeof DashboardCrmCampaignsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/surcharge/': {
-      id: '/dashboard/billing/surcharge/';
-      path: '/billing/surcharge';
-      fullPath: '/dashboard/billing/surcharge';
-      preLoaderRoute: typeof DashboardBillingSurchargeIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/surcharge/'
+      path: '/billing/surcharge'
+      fullPath: '/dashboard/billing/surcharge'
+      preLoaderRoute: typeof DashboardBillingSurchargeIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/rate-rule/': {
-      id: '/dashboard/billing/rate-rule/';
-      path: '/billing/rate-rule';
-      fullPath: '/dashboard/billing/rate-rule';
-      preLoaderRoute: typeof DashboardBillingRateRuleIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/rate-rule/'
+      path: '/billing/rate-rule'
+      fullPath: '/dashboard/billing/rate-rule'
+      preLoaderRoute: typeof DashboardBillingRateRuleIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/rate-card/': {
-      id: '/dashboard/billing/rate-card/';
-      path: '/billing/rate-card';
-      fullPath: '/dashboard/billing/rate-card';
-      preLoaderRoute: typeof DashboardBillingRateCardIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/rate-card/'
+      path: '/billing/rate-card'
+      fullPath: '/dashboard/billing/rate-card'
+      preLoaderRoute: typeof DashboardBillingRateCardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/quote/': {
-      id: '/dashboard/billing/quote/';
-      path: '/billing/quote';
-      fullPath: '/dashboard/billing/quote';
-      preLoaderRoute: typeof DashboardBillingQuoteIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/quote/'
+      path: '/billing/quote'
+      fullPath: '/dashboard/billing/quote'
+      preLoaderRoute: typeof DashboardBillingQuoteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/payment/': {
-      id: '/dashboard/billing/payment/';
-      path: '/billing/payment';
-      fullPath: '/dashboard/billing/payment';
-      preLoaderRoute: typeof DashboardBillingPaymentIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/payment/'
+      path: '/billing/payment'
+      fullPath: '/dashboard/billing/payment'
+      preLoaderRoute: typeof DashboardBillingPaymentIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/invoice/': {
-      id: '/dashboard/billing/invoice/';
-      path: '/billing/invoice';
-      fullPath: '/dashboard/billing/invoice';
-      preLoaderRoute: typeof DashboardBillingInvoiceIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/invoice/'
+      path: '/billing/invoice'
+      fullPath: '/dashboard/billing/invoice'
+      preLoaderRoute: typeof DashboardBillingInvoiceIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/dispute/': {
-      id: '/dashboard/billing/dispute/';
-      path: '/billing/dispute';
-      fullPath: '/dashboard/billing/dispute';
-      preLoaderRoute: typeof DashboardBillingDisputeIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/dispute/'
+      path: '/billing/dispute'
+      fullPath: '/dashboard/billing/dispute'
+      preLoaderRoute: typeof DashboardBillingDisputeIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/credit-note/': {
-      id: '/dashboard/billing/credit-note/';
-      path: '/billing/credit-note';
-      fullPath: '/dashboard/billing/credit-note';
-      preLoaderRoute: typeof DashboardBillingCreditNoteIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/credit-note/'
+      path: '/billing/credit-note'
+      fullPath: '/dashboard/billing/credit-note'
+      preLoaderRoute: typeof DashboardBillingCreditNoteIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/client-account/': {
-      id: '/dashboard/billing/client-account/';
-      path: '/billing/client-account';
-      fullPath: '/dashboard/billing/client-account';
-      preLoaderRoute: typeof DashboardBillingClientAccountIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/client-account/'
+      path: '/billing/client-account'
+      fullPath: '/dashboard/billing/client-account'
+      preLoaderRoute: typeof DashboardBillingClientAccountIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/accounting-sync-log/': {
-      id: '/dashboard/billing/accounting-sync-log/';
-      path: '/billing/accounting-sync-log';
-      fullPath: '/dashboard/billing/accounting-sync-log';
-      preLoaderRoute: typeof DashboardBillingAccountingSyncLogIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/accounting-sync-log/'
+      path: '/billing/accounting-sync-log'
+      fullPath: '/dashboard/billing/accounting-sync-log'
+      preLoaderRoute: typeof DashboardBillingAccountingSyncLogIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/billing/account-transaction/': {
-      id: '/dashboard/billing/account-transaction/';
-      path: '/billing/account-transaction';
-      fullPath: '/dashboard/billing/account-transaction';
-      preLoaderRoute: typeof DashboardBillingAccountTransactionIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/billing/account-transaction/'
+      path: '/billing/account-transaction'
+      fullPath: '/dashboard/billing/account-transaction'
+      preLoaderRoute: typeof DashboardBillingAccountTransactionIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface AuthRouteRouteChildren {
-  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute;
-  AuthLoginIndexRoute: typeof AuthLoginIndexRoute;
-  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute;
-  AuthSignupIndexRoute: typeof AuthSignupIndexRoute;
-  AuthVerifyEmailIndexRoute: typeof AuthVerifyEmailIndexRoute;
+  AuthForgotPasswordIndexRoute: typeof AuthForgotPasswordIndexRoute
+  AuthLoginIndexRoute: typeof AuthLoginIndexRoute
+  AuthResetPasswordIndexRoute: typeof AuthResetPasswordIndexRoute
+  AuthSignupIndexRoute: typeof AuthSignupIndexRoute
+  AuthVerifyEmailIndexRoute: typeof AuthVerifyEmailIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -1336,80 +1292,75 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthResetPasswordIndexRoute: AuthResetPasswordIndexRoute,
   AuthSignupIndexRoute: AuthSignupIndexRoute,
   AuthVerifyEmailIndexRoute: AuthVerifyEmailIndexRoute,
-};
+}
 
-const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
-  AuthRouteRouteChildren,
-);
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(AuthRouteRouteChildren)
 
 interface DashboardRouteRouteChildren {
-  DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute;
-  DashboardBillingAccountTransactionIndexRoute: typeof DashboardBillingAccountTransactionIndexRoute;
-  DashboardBillingAccountingSyncLogIndexRoute: typeof DashboardBillingAccountingSyncLogIndexRoute;
-  DashboardBillingClientAccountIndexRoute: typeof DashboardBillingClientAccountIndexRoute;
-  DashboardBillingCreditNoteIndexRoute: typeof DashboardBillingCreditNoteIndexRoute;
-  DashboardBillingDisputeIndexRoute: typeof DashboardBillingDisputeIndexRoute;
-  DashboardBillingInvoiceIndexRoute: typeof DashboardBillingInvoiceIndexRoute;
-  DashboardBillingPaymentIndexRoute: typeof DashboardBillingPaymentIndexRoute;
-  DashboardBillingQuoteIndexRoute: typeof DashboardBillingQuoteIndexRoute;
-  DashboardBillingRateCardIndexRoute: typeof DashboardBillingRateCardIndexRoute;
-  DashboardBillingRateRuleIndexRoute: typeof DashboardBillingRateRuleIndexRoute;
-  DashboardBillingSurchargeIndexRoute: typeof DashboardBillingSurchargeIndexRoute;
-  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute;
-  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute;
-  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute;
-  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute;
-  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute;
-  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute;
-  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute;
-  DashboardCrmNotificationsIndexRoute: typeof DashboardCrmNotificationsIndexRoute;
-  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute;
-  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute;
-  DashboardDmsCustomerTrackingLinkIndexRoute: typeof DashboardDmsCustomerTrackingLinkIndexRoute;
-  DashboardDmsDeliveryRouteIndexRoute: typeof DashboardDmsDeliveryRouteIndexRoute;
-  DashboardDmsDeliveryTaskIndexRoute: typeof DashboardDmsDeliveryTaskIndexRoute;
-  DashboardDmsDriverLocationIndexRoute: typeof DashboardDmsDriverLocationIndexRoute;
-  DashboardDmsProofOfDeliveryIndexRoute: typeof DashboardDmsProofOfDeliveryIndexRoute;
-  DashboardDmsTaskEventIndexRoute: typeof DashboardDmsTaskEventIndexRoute;
-  DashboardTmsCarrierIndexRoute: typeof DashboardTmsCarrierIndexRoute;
-  DashboardTmsDriverIndexRoute: typeof DashboardTmsDriverIndexRoute;
-  DashboardTmsExpenseIndexRoute: typeof DashboardTmsExpenseIndexRoute;
-  DashboardTmsGeofenceIndexRoute: typeof DashboardTmsGeofenceIndexRoute;
-  DashboardTmsGpsPingIndexRoute: typeof DashboardTmsGpsPingIndexRoute;
-  DashboardTmsPartnerInvoiceIndexRoute: typeof DashboardTmsPartnerInvoiceIndexRoute;
-  DashboardTmsProofOfDeliveryIndexRoute: typeof DashboardTmsProofOfDeliveryIndexRoute;
-  DashboardTmsRouteIndexRoute: typeof DashboardTmsRouteIndexRoute;
-  DashboardTmsShipmentLegIndexRoute: typeof DashboardTmsShipmentLegIndexRoute;
-  DashboardTmsTripIndexRoute: typeof DashboardTmsTripIndexRoute;
-  DashboardTmsVehicleIndexRoute: typeof DashboardTmsVehicleIndexRoute;
-  DashboardWmsBinThresholdIndexRoute: typeof DashboardWmsBinThresholdIndexRoute;
-  DashboardWmsInboundShipmentIndexRoute: typeof DashboardWmsInboundShipmentIndexRoute;
-  DashboardWmsInventoryAdjustmentIndexRoute: typeof DashboardWmsInventoryAdjustmentIndexRoute;
-  DashboardWmsInventoryBatchIndexRoute: typeof DashboardWmsInventoryBatchIndexRoute;
-  DashboardWmsInventoryStockIndexRoute: typeof DashboardWmsInventoryStockIndexRoute;
-  DashboardWmsLocationIndexRoute: typeof DashboardWmsLocationIndexRoute;
-  DashboardWmsOutboundShipmentIndexRoute: typeof DashboardWmsOutboundShipmentIndexRoute;
-  DashboardWmsPackageIndexRoute: typeof DashboardWmsPackageIndexRoute;
-  DashboardWmsPickBatchIndexRoute: typeof DashboardWmsPickBatchIndexRoute;
-  DashboardWmsProductIndexRoute: typeof DashboardWmsProductIndexRoute;
-  DashboardWmsPutawayRuleIndexRoute: typeof DashboardWmsPutawayRuleIndexRoute;
-  DashboardWmsReorderPointIndexRoute: typeof DashboardWmsReorderPointIndexRoute;
-  DashboardWmsReturnIndexRoute: typeof DashboardWmsReturnIndexRoute;
-  DashboardWmsSalesOrderIndexRoute: typeof DashboardWmsSalesOrderIndexRoute;
-  DashboardWmsStockTransferIndexRoute: typeof DashboardWmsStockTransferIndexRoute;
-  DashboardWmsSupplierIndexRoute: typeof DashboardWmsSupplierIndexRoute;
-  DashboardWmsTaskIndexRoute: typeof DashboardWmsTaskIndexRoute;
-  DashboardWmsWarehouseIndexRoute: typeof DashboardWmsWarehouseIndexRoute;
+  DashboardCrmIndexRoute: typeof DashboardCrmIndexRoute
+  DashboardBillingAccountTransactionIndexRoute: typeof DashboardBillingAccountTransactionIndexRoute
+  DashboardBillingAccountingSyncLogIndexRoute: typeof DashboardBillingAccountingSyncLogIndexRoute
+  DashboardBillingClientAccountIndexRoute: typeof DashboardBillingClientAccountIndexRoute
+  DashboardBillingCreditNoteIndexRoute: typeof DashboardBillingCreditNoteIndexRoute
+  DashboardBillingDisputeIndexRoute: typeof DashboardBillingDisputeIndexRoute
+  DashboardBillingInvoiceIndexRoute: typeof DashboardBillingInvoiceIndexRoute
+  DashboardBillingPaymentIndexRoute: typeof DashboardBillingPaymentIndexRoute
+  DashboardBillingQuoteIndexRoute: typeof DashboardBillingQuoteIndexRoute
+  DashboardBillingRateCardIndexRoute: typeof DashboardBillingRateCardIndexRoute
+  DashboardBillingRateRuleIndexRoute: typeof DashboardBillingRateRuleIndexRoute
+  DashboardBillingSurchargeIndexRoute: typeof DashboardBillingSurchargeIndexRoute
+  DashboardCrmCampaignsIndexRoute: typeof DashboardCrmCampaignsIndexRoute
+  DashboardCrmCasesIndexRoute: typeof DashboardCrmCasesIndexRoute
+  DashboardCrmCompaniesIndexRoute: typeof DashboardCrmCompaniesIndexRoute
+  DashboardCrmContactsIndexRoute: typeof DashboardCrmContactsIndexRoute
+  DashboardCrmInteractionsIndexRoute: typeof DashboardCrmInteractionsIndexRoute
+  DashboardCrmInvoicesIndexRoute: typeof DashboardCrmInvoicesIndexRoute
+  DashboardCrmLeadsIndexRoute: typeof DashboardCrmLeadsIndexRoute
+  DashboardCrmNotificationsIndexRoute: typeof DashboardCrmNotificationsIndexRoute
+  DashboardCrmOpportunitiesIndexRoute: typeof DashboardCrmOpportunitiesIndexRoute
+  DashboardCrmProductsIndexRoute: typeof DashboardCrmProductsIndexRoute
+  DashboardDmsCustomerTrackingLinkIndexRoute: typeof DashboardDmsCustomerTrackingLinkIndexRoute
+  DashboardDmsDeliveryRouteIndexRoute: typeof DashboardDmsDeliveryRouteIndexRoute
+  DashboardDmsDeliveryTaskIndexRoute: typeof DashboardDmsDeliveryTaskIndexRoute
+  DashboardDmsDriverLocationIndexRoute: typeof DashboardDmsDriverLocationIndexRoute
+  DashboardDmsProofOfDeliveryIndexRoute: typeof DashboardDmsProofOfDeliveryIndexRoute
+  DashboardDmsTaskEventIndexRoute: typeof DashboardDmsTaskEventIndexRoute
+  DashboardTmsCarrierIndexRoute: typeof DashboardTmsCarrierIndexRoute
+  DashboardTmsDriverIndexRoute: typeof DashboardTmsDriverIndexRoute
+  DashboardTmsExpenseIndexRoute: typeof DashboardTmsExpenseIndexRoute
+  DashboardTmsGeofenceIndexRoute: typeof DashboardTmsGeofenceIndexRoute
+  DashboardTmsGpsPingIndexRoute: typeof DashboardTmsGpsPingIndexRoute
+  DashboardTmsPartnerInvoiceIndexRoute: typeof DashboardTmsPartnerInvoiceIndexRoute
+  DashboardTmsProofOfDeliveryIndexRoute: typeof DashboardTmsProofOfDeliveryIndexRoute
+  DashboardTmsRouteIndexRoute: typeof DashboardTmsRouteIndexRoute
+  DashboardTmsShipmentLegIndexRoute: typeof DashboardTmsShipmentLegIndexRoute
+  DashboardTmsTripIndexRoute: typeof DashboardTmsTripIndexRoute
+  DashboardTmsVehicleIndexRoute: typeof DashboardTmsVehicleIndexRoute
+  DashboardWmsBinThresholdIndexRoute: typeof DashboardWmsBinThresholdIndexRoute
+  DashboardWmsInboundShipmentIndexRoute: typeof DashboardWmsInboundShipmentIndexRoute
+  DashboardWmsInventoryAdjustmentIndexRoute: typeof DashboardWmsInventoryAdjustmentIndexRoute
+  DashboardWmsInventoryBatchIndexRoute: typeof DashboardWmsInventoryBatchIndexRoute
+  DashboardWmsInventoryStockIndexRoute: typeof DashboardWmsInventoryStockIndexRoute
+  DashboardWmsLocationIndexRoute: typeof DashboardWmsLocationIndexRoute
+  DashboardWmsOutboundShipmentIndexRoute: typeof DashboardWmsOutboundShipmentIndexRoute
+  DashboardWmsPackageIndexRoute: typeof DashboardWmsPackageIndexRoute
+  DashboardWmsPickBatchIndexRoute: typeof DashboardWmsPickBatchIndexRoute
+  DashboardWmsProductIndexRoute: typeof DashboardWmsProductIndexRoute
+  DashboardWmsPutawayRuleIndexRoute: typeof DashboardWmsPutawayRuleIndexRoute
+  DashboardWmsReorderPointIndexRoute: typeof DashboardWmsReorderPointIndexRoute
+  DashboardWmsReturnIndexRoute: typeof DashboardWmsReturnIndexRoute
+  DashboardWmsSalesOrderIndexRoute: typeof DashboardWmsSalesOrderIndexRoute
+  DashboardWmsStockTransferIndexRoute: typeof DashboardWmsStockTransferIndexRoute
+  DashboardWmsSupplierIndexRoute: typeof DashboardWmsSupplierIndexRoute
+  DashboardWmsTaskIndexRoute: typeof DashboardWmsTaskIndexRoute
+  DashboardWmsWarehouseIndexRoute: typeof DashboardWmsWarehouseIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmIndexRoute: DashboardCrmIndexRoute,
-  DashboardBillingAccountTransactionIndexRoute:
-    DashboardBillingAccountTransactionIndexRoute,
-  DashboardBillingAccountingSyncLogIndexRoute:
-    DashboardBillingAccountingSyncLogIndexRoute,
-  DashboardBillingClientAccountIndexRoute:
-    DashboardBillingClientAccountIndexRoute,
+  DashboardBillingAccountTransactionIndexRoute: DashboardBillingAccountTransactionIndexRoute,
+  DashboardBillingAccountingSyncLogIndexRoute: DashboardBillingAccountingSyncLogIndexRoute,
+  DashboardBillingClientAccountIndexRoute: DashboardBillingClientAccountIndexRoute,
   DashboardBillingCreditNoteIndexRoute: DashboardBillingCreditNoteIndexRoute,
   DashboardBillingDisputeIndexRoute: DashboardBillingDisputeIndexRoute,
   DashboardBillingInvoiceIndexRoute: DashboardBillingInvoiceIndexRoute,
@@ -1428,8 +1379,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardCrmNotificationsIndexRoute: DashboardCrmNotificationsIndexRoute,
   DashboardCrmOpportunitiesIndexRoute: DashboardCrmOpportunitiesIndexRoute,
   DashboardCrmProductsIndexRoute: DashboardCrmProductsIndexRoute,
-  DashboardDmsCustomerTrackingLinkIndexRoute:
-    DashboardDmsCustomerTrackingLinkIndexRoute,
+  DashboardDmsCustomerTrackingLinkIndexRoute: DashboardDmsCustomerTrackingLinkIndexRoute,
   DashboardDmsDeliveryRouteIndexRoute: DashboardDmsDeliveryRouteIndexRoute,
   DashboardDmsDeliveryTaskIndexRoute: DashboardDmsDeliveryTaskIndexRoute,
   DashboardDmsDriverLocationIndexRoute: DashboardDmsDriverLocationIndexRoute,
@@ -1448,13 +1398,11 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardTmsVehicleIndexRoute: DashboardTmsVehicleIndexRoute,
   DashboardWmsBinThresholdIndexRoute: DashboardWmsBinThresholdIndexRoute,
   DashboardWmsInboundShipmentIndexRoute: DashboardWmsInboundShipmentIndexRoute,
-  DashboardWmsInventoryAdjustmentIndexRoute:
-    DashboardWmsInventoryAdjustmentIndexRoute,
+  DashboardWmsInventoryAdjustmentIndexRoute: DashboardWmsInventoryAdjustmentIndexRoute,
   DashboardWmsInventoryBatchIndexRoute: DashboardWmsInventoryBatchIndexRoute,
   DashboardWmsInventoryStockIndexRoute: DashboardWmsInventoryStockIndexRoute,
   DashboardWmsLocationIndexRoute: DashboardWmsLocationIndexRoute,
-  DashboardWmsOutboundShipmentIndexRoute:
-    DashboardWmsOutboundShipmentIndexRoute,
+  DashboardWmsOutboundShipmentIndexRoute: DashboardWmsOutboundShipmentIndexRoute,
   DashboardWmsPackageIndexRoute: DashboardWmsPackageIndexRoute,
   DashboardWmsPickBatchIndexRoute: DashboardWmsPickBatchIndexRoute,
   DashboardWmsProductIndexRoute: DashboardWmsProductIndexRoute,
@@ -1466,17 +1414,17 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardWmsSupplierIndexRoute: DashboardWmsSupplierIndexRoute,
   DashboardWmsTaskIndexRoute: DashboardWmsTaskIndexRoute,
   DashboardWmsWarehouseIndexRoute: DashboardWmsWarehouseIndexRoute,
-};
+}
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

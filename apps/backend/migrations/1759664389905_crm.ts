@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -711,7 +711,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_crm_taggings_record on crm.taggings(record_type, record_id);
 
 		create index idx_crm_taggings_tag_id on crm.taggings(tag_id);
-	`.execute(db);
+	`.execute(db)
 }
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
@@ -775,5 +775,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop CRM schema
 		drop schema if exists crm cascade;
-	`.execute(db);
+	`.execute(db)
 }

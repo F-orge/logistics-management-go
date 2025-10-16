@@ -1,11 +1,7 @@
-import type { Kysely } from 'kysely';
+import type { Kysely } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
-  await db.schema
-    .withSchema('tms')
-    .alterTable('carriers')
-    .dropColumn('contactDetails')
-    .execute();
+  await db.schema.withSchema('tms').alterTable('carriers').dropColumn('contactDetails').execute()
 
   await db.schema
     .withSchema('tms')
@@ -13,7 +9,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('contactPerson', 'text')
     .addColumn('contactEmail', 'text')
     .addColumn('contactPhone', 'text')
-    .execute();
+    .execute()
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -23,11 +19,11 @@ export async function down(db: Kysely<any>): Promise<void> {
     .dropColumn('contactPerson')
     .dropColumn('contactEmail')
     .dropColumn('contactPhone')
-    .execute();
+    .execute()
 
   await db.schema
     .withSchema('tms')
     .alterTable('carriers')
     .addColumn('contactDetails', 'text')
-    .execute();
+    .execute()
 }

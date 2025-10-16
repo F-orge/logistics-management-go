@@ -1,7 +1,7 @@
-import { defineConfig } from '@rsbuild/core';
-import { pluginReact } from '@rsbuild/plugin-react';
-import tailwindcss from '@tailwindcss/postcss';
-import { tanstackRouter } from '@tanstack/router-plugin/rspack';
+import { defineConfig } from '@rsbuild/core'
+import { pluginReact } from '@rsbuild/plugin-react'
+import tailwindcss from '@tailwindcss/postcss'
+import { tanstackRouter } from '@tanstack/router-plugin/rspack'
 
 export default defineConfig({
   plugins: [pluginReact()],
@@ -36,4 +36,4 @@ export default defineConfig({
       '/api': 'http://localhost:3000',
     },
   },
-});
+})

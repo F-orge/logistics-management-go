@@ -1,4 +1,4 @@
-import type { Kysely } from 'kysely';
+import type { Kysely } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
@@ -6,7 +6,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .alterTable('expenses')
     .addColumn('description', 'text')
     .addColumn('expenseDate', 'date')
-    .execute();
+    .execute()
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -15,5 +15,5 @@ export async function down(db: Kysely<any>): Promise<void> {
     .alterTable('expenses')
     .dropColumn('description')
     .dropColumn('expenseDate')
-    .execute();
+    .execute()
 }

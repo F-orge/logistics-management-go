@@ -143,7 +143,6 @@ export const repositoryFactory = <Schema extends ZodRawShape, Table extends keyo
     }
 
     const any = async (values: string[]): Promise<Array<z.infer<typeof schema>>> => {
-
       if (values.length === 0) return []
 
       return (await kysely

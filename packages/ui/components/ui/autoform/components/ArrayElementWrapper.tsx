@@ -1,12 +1,9 @@
-import React from "react";
-import { Button } from "../../button";
-import { TrashIcon } from "lucide-react";
-import type { ArrayElementWrapperProps } from "@autoform/react";
+import React from 'react'
+import { Button } from '../../button'
+import { TrashIcon } from 'lucide-react'
+import type { ArrayElementWrapperProps } from '@autoform/react'
 
-export const ArrayElementWrapper: React.FC<ArrayElementWrapperProps> = ({
-  children,
-  onRemove,
-}) => {
+export const ArrayElementWrapper: React.FC<ArrayElementWrapperProps> = ({ children, onRemove }) => {
   return (
     <div className="relative border p-4 rounded-md mt-2">
       <Button
@@ -20,5 +17,5 @@ export const ArrayElementWrapper: React.FC<ArrayElementWrapperProps> = ({
       </Button>
       {children}
     </div>
-  );
-};
+  )
+}

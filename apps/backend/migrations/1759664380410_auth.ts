@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -52,7 +52,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"created_at" timestamptz default current_timestamp not null,
 			"updated_at" timestamptz default current_timestamp not null
 		);
-	`.execute(db);
+	`.execute(db)
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -64,5 +64,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 		drop table "session";
 
 		drop table "user";
-	`.execute(db);
+	`.execute(db)
 }

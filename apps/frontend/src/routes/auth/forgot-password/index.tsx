@@ -2,7 +2,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { AutoForm } from '@packages/ui/components/ui/autoform'
 import z from 'zod'
-import { FieldDescription, FieldGroup, FieldLegend, FieldTitle } from '@packages/ui/components/ui/field'
+import {
+  FieldDescription,
+  FieldGroup,
+  FieldLegend,
+  FieldTitle,
+} from '@packages/ui/components/ui/field'
 
 const ForgotPasswordFormSchema = z.object({
   email: z.email(),
@@ -19,8 +24,10 @@ function RouteComponent() {
   return (
     <FieldGroup>
       <FieldLegend className="flex flex-col items-center gap-1 text-center">
-        <FieldTitle className='text-2xl font-bold'>Forgot your password</FieldTitle>
-        <FieldDescription className='text-muted-foreground text-sm text-balance'>Enter your email below to send a verification link</FieldDescription>
+        <FieldTitle className="text-2xl font-bold">Forgot your password</FieldTitle>
+        <FieldDescription className="text-muted-foreground text-sm text-balance">
+          Enter your email below to send a verification link
+        </FieldDescription>
       </FieldLegend>
       <AutoForm
         onSubmit={async (value) => {
@@ -45,6 +52,5 @@ function RouteComponent() {
         withSubmit
       />
     </FieldGroup>
-    
   )
 }

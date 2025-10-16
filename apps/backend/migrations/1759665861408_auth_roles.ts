@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -42,7 +42,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		alter table "user"
 			alter column role type user_role
 			using role::user_role;
-	`.execute(db);
+	`.execute(db)
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -52,5 +52,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 			using role::text;
 
 		drop type if exists user_role;
-	`.execute(db);
+	`.execute(db)
 }

@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -1323,7 +1323,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		create index idx_wms_package_items_product_id on wms.package_items(product_id);
 
-	`.execute(db);
+	`.execute(db)
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -1481,5 +1481,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop IMS schema
 		drop schema if exists wms cascade;
-	`.execute(db);
+	`.execute(db)
 }

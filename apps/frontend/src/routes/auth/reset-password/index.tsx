@@ -3,17 +3,25 @@ import { zodValidator } from '@tanstack/zod-adapter'
 import { toast } from 'sonner'
 import z from 'zod'
 import { AutoForm } from '@packages/ui/components/ui/autoform'
-import { Field, FieldDescription, FieldGroup, FieldLegend, FieldTitle } from '@packages/ui/components/ui/field'
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLegend,
+  FieldTitle,
+} from '@packages/ui/components/ui/field'
 import { authClient } from '@/lib/auth'
 import { Button } from '@packages/ui/components/ui/button'
 
-const ResetPasswordForm = z.object({
-  newPassword:z.string(),
-  confirmPassword:z.string()
-}).refine(args => args.newPassword === args.confirmPassword,{
-  error:"Password does not match",
-  path:['confirmPassword','newPassword']
-})
+const ResetPasswordForm = z
+  .object({
+    newPassword: z.string(),
+    confirmPassword: z.string(),
+  })
+  .refine((args) => args.newPassword === args.confirmPassword, {
+    error: 'Password does not match',
+    path: ['confirmPassword', 'newPassword'],
+  })
 
 export const Route = createFileRoute('/auth/reset-password/')({
   component: RouteComponent,
@@ -50,23 +58,28 @@ function RouteComponent() {
           Enter your new password below to secure your account
         </FieldDescription>
       </FieldLegend>
-      <AutoForm schema={ResetPasswordForm} onSubmit={(value) =>  toast.promise(
-        authClient.resetPassword({
-          token: searchQuery.token,
-          newPassword: value.newPassword,
-        }),
-        {
-          success: ({ data }) => {
-            if (data?.status) {
-              navigate({ to: '/auth/login' })
-              return 'Successfully changed password'
-            } else {
-              return 'Unable to update your password'
-            }
-          },
-          error: 'Unable to update your password',
-        },
-      )}>
+      <AutoForm
+        schema={ResetPasswordForm}
+        onSubmit={(value) =>
+          toast.promise(
+            authClient.resetPassword({
+              token: searchQuery.token,
+              newPassword: value.newPassword,
+            }),
+            {
+              success: ({ data }) => {
+                if (data?.status) {
+                  navigate({ to: '/auth/login' })
+                  return 'Successfully changed password'
+                } else {
+                  return 'Unable to update your password'
+                }
+              },
+              error: 'Unable to update your password',
+            },
+          )
+        }
+      >
         <Field>
           <Button type="submit">Save</Button>
         </Field>

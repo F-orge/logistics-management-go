@@ -7,5 +7,5 @@ export interface ORPCContext {
   kysely: Kysely<DB>
 }
 
-export type ORPCServerInputs = InferRouterOutputs<typeof orpcRouter>
-export type ORPCServerOutputs = InferRouterInputs<typeof orpcRouter>
+export type ORPCServerInputs = InferRouterInputs<typeof orpcRouter>
+export type ORPCServerOutputs = InferRouterOutputs<typeof orpcRouter>

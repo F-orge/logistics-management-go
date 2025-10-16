@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
 export async function up(db: Kysely<any>): Promise<void> {
@@ -725,7 +725,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_tms_partner_invoice_items_partner_invoice_id on tms.partner_invoice_items(partner_invoice_id);
 
 		create index idx_tms_partner_invoice_items_shipment_leg_id on tms.partner_invoice_items(shipment_leg_id);
-	`.execute(db);
+	`.execute(db)
 }
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
@@ -799,5 +799,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop TMS schema
 		drop schema if exists tms cascade;
-	`.execute(db);
+	`.execute(db)
 }

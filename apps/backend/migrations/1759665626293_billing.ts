@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely';
+import { type Kysely, sql } from 'kysely'
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -816,7 +816,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_billing_accounting_sync_log_status on billing.accounting_sync_log(status);
 
 		create index idx_billing_accounting_sync_log_external_system on billing.accounting_sync_log(external_system);
-	`.execute(db);
+	`.execute(db)
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -942,5 +942,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop schema
 		drop schema if exists billing;
-	`.execute(db);
+	`.execute(db)
 }

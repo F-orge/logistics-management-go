@@ -22,13 +22,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@packages/ui'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from '@packages/ui'
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@packages/ui'
 import {
   Sidebar,
   SidebarContent,

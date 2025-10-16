@@ -41,7 +41,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   })
 
   const migrator = new Migrator({
-    db:kysely,
+    db: kysely,
     provider: new FileMigrationProvider({
       fs,
       path,
