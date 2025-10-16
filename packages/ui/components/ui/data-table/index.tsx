@@ -2,6 +2,9 @@ import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
+  type PaginationState,
+  type SortingState,
+  type Updater,
   useReactTable,
 } from "@tanstack/react-table"
 
@@ -13,23 +16,40 @@ import {
   TableHeader,
   TableRow,
 } from "../table"
+import { useState } from "react";
+import { DataTablePagination } from "./pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  onSortingChange?:(updater:Updater<SortingState>) => Promise<unknown> | unknown,
+  paginationState?:PaginationState,
+  onPaginationChange?:(updater:Updater<PaginationState>) => Promise<unknown> | unknown
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onSortingChange,
+  onPaginationChange,
+  paginationState
 }: DataTableProps<TData, TValue>) {
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination:true,
+    manualSorting: true,
+    onSortingChange,
+    onPaginationChange,
+    state:{
+      pagination:paginationState || {pageSize:10,pageIndex:1}
+    }
   })
 
   return (
+    <div >
     <div className="overflow-hidden rounded-md border">
       <Table>
         <TableHeader>
@@ -73,6 +93,8 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <DataTablePagination table={table} />
+    </div>
     </div>
   )
 }

@@ -5,5 +5,5 @@ export const UserSchema = z.object({
   name: z.string(),
   email: z.email(),
   emailVerified: z.boolean(),
-  image: z.url().optional(),
+  image: z.url().nullable().optional(),
 })
