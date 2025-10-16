@@ -11,7 +11,6 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../table'
 import { DataTablePagination } from './pagination'
-import { DefaultColumn } from './default-column'
 import type { ZodObject } from 'zod'
 
 declare module '@tanstack/react-table' {
@@ -45,7 +44,6 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    defaultColumn: DefaultColumn,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,

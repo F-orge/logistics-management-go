@@ -5,16 +5,9 @@
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 100
-  },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
-      "semicolons": "asNeeded"
+      "enabled":true
     }
   },
   "json": {

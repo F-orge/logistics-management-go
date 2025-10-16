@@ -27,6 +27,9 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "dependencies": {
+    "@packages/ui":"workspace:*"
+  },
   "peerDependencies": {
     "typescript": "^5"
   }
