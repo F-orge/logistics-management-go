@@ -1,0 +1,19 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "queries/crm"
+    schema: "migrations"
+    gen:
+      go:
+        package: "models"
+        out: "models/crm"
+        sql_package: "pgx/v5"
+  - engine: "postgresql"
+    queries: "queries/dms"
+    schema: "migrations"
+    gen:
+      go:
+        package: "models"
+        out: "models/dms"
+        sql_package: "pgx/v5"
+  
