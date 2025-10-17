@@ -1,0 +1,93 @@
+-- name: BillingPaginateRateCard :many
+select
+  sqlc.embed(rate_cards),
+  sqlc.embed(created_by_user)
+from
+  "billing"."rate_cards" as rate_cards
+  left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
+limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+
+-- name: BillingFindRateCard :one
+select
+  sqlc.embed(rate_cards),
+  sqlc.embed(created_by_user)
+from
+  "billing"."rate_cards" as rate_cards
+  left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
+where
+  rate_cards.id = sqlc.arg(id)::uuid;
+
+-- name: BillingAnyRateCard :many
+select
+  sqlc.embed(rate_cards),
+  sqlc.embed(created_by_user)
+from
+  "billing"."rate_cards" as rate_cards
+  left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
+where
+  rate_cards.id = any (@ids::uuid[]);
+
+-- name: BillingRangeRateCard :many
+select
+  sqlc.embed(rate_cards),
+  sqlc.embed(created_by_user)
+from
+  "billing"."rate_cards" as rate_cards
+  left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
+where
+  rate_cards.created_at >= @dateFrom::date
+  and rate_cards.created_at <= @dateTo::date;
+
+-- name: BillingInsertRateCard :one
+insert into "billing"."rate_cards"(name, service_type, is_active, valid_from, valid_to, description, created_by_user_id)
+  values ($1, $2, $3, $4, $5, $6, $7)
+returning
+  *;
+
+-- name: BillingUpdateRateCard :one
+update
+  "billing"."rate_cards"
+set
+  name = case when sqlc.arg(set_name)::boolean then
+    sqlc.arg(name)::varchar
+  else
+    name
+  end,
+  service_type = case when sqlc.arg(set_service_type)::boolean then
+    sqlc.arg(service_type)::billing.service_type_enum
+  else
+    service_type
+  end,
+  is_active = case when sqlc.arg(set_is_active)::boolean then
+    sqlc.arg(is_active)::boolean
+  else
+    is_active
+  end,
+  valid_from = case when sqlc.arg(set_valid_from)::boolean then
+    sqlc.arg(valid_from)::date
+  else
+    valid_from
+  end,
+  valid_to = case when sqlc.arg(set_valid_to)::boolean then
+    sqlc.arg(valid_to)::date
+  else
+    valid_to
+  end,
+  description = case when sqlc.arg(set_description)::boolean then
+    sqlc.arg(description)::text
+  else
+    description
+  end,
+  created_by_user_id = case when sqlc.arg(set_created_by_user_id)::boolean then
+    sqlc.arg(created_by_user_id)::text
+  else
+    created_by_user_id
+  end
+where
+  id = sqlc.arg(id)::uuid
+returning
+  *;
+
+-- name: BillingRemoveRateCard :exec
+delete from "billing"."rate_cards"
+where id = @id::uuid;

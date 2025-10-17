@@ -1,0 +1,84 @@
+-- name: WmsPaginateOutboundShipment :many
+select
+  sqlc.embed(outbound_shipments),
+  sqlc.embed(sales_order)
+from
+  "wms"."outbound_shipments" as outbound_shipments
+  inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+
+-- name: WmsFindOutboundShipment :one
+select
+  sqlc.embed(outbound_shipments),
+  sqlc.embed(sales_order)
+from
+  "wms"."outbound_shipments" as outbound_shipments
+  inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+where
+  outbound_shipments.id = sqlc.arg(id)::uuid;
+
+-- name: WmsAnyOutboundShipment :many
+select
+  sqlc.embed(outbound_shipments),
+  sqlc.embed(sales_order)
+from
+  "wms"."outbound_shipments" as outbound_shipments
+  inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+where
+  outbound_shipments.id = any (@ids::uuid[]);
+
+-- name: WmsRangeOutboundShipment :many
+select
+  sqlc.embed(outbound_shipments),
+  sqlc.embed(sales_order)
+from
+  "wms"."outbound_shipments" as outbound_shipments
+  inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+where
+  outbound_shipments.created_at >= @dateFrom::date
+  and outbound_shipments.created_at <= @dateTo::date;
+
+-- name: WmsInsertOutboundShipment :one
+insert into "wms"."outbound_shipments"(sales_order_id, warehouse_id, status, tracking_number, carrier)
+  values ($1, $2, $3, $4, $5)
+returning
+  *;
+
+-- name: WmsUpdateOutboundShipment :one
+update
+  "wms"."outbound_shipments"
+set
+  sales_order_id = case when sqlc.arg(set_sales_order_id)::boolean then
+    sqlc.arg(sales_order_id)::uuid
+  else
+    sales_order_id
+  end,
+  warehouse_id = case when sqlc.arg(set_warehouse_id)::boolean then
+    sqlc.arg(warehouse_id)::uuid
+  else
+    warehouse_id
+  end,
+  status = case when sqlc.arg(set_status)::boolean then
+    sqlc.arg(status)::wms.outbound_shipment_status_enum
+  else
+    status
+  end,
+  tracking_number = case when sqlc.arg(set_tracking_number)::boolean then
+    sqlc.arg(tracking_number)::varchar
+  else
+    tracking_number
+  end,
+  carrier = case when sqlc.arg(set_carrier)::boolean then
+    sqlc.arg(carrier)::varchar
+  else
+    carrier
+  end
+where
+  id = sqlc.arg(id)::uuid
+returning
+  *;
+
+-- name: WmsRemoveOutboundShipment :exec
+delete from "wms"."outbound_shipments"
+where id = @id::uuid;
+
