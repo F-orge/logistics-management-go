@@ -1,4 +1,4 @@
--- name: PaginateDriverLocation :many
+-- name: DmsPaginateDriverLocation :many
 select
   *
 from

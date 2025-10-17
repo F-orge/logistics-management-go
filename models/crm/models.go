@@ -3417,28 +3417,6 @@ type CrmProduct struct {
 	UpdatedAt pgtype.Timestamptz
 }
 
-// Enables flexible categorization of records using custom labels.
-type CrmTag struct {
-	// Primary key
-	ID pgtype.UUID
-	// Label or tag name.
-	Name string
-	// timestamptz when the tag was created.
-	CreatedAt pgtype.Timestamptz
-	// timestamptz when the tag was last updated.
-	UpdatedAt pgtype.Timestamptz
-}
-
-// Associates tags with specific records, allowing for advanced filtering and organization.
-type CrmTagging struct {
-	// Linked tag identifier.
-	TagID pgtype.UUID
-	// Identifier of the tagged record.
-	RecordID pgtype.UUID
-	// Type of record associated with the tag.
-	RecordType CrmRecordType
-}
-
 // Provides customers with secure, unique links to track their deliveries in real-time.
 type DmsCustomerTrackingLink struct {
 	// Primary key

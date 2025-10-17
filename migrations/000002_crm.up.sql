@@ -120,24 +120,6 @@ create type crm.record_type as enum(
   'invoices'
 );
 
--- Tags
-create table crm.tags(
-  id uuid primary key default gen_random_uuid(),
-  name varchar(100) not null unique,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now()
-);
-
-comment on table crm.tags is 'Enables flexible categorization of records using custom labels.';
-
-comment on column crm.tags.id is 'Primary key';
-
-comment on column crm.tags.name is 'Label or tag name.';
-
-comment on column crm.tags.created_at is 'timestamptz when the tag was created.';
-
-comment on column crm.tags.updated_at is 'timestamptz when the tag was last updated.';
-
 -- Products
 create table crm.products(
   id uuid primary key default gen_random_uuid(),
@@ -583,25 +565,7 @@ comment on column crm.attachments.created_at is 'timestamptz when the attachment
 
 comment on column crm.attachments.updated_at is 'timestamptz when the attachment was last updated.';
 
--- Taggings
-create table crm.taggings(
-  tag_id uuid not null references crm.tags(id),
-  record_id uuid not null,
-  record_type crm.record_type not null,
-  primary key (tag_id, record_id, record_type)
-);
-
-comment on table crm.taggings is 'Associates tags with specific records, allowing for advanced filtering and organization.';
-
-comment on column crm.taggings.tag_id is 'Linked tag identifier.';
-
-comment on column crm.taggings.record_id is 'Identifier of the tagged record.';
-
-comment on column crm.taggings.record_type is 'Type of record associated with the tag.';
-
 -- Create indexes for performance
-create index idx_crm_tags_name on crm.tags(name);
-
 create index idx_crm_products_sku on crm.products(sku);
 
 create index idx_crm_products_type on crm.products(type);
@@ -703,8 +667,4 @@ create index idx_crm_notifications_created_at on crm.notifications(created_at);
 create index idx_crm_attachments_record on crm.attachments(record_type, record_id);
 
 create index idx_crm_attachments_mime_type on crm.attachments(mime_type);
-
-create index idx_crm_taggings_record on crm.taggings(record_type, record_id);
-
-create index idx_crm_taggings_tag_id on crm.taggings(tag_id);
 
