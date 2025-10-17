@@ -10,6 +10,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "composite": true,
+    "emitDeclarationOnly": false,
     "paths": {
       "@/*": ["./src/*"],
       "@packages/db": ["../db/src"],

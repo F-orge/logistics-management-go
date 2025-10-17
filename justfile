@@ -30,7 +30,7 @@ introspect:
   bun kysely-codegen --out-file src/db/types.ts --camel-case --runtime-enums pascal-case --singularize
 
 build:
-  bun run build
+  bun run build:packages && bun --filter @apps/* build
 
 typecheck:
   bun run typecheck

@@ -1,22 +1,22 @@
 {
   "name": "@packages/db",
   "version": "0.0.0",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "private": true,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
+      "default": "./dist/index.js"
     },
     "./*": {
       "types": "./dist/*.d.ts",
-      "default": "./src/*"
+      "default": "./dist/*"
     }
   },
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc --build && tsc-alias -p tsconfig.json",
     "dev": "tsc --build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint src",

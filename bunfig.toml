@@ -1,0 +1,5 @@
+# Bun configuration for workspace packages
+[install.scopes]
+"@packages/db" = { path = "./packages/db" }
+"@packages/rpc" = { path = "./packages/rpc" }
+"@packages/ui" = { path = "./packages/ui" }

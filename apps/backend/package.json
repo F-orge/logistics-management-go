@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --hot --env-file ../../.env run src/index.ts --console-depth 5",
-    "build": "bun build src/index.ts --target node --outfile dist/server.js --production",
+    "build":"tsc && tsc-alias -p tsconfig.json && bun build dist/index.js --target node --outfile .output/server.js --production --external @packages/db --external @packages/rpc --external pg --external nodemailer --external @sendgrid/mail --minify",
     "start": "bun run dist/server.js",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint src",
