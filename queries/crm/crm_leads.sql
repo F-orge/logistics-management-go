@@ -1,0 +1,145 @@
+-- name: CrmPaginateLead :many
+select
+  sqlc.embed(leads),
+  sqlc.embed(owner),
+  sqlc.embed(campaign),
+  sqlc.embed(converted_contact),
+  sqlc.embed(converted_company),
+  sqlc.embed(converted_opportunity)
+from
+  "crm"."leads" as leads
+  inner join "public"."user" as owner on leads.owner_id = owner.id
+  left join "crm"."campaigns" as campaign on leads.campaign_id = campaign.id
+  left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
+  left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
+  left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
+limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+
+-- name: CrmFindLead :one
+select
+  sqlc.embed(leads),
+  sqlc.embed(owner),
+  sqlc.embed(campaign),
+  sqlc.embed(converted_contact),
+  sqlc.embed(converted_company),
+  sqlc.embed(converted_opportunity)
+from
+  "crm"."leads" as leads
+  inner join "public"."user" as owner on leads.owner_id = owner.id
+  left join "crm"."campaigns" as campaign on leads.campaign_id = campaign.id
+  left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
+  left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
+  left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
+where
+  leads.id = sqlc.arg(id)::uuid;
+
+-- name: CrmAnyLead :many
+select
+  sqlc.embed(leads),
+  sqlc.embed(owner),
+  sqlc.embed(campaign),
+  sqlc.embed(converted_contact),
+  sqlc.embed(converted_company),
+  sqlc.embed(converted_opportunity)
+from
+  "crm"."leads" as leads
+  inner join "public"."user" as owner on leads.owner_id = owner.id
+  left join "crm"."campaigns" as campaign on leads.campaign_id = campaign.id
+  left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
+  left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
+  left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
+where
+  leads.id = any (@ids::uuid[]);
+
+-- name: CrmRangeLead :many
+select
+  sqlc.embed(leads),
+  sqlc.embed(owner),
+  sqlc.embed(campaign),
+  sqlc.embed(converted_contact),
+  sqlc.embed(converted_company),
+  sqlc.embed(converted_opportunity)
+from
+  "crm"."leads" as leads
+  inner join "public"."user" as owner on leads.owner_id = owner.id
+  left join "crm"."campaigns" as campaign on leads.campaign_id = campaign.id
+  left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
+  left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
+  left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
+where
+  leads.created_at >= @dateFrom::date
+  and leads.created_at <= @dateTo::date;
+
+-- name: CrmInsertLead :one
+insert into "crm"."leads"(name, email, lead_source, status, lead_score, owner_id, campaign_id, converted_at, converted_contact_id, converted_company_id, converted_opportunity_id)
+  values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+returning
+  *;
+
+-- name: CrmUpdateLead :one
+update
+  "crm"."leads"
+set
+  name = case when sqlc.arg(set_name)::boolean then
+    sqlc.arg(name)::text
+  else
+    name
+  end,
+  email = case when sqlc.arg(set_email)::boolean then
+    sqlc.arg(email)::text
+  else
+    email
+  end,
+  lead_source = case when sqlc.arg(set_lead_source)::boolean then
+    sqlc.arg(lead_source)::crm.lead_source
+  else
+    lead_source
+  end,
+  status = case when sqlc.arg(set_status)::boolean then
+    sqlc.arg(status)::crm.lead_status
+  else
+    status
+  end,
+  lead_score = case when sqlc.arg(set_lead_score)::boolean then
+    sqlc.arg(lead_score)::integer
+  else
+    lead_score
+  end,
+  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+    sqlc.arg(owner_id)::text
+  else
+    owner_id
+  end,
+  campaign_id = case when sqlc.arg(set_campaign_id)::boolean then
+    sqlc.arg(campaign_id)::uuid
+  else
+    campaign_id
+  end,
+  converted_at = case when sqlc.arg(set_converted_at)::boolean then
+    sqlc.arg(converted_at)::timestamptz
+  else
+    converted_at
+  end,
+  converted_contact_id = case when sqlc.arg(set_converted_contact_id)::boolean then
+    sqlc.arg(converted_contact_id)::uuid
+  else
+    converted_contact_id
+  end,
+  converted_company_id = case when sqlc.arg(set_converted_company_id)::boolean then
+    sqlc.arg(converted_company_id)::uuid
+  else
+    converted_company_id
+  end,
+  converted_opportunity_id = case when sqlc.arg(set_converted_opportunity_id)::boolean then
+    sqlc.arg(converted_opportunity_id)::uuid
+  else
+    converted_opportunity_id
+  end
+where
+  id = sqlc.arg(id)::uuid
+returning
+  *;
+
+-- name: CrmRemoveLead :exec
+delete from "crm"."leads"
+where id = @id::uuid;

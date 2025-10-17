@@ -1,0 +1,137 @@
+-- name: CrmPaginateOpportunity :many
+select
+  sqlc.embed(opportunities),
+  sqlc.embed(owner),
+  sqlc.embed(contact),
+  sqlc.embed(company),
+  sqlc.embed(campaign)
+from
+  "crm"."opportunities" as opportunities
+  inner join "public"."user" as owner on opportunities.owner_id = owner.id
+  left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
+  left join "crm"."companies" as company on opportunities.company_id = company.id
+  left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
+limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+
+-- name: CrmFindOpportunity :one
+select
+  sqlc.embed(opportunities),
+  sqlc.embed(owner),
+  sqlc.embed(contact),
+  sqlc.embed(company),
+  sqlc.embed(campaign)
+from
+  "crm"."opportunities" as opportunities
+  inner join "public"."user" as owner on opportunities.owner_id = owner.id
+  left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
+  left join "crm"."companies" as company on opportunities.company_id = company.id
+  left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
+where
+  opportunities.id = sqlc.arg(id)::uuid;
+
+-- name: CrmAnyOpportunity :many
+select
+  sqlc.embed(opportunities),
+  sqlc.embed(owner),
+  sqlc.embed(contact),
+  sqlc.embed(company),
+  sqlc.embed(campaign)
+from
+  "crm"."opportunities" as opportunities
+  inner join "public"."user" as owner on opportunities.owner_id = owner.id
+  left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
+  left join "crm"."companies" as company on opportunities.company_id = company.id
+  left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
+where
+  opportunities.id = any (@ids::uuid[]);
+
+-- name: CrmRangeOpportunity :many
+select
+  sqlc.embed(opportunities),
+  sqlc.embed(owner),
+  sqlc.embed(contact),
+  sqlc.embed(company),
+  sqlc.embed(campaign)
+from
+  "crm"."opportunities" as opportunities
+  inner join "public"."user" as owner on opportunities.owner_id = owner.id
+  left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
+  left join "crm"."companies" as company on opportunities.company_id = company.id
+  left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
+where
+  opportunities.created_at >= @dateFrom::date
+  and opportunities.created_at <= @dateTo::date;
+
+-- name: CrmInsertOpportunity :one
+insert into "crm"."opportunities"(name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id)
+  values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+returning
+  *;
+
+-- name: CrmUpdateOpportunity :one
+update
+  "crm"."opportunities"
+set
+  name = case when sqlc.arg(set_name)::boolean then
+    sqlc.arg(name)::text
+  else
+    name
+  end,
+  stage = case when sqlc.arg(set_stage)::boolean then
+    sqlc.arg(stage)::crm.opportunity_stage
+  else
+    stage
+  end,
+  deal_value = case when sqlc.arg(set_deal_value)::boolean then
+    sqlc.arg(deal_value)::numeric
+  else
+    deal_value
+  end,
+  probability = case when sqlc.arg(set_probability)::boolean then
+    sqlc.arg(probability)::real
+  else
+    probability
+  end,
+  expected_close_date = case when sqlc.arg(set_expected_close_date)::boolean then
+    sqlc.arg(expected_close_date)::date
+  else
+    expected_close_date
+  end,
+  lost_reason = case when sqlc.arg(set_lost_reason)::boolean then
+    sqlc.arg(lost_reason)::text
+  else
+    lost_reason
+  end,
+  source = case when sqlc.arg(set_source)::boolean then
+    sqlc.arg(source)::crm.opportunity_source
+  else
+    source
+  end,
+  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+    sqlc.arg(owner_id)::text
+  else
+    owner_id
+  end,
+  contact_id = case when sqlc.arg(set_contact_id)::boolean then
+    sqlc.arg(contact_id)::uuid
+  else
+    contact_id
+  end,
+  company_id = case when sqlc.arg(set_company_id)::boolean then
+    sqlc.arg(company_id)::uuid
+  else
+    company_id
+  end,
+  campaign_id = case when sqlc.arg(set_campaign_id)::boolean then
+    sqlc.arg(campaign_id)::uuid
+  else
+    campaign_id
+  end
+where
+  id = sqlc.arg(id)::uuid
+returning
+  *;
+
+-- name: CrmRemoveOpportunity :exec
+delete from "crm"."opportunities"
+where id = @id::uuid;
