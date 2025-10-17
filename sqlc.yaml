@@ -1,7 +1,7 @@
 version: "2"
 sql:
   - engine: "postgresql"
-    queries: ["queries/crm","queries/dms"]
+    queries: ["queries/crm","queries/dms","queries/tms"]
     schema: "migrations"
     gen:
       go:
