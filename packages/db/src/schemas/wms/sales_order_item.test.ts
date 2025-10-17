@@ -1,8 +1,10 @@
 import { describe, expect, test } from 'bun:test';
 import { ZodError } from 'zod';
 import {
-  DeliveryRouteSchema,
-} from './delivery_route';
+  SalesOrderItemSchema,
+  SalesOrderItemInsertSchema,
+  SalesOrderItemUpdateSchema
+} from './sales_order_item';
 
 interface ValidCase {
   name:string,
@@ -15,13 +17,13 @@ interface InvalidCase {
   expectedError:string;
 }
 
-describe('DeliveryRouteSchema Validation', () => {
+describe('SalesOrderItemSchema Validation', () => {
   describe('Valid Cases', () => {
     const validTestCases:ValidCase[] = [];
 
     test.each(validTestCases)('should validate: $name', ({ input }) => {
-      expect(() => DeliveryRouteSchema.parse(input)).not.toThrow();
-      const result = DeliveryRouteSchema.parse(input);
+      expect(() => SalesOrderItemSchema.parse(input)).not.toThrow();
+      const result = SalesOrderItemSchema.parse(input);
       expect(result).toEqual(expect.objectContaining(input));
     });
   });
@@ -34,7 +36,7 @@ describe('DeliveryRouteSchema Validation', () => {
       ({ input, expectedError }) => {
         let error: ZodError | undefined;
         try {
-          DeliveryRouteSchema.parse(input);
+          SalesOrderItemSchema.parse(input);
         } catch (e) {
           if (e instanceof ZodError) {
             error = e;

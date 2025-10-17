@@ -1,6 +1,0 @@
-export * from './customer_tracking_link'
-export * from './delivery_route'
-export * from './delivery_task'
-export * from './driver_location'
-export * from './proof_of_delivery'
-export * from './task_event'
