@@ -5,28 +5,35 @@ APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
 dev-backend:
-  bun --bun --hot run src/server.ts --console-depth 5
+  bun --filter @apps/backend dev
 
 dev-frontend:
-  bun rsbuild dev --open
+  bun --filter @apps/frontend dev
+
+dev-packages:
+  bun run --filter '@packages/*' dev
 
 dev:
   docker compose -f compose.dev.yaml up -d
-  bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
+  bun concurrently 'just dev-packages' 'just dev-backend' 'just dev-frontend' -n 'packages,backend,frontend'
+
+build-packages:
+  bun run build:packages
 
 build-frontend:
-  bun rsbuild build
+  bun --filter @apps/frontend build
 
 build-backend:
-  bun build src/server.ts --target node --outfile .output/server.js --production
-  cp -r migrations .output/migrations
+  bun --filter @apps/backend build
 
 introspect:
   bun kysely-codegen --out-file src/db/types.ts --camel-case --runtime-enums pascal-case --singularize
 
 build:
-  just build-frontend
-  just build-backend
+  bun run build
+
+typecheck:
+  bun run typecheck
 
 check:
   bun biome check --fix

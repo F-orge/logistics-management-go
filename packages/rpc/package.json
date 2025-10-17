@@ -1,28 +1,36 @@
 {
   "name": "@packages/rpc",
-  "module": "index.ts",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "private": true,
   "exports": {
     ".": {
-      "types": "./.output/types/index.d.ts",
+      "types": "./dist/index.d.ts",
       "default": "./src/index.ts"
     },
     "./*": {
-      "types": "./.output/types/*.d.ts",
+      "types": "./dist/*.d.ts",
       "default": "./src/*"
     }
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
   "scripts": {
-    "build":"bun tsc && bun tsc-alias"
+    "build": "tsc --build",
+    "dev": "tsc --build --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src",
+    "lint:fix": "biome lint --write src"
   },
   "dependencies": {
-    "@packages/db":"workspace:*"
+    "@packages/db": "workspace:*",
+    "@orpc/client": "^1.9.3",
+    "@orpc/contract": "^1.9.4",
+    "@orpc/server": "^1.9.3",
+    "hono": "^4.9.12",
+    "zod": "^4.1.12"
   },
-  "peerDependencies": {
-    "typescript": "^5"
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

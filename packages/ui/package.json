@@ -1,26 +1,47 @@
 {
   "name": "@packages/ui",
-  "module": "index.ts",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "private": true,
   "exports": {
     ".": {
-      "types": "./.output/types/index.d.ts",
+      "types": "./dist/index.d.ts",
       "default": "./index.ts"
     },
-    "./*": {
-      "types": "./.output/types/*.d.ts",
-      "default": "./*"
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "default": "./components/*"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "default": "./hooks/*"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "default": "./lib/*"
+    },
+    "./styles/*": {
+      "types": "./dist/styles/*.d.ts",
+      "default": "./styles/*"
     }
   },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
   "scripts": {
-    "build": "bun tsc && bun tsc-alias"
+    "build": "tsc --build",
+    "dev": "tsc --build --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src",
+    "lint:fix": "biome lint --write src"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "dependencies": {
     "@autoform/react": "^4.0.0",

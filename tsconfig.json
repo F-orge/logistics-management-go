@@ -5,13 +5,30 @@
     "module": "ESNext",
     "target": "ES2022",
     "skipLibCheck": true,
+    "strict": true,
     "strictNullChecks": true,
     "incremental": true,
     "verbatimModuleSyntax": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@packages/ui": ["./packages/ui/src"],
+      "@packages/ui/*": ["./packages/ui/src/*"],
+      "@packages/db": ["./packages/db/src"],
+      "@packages/db/*": ["./packages/db/src/*"],
+      "@packages/rpc": ["./packages/rpc/src"],
+      "@packages/rpc/*": ["./packages/rpc/src/*"]
     }
   },
-  "include": ["src", "seeds", "migrations", "apps", "packages"],
-  "exclude": ["node_modules", "apps/**/graphql/resolver-types.ts", "dist"]
+  "include": ["src", "seeds"],
+  "exclude": ["node_modules", "dist", "**/dist/**", "**/.output/**"],
+  "references": [
+    { "path": "./packages/ui" },
+    { "path": "./packages/db" },
+    { "path": "./packages/rpc" },
+    { "path": "./apps/backend" },
+    { "path": "./apps/frontend" }
+  ]
 }
