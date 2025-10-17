@@ -194,8 +194,10 @@ export const InsertManyPickBatchItem = implement(
   .$context<ORPCContext>()
   .handler(async ({ context, input }) => {
     const repo = PickBatchItemRepository.fns(context.kysely);
-    const newItems = await repo.insertMany(input);
-    return getPickBatch(context, newItems[0].pickBatchId);
+    await repo.insertMany(input);
+    return await Promise.all(
+      input.map((row) => getPickBatch(context, row.pickBatchId))
+    );
   });
 
 export const UpdatePickBatchItem = implement(
@@ -215,5 +217,5 @@ export const RemovePickBatchItem = implement(
   .handler(async ({ context, input }) => {
     const repo = PickBatchItemRepository.fns(context.kysely);
     const removed = await repo.remove(input);
-    return getPickBatch(context, removed.pickBatchId);
+    return removed;
   });
