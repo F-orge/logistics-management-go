@@ -6,6 +6,6 @@ sql:
     gen:
       go:
         package: "models"
-        out: "models/crm"
+        out: "models"
         sql_package: "pgx/v5"
   

@@ -1,0 +1,124 @@
+-- name: DmsPaginateDeliveryTask :many
+select
+  sqlc.embed(delivery_tasks),
+  sqlc.embed(delivery_route)
+from
+  "dms"."delivery_tasks" as delivery_tasks
+  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+  -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
+limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+
+-- name: DmsFindDeliveryTask :one
+select
+  sqlc.embed(delivery_tasks),
+  sqlc.embed(delivery_route)
+from
+  "dms"."delivery_tasks" as delivery_tasks
+  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+where
+  delivery_tasks.id = sqlc.arg(id)::uuid;
+
+-- name: DmsAnyDeliveryTask :many
+select
+  sqlc.embed(delivery_tasks),
+  sqlc.embed(delivery_route)
+from
+  "dms"."delivery_tasks" as delivery_tasks
+  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+where
+  delivery_tasks.id = any (@ids::uuid[]);
+
+-- name: DmsRangeDeliveryTask :many
+select
+  sqlc.embed(delivery_tasks),
+  sqlc.embed(delivery_route)
+from
+  "dms"."delivery_tasks" as delivery_tasks
+  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+where
+  delivery_tasks.created_at >= @dateFrom::date
+  and delivery_tasks.created_at <= @dateTo::date;
+
+-- name: DmsInsertDeliveryTask :one
+insert into "dms"."delivery_tasks"(package_id, delivery_route_id, route_sequence, delivery_address, recipient_name, recipient_phone, delivery_instructions, estimated_arrival_time, actual_arrival_time, delivery_time, status, failure_reason, attempt_count)
+  values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+returning
+  *;
+
+-- name: DmsUpdateDeliveryTask :one
+update
+  "dms"."delivery_tasks"
+set
+  package_id = case when sqlc.arg(set_package_id)::boolean then
+    sqlc.arg(package_id)::uuid
+  else
+    package_id
+  end,
+  delivery_route_id = case when sqlc.arg(set_delivery_route_id)::boolean then
+    sqlc.arg(delivery_route_id)::uuid
+  else
+    delivery_route_id
+  end,
+  route_sequence = case when sqlc.arg(set_route_sequence)::boolean then
+    sqlc.arg(route_sequence)::integer
+  else
+    route_sequence
+  end,
+  delivery_address = case when sqlc.arg(set_delivery_address)::boolean then
+    sqlc.arg(delivery_address)::text
+  else
+    delivery_address
+  end,
+  recipient_name = case when sqlc.arg(set_recipient_name)::boolean then
+    sqlc.arg(recipient_name)::varchar
+  else
+    recipient_name
+  end,
+  recipient_phone = case when sqlc.arg(set_recipient_phone)::boolean then
+    sqlc.arg(recipient_phone)::varchar
+  else
+    recipient_phone
+  end,
+  delivery_instructions = case when sqlc.arg(set_delivery_instructions)::boolean then
+    sqlc.arg(delivery_instructions)::text
+  else
+    delivery_instructions
+  end,
+  estimated_arrival_time = case when sqlc.arg(set_estimated_arrival_time)::boolean then
+    sqlc.arg(estimated_arrival_time)::timestamp
+  else
+    estimated_arrival_time
+  end,
+  actual_arrival_time = case when sqlc.arg(set_actual_arrival_time)::boolean then
+    sqlc.arg(actual_arrival_time)::timestamp
+  else
+    actual_arrival_time
+  end,
+  delivery_time = case when sqlc.arg(set_delivery_time)::boolean then
+    sqlc.arg(delivery_time)::timestamp
+  else
+    delivery_time
+  end,
+  status = case when sqlc.arg(set_status)::boolean then
+    sqlc.arg(status)::dms.delivery_task_status_enum
+  else
+    status
+  end,
+  failure_reason = case when sqlc.arg(set_failure_reason)::boolean then
+    sqlc.arg(failure_reason)::dms.delivery_failure_reason_enum
+  else
+    failure_reason
+  end,
+  attempt_count = case when sqlc.arg(set_attempt_count)::boolean then
+    sqlc.arg(attempt_count)::integer
+  else
+    attempt_count
+  end
+where
+  id = sqlc.arg(id)::uuid
+returning
+  *;
+
+-- name: DmsRemoveDeliveryTask :exec
+delete from "dms"."delivery_tasks"
+where id = @id::uuid;
