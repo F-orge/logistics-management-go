@@ -5,8 +5,7 @@ select
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
-where
-  (companies.name ilike sqlc.narg(search)::text
+where (companies.name ilike sqlc.narg(search)::text
   or companies.industry ilike sqlc.narg(search)::text
   or owner.name ilike sqlc.narg(search)::text
   or companies.country ilike sqlc.narg(search)::text
@@ -59,6 +58,7 @@ returning
 update
   "crm"."companies"
 set
+  updated_at = now(),
   name = case when sqlc.arg(set_name)::boolean then
     sqlc.arg(name)::text
   else

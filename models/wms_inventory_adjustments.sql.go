@@ -377,6 +377,7 @@ const wmsUpdateInventoryAdjustment = `-- name: WmsUpdateInventoryAdjustment :one
 update
   "wms"."inventory_adjustments"
 set
+  updated_at = now(),
   product_id = case when $1::boolean then
     $2::uuid
   else

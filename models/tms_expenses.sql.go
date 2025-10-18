@@ -374,6 +374,7 @@ const tmsUpdateExpense = `-- name: TmsUpdateExpense :one
 update
   "tms"."expenses"
 set
+  updated_at = now(),
   trip_id = case when $1::boolean then
     $2::uuid
   else

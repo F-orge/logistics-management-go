@@ -292,6 +292,7 @@ const tmsUpdateDriver = `-- name: TmsUpdateDriver :one
 update
   "tms"."drivers"
 set
+  updated_at = now(),
   user_id = case when $1::boolean then
     $2::text
   else

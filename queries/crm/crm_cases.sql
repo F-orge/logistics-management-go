@@ -70,6 +70,7 @@ returning
 update
   "crm"."cases"
 set
+  updated_at = now(),
   case_number = case when sqlc.arg(set_case_number)::boolean then
     sqlc.arg(case_number)::text
   else

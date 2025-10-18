@@ -352,6 +352,7 @@ const wmsUpdateReturn = `-- name: WmsUpdateReturn :one
 update
   "wms"."returns"
 set
+  updated_at = now(),
   return_number = case when $1::boolean then
     $2::varchar
   else

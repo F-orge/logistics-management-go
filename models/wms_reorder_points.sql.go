@@ -292,6 +292,7 @@ const wmsUpdateReorderPoint = `-- name: WmsUpdateReorderPoint :one
 update
   "wms"."reorder_points"
 set
+  updated_at = now(),
   product_id = case when $1::boolean then
     $2::uuid
   else

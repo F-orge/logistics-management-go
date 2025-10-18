@@ -59,6 +59,7 @@ returning
 update
   "billing"."rate_rules"
 set
+  updated_at = now(),
   rate_card_id = case when sqlc.arg(set_rate_card_id)::boolean then
     sqlc.arg(rate_card_id)::uuid
   else

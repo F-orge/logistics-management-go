@@ -299,6 +299,7 @@ const dmsUpdateDriverLocation = `-- name: DmsUpdateDriverLocation :one
 update
   "dms"."driver_locations"
 set
+  updated_at = now(),
   driver_id = case when $1::boolean then
     $2::uuid
   else

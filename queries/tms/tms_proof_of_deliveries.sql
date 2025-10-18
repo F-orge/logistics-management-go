@@ -55,6 +55,7 @@ returning
 update
   "tms"."proof_of_deliveries"
 set
+  updated_at = now(),
   trip_stop_id = case when sqlc.arg(set_trip_stop_id)::boolean then
     sqlc.arg(trip_stop_id)::uuid
   else

@@ -95,6 +95,7 @@ returning
 update
   "wms"."task_items"
 set
+  updated_at = now(),
   task_id = case when sqlc.arg(set_task_id)::boolean then
     sqlc.arg(task_id)::uuid
   else

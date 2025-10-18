@@ -294,6 +294,7 @@ const tmsUpdateCarrierRate = `-- name: TmsUpdateCarrierRate :one
 update
   "tms"."carrier_rates"
 set
+  updated_at = now(),
   carrier_id = case when $1::boolean then
     $2::uuid
   else

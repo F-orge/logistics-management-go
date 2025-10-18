@@ -53,6 +53,7 @@ returning
 update
   "tms"."routes"
 set
+  updated_at = now(),
   trip_id = case when sqlc.arg(set_trip_id)::boolean then
     sqlc.arg(trip_id)::uuid
   else

@@ -320,6 +320,7 @@ const billingUpdateRateRule = `-- name: BillingUpdateRateRule :one
 update
   "billing"."rate_rules"
 set
+  updated_at = now(),
   rate_card_id = case when $1::boolean then
     $2::uuid
   else

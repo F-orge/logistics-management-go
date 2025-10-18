@@ -323,6 +323,7 @@ const billingUpdateClientAccount = `-- name: BillingUpdateClientAccount :one
 update
   "billing"."client_accounts"
 set
+  updated_at = now(),
   client_id = case when $1::boolean then
     $2::uuid
   else

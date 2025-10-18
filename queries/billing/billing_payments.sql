@@ -67,6 +67,7 @@ returning
 update
   "billing"."payments"
 set
+  updated_at = now(),
   invoice_id = case when sqlc.arg(set_invoice_id)::boolean then
     sqlc.arg(invoice_id)::uuid
   else

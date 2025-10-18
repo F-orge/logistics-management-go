@@ -273,6 +273,7 @@ const tmsUpdateDriverSchedule = `-- name: TmsUpdateDriverSchedule :one
 update
   "tms"."driver_schedules"
 set
+  updated_at = now(),
   driver_id = case when $1::boolean then
     $2::uuid
   else

@@ -66,6 +66,7 @@ returning
 update
   "billing"."account_transactions"
 set
+  updated_at = now(),
   client_account_id = case when sqlc.arg(set_client_account_id)::boolean then
     sqlc.arg(client_account_id)::uuid
   else

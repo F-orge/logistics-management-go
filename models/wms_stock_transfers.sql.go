@@ -312,6 +312,7 @@ const wmsUpdateStockTransfer = `-- name: WmsUpdateStockTransfer :one
 update
   "wms"."stock_transfers"
 set
+  updated_at = now(),
   product_id = case when $1::boolean then
     $2::uuid
   else

@@ -65,6 +65,7 @@ returning
 update
   "wms"."return_items"
 set
+  updated_at = now(),
   return_id = case when sqlc.arg(set_return_id)::boolean then
     sqlc.arg(return_id)::uuid
   else

@@ -430,6 +430,7 @@ const wmsUpdateOutboundShipmentItem = `-- name: WmsUpdateOutboundShipmentItem :o
 update
   "wms"."outbound_shipment_items"
 set
+  updated_at = now(),
   outbound_shipment_id = case when $1::boolean then
     $2::uuid
   else

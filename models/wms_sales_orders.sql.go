@@ -376,6 +376,7 @@ const wmsUpdateSalesOrder = `-- name: WmsUpdateSalesOrder :one
 update
   "wms"."sales_orders"
 set
+  updated_at = now(),
   order_number = case when $1::boolean then
     $2::varchar
   else

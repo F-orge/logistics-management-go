@@ -266,6 +266,7 @@ const wmsUpdateWarehouse = `-- name: WmsUpdateWarehouse :one
 update
   "wms"."warehouses"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::varchar
   else

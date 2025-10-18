@@ -67,6 +67,7 @@ returning
 update
   "wms"."sales_orders"
 set
+  updated_at = now(),
   order_number = case when sqlc.arg(set_order_number)::boolean then
     sqlc.arg(order_number)::varchar
   else

@@ -317,6 +317,7 @@ const billingUpdateDocument = `-- name: BillingUpdateDocument :one
 update
   "billing"."documents"
 set
+  updated_at = now(),
   record_id = case when $1::boolean then
     $2::uuid
   else

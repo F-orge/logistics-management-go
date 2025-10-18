@@ -361,6 +361,7 @@ const crmUpdateCase = `-- name: CrmUpdateCase :one
 update
   "crm"."cases"
 set
+  updated_at = now(),
   case_number = case when $1::boolean then
     $2::text
   else

@@ -523,6 +523,7 @@ const wmsUpdateTask = `-- name: WmsUpdateTask :one
 update
   "wms"."tasks"
 set
+  updated_at = now(),
   task_number = case when $1::boolean then
     $2::varchar
   else

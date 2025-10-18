@@ -81,6 +81,7 @@ returning
 update
   "wms"."outbound_shipment_items"
 set
+  updated_at = now(),
   outbound_shipment_id = case when sqlc.arg(set_outbound_shipment_id)::boolean then
     sqlc.arg(outbound_shipment_id)::uuid
   else

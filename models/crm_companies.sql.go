@@ -182,8 +182,7 @@ select
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
-where
-  (companies.name ilike $1::text
+where (companies.name ilike $1::text
   or companies.industry ilike $1::text
   or owner.name ilike $1::text
   or companies.country ilike $1::text
@@ -336,6 +335,7 @@ const crmUpdateCompany = `-- name: CrmUpdateCompany :one
 update
   "crm"."companies"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::text
   else

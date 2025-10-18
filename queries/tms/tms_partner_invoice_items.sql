@@ -63,6 +63,7 @@ returning
 update
   "tms"."partner_invoice_items"
 set
+  updated_at = now(),
   partner_invoice_id = case when sqlc.arg(set_partner_invoice_id)::boolean then
     sqlc.arg(partner_invoice_id)::uuid
   else

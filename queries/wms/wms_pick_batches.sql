@@ -67,6 +67,7 @@ returning
 update
   "wms"."pick_batches"
 set
+  updated_at = now(),
   batch_number = case when sqlc.arg(set_batch_number)::boolean then
     sqlc.arg(batch_number)::varchar
   else

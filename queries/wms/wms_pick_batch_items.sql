@@ -63,6 +63,7 @@ returning
 update
   "wms"."pick_batch_items"
 set
+  updated_at = now(),
   pick_batch_id = case when sqlc.arg(set_pick_batch_id)::boolean then
     sqlc.arg(pick_batch_id)::uuid
   else

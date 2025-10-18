@@ -300,6 +300,7 @@ const tmsUpdateVehicleMaintenance = `-- name: TmsUpdateVehicleMaintenance :one
 update
   "tms"."vehicle_maintenance"
 set
+  updated_at = now(),
   vehicle_id = case when $1::boolean then
     $2::uuid
   else

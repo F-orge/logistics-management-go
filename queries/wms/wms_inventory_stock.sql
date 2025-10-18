@@ -75,6 +75,7 @@ returning
 update
   "wms"."inventory_stock"
 set
+  updated_at = now(),
   location_id = case when sqlc.arg(set_location_id)::boolean then
     sqlc.arg(location_id)::uuid
   else

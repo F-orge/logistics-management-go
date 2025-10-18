@@ -308,6 +308,7 @@ const billingUpdateRateCard = `-- name: BillingUpdateRateCard :one
 update
   "billing"."rate_cards"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::varchar
   else

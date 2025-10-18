@@ -59,6 +59,7 @@ returning
 update
   "wms"."locations"
 set
+  updated_at = now(),
   warehouse_id = case when sqlc.arg(set_warehouse_id)::boolean then
     sqlc.arg(warehouse_id)::uuid
   else

@@ -57,6 +57,7 @@ returning
 update
   "tms"."drivers"
 set
+  updated_at = now(),
   user_id = case when sqlc.arg(set_user_id)::boolean then
     sqlc.arg(user_id)::text
   else

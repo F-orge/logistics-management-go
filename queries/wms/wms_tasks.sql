@@ -79,6 +79,7 @@ returning
 update
   "wms"."tasks"
 set
+  updated_at = now(),
   task_number = case when sqlc.arg(set_task_number)::boolean then
     sqlc.arg(task_number)::varchar
   else

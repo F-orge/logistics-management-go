@@ -88,6 +88,7 @@ returning
 update
   "crm"."opportunities"
 set
+  updated_at = now(),
   name = case when sqlc.arg(set_name)::boolean then
     sqlc.arg(name)::text
   else

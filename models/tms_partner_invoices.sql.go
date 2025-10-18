@@ -286,6 +286,7 @@ const tmsUpdatePartnerInvoice = `-- name: TmsUpdatePartnerInvoice :one
 update
   "tms"."partner_invoices"
 set
+  updated_at = now(),
   carrier_id = case when $1::boolean then
     $2::uuid
   else

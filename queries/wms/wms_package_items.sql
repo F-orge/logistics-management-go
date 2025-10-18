@@ -71,6 +71,7 @@ returning
 update
   "wms"."package_items"
 set
+  updated_at = now(),
   package_id = case when sqlc.arg(set_package_id)::boolean then
     sqlc.arg(package_id)::uuid
   else

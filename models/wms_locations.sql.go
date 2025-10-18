@@ -399,6 +399,7 @@ const wmsUpdateLocation = `-- name: WmsUpdateLocation :one
 update
   "wms"."locations"
 set
+  updated_at = now(),
   warehouse_id = case when $1::boolean then
     $2::uuid
   else

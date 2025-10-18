@@ -281,6 +281,7 @@ const tmsUpdateGpsPing = `-- name: TmsUpdateGpsPing :one
 update
   "tms"."gps_pings"
 set
+  updated_at = now(),
   vehicle_id = case when $1::boolean then
     $2::uuid
   else

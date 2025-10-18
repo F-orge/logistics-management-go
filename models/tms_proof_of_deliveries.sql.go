@@ -303,6 +303,7 @@ const tmsUpdateProofOfDelivery = `-- name: TmsUpdateProofOfDelivery :one
 update
   "tms"."proof_of_deliveries"
 set
+  updated_at = now(),
   trip_stop_id = case when $1::boolean then
     $2::uuid
   else

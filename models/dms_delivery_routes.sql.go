@@ -306,6 +306,7 @@ const dmsUpdateDeliveryRoute = `-- name: DmsUpdateDeliveryRoute :one
 update
   "dms"."delivery_routes"
 set
+  updated_at = now(),
   driver_id = case when $1::boolean then
     $2::uuid
   else

@@ -697,6 +697,7 @@ const wmsUpdateTaskItem = `-- name: WmsUpdateTaskItem :one
 update
   "wms"."task_items"
 set
+  updated_at = now(),
   task_id = case when $1::boolean then
     $2::uuid
   else

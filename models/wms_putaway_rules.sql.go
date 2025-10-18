@@ -606,6 +606,7 @@ const wmsUpdatePutawayRule = `-- name: WmsUpdatePutawayRule :one
 update
   "wms"."putaway_rules"
 set
+  updated_at = now(),
   product_id = case when $1::boolean then
     $2::uuid
   else

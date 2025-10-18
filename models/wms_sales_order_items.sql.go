@@ -338,6 +338,7 @@ const wmsUpdateSalesOrderItem = `-- name: WmsUpdateSalesOrderItem :one
 update
   "wms"."sales_order_items"
 set
+  updated_at = now(),
   sales_order_id = case when $1::boolean then
     $2::uuid
   else

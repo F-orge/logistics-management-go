@@ -319,6 +319,7 @@ const dmsUpdateCustomerTrackingLink = `-- name: DmsUpdateCustomerTrackingLink :o
 update
   "dms"."customer_tracking_links"
 set
+  updated_at = now(),
   delivery_task_id = case when $1::boolean then
     $2::uuid
   else

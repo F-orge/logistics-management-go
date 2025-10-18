@@ -210,6 +210,7 @@ const crmUpdateCampaign = `-- name: CrmUpdateCampaign :one
 update
   "crm"."campaigns"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::text
   else

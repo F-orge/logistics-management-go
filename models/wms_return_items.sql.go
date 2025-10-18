@@ -363,6 +363,7 @@ const wmsUpdateReturnItem = `-- name: WmsUpdateReturnItem :one
 update
   "wms"."return_items"
 set
+  updated_at = now(),
   return_id = case when $1::boolean then
     $2::uuid
   else

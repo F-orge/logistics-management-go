@@ -321,6 +321,7 @@ const tmsUpdateGeofenceEvent = `-- name: TmsUpdateGeofenceEvent :one
 update
   "tms"."geofence_events"
 set
+  updated_at = now(),
   vehicle_id = case when $1::boolean then
     $2::uuid
   else

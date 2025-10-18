@@ -474,6 +474,7 @@ const wmsUpdatePackageItem = `-- name: WmsUpdatePackageItem :one
 update
   "wms"."package_items"
 set
+  updated_at = now(),
   package_id = case when $1::boolean then
     $2::uuid
   else

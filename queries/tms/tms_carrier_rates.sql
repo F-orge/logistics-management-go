@@ -58,6 +58,7 @@ returning
 update
   "tms"."carrier_rates"
 set
+  updated_at = now(),
   carrier_id = case when sqlc.arg(set_carrier_id)::boolean then
     sqlc.arg(carrier_id)::uuid
   else

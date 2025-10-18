@@ -474,6 +474,7 @@ const wmsUpdateInventoryStock = `-- name: WmsUpdateInventoryStock :one
 update
   "wms"."inventory_stock"
 set
+  updated_at = now(),
   location_id = case when $1::boolean then
     $2::uuid
   else

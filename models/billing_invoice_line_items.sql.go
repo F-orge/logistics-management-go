@@ -373,6 +373,7 @@ const billingUpdateInvoiceLineItem = `-- name: BillingUpdateInvoiceLineItem :one
 update
   "billing"."invoice_line_items"
 set
+  updated_at = now(),
   invoice_id = case when $1::boolean then
     $2::uuid
   else

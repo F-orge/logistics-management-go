@@ -324,6 +324,7 @@ const crmUpdateInvoice = `-- name: CrmUpdateInvoice :one
 update
   "crm"."invoices"
 set
+  updated_at = now(),
   opportunity_id = case when $1::boolean then
     $2::uuid
   else

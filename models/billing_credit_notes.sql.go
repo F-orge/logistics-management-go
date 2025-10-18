@@ -487,6 +487,7 @@ const billingUpdateCreditNote = `-- name: BillingUpdateCreditNote :one
 update
   "billing"."credit_notes"
 set
+  updated_at = now(),
   invoice_id = case when $1::boolean then
     $2::uuid
   else

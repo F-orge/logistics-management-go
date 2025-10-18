@@ -271,6 +271,7 @@ const tmsUpdateShipmentLegEvent = `-- name: TmsUpdateShipmentLegEvent :one
 update
   "tms"."shipment_leg_events"
 set
+  updated_at = now(),
   shipment_leg_id = case when $1::boolean then
     $2::uuid
   else

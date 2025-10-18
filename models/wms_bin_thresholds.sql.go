@@ -422,6 +422,7 @@ const wmsUpdateBinThreshold = `-- name: WmsUpdateBinThreshold :one
 update
   "wms"."bin_thresholds"
 set
+  updated_at = now(),
   location_id = case when $1::boolean then
     $2::uuid
   else

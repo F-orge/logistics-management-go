@@ -360,6 +360,7 @@ const wmsUpdatePickBatchItem = `-- name: WmsUpdatePickBatchItem :one
 update
   "wms"."pick_batch_items"
 set
+  updated_at = now(),
   pick_batch_id = case when $1::boolean then
     $2::uuid
   else

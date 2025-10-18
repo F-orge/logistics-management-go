@@ -49,6 +49,7 @@ returning
 update
   "billing"."accounting_sync_log"
 set
+  updated_at = now(),
   record_id = case when sqlc.arg(set_record_id)::boolean then
     sqlc.arg(record_id)::uuid
   else

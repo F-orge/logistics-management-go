@@ -357,6 +357,7 @@ const dmsUpdateDeliveryTask = `-- name: DmsUpdateDeliveryTask :one
 update
   "dms"."delivery_tasks"
 set
+  updated_at = now(),
   package_id = case when $1::boolean then
     $2::uuid
   else

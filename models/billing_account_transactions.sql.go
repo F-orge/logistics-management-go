@@ -386,6 +386,7 @@ const billingUpdateAccountTransaction = `-- name: BillingUpdateAccountTransactio
 update
   "billing"."account_transactions"
 set
+  updated_at = now(),
   client_account_id = case when $1::boolean then
     $2::uuid
   else

@@ -409,6 +409,7 @@ const crmUpdateInteraction = `-- name: CrmUpdateInteraction :one
 update
   "crm"."interactions"
 set
+  updated_at = now(),
   contact_id = case when $1::boolean then
     $2::uuid
   else

@@ -318,6 +318,7 @@ const tmsUpdateTripStop = `-- name: TmsUpdateTripStop :one
 update
   "tms"."trip_stops"
 set
+  updated_at = now(),
   trip_id = case when $1::boolean then
     $2::uuid
   else

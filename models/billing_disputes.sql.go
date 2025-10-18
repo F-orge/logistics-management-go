@@ -464,6 +464,7 @@ const billingUpdateDispute = `-- name: BillingUpdateDispute :one
 update
   "billing"."disputes"
 set
+  updated_at = now(),
   line_item_id = case when $1::boolean then
     $2::uuid
   else

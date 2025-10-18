@@ -49,6 +49,7 @@ returning
 update
   "tms"."vehicles"
 set
+  updated_at = now(),
   registration_number = case when sqlc.arg(set_registration_number)::boolean then
     sqlc.arg(registration_number)::varchar
   else

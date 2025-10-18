@@ -200,6 +200,7 @@ const tmsUpdateGeofence = `-- name: TmsUpdateGeofence :one
 update
   "tms"."geofences"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::varchar
   else

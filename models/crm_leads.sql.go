@@ -565,6 +565,7 @@ const crmUpdateLead = `-- name: CrmUpdateLead :one
 update
   "crm"."leads"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::text
   else

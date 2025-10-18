@@ -69,6 +69,7 @@ returning
 update
   "tms"."shipment_legs"
 set
+  updated_at = now(),
   shipment_id = case when sqlc.arg(set_shipment_id)::boolean then
     sqlc.arg(shipment_id)::uuid
   else

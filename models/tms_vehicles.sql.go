@@ -247,6 +247,7 @@ const tmsUpdateVehicle = `-- name: TmsUpdateVehicle :one
 update
   "tms"."vehicles"
 set
+  updated_at = now(),
   registration_number = case when $1::boolean then
     $2::varchar
   else

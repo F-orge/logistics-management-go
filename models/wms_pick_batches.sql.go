@@ -427,6 +427,7 @@ const wmsUpdatePickBatch = `-- name: WmsUpdatePickBatch :one
 update
   "wms"."pick_batches"
 set
+  updated_at = now(),
   batch_number = case when $1::boolean then
     $2::varchar
   else

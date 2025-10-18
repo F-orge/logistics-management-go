@@ -222,6 +222,7 @@ const crmUpdateProduct = `-- name: CrmUpdateProduct :one
 update
   "crm"."products"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::text
   else

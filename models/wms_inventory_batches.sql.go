@@ -294,6 +294,7 @@ const wmsUpdateInventoryBatch = `-- name: WmsUpdateInventoryBatch :one
 update
   "wms"."inventory_batches"
 set
+  updated_at = now(),
   product_id = case when $1::boolean then
     $2::uuid
   else

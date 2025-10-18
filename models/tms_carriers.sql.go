@@ -215,6 +215,7 @@ const tmsUpdateCarrier = `-- name: TmsUpdateCarrier :one
 update
   "tms"."carriers"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::varchar
   else

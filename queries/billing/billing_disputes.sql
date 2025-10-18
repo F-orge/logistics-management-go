@@ -75,6 +75,7 @@ returning
 update
   "billing"."disputes"
 set
+  updated_at = now(),
   line_item_id = case when sqlc.arg(set_line_item_id)::boolean then
     sqlc.arg(line_item_id)::uuid
   else

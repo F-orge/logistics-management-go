@@ -55,6 +55,7 @@ returning
 update
   "dms"."customer_tracking_links"
 set
+  updated_at = now(),
   delivery_task_id = case when sqlc.arg(set_delivery_task_id)::boolean then
     sqlc.arg(delivery_task_id)::uuid
   else

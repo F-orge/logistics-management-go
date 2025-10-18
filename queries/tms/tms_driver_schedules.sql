@@ -55,6 +55,7 @@ returning
 update
   "tms"."driver_schedules"
 set
+  updated_at = now(),
   driver_id = case when sqlc.arg(set_driver_id)::boolean then
     sqlc.arg(driver_id)::uuid
   else

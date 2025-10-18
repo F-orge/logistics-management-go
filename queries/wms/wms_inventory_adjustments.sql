@@ -65,6 +65,7 @@ returning
 update
   "wms"."inventory_adjustments"
 set
+  updated_at = now(),
   product_id = case when sqlc.arg(set_product_id)::boolean then
     sqlc.arg(product_id)::uuid
   else

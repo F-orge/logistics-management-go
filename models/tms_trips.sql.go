@@ -348,6 +348,7 @@ const tmsUpdateTrip = `-- name: TmsUpdateTrip :one
 update
   "tms"."trips"
 set
+  updated_at = now(),
   driver_id = case when $1::boolean then
     $2::uuid
   else

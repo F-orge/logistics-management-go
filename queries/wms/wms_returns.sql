@@ -67,6 +67,7 @@ returning
 update
   "wms"."returns"
 set
+  updated_at = now(),
   return_number = case when sqlc.arg(set_return_number)::boolean then
     sqlc.arg(return_number)::varchar
   else

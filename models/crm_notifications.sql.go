@@ -284,6 +284,7 @@ const crmUpdateNotification = `-- name: CrmUpdateNotification :one
 update
   "crm"."notifications"
 set
+  updated_at = now(),
   user_id = case when $1::boolean then
     $2::text
   else

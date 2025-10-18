@@ -53,6 +53,7 @@ returning
 update
   "tms"."gps_pings"
 set
+  updated_at = now(),
   vehicle_id = case when sqlc.arg(set_vehicle_id)::boolean then
     sqlc.arg(vehicle_id)::uuid
   else

@@ -434,6 +434,7 @@ const billingUpdateQuote = `-- name: BillingUpdateQuote :one
 update
   "billing"."quotes"
 set
+  updated_at = now(),
   client_id = case when $1::boolean then
     $2::uuid
   else

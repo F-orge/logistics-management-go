@@ -279,6 +279,7 @@ const tmsUpdateRoute = `-- name: TmsUpdateRoute :one
 update
   "tms"."routes"
 set
+  updated_at = now(),
   trip_id = case when $1::boolean then
     $2::uuid
   else

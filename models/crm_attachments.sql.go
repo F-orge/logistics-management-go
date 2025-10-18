@@ -220,6 +220,7 @@ const crmUpdateAttachment = `-- name: CrmUpdateAttachment :one
 update
   "crm"."attachments"
 set
+  updated_at = now(),
   file_name = case when $1::boolean then
     $2::varchar
   else

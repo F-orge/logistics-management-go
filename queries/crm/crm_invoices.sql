@@ -54,6 +54,7 @@ returning
 update
   "crm"."invoices"
 set
+  updated_at = now(),
   opportunity_id = case when sqlc.arg(set_opportunity_id)::boolean then
     sqlc.arg(opportunity_id)::uuid
   else

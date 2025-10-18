@@ -264,6 +264,7 @@ const billingUpdateAccountingSyncLog = `-- name: BillingUpdateAccountingSyncLog 
 update
   "billing"."accounting_sync_log"
 set
+  updated_at = now(),
   record_id = case when $1::boolean then
     $2::uuid
   else

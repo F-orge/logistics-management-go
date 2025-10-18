@@ -47,6 +47,7 @@ returning
 update
   "crm"."attachments"
 set
+  updated_at = now(),
   file_name = case when sqlc.arg(set_file_name)::boolean then
     sqlc.arg(file_name)::varchar
   else

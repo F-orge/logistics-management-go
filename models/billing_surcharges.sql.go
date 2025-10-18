@@ -241,6 +241,7 @@ const billingUpdateSurcharge = `-- name: BillingUpdateSurcharge :one
 update
   "billing"."surcharges"
 set
+  updated_at = now(),
   name = case when $1::boolean then
     $2::varchar
   else

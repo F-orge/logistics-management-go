@@ -74,6 +74,7 @@ returning
 update
   "crm"."interactions"
 set
+  updated_at = now(),
   contact_id = case when sqlc.arg(set_contact_id)::boolean then
     sqlc.arg(contact_id)::uuid
   else
