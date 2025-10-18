@@ -7,6 +7,12 @@ from
   "tms"."expenses" as expenses
   left join "tms"."trips" as trip on expenses.trip_id = trip.id
   left join "tms"."drivers" as driver on expenses.driver_id = driver.id
+where
+  (trip.status::text ilike sqlc.narg(search)::text
+  or driver.name ilike sqlc.narg(search)::text
+  or expenses.type::text ilike sqlc.narg(search)::text
+  or expenses.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindExpense :one
@@ -44,7 +50,12 @@ from
   left join "tms"."drivers" as driver on expenses.driver_id = driver.id
 where
   expenses.created_at >= @dateFrom::date
-  and expenses.created_at <= @dateTo::date;
+  and expenses.created_at <= @dateTo::date
+  and (trip.status::text ilike sqlc.narg(search)::text
+  or driver.name ilike sqlc.narg(search)::text
+  or expenses.type::text ilike sqlc.narg(search)::text
+  or expenses.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertExpense :one
 insert into "tms"."expenses"(trip_id, driver_id, type, amount, currency, receipt_url, fuel_quantity, odometer_reading, status)

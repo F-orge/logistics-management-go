@@ -247,10 +247,17 @@ from
   "billing"."payments" as payments
   inner join "billing"."invoices" as invoice on payments.invoice_id = invoice.id
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (invoice.invoice_number ilike $1::text
+  or payments.payment_method::text ilike $1::text
+  or payments.status::text ilike $1::text
+  or processed_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginatePaymentParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -262,7 +269,7 @@ type BillingPaginatePaymentRow struct {
 }
 
 func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginatePaymentParams) ([]BillingPaginatePaymentRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -343,11 +350,17 @@ from
 where
   payments.created_at >= $1::date
   and payments.created_at <= $2::date
+  and (invoice.invoice_number ilike $3::text
+  or payments.payment_method::text ilike $3::text
+  or payments.status::text ilike $3::text
+  or processed_by_user.name ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangePaymentParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangePaymentRow struct {
@@ -357,7 +370,7 @@ type BillingRangePaymentRow struct {
 }
 
 func (q *Queries) BillingRangePayment(ctx context.Context, arg BillingRangePaymentParams) ([]BillingRangePaymentRow, error) {
-	rows, err := q.db.Query(ctx, billingRangePayment, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangePayment, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

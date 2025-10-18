@@ -5,6 +5,11 @@ select
 from
   "tms"."partner_invoices" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
+where
+  (carrier.name ilike sqlc.narg(search)::text
+  or partner_invoices.invoice_number ilike sqlc.narg(search)::text
+  or partner_invoices.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindPartnerInvoice :one
@@ -36,7 +41,11 @@ from
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.invoice_date >= @dateFrom::date
-  and partner_invoices.invoice_date <= @dateTo::date;
+  and partner_invoices.invoice_date <= @dateTo::date
+  and (carrier.name ilike sqlc.narg(search)::text
+  or partner_invoices.invoice_number ilike sqlc.narg(search)::text
+  or partner_invoices.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertPartnerInvoice :one
 insert into "tms"."partner_invoices"(carrier_id, invoice_number, invoice_date, total_amount, status)

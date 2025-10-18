@@ -163,10 +163,14 @@ select
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (driver.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateDriverLocationParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -177,7 +181,7 @@ type DmsPaginateDriverLocationRow struct {
 }
 
 func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginateDriverLocationParams) ([]DmsPaginateDriverLocationRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -226,11 +230,14 @@ from
 where
   driver_locations.created_at >= $1::date
   and driver_locations.created_at <= $2::date
+  and (driver.name ilike $3::text
+  or $3::text is null)
 `
 
 type DmsRangeDriverLocationParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type DmsRangeDriverLocationRow struct {
@@ -239,7 +246,7 @@ type DmsRangeDriverLocationRow struct {
 }
 
 func (q *Queries) DmsRangeDriverLocation(ctx context.Context, arg DmsRangeDriverLocationParams) ([]DmsRangeDriverLocationRow, error) {
-	rows, err := q.db.Query(ctx, dmsRangeDriverLocation, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, dmsRangeDriverLocation, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

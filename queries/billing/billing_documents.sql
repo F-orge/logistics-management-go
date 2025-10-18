@@ -5,6 +5,12 @@ select
 from
   "billing"."documents" as documents
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
+where
+  (documents.file_name ilike sqlc.narg(search)::text
+  or documents.record_type ilike sqlc.narg(search)::text
+  or documents.document_type::text ilike sqlc.narg(search)::text
+  or uploaded_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindDocument :one
@@ -36,7 +42,12 @@ from
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
 where
   documents.created_at >= @dateFrom::date
-  and documents.created_at <= @dateTo::date;
+  and documents.created_at <= @dateTo::date
+  and (documents.file_name ilike sqlc.narg(search)::text
+  or documents.record_type ilike sqlc.narg(search)::text
+  or documents.document_type::text ilike sqlc.narg(search)::text
+  or uploaded_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertDocument :one
 insert into "billing"."documents"(record_id, record_type, document_type, file_path, file_name, file_size, mime_type, uploaded_by_user_id)

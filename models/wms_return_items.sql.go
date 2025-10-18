@@ -191,10 +191,16 @@ from
   "wms"."return_items" as return_items
   inner join "wms"."returns" as return on return_items.return_id = return.id
   inner join "wms"."products" as product on return_items.product_id = product.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (return.return_number ilike $1::text
+  or product.name ilike $1::text
+  or return_items.condition::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateReturnItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -206,7 +212,7 @@ type WmsPaginateReturnItemRow struct {
 }
 
 func (q *Queries) WmsPaginateReturnItem(ctx context.Context, arg WmsPaginateReturnItemParams) ([]WmsPaginateReturnItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateReturnItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateReturnItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -271,11 +277,16 @@ from
 where
   return_items.created_at >= $1::date
   and return_items.created_at <= $2::date
+  and (return.return_number ilike $3::text
+  or product.name ilike $3::text
+  or return_items.condition::text ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeReturnItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeReturnItemRow struct {
@@ -285,7 +296,7 @@ type WmsRangeReturnItemRow struct {
 }
 
 func (q *Queries) WmsRangeReturnItem(ctx context.Context, arg WmsRangeReturnItemParams) ([]WmsRangeReturnItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeReturnItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeReturnItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

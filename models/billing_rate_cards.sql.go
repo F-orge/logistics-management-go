@@ -164,10 +164,16 @@ select
 from
   "billing"."rate_cards" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (rate_cards.name ilike $1::text
+  or rate_cards.service_type::text ilike $1::text
+  or created_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateCardParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -178,7 +184,7 @@ type BillingPaginateRateCardRow struct {
 }
 
 func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPaginateRateCardParams) ([]BillingPaginateRateCardRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateRateCard, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateRateCard, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -229,11 +235,16 @@ from
 where
   rate_cards.created_at >= $1::date
   and rate_cards.created_at <= $2::date
+  and (rate_cards.name ilike $3::text
+  or rate_cards.service_type::text ilike $3::text
+  or created_by_user.name ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeRateCardParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangeRateCardRow struct {
@@ -242,7 +253,7 @@ type BillingRangeRateCardRow struct {
 }
 
 func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRateCardParams) ([]BillingRangeRateCardRow, error) {
-	rows, err := q.db.Query(ctx, billingRangeRateCard, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeRateCard, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

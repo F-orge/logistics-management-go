@@ -7,6 +7,12 @@ from
   "wms"."sales_orders" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
+where
+  (sales_orders.order_number ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or crm_opportunity.name ilike sqlc.narg(search)::text
+  or sales_orders.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindSalesOrder :one
@@ -44,7 +50,12 @@ from
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
   sales_orders.created_at >= @dateFrom::date
-  and sales_orders.created_at <= @dateTo::date;
+  and sales_orders.created_at <= @dateTo::date
+  and (sales_orders.order_number ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or crm_opportunity.name ilike sqlc.narg(search)::text
+  or sales_orders.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertSalesOrder :one
 insert into "wms"."sales_orders"(order_number, client_id, crm_opportunity_id, status, shipping_address)

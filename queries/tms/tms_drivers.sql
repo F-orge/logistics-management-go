@@ -5,6 +5,11 @@ select
 from
   "tms"."drivers" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
+where
+  (users.name ilike sqlc.narg(search)::text
+  or drivers.license_number ilike sqlc.narg(search)::text
+  or drivers.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindDriver :one
@@ -36,7 +41,11 @@ from
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.created_at >= @dateFrom::date
-  and drivers.created_at <= @dateTo::date;
+  and drivers.created_at <= @dateTo::date
+  and (users.name ilike sqlc.narg(search)::text
+  or drivers.license_number ilike sqlc.narg(search)::text
+  or drivers.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertDriver :one
 insert into "tms"."drivers"(user_id, license_number, license_expiry_date, status)

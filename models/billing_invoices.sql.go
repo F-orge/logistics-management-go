@@ -297,10 +297,18 @@ from
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (client.name ilike $1::text
+  or quote.quote_number ilike $1::text
+  or invoices.invoice_number ilike $1::text
+  or invoices.status::text ilike $1::text
+  or created_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateInvoiceParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -313,7 +321,7 @@ type BillingPaginateInvoiceRow struct {
 }
 
 func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginateInvoiceParams) ([]BillingPaginateInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -411,11 +419,18 @@ from
 where
   invoices.created_at >= $1::date
   and invoices.created_at <= $2::date
+  and (client.name ilike $3::text
+  or quote.quote_number ilike $3::text
+  or invoices.invoice_number ilike $3::text
+  or invoices.status::text ilike $3::text
+  or created_by_user.name ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeInvoiceParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangeInvoiceRow struct {
@@ -426,7 +441,7 @@ type BillingRangeInvoiceRow struct {
 }
 
 func (q *Queries) BillingRangeInvoice(ctx context.Context, arg BillingRangeInvoiceParams) ([]BillingRangeInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, billingRangeInvoice, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeInvoice, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

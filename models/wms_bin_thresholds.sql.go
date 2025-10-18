@@ -224,10 +224,15 @@ from
   "wms"."bin_thresholds" as bin_thresholds
   inner join "wms"."locations" as location on bin_thresholds.location_id = location.id
   inner join "wms"."products" as product on bin_thresholds.product_id = product.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (location.name ilike $1::text
+  or product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateBinThresholdParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -239,7 +244,7 @@ type WmsPaginateBinThresholdRow struct {
 }
 
 func (q *Queries) WmsPaginateBinThreshold(ctx context.Context, arg WmsPaginateBinThresholdParams) ([]WmsPaginateBinThresholdRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateBinThreshold, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateBinThreshold, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -318,11 +323,15 @@ from
 where
   bin_thresholds.created_at >= $1::date
   and bin_thresholds.created_at <= $2::date
+  and (location.name ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeBinThresholdParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeBinThresholdRow struct {
@@ -332,7 +341,7 @@ type WmsRangeBinThresholdRow struct {
 }
 
 func (q *Queries) WmsRangeBinThreshold(ctx context.Context, arg WmsRangeBinThresholdParams) ([]WmsRangeBinThresholdRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeBinThreshold, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeBinThreshold, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

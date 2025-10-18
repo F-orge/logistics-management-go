@@ -7,6 +7,10 @@ from
   "wms"."inbound_shipment_items" as inbound_shipment_items
   inner join "wms"."inbound_shipments" as inbound_shipment on inbound_shipment_items.inbound_shipment_id = inbound_shipment.id
   inner join "wms"."products" as product on inbound_shipment_items.product_id = product.id
+where
+  (inbound_shipment.status::text ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindInboundShipmentItem :one
@@ -44,7 +48,10 @@ from
   inner join "wms"."products" as product on inbound_shipment_items.product_id = product.id
 where
   inbound_shipment_items.created_at >= @dateFrom::date
-  and inbound_shipment_items.created_at <= @dateTo::date;
+  and inbound_shipment_items.created_at <= @dateTo::date
+  and (inbound_shipment.status::text ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInboundShipmentItem :one
 insert into "wms"."inbound_shipment_items"(inbound_shipment_id, product_id, expected_quantity, received_quantity, discrepancy_notes)

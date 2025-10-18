@@ -167,10 +167,16 @@ from
   "tms"."geofence_events" as geofence_events
   inner join "tms"."vehicles" as vehicle on geofence_events.vehicle_id = vehicle.id
   inner join "tms"."geofences" as geofence on geofence_events.geofence_id = geofence.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (vehicle.registration_number ilike $1::text
+  or geofence.name ilike $1::text
+  or geofence_events.event_type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateGeofenceEventParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -182,7 +188,7 @@ type TmsPaginateGeofenceEventRow struct {
 }
 
 func (q *Queries) TmsPaginateGeofenceEvent(ctx context.Context, arg TmsPaginateGeofenceEventParams) ([]TmsPaginateGeofenceEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateGeofenceEvent, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateGeofenceEvent, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -238,11 +244,16 @@ from
 where
   geofence_events.timestamp >= $1::date
   and geofence_events.timestamp <= $2::date
+  and (vehicle.registration_number ilike $3::text
+  or geofence.name ilike $3::text
+  or geofence_events.event_type::text ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangeGeofenceEventParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeGeofenceEventRow struct {
@@ -252,7 +263,7 @@ type TmsRangeGeofenceEventRow struct {
 }
 
 func (q *Queries) TmsRangeGeofenceEvent(ctx context.Context, arg TmsRangeGeofenceEventParams) ([]TmsRangeGeofenceEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeGeofenceEvent, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeGeofenceEvent, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

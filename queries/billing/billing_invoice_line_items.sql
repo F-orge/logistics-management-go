@@ -5,6 +5,10 @@ select
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
+where
+  (invoice.invoice_number ilike sqlc.narg(search)::text
+  or invoice_line_items.description ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindInvoiceLineItem :one
@@ -36,7 +40,10 @@ from
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
 where
   invoice_line_items.created_at >= @dateFrom::date
-  and invoice_line_items.created_at <= @dateTo::date;
+  and invoice_line_items.created_at <= @dateTo::date
+  and (invoice.invoice_number ilike sqlc.narg(search)::text
+  or invoice_line_items.description ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertInvoiceLineItem :one
 insert into "billing"."invoice_line_items"(invoice_id, source_record_id, source_record_type, description, quantity, unit_price, tax_rate, discount_rate)

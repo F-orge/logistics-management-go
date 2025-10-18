@@ -5,6 +5,11 @@ select
 from
   "tms"."carrier_rates" as carrier_rates
   inner join "tms"."carriers" as carrier on carrier_rates.carrier_id = carrier.id
+where (carrier.name ilike sqlc.narg(search)::text
+  or carrier_rates.service_type ilike sqlc.narg(search)::text
+  or carrier_rates.origin ilike sqlc.narg(search)::text
+  or carrier_rates.destination ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindCarrierRate :one
@@ -36,7 +41,12 @@ from
   inner join "tms"."carriers" as carrier on carrier_rates.carrier_id = carrier.id
 where
   carrier_rates.created_at >= @dateFrom::date
-  and carrier_rates.created_at <= @dateTo::date;
+  and carrier_rates.created_at <= @dateTo::date
+  and (carrier.name ilike sqlc.narg(search)::text
+    or carrier_rates.service_type ilike sqlc.narg(search)::text
+    or carrier_rates.origin ilike sqlc.narg(search)::text
+    or carrier_rates.destination ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertCarrierRate :one
 insert into "tms"."carrier_rates"(carrier_id, service_type, origin, destination, rate, unit)
@@ -86,3 +96,4 @@ returning
 -- name: TmsRemoveCarrierRate :exec
 delete from "tms"."carrier_rates"
 where id = @id::uuid;
+

@@ -3,6 +3,11 @@ select
   *
 from
   "billing"."accounting_sync_log"
+where
+  (record_type ilike sqlc.narg(search)::text
+  or external_system ilike sqlc.narg(search)::text
+  or status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindAccountingSyncLog :one
@@ -28,7 +33,11 @@ from
   "billing"."accounting_sync_log"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (record_type ilike sqlc.narg(search)::text
+  or external_system ilike sqlc.narg(search)::text
+  or status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertAccountingSyncLog :one
 insert into "billing"."accounting_sync_log"(record_id, record_type, external_system, external_id, status, error_message, request_payload, response_payload, last_sync_at, retry_count, next_retry_at)

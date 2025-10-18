@@ -3,6 +3,10 @@ select
   *
 from
   "billing"."surcharges"
+where
+  (name ilike sqlc.narg(search)::text
+  or type ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindSurcharge :one
@@ -28,7 +32,10 @@ from
   "billing"."surcharges"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+  or type ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertSurcharge :one
 insert into "billing"."surcharges"(name, type, amount, calculation_method, is_active, valid_from, valid_to, description)

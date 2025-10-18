@@ -7,6 +7,12 @@ from
   "wms"."returns" as returns
   left join "wms"."sales_orders" as sales_order on returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on returns.client_id = client.id
+where
+  (returns.return_number ilike sqlc.narg(search)::text
+  or sales_order.order_number ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or returns.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindReturn :one
@@ -44,7 +50,12 @@ from
   inner join "crm"."companies" as client on returns.client_id = client.id
 where
   returns.created_at >= @dateFrom::date
-  and returns.created_at <= @dateTo::date;
+  and returns.created_at <= @dateTo::date
+  and (returns.return_number ilike sqlc.narg(search)::text
+  or sales_order.order_number ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or returns.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertReturn :one
 insert into "wms"."returns"(return_number, sales_order_id, client_id, status, reason)

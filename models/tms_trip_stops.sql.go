@@ -172,10 +172,16 @@ select
 from
   "tms"."trip_stops" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (trip.status::text ilike $1::text
+  or trip_stops.address ilike $1::text
+  or trip_stops.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateTripStopParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -186,7 +192,7 @@ type TmsPaginateTripStopRow struct {
 }
 
 func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripStopParams) ([]TmsPaginateTripStopRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -238,11 +244,16 @@ from
 where
   trip_stops.created_at >= $1::date
   and trip_stops.created_at <= $2::date
+  and (trip.status::text ilike $3::text
+  or trip_stops.address ilike $3::text
+  or trip_stops.status::text ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangeTripStopParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeTripStopRow struct {
@@ -251,7 +262,7 @@ type TmsRangeTripStopRow struct {
 }
 
 func (q *Queries) TmsRangeTripStop(ctx context.Context, arg TmsRangeTripStopParams) ([]TmsRangeTripStopRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeTripStop, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeTripStop, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

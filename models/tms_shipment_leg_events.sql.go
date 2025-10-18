@@ -141,10 +141,15 @@ select
 from
   "tms"."shipment_leg_events" as shipment_leg_events
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (shipment_leg.start_location ilike $1::text
+  or shipment_leg_events.status_message ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateShipmentLegEventParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -155,7 +160,7 @@ type TmsPaginateShipmentLegEventRow struct {
 }
 
 func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPaginateShipmentLegEventParams) ([]TmsPaginateShipmentLegEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -200,11 +205,15 @@ from
 where
   shipment_leg_events.event_timestamp >= $1::date
   and shipment_leg_events.event_timestamp <= $2::date
+  and (shipment_leg.start_location ilike $3::text
+  or shipment_leg_events.status_message ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangeShipmentLegEventParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeShipmentLegEventRow struct {
@@ -213,7 +222,7 @@ type TmsRangeShipmentLegEventRow struct {
 }
 
 func (q *Queries) TmsRangeShipmentLegEvent(ctx context.Context, arg TmsRangeShipmentLegEventParams) ([]TmsRangeShipmentLegEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeShipmentLegEvent, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeShipmentLegEvent, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

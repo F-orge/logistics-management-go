@@ -9,6 +9,14 @@ from
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
+where
+  (sales_order.order_number ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or packages.package_number ilike sqlc.narg(search)::text
+  or packages.tracking_number ilike sqlc.narg(search)::text
+  or packages.carrier ilike sqlc.narg(search)::text
+  or packed_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindPackage :one
@@ -52,7 +60,14 @@ from
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
 where
   packages.created_at >= @dateFrom::date
-  and packages.created_at <= @dateTo::date;
+  and packages.created_at <= @dateTo::date
+  and (sales_order.order_number ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or packages.package_number ilike sqlc.narg(search)::text
+  or packages.tracking_number ilike sqlc.narg(search)::text
+  or packages.carrier ilike sqlc.narg(search)::text
+  or packed_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertPackage :one
 insert into "wms"."packages"(sales_order_id, package_number, warehouse_id, package_type, weight, length, width, height, tracking_number, carrier, service_level, packed_by_user_id, packed_at, shipped_at, is_fragile, is_hazmat, requires_signature, insurance_value)

@@ -252,10 +252,17 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (location.name ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or inventory_stock.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryStockParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -268,7 +275,7 @@ type WmsPaginateInventoryStockRow struct {
 }
 
 func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginateInventoryStockParams) ([]WmsPaginateInventoryStockRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -357,11 +364,17 @@ from
 where
   inventory_stock.created_at >= $1::date
   and inventory_stock.created_at <= $2::date
+  and (location.name ilike $3::text
+  or product.name ilike $3::text
+  or batch.batch_number ilike $3::text
+  or inventory_stock.status::text ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeInventoryStockParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeInventoryStockRow struct {
@@ -372,7 +385,7 @@ type WmsRangeInventoryStockRow struct {
 }
 
 func (q *Queries) WmsRangeInventoryStock(ctx context.Context, arg WmsRangeInventoryStockParams) ([]WmsRangeInventoryStockRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeInventoryStock, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeInventoryStock, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

@@ -13,6 +13,13 @@ from
   left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
   left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
   left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
+where (leads.name ilike sqlc.narg(search)::text
+  or leads.email ilike sqlc.narg(search)::text
+  or leads.status::text ilike sqlc.narg(search)::text
+  or leads.lead_source::text ilike sqlc.narg(search)::text
+  or owner.name ilike sqlc.narg(search)::text
+  or campaign.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindLead :one
@@ -68,7 +75,14 @@ from
   left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
 where
   leads.created_at >= @dateFrom::date
-  and leads.created_at <= @dateTo::date;
+  and leads.created_at <= @dateTo::date
+  and (leads.name ilike sqlc.narg(search)::text
+    or leads.email ilike sqlc.narg(search)::text
+    or leads.status::text ilike sqlc.narg(search)::text
+    or leads.lead_source::text ilike sqlc.narg(search)::text
+    or owner.name ilike sqlc.narg(search)::text
+    or campaign.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertLead :one
 insert into "crm"."leads"(name, email, lead_source, status, lead_score, owner_id, campaign_id, converted_at, converted_contact_id, converted_company_id, converted_opportunity_id)
@@ -143,3 +157,4 @@ returning
 -- name: CrmRemoveLead :exec
 delete from "crm"."leads"
 where id = @id::uuid;
+

@@ -7,6 +7,13 @@ from
   "billing"."quotes" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
+where
+  (client.name ilike sqlc.narg(search)::text
+  or quotes.quote_number ilike sqlc.narg(search)::text
+  or quotes.service_level ilike sqlc.narg(search)::text
+  or quotes.status::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindQuote :one
@@ -44,7 +51,13 @@ from
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
   quotes.created_at >= @dateFrom::date
-  and quotes.created_at <= @dateTo::date;
+  and quotes.created_at <= @dateTo::date
+  and (client.name ilike sqlc.narg(search)::text
+  or quotes.quote_number ilike sqlc.narg(search)::text
+  or quotes.service_level ilike sqlc.narg(search)::text
+  or quotes.status::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertQuote :one
 insert into "billing"."quotes"(client_id, origin_details, destination_details, weight, length, width, height, quoted_price, service_level, expires_at, status, quote_number, notes, created_by_user_id)

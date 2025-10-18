@@ -6,7 +6,13 @@ select
 from
   "billing"."account_transactions" as account_transactions
   inner join "billing"."client_accounts" as client_account on account_transactions.client_account_id = client_account.id
+  inner join "crm"."companies" as client on client_account.client_id = client.id
   left join "public"."user" as processed_by_user on account_transactions.processed_by_user_id = processed_by_user.id
+where
+  (client.name ilike sqlc.narg(search)::text
+  or processed_by_user.name ilike sqlc.narg(search)::text
+  or account_transactions.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindAccountTransaction :one
@@ -44,7 +50,11 @@ from
   left join "public"."user" as processed_by_user on account_transactions.processed_by_user_id = processed_by_user.id
 where
   account_transactions.created_at >= @dateFrom::date
-  and account_transactions.created_at <= @dateTo::date;
+  and account_transactions.created_at <= @dateTo::date
+  and (client.name ilike sqlc.narg(search)::text
+  or processed_by_user.name ilike sqlc.narg(search)::text
+  or account_transactions.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertAccountTransaction :one
 insert into "billing"."account_transactions"(client_account_id, type, amount, running_balance, source_record_id, source_record_type, description, reference_number, transaction_date, processed_by_user_id)

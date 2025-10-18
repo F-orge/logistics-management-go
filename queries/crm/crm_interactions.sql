@@ -9,6 +9,11 @@ from
   inner join "crm"."contacts" as contact on interactions.contact_id = contact.id
   inner join "public"."user" as users on interactions.user_id = users.id
   left join "crm"."cases" as cases on interactions.case_id = cases.id
+where (contact.name ilike sqlc.narg(search)::text
+  or users.name ilike sqlc.narg(search)::text
+  or cases.case_number ilike sqlc.narg(search)::text
+  or interactions.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindInteraction :one
@@ -52,7 +57,12 @@ from
   left join "crm"."cases" as cases on interactions.case_id = cases.id
 where
   interactions.created_at >= @dateFrom::date
-  and interactions.created_at <= @dateTo::date;
+  and interactions.created_at <= @dateTo::date
+  and (contact.name ilike sqlc.narg(search)::text
+    or users.name ilike sqlc.narg(search)::text
+    or cases.case_number ilike sqlc.narg(search)::text
+    or interactions.type::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertInteraction :one
 insert into "crm"."interactions"(contact_id, user_id, case_id, type, outcome, notes, interaction_date)

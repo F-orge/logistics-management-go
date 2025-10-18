@@ -11,6 +11,11 @@ from
   inner join "wms"."sales_order_items" as sales_order_item on outbound_shipment_items.sales_order_item_id = sales_order_item.id
   inner join "wms"."products" as product on outbound_shipment_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on outbound_shipment_items.batch_id = batch.id
+where
+  (outbound_shipment.tracking_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindOutboundShipmentItem :one
@@ -60,7 +65,11 @@ from
   left join "wms"."inventory_batches" as batch on outbound_shipment_items.batch_id = batch.id
 where
   outbound_shipment_items.created_at >= @dateFrom::date
-  and outbound_shipment_items.created_at <= @dateTo::date;
+  and outbound_shipment_items.created_at <= @dateTo::date
+  and (outbound_shipment.tracking_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertOutboundShipmentItem :one
 insert into "wms"."outbound_shipment_items"(outbound_shipment_id, sales_order_item_id, product_id, batch_id, quantity_shipped)

@@ -220,10 +220,19 @@ from
   "wms"."products" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (products.name ilike $1::text
+  or products.sku ilike $1::text
+  or products.barcode ilike $1::text
+  or products.status::text ilike $1::text
+  or supplier.name ilike $1::text
+  or client.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateProductParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -235,7 +244,7 @@ type WmsPaginateProductRow struct {
 }
 
 func (q *Queries) WmsPaginateProduct(ctx context.Context, arg WmsPaginateProductParams) ([]WmsPaginateProductRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateProduct, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateProduct, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -304,11 +313,19 @@ from
 where
   products.created_at >= $1::date
   and products.created_at <= $2::date
+  and (products.name ilike $3::text
+  or products.sku ilike $3::text
+  or products.barcode ilike $3::text
+  or products.status::text ilike $3::text
+  or supplier.name ilike $3::text
+  or client.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeProductParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeProductRow struct {
@@ -318,7 +335,7 @@ type WmsRangeProductRow struct {
 }
 
 func (q *Queries) WmsRangeProduct(ctx context.Context, arg WmsRangeProductParams) ([]WmsRangeProductRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeProduct, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeProduct, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

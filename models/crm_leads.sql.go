@@ -304,10 +304,18 @@ from
   left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
   left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
   left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (leads.name ilike $1::text
+  or leads.email ilike $1::text
+  or leads.status::text ilike $1::text
+  or leads.lead_source::text ilike $1::text
+  or owner.name ilike $1::text
+  or campaign.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateLeadParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -322,7 +330,7 @@ type CrmPaginateLeadRow struct {
 }
 
 func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams) ([]CrmPaginateLeadRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateLead, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateLead, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -429,11 +437,19 @@ from
 where
   leads.created_at >= $1::date
   and leads.created_at <= $2::date
+  and (leads.name ilike $3::text
+    or leads.email ilike $3::text
+    or leads.status::text ilike $3::text
+    or leads.lead_source::text ilike $3::text
+    or owner.name ilike $3::text
+    or campaign.name ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeLeadParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeLeadRow struct {
@@ -446,7 +462,7 @@ type CrmRangeLeadRow struct {
 }
 
 func (q *Queries) CrmRangeLead(ctx context.Context, arg CrmRangeLeadParams) ([]CrmRangeLeadRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeLead, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeLead, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

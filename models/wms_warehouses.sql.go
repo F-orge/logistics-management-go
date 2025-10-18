@@ -146,16 +146,23 @@ select
   id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
 from
   "wms"."warehouses"
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (name ilike $1::text
+  or city ilike $1::text
+  or state ilike $1::text
+  or country ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateWarehouseParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
 
 func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsWarehouse, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateWarehouse, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateWarehouse, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -197,15 +204,21 @@ from
 where
   created_at >= $1::date
   and created_at <= $2::date
+  and (name ilike $3::text
+  or city ilike $3::text
+  or state ilike $3::text
+  or country ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeWarehouseParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 func (q *Queries) WmsRangeWarehouse(ctx context.Context, arg WmsRangeWarehouseParams) ([]WmsWarehouse, error) {
-	rows, err := q.db.Query(ctx, wmsRangeWarehouse, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeWarehouse, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

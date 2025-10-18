@@ -9,6 +9,10 @@ from
   inner join "wms"."packages" as package on package_items.package_id = package.id
   inner join "wms"."products" as product on package_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
+where
+  (package.package_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindPackageItem :one
@@ -52,7 +56,10 @@ from
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
 where
   package_items.created_at >= @dateFrom::date
-  and package_items.created_at <= @dateTo::date;
+  and package_items.created_at <= @dateTo::date
+  and (package.package_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertPackageItem :one
 insert into "wms"."package_items"(package_id, product_id, batch_id, quantity, lot_number, serial_numbers, expiry_date, unit_weight)

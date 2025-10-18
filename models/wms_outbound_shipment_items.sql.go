@@ -228,10 +228,16 @@ from
   inner join "wms"."sales_order_items" as sales_order_item on outbound_shipment_items.sales_order_item_id = sales_order_item.id
   inner join "wms"."products" as product on outbound_shipment_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on outbound_shipment_items.batch_id = batch.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (outbound_shipment.tracking_number ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateOutboundShipmentItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -245,7 +251,7 @@ type WmsPaginateOutboundShipmentItemRow struct {
 }
 
 func (q *Queries) WmsPaginateOutboundShipmentItem(ctx context.Context, arg WmsPaginateOutboundShipmentItemParams) ([]WmsPaginateOutboundShipmentItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipmentItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipmentItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -325,11 +331,16 @@ from
 where
   outbound_shipment_items.created_at >= $1::date
   and outbound_shipment_items.created_at <= $2::date
+  and (outbound_shipment.tracking_number ilike $3::text
+  or product.name ilike $3::text
+  or batch.batch_number ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeOutboundShipmentItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeOutboundShipmentItemRow struct {
@@ -341,7 +352,7 @@ type WmsRangeOutboundShipmentItemRow struct {
 }
 
 func (q *Queries) WmsRangeOutboundShipmentItem(ctx context.Context, arg WmsRangeOutboundShipmentItemParams) ([]WmsRangeOutboundShipmentItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeOutboundShipmentItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeOutboundShipmentItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

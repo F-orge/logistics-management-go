@@ -9,6 +9,14 @@ from
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
+where
+  (tasks.task_number ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or users.name ilike sqlc.narg(search)::text
+  or tasks.type::text ilike sqlc.narg(search)::text
+  or tasks.status::text ilike sqlc.narg(search)::text
+  or pick_batch.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindTask :one
@@ -52,7 +60,14 @@ from
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
 where
   tasks.created_at >= @dateFrom::date
-  and tasks.created_at <= @dateTo::date;
+  and tasks.created_at <= @dateTo::date
+  and (tasks.task_number ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or users.name ilike sqlc.narg(search)::text
+  or tasks.type::text ilike sqlc.narg(search)::text
+  or tasks.status::text ilike sqlc.narg(search)::text
+  or pick_batch.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertTask :one
 insert into "wms"."tasks"(task_number, warehouse_id, user_id, type, status, priority, source_entity_id, source_entity_type, pick_batch_id, estimated_duration, actual_duration, instructions, notes, start_time, end_time)

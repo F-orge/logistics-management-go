@@ -5,6 +5,9 @@ select
 from
   "tms"."gps_pings" as gps_pings
   inner join "tms"."vehicles" as vehicle on gps_pings.vehicle_id = vehicle.id
+where
+  (vehicle.registration_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindGpsPing :one
@@ -36,7 +39,9 @@ from
   inner join "tms"."vehicles" as vehicle on gps_pings.vehicle_id = vehicle.id
 where
   gps_pings.created_at >= @dateFrom::date
-  and gps_pings.created_at <= @dateTo::date;
+  and gps_pings.created_at <= @dateTo::date
+  and (vehicle.registration_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertGpsPing :one
 insert into "tms"."gps_pings"(vehicle_id, latitude, longitude, timestamp)

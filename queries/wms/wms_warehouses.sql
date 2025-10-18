@@ -3,6 +3,12 @@ select
   *
 from
   "wms"."warehouses"
+where
+  (name ilike sqlc.narg(search)::text
+  or city ilike sqlc.narg(search)::text
+  or state ilike sqlc.narg(search)::text
+  or country ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindWarehouse :one
@@ -28,7 +34,12 @@ from
   "wms"."warehouses"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+  or city ilike sqlc.narg(search)::text
+  or state ilike sqlc.narg(search)::text
+  or country ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertWarehouse :one
 insert into "wms"."warehouses"(name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active)

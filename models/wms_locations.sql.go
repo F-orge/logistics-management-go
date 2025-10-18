@@ -225,10 +225,17 @@ select
 from
   "wms"."locations" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (warehouse.name ilike $1::text
+  or locations.name ilike $1::text
+  or locations.barcode ilike $1::text
+  or locations.type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateLocationParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -239,7 +246,7 @@ type WmsPaginateLocationRow struct {
 }
 
 func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocationParams) ([]WmsPaginateLocationRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateLocation, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateLocation, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -304,11 +311,17 @@ from
 where
   locations.created_at >= $1::date
   and locations.created_at <= $2::date
+  and (warehouse.name ilike $3::text
+  or locations.name ilike $3::text
+  or locations.barcode ilike $3::text
+  or locations.type::text ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeLocationParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeLocationRow struct {
@@ -317,7 +330,7 @@ type WmsRangeLocationRow struct {
 }
 
 func (q *Queries) WmsRangeLocation(ctx context.Context, arg WmsRangeLocationParams) ([]WmsRangeLocationRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeLocation, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeLocation, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

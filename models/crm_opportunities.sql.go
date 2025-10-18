@@ -268,10 +268,19 @@ from
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
   left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (opportunities.name ilike $1::text
+  or opportunities.stage::text ilike $1::text
+  or owner.name ilike $1::text
+  or company.name ilike $1::text
+  or contact.name ilike $1::text
+  or campaign.name ilike $1::text
+  or opportunities.source::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateOpportunityParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -285,7 +294,7 @@ type CrmPaginateOpportunityRow struct {
 }
 
 func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpportunityParams) ([]CrmPaginateOpportunityRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -376,11 +385,20 @@ from
 where
   opportunities.created_at >= $1::date
   and opportunities.created_at <= $2::date
+  and (opportunities.name ilike $3::text
+    or opportunities.stage::text ilike $3::text
+    or owner.name ilike $3::text
+    or company.name ilike $3::text
+    or contact.name ilike $3::text
+    or campaign.name ilike $3::text
+    or opportunities.source::text ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeOpportunityParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeOpportunityRow struct {
@@ -392,7 +410,7 @@ type CrmRangeOpportunityRow struct {
 }
 
 func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportunityParams) ([]CrmRangeOpportunityRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeOpportunity, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeOpportunity, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

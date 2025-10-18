@@ -7,6 +7,11 @@ from
   "tms"."geofence_events" as geofence_events
   inner join "tms"."vehicles" as vehicle on geofence_events.vehicle_id = vehicle.id
   inner join "tms"."geofences" as geofence on geofence_events.geofence_id = geofence.id
+where
+  (vehicle.registration_number ilike sqlc.narg(search)::text
+  or geofence.name ilike sqlc.narg(search)::text
+  or geofence_events.event_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindGeofenceEvent :one
@@ -44,7 +49,11 @@ from
   inner join "tms"."geofences" as geofence on geofence_events.geofence_id = geofence.id
 where
   geofence_events.timestamp >= @dateFrom::date
-  and geofence_events.timestamp <= @dateTo::date;
+  and geofence_events.timestamp <= @dateTo::date
+  and (vehicle.registration_number ilike sqlc.narg(search)::text
+  or geofence.name ilike sqlc.narg(search)::text
+  or geofence_events.event_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertGeofenceEvent :one
 insert into "tms"."geofence_events"(vehicle_id, geofence_id, event_type, timestamp)

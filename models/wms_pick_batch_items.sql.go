@@ -190,10 +190,15 @@ from
   "wms"."pick_batch_items" as pick_batch_items
   inner join "wms"."pick_batches" as pick_batch on pick_batch_items.pick_batch_id = pick_batch.id
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (pick_batch.batch_number ilike $1::text
+  or sales_order.order_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePickBatchItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -205,7 +210,7 @@ type WmsPaginatePickBatchItemRow struct {
 }
 
 func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginatePickBatchItemParams) ([]WmsPaginatePickBatchItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -270,11 +275,15 @@ from
 where
   pick_batch_items.created_at >= $1::date
   and pick_batch_items.created_at <= $2::date
+  and (pick_batch.batch_number ilike $3::text
+  or sales_order.order_number ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangePickBatchItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangePickBatchItemRow struct {
@@ -284,7 +293,7 @@ type WmsRangePickBatchItemRow struct {
 }
 
 func (q *Queries) WmsRangePickBatchItem(ctx context.Context, arg WmsRangePickBatchItemParams) ([]WmsRangePickBatchItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangePickBatchItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangePickBatchItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

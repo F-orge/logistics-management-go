@@ -9,6 +9,12 @@ from
   inner join "billing"."invoice_line_items" as line_item on disputes.line_item_id = line_item.id
   inner join "crm"."companies" as client on disputes.client_id = client.id
   left join "public"."user" as resolved_by_user on disputes.resolved_by_user_id = resolved_by_user.id
+where
+  (line_item.description ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or resolved_by_user.name ilike sqlc.narg(search)::text
+  or disputes.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindDispute :one
@@ -52,7 +58,12 @@ from
   left join "public"."user" as resolved_by_user on disputes.resolved_by_user_id = resolved_by_user.id
 where
   disputes.created_at >= @dateFrom::date
-  and disputes.created_at <= @dateTo::date;
+  and disputes.created_at <= @dateTo::date
+  and (line_item.description ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or resolved_by_user.name ilike sqlc.narg(search)::text
+  or disputes.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertDispute :one
 insert into "billing"."disputes"(line_item_id, client_id, reason, status, disputed_amount, resolution_notes, submitted_at, resolved_at, resolved_by_user_id)

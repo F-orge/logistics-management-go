@@ -116,16 +116,22 @@ select
   id, name, sku, price, type, description, created_at, updated_at
 from
   "crm"."products"
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (name ilike $1::text
+  or sku ilike $1::text
+  or type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateProductParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
 
 func (q *Queries) CrmPaginateProduct(ctx context.Context, arg CrmPaginateProductParams) ([]CrmProduct, error) {
-	rows, err := q.db.Query(ctx, crmPaginateProduct, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateProduct, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -161,15 +167,20 @@ from
 where
   created_at >= $1::date
   and created_at <= $2::date
+  and (name ilike $3::text
+  or sku ilike $3::text
+  or type::text ilike $3::text
+  or $3::text is null)
 `
 
 type CrmRangeProductParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 func (q *Queries) CrmRangeProduct(ctx context.Context, arg CrmRangeProductParams) ([]CrmProduct, error) {
-	rows, err := q.db.Query(ctx, crmRangeProduct, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeProduct, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

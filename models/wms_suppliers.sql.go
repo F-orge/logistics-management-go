@@ -111,16 +111,21 @@ select
   id, name, contact_person, email, phone_number, created_at, updated_at
 from
   "wms"."suppliers"
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (name ilike $1::text
+  or email ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSupplierParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
 
 func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSupplier, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -155,15 +160,19 @@ from
 where
   created_at >= $1::date
   and created_at <= $2::date
+  and (name ilike $3::text
+  or email ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeSupplierParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 func (q *Queries) WmsRangeSupplier(ctx context.Context, arg WmsRangeSupplierParams) ([]WmsSupplier, error) {
-	rows, err := q.db.Query(ctx, wmsRangeSupplier, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeSupplier, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

@@ -5,6 +5,12 @@ select
 from
   "wms"."outbound_shipments" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+where
+  (sales_order.order_number ilike sqlc.narg(search)::text
+  or outbound_shipments.tracking_number ilike sqlc.narg(search)::text
+  or outbound_shipments.carrier ilike sqlc.narg(search)::text
+  or outbound_shipments.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindOutboundShipment :one
@@ -36,7 +42,12 @@ from
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.created_at >= @dateFrom::date
-  and outbound_shipments.created_at <= @dateTo::date;
+  and outbound_shipments.created_at <= @dateTo::date
+  and (sales_order.order_number ilike sqlc.narg(search)::text
+  or outbound_shipments.tracking_number ilike sqlc.narg(search)::text
+  or outbound_shipments.carrier ilike sqlc.narg(search)::text
+  or outbound_shipments.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertOutboundShipment :one
 insert into "wms"."outbound_shipments"(sales_order_id, warehouse_id, status, tracking_number, carrier)

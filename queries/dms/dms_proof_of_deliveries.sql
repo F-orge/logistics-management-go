@@ -5,6 +5,10 @@ select
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
   inner join "dms"."delivery_tasks" as delivery_task on proof_of_deliveries.delivery_task_id = delivery_task.id
+where
+  (proof_of_deliveries.recipient_name ilike sqlc.narg(search)::text
+  or proof_of_deliveries.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: DmsFindProofOfDelivery :one
@@ -36,7 +40,10 @@ from
   inner join "dms"."delivery_tasks" as delivery_task on proof_of_deliveries.delivery_task_id = delivery_task.id
 where
   proof_of_deliveries.created_at >= @dateFrom::date
-  and proof_of_deliveries.created_at <= @dateTo::date;
+  and proof_of_deliveries.created_at <= @dateTo::date
+  and (proof_of_deliveries.recipient_name ilike sqlc.narg(search)::text
+  or proof_of_deliveries.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertProofOfDelivery :one
 insert into "dms"."proof_of_deliveries"(delivery_task_id, type, file_path, signature_data, recipient_name, verification_code, latitude, longitude, timestamp)

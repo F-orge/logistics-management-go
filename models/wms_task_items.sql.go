@@ -373,10 +373,19 @@ from
   left join "wms"."inventory_batches" as batch on task_items.batch_id = batch.id
   left join "wms"."locations" as source_location on task_items.source_location_id = source_location.id
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (task.task_number ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or source_location.name ilike $1::text
+  or destination_location.name ilike $1::text
+  or task_items.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateTaskItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -391,7 +400,7 @@ type WmsPaginateTaskItemRow struct {
 }
 
 func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskItemParams) ([]WmsPaginateTaskItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -529,11 +538,19 @@ from
 where
   task_items.created_at >= $1::date
   and task_items.created_at <= $2::date
+  and (task.task_number ilike $3::text
+  or product.name ilike $3::text
+  or batch.batch_number ilike $3::text
+  or source_location.name ilike $3::text
+  or destination_location.name ilike $3::text
+  or task_items.status::text ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeTaskItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeTaskItemRow struct {
@@ -546,7 +563,7 @@ type WmsRangeTaskItemRow struct {
 }
 
 func (q *Queries) WmsRangeTaskItem(ctx context.Context, arg WmsRangeTaskItemParams) ([]WmsRangeTaskItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeTaskItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeTaskItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

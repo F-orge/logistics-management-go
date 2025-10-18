@@ -11,6 +11,13 @@ from
   left join "crm"."companies" as client on putaway_rules.client_id = client.id
   inner join "wms"."warehouses" as warehouse on putaway_rules.warehouse_id = warehouse.id
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
+where
+  (product.name ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or preferred_location.name ilike sqlc.narg(search)::text
+  or putaway_rules.location_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindPutawayRule :one
@@ -60,7 +67,13 @@ from
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
 where
   putaway_rules.created_at >= @dateFrom::date
-  and putaway_rules.created_at <= @dateTo::date;
+  and putaway_rules.created_at <= @dateTo::date
+  and (product.name ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or warehouse.name ilike sqlc.narg(search)::text
+  or preferred_location.name ilike sqlc.narg(search)::text
+  or putaway_rules.location_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertPutawayRule :one
 insert into "wms"."putaway_rules"(product_id, client_id, warehouse_id, preferred_location_id, location_type, priority, min_quantity, max_quantity, weight_threshold, volume_threshold, requires_temperature_control, requires_hazmat_approval, is_active)

@@ -146,16 +146,22 @@ select
   id, record_id, record_type, external_system, external_id, status, error_message, request_payload, response_payload, last_sync_at, retry_count, next_retry_at, created_at, updated_at
 from
   "billing"."accounting_sync_log"
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (record_type ilike $1::text
+  or external_system ilike $1::text
+  or status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateAccountingSyncLogParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
 
 func (q *Queries) BillingPaginateAccountingSyncLog(ctx context.Context, arg BillingPaginateAccountingSyncLogParams) ([]BillingAccountingSyncLog, error) {
-	rows, err := q.db.Query(ctx, billingPaginateAccountingSyncLog, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateAccountingSyncLog, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -197,15 +203,20 @@ from
 where
   created_at >= $1::date
   and created_at <= $2::date
+  and (record_type ilike $3::text
+  or external_system ilike $3::text
+  or status::text ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeAccountingSyncLogParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 func (q *Queries) BillingRangeAccountingSyncLog(ctx context.Context, arg BillingRangeAccountingSyncLogParams) ([]BillingAccountingSyncLog, error) {
-	rows, err := q.db.Query(ctx, billingRangeAccountingSyncLog, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeAccountingSyncLog, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

@@ -13,6 +13,14 @@ from
   left join "wms"."inventory_batches" as batch on task_items.batch_id = batch.id
   left join "wms"."locations" as source_location on task_items.source_location_id = source_location.id
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
+where
+  (task.task_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or source_location.name ilike sqlc.narg(search)::text
+  or destination_location.name ilike sqlc.narg(search)::text
+  or task_items.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindTaskItem :one
@@ -68,7 +76,14 @@ from
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
 where
   task_items.created_at >= @dateFrom::date
-  and task_items.created_at <= @dateTo::date;
+  and task_items.created_at <= @dateTo::date
+  and (task.task_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or source_location.name ilike sqlc.narg(search)::text
+  or destination_location.name ilike sqlc.narg(search)::text
+  or task_items.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertTaskItem :one
 insert into "wms"."task_items"(task_id, product_id, batch_id, source_location_id, destination_location_id, quantity_required, quantity_completed, status, lot_number, serial_numbers, expiry_date, notes, completed_at)

@@ -7,6 +7,13 @@ from
   "crm"."cases" as cases
   inner join "public"."user" as owner on cases.owner_id = owner.id
   left join "crm"."contacts" as contact on cases.contact_id = contact.id
+where (cases.case_number ilike sqlc.narg(search)::text
+  or cases.status::text ilike sqlc.narg(search)::text
+  or cases.priority::text ilike sqlc.narg(search)::text
+  or cases.type::text ilike sqlc.narg(search)::text
+  or owner.name ilike sqlc.narg(search)::text
+  or contact.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindCase :one
@@ -44,7 +51,14 @@ from
   left join "crm"."contacts" as contact on cases.contact_id = contact.id
 where
   cases.created_at >= @dateFrom::date
-  and cases.created_at <= @dateTo::date;
+  and cases.created_at <= @dateTo::date
+  and (cases.case_number ilike sqlc.narg(search)::text
+    or cases.status::text ilike sqlc.narg(search)::text
+    or cases.priority::text ilike sqlc.narg(search)::text
+    or cases.type::text ilike sqlc.narg(search)::text
+    or owner.name ilike sqlc.narg(search)::text
+    or contact.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertCase :one
 insert into "crm"."cases"(case_number, status, priority, type, owner_id, contact_id, description)
@@ -99,3 +113,4 @@ returning
 -- name: CrmRemoveCase :exec
 delete from "crm"."cases"
 where id = @id::uuid;
+

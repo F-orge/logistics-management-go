@@ -5,6 +5,9 @@ select
 from
   "billing"."client_accounts" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
+where
+  (client.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindClientAccount :one
@@ -36,7 +39,9 @@ from
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.created_at >= @dateFrom::date
-  and client_accounts.created_at <= @dateTo::date;
+  and client_accounts.created_at <= @dateTo::date
+  and (client.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertClientAccount :one
 insert into "billing"."client_accounts"(client_id, credit_limit, available_credit, wallet_balance, currency, payment_terms_days, is_credit_approved, last_payment_date)

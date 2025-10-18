@@ -5,6 +5,10 @@ select
 from
   "tms"."shipment_leg_events" as shipment_leg_events
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
+where
+  (shipment_leg.start_location ilike sqlc.narg(search)::text
+  or shipment_leg_events.status_message ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindShipmentLegEvent :one
@@ -36,7 +40,10 @@ from
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
 where
   shipment_leg_events.event_timestamp >= @dateFrom::date
-  and shipment_leg_events.event_timestamp <= @dateTo::date;
+  and shipment_leg_events.event_timestamp <= @dateTo::date
+  and (shipment_leg.start_location ilike sqlc.narg(search)::text
+  or shipment_leg_events.status_message ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertShipmentLegEvent :one
 insert into "tms"."shipment_leg_events"(shipment_leg_id, status_message, location, event_timestamp)

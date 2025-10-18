@@ -175,10 +175,14 @@ select
 from
   "billing"."client_accounts" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (client.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateClientAccountParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -189,7 +193,7 @@ type BillingPaginateClientAccountRow struct {
 }
 
 func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingPaginateClientAccountParams) ([]BillingPaginateClientAccountRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -244,11 +248,14 @@ from
 where
   client_accounts.created_at >= $1::date
   and client_accounts.created_at <= $2::date
+  and (client.name ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeClientAccountParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangeClientAccountRow struct {
@@ -257,7 +264,7 @@ type BillingRangeClientAccountRow struct {
 }
 
 func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRangeClientAccountParams) ([]BillingRangeClientAccountRow, error) {
-	rows, err := q.db.Query(ctx, billingRangeClientAccount, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeClientAccount, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

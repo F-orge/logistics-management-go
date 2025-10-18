@@ -7,6 +7,12 @@ from
   "billing"."payments" as payments
   inner join "billing"."invoices" as invoice on payments.invoice_id = invoice.id
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
+where
+  (invoice.invoice_number ilike sqlc.narg(search)::text
+  or payments.payment_method::text ilike sqlc.narg(search)::text
+  or payments.status::text ilike sqlc.narg(search)::text
+  or processed_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindPayment :one
@@ -44,7 +50,12 @@ from
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
 where
   payments.created_at >= @dateFrom::date
-  and payments.created_at <= @dateTo::date;
+  and payments.created_at <= @dateTo::date
+  and (invoice.invoice_number ilike sqlc.narg(search)::text
+  or payments.payment_method::text ilike sqlc.narg(search)::text
+  or payments.status::text ilike sqlc.narg(search)::text
+  or processed_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertPayment :one
 insert into "billing"."payments"(invoice_id, amount, payment_method, transaction_id, gateway_reference, status, payment_date, processed_at, currency, exchange_rate, fees, notes, processed_by_user_id)

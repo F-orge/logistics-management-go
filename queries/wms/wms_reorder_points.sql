@@ -5,6 +5,9 @@ select
 from
   "wms"."reorder_points" as reorder_points
   inner join "wms"."products" as product on reorder_points.product_id = product.id
+where
+  (product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindReorderPoint :one
@@ -36,7 +39,9 @@ from
   inner join "wms"."products" as product on reorder_points.product_id = product.id
 where
   reorder_points.created_at >= @dateFrom::date
-  and reorder_points.created_at <= @dateTo::date;
+  and reorder_points.created_at <= @dateTo::date
+  and (product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertReorderPoint :one
 insert into "wms"."reorder_points"(product_id, warehouse_id, threshold)

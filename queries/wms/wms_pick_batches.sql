@@ -7,6 +7,12 @@ from
   "wms"."pick_batches" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
+where
+  (warehouse.name ilike sqlc.narg(search)::text
+  or pick_batches.batch_number ilike sqlc.narg(search)::text
+  or pick_batches.status::text ilike sqlc.narg(search)::text
+  or assigned_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindPickBatch :one
@@ -44,7 +50,12 @@ from
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
   pick_batches.created_at >= @dateFrom::date
-  and pick_batches.created_at <= @dateTo::date;
+  and pick_batches.created_at <= @dateTo::date
+  and (warehouse.name ilike sqlc.narg(search)::text
+  or pick_batches.batch_number ilike sqlc.narg(search)::text
+  or pick_batches.status::text ilike sqlc.narg(search)::text
+  or assigned_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertPickBatch :one
 insert into "wms"."pick_batches"(batch_number, warehouse_id, status, strategy, priority, assigned_user_id, wave_id, zone_restrictions, estimated_duration, actual_duration, total_items, completed_items, started_at, completed_at)

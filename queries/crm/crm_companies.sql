@@ -5,6 +5,12 @@ select
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
+where
+  (companies.name ilike sqlc.narg(search)::text
+  or companies.industry ilike sqlc.narg(search)::text
+  or owner.name ilike sqlc.narg(search)::text
+  or companies.country ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindCompany :one
@@ -36,7 +42,12 @@ from
   inner join "public"."user" as owner on companies.owner_id = owner.id
 where
   companies.created_at >= @dateFrom::date
-  and companies.created_at <= @dateTo::date;
+  and companies.created_at <= @dateTo::date
+  and (companies.name ilike sqlc.narg(search)::text
+    or companies.industry ilike sqlc.narg(search)::text
+    or owner.name ilike sqlc.narg(search)::text
+    or companies.country ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertCompany :one
 insert into "crm"."companies"(name, street, city, state, postal_code, country, phone_number, industry, website, annual_revenue, owner_id)

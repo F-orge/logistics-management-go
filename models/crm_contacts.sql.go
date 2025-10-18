@@ -195,10 +195,16 @@ from
   "crm"."contacts" as contacts
   inner join "public"."user" as owner on contacts.owner_id = owner.id
   left join "crm"."companies" as company on contacts.company_id = company.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (contacts.name ilike $1::text
+  or contacts.email ilike $1::text
+  or company.name ilike $1::text
+  or owner.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateContactParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -210,7 +216,7 @@ type CrmPaginateContactRow struct {
 }
 
 func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContactParams) ([]CrmPaginateContactRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateContact, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateContact, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -276,11 +282,17 @@ from
 where
   contacts.created_at >= $1::date
   and contacts.created_at <= $2::date
+  and (contacts.name ilike $3::text
+    or contacts.email ilike $3::text
+    or company.name ilike $3::text
+    or owner.name ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeContactParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeContactRow struct {
@@ -290,7 +302,7 @@ type CrmRangeContactRow struct {
 }
 
 func (q *Queries) CrmRangeContact(ctx context.Context, arg CrmRangeContactParams) ([]CrmRangeContactRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeContact, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeContact, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

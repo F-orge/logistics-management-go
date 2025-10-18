@@ -7,6 +7,10 @@ from
   "wms"."bin_thresholds" as bin_thresholds
   inner join "wms"."locations" as location on bin_thresholds.location_id = location.id
   inner join "wms"."products" as product on bin_thresholds.product_id = product.id
+where
+  (location.name ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindBinThreshold :one
@@ -44,7 +48,10 @@ from
   inner join "wms"."products" as product on bin_thresholds.product_id = product.id
 where
   bin_thresholds.created_at >= @dateFrom::date
-  and bin_thresholds.created_at <= @dateTo::date;
+  and bin_thresholds.created_at <= @dateTo::date
+  and (location.name ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertBinThreshold :one
 insert into "wms"."bin_thresholds"(location_id, product_id, min_quantity, max_quantity, reorder_quantity, alert_threshold, is_active)

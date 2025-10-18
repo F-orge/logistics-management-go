@@ -182,10 +182,17 @@ select
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (companies.name ilike $1::text
+  or companies.industry ilike $1::text
+  or owner.name ilike $1::text
+  or companies.country ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCompanyParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -196,7 +203,7 @@ type CrmPaginateCompanyRow struct {
 }
 
 func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompanyParams) ([]CrmPaginateCompanyRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -251,11 +258,17 @@ from
 where
   companies.created_at >= $1::date
   and companies.created_at <= $2::date
+  and (companies.name ilike $3::text
+    or companies.industry ilike $3::text
+    or owner.name ilike $3::text
+    or companies.country ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeCompanyParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeCompanyRow struct {
@@ -264,7 +277,7 @@ type CrmRangeCompanyRow struct {
 }
 
 func (q *Queries) CrmRangeCompany(ctx context.Context, arg CrmRangeCompanyParams) ([]CrmRangeCompanyRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeCompany, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeCompany, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

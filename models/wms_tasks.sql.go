@@ -285,10 +285,19 @@ from
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (tasks.task_number ilike $1::text
+  or warehouse.name ilike $1::text
+  or users.name ilike $1::text
+  or tasks.type::text ilike $1::text
+  or tasks.status::text ilike $1::text
+  or pick_batch.batch_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateTaskParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -301,7 +310,7 @@ type WmsPaginateTaskRow struct {
 }
 
 func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams) ([]WmsPaginateTaskRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateTask, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateTask, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -396,11 +405,19 @@ from
 where
   tasks.created_at >= $1::date
   and tasks.created_at <= $2::date
+  and (tasks.task_number ilike $3::text
+  or warehouse.name ilike $3::text
+  or users.name ilike $3::text
+  or tasks.type::text ilike $3::text
+  or tasks.status::text ilike $3::text
+  or pick_batch.batch_number ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeTaskParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeTaskRow struct {
@@ -411,7 +428,7 @@ type WmsRangeTaskRow struct {
 }
 
 func (q *Queries) WmsRangeTask(ctx context.Context, arg WmsRangeTaskParams) ([]WmsRangeTaskRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeTask, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeTask, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

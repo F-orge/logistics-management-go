@@ -3,6 +3,10 @@ select
   *
 from
   "wms"."suppliers"
+where
+  (name ilike sqlc.narg(search)::text
+  or email ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindSupplier :one
@@ -28,7 +32,10 @@ from
   "wms"."suppliers"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+  or email ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertSupplier :one
 insert into "wms"."suppliers"(name, contact_person, email, phone_number)

@@ -3,6 +3,11 @@ select
   *
 from
   "crm"."products"
+where
+  (name ilike sqlc.narg(search)::text
+  or sku ilike sqlc.narg(search)::text
+  or type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindProduct :one
@@ -28,7 +33,11 @@ from
   "crm"."products"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+  or sku ilike sqlc.narg(search)::text
+  or type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertProduct :one
 insert into "crm"."products"(name, sku, price, type, description)

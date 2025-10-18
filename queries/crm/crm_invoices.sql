@@ -5,6 +5,9 @@ select
 from
   "crm"."invoices" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
+where (opportunity.name ilike sqlc.narg(search)::text
+  or invoices.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindInvoice :one
@@ -36,7 +39,10 @@ from
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.created_at >= @dateFrom::date
-  and invoices.created_at <= @dateTo::date;
+  and invoices.created_at <= @dateTo::date
+  and (opportunity.name ilike sqlc.narg(search)::text
+    or invoices.status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertInvoice :one
 insert into "crm"."invoices"(opportunity_id, status, total, issue_date, due_date, sent_at, paid_at, payment_method)
@@ -96,3 +102,4 @@ returning
 -- name: CrmRemoveInvoice :exec
 delete from "crm"."invoices"
 where id = @id::uuid;
+

@@ -9,6 +9,12 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
+where
+  (location.name ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or inventory_stock.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindInventoryStock :one
@@ -52,7 +58,12 @@ from
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
 where
   inventory_stock.created_at >= @dateFrom::date
-  and inventory_stock.created_at <= @dateTo::date;
+  and inventory_stock.created_at <= @dateTo::date
+  and (location.name ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or batch.batch_number ilike sqlc.narg(search)::text
+  or inventory_stock.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryStock :one
 insert into "wms"."inventory_stock"(location_id, product_id, batch_id, quantity, reserved_quantity, status, last_counted_at, last_movement_at)

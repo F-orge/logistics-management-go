@@ -5,6 +5,10 @@ select
 from
   "tms"."proof_of_deliveries" as proof_of_deliveries
   inner join "tms"."trip_stops" as trip_stop on proof_of_deliveries.trip_stop_id = trip_stop.id
+where
+  (trip_stop.address ilike sqlc.narg(search)::text
+  or proof_of_deliveries.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindProofOfDelivery :one
@@ -36,7 +40,10 @@ from
   inner join "tms"."trip_stops" as trip_stop on proof_of_deliveries.trip_stop_id = trip_stop.id
 where
   proof_of_deliveries.created_at >= @dateFrom::date
-  and proof_of_deliveries.created_at <= @dateTo::date;
+  and proof_of_deliveries.created_at <= @dateTo::date
+  and (trip_stop.address ilike sqlc.narg(search)::text
+  or proof_of_deliveries.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertProofOfDelivery :one
 insert into "tms"."proof_of_deliveries"(trip_stop_id, type, file_path, timestamp, latitude, longitude)

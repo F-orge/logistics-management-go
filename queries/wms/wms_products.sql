@@ -7,6 +7,14 @@ from
   "wms"."products" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
+where
+  (products.name ilike sqlc.narg(search)::text
+  or products.sku ilike sqlc.narg(search)::text
+  or products.barcode ilike sqlc.narg(search)::text
+  or products.status::text ilike sqlc.narg(search)::text
+  or supplier.name ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindProduct :one
@@ -44,7 +52,14 @@ from
   left join "crm"."companies" as client on products.client_id = client.id
 where
   products.created_at >= @dateFrom::date
-  and products.created_at <= @dateTo::date;
+  and products.created_at <= @dateTo::date
+  and (products.name ilike sqlc.narg(search)::text
+  or products.sku ilike sqlc.narg(search)::text
+  or products.barcode ilike sqlc.narg(search)::text
+  or products.status::text ilike sqlc.narg(search)::text
+  or supplier.name ilike sqlc.narg(search)::text
+  or client.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertProduct :one
 insert into "wms"."products"(name, sku, barcode, description, cost_price, length, width, height, weight, status, supplier_id, client_id)

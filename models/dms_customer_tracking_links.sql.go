@@ -169,10 +169,15 @@ select
 from
   "dms"."customer_tracking_links" as customer_tracking_links
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (customer_tracking_links.tracking_token ilike $1::text
+  or delivery_task.recipient_name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateCustomerTrackingLinkParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -183,7 +188,7 @@ type DmsPaginateCustomerTrackingLinkRow struct {
 }
 
 func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPaginateCustomerTrackingLinkParams) ([]DmsPaginateCustomerTrackingLinkRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -238,11 +243,15 @@ from
 where
   customer_tracking_links.created_at >= $1::date
   and customer_tracking_links.created_at <= $2::date
+  and (customer_tracking_links.tracking_token ilike $3::text
+  or delivery_task.recipient_name ilike $3::text
+  or $3::text is null)
 `
 
 type DmsRangeCustomerTrackingLinkParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type DmsRangeCustomerTrackingLinkRow struct {
@@ -251,7 +260,7 @@ type DmsRangeCustomerTrackingLinkRow struct {
 }
 
 func (q *Queries) DmsRangeCustomerTrackingLink(ctx context.Context, arg DmsRangeCustomerTrackingLinkParams) ([]DmsRangeCustomerTrackingLinkRow, error) {
-	rows, err := q.db.Query(ctx, dmsRangeCustomerTrackingLink, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, dmsRangeCustomerTrackingLink, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

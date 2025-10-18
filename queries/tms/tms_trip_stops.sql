@@ -5,6 +5,11 @@ select
 from
   "tms"."trip_stops" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
+where
+  (trip.status::text ilike sqlc.narg(search)::text
+  or trip_stops.address ilike sqlc.narg(search)::text
+  or trip_stops.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindTripStop :one
@@ -36,7 +41,11 @@ from
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
 where
   trip_stops.created_at >= @dateFrom::date
-  and trip_stops.created_at <= @dateTo::date;
+  and trip_stops.created_at <= @dateTo::date
+  and (trip.status::text ilike sqlc.narg(search)::text
+  or trip_stops.address ilike sqlc.narg(search)::text
+  or trip_stops.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertTripStop :one
 insert into "tms"."trip_stops"(trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time)

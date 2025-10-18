@@ -150,10 +150,16 @@ select
 from
   "tms"."partner_invoices" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (carrier.name ilike $1::text
+  or partner_invoices.invoice_number ilike $1::text
+  or partner_invoices.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginatePartnerInvoiceParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -164,7 +170,7 @@ type TmsPaginatePartnerInvoiceRow struct {
 }
 
 func (q *Queries) TmsPaginatePartnerInvoice(ctx context.Context, arg TmsPaginatePartnerInvoiceParams) ([]TmsPaginatePartnerInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginatePartnerInvoice, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginatePartnerInvoice, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -211,11 +217,16 @@ from
 where
   partner_invoices.invoice_date >= $1::date
   and partner_invoices.invoice_date <= $2::date
+  and (carrier.name ilike $3::text
+  or partner_invoices.invoice_number ilike $3::text
+  or partner_invoices.status::text ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangePartnerInvoiceParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangePartnerInvoiceRow struct {
@@ -224,7 +235,7 @@ type TmsRangePartnerInvoiceRow struct {
 }
 
 func (q *Queries) TmsRangePartnerInvoice(ctx context.Context, arg TmsRangePartnerInvoiceParams) ([]TmsRangePartnerInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangePartnerInvoice, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangePartnerInvoice, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

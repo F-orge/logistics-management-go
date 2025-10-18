@@ -7,6 +7,10 @@ from
   "wms"."sales_order_items" as sales_order_items
   inner join "wms"."sales_orders" as sales_order on sales_order_items.sales_order_id = sales_order.id
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
+where
+  (sales_order.order_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindSalesOrderItem :one
@@ -44,7 +48,10 @@ from
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
 where
   sales_order_items.created_at >= @dateFrom::date
-  and sales_order_items.created_at <= @dateTo::date;
+  and sales_order_items.created_at <= @dateTo::date
+  and (sales_order.order_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertSalesOrderItem :one
 insert into "wms"."sales_order_items"(sales_order_id, product_id, quantity_ordered)

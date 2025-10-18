@@ -4,8 +4,9 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/F-orge/logistics-management-go/api"
+	"github.com/F-orge/logistics-management-go/repositories"
+	"github.com/labstack/echo"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,17 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("serve called")
+
+		router := echo.New()
+
+		// repos
+		companyRepo := &repositories.CrmCompanyRepository{}
+
+		api.RegisterRepository(router, "/crm/companies", companyRepo)
+
+		if err := router.Start(":8080"); err != nil {
+			return
+		}
 	},
 }
 

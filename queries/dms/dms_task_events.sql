@@ -5,6 +5,10 @@ select
 from
   "dms"."task_events" as task_events
   inner join "dms"."delivery_tasks" as delivery_task on task_events.delivery_task_id = delivery_task.id
+where
+  (task_events.status::text ilike sqlc.narg(search)::text
+  or delivery_task.recipient_name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: DmsFindTaskEvent :one
@@ -36,7 +40,10 @@ from
   inner join "dms"."delivery_tasks" as delivery_task on task_events.delivery_task_id = delivery_task.id
 where
   task_events.created_at >= @dateFrom::date
-  and task_events.created_at <= @dateTo::date;
+  and task_events.created_at <= @dateTo::date
+  and (task_events.status::text ilike sqlc.narg(search)::text
+  or delivery_task.recipient_name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertTaskEvent :one
 insert into "dms"."task_events"(delivery_task_id, status, reason, notes, latitude, longitude, timestamp)

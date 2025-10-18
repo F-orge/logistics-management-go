@@ -5,6 +5,9 @@ select
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
+where
+  (driver.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: DmsFindDriverLocation :one
@@ -36,7 +39,9 @@ from
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
 where
   driver_locations.created_at >= @dateFrom::date
-  and driver_locations.created_at <= @dateTo::date;
+  and driver_locations.created_at <= @dateTo::date
+  and (driver.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertDriverLocation :one
 insert into "dms"."driver_locations"(driver_id, latitude, longitude, altitude, accuracy, speed_kmh, heading, timestamp)

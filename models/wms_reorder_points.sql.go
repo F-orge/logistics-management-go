@@ -150,10 +150,14 @@ select
 from
   "wms"."reorder_points" as reorder_points
   inner join "wms"."products" as product on reorder_points.product_id = product.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateReorderPointParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -164,7 +168,7 @@ type WmsPaginateReorderPointRow struct {
 }
 
 func (q *Queries) WmsPaginateReorderPoint(ctx context.Context, arg WmsPaginateReorderPointParams) ([]WmsPaginateReorderPointRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateReorderPoint, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateReorderPoint, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -216,11 +220,14 @@ from
 where
   reorder_points.created_at >= $1::date
   and reorder_points.created_at <= $2::date
+  and (product.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeReorderPointParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeReorderPointRow struct {
@@ -229,7 +236,7 @@ type WmsRangeReorderPointRow struct {
 }
 
 func (q *Queries) WmsRangeReorderPoint(ctx context.Context, arg WmsRangeReorderPointParams) ([]WmsRangeReorderPointRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeReorderPoint, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeReorderPoint, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

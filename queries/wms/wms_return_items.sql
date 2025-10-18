@@ -7,6 +7,11 @@ from
   "wms"."return_items" as return_items
   inner join "wms"."returns" as return on return_items.return_id = return.id
   inner join "wms"."products" as product on return_items.product_id = product.id
+where
+  (return.return_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or return_items.condition::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindReturnItem :one
@@ -44,7 +49,11 @@ from
   inner join "wms"."products" as product on return_items.product_id = product.id
 where
   return_items.created_at >= @dateFrom::date
-  and return_items.created_at <= @dateTo::date;
+  and return_items.created_at <= @dateTo::date
+  and (return.return_number ilike sqlc.narg(search)::text
+  or product.name ilike sqlc.narg(search)::text
+  or return_items.condition::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertReturnItem :one
 insert into "wms"."return_items"(return_id, product_id, quantity_expected, quantity_received, condition)

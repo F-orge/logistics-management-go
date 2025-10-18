@@ -158,10 +158,15 @@ select
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
   inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (vehicle.registration_number ilike $1::text
+  or vehicle_maintenance.service_type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateVehicleMaintenanceParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -172,7 +177,7 @@ type TmsPaginateVehicleMaintenanceRow struct {
 }
 
 func (q *Queries) TmsPaginateVehicleMaintenance(ctx context.Context, arg TmsPaginateVehicleMaintenanceParams) ([]TmsPaginateVehicleMaintenanceRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateVehicleMaintenance, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateVehicleMaintenance, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -223,11 +228,15 @@ from
 where
   vehicle_maintenance.created_at >= $1::date
   and vehicle_maintenance.created_at <= $2::date
+  and (vehicle.registration_number ilike $3::text
+  or vehicle_maintenance.service_type::text ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangeVehicleMaintenanceParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeVehicleMaintenanceRow struct {
@@ -236,7 +245,7 @@ type TmsRangeVehicleMaintenanceRow struct {
 }
 
 func (q *Queries) TmsRangeVehicleMaintenance(ctx context.Context, arg TmsRangeVehicleMaintenanceParams) ([]TmsRangeVehicleMaintenanceRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeVehicleMaintenance, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeVehicleMaintenance, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

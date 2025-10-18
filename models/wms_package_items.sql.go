@@ -254,10 +254,15 @@ from
   inner join "wms"."packages" as package on package_items.package_id = package.id
   inner join "wms"."products" as product on package_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (package.package_number ilike $1::text
+  or product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePackageItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -270,7 +275,7 @@ type WmsPaginatePackageItemRow struct {
 }
 
 func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePackageItemParams) ([]WmsPaginatePackageItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -360,11 +365,15 @@ from
 where
   package_items.created_at >= $1::date
   and package_items.created_at <= $2::date
+  and (package.package_number ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangePackageItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangePackageItemRow struct {
@@ -375,7 +384,7 @@ type WmsRangePackageItemRow struct {
 }
 
 func (q *Queries) WmsRangePackageItem(ctx context.Context, arg WmsRangePackageItemParams) ([]WmsRangePackageItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangePackageItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangePackageItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

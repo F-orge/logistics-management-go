@@ -201,10 +201,15 @@ select
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (invoice.invoice_number ilike $1::text
+  or invoice_line_items.description ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateInvoiceLineItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -215,7 +220,7 @@ type BillingPaginateInvoiceLineItemRow struct {
 }
 
 func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg BillingPaginateInvoiceLineItemParams) ([]BillingPaginateInvoiceLineItemRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -281,11 +286,15 @@ from
 where
   invoice_line_items.created_at >= $1::date
   and invoice_line_items.created_at <= $2::date
+  and (invoice.invoice_number ilike $3::text
+  or invoice_line_items.description ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeInvoiceLineItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangeInvoiceLineItemRow struct {
@@ -294,7 +303,7 @@ type BillingRangeInvoiceLineItemRow struct {
 }
 
 func (q *Queries) BillingRangeInvoiceLineItem(ctx context.Context, arg BillingRangeInvoiceLineItemParams) ([]BillingRangeInvoiceLineItemRow, error) {
-	rows, err := q.db.Query(ctx, billingRangeInvoiceLineItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeInvoiceLineItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

@@ -7,6 +7,11 @@ from
   "wms"."inventory_adjustments" as inventory_adjustments
   inner join "wms"."products" as product on inventory_adjustments.product_id = product.id
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
+where
+  (product.name ilike sqlc.narg(search)::text
+  or users.name ilike sqlc.narg(search)::text
+  or inventory_adjustments.reason::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindInventoryAdjustment :one
@@ -44,7 +49,11 @@ from
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
 where
   inventory_adjustments.created_at >= @dateFrom::date
-  and inventory_adjustments.created_at <= @dateTo::date;
+  and inventory_adjustments.created_at <= @dateTo::date
+  and (product.name ilike sqlc.narg(search)::text
+  or users.name ilike sqlc.narg(search)::text
+  or inventory_adjustments.reason::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryAdjustment :one
 insert into "wms"."inventory_adjustments"(product_id, warehouse_id, user_id, quantity_change, reason, notes)

@@ -175,10 +175,14 @@ select
 from
   "crm"."invoices" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (opportunity.name ilike $1::text
+  or invoices.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateInvoiceParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -189,7 +193,7 @@ type CrmPaginateInvoiceRow struct {
 }
 
 func (q *Queries) CrmPaginateInvoice(ctx context.Context, arg CrmPaginateInvoiceParams) ([]CrmPaginateInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateInvoice, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateInvoice, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -244,11 +248,15 @@ from
 where
   invoices.created_at >= $1::date
   and invoices.created_at <= $2::date
+  and (opportunity.name ilike $3::text
+    or invoices.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeInvoiceParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeInvoiceRow struct {
@@ -257,7 +265,7 @@ type CrmRangeInvoiceRow struct {
 }
 
 func (q *Queries) CrmRangeInvoice(ctx context.Context, arg CrmRangeInvoiceParams) ([]CrmRangeInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeInvoice, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeInvoice, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

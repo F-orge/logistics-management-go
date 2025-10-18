@@ -5,6 +5,9 @@ select
 from
   "crm"."notifications" as notifications
   inner join "public"."user" as users on notifications.user_id = users.id
+where (users.name ilike sqlc.narg(search)::text
+  or notifications.message ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindNotification :one
@@ -36,7 +39,10 @@ from
   inner join "public"."user" as users on notifications.user_id = users.id
 where
   notifications.created_at >= @dateFrom::date
-  and notifications.created_at <= @dateTo::date;
+  and notifications.created_at <= @dateTo::date
+  and (users.name ilike sqlc.narg(search)::text
+    or notifications.message ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertNotification :one
 insert into "crm"."notifications"(user_id, message, is_read, link)

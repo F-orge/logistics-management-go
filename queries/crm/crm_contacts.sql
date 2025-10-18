@@ -7,6 +7,11 @@ from
   "crm"."contacts" as contacts
   inner join "public"."user" as owner on contacts.owner_id = owner.id
   left join "crm"."companies" as company on contacts.company_id = company.id
+where (contacts.name ilike sqlc.narg(search)::text
+  or contacts.email ilike sqlc.narg(search)::text
+  or company.name ilike sqlc.narg(search)::text
+  or owner.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindContact :one
@@ -44,7 +49,12 @@ from
   left join "crm"."companies" as company on contacts.company_id = company.id
 where
   contacts.created_at >= @dateFrom::date
-  and contacts.created_at <= @dateTo::date;
+  and contacts.created_at <= @dateTo::date
+  and (contacts.name ilike sqlc.narg(search)::text
+    or contacts.email ilike sqlc.narg(search)::text
+    or company.name ilike sqlc.narg(search)::text
+    or owner.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertContact :one
 insert into "crm"."contacts"(name, email, phone_number, job_title, company_id, owner_id)
@@ -94,3 +104,4 @@ returning
 -- name: CrmRemoveContact :exec
 delete from "crm"."contacts"
 where id = @id::uuid;
+

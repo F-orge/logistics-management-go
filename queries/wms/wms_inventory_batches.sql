@@ -5,6 +5,10 @@ select
 from
   "wms"."inventory_batches" as inventory_batches
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
+where
+  (product.name ilike sqlc.narg(search)::text
+  or inventory_batches.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindInventoryBatch :one
@@ -36,7 +40,10 @@ from
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
 where
   inventory_batches.created_at >= @dateFrom::date
-  and inventory_batches.created_at <= @dateTo::date;
+  and inventory_batches.created_at <= @dateTo::date
+  and (product.name ilike sqlc.narg(search)::text
+  or inventory_batches.batch_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryBatch :one
 insert into "wms"."inventory_batches"(product_id, batch_number, expiration_date)

@@ -282,10 +282,19 @@ from
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (sales_order.order_number ilike $1::text
+  or warehouse.name ilike $1::text
+  or packages.package_number ilike $1::text
+  or packages.tracking_number ilike $1::text
+  or packages.carrier ilike $1::text
+  or packed_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePackageParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -298,7 +307,7 @@ type WmsPaginatePackageRow struct {
 }
 
 func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackageParams) ([]WmsPaginatePackageRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePackage, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginatePackage, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -387,11 +396,19 @@ from
 where
   packages.created_at >= $1::date
   and packages.created_at <= $2::date
+  and (sales_order.order_number ilike $3::text
+  or warehouse.name ilike $3::text
+  or packages.package_number ilike $3::text
+  or packages.tracking_number ilike $3::text
+  or packages.carrier ilike $3::text
+  or packed_by_user.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangePackageParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangePackageRow struct {
@@ -402,7 +419,7 @@ type WmsRangePackageRow struct {
 }
 
 func (q *Queries) WmsRangePackage(ctx context.Context, arg WmsRangePackageParams) ([]WmsRangePackageRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangePackage, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangePackage, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

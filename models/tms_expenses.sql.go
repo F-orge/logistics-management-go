@@ -202,10 +202,17 @@ from
   "tms"."expenses" as expenses
   left join "tms"."trips" as trip on expenses.trip_id = trip.id
   left join "tms"."drivers" as driver on expenses.driver_id = driver.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (trip.status::text ilike $1::text
+  or driver.name ilike $1::text
+  or expenses.type::text ilike $1::text
+  or expenses.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateExpenseParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -217,7 +224,7 @@ type TmsPaginateExpenseRow struct {
 }
 
 func (q *Queries) TmsPaginateExpense(ctx context.Context, arg TmsPaginateExpenseParams) ([]TmsPaginateExpenseRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateExpense, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateExpense, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -281,11 +288,17 @@ from
 where
   expenses.created_at >= $1::date
   and expenses.created_at <= $2::date
+  and (trip.status::text ilike $3::text
+  or driver.name ilike $3::text
+  or expenses.type::text ilike $3::text
+  or expenses.status::text ilike $3::text
+  or $3::text is null)
 `
 
 type TmsRangeExpenseParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeExpenseRow struct {
@@ -295,7 +308,7 @@ type TmsRangeExpenseRow struct {
 }
 
 func (q *Queries) TmsRangeExpense(ctx context.Context, arg TmsRangeExpenseParams) ([]TmsRangeExpenseRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeExpense, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeExpense, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,9 @@ select
   *
 from
   "tms"."carriers"
+where
+  (name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindCarrier :one
@@ -28,7 +31,9 @@ from
   "tms"."carriers"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertCarrier :one
 insert into "tms"."carriers"(name, contact_details, services_offered)

@@ -5,6 +5,10 @@ select
 from
   "wms"."inbound_shipments" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
+where
+  (client.name ilike sqlc.narg(search)::text
+  or inbound_shipments.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindInboundShipment :one
@@ -36,7 +40,10 @@ from
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.created_at >= @dateFrom::date
-  and inbound_shipments.created_at <= @dateTo::date;
+  and inbound_shipments.created_at <= @dateTo::date
+  and (client.name ilike sqlc.narg(search)::text
+  or inbound_shipments.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInboundShipment :one
 insert into "wms"."inbound_shipments"(client_id, warehouse_id, status, expected_arrival_date, actual_arrival_date)

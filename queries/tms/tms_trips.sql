@@ -7,6 +7,11 @@ from
   "tms"."trips" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
+where
+  (driver.name ilike sqlc.narg(search)::text
+  or vehicle.registration_number ilike sqlc.narg(search)::text
+  or trips.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindTrip :one
@@ -44,7 +49,11 @@ from
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
   trips.created_at >= @dateFrom::date
-  and trips.created_at <= @dateTo::date;
+  and trips.created_at <= @dateTo::date
+  and (driver.name ilike sqlc.narg(search)::text
+  or vehicle.registration_number ilike sqlc.narg(search)::text
+  or trips.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertTrip :one
 insert into "tms"."trips"(driver_id, vehicle_id, status)

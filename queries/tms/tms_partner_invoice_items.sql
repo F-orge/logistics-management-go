@@ -7,6 +7,10 @@ from
   "tms"."partner_invoice_items" as partner_invoice_items
   inner join "tms"."partner_invoices" as partner_invoice on partner_invoice_items.partner_invoice_id = partner_invoice.id
   inner join "tms"."shipment_legs" as shipment_leg on partner_invoice_items.shipment_leg_id = shipment_leg.id
+where
+  (partner_invoice.invoice_number ilike sqlc.narg(search)::text
+  or shipment_leg.start_location ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindPartnerInvoiceItem :one
@@ -44,7 +48,10 @@ from
   inner join "tms"."shipment_legs" as shipment_leg on partner_invoice_items.shipment_leg_id = shipment_leg.id
 where
   partner_invoice_items.created_at >= @dateFrom::date
-  and partner_invoice_items.created_at <= @dateTo::date;
+  and partner_invoice_items.created_at <= @dateTo::date
+  and (partner_invoice.invoice_number ilike sqlc.narg(search)::text
+  or shipment_leg.start_location ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertPartnerInvoiceItem :one
 insert into "tms"."partner_invoice_items"(partner_invoice_id, shipment_leg_id, amount)

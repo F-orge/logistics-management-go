@@ -9,6 +9,12 @@ from
   inner join "billing"."invoices" as invoice on credit_notes.invoice_id = invoice.id
   left join "billing"."disputes" as dispute on credit_notes.dispute_id = dispute.id
   left join "public"."user" as created_by_user on credit_notes.created_by_user_id = created_by_user.id
+where
+  (invoice.invoice_number ilike sqlc.narg(search)::text
+  or dispute.reason ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or credit_notes.credit_note_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindCreditNote :one
@@ -52,7 +58,12 @@ from
   left join "public"."user" as created_by_user on credit_notes.created_by_user_id = created_by_user.id
 where
   credit_notes.created_at >= @dateFrom::date
-  and credit_notes.created_at <= @dateTo::date;
+  and credit_notes.created_at <= @dateTo::date
+  and (invoice.invoice_number ilike sqlc.narg(search)::text
+  or dispute.reason ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or credit_notes.credit_note_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertCreditNote :one
 insert into "billing"."credit_notes"(invoice_id, dispute_id, credit_note_number, amount, reason, issue_date, applied_at, currency, notes, created_by_user_id)

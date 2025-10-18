@@ -6,6 +6,12 @@ from
   "dms"."delivery_tasks" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
   -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
+where
+  (delivery_tasks.recipient_name ilike sqlc.narg(search)::text
+  or delivery_tasks.delivery_address ilike sqlc.narg(search)::text
+  or delivery_tasks.status::text ilike sqlc.narg(search)::text
+  or delivery_route.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: DmsFindDeliveryTask :one
@@ -37,7 +43,12 @@ from
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.created_at >= @dateFrom::date
-  and delivery_tasks.created_at <= @dateTo::date;
+  and delivery_tasks.created_at <= @dateTo::date
+  and (delivery_tasks.recipient_name ilike sqlc.narg(search)::text
+  or delivery_tasks.delivery_address ilike sqlc.narg(search)::text
+  or delivery_tasks.status::text ilike sqlc.narg(search)::text
+  or delivery_route.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertDeliveryTask :one
 insert into "dms"."delivery_tasks"(package_id, delivery_route_id, route_sequence, delivery_address, recipient_name, recipient_phone, delivery_instructions, estimated_arrival_time, actual_arrival_time, delivery_time, status, failure_reason, attempt_count)

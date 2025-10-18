@@ -5,6 +5,10 @@ select
 from
   "dms"."customer_tracking_links" as customer_tracking_links
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
+where
+  (customer_tracking_links.tracking_token ilike sqlc.narg(search)::text
+  or delivery_task.recipient_name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: DmsFindCustomerTrackingLink :one
@@ -36,7 +40,10 @@ from
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
 where
   customer_tracking_links.created_at >= @dateFrom::date
-  and customer_tracking_links.created_at <= @dateTo::date;
+  and customer_tracking_links.created_at <= @dateTo::date
+  and (customer_tracking_links.tracking_token ilike sqlc.narg(search)::text
+  or delivery_task.recipient_name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertCustomerTrackingLink :one
 insert into "dms"."customer_tracking_links"(delivery_task_id, tracking_token, is_active, access_count, last_accessed_at, expires_at)

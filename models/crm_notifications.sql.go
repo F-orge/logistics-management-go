@@ -149,10 +149,14 @@ select
 from
   "crm"."notifications" as notifications
   inner join "public"."user" as users on notifications.user_id = users.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (users.name ilike $1::text
+  or notifications.message ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateNotificationParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -163,7 +167,7 @@ type CrmPaginateNotificationRow struct {
 }
 
 func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNotificationParams) ([]CrmPaginateNotificationRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -211,11 +215,15 @@ from
 where
   notifications.created_at >= $1::date
   and notifications.created_at <= $2::date
+  and (users.name ilike $3::text
+    or notifications.message ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeNotificationParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type CrmRangeNotificationRow struct {
@@ -224,7 +232,7 @@ type CrmRangeNotificationRow struct {
 }
 
 func (q *Queries) CrmRangeNotification(ctx context.Context, arg CrmRangeNotificationParams) ([]CrmRangeNotificationRow, error) {
-	rows, err := q.db.Query(ctx, crmRangeNotification, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeNotification, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

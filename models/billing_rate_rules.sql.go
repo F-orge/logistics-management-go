@@ -172,10 +172,17 @@ select
 from
   "billing"."rate_rules" as rate_rules
   inner join "billing"."rate_cards" as rate_card on rate_rules.rate_card_id = rate_card.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (rate_card.name ilike $1::text
+  or rate_rules.condition ilike $1::text
+  or rate_rules.value ilike $1::text
+  or rate_rules.pricing_model::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateRuleParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -186,7 +193,7 @@ type BillingPaginateRateRuleRow struct {
 }
 
 func (q *Queries) BillingPaginateRateRule(ctx context.Context, arg BillingPaginateRateRuleParams) ([]BillingPaginateRateRuleRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateRateRule, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, billingPaginateRateRule, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -238,11 +245,17 @@ from
 where
   rate_rules.created_at >= $1::date
   and rate_rules.created_at <= $2::date
+  and (rate_card.name ilike $3::text
+  or rate_rules.condition ilike $3::text
+  or rate_rules.value ilike $3::text
+  or rate_rules.pricing_model::text ilike $3::text
+  or $3::text is null)
 `
 
 type BillingRangeRateRuleParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type BillingRangeRateRuleRow struct {
@@ -251,7 +264,7 @@ type BillingRangeRateRuleRow struct {
 }
 
 func (q *Queries) BillingRangeRateRule(ctx context.Context, arg BillingRangeRateRuleParams) ([]BillingRangeRateRuleRow, error) {
-	rows, err := q.db.Query(ctx, billingRangeRateRule, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, billingRangeRateRule, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

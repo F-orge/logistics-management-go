@@ -326,10 +326,18 @@ from
   left join "crm"."companies" as client on putaway_rules.client_id = client.id
   inner join "wms"."warehouses" as warehouse on putaway_rules.warehouse_id = warehouse.id
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (product.name ilike $1::text
+  or client.name ilike $1::text
+  or warehouse.name ilike $1::text
+  or preferred_location.name ilike $1::text
+  or putaway_rules.location_type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePutawayRuleParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -343,7 +351,7 @@ type WmsPaginatePutawayRuleRow struct {
 }
 
 func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePutawayRuleParams) ([]WmsPaginatePutawayRuleRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -460,11 +468,18 @@ from
 where
   putaway_rules.created_at >= $1::date
   and putaway_rules.created_at <= $2::date
+  and (product.name ilike $3::text
+  or client.name ilike $3::text
+  or warehouse.name ilike $3::text
+  or preferred_location.name ilike $3::text
+  or putaway_rules.location_type::text ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangePutawayRuleParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangePutawayRuleRow struct {
@@ -476,7 +491,7 @@ type WmsRangePutawayRuleRow struct {
 }
 
 func (q *Queries) WmsRangePutawayRule(ctx context.Context, arg WmsRangePutawayRuleParams) ([]WmsRangePutawayRuleRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangePutawayRule, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangePutawayRule, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

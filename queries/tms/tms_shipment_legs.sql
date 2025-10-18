@@ -7,6 +7,13 @@ from
   "tms"."shipment_legs" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
+where
+  (carrier.name ilike sqlc.narg(search)::text
+  or internal_trip.status::text ilike sqlc.narg(search)::text
+  or shipment_legs.start_location ilike sqlc.narg(search)::text
+  or shipment_legs.end_location ilike sqlc.narg(search)::text
+  or shipment_legs.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindShipmentLeg :one
@@ -44,7 +51,13 @@ from
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
   shipment_legs.created_at >= @dateFrom::date
-  and shipment_legs.created_at <= @dateTo::date;
+  and shipment_legs.created_at <= @dateTo::date
+  and (carrier.name ilike sqlc.narg(search)::text
+  or internal_trip.status::text ilike sqlc.narg(search)::text
+  or shipment_legs.start_location ilike sqlc.narg(search)::text
+  or shipment_legs.end_location ilike sqlc.narg(search)::text
+  or shipment_legs.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertShipmentLeg :one
 insert into "tms"."shipment_legs"(shipment_id, leg_sequence, start_location, end_location, carrier_id, internal_trip_id, status)

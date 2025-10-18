@@ -5,6 +5,12 @@ select
 from
   "wms"."locations" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
+where
+  (warehouse.name ilike sqlc.narg(search)::text
+  or locations.name ilike sqlc.narg(search)::text
+  or locations.barcode ilike sqlc.narg(search)::text
+  or locations.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindLocation :one
@@ -36,7 +42,12 @@ from
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.created_at >= @dateFrom::date
-  and locations.created_at <= @dateTo::date;
+  and locations.created_at <= @dateTo::date
+  and (warehouse.name ilike sqlc.narg(search)::text
+  or locations.name ilike sqlc.narg(search)::text
+  or locations.barcode ilike sqlc.narg(search)::text
+  or locations.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertLocation :one
 insert into "wms"."locations"(warehouse_id, parent_location_id, name, barcode, type, level, path, max_weight, max_volume, max_pallets, x_coordinate, y_coordinate, z_coordinate, is_pickable, is_receivable, temperature_controlled, hazmat_approved, is_active)

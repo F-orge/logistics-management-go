@@ -5,6 +5,10 @@ select
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
   inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
+where
+  (vehicle.registration_number ilike sqlc.narg(search)::text
+  or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindVehicleMaintenance :one
@@ -36,7 +40,10 @@ from
   inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
 where
   vehicle_maintenance.created_at >= @dateFrom::date
-  and vehicle_maintenance.created_at <= @dateTo::date;
+  and vehicle_maintenance.created_at <= @dateTo::date
+  and (vehicle.registration_number ilike sqlc.narg(search)::text
+  or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertVehicleMaintenance :one
 insert into "tms"."vehicle_maintenance"(vehicle_id, service_date, service_type, cost, notes)

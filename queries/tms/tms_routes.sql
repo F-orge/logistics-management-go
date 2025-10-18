@@ -5,6 +5,9 @@ select
 from
   "tms"."routes" as routes
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
+where
+  (trip.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: TmsFindRoute :one
@@ -36,7 +39,9 @@ from
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
 where
   routes.created_at >= @dateFrom::date
-  and routes.created_at <= @dateTo::date;
+  and routes.created_at <= @dateTo::date
+  and (trip.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertRoute :one
 insert into "tms"."routes"(trip_id, optimized_route_data, total_distance, total_duration)

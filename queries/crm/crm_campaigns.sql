@@ -3,6 +3,8 @@ select
   *
 from
   "crm"."campaigns"
+where (name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindCampaign :one
@@ -28,7 +30,9 @@ from
   "crm"."campaigns"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertCampaign :one
 insert into "crm"."campaigns"(name, budget, start_date, end_date)
@@ -68,3 +72,4 @@ returning
 -- name: CrmRemoveCampaign :exec
 delete from "crm"."campaigns"
 where id = @id::uuid;
+

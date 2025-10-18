@@ -7,6 +7,10 @@ from
   "wms"."pick_batch_items" as pick_batch_items
   inner join "wms"."pick_batches" as pick_batch on pick_batch_items.pick_batch_id = pick_batch.id
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
+where
+  (pick_batch.batch_number ilike sqlc.narg(search)::text
+  or sales_order.order_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: WmsFindPickBatchItem :one
@@ -44,7 +48,10 @@ from
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
 where
   pick_batch_items.created_at >= @dateFrom::date
-  and pick_batch_items.created_at <= @dateTo::date;
+  and pick_batch_items.created_at <= @dateTo::date
+  and (pick_batch.batch_number ilike sqlc.narg(search)::text
+  or sales_order.order_number ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertPickBatchItem :one
 insert into "wms"."pick_batch_items"(pick_batch_id, sales_order_id, order_priority, estimated_pick_time, actual_pick_time)

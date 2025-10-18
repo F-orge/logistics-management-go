@@ -3,6 +3,10 @@ select
   *
 from
   "crm"."attachments"
+where
+  (record_type::text ilike sqlc.narg(search)::text
+  or mime_type ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: CrmFindAttachment :one
@@ -28,7 +32,10 @@ from
   "crm"."attachments"
 where
   created_at >= @dateFrom::date
-  and created_at <= @dateTo::date;
+  and created_at <= @dateTo::date
+  and (record_type::text ilike sqlc.narg(search)::text
+  or mime_type ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertAttachment :one
 insert into "crm"."attachments"(file_name, file_path, mime_type, record_id, record_type)

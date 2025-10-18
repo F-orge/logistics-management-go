@@ -9,6 +9,13 @@ from
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
+where
+  (client.name ilike sqlc.narg(search)::text
+  or quote.quote_number ilike sqlc.narg(search)::text
+  or invoices.invoice_number ilike sqlc.narg(search)::text
+  or invoices.status::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindInvoice :one
@@ -52,7 +59,13 @@ from
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
 where
   invoices.created_at >= @dateFrom::date
-  and invoices.created_at <= @dateTo::date;
+  and invoices.created_at <= @dateTo::date
+  and (client.name ilike sqlc.narg(search)::text
+  or quote.quote_number ilike sqlc.narg(search)::text
+  or invoices.invoice_number ilike sqlc.narg(search)::text
+  or invoices.status::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertInvoice :one
 insert into "billing"."invoices"(client_id, quote_id, invoice_number, status, issue_date, due_date, total_amount, amount_paid, currency, tax_amount, discount_amount, subtotal, payment_terms, notes, sent_at, paid_at, created_by_user_id)

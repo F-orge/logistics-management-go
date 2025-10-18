@@ -5,6 +5,11 @@ select
 from
   "billing"."rate_cards" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
+where
+  (rate_cards.name ilike sqlc.narg(search)::text
+  or rate_cards.service_type::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
 -- name: BillingFindRateCard :one
@@ -36,7 +41,11 @@ from
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.created_at >= @dateFrom::date
-  and rate_cards.created_at <= @dateTo::date;
+  and rate_cards.created_at <= @dateTo::date
+  and (rate_cards.name ilike sqlc.narg(search)::text
+  or rate_cards.service_type::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertRateCard :one
 insert into "billing"."rate_cards"(name, service_type, is_active, valid_from, valid_to, description, created_by_user_id)

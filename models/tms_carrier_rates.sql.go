@@ -155,10 +155,16 @@ select
 from
   "tms"."carrier_rates" as carrier_rates
   inner join "tms"."carriers" as carrier on carrier_rates.carrier_id = carrier.id
-limit $2::int offset ($1::int - 1) * $2::int
+where (carrier.name ilike $1::text
+  or carrier_rates.service_type ilike $1::text
+  or carrier_rates.origin ilike $1::text
+  or carrier_rates.destination ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateCarrierRateParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -169,7 +175,7 @@ type TmsPaginateCarrierRateRow struct {
 }
 
 func (q *Queries) TmsPaginateCarrierRate(ctx context.Context, arg TmsPaginateCarrierRateParams) ([]TmsPaginateCarrierRateRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateCarrierRate, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateCarrierRate, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -217,11 +223,17 @@ from
 where
   carrier_rates.created_at >= $1::date
   and carrier_rates.created_at <= $2::date
+  and (carrier.name ilike $3::text
+    or carrier_rates.service_type ilike $3::text
+    or carrier_rates.origin ilike $3::text
+    or carrier_rates.destination ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeCarrierRateParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type TmsRangeCarrierRateRow struct {
@@ -230,7 +242,7 @@ type TmsRangeCarrierRateRow struct {
 }
 
 func (q *Queries) TmsRangeCarrierRate(ctx context.Context, arg TmsRangeCarrierRateParams) ([]TmsRangeCarrierRateRow, error) {
-	rows, err := q.db.Query(ctx, tmsRangeCarrierRate, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, tmsRangeCarrierRate, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

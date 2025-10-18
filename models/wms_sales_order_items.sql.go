@@ -174,10 +174,15 @@ from
   "wms"."sales_order_items" as sales_order_items
   inner join "wms"."sales_orders" as sales_order on sales_order_items.sales_order_id = sales_order.id
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
-limit $2::int offset ($1::int - 1) * $2::int
+where
+  (sales_order.order_number ilike $1::text
+  or product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSalesOrderItemParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
@@ -189,7 +194,7 @@ type WmsPaginateSalesOrderItemRow struct {
 }
 
 func (q *Queries) WmsPaginateSalesOrderItem(ctx context.Context, arg WmsPaginateSalesOrderItemParams) ([]WmsPaginateSalesOrderItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSalesOrderItem, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, wmsPaginateSalesOrderItem, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -251,11 +256,15 @@ from
 where
   sales_order_items.created_at >= $1::date
   and sales_order_items.created_at <= $2::date
+  and (sales_order.order_number ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
 `
 
 type WmsRangeSalesOrderItemParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 type WmsRangeSalesOrderItemRow struct {
@@ -265,7 +274,7 @@ type WmsRangeSalesOrderItemRow struct {
 }
 
 func (q *Queries) WmsRangeSalesOrderItem(ctx context.Context, arg WmsRangeSalesOrderItemParams) ([]WmsRangeSalesOrderItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsRangeSalesOrderItem, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, wmsRangeSalesOrderItem, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}

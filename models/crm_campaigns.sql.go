@@ -111,16 +111,19 @@ select
   id, name, budget, start_date, end_date, created_at, updated_at
 from
   "crm"."campaigns"
-limit $2::int offset ($1::int - 1) * $2::int
+where (name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCampaignParams struct {
+	Search  pgtype.Text
 	Page    int32
 	Perpage int32
 }
 
 func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmCampaign, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
@@ -155,15 +158,18 @@ from
 where
   created_at >= $1::date
   and created_at <= $2::date
+  and (name ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeCampaignParams struct {
 	Datefrom pgtype.Date
 	Dateto   pgtype.Date
+	Search   pgtype.Text
 }
 
 func (q *Queries) CrmRangeCampaign(ctx context.Context, arg CrmRangeCampaignParams) ([]CrmCampaign, error) {
-	rows, err := q.db.Query(ctx, crmRangeCampaign, arg.Datefrom, arg.Dateto)
+	rows, err := q.db.Query(ctx, crmRangeCampaign, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
