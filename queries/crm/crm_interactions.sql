@@ -75,37 +75,37 @@ update
   "crm"."interactions"
 set
   updated_at = now(),
-  contact_id = case when sqlc.arg(set_contact_id)::boolean then
+  contact_id = case when sqlc.arg(contact_id) is not null then
     sqlc.arg(contact_id)::uuid
   else
     contact_id
   end,
-  user_id = case when sqlc.arg(set_user_id)::boolean then
+  user_id = case when sqlc.arg(user_id) is not null then
     sqlc.arg(user_id)::text
   else
     user_id
   end,
-  case_id = case when sqlc.arg(set_case_id)::boolean then
+  case_id = case when sqlc.arg(case_id) is not null then
     sqlc.arg(case_id)::uuid
   else
     case_id
   end,
-  type = case when sqlc.arg(set_type)::boolean then
+  type = case when sqlc.arg(type) is not null then
     sqlc.arg(type)::crm.interaction_type
   else
     type
   end,
-  outcome = case when sqlc.arg(set_outcome)::boolean then
+  outcome = case when sqlc.arg(outcome) is not null then
     sqlc.arg(outcome)::varchar
   else
     outcome
   end,
-  notes = case when sqlc.arg(set_notes)::boolean then
+  notes = case when sqlc.arg(notes) is not null then
     sqlc.arg(notes)::text
   else
     notes
   end,
-  interaction_date = case when sqlc.arg(set_interaction_date)::boolean then
+  interaction_date = case when sqlc.arg(interaction_date) is not null then
     sqlc.arg(interaction_date)::timestamptz
   else
     interaction_date

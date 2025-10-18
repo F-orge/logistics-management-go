@@ -55,22 +55,22 @@ update
   "crm"."notifications"
 set
   updated_at = now(),
-  user_id = case when sqlc.arg(set_user_id)::boolean then
+  user_id = case when sqlc.arg(user_id) is not null then
     sqlc.arg(user_id)::text
   else
     user_id
   end,
-  message = case when sqlc.arg(set_message)::boolean then
+  message = case when sqlc.arg(message) is not null then
     sqlc.arg(message)::text
   else
     message
   end,
-  is_read = case when sqlc.arg(set_is_read)::boolean then
+  is_read = case when sqlc.arg(is_read) is not null then
     sqlc.arg(is_read)::boolean
   else
     is_read
   end,
-  link = case when sqlc.arg(set_link)::boolean then
+  link = case when sqlc.arg(link) is not null then
     sqlc.arg(link)::varchar
   else
     link

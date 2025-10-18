@@ -362,80 +362,66 @@ update
   "crm"."cases"
 set
   updated_at = now(),
-  case_number = case when $1::boolean then
-    $2::text
+  case_number = case when $1 is not null then
+    $1::text
   else
     case_number
   end,
-  status = case when $3::boolean then
-    $4::crm.case_status
+  status = case when $2 is not null then
+    $2::crm.case_status
   else
     status
   end,
-  priority = case when $5::boolean then
-    $6::crm.case_priority
+  priority = case when $3 is not null then
+    $3::crm.case_priority
   else
     priority
   end,
-  type = case when $7::boolean then
-    $8::crm.case_type
+  type = case when $4 is not null then
+    $4::crm.case_type
   else
     type
   end,
-  owner_id = case when $9::boolean then
-    $10::text
+  owner_id = case when $5 is not null then
+    $5::text
   else
     owner_id
   end,
-  contact_id = case when $11::boolean then
-    $12::uuid
+  contact_id = case when $6 is not null then
+    $6::uuid
   else
     contact_id
   end,
-  description = case when $13::boolean then
-    $14::text
+  description = case when $7 is not null then
+    $7::text
   else
     description
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, case_number, status, priority, type, owner_id, contact_id, description, created_at, updated_at
 `
 
 type CrmUpdateCaseParams struct {
-	SetCaseNumber  bool
-	CaseNumber     string
-	SetStatus      bool
-	Status         CrmCaseStatus
-	SetPriority    bool
-	Priority       CrmCasePriority
-	SetType        bool
-	Type           CrmCaseType
-	SetOwnerID     bool
-	OwnerID        string
-	SetContactID   bool
-	ContactID      pgtype.UUID
-	SetDescription bool
-	Description    string
-	ID             pgtype.UUID
+	CaseNumber  string
+	Status      NullCrmCaseStatus
+	Priority    NullCrmCasePriority
+	Type        NullCrmCaseType
+	OwnerID     string
+	ContactID   pgtype.UUID
+	Description pgtype.Text
+	ID          pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateCase(ctx context.Context, arg CrmUpdateCaseParams) (CrmCase, error) {
 	row := q.db.QueryRow(ctx, crmUpdateCase,
-		arg.SetCaseNumber,
 		arg.CaseNumber,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetPriority,
 		arg.Priority,
-		arg.SetType,
 		arg.Type,
-		arg.SetOwnerID,
 		arg.OwnerID,
-		arg.SetContactID,
 		arg.ContactID,
-		arg.SetDescription,
 		arg.Description,
 		arg.ID,
 	)

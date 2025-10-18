@@ -410,80 +410,66 @@ update
   "crm"."interactions"
 set
   updated_at = now(),
-  contact_id = case when $1::boolean then
-    $2::uuid
+  contact_id = case when $1 is not null then
+    $1::uuid
   else
     contact_id
   end,
-  user_id = case when $3::boolean then
-    $4::text
+  user_id = case when $2 is not null then
+    $2::text
   else
     user_id
   end,
-  case_id = case when $5::boolean then
-    $6::uuid
+  case_id = case when $3 is not null then
+    $3::uuid
   else
     case_id
   end,
-  type = case when $7::boolean then
-    $8::crm.interaction_type
+  type = case when $4 is not null then
+    $4::crm.interaction_type
   else
     type
   end,
-  outcome = case when $9::boolean then
-    $10::varchar
+  outcome = case when $5 is not null then
+    $5::varchar
   else
     outcome
   end,
-  notes = case when $11::boolean then
-    $12::text
+  notes = case when $6 is not null then
+    $6::text
   else
     notes
   end,
-  interaction_date = case when $13::boolean then
-    $14::timestamptz
+  interaction_date = case when $7 is not null then
+    $7::timestamptz
   else
     interaction_date
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, contact_id, user_id, case_id, type, outcome, notes, interaction_date, created_at, updated_at
 `
 
 type CrmUpdateInteractionParams struct {
-	SetContactID       bool
-	ContactID          pgtype.UUID
-	SetUserID          bool
-	UserID             string
-	SetCaseID          bool
-	CaseID             pgtype.UUID
-	SetType            bool
-	Type               CrmInteractionType
-	SetOutcome         bool
-	Outcome            string
-	SetNotes           bool
-	Notes              string
-	SetInteractionDate bool
-	InteractionDate    pgtype.Timestamptz
-	ID                 pgtype.UUID
+	ContactID       pgtype.UUID
+	UserID          string
+	CaseID          pgtype.UUID
+	Type            NullCrmInteractionType
+	Outcome         pgtype.Text
+	Notes           pgtype.Text
+	InteractionDate pgtype.Timestamptz
+	ID              pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateInteraction(ctx context.Context, arg CrmUpdateInteractionParams) (CrmInteraction, error) {
 	row := q.db.QueryRow(ctx, crmUpdateInteraction,
-		arg.SetContactID,
 		arg.ContactID,
-		arg.SetUserID,
 		arg.UserID,
-		arg.SetCaseID,
 		arg.CaseID,
-		arg.SetType,
 		arg.Type,
-		arg.SetOutcome,
 		arg.Outcome,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetInteractionDate,
 		arg.InteractionDate,
 		arg.ID,
 	)

@@ -371,71 +371,59 @@ update
   "crm"."contacts"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  email = case when $3::boolean then
-    $4::text
+  email = case when $2 is not null then
+    $2::text
   else
     email
   end,
-  phone_number = case when $5::boolean then
-    $6::text
+  phone_number = case when $3 is not null then
+    $3::text
   else
     phone_number
   end,
-  job_title = case when $7::boolean then
-    $8::text
+  job_title = case when $4 is not null then
+    $4::text
   else
     job_title
   end,
-  company_id = case when $9::boolean then
-    $10::uuid
+  company_id = case when $5 is not null then
+    $5::uuid
   else
     company_id
   end,
-  owner_id = case when $11::boolean then
-    $12::text
+  owner_id = case when $6 is not null then
+    $6::text
   else
     owner_id
   end
 where
-  id = $13::uuid
+  id = $7::uuid
 returning
   id, name, email, phone_number, job_title, company_id, owner_id, created_at, updated_at
 `
 
 type CrmUpdateContactParams struct {
-	SetName        bool
-	Name           string
-	SetEmail       bool
-	Email          string
-	SetPhoneNumber bool
-	PhoneNumber    string
-	SetJobTitle    bool
-	JobTitle       string
-	SetCompanyID   bool
-	CompanyID      pgtype.UUID
-	SetOwnerID     bool
-	OwnerID        string
-	ID             pgtype.UUID
+	Name        string
+	Email       string
+	PhoneNumber pgtype.Text
+	JobTitle    pgtype.Text
+	CompanyID   pgtype.UUID
+	OwnerID     string
+	ID          pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateContact(ctx context.Context, arg CrmUpdateContactParams) (CrmContact, error) {
 	row := q.db.QueryRow(ctx, crmUpdateContact,
-		arg.SetName,
 		arg.Name,
-		arg.SetEmail,
 		arg.Email,
-		arg.SetPhoneNumber,
 		arg.PhoneNumber,
-		arg.SetJobTitle,
 		arg.JobTitle,
-		arg.SetCompanyID,
 		arg.CompanyID,
-		arg.SetOwnerID,
 		arg.OwnerID,
 		arg.ID,
 	)

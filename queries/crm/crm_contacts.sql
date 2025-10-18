@@ -67,32 +67,32 @@ update
   "crm"."contacts"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  email = case when sqlc.arg(set_email)::boolean then
+  email = case when sqlc.arg(email) is not null then
     sqlc.arg(email)::text
   else
     email
   end,
-  phone_number = case when sqlc.arg(set_phone_number)::boolean then
+  phone_number = case when sqlc.arg(phone_number) is not null then
     sqlc.arg(phone_number)::text
   else
     phone_number
   end,
-  job_title = case when sqlc.arg(set_job_title)::boolean then
+  job_title = case when sqlc.arg(job_title) is not null then
     sqlc.arg(job_title)::text
   else
     job_title
   end,
-  company_id = case when sqlc.arg(set_company_id)::boolean then
+  company_id = case when sqlc.arg(company_id) is not null then
     sqlc.arg(company_id)::uuid
   else
     company_id
   end,
-  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+  owner_id = case when sqlc.arg(owner_id) is not null then
     sqlc.arg(owner_id)::text
   else
     owner_id

@@ -285,53 +285,45 @@ update
   "crm"."notifications"
 set
   updated_at = now(),
-  user_id = case when $1::boolean then
-    $2::text
+  user_id = case when $1 is not null then
+    $1::text
   else
     user_id
   end,
-  message = case when $3::boolean then
-    $4::text
+  message = case when $2 is not null then
+    $2::text
   else
     message
   end,
-  is_read = case when $5::boolean then
-    $6::boolean
+  is_read = case when $3 is not null then
+    $3::boolean
   else
     is_read
   end,
-  link = case when $7::boolean then
-    $8::varchar
+  link = case when $4 is not null then
+    $4::varchar
   else
     link
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, user_id, message, is_read, created_at, updated_at, link
 `
 
 type CrmUpdateNotificationParams struct {
-	SetUserID  bool
-	UserID     string
-	SetMessage bool
-	Message    string
-	SetIsRead  bool
-	IsRead     bool
-	SetLink    bool
-	Link       string
-	ID         pgtype.UUID
+	UserID  string
+	Message string
+	IsRead  pgtype.Bool
+	Link    pgtype.Text
+	ID      pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateNotification(ctx context.Context, arg CrmUpdateNotificationParams) (CrmNotification, error) {
 	row := q.db.QueryRow(ctx, crmUpdateNotification,
-		arg.SetUserID,
 		arg.UserID,
-		arg.SetMessage,
 		arg.Message,
-		arg.SetIsRead,
 		arg.IsRead,
-		arg.SetLink,
 		arg.Link,
 		arg.ID,
 	)

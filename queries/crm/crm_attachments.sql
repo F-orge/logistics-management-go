@@ -3,8 +3,7 @@ select
   *
 from
   "crm"."attachments"
-where
-  (record_type::text ilike sqlc.narg(search)::text
+where (record_type::text ilike sqlc.narg(search)::text
   or mime_type ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -34,8 +33,8 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (record_type::text ilike sqlc.narg(search)::text
-  or mime_type ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or mime_type ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertAttachment :one
 insert into "crm"."attachments"(file_name, file_path, mime_type, record_id, record_type)
@@ -48,27 +47,27 @@ update
   "crm"."attachments"
 set
   updated_at = now(),
-  file_name = case when sqlc.arg(set_file_name)::boolean then
+  file_name = case when sqlc.arg(file_name) is not null then
     sqlc.arg(file_name)::varchar
   else
     file_name
   end,
-  file_path = case when sqlc.arg(set_file_path)::boolean then
+  file_path = case when sqlc.arg(file_path) is not null then
     sqlc.arg(file_path)::varchar
   else
     file_path
   end,
-  mime_type = case when sqlc.arg(set_mime_type)::boolean then
+  mime_type = case when sqlc.arg(mime_type) is not null then
     sqlc.arg(mime_type)::varchar
   else
     mime_type
   end,
-  record_id = case when sqlc.arg(set_record_id)::boolean then
+  record_id = case when sqlc.arg(record_id) is not null then
     sqlc.arg(record_id)::uuid
   else
     record_id
   end,
-  record_type = case when sqlc.arg(set_record_type)::boolean then
+  record_type = case when sqlc.arg(record_type) is not null then
     sqlc.arg(record_type)::crm.record_type
   else
     record_type
@@ -81,3 +80,4 @@ returning
 -- name: CrmRemoveAttachment :exec
 delete from "crm"."attachments"
 where id = @id::uuid;
+

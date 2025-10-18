@@ -95,57 +95,57 @@ update
   "crm"."leads"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  email = case when sqlc.arg(set_email)::boolean then
+  email = case when sqlc.arg(email) is not null then
     sqlc.arg(email)::text
   else
     email
   end,
-  lead_source = case when sqlc.arg(set_lead_source)::boolean then
+  lead_source = case when sqlc.arg(lead_source) is not null then
     sqlc.arg(lead_source)::crm.lead_source
   else
     lead_source
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::crm.lead_status
   else
     status
   end,
-  lead_score = case when sqlc.arg(set_lead_score)::boolean then
+  lead_score = case when sqlc.arg(lead_score) is not null then
     sqlc.arg(lead_score)::integer
   else
     lead_score
   end,
-  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+  owner_id = case when sqlc.arg(owner_id) is not null then
     sqlc.arg(owner_id)::text
   else
     owner_id
   end,
-  campaign_id = case when sqlc.arg(set_campaign_id)::boolean then
+  campaign_id = case when sqlc.arg(campaign_id) is not null then
     sqlc.arg(campaign_id)::uuid
   else
     campaign_id
   end,
-  converted_at = case when sqlc.arg(set_converted_at)::boolean then
+  converted_at = case when sqlc.arg(converted_at) is not null then
     sqlc.arg(converted_at)::timestamptz
   else
     converted_at
   end,
-  converted_contact_id = case when sqlc.arg(set_converted_contact_id)::boolean then
+  converted_contact_id = case when sqlc.arg(converted_contact_id) is not null then
     sqlc.arg(converted_contact_id)::uuid
   else
     converted_contact_id
   end,
-  converted_company_id = case when sqlc.arg(set_converted_company_id)::boolean then
+  converted_company_id = case when sqlc.arg(converted_company_id) is not null then
     sqlc.arg(converted_company_id)::uuid
   else
     converted_company_id
   end,
-  converted_opportunity_id = case when sqlc.arg(set_converted_opportunity_id)::boolean then
+  converted_opportunity_id = case when sqlc.arg(converted_opportunity_id) is not null then
     sqlc.arg(converted_opportunity_id)::uuid
   else
     converted_opportunity_id

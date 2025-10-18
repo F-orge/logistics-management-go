@@ -45,22 +45,22 @@ update
   "crm"."campaigns"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  budget = case when sqlc.arg(set_budget)::boolean then
+  budget = case when sqlc.arg(budget) is not null then
     sqlc.arg(budget)::numeric
   else
     budget
   end,
-  start_date = case when sqlc.arg(set_start_date)::boolean then
+  start_date = case when sqlc.arg(start_date) is not null then
     sqlc.arg(start_date)::date
   else
     start_date
   end,
-  end_date = case when sqlc.arg(set_end_date)::boolean then
+  end_date = case when sqlc.arg(end_date) is not null then
     sqlc.arg(end_date)::date
   else
     end_date

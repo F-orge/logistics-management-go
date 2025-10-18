@@ -55,42 +55,42 @@ update
   "crm"."invoices"
 set
   updated_at = now(),
-  opportunity_id = case when sqlc.arg(set_opportunity_id)::boolean then
+  opportunity_id = case when sqlc.arg(opportunity_id) is not null then
     sqlc.arg(opportunity_id)::uuid
   else
     opportunity_id
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::crm.invoice_status
   else
     status
   end,
-  total = case when sqlc.arg(set_total)::boolean then
+  total = case when sqlc.arg(total) is not null then
     sqlc.arg(total)::numeric
   else
     total
   end,
-  issue_date = case when sqlc.arg(set_issue_date)::boolean then
+  issue_date = case when sqlc.arg(issue_date) is not null then
     sqlc.arg(issue_date)::date
   else
     issue_date
   end,
-  due_date = case when sqlc.arg(set_due_date)::boolean then
+  due_date = case when sqlc.arg(due_date) is not null then
     sqlc.arg(due_date)::date
   else
     due_date
   end,
-  sent_at = case when sqlc.arg(set_sent_at)::boolean then
+  sent_at = case when sqlc.arg(sent_at) is not null then
     sqlc.arg(sent_at)::timestamptz
   else
     sent_at
   end,
-  paid_at = case when sqlc.arg(set_paid_at)::boolean then
+  paid_at = case when sqlc.arg(paid_at) is not null then
     sqlc.arg(paid_at)::timestamptz
   else
     paid_at
   end,
-  payment_method = case when sqlc.arg(set_payment_method)::boolean then
+  payment_method = case when sqlc.arg(payment_method) is not null then
     sqlc.arg(payment_method)::crm.payment_method
   else
     payment_method

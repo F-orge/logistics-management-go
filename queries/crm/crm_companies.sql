@@ -59,57 +59,57 @@ update
   "crm"."companies"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  street = case when sqlc.arg(set_street)::boolean then
+  street = case when sqlc.arg(street) is not null then
     sqlc.arg(street)::text
   else
     street
   end,
-  city = case when sqlc.arg(set_city)::boolean then
+  city = case when sqlc.arg(city) is not null then
     sqlc.arg(city)::text
   else
     city
   end,
-  state = case when sqlc.arg(set_state)::boolean then
+  state = case when sqlc.arg(state) is not null then
     sqlc.arg(state)::text
   else
     state
   end,
-  postal_code = case when sqlc.arg(set_postal_code)::boolean then
+  postal_code = case when sqlc.arg(postal_code) is not null then
     sqlc.arg(postal_code)::text
   else
     postal_code
   end,
-  country = case when sqlc.arg(set_country)::boolean then
+  country = case when sqlc.arg(country) is not null then
     sqlc.arg(country)::text
   else
     country
   end,
-  phone_number = case when sqlc.arg(set_phone_number)::boolean then
+  phone_number = case when sqlc.arg(phone_number) is not null then
     sqlc.arg(phone_number)::text
   else
     phone_number
   end,
-  industry = case when sqlc.arg(set_industry)::boolean then
+  industry = case when sqlc.arg(industry) is not null then
     sqlc.arg(industry)::text
   else
     industry
   end,
-  website = case when sqlc.arg(set_website)::boolean then
+  website = case when sqlc.arg(website) is not null then
     sqlc.arg(website)::text
   else
     website
   end,
-  annual_revenue = case when sqlc.arg(set_annual_revenue)::boolean then
+  annual_revenue = case when sqlc.arg(annual_revenue) is not null then
     sqlc.arg(annual_revenue)::numeric
   else
     annual_revenue
   end,
-  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+  owner_id = case when sqlc.arg(owner_id) is not null then
     sqlc.arg(owner_id)::text
   else
     owner_id

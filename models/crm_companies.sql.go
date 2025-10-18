@@ -336,116 +336,94 @@ update
   "crm"."companies"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  street = case when $3::boolean then
-    $4::text
+  street = case when $2 is not null then
+    $2::text
   else
     street
   end,
-  city = case when $5::boolean then
-    $6::text
+  city = case when $3 is not null then
+    $3::text
   else
     city
   end,
-  state = case when $7::boolean then
-    $8::text
+  state = case when $4 is not null then
+    $4::text
   else
     state
   end,
-  postal_code = case when $9::boolean then
-    $10::text
+  postal_code = case when $5 is not null then
+    $5::text
   else
     postal_code
   end,
-  country = case when $11::boolean then
-    $12::text
+  country = case when $6 is not null then
+    $6::text
   else
     country
   end,
-  phone_number = case when $13::boolean then
-    $14::text
+  phone_number = case when $7 is not null then
+    $7::text
   else
     phone_number
   end,
-  industry = case when $15::boolean then
-    $16::text
+  industry = case when $8 is not null then
+    $8::text
   else
     industry
   end,
-  website = case when $17::boolean then
-    $18::text
+  website = case when $9 is not null then
+    $9::text
   else
     website
   end,
-  annual_revenue = case when $19::boolean then
-    $20::numeric
+  annual_revenue = case when $10 is not null then
+    $10::numeric
   else
     annual_revenue
   end,
-  owner_id = case when $21::boolean then
-    $22::text
+  owner_id = case when $11 is not null then
+    $11::text
   else
     owner_id
   end
 where
-  id = $23::uuid
+  id = $12::uuid
 returning
   id, name, street, city, state, postal_code, country, phone_number, industry, website, annual_revenue, owner_id, created_at, updated_at
 `
 
 type CrmUpdateCompanyParams struct {
-	SetName          bool
-	Name             string
-	SetStreet        bool
-	Street           string
-	SetCity          bool
-	City             string
-	SetState         bool
-	State            string
-	SetPostalCode    bool
-	PostalCode       string
-	SetCountry       bool
-	Country          string
-	SetPhoneNumber   bool
-	PhoneNumber      string
-	SetIndustry      bool
-	Industry         string
-	SetWebsite       bool
-	Website          string
-	SetAnnualRevenue bool
-	AnnualRevenue    pgtype.Numeric
-	SetOwnerID       bool
-	OwnerID          string
-	ID               pgtype.UUID
+	Name          string
+	Street        pgtype.Text
+	City          pgtype.Text
+	State         pgtype.Text
+	PostalCode    pgtype.Text
+	Country       pgtype.Text
+	PhoneNumber   pgtype.Text
+	Industry      pgtype.Text
+	Website       pgtype.Text
+	AnnualRevenue pgtype.Numeric
+	OwnerID       pgtype.Text
+	ID            pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateCompany(ctx context.Context, arg CrmUpdateCompanyParams) (CrmCompany, error) {
 	row := q.db.QueryRow(ctx, crmUpdateCompany,
-		arg.SetName,
 		arg.Name,
-		arg.SetStreet,
 		arg.Street,
-		arg.SetCity,
 		arg.City,
-		arg.SetState,
 		arg.State,
-		arg.SetPostalCode,
 		arg.PostalCode,
-		arg.SetCountry,
 		arg.Country,
-		arg.SetPhoneNumber,
 		arg.PhoneNumber,
-		arg.SetIndustry,
 		arg.Industry,
-		arg.SetWebsite,
 		arg.Website,
-		arg.SetAnnualRevenue,
 		arg.AnnualRevenue,
-		arg.SetOwnerID,
 		arg.OwnerID,
 		arg.ID,
 	)

@@ -325,89 +325,73 @@ update
   "crm"."invoices"
 set
   updated_at = now(),
-  opportunity_id = case when $1::boolean then
-    $2::uuid
+  opportunity_id = case when $1 is not null then
+    $1::uuid
   else
     opportunity_id
   end,
-  status = case when $3::boolean then
-    $4::crm.invoice_status
+  status = case when $2 is not null then
+    $2::crm.invoice_status
   else
     status
   end,
-  total = case when $5::boolean then
-    $6::numeric
+  total = case when $3 is not null then
+    $3::numeric
   else
     total
   end,
-  issue_date = case when $7::boolean then
-    $8::date
+  issue_date = case when $4 is not null then
+    $4::date
   else
     issue_date
   end,
-  due_date = case when $9::boolean then
-    $10::date
+  due_date = case when $5 is not null then
+    $5::date
   else
     due_date
   end,
-  sent_at = case when $11::boolean then
-    $12::timestamptz
+  sent_at = case when $6 is not null then
+    $6::timestamptz
   else
     sent_at
   end,
-  paid_at = case when $13::boolean then
-    $14::timestamptz
+  paid_at = case when $7 is not null then
+    $7::timestamptz
   else
     paid_at
   end,
-  payment_method = case when $15::boolean then
-    $16::crm.payment_method
+  payment_method = case when $8 is not null then
+    $8::crm.payment_method
   else
     payment_method
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, opportunity_id, status, total, issue_date, due_date, sent_at, paid_at, payment_method, created_at, updated_at
 `
 
 type CrmUpdateInvoiceParams struct {
-	SetOpportunityID bool
-	OpportunityID    pgtype.UUID
-	SetStatus        bool
-	Status           CrmInvoiceStatus
-	SetTotal         bool
-	Total            pgtype.Numeric
-	SetIssueDate     bool
-	IssueDate        pgtype.Date
-	SetDueDate       bool
-	DueDate          pgtype.Date
-	SetSentAt        bool
-	SentAt           pgtype.Timestamptz
-	SetPaidAt        bool
-	PaidAt           pgtype.Timestamptz
-	SetPaymentMethod bool
-	PaymentMethod    CrmPaymentMethod
-	ID               pgtype.UUID
+	OpportunityID pgtype.UUID
+	Status        NullCrmInvoiceStatus
+	Total         pgtype.Numeric
+	IssueDate     pgtype.Date
+	DueDate       pgtype.Date
+	SentAt        pgtype.Timestamptz
+	PaidAt        pgtype.Timestamptz
+	PaymentMethod NullCrmPaymentMethod
+	ID            pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateInvoice(ctx context.Context, arg CrmUpdateInvoiceParams) (CrmInvoice, error) {
 	row := q.db.QueryRow(ctx, crmUpdateInvoice,
-		arg.SetOpportunityID,
 		arg.OpportunityID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetTotal,
 		arg.Total,
-		arg.SetIssueDate,
 		arg.IssueDate,
-		arg.SetDueDate,
 		arg.DueDate,
-		arg.SetSentAt,
 		arg.SentAt,
-		arg.SetPaidAt,
 		arg.PaidAt,
-		arg.SetPaymentMethod,
 		arg.PaymentMethod,
 		arg.ID,
 	)

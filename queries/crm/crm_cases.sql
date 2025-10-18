@@ -71,37 +71,37 @@ update
   "crm"."cases"
 set
   updated_at = now(),
-  case_number = case when sqlc.arg(set_case_number)::boolean then
+  case_number = case when sqlc.arg(case_number) is not null then
     sqlc.arg(case_number)::text
   else
     case_number
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::crm.case_status
   else
     status
   end,
-  priority = case when sqlc.arg(set_priority)::boolean then
+  priority = case when sqlc.arg(priority) is not null then
     sqlc.arg(priority)::crm.case_priority
   else
     priority
   end,
-  type = case when sqlc.arg(set_type)::boolean then
+  type = case when sqlc.arg(type) is not null then
     sqlc.arg(type)::crm.case_type
   else
     type
   end,
-  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+  owner_id = case when sqlc.arg(owner_id) is not null then
     sqlc.arg(owner_id)::text
   else
     owner_id
   end,
-  contact_id = case when sqlc.arg(set_contact_id)::boolean then
+  contact_id = case when sqlc.arg(contact_id) is not null then
     sqlc.arg(contact_id)::uuid
   else
     contact_id
   end,
-  description = case when sqlc.arg(set_description)::boolean then
+  description = case when sqlc.arg(description) is not null then
     sqlc.arg(description)::text
   else
     description

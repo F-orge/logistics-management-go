@@ -566,116 +566,94 @@ update
   "crm"."leads"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  email = case when $3::boolean then
-    $4::text
+  email = case when $2 is not null then
+    $2::text
   else
     email
   end,
-  lead_source = case when $5::boolean then
-    $6::crm.lead_source
+  lead_source = case when $3 is not null then
+    $3::crm.lead_source
   else
     lead_source
   end,
-  status = case when $7::boolean then
-    $8::crm.lead_status
+  status = case when $4 is not null then
+    $4::crm.lead_status
   else
     status
   end,
-  lead_score = case when $9::boolean then
-    $10::integer
+  lead_score = case when $5 is not null then
+    $5::integer
   else
     lead_score
   end,
-  owner_id = case when $11::boolean then
-    $12::text
+  owner_id = case when $6 is not null then
+    $6::text
   else
     owner_id
   end,
-  campaign_id = case when $13::boolean then
-    $14::uuid
+  campaign_id = case when $7 is not null then
+    $7::uuid
   else
     campaign_id
   end,
-  converted_at = case when $15::boolean then
-    $16::timestamptz
+  converted_at = case when $8 is not null then
+    $8::timestamptz
   else
     converted_at
   end,
-  converted_contact_id = case when $17::boolean then
-    $18::uuid
+  converted_contact_id = case when $9 is not null then
+    $9::uuid
   else
     converted_contact_id
   end,
-  converted_company_id = case when $19::boolean then
-    $20::uuid
+  converted_company_id = case when $10 is not null then
+    $10::uuid
   else
     converted_company_id
   end,
-  converted_opportunity_id = case when $21::boolean then
-    $22::uuid
+  converted_opportunity_id = case when $11 is not null then
+    $11::uuid
   else
     converted_opportunity_id
   end
 where
-  id = $23::uuid
+  id = $12::uuid
 returning
   id, name, email, lead_source, status, lead_score, owner_id, campaign_id, converted_at, converted_contact_id, converted_company_id, converted_opportunity_id, created_at, updated_at
 `
 
 type CrmUpdateLeadParams struct {
-	SetName                   bool
-	Name                      string
-	SetEmail                  bool
-	Email                     string
-	SetLeadSource             bool
-	LeadSource                CrmLeadSource
-	SetStatus                 bool
-	Status                    CrmLeadStatus
-	SetLeadScore              bool
-	LeadScore                 int32
-	SetOwnerID                bool
-	OwnerID                   string
-	SetCampaignID             bool
-	CampaignID                pgtype.UUID
-	SetConvertedAt            bool
-	ConvertedAt               pgtype.Timestamptz
-	SetConvertedContactID     bool
-	ConvertedContactID        pgtype.UUID
-	SetConvertedCompanyID     bool
-	ConvertedCompanyID        pgtype.UUID
-	SetConvertedOpportunityID bool
-	ConvertedOpportunityID    pgtype.UUID
-	ID                        pgtype.UUID
+	Name                   string
+	Email                  string
+	LeadSource             NullCrmLeadSource
+	Status                 NullCrmLeadStatus
+	LeadScore              pgtype.Int4
+	OwnerID                string
+	CampaignID             pgtype.UUID
+	ConvertedAt            pgtype.Timestamptz
+	ConvertedContactID     pgtype.UUID
+	ConvertedCompanyID     pgtype.UUID
+	ConvertedOpportunityID pgtype.UUID
+	ID                     pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateLead(ctx context.Context, arg CrmUpdateLeadParams) (CrmLead, error) {
 	row := q.db.QueryRow(ctx, crmUpdateLead,
-		arg.SetName,
 		arg.Name,
-		arg.SetEmail,
 		arg.Email,
-		arg.SetLeadSource,
 		arg.LeadSource,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetLeadScore,
 		arg.LeadScore,
-		arg.SetOwnerID,
 		arg.OwnerID,
-		arg.SetCampaignID,
 		arg.CampaignID,
-		arg.SetConvertedAt,
 		arg.ConvertedAt,
-		arg.SetConvertedContactID,
 		arg.ConvertedContactID,
-		arg.SetConvertedCompanyID,
 		arg.ConvertedCompanyID,
-		arg.SetConvertedOpportunityID,
 		arg.ConvertedOpportunityID,
 		arg.ID,
 	)

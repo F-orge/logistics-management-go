@@ -116,8 +116,7 @@ select
   id, name, sku, price, type, description, created_at, updated_at
 from
   "crm"."products"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or sku ilike $1::text
   or type::text ilike $1::text
   or $1::text is null)
@@ -168,9 +167,9 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or sku ilike $3::text
-  or type::text ilike $3::text
-  or $3::text is null)
+    or sku ilike $3::text
+    or type::text ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeProductParams struct {
@@ -223,62 +222,52 @@ update
   "crm"."products"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  sku = case when $3::boolean then
-    $4::text
+  sku = case when $2 is not null then
+    $2::text
   else
     sku
   end,
-  price = case when $5::boolean then
-    $6::numeric
+  price = case when $3 is not null then
+    $3::numeric
   else
     price
   end,
-  type = case when $7::boolean then
-    $8::crm.product_type
+  type = case when $4 is not null then
+    $4::crm.product_type
   else
     type
   end,
-  description = case when $9::boolean then
-    $10::text
+  description = case when $5 is not null then
+    $5::text
   else
     description
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, name, sku, price, type, description, created_at, updated_at
 `
 
 type CrmUpdateProductParams struct {
-	SetName        bool
-	Name           string
-	SetSku         bool
-	Sku            string
-	SetPrice       bool
-	Price          pgtype.Numeric
-	SetType        bool
-	Type           CrmProductType
-	SetDescription bool
-	Description    string
-	ID             pgtype.UUID
+	Name        string
+	Sku         pgtype.Text
+	Price       pgtype.Numeric
+	Type        NullCrmProductType
+	Description pgtype.Text
+	ID          pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateProduct(ctx context.Context, arg CrmUpdateProductParams) (CrmProduct, error) {
 	row := q.db.QueryRow(ctx, crmUpdateProduct,
-		arg.SetName,
 		arg.Name,
-		arg.SetSku,
 		arg.Sku,
-		arg.SetPrice,
 		arg.Price,
-		arg.SetType,
 		arg.Type,
-		arg.SetDescription,
 		arg.Description,
 		arg.ID,
 	)

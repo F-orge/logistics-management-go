@@ -211,53 +211,45 @@ update
   "crm"."campaigns"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  budget = case when $3::boolean then
-    $4::numeric
+  budget = case when $2 is not null then
+    $2::numeric
   else
     budget
   end,
-  start_date = case when $5::boolean then
-    $6::date
+  start_date = case when $3 is not null then
+    $3::date
   else
     start_date
   end,
-  end_date = case when $7::boolean then
-    $8::date
+  end_date = case when $4 is not null then
+    $4::date
   else
     end_date
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, name, budget, start_date, end_date, created_at, updated_at
 `
 
 type CrmUpdateCampaignParams struct {
-	SetName      bool
-	Name         string
-	SetBudget    bool
-	Budget       pgtype.Numeric
-	SetStartDate bool
-	StartDate    pgtype.Date
-	SetEndDate   bool
-	EndDate      pgtype.Date
-	ID           pgtype.UUID
+	Name      string
+	Budget    pgtype.Numeric
+	StartDate pgtype.Date
+	EndDate   pgtype.Date
+	ID        pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateCampaign(ctx context.Context, arg CrmUpdateCampaignParams) (CrmCampaign, error) {
 	row := q.db.QueryRow(ctx, crmUpdateCampaign,
-		arg.SetName,
 		arg.Name,
-		arg.SetBudget,
 		arg.Budget,
-		arg.SetStartDate,
 		arg.StartDate,
-		arg.SetEndDate,
 		arg.EndDate,
 		arg.ID,
 	)

@@ -3,8 +3,7 @@ select
   *
 from
   "crm"."products"
-where
-  (name ilike sqlc.narg(search)::text
+where (name ilike sqlc.narg(search)::text
   or sku ilike sqlc.narg(search)::text
   or type::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -35,9 +34,9 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (name ilike sqlc.narg(search)::text
-  or sku ilike sqlc.narg(search)::text
-  or type::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sku ilike sqlc.narg(search)::text
+    or type::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertProduct :one
 insert into "crm"."products"(name, sku, price, type, description)
@@ -50,27 +49,27 @@ update
   "crm"."products"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  sku = case when sqlc.arg(set_sku)::boolean then
+  sku = case when sqlc.arg(sku) is not null then
     sqlc.arg(sku)::text
   else
     sku
   end,
-  price = case when sqlc.arg(set_price)::boolean then
+  price = case when sqlc.arg(price) is not null then
     sqlc.arg(price)::numeric
   else
     price
   end,
-  type = case when sqlc.arg(set_type)::boolean then
+  type = case when sqlc.arg(type) is not null then
     sqlc.arg(type)::crm.product_type
   else
     type
   end,
-  description = case when sqlc.arg(set_description)::boolean then
+  description = case when sqlc.arg(description) is not null then
     sqlc.arg(description)::text
   else
     description
@@ -83,3 +82,4 @@ returning
 -- name: CrmRemoveProduct :exec
 delete from "crm"."products"
 where id = @id::uuid;
+

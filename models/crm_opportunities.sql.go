@@ -500,116 +500,94 @@ update
   "crm"."opportunities"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::text
+  name = case when $1 is not null then
+    $1::text
   else
     name
   end,
-  stage = case when $3::boolean then
-    $4::crm.opportunity_stage
+  stage = case when $2 is not null then
+    $2::crm.opportunity_stage
   else
     stage
   end,
-  deal_value = case when $5::boolean then
-    $6::numeric
+  deal_value = case when $3 is not null then
+    $3::numeric
   else
     deal_value
   end,
-  probability = case when $7::boolean then
-    $8::real
+  probability = case when $4 is not null then
+    $4::real
   else
     probability
   end,
-  expected_close_date = case when $9::boolean then
-    $10::date
+  expected_close_date = case when $5 is not null then
+    $5::date
   else
     expected_close_date
   end,
-  lost_reason = case when $11::boolean then
-    $12::text
+  lost_reason = case when $6 is not null then
+    $6::text
   else
     lost_reason
   end,
-  source = case when $13::boolean then
-    $14::crm.opportunity_source
+  source = case when $7 is not null then
+    $7::crm.opportunity_source
   else
     source
   end,
-  owner_id = case when $15::boolean then
-    $16::text
+  owner_id = case when $8 is not null then
+    $8::text
   else
     owner_id
   end,
-  contact_id = case when $17::boolean then
-    $18::uuid
+  contact_id = case when $9 is not null then
+    $9::uuid
   else
     contact_id
   end,
-  company_id = case when $19::boolean then
-    $20::uuid
+  company_id = case when $10 is not null then
+    $10::uuid
   else
     company_id
   end,
-  campaign_id = case when $21::boolean then
-    $22::uuid
+  campaign_id = case when $11 is not null then
+    $11::uuid
   else
     campaign_id
   end
 where
-  id = $23::uuid
+  id = $12::uuid
 returning
   id, name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id, created_at, updated_at
 `
 
 type CrmUpdateOpportunityParams struct {
-	SetName              bool
-	Name                 string
-	SetStage             bool
-	Stage                CrmOpportunityStage
-	SetDealValue         bool
-	DealValue            pgtype.Numeric
-	SetProbability       bool
-	Probability          float32
-	SetExpectedCloseDate bool
-	ExpectedCloseDate    pgtype.Date
-	SetLostReason        bool
-	LostReason           string
-	SetSource            bool
-	Source               CrmOpportunitySource
-	SetOwnerID           bool
-	OwnerID              string
-	SetContactID         bool
-	ContactID            pgtype.UUID
-	SetCompanyID         bool
-	CompanyID            pgtype.UUID
-	SetCampaignID        bool
-	CampaignID           pgtype.UUID
-	ID                   pgtype.UUID
+	Name              string
+	Stage             NullCrmOpportunityStage
+	DealValue         pgtype.Numeric
+	Probability       pgtype.Float4
+	ExpectedCloseDate pgtype.Date
+	LostReason        pgtype.Text
+	Source            NullCrmOpportunitySource
+	OwnerID           string
+	ContactID         pgtype.UUID
+	CompanyID         pgtype.UUID
+	CampaignID        pgtype.UUID
+	ID                pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportunityParams) (CrmOpportunity, error) {
 	row := q.db.QueryRow(ctx, crmUpdateOpportunity,
-		arg.SetName,
 		arg.Name,
-		arg.SetStage,
 		arg.Stage,
-		arg.SetDealValue,
 		arg.DealValue,
-		arg.SetProbability,
 		arg.Probability,
-		arg.SetExpectedCloseDate,
 		arg.ExpectedCloseDate,
-		arg.SetLostReason,
 		arg.LostReason,
-		arg.SetSource,
 		arg.Source,
-		arg.SetOwnerID,
 		arg.OwnerID,
-		arg.SetContactID,
 		arg.ContactID,
-		arg.SetCompanyID,
 		arg.CompanyID,
-		arg.SetCampaignID,
 		arg.CampaignID,
 		arg.ID,
 	)

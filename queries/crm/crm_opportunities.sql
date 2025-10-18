@@ -89,57 +89,57 @@ update
   "crm"."opportunities"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::text
   else
     name
   end,
-  stage = case when sqlc.arg(set_stage)::boolean then
+  stage = case when sqlc.arg(stage) is not null then
     sqlc.arg(stage)::crm.opportunity_stage
   else
     stage
   end,
-  deal_value = case when sqlc.arg(set_deal_value)::boolean then
+  deal_value = case when sqlc.arg(deal_value) is not null then
     sqlc.arg(deal_value)::numeric
   else
     deal_value
   end,
-  probability = case when sqlc.arg(set_probability)::boolean then
+  probability = case when sqlc.arg(probability) is not null then
     sqlc.arg(probability)::real
   else
     probability
   end,
-  expected_close_date = case when sqlc.arg(set_expected_close_date)::boolean then
+  expected_close_date = case when sqlc.arg(expected_close_date) is not null then
     sqlc.arg(expected_close_date)::date
   else
     expected_close_date
   end,
-  lost_reason = case when sqlc.arg(set_lost_reason)::boolean then
+  lost_reason = case when sqlc.arg(lost_reason) is not null then
     sqlc.arg(lost_reason)::text
   else
     lost_reason
   end,
-  source = case when sqlc.arg(set_source)::boolean then
+  source = case when sqlc.arg(source) is not null then
     sqlc.arg(source)::crm.opportunity_source
   else
     source
   end,
-  owner_id = case when sqlc.arg(set_owner_id)::boolean then
+  owner_id = case when sqlc.arg(owner_id) is not null then
     sqlc.arg(owner_id)::text
   else
     owner_id
   end,
-  contact_id = case when sqlc.arg(set_contact_id)::boolean then
+  contact_id = case when sqlc.arg(contact_id) is not null then
     sqlc.arg(contact_id)::uuid
   else
     contact_id
   end,
-  company_id = case when sqlc.arg(set_company_id)::boolean then
+  company_id = case when sqlc.arg(company_id) is not null then
     sqlc.arg(company_id)::uuid
   else
     company_id
   end,
-  campaign_id = case when sqlc.arg(set_campaign_id)::boolean then
+  campaign_id = case when sqlc.arg(campaign_id) is not null then
     sqlc.arg(campaign_id)::uuid
   else
     campaign_id

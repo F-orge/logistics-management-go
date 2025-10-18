@@ -116,8 +116,7 @@ select
   id, file_name, file_path, mime_type, record_id, record_type, created_at, updated_at
 from
   "crm"."attachments"
-where
-  (record_type::text ilike $1::text
+where (record_type::text ilike $1::text
   or mime_type ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -167,8 +166,8 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (record_type::text ilike $3::text
-  or mime_type ilike $3::text
-  or $3::text is null)
+    or mime_type ilike $3::text
+    or $3::text is null)
 `
 
 type CrmRangeAttachmentParams struct {
@@ -221,62 +220,52 @@ update
   "crm"."attachments"
 set
   updated_at = now(),
-  file_name = case when $1::boolean then
-    $2::varchar
+  file_name = case when $1 is not null then
+    $1::varchar
   else
     file_name
   end,
-  file_path = case when $3::boolean then
-    $4::varchar
+  file_path = case when $2 is not null then
+    $2::varchar
   else
     file_path
   end,
-  mime_type = case when $5::boolean then
-    $6::varchar
+  mime_type = case when $3 is not null then
+    $3::varchar
   else
     mime_type
   end,
-  record_id = case when $7::boolean then
-    $8::uuid
+  record_id = case when $4 is not null then
+    $4::uuid
   else
     record_id
   end,
-  record_type = case when $9::boolean then
-    $10::crm.record_type
+  record_type = case when $5 is not null then
+    $5::crm.record_type
   else
     record_type
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, file_name, file_path, mime_type, record_id, record_type, created_at, updated_at
 `
 
 type CrmUpdateAttachmentParams struct {
-	SetFileName   bool
-	FileName      string
-	SetFilePath   bool
-	FilePath      string
-	SetMimeType   bool
-	MimeType      string
-	SetRecordID   bool
-	RecordID      pgtype.UUID
-	SetRecordType bool
-	RecordType    CrmRecordType
-	ID            pgtype.UUID
+	FileName   string
+	FilePath   string
+	MimeType   pgtype.Text
+	RecordID   pgtype.UUID
+	RecordType NullCrmRecordType
+	ID         pgtype.UUID
 }
 
 func (q *Queries) CrmUpdateAttachment(ctx context.Context, arg CrmUpdateAttachmentParams) (CrmAttachment, error) {
 	row := q.db.QueryRow(ctx, crmUpdateAttachment,
-		arg.SetFileName,
 		arg.FileName,
-		arg.SetFilePath,
 		arg.FilePath,
-		arg.SetMimeType,
 		arg.MimeType,
-		arg.SetRecordID,
 		arg.RecordID,
-		arg.SetRecordType,
 		arg.RecordType,
 		arg.ID,
 	)
