@@ -1,0 +1,11 @@
+drop view "wms"."suppliers_view";
+drop view "wms"."warehouses_view";
+drop view "wms"."products_view";
+drop view "wms"."locations_view";
+drop view "wms"."tasks_view";
+drop view "wms"."pick_batches_view";
+drop view "wms"."packages_view";
+drop view "wms"."returns_view";
+drop view "wms"."outbound_shipments_view";
+drop view "wms"."sales_orders_view";
+drop view "wms"."inbound_shipments_view";
