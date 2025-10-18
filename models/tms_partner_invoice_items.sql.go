@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyPartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem
-	TmsPartnerInvoice     TmsPartnerInvoice
-	TmsShipmentLeg        TmsShipmentLeg
+	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
+	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsAnyPartnerInvoiceItem(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyPartnerInvoiceItemRow, error) {
@@ -87,9 +87,9 @@ where
 `
 
 type TmsFindPartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem
-	TmsPartnerInvoice     TmsPartnerInvoice
-	TmsShipmentLeg        TmsShipmentLeg
+	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
+	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsFindPartnerInvoiceItem(ctx context.Context, id pgtype.UUID) (TmsFindPartnerInvoiceItemRow, error) {
@@ -130,9 +130,9 @@ returning
 `
 
 type TmsInsertPartnerInvoiceItemParams struct {
-	PartnerInvoiceID pgtype.UUID
-	ShipmentLegID    pgtype.UUID
-	Amount           pgtype.Numeric
+	PartnerInvoiceID pgtype.UUID    `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID    pgtype.UUID    `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount           pgtype.Numeric `db:"amount" json:"amount"`
 }
 
 func (q *Queries) TmsInsertPartnerInvoiceItem(ctx context.Context, arg TmsInsertPartnerInvoiceItemParams) (TmsPartnerInvoiceItem, error) {
@@ -163,15 +163,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginatePartnerInvoiceItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginatePartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem
-	TmsPartnerInvoice     TmsPartnerInvoice
-	TmsShipmentLeg        TmsShipmentLeg
+	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
+	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsPaginatePartnerInvoiceItem(ctx context.Context, arg TmsPaginatePartnerInvoiceItemParams) ([]TmsPaginatePartnerInvoiceItemRow, error) {
@@ -235,15 +235,15 @@ where
 `
 
 type TmsRangePartnerInvoiceItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangePartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem
-	TmsPartnerInvoice     TmsPartnerInvoice
-	TmsShipmentLeg        TmsShipmentLeg
+	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
+	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsRangePartnerInvoiceItem(ctx context.Context, arg TmsRangePartnerInvoiceItemParams) ([]TmsRangePartnerInvoiceItemRow, error) {
@@ -326,10 +326,10 @@ returning
 `
 
 type TmsUpdatePartnerInvoiceItemParams struct {
-	PartnerInvoiceID pgtype.UUID
-	ShipmentLegID    pgtype.UUID
-	Amount           pgtype.Numeric
-	ID               pgtype.UUID
+	PartnerInvoiceID pgtype.UUID    `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID    pgtype.UUID    `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount           pgtype.Numeric `db:"amount" json:"amount"`
+	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdatePartnerInvoiceItem(ctx context.Context, arg TmsUpdatePartnerInvoiceItemParams) (TmsPartnerInvoiceItem, error) {

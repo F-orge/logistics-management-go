@@ -23,8 +23,8 @@ where
 `
 
 type DmsAnyDeliveryTaskRow struct {
-	DmsDeliveryTasksView DmsDeliveryTasksView
-	DmsDeliveryRoute     DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView `db:"dms_delivery_tasks_view" json:"dms_delivery_tasks_view"`
+	DmsDeliveryRoute     DmsDeliveryRoute     `db:"dms_delivery_route" json:"dms_delivery_route"`
 }
 
 func (q *Queries) DmsAnyDeliveryTask(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDeliveryTaskRow, error) {
@@ -91,8 +91,8 @@ where
 `
 
 type DmsFindDeliveryTaskRow struct {
-	DmsDeliveryTasksView DmsDeliveryTasksView
-	DmsDeliveryRoute     DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView `db:"dms_delivery_tasks_view" json:"dms_delivery_tasks_view"`
+	DmsDeliveryRoute     DmsDeliveryRoute     `db:"dms_delivery_route" json:"dms_delivery_route"`
 }
 
 func (q *Queries) DmsFindDeliveryTask(ctx context.Context, id pgtype.UUID) (DmsFindDeliveryTaskRow, error) {
@@ -142,19 +142,19 @@ returning
 `
 
 type DmsInsertDeliveryTaskParams struct {
-	PackageID            pgtype.UUID
-	DeliveryRouteID      pgtype.UUID
-	RouteSequence        int32
-	DeliveryAddress      string
-	RecipientName        pgtype.Text
-	RecipientPhone       pgtype.Text
-	DeliveryInstructions pgtype.Text
-	EstimatedArrivalTime pgtype.Timestamp
-	ActualArrivalTime    pgtype.Timestamp
-	DeliveryTime         pgtype.Timestamp
-	Status               NullDmsDeliveryTaskStatusEnum
-	FailureReason        NullDmsDeliveryFailureReasonEnum
-	AttemptCount         pgtype.Int4
+	PackageID            pgtype.UUID                      `db:"package_id" json:"package_id"`
+	DeliveryRouteID      pgtype.UUID                      `db:"delivery_route_id" json:"delivery_route_id"`
+	RouteSequence        int32                            `db:"route_sequence" json:"route_sequence"`
+	DeliveryAddress      string                           `db:"delivery_address" json:"delivery_address"`
+	RecipientName        pgtype.Text                      `db:"recipient_name" json:"recipient_name"`
+	RecipientPhone       pgtype.Text                      `db:"recipient_phone" json:"recipient_phone"`
+	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" json:"delivery_instructions"`
+	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" json:"actual_arrival_time"`
+	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" json:"delivery_time"`
+	Status               NullDmsDeliveryTaskStatusEnum    `db:"status" json:"status"`
+	FailureReason        NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
+	AttemptCount         pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
 }
 
 func (q *Queries) DmsInsertDeliveryTask(ctx context.Context, arg DmsInsertDeliveryTaskParams) (DmsDeliveryTask, error) {
@@ -212,14 +212,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateDeliveryTaskParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type DmsPaginateDeliveryTaskRow struct {
-	DmsDeliveryTasksView  DmsDeliveryTasksView
-	DmsDeliveryRoutesView DmsDeliveryRoutesView
+	DmsDeliveryTasksView  DmsDeliveryTasksView  `db:"dms_delivery_tasks_view" json:"dms_delivery_tasks_view"`
+	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
 }
 
 func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDeliveryTaskParams) ([]DmsPaginateDeliveryTaskRow, error) {
@@ -293,14 +293,14 @@ where
 `
 
 type DmsRangeDeliveryTaskParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsRangeDeliveryTaskRow struct {
-	DmsDeliveryTasksView DmsDeliveryTasksView
-	DmsDeliveryRoute     DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView `db:"dms_delivery_tasks_view" json:"dms_delivery_tasks_view"`
+	DmsDeliveryRoute     DmsDeliveryRoute     `db:"dms_delivery_route" json:"dms_delivery_route"`
 }
 
 func (q *Queries) DmsRangeDeliveryTask(ctx context.Context, arg DmsRangeDeliveryTaskParams) ([]DmsRangeDeliveryTaskRow, error) {
@@ -442,20 +442,20 @@ returning
 `
 
 type DmsUpdateDeliveryTaskParams struct {
-	PackageID            pgtype.UUID
-	DeliveryRouteID      pgtype.UUID
-	RouteSequence        int32
-	DeliveryAddress      string
-	RecipientName        pgtype.Text
-	RecipientPhone       pgtype.Text
-	DeliveryInstructions pgtype.Text
-	EstimatedArrivalTime pgtype.Timestamp
-	ActualArrivalTime    pgtype.Timestamp
-	DeliveryTime         pgtype.Timestamp
-	Status               NullDmsDeliveryTaskStatusEnum
-	FailureReason        NullDmsDeliveryFailureReasonEnum
-	AttemptCount         pgtype.Int4
-	ID                   pgtype.UUID
+	PackageID            pgtype.UUID                      `db:"package_id" json:"package_id"`
+	DeliveryRouteID      pgtype.UUID                      `db:"delivery_route_id" json:"delivery_route_id"`
+	RouteSequence        int32                            `db:"route_sequence" json:"route_sequence"`
+	DeliveryAddress      string                           `db:"delivery_address" json:"delivery_address"`
+	RecipientName        pgtype.Text                      `db:"recipient_name" json:"recipient_name"`
+	RecipientPhone       pgtype.Text                      `db:"recipient_phone" json:"recipient_phone"`
+	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" json:"delivery_instructions"`
+	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" json:"actual_arrival_time"`
+	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" json:"delivery_time"`
+	Status               NullDmsDeliveryTaskStatusEnum    `db:"status" json:"status"`
+	FailureReason        NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
+	AttemptCount         pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
+	ID                   pgtype.UUID                      `db:"id" json:"id"`
 }
 
 func (q *Queries) DmsUpdateDeliveryTask(ctx context.Context, arg DmsUpdateDeliveryTaskParams) (DmsDeliveryTask, error) {

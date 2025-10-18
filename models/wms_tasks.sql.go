@@ -27,10 +27,10 @@ where
 `
 
 type WmsAnyTaskRow struct {
-	WmsTasksView WmsTasksView
-	WmsWarehouse WmsWarehouse
-	User         User
-	WmsPickBatch WmsPickBatch
+	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
+	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
+	User         User         `db:"user" json:"user"`
+	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsAnyTask(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTaskRow, error) {
@@ -132,10 +132,10 @@ where
 `
 
 type WmsFindTaskRow struct {
-	WmsTasksView WmsTasksView
-	WmsWarehouse WmsWarehouse
-	User         User
-	WmsPickBatch WmsPickBatch
+	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
+	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
+	User         User         `db:"user" json:"user"`
+	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsFindTask(ctx context.Context, id pgtype.UUID) (WmsFindTaskRow, error) {
@@ -216,21 +216,21 @@ returning
 `
 
 type WmsInsertTaskParams struct {
-	TaskNumber        string
-	WarehouseID       pgtype.UUID
-	UserID            pgtype.Text
-	Type              WmsTaskTypeEnum
-	Status            NullWmsTaskStatusEnum
-	Priority          pgtype.Int4
-	SourceEntityID    pgtype.UUID
-	SourceEntityType  pgtype.Text
-	PickBatchID       pgtype.UUID
-	EstimatedDuration pgtype.Int4
-	ActualDuration    pgtype.Int4
-	Instructions      pgtype.Text
-	Notes             pgtype.Text
-	StartTime         pgtype.Timestamp
-	EndTime           pgtype.Timestamp
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
 }
 
 func (q *Queries) WmsInsertTask(ctx context.Context, arg WmsInsertTaskParams) (WmsTask, error) {
@@ -298,16 +298,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateTaskParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateTaskRow struct {
-	WmsTasksView WmsTasksView
-	WmsWarehouse WmsWarehouse
-	User         User
-	WmsPickBatch WmsPickBatch
+	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
+	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
+	User         User         `db:"user" json:"user"`
+	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams) ([]WmsPaginateTaskRow, error) {
@@ -417,16 +417,16 @@ where
 `
 
 type WmsRangeTaskParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeTaskRow struct {
-	WmsTasksView WmsTasksView
-	WmsWarehouse WmsWarehouse
-	User         User
-	WmsPickBatch WmsPickBatch
+	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
+	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
+	User         User         `db:"user" json:"user"`
+	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsRangeTask(ctx context.Context, arg WmsRangeTaskParams) ([]WmsRangeTaskRow, error) {
@@ -609,22 +609,22 @@ returning
 `
 
 type WmsUpdateTaskParams struct {
-	TaskNumber        string
-	WarehouseID       pgtype.UUID
-	UserID            pgtype.Text
-	Type              WmsTaskTypeEnum
-	Status            NullWmsTaskStatusEnum
-	Priority          pgtype.Int4
-	SourceEntityID    pgtype.UUID
-	SourceEntityType  pgtype.Text
-	PickBatchID       pgtype.UUID
-	EstimatedDuration pgtype.Int4
-	ActualDuration    pgtype.Int4
-	Instructions      pgtype.Text
-	Notes             pgtype.Text
-	StartTime         pgtype.Timestamp
-	EndTime           pgtype.Timestamp
-	ID                pgtype.UUID
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	ID                pgtype.UUID           `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateTask(ctx context.Context, arg WmsUpdateTaskParams) (WmsTask, error) {

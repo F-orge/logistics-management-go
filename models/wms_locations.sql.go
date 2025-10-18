@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyLocationRow struct {
-	WmsLocationsView WmsLocationsView
-	WmsWarehouse     WmsWarehouse
+	WmsLocationsView WmsLocationsView `db:"wms_locations_view" json:"wms_locations_view"`
+	WmsWarehouse     WmsWarehouse     `db:"wms_warehouse" json:"wms_warehouse"`
 }
 
 func (q *Queries) WmsAnyLocation(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyLocationRow, error) {
@@ -98,8 +98,8 @@ where
 `
 
 type WmsFindLocationRow struct {
-	WmsLocationsView WmsLocationsView
-	WmsWarehouse     WmsWarehouse
+	WmsLocationsView WmsLocationsView `db:"wms_locations_view" json:"wms_locations_view"`
+	WmsWarehouse     WmsWarehouse     `db:"wms_warehouse" json:"wms_warehouse"`
 }
 
 func (q *Queries) WmsFindLocation(ctx context.Context, id pgtype.UUID) (WmsFindLocationRow, error) {
@@ -156,24 +156,24 @@ returning
 `
 
 type WmsInsertLocationParams struct {
-	WarehouseID           pgtype.UUID
-	ParentLocationID      pgtype.UUID
-	Name                  string
-	Barcode               pgtype.Text
-	Type                  WmsLocationTypeEnum
-	Level                 pgtype.Int4
-	Path                  pgtype.Text
-	MaxWeight             pgtype.Float4
-	MaxVolume             pgtype.Float4
-	MaxPallets            pgtype.Int4
-	XCoordinate           pgtype.Float4
-	YCoordinate           pgtype.Float4
-	ZCoordinate           pgtype.Float4
-	IsPickable            pgtype.Bool
-	IsReceivable          pgtype.Bool
-	TemperatureControlled pgtype.Bool
-	HazmatApproved        pgtype.Bool
-	IsActive              pgtype.Bool
+	WarehouseID           pgtype.UUID         `db:"warehouse_id" json:"warehouse_id"`
+	ParentLocationID      pgtype.UUID         `db:"parent_location_id" json:"parent_location_id"`
+	Name                  string              `db:"name" json:"name"`
+	Barcode               pgtype.Text         `db:"barcode" json:"barcode"`
+	Type                  WmsLocationTypeEnum `db:"type" json:"type"`
+	Level                 pgtype.Int4         `db:"level" json:"level"`
+	Path                  pgtype.Text         `db:"path" json:"path"`
+	MaxWeight             pgtype.Float4       `db:"max_weight" json:"max_weight"`
+	MaxVolume             pgtype.Float4       `db:"max_volume" json:"max_volume"`
+	MaxPallets            pgtype.Int4         `db:"max_pallets" json:"max_pallets"`
+	XCoordinate           pgtype.Float4       `db:"x_coordinate" json:"x_coordinate"`
+	YCoordinate           pgtype.Float4       `db:"y_coordinate" json:"y_coordinate"`
+	ZCoordinate           pgtype.Float4       `db:"z_coordinate" json:"z_coordinate"`
+	IsPickable            pgtype.Bool         `db:"is_pickable" json:"is_pickable"`
+	IsReceivable          pgtype.Bool         `db:"is_receivable" json:"is_receivable"`
+	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" json:"temperature_controlled"`
+	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" json:"hazmat_approved"`
+	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertLocation(ctx context.Context, arg WmsInsertLocationParams) (WmsLocation, error) {
@@ -240,14 +240,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateLocationParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateLocationRow struct {
-	WmsLocationsView WmsLocationsView
-	WmsWarehouse     WmsWarehouse
+	WmsLocationsView WmsLocationsView `db:"wms_locations_view" json:"wms_locations_view"`
+	WmsWarehouse     WmsWarehouse     `db:"wms_warehouse" json:"wms_warehouse"`
 }
 
 func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocationParams) ([]WmsPaginateLocationRow, error) {
@@ -327,14 +327,14 @@ where
 `
 
 type WmsRangeLocationParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeLocationRow struct {
-	WmsLocationsView WmsLocationsView
-	WmsWarehouse     WmsWarehouse
+	WmsLocationsView WmsLocationsView `db:"wms_locations_view" json:"wms_locations_view"`
+	WmsWarehouse     WmsWarehouse     `db:"wms_warehouse" json:"wms_warehouse"`
 }
 
 func (q *Queries) WmsRangeLocation(ctx context.Context, arg WmsRangeLocationParams) ([]WmsRangeLocationRow, error) {
@@ -508,25 +508,25 @@ returning
 `
 
 type WmsUpdateLocationParams struct {
-	WarehouseID           pgtype.UUID
-	ParentLocationID      pgtype.UUID
-	Name                  string
-	Barcode               pgtype.Text
-	Type                  WmsLocationTypeEnum
-	Level                 pgtype.Int4
-	Path                  pgtype.Text
-	MaxWeight             pgtype.Float4
-	MaxVolume             pgtype.Float4
-	MaxPallets            pgtype.Int4
-	XCoordinate           pgtype.Float4
-	YCoordinate           pgtype.Float4
-	ZCoordinate           pgtype.Float4
-	IsPickable            pgtype.Bool
-	IsReceivable          pgtype.Bool
-	TemperatureControlled pgtype.Bool
-	HazmatApproved        pgtype.Bool
-	IsActive              pgtype.Bool
-	ID                    pgtype.UUID
+	WarehouseID           pgtype.UUID         `db:"warehouse_id" json:"warehouse_id"`
+	ParentLocationID      pgtype.UUID         `db:"parent_location_id" json:"parent_location_id"`
+	Name                  string              `db:"name" json:"name"`
+	Barcode               pgtype.Text         `db:"barcode" json:"barcode"`
+	Type                  WmsLocationTypeEnum `db:"type" json:"type"`
+	Level                 pgtype.Int4         `db:"level" json:"level"`
+	Path                  pgtype.Text         `db:"path" json:"path"`
+	MaxWeight             pgtype.Float4       `db:"max_weight" json:"max_weight"`
+	MaxVolume             pgtype.Float4       `db:"max_volume" json:"max_volume"`
+	MaxPallets            pgtype.Int4         `db:"max_pallets" json:"max_pallets"`
+	XCoordinate           pgtype.Float4       `db:"x_coordinate" json:"x_coordinate"`
+	YCoordinate           pgtype.Float4       `db:"y_coordinate" json:"y_coordinate"`
+	ZCoordinate           pgtype.Float4       `db:"z_coordinate" json:"z_coordinate"`
+	IsPickable            pgtype.Bool         `db:"is_pickable" json:"is_pickable"`
+	IsReceivable          pgtype.Bool         `db:"is_receivable" json:"is_receivable"`
+	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" json:"temperature_controlled"`
+	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" json:"hazmat_approved"`
+	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
+	ID                    pgtype.UUID         `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateLocation(ctx context.Context, arg WmsUpdateLocationParams) (WmsLocation, error) {

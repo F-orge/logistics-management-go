@@ -23,8 +23,8 @@ where
 `
 
 type CrmAnyInvoiceRow struct {
-	CrmInvoicesView CrmInvoicesView
-	CrmOpportunity  CrmOpportunity
+	CrmInvoicesView CrmInvoicesView `db:"crm_invoices_view" json:"crm_invoices_view"`
+	CrmOpportunity  CrmOpportunity  `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyInvoiceRow, error) {
@@ -86,8 +86,8 @@ where
 `
 
 type CrmFindInvoiceRow struct {
-	CrmInvoicesView CrmInvoicesView
-	CrmOpportunity  CrmOpportunity
+	CrmInvoicesView CrmInvoicesView `db:"crm_invoices_view" json:"crm_invoices_view"`
+	CrmOpportunity  CrmOpportunity  `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmFindInvoice(ctx context.Context, id pgtype.UUID) (CrmFindInvoiceRow, error) {
@@ -132,14 +132,14 @@ returning
 `
 
 type CrmInsertInvoiceParams struct {
-	OpportunityID pgtype.UUID
-	Status        NullCrmInvoiceStatus
-	Total         pgtype.Numeric
-	IssueDate     pgtype.Date
-	DueDate       pgtype.Date
-	SentAt        pgtype.Timestamptz
-	PaidAt        pgtype.Timestamptz
-	PaymentMethod NullCrmPaymentMethod
+	OpportunityID pgtype.UUID          `db:"opportunity_id" json:"opportunity_id"`
+	Status        NullCrmInvoiceStatus `db:"status" json:"status"`
+	Total         pgtype.Numeric       `db:"total" json:"total"`
+	IssueDate     pgtype.Date          `db:"issue_date" json:"issue_date"`
+	DueDate       pgtype.Date          `db:"due_date" json:"due_date"`
+	SentAt        pgtype.Timestamptz   `db:"sent_at" json:"sent_at"`
+	PaidAt        pgtype.Timestamptz   `db:"paid_at" json:"paid_at"`
+	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
 }
 
 func (q *Queries) CrmInsertInvoice(ctx context.Context, arg CrmInsertInvoiceParams) (CrmInvoice, error) {
@@ -184,14 +184,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateInvoiceParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateInvoiceRow struct {
-	CrmInvoicesView CrmInvoicesView
-	CrmOpportunity  CrmOpportunity
+	CrmInvoicesView CrmInvoicesView `db:"crm_invoices_view" json:"crm_invoices_view"`
+	CrmOpportunity  CrmOpportunity  `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmPaginateInvoice(ctx context.Context, arg CrmPaginateInvoiceParams) ([]CrmPaginateInvoiceRow, error) {
@@ -257,14 +257,14 @@ where
 `
 
 type CrmRangeInvoiceParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeInvoiceRow struct {
-	CrmInvoicesView CrmInvoicesView
-	CrmOpportunity  CrmOpportunity
+	CrmInvoicesView CrmInvoicesView `db:"crm_invoices_view" json:"crm_invoices_view"`
+	CrmOpportunity  CrmOpportunity  `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmRangeInvoice(ctx context.Context, arg CrmRangeInvoiceParams) ([]CrmRangeInvoiceRow, error) {
@@ -376,15 +376,15 @@ returning
 `
 
 type CrmUpdateInvoiceParams struct {
-	OpportunityID pgtype.UUID
-	Status        NullCrmInvoiceStatus
-	Total         pgtype.Numeric
-	IssueDate     pgtype.Date
-	DueDate       pgtype.Date
-	SentAt        pgtype.Timestamptz
-	PaidAt        pgtype.Timestamptz
-	PaymentMethod NullCrmPaymentMethod
-	ID            pgtype.UUID
+	OpportunityID pgtype.UUID          `db:"opportunity_id" json:"opportunity_id"`
+	Status        NullCrmInvoiceStatus `db:"status" json:"status"`
+	Total         pgtype.Numeric       `db:"total" json:"total"`
+	IssueDate     pgtype.Date          `db:"issue_date" json:"issue_date"`
+	DueDate       pgtype.Date          `db:"due_date" json:"due_date"`
+	SentAt        pgtype.Timestamptz   `db:"sent_at" json:"sent_at"`
+	PaidAt        pgtype.Timestamptz   `db:"paid_at" json:"paid_at"`
+	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
+	ID            pgtype.UUID          `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateInvoice(ctx context.Context, arg CrmUpdateInvoiceParams) (CrmInvoice, error) {

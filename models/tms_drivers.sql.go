@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyDriverRow struct {
-	TmsDriversView TmsDriversView
-	User           User
+	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyDriverRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type TmsFindDriverRow struct {
-	TmsDriversView TmsDriversView
-	User           User
+	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsFindDriver(ctx context.Context, id pgtype.UUID) (TmsFindDriverRow, error) {
@@ -124,10 +124,10 @@ returning
 `
 
 type TmsInsertDriverParams struct {
-	UserID            string
-	LicenseNumber     string
-	LicenseExpiryDate pgtype.Date
-	Status            NullTmsDriverStatusEnum
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) TmsInsertDriver(ctx context.Context, arg TmsInsertDriverParams) (TmsDriver, error) {
@@ -166,14 +166,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateDriverParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateDriverRow struct {
-	TmsDriversView TmsDriversView
-	User           User
+	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverParams) ([]TmsPaginateDriverRow, error) {
@@ -236,14 +236,14 @@ where
 `
 
 type TmsRangeDriverParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeDriverRow struct {
-	TmsDriversView TmsDriversView
-	User           User
+	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsRangeDriver(ctx context.Context, arg TmsRangeDriverParams) ([]TmsRangeDriverRow, error) {
@@ -331,11 +331,11 @@ returning
 `
 
 type TmsUpdateDriverParams struct {
-	UserID            string
-	LicenseNumber     string
-	LicenseExpiryDate pgtype.Date
-	Status            NullTmsDriverStatusEnum
-	ID                pgtype.UUID
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	ID                pgtype.UUID             `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateDriver(ctx context.Context, arg TmsUpdateDriverParams) (TmsDriver, error) {

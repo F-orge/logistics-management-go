@@ -90,9 +90,9 @@ returning
 `
 
 type TmsInsertCarrierParams struct {
-	Name            string
-	ContactDetails  pgtype.Text
-	ServicesOffered pgtype.Text
+	Name            string      `db:"name" json:"name"`
+	ContactDetails  pgtype.Text `db:"contact_details" json:"contact_details"`
+	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
 }
 
 func (q *Queries) TmsInsertCarrier(ctx context.Context, arg TmsInsertCarrierParams) (TmsCarrier, error) {
@@ -123,9 +123,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateCarrierParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) TmsPaginateCarrier(ctx context.Context, arg TmsPaginateCarrierParams) ([]TmsCarriersView, error) {
@@ -174,9 +174,9 @@ where
 `
 
 type TmsRangeCarrierParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) TmsRangeCarrier(ctx context.Context, arg TmsRangeCarrierParams) ([]TmsCarriersView, error) {
@@ -249,10 +249,10 @@ returning
 `
 
 type TmsUpdateCarrierParams struct {
-	Name            string
-	ContactDetails  pgtype.Text
-	ServicesOffered pgtype.Text
-	ID              pgtype.UUID
+	Name            string      `db:"name" json:"name"`
+	ContactDetails  pgtype.Text `db:"contact_details" json:"contact_details"`
+	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
+	ID              pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateCarrier(ctx context.Context, arg TmsUpdateCarrierParams) (TmsCarrier, error) {

@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate
-	TmsCarrier     TmsCarrier
+	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
+	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsAnyCarrierRate(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyCarrierRateRow, error) {
@@ -78,8 +78,8 @@ where
 `
 
 type TmsFindCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate
-	TmsCarrier     TmsCarrier
+	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
+	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsFindCarrierRate(ctx context.Context, id pgtype.UUID) (TmsFindCarrierRateRow, error) {
@@ -116,12 +116,12 @@ returning
 `
 
 type TmsInsertCarrierRateParams struct {
-	CarrierID   pgtype.UUID
-	ServiceType pgtype.Text
-	Origin      pgtype.Text
-	Destination pgtype.Text
-	Rate        pgtype.Numeric
-	Unit        NullTmsCarrierRateUnitEnum
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 }
 
 func (q *Queries) TmsInsertCarrierRate(ctx context.Context, arg TmsInsertCarrierRateParams) (TmsCarrierRate, error) {
@@ -164,14 +164,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateCarrierRateParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate
-	TmsCarrier     TmsCarrier
+	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
+	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsPaginateCarrierRate(ctx context.Context, arg TmsPaginateCarrierRateParams) ([]TmsPaginateCarrierRateRow, error) {
@@ -231,14 +231,14 @@ where
 `
 
 type TmsRangeCarrierRateParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate
-	TmsCarrier     TmsCarrier
+	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
+	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsRangeCarrierRate(ctx context.Context, arg TmsRangeCarrierRateParams) ([]TmsRangeCarrierRateRow, error) {
@@ -332,13 +332,13 @@ returning
 `
 
 type TmsUpdateCarrierRateParams struct {
-	CarrierID   pgtype.UUID
-	ServiceType pgtype.Text
-	Origin      pgtype.Text
-	Destination pgtype.Text
-	Rate        pgtype.Numeric
-	Unit        NullTmsCarrierRateUnitEnum
-	ID          pgtype.UUID
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
+	ID          pgtype.UUID                `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateCarrierRate(ctx context.Context, arg TmsUpdateCarrierRateParams) (TmsCarrierRate, error) {

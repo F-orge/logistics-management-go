@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyGeofenceEventRow struct {
-	TmsGeofenceEvent TmsGeofenceEvent
-	TmsVehicle       TmsVehicle
-	TmsGeofence      TmsGeofence
+	TmsGeofenceEvent TmsGeofenceEvent `db:"tms_geofence_event" json:"tms_geofence_event"`
+	TmsVehicle       TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
+	TmsGeofence      TmsGeofence      `db:"tms_geofence" json:"tms_geofence"`
 }
 
 func (q *Queries) TmsAnyGeofenceEvent(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyGeofenceEventRow, error) {
@@ -89,9 +89,9 @@ where
 `
 
 type TmsFindGeofenceEventRow struct {
-	TmsGeofenceEvent TmsGeofenceEvent
-	TmsVehicle       TmsVehicle
-	TmsGeofence      TmsGeofence
+	TmsGeofenceEvent TmsGeofenceEvent `db:"tms_geofence_event" json:"tms_geofence_event"`
+	TmsVehicle       TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
+	TmsGeofence      TmsGeofence      `db:"tms_geofence" json:"tms_geofence"`
 }
 
 func (q *Queries) TmsFindGeofenceEvent(ctx context.Context, id pgtype.UUID) (TmsFindGeofenceEventRow, error) {
@@ -134,10 +134,10 @@ returning
 `
 
 type TmsInsertGeofenceEventParams struct {
-	VehicleID  pgtype.UUID
-	GeofenceID pgtype.UUID
-	EventType  TmsGeofenceEventTypeEnum
-	Timestamp  pgtype.Timestamp
+	VehicleID  pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
+	GeofenceID pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
+	EventType  TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
+	Timestamp  pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
 }
 
 func (q *Queries) TmsInsertGeofenceEvent(ctx context.Context, arg TmsInsertGeofenceEventParams) (TmsGeofenceEvent, error) {
@@ -175,15 +175,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateGeofenceEventParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateGeofenceEventRow struct {
-	TmsGeofenceEvent TmsGeofenceEvent
-	TmsVehicle       TmsVehicle
-	TmsGeofence      TmsGeofence
+	TmsGeofenceEvent TmsGeofenceEvent `db:"tms_geofence_event" json:"tms_geofence_event"`
+	TmsVehicle       TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
+	TmsGeofence      TmsGeofence      `db:"tms_geofence" json:"tms_geofence"`
 }
 
 func (q *Queries) TmsPaginateGeofenceEvent(ctx context.Context, arg TmsPaginateGeofenceEventParams) ([]TmsPaginateGeofenceEventRow, error) {
@@ -250,15 +250,15 @@ where
 `
 
 type TmsRangeGeofenceEventParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeGeofenceEventRow struct {
-	TmsGeofenceEvent TmsGeofenceEvent
-	TmsVehicle       TmsVehicle
-	TmsGeofence      TmsGeofence
+	TmsGeofenceEvent TmsGeofenceEvent `db:"tms_geofence_event" json:"tms_geofence_event"`
+	TmsVehicle       TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
+	TmsGeofence      TmsGeofence      `db:"tms_geofence" json:"tms_geofence"`
 }
 
 func (q *Queries) TmsRangeGeofenceEvent(ctx context.Context, arg TmsRangeGeofenceEventParams) ([]TmsRangeGeofenceEventRow, error) {
@@ -348,11 +348,11 @@ returning
 `
 
 type TmsUpdateGeofenceEventParams struct {
-	VehicleID  pgtype.UUID
-	GeofenceID pgtype.UUID
-	EventType  TmsGeofenceEventTypeEnum
-	Timestamp  pgtype.Timestamp
-	ID         pgtype.UUID
+	VehicleID  pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
+	GeofenceID pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
+	EventType  TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
+	Timestamp  pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	ID         pgtype.UUID              `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateGeofenceEvent(ctx context.Context, arg TmsUpdateGeofenceEventParams) (TmsGeofenceEvent, error) {

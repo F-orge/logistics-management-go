@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyReorderPointRow struct {
-	WmsReorderPoint WmsReorderPoint
-	WmsProduct      WmsProduct
+	WmsReorderPoint WmsReorderPoint `db:"wms_reorder_point" json:"wms_reorder_point"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyReorderPoint(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyReorderPointRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type WmsFindReorderPointRow struct {
-	WmsReorderPoint WmsReorderPoint
-	WmsProduct      WmsProduct
+	WmsReorderPoint WmsReorderPoint `db:"wms_reorder_point" json:"wms_reorder_point"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindReorderPoint(ctx context.Context, id pgtype.UUID) (WmsFindReorderPointRow, error) {
@@ -124,9 +124,9 @@ returning
 `
 
 type WmsInsertReorderPointParams struct {
-	ProductID   pgtype.UUID
-	WarehouseID pgtype.UUID
-	Threshold   int32
+	ProductID   pgtype.UUID `db:"product_id" json:"product_id"`
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
+	Threshold   int32       `db:"threshold" json:"threshold"`
 }
 
 func (q *Queries) WmsInsertReorderPoint(ctx context.Context, arg WmsInsertReorderPointParams) (WmsReorderPoint, error) {
@@ -156,14 +156,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateReorderPointParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateReorderPointRow struct {
-	WmsReorderPoint WmsReorderPoint
-	WmsProduct      WmsProduct
+	WmsReorderPoint WmsReorderPoint `db:"wms_reorder_point" json:"wms_reorder_point"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateReorderPoint(ctx context.Context, arg WmsPaginateReorderPointParams) ([]WmsPaginateReorderPointRow, error) {
@@ -224,14 +224,14 @@ where
 `
 
 type WmsRangeReorderPointParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeReorderPointRow struct {
-	WmsReorderPoint WmsReorderPoint
-	WmsProduct      WmsProduct
+	WmsReorderPoint WmsReorderPoint `db:"wms_reorder_point" json:"wms_reorder_point"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeReorderPoint(ctx context.Context, arg WmsRangeReorderPointParams) ([]WmsRangeReorderPointRow, error) {
@@ -314,10 +314,10 @@ returning
 `
 
 type WmsUpdateReorderPointParams struct {
-	ProductID   pgtype.UUID
-	WarehouseID pgtype.UUID
-	Threshold   int32
-	ID          pgtype.UUID
+	ProductID   pgtype.UUID `db:"product_id" json:"product_id"`
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
+	Threshold   int32       `db:"threshold" json:"threshold"`
+	ID          pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateReorderPoint(ctx context.Context, arg WmsUpdateReorderPointParams) (WmsReorderPoint, error) {

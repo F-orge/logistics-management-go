@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyTripRow struct {
-	TmsTripsView TmsTripsView
-	TmsDriver    TmsDriver
-	TmsVehicle   TmsVehicle
+	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
+	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTripRow, error) {
@@ -99,9 +99,9 @@ where
 `
 
 type TmsFindTripRow struct {
-	TmsTripsView TmsTripsView
-	TmsDriver    TmsDriver
-	TmsVehicle   TmsVehicle
+	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
+	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsFindTrip(ctx context.Context, id pgtype.UUID) (TmsFindTripRow, error) {
@@ -154,9 +154,9 @@ returning
 `
 
 type TmsInsertTripParams struct {
-	DriverID  pgtype.UUID
-	VehicleID pgtype.UUID
-	Status    NullTmsTripStatusEnum
+	DriverID  pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status    NullTmsTripStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) TmsInsertTrip(ctx context.Context, arg TmsInsertTripParams) (TmsTrip, error) {
@@ -194,15 +194,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateTripParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateTripRow struct {
-	TmsTripsView TmsTripsView
-	TmsDriver    TmsDriver
-	TmsVehicle   TmsVehicle
+	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
+	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams) ([]TmsPaginateTripRow, error) {
@@ -279,15 +279,15 @@ where
 `
 
 type TmsRangeTripParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeTripRow struct {
-	TmsTripsView TmsTripsView
-	TmsDriver    TmsDriver
-	TmsVehicle   TmsVehicle
+	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
+	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsRangeTrip(ctx context.Context, arg TmsRangeTripParams) ([]TmsRangeTripRow, error) {
@@ -382,10 +382,10 @@ returning
 `
 
 type TmsUpdateTripParams struct {
-	DriverID  pgtype.UUID
-	VehicleID pgtype.UUID
-	Status    NullTmsTripStatusEnum
-	ID        pgtype.UUID
+	DriverID  pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status    NullTmsTripStatusEnum `db:"status" json:"status"`
+	ID        pgtype.UUID           `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateTrip(ctx context.Context, arg TmsUpdateTripParams) (TmsTrip, error) {

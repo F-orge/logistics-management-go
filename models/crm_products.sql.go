@@ -82,11 +82,11 @@ returning
 `
 
 type CrmInsertProductParams struct {
-	Name        string
-	Sku         pgtype.Text
-	Price       pgtype.Numeric
-	Type        NullCrmProductType
-	Description pgtype.Text
+	Name        string             `db:"name" json:"name"`
+	Sku         pgtype.Text        `db:"sku" json:"sku"`
+	Price       pgtype.Numeric     `db:"price" json:"price"`
+	Type        NullCrmProductType `db:"type" json:"type"`
+	Description pgtype.Text        `db:"description" json:"description"`
 }
 
 func (q *Queries) CrmInsertProduct(ctx context.Context, arg CrmInsertProductParams) (CrmProduct, error) {
@@ -124,9 +124,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateProductParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) CrmPaginateProduct(ctx context.Context, arg CrmPaginateProductParams) ([]CrmProduct, error) {
@@ -173,9 +173,9 @@ where
 `
 
 type CrmRangeProductParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) CrmRangeProduct(ctx context.Context, arg CrmRangeProductParams) ([]CrmProduct, error) {
@@ -254,12 +254,12 @@ returning
 `
 
 type CrmUpdateProductParams struct {
-	Name        string
-	Sku         pgtype.Text
-	Price       pgtype.Numeric
-	Type        NullCrmProductType
-	Description pgtype.Text
-	ID          pgtype.UUID
+	Name        string             `db:"name" json:"name"`
+	Sku         pgtype.Text        `db:"sku" json:"sku"`
+	Price       pgtype.Numeric     `db:"price" json:"price"`
+	Type        NullCrmProductType `db:"type" json:"type"`
+	Description pgtype.Text        `db:"description" json:"description"`
+	ID          pgtype.UUID        `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateProduct(ctx context.Context, arg CrmUpdateProductParams) (CrmProduct, error) {

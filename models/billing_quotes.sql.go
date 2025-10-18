@@ -25,9 +25,9 @@ where
 `
 
 type BillingAnyQuoteRow struct {
-	BillingQuotesView BillingQuotesView
-	CrmCompany        CrmCompany
-	User              User
+	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
+	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyQuoteRow, error) {
@@ -109,9 +109,9 @@ where
 `
 
 type BillingFindQuoteRow struct {
-	BillingQuotesView BillingQuotesView
-	CrmCompany        CrmCompany
-	User              User
+	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
+	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindQuote(ctx context.Context, id pgtype.UUID) (BillingFindQuoteRow, error) {
@@ -174,20 +174,20 @@ returning
 `
 
 type BillingInsertQuoteParams struct {
-	ClientID           pgtype.UUID
-	OriginDetails      string
-	DestinationDetails string
-	Weight             pgtype.Numeric
-	Length             pgtype.Numeric
-	Width              pgtype.Numeric
-	Height             pgtype.Numeric
-	QuotedPrice        pgtype.Numeric
-	ServiceLevel       pgtype.Text
-	ExpiresAt          pgtype.Timestamp
-	Status             NullBillingQuoteStatusEnum
-	QuoteNumber        pgtype.Text
-	Notes              pgtype.Text
-	CreatedByUserID    pgtype.Text
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
 func (q *Queries) BillingInsertQuote(ctx context.Context, arg BillingInsertQuoteParams) (BillingQuote, error) {
@@ -250,15 +250,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateQuoteParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateQuoteRow struct {
-	BillingQuotesView BillingQuotesView
-	CrmCompany        CrmCompany
-	User              User
+	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
+	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQuoteParams) ([]BillingPaginateQuoteRow, error) {
@@ -347,15 +347,15 @@ where
 `
 
 type BillingRangeQuoteParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeQuoteRow struct {
-	BillingQuotesView BillingQuotesView
-	CrmCompany        CrmCompany
-	User              User
+	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
+	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeQuote(ctx context.Context, arg BillingRangeQuoteParams) ([]BillingRangeQuoteRow, error) {
@@ -515,21 +515,21 @@ returning
 `
 
 type BillingUpdateQuoteParams struct {
-	ClientID           pgtype.UUID
-	OriginDetails      string
-	DestinationDetails string
-	Weight             pgtype.Numeric
-	Length             pgtype.Numeric
-	Width              pgtype.Numeric
-	Height             pgtype.Numeric
-	QuotedPrice        pgtype.Numeric
-	ServiceLevel       pgtype.Text
-	ExpiresAt          pgtype.Timestamp
-	Status             NullBillingQuoteStatusEnum
-	QuoteNumber        pgtype.Text
-	Notes              pgtype.Text
-	CreatedByUserID    pgtype.Text
-	ID                 pgtype.UUID
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	ID                 pgtype.UUID                `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateQuote(ctx context.Context, arg BillingUpdateQuoteParams) (BillingQuote, error) {

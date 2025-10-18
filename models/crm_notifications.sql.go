@@ -23,8 +23,8 @@ where
 `
 
 type CrmAnyNotificationRow struct {
-	CrmNotification CrmNotification
-	User            User
+	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmAnyNotification(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyNotificationRow, error) {
@@ -78,8 +78,8 @@ where
 `
 
 type CrmFindNotificationRow struct {
-	CrmNotification CrmNotification
-	User            User
+	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmFindNotification(ctx context.Context, id pgtype.UUID) (CrmFindNotificationRow, error) {
@@ -116,10 +116,10 @@ returning
 `
 
 type CrmInsertNotificationParams struct {
-	UserID  string
-	Message string
-	IsRead  pgtype.Bool
-	Link    pgtype.Text
+	UserID  string      `db:"user_id" json:"user_id"`
+	Message string      `db:"message" json:"message"`
+	IsRead  pgtype.Bool `db:"is_read" json:"is_read"`
+	Link    pgtype.Text `db:"link" json:"link"`
 }
 
 func (q *Queries) CrmInsertNotification(ctx context.Context, arg CrmInsertNotificationParams) (CrmNotification, error) {
@@ -156,14 +156,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateNotificationParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateNotificationRow struct {
-	CrmNotification CrmNotification
-	User            User
+	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNotificationParams) ([]CrmPaginateNotificationRow, error) {
@@ -221,14 +221,14 @@ where
 `
 
 type CrmRangeNotificationParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeNotificationRow struct {
-	CrmNotification CrmNotification
-	User            User
+	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmRangeNotification(ctx context.Context, arg CrmRangeNotificationParams) ([]CrmRangeNotificationRow, error) {
@@ -312,11 +312,11 @@ returning
 `
 
 type CrmUpdateNotificationParams struct {
-	UserID  string
-	Message string
-	IsRead  pgtype.Bool
-	Link    pgtype.Text
-	ID      pgtype.UUID
+	UserID  string      `db:"user_id" json:"user_id"`
+	Message string      `db:"message" json:"message"`
+	IsRead  pgtype.Bool `db:"is_read" json:"is_read"`
+	Link    pgtype.Text `db:"link" json:"link"`
+	ID      pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateNotification(ctx context.Context, arg CrmUpdateNotificationParams) (CrmNotification, error) {

@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnySalesOrderItemRow struct {
-	WmsSalesOrderItem WmsSalesOrderItem
-	WmsSalesOrder     WmsSalesOrder
-	WmsProduct        WmsProduct
+	WmsSalesOrderItem WmsSalesOrderItem `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsSalesOrder     WmsSalesOrder     `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnySalesOrderItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnySalesOrderItemRow, error) {
@@ -95,9 +95,9 @@ where
 `
 
 type WmsFindSalesOrderItemRow struct {
-	WmsSalesOrderItem WmsSalesOrderItem
-	WmsSalesOrder     WmsSalesOrder
-	WmsProduct        WmsProduct
+	WmsSalesOrderItem WmsSalesOrderItem `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsSalesOrder     WmsSalesOrder     `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindSalesOrderItem(ctx context.Context, id pgtype.UUID) (WmsFindSalesOrderItemRow, error) {
@@ -146,9 +146,9 @@ returning
 `
 
 type WmsInsertSalesOrderItemParams struct {
-	SalesOrderID    pgtype.UUID
-	ProductID       pgtype.UUID
-	QuantityOrdered int32
+	SalesOrderID    pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
+	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
+	QuantityOrdered int32       `db:"quantity_ordered" json:"quantity_ordered"`
 }
 
 func (q *Queries) WmsInsertSalesOrderItem(ctx context.Context, arg WmsInsertSalesOrderItemParams) (WmsSalesOrderItem, error) {
@@ -181,15 +181,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSalesOrderItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateSalesOrderItemRow struct {
-	WmsSalesOrderItem WmsSalesOrderItem
-	WmsSalesOrder     WmsSalesOrder
-	WmsProduct        WmsProduct
+	WmsSalesOrderItem WmsSalesOrderItem `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsSalesOrder     WmsSalesOrder     `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateSalesOrderItem(ctx context.Context, arg WmsPaginateSalesOrderItemParams) ([]WmsPaginateSalesOrderItemRow, error) {
@@ -261,15 +261,15 @@ where
 `
 
 type WmsRangeSalesOrderItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeSalesOrderItemRow struct {
-	WmsSalesOrderItem WmsSalesOrderItem
-	WmsSalesOrder     WmsSalesOrder
-	WmsProduct        WmsProduct
+	WmsSalesOrderItem WmsSalesOrderItem `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsSalesOrder     WmsSalesOrder     `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeSalesOrderItem(ctx context.Context, arg WmsRangeSalesOrderItemParams) ([]WmsRangeSalesOrderItemRow, error) {
@@ -360,10 +360,10 @@ returning
 `
 
 type WmsUpdateSalesOrderItemParams struct {
-	SalesOrderID    pgtype.UUID
-	ProductID       pgtype.UUID
-	QuantityOrdered int32
-	ID              pgtype.UUID
+	SalesOrderID    pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
+	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
+	QuantityOrdered int32       `db:"quantity_ordered" json:"quantity_ordered"`
+	ID              pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateSalesOrderItem(ctx context.Context, arg WmsUpdateSalesOrderItemParams) (WmsSalesOrderItem, error) {

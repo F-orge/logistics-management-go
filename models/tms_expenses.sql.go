@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyExpenseRow struct {
-	TmsExpense TmsExpense
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
+	TmsExpense TmsExpense `db:"tms_expense" json:"tms_expense"`
+	TmsTrip    TmsTrip    `db:"tms_trip" json:"tms_trip"`
+	TmsDriver  TmsDriver  `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsAnyExpense(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyExpenseRow, error) {
@@ -97,9 +97,9 @@ where
 `
 
 type TmsFindExpenseRow struct {
-	TmsExpense TmsExpense
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
+	TmsExpense TmsExpense `db:"tms_expense" json:"tms_expense"`
+	TmsTrip    TmsTrip    `db:"tms_trip" json:"tms_trip"`
+	TmsDriver  TmsDriver  `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsFindExpense(ctx context.Context, id pgtype.UUID) (TmsFindExpenseRow, error) {
@@ -150,15 +150,15 @@ returning
 `
 
 type TmsInsertExpenseParams struct {
-	TripID          pgtype.UUID
-	DriverID        pgtype.UUID
-	Type            NullTmsExpenseTypeEnum
-	Amount          pgtype.Numeric
-	Currency        NullTmsCurrencyEnum
-	ReceiptUrl      pgtype.Text
-	FuelQuantity    pgtype.Float4
-	OdometerReading pgtype.Int4
-	Status          NullTmsExpenseStatusEnum
+	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
+	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
+	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
+	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) TmsInsertExpense(ctx context.Context, arg TmsInsertExpenseParams) (TmsExpense, error) {
@@ -211,15 +211,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateExpenseParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateExpenseRow struct {
-	TmsExpense TmsExpense
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
+	TmsExpense TmsExpense `db:"tms_expense" json:"tms_expense"`
+	TmsTrip    TmsTrip    `db:"tms_trip" json:"tms_trip"`
+	TmsDriver  TmsDriver  `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsPaginateExpense(ctx context.Context, arg TmsPaginateExpenseParams) ([]TmsPaginateExpenseRow, error) {
@@ -295,15 +295,15 @@ where
 `
 
 type TmsRangeExpenseParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeExpenseRow struct {
-	TmsExpense TmsExpense
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
+	TmsExpense TmsExpense `db:"tms_expense" json:"tms_expense"`
+	TmsTrip    TmsTrip    `db:"tms_trip" json:"tms_trip"`
+	TmsDriver  TmsDriver  `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsRangeExpense(ctx context.Context, arg TmsRangeExpenseParams) ([]TmsRangeExpenseRow, error) {
@@ -426,16 +426,16 @@ returning
 `
 
 type TmsUpdateExpenseParams struct {
-	TripID          pgtype.UUID
-	DriverID        pgtype.UUID
-	Type            NullTmsExpenseTypeEnum
-	Amount          pgtype.Numeric
-	Currency        NullTmsCurrencyEnum
-	ReceiptUrl      pgtype.Text
-	FuelQuantity    pgtype.Float4
-	OdometerReading pgtype.Int4
-	Status          NullTmsExpenseStatusEnum
-	ID              pgtype.UUID
+	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
+	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
+	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
+	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
+	ID              pgtype.UUID              `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateExpense(ctx context.Context, arg TmsUpdateExpenseParams) (TmsExpense, error) {

@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyRouteRow struct {
-	TmsRoute TmsRoute
-	TmsTrip  TmsTrip
+	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
+	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsAnyRoute(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyRouteRow, error) {
@@ -77,8 +77,8 @@ where
 `
 
 type TmsFindRouteRow struct {
-	TmsRoute TmsRoute
-	TmsTrip  TmsTrip
+	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
+	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsFindRoute(ctx context.Context, id pgtype.UUID) (TmsFindRouteRow, error) {
@@ -114,10 +114,10 @@ returning
 `
 
 type TmsInsertRouteParams struct {
-	TripID             pgtype.UUID
-	OptimizedRouteData pgtype.Text
-	TotalDistance      pgtype.Float4
-	TotalDuration      pgtype.Float4
+	TripID             pgtype.UUID   `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4 `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4 `db:"total_duration" json:"total_duration"`
 }
 
 func (q *Queries) TmsInsertRoute(ctx context.Context, arg TmsInsertRouteParams) (TmsRoute, error) {
@@ -153,14 +153,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateRouteParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateRouteRow struct {
-	TmsRoute TmsRoute
-	TmsTrip  TmsTrip
+	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
+	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsPaginateRoute(ctx context.Context, arg TmsPaginateRouteParams) ([]TmsPaginateRouteRow, error) {
@@ -216,14 +216,14 @@ where
 `
 
 type TmsRangeRouteParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeRouteRow struct {
-	TmsRoute TmsRoute
-	TmsTrip  TmsTrip
+	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
+	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsRangeRoute(ctx context.Context, arg TmsRangeRouteParams) ([]TmsRangeRouteRow, error) {
@@ -306,11 +306,11 @@ returning
 `
 
 type TmsUpdateRouteParams struct {
-	TripID             pgtype.UUID
-	OptimizedRouteData pgtype.Text
-	TotalDistance      pgtype.Float4
-	TotalDuration      pgtype.Float4
-	ID                 pgtype.UUID
+	TripID             pgtype.UUID   `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4 `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4 `db:"total_duration" json:"total_duration"`
+	ID                 pgtype.UUID   `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateRoute(ctx context.Context, arg TmsUpdateRouteParams) (TmsRoute, error) {

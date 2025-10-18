@@ -80,10 +80,10 @@ returning
 `
 
 type CrmInsertCampaignParams struct {
-	Name      string
-	Budget    pgtype.Numeric
-	StartDate pgtype.Date
-	EndDate   pgtype.Date
+	Name      string         `db:"name" json:"name"`
+	Budget    pgtype.Numeric `db:"budget" json:"budget"`
+	StartDate pgtype.Date    `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date    `db:"end_date" json:"end_date"`
 }
 
 func (q *Queries) CrmInsertCampaign(ctx context.Context, arg CrmInsertCampaignParams) (CrmCampaign, error) {
@@ -117,9 +117,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCampaignParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmCampaign, error) {
@@ -163,9 +163,9 @@ where
 `
 
 type CrmRangeCampaignParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) CrmRangeCampaign(ctx context.Context, arg CrmRangeCampaignParams) ([]CrmCampaign, error) {
@@ -238,11 +238,11 @@ returning
 `
 
 type CrmUpdateCampaignParams struct {
-	Name      string
-	Budget    pgtype.Numeric
-	StartDate pgtype.Date
-	EndDate   pgtype.Date
-	ID        pgtype.UUID
+	Name      string         `db:"name" json:"name"`
+	Budget    pgtype.Numeric `db:"budget" json:"budget"`
+	StartDate pgtype.Date    `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date    `db:"end_date" json:"end_date"`
+	ID        pgtype.UUID    `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateCampaign(ctx context.Context, arg CrmUpdateCampaignParams) (CrmCampaign, error) {

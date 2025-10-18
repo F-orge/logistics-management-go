@@ -27,10 +27,10 @@ where
 `
 
 type WmsAnyPackageItemRow struct {
-	WmsPackageItem    WmsPackageItem
-	WmsPackage        WmsPackage
-	WmsProduct        WmsProduct
-	WmsInventoryBatch WmsInventoryBatch
+	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsAnyPackageItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPackageItemRow, error) {
@@ -126,10 +126,10 @@ where
 `
 
 type WmsFindPackageItemRow struct {
-	WmsPackageItem    WmsPackageItem
-	WmsPackage        WmsPackage
-	WmsProduct        WmsProduct
-	WmsInventoryBatch WmsInventoryBatch
+	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsFindPackageItem(ctx context.Context, id pgtype.UUID) (WmsFindPackageItemRow, error) {
@@ -204,14 +204,14 @@ returning
 `
 
 type WmsInsertPackageItemParams struct {
-	PackageID     pgtype.UUID
-	ProductID     pgtype.UUID
-	BatchID       pgtype.UUID
-	Quantity      int32
-	LotNumber     pgtype.Text
-	SerialNumbers []string
-	ExpiryDate    pgtype.Date
-	UnitWeight    pgtype.Float4
+	PackageID     pgtype.UUID   `db:"package_id" json:"package_id"`
+	ProductID     pgtype.UUID   `db:"product_id" json:"product_id"`
+	BatchID       pgtype.UUID   `db:"batch_id" json:"batch_id"`
+	Quantity      int32         `db:"quantity" json:"quantity"`
+	LotNumber     pgtype.Text   `db:"lot_number" json:"lot_number"`
+	SerialNumbers []string      `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate    pgtype.Date   `db:"expiry_date" json:"expiry_date"`
+	UnitWeight    pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
 }
 
 func (q *Queries) WmsInsertPackageItem(ctx context.Context, arg WmsInsertPackageItemParams) (WmsPackageItem, error) {
@@ -261,16 +261,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePackageItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginatePackageItemRow struct {
-	WmsPackageItem    WmsPackageItem
-	WmsPackage        WmsPackage
-	WmsProduct        WmsProduct
-	WmsInventoryBatch WmsInventoryBatch
+	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePackageItemParams) ([]WmsPaginatePackageItemRow, error) {
@@ -370,16 +370,16 @@ where
 `
 
 type WmsRangePackageItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangePackageItemRow struct {
-	WmsPackageItem    WmsPackageItem
-	WmsPackage        WmsPackage
-	WmsProduct        WmsProduct
-	WmsInventoryBatch WmsInventoryBatch
+	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsRangePackageItem(ctx context.Context, arg WmsRangePackageItemParams) ([]WmsRangePackageItemRow, error) {
@@ -521,15 +521,15 @@ returning
 `
 
 type WmsUpdatePackageItemParams struct {
-	PackageID     pgtype.UUID
-	ProductID     pgtype.UUID
-	BatchID       pgtype.UUID
-	Quantity      int32
-	LotNumber     pgtype.Text
-	SerialNumbers []string
-	ExpiryDate    pgtype.Date
-	UnitWeight    pgtype.Float4
-	ID            pgtype.UUID
+	PackageID     pgtype.UUID   `db:"package_id" json:"package_id"`
+	ProductID     pgtype.UUID   `db:"product_id" json:"product_id"`
+	BatchID       pgtype.UUID   `db:"batch_id" json:"batch_id"`
+	Quantity      int32         `db:"quantity" json:"quantity"`
+	LotNumber     pgtype.Text   `db:"lot_number" json:"lot_number"`
+	SerialNumbers []string      `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate    pgtype.Date   `db:"expiry_date" json:"expiry_date"`
+	UnitWeight    pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
+	ID            pgtype.UUID   `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdatePackageItem(ctx context.Context, arg WmsUpdatePackageItemParams) (WmsPackageItem, error) {

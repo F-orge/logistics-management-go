@@ -23,8 +23,8 @@ where
 `
 
 type BillingAnyRateRuleRow struct {
-	BillingRateRule BillingRateRule
-	BillingRateCard BillingRateCard
+	BillingRateRule BillingRateRule `db:"billing_rate_rule" json:"billing_rate_rule"`
+	BillingRateCard BillingRateCard `db:"billing_rate_card" json:"billing_rate_card"`
 }
 
 func (q *Queries) BillingAnyRateRule(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyRateRuleRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type BillingFindRateRuleRow struct {
-	BillingRateRule BillingRateRule
-	BillingRateCard BillingRateCard
+	BillingRateRule BillingRateRule `db:"billing_rate_rule" json:"billing_rate_rule"`
+	BillingRateCard BillingRateCard `db:"billing_rate_card" json:"billing_rate_card"`
 }
 
 func (q *Queries) BillingFindRateRule(ctx context.Context, id pgtype.UUID) (BillingFindRateRuleRow, error) {
@@ -124,15 +124,15 @@ returning
 `
 
 type BillingInsertRateRuleParams struct {
-	RateCardID   pgtype.UUID
-	Condition    string
-	Value        string
-	Price        pgtype.Numeric
-	PricingModel BillingPricingModelEnum
-	MinValue     pgtype.Numeric
-	MaxValue     pgtype.Numeric
-	Priority     pgtype.Int4
-	IsActive     pgtype.Bool
+	RateCardID   pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
+	Condition    string                  `db:"condition" json:"condition"`
+	Value        string                  `db:"value" json:"value"`
+	Price        pgtype.Numeric          `db:"price" json:"price"`
+	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
+	MinValue     pgtype.Numeric          `db:"min_value" json:"min_value"`
+	MaxValue     pgtype.Numeric          `db:"max_value" json:"max_value"`
+	Priority     pgtype.Int4             `db:"priority" json:"priority"`
+	IsActive     pgtype.Bool             `db:"is_active" json:"is_active"`
 }
 
 func (q *Queries) BillingInsertRateRule(ctx context.Context, arg BillingInsertRateRuleParams) (BillingRateRule, error) {
@@ -181,14 +181,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateRuleParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateRateRuleRow struct {
-	BillingRateRule BillingRateRule
-	BillingRateCard BillingRateCard
+	BillingRateRule BillingRateRule `db:"billing_rate_rule" json:"billing_rate_rule"`
+	BillingRateCard BillingRateCard `db:"billing_rate_card" json:"billing_rate_card"`
 }
 
 func (q *Queries) BillingPaginateRateRule(ctx context.Context, arg BillingPaginateRateRuleParams) ([]BillingPaginateRateRuleRow, error) {
@@ -252,14 +252,14 @@ where
 `
 
 type BillingRangeRateRuleParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeRateRuleRow struct {
-	BillingRateRule BillingRateRule
-	BillingRateCard BillingRateCard
+	BillingRateRule BillingRateRule `db:"billing_rate_rule" json:"billing_rate_rule"`
+	BillingRateCard BillingRateCard `db:"billing_rate_card" json:"billing_rate_card"`
 }
 
 func (q *Queries) BillingRangeRateRule(ctx context.Context, arg BillingRangeRateRuleParams) ([]BillingRangeRateRuleRow, error) {
@@ -372,16 +372,16 @@ returning
 `
 
 type BillingUpdateRateRuleParams struct {
-	RateCardID   pgtype.UUID
-	Condition    string
-	Value        string
-	Price        pgtype.Numeric
-	PricingModel BillingPricingModelEnum
-	MinValue     pgtype.Numeric
-	MaxValue     pgtype.Numeric
-	Priority     pgtype.Int4
-	IsActive     pgtype.Bool
-	ID           pgtype.UUID
+	RateCardID   pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
+	Condition    string                  `db:"condition" json:"condition"`
+	Value        string                  `db:"value" json:"value"`
+	Price        pgtype.Numeric          `db:"price" json:"price"`
+	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
+	MinValue     pgtype.Numeric          `db:"min_value" json:"min_value"`
+	MaxValue     pgtype.Numeric          `db:"max_value" json:"max_value"`
+	Priority     pgtype.Int4             `db:"priority" json:"priority"`
+	IsActive     pgtype.Bool             `db:"is_active" json:"is_active"`
+	ID           pgtype.UUID             `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateRateRule(ctx context.Context, arg BillingUpdateRateRuleParams) (BillingRateRule, error) {

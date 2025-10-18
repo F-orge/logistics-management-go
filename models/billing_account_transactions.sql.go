@@ -25,9 +25,9 @@ where
 `
 
 type BillingAnyAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction
-	BillingClientAccount      BillingClientAccount
-	User                      User
+	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
+	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
+	User                      User                      `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyAccountTransaction(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyAccountTransactionRow, error) {
@@ -100,9 +100,9 @@ where
 `
 
 type BillingFindAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction
-	BillingClientAccount      BillingClientAccount
-	User                      User
+	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
+	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
+	User                      User                      `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindAccountTransaction(ctx context.Context, id pgtype.UUID) (BillingFindAccountTransactionRow, error) {
@@ -156,16 +156,16 @@ returning
 `
 
 type BillingInsertAccountTransactionParams struct {
-	ClientAccountID   pgtype.UUID
-	Type              BillingTransactionTypeEnum
-	Amount            pgtype.Numeric
-	RunningBalance    pgtype.Numeric
-	SourceRecordID    pgtype.UUID
-	SourceRecordType  pgtype.Text
-	Description       pgtype.Text
-	ReferenceNumber   pgtype.Text
-	TransactionDate   pgtype.Timestamp
-	ProcessedByUserID pgtype.Text
+	ClientAccountID   pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type              BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount            pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance    pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID    pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType  pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description       pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber   pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate   pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 }
 
 func (q *Queries) BillingInsertAccountTransaction(ctx context.Context, arg BillingInsertAccountTransactionParams) (BillingAccountTransaction, error) {
@@ -218,15 +218,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateAccountTransactionParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction
-	BillingClientAccount      BillingClientAccount
-	User                      User
+	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
+	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
+	User                      User                      `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg BillingPaginateAccountTransactionParams) ([]BillingPaginateAccountTransactionRow, error) {
@@ -304,15 +304,15 @@ where
 `
 
 type BillingRangeAccountTransactionParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction
-	BillingClientAccount      BillingClientAccount
-	User                      User
+	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
+	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
+	User                      User                      `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeAccountTransaction(ctx context.Context, arg BillingRangeAccountTransactionParams) ([]BillingRangeAccountTransactionRow, error) {
@@ -443,17 +443,17 @@ returning
 `
 
 type BillingUpdateAccountTransactionParams struct {
-	ClientAccountID   pgtype.UUID
-	Type              BillingTransactionTypeEnum
-	Amount            pgtype.Numeric
-	RunningBalance    pgtype.Numeric
-	SourceRecordID    pgtype.UUID
-	SourceRecordType  pgtype.Text
-	Description       pgtype.Text
-	ReferenceNumber   pgtype.Text
-	TransactionDate   pgtype.Timestamp
-	ProcessedByUserID pgtype.Text
-	ID                pgtype.UUID
+	ClientAccountID   pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type              BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount            pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance    pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID    pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType  pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description       pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber   pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate   pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateAccountTransaction(ctx context.Context, arg BillingUpdateAccountTransactionParams) (BillingAccountTransaction, error) {

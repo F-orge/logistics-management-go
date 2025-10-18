@@ -106,17 +106,17 @@ returning
 `
 
 type WmsInsertWarehouseParams struct {
-	Name          string
-	Address       pgtype.Text
-	City          pgtype.Text
-	State         pgtype.Text
-	PostalCode    pgtype.Text
-	Country       pgtype.Text
-	Timezone      pgtype.Text
-	ContactPerson pgtype.Text
-	ContactEmail  pgtype.Text
-	ContactPhone  pgtype.Text
-	IsActive      pgtype.Bool
+	Name          string      `db:"name" json:"name"`
+	Address       pgtype.Text `db:"address" json:"address"`
+	City          pgtype.Text `db:"city" json:"city"`
+	State         pgtype.Text `db:"state" json:"state"`
+	PostalCode    pgtype.Text `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text `db:"country" json:"country"`
+	Timezone      pgtype.Text `db:"timezone" json:"timezone"`
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	ContactEmail  pgtype.Text `db:"contact_email" json:"contact_email"`
+	ContactPhone  pgtype.Text `db:"contact_phone" json:"contact_phone"`
+	IsActive      pgtype.Bool `db:"is_active" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertWarehouse(ctx context.Context, arg WmsInsertWarehouseParams) (WmsWarehouse, error) {
@@ -167,9 +167,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateWarehouseParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsWarehousesView, error) {
@@ -229,9 +229,9 @@ where
 `
 
 type WmsRangeWarehouseParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) WmsRangeWarehouse(ctx context.Context, arg WmsRangeWarehouseParams) ([]WmsWarehousesView, error) {
@@ -352,18 +352,18 @@ returning
 `
 
 type WmsUpdateWarehouseParams struct {
-	Name          string
-	Address       pgtype.Text
-	City          pgtype.Text
-	State         pgtype.Text
-	PostalCode    pgtype.Text
-	Country       pgtype.Text
-	Timezone      pgtype.Text
-	ContactPerson pgtype.Text
-	ContactEmail  pgtype.Text
-	ContactPhone  pgtype.Text
-	IsActive      pgtype.Bool
-	ID            pgtype.UUID
+	Name          string      `db:"name" json:"name"`
+	Address       pgtype.Text `db:"address" json:"address"`
+	City          pgtype.Text `db:"city" json:"city"`
+	State         pgtype.Text `db:"state" json:"state"`
+	PostalCode    pgtype.Text `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text `db:"country" json:"country"`
+	Timezone      pgtype.Text `db:"timezone" json:"timezone"`
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	ContactEmail  pgtype.Text `db:"contact_email" json:"contact_email"`
+	ContactPhone  pgtype.Text `db:"contact_phone" json:"contact_phone"`
+	IsActive      pgtype.Bool `db:"is_active" json:"is_active"`
+	ID            pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateWarehouse(ctx context.Context, arg WmsUpdateWarehouseParams) (WmsWarehouse, error) {

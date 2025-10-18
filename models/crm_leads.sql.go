@@ -31,12 +31,12 @@ where
 `
 
 type CrmAnyLeadRow struct {
-	CrmLead        CrmLead
-	User           User
-	CrmCampaign    CrmCampaign
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
+	User           User           `db:"user" json:"user"`
+	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmAnyLead(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyLeadRow, error) {
@@ -149,12 +149,12 @@ where
 `
 
 type CrmFindLeadRow struct {
-	CrmLead        CrmLead
-	User           User
-	CrmCampaign    CrmCampaign
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
+	User           User           `db:"user" json:"user"`
+	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmFindLead(ctx context.Context, id pgtype.UUID) (CrmFindLeadRow, error) {
@@ -242,17 +242,17 @@ returning
 `
 
 type CrmInsertLeadParams struct {
-	Name                   string
-	Email                  string
-	LeadSource             NullCrmLeadSource
-	Status                 NullCrmLeadStatus
-	LeadScore              pgtype.Int4
-	OwnerID                string
-	CampaignID             pgtype.UUID
-	ConvertedAt            pgtype.Timestamptz
-	ConvertedContactID     pgtype.UUID
-	ConvertedCompanyID     pgtype.UUID
-	ConvertedOpportunityID pgtype.UUID
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
 }
 
 func (q *Queries) CrmInsertLead(ctx context.Context, arg CrmInsertLeadParams) (CrmLead, error) {
@@ -315,18 +315,18 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateLeadParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateLeadRow struct {
-	CrmLead        CrmLead
-	User           User
-	CrmCampaign    CrmCampaign
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
+	User           User           `db:"user" json:"user"`
+	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams) ([]CrmPaginateLeadRow, error) {
@@ -447,18 +447,18 @@ where
 `
 
 type CrmRangeLeadParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeLeadRow struct {
-	CrmLead        CrmLead
-	User           User
-	CrmCampaign    CrmCampaign
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
+	User           User           `db:"user" json:"user"`
+	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmRangeLead(ctx context.Context, arg CrmRangeLeadParams) ([]CrmRangeLeadRow, error) {
@@ -628,18 +628,18 @@ returning
 `
 
 type CrmUpdateLeadParams struct {
-	Name                   string
-	Email                  string
-	LeadSource             NullCrmLeadSource
-	Status                 NullCrmLeadStatus
-	LeadScore              pgtype.Int4
-	OwnerID                string
-	CampaignID             pgtype.UUID
-	ConvertedAt            pgtype.Timestamptz
-	ConvertedContactID     pgtype.UUID
-	ConvertedCompanyID     pgtype.UUID
-	ConvertedOpportunityID pgtype.UUID
-	ID                     pgtype.UUID
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
+	ID                     pgtype.UUID        `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateLead(ctx context.Context, arg CrmUpdateLeadParams) (CrmLead, error) {

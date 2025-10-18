@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyReturnRow struct {
-	WmsReturnsView WmsReturnsView
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
+	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
+	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyReturnRow, error) {
@@ -96,9 +96,9 @@ where
 `
 
 type WmsFindReturnRow struct {
-	WmsReturnsView WmsReturnsView
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
+	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
+	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsFindReturn(ctx context.Context, id pgtype.UUID) (WmsFindReturnRow, error) {
@@ -148,11 +148,11 @@ returning
 `
 
 type WmsInsertReturnParams struct {
-	ReturnNumber string
-	SalesOrderID pgtype.UUID
-	ClientID     pgtype.UUID
-	Status       NullWmsReturnStatusEnum
-	Reason       pgtype.Text
+	ReturnNumber string                  `db:"return_number" json:"return_number"`
+	SalesOrderID pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID     pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status       NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason       pgtype.Text             `db:"reason" json:"reason"`
 }
 
 func (q *Queries) WmsInsertReturn(ctx context.Context, arg WmsInsertReturnParams) (WmsReturn, error) {
@@ -195,15 +195,15 @@ limit $3::int offset (($2::int - 1) * $3::int)
 `
 
 type WmsPaginateReturnParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateReturnRow struct {
-	WmsReturnsView WmsReturnsView
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
+	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
+	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnParams) ([]WmsPaginateReturnRow, error) {
@@ -278,15 +278,15 @@ where
 `
 
 type WmsRangeReturnParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeReturnRow struct {
-	WmsReturnsView WmsReturnsView
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
+	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
+	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsRangeReturn(ctx context.Context, arg WmsRangeReturnParams) ([]WmsRangeReturnRow, error) {
@@ -388,12 +388,12 @@ returning
 `
 
 type WmsUpdateReturnParams struct {
-	ReturnNumber string
-	SalesOrderID pgtype.UUID
-	ClientID     pgtype.UUID
-	Status       NullWmsReturnStatusEnum
-	Reason       pgtype.Text
-	ID           pgtype.UUID
+	ReturnNumber string                  `db:"return_number" json:"return_number"`
+	SalesOrderID pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID     pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status       NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason       pgtype.Text             `db:"reason" json:"reason"`
+	ID           pgtype.UUID             `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateReturn(ctx context.Context, arg WmsUpdateReturnParams) (WmsReturn, error) {

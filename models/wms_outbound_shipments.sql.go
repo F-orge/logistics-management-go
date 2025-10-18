@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyOutboundShipmentRow struct {
-	WmsOutboundShipmentsView WmsOutboundShipmentsView
-	WmsSalesOrder            WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView `db:"wms_outbound_shipments_view" json:"wms_outbound_shipments_view"`
+	WmsSalesOrder            WmsSalesOrder            `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsAnyOutboundShipment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyOutboundShipmentRow, error) {
@@ -77,8 +77,8 @@ where
 `
 
 type WmsFindOutboundShipmentRow struct {
-	WmsOutboundShipmentsView WmsOutboundShipmentsView
-	WmsSalesOrder            WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView `db:"wms_outbound_shipments_view" json:"wms_outbound_shipments_view"`
+	WmsSalesOrder            WmsSalesOrder            `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsFindOutboundShipment(ctx context.Context, id pgtype.UUID) (WmsFindOutboundShipmentRow, error) {
@@ -114,11 +114,11 @@ returning
 `
 
 type WmsInsertOutboundShipmentParams struct {
-	SalesOrderID   pgtype.UUID
-	WarehouseID    pgtype.UUID
-	Status         NullWmsOutboundShipmentStatusEnum
-	TrackingNumber pgtype.Text
-	Carrier        pgtype.Text
+	SalesOrderID   pgtype.UUID                       `db:"sales_order_id" json:"sales_order_id"`
+	WarehouseID    pgtype.UUID                       `db:"warehouse_id" json:"warehouse_id"`
+	Status         NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
+	TrackingNumber pgtype.Text                       `db:"tracking_number" json:"tracking_number"`
+	Carrier        pgtype.Text                       `db:"carrier" json:"carrier"`
 }
 
 func (q *Queries) WmsInsertOutboundShipment(ctx context.Context, arg WmsInsertOutboundShipmentParams) (WmsOutboundShipment, error) {
@@ -159,14 +159,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateOutboundShipmentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateOutboundShipmentRow struct {
-	WmsOutboundShipmentsView WmsOutboundShipmentsView
-	WmsSalesOrder            WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView `db:"wms_outbound_shipments_view" json:"wms_outbound_shipments_view"`
+	WmsSalesOrder            WmsSalesOrder            `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPaginateOutboundShipmentParams) ([]WmsPaginateOutboundShipmentRow, error) {
@@ -225,14 +225,14 @@ where
 `
 
 type WmsRangeOutboundShipmentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeOutboundShipmentRow struct {
-	WmsOutboundShipmentsView WmsOutboundShipmentsView
-	WmsSalesOrder            WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView `db:"wms_outbound_shipments_view" json:"wms_outbound_shipments_view"`
+	WmsSalesOrder            WmsSalesOrder            `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsRangeOutboundShipment(ctx context.Context, arg WmsRangeOutboundShipmentParams) ([]WmsRangeOutboundShipmentRow, error) {
@@ -320,12 +320,12 @@ returning
 `
 
 type WmsUpdateOutboundShipmentParams struct {
-	SalesOrderID   pgtype.UUID
-	WarehouseID    pgtype.UUID
-	Status         NullWmsOutboundShipmentStatusEnum
-	TrackingNumber pgtype.Text
-	Carrier        pgtype.Text
-	ID             pgtype.UUID
+	SalesOrderID   pgtype.UUID                       `db:"sales_order_id" json:"sales_order_id"`
+	WarehouseID    pgtype.UUID                       `db:"warehouse_id" json:"warehouse_id"`
+	Status         NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
+	TrackingNumber pgtype.Text                       `db:"tracking_number" json:"tracking_number"`
+	Carrier        pgtype.Text                       `db:"carrier" json:"carrier"`
+	ID             pgtype.UUID                       `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateOutboundShipment(ctx context.Context, arg WmsUpdateOutboundShipmentParams) (WmsOutboundShipment, error) {

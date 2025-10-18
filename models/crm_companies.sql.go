@@ -23,8 +23,8 @@ where
 `
 
 type CrmAnyCompanyRow struct {
-	CrmCompany CrmCompany
-	User       User
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	User       User       `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmAnyCompany(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyCompanyRow, error) {
@@ -85,8 +85,8 @@ where
 `
 
 type CrmFindCompanyRow struct {
-	CrmCompany CrmCompany
-	User       User
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	User       User       `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmFindCompany(ctx context.Context, id pgtype.UUID) (CrmFindCompanyRow, error) {
@@ -130,16 +130,16 @@ returning
 `
 
 type CrmInsertCompanyParams struct {
-	Name          string
-	Street        pgtype.Text
-	City          pgtype.Text
-	State         pgtype.Text
-	Country       pgtype.Text
-	PhoneNumber   pgtype.Text
-	Industry      pgtype.Text
-	Website       pgtype.Text
-	AnnualRevenue pgtype.Numeric
-	OwnerID       pgtype.Text
+	Name          string         `db:"name" json:"name"`
+	Street        pgtype.Text    `db:"street" json:"street"`
+	City          pgtype.Text    `db:"city" json:"city"`
+	State         pgtype.Text    `db:"state" json:"state"`
+	Country       pgtype.Text    `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text    `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text    `db:"industry" json:"industry"`
+	Website       pgtype.Text    `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text    `db:"owner_id" json:"owner_id"`
 }
 
 func (q *Queries) CrmInsertCompany(ctx context.Context, arg CrmInsertCompanyParams) (CrmCompany, error) {
@@ -191,14 +191,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCompanyParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateCompanyRow struct {
-	CrmCompany CrmCompany
-	User       User
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	User       User       `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompanyParams) ([]CrmPaginateCompanyRow, error) {
@@ -265,14 +265,14 @@ where
 `
 
 type CrmRangeCompanyParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeCompanyRow struct {
-	CrmCompany CrmCompany
-	User       User
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	User       User       `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmRangeCompany(ctx context.Context, arg CrmRangeCompanyParams) ([]CrmRangeCompanyRow, error) {
@@ -398,18 +398,18 @@ returning
 `
 
 type CrmUpdateCompanyParams struct {
-	Name          string
-	Street        pgtype.Text
-	City          pgtype.Text
-	State         pgtype.Text
-	PostalCode    pgtype.Text
-	Country       pgtype.Text
-	PhoneNumber   pgtype.Text
-	Industry      pgtype.Text
-	Website       pgtype.Text
-	AnnualRevenue pgtype.Numeric
-	OwnerID       pgtype.Text
-	ID            pgtype.UUID
+	Name          string         `db:"name" json:"name"`
+	Street        pgtype.Text    `db:"street" json:"street"`
+	City          pgtype.Text    `db:"city" json:"city"`
+	State         pgtype.Text    `db:"state" json:"state"`
+	PostalCode    pgtype.Text    `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text    `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text    `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text    `db:"industry" json:"industry"`
+	Website       pgtype.Text    `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text    `db:"owner_id" json:"owner_id"`
+	ID            pgtype.UUID    `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateCompany(ctx context.Context, arg CrmUpdateCompanyParams) (CrmCompany, error) {

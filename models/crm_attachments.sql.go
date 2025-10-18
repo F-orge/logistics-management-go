@@ -82,11 +82,11 @@ returning
 `
 
 type CrmInsertAttachmentParams struct {
-	FileName   string
-	FilePath   string
-	MimeType   pgtype.Text
-	RecordID   pgtype.UUID
-	RecordType NullCrmRecordType
+	FileName   string            `db:"file_name" json:"file_name"`
+	FilePath   string            `db:"file_path" json:"file_path"`
+	MimeType   pgtype.Text       `db:"mime_type" json:"mime_type"`
+	RecordID   pgtype.UUID       `db:"record_id" json:"record_id"`
+	RecordType NullCrmRecordType `db:"record_type" json:"record_type"`
 }
 
 func (q *Queries) CrmInsertAttachment(ctx context.Context, arg CrmInsertAttachmentParams) (CrmAttachment, error) {
@@ -123,9 +123,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateAttachmentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) CrmPaginateAttachment(ctx context.Context, arg CrmPaginateAttachmentParams) ([]CrmAttachment, error) {
@@ -171,9 +171,9 @@ where
 `
 
 type CrmRangeAttachmentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) CrmRangeAttachment(ctx context.Context, arg CrmRangeAttachmentParams) ([]CrmAttachment, error) {
@@ -252,12 +252,12 @@ returning
 `
 
 type CrmUpdateAttachmentParams struct {
-	FileName   string
-	FilePath   string
-	MimeType   pgtype.Text
-	RecordID   pgtype.UUID
-	RecordType NullCrmRecordType
-	ID         pgtype.UUID
+	FileName   string            `db:"file_name" json:"file_name"`
+	FilePath   string            `db:"file_path" json:"file_path"`
+	MimeType   pgtype.Text       `db:"mime_type" json:"mime_type"`
+	RecordID   pgtype.UUID       `db:"record_id" json:"record_id"`
+	RecordType NullCrmRecordType `db:"record_type" json:"record_type"`
+	ID         pgtype.UUID       `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateAttachment(ctx context.Context, arg CrmUpdateAttachmentParams) (CrmAttachment, error) {

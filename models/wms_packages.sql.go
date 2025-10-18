@@ -27,10 +27,10 @@ where
 `
 
 type WmsAnyPackageRow struct {
-	WmsPackagesView WmsPackagesView
-	WmsSalesOrder   WmsSalesOrder
-	WmsWarehouse    WmsWarehouse
-	User            User
+	WmsPackagesView WmsPackagesView `db:"wms_packages_view" json:"wms_packages_view"`
+	WmsSalesOrder   WmsSalesOrder   `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsWarehouse    WmsWarehouse    `db:"wms_warehouse" json:"wms_warehouse"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsAnyPackage(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPackageRow, error) {
@@ -126,10 +126,10 @@ where
 `
 
 type WmsFindPackageRow struct {
-	WmsPackagesView WmsPackagesView
-	WmsSalesOrder   WmsSalesOrder
-	WmsWarehouse    WmsWarehouse
-	User            User
+	WmsPackagesView WmsPackagesView `db:"wms_packages_view" json:"wms_packages_view"`
+	WmsSalesOrder   WmsSalesOrder   `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsWarehouse    WmsWarehouse    `db:"wms_warehouse" json:"wms_warehouse"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsFindPackage(ctx context.Context, id pgtype.UUID) (WmsFindPackageRow, error) {
@@ -204,24 +204,24 @@ returning
 `
 
 type WmsInsertPackageParams struct {
-	SalesOrderID      pgtype.UUID
-	PackageNumber     string
-	WarehouseID       pgtype.UUID
-	PackageType       pgtype.Text
-	Weight            pgtype.Float4
-	Length            pgtype.Float4
-	Width             pgtype.Float4
-	Height            pgtype.Float4
-	TrackingNumber    pgtype.Text
-	Carrier           pgtype.Text
-	ServiceLevel      pgtype.Text
-	PackedByUserID    pgtype.Text
-	PackedAt          pgtype.Timestamp
-	ShippedAt         pgtype.Timestamp
-	IsFragile         pgtype.Bool
-	IsHazmat          pgtype.Bool
-	RequiresSignature pgtype.Bool
-	InsuranceValue    pgtype.Numeric
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	PackageNumber     string           `db:"package_number" json:"package_number"`
+	WarehouseID       pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
+	PackageType       pgtype.Text      `db:"package_type" json:"package_type"`
+	Weight            pgtype.Float4    `db:"weight" json:"weight"`
+	Length            pgtype.Float4    `db:"length" json:"length"`
+	Width             pgtype.Float4    `db:"width" json:"width"`
+	Height            pgtype.Float4    `db:"height" json:"height"`
+	TrackingNumber    pgtype.Text      `db:"tracking_number" json:"tracking_number"`
+	Carrier           pgtype.Text      `db:"carrier" json:"carrier"`
+	ServiceLevel      pgtype.Text      `db:"service_level" json:"service_level"`
+	PackedByUserID    pgtype.Text      `db:"packed_by_user_id" json:"packed_by_user_id"`
+	PackedAt          pgtype.Timestamp `db:"packed_at" json:"packed_at"`
+	ShippedAt         pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
+	IsFragile         pgtype.Bool      `db:"is_fragile" json:"is_fragile"`
+	IsHazmat          pgtype.Bool      `db:"is_hazmat" json:"is_hazmat"`
+	RequiresSignature pgtype.Bool      `db:"requires_signature" json:"requires_signature"`
+	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
 }
 
 func (q *Queries) WmsInsertPackage(ctx context.Context, arg WmsInsertPackageParams) (WmsPackage, error) {
@@ -295,16 +295,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePackageParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginatePackageRow struct {
-	WmsPackagesView WmsPackagesView
-	WmsSalesOrder   WmsSalesOrder
-	WmsWarehouse    WmsWarehouse
-	User            User
+	WmsPackagesView WmsPackagesView `db:"wms_packages_view" json:"wms_packages_view"`
+	WmsSalesOrder   WmsSalesOrder   `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsWarehouse    WmsWarehouse    `db:"wms_warehouse" json:"wms_warehouse"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackageParams) ([]WmsPaginatePackageRow, error) {
@@ -408,16 +408,16 @@ where
 `
 
 type WmsRangePackageParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangePackageRow struct {
-	WmsPackagesView WmsPackagesView
-	WmsSalesOrder   WmsSalesOrder
-	WmsWarehouse    WmsWarehouse
-	User            User
+	WmsPackagesView WmsPackagesView `db:"wms_packages_view" json:"wms_packages_view"`
+	WmsSalesOrder   WmsSalesOrder   `db:"wms_sales_order" json:"wms_sales_order"`
+	WmsWarehouse    WmsWarehouse    `db:"wms_warehouse" json:"wms_warehouse"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsRangePackage(ctx context.Context, arg WmsRangePackageParams) ([]WmsRangePackageRow, error) {
@@ -609,25 +609,25 @@ returning
 `
 
 type WmsUpdatePackageParams struct {
-	SalesOrderID      pgtype.UUID
-	PackageNumber     string
-	WarehouseID       pgtype.UUID
-	PackageType       pgtype.Text
-	Weight            pgtype.Float4
-	Length            pgtype.Float4
-	Width             pgtype.Float4
-	Height            pgtype.Float4
-	TrackingNumber    pgtype.Text
-	Carrier           pgtype.Text
-	ServiceLevel      pgtype.Text
-	PackedByUserID    pgtype.Text
-	PackedAt          pgtype.Timestamp
-	ShippedAt         pgtype.Timestamp
-	IsFragile         pgtype.Bool
-	IsHazmat          pgtype.Bool
-	RequiresSignature pgtype.Bool
-	InsuranceValue    pgtype.Numeric
-	ID                pgtype.UUID
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	PackageNumber     string           `db:"package_number" json:"package_number"`
+	WarehouseID       pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
+	PackageType       pgtype.Text      `db:"package_type" json:"package_type"`
+	Weight            pgtype.Float4    `db:"weight" json:"weight"`
+	Length            pgtype.Float4    `db:"length" json:"length"`
+	Width             pgtype.Float4    `db:"width" json:"width"`
+	Height            pgtype.Float4    `db:"height" json:"height"`
+	TrackingNumber    pgtype.Text      `db:"tracking_number" json:"tracking_number"`
+	Carrier           pgtype.Text      `db:"carrier" json:"carrier"`
+	ServiceLevel      pgtype.Text      `db:"service_level" json:"service_level"`
+	PackedByUserID    pgtype.Text      `db:"packed_by_user_id" json:"packed_by_user_id"`
+	PackedAt          pgtype.Timestamp `db:"packed_at" json:"packed_at"`
+	ShippedAt         pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
+	IsFragile         pgtype.Bool      `db:"is_fragile" json:"is_fragile"`
+	IsHazmat          pgtype.Bool      `db:"is_hazmat" json:"is_hazmat"`
+	RequiresSignature pgtype.Bool      `db:"requires_signature" json:"requires_signature"`
+	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
+	ID                pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdatePackage(ctx context.Context, arg WmsUpdatePackageParams) (WmsPackage, error) {

@@ -23,8 +23,8 @@ where
 `
 
 type BillingAnyRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView
-	User                 User
+	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
+	User                 User                 `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyRateCardRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type BillingFindRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView
-	User                 User
+	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
+	User                 User                 `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindRateCard(ctx context.Context, id pgtype.UUID) (BillingFindRateCardRow, error) {
@@ -124,13 +124,13 @@ returning
 `
 
 type BillingInsertRateCardParams struct {
-	Name            string
-	ServiceType     BillingServiceTypeEnum
-	IsActive        pgtype.Bool
-	ValidFrom       pgtype.Date
-	ValidTo         pgtype.Date
-	Description     pgtype.Text
-	CreatedByUserID pgtype.Text
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
 func (q *Queries) BillingInsertRateCard(ctx context.Context, arg BillingInsertRateCardParams) (BillingRateCard, error) {
@@ -174,14 +174,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateCardParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView
-	User                 User
+	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
+	User                 User                 `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPaginateRateCardParams) ([]BillingPaginateRateCardRow, error) {
@@ -244,14 +244,14 @@ where
 `
 
 type BillingRangeRateCardParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView
-	User                 User
+	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
+	User                 User                 `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRateCardParams) ([]BillingRangeRateCardRow, error) {
@@ -354,14 +354,14 @@ returning
 `
 
 type BillingUpdateRateCardParams struct {
-	Name            string
-	ServiceType     BillingServiceTypeEnum
-	IsActive        pgtype.Bool
-	ValidFrom       pgtype.Date
-	ValidTo         pgtype.Date
-	Description     pgtype.Text
-	CreatedByUserID pgtype.Text
-	ID              pgtype.UUID
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateRateCard(ctx context.Context, arg BillingUpdateRateCardParams) (BillingRateCard, error) {

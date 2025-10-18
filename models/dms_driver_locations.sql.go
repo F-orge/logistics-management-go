@@ -23,8 +23,8 @@ where
 `
 
 type DmsAnyDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation
-	TmsDriver         TmsDriver
+	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsAnyDriverLocation(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDriverLocationRow, error) {
@@ -79,8 +79,8 @@ where
 `
 
 type DmsFindDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation
-	TmsDriver         TmsDriver
+	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsFindDriverLocation(ctx context.Context, id pgtype.UUID) (DmsFindDriverLocationRow, error) {
@@ -118,14 +118,14 @@ returning
 `
 
 type DmsInsertDriverLocationParams struct {
-	DriverID  pgtype.UUID
-	Latitude  float32
-	Longitude float32
-	Altitude  pgtype.Float4
-	Accuracy  pgtype.Float4
-	SpeedKmh  pgtype.Float4
-	Heading   pgtype.Float4
-	Timestamp pgtype.Timestamp
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 }
 
 func (q *Queries) DmsInsertDriverLocation(ctx context.Context, arg DmsInsertDriverLocationParams) (DmsDriverLocation, error) {
@@ -169,14 +169,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateDriverLocationParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type DmsPaginateDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation
-	TmsDriver         TmsDriver
+	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginateDriverLocationParams) ([]DmsPaginateDriverLocationRow, error) {
@@ -234,14 +234,14 @@ where
 `
 
 type DmsRangeDriverLocationParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsRangeDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation
-	TmsDriver         TmsDriver
+	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsRangeDriverLocation(ctx context.Context, arg DmsRangeDriverLocationParams) ([]DmsRangeDriverLocationRow, error) {
@@ -346,15 +346,15 @@ returning
 `
 
 type DmsUpdateDriverLocationParams struct {
-	DriverID  pgtype.UUID
-	Latitude  float32
-	Longitude float32
-	Altitude  pgtype.Float4
-	Accuracy  pgtype.Float4
-	SpeedKmh  pgtype.Float4
-	Heading   pgtype.Float4
-	Timestamp pgtype.Timestamp
-	ID        pgtype.UUID
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) DmsUpdateDriverLocation(ctx context.Context, arg DmsUpdateDriverLocationParams) (DmsDriverLocation, error) {

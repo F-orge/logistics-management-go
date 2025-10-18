@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyProductRow struct {
-	WmsProductsView WmsProductsView
-	WmsSupplier     WmsSupplier
-	CrmCompany      CrmCompany
+	WmsProductsView WmsProductsView `db:"wms_products_view" json:"wms_products_view"`
+	WmsSupplier     WmsSupplier     `db:"wms_supplier" json:"wms_supplier"`
+	CrmCompany      CrmCompany      `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsAnyProduct(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyProductRow, error) {
@@ -115,9 +115,9 @@ where
 `
 
 type WmsFindProductRow struct {
-	WmsProductsView WmsProductsView
-	WmsSupplier     WmsSupplier
-	CrmCompany      CrmCompany
+	WmsProductsView WmsProductsView `db:"wms_products_view" json:"wms_products_view"`
+	WmsSupplier     WmsSupplier     `db:"wms_supplier" json:"wms_supplier"`
+	CrmCompany      CrmCompany      `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsFindProduct(ctx context.Context, id pgtype.UUID) (WmsFindProductRow, error) {
@@ -186,18 +186,18 @@ returning
 `
 
 type WmsInsertProductParams struct {
-	Name        string
-	Sku         string
-	Barcode     pgtype.Text
-	Description pgtype.Text
-	CostPrice   pgtype.Numeric
-	Length      pgtype.Float4
-	Width       pgtype.Float4
-	Height      pgtype.Float4
-	Weight      pgtype.Float4
-	Status      NullWmsProductStatusEnum
-	SupplierID  pgtype.UUID
-	ClientID    pgtype.UUID
+	Name        string                   `db:"name" json:"name"`
+	Sku         string                   `db:"sku" json:"sku"`
+	Barcode     pgtype.Text              `db:"barcode" json:"barcode"`
+	Description pgtype.Text              `db:"description" json:"description"`
+	CostPrice   pgtype.Numeric           `db:"cost_price" json:"cost_price"`
+	Length      pgtype.Float4            `db:"length" json:"length"`
+	Width       pgtype.Float4            `db:"width" json:"width"`
+	Height      pgtype.Float4            `db:"height" json:"height"`
+	Weight      pgtype.Float4            `db:"weight" json:"weight"`
+	Status      NullWmsProductStatusEnum `db:"status" json:"status"`
+	SupplierID  pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
+	ClientID    pgtype.UUID              `db:"client_id" json:"client_id"`
 }
 
 func (q *Queries) WmsInsertProduct(ctx context.Context, arg WmsInsertProductParams) (WmsProduct, error) {
@@ -257,15 +257,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateProductParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateProductRow struct {
-	WmsProductsView WmsProductsView
-	WmsSupplier     WmsSupplier
-	CrmCompany      CrmCompany
+	WmsProductsView WmsProductsView `db:"wms_products_view" json:"wms_products_view"`
+	WmsSupplier     WmsSupplier     `db:"wms_supplier" json:"wms_supplier"`
+	CrmCompany      CrmCompany      `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsPaginateProduct(ctx context.Context, arg WmsPaginateProductParams) ([]WmsPaginateProductRow, error) {
@@ -361,15 +361,15 @@ where
 `
 
 type WmsRangeProductParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeProductRow struct {
-	WmsProductsView WmsProductsView
-	WmsSupplier     WmsSupplier
-	CrmCompany      CrmCompany
+	WmsProductsView WmsProductsView `db:"wms_products_view" json:"wms_products_view"`
+	WmsSupplier     WmsSupplier     `db:"wms_supplier" json:"wms_supplier"`
+	CrmCompany      CrmCompany      `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsRangeProduct(ctx context.Context, arg WmsRangeProductParams) ([]WmsRangeProductRow, error) {
@@ -525,19 +525,19 @@ returning
 `
 
 type WmsUpdateProductParams struct {
-	Name        string
-	Sku         string
-	Barcode     pgtype.Text
-	Description pgtype.Text
-	CostPrice   pgtype.Numeric
-	Length      pgtype.Float4
-	Width       pgtype.Float4
-	Height      pgtype.Float4
-	Weight      pgtype.Float4
-	Status      NullWmsProductStatusEnum
-	SupplierID  pgtype.UUID
-	ClientID    pgtype.UUID
-	ID          pgtype.UUID
+	Name        string                   `db:"name" json:"name"`
+	Sku         string                   `db:"sku" json:"sku"`
+	Barcode     pgtype.Text              `db:"barcode" json:"barcode"`
+	Description pgtype.Text              `db:"description" json:"description"`
+	CostPrice   pgtype.Numeric           `db:"cost_price" json:"cost_price"`
+	Length      pgtype.Float4            `db:"length" json:"length"`
+	Width       pgtype.Float4            `db:"width" json:"width"`
+	Height      pgtype.Float4            `db:"height" json:"height"`
+	Weight      pgtype.Float4            `db:"weight" json:"weight"`
+	Status      NullWmsProductStatusEnum `db:"status" json:"status"`
+	SupplierID  pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
+	ClientID    pgtype.UUID              `db:"client_id" json:"client_id"`
+	ID          pgtype.UUID              `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateProduct(ctx context.Context, arg WmsUpdateProductParams) (WmsProduct, error) {

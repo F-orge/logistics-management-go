@@ -98,11 +98,11 @@ returning
 `
 
 type TmsInsertVehicleParams struct {
-	RegistrationNumber string
-	Model              pgtype.Text
-	CapacityVolume     pgtype.Float4
-	CapacityWeight     pgtype.Float4
-	Status             NullTmsVehicleStatusEnum
+	RegistrationNumber string                   `db:"registration_number" json:"registration_number"`
+	Model              pgtype.Text              `db:"model" json:"model"`
+	CapacityVolume     pgtype.Float4            `db:"capacity_volume" json:"capacity_volume"`
+	CapacityWeight     pgtype.Float4            `db:"capacity_weight" json:"capacity_weight"`
+	Status             NullTmsVehicleStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) TmsInsertVehicle(ctx context.Context, arg TmsInsertVehicleParams) (TmsVehicle, error) {
@@ -145,9 +145,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateVehicleParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicleParams) ([]TmsVehiclesView, error) {
@@ -202,9 +202,9 @@ where
 `
 
 type TmsRangeVehicleParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) TmsRangeVehicle(ctx context.Context, arg TmsRangeVehicleParams) ([]TmsVehiclesView, error) {
@@ -291,12 +291,12 @@ returning
 `
 
 type TmsUpdateVehicleParams struct {
-	RegistrationNumber string
-	Model              pgtype.Text
-	CapacityVolume     pgtype.Float4
-	CapacityWeight     pgtype.Float4
-	Status             NullTmsVehicleStatusEnum
-	ID                 pgtype.UUID
+	RegistrationNumber string                   `db:"registration_number" json:"registration_number"`
+	Model              pgtype.Text              `db:"model" json:"model"`
+	CapacityVolume     pgtype.Float4            `db:"capacity_volume" json:"capacity_volume"`
+	CapacityWeight     pgtype.Float4            `db:"capacity_weight" json:"capacity_weight"`
+	Status             NullTmsVehicleStatusEnum `db:"status" json:"status"`
+	ID                 pgtype.UUID              `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateVehicle(ctx context.Context, arg TmsUpdateVehicleParams) (TmsVehicle, error) {

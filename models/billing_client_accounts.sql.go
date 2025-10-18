@@ -23,8 +23,8 @@ where
 `
 
 type BillingAnyClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView
-	CrmCompany                CrmCompany
+	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
+	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyClientAccountRow, error) {
@@ -86,8 +86,8 @@ where
 `
 
 type BillingFindClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView
-	CrmCompany                CrmCompany
+	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
+	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingFindClientAccount(ctx context.Context, id pgtype.UUID) (BillingFindClientAccountRow, error) {
@@ -132,14 +132,14 @@ returning
 `
 
 type BillingInsertClientAccountParams struct {
-	ClientID         pgtype.UUID
-	CreditLimit      pgtype.Numeric
-	AvailableCredit  pgtype.Numeric
-	WalletBalance    pgtype.Numeric
-	Currency         pgtype.Text
-	PaymentTermsDays pgtype.Int4
-	IsCreditApproved pgtype.Bool
-	LastPaymentDate  pgtype.Date
+	ClientID         pgtype.UUID    `db:"client_id" json:"client_id"`
+	CreditLimit      pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit  pgtype.Numeric `db:"available_credit" json:"available_credit"`
+	WalletBalance    pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
+	Currency         pgtype.Text    `db:"currency" json:"currency"`
+	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate  pgtype.Date    `db:"last_payment_date" json:"last_payment_date"`
 }
 
 func (q *Queries) BillingInsertClientAccount(ctx context.Context, arg BillingInsertClientAccountParams) (BillingClientAccount, error) {
@@ -183,14 +183,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateClientAccountParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView
-	CrmCompany                CrmCompany
+	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
+	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingPaginateClientAccountParams) ([]BillingPaginateClientAccountRow, error) {
@@ -255,14 +255,14 @@ where
 `
 
 type BillingRangeClientAccountParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView
-	CrmCompany                CrmCompany
+	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
+	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRangeClientAccountParams) ([]BillingRangeClientAccountRow, error) {
@@ -374,15 +374,15 @@ returning
 `
 
 type BillingUpdateClientAccountParams struct {
-	ClientID         pgtype.UUID
-	CreditLimit      pgtype.Numeric
-	AvailableCredit  pgtype.Numeric
-	WalletBalance    pgtype.Numeric
-	Currency         pgtype.Text
-	PaymentTermsDays pgtype.Int4
-	IsCreditApproved pgtype.Bool
-	LastPaymentDate  pgtype.Date
-	ID               pgtype.UUID
+	ClientID         pgtype.UUID    `db:"client_id" json:"client_id"`
+	CreditLimit      pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit  pgtype.Numeric `db:"available_credit" json:"available_credit"`
+	WalletBalance    pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
+	Currency         pgtype.Text    `db:"currency" json:"currency"`
+	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate  pgtype.Date    `db:"last_payment_date" json:"last_payment_date"`
+	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateClientAccount(ctx context.Context, arg BillingUpdateClientAccountParams) (BillingClientAccount, error) {

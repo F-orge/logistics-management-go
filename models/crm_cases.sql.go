@@ -25,9 +25,9 @@ where
 `
 
 type CrmAnyCaseRow struct {
-	CrmCase    CrmCase
-	User       User
-	CrmContact CrmContact
+	CrmCase    CrmCase    `db:"crm_case" json:"crm_case"`
+	User       User       `db:"user" json:"user"`
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 }
 
 func (q *Queries) CrmAnyCase(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyCaseRow, error) {
@@ -95,9 +95,9 @@ where
 `
 
 type CrmFindCaseRow struct {
-	CrmCase    CrmCase
-	User       User
-	CrmContact CrmContact
+	CrmCase    CrmCase    `db:"crm_case" json:"crm_case"`
+	User       User       `db:"user" json:"user"`
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 }
 
 func (q *Queries) CrmFindCase(ctx context.Context, id pgtype.UUID) (CrmFindCaseRow, error) {
@@ -146,13 +146,13 @@ returning
 `
 
 type CrmInsertCaseParams struct {
-	CaseNumber  string
-	Status      NullCrmCaseStatus
-	Priority    NullCrmCasePriority
-	Type        NullCrmCaseType
-	OwnerID     string
-	ContactID   pgtype.UUID
-	Description pgtype.Text
+	CaseNumber  string              `db:"case_number" json:"case_number"`
+	Status      NullCrmCaseStatus   `db:"status" json:"status"`
+	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
+	Type        NullCrmCaseType     `db:"type" json:"type"`
+	OwnerID     string              `db:"owner_id" json:"owner_id"`
+	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
+	Description pgtype.Text         `db:"description" json:"description"`
 }
 
 func (q *Queries) CrmInsertCase(ctx context.Context, arg CrmInsertCaseParams) (CrmCase, error) {
@@ -201,15 +201,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCaseParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateCaseRow struct {
-	CrmCase    CrmCase
-	User       User
-	CrmContact CrmContact
+	CrmCase    CrmCase    `db:"crm_case" json:"crm_case"`
+	User       User       `db:"user" json:"user"`
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 }
 
 func (q *Queries) CrmPaginateCase(ctx context.Context, arg CrmPaginateCaseParams) ([]CrmPaginateCaseRow, error) {
@@ -285,15 +285,15 @@ where
 `
 
 type CrmRangeCaseParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeCaseRow struct {
-	CrmCase    CrmCase
-	User       User
-	CrmContact CrmContact
+	CrmCase    CrmCase    `db:"crm_case" json:"crm_case"`
+	User       User       `db:"user" json:"user"`
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 }
 
 func (q *Queries) CrmRangeCase(ctx context.Context, arg CrmRangeCaseParams) ([]CrmRangeCaseRow, error) {
@@ -404,14 +404,14 @@ returning
 `
 
 type CrmUpdateCaseParams struct {
-	CaseNumber  string
-	Status      NullCrmCaseStatus
-	Priority    NullCrmCasePriority
-	Type        NullCrmCaseType
-	OwnerID     string
-	ContactID   pgtype.UUID
-	Description pgtype.Text
-	ID          pgtype.UUID
+	CaseNumber  string              `db:"case_number" json:"case_number"`
+	Status      NullCrmCaseStatus   `db:"status" json:"status"`
+	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
+	Type        NullCrmCaseType     `db:"type" json:"type"`
+	OwnerID     string              `db:"owner_id" json:"owner_id"`
+	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
+	Description pgtype.Text         `db:"description" json:"description"`
+	ID          pgtype.UUID         `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateCase(ctx context.Context, arg CrmUpdateCaseParams) (CrmCase, error) {

@@ -29,11 +29,11 @@ where
 `
 
 type CrmAnyOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView
-	User                 User
-	CrmContact           CrmContact
-	CrmCompany           CrmCompany
-	CrmCampaign          CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
+	User                 User                 `db:"user" json:"user"`
+	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
+	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
+	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyOpportunityRow, error) {
@@ -131,11 +131,11 @@ where
 `
 
 type CrmFindOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView
-	User                 User
-	CrmContact           CrmContact
-	CrmCompany           CrmCompany
-	CrmCampaign          CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
+	User                 User                 `db:"user" json:"user"`
+	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
+	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
+	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmFindOpportunity(ctx context.Context, id pgtype.UUID) (CrmFindOpportunityRow, error) {
@@ -210,17 +210,17 @@ returning
 `
 
 type CrmInsertOpportunityParams struct {
-	Name              string
-	Stage             NullCrmOpportunityStage
-	DealValue         pgtype.Numeric
-	Probability       pgtype.Float4
-	ExpectedCloseDate pgtype.Date
-	LostReason        pgtype.Text
-	Source            NullCrmOpportunitySource
-	OwnerID           string
-	ContactID         pgtype.UUID
-	CompanyID         pgtype.UUID
-	CampaignID        pgtype.UUID
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
 }
 
 func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportunityParams) (CrmOpportunitiesView, error) {
@@ -283,17 +283,17 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateOpportunityParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView
-	User                 User
-	CrmContact           CrmContact
-	CrmCompany           CrmCompany
-	CrmCampaign          CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
+	User                 User                 `db:"user" json:"user"`
+	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
+	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
+	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpportunityParams) ([]CrmPaginateOpportunityRow, error) {
@@ -400,17 +400,17 @@ where
 `
 
 type CrmRangeOpportunityParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView
-	User                 User
-	CrmContact           CrmContact
-	CrmCompany           CrmCompany
-	CrmCampaign          CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
+	User                 User                 `db:"user" json:"user"`
+	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
+	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
+	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportunityParams) ([]CrmRangeOpportunityRow, error) {
@@ -567,18 +567,18 @@ returning
 `
 
 type CrmUpdateOpportunityParams struct {
-	Name              string
-	Stage             NullCrmOpportunityStage
-	DealValue         pgtype.Numeric
-	Probability       pgtype.Float4
-	ExpectedCloseDate pgtype.Date
-	LostReason        pgtype.Text
-	Source            NullCrmOpportunitySource
-	OwnerID           string
-	ContactID         pgtype.UUID
-	CompanyID         pgtype.UUID
-	CampaignID        pgtype.UUID
-	ID                pgtype.UUID
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	ID                pgtype.UUID              `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportunityParams) (CrmOpportunitiesView, error) {

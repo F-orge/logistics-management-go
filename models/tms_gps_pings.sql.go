@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyGpsPingRow struct {
-	TmsGpsPing TmsGpsPing
-	TmsVehicle TmsVehicle
+	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
+	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsAnyGpsPing(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyGpsPingRow, error) {
@@ -78,8 +78,8 @@ where
 `
 
 type TmsFindGpsPingRow struct {
-	TmsGpsPing TmsGpsPing
-	TmsVehicle TmsVehicle
+	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
+	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsFindGpsPing(ctx context.Context, id pgtype.UUID) (TmsFindGpsPingRow, error) {
@@ -116,10 +116,10 @@ returning
 `
 
 type TmsInsertGpsPingParams struct {
-	VehicleID pgtype.UUID
-	Latitude  float32
-	Longitude float32
-	Timestamp pgtype.Timestamp
+	VehicleID pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 }
 
 func (q *Queries) TmsInsertGpsPing(ctx context.Context, arg TmsInsertGpsPingParams) (TmsGpsPing, error) {
@@ -153,14 +153,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateGpsPingParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateGpsPingRow struct {
-	TmsGpsPing TmsGpsPing
-	TmsVehicle TmsVehicle
+	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
+	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPingParams) ([]TmsPaginateGpsPingRow, error) {
@@ -217,14 +217,14 @@ where
 `
 
 type TmsRangeGpsPingParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeGpsPingRow struct {
-	TmsGpsPing TmsGpsPing
-	TmsVehicle TmsVehicle
+	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
+	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsRangeGpsPing(ctx context.Context, arg TmsRangeGpsPingParams) ([]TmsRangeGpsPingRow, error) {
@@ -308,11 +308,11 @@ returning
 `
 
 type TmsUpdateGpsPingParams struct {
-	VehicleID pgtype.UUID
-	Latitude  float32
-	Longitude float32
-	Timestamp pgtype.Timestamp
-	ID        pgtype.UUID
+	VehicleID pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateGpsPing(ctx context.Context, arg TmsUpdateGpsPingParams) (TmsGpsPing, error) {

@@ -94,17 +94,17 @@ returning
 `
 
 type BillingInsertAccountingSyncLogParams struct {
-	RecordID        pgtype.UUID
-	RecordType      string
-	ExternalSystem  string
-	ExternalID      pgtype.Text
-	Status          NullBillingSyncStatusEnum
-	ErrorMessage    pgtype.Text
-	RequestPayload  pgtype.Text
-	ResponsePayload pgtype.Text
-	LastSyncAt      pgtype.Timestamp
-	RetryCount      pgtype.Int4
-	NextRetryAt     pgtype.Timestamp
+	RecordID        pgtype.UUID               `db:"record_id" json:"record_id"`
+	RecordType      string                    `db:"record_type" json:"record_type"`
+	ExternalSystem  string                    `db:"external_system" json:"external_system"`
+	ExternalID      pgtype.Text               `db:"external_id" json:"external_id"`
+	Status          NullBillingSyncStatusEnum `db:"status" json:"status"`
+	ErrorMessage    pgtype.Text               `db:"error_message" json:"error_message"`
+	RequestPayload  pgtype.Text               `db:"request_payload" json:"request_payload"`
+	ResponsePayload pgtype.Text               `db:"response_payload" json:"response_payload"`
+	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" json:"last_sync_at"`
+	RetryCount      pgtype.Int4               `db:"retry_count" json:"retry_count"`
+	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" json:"next_retry_at"`
 }
 
 func (q *Queries) BillingInsertAccountingSyncLog(ctx context.Context, arg BillingInsertAccountingSyncLogParams) (BillingAccountingSyncLog, error) {
@@ -154,9 +154,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateAccountingSyncLogParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) BillingPaginateAccountingSyncLog(ctx context.Context, arg BillingPaginateAccountingSyncLogParams) ([]BillingAccountingSyncLog, error) {
@@ -209,9 +209,9 @@ where
 `
 
 type BillingRangeAccountingSyncLogParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) BillingRangeAccountingSyncLog(ctx context.Context, arg BillingRangeAccountingSyncLogParams) ([]BillingAccountingSyncLog, error) {
@@ -326,18 +326,18 @@ returning
 `
 
 type BillingUpdateAccountingSyncLogParams struct {
-	RecordID        pgtype.UUID
-	RecordType      string
-	ExternalSystem  string
-	ExternalID      pgtype.Text
-	Status          NullBillingSyncStatusEnum
-	ErrorMessage    pgtype.Text
-	RequestPayload  pgtype.Text
-	ResponsePayload pgtype.Text
-	LastSyncAt      pgtype.Timestamp
-	RetryCount      pgtype.Int4
-	NextRetryAt     pgtype.Timestamp
-	ID              pgtype.UUID
+	RecordID        pgtype.UUID               `db:"record_id" json:"record_id"`
+	RecordType      string                    `db:"record_type" json:"record_type"`
+	ExternalSystem  string                    `db:"external_system" json:"external_system"`
+	ExternalID      pgtype.Text               `db:"external_id" json:"external_id"`
+	Status          NullBillingSyncStatusEnum `db:"status" json:"status"`
+	ErrorMessage    pgtype.Text               `db:"error_message" json:"error_message"`
+	RequestPayload  pgtype.Text               `db:"request_payload" json:"request_payload"`
+	ResponsePayload pgtype.Text               `db:"response_payload" json:"response_payload"`
+	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" json:"last_sync_at"`
+	RetryCount      pgtype.Int4               `db:"retry_count" json:"retry_count"`
+	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" json:"next_retry_at"`
+	ID              pgtype.UUID               `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateAccountingSyncLog(ctx context.Context, arg BillingUpdateAccountingSyncLogParams) (BillingAccountingSyncLog, error) {

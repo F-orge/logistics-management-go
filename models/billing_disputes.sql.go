@@ -27,10 +27,10 @@ where
 `
 
 type BillingAnyDisputeRow struct {
-	BillingDispute         BillingDispute
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	CrmCompany             CrmCompany
-	User                   User
+	BillingDispute         BillingDispute         `db:"billing_dispute" json:"billing_dispute"`
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	CrmCompany             CrmCompany             `db:"crm_company" json:"crm_company"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyDispute(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyDisputeRow, error) {
@@ -122,10 +122,10 @@ where
 `
 
 type BillingFindDisputeRow struct {
-	BillingDispute         BillingDispute
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	CrmCompany             CrmCompany
-	User                   User
+	BillingDispute         BillingDispute         `db:"billing_dispute" json:"billing_dispute"`
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	CrmCompany             CrmCompany             `db:"crm_company" json:"crm_company"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindDispute(ctx context.Context, id pgtype.UUID) (BillingFindDisputeRow, error) {
@@ -196,15 +196,15 @@ returning
 `
 
 type BillingInsertDisputeParams struct {
-	LineItemID       pgtype.UUID
-	ClientID         pgtype.UUID
-	Reason           string
-	Status           NullBillingDisputeStatusEnum
-	DisputedAmount   pgtype.Numeric
-	ResolutionNotes  pgtype.Text
-	SubmittedAt      pgtype.Timestamp
-	ResolvedAt       pgtype.Timestamp
-	ResolvedByUserID pgtype.Text
+	LineItemID       pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
+	ClientID         pgtype.UUID                  `db:"client_id" json:"client_id"`
+	Reason           string                       `db:"reason" json:"reason"`
+	Status           NullBillingDisputeStatusEnum `db:"status" json:"status"`
+	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
+	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
+	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
+	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	ResolvedByUserID pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 }
 
 func (q *Queries) BillingInsertDispute(ctx context.Context, arg BillingInsertDisputeParams) (BillingDispute, error) {
@@ -257,16 +257,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateDisputeParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateDisputeRow struct {
-	BillingDispute         BillingDispute
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	CrmCompany             CrmCompany
-	User                   User
+	BillingDispute         BillingDispute         `db:"billing_dispute" json:"billing_dispute"`
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	CrmCompany             CrmCompany             `db:"crm_company" json:"crm_company"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateDispute(ctx context.Context, arg BillingPaginateDisputeParams) ([]BillingPaginateDisputeRow, error) {
@@ -364,16 +364,16 @@ where
 `
 
 type BillingRangeDisputeParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeDisputeRow struct {
-	BillingDispute         BillingDispute
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	CrmCompany             CrmCompany
-	User                   User
+	BillingDispute         BillingDispute         `db:"billing_dispute" json:"billing_dispute"`
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	CrmCompany             CrmCompany             `db:"crm_company" json:"crm_company"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeDispute(ctx context.Context, arg BillingRangeDisputeParams) ([]BillingRangeDisputeRow, error) {
@@ -516,16 +516,16 @@ returning
 `
 
 type BillingUpdateDisputeParams struct {
-	LineItemID       pgtype.UUID
-	ClientID         pgtype.UUID
-	Reason           string
-	Status           NullBillingDisputeStatusEnum
-	DisputedAmount   pgtype.Numeric
-	ResolutionNotes  pgtype.Text
-	SubmittedAt      pgtype.Timestamp
-	ResolvedAt       pgtype.Timestamp
-	ResolvedByUserID pgtype.Text
-	ID               pgtype.UUID
+	LineItemID       pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
+	ClientID         pgtype.UUID                  `db:"client_id" json:"client_id"`
+	Reason           string                       `db:"reason" json:"reason"`
+	Status           NullBillingDisputeStatusEnum `db:"status" json:"status"`
+	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
+	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
+	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
+	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	ResolvedByUserID pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
+	ID               pgtype.UUID                  `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateDispute(ctx context.Context, arg BillingUpdateDisputeParams) (BillingDispute, error) {

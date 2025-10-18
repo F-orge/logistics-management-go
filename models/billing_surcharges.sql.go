@@ -88,14 +88,14 @@ returning
 `
 
 type BillingInsertSurchargeParams struct {
-	Name              string
-	Type              string
-	Amount            pgtype.Numeric
-	CalculationMethod BillingSurchargeCalculationMethodEnum
-	IsActive          pgtype.Bool
-	ValidFrom         pgtype.Date
-	ValidTo           pgtype.Date
-	Description       pgtype.Text
+	Name              string                                `db:"name" json:"name"`
+	Type              string                                `db:"type" json:"type"`
+	Amount            pgtype.Numeric                        `db:"amount" json:"amount"`
+	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
+	IsActive          pgtype.Bool                           `db:"is_active" json:"is_active"`
+	ValidFrom         pgtype.Date                           `db:"valid_from" json:"valid_from"`
+	ValidTo           pgtype.Date                           `db:"valid_to" json:"valid_to"`
+	Description       pgtype.Text                           `db:"description" json:"description"`
 }
 
 func (q *Queries) BillingInsertSurcharge(ctx context.Context, arg BillingInsertSurchargeParams) (BillingSurcharge, error) {
@@ -138,9 +138,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateSurchargeParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) BillingPaginateSurcharge(ctx context.Context, arg BillingPaginateSurchargeParams) ([]BillingSurcharge, error) {
@@ -189,9 +189,9 @@ where
 `
 
 type BillingRangeSurchargeParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) BillingRangeSurcharge(ctx context.Context, arg BillingRangeSurchargeParams) ([]BillingSurcharge, error) {
@@ -288,15 +288,15 @@ returning
 `
 
 type BillingUpdateSurchargeParams struct {
-	Name              string
-	Type              string
-	Amount            pgtype.Numeric
-	CalculationMethod BillingSurchargeCalculationMethodEnum
-	IsActive          pgtype.Bool
-	ValidFrom         pgtype.Date
-	ValidTo           pgtype.Date
-	Description       pgtype.Text
-	ID                pgtype.UUID
+	Name              string                                `db:"name" json:"name"`
+	Type              string                                `db:"type" json:"type"`
+	Amount            pgtype.Numeric                        `db:"amount" json:"amount"`
+	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
+	IsActive          pgtype.Bool                           `db:"is_active" json:"is_active"`
+	ValidFrom         pgtype.Date                           `db:"valid_from" json:"valid_from"`
+	ValidTo           pgtype.Date                           `db:"valid_to" json:"valid_to"`
+	Description       pgtype.Text                           `db:"description" json:"description"`
+	ID                pgtype.UUID                           `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateSurcharge(ctx context.Context, arg BillingUpdateSurchargeParams) (BillingSurcharge, error) {

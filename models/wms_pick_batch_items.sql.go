@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyPickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem
-	WmsPickBatch     WmsPickBatch
-	WmsSalesOrder    WmsSalesOrder
+	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
+	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsAnyPickBatchItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPickBatchItemRow, error) {
@@ -98,9 +98,9 @@ where
 `
 
 type WmsFindPickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem
-	WmsPickBatch     WmsPickBatch
-	WmsSalesOrder    WmsSalesOrder
+	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
+	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsFindPickBatchItem(ctx context.Context, id pgtype.UUID) (WmsFindPickBatchItemRow, error) {
@@ -152,11 +152,11 @@ returning
 `
 
 type WmsInsertPickBatchItemParams struct {
-	PickBatchID       pgtype.UUID
-	SalesOrderID      pgtype.UUID
-	OrderPriority     pgtype.Int4
-	EstimatedPickTime pgtype.Int4
-	ActualPickTime    pgtype.Int4
+	PickBatchID       pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4 `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
 }
 
 func (q *Queries) WmsInsertPickBatchItem(ctx context.Context, arg WmsInsertPickBatchItemParams) (WmsPickBatchItem, error) {
@@ -197,15 +197,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePickBatchItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginatePickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem
-	WmsPickBatch     WmsPickBatch
-	WmsSalesOrder    WmsSalesOrder
+	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
+	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginatePickBatchItemParams) ([]WmsPaginatePickBatchItemRow, error) {
@@ -280,15 +280,15 @@ where
 `
 
 type WmsRangePickBatchItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangePickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem
-	WmsPickBatch     WmsPickBatch
-	WmsSalesOrder    WmsSalesOrder
+	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
+	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsRangePickBatchItem(ctx context.Context, arg WmsRangePickBatchItemParams) ([]WmsRangePickBatchItemRow, error) {
@@ -392,12 +392,12 @@ returning
 `
 
 type WmsUpdatePickBatchItemParams struct {
-	PickBatchID       pgtype.UUID
-	SalesOrderID      pgtype.UUID
-	OrderPriority     pgtype.Int4
-	EstimatedPickTime pgtype.Int4
-	ActualPickTime    pgtype.Int4
-	ID                pgtype.UUID
+	PickBatchID       pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4 `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
+	ID                pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdatePickBatchItem(ctx context.Context, arg WmsUpdatePickBatchItemParams) (WmsPickBatchItem, error) {

@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch
-	WmsProduct        WmsProduct
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyInventoryBatch(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInventoryBatchRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type WmsFindInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch
-	WmsProduct        WmsProduct
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindInventoryBatch(ctx context.Context, id pgtype.UUID) (WmsFindInventoryBatchRow, error) {
@@ -124,9 +124,9 @@ returning
 `
 
 type WmsInsertInventoryBatchParams struct {
-	ProductID      pgtype.UUID
-	BatchNumber    string
-	ExpirationDate pgtype.Date
+	ProductID      pgtype.UUID `db:"product_id" json:"product_id"`
+	BatchNumber    string      `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
 }
 
 func (q *Queries) WmsInsertInventoryBatch(ctx context.Context, arg WmsInsertInventoryBatchParams) (WmsInventoryBatch, error) {
@@ -157,14 +157,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryBatchParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch
-	WmsProduct        WmsProduct
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginateInventoryBatchParams) ([]WmsPaginateInventoryBatchRow, error) {
@@ -226,14 +226,14 @@ where
 `
 
 type WmsRangeInventoryBatchParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch
-	WmsProduct        WmsProduct
+	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeInventoryBatch(ctx context.Context, arg WmsRangeInventoryBatchParams) ([]WmsRangeInventoryBatchRow, error) {
@@ -316,10 +316,10 @@ returning
 `
 
 type WmsUpdateInventoryBatchParams struct {
-	ProductID      pgtype.UUID
-	BatchNumber    string
-	ExpirationDate pgtype.Date
-	ID             pgtype.UUID
+	ProductID      pgtype.UUID `db:"product_id" json:"product_id"`
+	BatchNumber    string      `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
+	ID             pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateInventoryBatch(ctx context.Context, arg WmsUpdateInventoryBatchParams) (WmsInventoryBatch, error) {

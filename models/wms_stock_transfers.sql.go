@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer
-	WmsProduct       WmsProduct
+	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
+	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyStockTransfer(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyStockTransferRow, error) {
@@ -84,8 +84,8 @@ where
 `
 
 type WmsFindStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer
-	WmsProduct       WmsProduct
+	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
+	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindStockTransfer(ctx context.Context, id pgtype.UUID) (WmsFindStockTransferRow, error) {
@@ -128,11 +128,11 @@ returning
 `
 
 type WmsInsertStockTransferParams struct {
-	ProductID              pgtype.UUID
-	SourceWarehouseID      pgtype.UUID
-	DestinationWarehouseID pgtype.UUID
-	Quantity               int32
-	Status                 NullWmsStockTransferStatusEnum
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) WmsInsertStockTransfer(ctx context.Context, arg WmsInsertStockTransferParams) (WmsStockTransfer, error) {
@@ -171,14 +171,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateStockTransferParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer
-	WmsProduct       WmsProduct
+	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
+	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateStockTransferParams) ([]WmsPaginateStockTransferRow, error) {
@@ -242,14 +242,14 @@ where
 `
 
 type WmsRangeStockTransferParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer
-	WmsProduct       WmsProduct
+	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
+	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeStockTransfer(ctx context.Context, arg WmsRangeStockTransferParams) ([]WmsRangeStockTransferRow, error) {
@@ -344,12 +344,12 @@ returning
 `
 
 type WmsUpdateStockTransferParams struct {
-	ProductID              pgtype.UUID
-	SourceWarehouseID      pgtype.UUID
-	DestinationWarehouseID pgtype.UUID
-	Quantity               int32
-	Status                 NullWmsStockTransferStatusEnum
-	ID                     pgtype.UUID
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
+	ID                     pgtype.UUID                    `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateStockTransfer(ctx context.Context, arg WmsUpdateStockTransferParams) (WmsStockTransfer, error) {

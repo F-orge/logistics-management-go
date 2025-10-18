@@ -35,8 +35,8 @@ func (e *BillingDisputeStatusEnum) Scan(src interface{}) error {
 }
 
 type NullBillingDisputeStatusEnum struct {
-	BillingDisputeStatusEnum BillingDisputeStatusEnum
-	Valid                    bool // Valid is true if BillingDisputeStatusEnum is not NULL
+	BillingDisputeStatusEnum BillingDisputeStatusEnum `json:"billing_dispute_status_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if BillingDisputeStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -83,8 +83,8 @@ func (e *BillingDocumentTypeEnum) Scan(src interface{}) error {
 }
 
 type NullBillingDocumentTypeEnum struct {
-	BillingDocumentTypeEnum BillingDocumentTypeEnum
-	Valid                   bool // Valid is true if BillingDocumentTypeEnum is not NULL
+	BillingDocumentTypeEnum BillingDocumentTypeEnum `json:"billing_document_type_enum"`
+	Valid                   bool                    `json:"valid"` // Valid is true if BillingDocumentTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -132,8 +132,8 @@ func (e *BillingInvoiceStatusEnum) Scan(src interface{}) error {
 }
 
 type NullBillingInvoiceStatusEnum struct {
-	BillingInvoiceStatusEnum BillingInvoiceStatusEnum
-	Valid                    bool // Valid is true if BillingInvoiceStatusEnum is not NULL
+	BillingInvoiceStatusEnum BillingInvoiceStatusEnum `json:"billing_invoice_status_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if BillingInvoiceStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -180,8 +180,8 @@ func (e *BillingPaymentMethodEnum) Scan(src interface{}) error {
 }
 
 type NullBillingPaymentMethodEnum struct {
-	BillingPaymentMethodEnum BillingPaymentMethodEnum
-	Valid                    bool // Valid is true if BillingPaymentMethodEnum is not NULL
+	BillingPaymentMethodEnum BillingPaymentMethodEnum `json:"billing_payment_method_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if BillingPaymentMethodEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -226,8 +226,8 @@ func (e *BillingPaymentStatusEnum) Scan(src interface{}) error {
 }
 
 type NullBillingPaymentStatusEnum struct {
-	BillingPaymentStatusEnum BillingPaymentStatusEnum
-	Valid                    bool // Valid is true if BillingPaymentStatusEnum is not NULL
+	BillingPaymentStatusEnum BillingPaymentStatusEnum `json:"billing_payment_status_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if BillingPaymentStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -273,8 +273,8 @@ func (e *BillingPricingModelEnum) Scan(src interface{}) error {
 }
 
 type NullBillingPricingModelEnum struct {
-	BillingPricingModelEnum BillingPricingModelEnum
-	Valid                   bool // Valid is true if BillingPricingModelEnum is not NULL
+	BillingPricingModelEnum BillingPricingModelEnum `json:"billing_pricing_model_enum"`
+	Valid                   bool                    `json:"valid"` // Valid is true if BillingPricingModelEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -318,8 +318,8 @@ func (e *BillingQuoteStatusEnum) Scan(src interface{}) error {
 }
 
 type NullBillingQuoteStatusEnum struct {
-	BillingQuoteStatusEnum BillingQuoteStatusEnum
-	Valid                  bool // Valid is true if BillingQuoteStatusEnum is not NULL
+	BillingQuoteStatusEnum BillingQuoteStatusEnum `json:"billing_quote_status_enum"`
+	Valid                  bool                   `json:"valid"` // Valid is true if BillingQuoteStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -366,8 +366,8 @@ func (e *BillingServiceTypeEnum) Scan(src interface{}) error {
 }
 
 type NullBillingServiceTypeEnum struct {
-	BillingServiceTypeEnum BillingServiceTypeEnum
-	Valid                  bool // Valid is true if BillingServiceTypeEnum is not NULL
+	BillingServiceTypeEnum BillingServiceTypeEnum `json:"billing_service_type_enum"`
+	Valid                  bool                   `json:"valid"` // Valid is true if BillingServiceTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -410,8 +410,8 @@ func (e *BillingSurchargeCalculationMethodEnum) Scan(src interface{}) error {
 }
 
 type NullBillingSurchargeCalculationMethodEnum struct {
-	BillingSurchargeCalculationMethodEnum BillingSurchargeCalculationMethodEnum
-	Valid                                 bool // Valid is true if BillingSurchargeCalculationMethodEnum is not NULL
+	BillingSurchargeCalculationMethodEnum BillingSurchargeCalculationMethodEnum `json:"billing_surcharge_calculation_method_enum"`
+	Valid                                 bool                                  `json:"valid"` // Valid is true if BillingSurchargeCalculationMethodEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -455,8 +455,8 @@ func (e *BillingSyncStatusEnum) Scan(src interface{}) error {
 }
 
 type NullBillingSyncStatusEnum struct {
-	BillingSyncStatusEnum BillingSyncStatusEnum
-	Valid                 bool // Valid is true if BillingSyncStatusEnum is not NULL
+	BillingSyncStatusEnum BillingSyncStatusEnum `json:"billing_sync_status_enum"`
+	Valid                 bool                  `json:"valid"` // Valid is true if BillingSyncStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -501,8 +501,8 @@ func (e *BillingTransactionTypeEnum) Scan(src interface{}) error {
 }
 
 type NullBillingTransactionTypeEnum struct {
-	BillingTransactionTypeEnum BillingTransactionTypeEnum
-	Valid                      bool // Valid is true if BillingTransactionTypeEnum is not NULL
+	BillingTransactionTypeEnum BillingTransactionTypeEnum `json:"billing_transaction_type_enum"`
+	Valid                      bool                       `json:"valid"` // Valid is true if BillingTransactionTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -545,8 +545,8 @@ func (e *CrmCasePriority) Scan(src interface{}) error {
 }
 
 type NullCrmCasePriority struct {
-	CrmCasePriority CrmCasePriority
-	Valid           bool // Valid is true if CrmCasePriority is not NULL
+	CrmCasePriority CrmCasePriority `json:"crm_case_priority"`
+	Valid           bool            `json:"valid"` // Valid is true if CrmCasePriority is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -593,8 +593,8 @@ func (e *CrmCaseStatus) Scan(src interface{}) error {
 }
 
 type NullCrmCaseStatus struct {
-	CrmCaseStatus CrmCaseStatus
-	Valid         bool // Valid is true if CrmCaseStatus is not NULL
+	CrmCaseStatus CrmCaseStatus `json:"crm_case_status"`
+	Valid         bool          `json:"valid"` // Valid is true if CrmCaseStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -639,8 +639,8 @@ func (e *CrmCaseType) Scan(src interface{}) error {
 }
 
 type NullCrmCaseType struct {
-	CrmCaseType CrmCaseType
-	Valid       bool // Valid is true if CrmCaseType is not NULL
+	CrmCaseType CrmCaseType `json:"crm_case_type"`
+	Valid       bool        `json:"valid"` // Valid is true if CrmCaseType is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -683,8 +683,8 @@ func (e *CrmInteractionType) Scan(src interface{}) error {
 }
 
 type NullCrmInteractionType struct {
-	CrmInteractionType CrmInteractionType
-	Valid              bool // Valid is true if CrmInteractionType is not NULL
+	CrmInteractionType CrmInteractionType `json:"crm_interaction_type"`
+	Valid              bool               `json:"valid"` // Valid is true if CrmInteractionType is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -728,8 +728,8 @@ func (e *CrmInvoiceStatus) Scan(src interface{}) error {
 }
 
 type NullCrmInvoiceStatus struct {
-	CrmInvoiceStatus CrmInvoiceStatus
-	Valid            bool // Valid is true if CrmInvoiceStatus is not NULL
+	CrmInvoiceStatus CrmInvoiceStatus `json:"crm_invoice_status"`
+	Valid            bool             `json:"valid"` // Valid is true if CrmInvoiceStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -777,8 +777,8 @@ func (e *CrmLeadSource) Scan(src interface{}) error {
 }
 
 type NullCrmLeadSource struct {
-	CrmLeadSource CrmLeadSource
-	Valid         bool // Valid is true if CrmLeadSource is not NULL
+	CrmLeadSource CrmLeadSource `json:"crm_lead_source"`
+	Valid         bool          `json:"valid"` // Valid is true if CrmLeadSource is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -822,8 +822,8 @@ func (e *CrmLeadStatus) Scan(src interface{}) error {
 }
 
 type NullCrmLeadStatus struct {
-	CrmLeadStatus CrmLeadStatus
-	Valid         bool // Valid is true if CrmLeadStatus is not NULL
+	CrmLeadStatus CrmLeadStatus `json:"crm_lead_status"`
+	Valid         bool          `json:"valid"` // Valid is true if CrmLeadStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -872,8 +872,8 @@ func (e *CrmOpportunitySource) Scan(src interface{}) error {
 }
 
 type NullCrmOpportunitySource struct {
-	CrmOpportunitySource CrmOpportunitySource
-	Valid                bool // Valid is true if CrmOpportunitySource is not NULL
+	CrmOpportunitySource CrmOpportunitySource `json:"crm_opportunity_source"`
+	Valid                bool                 `json:"valid"` // Valid is true if CrmOpportunitySource is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -920,8 +920,8 @@ func (e *CrmOpportunityStage) Scan(src interface{}) error {
 }
 
 type NullCrmOpportunityStage struct {
-	CrmOpportunityStage CrmOpportunityStage
-	Valid               bool // Valid is true if CrmOpportunityStage is not NULL
+	CrmOpportunityStage CrmOpportunityStage `json:"crm_opportunity_stage"`
+	Valid               bool                `json:"valid"` // Valid is true if CrmOpportunityStage is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -967,8 +967,8 @@ func (e *CrmPaymentMethod) Scan(src interface{}) error {
 }
 
 type NullCrmPaymentMethod struct {
-	CrmPaymentMethod CrmPaymentMethod
-	Valid            bool // Valid is true if CrmPaymentMethod is not NULL
+	CrmPaymentMethod CrmPaymentMethod `json:"crm_payment_method"`
+	Valid            bool             `json:"valid"` // Valid is true if CrmPaymentMethod is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1011,8 +1011,8 @@ func (e *CrmProductType) Scan(src interface{}) error {
 }
 
 type NullCrmProductType struct {
-	CrmProductType CrmProductType
-	Valid          bool // Valid is true if CrmProductType is not NULL
+	CrmProductType CrmProductType `json:"crm_product_type"`
+	Valid          bool           `json:"valid"` // Valid is true if CrmProductType is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1060,8 +1060,8 @@ func (e *CrmRecordType) Scan(src interface{}) error {
 }
 
 type NullCrmRecordType struct {
-	CrmRecordType CrmRecordType
-	Valid         bool // Valid is true if CrmRecordType is not NULL
+	CrmRecordType CrmRecordType `json:"crm_record_type"`
+	Valid         bool          `json:"valid"` // Valid is true if CrmRecordType is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1108,8 +1108,8 @@ func (e *DmsDeliveryFailureReasonEnum) Scan(src interface{}) error {
 }
 
 type NullDmsDeliveryFailureReasonEnum struct {
-	DmsDeliveryFailureReasonEnum DmsDeliveryFailureReasonEnum
-	Valid                        bool // Valid is true if DmsDeliveryFailureReasonEnum is not NULL
+	DmsDeliveryFailureReasonEnum DmsDeliveryFailureReasonEnum `json:"dms_delivery_failure_reason_enum"`
+	Valid                        bool                         `json:"valid"` // Valid is true if DmsDeliveryFailureReasonEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1153,8 +1153,8 @@ func (e *DmsDeliveryRouteStatusEnum) Scan(src interface{}) error {
 }
 
 type NullDmsDeliveryRouteStatusEnum struct {
-	DmsDeliveryRouteStatusEnum DmsDeliveryRouteStatusEnum
-	Valid                      bool // Valid is true if DmsDeliveryRouteStatusEnum is not NULL
+	DmsDeliveryRouteStatusEnum DmsDeliveryRouteStatusEnum `json:"dms_delivery_route_status_enum"`
+	Valid                      bool                       `json:"valid"` // Valid is true if DmsDeliveryRouteStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1200,8 +1200,8 @@ func (e *DmsDeliveryTaskStatusEnum) Scan(src interface{}) error {
 }
 
 type NullDmsDeliveryTaskStatusEnum struct {
-	DmsDeliveryTaskStatusEnum DmsDeliveryTaskStatusEnum
-	Valid                     bool // Valid is true if DmsDeliveryTaskStatusEnum is not NULL
+	DmsDeliveryTaskStatusEnum DmsDeliveryTaskStatusEnum `json:"dms_delivery_task_status_enum"`
+	Valid                     bool                      `json:"valid"` // Valid is true if DmsDeliveryTaskStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1245,8 +1245,8 @@ func (e *DmsProofOfDeliveryTypeEnum) Scan(src interface{}) error {
 }
 
 type NullDmsProofOfDeliveryTypeEnum struct {
-	DmsProofOfDeliveryTypeEnum DmsProofOfDeliveryTypeEnum
-	Valid                      bool // Valid is true if DmsProofOfDeliveryTypeEnum is not NULL
+	DmsProofOfDeliveryTypeEnum DmsProofOfDeliveryTypeEnum `json:"dms_proof_of_delivery_type_enum"`
+	Valid                      bool                       `json:"valid"` // Valid is true if DmsProofOfDeliveryTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1293,8 +1293,8 @@ func (e *DmsTaskEventStatusEnum) Scan(src interface{}) error {
 }
 
 type NullDmsTaskEventStatusEnum struct {
-	DmsTaskEventStatusEnum DmsTaskEventStatusEnum
-	Valid                  bool // Valid is true if DmsTaskEventStatusEnum is not NULL
+	DmsTaskEventStatusEnum DmsTaskEventStatusEnum `json:"dms_task_event_status_enum"`
+	Valid                  bool                   `json:"valid"` // Valid is true if DmsTaskEventStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1338,8 +1338,8 @@ func (e *TmsCarrierRateUnitEnum) Scan(src interface{}) error {
 }
 
 type NullTmsCarrierRateUnitEnum struct {
-	TmsCarrierRateUnitEnum TmsCarrierRateUnitEnum
-	Valid                  bool // Valid is true if TmsCarrierRateUnitEnum is not NULL
+	TmsCarrierRateUnitEnum TmsCarrierRateUnitEnum `json:"tms_carrier_rate_unit_enum"`
+	Valid                  bool                   `json:"valid"` // Valid is true if TmsCarrierRateUnitEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1385,8 +1385,8 @@ func (e *TmsCurrencyEnum) Scan(src interface{}) error {
 }
 
 type NullTmsCurrencyEnum struct {
-	TmsCurrencyEnum TmsCurrencyEnum
-	Valid           bool // Valid is true if TmsCurrencyEnum is not NULL
+	TmsCurrencyEnum TmsCurrencyEnum `json:"tms_currency_enum"`
+	Valid           bool            `json:"valid"` // Valid is true if TmsCurrencyEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1429,8 +1429,8 @@ func (e *TmsDriverScheduleReasonEnum) Scan(src interface{}) error {
 }
 
 type NullTmsDriverScheduleReasonEnum struct {
-	TmsDriverScheduleReasonEnum TmsDriverScheduleReasonEnum
-	Valid                       bool // Valid is true if TmsDriverScheduleReasonEnum is not NULL
+	TmsDriverScheduleReasonEnum TmsDriverScheduleReasonEnum `json:"tms_driver_schedule_reason_enum"`
+	Valid                       bool                        `json:"valid"` // Valid is true if TmsDriverScheduleReasonEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1472,8 +1472,8 @@ func (e *TmsDriverStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsDriverStatusEnum struct {
-	TmsDriverStatusEnum TmsDriverStatusEnum
-	Valid               bool // Valid is true if TmsDriverStatusEnum is not NULL
+	TmsDriverStatusEnum TmsDriverStatusEnum `json:"tms_driver_status_enum"`
+	Valid               bool                `json:"valid"` // Valid is true if TmsDriverStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1516,8 +1516,8 @@ func (e *TmsExpenseStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsExpenseStatusEnum struct {
-	TmsExpenseStatusEnum TmsExpenseStatusEnum
-	Valid                bool // Valid is true if TmsExpenseStatusEnum is not NULL
+	TmsExpenseStatusEnum TmsExpenseStatusEnum `json:"tms_expense_status_enum"`
+	Valid                bool                 `json:"valid"` // Valid is true if TmsExpenseStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1562,8 +1562,8 @@ func (e *TmsExpenseTypeEnum) Scan(src interface{}) error {
 }
 
 type NullTmsExpenseTypeEnum struct {
-	TmsExpenseTypeEnum TmsExpenseTypeEnum
-	Valid              bool // Valid is true if TmsExpenseTypeEnum is not NULL
+	TmsExpenseTypeEnum TmsExpenseTypeEnum `json:"tms_expense_type_enum"`
+	Valid              bool               `json:"valid"` // Valid is true if TmsExpenseTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1604,8 +1604,8 @@ func (e *TmsGeofenceEventTypeEnum) Scan(src interface{}) error {
 }
 
 type NullTmsGeofenceEventTypeEnum struct {
-	TmsGeofenceEventTypeEnum TmsGeofenceEventTypeEnum
-	Valid                    bool // Valid is true if TmsGeofenceEventTypeEnum is not NULL
+	TmsGeofenceEventTypeEnum TmsGeofenceEventTypeEnum `json:"tms_geofence_event_type_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if TmsGeofenceEventTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1649,8 +1649,8 @@ func (e *TmsPartnerInvoiceStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsPartnerInvoiceStatusEnum struct {
-	TmsPartnerInvoiceStatusEnum TmsPartnerInvoiceStatusEnum
-	Valid                       bool // Valid is true if TmsPartnerInvoiceStatusEnum is not NULL
+	TmsPartnerInvoiceStatusEnum TmsPartnerInvoiceStatusEnum `json:"tms_partner_invoice_status_enum"`
+	Valid                       bool                        `json:"valid"` // Valid is true if TmsPartnerInvoiceStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1693,8 +1693,8 @@ func (e *TmsProofTypeEnum) Scan(src interface{}) error {
 }
 
 type NullTmsProofTypeEnum struct {
-	TmsProofTypeEnum TmsProofTypeEnum
-	Valid            bool // Valid is true if TmsProofTypeEnum is not NULL
+	TmsProofTypeEnum TmsProofTypeEnum `json:"tms_proof_type_enum"`
+	Valid            bool             `json:"valid"` // Valid is true if TmsProofTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1738,8 +1738,8 @@ func (e *TmsShipmentLegStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsShipmentLegStatusEnum struct {
-	TmsShipmentLegStatusEnum TmsShipmentLegStatusEnum
-	Valid                    bool // Valid is true if TmsShipmentLegStatusEnum is not NULL
+	TmsShipmentLegStatusEnum TmsShipmentLegStatusEnum `json:"tms_shipment_leg_status_enum"`
+	Valid                    bool                     `json:"valid"` // Valid is true if TmsShipmentLegStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1782,8 +1782,8 @@ func (e *TmsTripStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsTripStatusEnum struct {
-	TmsTripStatusEnum TmsTripStatusEnum
-	Valid             bool // Valid is true if TmsTripStatusEnum is not NULL
+	TmsTripStatusEnum TmsTripStatusEnum `json:"tms_trip_status_enum"`
+	Valid             bool              `json:"valid"` // Valid is true if TmsTripStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1826,8 +1826,8 @@ func (e *TmsTripStopStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsTripStopStatusEnum struct {
-	TmsTripStopStatusEnum TmsTripStopStatusEnum
-	Valid                 bool // Valid is true if TmsTripStopStatusEnum is not NULL
+	TmsTripStopStatusEnum TmsTripStopStatusEnum `json:"tms_trip_stop_status_enum"`
+	Valid                 bool                  `json:"valid"` // Valid is true if TmsTripStopStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1872,8 +1872,8 @@ func (e *TmsVehicleServiceTypeEnum) Scan(src interface{}) error {
 }
 
 type NullTmsVehicleServiceTypeEnum struct {
-	TmsVehicleServiceTypeEnum TmsVehicleServiceTypeEnum
-	Valid                     bool // Valid is true if TmsVehicleServiceTypeEnum is not NULL
+	TmsVehicleServiceTypeEnum TmsVehicleServiceTypeEnum `json:"tms_vehicle_service_type_enum"`
+	Valid                     bool                      `json:"valid"` // Valid is true if TmsVehicleServiceTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1916,8 +1916,8 @@ func (e *TmsVehicleStatusEnum) Scan(src interface{}) error {
 }
 
 type NullTmsVehicleStatusEnum struct {
-	TmsVehicleStatusEnum TmsVehicleStatusEnum
-	Valid                bool // Valid is true if TmsVehicleStatusEnum is not NULL
+	TmsVehicleStatusEnum TmsVehicleStatusEnum `json:"tms_vehicle_status_enum"`
+	Valid                bool                 `json:"valid"` // Valid is true if TmsVehicleStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -1988,8 +1988,8 @@ func (e *UserRole) Scan(src interface{}) error {
 }
 
 type NullUserRole struct {
-	UserRole UserRole
-	Valid    bool // Valid is true if UserRole is not NULL
+	UserRole UserRole `json:"user_role"`
+	Valid    bool     `json:"valid"` // Valid is true if UserRole is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2033,8 +2033,8 @@ func (e *WmsInboundShipmentStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsInboundShipmentStatusEnum struct {
-	WmsInboundShipmentStatusEnum WmsInboundShipmentStatusEnum
-	Valid                        bool // Valid is true if WmsInboundShipmentStatusEnum is not NULL
+	WmsInboundShipmentStatusEnum WmsInboundShipmentStatusEnum `json:"wms_inbound_shipment_status_enum"`
+	Valid                        bool                         `json:"valid"` // Valid is true if WmsInboundShipmentStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2079,8 +2079,8 @@ func (e *WmsInventoryAdjustmentReasonEnum) Scan(src interface{}) error {
 }
 
 type NullWmsInventoryAdjustmentReasonEnum struct {
-	WmsInventoryAdjustmentReasonEnum WmsInventoryAdjustmentReasonEnum
-	Valid                            bool // Valid is true if WmsInventoryAdjustmentReasonEnum is not NULL
+	WmsInventoryAdjustmentReasonEnum WmsInventoryAdjustmentReasonEnum `json:"wms_inventory_adjustment_reason_enum"`
+	Valid                            bool                             `json:"valid"` // Valid is true if WmsInventoryAdjustmentReasonEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2126,8 +2126,8 @@ func (e *WmsInventoryStockStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsInventoryStockStatusEnum struct {
-	WmsInventoryStockStatusEnum WmsInventoryStockStatusEnum
-	Valid                       bool // Valid is true if WmsInventoryStockStatusEnum is not NULL
+	WmsInventoryStockStatusEnum WmsInventoryStockStatusEnum `json:"wms_inventory_stock_status_enum"`
+	Valid                       bool                        `json:"valid"` // Valid is true if WmsInventoryStockStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2176,8 +2176,8 @@ func (e *WmsLocationTypeEnum) Scan(src interface{}) error {
 }
 
 type NullWmsLocationTypeEnum struct {
-	WmsLocationTypeEnum WmsLocationTypeEnum
-	Valid               bool // Valid is true if WmsLocationTypeEnum is not NULL
+	WmsLocationTypeEnum WmsLocationTypeEnum `json:"wms_location_type_enum"`
+	Valid               bool                `json:"valid"` // Valid is true if WmsLocationTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2221,8 +2221,8 @@ func (e *WmsOutboundShipmentStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsOutboundShipmentStatusEnum struct {
-	WmsOutboundShipmentStatusEnum WmsOutboundShipmentStatusEnum
-	Valid                         bool // Valid is true if WmsOutboundShipmentStatusEnum is not NULL
+	WmsOutboundShipmentStatusEnum WmsOutboundShipmentStatusEnum `json:"wms_outbound_shipment_status_enum"`
+	Valid                         bool                          `json:"valid"` // Valid is true if WmsOutboundShipmentStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2265,8 +2265,8 @@ func (e *WmsPickBatchStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsPickBatchStatusEnum struct {
-	WmsPickBatchStatusEnum WmsPickBatchStatusEnum
-	Valid                  bool // Valid is true if WmsPickBatchStatusEnum is not NULL
+	WmsPickBatchStatusEnum WmsPickBatchStatusEnum `json:"wms_pick_batch_status_enum"`
+	Valid                  bool                   `json:"valid"` // Valid is true if WmsPickBatchStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2310,8 +2310,8 @@ func (e *WmsPickStrategyEnum) Scan(src interface{}) error {
 }
 
 type NullWmsPickStrategyEnum struct {
-	WmsPickStrategyEnum WmsPickStrategyEnum
-	Valid               bool // Valid is true if WmsPickStrategyEnum is not NULL
+	WmsPickStrategyEnum WmsPickStrategyEnum `json:"wms_pick_strategy_enum"`
+	Valid               bool                `json:"valid"` // Valid is true if WmsPickStrategyEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2354,8 +2354,8 @@ func (e *WmsProductStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsProductStatusEnum struct {
-	WmsProductStatusEnum WmsProductStatusEnum
-	Valid                bool // Valid is true if WmsProductStatusEnum is not NULL
+	WmsProductStatusEnum WmsProductStatusEnum `json:"wms_product_status_enum"`
+	Valid                bool                 `json:"valid"` // Valid is true if WmsProductStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2399,8 +2399,8 @@ func (e *WmsReturnItemConditionEnum) Scan(src interface{}) error {
 }
 
 type NullWmsReturnItemConditionEnum struct {
-	WmsReturnItemConditionEnum WmsReturnItemConditionEnum
-	Valid                      bool // Valid is true if WmsReturnItemConditionEnum is not NULL
+	WmsReturnItemConditionEnum WmsReturnItemConditionEnum `json:"wms_return_item_condition_enum"`
+	Valid                      bool                       `json:"valid"` // Valid is true if WmsReturnItemConditionEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2444,8 +2444,8 @@ func (e *WmsReturnStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsReturnStatusEnum struct {
-	WmsReturnStatusEnum WmsReturnStatusEnum
-	Valid               bool // Valid is true if WmsReturnStatusEnum is not NULL
+	WmsReturnStatusEnum WmsReturnStatusEnum `json:"wms_return_status_enum"`
+	Valid               bool                `json:"valid"` // Valid is true if WmsReturnStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2489,8 +2489,8 @@ func (e *WmsSalesOrderStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsSalesOrderStatusEnum struct {
-	WmsSalesOrderStatusEnum WmsSalesOrderStatusEnum
-	Valid                   bool // Valid is true if WmsSalesOrderStatusEnum is not NULL
+	WmsSalesOrderStatusEnum WmsSalesOrderStatusEnum `json:"wms_sales_order_status_enum"`
+	Valid                   bool                    `json:"valid"` // Valid is true if WmsSalesOrderStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2533,8 +2533,8 @@ func (e *WmsStockTransferStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsStockTransferStatusEnum struct {
-	WmsStockTransferStatusEnum WmsStockTransferStatusEnum
-	Valid                      bool // Valid is true if WmsStockTransferStatusEnum is not NULL
+	WmsStockTransferStatusEnum WmsStockTransferStatusEnum `json:"wms_stock_transfer_status_enum"`
+	Valid                      bool                       `json:"valid"` // Valid is true if WmsStockTransferStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2579,8 +2579,8 @@ func (e *WmsTaskItemStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsTaskItemStatusEnum struct {
-	WmsTaskItemStatusEnum WmsTaskItemStatusEnum
-	Valid                 bool // Valid is true if WmsTaskItemStatusEnum is not NULL
+	WmsTaskItemStatusEnum WmsTaskItemStatusEnum `json:"wms_task_item_status_enum"`
+	Valid                 bool                  `json:"valid"` // Valid is true if WmsTaskItemStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2625,8 +2625,8 @@ func (e *WmsTaskStatusEnum) Scan(src interface{}) error {
 }
 
 type NullWmsTaskStatusEnum struct {
-	WmsTaskStatusEnum WmsTaskStatusEnum
-	Valid             bool // Valid is true if WmsTaskStatusEnum is not NULL
+	WmsTaskStatusEnum WmsTaskStatusEnum `json:"wms_task_status_enum"`
+	Valid             bool              `json:"valid"` // Valid is true if WmsTaskStatusEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2674,8 +2674,8 @@ func (e *WmsTaskTypeEnum) Scan(src interface{}) error {
 }
 
 type NullWmsTaskTypeEnum struct {
-	WmsTaskTypeEnum WmsTaskTypeEnum
-	Valid           bool // Valid is true if WmsTaskTypeEnum is not NULL
+	WmsTaskTypeEnum WmsTaskTypeEnum `json:"wms_task_type_enum"`
+	Valid           bool            `json:"valid"` // Valid is true if WmsTaskTypeEnum is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -2697,2437 +2697,2437 @@ func (ns NullWmsTaskTypeEnum) Value() (driver.Value, error) {
 }
 
 type Account struct {
-	ID                    string
-	AccountID             string
-	ProviderID            string
-	UserID                string
-	AccessToken           pgtype.Text
-	RefreshToken          pgtype.Text
-	IDToken               pgtype.Text
-	AccessTokenExpiresAt  pgtype.Timestamptz
-	RefreshTokenExpiresAt pgtype.Timestamptz
-	Scope                 pgtype.Text
-	Password              pgtype.Text
-	CreatedAt             pgtype.Timestamptz
-	UpdatedAt             pgtype.Timestamptz
+	ID                    string             `db:"id" json:"id"`
+	AccountID             string             `db:"account_id" json:"account_id"`
+	ProviderID            string             `db:"provider_id" json:"provider_id"`
+	UserID                string             `db:"user_id" json:"user_id"`
+	AccessToken           pgtype.Text        `db:"access_token" json:"access_token"`
+	RefreshToken          pgtype.Text        `db:"refresh_token" json:"refresh_token"`
+	IDToken               pgtype.Text        `db:"id_token" json:"id_token"`
+	AccessTokenExpiresAt  pgtype.Timestamptz `db:"access_token_expires_at" json:"access_token_expires_at"`
+	RefreshTokenExpiresAt pgtype.Timestamptz `db:"refresh_token_expires_at" json:"refresh_token_expires_at"`
+	Scope                 pgtype.Text        `db:"scope" json:"scope"`
+	Password              pgtype.Text        `db:"password" json:"password"`
+	CreatedAt             pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Records all financial transactions affecting client accounts.
 type BillingAccountTransaction struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the affected client account.
-	ClientAccountID pgtype.UUID
+	ClientAccountID pgtype.UUID `db:"client_account_id" json:"client_account_id"`
 	// Type of transaction using transaction_type_enum.
-	Type BillingTransactionTypeEnum
+	Type BillingTransactionTypeEnum `db:"type" json:"type"`
 	// Transaction amount (positive for credits, negative for debits).
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 	// Account balance after this transaction.
-	RunningBalance pgtype.Numeric
+	RunningBalance pgtype.Numeric `db:"running_balance" json:"running_balance"`
 	// Reference to the source document (e.g., invoice_id, payment_id).
-	SourceRecordID pgtype.UUID
+	SourceRecordID pgtype.UUID `db:"source_record_id" json:"source_record_id"`
 	// Type of source document.
-	SourceRecordType pgtype.Text
+	SourceRecordType pgtype.Text `db:"source_record_type" json:"source_record_type"`
 	// Description of the transaction.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// External reference number.
-	ReferenceNumber pgtype.Text
+	ReferenceNumber pgtype.Text `db:"reference_number" json:"reference_number"`
 	// When the transaction occurred.
-	TransactionDate pgtype.Timestamp
+	TransactionDate pgtype.Timestamp `db:"transaction_date" json:"transaction_date"`
 	// User who processed this transaction.
-	ProcessedByUserID pgtype.Text
+	ProcessedByUserID pgtype.Text `db:"processed_by_user_id" json:"processed_by_user_id"`
 	// Timestamp when the transaction was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the transaction was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks synchronization of financial data with external accounting systems.
 type BillingAccountingSyncLog struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the record being synchronized.
-	RecordID pgtype.UUID
+	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record being synchronized.
-	RecordType string
+	RecordType string `db:"record_type" json:"record_type"`
 	// Target accounting system (e.g., quickbooks, xero).
-	ExternalSystem string
+	ExternalSystem string `db:"external_system" json:"external_system"`
 	// ID assigned by the external system.
-	ExternalID pgtype.Text
+	ExternalID pgtype.Text `db:"external_id" json:"external_id"`
 	// Synchronization status using sync_status_enum.
-	Status NullBillingSyncStatusEnum
+	Status NullBillingSyncStatusEnum `db:"status" json:"status"`
 	// Details of any synchronization errors.
-	ErrorMessage pgtype.Text
+	ErrorMessage pgtype.Text `db:"error_message" json:"error_message"`
 	// Request data sent to external system.
-	RequestPayload pgtype.Text
+	RequestPayload pgtype.Text `db:"request_payload" json:"request_payload"`
 	// Response data received from external system.
-	ResponsePayload pgtype.Text
+	ResponsePayload pgtype.Text `db:"response_payload" json:"response_payload"`
 	// Timestamp of the last synchronization attempt.
-	LastSyncAt pgtype.Timestamp
+	LastSyncAt pgtype.Timestamp `db:"last_sync_at" json:"last_sync_at"`
 	// Number of retry attempts made.
-	RetryCount pgtype.Int4
+	RetryCount pgtype.Int4 `db:"retry_count" json:"retry_count"`
 	// When the next retry should be attempted.
-	NextRetryAt pgtype.Timestamp
+	NextRetryAt pgtype.Timestamp `db:"next_retry_at" json:"next_retry_at"`
 	// Timestamp when the sync log was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sync log was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Financial account information for clients, including credit limits and wallet balances.
 type BillingClientAccount struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the client company.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Maximum credit amount allowed for the client.
-	CreditLimit pgtype.Numeric
+	CreditLimit pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
 	// Current available credit balance.
-	AvailableCredit pgtype.Numeric
+	AvailableCredit pgtype.Numeric `db:"available_credit" json:"available_credit"`
 	// Prepaid balance available for services.
-	WalletBalance pgtype.Numeric
+	WalletBalance pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
 	// Currency code for the account.
-	Currency pgtype.Text
+	Currency pgtype.Text `db:"currency" json:"currency"`
 	// Number of days for payment terms.
-	PaymentTermsDays pgtype.Int4
+	PaymentTermsDays pgtype.Int4 `db:"payment_terms_days" json:"payment_terms_days"`
 	// Whether the client is approved for credit.
-	IsCreditApproved pgtype.Bool
+	IsCreditApproved pgtype.Bool `db:"is_credit_approved" json:"is_credit_approved"`
 	// Date of the last payment received.
-	LastPaymentDate pgtype.Date
+	LastPaymentDate pgtype.Date `db:"last_payment_date" json:"last_payment_date"`
 	// Timestamp when the client account was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the client account was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type BillingClientAccountsView struct {
-	ID                  pgtype.UUID
-	ClientID            pgtype.UUID
-	CreditLimit         pgtype.Numeric
-	AvailableCredit     pgtype.Numeric
-	WalletBalance       pgtype.Numeric
-	Currency            pgtype.Text
-	PaymentTermsDays    pgtype.Int4
-	IsCreditApproved    pgtype.Bool
-	LastPaymentDate     pgtype.Date
-	CreatedAt           pgtype.Timestamp
-	UpdatedAt           pgtype.Timestamp
-	AccountTransactions []byte
+	ID                  pgtype.UUID      `db:"id" json:"id"`
+	ClientID            pgtype.UUID      `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric   `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric   `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric   `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text      `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4      `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool      `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date      `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	AccountTransactions []byte           `db:"account_transactions" json:"account_transactions"`
 }
 
 // Credits issued to clients for adjustments, refunds, or dispute resolutions.
 type BillingCreditNote struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the related invoice.
-	InvoiceID pgtype.UUID
+	InvoiceID pgtype.UUID `db:"invoice_id" json:"invoice_id"`
 	// Reference to the dispute (if applicable).
-	DisputeID pgtype.UUID
+	DisputeID pgtype.UUID `db:"dispute_id" json:"dispute_id"`
 	// Unique credit note reference number.
-	CreditNoteNumber string
+	CreditNoteNumber string `db:"credit_note_number" json:"credit_note_number"`
 	// Credit amount being issued.
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 	// Explanation for the credit note.
-	Reason string
+	Reason string `db:"reason" json:"reason"`
 	// Date the credit note was created.
-	IssueDate pgtype.Date
+	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
 	// When the credit was applied to the account.
-	AppliedAt pgtype.Timestamp
+	AppliedAt pgtype.Timestamp `db:"applied_at" json:"applied_at"`
 	// Currency of the credit note.
-	Currency pgtype.Text
+	Currency pgtype.Text `db:"currency" json:"currency"`
 	// Additional notes about the credit note.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// User who created this credit note.
-	CreatedByUserID pgtype.Text
+	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the credit note was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the credit note was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Records of client disputes regarding invoice charges.
 type BillingDispute struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the disputed invoice line item.
-	LineItemID pgtype.UUID
+	LineItemID pgtype.UUID `db:"line_item_id" json:"line_item_id"`
 	// Reference to the client raising the dispute.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Explanation of why the charge is being disputed.
-	Reason string
+	Reason string `db:"reason" json:"reason"`
 	// Current dispute status using dispute_status_enum.
-	Status NullBillingDisputeStatusEnum
+	Status NullBillingDisputeStatusEnum `db:"status" json:"status"`
 	// Amount being disputed.
-	DisputedAmount pgtype.Numeric
+	DisputedAmount pgtype.Numeric `db:"disputed_amount" json:"disputed_amount"`
 	// Notes about the dispute resolution.
-	ResolutionNotes pgtype.Text
+	ResolutionNotes pgtype.Text `db:"resolution_notes" json:"resolution_notes"`
 	// When the dispute was submitted.
-	SubmittedAt pgtype.Timestamp
+	SubmittedAt pgtype.Timestamp `db:"submitted_at" json:"submitted_at"`
 	// When the dispute was resolved.
-	ResolvedAt pgtype.Timestamp
+	ResolvedAt pgtype.Timestamp `db:"resolved_at" json:"resolved_at"`
 	// User who resolved the dispute.
-	ResolvedByUserID pgtype.Text
+	ResolvedByUserID pgtype.Text `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	// Timestamp when the dispute was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the dispute was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Manages document attachments related to billing and shipping records.
 type BillingDocument struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the record the document is attached to.
-	RecordID pgtype.UUID
+	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record (e.g., ims_outbound_shipments, billing_invoices).
-	RecordType string
+	RecordType string `db:"record_type" json:"record_type"`
 	// Type of document using document_type_enum.
-	DocumentType BillingDocumentTypeEnum
+	DocumentType BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
 	// Storage location of the document file.
-	FilePath string
+	FilePath string `db:"file_path" json:"file_path"`
 	// Original file name.
-	FileName string
+	FileName string `db:"file_name" json:"file_name"`
 	// File size in bytes.
-	FileSize pgtype.Int4
+	FileSize pgtype.Int4 `db:"file_size" json:"file_size"`
 	// MIME type of the file.
-	MimeType pgtype.Text
+	MimeType pgtype.Text `db:"mime_type" json:"mime_type"`
 	// User who uploaded this document.
-	UploadedByUserID pgtype.Text
+	UploadedByUserID pgtype.Text `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	// Timestamp when the document was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the document was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Bills sent to clients for services rendered or goods provided.
 type BillingInvoice struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the client being billed.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Reference to the original quote (if applicable).
-	QuoteID pgtype.UUID
+	QuoteID pgtype.UUID `db:"quote_id" json:"quote_id"`
 	// Unique invoice reference number.
-	InvoiceNumber string
+	InvoiceNumber string `db:"invoice_number" json:"invoice_number"`
 	// Current invoice status using invoice_status_enum.
-	Status NullBillingInvoiceStatusEnum
+	Status NullBillingInvoiceStatusEnum `db:"status" json:"status"`
 	// Date the invoice was created.
-	IssueDate pgtype.Date
+	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
 	// Payment due date.
-	DueDate pgtype.Date
+	DueDate pgtype.Date `db:"due_date" json:"due_date"`
 	// Total amount due on the invoice.
-	TotalAmount pgtype.Numeric
+	TotalAmount pgtype.Numeric `db:"total_amount" json:"total_amount"`
 	// Amount already paid against the invoice.
-	AmountPaid pgtype.Numeric
+	AmountPaid pgtype.Numeric `db:"amount_paid" json:"amount_paid"`
 	// Outstanding amount (automatically calculated).
-	AmountOutstanding pgtype.Numeric
+	AmountOutstanding pgtype.Numeric `db:"amount_outstanding" json:"amount_outstanding"`
 	// Currency code for the invoice.
-	Currency pgtype.Text
+	Currency pgtype.Text `db:"currency" json:"currency"`
 	// Total tax amount on the invoice.
-	TaxAmount pgtype.Numeric
+	TaxAmount pgtype.Numeric `db:"tax_amount" json:"tax_amount"`
 	// Total discount applied to the invoice.
-	DiscountAmount pgtype.Numeric
+	DiscountAmount pgtype.Numeric `db:"discount_amount" json:"discount_amount"`
 	// Subtotal before tax and discounts.
-	Subtotal pgtype.Numeric
+	Subtotal pgtype.Numeric `db:"subtotal" json:"subtotal"`
 	// Payment terms and conditions.
-	PaymentTerms pgtype.Text
+	PaymentTerms pgtype.Text `db:"payment_terms" json:"payment_terms"`
 	// Additional notes on the invoice.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// When the invoice was sent to the client.
-	SentAt pgtype.Timestamp
+	SentAt pgtype.Timestamp `db:"sent_at" json:"sent_at"`
 	// When the invoice was fully paid.
-	PaidAt pgtype.Timestamp
+	PaidAt pgtype.Timestamp `db:"paid_at" json:"paid_at"`
 	// User who created this invoice.
-	CreatedByUserID pgtype.Text
+	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the invoice was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the invoice was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Individual charges and services detailed on an invoice.
 type BillingInvoiceLineItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the parent invoice.
-	InvoiceID pgtype.UUID
+	InvoiceID pgtype.UUID `db:"invoice_id" json:"invoice_id"`
 	// Reference to the source of the charge (e.g., shipment_id).
-	SourceRecordID pgtype.UUID
+	SourceRecordID pgtype.UUID `db:"source_record_id" json:"source_record_id"`
 	// Type of source record.
-	SourceRecordType pgtype.Text
+	SourceRecordType pgtype.Text `db:"source_record_type" json:"source_record_type"`
 	// Description of the service or charge.
-	Description string
+	Description string `db:"description" json:"description"`
 	// Number of units being charged.
-	Quantity pgtype.Numeric
+	Quantity pgtype.Numeric `db:"quantity" json:"quantity"`
 	// Price per unit.
-	UnitPrice pgtype.Numeric
+	UnitPrice pgtype.Numeric `db:"unit_price" json:"unit_price"`
 	// Total amount for this line item (automatically calculated).
-	TotalPrice pgtype.Numeric
+	TotalPrice pgtype.Numeric `db:"total_price" json:"total_price"`
 	// Tax rate applied to this line item.
-	TaxRate pgtype.Numeric
+	TaxRate pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
 	// Tax amount for this line item (automatically calculated).
-	TaxAmount pgtype.Numeric
+	TaxAmount pgtype.Numeric `db:"tax_amount" json:"tax_amount"`
 	// Discount rate applied to this line item.
-	DiscountRate pgtype.Numeric
+	DiscountRate pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
 	// Discount amount for this line item (automatically calculated).
-	DiscountAmount pgtype.Numeric
+	DiscountAmount pgtype.Numeric `db:"discount_amount" json:"discount_amount"`
 	// Final total including tax and discounts (automatically calculated).
-	LineTotal pgtype.Numeric
+	LineTotal pgtype.Numeric `db:"line_total" json:"line_total"`
 	// Timestamp when the line item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the line item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type BillingInvoiceLineItemsView struct {
-	ID               pgtype.UUID
-	InvoiceID        pgtype.UUID
-	SourceRecordID   pgtype.UUID
-	SourceRecordType pgtype.Text
-	Description      string
-	Quantity         pgtype.Numeric
-	UnitPrice        pgtype.Numeric
-	TotalPrice       pgtype.Numeric
-	TaxRate          pgtype.Numeric
-	TaxAmount        pgtype.Numeric
-	DiscountRate     pgtype.Numeric
-	DiscountAmount   pgtype.Numeric
-	LineTotal        pgtype.Numeric
-	CreatedAt        pgtype.Timestamp
-	UpdatedAt        pgtype.Timestamp
-	Disputes         []byte
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
+	Description      string           `db:"description" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
+	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Disputes         []byte           `db:"disputes" json:"disputes"`
 }
 
 type BillingInvoicesView struct {
-	ID                pgtype.UUID
-	ClientID          pgtype.UUID
-	QuoteID           pgtype.UUID
-	InvoiceNumber     string
-	Status            NullBillingInvoiceStatusEnum
-	IssueDate         pgtype.Date
-	DueDate           pgtype.Date
-	TotalAmount       pgtype.Numeric
-	AmountPaid        pgtype.Numeric
-	AmountOutstanding pgtype.Numeric
-	Currency          pgtype.Text
-	TaxAmount         pgtype.Numeric
-	DiscountAmount    pgtype.Numeric
-	Subtotal          pgtype.Numeric
-	PaymentTerms      pgtype.Text
-	Notes             pgtype.Text
-	SentAt            pgtype.Timestamp
-	PaidAt            pgtype.Timestamp
-	CreatedByUserID   pgtype.Text
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	InvoiceLineItems  []byte
-	Payments          []byte
-	CreditNotes       []byte
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	ClientID          pgtype.UUID                  `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                  `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                       `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum `db:"status" json:"status"`
+	IssueDate         pgtype.Date                  `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                  `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric               `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric               `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric               `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric               `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric               `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric               `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                  `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp             `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp             `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                  `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []byte                       `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []byte                       `db:"payments" json:"payments"`
+	CreditNotes       []byte                       `db:"credit_notes" json:"credit_notes"`
 }
 
 // Records of payments received against invoices.
 type BillingPayment struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the invoice being paid.
-	InvoiceID pgtype.UUID
+	InvoiceID pgtype.UUID `db:"invoice_id" json:"invoice_id"`
 	// Payment amount.
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 	// How the payment was made using payment_method_enum.
-	PaymentMethod BillingPaymentMethodEnum
+	PaymentMethod BillingPaymentMethodEnum `db:"payment_method" json:"payment_method"`
 	// Reference from payment gateway or internal system.
-	TransactionID pgtype.Text
+	TransactionID pgtype.Text `db:"transaction_id" json:"transaction_id"`
 	// Payment gateway transaction reference.
-	GatewayReference pgtype.Text
+	GatewayReference pgtype.Text `db:"gateway_reference" json:"gateway_reference"`
 	// Payment processing status using payment_status_enum.
-	Status NullBillingPaymentStatusEnum
+	Status NullBillingPaymentStatusEnum `db:"status" json:"status"`
 	// When the payment was initiated.
-	PaymentDate pgtype.Timestamp
+	PaymentDate pgtype.Timestamp `db:"payment_date" json:"payment_date"`
 	// When the payment was successfully processed.
-	ProcessedAt pgtype.Timestamp
+	ProcessedAt pgtype.Timestamp `db:"processed_at" json:"processed_at"`
 	// Currency of the payment.
-	Currency pgtype.Text
+	Currency pgtype.Text `db:"currency" json:"currency"`
 	// Exchange rate used for currency conversion.
-	ExchangeRate pgtype.Numeric
+	ExchangeRate pgtype.Numeric `db:"exchange_rate" json:"exchange_rate"`
 	// Processing fees deducted from the payment.
-	Fees pgtype.Numeric
+	Fees pgtype.Numeric `db:"fees" json:"fees"`
 	// Net amount after fees (automatically calculated).
-	NetAmount pgtype.Numeric
+	NetAmount pgtype.Numeric `db:"net_amount" json:"net_amount"`
 	// Additional notes about the payment.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// User who processed this payment.
-	ProcessedByUserID pgtype.Text
+	ProcessedByUserID pgtype.Text `db:"processed_by_user_id" json:"processed_by_user_id"`
 	// Timestamp when the payment was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the payment was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Price estimates provided to clients before services are performed.
 type BillingQuote struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the client requesting the quote (optional for anonymous quotes).
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Pickup location information.
-	OriginDetails string
+	OriginDetails string `db:"origin_details" json:"origin_details"`
 	// Delivery location information.
-	DestinationDetails string
+	DestinationDetails string `db:"destination_details" json:"destination_details"`
 	// Package weight for pricing calculation.
-	Weight pgtype.Numeric
+	Weight pgtype.Numeric `db:"weight" json:"weight"`
 	// Package length dimension.
-	Length pgtype.Numeric
+	Length pgtype.Numeric `db:"length" json:"length"`
 	// Package width dimension.
-	Width pgtype.Numeric
+	Width pgtype.Numeric `db:"width" json:"width"`
 	// Package height dimension.
-	Height pgtype.Numeric
+	Height pgtype.Numeric `db:"height" json:"height"`
 	// Package volume (automatically calculated from dimensions).
-	Volume pgtype.Numeric
+	Volume pgtype.Numeric `db:"volume" json:"volume"`
 	// Calculated price for the requested service.
-	QuotedPrice pgtype.Numeric
+	QuotedPrice pgtype.Numeric `db:"quoted_price" json:"quoted_price"`
 	// Type of service quoted (e.g., standard, express).
-	ServiceLevel pgtype.Text
+	ServiceLevel pgtype.Text `db:"service_level" json:"service_level"`
 	// When the quote becomes invalid.
-	ExpiresAt pgtype.Timestamp
+	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
 	// Current quote status using quote_status_enum.
-	Status NullBillingQuoteStatusEnum
+	Status NullBillingQuoteStatusEnum `db:"status" json:"status"`
 	// Unique quote reference number.
-	QuoteNumber pgtype.Text
+	QuoteNumber pgtype.Text `db:"quote_number" json:"quote_number"`
 	// Additional notes about the quote.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// User who created this quote.
-	CreatedByUserID pgtype.Text
+	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the quote was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the quote was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type BillingQuotesView struct {
-	ID                 pgtype.UUID
-	ClientID           pgtype.UUID
-	OriginDetails      string
-	DestinationDetails string
-	Weight             pgtype.Numeric
-	Length             pgtype.Numeric
-	Width              pgtype.Numeric
-	Height             pgtype.Numeric
-	Volume             pgtype.Numeric
-	QuotedPrice        pgtype.Numeric
-	ServiceLevel       pgtype.Text
-	ExpiresAt          pgtype.Timestamp
-	Status             NullBillingQuoteStatusEnum
-	QuoteNumber        pgtype.Text
-	Notes              pgtype.Text
-	CreatedByUserID    pgtype.Text
-	CreatedAt          pgtype.Timestamp
-	UpdatedAt          pgtype.Timestamp
-	Invoices           []byte
+	ID                 pgtype.UUID                `db:"id" json:"id"`
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	Volume             pgtype.Numeric             `db:"volume" json:"volume"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	Invoices           []byte                     `db:"invoices" json:"invoices"`
 }
 
 // Defines pricing structures for different services offered by the logistics company.
 type BillingRateCard struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Descriptive name for the rate card (e.g., "Standard Shipping Rates 2025").
-	Name string
+	Name string `db:"name" json:"name"`
 	// Category of service being priced using service_type_enum.
-	ServiceType BillingServiceTypeEnum
+	ServiceType BillingServiceTypeEnum `db:"service_type" json:"service_type"`
 	// Whether this rate card is currently in use.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Date when the rate card becomes effective.
-	ValidFrom pgtype.Date
+	ValidFrom pgtype.Date `db:"valid_from" json:"valid_from"`
 	// Date when the rate card expires.
-	ValidTo pgtype.Date
+	ValidTo pgtype.Date `db:"valid_to" json:"valid_to"`
 	// Additional details about the rate card.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// User who created this rate card.
-	CreatedByUserID pgtype.Text
+	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the rate card was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rate card was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type BillingRateCardsView struct {
-	ID              pgtype.UUID
-	Name            string
-	ServiceType     BillingServiceTypeEnum
-	IsActive        pgtype.Bool
-	ValidFrom       pgtype.Date
-	ValidTo         pgtype.Date
-	Description     pgtype.Text
-	CreatedByUserID pgtype.Text
-	CreatedAt       pgtype.Timestamp
-	UpdatedAt       pgtype.Timestamp
-	RateRules       []byte
+	ID              pgtype.UUID            `db:"id" json:"id"`
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
+	RateRules       []byte                 `db:"rate_rules" json:"rate_rules"`
 }
 
 // Specific pricing rules within a rate card that determine costs based on various conditions.
 type BillingRateRule struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the parent rate card.
-	RateCardID pgtype.UUID
+	RateCardID pgtype.UUID `db:"rate_card_id" json:"rate_card_id"`
 	// Condition that must be met for this rule to apply (e.g., weight_gt, zone_eq).
-	Condition string
+	Condition string `db:"condition" json:"condition"`
 	// Value for the condition (e.g., "5kg", "Zone A").
-	Value string
+	Value string `db:"value" json:"value"`
 	// Price amount when this rule applies.
-	Price pgtype.Numeric
+	Price pgtype.Numeric `db:"price" json:"price"`
 	// How the price is calculated using pricing_model_enum.
-	PricingModel BillingPricingModelEnum
+	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
 	// Minimum value for range-based conditions.
-	MinValue pgtype.Numeric
+	MinValue pgtype.Numeric `db:"min_value" json:"min_value"`
 	// Maximum value for range-based conditions.
-	MaxValue pgtype.Numeric
+	MaxValue pgtype.Numeric `db:"max_value" json:"max_value"`
 	// Rule precedence when multiple rules could apply (lower = higher priority).
-	Priority pgtype.Int4
+	Priority pgtype.Int4 `db:"priority" json:"priority"`
 	// Whether this rule is currently active.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Timestamp when the rate rule was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rate rule was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Additional charges that can be applied to base pricing for special circumstances.
 type BillingSurcharge struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the surcharge (e.g., "Fuel Surcharge", "Peak Season Fee").
-	Name string
+	Name string `db:"name" json:"name"`
 	// Category of surcharge (e.g., fuel, seasonal, handling).
-	Type string
+	Type string `db:"type" json:"type"`
 	// Surcharge amount or percentage.
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 	// How the surcharge is calculated using surcharge_calculation_method_enum.
-	CalculationMethod BillingSurchargeCalculationMethodEnum
+	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
 	// Whether this surcharge is currently being applied.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Date when the surcharge becomes effective.
-	ValidFrom pgtype.Date
+	ValidFrom pgtype.Date `db:"valid_from" json:"valid_from"`
 	// Date when the surcharge expires.
-	ValidTo pgtype.Date
+	ValidTo pgtype.Date `db:"valid_to" json:"valid_to"`
 	// Additional details about the surcharge.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// Timestamp when the surcharge was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the surcharge was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Allows files to be attached to various records (e.g., contacts, opportunities, cases) for additional context.
 type CrmAttachment struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the attached file.
-	FileName string
+	FileName string `db:"file_name" json:"file_name"`
 	// Storage path for the file.
-	FilePath string
+	FilePath string `db:"file_path" json:"file_path"`
 	// File MIME type (e.g., image/png, application/pdf).
-	MimeType pgtype.Text
+	MimeType pgtype.Text `db:"mime_type" json:"mime_type"`
 	// Identifier for the record the attachment is associated with.
-	RecordID pgtype.UUID
+	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record (polymorphic).
-	RecordType NullCrmRecordType
+	RecordType NullCrmRecordType `db:"record_type" json:"record_type"`
 	// timestamptz when the attachment was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the attachment was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks marketing initiatives to measure their effectiveness in generating leads and opportunities.
 type CrmCampaign struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Campaign title.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Allocated budget for the campaign.
-	Budget pgtype.Numeric
+	Budget pgtype.Numeric `db:"budget" json:"budget"`
 	// Campaign start date.
-	StartDate pgtype.Date
+	StartDate pgtype.Date `db:"start_date" json:"start_date"`
 	// Campaign end date.
-	EndDate pgtype.Date
+	EndDate pgtype.Date `db:"end_date" json:"end_date"`
 	// timestamptz when the campaign was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the campaign was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks customer support issues or requests from creation to resolution.
 type CrmCase struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique number assigned to the case.
-	CaseNumber string
+	CaseNumber string `db:"case_number" json:"case_number"`
 	// Current case status.
-	Status NullCrmCaseStatus
+	Status NullCrmCaseStatus `db:"status" json:"status"`
 	// Level of urgency (e.g., low, medium, high).
-	Priority NullCrmCasePriority
+	Priority NullCrmCasePriority `db:"priority" json:"priority"`
 	// Type of case (e.g., question, problem).
-	Type NullCrmCaseType
+	Type NullCrmCaseType `db:"type" json:"type"`
 	// User responsible for handling the case.
-	OwnerID string
+	OwnerID string `db:"owner_id" json:"owner_id"`
 	// Linked contact for context.
-	ContactID pgtype.UUID
+	ContactID pgtype.UUID `db:"contact_id" json:"contact_id"`
 	// Detailed description of the issue.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// timestamptz when the case was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the case was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Stores information about customer organizations. This is a central entity for linking contacts, opportunities, and cases.
 type CrmCompany struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Company name.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Street address.
-	Street pgtype.Text
+	Street pgtype.Text `db:"street" json:"street"`
 	// City location.
-	City pgtype.Text
+	City pgtype.Text `db:"city" json:"city"`
 	// State or province.
-	State pgtype.Text
+	State pgtype.Text `db:"state" json:"state"`
 	// Postal or ZIP code.
-	PostalCode pgtype.Text
+	PostalCode pgtype.Text `db:"postal_code" json:"postal_code"`
 	// Country of operation.
-	Country pgtype.Text
+	Country pgtype.Text `db:"country" json:"country"`
 	// Company contact number.
-	PhoneNumber pgtype.Text
+	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
 	// Sector or industry type.
-	Industry pgtype.Text
+	Industry pgtype.Text `db:"industry" json:"industry"`
 	// Company website URL.
-	Website pgtype.Text
+	Website pgtype.Text `db:"website" json:"website"`
 	// Yearly revenue figure.
-	AnnualRevenue pgtype.Numeric
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
 	// Reference to the user who owns the company record.
-	OwnerID pgtype.Text
+	OwnerID pgtype.Text `db:"owner_id" json:"owner_id"`
 	// timestamptz when the company was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the company was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Represents individuals associated with companies, serving as the primary points of interaction.
 type CrmContact struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Full name of the contact.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Contact's email address.
-	Email string
+	Email string `db:"email" json:"email"`
 	// Contact's telephone number.
-	PhoneNumber pgtype.Text
+	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
 	// Job designation or position.
-	JobTitle pgtype.Text
+	JobTitle pgtype.Text `db:"job_title" json:"job_title"`
 	// Identifier linking to the associated company.
-	CompanyID pgtype.UUID
+	CompanyID pgtype.UUID `db:"company_id" json:"company_id"`
 	// Reference to the user responsible for the contact.
-	OwnerID string
+	OwnerID string `db:"owner_id" json:"owner_id"`
 	// timestamptz when the contact was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the contact was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Logs all communications and activities with contacts, providing a complete history of customer engagement.
 type CrmInteraction struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Linked contact for the interaction.
-	ContactID pgtype.UUID
+	ContactID pgtype.UUID `db:"contact_id" json:"contact_id"`
 	// User who performed the interaction.
-	UserID string
+	UserID string `db:"user_id" json:"user_id"`
 	// Associated case (if applicable).
-	CaseID pgtype.UUID
+	CaseID pgtype.UUID `db:"case_id" json:"case_id"`
 	// Type of interaction (e.g., call, meeting, email).
-	Type NullCrmInteractionType
+	Type NullCrmInteractionType `db:"type" json:"type"`
 	// Result of the interaction (e.g., meeting scheduled).
-	Outcome pgtype.Text
+	Outcome pgtype.Text `db:"outcome" json:"outcome"`
 	// Additional details or comments.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// Date and time of the interaction.
-	InteractionDate pgtype.Timestamptz
+	InteractionDate pgtype.Timestamptz `db:"interaction_date" json:"interaction_date"`
 	// timestamptz when the interaction was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the interaction was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Generates and tracks billing records for products or services sold in an opportunity.
 type CrmInvoice struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Associated sales opportunity.
-	OpportunityID pgtype.UUID
+	OpportunityID pgtype.UUID `db:"opportunity_id" json:"opportunity_id"`
 	// Current status of the invoice (e.g., draft, sent, paid).
-	Status NullCrmInvoiceStatus
+	Status NullCrmInvoiceStatus `db:"status" json:"status"`
 	// Total amount billed.
-	Total pgtype.Numeric
+	Total pgtype.Numeric `db:"total" json:"total"`
 	// Date on which the invoice was issued.
-	IssueDate pgtype.Date
+	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
 	// Payment due date.
-	DueDate pgtype.Date
+	DueDate pgtype.Date `db:"due_date" json:"due_date"`
 	// timestamptz when the invoice was sent.
-	SentAt pgtype.Timestamptz
+	SentAt pgtype.Timestamptz `db:"sent_at" json:"sent_at"`
 	// timestamptz when payment was received.
-	PaidAt pgtype.Timestamptz
+	PaidAt pgtype.Timestamptz `db:"paid_at" json:"paid_at"`
 	// Method used for payment.
-	PaymentMethod NullCrmPaymentMethod
+	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
 	// timestamptz when the invoice was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the invoice was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Details the line items on an invoice, including products, quantities, and prices.
 type CrmInvoiceItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Linked invoice record.
-	InvoiceID pgtype.UUID
+	InvoiceID pgtype.UUID `db:"invoice_id" json:"invoice_id"`
 	// Associated product for the line item.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Quantity of the product.
-	Quantity int32
+	Quantity int32 `db:"quantity" json:"quantity"`
 	// Price per unit for the product.
-	Price pgtype.Numeric
+	Price pgtype.Numeric `db:"price" json:"price"`
 	// timestamptz when the invoice item was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the invoice item was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 type CrmInvoicesView struct {
-	ID            pgtype.UUID
-	OpportunityID pgtype.UUID
-	Status        NullCrmInvoiceStatus
-	Total         pgtype.Numeric
-	IssueDate     pgtype.Date
-	DueDate       pgtype.Date
-	SentAt        pgtype.Timestamptz
-	PaidAt        pgtype.Timestamptz
-	PaymentMethod NullCrmPaymentMethod
-	CreatedAt     pgtype.Timestamptz
-	UpdatedAt     pgtype.Timestamptz
-	Items         []byte
+	ID            pgtype.UUID          `db:"id" json:"id"`
+	OpportunityID pgtype.UUID          `db:"opportunity_id" json:"opportunity_id"`
+	Status        NullCrmInvoiceStatus `db:"status" json:"status"`
+	Total         pgtype.Numeric       `db:"total" json:"total"`
+	IssueDate     pgtype.Date          `db:"issue_date" json:"issue_date"`
+	DueDate       pgtype.Date          `db:"due_date" json:"due_date"`
+	SentAt        pgtype.Timestamptz   `db:"sent_at" json:"sent_at"`
+	PaidAt        pgtype.Timestamptz   `db:"paid_at" json:"paid_at"`
+	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
+	CreatedAt     pgtype.Timestamptz   `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz   `db:"updated_at" json:"updated_at"`
+	Items         []CrmInvoiceItem     `db:"items" json:"items"`
 }
 
 // Captures potential customers who have shown interest but are not yet qualified.
 type CrmLead struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Lead's full name.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Lead's email address.
-	Email string
+	Email string `db:"email" json:"email"`
 	// Origin of the lead information.
-	LeadSource NullCrmLeadSource
+	LeadSource NullCrmLeadSource `db:"lead_source" json:"lead_source"`
 	// Current qualification status.
-	Status NullCrmLeadStatus
+	Status NullCrmLeadStatus `db:"status" json:"status"`
 	// Numerical score reflecting lead quality.
-	LeadScore pgtype.Int4
+	LeadScore pgtype.Int4 `db:"lead_score" json:"lead_score"`
 	// User responsible for the lead.
-	OwnerID string
+	OwnerID string `db:"owner_id" json:"owner_id"`
 	// Associated marketing campaign.
-	CampaignID pgtype.UUID
+	CampaignID pgtype.UUID `db:"campaign_id" json:"campaign_id"`
 	// timestamptz when the lead was converted.
-	ConvertedAt pgtype.Timestamptz
+	ConvertedAt pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
 	// Reference to the created contact upon conversion.
-	ConvertedContactID pgtype.UUID
+	ConvertedContactID pgtype.UUID `db:"converted_contact_id" json:"converted_contact_id"`
 	// Reference to the company record created upon conversion.
-	ConvertedCompanyID pgtype.UUID
+	ConvertedCompanyID pgtype.UUID `db:"converted_company_id" json:"converted_company_id"`
 	// Reference to the opportunity created upon conversion.
-	ConvertedOpportunityID pgtype.UUID
+	ConvertedOpportunityID pgtype.UUID `db:"converted_opportunity_id" json:"converted_opportunity_id"`
 	// timestamptz when the lead was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the lead was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Provides an in-app system for alerting users about important events, such as new lead assignments.
 type CrmNotification struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// User receiving the notification.
-	UserID string
+	UserID string `db:"user_id" json:"user_id"`
 	// Notification content.
-	Message string
+	Message string `db:"message" json:"message"`
 	// Boolean indicating if the notification has been read.
-	IsRead pgtype.Bool
+	IsRead pgtype.Bool `db:"is_read" json:"is_read"`
 	// timestamptz when the notification was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the notification was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 	// URL or path for further action/reference.
-	Link pgtype.Text
+	Link pgtype.Text `db:"link" json:"link"`
 }
 
 type CrmOpportunitiesView struct {
-	ID                pgtype.UUID
-	Name              string
-	Stage             NullCrmOpportunityStage
-	DealValue         pgtype.Numeric
-	Probability       pgtype.Float4
-	ExpectedCloseDate pgtype.Date
-	LostReason        pgtype.Text
-	Source            NullCrmOpportunitySource
-	OwnerID           string
-	ContactID         pgtype.UUID
-	CompanyID         pgtype.UUID
-	CampaignID        pgtype.UUID
-	CreatedAt         pgtype.Timestamptz
-	UpdatedAt         pgtype.Timestamptz
-	Products          []byte
+	ID                pgtype.UUID              `db:"id" json:"id"`
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
+	Products          []byte                   `db:"products" json:"products"`
 }
 
 // Represents potential sales deals, tracked through various stages of the sales pipeline.
 type CrmOpportunity struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Opportunity title.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Current stage in the sales pipeline.
-	Stage NullCrmOpportunityStage
+	Stage NullCrmOpportunityStage `db:"stage" json:"stage"`
 	// Potential deal amount.
-	DealValue pgtype.Numeric
+	DealValue pgtype.Numeric `db:"deal_value" json:"deal_value"`
 	// Likelihood of closing, represented as a fraction or percentage.
-	Probability pgtype.Float4
+	Probability pgtype.Float4 `db:"probability" json:"probability"`
 	// Anticipated date for closing the opportunity.
-	ExpectedCloseDate pgtype.Date
+	ExpectedCloseDate pgtype.Date `db:"expected_close_date" json:"expected_close_date"`
 	// Explanation for why the opportunity was lost.
-	LostReason pgtype.Text
+	LostReason pgtype.Text `db:"lost_reason" json:"lost_reason"`
 	// Origin of the opportunity (e.g., website, referral).
-	Source NullCrmOpportunitySource
+	Source NullCrmOpportunitySource `db:"source" json:"source"`
 	// User responsible for the opportunity.
-	OwnerID string
+	OwnerID string `db:"owner_id" json:"owner_id"`
 	// Associated contact.
-	ContactID pgtype.UUID
+	ContactID pgtype.UUID `db:"contact_id" json:"contact_id"`
 	// Linked company record.
-	CompanyID pgtype.UUID
+	CompanyID pgtype.UUID `db:"company_id" json:"company_id"`
 	// Related campaign.
-	CampaignID pgtype.UUID
+	CampaignID pgtype.UUID `db:"campaign_id" json:"campaign_id"`
 	// timestamptz when the opportunity was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the opportunity was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Links products from the catalog to specific sales opportunities, detailing what is being sold.
 type CrmOpportunityProduct struct {
 	// Identifier linking to the related opportunity.
-	OpportunityID pgtype.UUID
+	OpportunityID pgtype.UUID `db:"opportunity_id" json:"opportunity_id"`
 	// Identifier linking to the product.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Number of units associated with the opportunity.
-	Quantity int32
-	ID       pgtype.UUID
+	Quantity int32       `db:"quantity" json:"quantity"`
+	ID       pgtype.UUID `db:"id" json:"id"`
 }
 
 // Manages the catalog of goods or services that can be sold to customers.
 type CrmProduct struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the product or service.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Stock keeping unit identifier.
-	Sku pgtype.Text
+	Sku pgtype.Text `db:"sku" json:"sku"`
 	// Cost of the product.
-	Price pgtype.Numeric
+	Price pgtype.Numeric `db:"price" json:"price"`
 	// Type of offering (e.g., service, good).
-	Type NullCrmProductType
+	Type NullCrmProductType `db:"type" json:"type"`
 	// Description or details about the product.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// timestamptz when the product was created.
-	CreatedAt pgtype.Timestamptz
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the product was last updated.
-	UpdatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Provides customers with secure, unique links to track their deliveries in real-time.
 type DmsCustomerTrackingLink struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the delivery task being tracked.
-	DeliveryTaskID pgtype.UUID
+	DeliveryTaskID pgtype.UUID `db:"delivery_task_id" json:"delivery_task_id"`
 	// Unique, unguessable identifier for secure access.
-	TrackingToken string
+	TrackingToken string `db:"tracking_token" json:"tracking_token"`
 	// Whether the tracking link is currently valid.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Number of times the tracking link has been accessed.
-	AccessCount pgtype.Int4
+	AccessCount pgtype.Int4 `db:"access_count" json:"access_count"`
 	// When the tracking link was last accessed.
-	LastAccessedAt pgtype.Timestamp
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
 	// When the tracking link will expire.
-	ExpiresAt pgtype.Timestamp
+	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
 	// Timestamp when the customer tracking link was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the customer tracking link was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Represents planned routes for drivers, optimized for efficiency and containing multiple delivery tasks.
 type DmsDeliveryRoute struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the assigned driver from the TMS.
-	DriverID pgtype.UUID
+	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Scheduled date for the delivery route.
-	RouteDate pgtype.Date
+	RouteDate pgtype.Date `db:"route_date" json:"route_date"`
 	// Current state of the route using delivery_route_status_enum.
-	Status NullDmsDeliveryRouteStatusEnum
+	Status NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
 	// Stored route optimization data such as polylines and turn-by-turn directions.
-	OptimizedRouteData pgtype.Text
+	OptimizedRouteData pgtype.Text `db:"optimized_route_data" json:"optimized_route_data"`
 	// Total distance of the route in kilometers.
-	TotalDistanceKm pgtype.Float4
+	TotalDistanceKm pgtype.Float4 `db:"total_distance_km" json:"total_distance_km"`
 	// Estimated time to complete the entire route in minutes.
-	EstimatedDurationMinutes pgtype.Int4
+	EstimatedDurationMinutes pgtype.Int4 `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
 	// Actual time taken to complete the route in minutes (automatically calculated from start and completion times).
-	ActualDurationMinutes pgtype.Int4
+	ActualDurationMinutes pgtype.Int4 `db:"actual_duration_minutes" json:"actual_duration_minutes"`
 	// When the route was started.
-	StartedAt pgtype.Timestamp
+	StartedAt pgtype.Timestamp `db:"started_at" json:"started_at"`
 	// When the route was completed.
-	CompletedAt pgtype.Timestamp
+	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
 	// Timestamp when the delivery route was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the delivery route was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type DmsDeliveryRoutesView struct {
-	ID                       pgtype.UUID
-	DriverID                 pgtype.UUID
-	RouteDate                pgtype.Date
-	Status                   NullDmsDeliveryRouteStatusEnum
-	OptimizedRouteData       pgtype.Text
-	TotalDistanceKm          pgtype.Float4
-	EstimatedDurationMinutes pgtype.Int4
-	ActualDurationMinutes    pgtype.Int4
-	StartedAt                pgtype.Timestamp
-	CompletedAt              pgtype.Timestamp
-	CreatedAt                pgtype.Timestamp
-	UpdatedAt                pgtype.Timestamp
-	DeliveryTasks            []byte
+	ID                       pgtype.UUID                    `db:"id" json:"id"`
+	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
+	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	ActualDurationMinutes    pgtype.Int4                    `db:"actual_duration_minutes" json:"actual_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	DeliveryTasks            []byte                         `db:"delivery_tasks" json:"delivery_tasks"`
 }
 
 // Individual delivery tasks within a route, each corresponding to a specific package that needs to be delivered.
 type DmsDeliveryTask struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the package from the WMS.
-	PackageID pgtype.UUID
+	PackageID pgtype.UUID `db:"package_id" json:"package_id"`
 	// Reference to the delivery route this task belongs to.
-	DeliveryRouteID pgtype.UUID
+	DeliveryRouteID pgtype.UUID `db:"delivery_route_id" json:"delivery_route_id"`
 	// Order of this delivery within the route.
-	RouteSequence int32
+	RouteSequence int32 `db:"route_sequence" json:"route_sequence"`
 	// The address where the package should be delivered.
-	DeliveryAddress string
+	DeliveryAddress string `db:"delivery_address" json:"delivery_address"`
 	// Name of the person receiving the package.
-	RecipientName pgtype.Text
+	RecipientName pgtype.Text `db:"recipient_name" json:"recipient_name"`
 	// Phone number of the recipient.
-	RecipientPhone pgtype.Text
+	RecipientPhone pgtype.Text `db:"recipient_phone" json:"recipient_phone"`
 	// Special instructions for the delivery.
-	DeliveryInstructions pgtype.Text
+	DeliveryInstructions pgtype.Text `db:"delivery_instructions" json:"delivery_instructions"`
 	// Calculated time when the delivery is expected.
-	EstimatedArrivalTime pgtype.Timestamp
+	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" json:"estimated_arrival_time"`
 	// When the driver actually arrived at the delivery location.
-	ActualArrivalTime pgtype.Timestamp
+	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" json:"actual_arrival_time"`
 	// When the package was successfully delivered.
-	DeliveryTime pgtype.Timestamp
+	DeliveryTime pgtype.Timestamp `db:"delivery_time" json:"delivery_time"`
 	// Current status of the delivery task using delivery_task_status_enum.
-	Status NullDmsDeliveryTaskStatusEnum
+	Status NullDmsDeliveryTaskStatusEnum `db:"status" json:"status"`
 	// Reason for delivery failure using delivery_failure_reason_enum.
-	FailureReason NullDmsDeliveryFailureReasonEnum
+	FailureReason NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
 	// Number of delivery attempts made.
-	AttemptCount pgtype.Int4
+	AttemptCount pgtype.Int4 `db:"attempt_count" json:"attempt_count"`
 	// Timestamp when the delivery task was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the delivery task was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type DmsDeliveryTasksView struct {
-	ID                    pgtype.UUID
-	PackageID             pgtype.UUID
-	DeliveryRouteID       pgtype.UUID
-	RouteSequence         int32
-	DeliveryAddress       string
-	RecipientName         pgtype.Text
-	RecipientPhone        pgtype.Text
-	DeliveryInstructions  pgtype.Text
-	EstimatedArrivalTime  pgtype.Timestamp
-	ActualArrivalTime     pgtype.Timestamp
-	DeliveryTime          pgtype.Timestamp
-	Status                NullDmsDeliveryTaskStatusEnum
-	FailureReason         NullDmsDeliveryFailureReasonEnum
-	AttemptCount          pgtype.Int4
-	CreatedAt             pgtype.Timestamp
-	UpdatedAt             pgtype.Timestamp
-	TaskEvents            []byte
-	ProofOfDeliveries     []byte
-	CustomerTrackingLinks []byte
+	ID                    pgtype.UUID                      `db:"id" json:"id"`
+	PackageID             pgtype.UUID                      `db:"package_id" json:"package_id"`
+	DeliveryRouteID       pgtype.UUID                      `db:"delivery_route_id" json:"delivery_route_id"`
+	RouteSequence         int32                            `db:"route_sequence" json:"route_sequence"`
+	DeliveryAddress       string                           `db:"delivery_address" json:"delivery_address"`
+	RecipientName         pgtype.Text                      `db:"recipient_name" json:"recipient_name"`
+	RecipientPhone        pgtype.Text                      `db:"recipient_phone" json:"recipient_phone"`
+	DeliveryInstructions  pgtype.Text                      `db:"delivery_instructions" json:"delivery_instructions"`
+	EstimatedArrivalTime  pgtype.Timestamp                 `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime     pgtype.Timestamp                 `db:"actual_arrival_time" json:"actual_arrival_time"`
+	DeliveryTime          pgtype.Timestamp                 `db:"delivery_time" json:"delivery_time"`
+	Status                NullDmsDeliveryTaskStatusEnum    `db:"status" json:"status"`
+	FailureReason         NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
+	AttemptCount          pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
+	CreatedAt             pgtype.Timestamp                 `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp                 `db:"updated_at" json:"updated_at"`
+	TaskEvents            []byte                           `db:"task_events" json:"task_events"`
+	ProofOfDeliveries     []byte                           `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	CustomerTrackingLinks []byte                           `db:"customer_tracking_links" json:"customer_tracking_links"`
 }
 
 // Real-time location tracking for drivers, enabling accurate ETAs and route monitoring.
 type DmsDriverLocation struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the driver from the TMS.
-	DriverID pgtype.UUID
+	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Geographic latitude coordinate.
-	Latitude float32
+	Latitude float32 `db:"latitude" json:"latitude"`
 	// Geographic longitude coordinate.
-	Longitude float32
+	Longitude float32 `db:"longitude" json:"longitude"`
 	// Altitude in meters above sea level.
-	Altitude pgtype.Float4
+	Altitude pgtype.Float4 `db:"altitude" json:"altitude"`
 	// GPS accuracy in meters.
-	Accuracy pgtype.Float4
+	Accuracy pgtype.Float4 `db:"accuracy" json:"accuracy"`
 	// Current speed in kilometers per hour.
-	SpeedKmh pgtype.Float4
+	SpeedKmh pgtype.Float4 `db:"speed_kmh" json:"speed_kmh"`
 	// Direction of travel in degrees (0-359).
-	Heading pgtype.Float4
+	Heading pgtype.Float4 `db:"heading" json:"heading"`
 	// When the location was recorded.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 	// Timestamp when the driver location was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the driver location was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Stores evidence of successful deliveries, such as signatures or photos, ensuring accountability and customer satisfaction.
 type DmsProofOfDelivery struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the completed delivery task.
-	DeliveryTaskID pgtype.UUID
+	DeliveryTaskID pgtype.UUID `db:"delivery_task_id" json:"delivery_task_id"`
 	// Type of proof collected using proof_of_delivery_type_enum.
-	Type DmsProofOfDeliveryTypeEnum
+	Type DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
 	// Storage location of the proof file (for photos).
-	FilePath pgtype.Text
+	FilePath pgtype.Text `db:"file_path" json:"file_path"`
 	// Digital signature data (for signature proofs).
-	SignatureData pgtype.Text
+	SignatureData pgtype.Text `db:"signature_data" json:"signature_data"`
 	// Name of the person who received the package.
-	RecipientName pgtype.Text
+	RecipientName pgtype.Text `db:"recipient_name" json:"recipient_name"`
 	// Code used for verification deliveries.
-	VerificationCode pgtype.Text
+	VerificationCode pgtype.Text `db:"verification_code" json:"verification_code"`
 	// Geographic latitude where proof was collected.
-	Latitude pgtype.Float4
+	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
 	// Geographic longitude where proof was collected.
-	Longitude pgtype.Float4
+	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
 	// When the proof was collected.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 	// Timestamp when the proof of delivery was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the proof of delivery was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks status changes and events for delivery tasks, providing a detailed audit trail of the delivery process.
 type DmsTaskEvent struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the associated delivery task.
-	DeliveryTaskID pgtype.UUID
+	DeliveryTaskID pgtype.UUID `db:"delivery_task_id" json:"delivery_task_id"`
 	// The event status being recorded using task_event_status_enum.
-	Status DmsTaskEventStatusEnum
+	Status DmsTaskEventStatusEnum `db:"status" json:"status"`
 	// Additional context for the status change (e.g., "recipient not home").
-	Reason pgtype.Text
+	Reason pgtype.Text `db:"reason" json:"reason"`
 	// Additional notes about the event.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// Geographic latitude where the event occurred.
-	Latitude pgtype.Float4
+	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
 	// Geographic longitude where the event occurred.
-	Longitude pgtype.Float4
+	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
 	// When the event occurred.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 	// Timestamp when the task event was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the task event was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type Session struct {
-	ID             string
-	ExpiresAt      pgtype.Timestamptz
-	Token          string
-	CreatedAt      pgtype.Timestamptz
-	UpdatedAt      pgtype.Timestamptz
-	IpAddress      pgtype.Text
-	UserAgent      pgtype.Text
-	UserID         string
-	ImpersonatedBy pgtype.Text
+	ID             string             `db:"id" json:"id"`
+	ExpiresAt      pgtype.Timestamptz `db:"expires_at" json:"expires_at"`
+	Token          string             `db:"token" json:"token"`
+	CreatedAt      pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	IpAddress      pgtype.Text        `db:"ip_address" json:"ip_address"`
+	UserAgent      pgtype.Text        `db:"user_agent" json:"user_agent"`
+	UserID         string             `db:"user_id" json:"user_id"`
+	ImpersonatedBy pgtype.Text        `db:"impersonated_by" json:"impersonated_by"`
 }
 
 // Information about third-party transportation providers and partners.
 type TmsCarrier struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Carrier company name.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Contact information for the carrier.
-	ContactDetails pgtype.Text
+	ContactDetails pgtype.Text `db:"contact_details" json:"contact_details"`
 	// Description of transportation services provided.
-	ServicesOffered pgtype.Text
+	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
 	// Timestamp when the carrier was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the carrier was last updated.
-	UpdatedAt     pgtype.Timestamp
-	ContactPerson pgtype.Text
-	ContactEmail  pgtype.Text
-	ContactPhone  pgtype.Text
+	UpdatedAt     pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	ContactPerson pgtype.Text      `db:"contact_person" json:"contact_person"`
+	ContactEmail  pgtype.Text      `db:"contact_email" json:"contact_email"`
+	ContactPhone  pgtype.Text      `db:"contact_phone" json:"contact_phone"`
 }
 
 // Pricing information for services provided by third-party carriers.
 type TmsCarrierRate struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the carrier providing the service.
-	CarrierID pgtype.UUID
+	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Type of transportation service.
-	ServiceType pgtype.Text
+	ServiceType pgtype.Text `db:"service_type" json:"service_type"`
 	// Starting location for the service.
-	Origin pgtype.Text
+	Origin pgtype.Text `db:"origin" json:"origin"`
 	// Ending location for the service.
-	Destination pgtype.Text
+	Destination pgtype.Text `db:"destination" json:"destination"`
 	// Cost for the service.
-	Rate pgtype.Numeric
+	Rate pgtype.Numeric `db:"rate" json:"rate"`
 	// Pricing unit using carrier_rate_unit_enum.
-	Unit NullTmsCarrierRateUnitEnum
+	Unit NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	// Timestamp when the rate was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rate was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type TmsCarriersView struct {
-	ID              pgtype.UUID
-	Name            string
-	ContactDetails  pgtype.Text
-	ServicesOffered pgtype.Text
-	CreatedAt       pgtype.Timestamp
-	UpdatedAt       pgtype.Timestamp
-	ContactPerson   pgtype.Text
-	ContactEmail    pgtype.Text
-	ContactPhone    pgtype.Text
-	CarrierRates    []byte
-	ShipmentLegs    []byte
-	PartnerInvoices []byte
+	ID              pgtype.UUID      `db:"id" json:"id"`
+	Name            string           `db:"name" json:"name"`
+	ContactDetails  pgtype.Text      `db:"contact_details" json:"contact_details"`
+	ServicesOffered pgtype.Text      `db:"services_offered" json:"services_offered"`
+	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	ContactPerson   pgtype.Text      `db:"contact_person" json:"contact_person"`
+	ContactEmail    pgtype.Text      `db:"contact_email" json:"contact_email"`
+	ContactPhone    pgtype.Text      `db:"contact_phone" json:"contact_phone"`
+	CarrierRates    []byte           `db:"carrier_rates" json:"carrier_rates"`
+	ShipmentLegs    []byte           `db:"shipment_legs" json:"shipment_legs"`
+	PartnerInvoices []byte           `db:"partner_invoices" json:"partner_invoices"`
 }
 
 // Represents drivers who operate vehicles within the transportation fleet.
 type TmsDriver struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the user account in the system.
-	UserID string
+	UserID string `db:"user_id" json:"user_id"`
 	// Driver's license identification number.
-	LicenseNumber string
+	LicenseNumber string `db:"license_number" json:"license_number"`
 	// When the driver's license expires.
-	LicenseExpiryDate pgtype.Date
+	LicenseExpiryDate pgtype.Date `db:"license_expiry_date" json:"license_expiry_date"`
 	// Current availability status using driver_status_enum.
-	Status NullTmsDriverStatusEnum
+	Status NullTmsDriverStatusEnum `db:"status" json:"status"`
 	// Timestamp when the driver was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the driver was last updated.
-	UpdatedAt    pgtype.Timestamp
-	ContactPhone pgtype.Text
+	UpdatedAt    pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	ContactPhone pgtype.Text      `db:"contact_phone" json:"contact_phone"`
 }
 
 // Tracks driver availability and planned time off for scheduling purposes.
 type TmsDriverSchedule struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the associated driver.
-	DriverID pgtype.UUID
+	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Beginning of the schedule period.
-	StartDate pgtype.Date
+	StartDate pgtype.Date `db:"start_date" json:"start_date"`
 	// End of the schedule period.
-	EndDate pgtype.Date
+	EndDate pgtype.Date `db:"end_date" json:"end_date"`
 	// Purpose of the schedule entry using driver_schedule_reason_enum.
-	Reason NullTmsDriverScheduleReasonEnum
+	Reason NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	// Timestamp when the schedule was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the schedule was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type TmsDriversView struct {
-	ID                pgtype.UUID
-	UserID            string
-	LicenseNumber     string
-	LicenseExpiryDate pgtype.Date
-	Status            NullTmsDriverStatusEnum
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	ContactPhone      pgtype.Text
-	DriverSchedules   []byte
-	Expenses          []byte
-	Trips             []byte
+	ID                pgtype.UUID             `db:"id" json:"id"`
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
+	DriverSchedules   []byte                  `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []byte                  `db:"expenses" json:"expenses"`
+	Trips             []byte                  `db:"trips" json:"trips"`
 }
 
 // Tracks transportation-related expenses incurred during trips.
 type TmsExpense struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the associated trip.
-	TripID pgtype.UUID
+	TripID pgtype.UUID `db:"trip_id" json:"trip_id"`
 	// Reference to the driver who logged the expense.
-	DriverID pgtype.UUID
+	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Category of expense using expense_type_enum.
-	Type NullTmsExpenseTypeEnum
+	Type NullTmsExpenseTypeEnum `db:"type" json:"type"`
 	// Financial amount of the expense.
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 	// Currency denomination using currency_enum.
-	Currency NullTmsCurrencyEnum
+	Currency NullTmsCurrencyEnum `db:"currency" json:"currency"`
 	// Link to receipt or proof of purchase.
-	ReceiptUrl pgtype.Text
+	ReceiptUrl pgtype.Text `db:"receipt_url" json:"receipt_url"`
 	// Amount of fuel purchased (if applicable).
-	FuelQuantity pgtype.Float4
+	FuelQuantity pgtype.Float4 `db:"fuel_quantity" json:"fuel_quantity"`
 	// Vehicle odometer reading at time of expense.
-	OdometerReading pgtype.Int4
+	OdometerReading pgtype.Int4 `db:"odometer_reading" json:"odometer_reading"`
 	// Approval status using expense_status_enum.
-	Status NullTmsExpenseStatusEnum
+	Status NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	// Timestamp when the expense was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the expense was last updated.
-	UpdatedAt   pgtype.Timestamp
-	Description pgtype.Text
-	ExpenseDate pgtype.Date
+	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Description pgtype.Text      `db:"description" json:"description"`
+	ExpenseDate pgtype.Date      `db:"expense_date" json:"expense_date"`
 }
 
 // Defines geographic boundaries for monitoring vehicle movements and triggering events.
 type TmsGeofence struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Descriptive name for the geofenced area.
-	Name string
+	Name string `db:"name" json:"name"`
 	// Timestamp when the geofence was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the geofence was last updated.
-	UpdatedAt pgtype.Timestamp
-	Longitude pgtype.Float4
-	Latitude  pgtype.Float4
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Longitude pgtype.Float4    `db:"longitude" json:"longitude"`
+	Latitude  pgtype.Float4    `db:"latitude" json:"latitude"`
 }
 
 // Records when vehicles enter or exit predefined geographic areas.
 type TmsGeofenceEvent struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the vehicle that triggered the event.
-	VehicleID pgtype.UUID
+	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Reference to the geofenced area.
-	GeofenceID pgtype.UUID
+	GeofenceID pgtype.UUID `db:"geofence_id" json:"geofence_id"`
 	// Type of boundary event using geofence_event_type_enum.
-	EventType TmsGeofenceEventTypeEnum
+	EventType TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
 	// When the event occurred.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 }
 
 type TmsGeofencesView struct {
-	ID             pgtype.UUID
-	Name           string
-	CreatedAt      pgtype.Timestamp
-	UpdatedAt      pgtype.Timestamp
-	Longitude      pgtype.Float4
-	Latitude       pgtype.Float4
-	GeofenceEvents []byte
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	Name           string           `db:"name" json:"name"`
+	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Longitude      pgtype.Float4    `db:"longitude" json:"longitude"`
+	Latitude       pgtype.Float4    `db:"latitude" json:"latitude"`
+	GeofenceEvents []byte           `db:"geofence_events" json:"geofence_events"`
 }
 
 // Real-time location data from vehicles for tracking and monitoring purposes.
 type TmsGpsPing struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the vehicle sending the location data.
-	VehicleID pgtype.UUID
+	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Geographic latitude coordinate.
-	Latitude float32
+	Latitude float32 `db:"latitude" json:"latitude"`
 	// Geographic longitude coordinate.
-	Longitude float32
+	Longitude float32 `db:"longitude" json:"longitude"`
 	// When the location was recorded.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 }
 
 // Billing records from third-party carriers for transportation services.
 type TmsPartnerInvoice struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the carrier sending the invoice.
-	CarrierID pgtype.UUID
+	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Carrier's invoice identifier.
-	InvoiceNumber string
+	InvoiceNumber string `db:"invoice_number" json:"invoice_number"`
 	// Date the invoice was issued.
-	InvoiceDate pgtype.Date
+	InvoiceDate pgtype.Date `db:"invoice_date" json:"invoice_date"`
 	// Total amount billed on the invoice.
-	TotalAmount pgtype.Numeric
+	TotalAmount pgtype.Numeric `db:"total_amount" json:"total_amount"`
 	// Payment status using partner_invoice_status_enum.
-	Status NullTmsPartnerInvoiceStatusEnum
+	Status NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 	// Timestamp when the invoice was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the invoice was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Individual line items on carrier invoices, detailing specific shipment leg charges.
 type TmsPartnerInvoiceItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the parent invoice.
-	PartnerInvoiceID pgtype.UUID
+	PartnerInvoiceID pgtype.UUID `db:"partner_invoice_id" json:"partner_invoice_id"`
 	// Reference to the specific shipment leg being billed.
-	ShipmentLegID pgtype.UUID
+	ShipmentLegID pgtype.UUID `db:"shipment_leg_id" json:"shipment_leg_id"`
 	// Amount charged for this specific shipment leg.
-	Amount pgtype.Numeric
+	Amount pgtype.Numeric `db:"amount" json:"amount"`
 }
 
 type TmsPartnerInvoicesView struct {
-	ID                  pgtype.UUID
-	CarrierID           pgtype.UUID
-	InvoiceNumber       string
-	InvoiceDate         pgtype.Date
-	TotalAmount         pgtype.Numeric
-	Status              NullTmsPartnerInvoiceStatusEnum
-	CreatedAt           pgtype.Timestamp
-	UpdatedAt           pgtype.Timestamp
-	PartnerInvoiceItems []byte
+	ID                  pgtype.UUID                     `db:"id" json:"id"`
+	CarrierID           pgtype.UUID                     `db:"carrier_id" json:"carrier_id"`
+	InvoiceNumber       string                          `db:"invoice_number" json:"invoice_number"`
+	InvoiceDate         pgtype.Date                     `db:"invoice_date" json:"invoice_date"`
+	TotalAmount         pgtype.Numeric                  `db:"total_amount" json:"total_amount"`
+	Status              NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
+	CreatedAt           pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	PartnerInvoiceItems []byte                          `db:"partner_invoice_items" json:"partner_invoice_items"`
 }
 
 // Evidence of successful deliveries or pickups at trip stops.
 type TmsProofOfDelivery struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the trip stop where proof was collected.
-	TripStopID pgtype.UUID
+	TripStopID pgtype.UUID `db:"trip_stop_id" json:"trip_stop_id"`
 	// Type of proof collected using proof_type_enum.
-	Type NullTmsProofTypeEnum
+	Type NullTmsProofTypeEnum `db:"type" json:"type"`
 	// Storage location of the proof file.
-	FilePath pgtype.Text
+	FilePath pgtype.Text `db:"file_path" json:"file_path"`
 	// When the proof was collected.
-	Timestamp pgtype.Timestamp
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
 	// Geographic latitude where proof was collected.
-	Latitude pgtype.Float4
+	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
 	// Geographic longitude where proof was collected.
-	Longitude pgtype.Float4
+	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
 	// Timestamp when the proof was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the proof was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Optimized route information for trips, including navigation data.
 type TmsRoute struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the associated trip.
-	TripID pgtype.UUID
+	TripID pgtype.UUID `db:"trip_id" json:"trip_id"`
 	// Route optimization data such as polylines and turn-by-turn directions.
-	OptimizedRouteData pgtype.Text
+	OptimizedRouteData pgtype.Text `db:"optimized_route_data" json:"optimized_route_data"`
 	// Calculated total distance of the route.
-	TotalDistance pgtype.Float4
+	TotalDistance pgtype.Float4 `db:"total_distance" json:"total_distance"`
 	// Estimated total time for the route.
-	TotalDuration pgtype.Float4
+	TotalDuration pgtype.Float4 `db:"total_duration" json:"total_duration"`
 	// Timestamp when the route was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the route was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Represents individual segments of multi-leg shipments that may involve different carriers or internal fleet.
 type TmsShipmentLeg struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the overall shipment.
-	ShipmentID pgtype.UUID
+	ShipmentID pgtype.UUID `db:"shipment_id" json:"shipment_id"`
 	// Order of this leg within the shipment journey.
-	LegSequence int32
+	LegSequence int32 `db:"leg_sequence" json:"leg_sequence"`
 	// Starting point of this leg.
-	StartLocation pgtype.Text
+	StartLocation pgtype.Text `db:"start_location" json:"start_location"`
 	// Ending point of this leg.
-	EndLocation pgtype.Text
+	EndLocation pgtype.Text `db:"end_location" json:"end_location"`
 	// Reference to third-party carrier (if external).
-	CarrierID pgtype.UUID
+	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Reference to internal trip (if using own fleet).
-	InternalTripID pgtype.UUID
+	InternalTripID pgtype.UUID `db:"internal_trip_id" json:"internal_trip_id"`
 	// Current status of this shipment leg using shipment_leg_status_enum.
-	Status NullTmsShipmentLegStatusEnum
+	Status NullTmsShipmentLegStatusEnum `db:"status" json:"status"`
 	// Timestamp when the shipment leg was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the shipment leg was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks status updates and events for individual shipment legs.
 type TmsShipmentLegEvent struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the associated shipment leg.
-	ShipmentLegID pgtype.UUID
+	ShipmentLegID pgtype.UUID `db:"shipment_leg_id" json:"shipment_leg_id"`
 	// Description of the status or event.
-	StatusMessage pgtype.Text
+	StatusMessage pgtype.Text `db:"status_message" json:"status_message"`
 	// Geographic location where the event occurred.
-	Location pgtype.Text
+	Location pgtype.Text `db:"location" json:"location"`
 	// When the event was recorded.
-	EventTimestamp pgtype.Timestamp
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
 }
 
 type TmsShipmentLegsView struct {
-	ID                pgtype.UUID
-	ShipmentID        pgtype.UUID
-	LegSequence       int32
-	StartLocation     pgtype.Text
-	EndLocation       pgtype.Text
-	CarrierID         pgtype.UUID
-	InternalTripID    pgtype.UUID
-	Status            NullTmsShipmentLegStatusEnum
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	ShipmentLegEvents []byte
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	ShipmentID        pgtype.UUID                  `db:"shipment_id" json:"shipment_id"`
+	LegSequence       int32                        `db:"leg_sequence" json:"leg_sequence"`
+	StartLocation     pgtype.Text                  `db:"start_location" json:"start_location"`
+	EndLocation       pgtype.Text                  `db:"end_location" json:"end_location"`
+	CarrierID         pgtype.UUID                  `db:"carrier_id" json:"carrier_id"`
+	InternalTripID    pgtype.UUID                  `db:"internal_trip_id" json:"internal_trip_id"`
+	Status            NullTmsShipmentLegStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	ShipmentLegEvents []byte                       `db:"shipment_leg_events" json:"shipment_leg_events"`
 }
 
 // Represents planned or active transportation journeys with assigned drivers and vehicles.
 type TmsTrip struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the assigned driver.
-	DriverID pgtype.UUID
+	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Reference to the assigned vehicle.
-	VehicleID pgtype.UUID
+	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Current trip status using trip_status_enum.
-	Status NullTmsTripStatusEnum
+	Status NullTmsTripStatusEnum `db:"status" json:"status"`
 	// Timestamp when the trip was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the trip was last updated.
-	UpdatedAt     pgtype.Timestamp
-	EndLocation   pgtype.Text
-	EndTime       pgtype.Timestamptz
-	StartLocation pgtype.Text
-	StartTime     pgtype.Timestamptz
+	UpdatedAt     pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text        `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text        `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz `db:"start_time" json:"start_time"`
 }
 
 // Individual stops within a trip, typically for pickups or deliveries.
 type TmsTripStop struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the parent trip.
-	TripID pgtype.UUID
+	TripID pgtype.UUID `db:"trip_id" json:"trip_id"`
 	// Reference to the shipment being handled at this stop.
-	ShipmentID pgtype.UUID
+	ShipmentID pgtype.UUID `db:"shipment_id" json:"shipment_id"`
 	// Order of this stop within the trip.
-	Sequence int32
+	Sequence int32 `db:"sequence" json:"sequence"`
 	// Physical location of the stop.
-	Address pgtype.Text
+	Address pgtype.Text `db:"address" json:"address"`
 	// Current stop status using trip_stop_status_enum.
-	Status NullTmsTripStopStatusEnum
+	Status NullTmsTripStopStatusEnum `db:"status" json:"status"`
 	// Planned arrival time at the stop.
-	EstimatedArrivalTime pgtype.Timestamp
+	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" json:"estimated_arrival_time"`
 	// Actual recorded arrival time.
-	ActualArrivalTime pgtype.Timestamp
+	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" json:"actual_arrival_time"`
 	// Planned departure time from the stop.
-	EstimatedDepartureTime pgtype.Timestamp
+	EstimatedDepartureTime pgtype.Timestamp `db:"estimated_departure_time" json:"estimated_departure_time"`
 	// Actual recorded departure time.
-	ActualDepartureTime pgtype.Timestamp
+	ActualDepartureTime pgtype.Timestamp `db:"actual_departure_time" json:"actual_departure_time"`
 	// Timestamp when the trip stop was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the trip stop was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type TmsTripStopsView struct {
-	ID                     pgtype.UUID
-	TripID                 pgtype.UUID
-	ShipmentID             pgtype.UUID
-	Sequence               int32
-	Address                pgtype.Text
-	Status                 NullTmsTripStopStatusEnum
-	EstimatedArrivalTime   pgtype.Timestamp
-	ActualArrivalTime      pgtype.Timestamp
-	EstimatedDepartureTime pgtype.Timestamp
-	ActualDepartureTime    pgtype.Timestamp
-	CreatedAt              pgtype.Timestamp
-	UpdatedAt              pgtype.Timestamp
-	ProofOfDeliveries      []byte
+	ID                     pgtype.UUID               `db:"id" json:"id"`
+	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
+	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
+	Sequence               int32                     `db:"sequence" json:"sequence"`
+	Address                pgtype.Text               `db:"address" json:"address"`
+	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	ProofOfDeliveries      []byte                    `db:"proof_of_deliveries" json:"proof_of_deliveries"`
 }
 
 type TmsTripsView struct {
-	ID            pgtype.UUID
-	DriverID      pgtype.UUID
-	VehicleID     pgtype.UUID
-	Status        NullTmsTripStatusEnum
-	CreatedAt     pgtype.Timestamp
-	UpdatedAt     pgtype.Timestamp
-	EndLocation   pgtype.Text
-	EndTime       pgtype.Timestamptz
-	StartLocation pgtype.Text
-	StartTime     pgtype.Timestamptz
-	TripStops     []byte
-	Routes        []byte
-	Expenses      []byte
+	ID            pgtype.UUID           `db:"id" json:"id"`
+	DriverID      pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID     pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status        NullTmsTripStatusEnum `db:"status" json:"status"`
+	CreatedAt     pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text           `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
+	TripStops     []byte                `db:"trip_stops" json:"trip_stops"`
+	Routes        []byte                `db:"routes" json:"routes"`
+	Expenses      []byte                `db:"expenses" json:"expenses"`
 }
 
 // Manages the fleet of vehicles available for transportation operations.
 type TmsVehicle struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Vehicle's license plate or registration identifier.
-	RegistrationNumber string
+	RegistrationNumber string `db:"registration_number" json:"registration_number"`
 	// Vehicle make and model information.
-	Model pgtype.Text
+	Model pgtype.Text `db:"model" json:"model"`
 	// Maximum cargo volume the vehicle can carry.
-	CapacityVolume pgtype.Float4
+	CapacityVolume pgtype.Float4 `db:"capacity_volume" json:"capacity_volume"`
 	// Maximum weight capacity of the vehicle.
-	CapacityWeight pgtype.Float4
+	CapacityWeight pgtype.Float4 `db:"capacity_weight" json:"capacity_weight"`
 	// Current vehicle status using vehicle_status_enum.
-	Status NullTmsVehicleStatusEnum
+	Status NullTmsVehicleStatusEnum `db:"status" json:"status"`
 	// Timestamp when the vehicle was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the vehicle was last updated.
-	UpdatedAt           pgtype.Timestamp
-	Make                pgtype.Text
-	Year                pgtype.Int4
-	Vin                 pgtype.Text
-	CurrentMileage      pgtype.Int4
-	LastMaintenanceDate pgtype.Date
+	UpdatedAt           pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Make                pgtype.Text      `db:"make" json:"make"`
+	Year                pgtype.Int4      `db:"year" json:"year"`
+	Vin                 pgtype.Text      `db:"vin" json:"vin"`
+	CurrentMileage      pgtype.Int4      `db:"current_mileage" json:"current_mileage"`
+	LastMaintenanceDate pgtype.Date      `db:"last_maintenance_date" json:"last_maintenance_date"`
 }
 
 // Tracks maintenance activities and service history for fleet vehicles.
 type TmsVehicleMaintenance struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the vehicle being serviced.
-	VehicleID pgtype.UUID
+	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Date when maintenance was performed.
-	ServiceDate pgtype.Date
+	ServiceDate pgtype.Date `db:"service_date" json:"service_date"`
 	// Type of maintenance or repair work using vehicle_service_type_enum.
-	ServiceType NullTmsVehicleServiceTypeEnum
+	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
 	// Financial cost of the maintenance service.
-	Cost pgtype.Numeric
+	Cost pgtype.Numeric `db:"cost" json:"cost"`
 	// Additional details about the maintenance work.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// Timestamp when the maintenance record was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the maintenance record was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type TmsVehiclesView struct {
-	ID                  pgtype.UUID
-	RegistrationNumber  string
-	Model               pgtype.Text
-	CapacityVolume      pgtype.Float4
-	CapacityWeight      pgtype.Float4
-	Status              NullTmsVehicleStatusEnum
-	CreatedAt           pgtype.Timestamp
-	UpdatedAt           pgtype.Timestamp
-	Make                pgtype.Text
-	Year                pgtype.Int4
-	Vin                 pgtype.Text
-	CurrentMileage      pgtype.Int4
-	LastMaintenanceDate pgtype.Date
-	VehicleMaintenance  []byte
-	GpsPings            []byte
-	GeofenceEvents      []byte
+	ID                  pgtype.UUID              `db:"id" json:"id"`
+	RegistrationNumber  string                   `db:"registration_number" json:"registration_number"`
+	Model               pgtype.Text              `db:"model" json:"model"`
+	CapacityVolume      pgtype.Float4            `db:"capacity_volume" json:"capacity_volume"`
+	CapacityWeight      pgtype.Float4            `db:"capacity_weight" json:"capacity_weight"`
+	Status              NullTmsVehicleStatusEnum `db:"status" json:"status"`
+	CreatedAt           pgtype.Timestamp         `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
+	Make                pgtype.Text              `db:"make" json:"make"`
+	Year                pgtype.Int4              `db:"year" json:"year"`
+	Vin                 pgtype.Text              `db:"vin" json:"vin"`
+	CurrentMileage      pgtype.Int4              `db:"current_mileage" json:"current_mileage"`
+	LastMaintenanceDate pgtype.Date              `db:"last_maintenance_date" json:"last_maintenance_date"`
+	VehicleMaintenance  []byte                   `db:"vehicle_maintenance" json:"vehicle_maintenance"`
+	GpsPings            []byte                   `db:"gps_pings" json:"gps_pings"`
+	GeofenceEvents      []byte                   `db:"geofence_events" json:"geofence_events"`
 }
 
 type User struct {
-	ID            string
-	Name          string
-	Email         string
-	EmailVerified bool
-	Image         pgtype.Text
-	CreatedAt     pgtype.Timestamptz
-	UpdatedAt     pgtype.Timestamptz
-	Role          NullUserRole
-	Banned        pgtype.Bool
-	BanReason     pgtype.Text
-	BanExpires    pgtype.Timestamptz
+	ID            string             `db:"id" json:"id"`
+	Name          string             `db:"name" json:"name"`
+	Email         string             `db:"email" json:"email"`
+	EmailVerified bool               `db:"email_verified" json:"email_verified"`
+	Image         pgtype.Text        `db:"image" json:"image"`
+	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	Role          NullUserRole       `db:"role" json:"role"`
+	Banned        pgtype.Bool        `db:"banned" json:"banned"`
+	BanReason     pgtype.Text        `db:"ban_reason" json:"ban_reason"`
+	BanExpires    pgtype.Timestamptz `db:"ban_expires" json:"ban_expires"`
 }
 
 type Verification struct {
-	ID         string
-	Identifier string
-	Value      string
-	ExpiresAt  pgtype.Timestamptz
-	CreatedAt  pgtype.Timestamptz
-	UpdatedAt  pgtype.Timestamptz
+	ID         string             `db:"id" json:"id"`
+	Identifier string             `db:"identifier" json:"identifier"`
+	Value      string             `db:"value" json:"value"`
+	ExpiresAt  pgtype.Timestamptz `db:"expires_at" json:"expires_at"`
+	CreatedAt  pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt  pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 }
 
 // Defines minimum and maximum stock levels for specific products at specific locations to trigger replenishment.
 type WmsBinThreshold struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the storage location.
-	LocationID pgtype.UUID
+	LocationID pgtype.UUID `db:"location_id" json:"location_id"`
 	// Reference to the product being monitored (from IMS).
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Minimum stock level that triggers replenishment.
-	MinQuantity int32
+	MinQuantity int32 `db:"min_quantity" json:"min_quantity"`
 	// Maximum stock level for the location.
-	MaxQuantity int32
+	MaxQuantity int32 `db:"max_quantity" json:"max_quantity"`
 	// Suggested quantity to reorder when minimum is reached.
-	ReorderQuantity pgtype.Int4
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
 	// Quantity that triggers low stock alerts.
-	AlertThreshold pgtype.Int4
+	AlertThreshold pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
 	// Whether this threshold monitoring is active.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Timestamp when the threshold was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the threshold was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Represents an expected inbound shipment from a client or supplier (also known as an Advance Shipping Notice or ASN).
 type WmsInboundShipment struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The client company sending the inventory.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// The destination warehouse.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// The current status of the shipment using inbound_shipment_status_enum.
-	Status NullWmsInboundShipmentStatusEnum
+	Status NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
 	// The planned arrival date.
-	ExpectedArrivalDate pgtype.Date
+	ExpectedArrivalDate pgtype.Date `db:"expected_arrival_date" json:"expected_arrival_date"`
 	// The date the shipment actually arrived.
-	ActualArrivalDate pgtype.Date
+	ActualArrivalDate pgtype.Date `db:"actual_arrival_date" json:"actual_arrival_date"`
 	// Timestamp when the inbound shipment was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inbound shipment was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Details the specific products and quantities expected in an inbound shipment.
 type WmsInboundShipmentItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A reference to the parent inbound shipment.
-	InboundShipmentID pgtype.UUID
+	InboundShipmentID pgtype.UUID `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	// The product included in the shipment.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity declared on the ASN.
-	ExpectedQuantity int32
+	ExpectedQuantity int32 `db:"expected_quantity" json:"expected_quantity"`
 	// The actual quantity counted upon receipt.
-	ReceivedQuantity pgtype.Int4
+	ReceivedQuantity pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
 	// The difference between received and expected quantities (automatically calculated).
-	DiscrepancyQuantity pgtype.Int4
+	DiscrepancyQuantity pgtype.Int4 `db:"discrepancy_quantity" json:"discrepancy_quantity"`
 	// Notes detailing any differences between expected and received quantities.
-	DiscrepancyNotes pgtype.Text
+	DiscrepancyNotes pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
 	// Timestamp when the inbound shipment item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inbound shipment item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsInboundShipmentsView struct {
-	ID                   pgtype.UUID
-	ClientID             pgtype.UUID
-	WarehouseID          pgtype.UUID
-	Status               NullWmsInboundShipmentStatusEnum
-	ExpectedArrivalDate  pgtype.Date
-	ActualArrivalDate    pgtype.Date
-	CreatedAt            pgtype.Timestamp
-	UpdatedAt            pgtype.Timestamp
-	InboundShipmentItems []byte
+	ID                   pgtype.UUID                      `db:"id" json:"id"`
+	ClientID             pgtype.UUID                      `db:"client_id" json:"client_id"`
+	WarehouseID          pgtype.UUID                      `db:"warehouse_id" json:"warehouse_id"`
+	Status               NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
+	ExpectedArrivalDate  pgtype.Date                      `db:"expected_arrival_date" json:"expected_arrival_date"`
+	ActualArrivalDate    pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
+	CreatedAt            pgtype.Timestamp                 `db:"created_at" json:"created_at"`
+	UpdatedAt            pgtype.Timestamp                 `db:"updated_at" json:"updated_at"`
+	InboundShipmentItems []byte                           `db:"inbound_shipment_items" json:"inbound_shipment_items"`
 }
 
 // Logs any manual changes made to inventory levels to maintain accuracy.
 type WmsInventoryAdjustment struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The product being adjusted.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The warehouse where the adjustment occurred.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// The user who performed the adjustment.
-	UserID string
+	UserID string `db:"user_id" json:"user_id"`
 	// The amount by which the quantity was changed (can be positive or negative).
-	QuantityChange int32
+	QuantityChange int32 `db:"quantity_change" json:"quantity_change"`
 	// The reason for the adjustment using inventory_adjustment_reason_enum.
-	Reason NullWmsInventoryAdjustmentReasonEnum
+	Reason NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
 	// Additional details about the adjustment.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// Timestamp when the adjustment was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the adjustment was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Stores information for products that are tracked by batch or lot, essential for quality control and recalls.
 type WmsInventoryBatch struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The product associated with this batch.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The unique identifier for the batch/lot.
-	BatchNumber string
+	BatchNumber string `db:"batch_number" json:"batch_number"`
 	// The expiration date of the products in this batch.
-	ExpirationDate pgtype.Date
+	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
 	// Timestamp when the batch was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Tracks actual physical inventory quantities at specific warehouse locations.
 type WmsInventoryStock struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the physical location where stock is stored.
-	LocationID pgtype.UUID
+	LocationID pgtype.UUID `db:"location_id" json:"location_id"`
 	// Reference to the product being stored (from IMS).
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Reference to the inventory batch (if applicable for lot tracking).
-	BatchID pgtype.UUID
+	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// Current total quantity of product at this location.
-	Quantity int32
+	Quantity int32 `db:"quantity" json:"quantity"`
 	// Quantity reserved for pending orders or tasks.
-	ReservedQuantity int32
+	ReservedQuantity int32 `db:"reserved_quantity" json:"reserved_quantity"`
 	// Available quantity (quantity - reserved_quantity, automatically calculated).
-	AvailableQuantity pgtype.Int4
+	AvailableQuantity pgtype.Int4 `db:"available_quantity" json:"available_quantity"`
 	// Current state of the inventory using inventory_stock_status_enum.
-	Status NullWmsInventoryStockStatusEnum
+	Status NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
 	// When this inventory was last physically counted.
-	LastCountedAt pgtype.Timestamp
+	LastCountedAt pgtype.Timestamp `db:"last_counted_at" json:"last_counted_at"`
 	// When inventory was last moved in/out of this location.
-	LastMovementAt pgtype.Timestamp
+	LastMovementAt pgtype.Timestamp `db:"last_movement_at" json:"last_movement_at"`
 	// Timestamp when the inventory record was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inventory record was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Represents physical storage locations within the warehouse, organized in a hierarchical structure.
 type WmsLocation struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the warehouse facility.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Reference to parent location for hierarchical organization (e.g., zone > aisle > shelf > bin).
-	ParentLocationID pgtype.UUID
+	ParentLocationID pgtype.UUID `db:"parent_location_id" json:"parent_location_id"`
 	// Human-readable location identifier (e.g., A-01-B-101).
-	Name string
+	Name string `db:"name" json:"name"`
 	// Machine-readable location identifier for scanning operations.
-	Barcode pgtype.Text
+	Barcode pgtype.Text `db:"barcode" json:"barcode"`
 	// Classification of location purpose using location_type_enum.
-	Type WmsLocationTypeEnum
+	Type WmsLocationTypeEnum `db:"type" json:"type"`
 	// The hierarchy level (0=zone, 1=aisle, 2=shelf, 3=bin, etc.).
-	Level pgtype.Int4
+	Level pgtype.Int4 `db:"level" json:"level"`
 	// Full hierarchical path for quick lookups (e.g., "Zone A/Aisle 01/Shelf B/Bin 101").
-	Path pgtype.Text
+	Path pgtype.Text `db:"path" json:"path"`
 	// Maximum weight capacity for the location.
-	MaxWeight pgtype.Float4
+	MaxWeight pgtype.Float4 `db:"max_weight" json:"max_weight"`
 	// Maximum volume capacity for the location.
-	MaxVolume pgtype.Float4
+	MaxVolume pgtype.Float4 `db:"max_volume" json:"max_volume"`
 	// Maximum number of pallets the location can hold.
-	MaxPallets pgtype.Int4
+	MaxPallets pgtype.Int4 `db:"max_pallets" json:"max_pallets"`
 	// X coordinate for warehouse mapping and optimization.
-	XCoordinate pgtype.Float4
+	XCoordinate pgtype.Float4 `db:"x_coordinate" json:"x_coordinate"`
 	// Y coordinate for warehouse mapping and optimization.
-	YCoordinate pgtype.Float4
+	YCoordinate pgtype.Float4 `db:"y_coordinate" json:"y_coordinate"`
 	// Z coordinate for warehouse mapping and optimization.
-	ZCoordinate pgtype.Float4
+	ZCoordinate pgtype.Float4 `db:"z_coordinate" json:"z_coordinate"`
 	// Whether items can be picked from this location.
-	IsPickable pgtype.Bool
+	IsPickable pgtype.Bool `db:"is_pickable" json:"is_pickable"`
 	// Whether items can be received into this location.
-	IsReceivable pgtype.Bool
+	IsReceivable pgtype.Bool `db:"is_receivable" json:"is_receivable"`
 	// Whether this location has temperature control.
-	TemperatureControlled pgtype.Bool
+	TemperatureControlled pgtype.Bool `db:"temperature_controlled" json:"temperature_controlled"`
 	// Whether this location is approved for hazardous materials.
-	HazmatApproved pgtype.Bool
+	HazmatApproved pgtype.Bool `db:"hazmat_approved" json:"hazmat_approved"`
 	// Whether the location is currently active and available for use.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Timestamp when the location was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the location was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsLocationsView struct {
-	ID                    pgtype.UUID
-	WarehouseID           pgtype.UUID
-	ParentLocationID      pgtype.UUID
-	Name                  string
-	Barcode               pgtype.Text
-	Type                  WmsLocationTypeEnum
-	Level                 pgtype.Int4
-	Path                  pgtype.Text
-	MaxWeight             pgtype.Float4
-	MaxVolume             pgtype.Float4
-	MaxPallets            pgtype.Int4
-	XCoordinate           pgtype.Float4
-	YCoordinate           pgtype.Float4
-	ZCoordinate           pgtype.Float4
-	IsPickable            pgtype.Bool
-	IsReceivable          pgtype.Bool
-	TemperatureControlled pgtype.Bool
-	HazmatApproved        pgtype.Bool
-	IsActive              pgtype.Bool
-	CreatedAt             pgtype.Timestamp
-	UpdatedAt             pgtype.Timestamp
-	InventoryStock        []byte
-	PutawayRules          []byte
-	BinThresholds         []byte
+	ID                    pgtype.UUID         `db:"id" json:"id"`
+	WarehouseID           pgtype.UUID         `db:"warehouse_id" json:"warehouse_id"`
+	ParentLocationID      pgtype.UUID         `db:"parent_location_id" json:"parent_location_id"`
+	Name                  string              `db:"name" json:"name"`
+	Barcode               pgtype.Text         `db:"barcode" json:"barcode"`
+	Type                  WmsLocationTypeEnum `db:"type" json:"type"`
+	Level                 pgtype.Int4         `db:"level" json:"level"`
+	Path                  pgtype.Text         `db:"path" json:"path"`
+	MaxWeight             pgtype.Float4       `db:"max_weight" json:"max_weight"`
+	MaxVolume             pgtype.Float4       `db:"max_volume" json:"max_volume"`
+	MaxPallets            pgtype.Int4         `db:"max_pallets" json:"max_pallets"`
+	XCoordinate           pgtype.Float4       `db:"x_coordinate" json:"x_coordinate"`
+	YCoordinate           pgtype.Float4       `db:"y_coordinate" json:"y_coordinate"`
+	ZCoordinate           pgtype.Float4       `db:"z_coordinate" json:"z_coordinate"`
+	IsPickable            pgtype.Bool         `db:"is_pickable" json:"is_pickable"`
+	IsReceivable          pgtype.Bool         `db:"is_receivable" json:"is_receivable"`
+	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" json:"temperature_controlled"`
+	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" json:"hazmat_approved"`
+	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
+	CreatedAt             pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	InventoryStock        []byte              `db:"inventory_stock" json:"inventory_stock"`
+	PutawayRules          []byte              `db:"putaway_rules" json:"putaway_rules"`
+	BinThresholds         []byte              `db:"bin_thresholds" json:"bin_thresholds"`
 }
 
 // Represents the physical shipment created to fulfill a sales order.
 type WmsOutboundShipment struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The sales order being fulfilled.
-	SalesOrderID pgtype.UUID
+	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// The warehouse the shipment is being sent from.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// The status of the outbound shipment using outbound_shipment_status_enum.
-	Status NullWmsOutboundShipmentStatusEnum
+	Status NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
 	// The carrier tracking number for the shipment.
-	TrackingNumber pgtype.Text
+	TrackingNumber pgtype.Text `db:"tracking_number" json:"tracking_number"`
 	// The shipping carrier (e.g., FedEx, UPS).
-	Carrier pgtype.Text
+	Carrier pgtype.Text `db:"carrier" json:"carrier"`
 	// Timestamp when the outbound shipment was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the outbound shipment was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Details the specific items, quantities, and batches included in an outbound shipment.
 type WmsOutboundShipmentItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A reference to the parent outbound shipment.
-	OutboundShipmentID pgtype.UUID
+	OutboundShipmentID pgtype.UUID `db:"outbound_shipment_id" json:"outbound_shipment_id"`
 	// A link to the specific line item on the sales order.
-	SalesOrderItemID pgtype.UUID
+	SalesOrderItemID pgtype.UUID `db:"sales_order_item_id" json:"sales_order_item_id"`
 	// The product being shipped.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The specific batch the item was picked from (if applicable).
-	BatchID pgtype.UUID
+	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// The quantity of the product included in this shipment.
-	QuantityShipped int32
+	QuantityShipped int32 `db:"quantity_shipped" json:"quantity_shipped"`
 	// Timestamp when the outbound shipment item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the outbound shipment item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsOutboundShipmentsView struct {
-	ID                    pgtype.UUID
-	SalesOrderID          pgtype.UUID
-	WarehouseID           pgtype.UUID
-	Status                NullWmsOutboundShipmentStatusEnum
-	TrackingNumber        pgtype.Text
-	Carrier               pgtype.Text
-	CreatedAt             pgtype.Timestamp
-	UpdatedAt             pgtype.Timestamp
-	OutboundShipmentItems []byte
+	ID                    pgtype.UUID                       `db:"id" json:"id"`
+	SalesOrderID          pgtype.UUID                       `db:"sales_order_id" json:"sales_order_id"`
+	WarehouseID           pgtype.UUID                       `db:"warehouse_id" json:"warehouse_id"`
+	Status                NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
+	TrackingNumber        pgtype.Text                       `db:"tracking_number" json:"tracking_number"`
+	Carrier               pgtype.Text                       `db:"carrier" json:"carrier"`
+	CreatedAt             pgtype.Timestamp                  `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp                  `db:"updated_at" json:"updated_at"`
+	OutboundShipmentItems []byte                            `db:"outbound_shipment_items" json:"outbound_shipment_items"`
 }
 
 // Represents physical packages created during the packing process for sales orders.
 type WmsPackage struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the sales order being packaged (from IMS).
-	SalesOrderID pgtype.UUID
+	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// Unique identifier for tracking the package.
-	PackageNumber string
+	PackageNumber string `db:"package_number" json:"package_number"`
 	// Reference to the warehouse where the package was created.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Type of package (e.g., "box", "envelope", "pallet").
-	PackageType pgtype.Text
+	PackageType pgtype.Text `db:"package_type" json:"package_type"`
 	// Total weight of the packed package.
-	Weight pgtype.Float4
+	Weight pgtype.Float4 `db:"weight" json:"weight"`
 	// Package length dimension.
-	Length pgtype.Float4
+	Length pgtype.Float4 `db:"length" json:"length"`
 	// Package width dimension.
-	Width pgtype.Float4
+	Width pgtype.Float4 `db:"width" json:"width"`
 	// Package height dimension.
-	Height pgtype.Float4
+	Height pgtype.Float4 `db:"height" json:"height"`
 	// Package volume (automatically calculated from length * width * height).
-	Volume pgtype.Float4
+	Volume pgtype.Float4 `db:"volume" json:"volume"`
 	// Carrier tracking number for the package.
-	TrackingNumber pgtype.Text
+	TrackingNumber pgtype.Text `db:"tracking_number" json:"tracking_number"`
 	// Shipping carrier (e.g., "FedEx", "UPS", "DHL").
-	Carrier pgtype.Text
+	Carrier pgtype.Text `db:"carrier" json:"carrier"`
 	// Shipping service level (e.g., "Ground", "Express", "Overnight").
-	ServiceLevel pgtype.Text
+	ServiceLevel pgtype.Text `db:"service_level" json:"service_level"`
 	// Reference to the user who packed the package.
-	PackedByUserID pgtype.Text
+	PackedByUserID pgtype.Text `db:"packed_by_user_id" json:"packed_by_user_id"`
 	// When the package was packed.
-	PackedAt pgtype.Timestamp
+	PackedAt pgtype.Timestamp `db:"packed_at" json:"packed_at"`
 	// When the package was shipped.
-	ShippedAt pgtype.Timestamp
+	ShippedAt pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
 	// Whether the package contains fragile items.
-	IsFragile pgtype.Bool
+	IsFragile pgtype.Bool `db:"is_fragile" json:"is_fragile"`
 	// Whether the package contains hazardous materials.
-	IsHazmat pgtype.Bool
+	IsHazmat pgtype.Bool `db:"is_hazmat" json:"is_hazmat"`
 	// Whether delivery requires signature.
-	RequiresSignature pgtype.Bool
+	RequiresSignature pgtype.Bool `db:"requires_signature" json:"requires_signature"`
 	// Declared insurance value for the package.
-	InsuranceValue pgtype.Numeric
+	InsuranceValue pgtype.Numeric `db:"insurance_value" json:"insurance_value"`
 	// Timestamp when the package was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the package was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Details the contents of each package, specifying which products and quantities are included.
 type WmsPackageItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the package container.
-	PackageID pgtype.UUID
+	PackageID pgtype.UUID `db:"package_id" json:"package_id"`
 	// Reference to the product included in the package (from IMS).
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Reference to the batch of the product (from IMS).
-	BatchID pgtype.UUID
+	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// Number of units of the product in the package.
-	Quantity int32
+	Quantity int32 `db:"quantity" json:"quantity"`
 	// Lot number for traceability.
-	LotNumber pgtype.Text
+	LotNumber pgtype.Text `db:"lot_number" json:"lot_number"`
 	// Array of serial numbers for serialized items.
-	SerialNumbers []string
+	SerialNumbers []string `db:"serial_numbers" json:"serial_numbers"`
 	// Expiry date of the packaged items.
-	ExpiryDate pgtype.Date
+	ExpiryDate pgtype.Date `db:"expiry_date" json:"expiry_date"`
 	// Weight per unit of the product.
-	UnitWeight pgtype.Float4
+	UnitWeight pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
 	// Total weight of this line item (automatically calculated from quantity * unit_weight).
-	TotalWeight pgtype.Float4
+	TotalWeight pgtype.Float4 `db:"total_weight" json:"total_weight"`
 	// Timestamp when the package item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the package item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsPackagesView struct {
-	ID                pgtype.UUID
-	SalesOrderID      pgtype.UUID
-	PackageNumber     string
-	WarehouseID       pgtype.UUID
-	PackageType       pgtype.Text
-	Weight            pgtype.Float4
-	Length            pgtype.Float4
-	Width             pgtype.Float4
-	Height            pgtype.Float4
-	Volume            pgtype.Float4
-	TrackingNumber    pgtype.Text
-	Carrier           pgtype.Text
-	ServiceLevel      pgtype.Text
-	PackedByUserID    pgtype.Text
-	PackedAt          pgtype.Timestamp
-	ShippedAt         pgtype.Timestamp
-	IsFragile         pgtype.Bool
-	IsHazmat          pgtype.Bool
-	RequiresSignature pgtype.Bool
-	InsuranceValue    pgtype.Numeric
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	PackageItems      []byte
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	PackageNumber     string           `db:"package_number" json:"package_number"`
+	WarehouseID       pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
+	PackageType       pgtype.Text      `db:"package_type" json:"package_type"`
+	Weight            pgtype.Float4    `db:"weight" json:"weight"`
+	Length            pgtype.Float4    `db:"length" json:"length"`
+	Width             pgtype.Float4    `db:"width" json:"width"`
+	Height            pgtype.Float4    `db:"height" json:"height"`
+	Volume            pgtype.Float4    `db:"volume" json:"volume"`
+	TrackingNumber    pgtype.Text      `db:"tracking_number" json:"tracking_number"`
+	Carrier           pgtype.Text      `db:"carrier" json:"carrier"`
+	ServiceLevel      pgtype.Text      `db:"service_level" json:"service_level"`
+	PackedByUserID    pgtype.Text      `db:"packed_by_user_id" json:"packed_by_user_id"`
+	PackedAt          pgtype.Timestamp `db:"packed_at" json:"packed_at"`
+	ShippedAt         pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
+	IsFragile         pgtype.Bool      `db:"is_fragile" json:"is_fragile"`
+	IsHazmat          pgtype.Bool      `db:"is_hazmat" json:"is_hazmat"`
+	RequiresSignature pgtype.Bool      `db:"requires_signature" json:"requires_signature"`
+	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	PackageItems      []byte           `db:"package_items" json:"package_items"`
 }
 
 // Groups multiple sales orders together for efficient batch picking operations.
 type WmsPickBatch struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique identifier for the pick batch.
-	BatchNumber string
+	BatchNumber string `db:"batch_number" json:"batch_number"`
 	// Reference to the warehouse where picking occurs.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Current batch status using pick_batch_status_enum.
-	Status NullWmsPickBatchStatusEnum
+	Status NullWmsPickBatchStatusEnum `db:"status" json:"status"`
 	// Picking strategy employed using pick_strategy_enum.
-	Strategy WmsPickStrategyEnum
+	Strategy WmsPickStrategyEnum `db:"strategy" json:"strategy"`
 	// Batch priority for execution order (lower = higher priority).
-	Priority pgtype.Int4
+	Priority pgtype.Int4 `db:"priority" json:"priority"`
 	// Reference to the user assigned to this pick batch.
-	AssignedUserID pgtype.Text
+	AssignedUserID pgtype.Text `db:"assigned_user_id" json:"assigned_user_id"`
 	// Wave identifier for grouping batches.
-	WaveID pgtype.Text
+	WaveID pgtype.Text `db:"wave_id" json:"wave_id"`
 	// Array of zone restrictions for this batch.
-	ZoneRestrictions []string
+	ZoneRestrictions []string `db:"zone_restrictions" json:"zone_restrictions"`
 	// Estimated time to complete the batch (in minutes).
-	EstimatedDuration pgtype.Int4
+	EstimatedDuration pgtype.Int4 `db:"estimated_duration" json:"estimated_duration"`
 	// Actual time taken to complete the batch (in minutes).
-	ActualDuration pgtype.Int4
+	ActualDuration pgtype.Int4 `db:"actual_duration" json:"actual_duration"`
 	// Total number of items in the batch.
-	TotalItems pgtype.Int4
+	TotalItems pgtype.Int4 `db:"total_items" json:"total_items"`
 	// Number of completed items in the batch.
-	CompletedItems pgtype.Int4
+	CompletedItems pgtype.Int4 `db:"completed_items" json:"completed_items"`
 	// When the batch picking was started.
-	StartedAt pgtype.Timestamp
+	StartedAt pgtype.Timestamp `db:"started_at" json:"started_at"`
 	// When the batch picking was completed.
-	CompletedAt pgtype.Timestamp
+	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
 	// Timestamp when the batch was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Associates individual sales orders with pick batches for grouped picking.
 type WmsPickBatchItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the pick batch.
-	PickBatchID pgtype.UUID
+	PickBatchID pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
 	// Reference to the sales order included in the batch (from IMS).
-	SalesOrderID pgtype.UUID
+	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// Priority of this order within the batch.
-	OrderPriority pgtype.Int4
+	OrderPriority pgtype.Int4 `db:"order_priority" json:"order_priority"`
 	// Estimated time to pick this order (in minutes).
-	EstimatedPickTime pgtype.Int4
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
 	// Actual time taken to pick this order (in minutes).
-	ActualPickTime pgtype.Int4
+	ActualPickTime pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
 	// Timestamp when the batch item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsPickBatchesView struct {
-	ID                pgtype.UUID
-	BatchNumber       string
-	WarehouseID       pgtype.UUID
-	Status            NullWmsPickBatchStatusEnum
-	Strategy          WmsPickStrategyEnum
-	Priority          pgtype.Int4
-	AssignedUserID    pgtype.Text
-	WaveID            pgtype.Text
-	ZoneRestrictions  []string
-	EstimatedDuration pgtype.Int4
-	ActualDuration    pgtype.Int4
-	TotalItems        pgtype.Int4
-	CompletedItems    pgtype.Int4
-	StartedAt         pgtype.Timestamp
-	CompletedAt       pgtype.Timestamp
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	PickBatchItems    []byte
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
+	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
+	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
+	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
+	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	PickBatchItems    []byte                     `db:"pick_batch_items" json:"pick_batch_items"`
 }
 
 // Represents the master record for each unique product (SKU) managed in the inventory.
 type WmsProduct struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The common name of the product.
-	Name string
+	Name string `db:"name" json:"name"`
 	// The unique Stock Keeping Unit identifier.
-	Sku string
+	Sku string `db:"sku" json:"sku"`
 	// The product's barcode (e.g., UPC, EAN) for scanning.
-	Barcode pgtype.Text
+	Barcode pgtype.Text `db:"barcode" json:"barcode"`
 	// Detailed information about the product.
-	Description pgtype.Text
+	Description pgtype.Text `db:"description" json:"description"`
 	// The purchase price or cost of the product.
-	CostPrice pgtype.Numeric
+	CostPrice pgtype.Numeric `db:"cost_price" json:"cost_price"`
 	// Physical length dimension.
-	Length pgtype.Float4
+	Length pgtype.Float4 `db:"length" json:"length"`
 	// Physical width dimension.
-	Width pgtype.Float4
+	Width pgtype.Float4 `db:"width" json:"width"`
 	// Physical height dimension.
-	Height pgtype.Float4
+	Height pgtype.Float4 `db:"height" json:"height"`
 	// Product volume (automatically calculated from length * width * height).
-	Volume pgtype.Float4
+	Volume pgtype.Float4 `db:"volume" json:"volume"`
 	// Physical weight.
-	Weight pgtype.Float4
+	Weight pgtype.Float4 `db:"weight" json:"weight"`
 	// The product's lifecycle status using product_status_enum.
-	Status NullWmsProductStatusEnum
+	Status NullWmsProductStatusEnum `db:"status" json:"status"`
 	// A reference to the product's supplier.
-	SupplierID pgtype.UUID
+	SupplierID pgtype.UUID `db:"supplier_id" json:"supplier_id"`
 	// A reference to the client company (from CRM) that owns this inventory.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Timestamp when the product was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the product was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsProductsView struct {
-	ID                    pgtype.UUID
-	Name                  string
-	Sku                   string
-	Barcode               pgtype.Text
-	Description           pgtype.Text
-	CostPrice             pgtype.Numeric
-	Length                pgtype.Float4
-	Width                 pgtype.Float4
-	Height                pgtype.Float4
-	Volume                pgtype.Float4
-	Weight                pgtype.Float4
-	Status                NullWmsProductStatusEnum
-	SupplierID            pgtype.UUID
-	ClientID              pgtype.UUID
-	CreatedAt             pgtype.Timestamp
-	UpdatedAt             pgtype.Timestamp
-	InventoryBatches      []byte
-	InventoryAdjustments  []byte
-	ReorderPoints         []byte
-	InboundShipmentItems  []byte
-	StockTransfers        []byte
-	SalesOrderItems       []byte
-	OutboundShipmentItems []byte
-	ReturnItems           []byte
-	InventoryStock        []byte
-	PutawayRules          []byte
-	BinThresholds         []byte
-	TaskItems             []byte
-	PackageItems          []byte
+	ID                    pgtype.UUID              `db:"id" json:"id"`
+	Name                  string                   `db:"name" json:"name"`
+	Sku                   string                   `db:"sku" json:"sku"`
+	Barcode               pgtype.Text              `db:"barcode" json:"barcode"`
+	Description           pgtype.Text              `db:"description" json:"description"`
+	CostPrice             pgtype.Numeric           `db:"cost_price" json:"cost_price"`
+	Length                pgtype.Float4            `db:"length" json:"length"`
+	Width                 pgtype.Float4            `db:"width" json:"width"`
+	Height                pgtype.Float4            `db:"height" json:"height"`
+	Volume                pgtype.Float4            `db:"volume" json:"volume"`
+	Weight                pgtype.Float4            `db:"weight" json:"weight"`
+	Status                NullWmsProductStatusEnum `db:"status" json:"status"`
+	SupplierID            pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
+	ClientID              pgtype.UUID              `db:"client_id" json:"client_id"`
+	CreatedAt             pgtype.Timestamp         `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
+	InventoryBatches      []byte                   `db:"inventory_batches" json:"inventory_batches"`
+	InventoryAdjustments  []byte                   `db:"inventory_adjustments" json:"inventory_adjustments"`
+	ReorderPoints         []byte                   `db:"reorder_points" json:"reorder_points"`
+	InboundShipmentItems  []byte                   `db:"inbound_shipment_items" json:"inbound_shipment_items"`
+	StockTransfers        []byte                   `db:"stock_transfers" json:"stock_transfers"`
+	SalesOrderItems       []byte                   `db:"sales_order_items" json:"sales_order_items"`
+	OutboundShipmentItems []byte                   `db:"outbound_shipment_items" json:"outbound_shipment_items"`
+	ReturnItems           []byte                   `db:"return_items" json:"return_items"`
+	InventoryStock        []byte                   `db:"inventory_stock" json:"inventory_stock"`
+	PutawayRules          []byte                   `db:"putaway_rules" json:"putaway_rules"`
+	BinThresholds         []byte                   `db:"bin_thresholds" json:"bin_thresholds"`
+	TaskItems             []byte                   `db:"task_items" json:"task_items"`
+	PackageItems          []byte                   `db:"package_items" json:"package_items"`
 }
 
 // Defines automated rules for determining where incoming inventory should be stored.
 type WmsPutawayRule struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the product the rule applies to (from IMS).
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Reference to the client (for multi-tenant warehouses).
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Reference to the warehouse this rule applies to.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Reference to the preferred storage location.
-	PreferredLocationID pgtype.UUID
+	PreferredLocationID pgtype.UUID `db:"preferred_location_id" json:"preferred_location_id"`
 	// Preferred location type for this product.
-	LocationType NullWmsLocationTypeEnum
+	LocationType NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
 	// Rule precedence when multiple rules could apply (lower = higher priority).
-	Priority int32
+	Priority int32 `db:"priority" json:"priority"`
 	// Minimum quantity threshold for this rule to apply.
-	MinQuantity pgtype.Int4
+	MinQuantity pgtype.Int4 `db:"min_quantity" json:"min_quantity"`
 	// Maximum quantity threshold for this rule to apply.
-	MaxQuantity pgtype.Int4
+	MaxQuantity pgtype.Int4 `db:"max_quantity" json:"max_quantity"`
 	// Weight threshold for this rule to apply.
-	WeightThreshold pgtype.Float4
+	WeightThreshold pgtype.Float4 `db:"weight_threshold" json:"weight_threshold"`
 	// Volume threshold for this rule to apply.
-	VolumeThreshold pgtype.Float4
+	VolumeThreshold pgtype.Float4 `db:"volume_threshold" json:"volume_threshold"`
 	// Whether this rule requires temperature controlled locations.
-	RequiresTemperatureControl pgtype.Bool
+	RequiresTemperatureControl pgtype.Bool `db:"requires_temperature_control" json:"requires_temperature_control"`
 	// Whether this rule requires hazmat approved locations.
-	RequiresHazmatApproval pgtype.Bool
+	RequiresHazmatApproval pgtype.Bool `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
 	// Whether this rule is currently active.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Timestamp when the rule was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rule was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Defines the minimum stock level for a product that triggers a low stock alert.
 type WmsReorderPoint struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The product to monitor.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The specific warehouse to monitor the stock level in.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// The minimum quantity that triggers the alert.
-	Threshold int32
+	Threshold int32 `db:"threshold" json:"threshold"`
 	// Timestamp when the reorder point was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the reorder point was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Represents a return request from a client (Reverse Logistics).
 type WmsReturn struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A unique identifier for the return.
-	ReturnNumber string
+	ReturnNumber string `db:"return_number" json:"return_number"`
 	// A reference to the original sales order being returned.
-	SalesOrderID pgtype.UUID
+	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// The client initiating the return.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// The status of the return using return_status_enum.
-	Status NullWmsReturnStatusEnum
+	Status NullWmsReturnStatusEnum `db:"status" json:"status"`
 	// The reason for the return.
-	Reason pgtype.Text
+	Reason pgtype.Text `db:"reason" json:"reason"`
 	// Timestamp when the return was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the return was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Details the specific products and quantities being returned.
 type WmsReturnItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A reference to the parent return record.
-	ReturnID pgtype.UUID
+	ReturnID pgtype.UUID `db:"return_id" json:"return_id"`
 	// The product being returned.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity the client stated they would return.
-	QuantityExpected int32
+	QuantityExpected int32 `db:"quantity_expected" json:"quantity_expected"`
 	// The actual quantity received at the warehouse.
-	QuantityReceived pgtype.Int4
+	QuantityReceived pgtype.Int4 `db:"quantity_received" json:"quantity_received"`
 	// The difference between received and expected return quantities (automatically calculated).
-	QuantityVariance pgtype.Int4
+	QuantityVariance pgtype.Int4 `db:"quantity_variance" json:"quantity_variance"`
 	// The condition of the returned item using return_item_condition_enum.
-	Condition NullWmsReturnItemConditionEnum
+	Condition NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	// Timestamp when the return item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the return item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsReturnsView struct {
-	ID           pgtype.UUID
-	ReturnNumber string
-	SalesOrderID pgtype.UUID
-	ClientID     pgtype.UUID
-	Status       NullWmsReturnStatusEnum
-	Reason       pgtype.Text
-	CreatedAt    pgtype.Timestamp
-	UpdatedAt    pgtype.Timestamp
-	ReturnItems  []byte
+	ID           pgtype.UUID             `db:"id" json:"id"`
+	ReturnNumber string                  `db:"return_number" json:"return_number"`
+	SalesOrderID pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID     pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status       NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason       pgtype.Text             `db:"reason" json:"reason"`
+	CreatedAt    pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt    pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ReturnItems  []byte                  `db:"return_items" json:"return_items"`
 }
 
 // Represents a customer's order, often originating from the CRM, which needs to be fulfilled from inventory.
 type WmsSalesOrder struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A unique identifier for the sales order.
-	OrderNumber string
+	OrderNumber string `db:"order_number" json:"order_number"`
 	// The client company that placed the order.
-	ClientID pgtype.UUID
+	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// A link back to the original opportunity in the CRM.
-	CrmOpportunityID pgtype.UUID
+	CrmOpportunityID pgtype.UUID `db:"crm_opportunity_id" json:"crm_opportunity_id"`
 	// The fulfillment status of the order using sales_order_status_enum.
-	Status NullWmsSalesOrderStatusEnum
+	Status NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
 	// The address where the order should be shipped.
-	ShippingAddress pgtype.Text
+	ShippingAddress pgtype.Text `db:"shipping_address" json:"shipping_address"`
 	// Timestamp when the sales order was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sales order was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Details the specific products and quantities required for a sales order.
 type WmsSalesOrderItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// A reference to the parent sales order.
-	SalesOrderID pgtype.UUID
+	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// The product being ordered.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity of the product requested by the customer.
-	QuantityOrdered int32
+	QuantityOrdered int32 `db:"quantity_ordered" json:"quantity_ordered"`
 	// Timestamp when the sales order item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sales order item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsSalesOrdersView struct {
-	ID               pgtype.UUID
-	OrderNumber      string
-	ClientID         pgtype.UUID
-	CrmOpportunityID pgtype.UUID
-	Status           NullWmsSalesOrderStatusEnum
-	ShippingAddress  pgtype.Text
-	CreatedAt        pgtype.Timestamp
-	UpdatedAt        pgtype.Timestamp
-	SalesOrderItems  []byte
+	ID               pgtype.UUID                 `db:"id" json:"id"`
+	OrderNumber      string                      `db:"order_number" json:"order_number"`
+	ClientID         pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CrmOpportunityID pgtype.UUID                 `db:"crm_opportunity_id" json:"crm_opportunity_id"`
+	Status           NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
+	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
+	CreatedAt        pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	SalesOrderItems  []byte                      `db:"sales_order_items" json:"sales_order_items"`
 }
 
 // Tracks the movement of inventory from one warehouse to another.
 type WmsStockTransfer struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The product being transferred.
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The warehouse the stock is moving from.
-	SourceWarehouseID pgtype.UUID
+	SourceWarehouseID pgtype.UUID `db:"source_warehouse_id" json:"source_warehouse_id"`
 	// The warehouse the stock is moving to.
-	DestinationWarehouseID pgtype.UUID
+	DestinationWarehouseID pgtype.UUID `db:"destination_warehouse_id" json:"destination_warehouse_id"`
 	// The amount of stock being transferred.
-	Quantity int32
+	Quantity int32 `db:"quantity" json:"quantity"`
 	// The status of the transfer using stock_transfer_status_enum.
-	Status NullWmsStockTransferStatusEnum
+	Status NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	// Timestamp when the stock transfer was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the stock transfer was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Stores information about the suppliers who provide the products.
 type WmsSupplier struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The name of the supplier company.
-	Name string
+	Name string `db:"name" json:"name"`
 	// The primary contact at the supplier.
-	ContactPerson pgtype.Text
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
 	// The supplier's contact email.
-	Email pgtype.Text
+	Email pgtype.Text `db:"email" json:"email"`
 	// The supplier's contact phone number.
-	PhoneNumber pgtype.Text
+	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
 	// Timestamp when the supplier was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the supplier was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsSuppliersView struct {
-	ID            pgtype.UUID
-	Name          string
-	ContactPerson pgtype.Text
-	Email         pgtype.Text
-	PhoneNumber   pgtype.Text
-	CreatedAt     pgtype.Timestamp
-	UpdatedAt     pgtype.Timestamp
-	Products      []byte
+	ID            pgtype.UUID      `db:"id" json:"id"`
+	Name          string           `db:"name" json:"name"`
+	ContactPerson pgtype.Text      `db:"contact_person" json:"contact_person"`
+	Email         pgtype.Text      `db:"email" json:"email"`
+	PhoneNumber   pgtype.Text      `db:"phone_number" json:"phone_number"`
+	CreatedAt     pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	Products      []byte           `db:"products" json:"products"`
 }
 
 // Represents individual work assignments for warehouse personnel.
 type WmsTask struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique identifier for the task.
-	TaskNumber string
+	TaskNumber string `db:"task_number" json:"task_number"`
 	// Reference to the warehouse where the task is performed.
-	WarehouseID pgtype.UUID
+	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Reference to the assigned warehouse worker.
-	UserID pgtype.Text
+	UserID pgtype.Text `db:"user_id" json:"user_id"`
 	// Category of warehouse task using task_type_enum.
-	Type WmsTaskTypeEnum
+	Type WmsTaskTypeEnum `db:"type" json:"type"`
 	// Current task status using task_status_enum.
-	Status NullWmsTaskStatusEnum
+	Status NullWmsTaskStatusEnum `db:"status" json:"status"`
 	// Task priority for execution order (lower = higher priority).
-	Priority pgtype.Int4
+	Priority pgtype.Int4 `db:"priority" json:"priority"`
 	// Reference to the entity that triggered the task (e.g., inbound_shipment_id, pick_batch_id).
-	SourceEntityID pgtype.UUID
+	SourceEntityID pgtype.UUID `db:"source_entity_id" json:"source_entity_id"`
 	// Type of the source entity (e.g., "inbound_shipment", "pick_batch", "return").
-	SourceEntityType pgtype.Text
+	SourceEntityType pgtype.Text `db:"source_entity_type" json:"source_entity_type"`
 	// Reference to associated pick batch if applicable.
-	PickBatchID pgtype.UUID
+	PickBatchID pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
 	// Estimated time to complete the task (in minutes).
-	EstimatedDuration pgtype.Int4
+	EstimatedDuration pgtype.Int4 `db:"estimated_duration" json:"estimated_duration"`
 	// Actual time taken to complete the task (in minutes).
-	ActualDuration pgtype.Int4
+	ActualDuration pgtype.Int4 `db:"actual_duration" json:"actual_duration"`
 	// Detailed instructions for completing the task.
-	Instructions pgtype.Text
+	Instructions pgtype.Text `db:"instructions" json:"instructions"`
 	// Additional notes or comments about the task.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// When the task was started.
-	StartTime pgtype.Timestamp
+	StartTime pgtype.Timestamp `db:"start_time" json:"start_time"`
 	// When the task was completed.
-	EndTime pgtype.Timestamp
+	EndTime pgtype.Timestamp `db:"end_time" json:"end_time"`
 	// Total time taken to complete the task in seconds (automatically calculated from start_time and end_time).
-	DurationSeconds pgtype.Int4
+	DurationSeconds pgtype.Int4 `db:"duration_seconds" json:"duration_seconds"`
 	// Timestamp when the task was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the task was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 // Individual line items within a warehouse task, specifying exactly what needs to be moved or processed.
 type WmsTaskItem struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// Reference to the parent task.
-	TaskID pgtype.UUID
+	TaskID pgtype.UUID `db:"task_id" json:"task_id"`
 	// Reference to the product being handled (from IMS).
-	ProductID pgtype.UUID
+	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Reference to the specific batch being handled (from IMS).
-	BatchID pgtype.UUID
+	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// Reference to where the product should be picked from.
-	SourceLocationID pgtype.UUID
+	SourceLocationID pgtype.UUID `db:"source_location_id" json:"source_location_id"`
 	// Reference to where the product should be moved to.
-	DestinationLocationID pgtype.UUID
+	DestinationLocationID pgtype.UUID `db:"destination_location_id" json:"destination_location_id"`
 	// Amount of product that needs to be handled.
-	QuantityRequired int32
+	QuantityRequired int32 `db:"quantity_required" json:"quantity_required"`
 	// Amount of product actually handled.
-	QuantityCompleted int32
+	QuantityCompleted int32 `db:"quantity_completed" json:"quantity_completed"`
 	// Remaining quantity to be handled (automatically calculated from quantity_required - quantity_completed).
-	QuantityRemaining pgtype.Int4
+	QuantityRemaining pgtype.Int4 `db:"quantity_remaining" json:"quantity_remaining"`
 	// Completion status of this specific item using task_item_status_enum.
-	Status NullWmsTaskItemStatusEnum
+	Status NullWmsTaskItemStatusEnum `db:"status" json:"status"`
 	// Lot number for traceability.
-	LotNumber pgtype.Text
+	LotNumber pgtype.Text `db:"lot_number" json:"lot_number"`
 	// Array of serial numbers for serialized items.
-	SerialNumbers []string
+	SerialNumbers []string `db:"serial_numbers" json:"serial_numbers"`
 	// Expiry date of the items being handled.
-	ExpiryDate pgtype.Date
+	ExpiryDate pgtype.Date `db:"expiry_date" json:"expiry_date"`
 	// Additional notes about this task item.
-	Notes pgtype.Text
+	Notes pgtype.Text `db:"notes" json:"notes"`
 	// When this task item was completed.
-	CompletedAt pgtype.Timestamp
+	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
 	// Timestamp when the task item was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the task item was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsTasksView struct {
-	ID                pgtype.UUID
-	TaskNumber        string
-	WarehouseID       pgtype.UUID
-	UserID            pgtype.Text
-	Type              WmsTaskTypeEnum
-	Status            NullWmsTaskStatusEnum
-	Priority          pgtype.Int4
-	SourceEntityID    pgtype.UUID
-	SourceEntityType  pgtype.Text
-	PickBatchID       pgtype.UUID
-	EstimatedDuration pgtype.Int4
-	ActualDuration    pgtype.Int4
-	Instructions      pgtype.Text
-	Notes             pgtype.Text
-	StartTime         pgtype.Timestamp
-	EndTime           pgtype.Timestamp
-	DurationSeconds   pgtype.Int4
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	TaskItems         []byte
+	ID                pgtype.UUID           `db:"id" json:"id"`
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
+	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	TaskItems         []byte                `db:"task_items" json:"task_items"`
 }
 
 // Represents the physical warehouse facilities where inventory and locations are organized and managed by the WMS.
 type WmsWarehouse struct {
 	// Primary key
-	ID pgtype.UUID
+	ID pgtype.UUID `db:"id" json:"id"`
 	// The name of the warehouse (e.g., "West Coast Distribution Center").
-	Name string
+	Name string `db:"name" json:"name"`
 	// The physical street address of the warehouse.
-	Address pgtype.Text
+	Address pgtype.Text `db:"address" json:"address"`
 	// The city where the warehouse is located.
-	City pgtype.Text
+	City pgtype.Text `db:"city" json:"city"`
 	// The state or province where the warehouse is located.
-	State pgtype.Text
+	State pgtype.Text `db:"state" json:"state"`
 	// The postal code or ZIP code of the warehouse.
-	PostalCode pgtype.Text
+	PostalCode pgtype.Text `db:"postal_code" json:"postal_code"`
 	// The country where the warehouse is located.
-	Country pgtype.Text
+	Country pgtype.Text `db:"country" json:"country"`
 	// The timezone of the warehouse for scheduling operations.
-	Timezone pgtype.Text
+	Timezone pgtype.Text `db:"timezone" json:"timezone"`
 	// The primary contact person at the warehouse.
-	ContactPerson pgtype.Text
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
 	// The contact email for the warehouse.
-	ContactEmail pgtype.Text
+	ContactEmail pgtype.Text `db:"contact_email" json:"contact_email"`
 	// The contact phone number for the warehouse.
-	ContactPhone pgtype.Text
+	ContactPhone pgtype.Text `db:"contact_phone" json:"contact_phone"`
 	// Whether the warehouse is currently active and operational.
-	IsActive pgtype.Bool
+	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
 	// Timestamp when the warehouse was created.
-	CreatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the warehouse was last updated.
-	UpdatedAt pgtype.Timestamp
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 }
 
 type WmsWarehousesView struct {
-	ID                pgtype.UUID
-	Name              string
-	Address           pgtype.Text
-	City              pgtype.Text
-	State             pgtype.Text
-	PostalCode        pgtype.Text
-	Country           pgtype.Text
-	Timezone          pgtype.Text
-	ContactPerson     pgtype.Text
-	ContactEmail      pgtype.Text
-	ContactPhone      pgtype.Text
-	IsActive          pgtype.Bool
-	CreatedAt         pgtype.Timestamp
-	UpdatedAt         pgtype.Timestamp
-	InboundShipments  []byte
-	OutboundShipments []byte
-	Locations         []byte
-	PutawayRules      []byte
-	PickBatches       []byte
-	Tasks             []byte
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	Name              string           `db:"name" json:"name"`
+	Address           pgtype.Text      `db:"address" json:"address"`
+	City              pgtype.Text      `db:"city" json:"city"`
+	State             pgtype.Text      `db:"state" json:"state"`
+	PostalCode        pgtype.Text      `db:"postal_code" json:"postal_code"`
+	Country           pgtype.Text      `db:"country" json:"country"`
+	Timezone          pgtype.Text      `db:"timezone" json:"timezone"`
+	ContactPerson     pgtype.Text      `db:"contact_person" json:"contact_person"`
+	ContactEmail      pgtype.Text      `db:"contact_email" json:"contact_email"`
+	ContactPhone      pgtype.Text      `db:"contact_phone" json:"contact_phone"`
+	IsActive          pgtype.Bool      `db:"is_active" json:"is_active"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	InboundShipments  []byte           `db:"inbound_shipments" json:"inbound_shipments"`
+	OutboundShipments []byte           `db:"outbound_shipments" json:"outbound_shipments"`
+	Locations         []byte           `db:"locations" json:"locations"`
+	PutawayRules      []byte           `db:"putaway_rules" json:"putaway_rules"`
+	PickBatches       []byte           `db:"pick_batches" json:"pick_batches"`
+	Tasks             []byte           `db:"tasks" json:"tasks"`
 }

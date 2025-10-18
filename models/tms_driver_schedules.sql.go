@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule
-	TmsDriver         TmsDriver
+	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsAnyDriverSchedule(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyDriverScheduleRow, error) {
@@ -75,8 +75,8 @@ where
 `
 
 type TmsFindDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule
-	TmsDriver         TmsDriver
+	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsFindDriverSchedule(ctx context.Context, id pgtype.UUID) (TmsFindDriverScheduleRow, error) {
@@ -110,10 +110,10 @@ returning
 `
 
 type TmsInsertDriverScheduleParams struct {
-	DriverID  pgtype.UUID
-	StartDate pgtype.Date
-	EndDate   pgtype.Date
-	Reason    NullTmsDriverScheduleReasonEnum
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 }
 
 func (q *Queries) TmsInsertDriverSchedule(ctx context.Context, arg TmsInsertDriverScheduleParams) (TmsDriverSchedule, error) {
@@ -150,14 +150,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateDriverScheduleParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule
-	TmsDriver         TmsDriver
+	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginateDriverScheduleParams) ([]TmsPaginateDriverScheduleRow, error) {
@@ -212,14 +212,14 @@ where
 `
 
 type TmsRangeDriverScheduleParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule
-	TmsDriver         TmsDriver
+	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
+	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsRangeDriverSchedule(ctx context.Context, arg TmsRangeDriverScheduleParams) ([]TmsRangeDriverScheduleRow, error) {
@@ -300,11 +300,11 @@ returning
 `
 
 type TmsUpdateDriverScheduleParams struct {
-	DriverID  pgtype.UUID
-	StartDate pgtype.Date
-	EndDate   pgtype.Date
-	Reason    NullTmsDriverScheduleReasonEnum
-	ID        pgtype.UUID
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
+	ID        pgtype.UUID                     `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateDriverSchedule(ctx context.Context, arg TmsUpdateDriverScheduleParams) (TmsDriverSchedule, error) {

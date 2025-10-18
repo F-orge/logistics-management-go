@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery
-	TmsTripStop        TmsTripStop
+	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
+	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsAnyProofOfDelivery(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyProofOfDeliveryRow, error) {
@@ -81,8 +81,8 @@ where
 `
 
 type TmsFindProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery
-	TmsTripStop        TmsTripStop
+	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
+	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsFindProofOfDelivery(ctx context.Context, id pgtype.UUID) (TmsFindProofOfDeliveryRow, error) {
@@ -122,12 +122,12 @@ returning
 `
 
 type TmsInsertProofOfDeliveryParams struct {
-	TripStopID pgtype.UUID
-	Type       NullTmsProofTypeEnum
-	FilePath   pgtype.Text
-	Timestamp  pgtype.Timestamp
-	Latitude   pgtype.Float4
-	Longitude  pgtype.Float4
+	TripStopID pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type       NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath   pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp  pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude   pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude  pgtype.Float4        `db:"longitude" json:"longitude"`
 }
 
 func (q *Queries) TmsInsertProofOfDelivery(ctx context.Context, arg TmsInsertProofOfDeliveryParams) (TmsProofOfDelivery, error) {
@@ -168,14 +168,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateProofOfDeliveryParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery
-	TmsTripStop        TmsTripStop
+	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
+	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsPaginateProofOfDelivery(ctx context.Context, arg TmsPaginateProofOfDeliveryParams) ([]TmsPaginateProofOfDeliveryRow, error) {
@@ -236,14 +236,14 @@ where
 `
 
 type TmsRangeProofOfDeliveryParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery
-	TmsTripStop        TmsTripStop
+	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
+	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsRangeProofOfDelivery(ctx context.Context, arg TmsRangeProofOfDeliveryParams) ([]TmsRangeProofOfDeliveryRow, error) {
@@ -340,13 +340,13 @@ returning
 `
 
 type TmsUpdateProofOfDeliveryParams struct {
-	TripStopID pgtype.UUID
-	Type       NullTmsProofTypeEnum
-	FilePath   pgtype.Text
-	Timestamp  pgtype.Timestamp
-	Latitude   pgtype.Float4
-	Longitude  pgtype.Float4
-	ID         pgtype.UUID
+	TripStopID pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type       NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath   pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp  pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude   pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude  pgtype.Float4        `db:"longitude" json:"longitude"`
+	ID         pgtype.UUID          `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateProofOfDelivery(ctx context.Context, arg TmsUpdateProofOfDeliveryParams) (TmsProofOfDelivery, error) {

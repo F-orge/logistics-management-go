@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent
-	TmsShipmentLeg      TmsShipmentLeg
+	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
+	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsAnyShipmentLegEvent(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyShipmentLegEventRow, error) {
@@ -75,8 +75,8 @@ where
 `
 
 type TmsFindShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent
-	TmsShipmentLeg      TmsShipmentLeg
+	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
+	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsFindShipmentLegEvent(ctx context.Context, id pgtype.UUID) (TmsFindShipmentLegEventRow, error) {
@@ -110,10 +110,10 @@ returning
 `
 
 type TmsInsertShipmentLegEventParams struct {
-	ShipmentLegID  pgtype.UUID
-	StatusMessage  pgtype.Text
-	Location       pgtype.Text
-	EventTimestamp pgtype.Timestamp
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
 }
 
 func (q *Queries) TmsInsertShipmentLegEvent(ctx context.Context, arg TmsInsertShipmentLegEventParams) (TmsShipmentLegEvent, error) {
@@ -148,14 +148,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateShipmentLegEventParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent
-	TmsShipmentLeg      TmsShipmentLeg
+	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
+	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPaginateShipmentLegEventParams) ([]TmsPaginateShipmentLegEventRow, error) {
@@ -210,14 +210,14 @@ where
 `
 
 type TmsRangeShipmentLegEventParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent
-	TmsShipmentLeg      TmsShipmentLeg
+	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
+	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsRangeShipmentLegEvent(ctx context.Context, arg TmsRangeShipmentLegEventParams) ([]TmsRangeShipmentLegEventRow, error) {
@@ -298,11 +298,11 @@ returning
 `
 
 type TmsUpdateShipmentLegEventParams struct {
-	ShipmentLegID  pgtype.UUID
-	StatusMessage  pgtype.Text
-	Location       pgtype.Text
-	EventTimestamp pgtype.Timestamp
-	ID             pgtype.UUID
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateShipmentLegEvent(ctx context.Context, arg TmsUpdateShipmentLegEventParams) (TmsShipmentLegEvent, error) {

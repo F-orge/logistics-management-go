@@ -25,9 +25,9 @@ where
 `
 
 type CrmAnyContactRow struct {
-	CrmContact CrmContact
-	User       User
-	CrmCompany CrmCompany
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
+	User       User       `db:"user" json:"user"`
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmAnyContact(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyContactRow, error) {
@@ -99,9 +99,9 @@ where
 `
 
 type CrmFindContactRow struct {
-	CrmContact CrmContact
-	User       User
-	CrmCompany CrmCompany
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
+	User       User       `db:"user" json:"user"`
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmFindContact(ctx context.Context, id pgtype.UUID) (CrmFindContactRow, error) {
@@ -154,12 +154,12 @@ returning
 `
 
 type CrmInsertContactParams struct {
-	Name        string
-	Email       string
-	PhoneNumber pgtype.Text
-	JobTitle    pgtype.Text
-	CompanyID   pgtype.UUID
-	OwnerID     string
+	Name        string      `db:"name" json:"name"`
+	Email       string      `db:"email" json:"email"`
+	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID `db:"company_id" json:"company_id"`
+	OwnerID     string      `db:"owner_id" json:"owner_id"`
 }
 
 func (q *Queries) CrmInsertContact(ctx context.Context, arg CrmInsertContactParams) (CrmContact, error) {
@@ -204,15 +204,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateContactParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateContactRow struct {
-	CrmContact CrmContact
-	User       User
-	CrmCompany CrmCompany
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
+	User       User       `db:"user" json:"user"`
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContactParams) ([]CrmPaginateContactRow, error) {
@@ -290,15 +290,15 @@ where
 `
 
 type CrmRangeContactParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeContactRow struct {
-	CrmContact CrmContact
-	User       User
-	CrmCompany CrmCompany
+	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
+	User       User       `db:"user" json:"user"`
+	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmRangeContact(ctx context.Context, arg CrmRangeContactParams) ([]CrmRangeContactRow, error) {
@@ -408,13 +408,13 @@ returning
 `
 
 type CrmUpdateContactParams struct {
-	Name        string
-	Email       string
-	PhoneNumber pgtype.Text
-	JobTitle    pgtype.Text
-	CompanyID   pgtype.UUID
-	OwnerID     string
-	ID          pgtype.UUID
+	Name        string      `db:"name" json:"name"`
+	Email       string      `db:"email" json:"email"`
+	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID `db:"company_id" json:"company_id"`
+	OwnerID     string      `db:"owner_id" json:"owner_id"`
+	ID          pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateContact(ctx context.Context, arg CrmUpdateContactParams) (CrmContact, error) {

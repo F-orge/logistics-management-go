@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem
-	WmsInboundShipment     WmsInboundShipment
-	WmsProduct             WmsProduct
+	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
+	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyInboundShipmentItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInboundShipmentItemRow, error) {
@@ -98,9 +98,9 @@ where
 `
 
 type WmsFindInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem
-	WmsInboundShipment     WmsInboundShipment
-	WmsProduct             WmsProduct
+	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
+	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindInboundShipmentItem(ctx context.Context, id pgtype.UUID) (WmsFindInboundShipmentItemRow, error) {
@@ -152,11 +152,11 @@ returning
 `
 
 type WmsInsertInboundShipmentItemParams struct {
-	InboundShipmentID pgtype.UUID
-	ProductID         pgtype.UUID
-	ExpectedQuantity  int32
-	ReceivedQuantity  pgtype.Int4
-	DiscrepancyNotes  pgtype.Text
+	InboundShipmentID pgtype.UUID `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID         pgtype.UUID `db:"product_id" json:"product_id"`
+	ExpectedQuantity  int32       `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
 }
 
 func (q *Queries) WmsInsertInboundShipmentItem(ctx context.Context, arg WmsInsertInboundShipmentItemParams) (WmsInboundShipmentItem, error) {
@@ -198,15 +198,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInboundShipmentItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem
-	WmsInboundShipment     WmsInboundShipment
-	WmsProduct             WmsProduct
+	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
+	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPaginateInboundShipmentItemParams) ([]WmsPaginateInboundShipmentItemRow, error) {
@@ -281,15 +281,15 @@ where
 `
 
 type WmsRangeInboundShipmentItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem
-	WmsInboundShipment     WmsInboundShipment
-	WmsProduct             WmsProduct
+	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
+	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeInboundShipmentItem(ctx context.Context, arg WmsRangeInboundShipmentItemParams) ([]WmsRangeInboundShipmentItemRow, error) {
@@ -393,12 +393,12 @@ returning
 `
 
 type WmsUpdateInboundShipmentItemParams struct {
-	InboundShipmentID pgtype.UUID
-	ProductID         pgtype.UUID
-	ExpectedQuantity  int32
-	ReceivedQuantity  pgtype.Int4
-	DiscrepancyNotes  pgtype.Text
-	ID                pgtype.UUID
+	InboundShipmentID pgtype.UUID `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID         pgtype.UUID `db:"product_id" json:"product_id"`
+	ExpectedQuantity  int32       `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
+	ID                pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateInboundShipmentItem(ctx context.Context, arg WmsUpdateInboundShipmentItemParams) (WmsInboundShipmentItem, error) {

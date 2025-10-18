@@ -23,8 +23,8 @@ where
 `
 
 type BillingAnyDocumentRow struct {
-	BillingDocument BillingDocument
-	User            User
+	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyDocument(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyDocumentRow, error) {
@@ -82,8 +82,8 @@ where
 `
 
 type BillingFindDocumentRow struct {
-	BillingDocument BillingDocument
-	User            User
+	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindDocument(ctx context.Context, id pgtype.UUID) (BillingFindDocumentRow, error) {
@@ -124,14 +124,14 @@ returning
 `
 
 type BillingInsertDocumentParams struct {
-	RecordID         pgtype.UUID
-	RecordType       string
-	DocumentType     BillingDocumentTypeEnum
-	FilePath         string
-	FileName         string
-	FileSize         pgtype.Int4
-	MimeType         pgtype.Text
-	UploadedByUserID pgtype.Text
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 }
 
 func (q *Queries) BillingInsertDocument(ctx context.Context, arg BillingInsertDocumentParams) (BillingDocument, error) {
@@ -178,14 +178,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateDocumentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateDocumentRow struct {
-	BillingDocument BillingDocument
-	User            User
+	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPaginateDocumentParams) ([]BillingPaginateDocumentRow, error) {
@@ -249,14 +249,14 @@ where
 `
 
 type BillingRangeDocumentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeDocumentRow struct {
-	BillingDocument BillingDocument
-	User            User
+	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
+	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeDocument(ctx context.Context, arg BillingRangeDocumentParams) ([]BillingRangeDocumentRow, error) {
@@ -364,15 +364,15 @@ returning
 `
 
 type BillingUpdateDocumentParams struct {
-	RecordID         pgtype.UUID
-	RecordType       string
-	DocumentType     BillingDocumentTypeEnum
-	FilePath         string
-	FileName         string
-	FileSize         pgtype.Int4
-	MimeType         pgtype.Text
-	UploadedByUserID pgtype.Text
-	ID               pgtype.UUID
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
+	ID               pgtype.UUID             `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateDocument(ctx context.Context, arg BillingUpdateDocumentParams) (BillingDocument, error) {

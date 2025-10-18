@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyBinThresholdRow struct {
-	WmsBinThreshold WmsBinThreshold
-	WmsLocation     WmsLocation
-	WmsProduct      WmsProduct
+	WmsBinThreshold WmsBinThreshold `db:"wms_bin_threshold" json:"wms_bin_threshold"`
+	WmsLocation     WmsLocation     `db:"wms_location" json:"wms_location"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyBinThreshold(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyBinThresholdRow, error) {
@@ -112,9 +112,9 @@ where
 `
 
 type WmsFindBinThresholdRow struct {
-	WmsBinThreshold WmsBinThreshold
-	WmsLocation     WmsLocation
-	WmsProduct      WmsProduct
+	WmsBinThreshold WmsBinThreshold `db:"wms_bin_threshold" json:"wms_bin_threshold"`
+	WmsLocation     WmsLocation     `db:"wms_location" json:"wms_location"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindBinThreshold(ctx context.Context, id pgtype.UUID) (WmsFindBinThresholdRow, error) {
@@ -180,13 +180,13 @@ returning
 `
 
 type WmsInsertBinThresholdParams struct {
-	LocationID      pgtype.UUID
-	ProductID       pgtype.UUID
-	MinQuantity     int32
-	MaxQuantity     int32
-	ReorderQuantity pgtype.Int4
-	AlertThreshold  pgtype.Int4
-	IsActive        pgtype.Bool
+	LocationID      pgtype.UUID `db:"location_id" json:"location_id"`
+	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
+	MinQuantity     int32       `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity     int32       `db:"max_quantity" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
+	IsActive        pgtype.Bool `db:"is_active" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertBinThreshold(ctx context.Context, arg WmsInsertBinThresholdParams) (WmsBinThreshold, error) {
@@ -231,15 +231,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateBinThresholdParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateBinThresholdRow struct {
-	WmsBinThreshold WmsBinThreshold
-	WmsLocation     WmsLocation
-	WmsProduct      WmsProduct
+	WmsBinThreshold WmsBinThreshold `db:"wms_bin_threshold" json:"wms_bin_threshold"`
+	WmsLocation     WmsLocation     `db:"wms_location" json:"wms_location"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateBinThreshold(ctx context.Context, arg WmsPaginateBinThresholdParams) ([]WmsPaginateBinThresholdRow, error) {
@@ -328,15 +328,15 @@ where
 `
 
 type WmsRangeBinThresholdParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeBinThresholdRow struct {
-	WmsBinThreshold WmsBinThreshold
-	WmsLocation     WmsLocation
-	WmsProduct      WmsProduct
+	WmsBinThreshold WmsBinThreshold `db:"wms_bin_threshold" json:"wms_bin_threshold"`
+	WmsLocation     WmsLocation     `db:"wms_location" json:"wms_location"`
+	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeBinThreshold(ctx context.Context, arg WmsRangeBinThresholdParams) ([]WmsRangeBinThresholdRow, error) {
@@ -464,14 +464,14 @@ returning
 `
 
 type WmsUpdateBinThresholdParams struct {
-	LocationID      pgtype.UUID
-	ProductID       pgtype.UUID
-	MinQuantity     int32
-	MaxQuantity     int32
-	ReorderQuantity pgtype.Int4
-	AlertThreshold  pgtype.Int4
-	IsActive        pgtype.Bool
-	ID              pgtype.UUID
+	LocationID      pgtype.UUID `db:"location_id" json:"location_id"`
+	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
+	MinQuantity     int32       `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity     int32       `db:"max_quantity" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
+	IsActive        pgtype.Bool `db:"is_active" json:"is_active"`
+	ID              pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateBinThreshold(ctx context.Context, arg WmsUpdateBinThresholdParams) (WmsBinThreshold, error) {

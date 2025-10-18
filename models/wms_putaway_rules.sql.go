@@ -29,11 +29,11 @@ where
 `
 
 type WmsAnyPutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule
-	WmsProduct     WmsProduct
-	CrmCompany     CrmCompany
-	WmsWarehouse   WmsWarehouse
-	WmsLocation    WmsLocation
+	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
+	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsAnyPutawayRule(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPutawayRuleRow, error) {
@@ -156,11 +156,11 @@ where
 `
 
 type WmsFindPutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule
-	WmsProduct     WmsProduct
-	CrmCompany     CrmCompany
-	WmsWarehouse   WmsWarehouse
-	WmsLocation    WmsLocation
+	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
+	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsFindPutawayRule(ctx context.Context, id pgtype.UUID) (WmsFindPutawayRuleRow, error) {
@@ -260,19 +260,19 @@ returning
 `
 
 type WmsInsertPutawayRuleParams struct {
-	ProductID                  pgtype.UUID
-	ClientID                   pgtype.UUID
-	WarehouseID                pgtype.UUID
-	PreferredLocationID        pgtype.UUID
-	LocationType               NullWmsLocationTypeEnum
-	Priority                   int32
-	MinQuantity                pgtype.Int4
-	MaxQuantity                pgtype.Int4
-	WeightThreshold            pgtype.Float4
-	VolumeThreshold            pgtype.Float4
-	RequiresTemperatureControl pgtype.Bool
-	RequiresHazmatApproval     pgtype.Bool
-	IsActive                   pgtype.Bool
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertPutawayRule(ctx context.Context, arg WmsInsertPutawayRuleParams) (WmsPutawayRule, error) {
@@ -336,17 +336,17 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePutawayRuleParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginatePutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule
-	WmsProduct     WmsProduct
-	CrmCompany     CrmCompany
-	WmsWarehouse   WmsWarehouse
-	WmsLocation    WmsLocation
+	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
+	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePutawayRuleParams) ([]WmsPaginatePutawayRuleRow, error) {
@@ -476,17 +476,17 @@ where
 `
 
 type WmsRangePutawayRuleParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangePutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule
-	WmsProduct     WmsProduct
-	CrmCompany     CrmCompany
-	WmsWarehouse   WmsWarehouse
-	WmsLocation    WmsLocation
+	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
+	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
+	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsRangePutawayRule(ctx context.Context, arg WmsRangePutawayRuleParams) ([]WmsRangePutawayRuleRow, error) {
@@ -678,20 +678,20 @@ returning
 `
 
 type WmsUpdatePutawayRuleParams struct {
-	ProductID                  pgtype.UUID
-	ClientID                   pgtype.UUID
-	WarehouseID                pgtype.UUID
-	PreferredLocationID        pgtype.UUID
-	LocationType               NullWmsLocationTypeEnum
-	Priority                   int32
-	MinQuantity                pgtype.Int4
-	MaxQuantity                pgtype.Int4
-	WeightThreshold            pgtype.Float4
-	VolumeThreshold            pgtype.Float4
-	RequiresTemperatureControl pgtype.Bool
-	RequiresHazmatApproval     pgtype.Bool
-	IsActive                   pgtype.Bool
-	ID                         pgtype.UUID
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	ID                         pgtype.UUID             `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdatePutawayRule(ctx context.Context, arg WmsUpdatePutawayRuleParams) (WmsPutawayRule, error) {

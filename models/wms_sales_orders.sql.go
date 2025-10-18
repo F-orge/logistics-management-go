@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnySalesOrderRow struct {
-	WmsSalesOrdersView WmsSalesOrdersView
-	CrmCompany         CrmCompany
-	CrmOpportunity     CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView `db:"wms_sales_orders_view" json:"wms_sales_orders_view"`
+	CrmCompany         CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity     CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) WmsAnySalesOrder(ctx context.Context, ids []pgtype.UUID) ([]WmsAnySalesOrderRow, error) {
@@ -102,9 +102,9 @@ where
 `
 
 type WmsFindSalesOrderRow struct {
-	WmsSalesOrdersView WmsSalesOrdersView
-	CrmCompany         CrmCompany
-	CrmOpportunity     CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView `db:"wms_sales_orders_view" json:"wms_sales_orders_view"`
+	CrmCompany         CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity     CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) WmsFindSalesOrder(ctx context.Context, id pgtype.UUID) (WmsFindSalesOrderRow, error) {
@@ -160,11 +160,11 @@ returning
 `
 
 type WmsInsertSalesOrderParams struct {
-	OrderNumber      string
-	ClientID         pgtype.UUID
-	CrmOpportunityID pgtype.UUID
-	Status           NullWmsSalesOrderStatusEnum
-	ShippingAddress  pgtype.Text
+	OrderNumber      string                      `db:"order_number" json:"order_number"`
+	ClientID         pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CrmOpportunityID pgtype.UUID                 `db:"crm_opportunity_id" json:"crm_opportunity_id"`
+	Status           NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
+	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
 }
 
 func (q *Queries) WmsInsertSalesOrder(ctx context.Context, arg WmsInsertSalesOrderParams) (WmsSalesOrder, error) {
@@ -207,15 +207,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSalesOrderParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateSalesOrderRow struct {
-	WmsSalesOrdersView WmsSalesOrdersView
-	CrmCompany         CrmCompany
-	CrmOpportunity     CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView `db:"wms_sales_orders_view" json:"wms_sales_orders_view"`
+	CrmCompany         CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity     CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSalesOrderParams) ([]WmsPaginateSalesOrderRow, error) {
@@ -296,15 +296,15 @@ where
 `
 
 type WmsRangeSalesOrderParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeSalesOrderRow struct {
-	WmsSalesOrdersView WmsSalesOrdersView
-	CrmCompany         CrmCompany
-	CrmOpportunity     CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView `db:"wms_sales_orders_view" json:"wms_sales_orders_view"`
+	CrmCompany         CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity     CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) WmsRangeSalesOrder(ctx context.Context, arg WmsRangeSalesOrderParams) ([]WmsRangeSalesOrderRow, error) {
@@ -412,12 +412,12 @@ returning
 `
 
 type WmsUpdateSalesOrderParams struct {
-	OrderNumber      string
-	ClientID         pgtype.UUID
-	CrmOpportunityID pgtype.UUID
-	Status           NullWmsSalesOrderStatusEnum
-	ShippingAddress  pgtype.Text
-	ID               pgtype.UUID
+	OrderNumber      string                      `db:"order_number" json:"order_number"`
+	ClientID         pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CrmOpportunityID pgtype.UUID                 `db:"crm_opportunity_id" json:"crm_opportunity_id"`
+	Status           NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
+	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
+	ID               pgtype.UUID                 `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateSalesOrder(ctx context.Context, arg WmsUpdateSalesOrderParams) (WmsSalesOrder, error) {

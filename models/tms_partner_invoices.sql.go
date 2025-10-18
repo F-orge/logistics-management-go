@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyPartnerInvoiceRow struct {
-	TmsPartnerInvoicesView TmsPartnerInvoicesView
-	TmsCarrier             TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView `db:"tms_partner_invoices_view" json:"tms_partner_invoices_view"`
+	TmsCarrier             TmsCarrier             `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsAnyPartnerInvoice(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyPartnerInvoiceRow, error) {
@@ -78,8 +78,8 @@ where
 `
 
 type TmsFindPartnerInvoiceRow struct {
-	TmsPartnerInvoicesView TmsPartnerInvoicesView
-	TmsCarrier             TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView `db:"tms_partner_invoices_view" json:"tms_partner_invoices_view"`
+	TmsCarrier             TmsCarrier             `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsFindPartnerInvoice(ctx context.Context, id pgtype.UUID) (TmsFindPartnerInvoiceRow, error) {
@@ -116,11 +116,11 @@ returning
 `
 
 type TmsInsertPartnerInvoiceParams struct {
-	CarrierID     pgtype.UUID
-	InvoiceNumber string
-	InvoiceDate   pgtype.Date
-	TotalAmount   pgtype.Numeric
-	Status        NullTmsPartnerInvoiceStatusEnum
+	CarrierID     pgtype.UUID                     `db:"carrier_id" json:"carrier_id"`
+	InvoiceNumber string                          `db:"invoice_number" json:"invoice_number"`
+	InvoiceDate   pgtype.Date                     `db:"invoice_date" json:"invoice_date"`
+	TotalAmount   pgtype.Numeric                  `db:"total_amount" json:"total_amount"`
+	Status        NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 }
 
 func (q *Queries) TmsInsertPartnerInvoice(ctx context.Context, arg TmsInsertPartnerInvoiceParams) (TmsPartnerInvoice, error) {
@@ -160,14 +160,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginatePartnerInvoiceParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginatePartnerInvoiceRow struct {
-	TmsPartnerInvoicesView TmsPartnerInvoicesView
-	TmsCarrier             TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView `db:"tms_partner_invoices_view" json:"tms_partner_invoices_view"`
+	TmsCarrier             TmsCarrier             `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsPaginatePartnerInvoice(ctx context.Context, arg TmsPaginatePartnerInvoiceParams) ([]TmsPaginatePartnerInvoiceRow, error) {
@@ -226,14 +226,14 @@ where
 `
 
 type TmsRangePartnerInvoiceParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangePartnerInvoiceRow struct {
-	TmsPartnerInvoicesView TmsPartnerInvoicesView
-	TmsCarrier             TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView `db:"tms_partner_invoices_view" json:"tms_partner_invoices_view"`
+	TmsCarrier             TmsCarrier             `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsRangePartnerInvoice(ctx context.Context, arg TmsRangePartnerInvoiceParams) ([]TmsRangePartnerInvoiceRow, error) {
@@ -322,12 +322,12 @@ returning
 `
 
 type TmsUpdatePartnerInvoiceParams struct {
-	CarrierID     pgtype.UUID
-	InvoiceNumber string
-	InvoiceDate   pgtype.Date
-	TotalAmount   pgtype.Numeric
-	Status        NullTmsPartnerInvoiceStatusEnum
-	ID            pgtype.UUID
+	CarrierID     pgtype.UUID                     `db:"carrier_id" json:"carrier_id"`
+	InvoiceNumber string                          `db:"invoice_number" json:"invoice_number"`
+	InvoiceDate   pgtype.Date                     `db:"invoice_date" json:"invoice_date"`
+	TotalAmount   pgtype.Numeric                  `db:"total_amount" json:"total_amount"`
+	Status        NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
+	ID            pgtype.UUID                     `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdatePartnerInvoice(ctx context.Context, arg TmsUpdatePartnerInvoiceParams) (TmsPartnerInvoice, error) {

@@ -27,10 +27,10 @@ where
 `
 
 type BillingAnyCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote
-	BillingInvoice    BillingInvoice
-	BillingDispute    BillingDispute
-	User              User
+	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
+	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyCreditNote(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyCreditNoteRow, error) {
@@ -127,10 +127,10 @@ where
 `
 
 type BillingFindCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote
-	BillingInvoice    BillingInvoice
-	BillingDispute    BillingDispute
-	User              User
+	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
+	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindCreditNote(ctx context.Context, id pgtype.UUID) (BillingFindCreditNoteRow, error) {
@@ -206,16 +206,16 @@ returning
 `
 
 type BillingInsertCreditNoteParams struct {
-	InvoiceID        pgtype.UUID
-	DisputeID        pgtype.UUID
-	CreditNoteNumber string
-	Amount           pgtype.Numeric
-	Reason           string
-	IssueDate        pgtype.Date
-	AppliedAt        pgtype.Timestamp
-	Currency         pgtype.Text
-	Notes            pgtype.Text
-	CreatedByUserID  pgtype.Text
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
 func (q *Queries) BillingInsertCreditNote(ctx context.Context, arg BillingInsertCreditNoteParams) (BillingCreditNote, error) {
@@ -270,16 +270,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateCreditNoteParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote
-	BillingInvoice    BillingInvoice
-	BillingDispute    BillingDispute
-	User              User
+	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
+	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateCreditNote(ctx context.Context, arg BillingPaginateCreditNoteParams) ([]BillingPaginateCreditNoteRow, error) {
@@ -382,16 +382,16 @@ where
 `
 
 type BillingRangeCreditNoteParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote
-	BillingInvoice    BillingInvoice
-	BillingDispute    BillingDispute
-	User              User
+	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
+	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
+	User              User              `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeCreditNote(ctx context.Context, arg BillingRangeCreditNoteParams) ([]BillingRangeCreditNoteRow, error) {
@@ -544,17 +544,17 @@ returning
 `
 
 type BillingUpdateCreditNoteParams struct {
-	InvoiceID        pgtype.UUID
-	DisputeID        pgtype.UUID
-	CreditNoteNumber string
-	Amount           pgtype.Numeric
-	Reason           string
-	IssueDate        pgtype.Date
-	AppliedAt        pgtype.Timestamp
-	Currency         pgtype.Text
-	Notes            pgtype.Text
-	CreatedByUserID  pgtype.Text
-	ID               pgtype.UUID
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateCreditNote(ctx context.Context, arg BillingUpdateCreditNoteParams) (BillingCreditNote, error) {

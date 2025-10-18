@@ -25,9 +25,9 @@ where
 `
 
 type BillingAnyPaymentRow struct {
-	BillingPayment BillingPayment
-	BillingInvoice BillingInvoice
-	User           User
+	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
+	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyPayment(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyPaymentRow, error) {
@@ -114,9 +114,9 @@ where
 `
 
 type BillingFindPaymentRow struct {
-	BillingPayment BillingPayment
-	BillingInvoice BillingInvoice
-	User           User
+	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
+	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindPayment(ctx context.Context, id pgtype.UUID) (BillingFindPaymentRow, error) {
@@ -184,19 +184,19 @@ returning
 `
 
 type BillingInsertPaymentParams struct {
-	InvoiceID         pgtype.UUID
-	Amount            pgtype.Numeric
-	PaymentMethod     BillingPaymentMethodEnum
-	TransactionID     pgtype.Text
-	GatewayReference  pgtype.Text
-	Status            NullBillingPaymentStatusEnum
-	PaymentDate       pgtype.Timestamp
-	ProcessedAt       pgtype.Timestamp
-	Currency          pgtype.Text
-	ExchangeRate      pgtype.Numeric
-	Fees              pgtype.Numeric
-	Notes             pgtype.Text
-	ProcessedByUserID pgtype.Text
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 }
 
 func (q *Queries) BillingInsertPayment(ctx context.Context, arg BillingInsertPaymentParams) (BillingPayment, error) {
@@ -256,15 +256,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginatePaymentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginatePaymentRow struct {
-	BillingPayment BillingPayment
-	BillingInvoice BillingInvoice
-	User           User
+	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
+	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginatePaymentParams) ([]BillingPaginatePaymentRow, error) {
@@ -357,15 +357,15 @@ where
 `
 
 type BillingRangePaymentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangePaymentRow struct {
-	BillingPayment BillingPayment
-	BillingInvoice BillingInvoice
-	User           User
+	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
+	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
+	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangePayment(ctx context.Context, arg BillingRangePaymentParams) ([]BillingRangePaymentRow, error) {
@@ -525,20 +525,20 @@ returning
 `
 
 type BillingUpdatePaymentParams struct {
-	InvoiceID         pgtype.UUID
-	Amount            pgtype.Numeric
-	PaymentMethod     BillingPaymentMethodEnum
-	TransactionID     pgtype.Text
-	GatewayReference  pgtype.Text
-	Status            NullBillingPaymentStatusEnum
-	PaymentDate       pgtype.Timestamp
-	ProcessedAt       pgtype.Timestamp
-	Currency          pgtype.Text
-	ExchangeRate      pgtype.Numeric
-	Fees              pgtype.Numeric
-	Notes             pgtype.Text
-	ProcessedByUserID pgtype.Text
-	ID                pgtype.UUID
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
+	ID                pgtype.UUID                  `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdatePayment(ctx context.Context, arg BillingUpdatePaymentParams) (BillingPayment, error) {

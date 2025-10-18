@@ -23,8 +23,8 @@ where
 `
 
 type DmsAnyCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink
-	DmsDeliveryTask         DmsDeliveryTask
+	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
+	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsAnyCustomerTrackingLink(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyCustomerTrackingLinkRow, error) {
@@ -85,8 +85,8 @@ where
 `
 
 type DmsFindCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink
-	DmsDeliveryTask         DmsDeliveryTask
+	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
+	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsFindCustomerTrackingLink(ctx context.Context, id pgtype.UUID) (DmsFindCustomerTrackingLinkRow, error) {
@@ -130,12 +130,12 @@ returning
 `
 
 type DmsInsertCustomerTrackingLinkParams struct {
-	DeliveryTaskID pgtype.UUID
-	TrackingToken  string
-	IsActive       pgtype.Bool
-	AccessCount    pgtype.Int4
-	LastAccessedAt pgtype.Timestamp
-	ExpiresAt      pgtype.Timestamp
+	DeliveryTaskID pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken  string           `db:"tracking_token" json:"tracking_token"`
+	IsActive       pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount    pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt      pgtype.Timestamp `db:"expires_at" json:"expires_at"`
 }
 
 func (q *Queries) DmsInsertCustomerTrackingLink(ctx context.Context, arg DmsInsertCustomerTrackingLinkParams) (DmsCustomerTrackingLink, error) {
@@ -176,14 +176,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateCustomerTrackingLinkParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type DmsPaginateCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink
-	DmsDeliveryTask         DmsDeliveryTask
+	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
+	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPaginateCustomerTrackingLinkParams) ([]DmsPaginateCustomerTrackingLinkRow, error) {
@@ -248,14 +248,14 @@ where
 `
 
 type DmsRangeCustomerTrackingLinkParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsRangeCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink
-	DmsDeliveryTask         DmsDeliveryTask
+	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
+	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsRangeCustomerTrackingLink(ctx context.Context, arg DmsRangeCustomerTrackingLinkParams) ([]DmsRangeCustomerTrackingLinkRow, error) {
@@ -356,13 +356,13 @@ returning
 `
 
 type DmsUpdateCustomerTrackingLinkParams struct {
-	DeliveryTaskID pgtype.UUID
-	TrackingToken  string
-	IsActive       pgtype.Bool
-	AccessCount    pgtype.Int4
-	LastAccessedAt pgtype.Timestamp
-	ExpiresAt      pgtype.Timestamp
-	ID             pgtype.UUID
+	DeliveryTaskID pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken  string           `db:"tracking_token" json:"tracking_token"`
+	IsActive       pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount    pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt      pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
 }
 
 func (q *Queries) DmsUpdateCustomerTrackingLink(ctx context.Context, arg DmsUpdateCustomerTrackingLinkParams) (DmsCustomerTrackingLink, error) {

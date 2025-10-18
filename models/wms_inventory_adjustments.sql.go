@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment
-	WmsProduct             WmsProduct
-	User                   User
+	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsAnyInventoryAdjustment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInventoryAdjustmentRow, error) {
@@ -101,9 +101,9 @@ where
 `
 
 type WmsFindInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment
-	WmsProduct             WmsProduct
-	User                   User
+	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsFindInventoryAdjustment(ctx context.Context, id pgtype.UUID) (WmsFindInventoryAdjustmentRow, error) {
@@ -158,12 +158,12 @@ returning
 `
 
 type WmsInsertInventoryAdjustmentParams struct {
-	ProductID      pgtype.UUID
-	WarehouseID    pgtype.UUID
-	UserID         string
-	QuantityChange int32
-	Reason         NullWmsInventoryAdjustmentReasonEnum
-	Notes          pgtype.Text
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
 }
 
 func (q *Queries) WmsInsertInventoryAdjustment(ctx context.Context, arg WmsInsertInventoryAdjustmentParams) (WmsInventoryAdjustment, error) {
@@ -207,15 +207,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryAdjustmentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment
-	WmsProduct             WmsProduct
-	User                   User
+	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPaginateInventoryAdjustmentParams) ([]WmsPaginateInventoryAdjustmentRow, error) {
@@ -294,15 +294,15 @@ where
 `
 
 type WmsRangeInventoryAdjustmentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment
-	WmsProduct             WmsProduct
-	User                   User
+	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
+	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsRangeInventoryAdjustment(ctx context.Context, arg WmsRangeInventoryAdjustmentParams) ([]WmsRangeInventoryAdjustmentRow, error) {
@@ -414,13 +414,13 @@ returning
 `
 
 type WmsUpdateInventoryAdjustmentParams struct {
-	ProductID      pgtype.UUID
-	WarehouseID    pgtype.UUID
-	UserID         string
-	QuantityChange int32
-	Reason         NullWmsInventoryAdjustmentReasonEnum
-	Notes          pgtype.Text
-	ID             pgtype.UUID
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	ID             pgtype.UUID                          `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateInventoryAdjustment(ctx context.Context, arg WmsUpdateInventoryAdjustmentParams) (WmsInventoryAdjustment, error) {

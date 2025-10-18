@@ -23,8 +23,8 @@ where
 `
 
 type BillingAnyInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	BillingInvoice         BillingInvoice
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingAnyInvoiceLineItem(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyInvoiceLineItemRow, error) {
@@ -96,8 +96,8 @@ where
 `
 
 type BillingFindInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	BillingInvoice         BillingInvoice
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingFindInvoiceLineItem(ctx context.Context, id pgtype.UUID) (BillingFindInvoiceLineItemRow, error) {
@@ -152,14 +152,14 @@ returning
 `
 
 type BillingInsertInvoiceLineItemParams struct {
-	InvoiceID        pgtype.UUID
-	SourceRecordID   pgtype.UUID
-	SourceRecordType pgtype.Text
-	Description      string
-	Quantity         pgtype.Numeric
-	UnitPrice        pgtype.Numeric
-	TaxRate          pgtype.Numeric
-	DiscountRate     pgtype.Numeric
+	InvoiceID        pgtype.UUID    `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID    `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text    `db:"source_record_type" json:"source_record_type"`
+	Description      string         `db:"description" json:"description"`
+	Quantity         pgtype.Numeric `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric `db:"unit_price" json:"unit_price"`
+	TaxRate          pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
+	DiscountRate     pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
 }
 
 func (q *Queries) BillingInsertInvoiceLineItem(ctx context.Context, arg BillingInsertInvoiceLineItemParams) (BillingInvoiceLineItem, error) {
@@ -208,14 +208,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateInvoiceLineItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type BillingPaginateInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	BillingInvoice         BillingInvoice
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg BillingPaginateInvoiceLineItemParams) ([]BillingPaginateInvoiceLineItemRow, error) {
@@ -291,14 +291,14 @@ where
 `
 
 type BillingRangeInvoiceLineItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingRangeInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem
-	BillingInvoice         BillingInvoice
+	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
+	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingRangeInvoiceLineItem(ctx context.Context, arg BillingRangeInvoiceLineItemParams) ([]BillingRangeInvoiceLineItemRow, error) {
@@ -420,15 +420,15 @@ returning
 `
 
 type BillingUpdateInvoiceLineItemParams struct {
-	InvoiceID        pgtype.UUID
-	SourceRecordID   pgtype.UUID
-	SourceRecordType pgtype.Text
-	Description      string
-	Quantity         pgtype.Numeric
-	UnitPrice        pgtype.Numeric
-	TaxRate          pgtype.Numeric
-	DiscountRate     pgtype.Numeric
-	ID               pgtype.UUID
+	InvoiceID        pgtype.UUID    `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID    `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text    `db:"source_record_type" json:"source_record_type"`
+	Description      string         `db:"description" json:"description"`
+	Quantity         pgtype.Numeric `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric `db:"unit_price" json:"unit_price"`
+	TaxRate          pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
+	DiscountRate     pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
+	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 
 func (q *Queries) BillingUpdateInvoiceLineItem(ctx context.Context, arg BillingUpdateInvoiceLineItemParams) (BillingInvoiceLineItem, error) {

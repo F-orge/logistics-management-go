@@ -23,8 +23,8 @@ where
 `
 
 type TmsAnyVehicleMaintenanceRow struct {
-	TmsVehicleMaintenance TmsVehicleMaintenance
-	TmsVehicle            TmsVehicle
+	TmsVehicleMaintenance TmsVehicleMaintenance `db:"tms_vehicle_maintenance" json:"tms_vehicle_maintenance"`
+	TmsVehicle            TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsAnyVehicleMaintenance(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyVehicleMaintenanceRow, error) {
@@ -81,8 +81,8 @@ where
 `
 
 type TmsFindVehicleMaintenanceRow struct {
-	TmsVehicleMaintenance TmsVehicleMaintenance
-	TmsVehicle            TmsVehicle
+	TmsVehicleMaintenance TmsVehicleMaintenance `db:"tms_vehicle_maintenance" json:"tms_vehicle_maintenance"`
+	TmsVehicle            TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsFindVehicleMaintenance(ctx context.Context, id pgtype.UUID) (TmsFindVehicleMaintenanceRow, error) {
@@ -122,11 +122,11 @@ returning
 `
 
 type TmsInsertVehicleMaintenanceParams struct {
-	VehicleID   pgtype.UUID
-	ServiceDate pgtype.Date
-	ServiceType NullTmsVehicleServiceTypeEnum
-	Cost        pgtype.Numeric
-	Notes       pgtype.Text
+	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
+	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
+	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" json:"notes"`
 }
 
 func (q *Queries) TmsInsertVehicleMaintenance(ctx context.Context, arg TmsInsertVehicleMaintenanceParams) (TmsVehicleMaintenance, error) {
@@ -165,14 +165,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateVehicleMaintenanceParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type TmsPaginateVehicleMaintenanceRow struct {
-	TmsVehicleMaintenance TmsVehicleMaintenance
-	TmsVehicle            TmsVehicle
+	TmsVehicleMaintenance TmsVehicleMaintenance `db:"tms_vehicle_maintenance" json:"tms_vehicle_maintenance"`
+	TmsVehicle            TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateVehicleMaintenance(ctx context.Context, arg TmsPaginateVehicleMaintenanceParams) ([]TmsPaginateVehicleMaintenanceRow, error) {
@@ -233,14 +233,14 @@ where
 `
 
 type TmsRangeVehicleMaintenanceParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsRangeVehicleMaintenanceRow struct {
-	TmsVehicleMaintenance TmsVehicleMaintenance
-	TmsVehicle            TmsVehicle
+	TmsVehicleMaintenance TmsVehicleMaintenance `db:"tms_vehicle_maintenance" json:"tms_vehicle_maintenance"`
+	TmsVehicle            TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsRangeVehicleMaintenance(ctx context.Context, arg TmsRangeVehicleMaintenanceParams) ([]TmsRangeVehicleMaintenanceRow, error) {
@@ -332,12 +332,12 @@ returning
 `
 
 type TmsUpdateVehicleMaintenanceParams struct {
-	VehicleID   pgtype.UUID
-	ServiceDate pgtype.Date
-	ServiceType NullTmsVehicleServiceTypeEnum
-	Cost        pgtype.Numeric
-	Notes       pgtype.Text
-	ID          pgtype.UUID
+	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
+	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
+	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	ID          pgtype.UUID                   `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateVehicleMaintenance(ctx context.Context, arg TmsUpdateVehicleMaintenanceParams) (TmsVehicleMaintenance, error) {

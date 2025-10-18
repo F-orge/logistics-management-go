@@ -23,8 +23,8 @@ where
 `
 
 type DmsAnyTaskEventRow struct {
-	DmsTaskEvent    DmsTaskEvent
-	DmsDeliveryTask DmsDeliveryTask
+	DmsTaskEvent    DmsTaskEvent    `db:"dms_task_event" json:"dms_task_event"`
+	DmsDeliveryTask DmsDeliveryTask `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsAnyTaskEvent(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyTaskEventRow, error) {
@@ -86,8 +86,8 @@ where
 `
 
 type DmsFindTaskEventRow struct {
-	DmsTaskEvent    DmsTaskEvent
-	DmsDeliveryTask DmsDeliveryTask
+	DmsTaskEvent    DmsTaskEvent    `db:"dms_task_event" json:"dms_task_event"`
+	DmsDeliveryTask DmsDeliveryTask `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsFindTaskEvent(ctx context.Context, id pgtype.UUID) (DmsFindTaskEventRow, error) {
@@ -132,13 +132,13 @@ returning
 `
 
 type DmsInsertTaskEventParams struct {
-	DeliveryTaskID pgtype.UUID
-	Status         DmsTaskEventStatusEnum
-	Reason         pgtype.Text
-	Notes          pgtype.Text
-	Latitude       pgtype.Float4
-	Longitude      pgtype.Float4
-	Timestamp      pgtype.Timestamp
+	DeliveryTaskID pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
+	Status         DmsTaskEventStatusEnum `db:"status" json:"status"`
+	Reason         pgtype.Text            `db:"reason" json:"reason"`
+	Notes          pgtype.Text            `db:"notes" json:"notes"`
+	Latitude       pgtype.Float4          `db:"latitude" json:"latitude"`
+	Longitude      pgtype.Float4          `db:"longitude" json:"longitude"`
+	Timestamp      pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
 }
 
 func (q *Queries) DmsInsertTaskEvent(ctx context.Context, arg DmsInsertTaskEventParams) (DmsTaskEvent, error) {
@@ -181,14 +181,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateTaskEventParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type DmsPaginateTaskEventRow struct {
-	DmsTaskEvent    DmsTaskEvent
-	DmsDeliveryTask DmsDeliveryTask
+	DmsTaskEvent    DmsTaskEvent    `db:"dms_task_event" json:"dms_task_event"`
+	DmsDeliveryTask DmsDeliveryTask `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateTaskEvent(ctx context.Context, arg DmsPaginateTaskEventParams) ([]DmsPaginateTaskEventRow, error) {
@@ -254,14 +254,14 @@ where
 `
 
 type DmsRangeTaskEventParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsRangeTaskEventRow struct {
-	DmsTaskEvent    DmsTaskEvent
-	DmsDeliveryTask DmsDeliveryTask
+	DmsTaskEvent    DmsTaskEvent    `db:"dms_task_event" json:"dms_task_event"`
+	DmsDeliveryTask DmsDeliveryTask `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsRangeTaskEvent(ctx context.Context, arg DmsRangeTaskEventParams) ([]DmsRangeTaskEventRow, error) {
@@ -368,14 +368,14 @@ returning
 `
 
 type DmsUpdateTaskEventParams struct {
-	DeliveryTaskID pgtype.UUID
-	Status         DmsTaskEventStatusEnum
-	Reason         pgtype.Text
-	Notes          pgtype.Text
-	Latitude       pgtype.Float4
-	Longitude      pgtype.Float4
-	Timestamp      pgtype.Timestamp
-	ID             pgtype.UUID
+	DeliveryTaskID pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
+	Status         DmsTaskEventStatusEnum `db:"status" json:"status"`
+	Reason         pgtype.Text            `db:"reason" json:"reason"`
+	Notes          pgtype.Text            `db:"notes" json:"notes"`
+	Latitude       pgtype.Float4          `db:"latitude" json:"latitude"`
+	Longitude      pgtype.Float4          `db:"longitude" json:"longitude"`
+	Timestamp      pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	ID             pgtype.UUID            `db:"id" json:"id"`
 }
 
 func (q *Queries) DmsUpdateTaskEvent(ctx context.Context, arg DmsUpdateTaskEventParams) (DmsTaskEvent, error) {

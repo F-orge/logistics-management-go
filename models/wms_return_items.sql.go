@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyReturnItemRow struct {
-	WmsReturnItem WmsReturnItem
-	WmsReturn     WmsReturn
-	WmsProduct    WmsProduct
+	WmsReturnItem WmsReturnItem `db:"wms_return_item" json:"wms_return_item"`
+	WmsReturn     WmsReturn     `db:"wms_return" json:"wms_return"`
+	WmsProduct    WmsProduct    `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyReturnItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyReturnItemRow, error) {
@@ -98,9 +98,9 @@ where
 `
 
 type WmsFindReturnItemRow struct {
-	WmsReturnItem WmsReturnItem
-	WmsReturn     WmsReturn
-	WmsProduct    WmsProduct
+	WmsReturnItem WmsReturnItem `db:"wms_return_item" json:"wms_return_item"`
+	WmsReturn     WmsReturn     `db:"wms_return" json:"wms_return"`
+	WmsProduct    WmsProduct    `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindReturnItem(ctx context.Context, id pgtype.UUID) (WmsFindReturnItemRow, error) {
@@ -152,11 +152,11 @@ returning
 `
 
 type WmsInsertReturnItemParams struct {
-	ReturnID         pgtype.UUID
-	ProductID        pgtype.UUID
-	QuantityExpected int32
-	QuantityReceived pgtype.Int4
-	Condition        NullWmsReturnItemConditionEnum
+	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
+	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
+	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 }
 
 func (q *Queries) WmsInsertReturnItem(ctx context.Context, arg WmsInsertReturnItemParams) (WmsReturnItem, error) {
@@ -199,15 +199,15 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateReturnItemParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateReturnItemRow struct {
-	WmsReturnItem WmsReturnItem
-	WmsReturn     WmsReturn
-	WmsProduct    WmsProduct
+	WmsReturnItem WmsReturnItem `db:"wms_return_item" json:"wms_return_item"`
+	WmsReturn     WmsReturn     `db:"wms_return" json:"wms_return"`
+	WmsProduct    WmsProduct    `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateReturnItem(ctx context.Context, arg WmsPaginateReturnItemParams) ([]WmsPaginateReturnItemRow, error) {
@@ -283,15 +283,15 @@ where
 `
 
 type WmsRangeReturnItemParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeReturnItemRow struct {
-	WmsReturnItem WmsReturnItem
-	WmsReturn     WmsReturn
-	WmsProduct    WmsProduct
+	WmsReturnItem WmsReturnItem `db:"wms_return_item" json:"wms_return_item"`
+	WmsReturn     WmsReturn     `db:"wms_return" json:"wms_return"`
+	WmsProduct    WmsProduct    `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeReturnItem(ctx context.Context, arg WmsRangeReturnItemParams) ([]WmsRangeReturnItemRow, error) {
@@ -395,12 +395,12 @@ returning
 `
 
 type WmsUpdateReturnItemParams struct {
-	ReturnID         pgtype.UUID
-	ProductID        pgtype.UUID
-	QuantityExpected int32
-	QuantityReceived pgtype.Int4
-	Condition        NullWmsReturnItemConditionEnum
-	ID               pgtype.UUID
+	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
+	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
+	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
+	ID               pgtype.UUID                    `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateReturnItem(ctx context.Context, arg WmsUpdateReturnItemParams) (WmsReturnItem, error) {

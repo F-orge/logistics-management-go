@@ -80,9 +80,9 @@ returning
 `
 
 type TmsInsertGeofenceParams struct {
-	Name      string
-	Longitude pgtype.Float4
-	Latitude  pgtype.Float4
+	Name      string        `db:"name" json:"name"`
+	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
+	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
 }
 
 func (q *Queries) TmsInsertGeofence(ctx context.Context, arg TmsInsertGeofenceParams) (TmsGeofence, error) {
@@ -110,9 +110,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateGeofenceParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofenceParams) ([]TmsGeofencesView, error) {
@@ -156,9 +156,9 @@ where
 `
 
 type TmsRangeGeofenceParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) TmsRangeGeofence(ctx context.Context, arg TmsRangeGeofenceParams) ([]TmsGeofencesView, error) {
@@ -226,10 +226,10 @@ returning
 `
 
 type TmsUpdateGeofenceParams struct {
-	Name      string
-	Longitude pgtype.Float4
-	Latitude  pgtype.Float4
-	ID        pgtype.UUID
+	Name      string        `db:"name" json:"name"`
+	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
+	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
+	ID        pgtype.UUID   `db:"id" json:"id"`
 }
 
 func (q *Queries) TmsUpdateGeofence(ctx context.Context, arg TmsUpdateGeofenceParams) (TmsGeofence, error) {

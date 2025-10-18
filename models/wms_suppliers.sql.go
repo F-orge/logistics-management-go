@@ -82,10 +82,10 @@ returning
 `
 
 type WmsInsertSupplierParams struct {
-	Name          string
-	ContactPerson pgtype.Text
-	Email         pgtype.Text
-	PhoneNumber   pgtype.Text
+	Name          string      `db:"name" json:"name"`
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	Email         pgtype.Text `db:"email" json:"email"`
+	PhoneNumber   pgtype.Text `db:"phone_number" json:"phone_number"`
 }
 
 func (q *Queries) WmsInsertSupplier(ctx context.Context, arg WmsInsertSupplierParams) (WmsSupplier, error) {
@@ -120,9 +120,9 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSupplierParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSuppliersView, error) {
@@ -168,9 +168,9 @@ where
 `
 
 type WmsRangeSupplierParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 func (q *Queries) WmsRangeSupplier(ctx context.Context, arg WmsRangeSupplierParams) ([]WmsSuppliersView, error) {
@@ -244,11 +244,11 @@ returning
 `
 
 type WmsUpdateSupplierParams struct {
-	Name          string
-	ContactPerson pgtype.Text
-	Email         pgtype.Text
-	PhoneNumber   pgtype.Text
-	ID            pgtype.UUID
+	Name          string      `db:"name" json:"name"`
+	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	Email         pgtype.Text `db:"email" json:"email"`
+	PhoneNumber   pgtype.Text `db:"phone_number" json:"phone_number"`
+	ID            pgtype.UUID `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateSupplier(ctx context.Context, arg WmsUpdateSupplierParams) (WmsSupplier, error) {

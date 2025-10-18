@@ -23,8 +23,8 @@ where
 `
 
 type WmsAnyInboundShipmentRow struct {
-	WmsInboundShipmentsView WmsInboundShipmentsView
-	CrmCompany              CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView `db:"wms_inbound_shipments_view" json:"wms_inbound_shipments_view"`
+	CrmCompany              CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsAnyInboundShipment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInboundShipmentRow, error) {
@@ -83,8 +83,8 @@ where
 `
 
 type WmsFindInboundShipmentRow struct {
-	WmsInboundShipmentsView WmsInboundShipmentsView
-	CrmCompany              CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView `db:"wms_inbound_shipments_view" json:"wms_inbound_shipments_view"`
+	CrmCompany              CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsFindInboundShipment(ctx context.Context, id pgtype.UUID) (WmsFindInboundShipmentRow, error) {
@@ -126,11 +126,11 @@ returning
 `
 
 type WmsInsertInboundShipmentParams struct {
-	ClientID            pgtype.UUID
-	WarehouseID         pgtype.UUID
-	Status              NullWmsInboundShipmentStatusEnum
-	ExpectedArrivalDate pgtype.Date
-	ActualArrivalDate   pgtype.Date
+	ClientID            pgtype.UUID                      `db:"client_id" json:"client_id"`
+	WarehouseID         pgtype.UUID                      `db:"warehouse_id" json:"warehouse_id"`
+	Status              NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
+	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" json:"expected_arrival_date"`
+	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
 }
 
 func (q *Queries) WmsInsertInboundShipment(ctx context.Context, arg WmsInsertInboundShipmentParams) (WmsInboundShipment, error) {
@@ -169,14 +169,14 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInboundShipmentParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type WmsPaginateInboundShipmentRow struct {
-	WmsInboundShipmentsView WmsInboundShipmentsView
-	CrmCompany              CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView `db:"wms_inbound_shipments_view" json:"wms_inbound_shipments_view"`
+	CrmCompany              CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsPaginateInboundShipment(ctx context.Context, arg WmsPaginateInboundShipmentParams) ([]WmsPaginateInboundShipmentRow, error) {
@@ -239,14 +239,14 @@ where
 `
 
 type WmsRangeInboundShipmentParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsRangeInboundShipmentRow struct {
-	WmsInboundShipmentsView WmsInboundShipmentsView
-	CrmCompany              CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView `db:"wms_inbound_shipments_view" json:"wms_inbound_shipments_view"`
+	CrmCompany              CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsRangeInboundShipment(ctx context.Context, arg WmsRangeInboundShipmentParams) ([]WmsRangeInboundShipmentRow, error) {
@@ -340,12 +340,12 @@ returning
 `
 
 type WmsUpdateInboundShipmentParams struct {
-	ClientID            pgtype.UUID
-	WarehouseID         pgtype.UUID
-	Status              NullWmsInboundShipmentStatusEnum
-	ExpectedArrivalDate pgtype.Date
-	ActualArrivalDate   pgtype.Date
-	ID                  pgtype.UUID
+	ClientID            pgtype.UUID                      `db:"client_id" json:"client_id"`
+	WarehouseID         pgtype.UUID                      `db:"warehouse_id" json:"warehouse_id"`
+	Status              NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
+	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" json:"expected_arrival_date"`
+	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
+	ID                  pgtype.UUID                      `db:"id" json:"id"`
 }
 
 func (q *Queries) WmsUpdateInboundShipment(ctx context.Context, arg WmsUpdateInboundShipmentParams) (WmsInboundShipment, error) {

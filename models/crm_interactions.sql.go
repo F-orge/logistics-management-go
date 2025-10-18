@@ -27,10 +27,10 @@ where
 `
 
 type CrmAnyInteractionRow struct {
-	CrmInteraction CrmInteraction
-	CrmContact     CrmContact
-	User           User
-	CrmCase        CrmCase
+	CrmInteraction CrmInteraction `db:"crm_interaction" json:"crm_interaction"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	User           User           `db:"user" json:"user"`
+	CrmCase        CrmCase        `db:"crm_case" json:"crm_case"`
 }
 
 func (q *Queries) CrmAnyInteraction(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyInteractionRow, error) {
@@ -110,10 +110,10 @@ where
 `
 
 type CrmFindInteractionRow struct {
-	CrmInteraction CrmInteraction
-	CrmContact     CrmContact
-	User           User
-	CrmCase        CrmCase
+	CrmInteraction CrmInteraction `db:"crm_interaction" json:"crm_interaction"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	User           User           `db:"user" json:"user"`
+	CrmCase        CrmCase        `db:"crm_case" json:"crm_case"`
 }
 
 func (q *Queries) CrmFindInteraction(ctx context.Context, id pgtype.UUID) (CrmFindInteractionRow, error) {
@@ -172,13 +172,13 @@ returning
 `
 
 type CrmInsertInteractionParams struct {
-	ContactID       pgtype.UUID
-	UserID          string
-	CaseID          pgtype.UUID
-	Type            NullCrmInteractionType
-	Outcome         pgtype.Text
-	Notes           pgtype.Text
-	InteractionDate pgtype.Timestamptz
+	ContactID       pgtype.UUID            `db:"contact_id" json:"contact_id"`
+	UserID          string                 `db:"user_id" json:"user_id"`
+	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
+	Type            NullCrmInteractionType `db:"type" json:"type"`
+	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
 }
 
 func (q *Queries) CrmInsertInteraction(ctx context.Context, arg CrmInsertInteractionParams) (CrmInteraction, error) {
@@ -227,16 +227,16 @@ limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateInteractionParams struct {
-	Search  pgtype.Text
-	Page    int32
-	Perpage int32
+	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	Perpage int32       `db:"perpage" json:"perpage"`
 }
 
 type CrmPaginateInteractionRow struct {
-	CrmInteraction CrmInteraction
-	CrmContact     CrmContact
-	User           User
-	CrmCase        CrmCase
+	CrmInteraction CrmInteraction `db:"crm_interaction" json:"crm_interaction"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	User           User           `db:"user" json:"user"`
+	CrmCase        CrmCase        `db:"crm_case" json:"crm_case"`
 }
 
 func (q *Queries) CrmPaginateInteraction(ctx context.Context, arg CrmPaginateInteractionParams) ([]CrmPaginateInteractionRow, error) {
@@ -322,16 +322,16 @@ where
 `
 
 type CrmRangeInteractionParams struct {
-	Datefrom pgtype.Date
-	Dateto   pgtype.Date
-	Search   pgtype.Text
+	Datefrom pgtype.Date `db:"datefrom" json:"datefrom"`
+	Dateto   pgtype.Date `db:"dateto" json:"dateto"`
+	Search   pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmRangeInteractionRow struct {
-	CrmInteraction CrmInteraction
-	CrmContact     CrmContact
-	User           User
-	CrmCase        CrmCase
+	CrmInteraction CrmInteraction `db:"crm_interaction" json:"crm_interaction"`
+	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
+	User           User           `db:"user" json:"user"`
+	CrmCase        CrmCase        `db:"crm_case" json:"crm_case"`
 }
 
 func (q *Queries) CrmRangeInteraction(ctx context.Context, arg CrmRangeInteractionParams) ([]CrmRangeInteractionRow, error) {
@@ -452,14 +452,14 @@ returning
 `
 
 type CrmUpdateInteractionParams struct {
-	ContactID       pgtype.UUID
-	UserID          string
-	CaseID          pgtype.UUID
-	Type            NullCrmInteractionType
-	Outcome         pgtype.Text
-	Notes           pgtype.Text
-	InteractionDate pgtype.Timestamptz
-	ID              pgtype.UUID
+	ContactID       pgtype.UUID            `db:"contact_id" json:"contact_id"`
+	UserID          string                 `db:"user_id" json:"user_id"`
+	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
+	Type            NullCrmInteractionType `db:"type" json:"type"`
+	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
 }
 
 func (q *Queries) CrmUpdateInteraction(ctx context.Context, arg CrmUpdateInteractionParams) (CrmInteraction, error) {
