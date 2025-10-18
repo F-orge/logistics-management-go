@@ -261,8 +261,7 @@ from
   inner join "billing"."invoices" as invoice on credit_notes.invoice_id = invoice.id
   left join "billing"."disputes" as dispute on credit_notes.dispute_id = dispute.id
   left join "public"."user" as created_by_user on credit_notes.created_by_user_id = created_by_user.id
-where
-  (invoice.invoice_number ilike $1::text
+where (invoice.invoice_number ilike $1::text
   or dispute.reason ilike $1::text
   or created_by_user.name ilike $1::text
   or credit_notes.credit_note_number ilike $1::text
@@ -376,10 +375,10 @@ where
   credit_notes.created_at >= $1::date
   and credit_notes.created_at <= $2::date
   and (invoice.invoice_number ilike $3::text
-  or dispute.reason ilike $3::text
-  or created_by_user.name ilike $3::text
-  or credit_notes.credit_note_number ilike $3::text
-  or $3::text is null)
+    or dispute.reason ilike $3::text
+    or created_by_user.name ilike $3::text
+    or credit_notes.credit_note_number ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeCreditNoteParams struct {
@@ -488,107 +487,87 @@ update
   "billing"."credit_notes"
 set
   updated_at = now(),
-  invoice_id = case when $1::boolean then
-    $2::uuid
+  invoice_id = case when $1 is not null then
+    $1::uuid
   else
     invoice_id
   end,
-  dispute_id = case when $3::boolean then
-    $4::uuid
+  dispute_id = case when $2 is not null then
+    $2::uuid
   else
     dispute_id
   end,
-  credit_note_number = case when $5::boolean then
-    $6::varchar
+  credit_note_number = case when $3 is not null then
+    $3::varchar
   else
     credit_note_number
   end,
-  amount = case when $7::boolean then
-    $8::numeric
+  amount = case when $4 is not null then
+    $4::numeric
   else
     amount
   end,
-  reason = case when $9::boolean then
-    $10::text
+  reason = case when $5 is not null then
+    $5::text
   else
     reason
   end,
-  issue_date = case when $11::boolean then
-    $12::date
+  issue_date = case when $6 is not null then
+    $6::date
   else
     issue_date
   end,
-  applied_at = case when $13::boolean then
-    $14::timestamp
+  applied_at = case when $7 is not null then
+    $7::timestamp
   else
     applied_at
   end,
-  currency = case when $15::boolean then
-    $16::varchar
+  currency = case when $8 is not null then
+    $8::varchar
   else
     currency
   end,
-  notes = case when $17::boolean then
-    $18::text
+  notes = case when $9 is not null then
+    $9::text
   else
     notes
   end,
-  created_by_user_id = case when $19::boolean then
-    $20::text
+  created_by_user_id = case when $10 is not null then
+    $10::text
   else
     created_by_user_id
   end
 where
-  id = $21::uuid
+  id = $11::uuid
 returning
   id, invoice_id, dispute_id, credit_note_number, amount, reason, issue_date, applied_at, currency, notes, created_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateCreditNoteParams struct {
-	SetInvoiceID        bool
-	InvoiceID           pgtype.UUID
-	SetDisputeID        bool
-	DisputeID           pgtype.UUID
-	SetCreditNoteNumber bool
-	CreditNoteNumber    string
-	SetAmount           bool
-	Amount              pgtype.Numeric
-	SetReason           bool
-	Reason              string
-	SetIssueDate        bool
-	IssueDate           pgtype.Date
-	SetAppliedAt        bool
-	AppliedAt           pgtype.Timestamp
-	SetCurrency         bool
-	Currency            string
-	SetNotes            bool
-	Notes               string
-	SetCreatedByUserID  bool
-	CreatedByUserID     string
-	ID                  pgtype.UUID
+	InvoiceID        pgtype.UUID
+	DisputeID        pgtype.UUID
+	CreditNoteNumber string
+	Amount           pgtype.Numeric
+	Reason           string
+	IssueDate        pgtype.Date
+	AppliedAt        pgtype.Timestamp
+	Currency         pgtype.Text
+	Notes            pgtype.Text
+	CreatedByUserID  pgtype.Text
+	ID               pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateCreditNote(ctx context.Context, arg BillingUpdateCreditNoteParams) (BillingCreditNote, error) {
 	row := q.db.QueryRow(ctx, billingUpdateCreditNote,
-		arg.SetInvoiceID,
 		arg.InvoiceID,
-		arg.SetDisputeID,
 		arg.DisputeID,
-		arg.SetCreditNoteNumber,
 		arg.CreditNoteNumber,
-		arg.SetAmount,
 		arg.Amount,
-		arg.SetReason,
 		arg.Reason,
-		arg.SetIssueDate,
 		arg.IssueDate,
-		arg.SetAppliedAt,
 		arg.AppliedAt,
-		arg.SetCurrency,
 		arg.Currency,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetCreatedByUserID,
 		arg.CreatedByUserID,
 		arg.ID,
 	)

@@ -7,8 +7,7 @@ from
   "billing"."quotes" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
-where
-  (client.name ilike sqlc.narg(search)::text
+where (client.name ilike sqlc.narg(search)::text
   or quotes.quote_number ilike sqlc.narg(search)::text
   or quotes.service_level ilike sqlc.narg(search)::text
   or quotes.status::text ilike sqlc.narg(search)::text
@@ -53,11 +52,11 @@ where
   quotes.created_at >= @dateFrom::date
   and quotes.created_at <= @dateTo::date
   and (client.name ilike sqlc.narg(search)::text
-  or quotes.quote_number ilike sqlc.narg(search)::text
-  or quotes.service_level ilike sqlc.narg(search)::text
-  or quotes.status::text ilike sqlc.narg(search)::text
-  or created_by_user.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or quotes.quote_number ilike sqlc.narg(search)::text
+    or quotes.service_level ilike sqlc.narg(search)::text
+    or quotes.status::text ilike sqlc.narg(search)::text
+    or created_by_user.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertQuote :one
 insert into "billing"."quotes"(client_id, origin_details, destination_details, weight, length, width, height, quoted_price, service_level, expires_at, status, quote_number, notes, created_by_user_id)
@@ -70,72 +69,72 @@ update
   "billing"."quotes"
 set
   updated_at = now(),
-  client_id = case when sqlc.arg(set_client_id)::boolean then
+  client_id = case when sqlc.arg(client_id) is not null then
     sqlc.arg(client_id)::uuid
   else
     client_id
   end,
-  origin_details = case when sqlc.arg(set_origin_details)::boolean then
+  origin_details = case when sqlc.arg(origin_details) is not null then
     sqlc.arg(origin_details)::text
   else
     origin_details
   end,
-  destination_details = case when sqlc.arg(set_destination_details)::boolean then
+  destination_details = case when sqlc.arg(destination_details) is not null then
     sqlc.arg(destination_details)::text
   else
     destination_details
   end,
-  weight = case when sqlc.arg(set_weight)::boolean then
+  weight = case when sqlc.arg(weight) is not null then
     sqlc.arg(weight)::numeric
   else
     weight
   end,
-  length = case when sqlc.arg(set_length)::boolean then
+  length = case when sqlc.arg(length) is not null then
     sqlc.arg(length)::numeric
   else
     length
   end,
-  width = case when sqlc.arg(set_width)::boolean then
+  width = case when sqlc.arg(width) is not null then
     sqlc.arg(width)::numeric
   else
     width
   end,
-  height = case when sqlc.arg(set_height)::boolean then
+  height = case when sqlc.arg(height) is not null then
     sqlc.arg(height)::numeric
   else
     height
   end,
-  quoted_price = case when sqlc.arg(set_quoted_price)::boolean then
+  quoted_price = case when sqlc.arg(quoted_price) is not null then
     sqlc.arg(quoted_price)::numeric
   else
     quoted_price
   end,
-  service_level = case when sqlc.arg(set_service_level)::boolean then
+  service_level = case when sqlc.arg(service_level) is not null then
     sqlc.arg(service_level)::varchar
   else
     service_level
   end,
-  expires_at = case when sqlc.arg(set_expires_at)::boolean then
+  expires_at = case when sqlc.arg(expires_at) is not null then
     sqlc.arg(expires_at)::timestamp
   else
     expires_at
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::billing.quote_status_enum
   else
     status
   end,
-  quote_number = case when sqlc.arg(set_quote_number)::boolean then
+  quote_number = case when sqlc.arg(quote_number) is not null then
     sqlc.arg(quote_number)::varchar
   else
     quote_number
   end,
-  notes = case when sqlc.arg(set_notes)::boolean then
+  notes = case when sqlc.arg(notes) is not null then
     sqlc.arg(notes)::text
   else
     notes
   end,
-  created_by_user_id = case when sqlc.arg(set_created_by_user_id)::boolean then
+  created_by_user_id = case when sqlc.arg(created_by_user_id) is not null then
     sqlc.arg(created_by_user_id)::text
   else
     created_by_user_id
@@ -148,3 +147,4 @@ returning
 -- name: BillingRemoveQuote :exec
 delete from "billing"."quotes"
 where id = @id::uuid;
+

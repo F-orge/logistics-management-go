@@ -131,8 +131,7 @@ select
   id, name, type, amount, calculation_method, is_active, valid_from, valid_to, description, created_at, updated_at
 from
   "billing"."surcharges"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or type ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -185,8 +184,8 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or type ilike $3::text
-  or $3::text is null)
+    or type ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeSurchargeParams struct {
@@ -242,89 +241,73 @@ update
   "billing"."surcharges"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::varchar
+  name = case when $1 is not null then
+    $1::varchar
   else
     name
   end,
-  type = case when $3::boolean then
-    $4::varchar
+  type = case when $2 is not null then
+    $2::varchar
   else
     type
   end,
-  amount = case when $5::boolean then
-    $6::numeric
+  amount = case when $3 is not null then
+    $3::numeric
   else
     amount
   end,
-  calculation_method = case when $7::boolean then
-    $8::billing.surcharge_calculation_method_enum
+  calculation_method = case when $4 is not null then
+    $4::billing.surcharge_calculation_method_enum
   else
     calculation_method
   end,
-  is_active = case when $9::boolean then
-    $10::boolean
+  is_active = case when $5 is not null then
+    $5::boolean
   else
     is_active
   end,
-  valid_from = case when $11::boolean then
-    $12::date
+  valid_from = case when $6 is not null then
+    $6::date
   else
     valid_from
   end,
-  valid_to = case when $13::boolean then
-    $14::date
+  valid_to = case when $7 is not null then
+    $7::date
   else
     valid_to
   end,
-  description = case when $15::boolean then
-    $16::text
+  description = case when $8 is not null then
+    $8::text
   else
     description
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, name, type, amount, calculation_method, is_active, valid_from, valid_to, description, created_at, updated_at
 `
 
 type BillingUpdateSurchargeParams struct {
-	SetName              bool
-	Name                 string
-	SetType              bool
-	Type                 string
-	SetAmount            bool
-	Amount               pgtype.Numeric
-	SetCalculationMethod bool
-	CalculationMethod    BillingSurchargeCalculationMethodEnum
-	SetIsActive          bool
-	IsActive             bool
-	SetValidFrom         bool
-	ValidFrom            pgtype.Date
-	SetValidTo           bool
-	ValidTo              pgtype.Date
-	SetDescription       bool
-	Description          string
-	ID                   pgtype.UUID
+	Name              string
+	Type              string
+	Amount            pgtype.Numeric
+	CalculationMethod BillingSurchargeCalculationMethodEnum
+	IsActive          pgtype.Bool
+	ValidFrom         pgtype.Date
+	ValidTo           pgtype.Date
+	Description       pgtype.Text
+	ID                pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateSurcharge(ctx context.Context, arg BillingUpdateSurchargeParams) (BillingSurcharge, error) {
 	row := q.db.QueryRow(ctx, billingUpdateSurcharge,
-		arg.SetName,
 		arg.Name,
-		arg.SetType,
 		arg.Type,
-		arg.SetAmount,
 		arg.Amount,
-		arg.SetCalculationMethod,
 		arg.CalculationMethod,
-		arg.SetIsActive,
 		arg.IsActive,
-		arg.SetValidFrom,
 		arg.ValidFrom,
-		arg.SetValidTo,
 		arg.ValidTo,
-		arg.SetDescription,
 		arg.Description,
 		arg.ID,
 	)

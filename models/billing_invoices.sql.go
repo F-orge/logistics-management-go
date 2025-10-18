@@ -297,8 +297,7 @@ from
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
-where
-  (client.name ilike $1::text
+where (client.name ilike $1::text
   or quote.quote_number ilike $1::text
   or invoices.invoice_number ilike $1::text
   or invoices.status::text ilike $1::text
@@ -420,11 +419,11 @@ where
   invoices.created_at >= $1::date
   and invoices.created_at <= $2::date
   and (client.name ilike $3::text
-  or quote.quote_number ilike $3::text
-  or invoices.invoice_number ilike $3::text
-  or invoices.status::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
+    or quote.quote_number ilike $3::text
+    or invoices.invoice_number ilike $3::text
+    or invoices.status::text ilike $3::text
+    or created_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeInvoiceParams struct {
@@ -540,170 +539,136 @@ update
   "billing"."invoices"
 set
   updated_at = now(),
-  client_id = case when $1::boolean then
-    $2::uuid
+  client_id = case when $1 is not null then
+    $1::uuid
   else
     client_id
   end,
-  quote_id = case when $3::boolean then
-    $4::uuid
+  quote_id = case when $2 is not null then
+    $2::uuid
   else
     quote_id
   end,
-  invoice_number = case when $5::boolean then
-    $6::varchar
+  invoice_number = case when $3 is not null then
+    $3::varchar
   else
     invoice_number
   end,
-  status = case when $7::boolean then
-    $8::billing.invoice_status_enum
+  status = case when $4 is not null then
+    $4::billing.invoice_status_enum
   else
     status
   end,
-  issue_date = case when $9::boolean then
-    $10::date
+  issue_date = case when $5 is not null then
+    $5::date
   else
     issue_date
   end,
-  due_date = case when $11::boolean then
-    $12::date
+  due_date = case when $6 is not null then
+    $6::date
   else
     due_date
   end,
-  total_amount = case when $13::boolean then
-    $14::numeric
+  total_amount = case when $7 is not null then
+    $7::numeric
   else
     total_amount
   end,
-  amount_paid = case when $15::boolean then
-    $16::numeric
+  amount_paid = case when $8 is not null then
+    $8::numeric
   else
     amount_paid
   end,
-  currency = case when $17::boolean then
-    $18::varchar
+  currency = case when $9 is not null then
+    $9::varchar
   else
     currency
   end,
-  tax_amount = case when $19::boolean then
-    $20::numeric
+  tax_amount = case when $10 is not null then
+    $10::numeric
   else
     tax_amount
   end,
-  discount_amount = case when $21::boolean then
-    $22::numeric
+  discount_amount = case when $11 is not null then
+    $11::numeric
   else
     discount_amount
   end,
-  subtotal = case when $23::boolean then
-    $24::numeric
+  subtotal = case when $12 is not null then
+    $12::numeric
   else
     subtotal
   end,
-  payment_terms = case when $25::boolean then
-    $26::text
+  payment_terms = case when $13 is not null then
+    $13::text
   else
     payment_terms
   end,
-  notes = case when $27::boolean then
-    $28::text
+  notes = case when $14 is not null then
+    $14::text
   else
     notes
   end,
-  sent_at = case when $29::boolean then
-    $30::timestamp
+  sent_at = case when $15 is not null then
+    $15::timestamp
   else
     sent_at
   end,
-  paid_at = case when $31::boolean then
-    $32::timestamp
+  paid_at = case when $16 is not null then
+    $16::timestamp
   else
     paid_at
   end,
-  created_by_user_id = case when $33::boolean then
-    $34::text
+  created_by_user_id = case when $17 is not null then
+    $17::text
   else
     created_by_user_id
   end
 where
-  id = $35::uuid
+  id = $18::uuid
 returning
   id, client_id, quote_id, invoice_number, status, issue_date, due_date, total_amount, amount_paid, amount_outstanding, currency, tax_amount, discount_amount, subtotal, payment_terms, notes, sent_at, paid_at, created_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateInvoiceParams struct {
-	SetClientID        bool
-	ClientID           pgtype.UUID
-	SetQuoteID         bool
-	QuoteID            pgtype.UUID
-	SetInvoiceNumber   bool
-	InvoiceNumber      string
-	SetStatus          bool
-	Status             BillingInvoiceStatusEnum
-	SetIssueDate       bool
-	IssueDate          pgtype.Date
-	SetDueDate         bool
-	DueDate            pgtype.Date
-	SetTotalAmount     bool
-	TotalAmount        pgtype.Numeric
-	SetAmountPaid      bool
-	AmountPaid         pgtype.Numeric
-	SetCurrency        bool
-	Currency           string
-	SetTaxAmount       bool
-	TaxAmount          pgtype.Numeric
-	SetDiscountAmount  bool
-	DiscountAmount     pgtype.Numeric
-	SetSubtotal        bool
-	Subtotal           pgtype.Numeric
-	SetPaymentTerms    bool
-	PaymentTerms       string
-	SetNotes           bool
-	Notes              string
-	SetSentAt          bool
-	SentAt             pgtype.Timestamp
-	SetPaidAt          bool
-	PaidAt             pgtype.Timestamp
-	SetCreatedByUserID bool
-	CreatedByUserID    string
-	ID                 pgtype.UUID
+	ClientID        pgtype.UUID
+	QuoteID         pgtype.UUID
+	InvoiceNumber   string
+	Status          NullBillingInvoiceStatusEnum
+	IssueDate       pgtype.Date
+	DueDate         pgtype.Date
+	TotalAmount     pgtype.Numeric
+	AmountPaid      pgtype.Numeric
+	Currency        pgtype.Text
+	TaxAmount       pgtype.Numeric
+	DiscountAmount  pgtype.Numeric
+	Subtotal        pgtype.Numeric
+	PaymentTerms    pgtype.Text
+	Notes           pgtype.Text
+	SentAt          pgtype.Timestamp
+	PaidAt          pgtype.Timestamp
+	CreatedByUserID pgtype.Text
+	ID              pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateInvoice(ctx context.Context, arg BillingUpdateInvoiceParams) (BillingInvoice, error) {
 	row := q.db.QueryRow(ctx, billingUpdateInvoice,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetQuoteID,
 		arg.QuoteID,
-		arg.SetInvoiceNumber,
 		arg.InvoiceNumber,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetIssueDate,
 		arg.IssueDate,
-		arg.SetDueDate,
 		arg.DueDate,
-		arg.SetTotalAmount,
 		arg.TotalAmount,
-		arg.SetAmountPaid,
 		arg.AmountPaid,
-		arg.SetCurrency,
 		arg.Currency,
-		arg.SetTaxAmount,
 		arg.TaxAmount,
-		arg.SetDiscountAmount,
 		arg.DiscountAmount,
-		arg.SetSubtotal,
 		arg.Subtotal,
-		arg.SetPaymentTerms,
 		arg.PaymentTerms,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetSentAt,
 		arg.SentAt,
-		arg.SetPaidAt,
 		arg.PaidAt,
-		arg.SetCreatedByUserID,
 		arg.CreatedByUserID,
 		arg.ID,
 	)

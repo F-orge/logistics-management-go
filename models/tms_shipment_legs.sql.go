@@ -357,79 +357,65 @@ update
 set
   updated_at = now(),
   shipment_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     shipment_id
   end,
-  leg_sequence = case when $3 is not null then
-    $4::integer
+  leg_sequence = case when $2 is not null then
+    $2::integer
   else
     leg_sequence
   end,
-  start_location = case when $5 is not null then
-    $6::varchar
+  start_location = case when $3 is not null then
+    $3::varchar
   else
     start_location
   end,
-  end_location = case when $7 is not null then
-    $8::varchar
+  end_location = case when $4 is not null then
+    $4::varchar
   else
     end_location
   end,
-  carrier_id = case when $9 is not null then
-    $10::uuid
+  carrier_id = case when $5 is not null then
+    $5::uuid
   else
     carrier_id
   end,
-  internal_trip_id = case when $11 is not null then
-    $12::uuid
+  internal_trip_id = case when $6 is not null then
+    $6::uuid
   else
     internal_trip_id
   end,
-  status = case when $13 is not null then
-    $14::tms.shipment_leg_status_enum
+  status = case when $7 is not null then
+    $7::tms.shipment_leg_status_enum
   else
     status
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, shipment_id, leg_sequence, start_location, end_location, carrier_id, internal_trip_id, status, created_at, updated_at
 `
 
 type TmsUpdateShipmentLegParams struct {
-	SetShipmentID     pgtype.UUID
-	ShipmentID        pgtype.UUID
-	SetLegSequence    int32
-	LegSequence       int32
-	SetStartLocation  pgtype.Text
-	StartLocation     string
-	SetEndLocation    pgtype.Text
-	EndLocation       string
-	SetCarrierID      pgtype.UUID
-	CarrierID         pgtype.UUID
-	SetInternalTripID pgtype.UUID
-	InternalTripID    pgtype.UUID
-	SetStatus         NullTmsShipmentLegStatusEnum
-	Status            TmsShipmentLegStatusEnum
-	ID                pgtype.UUID
+	ShipmentID     pgtype.UUID
+	LegSequence    int32
+	StartLocation  pgtype.Text
+	EndLocation    pgtype.Text
+	CarrierID      pgtype.UUID
+	InternalTripID pgtype.UUID
+	Status         NullTmsShipmentLegStatusEnum
+	ID             pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateShipmentLeg(ctx context.Context, arg TmsUpdateShipmentLegParams) (TmsShipmentLeg, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateShipmentLeg,
-		arg.SetShipmentID,
 		arg.ShipmentID,
-		arg.SetLegSequence,
 		arg.LegSequence,
-		arg.SetStartLocation,
 		arg.StartLocation,
-		arg.SetEndLocation,
 		arg.EndLocation,
-		arg.SetCarrierID,
 		arg.CarrierID,
-		arg.SetInternalTripID,
 		arg.InternalTripID,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

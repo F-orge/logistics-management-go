@@ -175,8 +175,7 @@ select
 from
   "billing"."client_accounts" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
-where
-  (client.name ilike $1::text
+where (client.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -249,7 +248,7 @@ where
   client_accounts.created_at >= $1::date
   and client_accounts.created_at <= $2::date
   and (client.name ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type BillingRangeClientAccountParams struct {
@@ -324,89 +323,73 @@ update
   "billing"."client_accounts"
 set
   updated_at = now(),
-  client_id = case when $1::boolean then
-    $2::uuid
+  client_id = case when $1 is not null then
+    $1::uuid
   else
     client_id
   end,
-  credit_limit = case when $3::boolean then
-    $4::numeric
+  credit_limit = case when $2 is not null then
+    $2::numeric
   else
     credit_limit
   end,
-  available_credit = case when $5::boolean then
-    $6::numeric
+  available_credit = case when $3 is not null then
+    $3::numeric
   else
     available_credit
   end,
-  wallet_balance = case when $7::boolean then
-    $8::numeric
+  wallet_balance = case when $4 is not null then
+    $4::numeric
   else
     wallet_balance
   end,
-  currency = case when $9::boolean then
-    $10::varchar
+  currency = case when $5 is not null then
+    $5::varchar
   else
     currency
   end,
-  payment_terms_days = case when $11::boolean then
-    $12::integer
+  payment_terms_days = case when $6 is not null then
+    $6::integer
   else
     payment_terms_days
   end,
-  is_credit_approved = case when $13::boolean then
-    $14::boolean
+  is_credit_approved = case when $7 is not null then
+    $7::boolean
   else
     is_credit_approved
   end,
-  last_payment_date = case when $15::boolean then
-    $16::date
+  last_payment_date = case when $8 is not null then
+    $8::date
   else
     last_payment_date
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, client_id, credit_limit, available_credit, wallet_balance, currency, payment_terms_days, is_credit_approved, last_payment_date, created_at, updated_at
 `
 
 type BillingUpdateClientAccountParams struct {
-	SetClientID         bool
-	ClientID            pgtype.UUID
-	SetCreditLimit      bool
-	CreditLimit         pgtype.Numeric
-	SetAvailableCredit  bool
-	AvailableCredit     pgtype.Numeric
-	SetWalletBalance    bool
-	WalletBalance       pgtype.Numeric
-	SetCurrency         bool
-	Currency            string
-	SetPaymentTermsDays bool
-	PaymentTermsDays    int32
-	SetIsCreditApproved bool
-	IsCreditApproved    bool
-	SetLastPaymentDate  bool
-	LastPaymentDate     pgtype.Date
-	ID                  pgtype.UUID
+	ClientID         pgtype.UUID
+	CreditLimit      pgtype.Numeric
+	AvailableCredit  pgtype.Numeric
+	WalletBalance    pgtype.Numeric
+	Currency         pgtype.Text
+	PaymentTermsDays pgtype.Int4
+	IsCreditApproved pgtype.Bool
+	LastPaymentDate  pgtype.Date
+	ID               pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateClientAccount(ctx context.Context, arg BillingUpdateClientAccountParams) (BillingClientAccount, error) {
 	row := q.db.QueryRow(ctx, billingUpdateClientAccount,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetCreditLimit,
 		arg.CreditLimit,
-		arg.SetAvailableCredit,
 		arg.AvailableCredit,
-		arg.SetWalletBalance,
 		arg.WalletBalance,
-		arg.SetCurrency,
 		arg.Currency,
-		arg.SetPaymentTermsDays,
 		arg.PaymentTermsDays,
-		arg.SetIsCreditApproved,
 		arg.IsCreditApproved,
-		arg.SetLastPaymentDate,
 		arg.LastPaymentDate,
 		arg.ID,
 	)

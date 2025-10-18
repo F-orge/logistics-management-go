@@ -301,61 +301,51 @@ update
 set
   updated_at = now(),
   vehicle_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     vehicle_id
   end,
-  service_date = case when $3 is not null then
-    $4::date
+  service_date = case when $2 is not null then
+    $2::date
   else
     service_date
   end,
-  service_type = case when $5 is not null then
-    $6::tms.vehicle_service_type_enum
+  service_type = case when $3 is not null then
+    $3::tms.vehicle_service_type_enum
   else
     service_type
   end,
-  cost = case when $7 is not null then
-    $8::numeric
+  cost = case when $4 is not null then
+    $4::numeric
   else
     cost
   end,
-  notes = case when $9 is not null then
-    $10::text
+  notes = case when $5 is not null then
+    $5::text
   else
     notes
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, vehicle_id, service_date, service_type, cost, notes, created_at, updated_at
 `
 
 type TmsUpdateVehicleMaintenanceParams struct {
-	SetVehicleID   pgtype.UUID
-	VehicleID      pgtype.UUID
-	SetServiceDate pgtype.Date
-	ServiceDate    pgtype.Date
-	SetServiceType NullTmsVehicleServiceTypeEnum
-	ServiceType    TmsVehicleServiceTypeEnum
-	SetCost        pgtype.Numeric
-	Cost           pgtype.Numeric
-	SetNotes       pgtype.Text
-	Notes          string
-	ID             pgtype.UUID
+	VehicleID   pgtype.UUID
+	ServiceDate pgtype.Date
+	ServiceType NullTmsVehicleServiceTypeEnum
+	Cost        pgtype.Numeric
+	Notes       pgtype.Text
+	ID          pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateVehicleMaintenance(ctx context.Context, arg TmsUpdateVehicleMaintenanceParams) (TmsVehicleMaintenance, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateVehicleMaintenance,
-		arg.SetVehicleID,
 		arg.VehicleID,
-		arg.SetServiceDate,
 		arg.ServiceDate,
-		arg.SetServiceType,
 		arg.ServiceType,
-		arg.SetCost,
 		arg.Cost,
-		arg.SetNotes,
 		arg.Notes,
 		arg.ID,
 	)

@@ -201,8 +201,7 @@ select
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
-where
-  (invoice.invoice_number ilike $1::text
+where (invoice.invoice_number ilike $1::text
   or invoice_line_items.description ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -287,8 +286,8 @@ where
   invoice_line_items.created_at >= $1::date
   and invoice_line_items.created_at <= $2::date
   and (invoice.invoice_number ilike $3::text
-  or invoice_line_items.description ilike $3::text
-  or $3::text is null)
+    or invoice_line_items.description ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeInvoiceLineItemParams struct {
@@ -374,89 +373,73 @@ update
   "billing"."invoice_line_items"
 set
   updated_at = now(),
-  invoice_id = case when $1::boolean then
-    $2::uuid
+  invoice_id = case when $1 is not null then
+    $1::uuid
   else
     invoice_id
   end,
-  source_record_id = case when $3::boolean then
-    $4::uuid
+  source_record_id = case when $2 is not null then
+    $2::uuid
   else
     source_record_id
   end,
-  source_record_type = case when $5::boolean then
-    $6::varchar
+  source_record_type = case when $3 is not null then
+    $3::varchar
   else
     source_record_type
   end,
-  description = case when $7::boolean then
-    $8::text
+  description = case when $4 is not null then
+    $4::text
   else
     description
   end,
-  quantity = case when $9::boolean then
-    $10::numeric
+  quantity = case when $5 is not null then
+    $5::numeric
   else
     quantity
   end,
-  unit_price = case when $11::boolean then
-    $12::numeric
+  unit_price = case when $6 is not null then
+    $6::numeric
   else
     unit_price
   end,
-  tax_rate = case when $13::boolean then
-    $14::numeric
+  tax_rate = case when $7 is not null then
+    $7::numeric
   else
     tax_rate
   end,
-  discount_rate = case when $15::boolean then
-    $16::numeric
+  discount_rate = case when $8 is not null then
+    $8::numeric
   else
     discount_rate
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, invoice_id, source_record_id, source_record_type, description, quantity, unit_price, total_price, tax_rate, tax_amount, discount_rate, discount_amount, line_total, created_at, updated_at
 `
 
 type BillingUpdateInvoiceLineItemParams struct {
-	SetInvoiceID        bool
-	InvoiceID           pgtype.UUID
-	SetSourceRecordID   bool
-	SourceRecordID      pgtype.UUID
-	SetSourceRecordType bool
-	SourceRecordType    string
-	SetDescription      bool
-	Description         string
-	SetQuantity         bool
-	Quantity            pgtype.Numeric
-	SetUnitPrice        bool
-	UnitPrice           pgtype.Numeric
-	SetTaxRate          bool
-	TaxRate             pgtype.Numeric
-	SetDiscountRate     bool
-	DiscountRate        pgtype.Numeric
-	ID                  pgtype.UUID
+	InvoiceID        pgtype.UUID
+	SourceRecordID   pgtype.UUID
+	SourceRecordType pgtype.Text
+	Description      string
+	Quantity         pgtype.Numeric
+	UnitPrice        pgtype.Numeric
+	TaxRate          pgtype.Numeric
+	DiscountRate     pgtype.Numeric
+	ID               pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateInvoiceLineItem(ctx context.Context, arg BillingUpdateInvoiceLineItemParams) (BillingInvoiceLineItem, error) {
 	row := q.db.QueryRow(ctx, billingUpdateInvoiceLineItem,
-		arg.SetInvoiceID,
 		arg.InvoiceID,
-		arg.SetSourceRecordID,
 		arg.SourceRecordID,
-		arg.SetSourceRecordType,
 		arg.SourceRecordType,
-		arg.SetDescription,
 		arg.Description,
-		arg.SetQuantity,
 		arg.Quantity,
-		arg.SetUnitPrice,
 		arg.UnitPrice,
-		arg.SetTaxRate,
 		arg.TaxRate,
-		arg.SetDiscountRate,
 		arg.DiscountRate,
 		arg.ID,
 	)

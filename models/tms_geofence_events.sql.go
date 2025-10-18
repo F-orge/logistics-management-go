@@ -322,52 +322,44 @@ update
 set
   updated_at = now(),
   vehicle_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     vehicle_id
   end,
-  geofence_id = case when $3 is not null then
-    $4::uuid
+  geofence_id = case when $2 is not null then
+    $2::uuid
   else
     geofence_id
   end,
-  event_type = case when $5 is not null then
-    $6::tms.geofence_event_type_enum
+  event_type = case when $3 is not null then
+    $3::tms.geofence_event_type_enum
   else
     event_type
   end,
-  timestamp = case when $7 is not null then
-    $8::timestamp
+  timestamp = case when $4 is not null then
+    $4::timestamp
   else
     timestamp
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, vehicle_id, geofence_id, event_type, timestamp
 `
 
 type TmsUpdateGeofenceEventParams struct {
-	SetVehicleID  pgtype.UUID
-	VehicleID     pgtype.UUID
-	SetGeofenceID pgtype.UUID
-	GeofenceID    pgtype.UUID
-	SetEventType  TmsGeofenceEventTypeEnum
-	EventType     TmsGeofenceEventTypeEnum
-	SetTimestamp  pgtype.Timestamp
-	Timestamp     pgtype.Timestamp
-	ID            pgtype.UUID
+	VehicleID  pgtype.UUID
+	GeofenceID pgtype.UUID
+	EventType  TmsGeofenceEventTypeEnum
+	Timestamp  pgtype.Timestamp
+	ID         pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateGeofenceEvent(ctx context.Context, arg TmsUpdateGeofenceEventParams) (TmsGeofenceEvent, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateGeofenceEvent,
-		arg.SetVehicleID,
 		arg.VehicleID,
-		arg.SetGeofenceID,
 		arg.GeofenceID,
-		arg.SetEventType,
 		arg.EventType,
-		arg.SetTimestamp,
 		arg.Timestamp,
 		arg.ID,
 	)

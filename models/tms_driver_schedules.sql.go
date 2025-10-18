@@ -274,52 +274,44 @@ update
 set
   updated_at = now(),
   driver_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     driver_id
   end,
-  start_date = case when $3 is not null then
-    $4::date
+  start_date = case when $2 is not null then
+    $2::date
   else
     start_date
   end,
-  end_date = case when $5 is not null then
-    $6::date
+  end_date = case when $3 is not null then
+    $3::date
   else
     end_date
   end,
-  reason = case when $7 is not null then
-    $8::tms.driver_schedule_reason_enum
+  reason = case when $4 is not null then
+    $4::tms.driver_schedule_reason_enum
   else
     reason
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, driver_id, start_date, end_date, reason, created_at, updated_at
 `
 
 type TmsUpdateDriverScheduleParams struct {
-	SetDriverID  pgtype.UUID
-	DriverID     pgtype.UUID
-	SetStartDate pgtype.Date
-	StartDate    pgtype.Date
-	SetEndDate   pgtype.Date
-	EndDate      pgtype.Date
-	SetReason    NullTmsDriverScheduleReasonEnum
-	Reason       TmsDriverScheduleReasonEnum
-	ID           pgtype.UUID
+	DriverID  pgtype.UUID
+	StartDate pgtype.Date
+	EndDate   pgtype.Date
+	Reason    NullTmsDriverScheduleReasonEnum
+	ID        pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateDriverSchedule(ctx context.Context, arg TmsUpdateDriverScheduleParams) (TmsDriverSchedule, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateDriverSchedule,
-		arg.SetDriverID,
 		arg.DriverID,
-		arg.SetStartDate,
 		arg.StartDate,
-		arg.SetEndDate,
 		arg.EndDate,
-		arg.SetReason,
 		arg.Reason,
 		arg.ID,
 	)

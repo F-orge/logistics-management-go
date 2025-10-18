@@ -3,8 +3,7 @@ select
   *
 from
   "billing"."surcharges"
-where
-  (name ilike sqlc.narg(search)::text
+where (name ilike sqlc.narg(search)::text
   or type ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -34,8 +33,8 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (name ilike sqlc.narg(search)::text
-  or type ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or type ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertSurcharge :one
 insert into "billing"."surcharges"(name, type, amount, calculation_method, is_active, valid_from, valid_to, description)
@@ -48,42 +47,42 @@ update
   "billing"."surcharges"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::varchar
   else
     name
   end,
-  type = case when sqlc.arg(set_type)::boolean then
+  type = case when sqlc.arg(type) is not null then
     sqlc.arg(type)::varchar
   else
     type
   end,
-  amount = case when sqlc.arg(set_amount)::boolean then
+  amount = case when sqlc.arg(amount) is not null then
     sqlc.arg(amount)::numeric
   else
     amount
   end,
-  calculation_method = case when sqlc.arg(set_calculation_method)::boolean then
+  calculation_method = case when sqlc.arg(calculation_method) is not null then
     sqlc.arg(calculation_method)::billing.surcharge_calculation_method_enum
   else
     calculation_method
   end,
-  is_active = case when sqlc.arg(set_is_active)::boolean then
+  is_active = case when sqlc.arg(is_active) is not null then
     sqlc.arg(is_active)::boolean
   else
     is_active
   end,
-  valid_from = case when sqlc.arg(set_valid_from)::boolean then
+  valid_from = case when sqlc.arg(valid_from) is not null then
     sqlc.arg(valid_from)::date
   else
     valid_from
   end,
-  valid_to = case when sqlc.arg(set_valid_to)::boolean then
+  valid_to = case when sqlc.arg(valid_to) is not null then
     sqlc.arg(valid_to)::date
   else
     valid_to
   end,
-  description = case when sqlc.arg(set_description)::boolean then
+  description = case when sqlc.arg(description) is not null then
     sqlc.arg(description)::text
   else
     description
@@ -96,3 +95,4 @@ returning
 -- name: BillingRemoveSurcharge :exec
 delete from "billing"."surcharges"
 where id = @id::uuid;
+

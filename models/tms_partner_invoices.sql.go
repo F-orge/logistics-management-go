@@ -287,61 +287,51 @@ update
 set
   updated_at = now(),
   carrier_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     carrier_id
   end,
-  invoice_number = case when $3 is not null then
-    $4::varchar
+  invoice_number = case when $2 is not null then
+    $2::varchar
   else
     invoice_number
   end,
-  invoice_date = case when $5 is not null then
-    $6::date
+  invoice_date = case when $3 is not null then
+    $3::date
   else
     invoice_date
   end,
-  total_amount = case when $7 is not null then
-    $8::numeric
+  total_amount = case when $4 is not null then
+    $4::numeric
   else
     total_amount
   end,
-  status = case when $9 is not null then
-    $10::tms.partner_invoice_status_enum
+  status = case when $5 is not null then
+    $5::tms.partner_invoice_status_enum
   else
     status
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, carrier_id, invoice_number, invoice_date, total_amount, status, created_at, updated_at
 `
 
 type TmsUpdatePartnerInvoiceParams struct {
-	SetCarrierID     pgtype.UUID
-	CarrierID        pgtype.UUID
-	SetInvoiceNumber string
-	InvoiceNumber    string
-	SetInvoiceDate   pgtype.Date
-	InvoiceDate      pgtype.Date
-	SetTotalAmount   pgtype.Numeric
-	TotalAmount      pgtype.Numeric
-	SetStatus        NullTmsPartnerInvoiceStatusEnum
-	Status           TmsPartnerInvoiceStatusEnum
-	ID               pgtype.UUID
+	CarrierID     pgtype.UUID
+	InvoiceNumber string
+	InvoiceDate   pgtype.Date
+	TotalAmount   pgtype.Numeric
+	Status        NullTmsPartnerInvoiceStatusEnum
+	ID            pgtype.UUID
 }
 
 func (q *Queries) TmsUpdatePartnerInvoice(ctx context.Context, arg TmsUpdatePartnerInvoiceParams) (TmsPartnerInvoice, error) {
 	row := q.db.QueryRow(ctx, tmsUpdatePartnerInvoice,
-		arg.SetCarrierID,
 		arg.CarrierID,
-		arg.SetInvoiceNumber,
 		arg.InvoiceNumber,
-		arg.SetInvoiceDate,
 		arg.InvoiceDate,
-		arg.SetTotalAmount,
 		arg.TotalAmount,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

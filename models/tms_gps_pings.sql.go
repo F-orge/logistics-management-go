@@ -282,52 +282,44 @@ update
 set
   updated_at = now(),
   vehicle_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     vehicle_id
   end,
-  latitude = case when $3 is not null then
-    $4::real
+  latitude = case when $2 is not null then
+    $2::real
   else
     latitude
   end,
-  longitude = case when $5 is not null then
-    $6::real
+  longitude = case when $3 is not null then
+    $3::real
   else
     longitude
   end,
-  timestamp = case when $7 is not null then
-    $8::timestamp
+  timestamp = case when $4 is not null then
+    $4::timestamp
   else
     timestamp
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, vehicle_id, latitude, longitude, timestamp
 `
 
 type TmsUpdateGpsPingParams struct {
-	SetVehicleID pgtype.UUID
-	VehicleID    pgtype.UUID
-	SetLatitude  float32
-	Latitude     float32
-	SetLongitude float32
-	Longitude    float32
-	SetTimestamp pgtype.Timestamp
-	Timestamp    pgtype.Timestamp
-	ID           pgtype.UUID
+	VehicleID pgtype.UUID
+	Latitude  float32
+	Longitude float32
+	Timestamp pgtype.Timestamp
+	ID        pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateGpsPing(ctx context.Context, arg TmsUpdateGpsPingParams) (TmsGpsPing, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateGpsPing,
-		arg.SetVehicleID,
 		arg.VehicleID,
-		arg.SetLatitude,
 		arg.Latitude,
-		arg.SetLongitude,
 		arg.Longitude,
-		arg.SetTimestamp,
 		arg.Timestamp,
 		arg.ID,
 	)

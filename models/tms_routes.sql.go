@@ -280,52 +280,44 @@ update
 set
   updated_at = now(),
   trip_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     trip_id
   end,
-  optimized_route_data = case when $3 is not null then
-    $4::text
+  optimized_route_data = case when $2 is not null then
+    $2::text
   else
     optimized_route_data
   end,
-  total_distance = case when $5 is not null then
-    $6::real
+  total_distance = case when $3 is not null then
+    $3::real
   else
     total_distance
   end,
-  total_duration = case when $7 is not null then
-    $8::real
+  total_duration = case when $4 is not null then
+    $4::real
   else
     total_duration
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, trip_id, optimized_route_data, total_distance, total_duration, created_at, updated_at
 `
 
 type TmsUpdateRouteParams struct {
-	SetTripID             pgtype.UUID
-	TripID                pgtype.UUID
-	SetOptimizedRouteData pgtype.Text
-	OptimizedRouteData    string
-	SetTotalDistance      pgtype.Float4
-	TotalDistance         float32
-	SetTotalDuration      pgtype.Float4
-	TotalDuration         float32
-	ID                    pgtype.UUID
+	TripID             pgtype.UUID
+	OptimizedRouteData pgtype.Text
+	TotalDistance      pgtype.Float4
+	TotalDuration      pgtype.Float4
+	ID                 pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateRoute(ctx context.Context, arg TmsUpdateRouteParams) (TmsRoute, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateRoute,
-		arg.SetTripID,
 		arg.TripID,
-		arg.SetOptimizedRouteData,
 		arg.OptimizedRouteData,
-		arg.SetTotalDistance,
 		arg.TotalDistance,
-		arg.SetTotalDuration,
 		arg.TotalDuration,
 		arg.ID,
 	)

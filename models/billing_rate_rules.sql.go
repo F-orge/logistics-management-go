@@ -172,8 +172,7 @@ select
 from
   "billing"."rate_rules" as rate_rules
   inner join "billing"."rate_cards" as rate_card on rate_rules.rate_card_id = rate_card.id
-where
-  (rate_card.name ilike $1::text
+where (rate_card.name ilike $1::text
   or rate_rules.condition ilike $1::text
   or rate_rules.value ilike $1::text
   or rate_rules.pricing_model::text ilike $1::text
@@ -246,10 +245,10 @@ where
   rate_rules.created_at >= $1::date
   and rate_rules.created_at <= $2::date
   and (rate_card.name ilike $3::text
-  or rate_rules.condition ilike $3::text
-  or rate_rules.value ilike $3::text
-  or rate_rules.pricing_model::text ilike $3::text
-  or $3::text is null)
+    or rate_rules.condition ilike $3::text
+    or rate_rules.value ilike $3::text
+    or rate_rules.pricing_model::text ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeRateRuleParams struct {
@@ -321,98 +320,80 @@ update
   "billing"."rate_rules"
 set
   updated_at = now(),
-  rate_card_id = case when $1::boolean then
-    $2::uuid
+  rate_card_id = case when $1 is not null then
+    $1::uuid
   else
     rate_card_id
   end,
-  condition = case when $3::boolean then
-    $4::varchar
+  condition = case when $2 is not null then
+    $2::varchar
   else
     condition
   end,
-  value = case when $5::boolean then
-    $6::varchar
+  value = case when $3 is not null then
+    $3::varchar
   else
     value
   end,
-  price = case when $7::boolean then
-    $8::numeric
+  price = case when $4 is not null then
+    $4::numeric
   else
     price
   end,
-  pricing_model = case when $9::boolean then
-    $10::billing.pricing_model_enum
+  pricing_model = case when $5 is not null then
+    $5::billing.pricing_model_enum
   else
     pricing_model
   end,
-  min_value = case when $11::boolean then
-    $12::numeric
+  min_value = case when $6 is not null then
+    $6::numeric
   else
     min_value
   end,
-  max_value = case when $13::boolean then
-    $14::numeric
+  max_value = case when $7 is not null then
+    $7::numeric
   else
     max_value
   end,
-  priority = case when $15::boolean then
-    $16::integer
+  priority = case when $8 is not null then
+    $8::integer
   else
     priority
   end,
-  is_active = case when $17::boolean then
-    $18::boolean
+  is_active = case when $9 is not null then
+    $9::boolean
   else
     is_active
   end
 where
-  id = $19::uuid
+  id = $10::uuid
 returning
   id, rate_card_id, condition, value, price, pricing_model, min_value, max_value, priority, is_active, created_at, updated_at
 `
 
 type BillingUpdateRateRuleParams struct {
-	SetRateCardID   bool
-	RateCardID      pgtype.UUID
-	SetCondition    bool
-	Condition       string
-	SetValue        bool
-	Value           string
-	SetPrice        bool
-	Price           pgtype.Numeric
-	SetPricingModel bool
-	PricingModel    BillingPricingModelEnum
-	SetMinValue     bool
-	MinValue        pgtype.Numeric
-	SetMaxValue     bool
-	MaxValue        pgtype.Numeric
-	SetPriority     bool
-	Priority        int32
-	SetIsActive     bool
-	IsActive        bool
-	ID              pgtype.UUID
+	RateCardID   pgtype.UUID
+	Condition    string
+	Value        string
+	Price        pgtype.Numeric
+	PricingModel BillingPricingModelEnum
+	MinValue     pgtype.Numeric
+	MaxValue     pgtype.Numeric
+	Priority     pgtype.Int4
+	IsActive     pgtype.Bool
+	ID           pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateRateRule(ctx context.Context, arg BillingUpdateRateRuleParams) (BillingRateRule, error) {
 	row := q.db.QueryRow(ctx, billingUpdateRateRule,
-		arg.SetRateCardID,
 		arg.RateCardID,
-		arg.SetCondition,
 		arg.Condition,
-		arg.SetValue,
 		arg.Value,
-		arg.SetPrice,
 		arg.Price,
-		arg.SetPricingModel,
 		arg.PricingModel,
-		arg.SetMinValue,
 		arg.MinValue,
-		arg.SetMaxValue,
 		arg.MaxValue,
-		arg.SetPriority,
 		arg.Priority,
-		arg.SetIsActive,
 		arg.IsActive,
 		arg.ID,
 	)

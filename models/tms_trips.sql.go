@@ -349,43 +349,37 @@ update
 set
   updated_at = now(),
   driver_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     driver_id
   end,
-  vehicle_id = case when $3 is not null then
-    $4::uuid
+  vehicle_id = case when $2 is not null then
+    $2::uuid
   else
     vehicle_id
   end,
-  status = case when $5 is not null then
-    $6::tms.trip_status_enum
+  status = case when $3 is not null then
+    $3::tms.trip_status_enum
   else
     status
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, driver_id, vehicle_id, status, created_at, updated_at, end_location, end_time, start_location, start_time
 `
 
 type TmsUpdateTripParams struct {
-	SetDriverID  pgtype.UUID
-	DriverID     pgtype.UUID
-	SetVehicleID pgtype.UUID
-	VehicleID    pgtype.UUID
-	SetStatus    NullTmsTripStatusEnum
-	Status       TmsTripStatusEnum
-	ID           pgtype.UUID
+	DriverID  pgtype.UUID
+	VehicleID pgtype.UUID
+	Status    NullTmsTripStatusEnum
+	ID        pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateTrip(ctx context.Context, arg TmsUpdateTripParams) (TmsTrip, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateTrip,
-		arg.SetDriverID,
 		arg.DriverID,
-		arg.SetVehicleID,
 		arg.VehicleID,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

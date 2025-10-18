@@ -272,52 +272,44 @@ update
 set
   updated_at = now(),
   shipment_leg_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     shipment_leg_id
   end,
-  status_message = case when $3 is not null then
-    $4::varchar
+  status_message = case when $2 is not null then
+    $2::varchar
   else
     status_message
   end,
-  location = case when $5 is not null then
-    $6::varchar
+  location = case when $3 is not null then
+    $3::varchar
   else
     location
   end,
-  event_timestamp = case when $7 is not null then
-    $8::timestamp
+  event_timestamp = case when $4 is not null then
+    $4::timestamp
   else
     event_timestamp
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, shipment_leg_id, status_message, location, event_timestamp
 `
 
 type TmsUpdateShipmentLegEventParams struct {
-	SetShipmentLegID  pgtype.UUID
-	ShipmentLegID     pgtype.UUID
-	SetStatusMessage  pgtype.Text
-	StatusMessage     string
-	SetLocation       pgtype.Text
-	Location          string
-	SetEventTimestamp pgtype.Timestamp
-	EventTimestamp    pgtype.Timestamp
-	ID                pgtype.UUID
+	ShipmentLegID  pgtype.UUID
+	StatusMessage  pgtype.Text
+	Location       pgtype.Text
+	EventTimestamp pgtype.Timestamp
+	ID             pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateShipmentLegEvent(ctx context.Context, arg TmsUpdateShipmentLegEventParams) (TmsShipmentLegEvent, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateShipmentLegEvent,
-		arg.SetShipmentLegID,
 		arg.ShipmentLegID,
-		arg.SetStatusMessage,
 		arg.StatusMessage,
-		arg.SetLocation,
 		arg.Location,
-		arg.SetEventTimestamp,
 		arg.EventTimestamp,
 		arg.ID,
 	)

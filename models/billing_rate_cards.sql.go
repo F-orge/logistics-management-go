@@ -164,8 +164,7 @@ select
 from
   "billing"."rate_cards" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
-where
-  (rate_cards.name ilike $1::text
+where (rate_cards.name ilike $1::text
   or rate_cards.service_type::text ilike $1::text
   or created_by_user.name ilike $1::text
   or $1::text is null)
@@ -236,9 +235,9 @@ where
   rate_cards.created_at >= $1::date
   and rate_cards.created_at <= $2::date
   and (rate_cards.name ilike $3::text
-  or rate_cards.service_type::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
+    or rate_cards.service_type::text ilike $3::text
+    or created_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeRateCardParams struct {
@@ -309,80 +308,66 @@ update
   "billing"."rate_cards"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::varchar
+  name = case when $1 is not null then
+    $1::varchar
   else
     name
   end,
-  service_type = case when $3::boolean then
-    $4::billing.service_type_enum
+  service_type = case when $2 is not null then
+    $2::billing.service_type_enum
   else
     service_type
   end,
-  is_active = case when $5::boolean then
-    $6::boolean
+  is_active = case when $3 is not null then
+    $3::boolean
   else
     is_active
   end,
-  valid_from = case when $7::boolean then
-    $8::date
+  valid_from = case when $4 is not null then
+    $4::date
   else
     valid_from
   end,
-  valid_to = case when $9::boolean then
-    $10::date
+  valid_to = case when $5 is not null then
+    $5::date
   else
     valid_to
   end,
-  description = case when $11::boolean then
-    $12::text
+  description = case when $6 is not null then
+    $6::text
   else
     description
   end,
-  created_by_user_id = case when $13::boolean then
-    $14::text
+  created_by_user_id = case when $7 is not null then
+    $7::text
   else
     created_by_user_id
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, name, service_type, is_active, valid_from, valid_to, description, created_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateRateCardParams struct {
-	SetName            bool
-	Name               string
-	SetServiceType     bool
-	ServiceType        BillingServiceTypeEnum
-	SetIsActive        bool
-	IsActive           bool
-	SetValidFrom       bool
-	ValidFrom          pgtype.Date
-	SetValidTo         bool
-	ValidTo            pgtype.Date
-	SetDescription     bool
-	Description        string
-	SetCreatedByUserID bool
-	CreatedByUserID    string
-	ID                 pgtype.UUID
+	Name            string
+	ServiceType     BillingServiceTypeEnum
+	IsActive        pgtype.Bool
+	ValidFrom       pgtype.Date
+	ValidTo         pgtype.Date
+	Description     pgtype.Text
+	CreatedByUserID pgtype.Text
+	ID              pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateRateCard(ctx context.Context, arg BillingUpdateRateCardParams) (BillingRateCard, error) {
 	row := q.db.QueryRow(ctx, billingUpdateRateCard,
-		arg.SetName,
 		arg.Name,
-		arg.SetServiceType,
 		arg.ServiceType,
-		arg.SetIsActive,
 		arg.IsActive,
-		arg.SetValidFrom,
 		arg.ValidFrom,
-		arg.SetValidTo,
 		arg.ValidTo,
-		arg.SetDescription,
 		arg.Description,
-		arg.SetCreatedByUserID,
 		arg.CreatedByUserID,
 		arg.ID,
 	)

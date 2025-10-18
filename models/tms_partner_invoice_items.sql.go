@@ -305,43 +305,37 @@ update
 set
   updated_at = now(),
   partner_invoice_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     partner_invoice_id
   end,
-  shipment_leg_id = case when $3 is not null then
-    $4::uuid
+  shipment_leg_id = case when $2 is not null then
+    $2::uuid
   else
     shipment_leg_id
   end,
-  amount = case when $5 is not null then
-    $6::numeric
+  amount = case when $3 is not null then
+    $3::numeric
   else
     amount
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, partner_invoice_id, shipment_leg_id, amount
 `
 
 type TmsUpdatePartnerInvoiceItemParams struct {
-	SetPartnerInvoiceID pgtype.UUID
-	PartnerInvoiceID    pgtype.UUID
-	SetShipmentLegID    pgtype.UUID
-	ShipmentLegID       pgtype.UUID
-	SetAmount           pgtype.Numeric
-	Amount              pgtype.Numeric
-	ID                  pgtype.UUID
+	PartnerInvoiceID pgtype.UUID
+	ShipmentLegID    pgtype.UUID
+	Amount           pgtype.Numeric
+	ID               pgtype.UUID
 }
 
 func (q *Queries) TmsUpdatePartnerInvoiceItem(ctx context.Context, arg TmsUpdatePartnerInvoiceItemParams) (TmsPartnerInvoiceItem, error) {
 	row := q.db.QueryRow(ctx, tmsUpdatePartnerInvoiceItem,
-		arg.SetPartnerInvoiceID,
 		arg.PartnerInvoiceID,
-		arg.SetShipmentLegID,
 		arg.ShipmentLegID,
-		arg.SetAmount,
 		arg.Amount,
 		arg.ID,
 	)

@@ -375,97 +375,79 @@ update
 set
   updated_at = now(),
   trip_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     trip_id
   end,
-  driver_id = case when $3 is not null then
-    $4::uuid
+  driver_id = case when $2 is not null then
+    $2::uuid
   else
     driver_id
   end,
-  type = case when $5 is not null then
-    $6::tms.expense_type_enum
+  type = case when $3 is not null then
+    $3::tms.expense_type_enum
   else
     type
   end,
-  amount = case when $7 is not null then
-    $8::numeric
+  amount = case when $4 is not null then
+    $4::numeric
   else
     amount
   end,
-  currency = case when $9 is not null then
-    $10::tms.currency_enum
+  currency = case when $5 is not null then
+    $5::tms.currency_enum
   else
     currency
   end,
-  receipt_url = case when $11 is not null then
-    $12::varchar
+  receipt_url = case when $6 is not null then
+    $6::varchar
   else
     receipt_url
   end,
-  fuel_quantity = case when $13 is not null then
-    $14::real
+  fuel_quantity = case when $7 is not null then
+    $7::real
   else
     fuel_quantity
   end,
-  odometer_reading = case when $15 is not null then
-    $16::integer
+  odometer_reading = case when $8 is not null then
+    $8::integer
   else
     odometer_reading
   end,
-  status = case when $17 is not null then
-    $18::tms.expense_status_enum
+  status = case when $9 is not null then
+    $9::tms.expense_status_enum
   else
     status
   end
 where
-  id = $19::uuid
+  id = $10::uuid
 returning
   id, trip_id, driver_id, type, amount, currency, receipt_url, fuel_quantity, odometer_reading, status, created_at, updated_at, description, expense_date
 `
 
 type TmsUpdateExpenseParams struct {
-	SetTripID          pgtype.UUID
-	TripID             pgtype.UUID
-	SetDriverID        pgtype.UUID
-	DriverID           pgtype.UUID
-	SetType            NullTmsExpenseTypeEnum
-	Type               TmsExpenseTypeEnum
-	SetAmount          pgtype.Numeric
-	Amount             pgtype.Numeric
-	SetCurrency        NullTmsCurrencyEnum
-	Currency           TmsCurrencyEnum
-	SetReceiptUrl      pgtype.Text
-	ReceiptUrl         string
-	SetFuelQuantity    pgtype.Float4
-	FuelQuantity       float32
-	SetOdometerReading pgtype.Int4
-	OdometerReading    int32
-	SetStatus          NullTmsExpenseStatusEnum
-	Status             TmsExpenseStatusEnum
-	ID                 pgtype.UUID
+	TripID          pgtype.UUID
+	DriverID        pgtype.UUID
+	Type            NullTmsExpenseTypeEnum
+	Amount          pgtype.Numeric
+	Currency        NullTmsCurrencyEnum
+	ReceiptUrl      pgtype.Text
+	FuelQuantity    pgtype.Float4
+	OdometerReading pgtype.Int4
+	Status          NullTmsExpenseStatusEnum
+	ID              pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateExpense(ctx context.Context, arg TmsUpdateExpenseParams) (TmsExpense, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateExpense,
-		arg.SetTripID,
 		arg.TripID,
-		arg.SetDriverID,
 		arg.DriverID,
-		arg.SetType,
 		arg.Type,
-		arg.SetAmount,
 		arg.Amount,
-		arg.SetCurrency,
 		arg.Currency,
-		arg.SetReceiptUrl,
 		arg.ReceiptUrl,
-		arg.SetFuelQuantity,
 		arg.FuelQuantity,
-		arg.SetOdometerReading,
 		arg.OdometerReading,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

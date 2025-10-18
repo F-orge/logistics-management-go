@@ -248,61 +248,51 @@ update
 set
   updated_at = now(),
   registration_number = case when $1 is not null then
-    $2::varchar
+    $1::varchar
   else
     registration_number
   end,
-  model = case when $3 is not null then
-    $4::varchar
+  model = case when $2 is not null then
+    $2::varchar
   else
     model
   end,
-  capacity_volume = case when $5 is not null then
-    $6::real
+  capacity_volume = case when $3 is not null then
+    $3::real
   else
     capacity_volume
   end,
-  capacity_weight = case when $7 is not null then
-    $8::real
+  capacity_weight = case when $4 is not null then
+    $4::real
   else
     capacity_weight
   end,
-  status = case when $9 is not null then
-    $10::tms.vehicle_status_enum
+  status = case when $5 is not null then
+    $5::tms.vehicle_status_enum
   else
     status
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
 `
 
 type TmsUpdateVehicleParams struct {
-	SetRegistrationNumber string
-	RegistrationNumber    string
-	SetModel              pgtype.Text
-	Model                 string
-	SetCapacityVolume     pgtype.Float4
-	CapacityVolume        float32
-	SetCapacityWeight     pgtype.Float4
-	CapacityWeight        float32
-	SetStatus             NullTmsVehicleStatusEnum
-	Status                TmsVehicleStatusEnum
-	ID                    pgtype.UUID
+	RegistrationNumber string
+	Model              pgtype.Text
+	CapacityVolume     pgtype.Float4
+	CapacityWeight     pgtype.Float4
+	Status             NullTmsVehicleStatusEnum
+	ID                 pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateVehicle(ctx context.Context, arg TmsUpdateVehicleParams) (TmsVehicle, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateVehicle,
-		arg.SetRegistrationNumber,
 		arg.RegistrationNumber,
-		arg.SetModel,
 		arg.Model,
-		arg.SetCapacityVolume,
 		arg.CapacityVolume,
-		arg.SetCapacityWeight,
 		arg.CapacityWeight,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

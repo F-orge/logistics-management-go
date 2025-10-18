@@ -169,8 +169,7 @@ select
 from
   "billing"."documents" as documents
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
-where
-  (documents.file_name ilike $1::text
+where (documents.file_name ilike $1::text
   or documents.record_type ilike $1::text
   or documents.document_type::text ilike $1::text
   or uploaded_by_user.name ilike $1::text
@@ -243,10 +242,10 @@ where
   documents.created_at >= $1::date
   and documents.created_at <= $2::date
   and (documents.file_name ilike $3::text
-  or documents.record_type ilike $3::text
-  or documents.document_type::text ilike $3::text
-  or uploaded_by_user.name ilike $3::text
-  or $3::text is null)
+    or documents.record_type ilike $3::text
+    or documents.document_type::text ilike $3::text
+    or uploaded_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeDocumentParams struct {
@@ -318,89 +317,73 @@ update
   "billing"."documents"
 set
   updated_at = now(),
-  record_id = case when $1::boolean then
-    $2::uuid
+  record_id = case when $1 is not null then
+    $1::uuid
   else
     record_id
   end,
-  record_type = case when $3::boolean then
-    $4::varchar
+  record_type = case when $2 is not null then
+    $2::varchar
   else
     record_type
   end,
-  document_type = case when $5::boolean then
-    $6::billing.document_type_enum
+  document_type = case when $3 is not null then
+    $3::billing.document_type_enum
   else
     document_type
   end,
-  file_path = case when $7::boolean then
-    $8::varchar
+  file_path = case when $4 is not null then
+    $4::varchar
   else
     file_path
   end,
-  file_name = case when $9::boolean then
-    $10::varchar
+  file_name = case when $5 is not null then
+    $5::varchar
   else
     file_name
   end,
-  file_size = case when $11::boolean then
-    $12::integer
+  file_size = case when $6 is not null then
+    $6::integer
   else
     file_size
   end,
-  mime_type = case when $13::boolean then
-    $14::varchar
+  mime_type = case when $7 is not null then
+    $7::varchar
   else
     mime_type
   end,
-  uploaded_by_user_id = case when $15::boolean then
-    $16::text
+  uploaded_by_user_id = case when $8 is not null then
+    $8::text
   else
     uploaded_by_user_id
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, record_id, record_type, document_type, file_path, file_name, file_size, mime_type, uploaded_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateDocumentParams struct {
-	SetRecordID         bool
-	RecordID            pgtype.UUID
-	SetRecordType       bool
-	RecordType          string
-	SetDocumentType     bool
-	DocumentType        BillingDocumentTypeEnum
-	SetFilePath         bool
-	FilePath            string
-	SetFileName         bool
-	FileName            string
-	SetFileSize         bool
-	FileSize            int32
-	SetMimeType         bool
-	MimeType            string
-	SetUploadedByUserID bool
-	UploadedByUserID    string
-	ID                  pgtype.UUID
+	RecordID         pgtype.UUID
+	RecordType       string
+	DocumentType     BillingDocumentTypeEnum
+	FilePath         string
+	FileName         string
+	FileSize         pgtype.Int4
+	MimeType         pgtype.Text
+	UploadedByUserID pgtype.Text
+	ID               pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateDocument(ctx context.Context, arg BillingUpdateDocumentParams) (BillingDocument, error) {
 	row := q.db.QueryRow(ctx, billingUpdateDocument,
-		arg.SetRecordID,
 		arg.RecordID,
-		arg.SetRecordType,
 		arg.RecordType,
-		arg.SetDocumentType,
 		arg.DocumentType,
-		arg.SetFilePath,
 		arg.FilePath,
-		arg.SetFileName,
 		arg.FileName,
-		arg.SetFileSize,
 		arg.FileSize,
-		arg.SetMimeType,
 		arg.MimeType,
-		arg.SetUploadedByUserID,
 		arg.UploadedByUserID,
 		arg.ID,
 	)

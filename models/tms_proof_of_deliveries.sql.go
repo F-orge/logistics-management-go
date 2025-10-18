@@ -304,70 +304,58 @@ update
 set
   updated_at = now(),
   trip_stop_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     trip_stop_id
   end,
-  type = case when $3 is not null then
-    $4::tms.proof_type_enum
+  type = case when $2 is not null then
+    $2::tms.proof_type_enum
   else
     type
   end,
-  file_path = case when $5 is not null then
-    $6::varchar
+  file_path = case when $3 is not null then
+    $3::varchar
   else
     file_path
   end,
-  timestamp = case when $7 is not null then
-    $8::timestamp
+  timestamp = case when $4 is not null then
+    $4::timestamp
   else
     timestamp
   end,
-  latitude = case when $9 is not null then
-    $10::real
+  latitude = case when $5 is not null then
+    $5::real
   else
     latitude
   end,
-  longitude = case when $11 is not null then
-    $12::real
+  longitude = case when $6 is not null then
+    $6::real
   else
     longitude
   end
 where
-  id = $13::uuid
+  id = $7::uuid
 returning
   id, trip_stop_id, type, file_path, timestamp, latitude, longitude, created_at, updated_at
 `
 
 type TmsUpdateProofOfDeliveryParams struct {
-	SetTripStopID pgtype.UUID
-	TripStopID    pgtype.UUID
-	SetType       NullTmsProofTypeEnum
-	Type          TmsProofTypeEnum
-	SetFilePath   pgtype.Text
-	FilePath      string
-	SetTimestamp  pgtype.Timestamp
-	Timestamp     pgtype.Timestamp
-	SetLatitude   pgtype.Float4
-	Latitude      float32
-	SetLongitude  pgtype.Float4
-	Longitude     float32
-	ID            pgtype.UUID
+	TripStopID pgtype.UUID
+	Type       NullTmsProofTypeEnum
+	FilePath   pgtype.Text
+	Timestamp  pgtype.Timestamp
+	Latitude   pgtype.Float4
+	Longitude  pgtype.Float4
+	ID         pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateProofOfDelivery(ctx context.Context, arg TmsUpdateProofOfDeliveryParams) (TmsProofOfDelivery, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateProofOfDelivery,
-		arg.SetTripStopID,
 		arg.TripStopID,
-		arg.SetType,
 		arg.Type,
-		arg.SetFilePath,
 		arg.FilePath,
-		arg.SetTimestamp,
 		arg.Timestamp,
-		arg.SetLatitude,
 		arg.Latitude,
-		arg.SetLongitude,
 		arg.Longitude,
 		arg.ID,
 	)

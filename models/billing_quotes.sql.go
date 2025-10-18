@@ -238,8 +238,7 @@ from
   "billing"."quotes" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
-where
-  (client.name ilike $1::text
+where (client.name ilike $1::text
   or quotes.quote_number ilike $1::text
   or quotes.service_level ilike $1::text
   or quotes.status::text ilike $1::text
@@ -337,11 +336,11 @@ where
   quotes.created_at >= $1::date
   and quotes.created_at <= $2::date
   and (client.name ilike $3::text
-  or quotes.quote_number ilike $3::text
-  or quotes.service_level ilike $3::text
-  or quotes.status::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
+    or quotes.quote_number ilike $3::text
+    or quotes.service_level ilike $3::text
+    or quotes.status::text ilike $3::text
+    or created_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeQuoteParams struct {
@@ -435,143 +434,115 @@ update
   "billing"."quotes"
 set
   updated_at = now(),
-  client_id = case when $1::boolean then
-    $2::uuid
+  client_id = case when $1 is not null then
+    $1::uuid
   else
     client_id
   end,
-  origin_details = case when $3::boolean then
-    $4::text
+  origin_details = case when $2 is not null then
+    $2::text
   else
     origin_details
   end,
-  destination_details = case when $5::boolean then
-    $6::text
+  destination_details = case when $3 is not null then
+    $3::text
   else
     destination_details
   end,
-  weight = case when $7::boolean then
-    $8::numeric
+  weight = case when $4 is not null then
+    $4::numeric
   else
     weight
   end,
-  length = case when $9::boolean then
-    $10::numeric
+  length = case when $5 is not null then
+    $5::numeric
   else
     length
   end,
-  width = case when $11::boolean then
-    $12::numeric
+  width = case when $6 is not null then
+    $6::numeric
   else
     width
   end,
-  height = case when $13::boolean then
-    $14::numeric
+  height = case when $7 is not null then
+    $7::numeric
   else
     height
   end,
-  quoted_price = case when $15::boolean then
-    $16::numeric
+  quoted_price = case when $8 is not null then
+    $8::numeric
   else
     quoted_price
   end,
-  service_level = case when $17::boolean then
-    $18::varchar
+  service_level = case when $9 is not null then
+    $9::varchar
   else
     service_level
   end,
-  expires_at = case when $19::boolean then
-    $20::timestamp
+  expires_at = case when $10 is not null then
+    $10::timestamp
   else
     expires_at
   end,
-  status = case when $21::boolean then
-    $22::billing.quote_status_enum
+  status = case when $11 is not null then
+    $11::billing.quote_status_enum
   else
     status
   end,
-  quote_number = case when $23::boolean then
-    $24::varchar
+  quote_number = case when $12 is not null then
+    $12::varchar
   else
     quote_number
   end,
-  notes = case when $25::boolean then
-    $26::text
+  notes = case when $13 is not null then
+    $13::text
   else
     notes
   end,
-  created_by_user_id = case when $27::boolean then
-    $28::text
+  created_by_user_id = case when $14 is not null then
+    $14::text
   else
     created_by_user_id
   end
 where
-  id = $29::uuid
+  id = $15::uuid
 returning
   id, client_id, origin_details, destination_details, weight, length, width, height, volume, quoted_price, service_level, expires_at, status, quote_number, notes, created_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateQuoteParams struct {
-	SetClientID           bool
-	ClientID              pgtype.UUID
-	SetOriginDetails      bool
-	OriginDetails         string
-	SetDestinationDetails bool
-	DestinationDetails    string
-	SetWeight             bool
-	Weight                pgtype.Numeric
-	SetLength             bool
-	Length                pgtype.Numeric
-	SetWidth              bool
-	Width                 pgtype.Numeric
-	SetHeight             bool
-	Height                pgtype.Numeric
-	SetQuotedPrice        bool
-	QuotedPrice           pgtype.Numeric
-	SetServiceLevel       bool
-	ServiceLevel          string
-	SetExpiresAt          bool
-	ExpiresAt             pgtype.Timestamp
-	SetStatus             bool
-	Status                BillingQuoteStatusEnum
-	SetQuoteNumber        bool
-	QuoteNumber           string
-	SetNotes              bool
-	Notes                 string
-	SetCreatedByUserID    bool
-	CreatedByUserID       string
-	ID                    pgtype.UUID
+	ClientID           pgtype.UUID
+	OriginDetails      string
+	DestinationDetails string
+	Weight             pgtype.Numeric
+	Length             pgtype.Numeric
+	Width              pgtype.Numeric
+	Height             pgtype.Numeric
+	QuotedPrice        pgtype.Numeric
+	ServiceLevel       pgtype.Text
+	ExpiresAt          pgtype.Timestamp
+	Status             NullBillingQuoteStatusEnum
+	QuoteNumber        pgtype.Text
+	Notes              pgtype.Text
+	CreatedByUserID    pgtype.Text
+	ID                 pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateQuote(ctx context.Context, arg BillingUpdateQuoteParams) (BillingQuote, error) {
 	row := q.db.QueryRow(ctx, billingUpdateQuote,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetOriginDetails,
 		arg.OriginDetails,
-		arg.SetDestinationDetails,
 		arg.DestinationDetails,
-		arg.SetWeight,
 		arg.Weight,
-		arg.SetLength,
 		arg.Length,
-		arg.SetWidth,
 		arg.Width,
-		arg.SetHeight,
 		arg.Height,
-		arg.SetQuotedPrice,
 		arg.QuotedPrice,
-		arg.SetServiceLevel,
 		arg.ServiceLevel,
-		arg.SetExpiresAt,
 		arg.ExpiresAt,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetQuoteNumber,
 		arg.QuoteNumber,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetCreatedByUserID,
 		arg.CreatedByUserID,
 		arg.ID,
 	)

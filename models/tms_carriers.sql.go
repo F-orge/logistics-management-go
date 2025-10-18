@@ -216,43 +216,37 @@ update
 set
   updated_at = now(),
   name = case when $1 is not null then
-    $2::varchar
+    $1::varchar
   else
     name
   end,
-  contact_details = case when $3 is not null then
-    $4::text
+  contact_details = case when $2 is not null then
+    $2::text
   else
     contact_details
   end,
-  services_offered = case when $5 is not null then
-    $6::text
+  services_offered = case when $3 is not null then
+    $3::text
   else
     services_offered
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
 `
 
 type TmsUpdateCarrierParams struct {
-	SetName            string
-	Name               string
-	SetContactDetails  pgtype.Text
-	ContactDetails     string
-	SetServicesOffered pgtype.Text
-	ServicesOffered    string
-	ID                 pgtype.UUID
+	Name            string
+	ContactDetails  pgtype.Text
+	ServicesOffered pgtype.Text
+	ID              pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateCarrier(ctx context.Context, arg TmsUpdateCarrierParams) (TmsCarrier, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateCarrier,
-		arg.SetName,
 		arg.Name,
-		arg.SetContactDetails,
 		arg.ContactDetails,
-		arg.SetServicesOffered,
 		arg.ServicesOffered,
 		arg.ID,
 	)

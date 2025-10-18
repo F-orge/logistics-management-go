@@ -248,8 +248,7 @@ from
   inner join "billing"."invoice_line_items" as line_item on disputes.line_item_id = line_item.id
   inner join "crm"."companies" as client on disputes.client_id = client.id
   left join "public"."user" as resolved_by_user on disputes.resolved_by_user_id = resolved_by_user.id
-where
-  (line_item.description ilike $1::text
+where (line_item.description ilike $1::text
   or client.name ilike $1::text
   or resolved_by_user.name ilike $1::text
   or disputes.status::text ilike $1::text
@@ -358,10 +357,10 @@ where
   disputes.created_at >= $1::date
   and disputes.created_at <= $2::date
   and (line_item.description ilike $3::text
-  or client.name ilike $3::text
-  or resolved_by_user.name ilike $3::text
-  or disputes.status::text ilike $3::text
-  or $3::text is null)
+    or client.name ilike $3::text
+    or resolved_by_user.name ilike $3::text
+    or disputes.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeDisputeParams struct {
@@ -465,98 +464,80 @@ update
   "billing"."disputes"
 set
   updated_at = now(),
-  line_item_id = case when $1::boolean then
-    $2::uuid
+  line_item_id = case when $1 is not null then
+    $1::uuid
   else
     line_item_id
   end,
-  client_id = case when $3::boolean then
-    $4::uuid
+  client_id = case when $2 is not null then
+    $2::uuid
   else
     client_id
   end,
-  reason = case when $5::boolean then
-    $6::text
+  reason = case when $3 is not null then
+    $3::text
   else
     reason
   end,
-  status = case when $7::boolean then
-    $8::billing.dispute_status_enum
+  status = case when $4 is not null then
+    $4::billing.dispute_status_enum
   else
     status
   end,
-  disputed_amount = case when $9::boolean then
-    $10::numeric
+  disputed_amount = case when $5 is not null then
+    $5::numeric
   else
     disputed_amount
   end,
-  resolution_notes = case when $11::boolean then
-    $12::text
+  resolution_notes = case when $6 is not null then
+    $6::text
   else
     resolution_notes
   end,
-  submitted_at = case when $13::boolean then
-    $14::timestamp
+  submitted_at = case when $7 is not null then
+    $7::timestamp
   else
     submitted_at
   end,
-  resolved_at = case when $15::boolean then
-    $16::timestamp
+  resolved_at = case when $8 is not null then
+    $8::timestamp
   else
     resolved_at
   end,
-  resolved_by_user_id = case when $17::boolean then
-    $18::text
+  resolved_by_user_id = case when $9 is not null then
+    $9::text
   else
     resolved_by_user_id
   end
 where
-  id = $19::uuid
+  id = $10::uuid
 returning
   id, line_item_id, client_id, reason, status, disputed_amount, resolution_notes, submitted_at, resolved_at, resolved_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateDisputeParams struct {
-	SetLineItemID       bool
-	LineItemID          pgtype.UUID
-	SetClientID         bool
-	ClientID            pgtype.UUID
-	SetReason           bool
-	Reason              string
-	SetStatus           bool
-	Status              BillingDisputeStatusEnum
-	SetDisputedAmount   bool
-	DisputedAmount      pgtype.Numeric
-	SetResolutionNotes  bool
-	ResolutionNotes     string
-	SetSubmittedAt      bool
-	SubmittedAt         pgtype.Timestamp
-	SetResolvedAt       bool
-	ResolvedAt          pgtype.Timestamp
-	SetResolvedByUserID bool
-	ResolvedByUserID    string
-	ID                  pgtype.UUID
+	LineItemID       pgtype.UUID
+	ClientID         pgtype.UUID
+	Reason           string
+	Status           NullBillingDisputeStatusEnum
+	DisputedAmount   pgtype.Numeric
+	ResolutionNotes  pgtype.Text
+	SubmittedAt      pgtype.Timestamp
+	ResolvedAt       pgtype.Timestamp
+	ResolvedByUserID pgtype.Text
+	ID               pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateDispute(ctx context.Context, arg BillingUpdateDisputeParams) (BillingDispute, error) {
 	row := q.db.QueryRow(ctx, billingUpdateDispute,
-		arg.SetLineItemID,
 		arg.LineItemID,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetReason,
 		arg.Reason,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetDisputedAmount,
 		arg.DisputedAmount,
-		arg.SetResolutionNotes,
 		arg.ResolutionNotes,
-		arg.SetSubmittedAt,
 		arg.SubmittedAt,
-		arg.SetResolvedAt,
 		arg.ResolvedAt,
-		arg.SetResolvedByUserID,
 		arg.ResolvedByUserID,
 		arg.ID,
 	)

@@ -201,43 +201,37 @@ update
 set
   updated_at = now(),
   name = case when $1 is not null then
-    $2::varchar
+    $1::varchar
   else
     name
   end,
-  longitude = case when $3 is not null then
-    $4::real
+  longitude = case when $2 is not null then
+    $2::real
   else
     longitude
   end,
-  latitude = case when $5 is not null then
-    $6::real
+  latitude = case when $3 is not null then
+    $3::real
   else
     latitude
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, name, created_at, updated_at, longitude, latitude
 `
 
 type TmsUpdateGeofenceParams struct {
-	SetName      string
-	Name         string
-	SetLongitude pgtype.Float4
-	Longitude    float32
-	SetLatitude  pgtype.Float4
-	Latitude     float32
-	ID           pgtype.UUID
+	Name      string
+	Longitude pgtype.Float4
+	Latitude  pgtype.Float4
+	ID        pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateGeofence(ctx context.Context, arg TmsUpdateGeofenceParams) (TmsGeofence, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateGeofence,
-		arg.SetName,
 		arg.Name,
-		arg.SetLongitude,
 		arg.Longitude,
-		arg.SetLatitude,
 		arg.Latitude,
 		arg.ID,
 	)

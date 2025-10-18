@@ -333,98 +333,80 @@ update
 set
   updated_at = now(),
   trip_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     trip_id
   end,
-  shipment_id = case when $3 is not null then
-    $4::uuid
+  shipment_id = case when $2 is not null then
+    $2::uuid
   else
     shipment_id
   end,
   sequence =
-    case when $5 is not null then
-      $6::integer
+    case when $3 is not null then
+      $3::integer
     else
       sequence
     end,
-    address = case when $7 is not null then
-      $8::varchar
+    address = case when $4 is not null then
+      $4::varchar
     else
       address
     end,
-    status = case when $9 is not null then
-      $10::tms.trip_stop_status_enum
+    status = case when $5 is not null then
+      $5::tms.trip_stop_status_enum
     else
       status
     end,
-    estimated_arrival_time = case when $11 is not null then
-      $12::timestamp
+    estimated_arrival_time = case when $6 is not null then
+      $6::timestamp
     else
       estimated_arrival_time
     end,
-    actual_arrival_time = case when $13 is not null then
-      $14::timestamp
+    actual_arrival_time = case when $7 is not null then
+      $7::timestamp
     else
       actual_arrival_time
     end,
-    estimated_departure_time = case when $15 is not null then
-      $16::timestamp
+    estimated_departure_time = case when $8 is not null then
+      $8::timestamp
     else
       estimated_departure_time
     end,
-    actual_departure_time = case when $17 is not null then
-      $18::timestamp
+    actual_departure_time = case when $9 is not null then
+      $9::timestamp
     else
       actual_departure_time
     end
   where
-    id = $19::uuid
+    id = $10::uuid
   returning
     id, trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created_at, updated_at
 `
 
 type TmsUpdateTripStopParams struct {
-	SetTripID                 pgtype.UUID
-	TripID                    pgtype.UUID
-	SetShipmentID             pgtype.UUID
-	ShipmentID                pgtype.UUID
-	SetSequence               int32
-	Sequence                  int32
-	SetAddress                pgtype.Text
-	Address                   string
-	SetStatus                 NullTmsTripStopStatusEnum
-	Status                    TmsTripStopStatusEnum
-	SetEstimatedArrivalTime   pgtype.Timestamp
-	EstimatedArrivalTime      pgtype.Timestamp
-	SetActualArrivalTime      pgtype.Timestamp
-	ActualArrivalTime         pgtype.Timestamp
-	SetEstimatedDepartureTime pgtype.Timestamp
-	EstimatedDepartureTime    pgtype.Timestamp
-	SetActualDepartureTime    pgtype.Timestamp
-	ActualDepartureTime       pgtype.Timestamp
-	ID                        pgtype.UUID
+	TripID                 pgtype.UUID
+	ShipmentID             pgtype.UUID
+	Sequence               int32
+	Address                pgtype.Text
+	Status                 NullTmsTripStopStatusEnum
+	EstimatedArrivalTime   pgtype.Timestamp
+	ActualArrivalTime      pgtype.Timestamp
+	EstimatedDepartureTime pgtype.Timestamp
+	ActualDepartureTime    pgtype.Timestamp
+	ID                     pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateTripStop(ctx context.Context, arg TmsUpdateTripStopParams) (TmsTripStop, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateTripStop,
-		arg.SetTripID,
 		arg.TripID,
-		arg.SetShipmentID,
 		arg.ShipmentID,
-		arg.SetSequence,
 		arg.Sequence,
-		arg.SetAddress,
 		arg.Address,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetEstimatedArrivalTime,
 		arg.EstimatedArrivalTime,
-		arg.SetActualArrivalTime,
 		arg.ActualArrivalTime,
-		arg.SetEstimatedDepartureTime,
 		arg.EstimatedDepartureTime,
-		arg.SetActualDepartureTime,
 		arg.ActualDepartureTime,
 		arg.ID,
 	)

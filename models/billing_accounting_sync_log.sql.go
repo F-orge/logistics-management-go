@@ -146,8 +146,7 @@ select
   id, record_id, record_type, external_system, external_id, status, error_message, request_payload, response_payload, last_sync_at, retry_count, next_retry_at, created_at, updated_at
 from
   "billing"."accounting_sync_log"
-where
-  (record_type ilike $1::text
+where (record_type ilike $1::text
   or external_system ilike $1::text
   or status::text ilike $1::text
   or $1::text is null)
@@ -204,9 +203,9 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (record_type ilike $3::text
-  or external_system ilike $3::text
-  or status::text ilike $3::text
-  or $3::text is null)
+    or external_system ilike $3::text
+    or status::text ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeAccountingSyncLogParams struct {
@@ -265,116 +264,94 @@ update
   "billing"."accounting_sync_log"
 set
   updated_at = now(),
-  record_id = case when $1::boolean then
-    $2::uuid
+  record_id = case when $1 is not null then
+    $1::uuid
   else
     record_id
   end,
-  record_type = case when $3::boolean then
-    $4::varchar
+  record_type = case when $2 is not null then
+    $2::varchar
   else
     record_type
   end,
-  external_system = case when $5::boolean then
-    $6::varchar
+  external_system = case when $3 is not null then
+    $3::varchar
   else
     external_system
   end,
-  external_id = case when $7::boolean then
-    $8::varchar
+  external_id = case when $4 is not null then
+    $4::varchar
   else
     external_id
   end,
-  status = case when $9::boolean then
-    $10::billing.sync_status_enum
+  status = case when $5 is not null then
+    $5::billing.sync_status_enum
   else
     status
   end,
-  error_message = case when $11::boolean then
-    $12::text
+  error_message = case when $6 is not null then
+    $6::text
   else
     error_message
   end,
-  request_payload = case when $13::boolean then
-    $14::text
+  request_payload = case when $7 is not null then
+    $7::text
   else
     request_payload
   end,
-  response_payload = case when $15::boolean then
-    $16::text
+  response_payload = case when $8 is not null then
+    $8::text
   else
     response_payload
   end,
-  last_sync_at = case when $17::boolean then
-    $18::timestamp
+  last_sync_at = case when $9 is not null then
+    $9::timestamp
   else
     last_sync_at
   end,
-  retry_count = case when $19::boolean then
-    $20::integer
+  retry_count = case when $10 is not null then
+    $10::integer
   else
     retry_count
   end,
-  next_retry_at = case when $21::boolean then
-    $22::timestamp
+  next_retry_at = case when $11 is not null then
+    $11::timestamp
   else
     next_retry_at
   end
 where
-  id = $23::uuid
+  id = $12::uuid
 returning
   id, record_id, record_type, external_system, external_id, status, error_message, request_payload, response_payload, last_sync_at, retry_count, next_retry_at, created_at, updated_at
 `
 
 type BillingUpdateAccountingSyncLogParams struct {
-	SetRecordID        bool
-	RecordID           pgtype.UUID
-	SetRecordType      bool
-	RecordType         string
-	SetExternalSystem  bool
-	ExternalSystem     string
-	SetExternalID      bool
-	ExternalID         string
-	SetStatus          bool
-	Status             BillingSyncStatusEnum
-	SetErrorMessage    bool
-	ErrorMessage       string
-	SetRequestPayload  bool
-	RequestPayload     string
-	SetResponsePayload bool
-	ResponsePayload    string
-	SetLastSyncAt      bool
-	LastSyncAt         pgtype.Timestamp
-	SetRetryCount      bool
-	RetryCount         int32
-	SetNextRetryAt     bool
-	NextRetryAt        pgtype.Timestamp
-	ID                 pgtype.UUID
+	RecordID        pgtype.UUID
+	RecordType      string
+	ExternalSystem  string
+	ExternalID      pgtype.Text
+	Status          NullBillingSyncStatusEnum
+	ErrorMessage    pgtype.Text
+	RequestPayload  pgtype.Text
+	ResponsePayload pgtype.Text
+	LastSyncAt      pgtype.Timestamp
+	RetryCount      pgtype.Int4
+	NextRetryAt     pgtype.Timestamp
+	ID              pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateAccountingSyncLog(ctx context.Context, arg BillingUpdateAccountingSyncLogParams) (BillingAccountingSyncLog, error) {
 	row := q.db.QueryRow(ctx, billingUpdateAccountingSyncLog,
-		arg.SetRecordID,
 		arg.RecordID,
-		arg.SetRecordType,
 		arg.RecordType,
-		arg.SetExternalSystem,
 		arg.ExternalSystem,
-		arg.SetExternalID,
 		arg.ExternalID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetErrorMessage,
 		arg.ErrorMessage,
-		arg.SetRequestPayload,
 		arg.RequestPayload,
-		arg.SetResponsePayload,
 		arg.ResponsePayload,
-		arg.SetLastSyncAt,
 		arg.LastSyncAt,
-		arg.SetRetryCount,
 		arg.RetryCount,
-		arg.SetNextRetryAt,
 		arg.NextRetryAt,
 		arg.ID,
 	)

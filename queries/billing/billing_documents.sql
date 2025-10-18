@@ -5,8 +5,7 @@ select
 from
   "billing"."documents" as documents
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
-where
-  (documents.file_name ilike sqlc.narg(search)::text
+where (documents.file_name ilike sqlc.narg(search)::text
   or documents.record_type ilike sqlc.narg(search)::text
   or documents.document_type::text ilike sqlc.narg(search)::text
   or uploaded_by_user.name ilike sqlc.narg(search)::text
@@ -44,10 +43,10 @@ where
   documents.created_at >= @dateFrom::date
   and documents.created_at <= @dateTo::date
   and (documents.file_name ilike sqlc.narg(search)::text
-  or documents.record_type ilike sqlc.narg(search)::text
-  or documents.document_type::text ilike sqlc.narg(search)::text
-  or uploaded_by_user.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or documents.record_type ilike sqlc.narg(search)::text
+    or documents.document_type::text ilike sqlc.narg(search)::text
+    or uploaded_by_user.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertDocument :one
 insert into "billing"."documents"(record_id, record_type, document_type, file_path, file_name, file_size, mime_type, uploaded_by_user_id)
@@ -60,42 +59,42 @@ update
   "billing"."documents"
 set
   updated_at = now(),
-  record_id = case when sqlc.arg(set_record_id)::boolean then
+  record_id = case when sqlc.arg(record_id) is not null then
     sqlc.arg(record_id)::uuid
   else
     record_id
   end,
-  record_type = case when sqlc.arg(set_record_type)::boolean then
+  record_type = case when sqlc.arg(record_type) is not null then
     sqlc.arg(record_type)::varchar
   else
     record_type
   end,
-  document_type = case when sqlc.arg(set_document_type)::boolean then
+  document_type = case when sqlc.arg(document_type) is not null then
     sqlc.arg(document_type)::billing.document_type_enum
   else
     document_type
   end,
-  file_path = case when sqlc.arg(set_file_path)::boolean then
+  file_path = case when sqlc.arg(file_path) is not null then
     sqlc.arg(file_path)::varchar
   else
     file_path
   end,
-  file_name = case when sqlc.arg(set_file_name)::boolean then
+  file_name = case when sqlc.arg(file_name) is not null then
     sqlc.arg(file_name)::varchar
   else
     file_name
   end,
-  file_size = case when sqlc.arg(set_file_size)::boolean then
+  file_size = case when sqlc.arg(file_size) is not null then
     sqlc.arg(file_size)::integer
   else
     file_size
   end,
-  mime_type = case when sqlc.arg(set_mime_type)::boolean then
+  mime_type = case when sqlc.arg(mime_type) is not null then
     sqlc.arg(mime_type)::varchar
   else
     mime_type
   end,
-  uploaded_by_user_id = case when sqlc.arg(set_uploaded_by_user_id)::boolean then
+  uploaded_by_user_id = case when sqlc.arg(uploaded_by_user_id) is not null then
     sqlc.arg(uploaded_by_user_id)::text
   else
     uploaded_by_user_id
@@ -108,3 +107,4 @@ returning
 -- name: BillingRemoveDocument :exec
 delete from "billing"."documents"
 where id = @id::uuid;
+

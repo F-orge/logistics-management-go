@@ -296,70 +296,58 @@ update
 set
   updated_at = now(),
   carrier_id = case when $1 is not null then
-    $2::uuid
+    $1::uuid
   else
     carrier_id
   end,
-  service_type = case when $3 is not null then
-    $4::varchar
+  service_type = case when $2 is not null then
+    $2::varchar
   else
     service_type
   end,
-  origin = case when $5 is not null then
-    $6::varchar
+  origin = case when $3 is not null then
+    $3::varchar
   else
     origin
   end,
-  destination = case when $7 is not null then
-    $8::varchar
+  destination = case when $4 is not null then
+    $4::varchar
   else
     destination
   end,
-  rate = case when $9 is not null then
-    $10::numeric
+  rate = case when $5 is not null then
+    $5::numeric
   else
     rate
   end,
-  unit = case when $11 is not null then
-    $12::tms.carrier_rate_unit_enum
+  unit = case when $6 is not null then
+    $6::tms.carrier_rate_unit_enum
   else
     unit
   end
 where
-  id = $13::uuid
+  id = $7::uuid
 returning
   id, carrier_id, service_type, origin, destination, rate, unit, created_at, updated_at
 `
 
 type TmsUpdateCarrierRateParams struct {
-	SetCarrierID   pgtype.UUID
-	CarrierID      pgtype.UUID
-	SetServiceType pgtype.Text
-	ServiceType    string
-	SetOrigin      pgtype.Text
-	Origin         string
-	SetDestination pgtype.Text
-	Destination    string
-	SetRate        pgtype.Numeric
-	Rate           pgtype.Numeric
-	SetUnit        NullTmsCarrierRateUnitEnum
-	Unit           TmsCarrierRateUnitEnum
-	ID             pgtype.UUID
+	CarrierID   pgtype.UUID
+	ServiceType pgtype.Text
+	Origin      pgtype.Text
+	Destination pgtype.Text
+	Rate        pgtype.Numeric
+	Unit        NullTmsCarrierRateUnitEnum
+	ID          pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateCarrierRate(ctx context.Context, arg TmsUpdateCarrierRateParams) (TmsCarrierRate, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateCarrierRate,
-		arg.SetCarrierID,
 		arg.CarrierID,
-		arg.SetServiceType,
 		arg.ServiceType,
-		arg.SetOrigin,
 		arg.Origin,
-		arg.SetDestination,
 		arg.Destination,
-		arg.SetRate,
 		arg.Rate,
-		arg.SetUnit,
 		arg.Unit,
 		arg.ID,
 	)

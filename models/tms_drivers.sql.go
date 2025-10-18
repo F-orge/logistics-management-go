@@ -293,52 +293,44 @@ update
 set
   updated_at = now(),
   user_id = case when $1 is not null then
-    $2::text
+    $1::text
   else
     user_id
   end,
-  license_number = case when $3 is not null then
-    $4::varchar
+  license_number = case when $2 is not null then
+    $2::varchar
   else
     license_number
   end,
-  license_expiry_date = case when $5 is not null then
-    $6::date
+  license_expiry_date = case when $3 is not null then
+    $3::date
   else
     license_expiry_date
   end,
-  status = case when $7 is not null then
-    $8::tms.driver_status_enum
+  status = case when $4 is not null then
+    $4::tms.driver_status_enum
   else
     status
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, user_id, license_number, license_expiry_date, status, created_at, updated_at, contact_phone
 `
 
 type TmsUpdateDriverParams struct {
-	SetUserID            string
-	UserID               string
-	SetLicenseNumber     string
-	LicenseNumber        string
-	SetLicenseExpiryDate pgtype.Date
-	LicenseExpiryDate    pgtype.Date
-	SetStatus            NullTmsDriverStatusEnum
-	Status               TmsDriverStatusEnum
-	ID                   pgtype.UUID
+	UserID            string
+	LicenseNumber     string
+	LicenseExpiryDate pgtype.Date
+	Status            NullTmsDriverStatusEnum
+	ID                pgtype.UUID
 }
 
 func (q *Queries) TmsUpdateDriver(ctx context.Context, arg TmsUpdateDriverParams) (TmsDriver, error) {
 	row := q.db.QueryRow(ctx, tmsUpdateDriver,
-		arg.SetUserID,
 		arg.UserID,
-		arg.SetLicenseNumber,
 		arg.LicenseNumber,
-		arg.SetLicenseExpiryDate,
 		arg.LicenseExpiryDate,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

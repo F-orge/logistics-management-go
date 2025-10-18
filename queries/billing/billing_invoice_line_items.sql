@@ -5,8 +5,7 @@ select
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
-where
-  (invoice.invoice_number ilike sqlc.narg(search)::text
+where (invoice.invoice_number ilike sqlc.narg(search)::text
   or invoice_line_items.description ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -42,8 +41,8 @@ where
   invoice_line_items.created_at >= @dateFrom::date
   and invoice_line_items.created_at <= @dateTo::date
   and (invoice.invoice_number ilike sqlc.narg(search)::text
-  or invoice_line_items.description ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or invoice_line_items.description ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertInvoiceLineItem :one
 insert into "billing"."invoice_line_items"(invoice_id, source_record_id, source_record_type, description, quantity, unit_price, tax_rate, discount_rate)
@@ -56,42 +55,42 @@ update
   "billing"."invoice_line_items"
 set
   updated_at = now(),
-  invoice_id = case when sqlc.arg(set_invoice_id)::boolean then
+  invoice_id = case when sqlc.arg(invoice_id) is not null then
     sqlc.arg(invoice_id)::uuid
   else
     invoice_id
   end,
-  source_record_id = case when sqlc.arg(set_source_record_id)::boolean then
+  source_record_id = case when sqlc.arg(source_record_id) is not null then
     sqlc.arg(source_record_id)::uuid
   else
     source_record_id
   end,
-  source_record_type = case when sqlc.arg(set_source_record_type)::boolean then
+  source_record_type = case when sqlc.arg(source_record_type) is not null then
     sqlc.arg(source_record_type)::varchar
   else
     source_record_type
   end,
-  description = case when sqlc.arg(set_description)::boolean then
+  description = case when sqlc.arg(description) is not null then
     sqlc.arg(description)::text
   else
     description
   end,
-  quantity = case when sqlc.arg(set_quantity)::boolean then
+  quantity = case when sqlc.arg(quantity) is not null then
     sqlc.arg(quantity)::numeric
   else
     quantity
   end,
-  unit_price = case when sqlc.arg(set_unit_price)::boolean then
+  unit_price = case when sqlc.arg(unit_price) is not null then
     sqlc.arg(unit_price)::numeric
   else
     unit_price
   end,
-  tax_rate = case when sqlc.arg(set_tax_rate)::boolean then
+  tax_rate = case when sqlc.arg(tax_rate) is not null then
     sqlc.arg(tax_rate)::numeric
   else
     tax_rate
   end,
-  discount_rate = case when sqlc.arg(set_discount_rate)::boolean then
+  discount_rate = case when sqlc.arg(discount_rate) is not null then
     sqlc.arg(discount_rate)::numeric
   else
     discount_rate
@@ -104,3 +103,4 @@ returning
 -- name: BillingRemoveInvoiceLineItem :exec
 delete from "billing"."invoice_line_items"
 where id = @id::uuid;
+

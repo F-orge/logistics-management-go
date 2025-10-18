@@ -247,8 +247,7 @@ from
   "billing"."payments" as payments
   inner join "billing"."invoices" as invoice on payments.invoice_id = invoice.id
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
-where
-  (invoice.invoice_number ilike $1::text
+where (invoice.invoice_number ilike $1::text
   or payments.payment_method::text ilike $1::text
   or payments.status::text ilike $1::text
   or processed_by_user.name ilike $1::text
@@ -351,10 +350,10 @@ where
   payments.created_at >= $1::date
   and payments.created_at <= $2::date
   and (invoice.invoice_number ilike $3::text
-  or payments.payment_method::text ilike $3::text
-  or payments.status::text ilike $3::text
-  or processed_by_user.name ilike $3::text
-  or $3::text is null)
+    or payments.payment_method::text ilike $3::text
+    or payments.status::text ilike $3::text
+    or processed_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangePaymentParams struct {
@@ -454,134 +453,108 @@ update
   "billing"."payments"
 set
   updated_at = now(),
-  invoice_id = case when $1::boolean then
-    $2::uuid
+  invoice_id = case when $1 is not null then
+    $1::uuid
   else
     invoice_id
   end,
-  amount = case when $3::boolean then
-    $4::numeric
+  amount = case when $2 is not null then
+    $2::numeric
   else
     amount
   end,
-  payment_method = case when $5::boolean then
-    $6::billing.payment_method_enum
+  payment_method = case when $3 is not null then
+    $3::billing.payment_method_enum
   else
     payment_method
   end,
-  transaction_id = case when $7::boolean then
-    $8::varchar
+  transaction_id = case when $4 is not null then
+    $4::varchar
   else
     transaction_id
   end,
-  gateway_reference = case when $9::boolean then
-    $10::varchar
+  gateway_reference = case when $5 is not null then
+    $5::varchar
   else
     gateway_reference
   end,
-  status = case when $11::boolean then
-    $12::billing.payment_status_enum
+  status = case when $6 is not null then
+    $6::billing.payment_status_enum
   else
     status
   end,
-  payment_date = case when $13::boolean then
-    $14::timestamp
+  payment_date = case when $7 is not null then
+    $7::timestamp
   else
     payment_date
   end,
-  processed_at = case when $15::boolean then
-    $16::timestamp
+  processed_at = case when $8 is not null then
+    $8::timestamp
   else
     processed_at
   end,
-  currency = case when $17::boolean then
-    $18::varchar
+  currency = case when $9 is not null then
+    $9::varchar
   else
     currency
   end,
-  exchange_rate = case when $19::boolean then
-    $20::numeric
+  exchange_rate = case when $10 is not null then
+    $10::numeric
   else
     exchange_rate
   end,
-  fees = case when $21::boolean then
-    $22::numeric
+  fees = case when $11 is not null then
+    $11::numeric
   else
     fees
   end,
-  notes = case when $23::boolean then
-    $24::text
+  notes = case when $12 is not null then
+    $12::text
   else
     notes
   end,
-  processed_by_user_id = case when $25::boolean then
-    $26::text
+  processed_by_user_id = case when $13 is not null then
+    $13::text
   else
     processed_by_user_id
   end
 where
-  id = $27::uuid
+  id = $14::uuid
 returning
   id, invoice_id, amount, payment_method, transaction_id, gateway_reference, status, payment_date, processed_at, currency, exchange_rate, fees, net_amount, notes, processed_by_user_id, created_at, updated_at
 `
 
 type BillingUpdatePaymentParams struct {
-	SetInvoiceID         bool
-	InvoiceID            pgtype.UUID
-	SetAmount            bool
-	Amount               pgtype.Numeric
-	SetPaymentMethod     bool
-	PaymentMethod        BillingPaymentMethodEnum
-	SetTransactionID     bool
-	TransactionID        string
-	SetGatewayReference  bool
-	GatewayReference     string
-	SetStatus            bool
-	Status               BillingPaymentStatusEnum
-	SetPaymentDate       bool
-	PaymentDate          pgtype.Timestamp
-	SetProcessedAt       bool
-	ProcessedAt          pgtype.Timestamp
-	SetCurrency          bool
-	Currency             string
-	SetExchangeRate      bool
-	ExchangeRate         pgtype.Numeric
-	SetFees              bool
-	Fees                 pgtype.Numeric
-	SetNotes             bool
-	Notes                string
-	SetProcessedByUserID bool
-	ProcessedByUserID    string
-	ID                   pgtype.UUID
+	InvoiceID         pgtype.UUID
+	Amount            pgtype.Numeric
+	PaymentMethod     BillingPaymentMethodEnum
+	TransactionID     pgtype.Text
+	GatewayReference  pgtype.Text
+	Status            NullBillingPaymentStatusEnum
+	PaymentDate       pgtype.Timestamp
+	ProcessedAt       pgtype.Timestamp
+	Currency          pgtype.Text
+	ExchangeRate      pgtype.Numeric
+	Fees              pgtype.Numeric
+	Notes             pgtype.Text
+	ProcessedByUserID pgtype.Text
+	ID                pgtype.UUID
 }
 
 func (q *Queries) BillingUpdatePayment(ctx context.Context, arg BillingUpdatePaymentParams) (BillingPayment, error) {
 	row := q.db.QueryRow(ctx, billingUpdatePayment,
-		arg.SetInvoiceID,
 		arg.InvoiceID,
-		arg.SetAmount,
 		arg.Amount,
-		arg.SetPaymentMethod,
 		arg.PaymentMethod,
-		arg.SetTransactionID,
 		arg.TransactionID,
-		arg.SetGatewayReference,
 		arg.GatewayReference,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetPaymentDate,
 		arg.PaymentDate,
-		arg.SetProcessedAt,
 		arg.ProcessedAt,
-		arg.SetCurrency,
 		arg.Currency,
-		arg.SetExchangeRate,
 		arg.ExchangeRate,
-		arg.SetFees,
 		arg.Fees,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetProcessedByUserID,
 		arg.ProcessedByUserID,
 		arg.ID,
 	)

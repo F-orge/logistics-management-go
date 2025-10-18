@@ -5,8 +5,7 @@ select
 from
   "billing"."client_accounts" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
-where
-  (client.name ilike sqlc.narg(search)::text
+where (client.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -41,7 +40,7 @@ where
   client_accounts.created_at >= @dateFrom::date
   and client_accounts.created_at <= @dateTo::date
   and (client.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: BillingInsertClientAccount :one
 insert into "billing"."client_accounts"(client_id, credit_limit, available_credit, wallet_balance, currency, payment_terms_days, is_credit_approved, last_payment_date)
@@ -54,42 +53,42 @@ update
   "billing"."client_accounts"
 set
   updated_at = now(),
-  client_id = case when sqlc.arg(set_client_id)::boolean then
+  client_id = case when sqlc.arg(client_id) is not null then
     sqlc.arg(client_id)::uuid
   else
     client_id
   end,
-  credit_limit = case when sqlc.arg(set_credit_limit)::boolean then
+  credit_limit = case when sqlc.arg(credit_limit) is not null then
     sqlc.arg(credit_limit)::numeric
   else
     credit_limit
   end,
-  available_credit = case when sqlc.arg(set_available_credit)::boolean then
+  available_credit = case when sqlc.arg(available_credit) is not null then
     sqlc.arg(available_credit)::numeric
   else
     available_credit
   end,
-  wallet_balance = case when sqlc.arg(set_wallet_balance)::boolean then
+  wallet_balance = case when sqlc.arg(wallet_balance) is not null then
     sqlc.arg(wallet_balance)::numeric
   else
     wallet_balance
   end,
-  currency = case when sqlc.arg(set_currency)::boolean then
+  currency = case when sqlc.arg(currency) is not null then
     sqlc.arg(currency)::varchar
   else
     currency
   end,
-  payment_terms_days = case when sqlc.arg(set_payment_terms_days)::boolean then
+  payment_terms_days = case when sqlc.arg(payment_terms_days) is not null then
     sqlc.arg(payment_terms_days)::integer
   else
     payment_terms_days
   end,
-  is_credit_approved = case when sqlc.arg(set_is_credit_approved)::boolean then
+  is_credit_approved = case when sqlc.arg(is_credit_approved) is not null then
     sqlc.arg(is_credit_approved)::boolean
   else
     is_credit_approved
   end,
-  last_payment_date = case when sqlc.arg(set_last_payment_date)::boolean then
+  last_payment_date = case when sqlc.arg(last_payment_date) is not null then
     sqlc.arg(last_payment_date)::date
   else
     last_payment_date
@@ -102,3 +101,4 @@ returning
 -- name: BillingRemoveClientAccount :exec
 delete from "billing"."client_accounts"
 where id = @id::uuid;
+

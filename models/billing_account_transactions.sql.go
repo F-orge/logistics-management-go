@@ -210,8 +210,7 @@ from
   inner join "billing"."client_accounts" as client_account on account_transactions.client_account_id = client_account.id
   inner join "crm"."companies" as client on client_account.client_id = client.id
   left join "public"."user" as processed_by_user on account_transactions.processed_by_user_id = processed_by_user.id
-where
-  (client.name ilike $1::text
+where (client.name ilike $1::text
   or processed_by_user.name ilike $1::text
   or account_transactions.type::text ilike $1::text
   or $1::text is null)
@@ -299,9 +298,9 @@ where
   account_transactions.created_at >= $1::date
   and account_transactions.created_at <= $2::date
   and (client.name ilike $3::text
-  or processed_by_user.name ilike $3::text
-  or account_transactions.type::text ilike $3::text
-  or $3::text is null)
+    or processed_by_user.name ilike $3::text
+    or account_transactions.type::text ilike $3::text
+    or $3::text is null)
 `
 
 type BillingRangeAccountTransactionParams struct {
@@ -387,107 +386,87 @@ update
   "billing"."account_transactions"
 set
   updated_at = now(),
-  client_account_id = case when $1::boolean then
-    $2::uuid
+  client_account_id = case when $1 is not null then
+    $1::uuid
   else
     client_account_id
   end,
-  type = case when $3::boolean then
-    $4::billing.transaction_type_enum
+  type = case when $2 is not null then
+    $2::billing.transaction_type_enum
   else
     type
   end,
-  amount = case when $5::boolean then
-    $6::numeric
+  amount = case when $3 is not null then
+    $3::numeric
   else
     amount
   end,
-  running_balance = case when $7::boolean then
-    $8::numeric
+  running_balance = case when $4 is not null then
+    $4::numeric
   else
     running_balance
   end,
-  source_record_id = case when $9::boolean then
-    $10::uuid
+  source_record_id = case when $5 is not null then
+    $5::uuid
   else
     source_record_id
   end,
-  source_record_type = case when $11::boolean then
-    $12::varchar
+  source_record_type = case when $6 is not null then
+    $6::varchar
   else
     source_record_type
   end,
-  description = case when $13::boolean then
-    $14::text
+  description = case when $7 is not null then
+    $7::text
   else
     description
   end,
-  reference_number = case when $15::boolean then
-    $16::varchar
+  reference_number = case when $8 is not null then
+    $8::varchar
   else
     reference_number
   end,
-  transaction_date = case when $17::boolean then
-    $18::timestamp
+  transaction_date = case when $9 is not null then
+    $9::timestamp
   else
     transaction_date
   end,
-  processed_by_user_id = case when $19::boolean then
-    $20::text
+  processed_by_user_id = case when $10 is not null then
+    $10::text
   else
     processed_by_user_id
   end
 where
-  id = $21::uuid
+  id = $11::uuid
 returning
   id, client_account_id, type, amount, running_balance, source_record_id, source_record_type, description, reference_number, transaction_date, processed_by_user_id, created_at, updated_at
 `
 
 type BillingUpdateAccountTransactionParams struct {
-	SetClientAccountID   bool
-	ClientAccountID      pgtype.UUID
-	SetType              bool
-	Type                 BillingTransactionTypeEnum
-	SetAmount            bool
-	Amount               pgtype.Numeric
-	SetRunningBalance    bool
-	RunningBalance       pgtype.Numeric
-	SetSourceRecordID    bool
-	SourceRecordID       pgtype.UUID
-	SetSourceRecordType  bool
-	SourceRecordType     string
-	SetDescription       bool
-	Description          string
-	SetReferenceNumber   bool
-	ReferenceNumber      string
-	SetTransactionDate   bool
-	TransactionDate      pgtype.Timestamp
-	SetProcessedByUserID bool
-	ProcessedByUserID    string
-	ID                   pgtype.UUID
+	ClientAccountID   pgtype.UUID
+	Type              BillingTransactionTypeEnum
+	Amount            pgtype.Numeric
+	RunningBalance    pgtype.Numeric
+	SourceRecordID    pgtype.UUID
+	SourceRecordType  pgtype.Text
+	Description       pgtype.Text
+	ReferenceNumber   pgtype.Text
+	TransactionDate   pgtype.Timestamp
+	ProcessedByUserID pgtype.Text
+	ID                pgtype.UUID
 }
 
 func (q *Queries) BillingUpdateAccountTransaction(ctx context.Context, arg BillingUpdateAccountTransactionParams) (BillingAccountTransaction, error) {
 	row := q.db.QueryRow(ctx, billingUpdateAccountTransaction,
-		arg.SetClientAccountID,
 		arg.ClientAccountID,
-		arg.SetType,
 		arg.Type,
-		arg.SetAmount,
 		arg.Amount,
-		arg.SetRunningBalance,
 		arg.RunningBalance,
-		arg.SetSourceRecordID,
 		arg.SourceRecordID,
-		arg.SetSourceRecordType,
 		arg.SourceRecordType,
-		arg.SetDescription,
 		arg.Description,
-		arg.SetReferenceNumber,
 		arg.ReferenceNumber,
-		arg.SetTransactionDate,
 		arg.TransactionDate,
-		arg.SetProcessedByUserID,
 		arg.ProcessedByUserID,
 		arg.ID,
 	)
