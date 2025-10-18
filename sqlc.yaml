@@ -103,3 +103,272 @@ sql:
               type: "TmsPartnerInvoice"
               slice: true
           # wms schema
+          - column: "wms.inbound_shipments_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.sales_orders_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.outbound_shipments_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.returns_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.packages_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.pick_batches_view.pick_batch_items"
+            go_type:
+              type: "WmsPickBatchItem"
+              slice: true
+          - column: "wms.tasks_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.locations_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.locations_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.locations_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.inventory_batches"
+            go_type:
+              type: "WmsInventoryBatch"
+              slice: true
+          - column: "wms.products_view.inventory_adjustments"
+            go_type:
+              type: "WmsInventoryAdjustment"
+              slice: true
+          - column: "wms.products_view.reorder_points"
+            go_type:
+              type: "WmsReorderPoint"
+              slice: true
+          - column: "wms.products_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.stock_transfers"
+            go_type:
+              type: "WmsStockTransfer"
+              slice: true
+          - column: "wms.products_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.products_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.products_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.products_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.products_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.products_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.warehouses_view.inbound_shipments"
+            go_type:
+              type: "WmsInboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.outbound_shipments"
+            go_type:
+              type: "WmsOutboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.locations"
+            go_type:
+              type: "WmsLocationsView"
+              slice: true
+          - column: "wms.warehouses_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.warehouses_view.pick_batches"
+            go_type:
+              type: "WmsPickBatchesView"
+              slice: true
+          - column: "wms.warehouses_view.tasks"
+            go_type:
+              type: "WmsTasksView"
+              slice: true
+          - column: "wms.suppliers_view.products"
+            go_type:
+              type: "WmsProductsView"
+              slice: true
+          # billing schema
+          - column: "billing.rate_cards_view.rate_rules"
+            go_type:
+              type: "BillingRateRule"
+              slice: true
+          - column: "billing.client_accounts_view.account_transactions"
+            go_type:
+              type: "BillingAccountTransaction"
+              slice: true
+          - column: "billing.invoice_line_items_view.disputes"
+            go_type:
+              type: "BillingDispute"
+              slice: true
+          - column: "billing.invoices_view.invoice_line_items"
+            go_type:
+              type: "BillingInvoiceLineItemsView"
+              slice: true
+          - column: "billing.invoices_view.payments"
+            go_type:
+              type: "BillingPayment"
+              slice: true
+          - column: "billing.invoices_view.credit_notes"
+            go_type:
+              type: "BillingCreditNote"
+              slice: true
+          - column: "billing.quotes_view.invoices"
+            go_type:
+              type: "BillingInvoicesView"
+              slice: true
+          - column: "wms.inbound_shipments_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.sales_orders_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.outbound_shipments_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.returns_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.packages_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.pick_batches_view.pick_batch_items"
+            go_type:
+              type: "WmsPickBatchItem"
+              slice: true
+          - column: "wms.tasks_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.locations_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.locations_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.locations_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.inventory_batches"
+            go_type:
+              type: "WmsInventoryBatch"
+              slice: true
+          - column: "wms.products_view.inventory_adjustments"
+            go_type:
+              type: "WmsInventoryAdjustment"
+              slice: true
+          - column: "wms.products_view.reorder_points"
+            go_type:
+              type: "WmsReorderPoint"
+              slice: true
+          - column: "wms.products_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.stock_transfers"
+            go_type:
+              type: "WmsStockTransfer"
+              slice: true
+          - column: "wms.products_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.products_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.products_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.products_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.products_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.products_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.warehouses_view.inbound_shipments"
+            go_type:
+              type: "WmsInboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.outbound_shipments"
+            go_type:
+              type: "WmsOutboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.locations"
+            go_type:
+              type: "WmsLocationsView"
+              slice: true
+          - column: "wms.warehouses_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.warehouses_view.pick_batches"
+            go_type:
+              type: "WmsPickBatchesView"
+              slice: true
+          - column: "wms.warehouses_view.tasks"
+            go_type:
+              type: "WmsTasksView"
+              slice: true
+          - column: "wms.suppliers_view.products"
+            go_type:
+              type: "WmsProductsView"
+              slice: true

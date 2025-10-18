@@ -2801,18 +2801,18 @@ type BillingClientAccount struct {
 }
 
 type BillingClientAccountsView struct {
-	ID                  pgtype.UUID      `db:"id" json:"id"`
-	ClientID            pgtype.UUID      `db:"client_id" json:"client_id"`
-	CreditLimit         pgtype.Numeric   `db:"credit_limit" json:"credit_limit"`
-	AvailableCredit     pgtype.Numeric   `db:"available_credit" json:"available_credit"`
-	WalletBalance       pgtype.Numeric   `db:"wallet_balance" json:"wallet_balance"`
-	Currency            pgtype.Text      `db:"currency" json:"currency"`
-	PaymentTermsDays    pgtype.Int4      `db:"payment_terms_days" json:"payment_terms_days"`
-	IsCreditApproved    pgtype.Bool      `db:"is_credit_approved" json:"is_credit_approved"`
-	LastPaymentDate     pgtype.Date      `db:"last_payment_date" json:"last_payment_date"`
-	CreatedAt           pgtype.Timestamp `db:"created_at" json:"created_at"`
-	UpdatedAt           pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	AccountTransactions []byte           `db:"account_transactions" json:"account_transactions"`
+	ID                  pgtype.UUID                 `db:"id" json:"id"`
+	ClientID            pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric              `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric              `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric              `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text                 `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4                 `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool                 `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date                 `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	AccountTransactions []BillingAccountTransaction `db:"account_transactions" json:"account_transactions"`
 }
 
 // Credits issued to clients for adjustments, refunds, or dispute resolutions.
@@ -2995,34 +2995,34 @@ type BillingInvoiceLineItemsView struct {
 	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Disputes         []byte           `db:"disputes" json:"disputes"`
+	Disputes         []BillingDispute `db:"disputes" json:"disputes"`
 }
 
 type BillingInvoicesView struct {
-	ID                pgtype.UUID                  `db:"id" json:"id"`
-	ClientID          pgtype.UUID                  `db:"client_id" json:"client_id"`
-	QuoteID           pgtype.UUID                  `db:"quote_id" json:"quote_id"`
-	InvoiceNumber     string                       `db:"invoice_number" json:"invoice_number"`
-	Status            NullBillingInvoiceStatusEnum `db:"status" json:"status"`
-	IssueDate         pgtype.Date                  `db:"issue_date" json:"issue_date"`
-	DueDate           pgtype.Date                  `db:"due_date" json:"due_date"`
-	TotalAmount       pgtype.Numeric               `db:"total_amount" json:"total_amount"`
-	AmountPaid        pgtype.Numeric               `db:"amount_paid" json:"amount_paid"`
-	AmountOutstanding pgtype.Numeric               `db:"amount_outstanding" json:"amount_outstanding"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	TaxAmount         pgtype.Numeric               `db:"tax_amount" json:"tax_amount"`
-	DiscountAmount    pgtype.Numeric               `db:"discount_amount" json:"discount_amount"`
-	Subtotal          pgtype.Numeric               `db:"subtotal" json:"subtotal"`
-	PaymentTerms      pgtype.Text                  `db:"payment_terms" json:"payment_terms"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
-	SentAt            pgtype.Timestamp             `db:"sent_at" json:"sent_at"`
-	PaidAt            pgtype.Timestamp             `db:"paid_at" json:"paid_at"`
-	CreatedByUserID   pgtype.Text                  `db:"created_by_user_id" json:"created_by_user_id"`
-	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
-	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
-	InvoiceLineItems  []byte                       `db:"invoice_line_items" json:"invoice_line_items"`
-	Payments          []byte                       `db:"payments" json:"payments"`
-	CreditNotes       []byte                       `db:"credit_notes" json:"credit_notes"`
+	ID                pgtype.UUID                   `db:"id" json:"id"`
+	ClientID          pgtype.UUID                   `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                   `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                        `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum  `db:"status" json:"status"`
+	IssueDate         pgtype.Date                   `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                   `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric                `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric                `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric                `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                   `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric                `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric                `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric                `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                   `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                   `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp              `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp              `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                   `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp              `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []BillingInvoiceLineItemsView `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []BillingPayment              `db:"payments" json:"payments"`
+	CreditNotes       []BillingCreditNote           `db:"credit_notes" json:"credit_notes"`
 }
 
 // Records of payments received against invoices.
@@ -3122,7 +3122,7 @@ type BillingQuotesView struct {
 	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
-	Invoices           []byte                     `db:"invoices" json:"invoices"`
+	Invoices           []BillingInvoicesView      `db:"invoices" json:"invoices"`
 }
 
 // Defines pricing structures for different services offered by the logistics company.
@@ -3160,7 +3160,7 @@ type BillingRateCardsView struct {
 	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
-	RateRules       []byte                 `db:"rate_rules" json:"rate_rules"`
+	RateRules       []BillingRateRule      `db:"rate_rules" json:"rate_rules"`
 }
 
 // Specific pricing rules within a rate card that determine costs based on various conditions.
@@ -4328,7 +4328,7 @@ type WmsInboundShipmentsView struct {
 	ActualArrivalDate    pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
 	CreatedAt            pgtype.Timestamp                 `db:"created_at" json:"created_at"`
 	UpdatedAt            pgtype.Timestamp                 `db:"updated_at" json:"updated_at"`
-	InboundShipmentItems []byte                           `db:"inbound_shipment_items" json:"inbound_shipment_items"`
+	InboundShipmentItems []WmsInboundShipmentItem         `db:"inbound_shipment_items" json:"inbound_shipment_items"`
 }
 
 // Logs any manual changes made to inventory levels to maintain accuracy.
@@ -4465,9 +4465,9 @@ type WmsLocationsView struct {
 	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
 	CreatedAt             pgtype.Timestamp    `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
-	InventoryStock        []byte              `db:"inventory_stock" json:"inventory_stock"`
-	PutawayRules          []byte              `db:"putaway_rules" json:"putaway_rules"`
-	BinThresholds         []byte              `db:"bin_thresholds" json:"bin_thresholds"`
+	InventoryStock        []WmsInventoryStock `db:"inventory_stock" json:"inventory_stock"`
+	PutawayRules          []WmsPutawayRule    `db:"putaway_rules" json:"putaway_rules"`
+	BinThresholds         []WmsBinThreshold   `db:"bin_thresholds" json:"bin_thresholds"`
 }
 
 // Represents the physical shipment created to fulfill a sales order.
@@ -4519,7 +4519,7 @@ type WmsOutboundShipmentsView struct {
 	Carrier               pgtype.Text                       `db:"carrier" json:"carrier"`
 	CreatedAt             pgtype.Timestamp                  `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp                  `db:"updated_at" json:"updated_at"`
-	OutboundShipmentItems []byte                            `db:"outbound_shipment_items" json:"outbound_shipment_items"`
+	OutboundShipmentItems []WmsOutboundShipmentItem         `db:"outbound_shipment_items" json:"outbound_shipment_items"`
 }
 
 // Represents physical packages created during the packing process for sales orders.
@@ -4621,7 +4621,7 @@ type WmsPackagesView struct {
 	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
 	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	PackageItems      []byte           `db:"package_items" json:"package_items"`
+	PackageItems      []WmsPackageItem `db:"package_items" json:"package_items"`
 }
 
 // Groups multiple sales orders together for efficient batch picking operations.
@@ -4700,7 +4700,7 @@ type WmsPickBatchesView struct {
 	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
 	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
-	PickBatchItems    []byte                     `db:"pick_batch_items" json:"pick_batch_items"`
+	PickBatchItems    []WmsPickBatchItem         `db:"pick_batch_items" json:"pick_batch_items"`
 }
 
 // Represents the master record for each unique product (SKU) managed in the inventory.
@@ -4740,35 +4740,35 @@ type WmsProduct struct {
 }
 
 type WmsProductsView struct {
-	ID                    pgtype.UUID              `db:"id" json:"id"`
-	Name                  string                   `db:"name" json:"name"`
-	Sku                   string                   `db:"sku" json:"sku"`
-	Barcode               pgtype.Text              `db:"barcode" json:"barcode"`
-	Description           pgtype.Text              `db:"description" json:"description"`
-	CostPrice             pgtype.Numeric           `db:"cost_price" json:"cost_price"`
-	Length                pgtype.Float4            `db:"length" json:"length"`
-	Width                 pgtype.Float4            `db:"width" json:"width"`
-	Height                pgtype.Float4            `db:"height" json:"height"`
-	Volume                pgtype.Float4            `db:"volume" json:"volume"`
-	Weight                pgtype.Float4            `db:"weight" json:"weight"`
-	Status                NullWmsProductStatusEnum `db:"status" json:"status"`
-	SupplierID            pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
-	ClientID              pgtype.UUID              `db:"client_id" json:"client_id"`
-	CreatedAt             pgtype.Timestamp         `db:"created_at" json:"created_at"`
-	UpdatedAt             pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
-	InventoryBatches      []byte                   `db:"inventory_batches" json:"inventory_batches"`
-	InventoryAdjustments  []byte                   `db:"inventory_adjustments" json:"inventory_adjustments"`
-	ReorderPoints         []byte                   `db:"reorder_points" json:"reorder_points"`
-	InboundShipmentItems  []byte                   `db:"inbound_shipment_items" json:"inbound_shipment_items"`
-	StockTransfers        []byte                   `db:"stock_transfers" json:"stock_transfers"`
-	SalesOrderItems       []byte                   `db:"sales_order_items" json:"sales_order_items"`
-	OutboundShipmentItems []byte                   `db:"outbound_shipment_items" json:"outbound_shipment_items"`
-	ReturnItems           []byte                   `db:"return_items" json:"return_items"`
-	InventoryStock        []byte                   `db:"inventory_stock" json:"inventory_stock"`
-	PutawayRules          []byte                   `db:"putaway_rules" json:"putaway_rules"`
-	BinThresholds         []byte                   `db:"bin_thresholds" json:"bin_thresholds"`
-	TaskItems             []byte                   `db:"task_items" json:"task_items"`
-	PackageItems          []byte                   `db:"package_items" json:"package_items"`
+	ID                    pgtype.UUID               `db:"id" json:"id"`
+	Name                  string                    `db:"name" json:"name"`
+	Sku                   string                    `db:"sku" json:"sku"`
+	Barcode               pgtype.Text               `db:"barcode" json:"barcode"`
+	Description           pgtype.Text               `db:"description" json:"description"`
+	CostPrice             pgtype.Numeric            `db:"cost_price" json:"cost_price"`
+	Length                pgtype.Float4             `db:"length" json:"length"`
+	Width                 pgtype.Float4             `db:"width" json:"width"`
+	Height                pgtype.Float4             `db:"height" json:"height"`
+	Volume                pgtype.Float4             `db:"volume" json:"volume"`
+	Weight                pgtype.Float4             `db:"weight" json:"weight"`
+	Status                NullWmsProductStatusEnum  `db:"status" json:"status"`
+	SupplierID            pgtype.UUID               `db:"supplier_id" json:"supplier_id"`
+	ClientID              pgtype.UUID               `db:"client_id" json:"client_id"`
+	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	InventoryBatches      []WmsInventoryBatch       `db:"inventory_batches" json:"inventory_batches"`
+	InventoryAdjustments  []WmsInventoryAdjustment  `db:"inventory_adjustments" json:"inventory_adjustments"`
+	ReorderPoints         []WmsReorderPoint         `db:"reorder_points" json:"reorder_points"`
+	InboundShipmentItems  []WmsInboundShipmentItem  `db:"inbound_shipment_items" json:"inbound_shipment_items"`
+	StockTransfers        []WmsStockTransfer        `db:"stock_transfers" json:"stock_transfers"`
+	SalesOrderItems       []WmsSalesOrderItem       `db:"sales_order_items" json:"sales_order_items"`
+	OutboundShipmentItems []WmsOutboundShipmentItem `db:"outbound_shipment_items" json:"outbound_shipment_items"`
+	ReturnItems           []WmsReturnItem           `db:"return_items" json:"return_items"`
+	InventoryStock        []WmsInventoryStock       `db:"inventory_stock" json:"inventory_stock"`
+	PutawayRules          []WmsPutawayRule          `db:"putaway_rules" json:"putaway_rules"`
+	BinThresholds         []WmsBinThreshold         `db:"bin_thresholds" json:"bin_thresholds"`
+	TaskItems             []WmsTaskItem             `db:"task_items" json:"task_items"`
+	PackageItems          []WmsPackageItem          `db:"package_items" json:"package_items"`
 }
 
 // Defines automated rules for determining where incoming inventory should be stored.
@@ -4874,7 +4874,7 @@ type WmsReturnsView struct {
 	Reason       pgtype.Text             `db:"reason" json:"reason"`
 	CreatedAt    pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt    pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
-	ReturnItems  []byte                  `db:"return_items" json:"return_items"`
+	ReturnItems  []WmsReturnItem         `db:"return_items" json:"return_items"`
 }
 
 // Represents a customer's order, often originating from the CRM, which needs to be fulfilled from inventory.
@@ -4922,7 +4922,7 @@ type WmsSalesOrdersView struct {
 	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
 	CreatedAt        pgtype.Timestamp            `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
-	SalesOrderItems  []byte                      `db:"sales_order_items" json:"sales_order_items"`
+	SalesOrderItems  []WmsSalesOrderItem         `db:"sales_order_items" json:"sales_order_items"`
 }
 
 // Tracks the movement of inventory from one warehouse to another.
@@ -4964,14 +4964,14 @@ type WmsSupplier struct {
 }
 
 type WmsSuppliersView struct {
-	ID            pgtype.UUID      `db:"id" json:"id"`
-	Name          string           `db:"name" json:"name"`
-	ContactPerson pgtype.Text      `db:"contact_person" json:"contact_person"`
-	Email         pgtype.Text      `db:"email" json:"email"`
-	PhoneNumber   pgtype.Text      `db:"phone_number" json:"phone_number"`
-	CreatedAt     pgtype.Timestamp `db:"created_at" json:"created_at"`
-	UpdatedAt     pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Products      []byte           `db:"products" json:"products"`
+	ID            pgtype.UUID       `db:"id" json:"id"`
+	Name          string            `db:"name" json:"name"`
+	ContactPerson pgtype.Text       `db:"contact_person" json:"contact_person"`
+	Email         pgtype.Text       `db:"email" json:"email"`
+	PhoneNumber   pgtype.Text       `db:"phone_number" json:"phone_number"`
+	CreatedAt     pgtype.Timestamp  `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
+	Products      []WmsProductsView `db:"products" json:"products"`
 }
 
 // Represents individual work assignments for warehouse personnel.
@@ -5074,7 +5074,7 @@ type WmsTasksView struct {
 	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
 	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
-	TaskItems         []byte                `db:"task_items" json:"task_items"`
+	TaskItems         []WmsTaskItem         `db:"task_items" json:"task_items"`
 }
 
 // Represents the physical warehouse facilities where inventory and locations are organized and managed by the WMS.
@@ -5110,24 +5110,24 @@ type WmsWarehouse struct {
 }
 
 type WmsWarehousesView struct {
-	ID                pgtype.UUID      `db:"id" json:"id"`
-	Name              string           `db:"name" json:"name"`
-	Address           pgtype.Text      `db:"address" json:"address"`
-	City              pgtype.Text      `db:"city" json:"city"`
-	State             pgtype.Text      `db:"state" json:"state"`
-	PostalCode        pgtype.Text      `db:"postal_code" json:"postal_code"`
-	Country           pgtype.Text      `db:"country" json:"country"`
-	Timezone          pgtype.Text      `db:"timezone" json:"timezone"`
-	ContactPerson     pgtype.Text      `db:"contact_person" json:"contact_person"`
-	ContactEmail      pgtype.Text      `db:"contact_email" json:"contact_email"`
-	ContactPhone      pgtype.Text      `db:"contact_phone" json:"contact_phone"`
-	IsActive          pgtype.Bool      `db:"is_active" json:"is_active"`
-	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
-	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	InboundShipments  []byte           `db:"inbound_shipments" json:"inbound_shipments"`
-	OutboundShipments []byte           `db:"outbound_shipments" json:"outbound_shipments"`
-	Locations         []byte           `db:"locations" json:"locations"`
-	PutawayRules      []byte           `db:"putaway_rules" json:"putaway_rules"`
-	PickBatches       []byte           `db:"pick_batches" json:"pick_batches"`
-	Tasks             []byte           `db:"tasks" json:"tasks"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	Name              string                     `db:"name" json:"name"`
+	Address           pgtype.Text                `db:"address" json:"address"`
+	City              pgtype.Text                `db:"city" json:"city"`
+	State             pgtype.Text                `db:"state" json:"state"`
+	PostalCode        pgtype.Text                `db:"postal_code" json:"postal_code"`
+	Country           pgtype.Text                `db:"country" json:"country"`
+	Timezone          pgtype.Text                `db:"timezone" json:"timezone"`
+	ContactPerson     pgtype.Text                `db:"contact_person" json:"contact_person"`
+	ContactEmail      pgtype.Text                `db:"contact_email" json:"contact_email"`
+	ContactPhone      pgtype.Text                `db:"contact_phone" json:"contact_phone"`
+	IsActive          pgtype.Bool                `db:"is_active" json:"is_active"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	InboundShipments  []WmsInboundShipmentsView  `db:"inbound_shipments" json:"inbound_shipments"`
+	OutboundShipments []WmsOutboundShipmentsView `db:"outbound_shipments" json:"outbound_shipments"`
+	Locations         []WmsLocationsView         `db:"locations" json:"locations"`
+	PutawayRules      []WmsPutawayRule           `db:"putaway_rules" json:"putaway_rules"`
+	PickBatches       []WmsPickBatchesView       `db:"pick_batches" json:"pick_batches"`
+	Tasks             []WmsTasksView             `db:"tasks" json:"tasks"`
 }
