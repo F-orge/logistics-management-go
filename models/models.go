@@ -3481,7 +3481,7 @@ type CrmOpportunitiesView struct {
 	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
 	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
-	Products          []byte                   `db:"products" json:"products"`
+	Products          []CrmOpportunityProduct  `db:"products" json:"products"`
 }
 
 // Represents potential sales deals, tracked through various stages of the sales pipeline.
@@ -3610,7 +3610,7 @@ type DmsDeliveryRoutesView struct {
 	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
 	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
 	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
-	DeliveryTasks            []byte                         `db:"delivery_tasks" json:"delivery_tasks"`
+	DeliveryTasks            []DmsDeliveryTasksView         `db:"delivery_tasks" json:"delivery_tasks"`
 }
 
 // Individual delivery tasks within a route, each corresponding to a specific package that needs to be delivered.
@@ -3666,9 +3666,9 @@ type DmsDeliveryTasksView struct {
 	AttemptCount          pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
 	CreatedAt             pgtype.Timestamp                 `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp                 `db:"updated_at" json:"updated_at"`
-	TaskEvents            []byte                           `db:"task_events" json:"task_events"`
-	ProofOfDeliveries     []byte                           `db:"proof_of_deliveries" json:"proof_of_deliveries"`
-	CustomerTrackingLinks []byte                           `db:"customer_tracking_links" json:"customer_tracking_links"`
+	TaskEvents            []DmsTaskEvent                   `db:"task_events" json:"task_events"`
+	ProofOfDeliveries     []DmsProofOfDelivery             `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	CustomerTrackingLinks []DmsCustomerTrackingLink        `db:"customer_tracking_links" json:"customer_tracking_links"`
 }
 
 // Real-time location tracking for drivers, enabling accurate ETAs and route monitoring.
@@ -3803,18 +3803,18 @@ type TmsCarrierRate struct {
 }
 
 type TmsCarriersView struct {
-	ID              pgtype.UUID      `db:"id" json:"id"`
-	Name            string           `db:"name" json:"name"`
-	ContactDetails  pgtype.Text      `db:"contact_details" json:"contact_details"`
-	ServicesOffered pgtype.Text      `db:"services_offered" json:"services_offered"`
-	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
-	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	ContactPerson   pgtype.Text      `db:"contact_person" json:"contact_person"`
-	ContactEmail    pgtype.Text      `db:"contact_email" json:"contact_email"`
-	ContactPhone    pgtype.Text      `db:"contact_phone" json:"contact_phone"`
-	CarrierRates    []byte           `db:"carrier_rates" json:"carrier_rates"`
-	ShipmentLegs    []byte           `db:"shipment_legs" json:"shipment_legs"`
-	PartnerInvoices []byte           `db:"partner_invoices" json:"partner_invoices"`
+	ID              pgtype.UUID         `db:"id" json:"id"`
+	Name            string              `db:"name" json:"name"`
+	ContactDetails  pgtype.Text         `db:"contact_details" json:"contact_details"`
+	ServicesOffered pgtype.Text         `db:"services_offered" json:"services_offered"`
+	CreatedAt       pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	ContactPerson   pgtype.Text         `db:"contact_person" json:"contact_person"`
+	ContactEmail    pgtype.Text         `db:"contact_email" json:"contact_email"`
+	ContactPhone    pgtype.Text         `db:"contact_phone" json:"contact_phone"`
+	CarrierRates    []TmsCarrierRate    `db:"carrier_rates" json:"carrier_rates"`
+	ShipmentLegs    []TmsShipmentLeg    `db:"shipment_legs" json:"shipment_legs"`
+	PartnerInvoices []TmsPartnerInvoice `db:"partner_invoices" json:"partner_invoices"`
 }
 
 // Represents drivers who operate vehicles within the transportation fleet.
@@ -3863,9 +3863,9 @@ type TmsDriversView struct {
 	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
-	DriverSchedules   []byte                  `db:"driver_schedules" json:"driver_schedules"`
-	Expenses          []byte                  `db:"expenses" json:"expenses"`
-	Trips             []byte                  `db:"trips" json:"trips"`
+	DriverSchedules   []TmsDriverSchedule     `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []TmsExpense            `db:"expenses" json:"expenses"`
+	Trips             []TmsTrip               `db:"trips" json:"trips"`
 }
 
 // Tracks transportation-related expenses incurred during trips.
@@ -3991,7 +3991,7 @@ type TmsPartnerInvoicesView struct {
 	Status              NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 	CreatedAt           pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
-	PartnerInvoiceItems []byte                          `db:"partner_invoice_items" json:"partner_invoice_items"`
+	PartnerInvoiceItems []TmsPartnerInvoiceItem         `db:"partner_invoice_items" json:"partner_invoice_items"`
 }
 
 // Evidence of successful deliveries or pickups at trip stops.
@@ -4083,7 +4083,7 @@ type TmsShipmentLegsView struct {
 	Status            NullTmsShipmentLegStatusEnum `db:"status" json:"status"`
 	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
-	ShipmentLegEvents []byte                       `db:"shipment_leg_events" json:"shipment_leg_events"`
+	ShipmentLegEvents []TmsShipmentLegEvent        `db:"shipment_leg_events" json:"shipment_leg_events"`
 }
 
 // Represents planned or active transportation journeys with assigned drivers and vehicles.
@@ -4147,7 +4147,7 @@ type TmsTripStopsView struct {
 	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
 	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
-	ProofOfDeliveries      []byte                    `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	ProofOfDeliveries      []TmsProofOfDelivery      `db:"proof_of_deliveries" json:"proof_of_deliveries"`
 }
 
 type TmsTripsView struct {
@@ -4161,9 +4161,9 @@ type TmsTripsView struct {
 	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
 	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
 	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
-	TripStops     []byte                `db:"trip_stops" json:"trip_stops"`
-	Routes        []byte                `db:"routes" json:"routes"`
-	Expenses      []byte                `db:"expenses" json:"expenses"`
+	TripStops     []TmsTripStop         `db:"trip_stops" json:"trip_stops"`
+	Routes        []TmsRoute            `db:"routes" json:"routes"`
+	Expenses      []TmsExpense          `db:"expenses" json:"expenses"`
 }
 
 // Manages the fleet of vehicles available for transportation operations.
@@ -4225,9 +4225,9 @@ type TmsVehiclesView struct {
 	Vin                 pgtype.Text              `db:"vin" json:"vin"`
 	CurrentMileage      pgtype.Int4              `db:"current_mileage" json:"current_mileage"`
 	LastMaintenanceDate pgtype.Date              `db:"last_maintenance_date" json:"last_maintenance_date"`
-	VehicleMaintenance  []byte                   `db:"vehicle_maintenance" json:"vehicle_maintenance"`
-	GpsPings            []byte                   `db:"gps_pings" json:"gps_pings"`
-	GeofenceEvents      []byte                   `db:"geofence_events" json:"geofence_events"`
+	VehicleMaintenance  []TmsVehicleMaintenance  `db:"vehicle_maintenance" json:"vehicle_maintenance"`
+	GpsPings            []TmsGpsPing             `db:"gps_pings" json:"gps_pings"`
+	GeofenceEvents      []TmsGeofenceEvent       `db:"geofence_events" json:"geofence_events"`
 }
 
 type User struct {

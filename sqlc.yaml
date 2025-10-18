@@ -11,9 +11,95 @@ sql:
         emit_json_tags: true
         emit_db_tags: true
         overrides:
+          # crm schema
           - column: "crm.invoices_view.items"
             go_type:
               type: "CrmInvoiceItem"
               slice: true
-
-  
+          - column: "crm.opportunities_view.products"
+            go_type:
+              type: "CrmOpportunityProduct"
+              slice: true
+          # dms schema
+          - column: "dms.delivery_tasks_view.task_events"
+            go_type:
+              type: "DmsTaskEvent"
+              slice: true
+          - column: "dms.delivery_tasks_view.proof_of_deliveries"
+            go_type:
+              type: "DmsProofOfDelivery"
+              slice: true
+          - column: "dms.delivery_tasks_view.customer_tracking_links"
+            go_type:
+              type: "DmsCustomerTrackingLink"
+              slice: true
+          - column: "dms.delivery_routes_view.delivery_tasks"
+            go_type:
+              type: "DmsDeliveryTasksView"
+              slice: true
+          # tms schema
+          - column: "tms.trip_stops_view.proof_of_deliveries"
+            go_type:
+              type: "TmsProofOfDelivery"
+              slice: true
+          - column: "tms.vehicles_view.vehicle_maintenance"
+            go_type:
+              type: "TmsVehicleMaintenance"
+              slice: true
+          - column: "tms.vehicles_view.gps_pings"
+            go_type:
+              type: "TmsGpsPing"
+              slice: true
+          - column: "tms.vehicles_view.geofence_events"
+            go_type:
+              type: "TmsGeofenceEvent"
+              slice: true
+          - column: "tms.geofence_view.geofence_events"
+            go_type:
+              type: "TmsGeofenceEvent"
+              slice: true
+          - column: "tms.shipment_legs_view.shipment_leg_events"
+            go_type:
+              type: "TmsShipmentLegEvent"
+              slice: true
+          - column: "tms.partner_invoices_view.partner_invoice_items"
+            go_type:
+              type: "TmsPartnerInvoiceItem"
+              slice: true
+          - column: "tms.trips_view.trip_stops"
+            go_type:
+              type: "TmsTripStop"
+              slice: true
+          - column: "tms.trips_view.routes"
+            go_type:
+              type: "TmsRoute"
+              slice: true
+          - column: "tms.trips_view.expenses"
+            go_type:
+              type: "TmsExpense"
+              slice: true
+          - column: "tms.drivers_view.driver_schedules"
+            go_type:
+              type: "TmsDriverSchedule"
+              slice: true
+          - column: "tms.drivers_view.expenses"
+            go_type:
+              type: "TmsExpense"
+              slice: true
+          - column: "tms.drivers_view.trips"
+            go_type:
+              type: "TmsTrip"
+              slice: true
+          - column: "tms.carriers_view.carrier_rates"
+            go_type:
+              type: "TmsCarrierRate"
+              slice: true
+          - column: "tms.carriers_view.shipment_legs"
+            go_type:
+              type: "TmsShipmentLeg"
+              slice: true
+          - column: "tms.carriers_view.partner_invoices"
+            go_type:
+              type: "TmsPartnerInvoice"
+              slice: true
+          # wms schema
