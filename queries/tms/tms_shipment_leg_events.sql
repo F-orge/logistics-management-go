@@ -8,7 +8,7 @@ from
 where (shipment_leg.start_location ilike sqlc.narg(search)::text
   or shipment_leg_events.status_message ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: TmsFindShipmentLegEvent :one
 select

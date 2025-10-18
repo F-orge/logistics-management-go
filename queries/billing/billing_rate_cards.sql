@@ -9,7 +9,7 @@ where (rate_cards.name ilike sqlc.narg(search)::text
   or rate_cards.service_type::text ilike sqlc.narg(search)::text
   or created_by_user.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: BillingFindRateCard :one
 select

@@ -10,7 +10,7 @@ from
 where (sales_order.order_number ilike sqlc.narg(search)::text
   or product.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: WmsFindSalesOrderItem :one
 select

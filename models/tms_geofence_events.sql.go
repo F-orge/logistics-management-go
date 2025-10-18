@@ -177,7 +177,7 @@ limit $3::int offset ($2::int - 1) * $3::int
 type TmsPaginateGeofenceEventParams struct {
 	Search  pgtype.Text `db:"search" json:"search"`
 	Page    int32       `db:"page" json:"page"`
-	Perpage int32       `db:"perpage" json:"perpage"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateGeofenceEventRow struct {
@@ -187,7 +187,7 @@ type TmsPaginateGeofenceEventRow struct {
 }
 
 func (q *Queries) TmsPaginateGeofenceEvent(ctx context.Context, arg TmsPaginateGeofenceEventParams) ([]TmsPaginateGeofenceEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateGeofenceEvent, arg.Search, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateGeofenceEvent, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}

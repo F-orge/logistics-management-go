@@ -7,7 +7,7 @@ from
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
 where (trip.status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: TmsFindRoute :one
 select

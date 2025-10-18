@@ -196,7 +196,7 @@ limit $3::int offset ($2::int - 1) * $3::int
 type TmsPaginateTripParams struct {
 	Search  pgtype.Text `db:"search" json:"search"`
 	Page    int32       `db:"page" json:"page"`
-	Perpage int32       `db:"perpage" json:"perpage"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateTripRow struct {
@@ -206,7 +206,7 @@ type TmsPaginateTripRow struct {
 }
 
 func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams) ([]TmsPaginateTripRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateTrip, arg.Search, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, tmsPaginateTrip, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}

@@ -177,32 +177,40 @@ func (q *Queries) CrmInsertCompany(ctx context.Context, arg CrmInsertCompanyPara
 
 const crmPaginateCompany = `-- name: CrmPaginateCompany :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int - 1 as page,
+  $1::int as per_page,
   companies.id, companies.name, companies.street, companies.city, companies.state, companies.postal_code, companies.country, companies.phone_number, companies.industry, companies.website, companies.annual_revenue, companies.owner_id, companies.created_at, companies.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
-where (companies.name ilike $1::text
-  or companies.industry ilike $1::text
-  or owner.name ilike $1::text
-  or companies.country ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (companies.name ilike $3::text
+  or companies.industry ilike $3::text
+  or owner.name ilike $3::text
+  or companies.country ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateCompanyParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 	Page    int32       `db:"page" json:"page"`
-	Perpage int32       `db:"perpage" json:"perpage"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateCompanyRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
 	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 	User       User       `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompanyParams) ([]CrmPaginateCompanyRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.Search, arg.Page, arg.Perpage)
+	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -211,6 +219,10 @@ func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompany
 	for rows.Next() {
 		var i CrmPaginateCompanyRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

@@ -15,7 +15,7 @@ where (outbound_shipment.tracking_number ilike sqlc.narg(search)::text
   or product.name ilike sqlc.narg(search)::text
   or batch.batch_number ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: WmsFindOutboundShipmentItem :one
 select

@@ -7,7 +7,7 @@ from
   inner join "wms"."products" as product on reorder_points.product_id = product.id
 where (product.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: WmsFindReorderPoint :one
 select

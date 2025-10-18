@@ -7,7 +7,7 @@ where (record_type ilike sqlc.narg(search)::text
   or external_system ilike sqlc.narg(search)::text
   or status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: BillingFindAccountingSyncLog :one
 select

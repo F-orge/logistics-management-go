@@ -1,5 +1,9 @@
 -- name: CrmPaginateCompany :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int - 1 as page,
+  sqlc.arg(per_page)::int as per_page,
   sqlc.embed(companies),
   sqlc.embed(owner)
 from
@@ -10,7 +14,7 @@ where (companies.name ilike sqlc.narg(search)::text
   or owner.name ilike sqlc.narg(search)::text
   or companies.country ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: CrmFindCompany :one
 select

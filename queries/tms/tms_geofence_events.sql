@@ -11,7 +11,7 @@ where (vehicle.registration_number ilike sqlc.narg(search)::text
   or geofence.name ilike sqlc.narg(search)::text
   or geofence_events.event_type::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: TmsFindGeofenceEvent :one
 select

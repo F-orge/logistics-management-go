@@ -16,7 +16,7 @@ where (tasks.task_number ilike sqlc.narg(search)::text
   or tasks.status::text ilike sqlc.narg(search)::text
   or pick_batch.batch_number ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
-limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
+limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_page)::int;
 
 -- name: WmsFindTask :one
 select
