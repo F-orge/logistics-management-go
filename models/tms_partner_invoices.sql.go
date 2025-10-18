@@ -150,8 +150,7 @@ select
 from
   "tms"."partner_invoices" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
-where
-  (carrier.name ilike $1::text
+where (carrier.name ilike $1::text
   or partner_invoices.invoice_number ilike $1::text
   or partner_invoices.status::text ilike $1::text
   or $1::text is null)
@@ -218,9 +217,9 @@ where
   partner_invoices.invoice_date >= $1::date
   and partner_invoices.invoice_date <= $2::date
   and (carrier.name ilike $3::text
-  or partner_invoices.invoice_number ilike $3::text
-  or partner_invoices.status::text ilike $3::text
-  or $3::text is null)
+    or partner_invoices.invoice_number ilike $3::text
+    or partner_invoices.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangePartnerInvoiceParams struct {
@@ -287,27 +286,27 @@ update
   "tms"."partner_invoices"
 set
   updated_at = now(),
-  carrier_id = case when $1::boolean then
+  carrier_id = case when $1 is not null then
     $2::uuid
   else
     carrier_id
   end,
-  invoice_number = case when $3::boolean then
+  invoice_number = case when $3 is not null then
     $4::varchar
   else
     invoice_number
   end,
-  invoice_date = case when $5::boolean then
+  invoice_date = case when $5 is not null then
     $6::date
   else
     invoice_date
   end,
-  total_amount = case when $7::boolean then
+  total_amount = case when $7 is not null then
     $8::numeric
   else
     total_amount
   end,
-  status = case when $9::boolean then
+  status = case when $9 is not null then
     $10::tms.partner_invoice_status_enum
   else
     status
@@ -319,15 +318,15 @@ returning
 `
 
 type TmsUpdatePartnerInvoiceParams struct {
-	SetCarrierID     bool
+	SetCarrierID     pgtype.UUID
 	CarrierID        pgtype.UUID
-	SetInvoiceNumber bool
+	SetInvoiceNumber string
 	InvoiceNumber    string
-	SetInvoiceDate   bool
+	SetInvoiceDate   pgtype.Date
 	InvoiceDate      pgtype.Date
-	SetTotalAmount   bool
+	SetTotalAmount   pgtype.Numeric
 	TotalAmount      pgtype.Numeric
-	SetStatus        bool
+	SetStatus        NullTmsPartnerInvoiceStatusEnum
 	Status           TmsPartnerInvoiceStatusEnum
 	ID               pgtype.UUID
 }

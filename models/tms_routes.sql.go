@@ -147,8 +147,7 @@ select
 from
   "tms"."routes" as routes
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
-where
-  (trip.status::text ilike $1::text
+where (trip.status::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -213,7 +212,7 @@ where
   routes.created_at >= $1::date
   and routes.created_at <= $2::date
   and (trip.status::text ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type TmsRangeRouteParams struct {
@@ -280,22 +279,22 @@ update
   "tms"."routes"
 set
   updated_at = now(),
-  trip_id = case when $1::boolean then
+  trip_id = case when $1 is not null then
     $2::uuid
   else
     trip_id
   end,
-  optimized_route_data = case when $3::boolean then
+  optimized_route_data = case when $3 is not null then
     $4::text
   else
     optimized_route_data
   end,
-  total_distance = case when $5::boolean then
+  total_distance = case when $5 is not null then
     $6::real
   else
     total_distance
   end,
-  total_duration = case when $7::boolean then
+  total_duration = case when $7 is not null then
     $8::real
   else
     total_duration
@@ -307,13 +306,13 @@ returning
 `
 
 type TmsUpdateRouteParams struct {
-	SetTripID             bool
+	SetTripID             pgtype.UUID
 	TripID                pgtype.UUID
-	SetOptimizedRouteData bool
+	SetOptimizedRouteData pgtype.Text
 	OptimizedRouteData    string
-	SetTotalDistance      bool
+	SetTotalDistance      pgtype.Float4
 	TotalDistance         float32
-	SetTotalDuration      bool
+	SetTotalDuration      pgtype.Float4
 	TotalDuration         float32
 	ID                    pgtype.UUID
 }

@@ -188,8 +188,7 @@ from
   "tms"."shipment_legs" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
-where
-  (carrier.name ilike $1::text
+where (carrier.name ilike $1::text
   or internal_trip.status::text ilike $1::text
   or shipment_legs.start_location ilike $1::text
   or shipment_legs.end_location ilike $1::text
@@ -273,11 +272,11 @@ where
   shipment_legs.created_at >= $1::date
   and shipment_legs.created_at <= $2::date
   and (carrier.name ilike $3::text
-  or internal_trip.status::text ilike $3::text
-  or shipment_legs.start_location ilike $3::text
-  or shipment_legs.end_location ilike $3::text
-  or shipment_legs.status::text ilike $3::text
-  or $3::text is null)
+    or internal_trip.status::text ilike $3::text
+    or shipment_legs.start_location ilike $3::text
+    or shipment_legs.end_location ilike $3::text
+    or shipment_legs.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeShipmentLegParams struct {
@@ -357,37 +356,37 @@ update
   "tms"."shipment_legs"
 set
   updated_at = now(),
-  shipment_id = case when $1::boolean then
+  shipment_id = case when $1 is not null then
     $2::uuid
   else
     shipment_id
   end,
-  leg_sequence = case when $3::boolean then
+  leg_sequence = case when $3 is not null then
     $4::integer
   else
     leg_sequence
   end,
-  start_location = case when $5::boolean then
+  start_location = case when $5 is not null then
     $6::varchar
   else
     start_location
   end,
-  end_location = case when $7::boolean then
+  end_location = case when $7 is not null then
     $8::varchar
   else
     end_location
   end,
-  carrier_id = case when $9::boolean then
+  carrier_id = case when $9 is not null then
     $10::uuid
   else
     carrier_id
   end,
-  internal_trip_id = case when $11::boolean then
+  internal_trip_id = case when $11 is not null then
     $12::uuid
   else
     internal_trip_id
   end,
-  status = case when $13::boolean then
+  status = case when $13 is not null then
     $14::tms.shipment_leg_status_enum
   else
     status
@@ -399,19 +398,19 @@ returning
 `
 
 type TmsUpdateShipmentLegParams struct {
-	SetShipmentID     bool
+	SetShipmentID     pgtype.UUID
 	ShipmentID        pgtype.UUID
-	SetLegSequence    bool
+	SetLegSequence    int32
 	LegSequence       int32
-	SetStartLocation  bool
+	SetStartLocation  pgtype.Text
 	StartLocation     string
-	SetEndLocation    bool
+	SetEndLocation    pgtype.Text
 	EndLocation       string
-	SetCarrierID      bool
+	SetCarrierID      pgtype.UUID
 	CarrierID         pgtype.UUID
-	SetInternalTripID bool
+	SetInternalTripID pgtype.UUID
 	InternalTripID    pgtype.UUID
-	SetStatus         bool
+	SetStatus         NullTmsShipmentLegStatusEnum
 	Status            TmsShipmentLegStatusEnum
 	ID                pgtype.UUID
 }

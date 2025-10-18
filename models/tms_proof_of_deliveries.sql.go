@@ -161,8 +161,7 @@ select
 from
   "tms"."proof_of_deliveries" as proof_of_deliveries
   inner join "tms"."trip_stops" as trip_stop on proof_of_deliveries.trip_stop_id = trip_stop.id
-where
-  (trip_stop.address ilike $1::text
+where (trip_stop.address ilike $1::text
   or proof_of_deliveries.type::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -232,8 +231,8 @@ where
   proof_of_deliveries.created_at >= $1::date
   and proof_of_deliveries.created_at <= $2::date
   and (trip_stop.address ilike $3::text
-  or proof_of_deliveries.type::text ilike $3::text
-  or $3::text is null)
+    or proof_of_deliveries.type::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeProofOfDeliveryParams struct {
@@ -304,32 +303,32 @@ update
   "tms"."proof_of_deliveries"
 set
   updated_at = now(),
-  trip_stop_id = case when $1::boolean then
+  trip_stop_id = case when $1 is not null then
     $2::uuid
   else
     trip_stop_id
   end,
-  type = case when $3::boolean then
+  type = case when $3 is not null then
     $4::tms.proof_type_enum
   else
     type
   end,
-  file_path = case when $5::boolean then
+  file_path = case when $5 is not null then
     $6::varchar
   else
     file_path
   end,
-  timestamp = case when $7::boolean then
+  timestamp = case when $7 is not null then
     $8::timestamp
   else
     timestamp
   end,
-  latitude = case when $9::boolean then
+  latitude = case when $9 is not null then
     $10::real
   else
     latitude
   end,
-  longitude = case when $11::boolean then
+  longitude = case when $11 is not null then
     $12::real
   else
     longitude
@@ -341,17 +340,17 @@ returning
 `
 
 type TmsUpdateProofOfDeliveryParams struct {
-	SetTripStopID bool
+	SetTripStopID pgtype.UUID
 	TripStopID    pgtype.UUID
-	SetType       bool
+	SetType       NullTmsProofTypeEnum
 	Type          TmsProofTypeEnum
-	SetFilePath   bool
+	SetFilePath   pgtype.Text
 	FilePath      string
-	SetTimestamp  bool
+	SetTimestamp  pgtype.Timestamp
 	Timestamp     pgtype.Timestamp
-	SetLatitude   bool
+	SetLatitude   pgtype.Float4
 	Latitude      float32
-	SetLongitude  bool
+	SetLongitude  pgtype.Float4
 	Longitude     float32
 	ID            pgtype.UUID
 }

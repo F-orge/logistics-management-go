@@ -156,8 +156,7 @@ from
   "tms"."partner_invoice_items" as partner_invoice_items
   inner join "tms"."partner_invoices" as partner_invoice on partner_invoice_items.partner_invoice_id = partner_invoice.id
   inner join "tms"."shipment_legs" as shipment_leg on partner_invoice_items.shipment_leg_id = shipment_leg.id
-where
-  (partner_invoice.invoice_number ilike $1::text
+where (partner_invoice.invoice_number ilike $1::text
   or shipment_leg.start_location ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -231,8 +230,8 @@ where
   partner_invoice_items.created_at >= $1::date
   and partner_invoice_items.created_at <= $2::date
   and (partner_invoice.invoice_number ilike $3::text
-  or shipment_leg.start_location ilike $3::text
-  or $3::text is null)
+    or shipment_leg.start_location ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangePartnerInvoiceItemParams struct {
@@ -305,17 +304,17 @@ update
   "tms"."partner_invoice_items"
 set
   updated_at = now(),
-  partner_invoice_id = case when $1::boolean then
+  partner_invoice_id = case when $1 is not null then
     $2::uuid
   else
     partner_invoice_id
   end,
-  shipment_leg_id = case when $3::boolean then
+  shipment_leg_id = case when $3 is not null then
     $4::uuid
   else
     shipment_leg_id
   end,
-  amount = case when $5::boolean then
+  amount = case when $5 is not null then
     $6::numeric
   else
     amount
@@ -327,11 +326,11 @@ returning
 `
 
 type TmsUpdatePartnerInvoiceItemParams struct {
-	SetPartnerInvoiceID bool
+	SetPartnerInvoiceID pgtype.UUID
 	PartnerInvoiceID    pgtype.UUID
-	SetShipmentLegID    bool
+	SetShipmentLegID    pgtype.UUID
 	ShipmentLegID       pgtype.UUID
-	SetAmount           bool
+	SetAmount           pgtype.Numeric
 	Amount              pgtype.Numeric
 	ID                  pgtype.UUID
 }

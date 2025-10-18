@@ -59,32 +59,32 @@ update
   "tms"."carrier_rates"
 set
   updated_at = now(),
-  carrier_id = case when sqlc.arg(set_carrier_id)::boolean then
+  carrier_id = case when sqlc.arg(carrier_id) is not null then
     sqlc.arg(carrier_id)::uuid
   else
     carrier_id
   end,
-  service_type = case when sqlc.arg(set_service_type)::boolean then
+  service_type = case when sqlc.arg(service_type) is not null then
     sqlc.arg(service_type)::varchar
   else
     service_type
   end,
-  origin = case when sqlc.arg(set_origin)::boolean then
+  origin = case when sqlc.arg(origin) is not null then
     sqlc.arg(origin)::varchar
   else
     origin
   end,
-  destination = case when sqlc.arg(set_destination)::boolean then
+  destination = case when sqlc.arg(destination) is not null then
     sqlc.arg(destination)::varchar
   else
     destination
   end,
-  rate = case when sqlc.arg(set_rate)::boolean then
+  rate = case when sqlc.arg(rate) is not null then
     sqlc.arg(rate)::numeric
   else
     rate
   end,
-  unit = case when sqlc.arg(set_unit)::boolean then
+  unit = case when sqlc.arg(unit) is not null then
     sqlc.arg(unit)::tms.carrier_rate_unit_enum
   else
     unit

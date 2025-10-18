@@ -5,8 +5,7 @@ select
 from
   "tms"."driver_schedules" as driver_schedules
   inner join "tms"."drivers" as driver on driver_schedules.driver_id = driver.id
-where
-  (driver.name ilike sqlc.narg(search)::text
+where (driver.name ilike sqlc.narg(search)::text
   or driver_schedules.reason::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -42,8 +41,8 @@ where
   driver_schedules.created_at >= @dateFrom::date
   and driver_schedules.created_at <= @dateTo::date
   and (driver.name ilike sqlc.narg(search)::text
-  or driver_schedules.reason::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or driver_schedules.reason::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertDriverSchedule :one
 insert into "tms"."driver_schedules"(driver_id, start_date, end_date, reason)
@@ -56,22 +55,22 @@ update
   "tms"."driver_schedules"
 set
   updated_at = now(),
-  driver_id = case when sqlc.arg(set_driver_id)::boolean then
+  driver_id = case when sqlc.arg(driver_id) is not null then
     sqlc.arg(driver_id)::uuid
   else
     driver_id
   end,
-  start_date = case when sqlc.arg(set_start_date)::boolean then
+  start_date = case when sqlc.arg(start_date) is not null then
     sqlc.arg(start_date)::date
   else
     start_date
   end,
-  end_date = case when sqlc.arg(set_end_date)::boolean then
+  end_date = case when sqlc.arg(end_date) is not null then
     sqlc.arg(end_date)::date
   else
     end_date
   end,
-  reason = case when sqlc.arg(set_reason)::boolean then
+  reason = case when sqlc.arg(reason) is not null then
     sqlc.arg(reason)::tms.driver_schedule_reason_enum
   else
     reason
@@ -84,3 +83,4 @@ returning
 -- name: TmsRemoveDriverSchedule :exec
 delete from "tms"."driver_schedules"
 where id = @id::uuid;
+

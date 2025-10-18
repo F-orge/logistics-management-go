@@ -180,8 +180,7 @@ from
   "tms"."trips" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
-where
-  (driver.name ilike $1::text
+where (driver.name ilike $1::text
   or vehicle.registration_number ilike $1::text
   or trips.status::text ilike $1::text
   or $1::text is null)
@@ -265,9 +264,9 @@ where
   trips.created_at >= $1::date
   and trips.created_at <= $2::date
   and (driver.name ilike $3::text
-  or vehicle.registration_number ilike $3::text
-  or trips.status::text ilike $3::text
-  or $3::text is null)
+    or vehicle.registration_number ilike $3::text
+    or trips.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeTripParams struct {
@@ -349,17 +348,17 @@ update
   "tms"."trips"
 set
   updated_at = now(),
-  driver_id = case when $1::boolean then
+  driver_id = case when $1 is not null then
     $2::uuid
   else
     driver_id
   end,
-  vehicle_id = case when $3::boolean then
+  vehicle_id = case when $3 is not null then
     $4::uuid
   else
     vehicle_id
   end,
-  status = case when $5::boolean then
+  status = case when $5 is not null then
     $6::tms.trip_status_enum
   else
     status
@@ -371,11 +370,11 @@ returning
 `
 
 type TmsUpdateTripParams struct {
-	SetDriverID  bool
+	SetDriverID  pgtype.UUID
 	DriverID     pgtype.UUID
-	SetVehicleID bool
+	SetVehicleID pgtype.UUID
 	VehicleID    pgtype.UUID
-	SetStatus    bool
+	SetStatus    NullTmsTripStatusEnum
 	Status       TmsTripStatusEnum
 	ID           pgtype.UUID
 }

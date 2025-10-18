@@ -167,8 +167,7 @@ from
   "tms"."geofence_events" as geofence_events
   inner join "tms"."vehicles" as vehicle on geofence_events.vehicle_id = vehicle.id
   inner join "tms"."geofences" as geofence on geofence_events.geofence_id = geofence.id
-where
-  (vehicle.registration_number ilike $1::text
+where (vehicle.registration_number ilike $1::text
   or geofence.name ilike $1::text
   or geofence_events.event_type::text ilike $1::text
   or $1::text is null)
@@ -245,9 +244,9 @@ where
   geofence_events.timestamp >= $1::date
   and geofence_events.timestamp <= $2::date
   and (vehicle.registration_number ilike $3::text
-  or geofence.name ilike $3::text
-  or geofence_events.event_type::text ilike $3::text
-  or $3::text is null)
+    or geofence.name ilike $3::text
+    or geofence_events.event_type::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeGeofenceEventParams struct {
@@ -322,22 +321,22 @@ update
   "tms"."geofence_events"
 set
   updated_at = now(),
-  vehicle_id = case when $1::boolean then
+  vehicle_id = case when $1 is not null then
     $2::uuid
   else
     vehicle_id
   end,
-  geofence_id = case when $3::boolean then
+  geofence_id = case when $3 is not null then
     $4::uuid
   else
     geofence_id
   end,
-  event_type = case when $5::boolean then
+  event_type = case when $5 is not null then
     $6::tms.geofence_event_type_enum
   else
     event_type
   end,
-  timestamp = case when $7::boolean then
+  timestamp = case when $7 is not null then
     $8::timestamp
   else
     timestamp
@@ -349,13 +348,13 @@ returning
 `
 
 type TmsUpdateGeofenceEventParams struct {
-	SetVehicleID  bool
+	SetVehicleID  pgtype.UUID
 	VehicleID     pgtype.UUID
-	SetGeofenceID bool
+	SetGeofenceID pgtype.UUID
 	GeofenceID    pgtype.UUID
-	SetEventType  bool
+	SetEventType  TmsGeofenceEventTypeEnum
 	EventType     TmsGeofenceEventTypeEnum
-	SetTimestamp  bool
+	SetTimestamp  pgtype.Timestamp
 	Timestamp     pgtype.Timestamp
 	ID            pgtype.UUID
 }

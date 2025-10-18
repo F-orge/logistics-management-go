@@ -147,8 +147,7 @@ select
 from
   "tms"."gps_pings" as gps_pings
   inner join "tms"."vehicles" as vehicle on gps_pings.vehicle_id = vehicle.id
-where
-  (vehicle.registration_number ilike $1::text
+where (vehicle.registration_number ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -214,7 +213,7 @@ where
   gps_pings.created_at >= $1::date
   and gps_pings.created_at <= $2::date
   and (vehicle.registration_number ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type TmsRangeGpsPingParams struct {
@@ -282,22 +281,22 @@ update
   "tms"."gps_pings"
 set
   updated_at = now(),
-  vehicle_id = case when $1::boolean then
+  vehicle_id = case when $1 is not null then
     $2::uuid
   else
     vehicle_id
   end,
-  latitude = case when $3::boolean then
+  latitude = case when $3 is not null then
     $4::real
   else
     latitude
   end,
-  longitude = case when $5::boolean then
+  longitude = case when $5 is not null then
     $6::real
   else
     longitude
   end,
-  timestamp = case when $7::boolean then
+  timestamp = case when $7 is not null then
     $8::timestamp
   else
     timestamp
@@ -309,13 +308,13 @@ returning
 `
 
 type TmsUpdateGpsPingParams struct {
-	SetVehicleID bool
+	SetVehicleID pgtype.UUID
 	VehicleID    pgtype.UUID
-	SetLatitude  bool
+	SetLatitude  float32
 	Latitude     float32
-	SetLongitude bool
+	SetLongitude float32
 	Longitude    float32
-	SetTimestamp bool
+	SetTimestamp pgtype.Timestamp
 	Timestamp    pgtype.Timestamp
 	ID           pgtype.UUID
 }

@@ -152,8 +152,7 @@ select
 from
   "tms"."drivers" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
-where
-  (users.name ilike $1::text
+where (users.name ilike $1::text
   or drivers.license_number ilike $1::text
   or drivers.status::text ilike $1::text
   or $1::text is null)
@@ -222,9 +221,9 @@ where
   drivers.created_at >= $1::date
   and drivers.created_at <= $2::date
   and (users.name ilike $3::text
-  or drivers.license_number ilike $3::text
-  or drivers.status::text ilike $3::text
-  or $3::text is null)
+    or drivers.license_number ilike $3::text
+    or drivers.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeDriverParams struct {
@@ -293,22 +292,22 @@ update
   "tms"."drivers"
 set
   updated_at = now(),
-  user_id = case when $1::boolean then
+  user_id = case when $1 is not null then
     $2::text
   else
     user_id
   end,
-  license_number = case when $3::boolean then
+  license_number = case when $3 is not null then
     $4::varchar
   else
     license_number
   end,
-  license_expiry_date = case when $5::boolean then
+  license_expiry_date = case when $5 is not null then
     $6::date
   else
     license_expiry_date
   end,
-  status = case when $7::boolean then
+  status = case when $7 is not null then
     $8::tms.driver_status_enum
   else
     status
@@ -320,13 +319,13 @@ returning
 `
 
 type TmsUpdateDriverParams struct {
-	SetUserID            bool
+	SetUserID            string
 	UserID               string
-	SetLicenseNumber     bool
+	SetLicenseNumber     string
 	LicenseNumber        string
-	SetLicenseExpiryDate bool
+	SetLicenseExpiryDate pgtype.Date
 	LicenseExpiryDate    pgtype.Date
-	SetStatus            bool
+	SetStatus            NullTmsDriverStatusEnum
 	Status               TmsDriverStatusEnum
 	ID                   pgtype.UUID
 }

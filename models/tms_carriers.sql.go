@@ -111,8 +111,7 @@ select
   id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
 from
   "tms"."carriers"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -162,7 +161,7 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type TmsRangeCarrierParams struct {
@@ -216,17 +215,17 @@ update
   "tms"."carriers"
 set
   updated_at = now(),
-  name = case when $1::boolean then
+  name = case when $1 is not null then
     $2::varchar
   else
     name
   end,
-  contact_details = case when $3::boolean then
+  contact_details = case when $3 is not null then
     $4::text
   else
     contact_details
   end,
-  services_offered = case when $5::boolean then
+  services_offered = case when $5 is not null then
     $6::text
   else
     services_offered
@@ -238,11 +237,11 @@ returning
 `
 
 type TmsUpdateCarrierParams struct {
-	SetName            bool
+	SetName            string
 	Name               string
-	SetContactDetails  bool
+	SetContactDetails  pgtype.Text
 	ContactDetails     string
-	SetServicesOffered bool
+	SetServicesOffered pgtype.Text
 	ServicesOffered    string
 	ID                 pgtype.UUID
 }

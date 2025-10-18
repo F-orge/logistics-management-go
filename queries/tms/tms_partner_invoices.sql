@@ -5,8 +5,7 @@ select
 from
   "tms"."partner_invoices" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
-where
-  (carrier.name ilike sqlc.narg(search)::text
+where (carrier.name ilike sqlc.narg(search)::text
   or partner_invoices.invoice_number ilike sqlc.narg(search)::text
   or partner_invoices.status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -43,9 +42,9 @@ where
   partner_invoices.invoice_date >= @dateFrom::date
   and partner_invoices.invoice_date <= @dateTo::date
   and (carrier.name ilike sqlc.narg(search)::text
-  or partner_invoices.invoice_number ilike sqlc.narg(search)::text
-  or partner_invoices.status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or partner_invoices.invoice_number ilike sqlc.narg(search)::text
+    or partner_invoices.status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertPartnerInvoice :one
 insert into "tms"."partner_invoices"(carrier_id, invoice_number, invoice_date, total_amount, status)
@@ -58,27 +57,27 @@ update
   "tms"."partner_invoices"
 set
   updated_at = now(),
-  carrier_id = case when sqlc.arg(set_carrier_id)::boolean then
+  carrier_id = case when sqlc.arg(carrier_id) is not null then
     sqlc.arg(carrier_id)::uuid
   else
     carrier_id
   end,
-  invoice_number = case when sqlc.arg(set_invoice_number)::boolean then
+  invoice_number = case when sqlc.arg(invoice_number) is not null then
     sqlc.arg(invoice_number)::varchar
   else
     invoice_number
   end,
-  invoice_date = case when sqlc.arg(set_invoice_date)::boolean then
+  invoice_date = case when sqlc.arg(invoice_date) is not null then
     sqlc.arg(invoice_date)::date
   else
     invoice_date
   end,
-  total_amount = case when sqlc.arg(set_total_amount)::boolean then
+  total_amount = case when sqlc.arg(total_amount) is not null then
     sqlc.arg(total_amount)::numeric
   else
     total_amount
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::tms.partner_invoice_status_enum
   else
     status
@@ -91,3 +90,4 @@ returning
 -- name: TmsRemovePartnerInvoice :exec
 delete from "tms"."partner_invoices"
 where id = @id::uuid;
+

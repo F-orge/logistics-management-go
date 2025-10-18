@@ -158,8 +158,7 @@ select
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
   inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
-where
-  (vehicle.registration_number ilike $1::text
+where (vehicle.registration_number ilike $1::text
   or vehicle_maintenance.service_type::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -229,8 +228,8 @@ where
   vehicle_maintenance.created_at >= $1::date
   and vehicle_maintenance.created_at <= $2::date
   and (vehicle.registration_number ilike $3::text
-  or vehicle_maintenance.service_type::text ilike $3::text
-  or $3::text is null)
+    or vehicle_maintenance.service_type::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeVehicleMaintenanceParams struct {
@@ -301,27 +300,27 @@ update
   "tms"."vehicle_maintenance"
 set
   updated_at = now(),
-  vehicle_id = case when $1::boolean then
+  vehicle_id = case when $1 is not null then
     $2::uuid
   else
     vehicle_id
   end,
-  service_date = case when $3::boolean then
+  service_date = case when $3 is not null then
     $4::date
   else
     service_date
   end,
-  service_type = case when $5::boolean then
+  service_type = case when $5 is not null then
     $6::tms.vehicle_service_type_enum
   else
     service_type
   end,
-  cost = case when $7::boolean then
+  cost = case when $7 is not null then
     $8::numeric
   else
     cost
   end,
-  notes = case when $9::boolean then
+  notes = case when $9 is not null then
     $10::text
   else
     notes
@@ -333,15 +332,15 @@ returning
 `
 
 type TmsUpdateVehicleMaintenanceParams struct {
-	SetVehicleID   bool
+	SetVehicleID   pgtype.UUID
 	VehicleID      pgtype.UUID
-	SetServiceDate bool
+	SetServiceDate pgtype.Date
 	ServiceDate    pgtype.Date
-	SetServiceType bool
+	SetServiceType NullTmsVehicleServiceTypeEnum
 	ServiceType    TmsVehicleServiceTypeEnum
-	SetCost        bool
+	SetCost        pgtype.Numeric
 	Cost           pgtype.Numeric
-	SetNotes       bool
+	SetNotes       pgtype.Text
 	Notes          string
 	ID             pgtype.UUID
 }

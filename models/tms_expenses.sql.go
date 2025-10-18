@@ -202,8 +202,7 @@ from
   "tms"."expenses" as expenses
   left join "tms"."trips" as trip on expenses.trip_id = trip.id
   left join "tms"."drivers" as driver on expenses.driver_id = driver.id
-where
-  (trip.status::text ilike $1::text
+where (trip.status::text ilike $1::text
   or driver.name ilike $1::text
   or expenses.type::text ilike $1::text
   or expenses.status::text ilike $1::text
@@ -289,10 +288,10 @@ where
   expenses.created_at >= $1::date
   and expenses.created_at <= $2::date
   and (trip.status::text ilike $3::text
-  or driver.name ilike $3::text
-  or expenses.type::text ilike $3::text
-  or expenses.status::text ilike $3::text
-  or $3::text is null)
+    or driver.name ilike $3::text
+    or expenses.type::text ilike $3::text
+    or expenses.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeExpenseParams struct {
@@ -375,47 +374,47 @@ update
   "tms"."expenses"
 set
   updated_at = now(),
-  trip_id = case when $1::boolean then
+  trip_id = case when $1 is not null then
     $2::uuid
   else
     trip_id
   end,
-  driver_id = case when $3::boolean then
+  driver_id = case when $3 is not null then
     $4::uuid
   else
     driver_id
   end,
-  type = case when $5::boolean then
+  type = case when $5 is not null then
     $6::tms.expense_type_enum
   else
     type
   end,
-  amount = case when $7::boolean then
+  amount = case when $7 is not null then
     $8::numeric
   else
     amount
   end,
-  currency = case when $9::boolean then
+  currency = case when $9 is not null then
     $10::tms.currency_enum
   else
     currency
   end,
-  receipt_url = case when $11::boolean then
+  receipt_url = case when $11 is not null then
     $12::varchar
   else
     receipt_url
   end,
-  fuel_quantity = case when $13::boolean then
+  fuel_quantity = case when $13 is not null then
     $14::real
   else
     fuel_quantity
   end,
-  odometer_reading = case when $15::boolean then
+  odometer_reading = case when $15 is not null then
     $16::integer
   else
     odometer_reading
   end,
-  status = case when $17::boolean then
+  status = case when $17 is not null then
     $18::tms.expense_status_enum
   else
     status
@@ -427,23 +426,23 @@ returning
 `
 
 type TmsUpdateExpenseParams struct {
-	SetTripID          bool
+	SetTripID          pgtype.UUID
 	TripID             pgtype.UUID
-	SetDriverID        bool
+	SetDriverID        pgtype.UUID
 	DriverID           pgtype.UUID
-	SetType            bool
+	SetType            NullTmsExpenseTypeEnum
 	Type               TmsExpenseTypeEnum
-	SetAmount          bool
+	SetAmount          pgtype.Numeric
 	Amount             pgtype.Numeric
-	SetCurrency        bool
+	SetCurrency        NullTmsCurrencyEnum
 	Currency           TmsCurrencyEnum
-	SetReceiptUrl      bool
+	SetReceiptUrl      pgtype.Text
 	ReceiptUrl         string
-	SetFuelQuantity    bool
+	SetFuelQuantity    pgtype.Float4
 	FuelQuantity       float32
-	SetOdometerReading bool
+	SetOdometerReading pgtype.Int4
 	OdometerReading    int32
-	SetStatus          bool
+	SetStatus          NullTmsExpenseStatusEnum
 	Status             TmsExpenseStatusEnum
 	ID                 pgtype.UUID
 }

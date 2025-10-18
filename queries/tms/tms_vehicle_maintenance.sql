@@ -5,8 +5,7 @@ select
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
   inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
-where
-  (vehicle.registration_number ilike sqlc.narg(search)::text
+where (vehicle.registration_number ilike sqlc.narg(search)::text
   or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -42,8 +41,8 @@ where
   vehicle_maintenance.created_at >= @dateFrom::date
   and vehicle_maintenance.created_at <= @dateTo::date
   and (vehicle.registration_number ilike sqlc.narg(search)::text
-  or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertVehicleMaintenance :one
 insert into "tms"."vehicle_maintenance"(vehicle_id, service_date, service_type, cost, notes)
@@ -56,27 +55,29 @@ update
   "tms"."vehicle_maintenance"
 set
   updated_at = now(),
-  vehicle_id = case when sqlc.arg(set_vehicle_id)::boolean then
+  vehicle_id = case when sqlc.arg(vehicle_id) is not null then
     sqlc.arg(vehicle_id)::uuid
   else
     vehicle_id
   end,
-  service_date = case when sqlc.arg(set_service_date)::boolean then
+  service_date = case when sqlc.arg(service_date) is not null then
     sqlc.arg(service_date)::date
   else
     service_date
   end,
-  service_type = case when sqlc.arg(set_service_type)::boolean then
+  service_type = case when sqlc.arg(service_type) is not null then
     sqlc.arg(service_type)::tms.vehicle_service_type_enum
   else
     service_type
   end,
-  cost = case when sqlc.arg(set_cost)::boolean then
-    sqlc.arg(cost)::numeric
+  cost = case when sqlc.arg(
+    cost) is not null then
+    sqlc.arg(
+      cost)::numeric
   else
     cost
   end,
-  notes = case when sqlc.arg(set_notes)::boolean then
+  notes = case when sqlc.arg(notes) is not null then
     sqlc.arg(notes)::text
   else
     notes
@@ -89,3 +90,4 @@ returning
 -- name: TmsRemoveVehicleMaintenance :exec
 delete from "tms"."vehicle_maintenance"
 where id = @id::uuid;
+

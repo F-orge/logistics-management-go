@@ -143,8 +143,7 @@ select
 from
   "tms"."driver_schedules" as driver_schedules
   inner join "tms"."drivers" as driver on driver_schedules.driver_id = driver.id
-where
-  (driver.name ilike $1::text
+where (driver.name ilike $1::text
   or driver_schedules.reason::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -208,8 +207,8 @@ where
   driver_schedules.created_at >= $1::date
   and driver_schedules.created_at <= $2::date
   and (driver.name ilike $3::text
-  or driver_schedules.reason::text ilike $3::text
-  or $3::text is null)
+    or driver_schedules.reason::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeDriverScheduleParams struct {
@@ -274,22 +273,22 @@ update
   "tms"."driver_schedules"
 set
   updated_at = now(),
-  driver_id = case when $1::boolean then
+  driver_id = case when $1 is not null then
     $2::uuid
   else
     driver_id
   end,
-  start_date = case when $3::boolean then
+  start_date = case when $3 is not null then
     $4::date
   else
     start_date
   end,
-  end_date = case when $5::boolean then
+  end_date = case when $5 is not null then
     $6::date
   else
     end_date
   end,
-  reason = case when $7::boolean then
+  reason = case when $7 is not null then
     $8::tms.driver_schedule_reason_enum
   else
     reason
@@ -301,13 +300,13 @@ returning
 `
 
 type TmsUpdateDriverScheduleParams struct {
-	SetDriverID  bool
+	SetDriverID  pgtype.UUID
 	DriverID     pgtype.UUID
-	SetStartDate bool
+	SetStartDate pgtype.Date
 	StartDate    pgtype.Date
-	SetEndDate   bool
+	SetEndDate   pgtype.Date
 	EndDate      pgtype.Date
-	SetReason    bool
+	SetReason    NullTmsDriverScheduleReasonEnum
 	Reason       TmsDriverScheduleReasonEnum
 	ID           pgtype.UUID
 }

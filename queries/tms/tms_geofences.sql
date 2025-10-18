@@ -3,8 +3,7 @@ select
   *
 from
   "tms"."geofences"
-where
-  (name ilike sqlc.narg(search)::text
+where (name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -33,7 +32,7 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertGeofence :one
 insert into "tms"."geofences"(name, longitude, latitude)
@@ -46,17 +45,17 @@ update
   "tms"."geofences"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::varchar
   else
     name
   end,
-  longitude = case when sqlc.arg(set_longitude)::boolean then
+  longitude = case when sqlc.arg(longitude) is not null then
     sqlc.arg(longitude)::real
   else
     longitude
   end,
-  latitude = case when sqlc.arg(set_latitude)::boolean then
+  latitude = case when sqlc.arg(latitude) is not null then
     sqlc.arg(latitude)::real
   else
     latitude
@@ -69,3 +68,4 @@ returning
 -- name: TmsRemoveGeofence :exec
 delete from "tms"."geofences"
 where id = @id::uuid;
+

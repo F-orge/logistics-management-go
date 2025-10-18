@@ -3,8 +3,7 @@ select
   *
 from
   "tms"."carriers"
-where
-  (name ilike sqlc.narg(search)::text
+where (name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -33,7 +32,7 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertCarrier :one
 insert into "tms"."carriers"(name, contact_details, services_offered)
@@ -46,17 +45,17 @@ update
   "tms"."carriers"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::varchar
   else
     name
   end,
-  contact_details = case when sqlc.arg(set_contact_details)::boolean then
+  contact_details = case when sqlc.arg(contact_details) is not null then
     sqlc.arg(contact_details)::text
   else
     contact_details
   end,
-  services_offered = case when sqlc.arg(set_services_offered)::boolean then
+  services_offered = case when sqlc.arg(services_offered) is not null then
     sqlc.arg(services_offered)::text
   else
     services_offered
@@ -69,3 +68,4 @@ returning
 -- name: TmsRemoveCarrier :exec
 delete from "tms"."carriers"
 where id = @id::uuid;
+

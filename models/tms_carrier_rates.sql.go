@@ -295,32 +295,32 @@ update
   "tms"."carrier_rates"
 set
   updated_at = now(),
-  carrier_id = case when $1::boolean then
+  carrier_id = case when $1 is not null then
     $2::uuid
   else
     carrier_id
   end,
-  service_type = case when $3::boolean then
+  service_type = case when $3 is not null then
     $4::varchar
   else
     service_type
   end,
-  origin = case when $5::boolean then
+  origin = case when $5 is not null then
     $6::varchar
   else
     origin
   end,
-  destination = case when $7::boolean then
+  destination = case when $7 is not null then
     $8::varchar
   else
     destination
   end,
-  rate = case when $9::boolean then
+  rate = case when $9 is not null then
     $10::numeric
   else
     rate
   end,
-  unit = case when $11::boolean then
+  unit = case when $11 is not null then
     $12::tms.carrier_rate_unit_enum
   else
     unit
@@ -332,17 +332,17 @@ returning
 `
 
 type TmsUpdateCarrierRateParams struct {
-	SetCarrierID   bool
+	SetCarrierID   pgtype.UUID
 	CarrierID      pgtype.UUID
-	SetServiceType bool
+	SetServiceType pgtype.Text
 	ServiceType    string
-	SetOrigin      bool
+	SetOrigin      pgtype.Text
 	Origin         string
-	SetDestination bool
+	SetDestination pgtype.Text
 	Destination    string
-	SetRate        bool
+	SetRate        pgtype.Numeric
 	Rate           pgtype.Numeric
-	SetUnit        bool
+	SetUnit        NullTmsCarrierRateUnitEnum
 	Unit           TmsCarrierRateUnitEnum
 	ID             pgtype.UUID
 }

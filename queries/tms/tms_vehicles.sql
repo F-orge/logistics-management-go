@@ -3,8 +3,7 @@ select
   *
 from
   "tms"."vehicles"
-where
-  (registration_number ilike sqlc.narg(search)::text
+where (registration_number ilike sqlc.narg(search)::text
   or model ilike sqlc.narg(search)::text
   or status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -35,9 +34,9 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (registration_number ilike sqlc.narg(search)::text
-  or model ilike sqlc.narg(search)::text
-  or status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or model ilike sqlc.narg(search)::text
+    or status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertVehicle :one
 insert into "tms"."vehicles"(registration_number, model, capacity_volume, capacity_weight, status)
@@ -50,27 +49,27 @@ update
   "tms"."vehicles"
 set
   updated_at = now(),
-  registration_number = case when sqlc.arg(set_registration_number)::boolean then
+  registration_number = case when sqlc.arg(registration_number) is not null then
     sqlc.arg(registration_number)::varchar
   else
     registration_number
   end,
-  model = case when sqlc.arg(set_model)::boolean then
+  model = case when sqlc.arg(model) is not null then
     sqlc.arg(model)::varchar
   else
     model
   end,
-  capacity_volume = case when sqlc.arg(set_capacity_volume)::boolean then
+  capacity_volume = case when sqlc.arg(capacity_volume) is not null then
     sqlc.arg(capacity_volume)::real
   else
     capacity_volume
   end,
-  capacity_weight = case when sqlc.arg(set_capacity_weight)::boolean then
+  capacity_weight = case when sqlc.arg(capacity_weight) is not null then
     sqlc.arg(capacity_weight)::real
   else
     capacity_weight
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::tms.vehicle_status_enum
   else
     status

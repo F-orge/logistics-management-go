@@ -117,8 +117,22 @@ func (q *Queries) TmsFindTripStop(ctx context.Context, id pgtype.UUID) (TmsFindT
 }
 
 const tmsInsertTripStop = `-- name: TmsInsertTripStop :one
-insert into "tms"."trip_stops"(trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time)
-  values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+insert into "tms"."trip_stops"(trip_id, shipment_id, sequence,
+  address,
+  status,
+  estimated_arrival_time,
+  actual_arrival_time,
+  estimated_departure_time,
+  actual_departure_time)
+values ($1,
+  $2,
+  $3,
+  $4,
+  $5,
+  $6,
+  $7,
+  $8,
+  $9)
 returning
   id, trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created_at, updated_at
 `
@@ -172,8 +186,7 @@ select
 from
   "tms"."trip_stops" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
-where
-  (trip.status::text ilike $1::text
+where (trip.status::text ilike $1::text
   or trip_stops.address ilike $1::text
   or trip_stops.status::text ilike $1::text
   or $1::text is null)
@@ -245,9 +258,9 @@ where
   trip_stops.created_at >= $1::date
   and trip_stops.created_at <= $2::date
   and (trip.status::text ilike $3::text
-  or trip_stops.address ilike $3::text
-  or trip_stops.status::text ilike $3::text
-  or $3::text is null)
+    or trip_stops.address ilike $3::text
+    or trip_stops.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeTripStopParams struct {
@@ -319,75 +332,76 @@ update
   "tms"."trip_stops"
 set
   updated_at = now(),
-  trip_id = case when $1::boolean then
+  trip_id = case when $1 is not null then
     $2::uuid
   else
     trip_id
   end,
-  shipment_id = case when $3::boolean then
+  shipment_id = case when $3 is not null then
     $4::uuid
   else
     shipment_id
   end,
-  sequence = case when $5::boolean then
-    $6::integer
-  else
-    sequence
-  end,
-  address = case when $7::boolean then
-    $8::varchar
-  else
-    address
-  end,
-  status = case when $9::boolean then
-    $10::tms.trip_stop_status_enum
-  else
-    status
-  end,
-  estimated_arrival_time = case when $11::boolean then
-    $12::timestamp
-  else
-    estimated_arrival_time
-  end,
-  actual_arrival_time = case when $13::boolean then
-    $14::timestamp
-  else
-    actual_arrival_time
-  end,
-  estimated_departure_time = case when $15::boolean then
-    $16::timestamp
-  else
-    estimated_departure_time
-  end,
-  actual_departure_time = case when $17::boolean then
-    $18::timestamp
-  else
-    actual_departure_time
-  end
-where
-  id = $19::uuid
-returning
-  id, trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created_at, updated_at
+  sequence =
+    case when $5 is not null then
+      $6::integer
+    else
+      sequence
+    end,
+    address = case when $7 is not null then
+      $8::varchar
+    else
+      address
+    end,
+    status = case when $9 is not null then
+      $10::tms.trip_stop_status_enum
+    else
+      status
+    end,
+    estimated_arrival_time = case when $11 is not null then
+      $12::timestamp
+    else
+      estimated_arrival_time
+    end,
+    actual_arrival_time = case when $13 is not null then
+      $14::timestamp
+    else
+      actual_arrival_time
+    end,
+    estimated_departure_time = case when $15 is not null then
+      $16::timestamp
+    else
+      estimated_departure_time
+    end,
+    actual_departure_time = case when $17 is not null then
+      $18::timestamp
+    else
+      actual_departure_time
+    end
+  where
+    id = $19::uuid
+  returning
+    id, trip_id, shipment_id, sequence, address, status, estimated_arrival_time, actual_arrival_time, estimated_departure_time, actual_departure_time, created_at, updated_at
 `
 
 type TmsUpdateTripStopParams struct {
-	SetTripID                 bool
+	SetTripID                 pgtype.UUID
 	TripID                    pgtype.UUID
-	SetShipmentID             bool
+	SetShipmentID             pgtype.UUID
 	ShipmentID                pgtype.UUID
-	SetSequence               bool
+	SetSequence               int32
 	Sequence                  int32
-	SetAddress                bool
+	SetAddress                pgtype.Text
 	Address                   string
-	SetStatus                 bool
+	SetStatus                 NullTmsTripStopStatusEnum
 	Status                    TmsTripStopStatusEnum
-	SetEstimatedArrivalTime   bool
+	SetEstimatedArrivalTime   pgtype.Timestamp
 	EstimatedArrivalTime      pgtype.Timestamp
-	SetActualArrivalTime      bool
+	SetActualArrivalTime      pgtype.Timestamp
 	ActualArrivalTime         pgtype.Timestamp
-	SetEstimatedDepartureTime bool
+	SetEstimatedDepartureTime pgtype.Timestamp
 	EstimatedDepartureTime    pgtype.Timestamp
-	SetActualDepartureTime    bool
+	SetActualDepartureTime    pgtype.Timestamp
 	ActualDepartureTime       pgtype.Timestamp
 	ID                        pgtype.UUID
 }

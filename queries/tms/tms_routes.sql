@@ -5,8 +5,7 @@ select
 from
   "tms"."routes" as routes
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
-where
-  (trip.status::text ilike sqlc.narg(search)::text
+where (trip.status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -41,7 +40,7 @@ where
   routes.created_at >= @dateFrom::date
   and routes.created_at <= @dateTo::date
   and (trip.status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertRoute :one
 insert into "tms"."routes"(trip_id, optimized_route_data, total_distance, total_duration)
@@ -54,22 +53,22 @@ update
   "tms"."routes"
 set
   updated_at = now(),
-  trip_id = case when sqlc.arg(set_trip_id)::boolean then
+  trip_id = case when sqlc.arg(trip_id) is not null then
     sqlc.arg(trip_id)::uuid
   else
     trip_id
   end,
-  optimized_route_data = case when sqlc.arg(set_optimized_route_data)::boolean then
+  optimized_route_data = case when sqlc.arg(optimized_route_data) is not null then
     sqlc.arg(optimized_route_data)::text
   else
     optimized_route_data
   end,
-  total_distance = case when sqlc.arg(set_total_distance)::boolean then
+  total_distance = case when sqlc.arg(total_distance) is not null then
     sqlc.arg(total_distance)::real
   else
     total_distance
   end,
-  total_duration = case when sqlc.arg(set_total_duration)::boolean then
+  total_duration = case when sqlc.arg(total_duration) is not null then
     sqlc.arg(total_duration)::real
   else
     total_duration
@@ -82,3 +81,4 @@ returning
 -- name: TmsRemoveRoute :exec
 delete from "tms"."routes"
 where id = @id::uuid;
+

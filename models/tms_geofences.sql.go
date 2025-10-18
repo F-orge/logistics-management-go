@@ -102,8 +102,7 @@ select
   id, name, created_at, updated_at, longitude, latitude
 from
   "tms"."geofences"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -150,7 +149,7 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type TmsRangeGeofenceParams struct {
@@ -201,17 +200,17 @@ update
   "tms"."geofences"
 set
   updated_at = now(),
-  name = case when $1::boolean then
+  name = case when $1 is not null then
     $2::varchar
   else
     name
   end,
-  longitude = case when $3::boolean then
+  longitude = case when $3 is not null then
     $4::real
   else
     longitude
   end,
-  latitude = case when $5::boolean then
+  latitude = case when $5 is not null then
     $6::real
   else
     latitude
@@ -223,11 +222,11 @@ returning
 `
 
 type TmsUpdateGeofenceParams struct {
-	SetName      bool
+	SetName      string
 	Name         string
-	SetLongitude bool
+	SetLongitude pgtype.Float4
 	Longitude    float32
-	SetLatitude  bool
+	SetLatitude  pgtype.Float4
 	Latitude     float32
 	ID           pgtype.UUID
 }

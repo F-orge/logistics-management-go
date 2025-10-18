@@ -7,8 +7,7 @@ from
   "tms"."shipment_legs" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
-where
-  (carrier.name ilike sqlc.narg(search)::text
+where (carrier.name ilike sqlc.narg(search)::text
   or internal_trip.status::text ilike sqlc.narg(search)::text
   or shipment_legs.start_location ilike sqlc.narg(search)::text
   or shipment_legs.end_location ilike sqlc.narg(search)::text
@@ -53,11 +52,11 @@ where
   shipment_legs.created_at >= @dateFrom::date
   and shipment_legs.created_at <= @dateTo::date
   and (carrier.name ilike sqlc.narg(search)::text
-  or internal_trip.status::text ilike sqlc.narg(search)::text
-  or shipment_legs.start_location ilike sqlc.narg(search)::text
-  or shipment_legs.end_location ilike sqlc.narg(search)::text
-  or shipment_legs.status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or internal_trip.status::text ilike sqlc.narg(search)::text
+    or shipment_legs.start_location ilike sqlc.narg(search)::text
+    or shipment_legs.end_location ilike sqlc.narg(search)::text
+    or shipment_legs.status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: TmsInsertShipmentLeg :one
 insert into "tms"."shipment_legs"(shipment_id, leg_sequence, start_location, end_location, carrier_id, internal_trip_id, status)
@@ -70,37 +69,37 @@ update
   "tms"."shipment_legs"
 set
   updated_at = now(),
-  shipment_id = case when sqlc.arg(set_shipment_id)::boolean then
+  shipment_id = case when sqlc.arg(shipment_id) is not null then
     sqlc.arg(shipment_id)::uuid
   else
     shipment_id
   end,
-  leg_sequence = case when sqlc.arg(set_leg_sequence)::boolean then
+  leg_sequence = case when sqlc.arg(leg_sequence) is not null then
     sqlc.arg(leg_sequence)::integer
   else
     leg_sequence
   end,
-  start_location = case when sqlc.arg(set_start_location)::boolean then
+  start_location = case when sqlc.arg(start_location) is not null then
     sqlc.arg(start_location)::varchar
   else
     start_location
   end,
-  end_location = case when sqlc.arg(set_end_location)::boolean then
+  end_location = case when sqlc.arg(end_location) is not null then
     sqlc.arg(end_location)::varchar
   else
     end_location
   end,
-  carrier_id = case when sqlc.arg(set_carrier_id)::boolean then
+  carrier_id = case when sqlc.arg(carrier_id) is not null then
     sqlc.arg(carrier_id)::uuid
   else
     carrier_id
   end,
-  internal_trip_id = case when sqlc.arg(set_internal_trip_id)::boolean then
+  internal_trip_id = case when sqlc.arg(internal_trip_id) is not null then
     sqlc.arg(internal_trip_id)::uuid
   else
     internal_trip_id
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::tms.shipment_leg_status_enum
   else
     status
@@ -113,3 +112,4 @@ returning
 -- name: TmsRemoveShipmentLeg :exec
 delete from "tms"."shipment_legs"
 where id = @id::uuid;
+

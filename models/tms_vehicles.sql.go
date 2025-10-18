@@ -131,8 +131,7 @@ select
   id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
 from
   "tms"."vehicles"
-where
-  (registration_number ilike $1::text
+where (registration_number ilike $1::text
   or model ilike $1::text
   or status::text ilike $1::text
   or $1::text is null)
@@ -188,9 +187,9 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (registration_number ilike $3::text
-  or model ilike $3::text
-  or status::text ilike $3::text
-  or $3::text is null)
+    or model ilike $3::text
+    or status::text ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeVehicleParams struct {
@@ -248,27 +247,27 @@ update
   "tms"."vehicles"
 set
   updated_at = now(),
-  registration_number = case when $1::boolean then
+  registration_number = case when $1 is not null then
     $2::varchar
   else
     registration_number
   end,
-  model = case when $3::boolean then
+  model = case when $3 is not null then
     $4::varchar
   else
     model
   end,
-  capacity_volume = case when $5::boolean then
+  capacity_volume = case when $5 is not null then
     $6::real
   else
     capacity_volume
   end,
-  capacity_weight = case when $7::boolean then
+  capacity_weight = case when $7 is not null then
     $8::real
   else
     capacity_weight
   end,
-  status = case when $9::boolean then
+  status = case when $9 is not null then
     $10::tms.vehicle_status_enum
   else
     status
@@ -280,15 +279,15 @@ returning
 `
 
 type TmsUpdateVehicleParams struct {
-	SetRegistrationNumber bool
+	SetRegistrationNumber string
 	RegistrationNumber    string
-	SetModel              bool
+	SetModel              pgtype.Text
 	Model                 string
-	SetCapacityVolume     bool
+	SetCapacityVolume     pgtype.Float4
 	CapacityVolume        float32
-	SetCapacityWeight     bool
+	SetCapacityWeight     pgtype.Float4
 	CapacityWeight        float32
-	SetStatus             bool
+	SetStatus             NullTmsVehicleStatusEnum
 	Status                TmsVehicleStatusEnum
 	ID                    pgtype.UUID
 }

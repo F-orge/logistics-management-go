@@ -141,8 +141,7 @@ select
 from
   "tms"."shipment_leg_events" as shipment_leg_events
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
-where
-  (shipment_leg.start_location ilike $1::text
+where (shipment_leg.start_location ilike $1::text
   or shipment_leg_events.status_message ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -206,8 +205,8 @@ where
   shipment_leg_events.event_timestamp >= $1::date
   and shipment_leg_events.event_timestamp <= $2::date
   and (shipment_leg.start_location ilike $3::text
-  or shipment_leg_events.status_message ilike $3::text
-  or $3::text is null)
+    or shipment_leg_events.status_message ilike $3::text
+    or $3::text is null)
 `
 
 type TmsRangeShipmentLegEventParams struct {
@@ -272,22 +271,22 @@ update
   "tms"."shipment_leg_events"
 set
   updated_at = now(),
-  shipment_leg_id = case when $1::boolean then
+  shipment_leg_id = case when $1 is not null then
     $2::uuid
   else
     shipment_leg_id
   end,
-  status_message = case when $3::boolean then
+  status_message = case when $3 is not null then
     $4::varchar
   else
     status_message
   end,
-  location = case when $5::boolean then
+  location = case when $5 is not null then
     $6::varchar
   else
     location
   end,
-  event_timestamp = case when $7::boolean then
+  event_timestamp = case when $7 is not null then
     $8::timestamp
   else
     event_timestamp
@@ -299,13 +298,13 @@ returning
 `
 
 type TmsUpdateShipmentLegEventParams struct {
-	SetShipmentLegID  bool
+	SetShipmentLegID  pgtype.UUID
 	ShipmentLegID     pgtype.UUID
-	SetStatusMessage  bool
+	SetStatusMessage  pgtype.Text
 	StatusMessage     string
-	SetLocation       bool
+	SetLocation       pgtype.Text
 	Location          string
-	SetEventTimestamp bool
+	SetEventTimestamp pgtype.Timestamp
 	EventTimestamp    pgtype.Timestamp
 	ID                pgtype.UUID
 }
