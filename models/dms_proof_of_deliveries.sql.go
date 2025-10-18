@@ -184,8 +184,7 @@ select
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
   inner join "dms"."delivery_tasks" as delivery_task on proof_of_deliveries.delivery_task_id = delivery_task.id
-where
-  (proof_of_deliveries.recipient_name ilike $1::text
+where (proof_of_deliveries.recipient_name ilike $1::text
   or proof_of_deliveries.type::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -262,8 +261,8 @@ where
   proof_of_deliveries.created_at >= $1::date
   and proof_of_deliveries.created_at <= $2::date
   and (proof_of_deliveries.recipient_name ilike $3::text
-  or proof_of_deliveries.type::text ilike $3::text
-  or $3::text is null)
+    or proof_of_deliveries.type::text ilike $3::text
+    or $3::text is null)
 `
 
 type DmsRangeProofOfDeliveryParams struct {
@@ -341,98 +340,80 @@ update
   "dms"."proof_of_deliveries"
 set
   updated_at = now(),
-  delivery_task_id = case when $1::boolean then
-    $2::uuid
+  delivery_task_id = case when $1 is not null then
+    $1::uuid
   else
     delivery_task_id
   end,
-  type = case when $3::boolean then
-    $4::dms.proof_of_delivery_type_enum
+  type = case when $2 is not null then
+    $2::dms.proof_of_delivery_type_enum
   else
     type
   end,
-  file_path = case when $5::boolean then
-    $6::varchar
+  file_path = case when $3 is not null then
+    $3::varchar
   else
     file_path
   end,
-  signature_data = case when $7::boolean then
-    $8::text
+  signature_data = case when $4 is not null then
+    $4::text
   else
     signature_data
   end,
-  recipient_name = case when $9::boolean then
-    $10::varchar
+  recipient_name = case when $5 is not null then
+    $5::varchar
   else
     recipient_name
   end,
-  verification_code = case when $11::boolean then
-    $12::varchar
+  verification_code = case when $6 is not null then
+    $6::varchar
   else
     verification_code
   end,
-  latitude = case when $13::boolean then
-    $14::real
+  latitude = case when $7 is not null then
+    $7::real
   else
     latitude
   end,
-  longitude = case when $15::boolean then
-    $16::real
+  longitude = case when $8 is not null then
+    $8::real
   else
     longitude
   end,
-  timestamp = case when $17::boolean then
-    $18::timestamp
+  timestamp = case when $9 is not null then
+    $9::timestamp
   else
     timestamp
   end
 where
-  id = $19::uuid
+  id = $10::uuid
 returning
   id, delivery_task_id, type, file_path, signature_data, recipient_name, verification_code, latitude, longitude, timestamp, created_at, updated_at
 `
 
 type DmsUpdateProofOfDeliveryParams struct {
-	SetDeliveryTaskID   bool
-	DeliveryTaskID      pgtype.UUID
-	SetType             bool
-	Type                DmsProofOfDeliveryTypeEnum
-	SetFilePath         bool
-	FilePath            string
-	SetSignatureData    bool
-	SignatureData       string
-	SetRecipientName    bool
-	RecipientName       string
-	SetVerificationCode bool
-	VerificationCode    string
-	SetLatitude         bool
-	Latitude            float32
-	SetLongitude        bool
-	Longitude           float32
-	SetTimestamp        bool
-	Timestamp           pgtype.Timestamp
-	ID                  pgtype.UUID
+	DeliveryTaskID   pgtype.UUID
+	Type             DmsProofOfDeliveryTypeEnum
+	FilePath         pgtype.Text
+	SignatureData    pgtype.Text
+	RecipientName    pgtype.Text
+	VerificationCode pgtype.Text
+	Latitude         pgtype.Float4
+	Longitude        pgtype.Float4
+	Timestamp        pgtype.Timestamp
+	ID               pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateProofOfDelivery(ctx context.Context, arg DmsUpdateProofOfDeliveryParams) (DmsProofOfDelivery, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateProofOfDelivery,
-		arg.SetDeliveryTaskID,
 		arg.DeliveryTaskID,
-		arg.SetType,
 		arg.Type,
-		arg.SetFilePath,
 		arg.FilePath,
-		arg.SetSignatureData,
 		arg.SignatureData,
-		arg.SetRecipientName,
 		arg.RecipientName,
-		arg.SetVerificationCode,
 		arg.VerificationCode,
-		arg.SetLatitude,
 		arg.Latitude,
-		arg.SetLongitude,
 		arg.Longitude,
-		arg.SetTimestamp,
 		arg.Timestamp,
 		arg.ID,
 	)

@@ -163,8 +163,7 @@ select
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
-where
-  (driver.name ilike $1::text
+where (driver.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -231,7 +230,7 @@ where
   driver_locations.created_at >= $1::date
   and driver_locations.created_at <= $2::date
   and (driver.name ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type DmsRangeDriverLocationParams struct {
@@ -300,89 +299,73 @@ update
   "dms"."driver_locations"
 set
   updated_at = now(),
-  driver_id = case when $1::boolean then
-    $2::uuid
+  driver_id = case when $1 is not null then
+    $1::uuid
   else
     driver_id
   end,
-  latitude = case when $3::boolean then
-    $4::real
+  latitude = case when $2 is not null then
+    $2::real
   else
     latitude
   end,
-  longitude = case when $5::boolean then
-    $6::real
+  longitude = case when $3 is not null then
+    $3::real
   else
     longitude
   end,
-  altitude = case when $7::boolean then
-    $8::real
+  altitude = case when $4 is not null then
+    $4::real
   else
     altitude
   end,
-  accuracy = case when $9::boolean then
-    $10::real
+  accuracy = case when $5 is not null then
+    $5::real
   else
     accuracy
   end,
-  speed_kmh = case when $11::boolean then
-    $12::real
+  speed_kmh = case when $6 is not null then
+    $6::real
   else
     speed_kmh
   end,
-  heading = case when $13::boolean then
-    $14::real
+  heading = case when $7 is not null then
+    $7::real
   else
     heading
   end,
-  timestamp = case when $15::boolean then
-    $16::timestamp
+  timestamp = case when $8 is not null then
+    $8::timestamp
   else
     timestamp
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, driver_id, latitude, longitude, altitude, accuracy, speed_kmh, heading, timestamp, created_at, updated_at
 `
 
 type DmsUpdateDriverLocationParams struct {
-	SetDriverID  bool
-	DriverID     pgtype.UUID
-	SetLatitude  bool
-	Latitude     float32
-	SetLongitude bool
-	Longitude    float32
-	SetAltitude  bool
-	Altitude     float32
-	SetAccuracy  bool
-	Accuracy     float32
-	SetSpeedKmh  bool
-	SpeedKmh     float32
-	SetHeading   bool
-	Heading      float32
-	SetTimestamp bool
-	Timestamp    pgtype.Timestamp
-	ID           pgtype.UUID
+	DriverID  pgtype.UUID
+	Latitude  float32
+	Longitude float32
+	Altitude  pgtype.Float4
+	Accuracy  pgtype.Float4
+	SpeedKmh  pgtype.Float4
+	Heading   pgtype.Float4
+	Timestamp pgtype.Timestamp
+	ID        pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateDriverLocation(ctx context.Context, arg DmsUpdateDriverLocationParams) (DmsDriverLocation, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateDriverLocation,
-		arg.SetDriverID,
 		arg.DriverID,
-		arg.SetLatitude,
 		arg.Latitude,
-		arg.SetLongitude,
 		arg.Longitude,
-		arg.SetAltitude,
 		arg.Altitude,
-		arg.SetAccuracy,
 		arg.Accuracy,
-		arg.SetSpeedKmh,
 		arg.SpeedKmh,
-		arg.SetHeading,
 		arg.Heading,
-		arg.SetTimestamp,
 		arg.Timestamp,
 		arg.ID,
 	)

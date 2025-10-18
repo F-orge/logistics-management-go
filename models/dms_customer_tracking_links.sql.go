@@ -169,8 +169,7 @@ select
 from
   "dms"."customer_tracking_links" as customer_tracking_links
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
-where
-  (customer_tracking_links.tracking_token ilike $1::text
+where (customer_tracking_links.tracking_token ilike $1::text
   or delivery_task.recipient_name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -244,8 +243,8 @@ where
   customer_tracking_links.created_at >= $1::date
   and customer_tracking_links.created_at <= $2::date
   and (customer_tracking_links.tracking_token ilike $3::text
-  or delivery_task.recipient_name ilike $3::text
-  or $3::text is null)
+    or delivery_task.recipient_name ilike $3::text
+    or $3::text is null)
 `
 
 type DmsRangeCustomerTrackingLinkParams struct {
@@ -320,71 +319,59 @@ update
   "dms"."customer_tracking_links"
 set
   updated_at = now(),
-  delivery_task_id = case when $1::boolean then
-    $2::uuid
+  delivery_task_id = case when $1 is not null then
+    $1::uuid
   else
     delivery_task_id
   end,
-  tracking_token = case when $3::boolean then
-    $4::varchar
+  tracking_token = case when $2 is not null then
+    $2::varchar
   else
     tracking_token
   end,
-  is_active = case when $5::boolean then
-    $6::boolean
+  is_active = case when $3 is not null then
+    $3::boolean
   else
     is_active
   end,
-  access_count = case when $7::boolean then
-    $8::integer
+  access_count = case when $4 is not null then
+    $4::integer
   else
     access_count
   end,
-  last_accessed_at = case when $9::boolean then
-    $10::timestamp
+  last_accessed_at = case when $5 is not null then
+    $5::timestamp
   else
     last_accessed_at
   end,
-  expires_at = case when $11::boolean then
-    $12::timestamp
+  expires_at = case when $6 is not null then
+    $6::timestamp
   else
     expires_at
   end
 where
-  id = $13::uuid
+  id = $7::uuid
 returning
   id, delivery_task_id, tracking_token, is_active, access_count, last_accessed_at, expires_at, created_at, updated_at
 `
 
 type DmsUpdateCustomerTrackingLinkParams struct {
-	SetDeliveryTaskID bool
-	DeliveryTaskID    pgtype.UUID
-	SetTrackingToken  bool
-	TrackingToken     string
-	SetIsActive       bool
-	IsActive          bool
-	SetAccessCount    bool
-	AccessCount       int32
-	SetLastAccessedAt bool
-	LastAccessedAt    pgtype.Timestamp
-	SetExpiresAt      bool
-	ExpiresAt         pgtype.Timestamp
-	ID                pgtype.UUID
+	DeliveryTaskID pgtype.UUID
+	TrackingToken  string
+	IsActive       pgtype.Bool
+	AccessCount    pgtype.Int4
+	LastAccessedAt pgtype.Timestamp
+	ExpiresAt      pgtype.Timestamp
+	ID             pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateCustomerTrackingLink(ctx context.Context, arg DmsUpdateCustomerTrackingLinkParams) (DmsCustomerTrackingLink, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateCustomerTrackingLink,
-		arg.SetDeliveryTaskID,
 		arg.DeliveryTaskID,
-		arg.SetTrackingToken,
 		arg.TrackingToken,
-		arg.SetIsActive,
 		arg.IsActive,
-		arg.SetAccessCount,
 		arg.AccessCount,
-		arg.SetLastAccessedAt,
 		arg.LastAccessedAt,
-		arg.SetExpiresAt,
 		arg.ExpiresAt,
 		arg.ID,
 	)

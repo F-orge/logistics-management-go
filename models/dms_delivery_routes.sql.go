@@ -166,8 +166,7 @@ select
 from
   "dms"."delivery_routes" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
-where
-  (driver.name ilike $1::text
+where (driver.name ilike $1::text
   or delivery_routes.status::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -236,8 +235,8 @@ where
   delivery_routes.created_at >= $1::date
   and delivery_routes.created_at <= $2::date
   and (driver.name ilike $3::text
-  or delivery_routes.status::text ilike $3::text
-  or $3::text is null)
+    or delivery_routes.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type DmsRangeDeliveryRouteParams struct {
@@ -307,89 +306,73 @@ update
   "dms"."delivery_routes"
 set
   updated_at = now(),
-  driver_id = case when $1::boolean then
-    $2::uuid
+  driver_id = case when $1 is not null then
+    $1::uuid
   else
     driver_id
   end,
-  route_date = case when $3::boolean then
-    $4::date
+  route_date = case when $2 is not null then
+    $2::date
   else
     route_date
   end,
-  status = case when $5::boolean then
-    $6::dms.delivery_route_status_enum
+  status = case when $3 is not null then
+    $3::dms.delivery_route_status_enum
   else
     status
   end,
-  optimized_route_data = case when $7::boolean then
-    $8::text
+  optimized_route_data = case when $4 is not null then
+    $4::text
   else
     optimized_route_data
   end,
-  total_distance_km = case when $9::boolean then
-    $10::real
+  total_distance_km = case when $5 is not null then
+    $5::real
   else
     total_distance_km
   end,
-  estimated_duration_minutes = case when $11::boolean then
-    $12::integer
+  estimated_duration_minutes = case when $6 is not null then
+    $6::integer
   else
     estimated_duration_minutes
   end,
-  started_at = case when $13::boolean then
-    $14::timestamp
+  started_at = case when $7 is not null then
+    $7::timestamp
   else
     started_at
   end,
-  completed_at = case when $15::boolean then
-    $16::timestamp
+  completed_at = case when $8 is not null then
+    $8::timestamp
   else
     completed_at
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, driver_id, route_date, status, optimized_route_data, total_distance_km, estimated_duration_minutes, actual_duration_minutes, started_at, completed_at, created_at, updated_at
 `
 
 type DmsUpdateDeliveryRouteParams struct {
-	SetDriverID                 bool
-	DriverID                    pgtype.UUID
-	SetRouteDate                bool
-	RouteDate                   pgtype.Date
-	SetStatus                   bool
-	Status                      DmsDeliveryRouteStatusEnum
-	SetOptimizedRouteData       bool
-	OptimizedRouteData          string
-	SetTotalDistanceKm          bool
-	TotalDistanceKm             float32
-	SetEstimatedDurationMinutes bool
-	EstimatedDurationMinutes    int32
-	SetStartedAt                bool
-	StartedAt                   pgtype.Timestamp
-	SetCompletedAt              bool
-	CompletedAt                 pgtype.Timestamp
-	ID                          pgtype.UUID
+	DriverID                 pgtype.UUID
+	RouteDate                pgtype.Date
+	Status                   NullDmsDeliveryRouteStatusEnum
+	OptimizedRouteData       pgtype.Text
+	TotalDistanceKm          pgtype.Float4
+	EstimatedDurationMinutes pgtype.Int4
+	StartedAt                pgtype.Timestamp
+	CompletedAt              pgtype.Timestamp
+	ID                       pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateDeliveryRoute(ctx context.Context, arg DmsUpdateDeliveryRouteParams) (DmsDeliveryRoute, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateDeliveryRoute,
-		arg.SetDriverID,
 		arg.DriverID,
-		arg.SetRouteDate,
 		arg.RouteDate,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetOptimizedRouteData,
 		arg.OptimizedRouteData,
-		arg.SetTotalDistanceKm,
 		arg.TotalDistanceKm,
-		arg.SetEstimatedDurationMinutes,
 		arg.EstimatedDurationMinutes,
-		arg.SetStartedAt,
 		arg.StartedAt,
-		arg.SetCompletedAt,
 		arg.CompletedAt,
 		arg.ID,
 	)

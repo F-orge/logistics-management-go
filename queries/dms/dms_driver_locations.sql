@@ -5,8 +5,7 @@ select
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
-where
-  (driver.name ilike sqlc.narg(search)::text
+where (driver.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -41,7 +40,7 @@ where
   driver_locations.created_at >= @dateFrom::date
   and driver_locations.created_at <= @dateTo::date
   and (driver.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertDriverLocation :one
 insert into "dms"."driver_locations"(driver_id, latitude, longitude, altitude, accuracy, speed_kmh, heading, timestamp)
@@ -54,42 +53,42 @@ update
   "dms"."driver_locations"
 set
   updated_at = now(),
-  driver_id = case when sqlc.arg(set_driver_id)::boolean then
+  driver_id = case when sqlc.arg(driver_id) is not null then
     sqlc.arg(driver_id)::uuid
   else
     driver_id
   end,
-  latitude = case when sqlc.arg(set_latitude)::boolean then
+  latitude = case when sqlc.arg(latitude) is not null then
     sqlc.arg(latitude)::real
   else
     latitude
   end,
-  longitude = case when sqlc.arg(set_longitude)::boolean then
+  longitude = case when sqlc.arg(longitude) is not null then
     sqlc.arg(longitude)::real
   else
     longitude
   end,
-  altitude = case when sqlc.arg(set_altitude)::boolean then
+  altitude = case when sqlc.arg(altitude) is not null then
     sqlc.arg(altitude)::real
   else
     altitude
   end,
-  accuracy = case when sqlc.arg(set_accuracy)::boolean then
+  accuracy = case when sqlc.arg(accuracy) is not null then
     sqlc.arg(accuracy)::real
   else
     accuracy
   end,
-  speed_kmh = case when sqlc.arg(set_speed_kmh)::boolean then
+  speed_kmh = case when sqlc.arg(speed_kmh) is not null then
     sqlc.arg(speed_kmh)::real
   else
     speed_kmh
   end,
-  heading = case when sqlc.arg(set_heading)::boolean then
+  heading = case when sqlc.arg(heading) is not null then
     sqlc.arg(heading)::real
   else
     heading
   end,
-  timestamp = case when sqlc.arg(set_timestamp)::boolean then
+  timestamp = case when sqlc.arg(timestamp) is not null then
     sqlc.arg(timestamp)::timestamp
   else
     timestamp
@@ -102,3 +101,4 @@ returning
 -- name: DmsRemoveDriverLocation :exec
 delete from "dms"."driver_locations"
 where id = @id::uuid;
+

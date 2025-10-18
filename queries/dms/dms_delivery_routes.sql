@@ -5,8 +5,7 @@ select
 from
   "dms"."delivery_routes" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
-where
-  (driver.name ilike sqlc.narg(search)::text
+where (driver.name ilike sqlc.narg(search)::text
   or delivery_routes.status::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -42,8 +41,8 @@ where
   delivery_routes.created_at >= @dateFrom::date
   and delivery_routes.created_at <= @dateTo::date
   and (driver.name ilike sqlc.narg(search)::text
-  or delivery_routes.status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or delivery_routes.status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: DmsInsertDeliveryRoute :one
 insert into "dms"."delivery_routes"(driver_id, route_date, status, optimized_route_data, total_distance_km, estimated_duration_minutes, started_at, completed_at)
@@ -56,42 +55,42 @@ update
   "dms"."delivery_routes"
 set
   updated_at = now(),
-  driver_id = case when sqlc.arg(set_driver_id)::boolean then
+  driver_id = case when sqlc.arg(driver_id) is not null then
     sqlc.arg(driver_id)::uuid
   else
     driver_id
   end,
-  route_date = case when sqlc.arg(set_route_date)::boolean then
+  route_date = case when sqlc.arg(route_date) is not null then
     sqlc.arg(route_date)::date
   else
     route_date
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::dms.delivery_route_status_enum
   else
     status
   end,
-  optimized_route_data = case when sqlc.arg(set_optimized_route_data)::boolean then
+  optimized_route_data = case when sqlc.arg(optimized_route_data) is not null then
     sqlc.arg(optimized_route_data)::text
   else
     optimized_route_data
   end,
-  total_distance_km = case when sqlc.arg(set_total_distance_km)::boolean then
+  total_distance_km = case when sqlc.arg(total_distance_km) is not null then
     sqlc.arg(total_distance_km)::real
   else
     total_distance_km
   end,
-  estimated_duration_minutes = case when sqlc.arg(set_estimated_duration_minutes)::boolean then
+  estimated_duration_minutes = case when sqlc.arg(estimated_duration_minutes) is not null then
     sqlc.arg(estimated_duration_minutes)::integer
   else
     estimated_duration_minutes
   end,
-  started_at = case when sqlc.arg(set_started_at)::boolean then
+  started_at = case when sqlc.arg(started_at) is not null then
     sqlc.arg(started_at)::timestamp
   else
     started_at
   end,
-  completed_at = case when sqlc.arg(set_completed_at)::boolean then
+  completed_at = case when sqlc.arg(completed_at) is not null then
     sqlc.arg(completed_at)::timestamp
   else
     completed_at
@@ -104,3 +103,4 @@ returning
 -- name: DmsRemoveDeliveryRoute :exec
 delete from "dms"."delivery_routes"
 where id = @id::uuid;
+

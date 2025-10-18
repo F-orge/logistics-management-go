@@ -197,8 +197,7 @@ from
   "dms"."delivery_tasks" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
   -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
-where
-  (delivery_tasks.recipient_name ilike $1::text
+where (delivery_tasks.recipient_name ilike $1::text
   or delivery_tasks.delivery_address ilike $1::text
   or delivery_tasks.status::text ilike $1::text
   or delivery_route.status::text ilike $1::text
@@ -277,10 +276,10 @@ where
   delivery_tasks.created_at >= $1::date
   and delivery_tasks.created_at <= $2::date
   and (delivery_tasks.recipient_name ilike $3::text
-  or delivery_tasks.delivery_address ilike $3::text
-  or delivery_tasks.status::text ilike $3::text
-  or delivery_route.status::text ilike $3::text
-  or $3::text is null)
+    or delivery_tasks.delivery_address ilike $3::text
+    or delivery_tasks.status::text ilike $3::text
+    or delivery_route.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type DmsRangeDeliveryTaskParams struct {
@@ -358,134 +357,108 @@ update
   "dms"."delivery_tasks"
 set
   updated_at = now(),
-  package_id = case when $1::boolean then
-    $2::uuid
+  package_id = case when $1 is not null then
+    $1::uuid
   else
     package_id
   end,
-  delivery_route_id = case when $3::boolean then
-    $4::uuid
+  delivery_route_id = case when $2 is not null then
+    $2::uuid
   else
     delivery_route_id
   end,
-  route_sequence = case when $5::boolean then
-    $6::integer
+  route_sequence = case when $3 is not null then
+    $3::integer
   else
     route_sequence
   end,
-  delivery_address = case when $7::boolean then
-    $8::text
+  delivery_address = case when $4 is not null then
+    $4::text
   else
     delivery_address
   end,
-  recipient_name = case when $9::boolean then
-    $10::varchar
+  recipient_name = case when $5 is not null then
+    $5::varchar
   else
     recipient_name
   end,
-  recipient_phone = case when $11::boolean then
-    $12::varchar
+  recipient_phone = case when $6 is not null then
+    $6::varchar
   else
     recipient_phone
   end,
-  delivery_instructions = case when $13::boolean then
-    $14::text
+  delivery_instructions = case when $7 is not null then
+    $7::text
   else
     delivery_instructions
   end,
-  estimated_arrival_time = case when $15::boolean then
-    $16::timestamp
+  estimated_arrival_time = case when $8 is not null then
+    $8::timestamp
   else
     estimated_arrival_time
   end,
-  actual_arrival_time = case when $17::boolean then
-    $18::timestamp
+  actual_arrival_time = case when $9 is not null then
+    $9::timestamp
   else
     actual_arrival_time
   end,
-  delivery_time = case when $19::boolean then
-    $20::timestamp
+  delivery_time = case when $10 is not null then
+    $10::timestamp
   else
     delivery_time
   end,
-  status = case when $21::boolean then
-    $22::dms.delivery_task_status_enum
+  status = case when $11 is not null then
+    $11::dms.delivery_task_status_enum
   else
     status
   end,
-  failure_reason = case when $23::boolean then
-    $24::dms.delivery_failure_reason_enum
+  failure_reason = case when $12 is not null then
+    $12::dms.delivery_failure_reason_enum
   else
     failure_reason
   end,
-  attempt_count = case when $25::boolean then
-    $26::integer
+  attempt_count = case when $13 is not null then
+    $13::integer
   else
     attempt_count
   end
 where
-  id = $27::uuid
+  id = $14::uuid
 returning
   id, package_id, delivery_route_id, route_sequence, delivery_address, recipient_name, recipient_phone, delivery_instructions, estimated_arrival_time, actual_arrival_time, delivery_time, status, failure_reason, attempt_count, created_at, updated_at
 `
 
 type DmsUpdateDeliveryTaskParams struct {
-	SetPackageID            bool
-	PackageID               pgtype.UUID
-	SetDeliveryRouteID      bool
-	DeliveryRouteID         pgtype.UUID
-	SetRouteSequence        bool
-	RouteSequence           int32
-	SetDeliveryAddress      bool
-	DeliveryAddress         string
-	SetRecipientName        bool
-	RecipientName           string
-	SetRecipientPhone       bool
-	RecipientPhone          string
-	SetDeliveryInstructions bool
-	DeliveryInstructions    string
-	SetEstimatedArrivalTime bool
-	EstimatedArrivalTime    pgtype.Timestamp
-	SetActualArrivalTime    bool
-	ActualArrivalTime       pgtype.Timestamp
-	SetDeliveryTime         bool
-	DeliveryTime            pgtype.Timestamp
-	SetStatus               bool
-	Status                  DmsDeliveryTaskStatusEnum
-	SetFailureReason        bool
-	FailureReason           DmsDeliveryFailureReasonEnum
-	SetAttemptCount         bool
-	AttemptCount            int32
-	ID                      pgtype.UUID
+	PackageID            pgtype.UUID
+	DeliveryRouteID      pgtype.UUID
+	RouteSequence        int32
+	DeliveryAddress      string
+	RecipientName        pgtype.Text
+	RecipientPhone       pgtype.Text
+	DeliveryInstructions pgtype.Text
+	EstimatedArrivalTime pgtype.Timestamp
+	ActualArrivalTime    pgtype.Timestamp
+	DeliveryTime         pgtype.Timestamp
+	Status               NullDmsDeliveryTaskStatusEnum
+	FailureReason        NullDmsDeliveryFailureReasonEnum
+	AttemptCount         pgtype.Int4
+	ID                   pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateDeliveryTask(ctx context.Context, arg DmsUpdateDeliveryTaskParams) (DmsDeliveryTask, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateDeliveryTask,
-		arg.SetPackageID,
 		arg.PackageID,
-		arg.SetDeliveryRouteID,
 		arg.DeliveryRouteID,
-		arg.SetRouteSequence,
 		arg.RouteSequence,
-		arg.SetDeliveryAddress,
 		arg.DeliveryAddress,
-		arg.SetRecipientName,
 		arg.RecipientName,
-		arg.SetRecipientPhone,
 		arg.RecipientPhone,
-		arg.SetDeliveryInstructions,
 		arg.DeliveryInstructions,
-		arg.SetEstimatedArrivalTime,
 		arg.EstimatedArrivalTime,
-		arg.SetActualArrivalTime,
 		arg.ActualArrivalTime,
-		arg.SetDeliveryTime,
 		arg.DeliveryTime,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetFailureReason,
 		arg.FailureReason,
-		arg.SetAttemptCount,
 		arg.AttemptCount,
 		arg.ID,
 	)

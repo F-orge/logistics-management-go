@@ -174,8 +174,7 @@ select
 from
   "dms"."task_events" as task_events
   inner join "dms"."delivery_tasks" as delivery_task on task_events.delivery_task_id = delivery_task.id
-where
-  (task_events.status::text ilike $1::text
+where (task_events.status::text ilike $1::text
   or delivery_task.recipient_name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -250,8 +249,8 @@ where
   task_events.created_at >= $1::date
   and task_events.created_at <= $2::date
   and (task_events.status::text ilike $3::text
-  or delivery_task.recipient_name ilike $3::text
-  or $3::text is null)
+    or delivery_task.recipient_name ilike $3::text
+    or $3::text is null)
 `
 
 type DmsRangeTaskEventParams struct {
@@ -327,80 +326,66 @@ update
   "dms"."task_events"
 set
   updated_at = now(),
-  delivery_task_id = case when $1::boolean then
-    $2::uuid
+  delivery_task_id = case when $1 is not null then
+    $1::uuid
   else
     delivery_task_id
   end,
-  status = case when $3::boolean then
-    $4::dms.task_event_status_enum
+  status = case when $2 is not null then
+    $2::dms.task_event_status_enum
   else
     status
   end,
-  reason = case when $5::boolean then
-    $6::text
+  reason = case when $3 is not null then
+    $3::text
   else
     reason
   end,
-  notes = case when $7::boolean then
-    $8::text
+  notes = case when $4 is not null then
+    $4::text
   else
     notes
   end,
-  latitude = case when $9::boolean then
-    $10::real
+  latitude = case when $5 is not null then
+    $5::real
   else
     latitude
   end,
-  longitude = case when $11::boolean then
-    $12::real
+  longitude = case when $6 is not null then
+    $6::real
   else
     longitude
   end,
-  timestamp = case when $13::boolean then
-    $14::timestamp
+  timestamp = case when $7 is not null then
+    $7::timestamp
   else
     timestamp
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, delivery_task_id, status, reason, notes, latitude, longitude, timestamp, created_at, updated_at
 `
 
 type DmsUpdateTaskEventParams struct {
-	SetDeliveryTaskID bool
-	DeliveryTaskID    pgtype.UUID
-	SetStatus         bool
-	Status            DmsTaskEventStatusEnum
-	SetReason         bool
-	Reason            string
-	SetNotes          bool
-	Notes             string
-	SetLatitude       bool
-	Latitude          float32
-	SetLongitude      bool
-	Longitude         float32
-	SetTimestamp      bool
-	Timestamp         pgtype.Timestamp
-	ID                pgtype.UUID
+	DeliveryTaskID pgtype.UUID
+	Status         DmsTaskEventStatusEnum
+	Reason         pgtype.Text
+	Notes          pgtype.Text
+	Latitude       pgtype.Float4
+	Longitude      pgtype.Float4
+	Timestamp      pgtype.Timestamp
+	ID             pgtype.UUID
 }
 
 func (q *Queries) DmsUpdateTaskEvent(ctx context.Context, arg DmsUpdateTaskEventParams) (DmsTaskEvent, error) {
 	row := q.db.QueryRow(ctx, dmsUpdateTaskEvent,
-		arg.SetDeliveryTaskID,
 		arg.DeliveryTaskID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetReason,
 		arg.Reason,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetLatitude,
 		arg.Latitude,
-		arg.SetLongitude,
 		arg.Longitude,
-		arg.SetTimestamp,
 		arg.Timestamp,
 		arg.ID,
 	)
