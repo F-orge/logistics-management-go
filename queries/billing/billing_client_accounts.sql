@@ -3,7 +3,7 @@ select
   sqlc.embed(client_accounts),
   sqlc.embed(client)
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where (client.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -14,7 +14,7 @@ select
   sqlc.embed(client_accounts),
   sqlc.embed(client)
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.id = sqlc.arg(id)::uuid;
@@ -24,7 +24,7 @@ select
   sqlc.embed(client_accounts),
   sqlc.embed(client)
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.id = any (@ids::uuid[]);
@@ -34,7 +34,7 @@ select
   sqlc.embed(client_accounts),
   sqlc.embed(client)
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.created_at >= @dateFrom::date

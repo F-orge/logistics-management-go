@@ -6,7 +6,7 @@ select
   sqlc.embed(company),
   sqlc.embed(campaign)
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -29,7 +29,7 @@ select
   sqlc.embed(company),
   sqlc.embed(campaign)
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -45,7 +45,7 @@ select
   sqlc.embed(company),
   sqlc.embed(campaign)
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -61,7 +61,7 @@ select
   sqlc.embed(company),
   sqlc.embed(campaign)
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -79,14 +79,14 @@ where
     or sqlc.narg(search)::text is null);
 
 -- name: CrmInsertOpportunity :one
-insert into "crm"."opportunities"(name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id)
+insert into "crm"."opportunities_view"(name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id)
   values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 returning
   *;
 
 -- name: CrmUpdateOpportunity :one
 update
-  "crm"."opportunities"
+  "crm"."opportunities_view"
 set
   updated_at = now(),
   name = case when sqlc.arg(name) is not null then
@@ -150,6 +150,6 @@ returning
   *;
 
 -- name: CrmRemoveOpportunity :exec
-delete from "crm"."opportunities"
+delete from "crm"."opportunities_view"
 where id = @id::uuid;
 

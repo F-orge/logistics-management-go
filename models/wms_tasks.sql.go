@@ -13,12 +13,12 @@ import (
 
 const wmsAnyTask = `-- name: WmsAnyTask :many
 select
-  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at,
+  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -27,7 +27,7 @@ where
 `
 
 type WmsAnyTaskRow struct {
-	WmsTask      WmsTask
+	WmsTasksView WmsTasksView
 	WmsWarehouse WmsWarehouse
 	User         User
 	WmsPickBatch WmsPickBatch
@@ -43,25 +43,26 @@ func (q *Queries) WmsAnyTask(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTa
 	for rows.Next() {
 		var i WmsAnyTaskRow
 		if err := rows.Scan(
-			&i.WmsTask.ID,
-			&i.WmsTask.TaskNumber,
-			&i.WmsTask.WarehouseID,
-			&i.WmsTask.UserID,
-			&i.WmsTask.Type,
-			&i.WmsTask.Status,
-			&i.WmsTask.Priority,
-			&i.WmsTask.SourceEntityID,
-			&i.WmsTask.SourceEntityType,
-			&i.WmsTask.PickBatchID,
-			&i.WmsTask.EstimatedDuration,
-			&i.WmsTask.ActualDuration,
-			&i.WmsTask.Instructions,
-			&i.WmsTask.Notes,
-			&i.WmsTask.StartTime,
-			&i.WmsTask.EndTime,
-			&i.WmsTask.DurationSeconds,
-			&i.WmsTask.CreatedAt,
-			&i.WmsTask.UpdatedAt,
+			&i.WmsTasksView.ID,
+			&i.WmsTasksView.TaskNumber,
+			&i.WmsTasksView.WarehouseID,
+			&i.WmsTasksView.UserID,
+			&i.WmsTasksView.Type,
+			&i.WmsTasksView.Status,
+			&i.WmsTasksView.Priority,
+			&i.WmsTasksView.SourceEntityID,
+			&i.WmsTasksView.SourceEntityType,
+			&i.WmsTasksView.PickBatchID,
+			&i.WmsTasksView.EstimatedDuration,
+			&i.WmsTasksView.ActualDuration,
+			&i.WmsTasksView.Instructions,
+			&i.WmsTasksView.Notes,
+			&i.WmsTasksView.StartTime,
+			&i.WmsTasksView.EndTime,
+			&i.WmsTasksView.DurationSeconds,
+			&i.WmsTasksView.CreatedAt,
+			&i.WmsTasksView.UpdatedAt,
+			&i.WmsTasksView.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -117,12 +118,12 @@ func (q *Queries) WmsAnyTask(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTa
 
 const wmsFindTask = `-- name: WmsFindTask :one
 select
-  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at,
+  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -131,7 +132,7 @@ where
 `
 
 type WmsFindTaskRow struct {
-	WmsTask      WmsTask
+	WmsTasksView WmsTasksView
 	WmsWarehouse WmsWarehouse
 	User         User
 	WmsPickBatch WmsPickBatch
@@ -141,25 +142,26 @@ func (q *Queries) WmsFindTask(ctx context.Context, id pgtype.UUID) (WmsFindTaskR
 	row := q.db.QueryRow(ctx, wmsFindTask, id)
 	var i WmsFindTaskRow
 	err := row.Scan(
-		&i.WmsTask.ID,
-		&i.WmsTask.TaskNumber,
-		&i.WmsTask.WarehouseID,
-		&i.WmsTask.UserID,
-		&i.WmsTask.Type,
-		&i.WmsTask.Status,
-		&i.WmsTask.Priority,
-		&i.WmsTask.SourceEntityID,
-		&i.WmsTask.SourceEntityType,
-		&i.WmsTask.PickBatchID,
-		&i.WmsTask.EstimatedDuration,
-		&i.WmsTask.ActualDuration,
-		&i.WmsTask.Instructions,
-		&i.WmsTask.Notes,
-		&i.WmsTask.StartTime,
-		&i.WmsTask.EndTime,
-		&i.WmsTask.DurationSeconds,
-		&i.WmsTask.CreatedAt,
-		&i.WmsTask.UpdatedAt,
+		&i.WmsTasksView.ID,
+		&i.WmsTasksView.TaskNumber,
+		&i.WmsTasksView.WarehouseID,
+		&i.WmsTasksView.UserID,
+		&i.WmsTasksView.Type,
+		&i.WmsTasksView.Status,
+		&i.WmsTasksView.Priority,
+		&i.WmsTasksView.SourceEntityID,
+		&i.WmsTasksView.SourceEntityType,
+		&i.WmsTasksView.PickBatchID,
+		&i.WmsTasksView.EstimatedDuration,
+		&i.WmsTasksView.ActualDuration,
+		&i.WmsTasksView.Instructions,
+		&i.WmsTasksView.Notes,
+		&i.WmsTasksView.StartTime,
+		&i.WmsTasksView.EndTime,
+		&i.WmsTasksView.DurationSeconds,
+		&i.WmsTasksView.CreatedAt,
+		&i.WmsTasksView.UpdatedAt,
+		&i.WmsTasksView.TaskItems,
 		&i.WmsWarehouse.ID,
 		&i.WmsWarehouse.Name,
 		&i.WmsWarehouse.Address,
@@ -276,12 +278,12 @@ func (q *Queries) WmsInsertTask(ctx context.Context, arg WmsInsertTaskParams) (W
 
 const wmsPaginateTask = `-- name: WmsPaginateTask :many
 select
-  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at,
+  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -302,7 +304,7 @@ type WmsPaginateTaskParams struct {
 }
 
 type WmsPaginateTaskRow struct {
-	WmsTask      WmsTask
+	WmsTasksView WmsTasksView
 	WmsWarehouse WmsWarehouse
 	User         User
 	WmsPickBatch WmsPickBatch
@@ -318,25 +320,26 @@ func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams
 	for rows.Next() {
 		var i WmsPaginateTaskRow
 		if err := rows.Scan(
-			&i.WmsTask.ID,
-			&i.WmsTask.TaskNumber,
-			&i.WmsTask.WarehouseID,
-			&i.WmsTask.UserID,
-			&i.WmsTask.Type,
-			&i.WmsTask.Status,
-			&i.WmsTask.Priority,
-			&i.WmsTask.SourceEntityID,
-			&i.WmsTask.SourceEntityType,
-			&i.WmsTask.PickBatchID,
-			&i.WmsTask.EstimatedDuration,
-			&i.WmsTask.ActualDuration,
-			&i.WmsTask.Instructions,
-			&i.WmsTask.Notes,
-			&i.WmsTask.StartTime,
-			&i.WmsTask.EndTime,
-			&i.WmsTask.DurationSeconds,
-			&i.WmsTask.CreatedAt,
-			&i.WmsTask.UpdatedAt,
+			&i.WmsTasksView.ID,
+			&i.WmsTasksView.TaskNumber,
+			&i.WmsTasksView.WarehouseID,
+			&i.WmsTasksView.UserID,
+			&i.WmsTasksView.Type,
+			&i.WmsTasksView.Status,
+			&i.WmsTasksView.Priority,
+			&i.WmsTasksView.SourceEntityID,
+			&i.WmsTasksView.SourceEntityType,
+			&i.WmsTasksView.PickBatchID,
+			&i.WmsTasksView.EstimatedDuration,
+			&i.WmsTasksView.ActualDuration,
+			&i.WmsTasksView.Instructions,
+			&i.WmsTasksView.Notes,
+			&i.WmsTasksView.StartTime,
+			&i.WmsTasksView.EndTime,
+			&i.WmsTasksView.DurationSeconds,
+			&i.WmsTasksView.CreatedAt,
+			&i.WmsTasksView.UpdatedAt,
+			&i.WmsTasksView.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -392,12 +395,12 @@ func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams
 
 const wmsRangeTask = `-- name: WmsRangeTask :many
 select
-  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at,
+  tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -420,7 +423,7 @@ type WmsRangeTaskParams struct {
 }
 
 type WmsRangeTaskRow struct {
-	WmsTask      WmsTask
+	WmsTasksView WmsTasksView
 	WmsWarehouse WmsWarehouse
 	User         User
 	WmsPickBatch WmsPickBatch
@@ -436,25 +439,26 @@ func (q *Queries) WmsRangeTask(ctx context.Context, arg WmsRangeTaskParams) ([]W
 	for rows.Next() {
 		var i WmsRangeTaskRow
 		if err := rows.Scan(
-			&i.WmsTask.ID,
-			&i.WmsTask.TaskNumber,
-			&i.WmsTask.WarehouseID,
-			&i.WmsTask.UserID,
-			&i.WmsTask.Type,
-			&i.WmsTask.Status,
-			&i.WmsTask.Priority,
-			&i.WmsTask.SourceEntityID,
-			&i.WmsTask.SourceEntityType,
-			&i.WmsTask.PickBatchID,
-			&i.WmsTask.EstimatedDuration,
-			&i.WmsTask.ActualDuration,
-			&i.WmsTask.Instructions,
-			&i.WmsTask.Notes,
-			&i.WmsTask.StartTime,
-			&i.WmsTask.EndTime,
-			&i.WmsTask.DurationSeconds,
-			&i.WmsTask.CreatedAt,
-			&i.WmsTask.UpdatedAt,
+			&i.WmsTasksView.ID,
+			&i.WmsTasksView.TaskNumber,
+			&i.WmsTasksView.WarehouseID,
+			&i.WmsTasksView.UserID,
+			&i.WmsTasksView.Type,
+			&i.WmsTasksView.Status,
+			&i.WmsTasksView.Priority,
+			&i.WmsTasksView.SourceEntityID,
+			&i.WmsTasksView.SourceEntityType,
+			&i.WmsTasksView.PickBatchID,
+			&i.WmsTasksView.EstimatedDuration,
+			&i.WmsTasksView.ActualDuration,
+			&i.WmsTasksView.Instructions,
+			&i.WmsTasksView.Notes,
+			&i.WmsTasksView.StartTime,
+			&i.WmsTasksView.EndTime,
+			&i.WmsTasksView.DurationSeconds,
+			&i.WmsTasksView.CreatedAt,
+			&i.WmsTasksView.UpdatedAt,
+			&i.WmsTasksView.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,

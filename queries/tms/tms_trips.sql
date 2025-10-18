@@ -4,7 +4,7 @@ select
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where (driver.name ilike sqlc.narg(search)::text
@@ -19,7 +19,7 @@ select
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
@@ -31,7 +31,7 @@ select
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
@@ -43,7 +43,7 @@ select
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where

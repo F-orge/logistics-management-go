@@ -4,7 +4,7 @@ select
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where (sales_orders.order_number ilike sqlc.narg(search)::text
@@ -20,7 +20,7 @@ select
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
@@ -32,7 +32,7 @@ select
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
@@ -44,7 +44,7 @@ select
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where

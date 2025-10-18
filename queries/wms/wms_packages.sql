@@ -5,7 +5,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -25,7 +25,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -39,7 +39,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -53,7 +53,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id

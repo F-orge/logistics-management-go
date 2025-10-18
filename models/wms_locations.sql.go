@@ -13,18 +13,18 @@ import (
 
 const wmsAnyLocation = `-- name: WmsAnyLocation :many
 select
-  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at,
+  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at, locations.inventory_stock, locations.putaway_rules, locations.bin_thresholds,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.id = any ($1::uuid[])
 `
 
 type WmsAnyLocationRow struct {
-	WmsLocation  WmsLocation
-	WmsWarehouse WmsWarehouse
+	WmsLocationsView WmsLocationsView
+	WmsWarehouse     WmsWarehouse
 }
 
 func (q *Queries) WmsAnyLocation(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyLocationRow, error) {
@@ -37,27 +37,30 @@ func (q *Queries) WmsAnyLocation(ctx context.Context, ids []pgtype.UUID) ([]WmsA
 	for rows.Next() {
 		var i WmsAnyLocationRow
 		if err := rows.Scan(
-			&i.WmsLocation.ID,
-			&i.WmsLocation.WarehouseID,
-			&i.WmsLocation.ParentLocationID,
-			&i.WmsLocation.Name,
-			&i.WmsLocation.Barcode,
-			&i.WmsLocation.Type,
-			&i.WmsLocation.Level,
-			&i.WmsLocation.Path,
-			&i.WmsLocation.MaxWeight,
-			&i.WmsLocation.MaxVolume,
-			&i.WmsLocation.MaxPallets,
-			&i.WmsLocation.XCoordinate,
-			&i.WmsLocation.YCoordinate,
-			&i.WmsLocation.ZCoordinate,
-			&i.WmsLocation.IsPickable,
-			&i.WmsLocation.IsReceivable,
-			&i.WmsLocation.TemperatureControlled,
-			&i.WmsLocation.HazmatApproved,
-			&i.WmsLocation.IsActive,
-			&i.WmsLocation.CreatedAt,
-			&i.WmsLocation.UpdatedAt,
+			&i.WmsLocationsView.ID,
+			&i.WmsLocationsView.WarehouseID,
+			&i.WmsLocationsView.ParentLocationID,
+			&i.WmsLocationsView.Name,
+			&i.WmsLocationsView.Barcode,
+			&i.WmsLocationsView.Type,
+			&i.WmsLocationsView.Level,
+			&i.WmsLocationsView.Path,
+			&i.WmsLocationsView.MaxWeight,
+			&i.WmsLocationsView.MaxVolume,
+			&i.WmsLocationsView.MaxPallets,
+			&i.WmsLocationsView.XCoordinate,
+			&i.WmsLocationsView.YCoordinate,
+			&i.WmsLocationsView.ZCoordinate,
+			&i.WmsLocationsView.IsPickable,
+			&i.WmsLocationsView.IsReceivable,
+			&i.WmsLocationsView.TemperatureControlled,
+			&i.WmsLocationsView.HazmatApproved,
+			&i.WmsLocationsView.IsActive,
+			&i.WmsLocationsView.CreatedAt,
+			&i.WmsLocationsView.UpdatedAt,
+			&i.WmsLocationsView.InventoryStock,
+			&i.WmsLocationsView.PutawayRules,
+			&i.WmsLocationsView.BinThresholds,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -85,45 +88,48 @@ func (q *Queries) WmsAnyLocation(ctx context.Context, ids []pgtype.UUID) ([]WmsA
 
 const wmsFindLocation = `-- name: WmsFindLocation :one
 select
-  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at,
+  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at, locations.inventory_stock, locations.putaway_rules, locations.bin_thresholds,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.id = $1::uuid
 `
 
 type WmsFindLocationRow struct {
-	WmsLocation  WmsLocation
-	WmsWarehouse WmsWarehouse
+	WmsLocationsView WmsLocationsView
+	WmsWarehouse     WmsWarehouse
 }
 
 func (q *Queries) WmsFindLocation(ctx context.Context, id pgtype.UUID) (WmsFindLocationRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindLocation, id)
 	var i WmsFindLocationRow
 	err := row.Scan(
-		&i.WmsLocation.ID,
-		&i.WmsLocation.WarehouseID,
-		&i.WmsLocation.ParentLocationID,
-		&i.WmsLocation.Name,
-		&i.WmsLocation.Barcode,
-		&i.WmsLocation.Type,
-		&i.WmsLocation.Level,
-		&i.WmsLocation.Path,
-		&i.WmsLocation.MaxWeight,
-		&i.WmsLocation.MaxVolume,
-		&i.WmsLocation.MaxPallets,
-		&i.WmsLocation.XCoordinate,
-		&i.WmsLocation.YCoordinate,
-		&i.WmsLocation.ZCoordinate,
-		&i.WmsLocation.IsPickable,
-		&i.WmsLocation.IsReceivable,
-		&i.WmsLocation.TemperatureControlled,
-		&i.WmsLocation.HazmatApproved,
-		&i.WmsLocation.IsActive,
-		&i.WmsLocation.CreatedAt,
-		&i.WmsLocation.UpdatedAt,
+		&i.WmsLocationsView.ID,
+		&i.WmsLocationsView.WarehouseID,
+		&i.WmsLocationsView.ParentLocationID,
+		&i.WmsLocationsView.Name,
+		&i.WmsLocationsView.Barcode,
+		&i.WmsLocationsView.Type,
+		&i.WmsLocationsView.Level,
+		&i.WmsLocationsView.Path,
+		&i.WmsLocationsView.MaxWeight,
+		&i.WmsLocationsView.MaxVolume,
+		&i.WmsLocationsView.MaxPallets,
+		&i.WmsLocationsView.XCoordinate,
+		&i.WmsLocationsView.YCoordinate,
+		&i.WmsLocationsView.ZCoordinate,
+		&i.WmsLocationsView.IsPickable,
+		&i.WmsLocationsView.IsReceivable,
+		&i.WmsLocationsView.TemperatureControlled,
+		&i.WmsLocationsView.HazmatApproved,
+		&i.WmsLocationsView.IsActive,
+		&i.WmsLocationsView.CreatedAt,
+		&i.WmsLocationsView.UpdatedAt,
+		&i.WmsLocationsView.InventoryStock,
+		&i.WmsLocationsView.PutawayRules,
+		&i.WmsLocationsView.BinThresholds,
 		&i.WmsWarehouse.ID,
 		&i.WmsWarehouse.Name,
 		&i.WmsWarehouse.Address,
@@ -220,10 +226,10 @@ func (q *Queries) WmsInsertLocation(ctx context.Context, arg WmsInsertLocationPa
 
 const wmsPaginateLocation = `-- name: WmsPaginateLocation :many
 select
-  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at,
+  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at, locations.inventory_stock, locations.putaway_rules, locations.bin_thresholds,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where (warehouse.name ilike $1::text
   or locations.name ilike $1::text
@@ -240,8 +246,8 @@ type WmsPaginateLocationParams struct {
 }
 
 type WmsPaginateLocationRow struct {
-	WmsLocation  WmsLocation
-	WmsWarehouse WmsWarehouse
+	WmsLocationsView WmsLocationsView
+	WmsWarehouse     WmsWarehouse
 }
 
 func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocationParams) ([]WmsPaginateLocationRow, error) {
@@ -254,27 +260,30 @@ func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocati
 	for rows.Next() {
 		var i WmsPaginateLocationRow
 		if err := rows.Scan(
-			&i.WmsLocation.ID,
-			&i.WmsLocation.WarehouseID,
-			&i.WmsLocation.ParentLocationID,
-			&i.WmsLocation.Name,
-			&i.WmsLocation.Barcode,
-			&i.WmsLocation.Type,
-			&i.WmsLocation.Level,
-			&i.WmsLocation.Path,
-			&i.WmsLocation.MaxWeight,
-			&i.WmsLocation.MaxVolume,
-			&i.WmsLocation.MaxPallets,
-			&i.WmsLocation.XCoordinate,
-			&i.WmsLocation.YCoordinate,
-			&i.WmsLocation.ZCoordinate,
-			&i.WmsLocation.IsPickable,
-			&i.WmsLocation.IsReceivable,
-			&i.WmsLocation.TemperatureControlled,
-			&i.WmsLocation.HazmatApproved,
-			&i.WmsLocation.IsActive,
-			&i.WmsLocation.CreatedAt,
-			&i.WmsLocation.UpdatedAt,
+			&i.WmsLocationsView.ID,
+			&i.WmsLocationsView.WarehouseID,
+			&i.WmsLocationsView.ParentLocationID,
+			&i.WmsLocationsView.Name,
+			&i.WmsLocationsView.Barcode,
+			&i.WmsLocationsView.Type,
+			&i.WmsLocationsView.Level,
+			&i.WmsLocationsView.Path,
+			&i.WmsLocationsView.MaxWeight,
+			&i.WmsLocationsView.MaxVolume,
+			&i.WmsLocationsView.MaxPallets,
+			&i.WmsLocationsView.XCoordinate,
+			&i.WmsLocationsView.YCoordinate,
+			&i.WmsLocationsView.ZCoordinate,
+			&i.WmsLocationsView.IsPickable,
+			&i.WmsLocationsView.IsReceivable,
+			&i.WmsLocationsView.TemperatureControlled,
+			&i.WmsLocationsView.HazmatApproved,
+			&i.WmsLocationsView.IsActive,
+			&i.WmsLocationsView.CreatedAt,
+			&i.WmsLocationsView.UpdatedAt,
+			&i.WmsLocationsView.InventoryStock,
+			&i.WmsLocationsView.PutawayRules,
+			&i.WmsLocationsView.BinThresholds,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -302,10 +311,10 @@ func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocati
 
 const wmsRangeLocation = `-- name: WmsRangeLocation :many
 select
-  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at,
+  locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at, locations.inventory_stock, locations.putaway_rules, locations.bin_thresholds,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.created_at >= $1::date
@@ -324,8 +333,8 @@ type WmsRangeLocationParams struct {
 }
 
 type WmsRangeLocationRow struct {
-	WmsLocation  WmsLocation
-	WmsWarehouse WmsWarehouse
+	WmsLocationsView WmsLocationsView
+	WmsWarehouse     WmsWarehouse
 }
 
 func (q *Queries) WmsRangeLocation(ctx context.Context, arg WmsRangeLocationParams) ([]WmsRangeLocationRow, error) {
@@ -338,27 +347,30 @@ func (q *Queries) WmsRangeLocation(ctx context.Context, arg WmsRangeLocationPara
 	for rows.Next() {
 		var i WmsRangeLocationRow
 		if err := rows.Scan(
-			&i.WmsLocation.ID,
-			&i.WmsLocation.WarehouseID,
-			&i.WmsLocation.ParentLocationID,
-			&i.WmsLocation.Name,
-			&i.WmsLocation.Barcode,
-			&i.WmsLocation.Type,
-			&i.WmsLocation.Level,
-			&i.WmsLocation.Path,
-			&i.WmsLocation.MaxWeight,
-			&i.WmsLocation.MaxVolume,
-			&i.WmsLocation.MaxPallets,
-			&i.WmsLocation.XCoordinate,
-			&i.WmsLocation.YCoordinate,
-			&i.WmsLocation.ZCoordinate,
-			&i.WmsLocation.IsPickable,
-			&i.WmsLocation.IsReceivable,
-			&i.WmsLocation.TemperatureControlled,
-			&i.WmsLocation.HazmatApproved,
-			&i.WmsLocation.IsActive,
-			&i.WmsLocation.CreatedAt,
-			&i.WmsLocation.UpdatedAt,
+			&i.WmsLocationsView.ID,
+			&i.WmsLocationsView.WarehouseID,
+			&i.WmsLocationsView.ParentLocationID,
+			&i.WmsLocationsView.Name,
+			&i.WmsLocationsView.Barcode,
+			&i.WmsLocationsView.Type,
+			&i.WmsLocationsView.Level,
+			&i.WmsLocationsView.Path,
+			&i.WmsLocationsView.MaxWeight,
+			&i.WmsLocationsView.MaxVolume,
+			&i.WmsLocationsView.MaxPallets,
+			&i.WmsLocationsView.XCoordinate,
+			&i.WmsLocationsView.YCoordinate,
+			&i.WmsLocationsView.ZCoordinate,
+			&i.WmsLocationsView.IsPickable,
+			&i.WmsLocationsView.IsReceivable,
+			&i.WmsLocationsView.TemperatureControlled,
+			&i.WmsLocationsView.HazmatApproved,
+			&i.WmsLocationsView.IsActive,
+			&i.WmsLocationsView.CreatedAt,
+			&i.WmsLocationsView.UpdatedAt,
+			&i.WmsLocationsView.InventoryStock,
+			&i.WmsLocationsView.PutawayRules,
+			&i.WmsLocationsView.BinThresholds,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,

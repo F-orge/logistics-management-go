@@ -3,7 +3,7 @@ select
   sqlc.embed(invoices),
   sqlc.embed(opportunity)
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where (opportunity.name ilike sqlc.narg(search)::text
   or invoices.status::text ilike sqlc.narg(search)::text
@@ -15,7 +15,7 @@ select
   sqlc.embed(invoices),
   sqlc.embed(opportunity)
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.id = sqlc.arg(id)::uuid;
@@ -25,7 +25,7 @@ select
   sqlc.embed(invoices),
   sqlc.embed(opportunity)
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.id = any (@ids::uuid[]);
@@ -35,7 +35,7 @@ select
   sqlc.embed(invoices),
   sqlc.embed(opportunity)
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.created_at >= @dateFrom::date

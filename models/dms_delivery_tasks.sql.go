@@ -13,18 +13,18 @@ import (
 
 const dmsAnyDeliveryTask = `-- name: DmsAnyDeliveryTask :many
 select
-  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at,
+  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at, delivery_tasks.task_events, delivery_tasks.proof_of_deliveries, delivery_tasks.customer_tracking_links,
   delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.id = any ($1::uuid[])
 `
 
 type DmsAnyDeliveryTaskRow struct {
-	DmsDeliveryTask  DmsDeliveryTask
-	DmsDeliveryRoute DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView
+	DmsDeliveryRoute     DmsDeliveryRoute
 }
 
 func (q *Queries) DmsAnyDeliveryTask(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDeliveryTaskRow, error) {
@@ -37,22 +37,25 @@ func (q *Queries) DmsAnyDeliveryTask(ctx context.Context, ids []pgtype.UUID) ([]
 	for rows.Next() {
 		var i DmsAnyDeliveryTaskRow
 		if err := rows.Scan(
-			&i.DmsDeliveryTask.ID,
-			&i.DmsDeliveryTask.PackageID,
-			&i.DmsDeliveryTask.DeliveryRouteID,
-			&i.DmsDeliveryTask.RouteSequence,
-			&i.DmsDeliveryTask.DeliveryAddress,
-			&i.DmsDeliveryTask.RecipientName,
-			&i.DmsDeliveryTask.RecipientPhone,
-			&i.DmsDeliveryTask.DeliveryInstructions,
-			&i.DmsDeliveryTask.EstimatedArrivalTime,
-			&i.DmsDeliveryTask.ActualArrivalTime,
-			&i.DmsDeliveryTask.DeliveryTime,
-			&i.DmsDeliveryTask.Status,
-			&i.DmsDeliveryTask.FailureReason,
-			&i.DmsDeliveryTask.AttemptCount,
-			&i.DmsDeliveryTask.CreatedAt,
-			&i.DmsDeliveryTask.UpdatedAt,
+			&i.DmsDeliveryTasksView.ID,
+			&i.DmsDeliveryTasksView.PackageID,
+			&i.DmsDeliveryTasksView.DeliveryRouteID,
+			&i.DmsDeliveryTasksView.RouteSequence,
+			&i.DmsDeliveryTasksView.DeliveryAddress,
+			&i.DmsDeliveryTasksView.RecipientName,
+			&i.DmsDeliveryTasksView.RecipientPhone,
+			&i.DmsDeliveryTasksView.DeliveryInstructions,
+			&i.DmsDeliveryTasksView.EstimatedArrivalTime,
+			&i.DmsDeliveryTasksView.ActualArrivalTime,
+			&i.DmsDeliveryTasksView.DeliveryTime,
+			&i.DmsDeliveryTasksView.Status,
+			&i.DmsDeliveryTasksView.FailureReason,
+			&i.DmsDeliveryTasksView.AttemptCount,
+			&i.DmsDeliveryTasksView.CreatedAt,
+			&i.DmsDeliveryTasksView.UpdatedAt,
+			&i.DmsDeliveryTasksView.TaskEvents,
+			&i.DmsDeliveryTasksView.ProofOfDeliveries,
+			&i.DmsDeliveryTasksView.CustomerTrackingLinks,
 			&i.DmsDeliveryRoute.ID,
 			&i.DmsDeliveryRoute.DriverID,
 			&i.DmsDeliveryRoute.RouteDate,
@@ -78,40 +81,43 @@ func (q *Queries) DmsAnyDeliveryTask(ctx context.Context, ids []pgtype.UUID) ([]
 
 const dmsFindDeliveryTask = `-- name: DmsFindDeliveryTask :one
 select
-  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at,
+  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at, delivery_tasks.task_events, delivery_tasks.proof_of_deliveries, delivery_tasks.customer_tracking_links,
   delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.id = $1::uuid
 `
 
 type DmsFindDeliveryTaskRow struct {
-	DmsDeliveryTask  DmsDeliveryTask
-	DmsDeliveryRoute DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView
+	DmsDeliveryRoute     DmsDeliveryRoute
 }
 
 func (q *Queries) DmsFindDeliveryTask(ctx context.Context, id pgtype.UUID) (DmsFindDeliveryTaskRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindDeliveryTask, id)
 	var i DmsFindDeliveryTaskRow
 	err := row.Scan(
-		&i.DmsDeliveryTask.ID,
-		&i.DmsDeliveryTask.PackageID,
-		&i.DmsDeliveryTask.DeliveryRouteID,
-		&i.DmsDeliveryTask.RouteSequence,
-		&i.DmsDeliveryTask.DeliveryAddress,
-		&i.DmsDeliveryTask.RecipientName,
-		&i.DmsDeliveryTask.RecipientPhone,
-		&i.DmsDeliveryTask.DeliveryInstructions,
-		&i.DmsDeliveryTask.EstimatedArrivalTime,
-		&i.DmsDeliveryTask.ActualArrivalTime,
-		&i.DmsDeliveryTask.DeliveryTime,
-		&i.DmsDeliveryTask.Status,
-		&i.DmsDeliveryTask.FailureReason,
-		&i.DmsDeliveryTask.AttemptCount,
-		&i.DmsDeliveryTask.CreatedAt,
-		&i.DmsDeliveryTask.UpdatedAt,
+		&i.DmsDeliveryTasksView.ID,
+		&i.DmsDeliveryTasksView.PackageID,
+		&i.DmsDeliveryTasksView.DeliveryRouteID,
+		&i.DmsDeliveryTasksView.RouteSequence,
+		&i.DmsDeliveryTasksView.DeliveryAddress,
+		&i.DmsDeliveryTasksView.RecipientName,
+		&i.DmsDeliveryTasksView.RecipientPhone,
+		&i.DmsDeliveryTasksView.DeliveryInstructions,
+		&i.DmsDeliveryTasksView.EstimatedArrivalTime,
+		&i.DmsDeliveryTasksView.ActualArrivalTime,
+		&i.DmsDeliveryTasksView.DeliveryTime,
+		&i.DmsDeliveryTasksView.Status,
+		&i.DmsDeliveryTasksView.FailureReason,
+		&i.DmsDeliveryTasksView.AttemptCount,
+		&i.DmsDeliveryTasksView.CreatedAt,
+		&i.DmsDeliveryTasksView.UpdatedAt,
+		&i.DmsDeliveryTasksView.TaskEvents,
+		&i.DmsDeliveryTasksView.ProofOfDeliveries,
+		&i.DmsDeliveryTasksView.CustomerTrackingLinks,
 		&i.DmsDeliveryRoute.ID,
 		&i.DmsDeliveryRoute.DriverID,
 		&i.DmsDeliveryRoute.RouteDate,
@@ -191,11 +197,11 @@ func (q *Queries) DmsInsertDeliveryTask(ctx context.Context, arg DmsInsertDelive
 
 const dmsPaginateDeliveryTask = `-- name: DmsPaginateDeliveryTask :many
 select
-  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at,
-  delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at
+  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at, delivery_tasks.task_events, delivery_tasks.proof_of_deliveries, delivery_tasks.customer_tracking_links,
+  delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at, delivery_route.delivery_tasks
 from
-  "dms"."delivery_tasks" as delivery_tasks
-  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+  "dms"."delivery_tasks_view" as delivery_tasks
+  inner join "dms"."delivery_routes_view" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
   -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
 where (delivery_tasks.recipient_name ilike $1::text
   or delivery_tasks.delivery_address ilike $1::text
@@ -212,8 +218,8 @@ type DmsPaginateDeliveryTaskParams struct {
 }
 
 type DmsPaginateDeliveryTaskRow struct {
-	DmsDeliveryTask  DmsDeliveryTask
-	DmsDeliveryRoute DmsDeliveryRoute
+	DmsDeliveryTasksView  DmsDeliveryTasksView
+	DmsDeliveryRoutesView DmsDeliveryRoutesView
 }
 
 func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDeliveryTaskParams) ([]DmsPaginateDeliveryTaskRow, error) {
@@ -226,34 +232,38 @@ func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDe
 	for rows.Next() {
 		var i DmsPaginateDeliveryTaskRow
 		if err := rows.Scan(
-			&i.DmsDeliveryTask.ID,
-			&i.DmsDeliveryTask.PackageID,
-			&i.DmsDeliveryTask.DeliveryRouteID,
-			&i.DmsDeliveryTask.RouteSequence,
-			&i.DmsDeliveryTask.DeliveryAddress,
-			&i.DmsDeliveryTask.RecipientName,
-			&i.DmsDeliveryTask.RecipientPhone,
-			&i.DmsDeliveryTask.DeliveryInstructions,
-			&i.DmsDeliveryTask.EstimatedArrivalTime,
-			&i.DmsDeliveryTask.ActualArrivalTime,
-			&i.DmsDeliveryTask.DeliveryTime,
-			&i.DmsDeliveryTask.Status,
-			&i.DmsDeliveryTask.FailureReason,
-			&i.DmsDeliveryTask.AttemptCount,
-			&i.DmsDeliveryTask.CreatedAt,
-			&i.DmsDeliveryTask.UpdatedAt,
-			&i.DmsDeliveryRoute.ID,
-			&i.DmsDeliveryRoute.DriverID,
-			&i.DmsDeliveryRoute.RouteDate,
-			&i.DmsDeliveryRoute.Status,
-			&i.DmsDeliveryRoute.OptimizedRouteData,
-			&i.DmsDeliveryRoute.TotalDistanceKm,
-			&i.DmsDeliveryRoute.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoute.ActualDurationMinutes,
-			&i.DmsDeliveryRoute.StartedAt,
-			&i.DmsDeliveryRoute.CompletedAt,
-			&i.DmsDeliveryRoute.CreatedAt,
-			&i.DmsDeliveryRoute.UpdatedAt,
+			&i.DmsDeliveryTasksView.ID,
+			&i.DmsDeliveryTasksView.PackageID,
+			&i.DmsDeliveryTasksView.DeliveryRouteID,
+			&i.DmsDeliveryTasksView.RouteSequence,
+			&i.DmsDeliveryTasksView.DeliveryAddress,
+			&i.DmsDeliveryTasksView.RecipientName,
+			&i.DmsDeliveryTasksView.RecipientPhone,
+			&i.DmsDeliveryTasksView.DeliveryInstructions,
+			&i.DmsDeliveryTasksView.EstimatedArrivalTime,
+			&i.DmsDeliveryTasksView.ActualArrivalTime,
+			&i.DmsDeliveryTasksView.DeliveryTime,
+			&i.DmsDeliveryTasksView.Status,
+			&i.DmsDeliveryTasksView.FailureReason,
+			&i.DmsDeliveryTasksView.AttemptCount,
+			&i.DmsDeliveryTasksView.CreatedAt,
+			&i.DmsDeliveryTasksView.UpdatedAt,
+			&i.DmsDeliveryTasksView.TaskEvents,
+			&i.DmsDeliveryTasksView.ProofOfDeliveries,
+			&i.DmsDeliveryTasksView.CustomerTrackingLinks,
+			&i.DmsDeliveryRoutesView.ID,
+			&i.DmsDeliveryRoutesView.DriverID,
+			&i.DmsDeliveryRoutesView.RouteDate,
+			&i.DmsDeliveryRoutesView.Status,
+			&i.DmsDeliveryRoutesView.OptimizedRouteData,
+			&i.DmsDeliveryRoutesView.TotalDistanceKm,
+			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
+			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
+			&i.DmsDeliveryRoutesView.StartedAt,
+			&i.DmsDeliveryRoutesView.CompletedAt,
+			&i.DmsDeliveryRoutesView.CreatedAt,
+			&i.DmsDeliveryRoutesView.UpdatedAt,
+			&i.DmsDeliveryRoutesView.DeliveryTasks,
 		); err != nil {
 			return nil, err
 		}
@@ -267,10 +277,10 @@ func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDe
 
 const dmsRangeDeliveryTask = `-- name: DmsRangeDeliveryTask :many
 select
-  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at,
+  delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at, delivery_tasks.task_events, delivery_tasks.proof_of_deliveries, delivery_tasks.customer_tracking_links,
   delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.created_at >= $1::date
@@ -289,8 +299,8 @@ type DmsRangeDeliveryTaskParams struct {
 }
 
 type DmsRangeDeliveryTaskRow struct {
-	DmsDeliveryTask  DmsDeliveryTask
-	DmsDeliveryRoute DmsDeliveryRoute
+	DmsDeliveryTasksView DmsDeliveryTasksView
+	DmsDeliveryRoute     DmsDeliveryRoute
 }
 
 func (q *Queries) DmsRangeDeliveryTask(ctx context.Context, arg DmsRangeDeliveryTaskParams) ([]DmsRangeDeliveryTaskRow, error) {
@@ -303,22 +313,25 @@ func (q *Queries) DmsRangeDeliveryTask(ctx context.Context, arg DmsRangeDelivery
 	for rows.Next() {
 		var i DmsRangeDeliveryTaskRow
 		if err := rows.Scan(
-			&i.DmsDeliveryTask.ID,
-			&i.DmsDeliveryTask.PackageID,
-			&i.DmsDeliveryTask.DeliveryRouteID,
-			&i.DmsDeliveryTask.RouteSequence,
-			&i.DmsDeliveryTask.DeliveryAddress,
-			&i.DmsDeliveryTask.RecipientName,
-			&i.DmsDeliveryTask.RecipientPhone,
-			&i.DmsDeliveryTask.DeliveryInstructions,
-			&i.DmsDeliveryTask.EstimatedArrivalTime,
-			&i.DmsDeliveryTask.ActualArrivalTime,
-			&i.DmsDeliveryTask.DeliveryTime,
-			&i.DmsDeliveryTask.Status,
-			&i.DmsDeliveryTask.FailureReason,
-			&i.DmsDeliveryTask.AttemptCount,
-			&i.DmsDeliveryTask.CreatedAt,
-			&i.DmsDeliveryTask.UpdatedAt,
+			&i.DmsDeliveryTasksView.ID,
+			&i.DmsDeliveryTasksView.PackageID,
+			&i.DmsDeliveryTasksView.DeliveryRouteID,
+			&i.DmsDeliveryTasksView.RouteSequence,
+			&i.DmsDeliveryTasksView.DeliveryAddress,
+			&i.DmsDeliveryTasksView.RecipientName,
+			&i.DmsDeliveryTasksView.RecipientPhone,
+			&i.DmsDeliveryTasksView.DeliveryInstructions,
+			&i.DmsDeliveryTasksView.EstimatedArrivalTime,
+			&i.DmsDeliveryTasksView.ActualArrivalTime,
+			&i.DmsDeliveryTasksView.DeliveryTime,
+			&i.DmsDeliveryTasksView.Status,
+			&i.DmsDeliveryTasksView.FailureReason,
+			&i.DmsDeliveryTasksView.AttemptCount,
+			&i.DmsDeliveryTasksView.CreatedAt,
+			&i.DmsDeliveryTasksView.UpdatedAt,
+			&i.DmsDeliveryTasksView.TaskEvents,
+			&i.DmsDeliveryTasksView.ProofOfDeliveries,
+			&i.DmsDeliveryTasksView.CustomerTrackingLinks,
 			&i.DmsDeliveryRoute.ID,
 			&i.DmsDeliveryRoute.DriverID,
 			&i.DmsDeliveryRoute.RouteDate,

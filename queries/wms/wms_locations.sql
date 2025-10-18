@@ -3,7 +3,7 @@ select
   sqlc.embed(locations),
   sqlc.embed(warehouse)
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where (warehouse.name ilike sqlc.narg(search)::text
   or locations.name ilike sqlc.narg(search)::text
@@ -17,7 +17,7 @@ select
   sqlc.embed(locations),
   sqlc.embed(warehouse)
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.id = sqlc.arg(id)::uuid;
@@ -27,7 +27,7 @@ select
   sqlc.embed(locations),
   sqlc.embed(warehouse)
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.id = any (@ids::uuid[]);
@@ -37,7 +37,7 @@ select
   sqlc.embed(locations),
   sqlc.embed(warehouse)
 from
-  "wms"."locations" as locations
+  "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
 where
   locations.created_at >= @dateFrom::date

@@ -3,7 +3,7 @@ select
   sqlc.embed(rate_cards),
   sqlc.embed(created_by_user)
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where (rate_cards.name ilike sqlc.narg(search)::text
   or rate_cards.service_type::text ilike sqlc.narg(search)::text
@@ -16,7 +16,7 @@ select
   sqlc.embed(rate_cards),
   sqlc.embed(created_by_user)
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.id = sqlc.arg(id)::uuid;
@@ -26,7 +26,7 @@ select
   sqlc.embed(rate_cards),
   sqlc.embed(created_by_user)
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.id = any (@ids::uuid[]);
@@ -36,7 +36,7 @@ select
   sqlc.embed(rate_cards),
   sqlc.embed(created_by_user)
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.created_at >= @dateFrom::date

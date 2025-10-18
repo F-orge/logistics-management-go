@@ -2800,6 +2800,21 @@ type BillingClientAccount struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type BillingClientAccountsView struct {
+	ID                  pgtype.UUID
+	ClientID            pgtype.UUID
+	CreditLimit         pgtype.Numeric
+	AvailableCredit     pgtype.Numeric
+	WalletBalance       pgtype.Numeric
+	Currency            pgtype.Text
+	PaymentTermsDays    pgtype.Int4
+	IsCreditApproved    pgtype.Bool
+	LastPaymentDate     pgtype.Date
+	CreatedAt           pgtype.Timestamp
+	UpdatedAt           pgtype.Timestamp
+	AccountTransactions []byte
+}
+
 // Credits issued to clients for adjustments, refunds, or dispute resolutions.
 type BillingCreditNote struct {
 	// Primary key
@@ -2964,6 +2979,52 @@ type BillingInvoiceLineItem struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type BillingInvoiceLineItemsView struct {
+	ID               pgtype.UUID
+	InvoiceID        pgtype.UUID
+	SourceRecordID   pgtype.UUID
+	SourceRecordType pgtype.Text
+	Description      string
+	Quantity         pgtype.Numeric
+	UnitPrice        pgtype.Numeric
+	TotalPrice       pgtype.Numeric
+	TaxRate          pgtype.Numeric
+	TaxAmount        pgtype.Numeric
+	DiscountRate     pgtype.Numeric
+	DiscountAmount   pgtype.Numeric
+	LineTotal        pgtype.Numeric
+	CreatedAt        pgtype.Timestamp
+	UpdatedAt        pgtype.Timestamp
+	Disputes         []byte
+}
+
+type BillingInvoicesView struct {
+	ID                pgtype.UUID
+	ClientID          pgtype.UUID
+	QuoteID           pgtype.UUID
+	InvoiceNumber     string
+	Status            NullBillingInvoiceStatusEnum
+	IssueDate         pgtype.Date
+	DueDate           pgtype.Date
+	TotalAmount       pgtype.Numeric
+	AmountPaid        pgtype.Numeric
+	AmountOutstanding pgtype.Numeric
+	Currency          pgtype.Text
+	TaxAmount         pgtype.Numeric
+	DiscountAmount    pgtype.Numeric
+	Subtotal          pgtype.Numeric
+	PaymentTerms      pgtype.Text
+	Notes             pgtype.Text
+	SentAt            pgtype.Timestamp
+	PaidAt            pgtype.Timestamp
+	CreatedByUserID   pgtype.Text
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	InvoiceLineItems  []byte
+	Payments          []byte
+	CreditNotes       []byte
+}
+
 // Records of payments received against invoices.
 type BillingPayment struct {
 	// Primary key
@@ -3042,6 +3103,28 @@ type BillingQuote struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type BillingQuotesView struct {
+	ID                 pgtype.UUID
+	ClientID           pgtype.UUID
+	OriginDetails      string
+	DestinationDetails string
+	Weight             pgtype.Numeric
+	Length             pgtype.Numeric
+	Width              pgtype.Numeric
+	Height             pgtype.Numeric
+	Volume             pgtype.Numeric
+	QuotedPrice        pgtype.Numeric
+	ServiceLevel       pgtype.Text
+	ExpiresAt          pgtype.Timestamp
+	Status             NullBillingQuoteStatusEnum
+	QuoteNumber        pgtype.Text
+	Notes              pgtype.Text
+	CreatedByUserID    pgtype.Text
+	CreatedAt          pgtype.Timestamp
+	UpdatedAt          pgtype.Timestamp
+	Invoices           []byte
+}
+
 // Defines pricing structures for different services offered by the logistics company.
 type BillingRateCard struct {
 	// Primary key
@@ -3064,6 +3147,20 @@ type BillingRateCard struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the rate card was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type BillingRateCardsView struct {
+	ID              pgtype.UUID
+	Name            string
+	ServiceType     BillingServiceTypeEnum
+	IsActive        pgtype.Bool
+	ValidFrom       pgtype.Date
+	ValidTo         pgtype.Date
+	Description     pgtype.Text
+	CreatedByUserID pgtype.Text
+	CreatedAt       pgtype.Timestamp
+	UpdatedAt       pgtype.Timestamp
+	RateRules       []byte
 }
 
 // Specific pricing rules within a rate card that determine costs based on various conditions.
@@ -3304,6 +3401,21 @@ type CrmInvoiceItem struct {
 	UpdatedAt pgtype.Timestamptz
 }
 
+type CrmInvoicesView struct {
+	ID            pgtype.UUID
+	OpportunityID pgtype.UUID
+	Status        NullCrmInvoiceStatus
+	Total         pgtype.Numeric
+	IssueDate     pgtype.Date
+	DueDate       pgtype.Date
+	SentAt        pgtype.Timestamptz
+	PaidAt        pgtype.Timestamptz
+	PaymentMethod NullCrmPaymentMethod
+	CreatedAt     pgtype.Timestamptz
+	UpdatedAt     pgtype.Timestamptz
+	Items         []byte
+}
+
 // Captures potential customers who have shown interest but are not yet qualified.
 type CrmLead struct {
 	// Primary key
@@ -3352,6 +3464,24 @@ type CrmNotification struct {
 	UpdatedAt pgtype.Timestamptz
 	// URL or path for further action/reference.
 	Link pgtype.Text
+}
+
+type CrmOpportunitiesView struct {
+	ID                pgtype.UUID
+	Name              string
+	Stage             NullCrmOpportunityStage
+	DealValue         pgtype.Numeric
+	Probability       pgtype.Float4
+	ExpectedCloseDate pgtype.Date
+	LostReason        pgtype.Text
+	Source            NullCrmOpportunitySource
+	OwnerID           string
+	ContactID         pgtype.UUID
+	CompanyID         pgtype.UUID
+	CampaignID        pgtype.UUID
+	CreatedAt         pgtype.Timestamptz
+	UpdatedAt         pgtype.Timestamptz
+	Products          []byte
 }
 
 // Represents potential sales deals, tracked through various stages of the sales pipeline.
@@ -3467,6 +3597,22 @@ type DmsDeliveryRoute struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type DmsDeliveryRoutesView struct {
+	ID                       pgtype.UUID
+	DriverID                 pgtype.UUID
+	RouteDate                pgtype.Date
+	Status                   NullDmsDeliveryRouteStatusEnum
+	OptimizedRouteData       pgtype.Text
+	TotalDistanceKm          pgtype.Float4
+	EstimatedDurationMinutes pgtype.Int4
+	ActualDurationMinutes    pgtype.Int4
+	StartedAt                pgtype.Timestamp
+	CompletedAt              pgtype.Timestamp
+	CreatedAt                pgtype.Timestamp
+	UpdatedAt                pgtype.Timestamp
+	DeliveryTasks            []byte
+}
+
 // Individual delivery tasks within a route, each corresponding to a specific package that needs to be delivered.
 type DmsDeliveryTask struct {
 	// Primary key
@@ -3501,6 +3647,28 @@ type DmsDeliveryTask struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the delivery task was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type DmsDeliveryTasksView struct {
+	ID                    pgtype.UUID
+	PackageID             pgtype.UUID
+	DeliveryRouteID       pgtype.UUID
+	RouteSequence         int32
+	DeliveryAddress       string
+	RecipientName         pgtype.Text
+	RecipientPhone        pgtype.Text
+	DeliveryInstructions  pgtype.Text
+	EstimatedArrivalTime  pgtype.Timestamp
+	ActualArrivalTime     pgtype.Timestamp
+	DeliveryTime          pgtype.Timestamp
+	Status                NullDmsDeliveryTaskStatusEnum
+	FailureReason         NullDmsDeliveryFailureReasonEnum
+	AttemptCount          pgtype.Int4
+	CreatedAt             pgtype.Timestamp
+	UpdatedAt             pgtype.Timestamp
+	TaskEvents            []byte
+	ProofOfDeliveries     []byte
+	CustomerTrackingLinks []byte
 }
 
 // Real-time location tracking for drivers, enabling accurate ETAs and route monitoring.
@@ -3634,6 +3802,21 @@ type TmsCarrierRate struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type TmsCarriersView struct {
+	ID              pgtype.UUID
+	Name            string
+	ContactDetails  pgtype.Text
+	ServicesOffered pgtype.Text
+	CreatedAt       pgtype.Timestamp
+	UpdatedAt       pgtype.Timestamp
+	ContactPerson   pgtype.Text
+	ContactEmail    pgtype.Text
+	ContactPhone    pgtype.Text
+	CarrierRates    []byte
+	ShipmentLegs    []byte
+	PartnerInvoices []byte
+}
+
 // Represents drivers who operate vehicles within the transportation fleet.
 type TmsDriver struct {
 	// Primary key
@@ -3669,6 +3852,20 @@ type TmsDriverSchedule struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the schedule was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type TmsDriversView struct {
+	ID                pgtype.UUID
+	UserID            string
+	LicenseNumber     string
+	LicenseExpiryDate pgtype.Date
+	Status            NullTmsDriverStatusEnum
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	ContactPhone      pgtype.Text
+	DriverSchedules   []byte
+	Expenses          []byte
+	Trips             []byte
 }
 
 // Tracks transportation-related expenses incurred during trips.
@@ -3729,6 +3926,16 @@ type TmsGeofenceEvent struct {
 	Timestamp pgtype.Timestamp
 }
 
+type TmsGeofencesView struct {
+	ID             pgtype.UUID
+	Name           string
+	CreatedAt      pgtype.Timestamp
+	UpdatedAt      pgtype.Timestamp
+	Longitude      pgtype.Float4
+	Latitude       pgtype.Float4
+	GeofenceEvents []byte
+}
+
 // Real-time location data from vehicles for tracking and monitoring purposes.
 type TmsGpsPing struct {
 	// Primary key
@@ -3773,6 +3980,18 @@ type TmsPartnerInvoiceItem struct {
 	ShipmentLegID pgtype.UUID
 	// Amount charged for this specific shipment leg.
 	Amount pgtype.Numeric
+}
+
+type TmsPartnerInvoicesView struct {
+	ID                  pgtype.UUID
+	CarrierID           pgtype.UUID
+	InvoiceNumber       string
+	InvoiceDate         pgtype.Date
+	TotalAmount         pgtype.Numeric
+	Status              NullTmsPartnerInvoiceStatusEnum
+	CreatedAt           pgtype.Timestamp
+	UpdatedAt           pgtype.Timestamp
+	PartnerInvoiceItems []byte
 }
 
 // Evidence of successful deliveries or pickups at trip stops.
@@ -3853,6 +4072,20 @@ type TmsShipmentLegEvent struct {
 	EventTimestamp pgtype.Timestamp
 }
 
+type TmsShipmentLegsView struct {
+	ID                pgtype.UUID
+	ShipmentID        pgtype.UUID
+	LegSequence       int32
+	StartLocation     pgtype.Text
+	EndLocation       pgtype.Text
+	CarrierID         pgtype.UUID
+	InternalTripID    pgtype.UUID
+	Status            NullTmsShipmentLegStatusEnum
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	ShipmentLegEvents []byte
+}
+
 // Represents planned or active transportation journeys with assigned drivers and vehicles.
 type TmsTrip struct {
 	// Primary key
@@ -3901,6 +4134,38 @@ type TmsTripStop struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type TmsTripStopsView struct {
+	ID                     pgtype.UUID
+	TripID                 pgtype.UUID
+	ShipmentID             pgtype.UUID
+	Sequence               int32
+	Address                pgtype.Text
+	Status                 NullTmsTripStopStatusEnum
+	EstimatedArrivalTime   pgtype.Timestamp
+	ActualArrivalTime      pgtype.Timestamp
+	EstimatedDepartureTime pgtype.Timestamp
+	ActualDepartureTime    pgtype.Timestamp
+	CreatedAt              pgtype.Timestamp
+	UpdatedAt              pgtype.Timestamp
+	ProofOfDeliveries      []byte
+}
+
+type TmsTripsView struct {
+	ID            pgtype.UUID
+	DriverID      pgtype.UUID
+	VehicleID     pgtype.UUID
+	Status        NullTmsTripStatusEnum
+	CreatedAt     pgtype.Timestamp
+	UpdatedAt     pgtype.Timestamp
+	EndLocation   pgtype.Text
+	EndTime       pgtype.Timestamptz
+	StartLocation pgtype.Text
+	StartTime     pgtype.Timestamptz
+	TripStops     []byte
+	Routes        []byte
+	Expenses      []byte
+}
+
 // Manages the fleet of vehicles available for transportation operations.
 type TmsVehicle struct {
 	// Primary key
@@ -3944,6 +4209,25 @@ type TmsVehicleMaintenance struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the maintenance record was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type TmsVehiclesView struct {
+	ID                  pgtype.UUID
+	RegistrationNumber  string
+	Model               pgtype.Text
+	CapacityVolume      pgtype.Float4
+	CapacityWeight      pgtype.Float4
+	Status              NullTmsVehicleStatusEnum
+	CreatedAt           pgtype.Timestamp
+	UpdatedAt           pgtype.Timestamp
+	Make                pgtype.Text
+	Year                pgtype.Int4
+	Vin                 pgtype.Text
+	CurrentMileage      pgtype.Int4
+	LastMaintenanceDate pgtype.Date
+	VehicleMaintenance  []byte
+	GpsPings            []byte
+	GeofenceEvents      []byte
 }
 
 type User struct {
@@ -4033,6 +4317,18 @@ type WmsInboundShipmentItem struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the inbound shipment item was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsInboundShipmentsView struct {
+	ID                   pgtype.UUID
+	ClientID             pgtype.UUID
+	WarehouseID          pgtype.UUID
+	Status               NullWmsInboundShipmentStatusEnum
+	ExpectedArrivalDate  pgtype.Date
+	ActualArrivalDate    pgtype.Date
+	CreatedAt            pgtype.Timestamp
+	UpdatedAt            pgtype.Timestamp
+	InboundShipmentItems []byte
 }
 
 // Logs any manual changes made to inventory levels to maintain accuracy.
@@ -4147,6 +4443,33 @@ type WmsLocation struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type WmsLocationsView struct {
+	ID                    pgtype.UUID
+	WarehouseID           pgtype.UUID
+	ParentLocationID      pgtype.UUID
+	Name                  string
+	Barcode               pgtype.Text
+	Type                  WmsLocationTypeEnum
+	Level                 pgtype.Int4
+	Path                  pgtype.Text
+	MaxWeight             pgtype.Float4
+	MaxVolume             pgtype.Float4
+	MaxPallets            pgtype.Int4
+	XCoordinate           pgtype.Float4
+	YCoordinate           pgtype.Float4
+	ZCoordinate           pgtype.Float4
+	IsPickable            pgtype.Bool
+	IsReceivable          pgtype.Bool
+	TemperatureControlled pgtype.Bool
+	HazmatApproved        pgtype.Bool
+	IsActive              pgtype.Bool
+	CreatedAt             pgtype.Timestamp
+	UpdatedAt             pgtype.Timestamp
+	InventoryStock        []byte
+	PutawayRules          []byte
+	BinThresholds         []byte
+}
+
 // Represents the physical shipment created to fulfill a sales order.
 type WmsOutboundShipment struct {
 	// Primary key
@@ -4185,6 +4508,18 @@ type WmsOutboundShipmentItem struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the outbound shipment item was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsOutboundShipmentsView struct {
+	ID                    pgtype.UUID
+	SalesOrderID          pgtype.UUID
+	WarehouseID           pgtype.UUID
+	Status                NullWmsOutboundShipmentStatusEnum
+	TrackingNumber        pgtype.Text
+	Carrier               pgtype.Text
+	CreatedAt             pgtype.Timestamp
+	UpdatedAt             pgtype.Timestamp
+	OutboundShipmentItems []byte
 }
 
 // Represents physical packages created during the packing process for sales orders.
@@ -4263,6 +4598,32 @@ type WmsPackageItem struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type WmsPackagesView struct {
+	ID                pgtype.UUID
+	SalesOrderID      pgtype.UUID
+	PackageNumber     string
+	WarehouseID       pgtype.UUID
+	PackageType       pgtype.Text
+	Weight            pgtype.Float4
+	Length            pgtype.Float4
+	Width             pgtype.Float4
+	Height            pgtype.Float4
+	Volume            pgtype.Float4
+	TrackingNumber    pgtype.Text
+	Carrier           pgtype.Text
+	ServiceLevel      pgtype.Text
+	PackedByUserID    pgtype.Text
+	PackedAt          pgtype.Timestamp
+	ShippedAt         pgtype.Timestamp
+	IsFragile         pgtype.Bool
+	IsHazmat          pgtype.Bool
+	RequiresSignature pgtype.Bool
+	InsuranceValue    pgtype.Numeric
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	PackageItems      []byte
+}
+
 // Groups multiple sales orders together for efficient batch picking operations.
 type WmsPickBatch struct {
 	// Primary key
@@ -4321,6 +4682,27 @@ type WmsPickBatchItem struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type WmsPickBatchesView struct {
+	ID                pgtype.UUID
+	BatchNumber       string
+	WarehouseID       pgtype.UUID
+	Status            NullWmsPickBatchStatusEnum
+	Strategy          WmsPickStrategyEnum
+	Priority          pgtype.Int4
+	AssignedUserID    pgtype.Text
+	WaveID            pgtype.Text
+	ZoneRestrictions  []string
+	EstimatedDuration pgtype.Int4
+	ActualDuration    pgtype.Int4
+	TotalItems        pgtype.Int4
+	CompletedItems    pgtype.Int4
+	StartedAt         pgtype.Timestamp
+	CompletedAt       pgtype.Timestamp
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	PickBatchItems    []byte
+}
+
 // Represents the master record for each unique product (SKU) managed in the inventory.
 type WmsProduct struct {
 	// Primary key
@@ -4355,6 +4737,38 @@ type WmsProduct struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the product was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsProductsView struct {
+	ID                    pgtype.UUID
+	Name                  string
+	Sku                   string
+	Barcode               pgtype.Text
+	Description           pgtype.Text
+	CostPrice             pgtype.Numeric
+	Length                pgtype.Float4
+	Width                 pgtype.Float4
+	Height                pgtype.Float4
+	Volume                pgtype.Float4
+	Weight                pgtype.Float4
+	Status                NullWmsProductStatusEnum
+	SupplierID            pgtype.UUID
+	ClientID              pgtype.UUID
+	CreatedAt             pgtype.Timestamp
+	UpdatedAt             pgtype.Timestamp
+	InventoryBatches      []byte
+	InventoryAdjustments  []byte
+	ReorderPoints         []byte
+	InboundShipmentItems  []byte
+	StockTransfers        []byte
+	SalesOrderItems       []byte
+	OutboundShipmentItems []byte
+	ReturnItems           []byte
+	InventoryStock        []byte
+	PutawayRules          []byte
+	BinThresholds         []byte
+	TaskItems             []byte
+	PackageItems          []byte
 }
 
 // Defines automated rules for determining where incoming inventory should be stored.
@@ -4451,6 +4865,18 @@ type WmsReturnItem struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type WmsReturnsView struct {
+	ID           pgtype.UUID
+	ReturnNumber string
+	SalesOrderID pgtype.UUID
+	ClientID     pgtype.UUID
+	Status       NullWmsReturnStatusEnum
+	Reason       pgtype.Text
+	CreatedAt    pgtype.Timestamp
+	UpdatedAt    pgtype.Timestamp
+	ReturnItems  []byte
+}
+
 // Represents a customer's order, often originating from the CRM, which needs to be fulfilled from inventory.
 type WmsSalesOrder struct {
 	// Primary key
@@ -4485,6 +4911,18 @@ type WmsSalesOrderItem struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the sales order item was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsSalesOrdersView struct {
+	ID               pgtype.UUID
+	OrderNumber      string
+	ClientID         pgtype.UUID
+	CrmOpportunityID pgtype.UUID
+	Status           NullWmsSalesOrderStatusEnum
+	ShippingAddress  pgtype.Text
+	CreatedAt        pgtype.Timestamp
+	UpdatedAt        pgtype.Timestamp
+	SalesOrderItems  []byte
 }
 
 // Tracks the movement of inventory from one warehouse to another.
@@ -4523,6 +4961,17 @@ type WmsSupplier struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the supplier was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsSuppliersView struct {
+	ID            pgtype.UUID
+	Name          string
+	ContactPerson pgtype.Text
+	Email         pgtype.Text
+	PhoneNumber   pgtype.Text
+	CreatedAt     pgtype.Timestamp
+	UpdatedAt     pgtype.Timestamp
+	Products      []byte
 }
 
 // Represents individual work assignments for warehouse personnel.
@@ -4605,6 +5054,29 @@ type WmsTaskItem struct {
 	UpdatedAt pgtype.Timestamp
 }
 
+type WmsTasksView struct {
+	ID                pgtype.UUID
+	TaskNumber        string
+	WarehouseID       pgtype.UUID
+	UserID            pgtype.Text
+	Type              WmsTaskTypeEnum
+	Status            NullWmsTaskStatusEnum
+	Priority          pgtype.Int4
+	SourceEntityID    pgtype.UUID
+	SourceEntityType  pgtype.Text
+	PickBatchID       pgtype.UUID
+	EstimatedDuration pgtype.Int4
+	ActualDuration    pgtype.Int4
+	Instructions      pgtype.Text
+	Notes             pgtype.Text
+	StartTime         pgtype.Timestamp
+	EndTime           pgtype.Timestamp
+	DurationSeconds   pgtype.Int4
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	TaskItems         []byte
+}
+
 // Represents the physical warehouse facilities where inventory and locations are organized and managed by the WMS.
 type WmsWarehouse struct {
 	// Primary key
@@ -4635,4 +5107,27 @@ type WmsWarehouse struct {
 	CreatedAt pgtype.Timestamp
 	// Timestamp when the warehouse was last updated.
 	UpdatedAt pgtype.Timestamp
+}
+
+type WmsWarehousesView struct {
+	ID                pgtype.UUID
+	Name              string
+	Address           pgtype.Text
+	City              pgtype.Text
+	State             pgtype.Text
+	PostalCode        pgtype.Text
+	Country           pgtype.Text
+	Timezone          pgtype.Text
+	ContactPerson     pgtype.Text
+	ContactEmail      pgtype.Text
+	ContactPhone      pgtype.Text
+	IsActive          pgtype.Bool
+	CreatedAt         pgtype.Timestamp
+	UpdatedAt         pgtype.Timestamp
+	InboundShipments  []byte
+	OutboundShipments []byte
+	Locations         []byte
+	PutawayRules      []byte
+	PickBatches       []byte
+	Tasks             []byte
 }

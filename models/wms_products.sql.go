@@ -13,11 +13,11 @@ import (
 
 const wmsAnyProduct = `-- name: WmsAnyProduct :many
 select
-  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at,
+  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at, products.inventory_batches, products.inventory_adjustments, products.reorder_points, products.inbound_shipment_items, products.stock_transfers, products.sales_order_items, products.outbound_shipment_items, products.return_items, products.inventory_stock, products.putaway_rules, products.bin_thresholds, products.task_items, products.package_items,
   supplier.id, supplier.name, supplier.contact_person, supplier.email, supplier.phone_number, supplier.created_at, supplier.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyProductRow struct {
-	WmsProduct  WmsProduct
-	WmsSupplier WmsSupplier
-	CrmCompany  CrmCompany
+	WmsProductsView WmsProductsView
+	WmsSupplier     WmsSupplier
+	CrmCompany      CrmCompany
 }
 
 func (q *Queries) WmsAnyProduct(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyProductRow, error) {
@@ -40,22 +40,35 @@ func (q *Queries) WmsAnyProduct(ctx context.Context, ids []pgtype.UUID) ([]WmsAn
 	for rows.Next() {
 		var i WmsAnyProductRow
 		if err := rows.Scan(
-			&i.WmsProduct.ID,
-			&i.WmsProduct.Name,
-			&i.WmsProduct.Sku,
-			&i.WmsProduct.Barcode,
-			&i.WmsProduct.Description,
-			&i.WmsProduct.CostPrice,
-			&i.WmsProduct.Length,
-			&i.WmsProduct.Width,
-			&i.WmsProduct.Height,
-			&i.WmsProduct.Volume,
-			&i.WmsProduct.Weight,
-			&i.WmsProduct.Status,
-			&i.WmsProduct.SupplierID,
-			&i.WmsProduct.ClientID,
-			&i.WmsProduct.CreatedAt,
-			&i.WmsProduct.UpdatedAt,
+			&i.WmsProductsView.ID,
+			&i.WmsProductsView.Name,
+			&i.WmsProductsView.Sku,
+			&i.WmsProductsView.Barcode,
+			&i.WmsProductsView.Description,
+			&i.WmsProductsView.CostPrice,
+			&i.WmsProductsView.Length,
+			&i.WmsProductsView.Width,
+			&i.WmsProductsView.Height,
+			&i.WmsProductsView.Volume,
+			&i.WmsProductsView.Weight,
+			&i.WmsProductsView.Status,
+			&i.WmsProductsView.SupplierID,
+			&i.WmsProductsView.ClientID,
+			&i.WmsProductsView.CreatedAt,
+			&i.WmsProductsView.UpdatedAt,
+			&i.WmsProductsView.InventoryBatches,
+			&i.WmsProductsView.InventoryAdjustments,
+			&i.WmsProductsView.ReorderPoints,
+			&i.WmsProductsView.InboundShipmentItems,
+			&i.WmsProductsView.StockTransfers,
+			&i.WmsProductsView.SalesOrderItems,
+			&i.WmsProductsView.OutboundShipmentItems,
+			&i.WmsProductsView.ReturnItems,
+			&i.WmsProductsView.InventoryStock,
+			&i.WmsProductsView.PutawayRules,
+			&i.WmsProductsView.BinThresholds,
+			&i.WmsProductsView.TaskItems,
+			&i.WmsProductsView.PackageItems,
 			&i.WmsSupplier.ID,
 			&i.WmsSupplier.Name,
 			&i.WmsSupplier.ContactPerson,
@@ -90,11 +103,11 @@ func (q *Queries) WmsAnyProduct(ctx context.Context, ids []pgtype.UUID) ([]WmsAn
 
 const wmsFindProduct = `-- name: WmsFindProduct :one
 select
-  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at,
+  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at, products.inventory_batches, products.inventory_adjustments, products.reorder_points, products.inbound_shipment_items, products.stock_transfers, products.sales_order_items, products.outbound_shipment_items, products.return_items, products.inventory_stock, products.putaway_rules, products.bin_thresholds, products.task_items, products.package_items,
   supplier.id, supplier.name, supplier.contact_person, supplier.email, supplier.phone_number, supplier.created_at, supplier.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where
@@ -102,31 +115,44 @@ where
 `
 
 type WmsFindProductRow struct {
-	WmsProduct  WmsProduct
-	WmsSupplier WmsSupplier
-	CrmCompany  CrmCompany
+	WmsProductsView WmsProductsView
+	WmsSupplier     WmsSupplier
+	CrmCompany      CrmCompany
 }
 
 func (q *Queries) WmsFindProduct(ctx context.Context, id pgtype.UUID) (WmsFindProductRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindProduct, id)
 	var i WmsFindProductRow
 	err := row.Scan(
-		&i.WmsProduct.ID,
-		&i.WmsProduct.Name,
-		&i.WmsProduct.Sku,
-		&i.WmsProduct.Barcode,
-		&i.WmsProduct.Description,
-		&i.WmsProduct.CostPrice,
-		&i.WmsProduct.Length,
-		&i.WmsProduct.Width,
-		&i.WmsProduct.Height,
-		&i.WmsProduct.Volume,
-		&i.WmsProduct.Weight,
-		&i.WmsProduct.Status,
-		&i.WmsProduct.SupplierID,
-		&i.WmsProduct.ClientID,
-		&i.WmsProduct.CreatedAt,
-		&i.WmsProduct.UpdatedAt,
+		&i.WmsProductsView.ID,
+		&i.WmsProductsView.Name,
+		&i.WmsProductsView.Sku,
+		&i.WmsProductsView.Barcode,
+		&i.WmsProductsView.Description,
+		&i.WmsProductsView.CostPrice,
+		&i.WmsProductsView.Length,
+		&i.WmsProductsView.Width,
+		&i.WmsProductsView.Height,
+		&i.WmsProductsView.Volume,
+		&i.WmsProductsView.Weight,
+		&i.WmsProductsView.Status,
+		&i.WmsProductsView.SupplierID,
+		&i.WmsProductsView.ClientID,
+		&i.WmsProductsView.CreatedAt,
+		&i.WmsProductsView.UpdatedAt,
+		&i.WmsProductsView.InventoryBatches,
+		&i.WmsProductsView.InventoryAdjustments,
+		&i.WmsProductsView.ReorderPoints,
+		&i.WmsProductsView.InboundShipmentItems,
+		&i.WmsProductsView.StockTransfers,
+		&i.WmsProductsView.SalesOrderItems,
+		&i.WmsProductsView.OutboundShipmentItems,
+		&i.WmsProductsView.ReturnItems,
+		&i.WmsProductsView.InventoryStock,
+		&i.WmsProductsView.PutawayRules,
+		&i.WmsProductsView.BinThresholds,
+		&i.WmsProductsView.TaskItems,
+		&i.WmsProductsView.PackageItems,
 		&i.WmsSupplier.ID,
 		&i.WmsSupplier.Name,
 		&i.WmsSupplier.ContactPerson,
@@ -213,11 +239,11 @@ func (q *Queries) WmsInsertProduct(ctx context.Context, arg WmsInsertProductPara
 
 const wmsPaginateProduct = `-- name: WmsPaginateProduct :many
 select
-  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at,
+  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at, products.inventory_batches, products.inventory_adjustments, products.reorder_points, products.inbound_shipment_items, products.stock_transfers, products.sales_order_items, products.outbound_shipment_items, products.return_items, products.inventory_stock, products.putaway_rules, products.bin_thresholds, products.task_items, products.package_items,
   supplier.id, supplier.name, supplier.contact_person, supplier.email, supplier.phone_number, supplier.created_at, supplier.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where (products.name ilike $1::text
@@ -237,9 +263,9 @@ type WmsPaginateProductParams struct {
 }
 
 type WmsPaginateProductRow struct {
-	WmsProduct  WmsProduct
-	WmsSupplier WmsSupplier
-	CrmCompany  CrmCompany
+	WmsProductsView WmsProductsView
+	WmsSupplier     WmsSupplier
+	CrmCompany      CrmCompany
 }
 
 func (q *Queries) WmsPaginateProduct(ctx context.Context, arg WmsPaginateProductParams) ([]WmsPaginateProductRow, error) {
@@ -252,22 +278,35 @@ func (q *Queries) WmsPaginateProduct(ctx context.Context, arg WmsPaginateProduct
 	for rows.Next() {
 		var i WmsPaginateProductRow
 		if err := rows.Scan(
-			&i.WmsProduct.ID,
-			&i.WmsProduct.Name,
-			&i.WmsProduct.Sku,
-			&i.WmsProduct.Barcode,
-			&i.WmsProduct.Description,
-			&i.WmsProduct.CostPrice,
-			&i.WmsProduct.Length,
-			&i.WmsProduct.Width,
-			&i.WmsProduct.Height,
-			&i.WmsProduct.Volume,
-			&i.WmsProduct.Weight,
-			&i.WmsProduct.Status,
-			&i.WmsProduct.SupplierID,
-			&i.WmsProduct.ClientID,
-			&i.WmsProduct.CreatedAt,
-			&i.WmsProduct.UpdatedAt,
+			&i.WmsProductsView.ID,
+			&i.WmsProductsView.Name,
+			&i.WmsProductsView.Sku,
+			&i.WmsProductsView.Barcode,
+			&i.WmsProductsView.Description,
+			&i.WmsProductsView.CostPrice,
+			&i.WmsProductsView.Length,
+			&i.WmsProductsView.Width,
+			&i.WmsProductsView.Height,
+			&i.WmsProductsView.Volume,
+			&i.WmsProductsView.Weight,
+			&i.WmsProductsView.Status,
+			&i.WmsProductsView.SupplierID,
+			&i.WmsProductsView.ClientID,
+			&i.WmsProductsView.CreatedAt,
+			&i.WmsProductsView.UpdatedAt,
+			&i.WmsProductsView.InventoryBatches,
+			&i.WmsProductsView.InventoryAdjustments,
+			&i.WmsProductsView.ReorderPoints,
+			&i.WmsProductsView.InboundShipmentItems,
+			&i.WmsProductsView.StockTransfers,
+			&i.WmsProductsView.SalesOrderItems,
+			&i.WmsProductsView.OutboundShipmentItems,
+			&i.WmsProductsView.ReturnItems,
+			&i.WmsProductsView.InventoryStock,
+			&i.WmsProductsView.PutawayRules,
+			&i.WmsProductsView.BinThresholds,
+			&i.WmsProductsView.TaskItems,
+			&i.WmsProductsView.PackageItems,
 			&i.WmsSupplier.ID,
 			&i.WmsSupplier.Name,
 			&i.WmsSupplier.ContactPerson,
@@ -302,11 +341,11 @@ func (q *Queries) WmsPaginateProduct(ctx context.Context, arg WmsPaginateProduct
 
 const wmsRangeProduct = `-- name: WmsRangeProduct :many
 select
-  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at,
+  products.id, products.name, products.sku, products.barcode, products.description, products.cost_price, products.length, products.width, products.height, products.volume, products.weight, products.status, products.supplier_id, products.client_id, products.created_at, products.updated_at, products.inventory_batches, products.inventory_adjustments, products.reorder_points, products.inbound_shipment_items, products.stock_transfers, products.sales_order_items, products.outbound_shipment_items, products.return_items, products.inventory_stock, products.putaway_rules, products.bin_thresholds, products.task_items, products.package_items,
   supplier.id, supplier.name, supplier.contact_person, supplier.email, supplier.phone_number, supplier.created_at, supplier.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where
@@ -328,9 +367,9 @@ type WmsRangeProductParams struct {
 }
 
 type WmsRangeProductRow struct {
-	WmsProduct  WmsProduct
-	WmsSupplier WmsSupplier
-	CrmCompany  CrmCompany
+	WmsProductsView WmsProductsView
+	WmsSupplier     WmsSupplier
+	CrmCompany      CrmCompany
 }
 
 func (q *Queries) WmsRangeProduct(ctx context.Context, arg WmsRangeProductParams) ([]WmsRangeProductRow, error) {
@@ -343,22 +382,35 @@ func (q *Queries) WmsRangeProduct(ctx context.Context, arg WmsRangeProductParams
 	for rows.Next() {
 		var i WmsRangeProductRow
 		if err := rows.Scan(
-			&i.WmsProduct.ID,
-			&i.WmsProduct.Name,
-			&i.WmsProduct.Sku,
-			&i.WmsProduct.Barcode,
-			&i.WmsProduct.Description,
-			&i.WmsProduct.CostPrice,
-			&i.WmsProduct.Length,
-			&i.WmsProduct.Width,
-			&i.WmsProduct.Height,
-			&i.WmsProduct.Volume,
-			&i.WmsProduct.Weight,
-			&i.WmsProduct.Status,
-			&i.WmsProduct.SupplierID,
-			&i.WmsProduct.ClientID,
-			&i.WmsProduct.CreatedAt,
-			&i.WmsProduct.UpdatedAt,
+			&i.WmsProductsView.ID,
+			&i.WmsProductsView.Name,
+			&i.WmsProductsView.Sku,
+			&i.WmsProductsView.Barcode,
+			&i.WmsProductsView.Description,
+			&i.WmsProductsView.CostPrice,
+			&i.WmsProductsView.Length,
+			&i.WmsProductsView.Width,
+			&i.WmsProductsView.Height,
+			&i.WmsProductsView.Volume,
+			&i.WmsProductsView.Weight,
+			&i.WmsProductsView.Status,
+			&i.WmsProductsView.SupplierID,
+			&i.WmsProductsView.ClientID,
+			&i.WmsProductsView.CreatedAt,
+			&i.WmsProductsView.UpdatedAt,
+			&i.WmsProductsView.InventoryBatches,
+			&i.WmsProductsView.InventoryAdjustments,
+			&i.WmsProductsView.ReorderPoints,
+			&i.WmsProductsView.InboundShipmentItems,
+			&i.WmsProductsView.StockTransfers,
+			&i.WmsProductsView.SalesOrderItems,
+			&i.WmsProductsView.OutboundShipmentItems,
+			&i.WmsProductsView.ReturnItems,
+			&i.WmsProductsView.InventoryStock,
+			&i.WmsProductsView.PutawayRules,
+			&i.WmsProductsView.BinThresholds,
+			&i.WmsProductsView.TaskItems,
+			&i.WmsProductsView.PackageItems,
 			&i.WmsSupplier.ID,
 			&i.WmsSupplier.Name,
 			&i.WmsSupplier.ContactPerson,

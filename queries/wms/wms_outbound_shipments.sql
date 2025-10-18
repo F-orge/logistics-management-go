@@ -3,7 +3,7 @@ select
   sqlc.embed(outbound_shipments),
   sqlc.embed(sales_order)
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where (sales_order.order_number ilike sqlc.narg(search)::text
   or outbound_shipments.tracking_number ilike sqlc.narg(search)::text
@@ -17,7 +17,7 @@ select
   sqlc.embed(outbound_shipments),
   sqlc.embed(sales_order)
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.id = sqlc.arg(id)::uuid;
@@ -27,7 +27,7 @@ select
   sqlc.embed(outbound_shipments),
   sqlc.embed(sales_order)
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.id = any (@ids::uuid[]);
@@ -37,7 +37,7 @@ select
   sqlc.embed(outbound_shipments),
   sqlc.embed(sales_order)
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.created_at >= @dateFrom::date

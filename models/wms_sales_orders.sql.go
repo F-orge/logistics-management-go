@@ -13,11 +13,11 @@ import (
 
 const wmsAnySalesOrder = `-- name: WmsAnySalesOrder :many
 select
-  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at,
+  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at, sales_orders.sales_order_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   crm_opportunity.id, crm_opportunity.name, crm_opportunity.stage, crm_opportunity.deal_value, crm_opportunity.probability, crm_opportunity.expected_close_date, crm_opportunity.lost_reason, crm_opportunity.source, crm_opportunity.owner_id, crm_opportunity.contact_id, crm_opportunity.company_id, crm_opportunity.campaign_id, crm_opportunity.created_at, crm_opportunity.updated_at
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnySalesOrderRow struct {
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView
+	CrmCompany         CrmCompany
+	CrmOpportunity     CrmOpportunity
 }
 
 func (q *Queries) WmsAnySalesOrder(ctx context.Context, ids []pgtype.UUID) ([]WmsAnySalesOrderRow, error) {
@@ -40,14 +40,15 @@ func (q *Queries) WmsAnySalesOrder(ctx context.Context, ids []pgtype.UUID) ([]Wm
 	for rows.Next() {
 		var i WmsAnySalesOrderRow
 		if err := rows.Scan(
-			&i.WmsSalesOrder.ID,
-			&i.WmsSalesOrder.OrderNumber,
-			&i.WmsSalesOrder.ClientID,
-			&i.WmsSalesOrder.CrmOpportunityID,
-			&i.WmsSalesOrder.Status,
-			&i.WmsSalesOrder.ShippingAddress,
-			&i.WmsSalesOrder.CreatedAt,
-			&i.WmsSalesOrder.UpdatedAt,
+			&i.WmsSalesOrdersView.ID,
+			&i.WmsSalesOrdersView.OrderNumber,
+			&i.WmsSalesOrdersView.ClientID,
+			&i.WmsSalesOrdersView.CrmOpportunityID,
+			&i.WmsSalesOrdersView.Status,
+			&i.WmsSalesOrdersView.ShippingAddress,
+			&i.WmsSalesOrdersView.CreatedAt,
+			&i.WmsSalesOrdersView.UpdatedAt,
+			&i.WmsSalesOrdersView.SalesOrderItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -89,11 +90,11 @@ func (q *Queries) WmsAnySalesOrder(ctx context.Context, ids []pgtype.UUID) ([]Wm
 
 const wmsFindSalesOrder = `-- name: WmsFindSalesOrder :one
 select
-  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at,
+  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at, sales_orders.sales_order_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   crm_opportunity.id, crm_opportunity.name, crm_opportunity.stage, crm_opportunity.deal_value, crm_opportunity.probability, crm_opportunity.expected_close_date, crm_opportunity.lost_reason, crm_opportunity.source, crm_opportunity.owner_id, crm_opportunity.contact_id, crm_opportunity.company_id, crm_opportunity.campaign_id, crm_opportunity.created_at, crm_opportunity.updated_at
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
@@ -101,23 +102,24 @@ where
 `
 
 type WmsFindSalesOrderRow struct {
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView
+	CrmCompany         CrmCompany
+	CrmOpportunity     CrmOpportunity
 }
 
 func (q *Queries) WmsFindSalesOrder(ctx context.Context, id pgtype.UUID) (WmsFindSalesOrderRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindSalesOrder, id)
 	var i WmsFindSalesOrderRow
 	err := row.Scan(
-		&i.WmsSalesOrder.ID,
-		&i.WmsSalesOrder.OrderNumber,
-		&i.WmsSalesOrder.ClientID,
-		&i.WmsSalesOrder.CrmOpportunityID,
-		&i.WmsSalesOrder.Status,
-		&i.WmsSalesOrder.ShippingAddress,
-		&i.WmsSalesOrder.CreatedAt,
-		&i.WmsSalesOrder.UpdatedAt,
+		&i.WmsSalesOrdersView.ID,
+		&i.WmsSalesOrdersView.OrderNumber,
+		&i.WmsSalesOrdersView.ClientID,
+		&i.WmsSalesOrdersView.CrmOpportunityID,
+		&i.WmsSalesOrdersView.Status,
+		&i.WmsSalesOrdersView.ShippingAddress,
+		&i.WmsSalesOrdersView.CreatedAt,
+		&i.WmsSalesOrdersView.UpdatedAt,
+		&i.WmsSalesOrdersView.SalesOrderItems,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -189,11 +191,11 @@ func (q *Queries) WmsInsertSalesOrder(ctx context.Context, arg WmsInsertSalesOrd
 
 const wmsPaginateSalesOrder = `-- name: WmsPaginateSalesOrder :many
 select
-  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at,
+  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at, sales_orders.sales_order_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   crm_opportunity.id, crm_opportunity.name, crm_opportunity.stage, crm_opportunity.deal_value, crm_opportunity.probability, crm_opportunity.expected_close_date, crm_opportunity.lost_reason, crm_opportunity.source, crm_opportunity.owner_id, crm_opportunity.contact_id, crm_opportunity.company_id, crm_opportunity.campaign_id, crm_opportunity.created_at, crm_opportunity.updated_at
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where (sales_orders.order_number ilike $1::text
@@ -211,9 +213,9 @@ type WmsPaginateSalesOrderParams struct {
 }
 
 type WmsPaginateSalesOrderRow struct {
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView
+	CrmCompany         CrmCompany
+	CrmOpportunity     CrmOpportunity
 }
 
 func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSalesOrderParams) ([]WmsPaginateSalesOrderRow, error) {
@@ -226,14 +228,15 @@ func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSale
 	for rows.Next() {
 		var i WmsPaginateSalesOrderRow
 		if err := rows.Scan(
-			&i.WmsSalesOrder.ID,
-			&i.WmsSalesOrder.OrderNumber,
-			&i.WmsSalesOrder.ClientID,
-			&i.WmsSalesOrder.CrmOpportunityID,
-			&i.WmsSalesOrder.Status,
-			&i.WmsSalesOrder.ShippingAddress,
-			&i.WmsSalesOrder.CreatedAt,
-			&i.WmsSalesOrder.UpdatedAt,
+			&i.WmsSalesOrdersView.ID,
+			&i.WmsSalesOrdersView.OrderNumber,
+			&i.WmsSalesOrdersView.ClientID,
+			&i.WmsSalesOrdersView.CrmOpportunityID,
+			&i.WmsSalesOrdersView.Status,
+			&i.WmsSalesOrdersView.ShippingAddress,
+			&i.WmsSalesOrdersView.CreatedAt,
+			&i.WmsSalesOrdersView.UpdatedAt,
+			&i.WmsSalesOrdersView.SalesOrderItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -275,11 +278,11 @@ func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSale
 
 const wmsRangeSalesOrder = `-- name: WmsRangeSalesOrder :many
 select
-  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at,
+  sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at, sales_orders.sales_order_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   crm_opportunity.id, crm_opportunity.name, crm_opportunity.stage, crm_opportunity.deal_value, crm_opportunity.probability, crm_opportunity.expected_close_date, crm_opportunity.lost_reason, crm_opportunity.source, crm_opportunity.owner_id, crm_opportunity.contact_id, crm_opportunity.company_id, crm_opportunity.campaign_id, crm_opportunity.created_at, crm_opportunity.updated_at
 from
-  "wms"."sales_orders" as sales_orders
+  "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
 where
@@ -299,9 +302,9 @@ type WmsRangeSalesOrderParams struct {
 }
 
 type WmsRangeSalesOrderRow struct {
-	WmsSalesOrder  WmsSalesOrder
-	CrmCompany     CrmCompany
-	CrmOpportunity CrmOpportunity
+	WmsSalesOrdersView WmsSalesOrdersView
+	CrmCompany         CrmCompany
+	CrmOpportunity     CrmOpportunity
 }
 
 func (q *Queries) WmsRangeSalesOrder(ctx context.Context, arg WmsRangeSalesOrderParams) ([]WmsRangeSalesOrderRow, error) {
@@ -314,14 +317,15 @@ func (q *Queries) WmsRangeSalesOrder(ctx context.Context, arg WmsRangeSalesOrder
 	for rows.Next() {
 		var i WmsRangeSalesOrderRow
 		if err := rows.Scan(
-			&i.WmsSalesOrder.ID,
-			&i.WmsSalesOrder.OrderNumber,
-			&i.WmsSalesOrder.ClientID,
-			&i.WmsSalesOrder.CrmOpportunityID,
-			&i.WmsSalesOrder.Status,
-			&i.WmsSalesOrder.ShippingAddress,
-			&i.WmsSalesOrder.CreatedAt,
-			&i.WmsSalesOrder.UpdatedAt,
+			&i.WmsSalesOrdersView.ID,
+			&i.WmsSalesOrdersView.OrderNumber,
+			&i.WmsSalesOrdersView.ClientID,
+			&i.WmsSalesOrdersView.CrmOpportunityID,
+			&i.WmsSalesOrdersView.Status,
+			&i.WmsSalesOrdersView.ShippingAddress,
+			&i.WmsSalesOrdersView.CreatedAt,
+			&i.WmsSalesOrdersView.UpdatedAt,
+			&i.WmsSalesOrdersView.SalesOrderItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

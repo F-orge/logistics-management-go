@@ -5,7 +5,7 @@ select
   sqlc.embed(users),
   sqlc.embed(pick_batch)
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -25,7 +25,7 @@ select
   sqlc.embed(users),
   sqlc.embed(pick_batch)
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -39,7 +39,7 @@ select
   sqlc.embed(users),
   sqlc.embed(pick_batch)
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
@@ -53,7 +53,7 @@ select
   sqlc.embed(users),
   sqlc.embed(pick_batch)
 from
-  "wms"."tasks" as tasks
+  "wms"."tasks_view" as tasks
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id

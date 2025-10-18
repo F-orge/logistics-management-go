@@ -13,11 +13,11 @@ import (
 
 const wmsAnyPickBatch = `-- name: WmsAnyPickBatch :many
 select
-  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at,
+  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyPickBatchRow struct {
-	WmsPickBatch WmsPickBatch
-	WmsWarehouse WmsWarehouse
-	User         User
+	WmsPickBatchesView WmsPickBatchesView
+	WmsWarehouse       WmsWarehouse
+	User               User
 }
 
 func (q *Queries) WmsAnyPickBatch(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPickBatchRow, error) {
@@ -40,23 +40,24 @@ func (q *Queries) WmsAnyPickBatch(ctx context.Context, ids []pgtype.UUID) ([]Wms
 	for rows.Next() {
 		var i WmsAnyPickBatchRow
 		if err := rows.Scan(
-			&i.WmsPickBatch.ID,
-			&i.WmsPickBatch.BatchNumber,
-			&i.WmsPickBatch.WarehouseID,
-			&i.WmsPickBatch.Status,
-			&i.WmsPickBatch.Strategy,
-			&i.WmsPickBatch.Priority,
-			&i.WmsPickBatch.AssignedUserID,
-			&i.WmsPickBatch.WaveID,
-			&i.WmsPickBatch.ZoneRestrictions,
-			&i.WmsPickBatch.EstimatedDuration,
-			&i.WmsPickBatch.ActualDuration,
-			&i.WmsPickBatch.TotalItems,
-			&i.WmsPickBatch.CompletedItems,
-			&i.WmsPickBatch.StartedAt,
-			&i.WmsPickBatch.CompletedAt,
-			&i.WmsPickBatch.CreatedAt,
-			&i.WmsPickBatch.UpdatedAt,
+			&i.WmsPickBatchesView.ID,
+			&i.WmsPickBatchesView.BatchNumber,
+			&i.WmsPickBatchesView.WarehouseID,
+			&i.WmsPickBatchesView.Status,
+			&i.WmsPickBatchesView.Strategy,
+			&i.WmsPickBatchesView.Priority,
+			&i.WmsPickBatchesView.AssignedUserID,
+			&i.WmsPickBatchesView.WaveID,
+			&i.WmsPickBatchesView.ZoneRestrictions,
+			&i.WmsPickBatchesView.EstimatedDuration,
+			&i.WmsPickBatchesView.ActualDuration,
+			&i.WmsPickBatchesView.TotalItems,
+			&i.WmsPickBatchesView.CompletedItems,
+			&i.WmsPickBatchesView.StartedAt,
+			&i.WmsPickBatchesView.CompletedAt,
+			&i.WmsPickBatchesView.CreatedAt,
+			&i.WmsPickBatchesView.UpdatedAt,
+			&i.WmsPickBatchesView.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -95,11 +96,11 @@ func (q *Queries) WmsAnyPickBatch(ctx context.Context, ids []pgtype.UUID) ([]Wms
 
 const wmsFindPickBatch = `-- name: WmsFindPickBatch :one
 select
-  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at,
+  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
@@ -107,32 +108,33 @@ where
 `
 
 type WmsFindPickBatchRow struct {
-	WmsPickBatch WmsPickBatch
-	WmsWarehouse WmsWarehouse
-	User         User
+	WmsPickBatchesView WmsPickBatchesView
+	WmsWarehouse       WmsWarehouse
+	User               User
 }
 
 func (q *Queries) WmsFindPickBatch(ctx context.Context, id pgtype.UUID) (WmsFindPickBatchRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindPickBatch, id)
 	var i WmsFindPickBatchRow
 	err := row.Scan(
-		&i.WmsPickBatch.ID,
-		&i.WmsPickBatch.BatchNumber,
-		&i.WmsPickBatch.WarehouseID,
-		&i.WmsPickBatch.Status,
-		&i.WmsPickBatch.Strategy,
-		&i.WmsPickBatch.Priority,
-		&i.WmsPickBatch.AssignedUserID,
-		&i.WmsPickBatch.WaveID,
-		&i.WmsPickBatch.ZoneRestrictions,
-		&i.WmsPickBatch.EstimatedDuration,
-		&i.WmsPickBatch.ActualDuration,
-		&i.WmsPickBatch.TotalItems,
-		&i.WmsPickBatch.CompletedItems,
-		&i.WmsPickBatch.StartedAt,
-		&i.WmsPickBatch.CompletedAt,
-		&i.WmsPickBatch.CreatedAt,
-		&i.WmsPickBatch.UpdatedAt,
+		&i.WmsPickBatchesView.ID,
+		&i.WmsPickBatchesView.BatchNumber,
+		&i.WmsPickBatchesView.WarehouseID,
+		&i.WmsPickBatchesView.Status,
+		&i.WmsPickBatchesView.Strategy,
+		&i.WmsPickBatchesView.Priority,
+		&i.WmsPickBatchesView.AssignedUserID,
+		&i.WmsPickBatchesView.WaveID,
+		&i.WmsPickBatchesView.ZoneRestrictions,
+		&i.WmsPickBatchesView.EstimatedDuration,
+		&i.WmsPickBatchesView.ActualDuration,
+		&i.WmsPickBatchesView.TotalItems,
+		&i.WmsPickBatchesView.CompletedItems,
+		&i.WmsPickBatchesView.StartedAt,
+		&i.WmsPickBatchesView.CompletedAt,
+		&i.WmsPickBatchesView.CreatedAt,
+		&i.WmsPickBatchesView.UpdatedAt,
+		&i.WmsPickBatchesView.PickBatchItems,
 		&i.WmsWarehouse.ID,
 		&i.WmsWarehouse.Name,
 		&i.WmsWarehouse.Address,
@@ -228,11 +230,11 @@ func (q *Queries) WmsInsertPickBatch(ctx context.Context, arg WmsInsertPickBatch
 
 const wmsPaginatePickBatch = `-- name: WmsPaginatePickBatch :many
 select
-  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at,
+  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where (warehouse.name ilike $1::text
@@ -250,9 +252,9 @@ type WmsPaginatePickBatchParams struct {
 }
 
 type WmsPaginatePickBatchRow struct {
-	WmsPickBatch WmsPickBatch
-	WmsWarehouse WmsWarehouse
-	User         User
+	WmsPickBatchesView WmsPickBatchesView
+	WmsWarehouse       WmsWarehouse
+	User               User
 }
 
 func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickBatchParams) ([]WmsPaginatePickBatchRow, error) {
@@ -265,23 +267,24 @@ func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickB
 	for rows.Next() {
 		var i WmsPaginatePickBatchRow
 		if err := rows.Scan(
-			&i.WmsPickBatch.ID,
-			&i.WmsPickBatch.BatchNumber,
-			&i.WmsPickBatch.WarehouseID,
-			&i.WmsPickBatch.Status,
-			&i.WmsPickBatch.Strategy,
-			&i.WmsPickBatch.Priority,
-			&i.WmsPickBatch.AssignedUserID,
-			&i.WmsPickBatch.WaveID,
-			&i.WmsPickBatch.ZoneRestrictions,
-			&i.WmsPickBatch.EstimatedDuration,
-			&i.WmsPickBatch.ActualDuration,
-			&i.WmsPickBatch.TotalItems,
-			&i.WmsPickBatch.CompletedItems,
-			&i.WmsPickBatch.StartedAt,
-			&i.WmsPickBatch.CompletedAt,
-			&i.WmsPickBatch.CreatedAt,
-			&i.WmsPickBatch.UpdatedAt,
+			&i.WmsPickBatchesView.ID,
+			&i.WmsPickBatchesView.BatchNumber,
+			&i.WmsPickBatchesView.WarehouseID,
+			&i.WmsPickBatchesView.Status,
+			&i.WmsPickBatchesView.Strategy,
+			&i.WmsPickBatchesView.Priority,
+			&i.WmsPickBatchesView.AssignedUserID,
+			&i.WmsPickBatchesView.WaveID,
+			&i.WmsPickBatchesView.ZoneRestrictions,
+			&i.WmsPickBatchesView.EstimatedDuration,
+			&i.WmsPickBatchesView.ActualDuration,
+			&i.WmsPickBatchesView.TotalItems,
+			&i.WmsPickBatchesView.CompletedItems,
+			&i.WmsPickBatchesView.StartedAt,
+			&i.WmsPickBatchesView.CompletedAt,
+			&i.WmsPickBatchesView.CreatedAt,
+			&i.WmsPickBatchesView.UpdatedAt,
+			&i.WmsPickBatchesView.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -320,11 +323,11 @@ func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickB
 
 const wmsRangePickBatch = `-- name: WmsRangePickBatch :many
 select
-  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at,
+  pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
@@ -344,9 +347,9 @@ type WmsRangePickBatchParams struct {
 }
 
 type WmsRangePickBatchRow struct {
-	WmsPickBatch WmsPickBatch
-	WmsWarehouse WmsWarehouse
-	User         User
+	WmsPickBatchesView WmsPickBatchesView
+	WmsWarehouse       WmsWarehouse
+	User               User
 }
 
 func (q *Queries) WmsRangePickBatch(ctx context.Context, arg WmsRangePickBatchParams) ([]WmsRangePickBatchRow, error) {
@@ -359,23 +362,24 @@ func (q *Queries) WmsRangePickBatch(ctx context.Context, arg WmsRangePickBatchPa
 	for rows.Next() {
 		var i WmsRangePickBatchRow
 		if err := rows.Scan(
-			&i.WmsPickBatch.ID,
-			&i.WmsPickBatch.BatchNumber,
-			&i.WmsPickBatch.WarehouseID,
-			&i.WmsPickBatch.Status,
-			&i.WmsPickBatch.Strategy,
-			&i.WmsPickBatch.Priority,
-			&i.WmsPickBatch.AssignedUserID,
-			&i.WmsPickBatch.WaveID,
-			&i.WmsPickBatch.ZoneRestrictions,
-			&i.WmsPickBatch.EstimatedDuration,
-			&i.WmsPickBatch.ActualDuration,
-			&i.WmsPickBatch.TotalItems,
-			&i.WmsPickBatch.CompletedItems,
-			&i.WmsPickBatch.StartedAt,
-			&i.WmsPickBatch.CompletedAt,
-			&i.WmsPickBatch.CreatedAt,
-			&i.WmsPickBatch.UpdatedAt,
+			&i.WmsPickBatchesView.ID,
+			&i.WmsPickBatchesView.BatchNumber,
+			&i.WmsPickBatchesView.WarehouseID,
+			&i.WmsPickBatchesView.Status,
+			&i.WmsPickBatchesView.Strategy,
+			&i.WmsPickBatchesView.Priority,
+			&i.WmsPickBatchesView.AssignedUserID,
+			&i.WmsPickBatchesView.WaveID,
+			&i.WmsPickBatchesView.ZoneRestrictions,
+			&i.WmsPickBatchesView.EstimatedDuration,
+			&i.WmsPickBatchesView.ActualDuration,
+			&i.WmsPickBatchesView.TotalItems,
+			&i.WmsPickBatchesView.CompletedItems,
+			&i.WmsPickBatchesView.StartedAt,
+			&i.WmsPickBatchesView.CompletedAt,
+			&i.WmsPickBatchesView.CreatedAt,
+			&i.WmsPickBatchesView.UpdatedAt,
+			&i.WmsPickBatchesView.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,

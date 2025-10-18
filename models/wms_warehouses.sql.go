@@ -13,22 +13,22 @@ import (
 
 const wmsAnyWarehouse = `-- name: WmsAnyWarehouse :many
 select
-  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
+  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at, inbound_shipments, outbound_shipments, locations, putaway_rules, pick_batches, tasks
 from
-  "wms"."warehouses"
+  "wms"."warehouses_view"
 where
   id = any ($1::uuid[])
 `
 
-func (q *Queries) WmsAnyWarehouse(ctx context.Context, ids []pgtype.UUID) ([]WmsWarehouse, error) {
+func (q *Queries) WmsAnyWarehouse(ctx context.Context, ids []pgtype.UUID) ([]WmsWarehousesView, error) {
 	rows, err := q.db.Query(ctx, wmsAnyWarehouse, ids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsWarehouse
+	var items []WmsWarehousesView
 	for rows.Next() {
-		var i WmsWarehouse
+		var i WmsWarehousesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -44,6 +44,12 @@ func (q *Queries) WmsAnyWarehouse(ctx context.Context, ids []pgtype.UUID) ([]Wms
 			&i.IsActive,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.InboundShipments,
+			&i.OutboundShipments,
+			&i.Locations,
+			&i.PutawayRules,
+			&i.PickBatches,
+			&i.Tasks,
 		); err != nil {
 			return nil, err
 		}
@@ -57,16 +63,16 @@ func (q *Queries) WmsAnyWarehouse(ctx context.Context, ids []pgtype.UUID) ([]Wms
 
 const wmsFindWarehouse = `-- name: WmsFindWarehouse :one
 select
-  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
+  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at, inbound_shipments, outbound_shipments, locations, putaway_rules, pick_batches, tasks
 from
-  "wms"."warehouses"
+  "wms"."warehouses_view"
 where
   id = $1::uuid
 `
 
-func (q *Queries) WmsFindWarehouse(ctx context.Context, id pgtype.UUID) (WmsWarehouse, error) {
+func (q *Queries) WmsFindWarehouse(ctx context.Context, id pgtype.UUID) (WmsWarehousesView, error) {
 	row := q.db.QueryRow(ctx, wmsFindWarehouse, id)
-	var i WmsWarehouse
+	var i WmsWarehousesView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -82,6 +88,12 @@ func (q *Queries) WmsFindWarehouse(ctx context.Context, id pgtype.UUID) (WmsWare
 		&i.IsActive,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.InboundShipments,
+		&i.OutboundShipments,
+		&i.Locations,
+		&i.PutawayRules,
+		&i.PickBatches,
+		&i.Tasks,
 	)
 	return i, err
 }
@@ -143,9 +155,9 @@ func (q *Queries) WmsInsertWarehouse(ctx context.Context, arg WmsInsertWarehouse
 
 const wmsPaginateWarehouse = `-- name: WmsPaginateWarehouse :many
 select
-  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
+  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at, inbound_shipments, outbound_shipments, locations, putaway_rules, pick_batches, tasks
 from
-  "wms"."warehouses"
+  "wms"."warehouses_view"
 where (name ilike $1::text
   or city ilike $1::text
   or state ilike $1::text
@@ -160,15 +172,15 @@ type WmsPaginateWarehouseParams struct {
 	Perpage int32
 }
 
-func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsWarehouse, error) {
+func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsWarehousesView, error) {
 	rows, err := q.db.Query(ctx, wmsPaginateWarehouse, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsWarehouse
+	var items []WmsWarehousesView
 	for rows.Next() {
-		var i WmsWarehouse
+		var i WmsWarehousesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -184,6 +196,12 @@ func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWareh
 			&i.IsActive,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.InboundShipments,
+			&i.OutboundShipments,
+			&i.Locations,
+			&i.PutawayRules,
+			&i.PickBatches,
+			&i.Tasks,
 		); err != nil {
 			return nil, err
 		}
@@ -197,9 +215,9 @@ func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWareh
 
 const wmsRangeWarehouse = `-- name: WmsRangeWarehouse :many
 select
-  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
+  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at, inbound_shipments, outbound_shipments, locations, putaway_rules, pick_batches, tasks
 from
-  "wms"."warehouses"
+  "wms"."warehouses_view"
 where
   created_at >= $1::date
   and created_at <= $2::date
@@ -216,15 +234,15 @@ type WmsRangeWarehouseParams struct {
 	Search   pgtype.Text
 }
 
-func (q *Queries) WmsRangeWarehouse(ctx context.Context, arg WmsRangeWarehouseParams) ([]WmsWarehouse, error) {
+func (q *Queries) WmsRangeWarehouse(ctx context.Context, arg WmsRangeWarehouseParams) ([]WmsWarehousesView, error) {
 	rows, err := q.db.Query(ctx, wmsRangeWarehouse, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsWarehouse
+	var items []WmsWarehousesView
 	for rows.Next() {
-		var i WmsWarehouse
+		var i WmsWarehousesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -240,6 +258,12 @@ func (q *Queries) WmsRangeWarehouse(ctx context.Context, arg WmsRangeWarehousePa
 			&i.IsActive,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.InboundShipments,
+			&i.OutboundShipments,
+			&i.Locations,
+			&i.PutawayRules,
+			&i.PickBatches,
+			&i.Tasks,
 		); err != nil {
 			return nil, err
 		}

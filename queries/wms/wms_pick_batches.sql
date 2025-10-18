@@ -4,7 +4,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where (warehouse.name ilike sqlc.narg(search)::text
@@ -20,7 +20,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
@@ -32,7 +32,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where
@@ -44,7 +44,7 @@ select
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
-  "wms"."pick_batches" as pick_batches
+  "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
 where

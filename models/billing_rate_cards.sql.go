@@ -13,18 +13,18 @@ import (
 
 const billingAnyRateCard = `-- name: BillingAnyRateCard :many
 select
-  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at,
+  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at, rate_cards.rate_rules,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.id = any ($1::uuid[])
 `
 
 type BillingAnyRateCardRow struct {
-	BillingRateCard BillingRateCard
-	User            User
+	BillingRateCardsView BillingRateCardsView
+	User                 User
 }
 
 func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyRateCardRow, error) {
@@ -37,16 +37,17 @@ func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]
 	for rows.Next() {
 		var i BillingAnyRateCardRow
 		if err := rows.Scan(
-			&i.BillingRateCard.ID,
-			&i.BillingRateCard.Name,
-			&i.BillingRateCard.ServiceType,
-			&i.BillingRateCard.IsActive,
-			&i.BillingRateCard.ValidFrom,
-			&i.BillingRateCard.ValidTo,
-			&i.BillingRateCard.Description,
-			&i.BillingRateCard.CreatedByUserID,
-			&i.BillingRateCard.CreatedAt,
-			&i.BillingRateCard.UpdatedAt,
+			&i.BillingRateCardsView.ID,
+			&i.BillingRateCardsView.Name,
+			&i.BillingRateCardsView.ServiceType,
+			&i.BillingRateCardsView.IsActive,
+			&i.BillingRateCardsView.ValidFrom,
+			&i.BillingRateCardsView.ValidTo,
+			&i.BillingRateCardsView.Description,
+			&i.BillingRateCardsView.CreatedByUserID,
+			&i.BillingRateCardsView.CreatedAt,
+			&i.BillingRateCardsView.UpdatedAt,
+			&i.BillingRateCardsView.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -71,34 +72,35 @@ func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]
 
 const billingFindRateCard = `-- name: BillingFindRateCard :one
 select
-  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at,
+  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at, rate_cards.rate_rules,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.id = $1::uuid
 `
 
 type BillingFindRateCardRow struct {
-	BillingRateCard BillingRateCard
-	User            User
+	BillingRateCardsView BillingRateCardsView
+	User                 User
 }
 
 func (q *Queries) BillingFindRateCard(ctx context.Context, id pgtype.UUID) (BillingFindRateCardRow, error) {
 	row := q.db.QueryRow(ctx, billingFindRateCard, id)
 	var i BillingFindRateCardRow
 	err := row.Scan(
-		&i.BillingRateCard.ID,
-		&i.BillingRateCard.Name,
-		&i.BillingRateCard.ServiceType,
-		&i.BillingRateCard.IsActive,
-		&i.BillingRateCard.ValidFrom,
-		&i.BillingRateCard.ValidTo,
-		&i.BillingRateCard.Description,
-		&i.BillingRateCard.CreatedByUserID,
-		&i.BillingRateCard.CreatedAt,
-		&i.BillingRateCard.UpdatedAt,
+		&i.BillingRateCardsView.ID,
+		&i.BillingRateCardsView.Name,
+		&i.BillingRateCardsView.ServiceType,
+		&i.BillingRateCardsView.IsActive,
+		&i.BillingRateCardsView.ValidFrom,
+		&i.BillingRateCardsView.ValidTo,
+		&i.BillingRateCardsView.Description,
+		&i.BillingRateCardsView.CreatedByUserID,
+		&i.BillingRateCardsView.CreatedAt,
+		&i.BillingRateCardsView.UpdatedAt,
+		&i.BillingRateCardsView.RateRules,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -159,10 +161,10 @@ func (q *Queries) BillingInsertRateCard(ctx context.Context, arg BillingInsertRa
 
 const billingPaginateRateCard = `-- name: BillingPaginateRateCard :many
 select
-  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at,
+  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at, rate_cards.rate_rules,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where (rate_cards.name ilike $1::text
   or rate_cards.service_type::text ilike $1::text
@@ -178,8 +180,8 @@ type BillingPaginateRateCardParams struct {
 }
 
 type BillingPaginateRateCardRow struct {
-	BillingRateCard BillingRateCard
-	User            User
+	BillingRateCardsView BillingRateCardsView
+	User                 User
 }
 
 func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPaginateRateCardParams) ([]BillingPaginateRateCardRow, error) {
@@ -192,16 +194,17 @@ func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPagina
 	for rows.Next() {
 		var i BillingPaginateRateCardRow
 		if err := rows.Scan(
-			&i.BillingRateCard.ID,
-			&i.BillingRateCard.Name,
-			&i.BillingRateCard.ServiceType,
-			&i.BillingRateCard.IsActive,
-			&i.BillingRateCard.ValidFrom,
-			&i.BillingRateCard.ValidTo,
-			&i.BillingRateCard.Description,
-			&i.BillingRateCard.CreatedByUserID,
-			&i.BillingRateCard.CreatedAt,
-			&i.BillingRateCard.UpdatedAt,
+			&i.BillingRateCardsView.ID,
+			&i.BillingRateCardsView.Name,
+			&i.BillingRateCardsView.ServiceType,
+			&i.BillingRateCardsView.IsActive,
+			&i.BillingRateCardsView.ValidFrom,
+			&i.BillingRateCardsView.ValidTo,
+			&i.BillingRateCardsView.Description,
+			&i.BillingRateCardsView.CreatedByUserID,
+			&i.BillingRateCardsView.CreatedAt,
+			&i.BillingRateCardsView.UpdatedAt,
+			&i.BillingRateCardsView.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -226,10 +229,10 @@ func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPagina
 
 const billingRangeRateCard = `-- name: BillingRangeRateCard :many
 select
-  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at,
+  rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at, rate_cards.rate_rules,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."rate_cards" as rate_cards
+  "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
 where
   rate_cards.created_at >= $1::date
@@ -247,8 +250,8 @@ type BillingRangeRateCardParams struct {
 }
 
 type BillingRangeRateCardRow struct {
-	BillingRateCard BillingRateCard
-	User            User
+	BillingRateCardsView BillingRateCardsView
+	User                 User
 }
 
 func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRateCardParams) ([]BillingRangeRateCardRow, error) {
@@ -261,16 +264,17 @@ func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRate
 	for rows.Next() {
 		var i BillingRangeRateCardRow
 		if err := rows.Scan(
-			&i.BillingRateCard.ID,
-			&i.BillingRateCard.Name,
-			&i.BillingRateCard.ServiceType,
-			&i.BillingRateCard.IsActive,
-			&i.BillingRateCard.ValidFrom,
-			&i.BillingRateCard.ValidTo,
-			&i.BillingRateCard.Description,
-			&i.BillingRateCard.CreatedByUserID,
-			&i.BillingRateCard.CreatedAt,
-			&i.BillingRateCard.UpdatedAt,
+			&i.BillingRateCardsView.ID,
+			&i.BillingRateCardsView.Name,
+			&i.BillingRateCardsView.ServiceType,
+			&i.BillingRateCardsView.IsActive,
+			&i.BillingRateCardsView.ValidFrom,
+			&i.BillingRateCardsView.ValidTo,
+			&i.BillingRateCardsView.Description,
+			&i.BillingRateCardsView.CreatedByUserID,
+			&i.BillingRateCardsView.CreatedAt,
+			&i.BillingRateCardsView.UpdatedAt,
+			&i.BillingRateCardsView.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

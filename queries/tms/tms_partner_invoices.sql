@@ -3,7 +3,7 @@ select
   sqlc.embed(partner_invoices),
   sqlc.embed(carrier)
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where (carrier.name ilike sqlc.narg(search)::text
   or partner_invoices.invoice_number ilike sqlc.narg(search)::text
@@ -16,7 +16,7 @@ select
   sqlc.embed(partner_invoices),
   sqlc.embed(carrier)
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.id = sqlc.arg(id)::uuid;
@@ -26,7 +26,7 @@ select
   sqlc.embed(partner_invoices),
   sqlc.embed(carrier)
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.id = any (@ids::uuid[]);
@@ -36,7 +36,7 @@ select
   sqlc.embed(partner_invoices),
   sqlc.embed(carrier)
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.invoice_date >= @dateFrom::date

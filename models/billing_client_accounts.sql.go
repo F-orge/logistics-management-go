@@ -13,18 +13,18 @@ import (
 
 const billingAnyClientAccount = `-- name: BillingAnyClientAccount :many
 select
-  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at,
+  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.id = any ($1::uuid[])
 `
 
 type BillingAnyClientAccountRow struct {
-	BillingClientAccount BillingClientAccount
-	CrmCompany           CrmCompany
+	BillingClientAccountsView BillingClientAccountsView
+	CrmCompany                CrmCompany
 }
 
 func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyClientAccountRow, error) {
@@ -37,17 +37,18 @@ func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID
 	for rows.Next() {
 		var i BillingAnyClientAccountRow
 		if err := rows.Scan(
-			&i.BillingClientAccount.ID,
-			&i.BillingClientAccount.ClientID,
-			&i.BillingClientAccount.CreditLimit,
-			&i.BillingClientAccount.AvailableCredit,
-			&i.BillingClientAccount.WalletBalance,
-			&i.BillingClientAccount.Currency,
-			&i.BillingClientAccount.PaymentTermsDays,
-			&i.BillingClientAccount.IsCreditApproved,
-			&i.BillingClientAccount.LastPaymentDate,
-			&i.BillingClientAccount.CreatedAt,
-			&i.BillingClientAccount.UpdatedAt,
+			&i.BillingClientAccountsView.ID,
+			&i.BillingClientAccountsView.ClientID,
+			&i.BillingClientAccountsView.CreditLimit,
+			&i.BillingClientAccountsView.AvailableCredit,
+			&i.BillingClientAccountsView.WalletBalance,
+			&i.BillingClientAccountsView.Currency,
+			&i.BillingClientAccountsView.PaymentTermsDays,
+			&i.BillingClientAccountsView.IsCreditApproved,
+			&i.BillingClientAccountsView.LastPaymentDate,
+			&i.BillingClientAccountsView.CreatedAt,
+			&i.BillingClientAccountsView.UpdatedAt,
+			&i.BillingClientAccountsView.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -75,35 +76,36 @@ func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID
 
 const billingFindClientAccount = `-- name: BillingFindClientAccount :one
 select
-  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at,
+  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.id = $1::uuid
 `
 
 type BillingFindClientAccountRow struct {
-	BillingClientAccount BillingClientAccount
-	CrmCompany           CrmCompany
+	BillingClientAccountsView BillingClientAccountsView
+	CrmCompany                CrmCompany
 }
 
 func (q *Queries) BillingFindClientAccount(ctx context.Context, id pgtype.UUID) (BillingFindClientAccountRow, error) {
 	row := q.db.QueryRow(ctx, billingFindClientAccount, id)
 	var i BillingFindClientAccountRow
 	err := row.Scan(
-		&i.BillingClientAccount.ID,
-		&i.BillingClientAccount.ClientID,
-		&i.BillingClientAccount.CreditLimit,
-		&i.BillingClientAccount.AvailableCredit,
-		&i.BillingClientAccount.WalletBalance,
-		&i.BillingClientAccount.Currency,
-		&i.BillingClientAccount.PaymentTermsDays,
-		&i.BillingClientAccount.IsCreditApproved,
-		&i.BillingClientAccount.LastPaymentDate,
-		&i.BillingClientAccount.CreatedAt,
-		&i.BillingClientAccount.UpdatedAt,
+		&i.BillingClientAccountsView.ID,
+		&i.BillingClientAccountsView.ClientID,
+		&i.BillingClientAccountsView.CreditLimit,
+		&i.BillingClientAccountsView.AvailableCredit,
+		&i.BillingClientAccountsView.WalletBalance,
+		&i.BillingClientAccountsView.Currency,
+		&i.BillingClientAccountsView.PaymentTermsDays,
+		&i.BillingClientAccountsView.IsCreditApproved,
+		&i.BillingClientAccountsView.LastPaymentDate,
+		&i.BillingClientAccountsView.CreatedAt,
+		&i.BillingClientAccountsView.UpdatedAt,
+		&i.BillingClientAccountsView.AccountTransactions,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -170,10 +172,10 @@ func (q *Queries) BillingInsertClientAccount(ctx context.Context, arg BillingIns
 
 const billingPaginateClientAccount = `-- name: BillingPaginateClientAccount :many
 select
-  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at,
+  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where (client.name ilike $1::text
   or $1::text is null)
@@ -187,8 +189,8 @@ type BillingPaginateClientAccountParams struct {
 }
 
 type BillingPaginateClientAccountRow struct {
-	BillingClientAccount BillingClientAccount
-	CrmCompany           CrmCompany
+	BillingClientAccountsView BillingClientAccountsView
+	CrmCompany                CrmCompany
 }
 
 func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingPaginateClientAccountParams) ([]BillingPaginateClientAccountRow, error) {
@@ -201,17 +203,18 @@ func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingP
 	for rows.Next() {
 		var i BillingPaginateClientAccountRow
 		if err := rows.Scan(
-			&i.BillingClientAccount.ID,
-			&i.BillingClientAccount.ClientID,
-			&i.BillingClientAccount.CreditLimit,
-			&i.BillingClientAccount.AvailableCredit,
-			&i.BillingClientAccount.WalletBalance,
-			&i.BillingClientAccount.Currency,
-			&i.BillingClientAccount.PaymentTermsDays,
-			&i.BillingClientAccount.IsCreditApproved,
-			&i.BillingClientAccount.LastPaymentDate,
-			&i.BillingClientAccount.CreatedAt,
-			&i.BillingClientAccount.UpdatedAt,
+			&i.BillingClientAccountsView.ID,
+			&i.BillingClientAccountsView.ClientID,
+			&i.BillingClientAccountsView.CreditLimit,
+			&i.BillingClientAccountsView.AvailableCredit,
+			&i.BillingClientAccountsView.WalletBalance,
+			&i.BillingClientAccountsView.Currency,
+			&i.BillingClientAccountsView.PaymentTermsDays,
+			&i.BillingClientAccountsView.IsCreditApproved,
+			&i.BillingClientAccountsView.LastPaymentDate,
+			&i.BillingClientAccountsView.CreatedAt,
+			&i.BillingClientAccountsView.UpdatedAt,
+			&i.BillingClientAccountsView.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -239,10 +242,10 @@ func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingP
 
 const billingRangeClientAccount = `-- name: BillingRangeClientAccount :many
 select
-  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at,
+  client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "billing"."client_accounts" as client_accounts
+  "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
 where
   client_accounts.created_at >= $1::date
@@ -258,8 +261,8 @@ type BillingRangeClientAccountParams struct {
 }
 
 type BillingRangeClientAccountRow struct {
-	BillingClientAccount BillingClientAccount
-	CrmCompany           CrmCompany
+	BillingClientAccountsView BillingClientAccountsView
+	CrmCompany                CrmCompany
 }
 
 func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRangeClientAccountParams) ([]BillingRangeClientAccountRow, error) {
@@ -272,17 +275,18 @@ func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRang
 	for rows.Next() {
 		var i BillingRangeClientAccountRow
 		if err := rows.Scan(
-			&i.BillingClientAccount.ID,
-			&i.BillingClientAccount.ClientID,
-			&i.BillingClientAccount.CreditLimit,
-			&i.BillingClientAccount.AvailableCredit,
-			&i.BillingClientAccount.WalletBalance,
-			&i.BillingClientAccount.Currency,
-			&i.BillingClientAccount.PaymentTermsDays,
-			&i.BillingClientAccount.IsCreditApproved,
-			&i.BillingClientAccount.LastPaymentDate,
-			&i.BillingClientAccount.CreatedAt,
-			&i.BillingClientAccount.UpdatedAt,
+			&i.BillingClientAccountsView.ID,
+			&i.BillingClientAccountsView.ClientID,
+			&i.BillingClientAccountsView.CreditLimit,
+			&i.BillingClientAccountsView.AvailableCredit,
+			&i.BillingClientAccountsView.WalletBalance,
+			&i.BillingClientAccountsView.Currency,
+			&i.BillingClientAccountsView.PaymentTermsDays,
+			&i.BillingClientAccountsView.IsCreditApproved,
+			&i.BillingClientAccountsView.LastPaymentDate,
+			&i.BillingClientAccountsView.CreatedAt,
+			&i.BillingClientAccountsView.UpdatedAt,
+			&i.BillingClientAccountsView.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

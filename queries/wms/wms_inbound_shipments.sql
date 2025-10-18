@@ -3,7 +3,7 @@ select
   sqlc.embed(inbound_shipments),
   sqlc.embed(client)
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where (client.name ilike sqlc.narg(search)::text
   or inbound_shipments.status::text ilike sqlc.narg(search)::text
@@ -15,7 +15,7 @@ select
   sqlc.embed(inbound_shipments),
   sqlc.embed(client)
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.id = sqlc.arg(id)::uuid;
@@ -25,7 +25,7 @@ select
   sqlc.embed(inbound_shipments),
   sqlc.embed(client)
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.id = any (@ids::uuid[]);
@@ -35,7 +35,7 @@ select
   sqlc.embed(inbound_shipments),
   sqlc.embed(client)
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.created_at >= @dateFrom::date

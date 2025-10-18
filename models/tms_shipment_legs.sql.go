@@ -13,11 +13,11 @@ import (
 
 const tmsAnyShipmentLeg = `-- name: TmsAnyShipmentLeg :many
 select
-  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at,
+  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at, shipment_legs.shipment_leg_events,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone,
   internal_trip.id, internal_trip.driver_id, internal_trip.vehicle_id, internal_trip.status, internal_trip.created_at, internal_trip.updated_at, internal_trip.end_location, internal_trip.end_time, internal_trip.start_location, internal_trip.start_time
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyShipmentLegRow struct {
-	TmsShipmentLeg TmsShipmentLeg
-	TmsCarrier     TmsCarrier
-	TmsTrip        TmsTrip
+	TmsShipmentLegsView TmsShipmentLegsView
+	TmsCarrier          TmsCarrier
+	TmsTrip             TmsTrip
 }
 
 func (q *Queries) TmsAnyShipmentLeg(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyShipmentLegRow, error) {
@@ -40,16 +40,17 @@ func (q *Queries) TmsAnyShipmentLeg(ctx context.Context, ids []pgtype.UUID) ([]T
 	for rows.Next() {
 		var i TmsAnyShipmentLegRow
 		if err := rows.Scan(
-			&i.TmsShipmentLeg.ID,
-			&i.TmsShipmentLeg.ShipmentID,
-			&i.TmsShipmentLeg.LegSequence,
-			&i.TmsShipmentLeg.StartLocation,
-			&i.TmsShipmentLeg.EndLocation,
-			&i.TmsShipmentLeg.CarrierID,
-			&i.TmsShipmentLeg.InternalTripID,
-			&i.TmsShipmentLeg.Status,
-			&i.TmsShipmentLeg.CreatedAt,
-			&i.TmsShipmentLeg.UpdatedAt,
+			&i.TmsShipmentLegsView.ID,
+			&i.TmsShipmentLegsView.ShipmentID,
+			&i.TmsShipmentLegsView.LegSequence,
+			&i.TmsShipmentLegsView.StartLocation,
+			&i.TmsShipmentLegsView.EndLocation,
+			&i.TmsShipmentLegsView.CarrierID,
+			&i.TmsShipmentLegsView.InternalTripID,
+			&i.TmsShipmentLegsView.Status,
+			&i.TmsShipmentLegsView.CreatedAt,
+			&i.TmsShipmentLegsView.UpdatedAt,
+			&i.TmsShipmentLegsView.ShipmentLegEvents,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -82,11 +83,11 @@ func (q *Queries) TmsAnyShipmentLeg(ctx context.Context, ids []pgtype.UUID) ([]T
 
 const tmsFindShipmentLeg = `-- name: TmsFindShipmentLeg :one
 select
-  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at,
+  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at, shipment_legs.shipment_leg_events,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone,
   internal_trip.id, internal_trip.driver_id, internal_trip.vehicle_id, internal_trip.status, internal_trip.created_at, internal_trip.updated_at, internal_trip.end_location, internal_trip.end_time, internal_trip.start_location, internal_trip.start_time
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
@@ -94,25 +95,26 @@ where
 `
 
 type TmsFindShipmentLegRow struct {
-	TmsShipmentLeg TmsShipmentLeg
-	TmsCarrier     TmsCarrier
-	TmsTrip        TmsTrip
+	TmsShipmentLegsView TmsShipmentLegsView
+	TmsCarrier          TmsCarrier
+	TmsTrip             TmsTrip
 }
 
 func (q *Queries) TmsFindShipmentLeg(ctx context.Context, id pgtype.UUID) (TmsFindShipmentLegRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindShipmentLeg, id)
 	var i TmsFindShipmentLegRow
 	err := row.Scan(
-		&i.TmsShipmentLeg.ID,
-		&i.TmsShipmentLeg.ShipmentID,
-		&i.TmsShipmentLeg.LegSequence,
-		&i.TmsShipmentLeg.StartLocation,
-		&i.TmsShipmentLeg.EndLocation,
-		&i.TmsShipmentLeg.CarrierID,
-		&i.TmsShipmentLeg.InternalTripID,
-		&i.TmsShipmentLeg.Status,
-		&i.TmsShipmentLeg.CreatedAt,
-		&i.TmsShipmentLeg.UpdatedAt,
+		&i.TmsShipmentLegsView.ID,
+		&i.TmsShipmentLegsView.ShipmentID,
+		&i.TmsShipmentLegsView.LegSequence,
+		&i.TmsShipmentLegsView.StartLocation,
+		&i.TmsShipmentLegsView.EndLocation,
+		&i.TmsShipmentLegsView.CarrierID,
+		&i.TmsShipmentLegsView.InternalTripID,
+		&i.TmsShipmentLegsView.Status,
+		&i.TmsShipmentLegsView.CreatedAt,
+		&i.TmsShipmentLegsView.UpdatedAt,
+		&i.TmsShipmentLegsView.ShipmentLegEvents,
 		&i.TmsCarrier.ID,
 		&i.TmsCarrier.Name,
 		&i.TmsCarrier.ContactDetails,
@@ -181,11 +183,11 @@ func (q *Queries) TmsInsertShipmentLeg(ctx context.Context, arg TmsInsertShipmen
 
 const tmsPaginateShipmentLeg = `-- name: TmsPaginateShipmentLeg :many
 select
-  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at,
+  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at, shipment_legs.shipment_leg_events,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone,
   internal_trip.id, internal_trip.driver_id, internal_trip.vehicle_id, internal_trip.status, internal_trip.created_at, internal_trip.updated_at, internal_trip.end_location, internal_trip.end_time, internal_trip.start_location, internal_trip.start_time
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where (carrier.name ilike $1::text
@@ -204,9 +206,9 @@ type TmsPaginateShipmentLegParams struct {
 }
 
 type TmsPaginateShipmentLegRow struct {
-	TmsShipmentLeg TmsShipmentLeg
-	TmsCarrier     TmsCarrier
-	TmsTrip        TmsTrip
+	TmsShipmentLegsView TmsShipmentLegsView
+	TmsCarrier          TmsCarrier
+	TmsTrip             TmsTrip
 }
 
 func (q *Queries) TmsPaginateShipmentLeg(ctx context.Context, arg TmsPaginateShipmentLegParams) ([]TmsPaginateShipmentLegRow, error) {
@@ -219,16 +221,17 @@ func (q *Queries) TmsPaginateShipmentLeg(ctx context.Context, arg TmsPaginateShi
 	for rows.Next() {
 		var i TmsPaginateShipmentLegRow
 		if err := rows.Scan(
-			&i.TmsShipmentLeg.ID,
-			&i.TmsShipmentLeg.ShipmentID,
-			&i.TmsShipmentLeg.LegSequence,
-			&i.TmsShipmentLeg.StartLocation,
-			&i.TmsShipmentLeg.EndLocation,
-			&i.TmsShipmentLeg.CarrierID,
-			&i.TmsShipmentLeg.InternalTripID,
-			&i.TmsShipmentLeg.Status,
-			&i.TmsShipmentLeg.CreatedAt,
-			&i.TmsShipmentLeg.UpdatedAt,
+			&i.TmsShipmentLegsView.ID,
+			&i.TmsShipmentLegsView.ShipmentID,
+			&i.TmsShipmentLegsView.LegSequence,
+			&i.TmsShipmentLegsView.StartLocation,
+			&i.TmsShipmentLegsView.EndLocation,
+			&i.TmsShipmentLegsView.CarrierID,
+			&i.TmsShipmentLegsView.InternalTripID,
+			&i.TmsShipmentLegsView.Status,
+			&i.TmsShipmentLegsView.CreatedAt,
+			&i.TmsShipmentLegsView.UpdatedAt,
+			&i.TmsShipmentLegsView.ShipmentLegEvents,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -261,11 +264,11 @@ func (q *Queries) TmsPaginateShipmentLeg(ctx context.Context, arg TmsPaginateShi
 
 const tmsRangeShipmentLeg = `-- name: TmsRangeShipmentLeg :many
 select
-  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at,
+  shipment_legs.id, shipment_legs.shipment_id, shipment_legs.leg_sequence, shipment_legs.start_location, shipment_legs.end_location, shipment_legs.carrier_id, shipment_legs.internal_trip_id, shipment_legs.status, shipment_legs.created_at, shipment_legs.updated_at, shipment_legs.shipment_leg_events,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone,
   internal_trip.id, internal_trip.driver_id, internal_trip.vehicle_id, internal_trip.status, internal_trip.created_at, internal_trip.updated_at, internal_trip.end_location, internal_trip.end_time, internal_trip.start_location, internal_trip.start_time
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
@@ -286,9 +289,9 @@ type TmsRangeShipmentLegParams struct {
 }
 
 type TmsRangeShipmentLegRow struct {
-	TmsShipmentLeg TmsShipmentLeg
-	TmsCarrier     TmsCarrier
-	TmsTrip        TmsTrip
+	TmsShipmentLegsView TmsShipmentLegsView
+	TmsCarrier          TmsCarrier
+	TmsTrip             TmsTrip
 }
 
 func (q *Queries) TmsRangeShipmentLeg(ctx context.Context, arg TmsRangeShipmentLegParams) ([]TmsRangeShipmentLegRow, error) {
@@ -301,16 +304,17 @@ func (q *Queries) TmsRangeShipmentLeg(ctx context.Context, arg TmsRangeShipmentL
 	for rows.Next() {
 		var i TmsRangeShipmentLegRow
 		if err := rows.Scan(
-			&i.TmsShipmentLeg.ID,
-			&i.TmsShipmentLeg.ShipmentID,
-			&i.TmsShipmentLeg.LegSequence,
-			&i.TmsShipmentLeg.StartLocation,
-			&i.TmsShipmentLeg.EndLocation,
-			&i.TmsShipmentLeg.CarrierID,
-			&i.TmsShipmentLeg.InternalTripID,
-			&i.TmsShipmentLeg.Status,
-			&i.TmsShipmentLeg.CreatedAt,
-			&i.TmsShipmentLeg.UpdatedAt,
+			&i.TmsShipmentLegsView.ID,
+			&i.TmsShipmentLegsView.ShipmentID,
+			&i.TmsShipmentLegsView.LegSequence,
+			&i.TmsShipmentLegsView.StartLocation,
+			&i.TmsShipmentLegsView.EndLocation,
+			&i.TmsShipmentLegsView.CarrierID,
+			&i.TmsShipmentLegsView.InternalTripID,
+			&i.TmsShipmentLegsView.Status,
+			&i.TmsShipmentLegsView.CreatedAt,
+			&i.TmsShipmentLegsView.UpdatedAt,
+			&i.TmsShipmentLegsView.ShipmentLegEvents,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,

@@ -13,13 +13,13 @@ import (
 
 const crmAnyOpportunity = `-- name: CrmAnyOpportunity :many
 select
-  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at,
+  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -29,11 +29,11 @@ where
 `
 
 type CrmAnyOpportunityRow struct {
-	CrmOpportunity CrmOpportunity
-	User           User
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmCampaign    CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView
+	User                 User
+	CrmContact           CrmContact
+	CrmCompany           CrmCompany
+	CrmCampaign          CrmCampaign
 }
 
 func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyOpportunityRow, error) {
@@ -46,20 +46,21 @@ func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]C
 	for rows.Next() {
 		var i CrmAnyOpportunityRow
 		if err := rows.Scan(
-			&i.CrmOpportunity.ID,
-			&i.CrmOpportunity.Name,
-			&i.CrmOpportunity.Stage,
-			&i.CrmOpportunity.DealValue,
-			&i.CrmOpportunity.Probability,
-			&i.CrmOpportunity.ExpectedCloseDate,
-			&i.CrmOpportunity.LostReason,
-			&i.CrmOpportunity.Source,
-			&i.CrmOpportunity.OwnerID,
-			&i.CrmOpportunity.ContactID,
-			&i.CrmOpportunity.CompanyID,
-			&i.CrmOpportunity.CampaignID,
-			&i.CrmOpportunity.CreatedAt,
-			&i.CrmOpportunity.UpdatedAt,
+			&i.CrmOpportunitiesView.ID,
+			&i.CrmOpportunitiesView.Name,
+			&i.CrmOpportunitiesView.Stage,
+			&i.CrmOpportunitiesView.DealValue,
+			&i.CrmOpportunitiesView.Probability,
+			&i.CrmOpportunitiesView.ExpectedCloseDate,
+			&i.CrmOpportunitiesView.LostReason,
+			&i.CrmOpportunitiesView.Source,
+			&i.CrmOpportunitiesView.OwnerID,
+			&i.CrmOpportunitiesView.ContactID,
+			&i.CrmOpportunitiesView.CompanyID,
+			&i.CrmOpportunitiesView.CampaignID,
+			&i.CrmOpportunitiesView.CreatedAt,
+			&i.CrmOpportunitiesView.UpdatedAt,
+			&i.CrmOpportunitiesView.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -114,13 +115,13 @@ func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]C
 
 const crmFindOpportunity = `-- name: CrmFindOpportunity :one
 select
-  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at,
+  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -130,31 +131,32 @@ where
 `
 
 type CrmFindOpportunityRow struct {
-	CrmOpportunity CrmOpportunity
-	User           User
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmCampaign    CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView
+	User                 User
+	CrmContact           CrmContact
+	CrmCompany           CrmCompany
+	CrmCampaign          CrmCampaign
 }
 
 func (q *Queries) CrmFindOpportunity(ctx context.Context, id pgtype.UUID) (CrmFindOpportunityRow, error) {
 	row := q.db.QueryRow(ctx, crmFindOpportunity, id)
 	var i CrmFindOpportunityRow
 	err := row.Scan(
-		&i.CrmOpportunity.ID,
-		&i.CrmOpportunity.Name,
-		&i.CrmOpportunity.Stage,
-		&i.CrmOpportunity.DealValue,
-		&i.CrmOpportunity.Probability,
-		&i.CrmOpportunity.ExpectedCloseDate,
-		&i.CrmOpportunity.LostReason,
-		&i.CrmOpportunity.Source,
-		&i.CrmOpportunity.OwnerID,
-		&i.CrmOpportunity.ContactID,
-		&i.CrmOpportunity.CompanyID,
-		&i.CrmOpportunity.CampaignID,
-		&i.CrmOpportunity.CreatedAt,
-		&i.CrmOpportunity.UpdatedAt,
+		&i.CrmOpportunitiesView.ID,
+		&i.CrmOpportunitiesView.Name,
+		&i.CrmOpportunitiesView.Stage,
+		&i.CrmOpportunitiesView.DealValue,
+		&i.CrmOpportunitiesView.Probability,
+		&i.CrmOpportunitiesView.ExpectedCloseDate,
+		&i.CrmOpportunitiesView.LostReason,
+		&i.CrmOpportunitiesView.Source,
+		&i.CrmOpportunitiesView.OwnerID,
+		&i.CrmOpportunitiesView.ContactID,
+		&i.CrmOpportunitiesView.CompanyID,
+		&i.CrmOpportunitiesView.CampaignID,
+		&i.CrmOpportunitiesView.CreatedAt,
+		&i.CrmOpportunitiesView.UpdatedAt,
+		&i.CrmOpportunitiesView.Products,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -201,10 +203,10 @@ func (q *Queries) CrmFindOpportunity(ctx context.Context, id pgtype.UUID) (CrmFi
 }
 
 const crmInsertOpportunity = `-- name: CrmInsertOpportunity :one
-insert into "crm"."opportunities"(name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id)
+insert into "crm"."opportunities_view"(name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id)
   values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 returning
-  id, name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id, created_at, updated_at
+  id, name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id, created_at, updated_at, products
 `
 
 type CrmInsertOpportunityParams struct {
@@ -221,7 +223,7 @@ type CrmInsertOpportunityParams struct {
 	CampaignID        pgtype.UUID
 }
 
-func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportunityParams) (CrmOpportunity, error) {
+func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportunityParams) (CrmOpportunitiesView, error) {
 	row := q.db.QueryRow(ctx, crmInsertOpportunity,
 		arg.Name,
 		arg.Stage,
@@ -235,7 +237,7 @@ func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportu
 		arg.CompanyID,
 		arg.CampaignID,
 	)
-	var i CrmOpportunity
+	var i CrmOpportunitiesView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -251,19 +253,20 @@ func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportu
 		&i.CampaignID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.Products,
 	)
 	return i, err
 }
 
 const crmPaginateOpportunity = `-- name: CrmPaginateOpportunity :many
 select
-  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at,
+  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -286,11 +289,11 @@ type CrmPaginateOpportunityParams struct {
 }
 
 type CrmPaginateOpportunityRow struct {
-	CrmOpportunity CrmOpportunity
-	User           User
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmCampaign    CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView
+	User                 User
+	CrmContact           CrmContact
+	CrmCompany           CrmCompany
+	CrmCampaign          CrmCampaign
 }
 
 func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpportunityParams) ([]CrmPaginateOpportunityRow, error) {
@@ -303,20 +306,21 @@ func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpp
 	for rows.Next() {
 		var i CrmPaginateOpportunityRow
 		if err := rows.Scan(
-			&i.CrmOpportunity.ID,
-			&i.CrmOpportunity.Name,
-			&i.CrmOpportunity.Stage,
-			&i.CrmOpportunity.DealValue,
-			&i.CrmOpportunity.Probability,
-			&i.CrmOpportunity.ExpectedCloseDate,
-			&i.CrmOpportunity.LostReason,
-			&i.CrmOpportunity.Source,
-			&i.CrmOpportunity.OwnerID,
-			&i.CrmOpportunity.ContactID,
-			&i.CrmOpportunity.CompanyID,
-			&i.CrmOpportunity.CampaignID,
-			&i.CrmOpportunity.CreatedAt,
-			&i.CrmOpportunity.UpdatedAt,
+			&i.CrmOpportunitiesView.ID,
+			&i.CrmOpportunitiesView.Name,
+			&i.CrmOpportunitiesView.Stage,
+			&i.CrmOpportunitiesView.DealValue,
+			&i.CrmOpportunitiesView.Probability,
+			&i.CrmOpportunitiesView.ExpectedCloseDate,
+			&i.CrmOpportunitiesView.LostReason,
+			&i.CrmOpportunitiesView.Source,
+			&i.CrmOpportunitiesView.OwnerID,
+			&i.CrmOpportunitiesView.ContactID,
+			&i.CrmOpportunitiesView.CompanyID,
+			&i.CrmOpportunitiesView.CampaignID,
+			&i.CrmOpportunitiesView.CreatedAt,
+			&i.CrmOpportunitiesView.UpdatedAt,
+			&i.CrmOpportunitiesView.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -371,13 +375,13 @@ func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpp
 
 const crmRangeOpportunity = `-- name: CrmRangeOpportunity :many
 select
-  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at,
+  opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at
 from
-  "crm"."opportunities" as opportunities
+  "crm"."opportunities_view" as opportunities
   inner join "public"."user" as owner on opportunities.owner_id = owner.id
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
@@ -402,11 +406,11 @@ type CrmRangeOpportunityParams struct {
 }
 
 type CrmRangeOpportunityRow struct {
-	CrmOpportunity CrmOpportunity
-	User           User
-	CrmContact     CrmContact
-	CrmCompany     CrmCompany
-	CrmCampaign    CrmCampaign
+	CrmOpportunitiesView CrmOpportunitiesView
+	User                 User
+	CrmContact           CrmContact
+	CrmCompany           CrmCompany
+	CrmCampaign          CrmCampaign
 }
 
 func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportunityParams) ([]CrmRangeOpportunityRow, error) {
@@ -419,20 +423,21 @@ func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportuni
 	for rows.Next() {
 		var i CrmRangeOpportunityRow
 		if err := rows.Scan(
-			&i.CrmOpportunity.ID,
-			&i.CrmOpportunity.Name,
-			&i.CrmOpportunity.Stage,
-			&i.CrmOpportunity.DealValue,
-			&i.CrmOpportunity.Probability,
-			&i.CrmOpportunity.ExpectedCloseDate,
-			&i.CrmOpportunity.LostReason,
-			&i.CrmOpportunity.Source,
-			&i.CrmOpportunity.OwnerID,
-			&i.CrmOpportunity.ContactID,
-			&i.CrmOpportunity.CompanyID,
-			&i.CrmOpportunity.CampaignID,
-			&i.CrmOpportunity.CreatedAt,
-			&i.CrmOpportunity.UpdatedAt,
+			&i.CrmOpportunitiesView.ID,
+			&i.CrmOpportunitiesView.Name,
+			&i.CrmOpportunitiesView.Stage,
+			&i.CrmOpportunitiesView.DealValue,
+			&i.CrmOpportunitiesView.Probability,
+			&i.CrmOpportunitiesView.ExpectedCloseDate,
+			&i.CrmOpportunitiesView.LostReason,
+			&i.CrmOpportunitiesView.Source,
+			&i.CrmOpportunitiesView.OwnerID,
+			&i.CrmOpportunitiesView.ContactID,
+			&i.CrmOpportunitiesView.CompanyID,
+			&i.CrmOpportunitiesView.CampaignID,
+			&i.CrmOpportunitiesView.CreatedAt,
+			&i.CrmOpportunitiesView.UpdatedAt,
+			&i.CrmOpportunitiesView.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -486,7 +491,7 @@ func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportuni
 }
 
 const crmRemoveOpportunity = `-- name: CrmRemoveOpportunity :exec
-delete from "crm"."opportunities"
+delete from "crm"."opportunities_view"
 where id = $1::uuid
 `
 
@@ -497,7 +502,7 @@ func (q *Queries) CrmRemoveOpportunity(ctx context.Context, id pgtype.UUID) erro
 
 const crmUpdateOpportunity = `-- name: CrmUpdateOpportunity :one
 update
-  "crm"."opportunities"
+  "crm"."opportunities_view"
 set
   updated_at = now(),
   name = case when $1 is not null then
@@ -558,7 +563,7 @@ set
 where
   id = $12::uuid
 returning
-  id, name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id, created_at, updated_at
+  id, name, stage, deal_value, probability, expected_close_date, lost_reason, source, owner_id, contact_id, company_id, campaign_id, created_at, updated_at, products
 `
 
 type CrmUpdateOpportunityParams struct {
@@ -576,7 +581,7 @@ type CrmUpdateOpportunityParams struct {
 	ID                pgtype.UUID
 }
 
-func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportunityParams) (CrmOpportunity, error) {
+func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportunityParams) (CrmOpportunitiesView, error) {
 	row := q.db.QueryRow(ctx, crmUpdateOpportunity,
 		arg.Name,
 		arg.Stage,
@@ -591,7 +596,7 @@ func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportu
 		arg.CampaignID,
 		arg.ID,
 	)
-	var i CrmOpportunity
+	var i CrmOpportunitiesView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -607,6 +612,7 @@ func (q *Queries) CrmUpdateOpportunity(ctx context.Context, arg CrmUpdateOpportu
 		&i.CampaignID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.Products,
 	)
 	return i, err
 }

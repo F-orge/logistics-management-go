@@ -13,11 +13,11 @@ import (
 
 const wmsAnyReturn = `-- name: WmsAnyReturn :many
 select
-  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type WmsAnyReturnRow struct {
-	WmsReturn     WmsReturn
-	WmsSalesOrder WmsSalesOrder
-	CrmCompany    CrmCompany
+	WmsReturnsView WmsReturnsView
+	WmsSalesOrder  WmsSalesOrder
+	CrmCompany     CrmCompany
 }
 
 func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyReturnRow, error) {
@@ -40,14 +40,15 @@ func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAny
 	for rows.Next() {
 		var i WmsAnyReturnRow
 		if err := rows.Scan(
-			&i.WmsReturn.ID,
-			&i.WmsReturn.ReturnNumber,
-			&i.WmsReturn.SalesOrderID,
-			&i.WmsReturn.ClientID,
-			&i.WmsReturn.Status,
-			&i.WmsReturn.Reason,
-			&i.WmsReturn.CreatedAt,
-			&i.WmsReturn.UpdatedAt,
+			&i.WmsReturnsView.ID,
+			&i.WmsReturnsView.ReturnNumber,
+			&i.WmsReturnsView.SalesOrderID,
+			&i.WmsReturnsView.ClientID,
+			&i.WmsReturnsView.Status,
+			&i.WmsReturnsView.Reason,
+			&i.WmsReturnsView.CreatedAt,
+			&i.WmsReturnsView.UpdatedAt,
+			&i.WmsReturnsView.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -83,11 +84,11 @@ func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAny
 
 const wmsFindReturn = `-- name: WmsFindReturn :one
 select
-  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
@@ -95,23 +96,24 @@ where
 `
 
 type WmsFindReturnRow struct {
-	WmsReturn     WmsReturn
-	WmsSalesOrder WmsSalesOrder
-	CrmCompany    CrmCompany
+	WmsReturnsView WmsReturnsView
+	WmsSalesOrder  WmsSalesOrder
+	CrmCompany     CrmCompany
 }
 
 func (q *Queries) WmsFindReturn(ctx context.Context, id pgtype.UUID) (WmsFindReturnRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindReturn, id)
 	var i WmsFindReturnRow
 	err := row.Scan(
-		&i.WmsReturn.ID,
-		&i.WmsReturn.ReturnNumber,
-		&i.WmsReturn.SalesOrderID,
-		&i.WmsReturn.ClientID,
-		&i.WmsReturn.Status,
-		&i.WmsReturn.Reason,
-		&i.WmsReturn.CreatedAt,
-		&i.WmsReturn.UpdatedAt,
+		&i.WmsReturnsView.ID,
+		&i.WmsReturnsView.ReturnNumber,
+		&i.WmsReturnsView.SalesOrderID,
+		&i.WmsReturnsView.ClientID,
+		&i.WmsReturnsView.Status,
+		&i.WmsReturnsView.Reason,
+		&i.WmsReturnsView.CreatedAt,
+		&i.WmsReturnsView.UpdatedAt,
+		&i.WmsReturnsView.ReturnItems,
 		&i.WmsSalesOrder.ID,
 		&i.WmsSalesOrder.OrderNumber,
 		&i.WmsSalesOrder.ClientID,
@@ -177,11 +179,11 @@ func (q *Queries) WmsInsertReturn(ctx context.Context, arg WmsInsertReturnParams
 
 const wmsPaginateReturn = `-- name: WmsPaginateReturn :many
 select
-  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where (wms_returns.return_number ilike ($1)::text
@@ -199,9 +201,9 @@ type WmsPaginateReturnParams struct {
 }
 
 type WmsPaginateReturnRow struct {
-	WmsReturn     WmsReturn
-	WmsSalesOrder WmsSalesOrder
-	CrmCompany    CrmCompany
+	WmsReturnsView WmsReturnsView
+	WmsSalesOrder  WmsSalesOrder
+	CrmCompany     CrmCompany
 }
 
 func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnParams) ([]WmsPaginateReturnRow, error) {
@@ -214,14 +216,15 @@ func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnPa
 	for rows.Next() {
 		var i WmsPaginateReturnRow
 		if err := rows.Scan(
-			&i.WmsReturn.ID,
-			&i.WmsReturn.ReturnNumber,
-			&i.WmsReturn.SalesOrderID,
-			&i.WmsReturn.ClientID,
-			&i.WmsReturn.Status,
-			&i.WmsReturn.Reason,
-			&i.WmsReturn.CreatedAt,
-			&i.WmsReturn.UpdatedAt,
+			&i.WmsReturnsView.ID,
+			&i.WmsReturnsView.ReturnNumber,
+			&i.WmsReturnsView.SalesOrderID,
+			&i.WmsReturnsView.ClientID,
+			&i.WmsReturnsView.Status,
+			&i.WmsReturnsView.Reason,
+			&i.WmsReturnsView.CreatedAt,
+			&i.WmsReturnsView.UpdatedAt,
+			&i.WmsReturnsView.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -257,11 +260,11 @@ func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnPa
 
 const wmsRangeReturn = `-- name: WmsRangeReturn :many
 select
-  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
@@ -281,9 +284,9 @@ type WmsRangeReturnParams struct {
 }
 
 type WmsRangeReturnRow struct {
-	WmsReturn     WmsReturn
-	WmsSalesOrder WmsSalesOrder
-	CrmCompany    CrmCompany
+	WmsReturnsView WmsReturnsView
+	WmsSalesOrder  WmsSalesOrder
+	CrmCompany     CrmCompany
 }
 
 func (q *Queries) WmsRangeReturn(ctx context.Context, arg WmsRangeReturnParams) ([]WmsRangeReturnRow, error) {
@@ -296,14 +299,15 @@ func (q *Queries) WmsRangeReturn(ctx context.Context, arg WmsRangeReturnParams) 
 	for rows.Next() {
 		var i WmsRangeReturnRow
 		if err := rows.Scan(
-			&i.WmsReturn.ID,
-			&i.WmsReturn.ReturnNumber,
-			&i.WmsReturn.SalesOrderID,
-			&i.WmsReturn.ClientID,
-			&i.WmsReturn.Status,
-			&i.WmsReturn.Reason,
-			&i.WmsReturn.CreatedAt,
-			&i.WmsReturn.UpdatedAt,
+			&i.WmsReturnsView.ID,
+			&i.WmsReturnsView.ReturnNumber,
+			&i.WmsReturnsView.SalesOrderID,
+			&i.WmsReturnsView.ClientID,
+			&i.WmsReturnsView.Status,
+			&i.WmsReturnsView.Reason,
+			&i.WmsReturnsView.CreatedAt,
+			&i.WmsReturnsView.UpdatedAt,
+			&i.WmsReturnsView.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,

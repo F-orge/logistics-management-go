@@ -4,7 +4,7 @@ select
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where (carrier.name ilike sqlc.narg(search)::text
@@ -21,7 +21,7 @@ select
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
@@ -33,7 +33,7 @@ select
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where
@@ -45,7 +45,7 @@ select
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
-  "tms"."shipment_legs" as shipment_legs
+  "tms"."shipment_legs_view" as shipment_legs
   left join "tms"."carriers" as carrier on shipment_legs.carrier_id = carrier.id
   left join "tms"."trips" as internal_trip on shipment_legs.internal_trip_id = internal_trip.id
 where

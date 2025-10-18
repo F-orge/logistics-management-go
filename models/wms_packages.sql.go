@@ -13,12 +13,12 @@ import (
 
 const wmsAnyPackage = `-- name: WmsAnyPackage :many
 select
-  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at,
+  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at, packages.package_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   packed_by_user.id, packed_by_user.name, packed_by_user.email, packed_by_user.email_verified, packed_by_user.image, packed_by_user.created_at, packed_by_user.updated_at, packed_by_user.role, packed_by_user.banned, packed_by_user.ban_reason, packed_by_user.ban_expires
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -27,10 +27,10 @@ where
 `
 
 type WmsAnyPackageRow struct {
-	WmsPackage    WmsPackage
-	WmsSalesOrder WmsSalesOrder
-	WmsWarehouse  WmsWarehouse
-	User          User
+	WmsPackagesView WmsPackagesView
+	WmsSalesOrder   WmsSalesOrder
+	WmsWarehouse    WmsWarehouse
+	User            User
 }
 
 func (q *Queries) WmsAnyPackage(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPackageRow, error) {
@@ -43,28 +43,29 @@ func (q *Queries) WmsAnyPackage(ctx context.Context, ids []pgtype.UUID) ([]WmsAn
 	for rows.Next() {
 		var i WmsAnyPackageRow
 		if err := rows.Scan(
-			&i.WmsPackage.ID,
-			&i.WmsPackage.SalesOrderID,
-			&i.WmsPackage.PackageNumber,
-			&i.WmsPackage.WarehouseID,
-			&i.WmsPackage.PackageType,
-			&i.WmsPackage.Weight,
-			&i.WmsPackage.Length,
-			&i.WmsPackage.Width,
-			&i.WmsPackage.Height,
-			&i.WmsPackage.Volume,
-			&i.WmsPackage.TrackingNumber,
-			&i.WmsPackage.Carrier,
-			&i.WmsPackage.ServiceLevel,
-			&i.WmsPackage.PackedByUserID,
-			&i.WmsPackage.PackedAt,
-			&i.WmsPackage.ShippedAt,
-			&i.WmsPackage.IsFragile,
-			&i.WmsPackage.IsHazmat,
-			&i.WmsPackage.RequiresSignature,
-			&i.WmsPackage.InsuranceValue,
-			&i.WmsPackage.CreatedAt,
-			&i.WmsPackage.UpdatedAt,
+			&i.WmsPackagesView.ID,
+			&i.WmsPackagesView.SalesOrderID,
+			&i.WmsPackagesView.PackageNumber,
+			&i.WmsPackagesView.WarehouseID,
+			&i.WmsPackagesView.PackageType,
+			&i.WmsPackagesView.Weight,
+			&i.WmsPackagesView.Length,
+			&i.WmsPackagesView.Width,
+			&i.WmsPackagesView.Height,
+			&i.WmsPackagesView.Volume,
+			&i.WmsPackagesView.TrackingNumber,
+			&i.WmsPackagesView.Carrier,
+			&i.WmsPackagesView.ServiceLevel,
+			&i.WmsPackagesView.PackedByUserID,
+			&i.WmsPackagesView.PackedAt,
+			&i.WmsPackagesView.ShippedAt,
+			&i.WmsPackagesView.IsFragile,
+			&i.WmsPackagesView.IsHazmat,
+			&i.WmsPackagesView.RequiresSignature,
+			&i.WmsPackagesView.InsuranceValue,
+			&i.WmsPackagesView.CreatedAt,
+			&i.WmsPackagesView.UpdatedAt,
+			&i.WmsPackagesView.PackageItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -111,12 +112,12 @@ func (q *Queries) WmsAnyPackage(ctx context.Context, ids []pgtype.UUID) ([]WmsAn
 
 const wmsFindPackage = `-- name: WmsFindPackage :one
 select
-  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at,
+  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at, packages.package_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   packed_by_user.id, packed_by_user.name, packed_by_user.email, packed_by_user.email_verified, packed_by_user.image, packed_by_user.created_at, packed_by_user.updated_at, packed_by_user.role, packed_by_user.banned, packed_by_user.ban_reason, packed_by_user.ban_expires
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -125,38 +126,39 @@ where
 `
 
 type WmsFindPackageRow struct {
-	WmsPackage    WmsPackage
-	WmsSalesOrder WmsSalesOrder
-	WmsWarehouse  WmsWarehouse
-	User          User
+	WmsPackagesView WmsPackagesView
+	WmsSalesOrder   WmsSalesOrder
+	WmsWarehouse    WmsWarehouse
+	User            User
 }
 
 func (q *Queries) WmsFindPackage(ctx context.Context, id pgtype.UUID) (WmsFindPackageRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindPackage, id)
 	var i WmsFindPackageRow
 	err := row.Scan(
-		&i.WmsPackage.ID,
-		&i.WmsPackage.SalesOrderID,
-		&i.WmsPackage.PackageNumber,
-		&i.WmsPackage.WarehouseID,
-		&i.WmsPackage.PackageType,
-		&i.WmsPackage.Weight,
-		&i.WmsPackage.Length,
-		&i.WmsPackage.Width,
-		&i.WmsPackage.Height,
-		&i.WmsPackage.Volume,
-		&i.WmsPackage.TrackingNumber,
-		&i.WmsPackage.Carrier,
-		&i.WmsPackage.ServiceLevel,
-		&i.WmsPackage.PackedByUserID,
-		&i.WmsPackage.PackedAt,
-		&i.WmsPackage.ShippedAt,
-		&i.WmsPackage.IsFragile,
-		&i.WmsPackage.IsHazmat,
-		&i.WmsPackage.RequiresSignature,
-		&i.WmsPackage.InsuranceValue,
-		&i.WmsPackage.CreatedAt,
-		&i.WmsPackage.UpdatedAt,
+		&i.WmsPackagesView.ID,
+		&i.WmsPackagesView.SalesOrderID,
+		&i.WmsPackagesView.PackageNumber,
+		&i.WmsPackagesView.WarehouseID,
+		&i.WmsPackagesView.PackageType,
+		&i.WmsPackagesView.Weight,
+		&i.WmsPackagesView.Length,
+		&i.WmsPackagesView.Width,
+		&i.WmsPackagesView.Height,
+		&i.WmsPackagesView.Volume,
+		&i.WmsPackagesView.TrackingNumber,
+		&i.WmsPackagesView.Carrier,
+		&i.WmsPackagesView.ServiceLevel,
+		&i.WmsPackagesView.PackedByUserID,
+		&i.WmsPackagesView.PackedAt,
+		&i.WmsPackagesView.ShippedAt,
+		&i.WmsPackagesView.IsFragile,
+		&i.WmsPackagesView.IsHazmat,
+		&i.WmsPackagesView.RequiresSignature,
+		&i.WmsPackagesView.InsuranceValue,
+		&i.WmsPackagesView.CreatedAt,
+		&i.WmsPackagesView.UpdatedAt,
+		&i.WmsPackagesView.PackageItems,
 		&i.WmsSalesOrder.ID,
 		&i.WmsSalesOrder.OrderNumber,
 		&i.WmsSalesOrder.ClientID,
@@ -273,12 +275,12 @@ func (q *Queries) WmsInsertPackage(ctx context.Context, arg WmsInsertPackagePara
 
 const wmsPaginatePackage = `-- name: WmsPaginatePackage :many
 select
-  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at,
+  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at, packages.package_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   packed_by_user.id, packed_by_user.name, packed_by_user.email, packed_by_user.email_verified, packed_by_user.image, packed_by_user.created_at, packed_by_user.updated_at, packed_by_user.role, packed_by_user.banned, packed_by_user.ban_reason, packed_by_user.ban_expires
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -299,10 +301,10 @@ type WmsPaginatePackageParams struct {
 }
 
 type WmsPaginatePackageRow struct {
-	WmsPackage    WmsPackage
-	WmsSalesOrder WmsSalesOrder
-	WmsWarehouse  WmsWarehouse
-	User          User
+	WmsPackagesView WmsPackagesView
+	WmsSalesOrder   WmsSalesOrder
+	WmsWarehouse    WmsWarehouse
+	User            User
 }
 
 func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackageParams) ([]WmsPaginatePackageRow, error) {
@@ -315,28 +317,29 @@ func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackage
 	for rows.Next() {
 		var i WmsPaginatePackageRow
 		if err := rows.Scan(
-			&i.WmsPackage.ID,
-			&i.WmsPackage.SalesOrderID,
-			&i.WmsPackage.PackageNumber,
-			&i.WmsPackage.WarehouseID,
-			&i.WmsPackage.PackageType,
-			&i.WmsPackage.Weight,
-			&i.WmsPackage.Length,
-			&i.WmsPackage.Width,
-			&i.WmsPackage.Height,
-			&i.WmsPackage.Volume,
-			&i.WmsPackage.TrackingNumber,
-			&i.WmsPackage.Carrier,
-			&i.WmsPackage.ServiceLevel,
-			&i.WmsPackage.PackedByUserID,
-			&i.WmsPackage.PackedAt,
-			&i.WmsPackage.ShippedAt,
-			&i.WmsPackage.IsFragile,
-			&i.WmsPackage.IsHazmat,
-			&i.WmsPackage.RequiresSignature,
-			&i.WmsPackage.InsuranceValue,
-			&i.WmsPackage.CreatedAt,
-			&i.WmsPackage.UpdatedAt,
+			&i.WmsPackagesView.ID,
+			&i.WmsPackagesView.SalesOrderID,
+			&i.WmsPackagesView.PackageNumber,
+			&i.WmsPackagesView.WarehouseID,
+			&i.WmsPackagesView.PackageType,
+			&i.WmsPackagesView.Weight,
+			&i.WmsPackagesView.Length,
+			&i.WmsPackagesView.Width,
+			&i.WmsPackagesView.Height,
+			&i.WmsPackagesView.Volume,
+			&i.WmsPackagesView.TrackingNumber,
+			&i.WmsPackagesView.Carrier,
+			&i.WmsPackagesView.ServiceLevel,
+			&i.WmsPackagesView.PackedByUserID,
+			&i.WmsPackagesView.PackedAt,
+			&i.WmsPackagesView.ShippedAt,
+			&i.WmsPackagesView.IsFragile,
+			&i.WmsPackagesView.IsHazmat,
+			&i.WmsPackagesView.RequiresSignature,
+			&i.WmsPackagesView.InsuranceValue,
+			&i.WmsPackagesView.CreatedAt,
+			&i.WmsPackagesView.UpdatedAt,
+			&i.WmsPackagesView.PackageItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -383,12 +386,12 @@ func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackage
 
 const wmsRangePackage = `-- name: WmsRangePackage :many
 select
-  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at,
+  packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at, packages.package_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   packed_by_user.id, packed_by_user.name, packed_by_user.email, packed_by_user.email_verified, packed_by_user.image, packed_by_user.created_at, packed_by_user.updated_at, packed_by_user.role, packed_by_user.banned, packed_by_user.ban_reason, packed_by_user.ban_expires
 from
-  "wms"."packages" as packages
+  "wms"."packages_view" as packages
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
@@ -411,10 +414,10 @@ type WmsRangePackageParams struct {
 }
 
 type WmsRangePackageRow struct {
-	WmsPackage    WmsPackage
-	WmsSalesOrder WmsSalesOrder
-	WmsWarehouse  WmsWarehouse
-	User          User
+	WmsPackagesView WmsPackagesView
+	WmsSalesOrder   WmsSalesOrder
+	WmsWarehouse    WmsWarehouse
+	User            User
 }
 
 func (q *Queries) WmsRangePackage(ctx context.Context, arg WmsRangePackageParams) ([]WmsRangePackageRow, error) {
@@ -427,28 +430,29 @@ func (q *Queries) WmsRangePackage(ctx context.Context, arg WmsRangePackageParams
 	for rows.Next() {
 		var i WmsRangePackageRow
 		if err := rows.Scan(
-			&i.WmsPackage.ID,
-			&i.WmsPackage.SalesOrderID,
-			&i.WmsPackage.PackageNumber,
-			&i.WmsPackage.WarehouseID,
-			&i.WmsPackage.PackageType,
-			&i.WmsPackage.Weight,
-			&i.WmsPackage.Length,
-			&i.WmsPackage.Width,
-			&i.WmsPackage.Height,
-			&i.WmsPackage.Volume,
-			&i.WmsPackage.TrackingNumber,
-			&i.WmsPackage.Carrier,
-			&i.WmsPackage.ServiceLevel,
-			&i.WmsPackage.PackedByUserID,
-			&i.WmsPackage.PackedAt,
-			&i.WmsPackage.ShippedAt,
-			&i.WmsPackage.IsFragile,
-			&i.WmsPackage.IsHazmat,
-			&i.WmsPackage.RequiresSignature,
-			&i.WmsPackage.InsuranceValue,
-			&i.WmsPackage.CreatedAt,
-			&i.WmsPackage.UpdatedAt,
+			&i.WmsPackagesView.ID,
+			&i.WmsPackagesView.SalesOrderID,
+			&i.WmsPackagesView.PackageNumber,
+			&i.WmsPackagesView.WarehouseID,
+			&i.WmsPackagesView.PackageType,
+			&i.WmsPackagesView.Weight,
+			&i.WmsPackagesView.Length,
+			&i.WmsPackagesView.Width,
+			&i.WmsPackagesView.Height,
+			&i.WmsPackagesView.Volume,
+			&i.WmsPackagesView.TrackingNumber,
+			&i.WmsPackagesView.Carrier,
+			&i.WmsPackagesView.ServiceLevel,
+			&i.WmsPackagesView.PackedByUserID,
+			&i.WmsPackagesView.PackedAt,
+			&i.WmsPackagesView.ShippedAt,
+			&i.WmsPackagesView.IsFragile,
+			&i.WmsPackagesView.IsHazmat,
+			&i.WmsPackagesView.RequiresSignature,
+			&i.WmsPackagesView.InsuranceValue,
+			&i.WmsPackagesView.CreatedAt,
+			&i.WmsPackagesView.UpdatedAt,
+			&i.WmsPackagesView.PackageItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,

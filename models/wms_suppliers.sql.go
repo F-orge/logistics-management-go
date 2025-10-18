@@ -13,22 +13,22 @@ import (
 
 const wmsAnySupplier = `-- name: WmsAnySupplier :many
 select
-  id, name, contact_person, email, phone_number, created_at, updated_at
+  id, name, contact_person, email, phone_number, created_at, updated_at, products
 from
-  "wms"."suppliers"
+  "wms"."suppliers_view"
 where
   id = any ($1::uuid[])
 `
 
-func (q *Queries) WmsAnySupplier(ctx context.Context, ids []pgtype.UUID) ([]WmsSupplier, error) {
+func (q *Queries) WmsAnySupplier(ctx context.Context, ids []pgtype.UUID) ([]WmsSuppliersView, error) {
 	rows, err := q.db.Query(ctx, wmsAnySupplier, ids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsSupplier
+	var items []WmsSuppliersView
 	for rows.Next() {
-		var i WmsSupplier
+		var i WmsSuppliersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -37,6 +37,7 @@ func (q *Queries) WmsAnySupplier(ctx context.Context, ids []pgtype.UUID) ([]WmsS
 			&i.PhoneNumber,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.Products,
 		); err != nil {
 			return nil, err
 		}
@@ -50,16 +51,16 @@ func (q *Queries) WmsAnySupplier(ctx context.Context, ids []pgtype.UUID) ([]WmsS
 
 const wmsFindSupplier = `-- name: WmsFindSupplier :one
 select
-  id, name, contact_person, email, phone_number, created_at, updated_at
+  id, name, contact_person, email, phone_number, created_at, updated_at, products
 from
-  "wms"."suppliers"
+  "wms"."suppliers_view"
 where
   id = $1::uuid
 `
 
-func (q *Queries) WmsFindSupplier(ctx context.Context, id pgtype.UUID) (WmsSupplier, error) {
+func (q *Queries) WmsFindSupplier(ctx context.Context, id pgtype.UUID) (WmsSuppliersView, error) {
 	row := q.db.QueryRow(ctx, wmsFindSupplier, id)
-	var i WmsSupplier
+	var i WmsSuppliersView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -68,6 +69,7 @@ func (q *Queries) WmsFindSupplier(ctx context.Context, id pgtype.UUID) (WmsSuppl
 		&i.PhoneNumber,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.Products,
 	)
 	return i, err
 }
@@ -108,9 +110,9 @@ func (q *Queries) WmsInsertSupplier(ctx context.Context, arg WmsInsertSupplierPa
 
 const wmsPaginateSupplier = `-- name: WmsPaginateSupplier :many
 select
-  id, name, contact_person, email, phone_number, created_at, updated_at
+  id, name, contact_person, email, phone_number, created_at, updated_at, products
 from
-  "wms"."suppliers"
+  "wms"."suppliers_view"
 where (name ilike $1::text
   or email ilike $1::text
   or $1::text is null)
@@ -123,15 +125,15 @@ type WmsPaginateSupplierParams struct {
 	Perpage int32
 }
 
-func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSupplier, error) {
+func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSuppliersView, error) {
 	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsSupplier
+	var items []WmsSuppliersView
 	for rows.Next() {
-		var i WmsSupplier
+		var i WmsSuppliersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -140,6 +142,7 @@ func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSuppli
 			&i.PhoneNumber,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.Products,
 		); err != nil {
 			return nil, err
 		}
@@ -153,9 +156,9 @@ func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSuppli
 
 const wmsRangeSupplier = `-- name: WmsRangeSupplier :many
 select
-  id, name, contact_person, email, phone_number, created_at, updated_at
+  id, name, contact_person, email, phone_number, created_at, updated_at, products
 from
-  "wms"."suppliers"
+  "wms"."suppliers_view"
 where
   created_at >= $1::date
   and created_at <= $2::date
@@ -170,15 +173,15 @@ type WmsRangeSupplierParams struct {
 	Search   pgtype.Text
 }
 
-func (q *Queries) WmsRangeSupplier(ctx context.Context, arg WmsRangeSupplierParams) ([]WmsSupplier, error) {
+func (q *Queries) WmsRangeSupplier(ctx context.Context, arg WmsRangeSupplierParams) ([]WmsSuppliersView, error) {
 	rows, err := q.db.Query(ctx, wmsRangeSupplier, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsSupplier
+	var items []WmsSuppliersView
 	for rows.Next() {
-		var i WmsSupplier
+		var i WmsSuppliersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -187,6 +190,7 @@ func (q *Queries) WmsRangeSupplier(ctx context.Context, arg WmsRangeSupplierPara
 			&i.PhoneNumber,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.Products,
 		); err != nil {
 			return nil, err
 		}

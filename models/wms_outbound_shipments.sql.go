@@ -13,18 +13,18 @@ import (
 
 const wmsAnyOutboundShipment = `-- name: WmsAnyOutboundShipment :many
 select
-  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at,
+  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at, outbound_shipments.outbound_shipment_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.id = any ($1::uuid[])
 `
 
 type WmsAnyOutboundShipmentRow struct {
-	WmsOutboundShipment WmsOutboundShipment
-	WmsSalesOrder       WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView
+	WmsSalesOrder            WmsSalesOrder
 }
 
 func (q *Queries) WmsAnyOutboundShipment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyOutboundShipmentRow, error) {
@@ -37,14 +37,15 @@ func (q *Queries) WmsAnyOutboundShipment(ctx context.Context, ids []pgtype.UUID)
 	for rows.Next() {
 		var i WmsAnyOutboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsOutboundShipment.ID,
-			&i.WmsOutboundShipment.SalesOrderID,
-			&i.WmsOutboundShipment.WarehouseID,
-			&i.WmsOutboundShipment.Status,
-			&i.WmsOutboundShipment.TrackingNumber,
-			&i.WmsOutboundShipment.Carrier,
-			&i.WmsOutboundShipment.CreatedAt,
-			&i.WmsOutboundShipment.UpdatedAt,
+			&i.WmsOutboundShipmentsView.ID,
+			&i.WmsOutboundShipmentsView.SalesOrderID,
+			&i.WmsOutboundShipmentsView.WarehouseID,
+			&i.WmsOutboundShipmentsView.Status,
+			&i.WmsOutboundShipmentsView.TrackingNumber,
+			&i.WmsOutboundShipmentsView.Carrier,
+			&i.WmsOutboundShipmentsView.CreatedAt,
+			&i.WmsOutboundShipmentsView.UpdatedAt,
+			&i.WmsOutboundShipmentsView.OutboundShipmentItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -66,32 +67,33 @@ func (q *Queries) WmsAnyOutboundShipment(ctx context.Context, ids []pgtype.UUID)
 
 const wmsFindOutboundShipment = `-- name: WmsFindOutboundShipment :one
 select
-  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at,
+  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at, outbound_shipments.outbound_shipment_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.id = $1::uuid
 `
 
 type WmsFindOutboundShipmentRow struct {
-	WmsOutboundShipment WmsOutboundShipment
-	WmsSalesOrder       WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView
+	WmsSalesOrder            WmsSalesOrder
 }
 
 func (q *Queries) WmsFindOutboundShipment(ctx context.Context, id pgtype.UUID) (WmsFindOutboundShipmentRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindOutboundShipment, id)
 	var i WmsFindOutboundShipmentRow
 	err := row.Scan(
-		&i.WmsOutboundShipment.ID,
-		&i.WmsOutboundShipment.SalesOrderID,
-		&i.WmsOutboundShipment.WarehouseID,
-		&i.WmsOutboundShipment.Status,
-		&i.WmsOutboundShipment.TrackingNumber,
-		&i.WmsOutboundShipment.Carrier,
-		&i.WmsOutboundShipment.CreatedAt,
-		&i.WmsOutboundShipment.UpdatedAt,
+		&i.WmsOutboundShipmentsView.ID,
+		&i.WmsOutboundShipmentsView.SalesOrderID,
+		&i.WmsOutboundShipmentsView.WarehouseID,
+		&i.WmsOutboundShipmentsView.Status,
+		&i.WmsOutboundShipmentsView.TrackingNumber,
+		&i.WmsOutboundShipmentsView.Carrier,
+		&i.WmsOutboundShipmentsView.CreatedAt,
+		&i.WmsOutboundShipmentsView.UpdatedAt,
+		&i.WmsOutboundShipmentsView.OutboundShipmentItems,
 		&i.WmsSalesOrder.ID,
 		&i.WmsSalesOrder.OrderNumber,
 		&i.WmsSalesOrder.ClientID,
@@ -143,10 +145,10 @@ func (q *Queries) WmsInsertOutboundShipment(ctx context.Context, arg WmsInsertOu
 
 const wmsPaginateOutboundShipment = `-- name: WmsPaginateOutboundShipment :many
 select
-  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at,
+  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at, outbound_shipments.outbound_shipment_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where (sales_order.order_number ilike $1::text
   or outbound_shipments.tracking_number ilike $1::text
@@ -163,8 +165,8 @@ type WmsPaginateOutboundShipmentParams struct {
 }
 
 type WmsPaginateOutboundShipmentRow struct {
-	WmsOutboundShipment WmsOutboundShipment
-	WmsSalesOrder       WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView
+	WmsSalesOrder            WmsSalesOrder
 }
 
 func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPaginateOutboundShipmentParams) ([]WmsPaginateOutboundShipmentRow, error) {
@@ -177,14 +179,15 @@ func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPagina
 	for rows.Next() {
 		var i WmsPaginateOutboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsOutboundShipment.ID,
-			&i.WmsOutboundShipment.SalesOrderID,
-			&i.WmsOutboundShipment.WarehouseID,
-			&i.WmsOutboundShipment.Status,
-			&i.WmsOutboundShipment.TrackingNumber,
-			&i.WmsOutboundShipment.Carrier,
-			&i.WmsOutboundShipment.CreatedAt,
-			&i.WmsOutboundShipment.UpdatedAt,
+			&i.WmsOutboundShipmentsView.ID,
+			&i.WmsOutboundShipmentsView.SalesOrderID,
+			&i.WmsOutboundShipmentsView.WarehouseID,
+			&i.WmsOutboundShipmentsView.Status,
+			&i.WmsOutboundShipmentsView.TrackingNumber,
+			&i.WmsOutboundShipmentsView.Carrier,
+			&i.WmsOutboundShipmentsView.CreatedAt,
+			&i.WmsOutboundShipmentsView.UpdatedAt,
+			&i.WmsOutboundShipmentsView.OutboundShipmentItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -206,10 +209,10 @@ func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPagina
 
 const wmsRangeOutboundShipment = `-- name: WmsRangeOutboundShipment :many
 select
-  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at,
+  outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at, outbound_shipments.outbound_shipment_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
 from
-  "wms"."outbound_shipments" as outbound_shipments
+  "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
 where
   outbound_shipments.created_at >= $1::date
@@ -228,8 +231,8 @@ type WmsRangeOutboundShipmentParams struct {
 }
 
 type WmsRangeOutboundShipmentRow struct {
-	WmsOutboundShipment WmsOutboundShipment
-	WmsSalesOrder       WmsSalesOrder
+	WmsOutboundShipmentsView WmsOutboundShipmentsView
+	WmsSalesOrder            WmsSalesOrder
 }
 
 func (q *Queries) WmsRangeOutboundShipment(ctx context.Context, arg WmsRangeOutboundShipmentParams) ([]WmsRangeOutboundShipmentRow, error) {
@@ -242,14 +245,15 @@ func (q *Queries) WmsRangeOutboundShipment(ctx context.Context, arg WmsRangeOutb
 	for rows.Next() {
 		var i WmsRangeOutboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsOutboundShipment.ID,
-			&i.WmsOutboundShipment.SalesOrderID,
-			&i.WmsOutboundShipment.WarehouseID,
-			&i.WmsOutboundShipment.Status,
-			&i.WmsOutboundShipment.TrackingNumber,
-			&i.WmsOutboundShipment.Carrier,
-			&i.WmsOutboundShipment.CreatedAt,
-			&i.WmsOutboundShipment.UpdatedAt,
+			&i.WmsOutboundShipmentsView.ID,
+			&i.WmsOutboundShipmentsView.SalesOrderID,
+			&i.WmsOutboundShipmentsView.WarehouseID,
+			&i.WmsOutboundShipmentsView.Status,
+			&i.WmsOutboundShipmentsView.TrackingNumber,
+			&i.WmsOutboundShipmentsView.Carrier,
+			&i.WmsOutboundShipmentsView.CreatedAt,
+			&i.WmsOutboundShipmentsView.UpdatedAt,
+			&i.WmsOutboundShipmentsView.OutboundShipmentItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,

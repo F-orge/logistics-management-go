@@ -13,12 +13,12 @@ import (
 
 const billingAnyInvoice = `-- name: BillingAnyInvoice :many
 select
-  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -27,10 +27,10 @@ where
 `
 
 type BillingAnyInvoiceRow struct {
-	BillingInvoice BillingInvoice
-	CrmCompany     CrmCompany
-	BillingQuote   BillingQuote
-	User           User
+	BillingInvoicesView BillingInvoicesView
+	CrmCompany          CrmCompany
+	BillingQuote        BillingQuote
+	User                User
 }
 
 func (q *Queries) BillingAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyInvoiceRow, error) {
@@ -43,27 +43,30 @@ func (q *Queries) BillingAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]B
 	for rows.Next() {
 		var i BillingAnyInvoiceRow
 		if err := rows.Scan(
-			&i.BillingInvoice.ID,
-			&i.BillingInvoice.ClientID,
-			&i.BillingInvoice.QuoteID,
-			&i.BillingInvoice.InvoiceNumber,
-			&i.BillingInvoice.Status,
-			&i.BillingInvoice.IssueDate,
-			&i.BillingInvoice.DueDate,
-			&i.BillingInvoice.TotalAmount,
-			&i.BillingInvoice.AmountPaid,
-			&i.BillingInvoice.AmountOutstanding,
-			&i.BillingInvoice.Currency,
-			&i.BillingInvoice.TaxAmount,
-			&i.BillingInvoice.DiscountAmount,
-			&i.BillingInvoice.Subtotal,
-			&i.BillingInvoice.PaymentTerms,
-			&i.BillingInvoice.Notes,
-			&i.BillingInvoice.SentAt,
-			&i.BillingInvoice.PaidAt,
-			&i.BillingInvoice.CreatedByUserID,
-			&i.BillingInvoice.CreatedAt,
-			&i.BillingInvoice.UpdatedAt,
+			&i.BillingInvoicesView.ID,
+			&i.BillingInvoicesView.ClientID,
+			&i.BillingInvoicesView.QuoteID,
+			&i.BillingInvoicesView.InvoiceNumber,
+			&i.BillingInvoicesView.Status,
+			&i.BillingInvoicesView.IssueDate,
+			&i.BillingInvoicesView.DueDate,
+			&i.BillingInvoicesView.TotalAmount,
+			&i.BillingInvoicesView.AmountPaid,
+			&i.BillingInvoicesView.AmountOutstanding,
+			&i.BillingInvoicesView.Currency,
+			&i.BillingInvoicesView.TaxAmount,
+			&i.BillingInvoicesView.DiscountAmount,
+			&i.BillingInvoicesView.Subtotal,
+			&i.BillingInvoicesView.PaymentTerms,
+			&i.BillingInvoicesView.Notes,
+			&i.BillingInvoicesView.SentAt,
+			&i.BillingInvoicesView.PaidAt,
+			&i.BillingInvoicesView.CreatedByUserID,
+			&i.BillingInvoicesView.CreatedAt,
+			&i.BillingInvoicesView.UpdatedAt,
+			&i.BillingInvoicesView.InvoiceLineItems,
+			&i.BillingInvoicesView.Payments,
+			&i.BillingInvoicesView.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -120,12 +123,12 @@ func (q *Queries) BillingAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]B
 
 const billingFindInvoice = `-- name: BillingFindInvoice :one
 select
-  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -134,37 +137,40 @@ where
 `
 
 type BillingFindInvoiceRow struct {
-	BillingInvoice BillingInvoice
-	CrmCompany     CrmCompany
-	BillingQuote   BillingQuote
-	User           User
+	BillingInvoicesView BillingInvoicesView
+	CrmCompany          CrmCompany
+	BillingQuote        BillingQuote
+	User                User
 }
 
 func (q *Queries) BillingFindInvoice(ctx context.Context, id pgtype.UUID) (BillingFindInvoiceRow, error) {
 	row := q.db.QueryRow(ctx, billingFindInvoice, id)
 	var i BillingFindInvoiceRow
 	err := row.Scan(
-		&i.BillingInvoice.ID,
-		&i.BillingInvoice.ClientID,
-		&i.BillingInvoice.QuoteID,
-		&i.BillingInvoice.InvoiceNumber,
-		&i.BillingInvoice.Status,
-		&i.BillingInvoice.IssueDate,
-		&i.BillingInvoice.DueDate,
-		&i.BillingInvoice.TotalAmount,
-		&i.BillingInvoice.AmountPaid,
-		&i.BillingInvoice.AmountOutstanding,
-		&i.BillingInvoice.Currency,
-		&i.BillingInvoice.TaxAmount,
-		&i.BillingInvoice.DiscountAmount,
-		&i.BillingInvoice.Subtotal,
-		&i.BillingInvoice.PaymentTerms,
-		&i.BillingInvoice.Notes,
-		&i.BillingInvoice.SentAt,
-		&i.BillingInvoice.PaidAt,
-		&i.BillingInvoice.CreatedByUserID,
-		&i.BillingInvoice.CreatedAt,
-		&i.BillingInvoice.UpdatedAt,
+		&i.BillingInvoicesView.ID,
+		&i.BillingInvoicesView.ClientID,
+		&i.BillingInvoicesView.QuoteID,
+		&i.BillingInvoicesView.InvoiceNumber,
+		&i.BillingInvoicesView.Status,
+		&i.BillingInvoicesView.IssueDate,
+		&i.BillingInvoicesView.DueDate,
+		&i.BillingInvoicesView.TotalAmount,
+		&i.BillingInvoicesView.AmountPaid,
+		&i.BillingInvoicesView.AmountOutstanding,
+		&i.BillingInvoicesView.Currency,
+		&i.BillingInvoicesView.TaxAmount,
+		&i.BillingInvoicesView.DiscountAmount,
+		&i.BillingInvoicesView.Subtotal,
+		&i.BillingInvoicesView.PaymentTerms,
+		&i.BillingInvoicesView.Notes,
+		&i.BillingInvoicesView.SentAt,
+		&i.BillingInvoicesView.PaidAt,
+		&i.BillingInvoicesView.CreatedByUserID,
+		&i.BillingInvoicesView.CreatedAt,
+		&i.BillingInvoicesView.UpdatedAt,
+		&i.BillingInvoicesView.InvoiceLineItems,
+		&i.BillingInvoicesView.Payments,
+		&i.BillingInvoicesView.CreditNotes,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -288,12 +294,12 @@ func (q *Queries) BillingInsertInvoice(ctx context.Context, arg BillingInsertInv
 
 const billingPaginateInvoice = `-- name: BillingPaginateInvoice :many
 select
-  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -313,10 +319,10 @@ type BillingPaginateInvoiceParams struct {
 }
 
 type BillingPaginateInvoiceRow struct {
-	BillingInvoice BillingInvoice
-	CrmCompany     CrmCompany
-	BillingQuote   BillingQuote
-	User           User
+	BillingInvoicesView BillingInvoicesView
+	CrmCompany          CrmCompany
+	BillingQuote        BillingQuote
+	User                User
 }
 
 func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginateInvoiceParams) ([]BillingPaginateInvoiceRow, error) {
@@ -329,27 +335,30 @@ func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginat
 	for rows.Next() {
 		var i BillingPaginateInvoiceRow
 		if err := rows.Scan(
-			&i.BillingInvoice.ID,
-			&i.BillingInvoice.ClientID,
-			&i.BillingInvoice.QuoteID,
-			&i.BillingInvoice.InvoiceNumber,
-			&i.BillingInvoice.Status,
-			&i.BillingInvoice.IssueDate,
-			&i.BillingInvoice.DueDate,
-			&i.BillingInvoice.TotalAmount,
-			&i.BillingInvoice.AmountPaid,
-			&i.BillingInvoice.AmountOutstanding,
-			&i.BillingInvoice.Currency,
-			&i.BillingInvoice.TaxAmount,
-			&i.BillingInvoice.DiscountAmount,
-			&i.BillingInvoice.Subtotal,
-			&i.BillingInvoice.PaymentTerms,
-			&i.BillingInvoice.Notes,
-			&i.BillingInvoice.SentAt,
-			&i.BillingInvoice.PaidAt,
-			&i.BillingInvoice.CreatedByUserID,
-			&i.BillingInvoice.CreatedAt,
-			&i.BillingInvoice.UpdatedAt,
+			&i.BillingInvoicesView.ID,
+			&i.BillingInvoicesView.ClientID,
+			&i.BillingInvoicesView.QuoteID,
+			&i.BillingInvoicesView.InvoiceNumber,
+			&i.BillingInvoicesView.Status,
+			&i.BillingInvoicesView.IssueDate,
+			&i.BillingInvoicesView.DueDate,
+			&i.BillingInvoicesView.TotalAmount,
+			&i.BillingInvoicesView.AmountPaid,
+			&i.BillingInvoicesView.AmountOutstanding,
+			&i.BillingInvoicesView.Currency,
+			&i.BillingInvoicesView.TaxAmount,
+			&i.BillingInvoicesView.DiscountAmount,
+			&i.BillingInvoicesView.Subtotal,
+			&i.BillingInvoicesView.PaymentTerms,
+			&i.BillingInvoicesView.Notes,
+			&i.BillingInvoicesView.SentAt,
+			&i.BillingInvoicesView.PaidAt,
+			&i.BillingInvoicesView.CreatedByUserID,
+			&i.BillingInvoicesView.CreatedAt,
+			&i.BillingInvoicesView.UpdatedAt,
+			&i.BillingInvoicesView.InvoiceLineItems,
+			&i.BillingInvoicesView.Payments,
+			&i.BillingInvoicesView.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -406,12 +415,12 @@ func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginat
 
 const billingRangeInvoice = `-- name: BillingRangeInvoice :many
 select
-  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -433,10 +442,10 @@ type BillingRangeInvoiceParams struct {
 }
 
 type BillingRangeInvoiceRow struct {
-	BillingInvoice BillingInvoice
-	CrmCompany     CrmCompany
-	BillingQuote   BillingQuote
-	User           User
+	BillingInvoicesView BillingInvoicesView
+	CrmCompany          CrmCompany
+	BillingQuote        BillingQuote
+	User                User
 }
 
 func (q *Queries) BillingRangeInvoice(ctx context.Context, arg BillingRangeInvoiceParams) ([]BillingRangeInvoiceRow, error) {
@@ -449,27 +458,30 @@ func (q *Queries) BillingRangeInvoice(ctx context.Context, arg BillingRangeInvoi
 	for rows.Next() {
 		var i BillingRangeInvoiceRow
 		if err := rows.Scan(
-			&i.BillingInvoice.ID,
-			&i.BillingInvoice.ClientID,
-			&i.BillingInvoice.QuoteID,
-			&i.BillingInvoice.InvoiceNumber,
-			&i.BillingInvoice.Status,
-			&i.BillingInvoice.IssueDate,
-			&i.BillingInvoice.DueDate,
-			&i.BillingInvoice.TotalAmount,
-			&i.BillingInvoice.AmountPaid,
-			&i.BillingInvoice.AmountOutstanding,
-			&i.BillingInvoice.Currency,
-			&i.BillingInvoice.TaxAmount,
-			&i.BillingInvoice.DiscountAmount,
-			&i.BillingInvoice.Subtotal,
-			&i.BillingInvoice.PaymentTerms,
-			&i.BillingInvoice.Notes,
-			&i.BillingInvoice.SentAt,
-			&i.BillingInvoice.PaidAt,
-			&i.BillingInvoice.CreatedByUserID,
-			&i.BillingInvoice.CreatedAt,
-			&i.BillingInvoice.UpdatedAt,
+			&i.BillingInvoicesView.ID,
+			&i.BillingInvoicesView.ClientID,
+			&i.BillingInvoicesView.QuoteID,
+			&i.BillingInvoicesView.InvoiceNumber,
+			&i.BillingInvoicesView.Status,
+			&i.BillingInvoicesView.IssueDate,
+			&i.BillingInvoicesView.DueDate,
+			&i.BillingInvoicesView.TotalAmount,
+			&i.BillingInvoicesView.AmountPaid,
+			&i.BillingInvoicesView.AmountOutstanding,
+			&i.BillingInvoicesView.Currency,
+			&i.BillingInvoicesView.TaxAmount,
+			&i.BillingInvoicesView.DiscountAmount,
+			&i.BillingInvoicesView.Subtotal,
+			&i.BillingInvoicesView.PaymentTerms,
+			&i.BillingInvoicesView.Notes,
+			&i.BillingInvoicesView.SentAt,
+			&i.BillingInvoicesView.PaidAt,
+			&i.BillingInvoicesView.CreatedByUserID,
+			&i.BillingInvoicesView.CreatedAt,
+			&i.BillingInvoicesView.UpdatedAt,
+			&i.BillingInvoicesView.InvoiceLineItems,
+			&i.BillingInvoicesView.Payments,
+			&i.BillingInvoicesView.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

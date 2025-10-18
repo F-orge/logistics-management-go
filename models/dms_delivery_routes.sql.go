@@ -13,18 +13,18 @@ import (
 
 const dmsAnyDeliveryRoute = `-- name: DmsAnyDeliveryRoute :many
 select
-  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at,
+  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.id = any ($1::uuid[])
 `
 
 type DmsAnyDeliveryRouteRow struct {
-	DmsDeliveryRoute DmsDeliveryRoute
-	TmsDriver        TmsDriver
+	DmsDeliveryRoutesView DmsDeliveryRoutesView
+	TmsDriver             TmsDriver
 }
 
 func (q *Queries) DmsAnyDeliveryRoute(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDeliveryRouteRow, error) {
@@ -37,18 +37,19 @@ func (q *Queries) DmsAnyDeliveryRoute(ctx context.Context, ids []pgtype.UUID) ([
 	for rows.Next() {
 		var i DmsAnyDeliveryRouteRow
 		if err := rows.Scan(
-			&i.DmsDeliveryRoute.ID,
-			&i.DmsDeliveryRoute.DriverID,
-			&i.DmsDeliveryRoute.RouteDate,
-			&i.DmsDeliveryRoute.Status,
-			&i.DmsDeliveryRoute.OptimizedRouteData,
-			&i.DmsDeliveryRoute.TotalDistanceKm,
-			&i.DmsDeliveryRoute.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoute.ActualDurationMinutes,
-			&i.DmsDeliveryRoute.StartedAt,
-			&i.DmsDeliveryRoute.CompletedAt,
-			&i.DmsDeliveryRoute.CreatedAt,
-			&i.DmsDeliveryRoute.UpdatedAt,
+			&i.DmsDeliveryRoutesView.ID,
+			&i.DmsDeliveryRoutesView.DriverID,
+			&i.DmsDeliveryRoutesView.RouteDate,
+			&i.DmsDeliveryRoutesView.Status,
+			&i.DmsDeliveryRoutesView.OptimizedRouteData,
+			&i.DmsDeliveryRoutesView.TotalDistanceKm,
+			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
+			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
+			&i.DmsDeliveryRoutesView.StartedAt,
+			&i.DmsDeliveryRoutesView.CompletedAt,
+			&i.DmsDeliveryRoutesView.CreatedAt,
+			&i.DmsDeliveryRoutesView.UpdatedAt,
+			&i.DmsDeliveryRoutesView.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -70,36 +71,37 @@ func (q *Queries) DmsAnyDeliveryRoute(ctx context.Context, ids []pgtype.UUID) ([
 
 const dmsFindDeliveryRoute = `-- name: DmsFindDeliveryRoute :one
 select
-  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at,
+  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.id = $1::uuid
 `
 
 type DmsFindDeliveryRouteRow struct {
-	DmsDeliveryRoute DmsDeliveryRoute
-	TmsDriver        TmsDriver
+	DmsDeliveryRoutesView DmsDeliveryRoutesView
+	TmsDriver             TmsDriver
 }
 
 func (q *Queries) DmsFindDeliveryRoute(ctx context.Context, id pgtype.UUID) (DmsFindDeliveryRouteRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindDeliveryRoute, id)
 	var i DmsFindDeliveryRouteRow
 	err := row.Scan(
-		&i.DmsDeliveryRoute.ID,
-		&i.DmsDeliveryRoute.DriverID,
-		&i.DmsDeliveryRoute.RouteDate,
-		&i.DmsDeliveryRoute.Status,
-		&i.DmsDeliveryRoute.OptimizedRouteData,
-		&i.DmsDeliveryRoute.TotalDistanceKm,
-		&i.DmsDeliveryRoute.EstimatedDurationMinutes,
-		&i.DmsDeliveryRoute.ActualDurationMinutes,
-		&i.DmsDeliveryRoute.StartedAt,
-		&i.DmsDeliveryRoute.CompletedAt,
-		&i.DmsDeliveryRoute.CreatedAt,
-		&i.DmsDeliveryRoute.UpdatedAt,
+		&i.DmsDeliveryRoutesView.ID,
+		&i.DmsDeliveryRoutesView.DriverID,
+		&i.DmsDeliveryRoutesView.RouteDate,
+		&i.DmsDeliveryRoutesView.Status,
+		&i.DmsDeliveryRoutesView.OptimizedRouteData,
+		&i.DmsDeliveryRoutesView.TotalDistanceKm,
+		&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
+		&i.DmsDeliveryRoutesView.ActualDurationMinutes,
+		&i.DmsDeliveryRoutesView.StartedAt,
+		&i.DmsDeliveryRoutesView.CompletedAt,
+		&i.DmsDeliveryRoutesView.CreatedAt,
+		&i.DmsDeliveryRoutesView.UpdatedAt,
+		&i.DmsDeliveryRoutesView.DeliveryTasks,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -161,10 +163,10 @@ func (q *Queries) DmsInsertDeliveryRoute(ctx context.Context, arg DmsInsertDeliv
 
 const dmsPaginateDeliveryRoute = `-- name: DmsPaginateDeliveryRoute :many
 select
-  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at,
+  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where (driver.name ilike $1::text
   or delivery_routes.status::text ilike $1::text
@@ -179,8 +181,8 @@ type DmsPaginateDeliveryRouteParams struct {
 }
 
 type DmsPaginateDeliveryRouteRow struct {
-	DmsDeliveryRoute DmsDeliveryRoute
-	TmsDriver        TmsDriver
+	DmsDeliveryRoutesView DmsDeliveryRoutesView
+	TmsDriver             TmsDriver
 }
 
 func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateDeliveryRouteParams) ([]DmsPaginateDeliveryRouteRow, error) {
@@ -193,18 +195,19 @@ func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateD
 	for rows.Next() {
 		var i DmsPaginateDeliveryRouteRow
 		if err := rows.Scan(
-			&i.DmsDeliveryRoute.ID,
-			&i.DmsDeliveryRoute.DriverID,
-			&i.DmsDeliveryRoute.RouteDate,
-			&i.DmsDeliveryRoute.Status,
-			&i.DmsDeliveryRoute.OptimizedRouteData,
-			&i.DmsDeliveryRoute.TotalDistanceKm,
-			&i.DmsDeliveryRoute.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoute.ActualDurationMinutes,
-			&i.DmsDeliveryRoute.StartedAt,
-			&i.DmsDeliveryRoute.CompletedAt,
-			&i.DmsDeliveryRoute.CreatedAt,
-			&i.DmsDeliveryRoute.UpdatedAt,
+			&i.DmsDeliveryRoutesView.ID,
+			&i.DmsDeliveryRoutesView.DriverID,
+			&i.DmsDeliveryRoutesView.RouteDate,
+			&i.DmsDeliveryRoutesView.Status,
+			&i.DmsDeliveryRoutesView.OptimizedRouteData,
+			&i.DmsDeliveryRoutesView.TotalDistanceKm,
+			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
+			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
+			&i.DmsDeliveryRoutesView.StartedAt,
+			&i.DmsDeliveryRoutesView.CompletedAt,
+			&i.DmsDeliveryRoutesView.CreatedAt,
+			&i.DmsDeliveryRoutesView.UpdatedAt,
+			&i.DmsDeliveryRoutesView.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -226,10 +229,10 @@ func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateD
 
 const dmsRangeDeliveryRoute = `-- name: DmsRangeDeliveryRoute :many
 select
-  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at,
+  delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.created_at >= $1::date
@@ -246,8 +249,8 @@ type DmsRangeDeliveryRouteParams struct {
 }
 
 type DmsRangeDeliveryRouteRow struct {
-	DmsDeliveryRoute DmsDeliveryRoute
-	TmsDriver        TmsDriver
+	DmsDeliveryRoutesView DmsDeliveryRoutesView
+	TmsDriver             TmsDriver
 }
 
 func (q *Queries) DmsRangeDeliveryRoute(ctx context.Context, arg DmsRangeDeliveryRouteParams) ([]DmsRangeDeliveryRouteRow, error) {
@@ -260,18 +263,19 @@ func (q *Queries) DmsRangeDeliveryRoute(ctx context.Context, arg DmsRangeDeliver
 	for rows.Next() {
 		var i DmsRangeDeliveryRouteRow
 		if err := rows.Scan(
-			&i.DmsDeliveryRoute.ID,
-			&i.DmsDeliveryRoute.DriverID,
-			&i.DmsDeliveryRoute.RouteDate,
-			&i.DmsDeliveryRoute.Status,
-			&i.DmsDeliveryRoute.OptimizedRouteData,
-			&i.DmsDeliveryRoute.TotalDistanceKm,
-			&i.DmsDeliveryRoute.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoute.ActualDurationMinutes,
-			&i.DmsDeliveryRoute.StartedAt,
-			&i.DmsDeliveryRoute.CompletedAt,
-			&i.DmsDeliveryRoute.CreatedAt,
-			&i.DmsDeliveryRoute.UpdatedAt,
+			&i.DmsDeliveryRoutesView.ID,
+			&i.DmsDeliveryRoutesView.DriverID,
+			&i.DmsDeliveryRoutesView.RouteDate,
+			&i.DmsDeliveryRoutesView.Status,
+			&i.DmsDeliveryRoutesView.OptimizedRouteData,
+			&i.DmsDeliveryRoutesView.TotalDistanceKm,
+			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
+			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
+			&i.DmsDeliveryRoutesView.StartedAt,
+			&i.DmsDeliveryRoutesView.CompletedAt,
+			&i.DmsDeliveryRoutesView.CreatedAt,
+			&i.DmsDeliveryRoutesView.UpdatedAt,
+			&i.DmsDeliveryRoutesView.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

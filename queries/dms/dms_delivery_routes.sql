@@ -3,7 +3,7 @@ select
   sqlc.embed(delivery_routes),
   sqlc.embed(driver)
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where (driver.name ilike sqlc.narg(search)::text
   or delivery_routes.status::text ilike sqlc.narg(search)::text
@@ -15,7 +15,7 @@ select
   sqlc.embed(delivery_routes),
   sqlc.embed(driver)
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.id = sqlc.arg(id)::uuid;
@@ -25,7 +25,7 @@ select
   sqlc.embed(delivery_routes),
   sqlc.embed(driver)
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.id = any (@ids::uuid[]);
@@ -35,7 +35,7 @@ select
   sqlc.embed(delivery_routes),
   sqlc.embed(driver)
 from
-  "dms"."delivery_routes" as delivery_routes
+  "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
 where
   delivery_routes.created_at >= @dateFrom::date

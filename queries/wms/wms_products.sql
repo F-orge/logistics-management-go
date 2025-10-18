@@ -4,7 +4,7 @@ select
   sqlc.embed(supplier),
   sqlc.embed(client)
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where (products.name ilike sqlc.narg(search)::text
@@ -22,7 +22,7 @@ select
   sqlc.embed(supplier),
   sqlc.embed(client)
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where
@@ -34,7 +34,7 @@ select
   sqlc.embed(supplier),
   sqlc.embed(client)
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where
@@ -46,7 +46,7 @@ select
   sqlc.embed(supplier),
   sqlc.embed(client)
 from
-  "wms"."products" as products
+  "wms"."products_view" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
 where

@@ -2,7 +2,7 @@
 select
   *
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where (registration_number ilike sqlc.narg(search)::text
   or model ilike sqlc.narg(search)::text
   or status::text ilike sqlc.narg(search)::text
@@ -13,7 +13,7 @@ limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage
 select
   *
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   id = sqlc.arg(id)::uuid;
 
@@ -21,7 +21,7 @@ where
 select
   *
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   id = any (@ids::uuid[]);
 
@@ -29,7 +29,7 @@ where
 select
   *
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date

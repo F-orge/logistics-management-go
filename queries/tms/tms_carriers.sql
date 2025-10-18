@@ -2,7 +2,7 @@
 select
   *
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where (name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -11,7 +11,7 @@ limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage
 select
   *
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   id = sqlc.arg(id)::uuid;
 
@@ -19,7 +19,7 @@ where
 select
   *
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   id = any (@ids::uuid[]);
 
@@ -27,7 +27,7 @@ where
 select
   *
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date

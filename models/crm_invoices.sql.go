@@ -13,18 +13,18 @@ import (
 
 const crmAnyInvoice = `-- name: CrmAnyInvoice :many
 select
-  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at, invoices.items,
   opportunity.id, opportunity.name, opportunity.stage, opportunity.deal_value, opportunity.probability, opportunity.expected_close_date, opportunity.lost_reason, opportunity.source, opportunity.owner_id, opportunity.contact_id, opportunity.company_id, opportunity.campaign_id, opportunity.created_at, opportunity.updated_at
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.id = any ($1::uuid[])
 `
 
 type CrmAnyInvoiceRow struct {
-	CrmInvoice     CrmInvoice
-	CrmOpportunity CrmOpportunity
+	CrmInvoicesView CrmInvoicesView
+	CrmOpportunity  CrmOpportunity
 }
 
 func (q *Queries) CrmAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyInvoiceRow, error) {
@@ -37,17 +37,18 @@ func (q *Queries) CrmAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]CrmAn
 	for rows.Next() {
 		var i CrmAnyInvoiceRow
 		if err := rows.Scan(
-			&i.CrmInvoice.ID,
-			&i.CrmInvoice.OpportunityID,
-			&i.CrmInvoice.Status,
-			&i.CrmInvoice.Total,
-			&i.CrmInvoice.IssueDate,
-			&i.CrmInvoice.DueDate,
-			&i.CrmInvoice.SentAt,
-			&i.CrmInvoice.PaidAt,
-			&i.CrmInvoice.PaymentMethod,
-			&i.CrmInvoice.CreatedAt,
-			&i.CrmInvoice.UpdatedAt,
+			&i.CrmInvoicesView.ID,
+			&i.CrmInvoicesView.OpportunityID,
+			&i.CrmInvoicesView.Status,
+			&i.CrmInvoicesView.Total,
+			&i.CrmInvoicesView.IssueDate,
+			&i.CrmInvoicesView.DueDate,
+			&i.CrmInvoicesView.SentAt,
+			&i.CrmInvoicesView.PaidAt,
+			&i.CrmInvoicesView.PaymentMethod,
+			&i.CrmInvoicesView.CreatedAt,
+			&i.CrmInvoicesView.UpdatedAt,
+			&i.CrmInvoicesView.Items,
 			&i.CrmOpportunity.ID,
 			&i.CrmOpportunity.Name,
 			&i.CrmOpportunity.Stage,
@@ -75,35 +76,36 @@ func (q *Queries) CrmAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]CrmAn
 
 const crmFindInvoice = `-- name: CrmFindInvoice :one
 select
-  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at, invoices.items,
   opportunity.id, opportunity.name, opportunity.stage, opportunity.deal_value, opportunity.probability, opportunity.expected_close_date, opportunity.lost_reason, opportunity.source, opportunity.owner_id, opportunity.contact_id, opportunity.company_id, opportunity.campaign_id, opportunity.created_at, opportunity.updated_at
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.id = $1::uuid
 `
 
 type CrmFindInvoiceRow struct {
-	CrmInvoice     CrmInvoice
-	CrmOpportunity CrmOpportunity
+	CrmInvoicesView CrmInvoicesView
+	CrmOpportunity  CrmOpportunity
 }
 
 func (q *Queries) CrmFindInvoice(ctx context.Context, id pgtype.UUID) (CrmFindInvoiceRow, error) {
 	row := q.db.QueryRow(ctx, crmFindInvoice, id)
 	var i CrmFindInvoiceRow
 	err := row.Scan(
-		&i.CrmInvoice.ID,
-		&i.CrmInvoice.OpportunityID,
-		&i.CrmInvoice.Status,
-		&i.CrmInvoice.Total,
-		&i.CrmInvoice.IssueDate,
-		&i.CrmInvoice.DueDate,
-		&i.CrmInvoice.SentAt,
-		&i.CrmInvoice.PaidAt,
-		&i.CrmInvoice.PaymentMethod,
-		&i.CrmInvoice.CreatedAt,
-		&i.CrmInvoice.UpdatedAt,
+		&i.CrmInvoicesView.ID,
+		&i.CrmInvoicesView.OpportunityID,
+		&i.CrmInvoicesView.Status,
+		&i.CrmInvoicesView.Total,
+		&i.CrmInvoicesView.IssueDate,
+		&i.CrmInvoicesView.DueDate,
+		&i.CrmInvoicesView.SentAt,
+		&i.CrmInvoicesView.PaidAt,
+		&i.CrmInvoicesView.PaymentMethod,
+		&i.CrmInvoicesView.CreatedAt,
+		&i.CrmInvoicesView.UpdatedAt,
+		&i.CrmInvoicesView.Items,
 		&i.CrmOpportunity.ID,
 		&i.CrmOpportunity.Name,
 		&i.CrmOpportunity.Stage,
@@ -170,10 +172,10 @@ func (q *Queries) CrmInsertInvoice(ctx context.Context, arg CrmInsertInvoicePara
 
 const crmPaginateInvoice = `-- name: CrmPaginateInvoice :many
 select
-  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at, invoices.items,
   opportunity.id, opportunity.name, opportunity.stage, opportunity.deal_value, opportunity.probability, opportunity.expected_close_date, opportunity.lost_reason, opportunity.source, opportunity.owner_id, opportunity.contact_id, opportunity.company_id, opportunity.campaign_id, opportunity.created_at, opportunity.updated_at
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where (opportunity.name ilike $1::text
   or invoices.status::text ilike $1::text
@@ -188,8 +190,8 @@ type CrmPaginateInvoiceParams struct {
 }
 
 type CrmPaginateInvoiceRow struct {
-	CrmInvoice     CrmInvoice
-	CrmOpportunity CrmOpportunity
+	CrmInvoicesView CrmInvoicesView
+	CrmOpportunity  CrmOpportunity
 }
 
 func (q *Queries) CrmPaginateInvoice(ctx context.Context, arg CrmPaginateInvoiceParams) ([]CrmPaginateInvoiceRow, error) {
@@ -202,17 +204,18 @@ func (q *Queries) CrmPaginateInvoice(ctx context.Context, arg CrmPaginateInvoice
 	for rows.Next() {
 		var i CrmPaginateInvoiceRow
 		if err := rows.Scan(
-			&i.CrmInvoice.ID,
-			&i.CrmInvoice.OpportunityID,
-			&i.CrmInvoice.Status,
-			&i.CrmInvoice.Total,
-			&i.CrmInvoice.IssueDate,
-			&i.CrmInvoice.DueDate,
-			&i.CrmInvoice.SentAt,
-			&i.CrmInvoice.PaidAt,
-			&i.CrmInvoice.PaymentMethod,
-			&i.CrmInvoice.CreatedAt,
-			&i.CrmInvoice.UpdatedAt,
+			&i.CrmInvoicesView.ID,
+			&i.CrmInvoicesView.OpportunityID,
+			&i.CrmInvoicesView.Status,
+			&i.CrmInvoicesView.Total,
+			&i.CrmInvoicesView.IssueDate,
+			&i.CrmInvoicesView.DueDate,
+			&i.CrmInvoicesView.SentAt,
+			&i.CrmInvoicesView.PaidAt,
+			&i.CrmInvoicesView.PaymentMethod,
+			&i.CrmInvoicesView.CreatedAt,
+			&i.CrmInvoicesView.UpdatedAt,
+			&i.CrmInvoicesView.Items,
 			&i.CrmOpportunity.ID,
 			&i.CrmOpportunity.Name,
 			&i.CrmOpportunity.Stage,
@@ -240,10 +243,10 @@ func (q *Queries) CrmPaginateInvoice(ctx context.Context, arg CrmPaginateInvoice
 
 const crmRangeInvoice = `-- name: CrmRangeInvoice :many
 select
-  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at,
+  invoices.id, invoices.opportunity_id, invoices.status, invoices.total, invoices.issue_date, invoices.due_date, invoices.sent_at, invoices.paid_at, invoices.payment_method, invoices.created_at, invoices.updated_at, invoices.items,
   opportunity.id, opportunity.name, opportunity.stage, opportunity.deal_value, opportunity.probability, opportunity.expected_close_date, opportunity.lost_reason, opportunity.source, opportunity.owner_id, opportunity.contact_id, opportunity.company_id, opportunity.campaign_id, opportunity.created_at, opportunity.updated_at
 from
-  "crm"."invoices" as invoices
+  "crm"."invoices_view" as invoices
   left join "crm"."opportunities" as opportunity on invoices.opportunity_id = opportunity.id
 where
   invoices.created_at >= $1::date
@@ -260,8 +263,8 @@ type CrmRangeInvoiceParams struct {
 }
 
 type CrmRangeInvoiceRow struct {
-	CrmInvoice     CrmInvoice
-	CrmOpportunity CrmOpportunity
+	CrmInvoicesView CrmInvoicesView
+	CrmOpportunity  CrmOpportunity
 }
 
 func (q *Queries) CrmRangeInvoice(ctx context.Context, arg CrmRangeInvoiceParams) ([]CrmRangeInvoiceRow, error) {
@@ -274,17 +277,18 @@ func (q *Queries) CrmRangeInvoice(ctx context.Context, arg CrmRangeInvoiceParams
 	for rows.Next() {
 		var i CrmRangeInvoiceRow
 		if err := rows.Scan(
-			&i.CrmInvoice.ID,
-			&i.CrmInvoice.OpportunityID,
-			&i.CrmInvoice.Status,
-			&i.CrmInvoice.Total,
-			&i.CrmInvoice.IssueDate,
-			&i.CrmInvoice.DueDate,
-			&i.CrmInvoice.SentAt,
-			&i.CrmInvoice.PaidAt,
-			&i.CrmInvoice.PaymentMethod,
-			&i.CrmInvoice.CreatedAt,
-			&i.CrmInvoice.UpdatedAt,
+			&i.CrmInvoicesView.ID,
+			&i.CrmInvoicesView.OpportunityID,
+			&i.CrmInvoicesView.Status,
+			&i.CrmInvoicesView.Total,
+			&i.CrmInvoicesView.IssueDate,
+			&i.CrmInvoicesView.DueDate,
+			&i.CrmInvoicesView.SentAt,
+			&i.CrmInvoicesView.PaidAt,
+			&i.CrmInvoicesView.PaymentMethod,
+			&i.CrmInvoicesView.CreatedAt,
+			&i.CrmInvoicesView.UpdatedAt,
+			&i.CrmInvoicesView.Items,
 			&i.CrmOpportunity.ID,
 			&i.CrmOpportunity.Name,
 			&i.CrmOpportunity.Stage,

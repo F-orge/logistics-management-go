@@ -13,11 +13,11 @@ import (
 
 const tmsAnyTrip = `-- name: TmsAnyTrip :many
 select
-  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time,
+  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type TmsAnyTripRow struct {
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
-	TmsVehicle TmsVehicle
+	TmsTripsView TmsTripsView
+	TmsDriver    TmsDriver
+	TmsVehicle   TmsVehicle
 }
 
 func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTripRow, error) {
@@ -40,16 +40,19 @@ func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTr
 	for rows.Next() {
 		var i TmsAnyTripRow
 		if err := rows.Scan(
-			&i.TmsTrip.ID,
-			&i.TmsTrip.DriverID,
-			&i.TmsTrip.VehicleID,
-			&i.TmsTrip.Status,
-			&i.TmsTrip.CreatedAt,
-			&i.TmsTrip.UpdatedAt,
-			&i.TmsTrip.EndLocation,
-			&i.TmsTrip.EndTime,
-			&i.TmsTrip.StartLocation,
-			&i.TmsTrip.StartTime,
+			&i.TmsTripsView.ID,
+			&i.TmsTripsView.DriverID,
+			&i.TmsTripsView.VehicleID,
+			&i.TmsTripsView.Status,
+			&i.TmsTripsView.CreatedAt,
+			&i.TmsTripsView.UpdatedAt,
+			&i.TmsTripsView.EndLocation,
+			&i.TmsTripsView.EndTime,
+			&i.TmsTripsView.StartLocation,
+			&i.TmsTripsView.StartTime,
+			&i.TmsTripsView.TripStops,
+			&i.TmsTripsView.Routes,
+			&i.TmsTripsView.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -84,11 +87,11 @@ func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTr
 
 const tmsFindTrip = `-- name: TmsFindTrip :one
 select
-  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time,
+  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
@@ -96,25 +99,28 @@ where
 `
 
 type TmsFindTripRow struct {
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
-	TmsVehicle TmsVehicle
+	TmsTripsView TmsTripsView
+	TmsDriver    TmsDriver
+	TmsVehicle   TmsVehicle
 }
 
 func (q *Queries) TmsFindTrip(ctx context.Context, id pgtype.UUID) (TmsFindTripRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindTrip, id)
 	var i TmsFindTripRow
 	err := row.Scan(
-		&i.TmsTrip.ID,
-		&i.TmsTrip.DriverID,
-		&i.TmsTrip.VehicleID,
-		&i.TmsTrip.Status,
-		&i.TmsTrip.CreatedAt,
-		&i.TmsTrip.UpdatedAt,
-		&i.TmsTrip.EndLocation,
-		&i.TmsTrip.EndTime,
-		&i.TmsTrip.StartLocation,
-		&i.TmsTrip.StartTime,
+		&i.TmsTripsView.ID,
+		&i.TmsTripsView.DriverID,
+		&i.TmsTripsView.VehicleID,
+		&i.TmsTripsView.Status,
+		&i.TmsTripsView.CreatedAt,
+		&i.TmsTripsView.UpdatedAt,
+		&i.TmsTripsView.EndLocation,
+		&i.TmsTripsView.EndTime,
+		&i.TmsTripsView.StartLocation,
+		&i.TmsTripsView.StartTime,
+		&i.TmsTripsView.TripStops,
+		&i.TmsTripsView.Routes,
+		&i.TmsTripsView.Expenses,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -173,11 +179,11 @@ func (q *Queries) TmsInsertTrip(ctx context.Context, arg TmsInsertTripParams) (T
 
 const tmsPaginateTrip = `-- name: TmsPaginateTrip :many
 select
-  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time,
+  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where (driver.name ilike $1::text
@@ -194,9 +200,9 @@ type TmsPaginateTripParams struct {
 }
 
 type TmsPaginateTripRow struct {
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
-	TmsVehicle TmsVehicle
+	TmsTripsView TmsTripsView
+	TmsDriver    TmsDriver
+	TmsVehicle   TmsVehicle
 }
 
 func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams) ([]TmsPaginateTripRow, error) {
@@ -209,16 +215,19 @@ func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams
 	for rows.Next() {
 		var i TmsPaginateTripRow
 		if err := rows.Scan(
-			&i.TmsTrip.ID,
-			&i.TmsTrip.DriverID,
-			&i.TmsTrip.VehicleID,
-			&i.TmsTrip.Status,
-			&i.TmsTrip.CreatedAt,
-			&i.TmsTrip.UpdatedAt,
-			&i.TmsTrip.EndLocation,
-			&i.TmsTrip.EndTime,
-			&i.TmsTrip.StartLocation,
-			&i.TmsTrip.StartTime,
+			&i.TmsTripsView.ID,
+			&i.TmsTripsView.DriverID,
+			&i.TmsTripsView.VehicleID,
+			&i.TmsTripsView.Status,
+			&i.TmsTripsView.CreatedAt,
+			&i.TmsTripsView.UpdatedAt,
+			&i.TmsTripsView.EndLocation,
+			&i.TmsTripsView.EndTime,
+			&i.TmsTripsView.StartLocation,
+			&i.TmsTripsView.StartTime,
+			&i.TmsTripsView.TripStops,
+			&i.TmsTripsView.Routes,
+			&i.TmsTripsView.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -253,11 +262,11 @@ func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams
 
 const tmsRangeTrip = `-- name: TmsRangeTrip :many
 select
-  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time,
+  trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
-  "tms"."trips" as trips
+  "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
 where
@@ -276,9 +285,9 @@ type TmsRangeTripParams struct {
 }
 
 type TmsRangeTripRow struct {
-	TmsTrip    TmsTrip
-	TmsDriver  TmsDriver
-	TmsVehicle TmsVehicle
+	TmsTripsView TmsTripsView
+	TmsDriver    TmsDriver
+	TmsVehicle   TmsVehicle
 }
 
 func (q *Queries) TmsRangeTrip(ctx context.Context, arg TmsRangeTripParams) ([]TmsRangeTripRow, error) {
@@ -291,16 +300,19 @@ func (q *Queries) TmsRangeTrip(ctx context.Context, arg TmsRangeTripParams) ([]T
 	for rows.Next() {
 		var i TmsRangeTripRow
 		if err := rows.Scan(
-			&i.TmsTrip.ID,
-			&i.TmsTrip.DriverID,
-			&i.TmsTrip.VehicleID,
-			&i.TmsTrip.Status,
-			&i.TmsTrip.CreatedAt,
-			&i.TmsTrip.UpdatedAt,
-			&i.TmsTrip.EndLocation,
-			&i.TmsTrip.EndTime,
-			&i.TmsTrip.StartLocation,
-			&i.TmsTrip.StartTime,
+			&i.TmsTripsView.ID,
+			&i.TmsTripsView.DriverID,
+			&i.TmsTripsView.VehicleID,
+			&i.TmsTripsView.Status,
+			&i.TmsTripsView.CreatedAt,
+			&i.TmsTripsView.UpdatedAt,
+			&i.TmsTripsView.EndLocation,
+			&i.TmsTripsView.EndTime,
+			&i.TmsTripsView.StartLocation,
+			&i.TmsTripsView.StartTime,
+			&i.TmsTripsView.TripStops,
+			&i.TmsTripsView.Routes,
+			&i.TmsTripsView.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

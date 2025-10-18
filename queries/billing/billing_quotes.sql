@@ -4,7 +4,7 @@ select
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where (client.name ilike sqlc.narg(search)::text
@@ -21,7 +21,7 @@ select
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
@@ -33,7 +33,7 @@ select
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
@@ -45,7 +45,7 @@ select
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where

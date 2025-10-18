@@ -13,22 +13,22 @@ import (
 
 const tmsAnyCarrier = `-- name: TmsAnyCarrier :many
 select
-  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
+  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone, carrier_rates, shipment_legs, partner_invoices
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   id = any ($1::uuid[])
 `
 
-func (q *Queries) TmsAnyCarrier(ctx context.Context, ids []pgtype.UUID) ([]TmsCarrier, error) {
+func (q *Queries) TmsAnyCarrier(ctx context.Context, ids []pgtype.UUID) ([]TmsCarriersView, error) {
 	rows, err := q.db.Query(ctx, tmsAnyCarrier, ids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsCarrier
+	var items []TmsCarriersView
 	for rows.Next() {
-		var i TmsCarrier
+		var i TmsCarriersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -39,6 +39,9 @@ func (q *Queries) TmsAnyCarrier(ctx context.Context, ids []pgtype.UUID) ([]TmsCa
 			&i.ContactPerson,
 			&i.ContactEmail,
 			&i.ContactPhone,
+			&i.CarrierRates,
+			&i.ShipmentLegs,
+			&i.PartnerInvoices,
 		); err != nil {
 			return nil, err
 		}
@@ -52,16 +55,16 @@ func (q *Queries) TmsAnyCarrier(ctx context.Context, ids []pgtype.UUID) ([]TmsCa
 
 const tmsFindCarrier = `-- name: TmsFindCarrier :one
 select
-  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
+  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone, carrier_rates, shipment_legs, partner_invoices
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   id = $1::uuid
 `
 
-func (q *Queries) TmsFindCarrier(ctx context.Context, id pgtype.UUID) (TmsCarrier, error) {
+func (q *Queries) TmsFindCarrier(ctx context.Context, id pgtype.UUID) (TmsCarriersView, error) {
 	row := q.db.QueryRow(ctx, tmsFindCarrier, id)
-	var i TmsCarrier
+	var i TmsCarriersView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -72,6 +75,9 @@ func (q *Queries) TmsFindCarrier(ctx context.Context, id pgtype.UUID) (TmsCarrie
 		&i.ContactPerson,
 		&i.ContactEmail,
 		&i.ContactPhone,
+		&i.CarrierRates,
+		&i.ShipmentLegs,
+		&i.PartnerInvoices,
 	)
 	return i, err
 }
@@ -108,9 +114,9 @@ func (q *Queries) TmsInsertCarrier(ctx context.Context, arg TmsInsertCarrierPara
 
 const tmsPaginateCarrier = `-- name: TmsPaginateCarrier :many
 select
-  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
+  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone, carrier_rates, shipment_legs, partner_invoices
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where (name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -122,15 +128,15 @@ type TmsPaginateCarrierParams struct {
 	Perpage int32
 }
 
-func (q *Queries) TmsPaginateCarrier(ctx context.Context, arg TmsPaginateCarrierParams) ([]TmsCarrier, error) {
+func (q *Queries) TmsPaginateCarrier(ctx context.Context, arg TmsPaginateCarrierParams) ([]TmsCarriersView, error) {
 	rows, err := q.db.Query(ctx, tmsPaginateCarrier, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsCarrier
+	var items []TmsCarriersView
 	for rows.Next() {
-		var i TmsCarrier
+		var i TmsCarriersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -141,6 +147,9 @@ func (q *Queries) TmsPaginateCarrier(ctx context.Context, arg TmsPaginateCarrier
 			&i.ContactPerson,
 			&i.ContactEmail,
 			&i.ContactPhone,
+			&i.CarrierRates,
+			&i.ShipmentLegs,
+			&i.PartnerInvoices,
 		); err != nil {
 			return nil, err
 		}
@@ -154,9 +163,9 @@ func (q *Queries) TmsPaginateCarrier(ctx context.Context, arg TmsPaginateCarrier
 
 const tmsRangeCarrier = `-- name: TmsRangeCarrier :many
 select
-  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone
+  id, name, contact_details, services_offered, created_at, updated_at, contact_person, contact_email, contact_phone, carrier_rates, shipment_legs, partner_invoices
 from
-  "tms"."carriers"
+  "tms"."carriers_view"
 where
   created_at >= $1::date
   and created_at <= $2::date
@@ -170,15 +179,15 @@ type TmsRangeCarrierParams struct {
 	Search   pgtype.Text
 }
 
-func (q *Queries) TmsRangeCarrier(ctx context.Context, arg TmsRangeCarrierParams) ([]TmsCarrier, error) {
+func (q *Queries) TmsRangeCarrier(ctx context.Context, arg TmsRangeCarrierParams) ([]TmsCarriersView, error) {
 	rows, err := q.db.Query(ctx, tmsRangeCarrier, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsCarrier
+	var items []TmsCarriersView
 	for rows.Next() {
-		var i TmsCarrier
+		var i TmsCarriersView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -189,6 +198,9 @@ func (q *Queries) TmsRangeCarrier(ctx context.Context, arg TmsRangeCarrierParams
 			&i.ContactPerson,
 			&i.ContactEmail,
 			&i.ContactPhone,
+			&i.CarrierRates,
+			&i.ShipmentLegs,
+			&i.PartnerInvoices,
 		); err != nil {
 			return nil, err
 		}

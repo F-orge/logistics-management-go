@@ -3,7 +3,7 @@ select
   sqlc.embed(drivers),
   sqlc.embed(users)
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where (users.name ilike sqlc.narg(search)::text
   or drivers.license_number ilike sqlc.narg(search)::text
@@ -16,7 +16,7 @@ select
   sqlc.embed(drivers),
   sqlc.embed(users)
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.id = sqlc.arg(id)::uuid;
@@ -26,7 +26,7 @@ select
   sqlc.embed(drivers),
   sqlc.embed(users)
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.id = any (@ids::uuid[]);
@@ -36,7 +36,7 @@ select
   sqlc.embed(drivers),
   sqlc.embed(users)
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.created_at >= @dateFrom::date

@@ -13,18 +13,18 @@ import (
 
 const tmsAnyPartnerInvoice = `-- name: TmsAnyPartnerInvoice :many
 select
-  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at,
+  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at, partner_invoices.partner_invoice_items,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.id = any ($1::uuid[])
 `
 
 type TmsAnyPartnerInvoiceRow struct {
-	TmsPartnerInvoice TmsPartnerInvoice
-	TmsCarrier        TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView
+	TmsCarrier             TmsCarrier
 }
 
 func (q *Queries) TmsAnyPartnerInvoice(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyPartnerInvoiceRow, error) {
@@ -37,14 +37,15 @@ func (q *Queries) TmsAnyPartnerInvoice(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i TmsAnyPartnerInvoiceRow
 		if err := rows.Scan(
-			&i.TmsPartnerInvoice.ID,
-			&i.TmsPartnerInvoice.CarrierID,
-			&i.TmsPartnerInvoice.InvoiceNumber,
-			&i.TmsPartnerInvoice.InvoiceDate,
-			&i.TmsPartnerInvoice.TotalAmount,
-			&i.TmsPartnerInvoice.Status,
-			&i.TmsPartnerInvoice.CreatedAt,
-			&i.TmsPartnerInvoice.UpdatedAt,
+			&i.TmsPartnerInvoicesView.ID,
+			&i.TmsPartnerInvoicesView.CarrierID,
+			&i.TmsPartnerInvoicesView.InvoiceNumber,
+			&i.TmsPartnerInvoicesView.InvoiceDate,
+			&i.TmsPartnerInvoicesView.TotalAmount,
+			&i.TmsPartnerInvoicesView.Status,
+			&i.TmsPartnerInvoicesView.CreatedAt,
+			&i.TmsPartnerInvoicesView.UpdatedAt,
+			&i.TmsPartnerInvoicesView.PartnerInvoiceItems,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -67,32 +68,33 @@ func (q *Queries) TmsAnyPartnerInvoice(ctx context.Context, ids []pgtype.UUID) (
 
 const tmsFindPartnerInvoice = `-- name: TmsFindPartnerInvoice :one
 select
-  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at,
+  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at, partner_invoices.partner_invoice_items,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.id = $1::uuid
 `
 
 type TmsFindPartnerInvoiceRow struct {
-	TmsPartnerInvoice TmsPartnerInvoice
-	TmsCarrier        TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView
+	TmsCarrier             TmsCarrier
 }
 
 func (q *Queries) TmsFindPartnerInvoice(ctx context.Context, id pgtype.UUID) (TmsFindPartnerInvoiceRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindPartnerInvoice, id)
 	var i TmsFindPartnerInvoiceRow
 	err := row.Scan(
-		&i.TmsPartnerInvoice.ID,
-		&i.TmsPartnerInvoice.CarrierID,
-		&i.TmsPartnerInvoice.InvoiceNumber,
-		&i.TmsPartnerInvoice.InvoiceDate,
-		&i.TmsPartnerInvoice.TotalAmount,
-		&i.TmsPartnerInvoice.Status,
-		&i.TmsPartnerInvoice.CreatedAt,
-		&i.TmsPartnerInvoice.UpdatedAt,
+		&i.TmsPartnerInvoicesView.ID,
+		&i.TmsPartnerInvoicesView.CarrierID,
+		&i.TmsPartnerInvoicesView.InvoiceNumber,
+		&i.TmsPartnerInvoicesView.InvoiceDate,
+		&i.TmsPartnerInvoicesView.TotalAmount,
+		&i.TmsPartnerInvoicesView.Status,
+		&i.TmsPartnerInvoicesView.CreatedAt,
+		&i.TmsPartnerInvoicesView.UpdatedAt,
+		&i.TmsPartnerInvoicesView.PartnerInvoiceItems,
 		&i.TmsCarrier.ID,
 		&i.TmsCarrier.Name,
 		&i.TmsCarrier.ContactDetails,
@@ -145,10 +147,10 @@ func (q *Queries) TmsInsertPartnerInvoice(ctx context.Context, arg TmsInsertPart
 
 const tmsPaginatePartnerInvoice = `-- name: TmsPaginatePartnerInvoice :many
 select
-  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at,
+  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at, partner_invoices.partner_invoice_items,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where (carrier.name ilike $1::text
   or partner_invoices.invoice_number ilike $1::text
@@ -164,8 +166,8 @@ type TmsPaginatePartnerInvoiceParams struct {
 }
 
 type TmsPaginatePartnerInvoiceRow struct {
-	TmsPartnerInvoice TmsPartnerInvoice
-	TmsCarrier        TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView
+	TmsCarrier             TmsCarrier
 }
 
 func (q *Queries) TmsPaginatePartnerInvoice(ctx context.Context, arg TmsPaginatePartnerInvoiceParams) ([]TmsPaginatePartnerInvoiceRow, error) {
@@ -178,14 +180,15 @@ func (q *Queries) TmsPaginatePartnerInvoice(ctx context.Context, arg TmsPaginate
 	for rows.Next() {
 		var i TmsPaginatePartnerInvoiceRow
 		if err := rows.Scan(
-			&i.TmsPartnerInvoice.ID,
-			&i.TmsPartnerInvoice.CarrierID,
-			&i.TmsPartnerInvoice.InvoiceNumber,
-			&i.TmsPartnerInvoice.InvoiceDate,
-			&i.TmsPartnerInvoice.TotalAmount,
-			&i.TmsPartnerInvoice.Status,
-			&i.TmsPartnerInvoice.CreatedAt,
-			&i.TmsPartnerInvoice.UpdatedAt,
+			&i.TmsPartnerInvoicesView.ID,
+			&i.TmsPartnerInvoicesView.CarrierID,
+			&i.TmsPartnerInvoicesView.InvoiceNumber,
+			&i.TmsPartnerInvoicesView.InvoiceDate,
+			&i.TmsPartnerInvoicesView.TotalAmount,
+			&i.TmsPartnerInvoicesView.Status,
+			&i.TmsPartnerInvoicesView.CreatedAt,
+			&i.TmsPartnerInvoicesView.UpdatedAt,
+			&i.TmsPartnerInvoicesView.PartnerInvoiceItems,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -208,10 +211,10 @@ func (q *Queries) TmsPaginatePartnerInvoice(ctx context.Context, arg TmsPaginate
 
 const tmsRangePartnerInvoice = `-- name: TmsRangePartnerInvoice :many
 select
-  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at,
+  partner_invoices.id, partner_invoices.carrier_id, partner_invoices.invoice_number, partner_invoices.invoice_date, partner_invoices.total_amount, partner_invoices.status, partner_invoices.created_at, partner_invoices.updated_at, partner_invoices.partner_invoice_items,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone
 from
-  "tms"."partner_invoices" as partner_invoices
+  "tms"."partner_invoices_view" as partner_invoices
   inner join "tms"."carriers" as carrier on partner_invoices.carrier_id = carrier.id
 where
   partner_invoices.invoice_date >= $1::date
@@ -229,8 +232,8 @@ type TmsRangePartnerInvoiceParams struct {
 }
 
 type TmsRangePartnerInvoiceRow struct {
-	TmsPartnerInvoice TmsPartnerInvoice
-	TmsCarrier        TmsCarrier
+	TmsPartnerInvoicesView TmsPartnerInvoicesView
+	TmsCarrier             TmsCarrier
 }
 
 func (q *Queries) TmsRangePartnerInvoice(ctx context.Context, arg TmsRangePartnerInvoiceParams) ([]TmsRangePartnerInvoiceRow, error) {
@@ -243,14 +246,15 @@ func (q *Queries) TmsRangePartnerInvoice(ctx context.Context, arg TmsRangePartne
 	for rows.Next() {
 		var i TmsRangePartnerInvoiceRow
 		if err := rows.Scan(
-			&i.TmsPartnerInvoice.ID,
-			&i.TmsPartnerInvoice.CarrierID,
-			&i.TmsPartnerInvoice.InvoiceNumber,
-			&i.TmsPartnerInvoice.InvoiceDate,
-			&i.TmsPartnerInvoice.TotalAmount,
-			&i.TmsPartnerInvoice.Status,
-			&i.TmsPartnerInvoice.CreatedAt,
-			&i.TmsPartnerInvoice.UpdatedAt,
+			&i.TmsPartnerInvoicesView.ID,
+			&i.TmsPartnerInvoicesView.CarrierID,
+			&i.TmsPartnerInvoicesView.InvoiceNumber,
+			&i.TmsPartnerInvoicesView.InvoiceDate,
+			&i.TmsPartnerInvoicesView.TotalAmount,
+			&i.TmsPartnerInvoicesView.Status,
+			&i.TmsPartnerInvoicesView.CreatedAt,
+			&i.TmsPartnerInvoicesView.UpdatedAt,
+			&i.TmsPartnerInvoicesView.PartnerInvoiceItems,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,

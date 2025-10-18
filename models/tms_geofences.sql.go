@@ -13,22 +13,22 @@ import (
 
 const tmsAnyGeofence = `-- name: TmsAnyGeofence :many
 select
-  id, name, created_at, updated_at, longitude, latitude
+  id, name, created_at, updated_at, longitude, latitude, geofence_events
 from
-  "tms"."geofences"
+  "tms"."geofences_view"
 where
   id = any ($1::uuid[])
 `
 
-func (q *Queries) TmsAnyGeofence(ctx context.Context, ids []pgtype.UUID) ([]TmsGeofence, error) {
+func (q *Queries) TmsAnyGeofence(ctx context.Context, ids []pgtype.UUID) ([]TmsGeofencesView, error) {
 	rows, err := q.db.Query(ctx, tmsAnyGeofence, ids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsGeofence
+	var items []TmsGeofencesView
 	for rows.Next() {
-		var i TmsGeofence
+		var i TmsGeofencesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -36,6 +36,7 @@ func (q *Queries) TmsAnyGeofence(ctx context.Context, ids []pgtype.UUID) ([]TmsG
 			&i.UpdatedAt,
 			&i.Longitude,
 			&i.Latitude,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}
@@ -49,16 +50,16 @@ func (q *Queries) TmsAnyGeofence(ctx context.Context, ids []pgtype.UUID) ([]TmsG
 
 const tmsFindGeofence = `-- name: TmsFindGeofence :one
 select
-  id, name, created_at, updated_at, longitude, latitude
+  id, name, created_at, updated_at, longitude, latitude, geofence_events
 from
-  "tms"."geofences"
+  "tms"."geofences_view"
 where
   id = $1::uuid
 `
 
-func (q *Queries) TmsFindGeofence(ctx context.Context, id pgtype.UUID) (TmsGeofence, error) {
+func (q *Queries) TmsFindGeofence(ctx context.Context, id pgtype.UUID) (TmsGeofencesView, error) {
 	row := q.db.QueryRow(ctx, tmsFindGeofence, id)
-	var i TmsGeofence
+	var i TmsGeofencesView
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -66,6 +67,7 @@ func (q *Queries) TmsFindGeofence(ctx context.Context, id pgtype.UUID) (TmsGeofe
 		&i.UpdatedAt,
 		&i.Longitude,
 		&i.Latitude,
+		&i.GeofenceEvents,
 	)
 	return i, err
 }
@@ -99,9 +101,9 @@ func (q *Queries) TmsInsertGeofence(ctx context.Context, arg TmsInsertGeofencePa
 
 const tmsPaginateGeofence = `-- name: TmsPaginateGeofence :many
 select
-  id, name, created_at, updated_at, longitude, latitude
+  id, name, created_at, updated_at, longitude, latitude, geofence_events
 from
-  "tms"."geofences"
+  "tms"."geofences_view"
 where (name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -113,15 +115,15 @@ type TmsPaginateGeofenceParams struct {
 	Perpage int32
 }
 
-func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofenceParams) ([]TmsGeofence, error) {
+func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofenceParams) ([]TmsGeofencesView, error) {
 	rows, err := q.db.Query(ctx, tmsPaginateGeofence, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsGeofence
+	var items []TmsGeofencesView
 	for rows.Next() {
-		var i TmsGeofence
+		var i TmsGeofencesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -129,6 +131,7 @@ func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofen
 			&i.UpdatedAt,
 			&i.Longitude,
 			&i.Latitude,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}
@@ -142,9 +145,9 @@ func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofen
 
 const tmsRangeGeofence = `-- name: TmsRangeGeofence :many
 select
-  id, name, created_at, updated_at, longitude, latitude
+  id, name, created_at, updated_at, longitude, latitude, geofence_events
 from
-  "tms"."geofences"
+  "tms"."geofences_view"
 where
   created_at >= $1::date
   and created_at <= $2::date
@@ -158,15 +161,15 @@ type TmsRangeGeofenceParams struct {
 	Search   pgtype.Text
 }
 
-func (q *Queries) TmsRangeGeofence(ctx context.Context, arg TmsRangeGeofenceParams) ([]TmsGeofence, error) {
+func (q *Queries) TmsRangeGeofence(ctx context.Context, arg TmsRangeGeofenceParams) ([]TmsGeofencesView, error) {
 	rows, err := q.db.Query(ctx, tmsRangeGeofence, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsGeofence
+	var items []TmsGeofencesView
 	for rows.Next() {
-		var i TmsGeofence
+		var i TmsGeofencesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -174,6 +177,7 @@ func (q *Queries) TmsRangeGeofence(ctx context.Context, arg TmsRangeGeofencePara
 			&i.UpdatedAt,
 			&i.Longitude,
 			&i.Latitude,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}

@@ -13,18 +13,18 @@ import (
 
 const wmsAnyInboundShipment = `-- name: WmsAnyInboundShipment :many
 select
-  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at,
+  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at, inbound_shipments.inbound_shipment_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.id = any ($1::uuid[])
 `
 
 type WmsAnyInboundShipmentRow struct {
-	WmsInboundShipment WmsInboundShipment
-	CrmCompany         CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView
+	CrmCompany              CrmCompany
 }
 
 func (q *Queries) WmsAnyInboundShipment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInboundShipmentRow, error) {
@@ -37,14 +37,15 @@ func (q *Queries) WmsAnyInboundShipment(ctx context.Context, ids []pgtype.UUID) 
 	for rows.Next() {
 		var i WmsAnyInboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsInboundShipment.ID,
-			&i.WmsInboundShipment.ClientID,
-			&i.WmsInboundShipment.WarehouseID,
-			&i.WmsInboundShipment.Status,
-			&i.WmsInboundShipment.ExpectedArrivalDate,
-			&i.WmsInboundShipment.ActualArrivalDate,
-			&i.WmsInboundShipment.CreatedAt,
-			&i.WmsInboundShipment.UpdatedAt,
+			&i.WmsInboundShipmentsView.ID,
+			&i.WmsInboundShipmentsView.ClientID,
+			&i.WmsInboundShipmentsView.WarehouseID,
+			&i.WmsInboundShipmentsView.Status,
+			&i.WmsInboundShipmentsView.ExpectedArrivalDate,
+			&i.WmsInboundShipmentsView.ActualArrivalDate,
+			&i.WmsInboundShipmentsView.CreatedAt,
+			&i.WmsInboundShipmentsView.UpdatedAt,
+			&i.WmsInboundShipmentsView.InboundShipmentItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -72,32 +73,33 @@ func (q *Queries) WmsAnyInboundShipment(ctx context.Context, ids []pgtype.UUID) 
 
 const wmsFindInboundShipment = `-- name: WmsFindInboundShipment :one
 select
-  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at,
+  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at, inbound_shipments.inbound_shipment_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.id = $1::uuid
 `
 
 type WmsFindInboundShipmentRow struct {
-	WmsInboundShipment WmsInboundShipment
-	CrmCompany         CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView
+	CrmCompany              CrmCompany
 }
 
 func (q *Queries) WmsFindInboundShipment(ctx context.Context, id pgtype.UUID) (WmsFindInboundShipmentRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindInboundShipment, id)
 	var i WmsFindInboundShipmentRow
 	err := row.Scan(
-		&i.WmsInboundShipment.ID,
-		&i.WmsInboundShipment.ClientID,
-		&i.WmsInboundShipment.WarehouseID,
-		&i.WmsInboundShipment.Status,
-		&i.WmsInboundShipment.ExpectedArrivalDate,
-		&i.WmsInboundShipment.ActualArrivalDate,
-		&i.WmsInboundShipment.CreatedAt,
-		&i.WmsInboundShipment.UpdatedAt,
+		&i.WmsInboundShipmentsView.ID,
+		&i.WmsInboundShipmentsView.ClientID,
+		&i.WmsInboundShipmentsView.WarehouseID,
+		&i.WmsInboundShipmentsView.Status,
+		&i.WmsInboundShipmentsView.ExpectedArrivalDate,
+		&i.WmsInboundShipmentsView.ActualArrivalDate,
+		&i.WmsInboundShipmentsView.CreatedAt,
+		&i.WmsInboundShipmentsView.UpdatedAt,
+		&i.WmsInboundShipmentsView.InboundShipmentItems,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -155,10 +157,10 @@ func (q *Queries) WmsInsertInboundShipment(ctx context.Context, arg WmsInsertInb
 
 const wmsPaginateInboundShipment = `-- name: WmsPaginateInboundShipment :many
 select
-  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at,
+  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at, inbound_shipments.inbound_shipment_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where (client.name ilike $1::text
   or inbound_shipments.status::text ilike $1::text
@@ -173,8 +175,8 @@ type WmsPaginateInboundShipmentParams struct {
 }
 
 type WmsPaginateInboundShipmentRow struct {
-	WmsInboundShipment WmsInboundShipment
-	CrmCompany         CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView
+	CrmCompany              CrmCompany
 }
 
 func (q *Queries) WmsPaginateInboundShipment(ctx context.Context, arg WmsPaginateInboundShipmentParams) ([]WmsPaginateInboundShipmentRow, error) {
@@ -187,14 +189,15 @@ func (q *Queries) WmsPaginateInboundShipment(ctx context.Context, arg WmsPaginat
 	for rows.Next() {
 		var i WmsPaginateInboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsInboundShipment.ID,
-			&i.WmsInboundShipment.ClientID,
-			&i.WmsInboundShipment.WarehouseID,
-			&i.WmsInboundShipment.Status,
-			&i.WmsInboundShipment.ExpectedArrivalDate,
-			&i.WmsInboundShipment.ActualArrivalDate,
-			&i.WmsInboundShipment.CreatedAt,
-			&i.WmsInboundShipment.UpdatedAt,
+			&i.WmsInboundShipmentsView.ID,
+			&i.WmsInboundShipmentsView.ClientID,
+			&i.WmsInboundShipmentsView.WarehouseID,
+			&i.WmsInboundShipmentsView.Status,
+			&i.WmsInboundShipmentsView.ExpectedArrivalDate,
+			&i.WmsInboundShipmentsView.ActualArrivalDate,
+			&i.WmsInboundShipmentsView.CreatedAt,
+			&i.WmsInboundShipmentsView.UpdatedAt,
+			&i.WmsInboundShipmentsView.InboundShipmentItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -222,10 +225,10 @@ func (q *Queries) WmsPaginateInboundShipment(ctx context.Context, arg WmsPaginat
 
 const wmsRangeInboundShipment = `-- name: WmsRangeInboundShipment :many
 select
-  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at,
+  inbound_shipments.id, inbound_shipments.client_id, inbound_shipments.warehouse_id, inbound_shipments.status, inbound_shipments.expected_arrival_date, inbound_shipments.actual_arrival_date, inbound_shipments.created_at, inbound_shipments.updated_at, inbound_shipments.inbound_shipment_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."inbound_shipments" as inbound_shipments
+  "wms"."inbound_shipments_view" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
 where
   inbound_shipments.created_at >= $1::date
@@ -242,8 +245,8 @@ type WmsRangeInboundShipmentParams struct {
 }
 
 type WmsRangeInboundShipmentRow struct {
-	WmsInboundShipment WmsInboundShipment
-	CrmCompany         CrmCompany
+	WmsInboundShipmentsView WmsInboundShipmentsView
+	CrmCompany              CrmCompany
 }
 
 func (q *Queries) WmsRangeInboundShipment(ctx context.Context, arg WmsRangeInboundShipmentParams) ([]WmsRangeInboundShipmentRow, error) {
@@ -256,14 +259,15 @@ func (q *Queries) WmsRangeInboundShipment(ctx context.Context, arg WmsRangeInbou
 	for rows.Next() {
 		var i WmsRangeInboundShipmentRow
 		if err := rows.Scan(
-			&i.WmsInboundShipment.ID,
-			&i.WmsInboundShipment.ClientID,
-			&i.WmsInboundShipment.WarehouseID,
-			&i.WmsInboundShipment.Status,
-			&i.WmsInboundShipment.ExpectedArrivalDate,
-			&i.WmsInboundShipment.ActualArrivalDate,
-			&i.WmsInboundShipment.CreatedAt,
-			&i.WmsInboundShipment.UpdatedAt,
+			&i.WmsInboundShipmentsView.ID,
+			&i.WmsInboundShipmentsView.ClientID,
+			&i.WmsInboundShipmentsView.WarehouseID,
+			&i.WmsInboundShipmentsView.Status,
+			&i.WmsInboundShipmentsView.ExpectedArrivalDate,
+			&i.WmsInboundShipmentsView.ActualArrivalDate,
+			&i.WmsInboundShipmentsView.CreatedAt,
+			&i.WmsInboundShipmentsView.UpdatedAt,
+			&i.WmsInboundShipmentsView.InboundShipmentItems,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

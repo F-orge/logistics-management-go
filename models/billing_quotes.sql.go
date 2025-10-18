@@ -13,11 +13,11 @@ import (
 
 const billingAnyQuote = `-- name: BillingAnyQuote :many
 select
-  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at,
+  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
@@ -25,9 +25,9 @@ where
 `
 
 type BillingAnyQuoteRow struct {
-	BillingQuote BillingQuote
-	CrmCompany   CrmCompany
-	User         User
+	BillingQuotesView BillingQuotesView
+	CrmCompany        CrmCompany
+	User              User
 }
 
 func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyQuoteRow, error) {
@@ -40,24 +40,25 @@ func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]Bil
 	for rows.Next() {
 		var i BillingAnyQuoteRow
 		if err := rows.Scan(
-			&i.BillingQuote.ID,
-			&i.BillingQuote.ClientID,
-			&i.BillingQuote.OriginDetails,
-			&i.BillingQuote.DestinationDetails,
-			&i.BillingQuote.Weight,
-			&i.BillingQuote.Length,
-			&i.BillingQuote.Width,
-			&i.BillingQuote.Height,
-			&i.BillingQuote.Volume,
-			&i.BillingQuote.QuotedPrice,
-			&i.BillingQuote.ServiceLevel,
-			&i.BillingQuote.ExpiresAt,
-			&i.BillingQuote.Status,
-			&i.BillingQuote.QuoteNumber,
-			&i.BillingQuote.Notes,
-			&i.BillingQuote.CreatedByUserID,
-			&i.BillingQuote.CreatedAt,
-			&i.BillingQuote.UpdatedAt,
+			&i.BillingQuotesView.ID,
+			&i.BillingQuotesView.ClientID,
+			&i.BillingQuotesView.OriginDetails,
+			&i.BillingQuotesView.DestinationDetails,
+			&i.BillingQuotesView.Weight,
+			&i.BillingQuotesView.Length,
+			&i.BillingQuotesView.Width,
+			&i.BillingQuotesView.Height,
+			&i.BillingQuotesView.Volume,
+			&i.BillingQuotesView.QuotedPrice,
+			&i.BillingQuotesView.ServiceLevel,
+			&i.BillingQuotesView.ExpiresAt,
+			&i.BillingQuotesView.Status,
+			&i.BillingQuotesView.QuoteNumber,
+			&i.BillingQuotesView.Notes,
+			&i.BillingQuotesView.CreatedByUserID,
+			&i.BillingQuotesView.CreatedAt,
+			&i.BillingQuotesView.UpdatedAt,
+			&i.BillingQuotesView.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -96,11 +97,11 @@ func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]Bil
 
 const billingFindQuote = `-- name: BillingFindQuote :one
 select
-  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at,
+  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
@@ -108,33 +109,34 @@ where
 `
 
 type BillingFindQuoteRow struct {
-	BillingQuote BillingQuote
-	CrmCompany   CrmCompany
-	User         User
+	BillingQuotesView BillingQuotesView
+	CrmCompany        CrmCompany
+	User              User
 }
 
 func (q *Queries) BillingFindQuote(ctx context.Context, id pgtype.UUID) (BillingFindQuoteRow, error) {
 	row := q.db.QueryRow(ctx, billingFindQuote, id)
 	var i BillingFindQuoteRow
 	err := row.Scan(
-		&i.BillingQuote.ID,
-		&i.BillingQuote.ClientID,
-		&i.BillingQuote.OriginDetails,
-		&i.BillingQuote.DestinationDetails,
-		&i.BillingQuote.Weight,
-		&i.BillingQuote.Length,
-		&i.BillingQuote.Width,
-		&i.BillingQuote.Height,
-		&i.BillingQuote.Volume,
-		&i.BillingQuote.QuotedPrice,
-		&i.BillingQuote.ServiceLevel,
-		&i.BillingQuote.ExpiresAt,
-		&i.BillingQuote.Status,
-		&i.BillingQuote.QuoteNumber,
-		&i.BillingQuote.Notes,
-		&i.BillingQuote.CreatedByUserID,
-		&i.BillingQuote.CreatedAt,
-		&i.BillingQuote.UpdatedAt,
+		&i.BillingQuotesView.ID,
+		&i.BillingQuotesView.ClientID,
+		&i.BillingQuotesView.OriginDetails,
+		&i.BillingQuotesView.DestinationDetails,
+		&i.BillingQuotesView.Weight,
+		&i.BillingQuotesView.Length,
+		&i.BillingQuotesView.Width,
+		&i.BillingQuotesView.Height,
+		&i.BillingQuotesView.Volume,
+		&i.BillingQuotesView.QuotedPrice,
+		&i.BillingQuotesView.ServiceLevel,
+		&i.BillingQuotesView.ExpiresAt,
+		&i.BillingQuotesView.Status,
+		&i.BillingQuotesView.QuoteNumber,
+		&i.BillingQuotesView.Notes,
+		&i.BillingQuotesView.CreatedByUserID,
+		&i.BillingQuotesView.CreatedAt,
+		&i.BillingQuotesView.UpdatedAt,
+		&i.BillingQuotesView.Invoices,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -231,11 +233,11 @@ func (q *Queries) BillingInsertQuote(ctx context.Context, arg BillingInsertQuote
 
 const billingPaginateQuote = `-- name: BillingPaginateQuote :many
 select
-  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at,
+  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where (client.name ilike $1::text
@@ -254,9 +256,9 @@ type BillingPaginateQuoteParams struct {
 }
 
 type BillingPaginateQuoteRow struct {
-	BillingQuote BillingQuote
-	CrmCompany   CrmCompany
-	User         User
+	BillingQuotesView BillingQuotesView
+	CrmCompany        CrmCompany
+	User              User
 }
 
 func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQuoteParams) ([]BillingPaginateQuoteRow, error) {
@@ -269,24 +271,25 @@ func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQ
 	for rows.Next() {
 		var i BillingPaginateQuoteRow
 		if err := rows.Scan(
-			&i.BillingQuote.ID,
-			&i.BillingQuote.ClientID,
-			&i.BillingQuote.OriginDetails,
-			&i.BillingQuote.DestinationDetails,
-			&i.BillingQuote.Weight,
-			&i.BillingQuote.Length,
-			&i.BillingQuote.Width,
-			&i.BillingQuote.Height,
-			&i.BillingQuote.Volume,
-			&i.BillingQuote.QuotedPrice,
-			&i.BillingQuote.ServiceLevel,
-			&i.BillingQuote.ExpiresAt,
-			&i.BillingQuote.Status,
-			&i.BillingQuote.QuoteNumber,
-			&i.BillingQuote.Notes,
-			&i.BillingQuote.CreatedByUserID,
-			&i.BillingQuote.CreatedAt,
-			&i.BillingQuote.UpdatedAt,
+			&i.BillingQuotesView.ID,
+			&i.BillingQuotesView.ClientID,
+			&i.BillingQuotesView.OriginDetails,
+			&i.BillingQuotesView.DestinationDetails,
+			&i.BillingQuotesView.Weight,
+			&i.BillingQuotesView.Length,
+			&i.BillingQuotesView.Width,
+			&i.BillingQuotesView.Height,
+			&i.BillingQuotesView.Volume,
+			&i.BillingQuotesView.QuotedPrice,
+			&i.BillingQuotesView.ServiceLevel,
+			&i.BillingQuotesView.ExpiresAt,
+			&i.BillingQuotesView.Status,
+			&i.BillingQuotesView.QuoteNumber,
+			&i.BillingQuotesView.Notes,
+			&i.BillingQuotesView.CreatedByUserID,
+			&i.BillingQuotesView.CreatedAt,
+			&i.BillingQuotesView.UpdatedAt,
+			&i.BillingQuotesView.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -325,11 +328,11 @@ func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQ
 
 const billingRangeQuote = `-- name: BillingRangeQuote :many
 select
-  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at,
+  quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
-  "billing"."quotes" as quotes
+  "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
 where
@@ -350,9 +353,9 @@ type BillingRangeQuoteParams struct {
 }
 
 type BillingRangeQuoteRow struct {
-	BillingQuote BillingQuote
-	CrmCompany   CrmCompany
-	User         User
+	BillingQuotesView BillingQuotesView
+	CrmCompany        CrmCompany
+	User              User
 }
 
 func (q *Queries) BillingRangeQuote(ctx context.Context, arg BillingRangeQuoteParams) ([]BillingRangeQuoteRow, error) {
@@ -365,24 +368,25 @@ func (q *Queries) BillingRangeQuote(ctx context.Context, arg BillingRangeQuotePa
 	for rows.Next() {
 		var i BillingRangeQuoteRow
 		if err := rows.Scan(
-			&i.BillingQuote.ID,
-			&i.BillingQuote.ClientID,
-			&i.BillingQuote.OriginDetails,
-			&i.BillingQuote.DestinationDetails,
-			&i.BillingQuote.Weight,
-			&i.BillingQuote.Length,
-			&i.BillingQuote.Width,
-			&i.BillingQuote.Height,
-			&i.BillingQuote.Volume,
-			&i.BillingQuote.QuotedPrice,
-			&i.BillingQuote.ServiceLevel,
-			&i.BillingQuote.ExpiresAt,
-			&i.BillingQuote.Status,
-			&i.BillingQuote.QuoteNumber,
-			&i.BillingQuote.Notes,
-			&i.BillingQuote.CreatedByUserID,
-			&i.BillingQuote.CreatedAt,
-			&i.BillingQuote.UpdatedAt,
+			&i.BillingQuotesView.ID,
+			&i.BillingQuotesView.ClientID,
+			&i.BillingQuotesView.OriginDetails,
+			&i.BillingQuotesView.DestinationDetails,
+			&i.BillingQuotesView.Weight,
+			&i.BillingQuotesView.Length,
+			&i.BillingQuotesView.Width,
+			&i.BillingQuotesView.Height,
+			&i.BillingQuotesView.Volume,
+			&i.BillingQuotesView.QuotedPrice,
+			&i.BillingQuotesView.ServiceLevel,
+			&i.BillingQuotesView.ExpiresAt,
+			&i.BillingQuotesView.Status,
+			&i.BillingQuotesView.QuoteNumber,
+			&i.BillingQuotesView.Notes,
+			&i.BillingQuotesView.CreatedByUserID,
+			&i.BillingQuotesView.CreatedAt,
+			&i.BillingQuotesView.UpdatedAt,
+			&i.BillingQuotesView.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

@@ -5,7 +5,7 @@ select
   sqlc.embed(quote),
   sqlc.embed(created_by_user)
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -24,7 +24,7 @@ select
   sqlc.embed(quote),
   sqlc.embed(created_by_user)
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -38,7 +38,7 @@ select
   sqlc.embed(quote),
   sqlc.embed(created_by_user)
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
@@ -52,7 +52,7 @@ select
   sqlc.embed(quote),
   sqlc.embed(created_by_user)
 from
-  "billing"."invoices" as invoices
+  "billing"."invoices_view" as invoices
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id

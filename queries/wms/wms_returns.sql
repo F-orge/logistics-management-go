@@ -4,7 +4,7 @@ select
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where (wms_returns.return_number ilike (sqlc.narg(search))::text
@@ -20,7 +20,7 @@ select
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
@@ -32,7 +32,7 @@ select
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
@@ -44,7 +44,7 @@ select
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
-  "wms"."returns" as wms_returns
+  "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where

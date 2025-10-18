@@ -13,22 +13,22 @@ import (
 
 const tmsAnyVehicle = `-- name: TmsAnyVehicle :many
 select
-  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
+  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date, vehicle_maintenance, gps_pings, geofence_events
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   id = any ($1::uuid[])
 `
 
-func (q *Queries) TmsAnyVehicle(ctx context.Context, ids []pgtype.UUID) ([]TmsVehicle, error) {
+func (q *Queries) TmsAnyVehicle(ctx context.Context, ids []pgtype.UUID) ([]TmsVehiclesView, error) {
 	rows, err := q.db.Query(ctx, tmsAnyVehicle, ids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsVehicle
+	var items []TmsVehiclesView
 	for rows.Next() {
-		var i TmsVehicle
+		var i TmsVehiclesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.RegistrationNumber,
@@ -43,6 +43,9 @@ func (q *Queries) TmsAnyVehicle(ctx context.Context, ids []pgtype.UUID) ([]TmsVe
 			&i.Vin,
 			&i.CurrentMileage,
 			&i.LastMaintenanceDate,
+			&i.VehicleMaintenance,
+			&i.GpsPings,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}
@@ -56,16 +59,16 @@ func (q *Queries) TmsAnyVehicle(ctx context.Context, ids []pgtype.UUID) ([]TmsVe
 
 const tmsFindVehicle = `-- name: TmsFindVehicle :one
 select
-  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
+  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date, vehicle_maintenance, gps_pings, geofence_events
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   id = $1::uuid
 `
 
-func (q *Queries) TmsFindVehicle(ctx context.Context, id pgtype.UUID) (TmsVehicle, error) {
+func (q *Queries) TmsFindVehicle(ctx context.Context, id pgtype.UUID) (TmsVehiclesView, error) {
 	row := q.db.QueryRow(ctx, tmsFindVehicle, id)
-	var i TmsVehicle
+	var i TmsVehiclesView
 	err := row.Scan(
 		&i.ID,
 		&i.RegistrationNumber,
@@ -80,6 +83,9 @@ func (q *Queries) TmsFindVehicle(ctx context.Context, id pgtype.UUID) (TmsVehicl
 		&i.Vin,
 		&i.CurrentMileage,
 		&i.LastMaintenanceDate,
+		&i.VehicleMaintenance,
+		&i.GpsPings,
+		&i.GeofenceEvents,
 	)
 	return i, err
 }
@@ -128,9 +134,9 @@ func (q *Queries) TmsInsertVehicle(ctx context.Context, arg TmsInsertVehiclePara
 
 const tmsPaginateVehicle = `-- name: TmsPaginateVehicle :many
 select
-  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
+  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date, vehicle_maintenance, gps_pings, geofence_events
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where (registration_number ilike $1::text
   or model ilike $1::text
   or status::text ilike $1::text
@@ -144,15 +150,15 @@ type TmsPaginateVehicleParams struct {
 	Perpage int32
 }
 
-func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicleParams) ([]TmsVehicle, error) {
+func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicleParams) ([]TmsVehiclesView, error) {
 	rows, err := q.db.Query(ctx, tmsPaginateVehicle, arg.Search, arg.Page, arg.Perpage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsVehicle
+	var items []TmsVehiclesView
 	for rows.Next() {
-		var i TmsVehicle
+		var i TmsVehiclesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.RegistrationNumber,
@@ -167,6 +173,9 @@ func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicle
 			&i.Vin,
 			&i.CurrentMileage,
 			&i.LastMaintenanceDate,
+			&i.VehicleMaintenance,
+			&i.GpsPings,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}
@@ -180,9 +189,9 @@ func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicle
 
 const tmsRangeVehicle = `-- name: TmsRangeVehicle :many
 select
-  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date
+  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date, vehicle_maintenance, gps_pings, geofence_events
 from
-  "tms"."vehicles"
+  "tms"."vehicles_view"
 where
   created_at >= $1::date
   and created_at <= $2::date
@@ -198,15 +207,15 @@ type TmsRangeVehicleParams struct {
 	Search   pgtype.Text
 }
 
-func (q *Queries) TmsRangeVehicle(ctx context.Context, arg TmsRangeVehicleParams) ([]TmsVehicle, error) {
+func (q *Queries) TmsRangeVehicle(ctx context.Context, arg TmsRangeVehicleParams) ([]TmsVehiclesView, error) {
 	rows, err := q.db.Query(ctx, tmsRangeVehicle, arg.Datefrom, arg.Dateto, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsVehicle
+	var items []TmsVehiclesView
 	for rows.Next() {
-		var i TmsVehicle
+		var i TmsVehiclesView
 		if err := rows.Scan(
 			&i.ID,
 			&i.RegistrationNumber,
@@ -221,6 +230,9 @@ func (q *Queries) TmsRangeVehicle(ctx context.Context, arg TmsRangeVehicleParams
 			&i.Vin,
 			&i.CurrentMileage,
 			&i.LastMaintenanceDate,
+			&i.VehicleMaintenance,
+			&i.GpsPings,
+			&i.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}

@@ -13,18 +13,18 @@ import (
 
 const tmsAnyDriver = `-- name: TmsAnyDriver :many
 select
-  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone,
+  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.id = any ($1::uuid[])
 `
 
 type TmsAnyDriverRow struct {
-	TmsDriver TmsDriver
-	User      User
+	TmsDriversView TmsDriversView
+	User           User
 }
 
 func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyDriverRow, error) {
@@ -37,14 +37,17 @@ func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAny
 	for rows.Next() {
 		var i TmsAnyDriverRow
 		if err := rows.Scan(
-			&i.TmsDriver.ID,
-			&i.TmsDriver.UserID,
-			&i.TmsDriver.LicenseNumber,
-			&i.TmsDriver.LicenseExpiryDate,
-			&i.TmsDriver.Status,
-			&i.TmsDriver.CreatedAt,
-			&i.TmsDriver.UpdatedAt,
-			&i.TmsDriver.ContactPhone,
+			&i.TmsDriversView.ID,
+			&i.TmsDriversView.UserID,
+			&i.TmsDriversView.LicenseNumber,
+			&i.TmsDriversView.LicenseExpiryDate,
+			&i.TmsDriversView.Status,
+			&i.TmsDriversView.CreatedAt,
+			&i.TmsDriversView.UpdatedAt,
+			&i.TmsDriversView.ContactPhone,
+			&i.TmsDriversView.DriverSchedules,
+			&i.TmsDriversView.Expenses,
+			&i.TmsDriversView.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -69,32 +72,35 @@ func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAny
 
 const tmsFindDriver = `-- name: TmsFindDriver :one
 select
-  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone,
+  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.id = $1::uuid
 `
 
 type TmsFindDriverRow struct {
-	TmsDriver TmsDriver
-	User      User
+	TmsDriversView TmsDriversView
+	User           User
 }
 
 func (q *Queries) TmsFindDriver(ctx context.Context, id pgtype.UUID) (TmsFindDriverRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindDriver, id)
 	var i TmsFindDriverRow
 	err := row.Scan(
-		&i.TmsDriver.ID,
-		&i.TmsDriver.UserID,
-		&i.TmsDriver.LicenseNumber,
-		&i.TmsDriver.LicenseExpiryDate,
-		&i.TmsDriver.Status,
-		&i.TmsDriver.CreatedAt,
-		&i.TmsDriver.UpdatedAt,
-		&i.TmsDriver.ContactPhone,
+		&i.TmsDriversView.ID,
+		&i.TmsDriversView.UserID,
+		&i.TmsDriversView.LicenseNumber,
+		&i.TmsDriversView.LicenseExpiryDate,
+		&i.TmsDriversView.Status,
+		&i.TmsDriversView.CreatedAt,
+		&i.TmsDriversView.UpdatedAt,
+		&i.TmsDriversView.ContactPhone,
+		&i.TmsDriversView.DriverSchedules,
+		&i.TmsDriversView.Expenses,
+		&i.TmsDriversView.Trips,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -147,10 +153,10 @@ func (q *Queries) TmsInsertDriver(ctx context.Context, arg TmsInsertDriverParams
 
 const tmsPaginateDriver = `-- name: TmsPaginateDriver :many
 select
-  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone,
+  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where (users.name ilike $1::text
   or drivers.license_number ilike $1::text
@@ -166,8 +172,8 @@ type TmsPaginateDriverParams struct {
 }
 
 type TmsPaginateDriverRow struct {
-	TmsDriver TmsDriver
-	User      User
+	TmsDriversView TmsDriversView
+	User           User
 }
 
 func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverParams) ([]TmsPaginateDriverRow, error) {
@@ -180,14 +186,17 @@ func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverPa
 	for rows.Next() {
 		var i TmsPaginateDriverRow
 		if err := rows.Scan(
-			&i.TmsDriver.ID,
-			&i.TmsDriver.UserID,
-			&i.TmsDriver.LicenseNumber,
-			&i.TmsDriver.LicenseExpiryDate,
-			&i.TmsDriver.Status,
-			&i.TmsDriver.CreatedAt,
-			&i.TmsDriver.UpdatedAt,
-			&i.TmsDriver.ContactPhone,
+			&i.TmsDriversView.ID,
+			&i.TmsDriversView.UserID,
+			&i.TmsDriversView.LicenseNumber,
+			&i.TmsDriversView.LicenseExpiryDate,
+			&i.TmsDriversView.Status,
+			&i.TmsDriversView.CreatedAt,
+			&i.TmsDriversView.UpdatedAt,
+			&i.TmsDriversView.ContactPhone,
+			&i.TmsDriversView.DriverSchedules,
+			&i.TmsDriversView.Expenses,
+			&i.TmsDriversView.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -212,10 +221,10 @@ func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverPa
 
 const tmsRangeDriver = `-- name: TmsRangeDriver :many
 select
-  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone,
+  drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
-  "tms"."drivers" as drivers
+  "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
 where
   drivers.created_at >= $1::date
@@ -233,8 +242,8 @@ type TmsRangeDriverParams struct {
 }
 
 type TmsRangeDriverRow struct {
-	TmsDriver TmsDriver
-	User      User
+	TmsDriversView TmsDriversView
+	User           User
 }
 
 func (q *Queries) TmsRangeDriver(ctx context.Context, arg TmsRangeDriverParams) ([]TmsRangeDriverRow, error) {
@@ -247,14 +256,17 @@ func (q *Queries) TmsRangeDriver(ctx context.Context, arg TmsRangeDriverParams) 
 	for rows.Next() {
 		var i TmsRangeDriverRow
 		if err := rows.Scan(
-			&i.TmsDriver.ID,
-			&i.TmsDriver.UserID,
-			&i.TmsDriver.LicenseNumber,
-			&i.TmsDriver.LicenseExpiryDate,
-			&i.TmsDriver.Status,
-			&i.TmsDriver.CreatedAt,
-			&i.TmsDriver.UpdatedAt,
-			&i.TmsDriver.ContactPhone,
+			&i.TmsDriversView.ID,
+			&i.TmsDriversView.UserID,
+			&i.TmsDriversView.LicenseNumber,
+			&i.TmsDriversView.LicenseExpiryDate,
+			&i.TmsDriversView.Status,
+			&i.TmsDriversView.CreatedAt,
+			&i.TmsDriversView.UpdatedAt,
+			&i.TmsDriversView.ContactPhone,
+			&i.TmsDriversView.DriverSchedules,
+			&i.TmsDriversView.Expenses,
+			&i.TmsDriversView.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

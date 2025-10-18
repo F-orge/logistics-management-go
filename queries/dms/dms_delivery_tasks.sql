@@ -3,8 +3,8 @@ select
   sqlc.embed(delivery_tasks),
   sqlc.embed(delivery_route)
 from
-  "dms"."delivery_tasks" as delivery_tasks
-  inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
+  "dms"."delivery_tasks_view" as delivery_tasks
+  inner join "dms"."delivery_routes_view" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
   -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
 where (delivery_tasks.recipient_name ilike sqlc.narg(search)::text
   or delivery_tasks.delivery_address ilike sqlc.narg(search)::text
@@ -18,7 +18,7 @@ select
   sqlc.embed(delivery_tasks),
   sqlc.embed(delivery_route)
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.id = sqlc.arg(id)::uuid;
@@ -28,7 +28,7 @@ select
   sqlc.embed(delivery_tasks),
   sqlc.embed(delivery_route)
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.id = any (@ids::uuid[]);
@@ -38,7 +38,7 @@ select
   sqlc.embed(delivery_tasks),
   sqlc.embed(delivery_route)
 from
-  "dms"."delivery_tasks" as delivery_tasks
+  "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
 where
   delivery_tasks.created_at >= @dateFrom::date

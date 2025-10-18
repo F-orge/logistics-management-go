@@ -13,18 +13,18 @@ import (
 
 const tmsAnyTripStop = `-- name: TmsAnyTripStop :many
 select
-  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at,
+  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
-  "tms"."trip_stops" as trip_stops
+  "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
 where
   trip_stops.id = any ($1::uuid[])
 `
 
 type TmsAnyTripStopRow struct {
-	TmsTripStop TmsTripStop
-	TmsTrip     TmsTrip
+	TmsTripStopsView TmsTripStopsView
+	TmsTrip          TmsTrip
 }
 
 func (q *Queries) TmsAnyTripStop(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTripStopRow, error) {
@@ -37,18 +37,19 @@ func (q *Queries) TmsAnyTripStop(ctx context.Context, ids []pgtype.UUID) ([]TmsA
 	for rows.Next() {
 		var i TmsAnyTripStopRow
 		if err := rows.Scan(
-			&i.TmsTripStop.ID,
-			&i.TmsTripStop.TripID,
-			&i.TmsTripStop.ShipmentID,
-			&i.TmsTripStop.Sequence,
-			&i.TmsTripStop.Address,
-			&i.TmsTripStop.Status,
-			&i.TmsTripStop.EstimatedArrivalTime,
-			&i.TmsTripStop.ActualArrivalTime,
-			&i.TmsTripStop.EstimatedDepartureTime,
-			&i.TmsTripStop.ActualDepartureTime,
-			&i.TmsTripStop.CreatedAt,
-			&i.TmsTripStop.UpdatedAt,
+			&i.TmsTripStopsView.ID,
+			&i.TmsTripStopsView.TripID,
+			&i.TmsTripStopsView.ShipmentID,
+			&i.TmsTripStopsView.Sequence,
+			&i.TmsTripStopsView.Address,
+			&i.TmsTripStopsView.Status,
+			&i.TmsTripStopsView.EstimatedArrivalTime,
+			&i.TmsTripStopsView.ActualArrivalTime,
+			&i.TmsTripStopsView.EstimatedDepartureTime,
+			&i.TmsTripStopsView.ActualDepartureTime,
+			&i.TmsTripStopsView.CreatedAt,
+			&i.TmsTripStopsView.UpdatedAt,
+			&i.TmsTripStopsView.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -72,36 +73,37 @@ func (q *Queries) TmsAnyTripStop(ctx context.Context, ids []pgtype.UUID) ([]TmsA
 
 const tmsFindTripStop = `-- name: TmsFindTripStop :one
 select
-  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at,
+  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
-  "tms"."trip_stops" as trip_stops
+  "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
 where
   trip_stops.id = $1::uuid
 `
 
 type TmsFindTripStopRow struct {
-	TmsTripStop TmsTripStop
-	TmsTrip     TmsTrip
+	TmsTripStopsView TmsTripStopsView
+	TmsTrip          TmsTrip
 }
 
 func (q *Queries) TmsFindTripStop(ctx context.Context, id pgtype.UUID) (TmsFindTripStopRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindTripStop, id)
 	var i TmsFindTripStopRow
 	err := row.Scan(
-		&i.TmsTripStop.ID,
-		&i.TmsTripStop.TripID,
-		&i.TmsTripStop.ShipmentID,
-		&i.TmsTripStop.Sequence,
-		&i.TmsTripStop.Address,
-		&i.TmsTripStop.Status,
-		&i.TmsTripStop.EstimatedArrivalTime,
-		&i.TmsTripStop.ActualArrivalTime,
-		&i.TmsTripStop.EstimatedDepartureTime,
-		&i.TmsTripStop.ActualDepartureTime,
-		&i.TmsTripStop.CreatedAt,
-		&i.TmsTripStop.UpdatedAt,
+		&i.TmsTripStopsView.ID,
+		&i.TmsTripStopsView.TripID,
+		&i.TmsTripStopsView.ShipmentID,
+		&i.TmsTripStopsView.Sequence,
+		&i.TmsTripStopsView.Address,
+		&i.TmsTripStopsView.Status,
+		&i.TmsTripStopsView.EstimatedArrivalTime,
+		&i.TmsTripStopsView.ActualArrivalTime,
+		&i.TmsTripStopsView.EstimatedDepartureTime,
+		&i.TmsTripStopsView.ActualDepartureTime,
+		&i.TmsTripStopsView.CreatedAt,
+		&i.TmsTripStopsView.UpdatedAt,
+		&i.TmsTripStopsView.ProofOfDeliveries,
 		&i.TmsTrip.ID,
 		&i.TmsTrip.DriverID,
 		&i.TmsTrip.VehicleID,
@@ -181,10 +183,10 @@ func (q *Queries) TmsInsertTripStop(ctx context.Context, arg TmsInsertTripStopPa
 
 const tmsPaginateTripStop = `-- name: TmsPaginateTripStop :many
 select
-  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at,
+  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
-  "tms"."trip_stops" as trip_stops
+  "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
 where (trip.status::text ilike $1::text
   or trip_stops.address ilike $1::text
@@ -200,8 +202,8 @@ type TmsPaginateTripStopParams struct {
 }
 
 type TmsPaginateTripStopRow struct {
-	TmsTripStop TmsTripStop
-	TmsTrip     TmsTrip
+	TmsTripStopsView TmsTripStopsView
+	TmsTrip          TmsTrip
 }
 
 func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripStopParams) ([]TmsPaginateTripStopRow, error) {
@@ -214,18 +216,19 @@ func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripSt
 	for rows.Next() {
 		var i TmsPaginateTripStopRow
 		if err := rows.Scan(
-			&i.TmsTripStop.ID,
-			&i.TmsTripStop.TripID,
-			&i.TmsTripStop.ShipmentID,
-			&i.TmsTripStop.Sequence,
-			&i.TmsTripStop.Address,
-			&i.TmsTripStop.Status,
-			&i.TmsTripStop.EstimatedArrivalTime,
-			&i.TmsTripStop.ActualArrivalTime,
-			&i.TmsTripStop.EstimatedDepartureTime,
-			&i.TmsTripStop.ActualDepartureTime,
-			&i.TmsTripStop.CreatedAt,
-			&i.TmsTripStop.UpdatedAt,
+			&i.TmsTripStopsView.ID,
+			&i.TmsTripStopsView.TripID,
+			&i.TmsTripStopsView.ShipmentID,
+			&i.TmsTripStopsView.Sequence,
+			&i.TmsTripStopsView.Address,
+			&i.TmsTripStopsView.Status,
+			&i.TmsTripStopsView.EstimatedArrivalTime,
+			&i.TmsTripStopsView.ActualArrivalTime,
+			&i.TmsTripStopsView.EstimatedDepartureTime,
+			&i.TmsTripStopsView.ActualDepartureTime,
+			&i.TmsTripStopsView.CreatedAt,
+			&i.TmsTripStopsView.UpdatedAt,
+			&i.TmsTripStopsView.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -249,10 +252,10 @@ func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripSt
 
 const tmsRangeTripStop = `-- name: TmsRangeTripStop :many
 select
-  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at,
+  trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
-  "tms"."trip_stops" as trip_stops
+  "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
 where
   trip_stops.created_at >= $1::date
@@ -270,8 +273,8 @@ type TmsRangeTripStopParams struct {
 }
 
 type TmsRangeTripStopRow struct {
-	TmsTripStop TmsTripStop
-	TmsTrip     TmsTrip
+	TmsTripStopsView TmsTripStopsView
+	TmsTrip          TmsTrip
 }
 
 func (q *Queries) TmsRangeTripStop(ctx context.Context, arg TmsRangeTripStopParams) ([]TmsRangeTripStopRow, error) {
@@ -284,18 +287,19 @@ func (q *Queries) TmsRangeTripStop(ctx context.Context, arg TmsRangeTripStopPara
 	for rows.Next() {
 		var i TmsRangeTripStopRow
 		if err := rows.Scan(
-			&i.TmsTripStop.ID,
-			&i.TmsTripStop.TripID,
-			&i.TmsTripStop.ShipmentID,
-			&i.TmsTripStop.Sequence,
-			&i.TmsTripStop.Address,
-			&i.TmsTripStop.Status,
-			&i.TmsTripStop.EstimatedArrivalTime,
-			&i.TmsTripStop.ActualArrivalTime,
-			&i.TmsTripStop.EstimatedDepartureTime,
-			&i.TmsTripStop.ActualDepartureTime,
-			&i.TmsTripStop.CreatedAt,
-			&i.TmsTripStop.UpdatedAt,
+			&i.TmsTripStopsView.ID,
+			&i.TmsTripStopsView.TripID,
+			&i.TmsTripStopsView.ShipmentID,
+			&i.TmsTripStopsView.Sequence,
+			&i.TmsTripStopsView.Address,
+			&i.TmsTripStopsView.Status,
+			&i.TmsTripStopsView.EstimatedArrivalTime,
+			&i.TmsTripStopsView.ActualArrivalTime,
+			&i.TmsTripStopsView.EstimatedDepartureTime,
+			&i.TmsTripStopsView.ActualDepartureTime,
+			&i.TmsTripStopsView.CreatedAt,
+			&i.TmsTripStopsView.UpdatedAt,
+			&i.TmsTripStopsView.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
