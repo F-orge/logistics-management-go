@@ -199,8 +199,7 @@ from
   "wms"."inventory_adjustments" as inventory_adjustments
   inner join "wms"."products" as product on inventory_adjustments.product_id = product.id
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
-where
-  (product.name ilike $1::text
+where (product.name ilike $1::text
   or users.name ilike $1::text
   or inventory_adjustments.reason::text ilike $1::text
   or $1::text is null)
@@ -289,9 +288,9 @@ where
   inventory_adjustments.created_at >= $1::date
   and inventory_adjustments.created_at <= $2::date
   and (product.name ilike $3::text
-  or users.name ilike $3::text
-  or inventory_adjustments.reason::text ilike $3::text
-  or $3::text is null)
+    or users.name ilike $3::text
+    or inventory_adjustments.reason::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeInventoryAdjustmentParams struct {
@@ -378,71 +377,59 @@ update
   "wms"."inventory_adjustments"
 set
   updated_at = now(),
-  product_id = case when $1::boolean then
-    $2::uuid
+  product_id = case when $1 is not null then
+    $1::uuid
   else
     product_id
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  user_id = case when $5::boolean then
-    $6::text
+  user_id = case when $3 is not null then
+    $3::text
   else
     user_id
   end,
-  quantity_change = case when $7::boolean then
-    $8::integer
+  quantity_change = case when $4 is not null then
+    $4::integer
   else
     quantity_change
   end,
-  reason = case when $9::boolean then
-    $10::wms.inventory_adjustment_reason_enum
+  reason = case when $5 is not null then
+    $5::wms.inventory_adjustment_reason_enum
   else
     reason
   end,
-  notes = case when $11::boolean then
-    $12::text
+  notes = case when $6 is not null then
+    $6::text
   else
     notes
   end
 where
-  id = $13::uuid
+  id = $7::uuid
 returning
   id, product_id, warehouse_id, user_id, quantity_change, reason, notes, created_at, updated_at
 `
 
 type WmsUpdateInventoryAdjustmentParams struct {
-	SetProductID      bool
-	ProductID         pgtype.UUID
-	SetWarehouseID    bool
-	WarehouseID       pgtype.UUID
-	SetUserID         bool
-	UserID            string
-	SetQuantityChange bool
-	QuantityChange    int32
-	SetReason         bool
-	Reason            WmsInventoryAdjustmentReasonEnum
-	SetNotes          bool
-	Notes             string
-	ID                pgtype.UUID
+	ProductID      pgtype.UUID
+	WarehouseID    pgtype.UUID
+	UserID         string
+	QuantityChange int32
+	Reason         NullWmsInventoryAdjustmentReasonEnum
+	Notes          pgtype.Text
+	ID             pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateInventoryAdjustment(ctx context.Context, arg WmsUpdateInventoryAdjustmentParams) (WmsInventoryAdjustment, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateInventoryAdjustment,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetUserID,
 		arg.UserID,
-		arg.SetQuantityChange,
 		arg.QuantityChange,
-		arg.SetReason,
 		arg.Reason,
-		arg.SetNotes,
 		arg.Notes,
 		arg.ID,
 	)

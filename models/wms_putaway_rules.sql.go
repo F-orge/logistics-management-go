@@ -326,8 +326,7 @@ from
   left join "crm"."companies" as client on putaway_rules.client_id = client.id
   inner join "wms"."warehouses" as warehouse on putaway_rules.warehouse_id = warehouse.id
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
-where
-  (product.name ilike $1::text
+where (product.name ilike $1::text
   or client.name ilike $1::text
   or warehouse.name ilike $1::text
   or preferred_location.name ilike $1::text
@@ -469,11 +468,11 @@ where
   putaway_rules.created_at >= $1::date
   and putaway_rules.created_at <= $2::date
   and (product.name ilike $3::text
-  or client.name ilike $3::text
-  or warehouse.name ilike $3::text
-  or preferred_location.name ilike $3::text
-  or putaway_rules.location_type::text ilike $3::text
-  or $3::text is null)
+    or client.name ilike $3::text
+    or warehouse.name ilike $3::text
+    or preferred_location.name ilike $3::text
+    or putaway_rules.location_type::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangePutawayRuleParams struct {
@@ -607,134 +606,108 @@ update
   "wms"."putaway_rules"
 set
   updated_at = now(),
-  product_id = case when $1::boolean then
-    $2::uuid
+  product_id = case when $1 is not null then
+    $1::uuid
   else
     product_id
   end,
-  client_id = case when $3::boolean then
-    $4::uuid
+  client_id = case when $2 is not null then
+    $2::uuid
   else
     client_id
   end,
-  warehouse_id = case when $5::boolean then
-    $6::uuid
+  warehouse_id = case when $3 is not null then
+    $3::uuid
   else
     warehouse_id
   end,
-  preferred_location_id = case when $7::boolean then
-    $8::uuid
+  preferred_location_id = case when $4 is not null then
+    $4::uuid
   else
     preferred_location_id
   end,
-  location_type = case when $9::boolean then
-    $10::wms.location_type_enum
+  location_type = case when $5 is not null then
+    $5::wms.location_type_enum
   else
     location_type
   end,
-  priority = case when $11::boolean then
-    $12::integer
+  priority = case when $6 is not null then
+    $6::integer
   else
     priority
   end,
-  min_quantity = case when $13::boolean then
-    $14::integer
+  min_quantity = case when $7 is not null then
+    $7::integer
   else
     min_quantity
   end,
-  max_quantity = case when $15::boolean then
-    $16::integer
+  max_quantity = case when $8 is not null then
+    $8::integer
   else
     max_quantity
   end,
-  weight_threshold = case when $17::boolean then
-    $18::real
+  weight_threshold = case when $9 is not null then
+    $9::real
   else
     weight_threshold
   end,
-  volume_threshold = case when $19::boolean then
-    $20::real
+  volume_threshold = case when $10 is not null then
+    $10::real
   else
     volume_threshold
   end,
-  requires_temperature_control = case when $21::boolean then
-    $22::boolean
+  requires_temperature_control = case when $11 is not null then
+    $11::boolean
   else
     requires_temperature_control
   end,
-  requires_hazmat_approval = case when $23::boolean then
-    $24::boolean
+  requires_hazmat_approval = case when $12 is not null then
+    $12::boolean
   else
     requires_hazmat_approval
   end,
-  is_active = case when $25::boolean then
-    $26::boolean
+  is_active = case when $13 is not null then
+    $13::boolean
   else
     is_active
   end
 where
-  id = $27::uuid
+  id = $14::uuid
 returning
   id, product_id, client_id, warehouse_id, preferred_location_id, location_type, priority, min_quantity, max_quantity, weight_threshold, volume_threshold, requires_temperature_control, requires_hazmat_approval, is_active, created_at, updated_at
 `
 
 type WmsUpdatePutawayRuleParams struct {
-	SetProductID                  bool
-	ProductID                     pgtype.UUID
-	SetClientID                   bool
-	ClientID                      pgtype.UUID
-	SetWarehouseID                bool
-	WarehouseID                   pgtype.UUID
-	SetPreferredLocationID        bool
-	PreferredLocationID           pgtype.UUID
-	SetLocationType               bool
-	LocationType                  WmsLocationTypeEnum
-	SetPriority                   bool
-	Priority                      int32
-	SetMinQuantity                bool
-	MinQuantity                   int32
-	SetMaxQuantity                bool
-	MaxQuantity                   int32
-	SetWeightThreshold            bool
-	WeightThreshold               float32
-	SetVolumeThreshold            bool
-	VolumeThreshold               float32
-	SetRequiresTemperatureControl bool
-	RequiresTemperatureControl    bool
-	SetRequiresHazmatApproval     bool
-	RequiresHazmatApproval        bool
-	SetIsActive                   bool
-	IsActive                      bool
-	ID                            pgtype.UUID
+	ProductID                  pgtype.UUID
+	ClientID                   pgtype.UUID
+	WarehouseID                pgtype.UUID
+	PreferredLocationID        pgtype.UUID
+	LocationType               NullWmsLocationTypeEnum
+	Priority                   int32
+	MinQuantity                pgtype.Int4
+	MaxQuantity                pgtype.Int4
+	WeightThreshold            pgtype.Float4
+	VolumeThreshold            pgtype.Float4
+	RequiresTemperatureControl pgtype.Bool
+	RequiresHazmatApproval     pgtype.Bool
+	IsActive                   pgtype.Bool
+	ID                         pgtype.UUID
 }
 
 func (q *Queries) WmsUpdatePutawayRule(ctx context.Context, arg WmsUpdatePutawayRuleParams) (WmsPutawayRule, error) {
 	row := q.db.QueryRow(ctx, wmsUpdatePutawayRule,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetPreferredLocationID,
 		arg.PreferredLocationID,
-		arg.SetLocationType,
 		arg.LocationType,
-		arg.SetPriority,
 		arg.Priority,
-		arg.SetMinQuantity,
 		arg.MinQuantity,
-		arg.SetMaxQuantity,
 		arg.MaxQuantity,
-		arg.SetWeightThreshold,
 		arg.WeightThreshold,
-		arg.SetVolumeThreshold,
 		arg.VolumeThreshold,
-		arg.SetRequiresTemperatureControl,
 		arg.RequiresTemperatureControl,
-		arg.SetRequiresHazmatApproval,
 		arg.RequiresHazmatApproval,
-		arg.SetIsActive,
 		arg.IsActive,
 		arg.ID,
 	)

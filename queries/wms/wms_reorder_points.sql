@@ -5,8 +5,7 @@ select
 from
   "wms"."reorder_points" as reorder_points
   inner join "wms"."products" as product on reorder_points.product_id = product.id
-where
-  (product.name ilike sqlc.narg(search)::text
+where (product.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
 
@@ -41,7 +40,7 @@ where
   reorder_points.created_at >= @dateFrom::date
   and reorder_points.created_at <= @dateTo::date
   and (product.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertReorderPoint :one
 insert into "wms"."reorder_points"(product_id, warehouse_id, threshold)
@@ -54,17 +53,17 @@ update
   "wms"."reorder_points"
 set
   updated_at = now(),
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  warehouse_id = case when sqlc.arg(set_warehouse_id)::boolean then
+  warehouse_id = case when sqlc.arg(warehouse_id) is not null then
     sqlc.arg(warehouse_id)::uuid
   else
     warehouse_id
   end,
-  threshold = case when sqlc.arg(set_threshold)::boolean then
+  threshold = case when sqlc.arg(threshold) is not null then
     sqlc.arg(threshold)::integer
   else
     threshold

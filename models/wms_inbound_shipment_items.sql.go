@@ -191,8 +191,7 @@ from
   "wms"."inbound_shipment_items" as inbound_shipment_items
   inner join "wms"."inbound_shipments" as inbound_shipment on inbound_shipment_items.inbound_shipment_id = inbound_shipment.id
   inner join "wms"."products" as product on inbound_shipment_items.product_id = product.id
-where
-  (inbound_shipment.status::text ilike $1::text
+where (inbound_shipment.status::text ilike $1::text
   or product.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -277,8 +276,8 @@ where
   inbound_shipment_items.created_at >= $1::date
   and inbound_shipment_items.created_at <= $2::date
   and (inbound_shipment.status::text ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeInboundShipmentItemParams struct {
@@ -362,62 +361,52 @@ update
   "wms"."inbound_shipment_items"
 set
   updated_at = now(),
-  inbound_shipment_id = case when $1::boolean then
-    $2::uuid
+  inbound_shipment_id = case when $1 is not null then
+    $1::uuid
   else
     inbound_shipment_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  expected_quantity = case when $5::boolean then
-    $6::integer
+  expected_quantity = case when $3 is not null then
+    $3::integer
   else
     expected_quantity
   end,
-  received_quantity = case when $7::boolean then
-    $8::integer
+  received_quantity = case when $4 is not null then
+    $4::integer
   else
     received_quantity
   end,
-  discrepancy_notes = case when $9::boolean then
-    $10::text
+  discrepancy_notes = case when $5 is not null then
+    $5::text
   else
     discrepancy_notes
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, inbound_shipment_id, product_id, expected_quantity, received_quantity, discrepancy_quantity, discrepancy_notes, created_at, updated_at
 `
 
 type WmsUpdateInboundShipmentItemParams struct {
-	SetInboundShipmentID bool
-	InboundShipmentID    pgtype.UUID
-	SetProductID         bool
-	ProductID            pgtype.UUID
-	SetExpectedQuantity  bool
-	ExpectedQuantity     int32
-	SetReceivedQuantity  bool
-	ReceivedQuantity     int32
-	SetDiscrepancyNotes  bool
-	DiscrepancyNotes     string
-	ID                   pgtype.UUID
+	InboundShipmentID pgtype.UUID
+	ProductID         pgtype.UUID
+	ExpectedQuantity  int32
+	ReceivedQuantity  pgtype.Int4
+	DiscrepancyNotes  pgtype.Text
+	ID                pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateInboundShipmentItem(ctx context.Context, arg WmsUpdateInboundShipmentItemParams) (WmsInboundShipmentItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateInboundShipmentItem,
-		arg.SetInboundShipmentID,
 		arg.InboundShipmentID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetExpectedQuantity,
 		arg.ExpectedQuantity,
-		arg.SetReceivedQuantity,
 		arg.ReceivedQuantity,
-		arg.SetDiscrepancyNotes,
 		arg.DiscrepancyNotes,
 		arg.ID,
 	)

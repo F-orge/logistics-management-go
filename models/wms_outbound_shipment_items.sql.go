@@ -228,8 +228,7 @@ from
   inner join "wms"."sales_order_items" as sales_order_item on outbound_shipment_items.sales_order_item_id = sales_order_item.id
   inner join "wms"."products" as product on outbound_shipment_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on outbound_shipment_items.batch_id = batch.id
-where
-  (outbound_shipment.tracking_number ilike $1::text
+where (outbound_shipment.tracking_number ilike $1::text
   or product.name ilike $1::text
   or batch.batch_number ilike $1::text
   or $1::text is null)
@@ -332,9 +331,9 @@ where
   outbound_shipment_items.created_at >= $1::date
   and outbound_shipment_items.created_at <= $2::date
   and (outbound_shipment.tracking_number ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or batch.batch_number ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeOutboundShipmentItemParams struct {
@@ -431,62 +430,52 @@ update
   "wms"."outbound_shipment_items"
 set
   updated_at = now(),
-  outbound_shipment_id = case when $1::boolean then
-    $2::uuid
+  outbound_shipment_id = case when $1 is not null then
+    $1::uuid
   else
     outbound_shipment_id
   end,
-  sales_order_item_id = case when $3::boolean then
-    $4::uuid
+  sales_order_item_id = case when $2 is not null then
+    $2::uuid
   else
     sales_order_item_id
   end,
-  product_id = case when $5::boolean then
-    $6::uuid
+  product_id = case when $3 is not null then
+    $3::uuid
   else
     product_id
   end,
-  batch_id = case when $7::boolean then
-    $8::uuid
+  batch_id = case when $4 is not null then
+    $4::uuid
   else
     batch_id
   end,
-  quantity_shipped = case when $9::boolean then
-    $10::integer
+  quantity_shipped = case when $5 is not null then
+    $5::integer
   else
     quantity_shipped
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, outbound_shipment_id, sales_order_item_id, product_id, batch_id, quantity_shipped, created_at, updated_at
 `
 
 type WmsUpdateOutboundShipmentItemParams struct {
-	SetOutboundShipmentID bool
-	OutboundShipmentID    pgtype.UUID
-	SetSalesOrderItemID   bool
-	SalesOrderItemID      pgtype.UUID
-	SetProductID          bool
-	ProductID             pgtype.UUID
-	SetBatchID            bool
-	BatchID               pgtype.UUID
-	SetQuantityShipped    bool
-	QuantityShipped       int32
-	ID                    pgtype.UUID
+	OutboundShipmentID pgtype.UUID
+	SalesOrderItemID   pgtype.UUID
+	ProductID          pgtype.UUID
+	BatchID            pgtype.UUID
+	QuantityShipped    int32
+	ID                 pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateOutboundShipmentItem(ctx context.Context, arg WmsUpdateOutboundShipmentItemParams) (WmsOutboundShipmentItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateOutboundShipmentItem,
-		arg.SetOutboundShipmentID,
 		arg.OutboundShipmentID,
-		arg.SetSalesOrderItemID,
 		arg.SalesOrderItemID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetBatchID,
 		arg.BatchID,
-		arg.SetQuantityShipped,
 		arg.QuantityShipped,
 		arg.ID,
 	)

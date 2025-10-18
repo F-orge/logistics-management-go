@@ -7,8 +7,7 @@ from
   "wms"."return_items" as return_items
   inner join "wms"."returns" as return on return_items.return_id = return.id
   inner join "wms"."products" as product on return_items.product_id = product.id
-where
-  (return.return_number ilike sqlc.narg(search)::text
+where (return.return_number ilike sqlc.narg(search)::text
   or product.name ilike sqlc.narg(search)::text
   or return_items.condition::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -51,9 +50,9 @@ where
   return_items.created_at >= @dateFrom::date
   and return_items.created_at <= @dateTo::date
   and (return.return_number ilike sqlc.narg(search)::text
-  or product.name ilike sqlc.narg(search)::text
-  or return_items.condition::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or product.name ilike sqlc.narg(search)::text
+    or return_items.condition::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertReturnItem :one
 insert into "wms"."return_items"(return_id, product_id, quantity_expected, quantity_received, condition)
@@ -66,27 +65,27 @@ update
   "wms"."return_items"
 set
   updated_at = now(),
-  return_id = case when sqlc.arg(set_return_id)::boolean then
+  return_id = case when sqlc.arg(return_id) is not null then
     sqlc.arg(return_id)::uuid
   else
     return_id
   end,
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  quantity_expected = case when sqlc.arg(set_quantity_expected)::boolean then
+  quantity_expected = case when sqlc.arg(quantity_expected) is not null then
     sqlc.arg(quantity_expected)::integer
   else
     quantity_expected
   end,
-  quantity_received = case when sqlc.arg(set_quantity_received)::boolean then
+  quantity_received = case when sqlc.arg(quantity_received) is not null then
     sqlc.arg(quantity_received)::integer
   else
     quantity_received
   end,
-  condition = case when sqlc.arg(set_condition)::boolean then
+  condition = case when sqlc.arg(condition) is not null then
     sqlc.arg(condition)::wms.return_item_condition_enum
   else
     condition
@@ -99,3 +98,4 @@ returning
 -- name: WmsRemoveReturnItem :exec
 delete from "wms"."return_items"
 where id = @id::uuid;
+

@@ -373,8 +373,7 @@ from
   left join "wms"."inventory_batches" as batch on task_items.batch_id = batch.id
   left join "wms"."locations" as source_location on task_items.source_location_id = source_location.id
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
-where
-  (task.task_number ilike $1::text
+where (task.task_number ilike $1::text
   or product.name ilike $1::text
   or batch.batch_number ilike $1::text
   or source_location.name ilike $1::text
@@ -539,12 +538,12 @@ where
   task_items.created_at >= $1::date
   and task_items.created_at <= $2::date
   and (task.task_number ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or source_location.name ilike $3::text
-  or destination_location.name ilike $3::text
-  or task_items.status::text ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or batch.batch_number ilike $3::text
+    or source_location.name ilike $3::text
+    or destination_location.name ilike $3::text
+    or task_items.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeTaskItemParams struct {
@@ -698,134 +697,108 @@ update
   "wms"."task_items"
 set
   updated_at = now(),
-  task_id = case when $1::boolean then
-    $2::uuid
+  task_id = case when $1 is not null then
+    $1::uuid
   else
     task_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  batch_id = case when $5::boolean then
-    $6::uuid
+  batch_id = case when $3 is not null then
+    $3::uuid
   else
     batch_id
   end,
-  source_location_id = case when $7::boolean then
-    $8::uuid
+  source_location_id = case when $4 is not null then
+    $4::uuid
   else
     source_location_id
   end,
-  destination_location_id = case when $9::boolean then
-    $10::uuid
+  destination_location_id = case when $5 is not null then
+    $5::uuid
   else
     destination_location_id
   end,
-  quantity_required = case when $11::boolean then
-    $12::integer
+  quantity_required = case when $6 is not null then
+    $6::integer
   else
     quantity_required
   end,
-  quantity_completed = case when $13::boolean then
-    $14::integer
+  quantity_completed = case when $7 is not null then
+    $7::integer
   else
     quantity_completed
   end,
-  status = case when $15::boolean then
-    $16::wms.task_item_status_enum
+  status = case when $8 is not null then
+    $8::wms.task_item_status_enum
   else
     status
   end,
-  lot_number = case when $17::boolean then
-    $18::varchar
+  lot_number = case when $9 is not null then
+    $9::varchar
   else
     lot_number
   end,
-  serial_numbers = case when $19::boolean then
-    $20::text[]
+  serial_numbers = case when $10 is not null then
+    $10::text[]
   else
     serial_numbers
   end,
-  expiry_date = case when $21::boolean then
-    $22::date
+  expiry_date = case when $11 is not null then
+    $11::date
   else
     expiry_date
   end,
-  notes = case when $23::boolean then
-    $24::text
+  notes = case when $12 is not null then
+    $12::text
   else
     notes
   end,
-  completed_at = case when $25::boolean then
-    $26::timestamp
+  completed_at = case when $13 is not null then
+    $13::timestamp
   else
     completed_at
   end
 where
-  id = $27::uuid
+  id = $14::uuid
 returning
   id, task_id, product_id, batch_id, source_location_id, destination_location_id, quantity_required, quantity_completed, quantity_remaining, status, lot_number, serial_numbers, expiry_date, notes, completed_at, created_at, updated_at
 `
 
 type WmsUpdateTaskItemParams struct {
-	SetTaskID                bool
-	TaskID                   pgtype.UUID
-	SetProductID             bool
-	ProductID                pgtype.UUID
-	SetBatchID               bool
-	BatchID                  pgtype.UUID
-	SetSourceLocationID      bool
-	SourceLocationID         pgtype.UUID
-	SetDestinationLocationID bool
-	DestinationLocationID    pgtype.UUID
-	SetQuantityRequired      bool
-	QuantityRequired         int32
-	SetQuantityCompleted     bool
-	QuantityCompleted        int32
-	SetStatus                bool
-	Status                   WmsTaskItemStatusEnum
-	SetLotNumber             bool
-	LotNumber                string
-	SetSerialNumbers         bool
-	SerialNumbers            []string
-	SetExpiryDate            bool
-	ExpiryDate               pgtype.Date
-	SetNotes                 bool
-	Notes                    string
-	SetCompletedAt           bool
-	CompletedAt              pgtype.Timestamp
-	ID                       pgtype.UUID
+	TaskID                pgtype.UUID
+	ProductID             pgtype.UUID
+	BatchID               pgtype.UUID
+	SourceLocationID      pgtype.UUID
+	DestinationLocationID pgtype.UUID
+	QuantityRequired      int32
+	QuantityCompleted     int32
+	Status                NullWmsTaskItemStatusEnum
+	LotNumber             pgtype.Text
+	SerialNumbers         []string
+	ExpiryDate            pgtype.Date
+	Notes                 pgtype.Text
+	CompletedAt           pgtype.Timestamp
+	ID                    pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateTaskItem(ctx context.Context, arg WmsUpdateTaskItemParams) (WmsTaskItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateTaskItem,
-		arg.SetTaskID,
 		arg.TaskID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetBatchID,
 		arg.BatchID,
-		arg.SetSourceLocationID,
 		arg.SourceLocationID,
-		arg.SetDestinationLocationID,
 		arg.DestinationLocationID,
-		arg.SetQuantityRequired,
 		arg.QuantityRequired,
-		arg.SetQuantityCompleted,
 		arg.QuantityCompleted,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetLotNumber,
 		arg.LotNumber,
-		arg.SetSerialNumbers,
 		arg.SerialNumbers,
-		arg.SetExpiryDate,
 		arg.ExpiryDate,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetCompletedAt,
 		arg.CompletedAt,
 		arg.ID,
 	)

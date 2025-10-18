@@ -7,8 +7,7 @@ from
   "wms"."inventory_adjustments" as inventory_adjustments
   inner join "wms"."products" as product on inventory_adjustments.product_id = product.id
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
-where
-  (product.name ilike sqlc.narg(search)::text
+where (product.name ilike sqlc.narg(search)::text
   or users.name ilike sqlc.narg(search)::text
   or inventory_adjustments.reason::text ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
@@ -51,9 +50,9 @@ where
   inventory_adjustments.created_at >= @dateFrom::date
   and inventory_adjustments.created_at <= @dateTo::date
   and (product.name ilike sqlc.narg(search)::text
-  or users.name ilike sqlc.narg(search)::text
-  or inventory_adjustments.reason::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or users.name ilike sqlc.narg(search)::text
+    or inventory_adjustments.reason::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryAdjustment :one
 insert into "wms"."inventory_adjustments"(product_id, warehouse_id, user_id, quantity_change, reason, notes)
@@ -66,32 +65,32 @@ update
   "wms"."inventory_adjustments"
 set
   updated_at = now(),
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  warehouse_id = case when sqlc.arg(set_warehouse_id)::boolean then
+  warehouse_id = case when sqlc.arg(warehouse_id) is not null then
     sqlc.arg(warehouse_id)::uuid
   else
     warehouse_id
   end,
-  user_id = case when sqlc.arg(set_user_id)::boolean then
+  user_id = case when sqlc.arg(user_id) is not null then
     sqlc.arg(user_id)::text
   else
     user_id
   end,
-  quantity_change = case when sqlc.arg(set_quantity_change)::boolean then
+  quantity_change = case when sqlc.arg(quantity_change) is not null then
     sqlc.arg(quantity_change)::integer
   else
     quantity_change
   end,
-  reason = case when sqlc.arg(set_reason)::boolean then
+  reason = case when sqlc.arg(reason) is not null then
     sqlc.arg(reason)::wms.inventory_adjustment_reason_enum
   else
     reason
   end,
-  notes = case when sqlc.arg(set_notes)::boolean then
+  notes = case when sqlc.arg(notes) is not null then
     sqlc.arg(notes)::text
   else
     notes

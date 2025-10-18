@@ -224,8 +224,7 @@ from
   "wms"."bin_thresholds" as bin_thresholds
   inner join "wms"."locations" as location on bin_thresholds.location_id = location.id
   inner join "wms"."products" as product on bin_thresholds.product_id = product.id
-where
-  (location.name ilike $1::text
+where (location.name ilike $1::text
   or product.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -324,8 +323,8 @@ where
   bin_thresholds.created_at >= $1::date
   and bin_thresholds.created_at <= $2::date
   and (location.name ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeBinThresholdParams struct {
@@ -423,80 +422,66 @@ update
   "wms"."bin_thresholds"
 set
   updated_at = now(),
-  location_id = case when $1::boolean then
-    $2::uuid
+  location_id = case when $1 is not null then
+    $1::uuid
   else
     location_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  min_quantity = case when $5::boolean then
-    $6::integer
+  min_quantity = case when $3 is not null then
+    $3::integer
   else
     min_quantity
   end,
-  max_quantity = case when $7::boolean then
-    $8::integer
+  max_quantity = case when $4 is not null then
+    $4::integer
   else
     max_quantity
   end,
-  reorder_quantity = case when $9::boolean then
-    $10::integer
+  reorder_quantity = case when $5 is not null then
+    $5::integer
   else
     reorder_quantity
   end,
-  alert_threshold = case when $11::boolean then
-    $12::integer
+  alert_threshold = case when $6 is not null then
+    $6::integer
   else
     alert_threshold
   end,
-  is_active = case when $13::boolean then
-    $14::boolean
+  is_active = case when $7 is not null then
+    $7::boolean
   else
     is_active
   end
 where
-  id = $15::uuid
+  id = $8::uuid
 returning
   id, location_id, product_id, min_quantity, max_quantity, reorder_quantity, alert_threshold, is_active, created_at, updated_at
 `
 
 type WmsUpdateBinThresholdParams struct {
-	SetLocationID      bool
-	LocationID         pgtype.UUID
-	SetProductID       bool
-	ProductID          pgtype.UUID
-	SetMinQuantity     bool
-	MinQuantity        int32
-	SetMaxQuantity     bool
-	MaxQuantity        int32
-	SetReorderQuantity bool
-	ReorderQuantity    int32
-	SetAlertThreshold  bool
-	AlertThreshold     int32
-	SetIsActive        bool
-	IsActive           bool
-	ID                 pgtype.UUID
+	LocationID      pgtype.UUID
+	ProductID       pgtype.UUID
+	MinQuantity     int32
+	MaxQuantity     int32
+	ReorderQuantity pgtype.Int4
+	AlertThreshold  pgtype.Int4
+	IsActive        pgtype.Bool
+	ID              pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateBinThreshold(ctx context.Context, arg WmsUpdateBinThresholdParams) (WmsBinThreshold, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateBinThreshold,
-		arg.SetLocationID,
 		arg.LocationID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetMinQuantity,
 		arg.MinQuantity,
-		arg.SetMaxQuantity,
 		arg.MaxQuantity,
-		arg.SetReorderQuantity,
 		arg.ReorderQuantity,
-		arg.SetAlertThreshold,
 		arg.AlertThreshold,
-		arg.SetIsActive,
 		arg.IsActive,
 		arg.ID,
 	)

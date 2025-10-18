@@ -225,8 +225,7 @@ select
 from
   "wms"."locations" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
-where
-  (warehouse.name ilike $1::text
+where (warehouse.name ilike $1::text
   or locations.name ilike $1::text
   or locations.barcode ilike $1::text
   or locations.type::text ilike $1::text
@@ -312,10 +311,10 @@ where
   locations.created_at >= $1::date
   and locations.created_at <= $2::date
   and (warehouse.name ilike $3::text
-  or locations.name ilike $3::text
-  or locations.barcode ilike $3::text
-  or locations.type::text ilike $3::text
-  or $3::text is null)
+    or locations.name ilike $3::text
+    or locations.barcode ilike $3::text
+    or locations.type::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeLocationParams struct {
@@ -400,179 +399,143 @@ update
   "wms"."locations"
 set
   updated_at = now(),
-  warehouse_id = case when $1::boolean then
-    $2::uuid
+  warehouse_id = case when $1 is not null then
+    $1::uuid
   else
     warehouse_id
   end,
-  parent_location_id = case when $3::boolean then
-    $4::uuid
+  parent_location_id = case when $2 is not null then
+    $2::uuid
   else
     parent_location_id
   end,
-  name = case when $5::boolean then
-    $6::varchar
+  name = case when $3 is not null then
+    $3::varchar
   else
     name
   end,
-  barcode = case when $7::boolean then
-    $8::varchar
+  barcode = case when $4 is not null then
+    $4::varchar
   else
     barcode
   end,
-  type = case when $9::boolean then
-    $10::wms.location_type_enum
+  type = case when $5 is not null then
+    $5::wms.location_type_enum
   else
     type
   end,
-  level = case when $11::boolean then
-    $12::integer
+  level = case when $6 is not null then
+    $6::integer
   else
     level
   end,
-  path = case when $13::boolean then
-    $14::text
+  path = case when $7 is not null then
+    $7::text
   else
     path
   end,
-  max_weight = case when $15::boolean then
-    $16::real
+  max_weight = case when $8 is not null then
+    $8::real
   else
     max_weight
   end,
-  max_volume = case when $17::boolean then
-    $18::real
+  max_volume = case when $9 is not null then
+    $9::real
   else
     max_volume
   end,
-  max_pallets = case when $19::boolean then
-    $20::integer
+  max_pallets = case when $10 is not null then
+    $10::integer
   else
     max_pallets
   end,
-  x_coordinate = case when $21::boolean then
-    $22::real
+  x_coordinate = case when $11 is not null then
+    $11::real
   else
     x_coordinate
   end,
-  y_coordinate = case when $23::boolean then
-    $24::real
+  y_coordinate = case when $12 is not null then
+    $12::real
   else
     y_coordinate
   end,
-  z_coordinate = case when $25::boolean then
-    $26::real
+  z_coordinate = case when $13 is not null then
+    $13::real
   else
     z_coordinate
   end,
-  is_pickable = case when $27::boolean then
-    $28::boolean
+  is_pickable = case when $14 is not null then
+    $14::boolean
   else
     is_pickable
   end,
-  is_receivable = case when $29::boolean then
-    $30::boolean
+  is_receivable = case when $15 is not null then
+    $15::boolean
   else
     is_receivable
   end,
-  temperature_controlled = case when $31::boolean then
-    $32::boolean
+  temperature_controlled = case when $16 is not null then
+    $16::boolean
   else
     temperature_controlled
   end,
-  hazmat_approved = case when $33::boolean then
-    $34::boolean
+  hazmat_approved = case when $17 is not null then
+    $17::boolean
   else
     hazmat_approved
   end,
-  is_active = case when $35::boolean then
-    $36::boolean
+  is_active = case when $18 is not null then
+    $18::boolean
   else
     is_active
   end
 where
-  id = $37::uuid
+  id = $19::uuid
 returning
   id, warehouse_id, parent_location_id, name, barcode, type, level, path, max_weight, max_volume, max_pallets, x_coordinate, y_coordinate, z_coordinate, is_pickable, is_receivable, temperature_controlled, hazmat_approved, is_active, created_at, updated_at
 `
 
 type WmsUpdateLocationParams struct {
-	SetWarehouseID           bool
-	WarehouseID              pgtype.UUID
-	SetParentLocationID      bool
-	ParentLocationID         pgtype.UUID
-	SetName                  bool
-	Name                     string
-	SetBarcode               bool
-	Barcode                  string
-	SetType                  bool
-	Type                     WmsLocationTypeEnum
-	SetLevel                 bool
-	Level                    int32
-	SetPath                  bool
-	Path                     string
-	SetMaxWeight             bool
-	MaxWeight                float32
-	SetMaxVolume             bool
-	MaxVolume                float32
-	SetMaxPallets            bool
-	MaxPallets               int32
-	SetXCoordinate           bool
-	XCoordinate              float32
-	SetYCoordinate           bool
-	YCoordinate              float32
-	SetZCoordinate           bool
-	ZCoordinate              float32
-	SetIsPickable            bool
-	IsPickable               bool
-	SetIsReceivable          bool
-	IsReceivable             bool
-	SetTemperatureControlled bool
-	TemperatureControlled    bool
-	SetHazmatApproved        bool
-	HazmatApproved           bool
-	SetIsActive              bool
-	IsActive                 bool
-	ID                       pgtype.UUID
+	WarehouseID           pgtype.UUID
+	ParentLocationID      pgtype.UUID
+	Name                  string
+	Barcode               pgtype.Text
+	Type                  WmsLocationTypeEnum
+	Level                 pgtype.Int4
+	Path                  pgtype.Text
+	MaxWeight             pgtype.Float4
+	MaxVolume             pgtype.Float4
+	MaxPallets            pgtype.Int4
+	XCoordinate           pgtype.Float4
+	YCoordinate           pgtype.Float4
+	ZCoordinate           pgtype.Float4
+	IsPickable            pgtype.Bool
+	IsReceivable          pgtype.Bool
+	TemperatureControlled pgtype.Bool
+	HazmatApproved        pgtype.Bool
+	IsActive              pgtype.Bool
+	ID                    pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateLocation(ctx context.Context, arg WmsUpdateLocationParams) (WmsLocation, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateLocation,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetParentLocationID,
 		arg.ParentLocationID,
-		arg.SetName,
 		arg.Name,
-		arg.SetBarcode,
 		arg.Barcode,
-		arg.SetType,
 		arg.Type,
-		arg.SetLevel,
 		arg.Level,
-		arg.SetPath,
 		arg.Path,
-		arg.SetMaxWeight,
 		arg.MaxWeight,
-		arg.SetMaxVolume,
 		arg.MaxVolume,
-		arg.SetMaxPallets,
 		arg.MaxPallets,
-		arg.SetXCoordinate,
 		arg.XCoordinate,
-		arg.SetYCoordinate,
 		arg.YCoordinate,
-		arg.SetZCoordinate,
 		arg.ZCoordinate,
-		arg.SetIsPickable,
 		arg.IsPickable,
-		arg.SetIsReceivable,
 		arg.IsReceivable,
-		arg.SetTemperatureControlled,
 		arg.TemperatureControlled,
-		arg.SetHazmatApproved,
 		arg.HazmatApproved,
-		arg.SetIsActive,
 		arg.IsActive,
 		arg.ID,
 	)

@@ -146,8 +146,7 @@ select
   id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
 from
   "wms"."warehouses"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or city ilike $1::text
   or state ilike $1::text
   or country ilike $1::text
@@ -205,10 +204,10 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or city ilike $3::text
-  or state ilike $3::text
-  or country ilike $3::text
-  or $3::text is null)
+    or city ilike $3::text
+    or state ilike $3::text
+    or country ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeWarehouseParams struct {
@@ -267,116 +266,94 @@ update
   "wms"."warehouses"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::varchar
+  name = case when $1 is not null then
+    $1::varchar
   else
     name
   end,
-  address = case when $3::boolean then
-    $4::text
+  address = case when $2 is not null then
+    $2::text
   else
     address
   end,
-  city = case when $5::boolean then
-    $6::varchar
+  city = case when $3 is not null then
+    $3::varchar
   else
     city
   end,
-  state = case when $7::boolean then
-    $8::varchar
+  state = case when $4 is not null then
+    $4::varchar
   else
     state
   end,
-  postal_code = case when $9::boolean then
-    $10::varchar
+  postal_code = case when $5 is not null then
+    $5::varchar
   else
     postal_code
   end,
-  country = case when $11::boolean then
-    $12::varchar
+  country = case when $6 is not null then
+    $6::varchar
   else
     country
   end,
-  timezone = case when $13::boolean then
-    $14::varchar
+  timezone = case when $7 is not null then
+    $7::varchar
   else
     timezone
   end,
-  contact_person = case when $15::boolean then
-    $16::varchar
+  contact_person = case when $8 is not null then
+    $8::varchar
   else
     contact_person
   end,
-  contact_email = case when $17::boolean then
-    $18::varchar
+  contact_email = case when $9 is not null then
+    $9::varchar
   else
     contact_email
   end,
-  contact_phone = case when $19::boolean then
-    $20::varchar
+  contact_phone = case when $10 is not null then
+    $10::varchar
   else
     contact_phone
   end,
-  is_active = case when $21::boolean then
-    $22::boolean
+  is_active = case when $11 is not null then
+    $11::boolean
   else
     is_active
   end
 where
-  id = $23::uuid
+  id = $12::uuid
 returning
   id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at
 `
 
 type WmsUpdateWarehouseParams struct {
-	SetName          bool
-	Name             string
-	SetAddress       bool
-	Address          string
-	SetCity          bool
-	City             string
-	SetState         bool
-	State            string
-	SetPostalCode    bool
-	PostalCode       string
-	SetCountry       bool
-	Country          string
-	SetTimezone      bool
-	Timezone         string
-	SetContactPerson bool
-	ContactPerson    string
-	SetContactEmail  bool
-	ContactEmail     string
-	SetContactPhone  bool
-	ContactPhone     string
-	SetIsActive      bool
-	IsActive         bool
-	ID               pgtype.UUID
+	Name          string
+	Address       pgtype.Text
+	City          pgtype.Text
+	State         pgtype.Text
+	PostalCode    pgtype.Text
+	Country       pgtype.Text
+	Timezone      pgtype.Text
+	ContactPerson pgtype.Text
+	ContactEmail  pgtype.Text
+	ContactPhone  pgtype.Text
+	IsActive      pgtype.Bool
+	ID            pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateWarehouse(ctx context.Context, arg WmsUpdateWarehouseParams) (WmsWarehouse, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateWarehouse,
-		arg.SetName,
 		arg.Name,
-		arg.SetAddress,
 		arg.Address,
-		arg.SetCity,
 		arg.City,
-		arg.SetState,
 		arg.State,
-		arg.SetPostalCode,
 		arg.PostalCode,
-		arg.SetCountry,
 		arg.Country,
-		arg.SetTimezone,
 		arg.Timezone,
-		arg.SetContactPerson,
 		arg.ContactPerson,
-		arg.SetContactEmail,
 		arg.ContactEmail,
-		arg.SetContactPhone,
 		arg.ContactPhone,
-		arg.SetIsActive,
 		arg.IsActive,
 		arg.ID,
 	)

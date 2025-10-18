@@ -285,8 +285,7 @@ from
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
-where
-  (tasks.task_number ilike $1::text
+where (tasks.task_number ilike $1::text
   or warehouse.name ilike $1::text
   or users.name ilike $1::text
   or tasks.type::text ilike $1::text
@@ -406,12 +405,12 @@ where
   tasks.created_at >= $1::date
   and tasks.created_at <= $2::date
   and (tasks.task_number ilike $3::text
-  or warehouse.name ilike $3::text
-  or users.name ilike $3::text
-  or tasks.type::text ilike $3::text
-  or tasks.status::text ilike $3::text
-  or pick_batch.batch_number ilike $3::text
-  or $3::text is null)
+    or warehouse.name ilike $3::text
+    or users.name ilike $3::text
+    or tasks.type::text ilike $3::text
+    or tasks.status::text ilike $3::text
+    or pick_batch.batch_number ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeTaskParams struct {
@@ -524,152 +523,122 @@ update
   "wms"."tasks"
 set
   updated_at = now(),
-  task_number = case when $1::boolean then
-    $2::varchar
+  task_number = case when $1 is not null then
+    $1::varchar
   else
     task_number
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  user_id = case when $5::boolean then
-    $6::text
+  user_id = case when $3 is not null then
+    $3::text
   else
     user_id
   end,
-  type = case when $7::boolean then
-    $8::wms.task_type_enum
+  type = case when $4 is not null then
+    $4::wms.task_type_enum
   else
     type
   end,
-  status = case when $9::boolean then
-    $10::wms.task_status_enum
+  status = case when $5 is not null then
+    $5::wms.task_status_enum
   else
     status
   end,
-  priority = case when $11::boolean then
-    $12::integer
+  priority = case when $6 is not null then
+    $6::integer
   else
     priority
   end,
-  source_entity_id = case when $13::boolean then
-    $14::uuid
+  source_entity_id = case when $7 is not null then
+    $7::uuid
   else
     source_entity_id
   end,
-  source_entity_type = case when $15::boolean then
-    $16::varchar
+  source_entity_type = case when $8 is not null then
+    $8::varchar
   else
     source_entity_type
   end,
-  pick_batch_id = case when $17::boolean then
-    $18::uuid
+  pick_batch_id = case when $9 is not null then
+    $9::uuid
   else
     pick_batch_id
   end,
-  estimated_duration = case when $19::boolean then
-    $20::integer
+  estimated_duration = case when $10 is not null then
+    $10::integer
   else
     estimated_duration
   end,
-  actual_duration = case when $21::boolean then
-    $22::integer
+  actual_duration = case when $11 is not null then
+    $11::integer
   else
     actual_duration
   end,
-  instructions = case when $23::boolean then
-    $24::text
+  instructions = case when $12 is not null then
+    $12::text
   else
     instructions
   end,
-  notes = case when $25::boolean then
-    $26::text
+  notes = case when $13 is not null then
+    $13::text
   else
     notes
   end,
-  start_time = case when $27::boolean then
-    $28::timestamp
+  start_time = case when $14 is not null then
+    $14::timestamp
   else
     start_time
   end,
-  end_time = case when $29::boolean then
-    $30::timestamp
+  end_time = case when $15 is not null then
+    $15::timestamp
   else
     end_time
   end
 where
-  id = $31::uuid
+  id = $16::uuid
 returning
   id, task_number, warehouse_id, user_id, type, status, priority, source_entity_id, source_entity_type, pick_batch_id, estimated_duration, actual_duration, instructions, notes, start_time, end_time, duration_seconds, created_at, updated_at
 `
 
 type WmsUpdateTaskParams struct {
-	SetTaskNumber        bool
-	TaskNumber           string
-	SetWarehouseID       bool
-	WarehouseID          pgtype.UUID
-	SetUserID            bool
-	UserID               string
-	SetType              bool
-	Type                 WmsTaskTypeEnum
-	SetStatus            bool
-	Status               WmsTaskStatusEnum
-	SetPriority          bool
-	Priority             int32
-	SetSourceEntityID    bool
-	SourceEntityID       pgtype.UUID
-	SetSourceEntityType  bool
-	SourceEntityType     string
-	SetPickBatchID       bool
-	PickBatchID          pgtype.UUID
-	SetEstimatedDuration bool
-	EstimatedDuration    int32
-	SetActualDuration    bool
-	ActualDuration       int32
-	SetInstructions      bool
-	Instructions         string
-	SetNotes             bool
-	Notes                string
-	SetStartTime         bool
-	StartTime            pgtype.Timestamp
-	SetEndTime           bool
-	EndTime              pgtype.Timestamp
-	ID                   pgtype.UUID
+	TaskNumber        string
+	WarehouseID       pgtype.UUID
+	UserID            pgtype.Text
+	Type              WmsTaskTypeEnum
+	Status            NullWmsTaskStatusEnum
+	Priority          pgtype.Int4
+	SourceEntityID    pgtype.UUID
+	SourceEntityType  pgtype.Text
+	PickBatchID       pgtype.UUID
+	EstimatedDuration pgtype.Int4
+	ActualDuration    pgtype.Int4
+	Instructions      pgtype.Text
+	Notes             pgtype.Text
+	StartTime         pgtype.Timestamp
+	EndTime           pgtype.Timestamp
+	ID                pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateTask(ctx context.Context, arg WmsUpdateTaskParams) (WmsTask, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateTask,
-		arg.SetTaskNumber,
 		arg.TaskNumber,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetUserID,
 		arg.UserID,
-		arg.SetType,
 		arg.Type,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetPriority,
 		arg.Priority,
-		arg.SetSourceEntityID,
 		arg.SourceEntityID,
-		arg.SetSourceEntityType,
 		arg.SourceEntityType,
-		arg.SetPickBatchID,
 		arg.PickBatchID,
-		arg.SetEstimatedDuration,
 		arg.EstimatedDuration,
-		arg.SetActualDuration,
 		arg.ActualDuration,
-		arg.SetInstructions,
 		arg.Instructions,
-		arg.SetNotes,
 		arg.Notes,
-		arg.SetStartTime,
 		arg.StartTime,
-		arg.SetEndTime,
 		arg.EndTime,
 		arg.ID,
 	)

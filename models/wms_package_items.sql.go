@@ -254,8 +254,7 @@ from
   inner join "wms"."packages" as package on package_items.package_id = package.id
   inner join "wms"."products" as product on package_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
-where
-  (package.package_number ilike $1::text
+where (package.package_number ilike $1::text
   or product.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -366,8 +365,8 @@ where
   package_items.created_at >= $1::date
   and package_items.created_at <= $2::date
   and (package.package_number ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangePackageItemParams struct {
@@ -475,89 +474,73 @@ update
   "wms"."package_items"
 set
   updated_at = now(),
-  package_id = case when $1::boolean then
-    $2::uuid
+  package_id = case when $1 is not null then
+    $1::uuid
   else
     package_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  batch_id = case when $5::boolean then
-    $6::uuid
+  batch_id = case when $3 is not null then
+    $3::uuid
   else
     batch_id
   end,
-  quantity = case when $7::boolean then
-    $8::integer
+  quantity = case when $4 is not null then
+    $4::integer
   else
     quantity
   end,
-  lot_number = case when $9::boolean then
-    $10::varchar
+  lot_number = case when $5 is not null then
+    $5::varchar
   else
     lot_number
   end,
-  serial_numbers = case when $11::boolean then
-    $12::text[]
+  serial_numbers = case when $6 is not null then
+    $6::text[]
   else
     serial_numbers
   end,
-  expiry_date = case when $13::boolean then
-    $14::date
+  expiry_date = case when $7 is not null then
+    $7::date
   else
     expiry_date
   end,
-  unit_weight = case when $15::boolean then
-    $16::real
+  unit_weight = case when $8 is not null then
+    $8::real
   else
     unit_weight
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, package_id, product_id, batch_id, quantity, lot_number, serial_numbers, expiry_date, unit_weight, total_weight, created_at, updated_at
 `
 
 type WmsUpdatePackageItemParams struct {
-	SetPackageID     bool
-	PackageID        pgtype.UUID
-	SetProductID     bool
-	ProductID        pgtype.UUID
-	SetBatchID       bool
-	BatchID          pgtype.UUID
-	SetQuantity      bool
-	Quantity         int32
-	SetLotNumber     bool
-	LotNumber        string
-	SetSerialNumbers bool
-	SerialNumbers    []string
-	SetExpiryDate    bool
-	ExpiryDate       pgtype.Date
-	SetUnitWeight    bool
-	UnitWeight       float32
-	ID               pgtype.UUID
+	PackageID     pgtype.UUID
+	ProductID     pgtype.UUID
+	BatchID       pgtype.UUID
+	Quantity      int32
+	LotNumber     pgtype.Text
+	SerialNumbers []string
+	ExpiryDate    pgtype.Date
+	UnitWeight    pgtype.Float4
+	ID            pgtype.UUID
 }
 
 func (q *Queries) WmsUpdatePackageItem(ctx context.Context, arg WmsUpdatePackageItemParams) (WmsPackageItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdatePackageItem,
-		arg.SetPackageID,
 		arg.PackageID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetBatchID,
 		arg.BatchID,
-		arg.SetQuantity,
 		arg.Quantity,
-		arg.SetLotNumber,
 		arg.LotNumber,
-		arg.SetSerialNumbers,
 		arg.SerialNumbers,
-		arg.SetExpiryDate,
 		arg.ExpiryDate,
-		arg.SetUnitWeight,
 		arg.UnitWeight,
 		arg.ID,
 	)

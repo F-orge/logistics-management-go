@@ -150,8 +150,7 @@ select
 from
   "wms"."reorder_points" as reorder_points
   inner join "wms"."products" as product on reorder_points.product_id = product.id
-where
-  (product.name ilike $1::text
+where (product.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
 `
@@ -221,7 +220,7 @@ where
   reorder_points.created_at >= $1::date
   and reorder_points.created_at <= $2::date
   and (product.name ilike $3::text
-  or $3::text is null)
+    or $3::text is null)
 `
 
 type WmsRangeReorderPointParams struct {
@@ -293,44 +292,38 @@ update
   "wms"."reorder_points"
 set
   updated_at = now(),
-  product_id = case when $1::boolean then
-    $2::uuid
+  product_id = case when $1 is not null then
+    $1::uuid
   else
     product_id
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  threshold = case when $5::boolean then
-    $6::integer
+  threshold = case when $3 is not null then
+    $3::integer
   else
     threshold
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, product_id, warehouse_id, threshold, created_at, updated_at
 `
 
 type WmsUpdateReorderPointParams struct {
-	SetProductID   bool
-	ProductID      pgtype.UUID
-	SetWarehouseID bool
-	WarehouseID    pgtype.UUID
-	SetThreshold   bool
-	Threshold      int32
-	ID             pgtype.UUID
+	ProductID   pgtype.UUID
+	WarehouseID pgtype.UUID
+	Threshold   int32
+	ID          pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateReorderPoint(ctx context.Context, arg WmsUpdateReorderPointParams) (WmsReorderPoint, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateReorderPoint,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetThreshold,
 		arg.Threshold,
 		arg.ID,
 	)

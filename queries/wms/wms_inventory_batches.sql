@@ -5,8 +5,7 @@ select
 from
   "wms"."inventory_batches" as inventory_batches
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
-where
-  (product.name ilike sqlc.narg(search)::text
+where (product.name ilike sqlc.narg(search)::text
   or inventory_batches.batch_number ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -42,8 +41,8 @@ where
   inventory_batches.created_at >= @dateFrom::date
   and inventory_batches.created_at <= @dateTo::date
   and (product.name ilike sqlc.narg(search)::text
-  or inventory_batches.batch_number ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or inventory_batches.batch_number ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryBatch :one
 insert into "wms"."inventory_batches"(product_id, batch_number, expiration_date)
@@ -56,17 +55,17 @@ update
   "wms"."inventory_batches"
 set
   updated_at = now(),
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  batch_number = case when sqlc.arg(set_batch_number)::boolean then
+  batch_number = case when sqlc.arg(batch_number) is not null then
     sqlc.arg(batch_number)::varchar
   else
     batch_number
   end,
-  expiration_date = case when sqlc.arg(set_expiration_date)::boolean then
+  expiration_date = case when sqlc.arg(expiration_date) is not null then
     sqlc.arg(expiration_date)::date
   else
     expiration_date
@@ -79,3 +78,4 @@ returning
 -- name: WmsRemoveInventoryBatch :exec
 delete from "wms"."inventory_batches"
 where id = @id::uuid;
+

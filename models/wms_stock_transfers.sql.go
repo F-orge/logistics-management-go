@@ -164,8 +164,7 @@ select
 from
   "wms"."stock_transfers" as stock_transfers
   inner join "wms"."products" as product on stock_transfers.product_id = product.id
-where
-  (product.name ilike $1::text
+where (product.name ilike $1::text
   or stock_transfers.status::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -238,8 +237,8 @@ where
   stock_transfers.created_at >= $1::date
   and stock_transfers.created_at <= $2::date
   and (product.name ilike $3::text
-  or stock_transfers.status::text ilike $3::text
-  or $3::text is null)
+    or stock_transfers.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeStockTransferParams struct {
@@ -313,62 +312,52 @@ update
   "wms"."stock_transfers"
 set
   updated_at = now(),
-  product_id = case when $1::boolean then
-    $2::uuid
+  product_id = case when $1 is not null then
+    $1::uuid
   else
     product_id
   end,
-  source_warehouse_id = case when $3::boolean then
-    $4::uuid
+  source_warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     source_warehouse_id
   end,
-  destination_warehouse_id = case when $5::boolean then
-    $6::uuid
+  destination_warehouse_id = case when $3 is not null then
+    $3::uuid
   else
     destination_warehouse_id
   end,
-  quantity = case when $7::boolean then
-    $8::integer
+  quantity = case when $4 is not null then
+    $4::integer
   else
     quantity
   end,
-  status = case when $9::boolean then
-    $10::wms.stock_transfer_status_enum
+  status = case when $5 is not null then
+    $5::wms.stock_transfer_status_enum
   else
     status
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, product_id, source_warehouse_id, destination_warehouse_id, quantity, status, created_at, updated_at
 `
 
 type WmsUpdateStockTransferParams struct {
-	SetProductID              bool
-	ProductID                 pgtype.UUID
-	SetSourceWarehouseID      bool
-	SourceWarehouseID         pgtype.UUID
-	SetDestinationWarehouseID bool
-	DestinationWarehouseID    pgtype.UUID
-	SetQuantity               bool
-	Quantity                  int32
-	SetStatus                 bool
-	Status                    WmsStockTransferStatusEnum
-	ID                        pgtype.UUID
+	ProductID              pgtype.UUID
+	SourceWarehouseID      pgtype.UUID
+	DestinationWarehouseID pgtype.UUID
+	Quantity               int32
+	Status                 NullWmsStockTransferStatusEnum
+	ID                     pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateStockTransfer(ctx context.Context, arg WmsUpdateStockTransferParams) (WmsStockTransfer, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateStockTransfer,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetSourceWarehouseID,
 		arg.SourceWarehouseID,
-		arg.SetDestinationWarehouseID,
 		arg.DestinationWarehouseID,
-		arg.SetQuantity,
 		arg.Quantity,
-		arg.SetStatus,
 		arg.Status,
 		arg.ID,
 	)

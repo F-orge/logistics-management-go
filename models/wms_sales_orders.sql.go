@@ -196,8 +196,7 @@ from
   "wms"."sales_orders" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
-where
-  (sales_orders.order_number ilike $1::text
+where (sales_orders.order_number ilike $1::text
   or client.name ilike $1::text
   or crm_opportunity.name ilike $1::text
   or sales_orders.status::text ilike $1::text
@@ -287,10 +286,10 @@ where
   sales_orders.created_at >= $1::date
   and sales_orders.created_at <= $2::date
   and (sales_orders.order_number ilike $3::text
-  or client.name ilike $3::text
-  or crm_opportunity.name ilike $3::text
-  or sales_orders.status::text ilike $3::text
-  or $3::text is null)
+    or client.name ilike $3::text
+    or crm_opportunity.name ilike $3::text
+    or sales_orders.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeSalesOrderParams struct {
@@ -377,62 +376,52 @@ update
   "wms"."sales_orders"
 set
   updated_at = now(),
-  order_number = case when $1::boolean then
-    $2::varchar
+  order_number = case when $1 is not null then
+    $1::varchar
   else
     order_number
   end,
-  client_id = case when $3::boolean then
-    $4::uuid
+  client_id = case when $2 is not null then
+    $2::uuid
   else
     client_id
   end,
-  crm_opportunity_id = case when $5::boolean then
-    $6::uuid
+  crm_opportunity_id = case when $3 is not null then
+    $3::uuid
   else
     crm_opportunity_id
   end,
-  status = case when $7::boolean then
-    $8::wms.sales_order_status_enum
+  status = case when $4 is not null then
+    $4::wms.sales_order_status_enum
   else
     status
   end,
-  shipping_address = case when $9::boolean then
-    $10::text
+  shipping_address = case when $5 is not null then
+    $5::text
   else
     shipping_address
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, order_number, client_id, crm_opportunity_id, status, shipping_address, created_at, updated_at
 `
 
 type WmsUpdateSalesOrderParams struct {
-	SetOrderNumber      bool
-	OrderNumber         string
-	SetClientID         bool
-	ClientID            pgtype.UUID
-	SetCrmOpportunityID bool
-	CrmOpportunityID    pgtype.UUID
-	SetStatus           bool
-	Status              WmsSalesOrderStatusEnum
-	SetShippingAddress  bool
-	ShippingAddress     string
-	ID                  pgtype.UUID
+	OrderNumber      string
+	ClientID         pgtype.UUID
+	CrmOpportunityID pgtype.UUID
+	Status           NullWmsSalesOrderStatusEnum
+	ShippingAddress  pgtype.Text
+	ID               pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateSalesOrder(ctx context.Context, arg WmsUpdateSalesOrderParams) (WmsSalesOrder, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateSalesOrder,
-		arg.SetOrderNumber,
 		arg.OrderNumber,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetCrmOpportunityID,
 		arg.CrmOpportunityID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetShippingAddress,
 		arg.ShippingAddress,
 		arg.ID,
 	)

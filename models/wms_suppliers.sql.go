@@ -111,8 +111,7 @@ select
   id, name, contact_person, email, phone_number, created_at, updated_at
 from
   "wms"."suppliers"
-where
-  (name ilike $1::text
+where (name ilike $1::text
   or email ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -161,8 +160,8 @@ where
   created_at >= $1::date
   and created_at <= $2::date
   and (name ilike $3::text
-  or email ilike $3::text
-  or $3::text is null)
+    or email ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeSupplierParams struct {
@@ -214,53 +213,45 @@ update
   "wms"."suppliers"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::varchar
+  name = case when $1 is not null then
+    $1::varchar
   else
     name
   end,
-  contact_person = case when $3::boolean then
-    $4::varchar
+  contact_person = case when $2 is not null then
+    $2::varchar
   else
     contact_person
   end,
-  email = case when $5::boolean then
-    $6::varchar
+  email = case when $3 is not null then
+    $3::varchar
   else
     email
   end,
-  phone_number = case when $7::boolean then
-    $8::varchar
+  phone_number = case when $4 is not null then
+    $4::varchar
   else
     phone_number
   end
 where
-  id = $9::uuid
+  id = $5::uuid
 returning
   id, name, contact_person, email, phone_number, created_at, updated_at
 `
 
 type WmsUpdateSupplierParams struct {
-	SetName          bool
-	Name             string
-	SetContactPerson bool
-	ContactPerson    string
-	SetEmail         bool
-	Email            string
-	SetPhoneNumber   bool
-	PhoneNumber      string
-	ID               pgtype.UUID
+	Name          string
+	ContactPerson pgtype.Text
+	Email         pgtype.Text
+	PhoneNumber   pgtype.Text
+	ID            pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateSupplier(ctx context.Context, arg WmsUpdateSupplierParams) (WmsSupplier, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateSupplier,
-		arg.SetName,
 		arg.Name,
-		arg.SetContactPerson,
 		arg.ContactPerson,
-		arg.SetEmail,
 		arg.Email,
-		arg.SetPhoneNumber,
 		arg.PhoneNumber,
 		arg.ID,
 	)

@@ -9,8 +9,7 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
-where
-  (location.name ilike sqlc.narg(search)::text
+where (location.name ilike sqlc.narg(search)::text
   or product.name ilike sqlc.narg(search)::text
   or batch.batch_number ilike sqlc.narg(search)::text
   or inventory_stock.status::text ilike sqlc.narg(search)::text
@@ -60,10 +59,10 @@ where
   inventory_stock.created_at >= @dateFrom::date
   and inventory_stock.created_at <= @dateTo::date
   and (location.name ilike sqlc.narg(search)::text
-  or product.name ilike sqlc.narg(search)::text
-  or batch.batch_number ilike sqlc.narg(search)::text
-  or inventory_stock.status::text ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or product.name ilike sqlc.narg(search)::text
+    or batch.batch_number ilike sqlc.narg(search)::text
+    or inventory_stock.status::text ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertInventoryStock :one
 insert into "wms"."inventory_stock"(location_id, product_id, batch_id, quantity, reserved_quantity, status, last_counted_at, last_movement_at)
@@ -76,42 +75,42 @@ update
   "wms"."inventory_stock"
 set
   updated_at = now(),
-  location_id = case when sqlc.arg(set_location_id)::boolean then
+  location_id = case when sqlc.arg(location_id) is not null then
     sqlc.arg(location_id)::uuid
   else
     location_id
   end,
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  batch_id = case when sqlc.arg(set_batch_id)::boolean then
+  batch_id = case when sqlc.arg(batch_id) is not null then
     sqlc.arg(batch_id)::uuid
   else
     batch_id
   end,
-  quantity = case when sqlc.arg(set_quantity)::boolean then
+  quantity = case when sqlc.arg(quantity) is not null then
     sqlc.arg(quantity)::integer
   else
     quantity
   end,
-  reserved_quantity = case when sqlc.arg(set_reserved_quantity)::boolean then
+  reserved_quantity = case when sqlc.arg(reserved_quantity) is not null then
     sqlc.arg(reserved_quantity)::integer
   else
     reserved_quantity
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::wms.inventory_stock_status_enum
   else
     status
   end,
-  last_counted_at = case when sqlc.arg(set_last_counted_at)::boolean then
+  last_counted_at = case when sqlc.arg(last_counted_at) is not null then
     sqlc.arg(last_counted_at)::timestamp
   else
     last_counted_at
   end,
-  last_movement_at = case when sqlc.arg(set_last_movement_at)::boolean then
+  last_movement_at = case when sqlc.arg(last_movement_at) is not null then
     sqlc.arg(last_movement_at)::timestamp
   else
     last_movement_at
@@ -124,3 +123,4 @@ returning
 -- name: WmsRemoveInventoryStock :exec
 delete from "wms"."inventory_stock"
 where id = @id::uuid;
+

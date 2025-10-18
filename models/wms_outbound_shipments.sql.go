@@ -148,8 +148,7 @@ select
 from
   "wms"."outbound_shipments" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
-where
-  (sales_order.order_number ilike $1::text
+where (sales_order.order_number ilike $1::text
   or outbound_shipments.tracking_number ilike $1::text
   or outbound_shipments.carrier ilike $1::text
   or outbound_shipments.status::text ilike $1::text
@@ -216,10 +215,10 @@ where
   outbound_shipments.created_at >= $1::date
   and outbound_shipments.created_at <= $2::date
   and (sales_order.order_number ilike $3::text
-  or outbound_shipments.tracking_number ilike $3::text
-  or outbound_shipments.carrier ilike $3::text
-  or outbound_shipments.status::text ilike $3::text
-  or $3::text is null)
+    or outbound_shipments.tracking_number ilike $3::text
+    or outbound_shipments.carrier ilike $3::text
+    or outbound_shipments.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeOutboundShipmentParams struct {
@@ -285,62 +284,52 @@ update
   "wms"."outbound_shipments"
 set
   updated_at = now(),
-  sales_order_id = case when $1::boolean then
-    $2::uuid
+  sales_order_id = case when $1 is not null then
+    $1::uuid
   else
     sales_order_id
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  status = case when $5::boolean then
-    $6::wms.outbound_shipment_status_enum
+  status = case when $3 is not null then
+    $3::wms.outbound_shipment_status_enum
   else
     status
   end,
-  tracking_number = case when $7::boolean then
-    $8::varchar
+  tracking_number = case when $4 is not null then
+    $4::varchar
   else
     tracking_number
   end,
-  carrier = case when $9::boolean then
-    $10::varchar
+  carrier = case when $5 is not null then
+    $5::varchar
   else
     carrier
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, sales_order_id, warehouse_id, status, tracking_number, carrier, created_at, updated_at
 `
 
 type WmsUpdateOutboundShipmentParams struct {
-	SetSalesOrderID   bool
-	SalesOrderID      pgtype.UUID
-	SetWarehouseID    bool
-	WarehouseID       pgtype.UUID
-	SetStatus         bool
-	Status            WmsOutboundShipmentStatusEnum
-	SetTrackingNumber bool
-	TrackingNumber    string
-	SetCarrier        bool
-	Carrier           string
-	ID                pgtype.UUID
+	SalesOrderID   pgtype.UUID
+	WarehouseID    pgtype.UUID
+	Status         NullWmsOutboundShipmentStatusEnum
+	TrackingNumber pgtype.Text
+	Carrier        pgtype.Text
+	ID             pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateOutboundShipment(ctx context.Context, arg WmsUpdateOutboundShipmentParams) (WmsOutboundShipment, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateOutboundShipment,
-		arg.SetSalesOrderID,
 		arg.SalesOrderID,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetTrackingNumber,
 		arg.TrackingNumber,
-		arg.SetCarrier,
 		arg.Carrier,
 		arg.ID,
 	)

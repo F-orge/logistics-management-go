@@ -13,15 +13,15 @@ import (
 
 const wmsAnyReturn = `-- name: WmsAnyReturn :many
 select
-  returns.id, returns.return_number, returns.sales_order_id, returns.client_id, returns.status, returns.reason, returns.created_at, returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as returns
-  left join "wms"."sales_orders" as sales_order on returns.sales_order_id = sales_order.id
-  inner join "crm"."companies" as client on returns.client_id = client.id
+  "wms"."returns" as wms_returns
+  left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
+  inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
-  returns.id = any ($1::uuid[])
+  wms_returns.id = any ($1::uuid[])
 `
 
 type WmsAnyReturnRow struct {
@@ -83,15 +83,15 @@ func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAny
 
 const wmsFindReturn = `-- name: WmsFindReturn :one
 select
-  returns.id, returns.return_number, returns.sales_order_id, returns.client_id, returns.status, returns.reason, returns.created_at, returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as returns
-  left join "wms"."sales_orders" as sales_order on returns.sales_order_id = sales_order.id
-  inner join "crm"."companies" as client on returns.client_id = client.id
+  "wms"."returns" as wms_returns
+  left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
+  inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
-  returns.id = $1::uuid
+  wms_returns.id = $1::uuid
 `
 
 type WmsFindReturnRow struct {
@@ -177,20 +177,19 @@ func (q *Queries) WmsInsertReturn(ctx context.Context, arg WmsInsertReturnParams
 
 const wmsPaginateReturn = `-- name: WmsPaginateReturn :many
 select
-  returns.id, returns.return_number, returns.sales_order_id, returns.client_id, returns.status, returns.reason, returns.created_at, returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as returns
-  left join "wms"."sales_orders" as sales_order on returns.sales_order_id = sales_order.id
-  inner join "crm"."companies" as client on returns.client_id = client.id
-where
-  (returns.return_number ilike $1::text
-  or sales_order.order_number ilike $1::text
-  or client.name ilike $1::text
-  or returns.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "wms"."returns" as wms_returns
+  left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
+  inner join "crm"."companies" as client on wms_returns.client_id = client.id
+where (wms_returns.return_number ilike ($1)::text
+  or sales_order.order_number ilike ($1)::text
+  or client.name ilike ($1)::text
+  or wms_returns.status::text ilike ($1)::text
+  or ($1)::text is null)
+limit $3::int offset (($2::int - 1) * $3::int)
 `
 
 type WmsPaginateReturnParams struct {
@@ -258,21 +257,21 @@ func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnPa
 
 const wmsRangeReturn = `-- name: WmsRangeReturn :many
 select
-  returns.id, returns.return_number, returns.sales_order_id, returns.client_id, returns.status, returns.reason, returns.created_at, returns.updated_at,
+  wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
-  "wms"."returns" as returns
-  left join "wms"."sales_orders" as sales_order on returns.sales_order_id = sales_order.id
-  inner join "crm"."companies" as client on returns.client_id = client.id
+  "wms"."returns" as wms_returns
+  left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
+  inner join "crm"."companies" as client on wms_returns.client_id = client.id
 where
-  returns.created_at >= $1::date
-  and returns.created_at <= $2::date
-  and (returns.return_number ilike $3::text
-  or sales_order.order_number ilike $3::text
-  or client.name ilike $3::text
-  or returns.status::text ilike $3::text
-  or $3::text is null)
+  wms_returns.created_at >= $1::date
+  and wms_returns.created_at <= $2::date
+  and (wms_returns.return_number ilike $3::text
+    or sales_order.order_number ilike $3::text
+    or client.name ilike $3::text
+    or wms_returns.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeReturnParams struct {
@@ -353,62 +352,52 @@ update
   "wms"."returns"
 set
   updated_at = now(),
-  return_number = case when $1::boolean then
-    $2::varchar
+  return_number = case when $1 is not null then
+    $1::varchar
   else
     return_number
   end,
-  sales_order_id = case when $3::boolean then
-    $4::uuid
+  sales_order_id = case when $2 is not null then
+    $2::uuid
   else
     sales_order_id
   end,
-  client_id = case when $5::boolean then
-    $6::uuid
+  client_id = case when $3 is not null then
+    $3::uuid
   else
     client_id
   end,
-  status = case when $7::boolean then
-    $8::wms.return_status_enum
+  status = case when $4 is not null then
+    $4::wms.return_status_enum
   else
     status
   end,
-  reason = case when $9::boolean then
-    $10::text
+  reason = case when $5 is not null then
+    $5::text
   else
     reason
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, return_number, sales_order_id, client_id, status, reason, created_at, updated_at
 `
 
 type WmsUpdateReturnParams struct {
-	SetReturnNumber bool
-	ReturnNumber    string
-	SetSalesOrderID bool
-	SalesOrderID    pgtype.UUID
-	SetClientID     bool
-	ClientID        pgtype.UUID
-	SetStatus       bool
-	Status          WmsReturnStatusEnum
-	SetReason       bool
-	Reason          string
-	ID              pgtype.UUID
+	ReturnNumber string
+	SalesOrderID pgtype.UUID
+	ClientID     pgtype.UUID
+	Status       NullWmsReturnStatusEnum
+	Reason       pgtype.Text
+	ID           pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateReturn(ctx context.Context, arg WmsUpdateReturnParams) (WmsReturn, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateReturn,
-		arg.SetReturnNumber,
 		arg.ReturnNumber,
-		arg.SetSalesOrderID,
 		arg.SalesOrderID,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetReason,
 		arg.Reason,
 		arg.ID,
 	)

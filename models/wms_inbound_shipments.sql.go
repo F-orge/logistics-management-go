@@ -160,8 +160,7 @@ select
 from
   "wms"."inbound_shipments" as inbound_shipments
   left join "crm"."companies" as client on inbound_shipments.client_id = client.id
-where
-  (client.name ilike $1::text
+where (client.name ilike $1::text
   or inbound_shipments.status::text ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -232,8 +231,8 @@ where
   inbound_shipments.created_at >= $1::date
   and inbound_shipments.created_at <= $2::date
   and (client.name ilike $3::text
-  or inbound_shipments.status::text ilike $3::text
-  or $3::text is null)
+    or inbound_shipments.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeInboundShipmentParams struct {
@@ -305,62 +304,52 @@ update
   "wms"."inbound_shipments"
 set
   updated_at = now(),
-  client_id = case when $1::boolean then
-    $2::uuid
+  client_id = case when $1 is not null then
+    $1::uuid
   else
     client_id
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  status = case when $5::boolean then
-    $6::wms.inbound_shipment_status_enum
+  status = case when $3 is not null then
+    $3::wms.inbound_shipment_status_enum
   else
     status
   end,
-  expected_arrival_date = case when $7::boolean then
-    $8::date
+  expected_arrival_date = case when $4 is not null then
+    $4::date
   else
     expected_arrival_date
   end,
-  actual_arrival_date = case when $9::boolean then
-    $10::date
+  actual_arrival_date = case when $5 is not null then
+    $5::date
   else
     actual_arrival_date
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, client_id, warehouse_id, status, expected_arrival_date, actual_arrival_date, created_at, updated_at
 `
 
 type WmsUpdateInboundShipmentParams struct {
-	SetClientID            bool
-	ClientID               pgtype.UUID
-	SetWarehouseID         bool
-	WarehouseID            pgtype.UUID
-	SetStatus              bool
-	Status                 WmsInboundShipmentStatusEnum
-	SetExpectedArrivalDate bool
-	ExpectedArrivalDate    pgtype.Date
-	SetActualArrivalDate   bool
-	ActualArrivalDate      pgtype.Date
-	ID                     pgtype.UUID
+	ClientID            pgtype.UUID
+	WarehouseID         pgtype.UUID
+	Status              NullWmsInboundShipmentStatusEnum
+	ExpectedArrivalDate pgtype.Date
+	ActualArrivalDate   pgtype.Date
+	ID                  pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateInboundShipment(ctx context.Context, arg WmsUpdateInboundShipmentParams) (WmsInboundShipment, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateInboundShipment,
-		arg.SetClientID,
 		arg.ClientID,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetExpectedArrivalDate,
 		arg.ExpectedArrivalDate,
-		arg.SetActualArrivalDate,
 		arg.ActualArrivalDate,
 		arg.ID,
 	)

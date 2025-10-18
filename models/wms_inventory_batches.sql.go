@@ -150,8 +150,7 @@ select
 from
   "wms"."inventory_batches" as inventory_batches
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
-where
-  (product.name ilike $1::text
+where (product.name ilike $1::text
   or inventory_batches.batch_number ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -222,8 +221,8 @@ where
   inventory_batches.created_at >= $1::date
   and inventory_batches.created_at <= $2::date
   and (product.name ilike $3::text
-  or inventory_batches.batch_number ilike $3::text
-  or $3::text is null)
+    or inventory_batches.batch_number ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeInventoryBatchParams struct {
@@ -295,44 +294,38 @@ update
   "wms"."inventory_batches"
 set
   updated_at = now(),
-  product_id = case when $1::boolean then
-    $2::uuid
+  product_id = case when $1 is not null then
+    $1::uuid
   else
     product_id
   end,
-  batch_number = case when $3::boolean then
-    $4::varchar
+  batch_number = case when $2 is not null then
+    $2::varchar
   else
     batch_number
   end,
-  expiration_date = case when $5::boolean then
-    $6::date
+  expiration_date = case when $3 is not null then
+    $3::date
   else
     expiration_date
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, product_id, batch_number, expiration_date, created_at, updated_at
 `
 
 type WmsUpdateInventoryBatchParams struct {
-	SetProductID      bool
-	ProductID         pgtype.UUID
-	SetBatchNumber    bool
-	BatchNumber       string
-	SetExpirationDate bool
-	ExpirationDate    pgtype.Date
-	ID                pgtype.UUID
+	ProductID      pgtype.UUID
+	BatchNumber    string
+	ExpirationDate pgtype.Date
+	ID             pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateInventoryBatch(ctx context.Context, arg WmsUpdateInventoryBatchParams) (WmsInventoryBatch, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateInventoryBatch,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetBatchNumber,
 		arg.BatchNumber,
-		arg.SetExpirationDate,
 		arg.ExpirationDate,
 		arg.ID,
 	)

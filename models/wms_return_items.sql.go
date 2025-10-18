@@ -191,8 +191,7 @@ from
   "wms"."return_items" as return_items
   inner join "wms"."returns" as return on return_items.return_id = return.id
   inner join "wms"."products" as product on return_items.product_id = product.id
-where
-  (return.return_number ilike $1::text
+where (return.return_number ilike $1::text
   or product.name ilike $1::text
   or return_items.condition::text ilike $1::text
   or $1::text is null)
@@ -278,9 +277,9 @@ where
   return_items.created_at >= $1::date
   and return_items.created_at <= $2::date
   and (return.return_number ilike $3::text
-  or product.name ilike $3::text
-  or return_items.condition::text ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or return_items.condition::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeReturnItemParams struct {
@@ -364,62 +363,52 @@ update
   "wms"."return_items"
 set
   updated_at = now(),
-  return_id = case when $1::boolean then
-    $2::uuid
+  return_id = case when $1 is not null then
+    $1::uuid
   else
     return_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  quantity_expected = case when $5::boolean then
-    $6::integer
+  quantity_expected = case when $3 is not null then
+    $3::integer
   else
     quantity_expected
   end,
-  quantity_received = case when $7::boolean then
-    $8::integer
+  quantity_received = case when $4 is not null then
+    $4::integer
   else
     quantity_received
   end,
-  condition = case when $9::boolean then
-    $10::wms.return_item_condition_enum
+  condition = case when $5 is not null then
+    $5::wms.return_item_condition_enum
   else
     condition
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, return_id, product_id, quantity_expected, quantity_received, quantity_variance, condition, created_at, updated_at
 `
 
 type WmsUpdateReturnItemParams struct {
-	SetReturnID         bool
-	ReturnID            pgtype.UUID
-	SetProductID        bool
-	ProductID           pgtype.UUID
-	SetQuantityExpected bool
-	QuantityExpected    int32
-	SetQuantityReceived bool
-	QuantityReceived    int32
-	SetCondition        bool
-	Condition           WmsReturnItemConditionEnum
-	ID                  pgtype.UUID
+	ReturnID         pgtype.UUID
+	ProductID        pgtype.UUID
+	QuantityExpected int32
+	QuantityReceived pgtype.Int4
+	Condition        NullWmsReturnItemConditionEnum
+	ID               pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateReturnItem(ctx context.Context, arg WmsUpdateReturnItemParams) (WmsReturnItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateReturnItem,
-		arg.SetReturnID,
 		arg.ReturnID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetQuantityExpected,
 		arg.QuantityExpected,
-		arg.SetQuantityReceived,
 		arg.QuantityReceived,
-		arg.SetCondition,
 		arg.Condition,
 		arg.ID,
 	)

@@ -7,8 +7,7 @@ from
   "wms"."products" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
-where
-  (products.name ilike sqlc.narg(search)::text
+where (products.name ilike sqlc.narg(search)::text
   or products.sku ilike sqlc.narg(search)::text
   or products.barcode ilike sqlc.narg(search)::text
   or products.status::text ilike sqlc.narg(search)::text
@@ -54,12 +53,12 @@ where
   products.created_at >= @dateFrom::date
   and products.created_at <= @dateTo::date
   and (products.name ilike sqlc.narg(search)::text
-  or products.sku ilike sqlc.narg(search)::text
-  or products.barcode ilike sqlc.narg(search)::text
-  or products.status::text ilike sqlc.narg(search)::text
-  or supplier.name ilike sqlc.narg(search)::text
-  or client.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or products.sku ilike sqlc.narg(search)::text
+    or products.barcode ilike sqlc.narg(search)::text
+    or products.status::text ilike sqlc.narg(search)::text
+    or supplier.name ilike sqlc.narg(search)::text
+    or client.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertProduct :one
 insert into "wms"."products"(name, sku, barcode, description, cost_price, length, width, height, weight, status, supplier_id, client_id)
@@ -72,62 +71,62 @@ update
   "wms"."products"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::varchar
   else
     name
   end,
-  sku = case when sqlc.arg(set_sku)::boolean then
+  sku = case when sqlc.arg(sku) is not null then
     sqlc.arg(sku)::varchar
   else
     sku
   end,
-  barcode = case when sqlc.arg(set_barcode)::boolean then
+  barcode = case when sqlc.arg(barcode) is not null then
     sqlc.arg(barcode)::varchar
   else
     barcode
   end,
-  description = case when sqlc.arg(set_description)::boolean then
+  description = case when sqlc.arg(description) is not null then
     sqlc.arg(description)::text
   else
     description
   end,
-  cost_price = case when sqlc.arg(set_cost_price)::boolean then
+  cost_price = case when sqlc.arg(cost_price) is not null then
     sqlc.arg(cost_price)::numeric
   else
     cost_price
   end,
-  length = case when sqlc.arg(set_length)::boolean then
+  length = case when sqlc.arg(length) is not null then
     sqlc.arg(length)::real
   else
     length
   end,
-  width = case when sqlc.arg(set_width)::boolean then
+  width = case when sqlc.arg(width) is not null then
     sqlc.arg(width)::real
   else
     width
   end,
-  height = case when sqlc.arg(set_height)::boolean then
+  height = case when sqlc.arg(height) is not null then
     sqlc.arg(height)::real
   else
     height
   end,
-  weight = case when sqlc.arg(set_weight)::boolean then
+  weight = case when sqlc.arg(weight) is not null then
     sqlc.arg(weight)::real
   else
     weight
   end,
-  status = case when sqlc.arg(set_status)::boolean then
+  status = case when sqlc.arg(status) is not null then
     sqlc.arg(status)::wms.product_status_enum
   else
     status
   end,
-  supplier_id = case when sqlc.arg(set_supplier_id)::boolean then
+  supplier_id = case when sqlc.arg(supplier_id) is not null then
     sqlc.arg(supplier_id)::uuid
   else
     supplier_id
   end,
-  client_id = case when sqlc.arg(set_client_id)::boolean then
+  client_id = case when sqlc.arg(client_id) is not null then
     sqlc.arg(client_id)::uuid
   else
     client_id

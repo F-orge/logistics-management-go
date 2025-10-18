@@ -174,8 +174,7 @@ from
   "wms"."sales_order_items" as sales_order_items
   inner join "wms"."sales_orders" as sales_order on sales_order_items.sales_order_id = sales_order.id
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
-where
-  (sales_order.order_number ilike $1::text
+where (sales_order.order_number ilike $1::text
   or product.name ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -257,8 +256,8 @@ where
   sales_order_items.created_at >= $1::date
   and sales_order_items.created_at <= $2::date
   and (sales_order.order_number ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeSalesOrderItemParams struct {
@@ -339,44 +338,38 @@ update
   "wms"."sales_order_items"
 set
   updated_at = now(),
-  sales_order_id = case when $1::boolean then
-    $2::uuid
+  sales_order_id = case when $1 is not null then
+    $1::uuid
   else
     sales_order_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  quantity_ordered = case when $5::boolean then
-    $6::integer
+  quantity_ordered = case when $3 is not null then
+    $3::integer
   else
     quantity_ordered
   end
 where
-  id = $7::uuid
+  id = $4::uuid
 returning
   id, sales_order_id, product_id, quantity_ordered, created_at, updated_at
 `
 
 type WmsUpdateSalesOrderItemParams struct {
-	SetSalesOrderID    bool
-	SalesOrderID       pgtype.UUID
-	SetProductID       bool
-	ProductID          pgtype.UUID
-	SetQuantityOrdered bool
-	QuantityOrdered    int32
-	ID                 pgtype.UUID
+	SalesOrderID    pgtype.UUID
+	ProductID       pgtype.UUID
+	QuantityOrdered int32
+	ID              pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateSalesOrderItem(ctx context.Context, arg WmsUpdateSalesOrderItemParams) (WmsSalesOrderItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateSalesOrderItem,
-		arg.SetSalesOrderID,
 		arg.SalesOrderID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetQuantityOrdered,
 		arg.QuantityOrdered,
 		arg.ID,
 	)

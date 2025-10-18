@@ -7,8 +7,7 @@ from
   "wms"."sales_order_items" as sales_order_items
   inner join "wms"."sales_orders" as sales_order on sales_order_items.sales_order_id = sales_order.id
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
-where
-  (sales_order.order_number ilike sqlc.narg(search)::text
+where (sales_order.order_number ilike sqlc.narg(search)::text
   or product.name ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)
 limit sqlc.arg(perPage)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(perPage)::int;
@@ -50,8 +49,8 @@ where
   sales_order_items.created_at >= @dateFrom::date
   and sales_order_items.created_at <= @dateTo::date
   and (sales_order.order_number ilike sqlc.narg(search)::text
-  or product.name ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or product.name ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertSalesOrderItem :one
 insert into "wms"."sales_order_items"(sales_order_id, product_id, quantity_ordered)
@@ -64,17 +63,17 @@ update
   "wms"."sales_order_items"
 set
   updated_at = now(),
-  sales_order_id = case when sqlc.arg(set_sales_order_id)::boolean then
+  sales_order_id = case when sqlc.arg(sales_order_id) is not null then
     sqlc.arg(sales_order_id)::uuid
   else
     sales_order_id
   end,
-  product_id = case when sqlc.arg(set_product_id)::boolean then
+  product_id = case when sqlc.arg(product_id) is not null then
     sqlc.arg(product_id)::uuid
   else
     product_id
   end,
-  quantity_ordered = case when sqlc.arg(set_quantity_ordered)::boolean then
+  quantity_ordered = case when sqlc.arg(quantity_ordered) is not null then
     sqlc.arg(quantity_ordered)::integer
   else
     quantity_ordered
@@ -87,3 +86,4 @@ returning
 -- name: WmsRemoveSalesOrderItem :exec
 delete from "wms"."sales_order_items"
 where id = @id::uuid;
+

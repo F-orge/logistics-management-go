@@ -282,8 +282,7 @@ from
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
-where
-  (sales_order.order_number ilike $1::text
+where (sales_order.order_number ilike $1::text
   or warehouse.name ilike $1::text
   or packages.package_number ilike $1::text
   or packages.tracking_number ilike $1::text
@@ -397,12 +396,12 @@ where
   packages.created_at >= $1::date
   and packages.created_at <= $2::date
   and (sales_order.order_number ilike $3::text
-  or warehouse.name ilike $3::text
-  or packages.package_number ilike $3::text
-  or packages.tracking_number ilike $3::text
-  or packages.carrier ilike $3::text
-  or packed_by_user.name ilike $3::text
-  or $3::text is null)
+    or warehouse.name ilike $3::text
+    or packages.package_number ilike $3::text
+    or packages.tracking_number ilike $3::text
+    or packages.carrier ilike $3::text
+    or packed_by_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangePackageParams struct {
@@ -509,179 +508,143 @@ update
   "wms"."packages"
 set
   updated_at = now(),
-  sales_order_id = case when $1::boolean then
-    $2::uuid
+  sales_order_id = case when $1 is not null then
+    $1::uuid
   else
     sales_order_id
   end,
-  package_number = case when $3::boolean then
-    $4::varchar
+  package_number = case when $2 is not null then
+    $2::varchar
   else
     package_number
   end,
-  warehouse_id = case when $5::boolean then
-    $6::uuid
+  warehouse_id = case when $3 is not null then
+    $3::uuid
   else
     warehouse_id
   end,
-  package_type = case when $7::boolean then
-    $8::varchar
+  package_type = case when $4 is not null then
+    $4::varchar
   else
     package_type
   end,
-  weight = case when $9::boolean then
-    $10::real
+  weight = case when $5 is not null then
+    $5::real
   else
     weight
   end,
-  length = case when $11::boolean then
-    $12::real
+  length = case when $6 is not null then
+    $6::real
   else
     length
   end,
-  width = case when $13::boolean then
-    $14::real
+  width = case when $7 is not null then
+    $7::real
   else
     width
   end,
-  height = case when $15::boolean then
-    $16::real
+  height = case when $8 is not null then
+    $8::real
   else
     height
   end,
-  tracking_number = case when $17::boolean then
-    $18::varchar
+  tracking_number = case when $9 is not null then
+    $9::varchar
   else
     tracking_number
   end,
-  carrier = case when $19::boolean then
-    $20::varchar
+  carrier = case when $10 is not null then
+    $10::varchar
   else
     carrier
   end,
-  service_level = case when $21::boolean then
-    $22::varchar
+  service_level = case when $11 is not null then
+    $11::varchar
   else
     service_level
   end,
-  packed_by_user_id = case when $23::boolean then
-    $24::text
+  packed_by_user_id = case when $12 is not null then
+    $12::text
   else
     packed_by_user_id
   end,
-  packed_at = case when $25::boolean then
-    $26::timestamp
+  packed_at = case when $13 is not null then
+    $13::timestamp
   else
     packed_at
   end,
-  shipped_at = case when $27::boolean then
-    $28::timestamp
+  shipped_at = case when $14 is not null then
+    $14::timestamp
   else
     shipped_at
   end,
-  is_fragile = case when $29::boolean then
-    $30::boolean
+  is_fragile = case when $15 is not null then
+    $15::boolean
   else
     is_fragile
   end,
-  is_hazmat = case when $31::boolean then
-    $32::boolean
+  is_hazmat = case when $16 is not null then
+    $16::boolean
   else
     is_hazmat
   end,
-  requires_signature = case when $33::boolean then
-    $34::boolean
+  requires_signature = case when $17 is not null then
+    $17::boolean
   else
     requires_signature
   end,
-  insurance_value = case when $35::boolean then
-    $36::numeric
+  insurance_value = case when $18 is not null then
+    $18::numeric
   else
     insurance_value
   end
 where
-  id = $37::uuid
+  id = $19::uuid
 returning
   id, sales_order_id, package_number, warehouse_id, package_type, weight, length, width, height, volume, tracking_number, carrier, service_level, packed_by_user_id, packed_at, shipped_at, is_fragile, is_hazmat, requires_signature, insurance_value, created_at, updated_at
 `
 
 type WmsUpdatePackageParams struct {
-	SetSalesOrderID      bool
-	SalesOrderID         pgtype.UUID
-	SetPackageNumber     bool
-	PackageNumber        string
-	SetWarehouseID       bool
-	WarehouseID          pgtype.UUID
-	SetPackageType       bool
-	PackageType          string
-	SetWeight            bool
-	Weight               float32
-	SetLength            bool
-	Length               float32
-	SetWidth             bool
-	Width                float32
-	SetHeight            bool
-	Height               float32
-	SetTrackingNumber    bool
-	TrackingNumber       string
-	SetCarrier           bool
-	Carrier              string
-	SetServiceLevel      bool
-	ServiceLevel         string
-	SetPackedByUserID    bool
-	PackedByUserID       string
-	SetPackedAt          bool
-	PackedAt             pgtype.Timestamp
-	SetShippedAt         bool
-	ShippedAt            pgtype.Timestamp
-	SetIsFragile         bool
-	IsFragile            bool
-	SetIsHazmat          bool
-	IsHazmat             bool
-	SetRequiresSignature bool
-	RequiresSignature    bool
-	SetInsuranceValue    bool
-	InsuranceValue       pgtype.Numeric
-	ID                   pgtype.UUID
+	SalesOrderID      pgtype.UUID
+	PackageNumber     string
+	WarehouseID       pgtype.UUID
+	PackageType       pgtype.Text
+	Weight            pgtype.Float4
+	Length            pgtype.Float4
+	Width             pgtype.Float4
+	Height            pgtype.Float4
+	TrackingNumber    pgtype.Text
+	Carrier           pgtype.Text
+	ServiceLevel      pgtype.Text
+	PackedByUserID    pgtype.Text
+	PackedAt          pgtype.Timestamp
+	ShippedAt         pgtype.Timestamp
+	IsFragile         pgtype.Bool
+	IsHazmat          pgtype.Bool
+	RequiresSignature pgtype.Bool
+	InsuranceValue    pgtype.Numeric
+	ID                pgtype.UUID
 }
 
 func (q *Queries) WmsUpdatePackage(ctx context.Context, arg WmsUpdatePackageParams) (WmsPackage, error) {
 	row := q.db.QueryRow(ctx, wmsUpdatePackage,
-		arg.SetSalesOrderID,
 		arg.SalesOrderID,
-		arg.SetPackageNumber,
 		arg.PackageNumber,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetPackageType,
 		arg.PackageType,
-		arg.SetWeight,
 		arg.Weight,
-		arg.SetLength,
 		arg.Length,
-		arg.SetWidth,
 		arg.Width,
-		arg.SetHeight,
 		arg.Height,
-		arg.SetTrackingNumber,
 		arg.TrackingNumber,
-		arg.SetCarrier,
 		arg.Carrier,
-		arg.SetServiceLevel,
 		arg.ServiceLevel,
-		arg.SetPackedByUserID,
 		arg.PackedByUserID,
-		arg.SetPackedAt,
 		arg.PackedAt,
-		arg.SetShippedAt,
 		arg.ShippedAt,
-		arg.SetIsFragile,
 		arg.IsFragile,
-		arg.SetIsHazmat,
 		arg.IsHazmat,
-		arg.SetRequiresSignature,
 		arg.RequiresSignature,
-		arg.SetInsuranceValue,
 		arg.InsuranceValue,
 		arg.ID,
 	)

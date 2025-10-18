@@ -3,8 +3,7 @@ select
   *
 from
   "wms"."warehouses"
-where
-  (name ilike sqlc.narg(search)::text
+where (name ilike sqlc.narg(search)::text
   or city ilike sqlc.narg(search)::text
   or state ilike sqlc.narg(search)::text
   or country ilike sqlc.narg(search)::text
@@ -36,10 +35,10 @@ where
   created_at >= @dateFrom::date
   and created_at <= @dateTo::date
   and (name ilike sqlc.narg(search)::text
-  or city ilike sqlc.narg(search)::text
-  or state ilike sqlc.narg(search)::text
-  or country ilike sqlc.narg(search)::text
-  or sqlc.narg(search)::text is null);
+    or city ilike sqlc.narg(search)::text
+    or state ilike sqlc.narg(search)::text
+    or country ilike sqlc.narg(search)::text
+    or sqlc.narg(search)::text is null);
 
 -- name: WmsInsertWarehouse :one
 insert into "wms"."warehouses"(name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active)
@@ -52,57 +51,57 @@ update
   "wms"."warehouses"
 set
   updated_at = now(),
-  name = case when sqlc.arg(set_name)::boolean then
+  name = case when sqlc.arg(name) is not null then
     sqlc.arg(name)::varchar
   else
     name
   end,
-  address = case when sqlc.arg(set_address)::boolean then
+  address = case when sqlc.arg(address) is not null then
     sqlc.arg(address)::text
   else
     address
   end,
-  city = case when sqlc.arg(set_city)::boolean then
+  city = case when sqlc.arg(city) is not null then
     sqlc.arg(city)::varchar
   else
     city
   end,
-  state = case when sqlc.arg(set_state)::boolean then
+  state = case when sqlc.arg(state) is not null then
     sqlc.arg(state)::varchar
   else
     state
   end,
-  postal_code = case when sqlc.arg(set_postal_code)::boolean then
+  postal_code = case when sqlc.arg(postal_code) is not null then
     sqlc.arg(postal_code)::varchar
   else
     postal_code
   end,
-  country = case when sqlc.arg(set_country)::boolean then
+  country = case when sqlc.arg(country) is not null then
     sqlc.arg(country)::varchar
   else
     country
   end,
-  timezone = case when sqlc.arg(set_timezone)::boolean then
+  timezone = case when sqlc.arg(timezone) is not null then
     sqlc.arg(timezone)::varchar
   else
     timezone
   end,
-  contact_person = case when sqlc.arg(set_contact_person)::boolean then
+  contact_person = case when sqlc.arg(contact_person) is not null then
     sqlc.arg(contact_person)::varchar
   else
     contact_person
   end,
-  contact_email = case when sqlc.arg(set_contact_email)::boolean then
+  contact_email = case when sqlc.arg(contact_email) is not null then
     sqlc.arg(contact_email)::varchar
   else
     contact_email
   end,
-  contact_phone = case when sqlc.arg(set_contact_phone)::boolean then
+  contact_phone = case when sqlc.arg(contact_phone) is not null then
     sqlc.arg(contact_phone)::varchar
   else
     contact_phone
   end,
-  is_active = case when sqlc.arg(set_is_active)::boolean then
+  is_active = case when sqlc.arg(is_active) is not null then
     sqlc.arg(is_active)::boolean
   else
     is_active
@@ -115,3 +114,4 @@ returning
 -- name: WmsRemoveWarehouse :exec
 delete from "wms"."warehouses"
 where id = @id::uuid;
+

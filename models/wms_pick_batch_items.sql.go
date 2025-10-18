@@ -190,8 +190,7 @@ from
   "wms"."pick_batch_items" as pick_batch_items
   inner join "wms"."pick_batches" as pick_batch on pick_batch_items.pick_batch_id = pick_batch.id
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
-where
-  (pick_batch.batch_number ilike $1::text
+where (pick_batch.batch_number ilike $1::text
   or sales_order.order_number ilike $1::text
   or $1::text is null)
 limit $3::int offset ($2::int - 1) * $3::int
@@ -276,8 +275,8 @@ where
   pick_batch_items.created_at >= $1::date
   and pick_batch_items.created_at <= $2::date
   and (pick_batch.batch_number ilike $3::text
-  or sales_order.order_number ilike $3::text
-  or $3::text is null)
+    or sales_order.order_number ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangePickBatchItemParams struct {
@@ -361,62 +360,52 @@ update
   "wms"."pick_batch_items"
 set
   updated_at = now(),
-  pick_batch_id = case when $1::boolean then
-    $2::uuid
+  pick_batch_id = case when $1 is not null then
+    $1::uuid
   else
     pick_batch_id
   end,
-  sales_order_id = case when $3::boolean then
-    $4::uuid
+  sales_order_id = case when $2 is not null then
+    $2::uuid
   else
     sales_order_id
   end,
-  order_priority = case when $5::boolean then
-    $6::integer
+  order_priority = case when $3 is not null then
+    $3::integer
   else
     order_priority
   end,
-  estimated_pick_time = case when $7::boolean then
-    $8::integer
+  estimated_pick_time = case when $4 is not null then
+    $4::integer
   else
     estimated_pick_time
   end,
-  actual_pick_time = case when $9::boolean then
-    $10::integer
+  actual_pick_time = case when $5 is not null then
+    $5::integer
   else
     actual_pick_time
   end
 where
-  id = $11::uuid
+  id = $6::uuid
 returning
   id, pick_batch_id, sales_order_id, order_priority, estimated_pick_time, actual_pick_time, created_at, updated_at
 `
 
 type WmsUpdatePickBatchItemParams struct {
-	SetPickBatchID       bool
-	PickBatchID          pgtype.UUID
-	SetSalesOrderID      bool
-	SalesOrderID         pgtype.UUID
-	SetOrderPriority     bool
-	OrderPriority        int32
-	SetEstimatedPickTime bool
-	EstimatedPickTime    int32
-	SetActualPickTime    bool
-	ActualPickTime       int32
-	ID                   pgtype.UUID
+	PickBatchID       pgtype.UUID
+	SalesOrderID      pgtype.UUID
+	OrderPriority     pgtype.Int4
+	EstimatedPickTime pgtype.Int4
+	ActualPickTime    pgtype.Int4
+	ID                pgtype.UUID
 }
 
 func (q *Queries) WmsUpdatePickBatchItem(ctx context.Context, arg WmsUpdatePickBatchItemParams) (WmsPickBatchItem, error) {
 	row := q.db.QueryRow(ctx, wmsUpdatePickBatchItem,
-		arg.SetPickBatchID,
 		arg.PickBatchID,
-		arg.SetSalesOrderID,
 		arg.SalesOrderID,
-		arg.SetOrderPriority,
 		arg.OrderPriority,
-		arg.SetEstimatedPickTime,
 		arg.EstimatedPickTime,
-		arg.SetActualPickTime,
 		arg.ActualPickTime,
 		arg.ID,
 	)

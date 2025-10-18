@@ -220,8 +220,7 @@ from
   "wms"."products" as products
   left join "wms"."suppliers" as supplier on products.supplier_id = supplier.id
   left join "crm"."companies" as client on products.client_id = client.id
-where
-  (products.name ilike $1::text
+where (products.name ilike $1::text
   or products.sku ilike $1::text
   or products.barcode ilike $1::text
   or products.status::text ilike $1::text
@@ -314,12 +313,12 @@ where
   products.created_at >= $1::date
   and products.created_at <= $2::date
   and (products.name ilike $3::text
-  or products.sku ilike $3::text
-  or products.barcode ilike $3::text
-  or products.status::text ilike $3::text
-  or supplier.name ilike $3::text
-  or client.name ilike $3::text
-  or $3::text is null)
+    or products.sku ilike $3::text
+    or products.barcode ilike $3::text
+    or products.status::text ilike $3::text
+    or supplier.name ilike $3::text
+    or client.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeProductParams struct {
@@ -407,125 +406,101 @@ update
   "wms"."products"
 set
   updated_at = now(),
-  name = case when $1::boolean then
-    $2::varchar
+  name = case when $1 is not null then
+    $1::varchar
   else
     name
   end,
-  sku = case when $3::boolean then
-    $4::varchar
+  sku = case when $2 is not null then
+    $2::varchar
   else
     sku
   end,
-  barcode = case when $5::boolean then
-    $6::varchar
+  barcode = case when $3 is not null then
+    $3::varchar
   else
     barcode
   end,
-  description = case when $7::boolean then
-    $8::text
+  description = case when $4 is not null then
+    $4::text
   else
     description
   end,
-  cost_price = case when $9::boolean then
-    $10::numeric
+  cost_price = case when $5 is not null then
+    $5::numeric
   else
     cost_price
   end,
-  length = case when $11::boolean then
-    $12::real
+  length = case when $6 is not null then
+    $6::real
   else
     length
   end,
-  width = case when $13::boolean then
-    $14::real
+  width = case when $7 is not null then
+    $7::real
   else
     width
   end,
-  height = case when $15::boolean then
-    $16::real
+  height = case when $8 is not null then
+    $8::real
   else
     height
   end,
-  weight = case when $17::boolean then
-    $18::real
+  weight = case when $9 is not null then
+    $9::real
   else
     weight
   end,
-  status = case when $19::boolean then
-    $20::wms.product_status_enum
+  status = case when $10 is not null then
+    $10::wms.product_status_enum
   else
     status
   end,
-  supplier_id = case when $21::boolean then
-    $22::uuid
+  supplier_id = case when $11 is not null then
+    $11::uuid
   else
     supplier_id
   end,
-  client_id = case when $23::boolean then
-    $24::uuid
+  client_id = case when $12 is not null then
+    $12::uuid
   else
     client_id
   end
 where
-  id = $25::uuid
+  id = $13::uuid
 returning
   id, name, sku, barcode, description, cost_price, length, width, height, volume, weight, status, supplier_id, client_id, created_at, updated_at
 `
 
 type WmsUpdateProductParams struct {
-	SetName        bool
-	Name           string
-	SetSku         bool
-	Sku            string
-	SetBarcode     bool
-	Barcode        string
-	SetDescription bool
-	Description    string
-	SetCostPrice   bool
-	CostPrice      pgtype.Numeric
-	SetLength      bool
-	Length         float32
-	SetWidth       bool
-	Width          float32
-	SetHeight      bool
-	Height         float32
-	SetWeight      bool
-	Weight         float32
-	SetStatus      bool
-	Status         WmsProductStatusEnum
-	SetSupplierID  bool
-	SupplierID     pgtype.UUID
-	SetClientID    bool
-	ClientID       pgtype.UUID
-	ID             pgtype.UUID
+	Name        string
+	Sku         string
+	Barcode     pgtype.Text
+	Description pgtype.Text
+	CostPrice   pgtype.Numeric
+	Length      pgtype.Float4
+	Width       pgtype.Float4
+	Height      pgtype.Float4
+	Weight      pgtype.Float4
+	Status      NullWmsProductStatusEnum
+	SupplierID  pgtype.UUID
+	ClientID    pgtype.UUID
+	ID          pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateProduct(ctx context.Context, arg WmsUpdateProductParams) (WmsProduct, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateProduct,
-		arg.SetName,
 		arg.Name,
-		arg.SetSku,
 		arg.Sku,
-		arg.SetBarcode,
 		arg.Barcode,
-		arg.SetDescription,
 		arg.Description,
-		arg.SetCostPrice,
 		arg.CostPrice,
-		arg.SetLength,
 		arg.Length,
-		arg.SetWidth,
 		arg.Width,
-		arg.SetHeight,
 		arg.Height,
-		arg.SetWeight,
 		arg.Weight,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetSupplierID,
 		arg.SupplierID,
-		arg.SetClientID,
 		arg.ClientID,
 		arg.ID,
 	)

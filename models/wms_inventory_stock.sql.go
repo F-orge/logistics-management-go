@@ -252,8 +252,7 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
-where
-  (location.name ilike $1::text
+where (location.name ilike $1::text
   or product.name ilike $1::text
   or batch.batch_number ilike $1::text
   or inventory_stock.status::text ilike $1::text
@@ -365,10 +364,10 @@ where
   inventory_stock.created_at >= $1::date
   and inventory_stock.created_at <= $2::date
   and (location.name ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or inventory_stock.status::text ilike $3::text
-  or $3::text is null)
+    or product.name ilike $3::text
+    or batch.batch_number ilike $3::text
+    or inventory_stock.status::text ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangeInventoryStockParams struct {
@@ -475,89 +474,73 @@ update
   "wms"."inventory_stock"
 set
   updated_at = now(),
-  location_id = case when $1::boolean then
-    $2::uuid
+  location_id = case when $1 is not null then
+    $1::uuid
   else
     location_id
   end,
-  product_id = case when $3::boolean then
-    $4::uuid
+  product_id = case when $2 is not null then
+    $2::uuid
   else
     product_id
   end,
-  batch_id = case when $5::boolean then
-    $6::uuid
+  batch_id = case when $3 is not null then
+    $3::uuid
   else
     batch_id
   end,
-  quantity = case when $7::boolean then
-    $8::integer
+  quantity = case when $4 is not null then
+    $4::integer
   else
     quantity
   end,
-  reserved_quantity = case when $9::boolean then
-    $10::integer
+  reserved_quantity = case when $5 is not null then
+    $5::integer
   else
     reserved_quantity
   end,
-  status = case when $11::boolean then
-    $12::wms.inventory_stock_status_enum
+  status = case when $6 is not null then
+    $6::wms.inventory_stock_status_enum
   else
     status
   end,
-  last_counted_at = case when $13::boolean then
-    $14::timestamp
+  last_counted_at = case when $7 is not null then
+    $7::timestamp
   else
     last_counted_at
   end,
-  last_movement_at = case when $15::boolean then
-    $16::timestamp
+  last_movement_at = case when $8 is not null then
+    $8::timestamp
   else
     last_movement_at
   end
 where
-  id = $17::uuid
+  id = $9::uuid
 returning
   id, location_id, product_id, batch_id, quantity, reserved_quantity, available_quantity, status, last_counted_at, last_movement_at, created_at, updated_at
 `
 
 type WmsUpdateInventoryStockParams struct {
-	SetLocationID       bool
-	LocationID          pgtype.UUID
-	SetProductID        bool
-	ProductID           pgtype.UUID
-	SetBatchID          bool
-	BatchID             pgtype.UUID
-	SetQuantity         bool
-	Quantity            int32
-	SetReservedQuantity bool
-	ReservedQuantity    int32
-	SetStatus           bool
-	Status              WmsInventoryStockStatusEnum
-	SetLastCountedAt    bool
-	LastCountedAt       pgtype.Timestamp
-	SetLastMovementAt   bool
-	LastMovementAt      pgtype.Timestamp
-	ID                  pgtype.UUID
+	LocationID       pgtype.UUID
+	ProductID        pgtype.UUID
+	BatchID          pgtype.UUID
+	Quantity         int32
+	ReservedQuantity int32
+	Status           NullWmsInventoryStockStatusEnum
+	LastCountedAt    pgtype.Timestamp
+	LastMovementAt   pgtype.Timestamp
+	ID               pgtype.UUID
 }
 
 func (q *Queries) WmsUpdateInventoryStock(ctx context.Context, arg WmsUpdateInventoryStockParams) (WmsInventoryStock, error) {
 	row := q.db.QueryRow(ctx, wmsUpdateInventoryStock,
-		arg.SetLocationID,
 		arg.LocationID,
-		arg.SetProductID,
 		arg.ProductID,
-		arg.SetBatchID,
 		arg.BatchID,
-		arg.SetQuantity,
 		arg.Quantity,
-		arg.SetReservedQuantity,
 		arg.ReservedQuantity,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetLastCountedAt,
 		arg.LastCountedAt,
-		arg.SetLastMovementAt,
 		arg.LastMovementAt,
 		arg.ID,
 	)

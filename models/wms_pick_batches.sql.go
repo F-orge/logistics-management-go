@@ -235,8 +235,7 @@ from
   "wms"."pick_batches" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
-where
-  (warehouse.name ilike $1::text
+where (warehouse.name ilike $1::text
   or pick_batches.batch_number ilike $1::text
   or pick_batches.status::text ilike $1::text
   or assigned_user.name ilike $1::text
@@ -332,10 +331,10 @@ where
   pick_batches.created_at >= $1::date
   and pick_batches.created_at <= $2::date
   and (warehouse.name ilike $3::text
-  or pick_batches.batch_number ilike $3::text
-  or pick_batches.status::text ilike $3::text
-  or assigned_user.name ilike $3::text
-  or $3::text is null)
+    or pick_batches.batch_number ilike $3::text
+    or pick_batches.status::text ilike $3::text
+    or assigned_user.name ilike $3::text
+    or $3::text is null)
 `
 
 type WmsRangePickBatchParams struct {
@@ -428,143 +427,115 @@ update
   "wms"."pick_batches"
 set
   updated_at = now(),
-  batch_number = case when $1::boolean then
-    $2::varchar
+  batch_number = case when $1 is not null then
+    $1::varchar
   else
     batch_number
   end,
-  warehouse_id = case when $3::boolean then
-    $4::uuid
+  warehouse_id = case when $2 is not null then
+    $2::uuid
   else
     warehouse_id
   end,
-  status = case when $5::boolean then
-    $6::wms.pick_batch_status_enum
+  status = case when $3 is not null then
+    $3::wms.pick_batch_status_enum
   else
     status
   end,
-  strategy = case when $7::boolean then
-    $8::wms.pick_strategy_enum
+  strategy = case when $4 is not null then
+    $4::wms.pick_strategy_enum
   else
     strategy
   end,
-  priority = case when $9::boolean then
-    $10::integer
+  priority = case when $5 is not null then
+    $5::integer
   else
     priority
   end,
-  assigned_user_id = case when $11::boolean then
-    $12::text
+  assigned_user_id = case when $6 is not null then
+    $6::text
   else
     assigned_user_id
   end,
-  wave_id = case when $13::boolean then
-    $14::varchar
+  wave_id = case when $7 is not null then
+    $7::varchar
   else
     wave_id
   end,
-  zone_restrictions = case when $15::boolean then
-    $16::text[]
+  zone_restrictions = case when $8 is not null then
+    $8::text[]
   else
     zone_restrictions
   end,
-  estimated_duration = case when $17::boolean then
-    $18::integer
+  estimated_duration = case when $9 is not null then
+    $9::integer
   else
     estimated_duration
   end,
-  actual_duration = case when $19::boolean then
-    $20::integer
+  actual_duration = case when $10 is not null then
+    $10::integer
   else
     actual_duration
   end,
-  total_items = case when $21::boolean then
-    $22::integer
+  total_items = case when $11 is not null then
+    $11::integer
   else
     total_items
   end,
-  completed_items = case when $23::boolean then
-    $24::integer
+  completed_items = case when $12 is not null then
+    $12::integer
   else
     completed_items
   end,
-  started_at = case when $25::boolean then
-    $26::timestamp
+  started_at = case when $13 is not null then
+    $13::timestamp
   else
     started_at
   end,
-  completed_at = case when $27::boolean then
-    $28::timestamp
+  completed_at = case when $14 is not null then
+    $14::timestamp
   else
     completed_at
   end
 where
-  id = $29::uuid
+  id = $15::uuid
 returning
   id, batch_number, warehouse_id, status, strategy, priority, assigned_user_id, wave_id, zone_restrictions, estimated_duration, actual_duration, total_items, completed_items, started_at, completed_at, created_at, updated_at
 `
 
 type WmsUpdatePickBatchParams struct {
-	SetBatchNumber       bool
-	BatchNumber          string
-	SetWarehouseID       bool
-	WarehouseID          pgtype.UUID
-	SetStatus            bool
-	Status               WmsPickBatchStatusEnum
-	SetStrategy          bool
-	Strategy             WmsPickStrategyEnum
-	SetPriority          bool
-	Priority             int32
-	SetAssignedUserID    bool
-	AssignedUserID       string
-	SetWaveID            bool
-	WaveID               string
-	SetZoneRestrictions  bool
-	ZoneRestrictions     []string
-	SetEstimatedDuration bool
-	EstimatedDuration    int32
-	SetActualDuration    bool
-	ActualDuration       int32
-	SetTotalItems        bool
-	TotalItems           int32
-	SetCompletedItems    bool
-	CompletedItems       int32
-	SetStartedAt         bool
-	StartedAt            pgtype.Timestamp
-	SetCompletedAt       bool
-	CompletedAt          pgtype.Timestamp
-	ID                   pgtype.UUID
+	BatchNumber       string
+	WarehouseID       pgtype.UUID
+	Status            NullWmsPickBatchStatusEnum
+	Strategy          WmsPickStrategyEnum
+	Priority          pgtype.Int4
+	AssignedUserID    pgtype.Text
+	WaveID            pgtype.Text
+	ZoneRestrictions  []string
+	EstimatedDuration pgtype.Int4
+	ActualDuration    pgtype.Int4
+	TotalItems        pgtype.Int4
+	CompletedItems    pgtype.Int4
+	StartedAt         pgtype.Timestamp
+	CompletedAt       pgtype.Timestamp
+	ID                pgtype.UUID
 }
 
 func (q *Queries) WmsUpdatePickBatch(ctx context.Context, arg WmsUpdatePickBatchParams) (WmsPickBatch, error) {
 	row := q.db.QueryRow(ctx, wmsUpdatePickBatch,
-		arg.SetBatchNumber,
 		arg.BatchNumber,
-		arg.SetWarehouseID,
 		arg.WarehouseID,
-		arg.SetStatus,
 		arg.Status,
-		arg.SetStrategy,
 		arg.Strategy,
-		arg.SetPriority,
 		arg.Priority,
-		arg.SetAssignedUserID,
 		arg.AssignedUserID,
-		arg.SetWaveID,
 		arg.WaveID,
-		arg.SetZoneRestrictions,
 		arg.ZoneRestrictions,
-		arg.SetEstimatedDuration,
 		arg.EstimatedDuration,
-		arg.SetActualDuration,
 		arg.ActualDuration,
-		arg.SetTotalItems,
 		arg.TotalItems,
-		arg.SetCompletedItems,
 		arg.CompletedItems,
-		arg.SetStartedAt,
 		arg.StartedAt,
-		arg.SetCompletedAt,
 		arg.CompletedAt,
 		arg.ID,
 	)
