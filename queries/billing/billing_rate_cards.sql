@@ -1,10 +1,15 @@
--- name: BillingPaginateRateCard :many
+-- name: BillingPaginateRateCardMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(rate_cards),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."rate_cards_view" as rate_cards;
+
+-- name: BillingPaginateRateCard :many
+select
+  rate_cards.*,
   sqlc.embed(created_by_user)
 from
   "billing"."rate_cards_view" as rate_cards
@@ -17,7 +22,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindRateCard :one
 select
-  sqlc.embed(rate_cards),
+  rate_cards.*,
   sqlc.embed(created_by_user)
 from
   "billing"."rate_cards_view" as rate_cards
@@ -27,7 +32,7 @@ where
 
 -- name: BillingAnyRateCard :many
 select
-  sqlc.embed(rate_cards),
+  rate_cards.*,
   sqlc.embed(created_by_user)
 from
   "billing"."rate_cards_view" as rate_cards
@@ -37,7 +42,7 @@ where
 
 -- name: BillingRangeRateCard :many
 select
-  sqlc.embed(rate_cards),
+  rate_cards.*,
   sqlc.embed(created_by_user)
 from
   "billing"."rate_cards_view" as rate_cards

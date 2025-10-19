@@ -27,10 +27,22 @@ where
 `
 
 type BillingAnyCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
-	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
-	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
-	User              User              `db:"user" json:"user"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute   BillingDispute   `db:"billing_dispute" json:"billing_dispute"`
+	User             User             `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyCreditNote(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyCreditNoteRow, error) {
@@ -43,19 +55,19 @@ func (q *Queries) BillingAnyCreditNote(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i BillingAnyCreditNoteRow
 		if err := rows.Scan(
-			&i.BillingCreditNote.ID,
-			&i.BillingCreditNote.InvoiceID,
-			&i.BillingCreditNote.DisputeID,
-			&i.BillingCreditNote.CreditNoteNumber,
-			&i.BillingCreditNote.Amount,
-			&i.BillingCreditNote.Reason,
-			&i.BillingCreditNote.IssueDate,
-			&i.BillingCreditNote.AppliedAt,
-			&i.BillingCreditNote.Currency,
-			&i.BillingCreditNote.Notes,
-			&i.BillingCreditNote.CreatedByUserID,
-			&i.BillingCreditNote.CreatedAt,
-			&i.BillingCreditNote.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.DisputeID,
+			&i.CreditNoteNumber,
+			&i.Amount,
+			&i.Reason,
+			&i.IssueDate,
+			&i.AppliedAt,
+			&i.Currency,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -127,29 +139,41 @@ where
 `
 
 type BillingFindCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
-	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
-	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
-	User              User              `db:"user" json:"user"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute   BillingDispute   `db:"billing_dispute" json:"billing_dispute"`
+	User             User             `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindCreditNote(ctx context.Context, id pgtype.UUID) (BillingFindCreditNoteRow, error) {
 	row := q.db.QueryRow(ctx, billingFindCreditNote, id)
 	var i BillingFindCreditNoteRow
 	err := row.Scan(
-		&i.BillingCreditNote.ID,
-		&i.BillingCreditNote.InvoiceID,
-		&i.BillingCreditNote.DisputeID,
-		&i.BillingCreditNote.CreditNoteNumber,
-		&i.BillingCreditNote.Amount,
-		&i.BillingCreditNote.Reason,
-		&i.BillingCreditNote.IssueDate,
-		&i.BillingCreditNote.AppliedAt,
-		&i.BillingCreditNote.Currency,
-		&i.BillingCreditNote.Notes,
-		&i.BillingCreditNote.CreatedByUserID,
-		&i.BillingCreditNote.CreatedAt,
-		&i.BillingCreditNote.UpdatedAt,
+		&i.ID,
+		&i.InvoiceID,
+		&i.DisputeID,
+		&i.CreditNoteNumber,
+		&i.Amount,
+		&i.Reason,
+		&i.IssueDate,
+		&i.AppliedAt,
+		&i.Currency,
+		&i.Notes,
+		&i.CreatedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.BillingInvoice.ID,
 		&i.BillingInvoice.ClientID,
 		&i.BillingInvoice.QuoteID,
@@ -252,10 +276,6 @@ func (q *Queries) BillingInsertCreditNote(ctx context.Context, arg BillingInsert
 
 const billingPaginateCreditNote = `-- name: BillingPaginateCreditNote :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   credit_notes.id, credit_notes.invoice_id, credit_notes.dispute_id, credit_notes.credit_note_number, credit_notes.amount, credit_notes.reason, credit_notes.issue_date, credit_notes.applied_at, credit_notes.currency, credit_notes.notes, credit_notes.created_by_user_id, credit_notes.created_at, credit_notes.updated_at,
   invoice.id, invoice.client_id, invoice.quote_id, invoice.invoice_number, invoice.status, invoice.issue_date, invoice.due_date, invoice.total_amount, invoice.amount_paid, invoice.amount_outstanding, invoice.currency, invoice.tax_amount, invoice.discount_amount, invoice.subtotal, invoice.payment_terms, invoice.notes, invoice.sent_at, invoice.paid_at, invoice.created_by_user_id, invoice.created_at, invoice.updated_at,
   dispute.id, dispute.line_item_id, dispute.client_id, dispute.reason, dispute.status, dispute.disputed_amount, dispute.resolution_notes, dispute.submitted_at, dispute.resolved_at, dispute.resolved_by_user_id, dispute.created_at, dispute.updated_at,
@@ -265,33 +285,41 @@ from
   inner join "billing"."invoices" as invoice on credit_notes.invoice_id = invoice.id
   left join "billing"."disputes" as dispute on credit_notes.dispute_id = dispute.id
   left join "public"."user" as created_by_user on credit_notes.created_by_user_id = created_by_user.id
-where (invoice.invoice_number ilike $3::text
-  or dispute.reason ilike $3::text
-  or created_by_user.name ilike $3::text
-  or credit_notes.credit_note_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (invoice.invoice_number ilike $1::text
+  or dispute.reason ilike $1::text
+  or created_by_user.name ilike $1::text
+  or credit_notes.credit_note_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateCreditNoteParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateCreditNoteRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
-	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
-	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
-	User              User              `db:"user" json:"user"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute   BillingDispute   `db:"billing_dispute" json:"billing_dispute"`
+	User             User             `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateCreditNote(ctx context.Context, arg BillingPaginateCreditNoteParams) ([]BillingPaginateCreditNoteRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateCreditNote, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateCreditNote, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -300,23 +328,19 @@ func (q *Queries) BillingPaginateCreditNote(ctx context.Context, arg BillingPagi
 	for rows.Next() {
 		var i BillingPaginateCreditNoteRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingCreditNote.ID,
-			&i.BillingCreditNote.InvoiceID,
-			&i.BillingCreditNote.DisputeID,
-			&i.BillingCreditNote.CreditNoteNumber,
-			&i.BillingCreditNote.Amount,
-			&i.BillingCreditNote.Reason,
-			&i.BillingCreditNote.IssueDate,
-			&i.BillingCreditNote.AppliedAt,
-			&i.BillingCreditNote.Currency,
-			&i.BillingCreditNote.Notes,
-			&i.BillingCreditNote.CreatedByUserID,
-			&i.BillingCreditNote.CreatedAt,
-			&i.BillingCreditNote.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.DisputeID,
+			&i.CreditNoteNumber,
+			&i.Amount,
+			&i.Reason,
+			&i.IssueDate,
+			&i.AppliedAt,
+			&i.Currency,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -372,6 +396,40 @@ func (q *Queries) BillingPaginateCreditNote(ctx context.Context, arg BillingPagi
 	return items, nil
 }
 
+const billingPaginateCreditNoteMetadata = `-- name: BillingPaginateCreditNoteMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."credit_notes" as credit_notes
+`
+
+type BillingPaginateCreditNoteMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateCreditNoteMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateCreditNoteMetadata(ctx context.Context, arg BillingPaginateCreditNoteMetadataParams) (BillingPaginateCreditNoteMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateCreditNoteMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateCreditNoteMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeCreditNote = `-- name: BillingRangeCreditNote :many
 select
   credit_notes.id, credit_notes.invoice_id, credit_notes.dispute_id, credit_notes.credit_note_number, credit_notes.amount, credit_notes.reason, credit_notes.issue_date, credit_notes.applied_at, credit_notes.currency, credit_notes.notes, credit_notes.created_by_user_id, credit_notes.created_at, credit_notes.updated_at,
@@ -400,10 +458,22 @@ type BillingRangeCreditNoteParams struct {
 }
 
 type BillingRangeCreditNoteRow struct {
-	BillingCreditNote BillingCreditNote `db:"billing_credit_note" json:"billing_credit_note"`
-	BillingInvoice    BillingInvoice    `db:"billing_invoice" json:"billing_invoice"`
-	BillingDispute    BillingDispute    `db:"billing_dispute" json:"billing_dispute"`
-	User              User              `db:"user" json:"user"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
+	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
+	Reason           string           `db:"reason" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
+	BillingDispute   BillingDispute   `db:"billing_dispute" json:"billing_dispute"`
+	User             User             `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeCreditNote(ctx context.Context, arg BillingRangeCreditNoteParams) ([]BillingRangeCreditNoteRow, error) {
@@ -416,19 +486,19 @@ func (q *Queries) BillingRangeCreditNote(ctx context.Context, arg BillingRangeCr
 	for rows.Next() {
 		var i BillingRangeCreditNoteRow
 		if err := rows.Scan(
-			&i.BillingCreditNote.ID,
-			&i.BillingCreditNote.InvoiceID,
-			&i.BillingCreditNote.DisputeID,
-			&i.BillingCreditNote.CreditNoteNumber,
-			&i.BillingCreditNote.Amount,
-			&i.BillingCreditNote.Reason,
-			&i.BillingCreditNote.IssueDate,
-			&i.BillingCreditNote.AppliedAt,
-			&i.BillingCreditNote.Currency,
-			&i.BillingCreditNote.Notes,
-			&i.BillingCreditNote.CreatedByUserID,
-			&i.BillingCreditNote.CreatedAt,
-			&i.BillingCreditNote.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.DisputeID,
+			&i.CreditNoteNumber,
+			&i.Amount,
+			&i.Reason,
+			&i.IssueDate,
+			&i.AppliedAt,
+			&i.Currency,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,

@@ -23,8 +23,18 @@ where
 `
 
 type BillingAnyDocumentRow struct {
-	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
-	User            User            `db:"user" json:"user"`
+	ID               pgtype.UUID             `db:"id" json:"id"`
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
+	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	User             User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyDocument(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyDocumentRow, error) {
@@ -37,17 +47,17 @@ func (q *Queries) BillingAnyDocument(ctx context.Context, ids []pgtype.UUID) ([]
 	for rows.Next() {
 		var i BillingAnyDocumentRow
 		if err := rows.Scan(
-			&i.BillingDocument.ID,
-			&i.BillingDocument.RecordID,
-			&i.BillingDocument.RecordType,
-			&i.BillingDocument.DocumentType,
-			&i.BillingDocument.FilePath,
-			&i.BillingDocument.FileName,
-			&i.BillingDocument.FileSize,
-			&i.BillingDocument.MimeType,
-			&i.BillingDocument.UploadedByUserID,
-			&i.BillingDocument.CreatedAt,
-			&i.BillingDocument.UpdatedAt,
+			&i.ID,
+			&i.RecordID,
+			&i.RecordType,
+			&i.DocumentType,
+			&i.FilePath,
+			&i.FileName,
+			&i.FileSize,
+			&i.MimeType,
+			&i.UploadedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -82,25 +92,35 @@ where
 `
 
 type BillingFindDocumentRow struct {
-	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
-	User            User            `db:"user" json:"user"`
+	ID               pgtype.UUID             `db:"id" json:"id"`
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
+	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	User             User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindDocument(ctx context.Context, id pgtype.UUID) (BillingFindDocumentRow, error) {
 	row := q.db.QueryRow(ctx, billingFindDocument, id)
 	var i BillingFindDocumentRow
 	err := row.Scan(
-		&i.BillingDocument.ID,
-		&i.BillingDocument.RecordID,
-		&i.BillingDocument.RecordType,
-		&i.BillingDocument.DocumentType,
-		&i.BillingDocument.FilePath,
-		&i.BillingDocument.FileName,
-		&i.BillingDocument.FileSize,
-		&i.BillingDocument.MimeType,
-		&i.BillingDocument.UploadedByUserID,
-		&i.BillingDocument.CreatedAt,
-		&i.BillingDocument.UpdatedAt,
+		&i.ID,
+		&i.RecordID,
+		&i.RecordType,
+		&i.DocumentType,
+		&i.FilePath,
+		&i.FileName,
+		&i.FileSize,
+		&i.MimeType,
+		&i.UploadedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -164,40 +184,42 @@ func (q *Queries) BillingInsertDocument(ctx context.Context, arg BillingInsertDo
 
 const billingPaginateDocument = `-- name: BillingPaginateDocument :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   documents.id, documents.record_id, documents.record_type, documents.document_type, documents.file_path, documents.file_name, documents.file_size, documents.mime_type, documents.uploaded_by_user_id, documents.created_at, documents.updated_at,
   uploaded_by_user.id, uploaded_by_user.name, uploaded_by_user.email, uploaded_by_user.email_verified, uploaded_by_user.image, uploaded_by_user.created_at, uploaded_by_user.updated_at, uploaded_by_user.role, uploaded_by_user.banned, uploaded_by_user.ban_reason, uploaded_by_user.ban_expires
 from
   "billing"."documents" as documents
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
-where (documents.file_name ilike $3::text
-  or documents.record_type ilike $3::text
-  or documents.document_type::text ilike $3::text
-  or uploaded_by_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (documents.file_name ilike $1::text
+  or documents.record_type ilike $1::text
+  or documents.document_type::text ilike $1::text
+  or uploaded_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateDocumentParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateDocumentRow struct {
-	TotalItems      int64           `db:"total_items" json:"total_items"`
-	TotalPages      float64         `db:"total_pages" json:"total_pages"`
-	Page            int32           `db:"page" json:"page"`
-	PerPage         int32           `db:"per_page" json:"per_page"`
-	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
-	User            User            `db:"user" json:"user"`
+	ID               pgtype.UUID             `db:"id" json:"id"`
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
+	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	User             User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPaginateDocumentParams) ([]BillingPaginateDocumentRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateDocument, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateDocument, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -206,21 +228,17 @@ func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPagina
 	for rows.Next() {
 		var i BillingPaginateDocumentRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingDocument.ID,
-			&i.BillingDocument.RecordID,
-			&i.BillingDocument.RecordType,
-			&i.BillingDocument.DocumentType,
-			&i.BillingDocument.FilePath,
-			&i.BillingDocument.FileName,
-			&i.BillingDocument.FileSize,
-			&i.BillingDocument.MimeType,
-			&i.BillingDocument.UploadedByUserID,
-			&i.BillingDocument.CreatedAt,
-			&i.BillingDocument.UpdatedAt,
+			&i.ID,
+			&i.RecordID,
+			&i.RecordType,
+			&i.DocumentType,
+			&i.FilePath,
+			&i.FileName,
+			&i.FileSize,
+			&i.MimeType,
+			&i.UploadedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -241,6 +259,40 @@ func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPagina
 		return nil, err
 	}
 	return items, nil
+}
+
+const billingPaginateDocumentMetadata = `-- name: BillingPaginateDocumentMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."documents" as documents
+`
+
+type BillingPaginateDocumentMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateDocumentMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateDocumentMetadata(ctx context.Context, arg BillingPaginateDocumentMetadataParams) (BillingPaginateDocumentMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateDocumentMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateDocumentMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const billingRangeDocument = `-- name: BillingRangeDocument :many
@@ -267,8 +319,18 @@ type BillingRangeDocumentParams struct {
 }
 
 type BillingRangeDocumentRow struct {
-	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
-	User            User            `db:"user" json:"user"`
+	ID               pgtype.UUID             `db:"id" json:"id"`
+	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
+	RecordType       string                  `db:"record_type" json:"record_type"`
+	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
+	FilePath         string                  `db:"file_path" json:"file_path"`
+	FileName         string                  `db:"file_name" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
+	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	User             User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeDocument(ctx context.Context, arg BillingRangeDocumentParams) ([]BillingRangeDocumentRow, error) {
@@ -281,17 +343,17 @@ func (q *Queries) BillingRangeDocument(ctx context.Context, arg BillingRangeDocu
 	for rows.Next() {
 		var i BillingRangeDocumentRow
 		if err := rows.Scan(
-			&i.BillingDocument.ID,
-			&i.BillingDocument.RecordID,
-			&i.BillingDocument.RecordType,
-			&i.BillingDocument.DocumentType,
-			&i.BillingDocument.FilePath,
-			&i.BillingDocument.FileName,
-			&i.BillingDocument.FileSize,
-			&i.BillingDocument.MimeType,
-			&i.BillingDocument.UploadedByUserID,
-			&i.BillingDocument.CreatedAt,
-			&i.BillingDocument.UpdatedAt,
+			&i.ID,
+			&i.RecordID,
+			&i.RecordType,
+			&i.DocumentType,
+			&i.FilePath,
+			&i.FileName,
+			&i.FileSize,
+			&i.MimeType,
+			&i.UploadedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

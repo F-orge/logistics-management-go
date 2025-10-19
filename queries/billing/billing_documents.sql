@@ -1,10 +1,15 @@
--- name: BillingPaginateDocument :many
+-- name: BillingPaginateDocumentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(documents),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."documents" as documents;
+
+-- name: BillingPaginateDocument :many
+select
+  documents.*,
   sqlc.embed(uploaded_by_user)
 from
   "billing"."documents" as documents
@@ -18,7 +23,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindDocument :one
 select
-  sqlc.embed(documents),
+  documents.*,
   sqlc.embed(uploaded_by_user)
 from
   "billing"."documents" as documents
@@ -28,7 +33,7 @@ where
 
 -- name: BillingAnyDocument :many
 select
-  sqlc.embed(documents),
+  documents.*,
   sqlc.embed(uploaded_by_user)
 from
   "billing"."documents" as documents
@@ -38,7 +43,7 @@ where
 
 -- name: BillingRangeDocument :many
 select
-  sqlc.embed(documents),
+  documents.*,
   sqlc.embed(uploaded_by_user)
 from
   "billing"."documents" as documents

@@ -25,9 +25,27 @@ where
 `
 
 type BillingAnyQuoteRow struct {
-	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
-	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
-	User              User              `db:"user" json:"user"`
+	ID                 pgtype.UUID                `db:"id" json:"id"`
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	Volume             pgtype.Numeric             `db:"volume" json:"volume"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	Invoices           []BillingInvoicesView      `db:"invoices" json:"invoices"`
+	CrmCompany         CrmCompany                 `db:"crm_company" json:"crm_company"`
+	User               User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyQuoteRow, error) {
@@ -40,25 +58,25 @@ func (q *Queries) BillingAnyQuote(ctx context.Context, ids []pgtype.UUID) ([]Bil
 	for rows.Next() {
 		var i BillingAnyQuoteRow
 		if err := rows.Scan(
-			&i.BillingQuotesView.ID,
-			&i.BillingQuotesView.ClientID,
-			&i.BillingQuotesView.OriginDetails,
-			&i.BillingQuotesView.DestinationDetails,
-			&i.BillingQuotesView.Weight,
-			&i.BillingQuotesView.Length,
-			&i.BillingQuotesView.Width,
-			&i.BillingQuotesView.Height,
-			&i.BillingQuotesView.Volume,
-			&i.BillingQuotesView.QuotedPrice,
-			&i.BillingQuotesView.ServiceLevel,
-			&i.BillingQuotesView.ExpiresAt,
-			&i.BillingQuotesView.Status,
-			&i.BillingQuotesView.QuoteNumber,
-			&i.BillingQuotesView.Notes,
-			&i.BillingQuotesView.CreatedByUserID,
-			&i.BillingQuotesView.CreatedAt,
-			&i.BillingQuotesView.UpdatedAt,
-			&i.BillingQuotesView.Invoices,
+			&i.ID,
+			&i.ClientID,
+			&i.OriginDetails,
+			&i.DestinationDetails,
+			&i.Weight,
+			&i.Length,
+			&i.Width,
+			&i.Height,
+			&i.Volume,
+			&i.QuotedPrice,
+			&i.ServiceLevel,
+			&i.ExpiresAt,
+			&i.Status,
+			&i.QuoteNumber,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -109,34 +127,52 @@ where
 `
 
 type BillingFindQuoteRow struct {
-	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
-	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
-	User              User              `db:"user" json:"user"`
+	ID                 pgtype.UUID                `db:"id" json:"id"`
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	Volume             pgtype.Numeric             `db:"volume" json:"volume"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	Invoices           []BillingInvoicesView      `db:"invoices" json:"invoices"`
+	CrmCompany         CrmCompany                 `db:"crm_company" json:"crm_company"`
+	User               User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindQuote(ctx context.Context, id pgtype.UUID) (BillingFindQuoteRow, error) {
 	row := q.db.QueryRow(ctx, billingFindQuote, id)
 	var i BillingFindQuoteRow
 	err := row.Scan(
-		&i.BillingQuotesView.ID,
-		&i.BillingQuotesView.ClientID,
-		&i.BillingQuotesView.OriginDetails,
-		&i.BillingQuotesView.DestinationDetails,
-		&i.BillingQuotesView.Weight,
-		&i.BillingQuotesView.Length,
-		&i.BillingQuotesView.Width,
-		&i.BillingQuotesView.Height,
-		&i.BillingQuotesView.Volume,
-		&i.BillingQuotesView.QuotedPrice,
-		&i.BillingQuotesView.ServiceLevel,
-		&i.BillingQuotesView.ExpiresAt,
-		&i.BillingQuotesView.Status,
-		&i.BillingQuotesView.QuoteNumber,
-		&i.BillingQuotesView.Notes,
-		&i.BillingQuotesView.CreatedByUserID,
-		&i.BillingQuotesView.CreatedAt,
-		&i.BillingQuotesView.UpdatedAt,
-		&i.BillingQuotesView.Invoices,
+		&i.ID,
+		&i.ClientID,
+		&i.OriginDetails,
+		&i.DestinationDetails,
+		&i.Weight,
+		&i.Length,
+		&i.Width,
+		&i.Height,
+		&i.Volume,
+		&i.QuotedPrice,
+		&i.ServiceLevel,
+		&i.ExpiresAt,
+		&i.Status,
+		&i.QuoteNumber,
+		&i.Notes,
+		&i.CreatedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Invoices,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -233,10 +269,6 @@ func (q *Queries) BillingInsertQuote(ctx context.Context, arg BillingInsertQuote
 
 const billingPaginateQuote = `-- name: BillingPaginateQuote :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
@@ -244,33 +276,47 @@ from
   "billing"."quotes_view" as quotes
   left join "crm"."companies" as client on quotes.client_id = client.id
   left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
-where (client.name ilike $3::text
-  or quotes.quote_number ilike $3::text
-  or quotes.service_level ilike $3::text
-  or quotes.status::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (client.name ilike $1::text
+  or quotes.quote_number ilike $1::text
+  or quotes.service_level ilike $1::text
+  or quotes.status::text ilike $1::text
+  or created_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateQuoteParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateQuoteRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
-	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
-	User              User              `db:"user" json:"user"`
+	ID                 pgtype.UUID                `db:"id" json:"id"`
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	Volume             pgtype.Numeric             `db:"volume" json:"volume"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	Invoices           []BillingInvoicesView      `db:"invoices" json:"invoices"`
+	CrmCompany         CrmCompany                 `db:"crm_company" json:"crm_company"`
+	User               User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQuoteParams) ([]BillingPaginateQuoteRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateQuote, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateQuote, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -279,29 +325,25 @@ func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQ
 	for rows.Next() {
 		var i BillingPaginateQuoteRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingQuotesView.ID,
-			&i.BillingQuotesView.ClientID,
-			&i.BillingQuotesView.OriginDetails,
-			&i.BillingQuotesView.DestinationDetails,
-			&i.BillingQuotesView.Weight,
-			&i.BillingQuotesView.Length,
-			&i.BillingQuotesView.Width,
-			&i.BillingQuotesView.Height,
-			&i.BillingQuotesView.Volume,
-			&i.BillingQuotesView.QuotedPrice,
-			&i.BillingQuotesView.ServiceLevel,
-			&i.BillingQuotesView.ExpiresAt,
-			&i.BillingQuotesView.Status,
-			&i.BillingQuotesView.QuoteNumber,
-			&i.BillingQuotesView.Notes,
-			&i.BillingQuotesView.CreatedByUserID,
-			&i.BillingQuotesView.CreatedAt,
-			&i.BillingQuotesView.UpdatedAt,
-			&i.BillingQuotesView.Invoices,
+			&i.ID,
+			&i.ClientID,
+			&i.OriginDetails,
+			&i.DestinationDetails,
+			&i.Weight,
+			&i.Length,
+			&i.Width,
+			&i.Height,
+			&i.Volume,
+			&i.QuotedPrice,
+			&i.ServiceLevel,
+			&i.ExpiresAt,
+			&i.Status,
+			&i.QuoteNumber,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -338,6 +380,49 @@ func (q *Queries) BillingPaginateQuote(ctx context.Context, arg BillingPaginateQ
 	return items, nil
 }
 
+const billingPaginateQuoteMetadata = `-- name: BillingPaginateQuoteMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."quotes_view" as quotes
+  left join "crm"."companies" as client on quotes.client_id = client.id
+  left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
+where (client.name ilike $3::text
+  or quotes.quote_number ilike $3::text
+  or quotes.service_level ilike $3::text
+  or quotes.status::text ilike $3::text
+  or created_by_user.name ilike $3::text
+  or $3::text is null)
+`
+
+type BillingPaginateQuoteMetadataParams struct {
+	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
+}
+
+type BillingPaginateQuoteMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateQuoteMetadata(ctx context.Context, arg BillingPaginateQuoteMetadataParams) (BillingPaginateQuoteMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateQuoteMetadata, arg.PerPage, arg.Page, arg.Search)
+	var i BillingPaginateQuoteMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeQuote = `-- name: BillingRangeQuote :many
 select
   quotes.id, quotes.client_id, quotes.origin_details, quotes.destination_details, quotes.weight, quotes.length, quotes.width, quotes.height, quotes.volume, quotes.quoted_price, quotes.service_level, quotes.expires_at, quotes.status, quotes.quote_number, quotes.notes, quotes.created_by_user_id, quotes.created_at, quotes.updated_at, quotes.invoices,
@@ -365,9 +450,27 @@ type BillingRangeQuoteParams struct {
 }
 
 type BillingRangeQuoteRow struct {
-	BillingQuotesView BillingQuotesView `db:"billing_quotes_view" json:"billing_quotes_view"`
-	CrmCompany        CrmCompany        `db:"crm_company" json:"crm_company"`
-	User              User              `db:"user" json:"user"`
+	ID                 pgtype.UUID                `db:"id" json:"id"`
+	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
+	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" json:"length"`
+	Width              pgtype.Numeric             `db:"width" json:"width"`
+	Height             pgtype.Numeric             `db:"height" json:"height"`
+	Volume             pgtype.Numeric             `db:"volume" json:"volume"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt          pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	Invoices           []BillingInvoicesView      `db:"invoices" json:"invoices"`
+	CrmCompany         CrmCompany                 `db:"crm_company" json:"crm_company"`
+	User               User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeQuote(ctx context.Context, arg BillingRangeQuoteParams) ([]BillingRangeQuoteRow, error) {
@@ -380,25 +483,25 @@ func (q *Queries) BillingRangeQuote(ctx context.Context, arg BillingRangeQuotePa
 	for rows.Next() {
 		var i BillingRangeQuoteRow
 		if err := rows.Scan(
-			&i.BillingQuotesView.ID,
-			&i.BillingQuotesView.ClientID,
-			&i.BillingQuotesView.OriginDetails,
-			&i.BillingQuotesView.DestinationDetails,
-			&i.BillingQuotesView.Weight,
-			&i.BillingQuotesView.Length,
-			&i.BillingQuotesView.Width,
-			&i.BillingQuotesView.Height,
-			&i.BillingQuotesView.Volume,
-			&i.BillingQuotesView.QuotedPrice,
-			&i.BillingQuotesView.ServiceLevel,
-			&i.BillingQuotesView.ExpiresAt,
-			&i.BillingQuotesView.Status,
-			&i.BillingQuotesView.QuoteNumber,
-			&i.BillingQuotesView.Notes,
-			&i.BillingQuotesView.CreatedByUserID,
-			&i.BillingQuotesView.CreatedAt,
-			&i.BillingQuotesView.UpdatedAt,
-			&i.BillingQuotesView.Invoices,
+			&i.ID,
+			&i.ClientID,
+			&i.OriginDetails,
+			&i.DestinationDetails,
+			&i.Weight,
+			&i.Length,
+			&i.Width,
+			&i.Height,
+			&i.Volume,
+			&i.QuotedPrice,
+			&i.ServiceLevel,
+			&i.ExpiresAt,
+			&i.Status,
+			&i.QuoteNumber,
+			&i.Notes,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Invoices,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

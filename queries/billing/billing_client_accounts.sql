@@ -1,10 +1,15 @@
--- name: BillingPaginateClientAccount :many
+-- name: BillingPaginateClientAccountMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(client_accounts),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."client_accounts_view" as client_accounts;
+
+-- name: BillingPaginateClientAccount :many
+select
+  client_accounts.*,
   sqlc.embed(client)
 from
   "billing"."client_accounts_view" as client_accounts
@@ -15,7 +20,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindClientAccount :one
 select
-  sqlc.embed(client_accounts),
+  client_accounts.*,
   sqlc.embed(client)
 from
   "billing"."client_accounts_view" as client_accounts
@@ -25,7 +30,7 @@ where
 
 -- name: BillingAnyClientAccount :many
 select
-  sqlc.embed(client_accounts),
+  client_accounts.*,
   sqlc.embed(client)
 from
   "billing"."client_accounts_view" as client_accounts
@@ -35,7 +40,7 @@ where
 
 -- name: BillingRangeClientAccount :many
 select
-  sqlc.embed(client_accounts),
+  client_accounts.*,
   sqlc.embed(client)
 from
   "billing"."client_accounts_view" as client_accounts

@@ -25,9 +25,21 @@ where
 `
 
 type BillingAnyAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
-	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
-	User                      User                      `db:"user" json:"user"`
+	ID                   pgtype.UUID                `db:"id" json:"id"`
+	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	BillingClientAccount BillingClientAccount       `db:"billing_client_account" json:"billing_client_account"`
+	User                 User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyAccountTransaction(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyAccountTransactionRow, error) {
@@ -40,19 +52,19 @@ func (q *Queries) BillingAnyAccountTransaction(ctx context.Context, ids []pgtype
 	for rows.Next() {
 		var i BillingAnyAccountTransactionRow
 		if err := rows.Scan(
-			&i.BillingAccountTransaction.ID,
-			&i.BillingAccountTransaction.ClientAccountID,
-			&i.BillingAccountTransaction.Type,
-			&i.BillingAccountTransaction.Amount,
-			&i.BillingAccountTransaction.RunningBalance,
-			&i.BillingAccountTransaction.SourceRecordID,
-			&i.BillingAccountTransaction.SourceRecordType,
-			&i.BillingAccountTransaction.Description,
-			&i.BillingAccountTransaction.ReferenceNumber,
-			&i.BillingAccountTransaction.TransactionDate,
-			&i.BillingAccountTransaction.ProcessedByUserID,
-			&i.BillingAccountTransaction.CreatedAt,
-			&i.BillingAccountTransaction.UpdatedAt,
+			&i.ID,
+			&i.ClientAccountID,
+			&i.Type,
+			&i.Amount,
+			&i.RunningBalance,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.ReferenceNumber,
+			&i.TransactionDate,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingClientAccount.ID,
 			&i.BillingClientAccount.ClientID,
 			&i.BillingClientAccount.CreditLimit,
@@ -100,28 +112,40 @@ where
 `
 
 type BillingFindAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
-	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
-	User                      User                      `db:"user" json:"user"`
+	ID                   pgtype.UUID                `db:"id" json:"id"`
+	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	BillingClientAccount BillingClientAccount       `db:"billing_client_account" json:"billing_client_account"`
+	User                 User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindAccountTransaction(ctx context.Context, id pgtype.UUID) (BillingFindAccountTransactionRow, error) {
 	row := q.db.QueryRow(ctx, billingFindAccountTransaction, id)
 	var i BillingFindAccountTransactionRow
 	err := row.Scan(
-		&i.BillingAccountTransaction.ID,
-		&i.BillingAccountTransaction.ClientAccountID,
-		&i.BillingAccountTransaction.Type,
-		&i.BillingAccountTransaction.Amount,
-		&i.BillingAccountTransaction.RunningBalance,
-		&i.BillingAccountTransaction.SourceRecordID,
-		&i.BillingAccountTransaction.SourceRecordType,
-		&i.BillingAccountTransaction.Description,
-		&i.BillingAccountTransaction.ReferenceNumber,
-		&i.BillingAccountTransaction.TransactionDate,
-		&i.BillingAccountTransaction.ProcessedByUserID,
-		&i.BillingAccountTransaction.CreatedAt,
-		&i.BillingAccountTransaction.UpdatedAt,
+		&i.ID,
+		&i.ClientAccountID,
+		&i.Type,
+		&i.Amount,
+		&i.RunningBalance,
+		&i.SourceRecordID,
+		&i.SourceRecordType,
+		&i.Description,
+		&i.ReferenceNumber,
+		&i.TransactionDate,
+		&i.ProcessedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.BillingClientAccount.ID,
 		&i.BillingClientAccount.ClientID,
 		&i.BillingClientAccount.CreditLimit,
@@ -202,10 +226,6 @@ func (q *Queries) BillingInsertAccountTransaction(ctx context.Context, arg Billi
 
 const billingPaginateAccountTransaction = `-- name: BillingPaginateAccountTransaction :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   account_transactions.id, account_transactions.client_account_id, account_transactions.type, account_transactions.amount, account_transactions.running_balance, account_transactions.source_record_id, account_transactions.source_record_type, account_transactions.description, account_transactions.reference_number, account_transactions.transaction_date, account_transactions.processed_by_user_id, account_transactions.created_at, account_transactions.updated_at,
   client_account.id, client_account.client_id, client_account.credit_limit, client_account.available_credit, client_account.wallet_balance, client_account.currency, client_account.payment_terms_days, client_account.is_credit_approved, client_account.last_payment_date, client_account.created_at, client_account.updated_at,
   processed_by_user.id, processed_by_user.name, processed_by_user.email, processed_by_user.email_verified, processed_by_user.image, processed_by_user.created_at, processed_by_user.updated_at, processed_by_user.role, processed_by_user.banned, processed_by_user.ban_reason, processed_by_user.ban_expires
@@ -214,31 +234,39 @@ from
   inner join "billing"."client_accounts" as client_account on account_transactions.client_account_id = client_account.id
   inner join "crm"."companies" as client on client_account.client_id = client.id
   left join "public"."user" as processed_by_user on account_transactions.processed_by_user_id = processed_by_user.id
-where (client.name ilike $3::text
-  or processed_by_user.name ilike $3::text
-  or account_transactions.type::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (client.name ilike $1::text
+  or processed_by_user.name ilike $1::text
+  or account_transactions.type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateAccountTransactionParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateAccountTransactionRow struct {
-	TotalItems                int64                     `db:"total_items" json:"total_items"`
-	TotalPages                float64                   `db:"total_pages" json:"total_pages"`
-	Page                      int32                     `db:"page" json:"page"`
-	PerPage                   int32                     `db:"per_page" json:"per_page"`
-	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
-	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
-	User                      User                      `db:"user" json:"user"`
+	ID                   pgtype.UUID                `db:"id" json:"id"`
+	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	BillingClientAccount BillingClientAccount       `db:"billing_client_account" json:"billing_client_account"`
+	User                 User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg BillingPaginateAccountTransactionParams) ([]BillingPaginateAccountTransactionRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateAccountTransaction, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateAccountTransaction, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -247,23 +275,19 @@ func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg Bil
 	for rows.Next() {
 		var i BillingPaginateAccountTransactionRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingAccountTransaction.ID,
-			&i.BillingAccountTransaction.ClientAccountID,
-			&i.BillingAccountTransaction.Type,
-			&i.BillingAccountTransaction.Amount,
-			&i.BillingAccountTransaction.RunningBalance,
-			&i.BillingAccountTransaction.SourceRecordID,
-			&i.BillingAccountTransaction.SourceRecordType,
-			&i.BillingAccountTransaction.Description,
-			&i.BillingAccountTransaction.ReferenceNumber,
-			&i.BillingAccountTransaction.TransactionDate,
-			&i.BillingAccountTransaction.ProcessedByUserID,
-			&i.BillingAccountTransaction.CreatedAt,
-			&i.BillingAccountTransaction.UpdatedAt,
+			&i.ID,
+			&i.ClientAccountID,
+			&i.Type,
+			&i.Amount,
+			&i.RunningBalance,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.ReferenceNumber,
+			&i.TransactionDate,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingClientAccount.ID,
 			&i.BillingClientAccount.ClientID,
 			&i.BillingClientAccount.CreditLimit,
@@ -297,6 +321,40 @@ func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg Bil
 	return items, nil
 }
 
+const billingPaginateAccountTransactionMetadata = `-- name: BillingPaginateAccountTransactionMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."account_transactions" as account_transactions
+`
+
+type BillingPaginateAccountTransactionMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateAccountTransactionMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateAccountTransactionMetadata(ctx context.Context, arg BillingPaginateAccountTransactionMetadataParams) (BillingPaginateAccountTransactionMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateAccountTransactionMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateAccountTransactionMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeAccountTransaction = `-- name: BillingRangeAccountTransaction :many
 select
   account_transactions.id, account_transactions.client_account_id, account_transactions.type, account_transactions.amount, account_transactions.running_balance, account_transactions.source_record_id, account_transactions.source_record_type, account_transactions.description, account_transactions.reference_number, account_transactions.transaction_date, account_transactions.processed_by_user_id, account_transactions.created_at, account_transactions.updated_at,
@@ -322,9 +380,21 @@ type BillingRangeAccountTransactionParams struct {
 }
 
 type BillingRangeAccountTransactionRow struct {
-	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
-	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
-	User                      User                      `db:"user" json:"user"`
+	ID                   pgtype.UUID                `db:"id" json:"id"`
+	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
+	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
+	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	BillingClientAccount BillingClientAccount       `db:"billing_client_account" json:"billing_client_account"`
+	User                 User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeAccountTransaction(ctx context.Context, arg BillingRangeAccountTransactionParams) ([]BillingRangeAccountTransactionRow, error) {
@@ -337,19 +407,19 @@ func (q *Queries) BillingRangeAccountTransaction(ctx context.Context, arg Billin
 	for rows.Next() {
 		var i BillingRangeAccountTransactionRow
 		if err := rows.Scan(
-			&i.BillingAccountTransaction.ID,
-			&i.BillingAccountTransaction.ClientAccountID,
-			&i.BillingAccountTransaction.Type,
-			&i.BillingAccountTransaction.Amount,
-			&i.BillingAccountTransaction.RunningBalance,
-			&i.BillingAccountTransaction.SourceRecordID,
-			&i.BillingAccountTransaction.SourceRecordType,
-			&i.BillingAccountTransaction.Description,
-			&i.BillingAccountTransaction.ReferenceNumber,
-			&i.BillingAccountTransaction.TransactionDate,
-			&i.BillingAccountTransaction.ProcessedByUserID,
-			&i.BillingAccountTransaction.CreatedAt,
-			&i.BillingAccountTransaction.UpdatedAt,
+			&i.ID,
+			&i.ClientAccountID,
+			&i.Type,
+			&i.Amount,
+			&i.RunningBalance,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.ReferenceNumber,
+			&i.TransactionDate,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingClientAccount.ID,
 			&i.BillingClientAccount.ClientID,
 			&i.BillingClientAccount.CreditLimit,

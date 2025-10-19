@@ -1,10 +1,23 @@
--- name: BillingPaginateQuote :many
+-- name: BillingPaginateQuoteMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(quotes),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."quotes_view" as quotes
+  left join "crm"."companies" as client on quotes.client_id = client.id
+  left join "public"."user" as created_by_user on quotes.created_by_user_id = created_by_user.id
+where (client.name ilike sqlc.narg(search)::text
+  or quotes.quote_number ilike sqlc.narg(search)::text
+  or quotes.service_level ilike sqlc.narg(search)::text
+  or quotes.status::text ilike sqlc.narg(search)::text
+  or created_by_user.name ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
+
+-- name: BillingPaginateQuote :many
+select
+  quotes.*,
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
@@ -21,7 +34,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindQuote :one
 select
-  sqlc.embed(quotes),
+  quotes.*,
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
@@ -33,7 +46,7 @@ where
 
 -- name: BillingAnyQuote :many
 select
-  sqlc.embed(quotes),
+  quotes.*,
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from
@@ -45,7 +58,7 @@ where
 
 -- name: BillingRangeQuote :many
 select
-  sqlc.embed(quotes),
+  quotes.*,
   sqlc.embed(client),
   sqlc.embed(created_by_user)
 from

@@ -23,8 +23,18 @@ where
 `
 
 type BillingAnyRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
-	User                 User                 `db:"user" json:"user"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
+	RateRules       []BillingRateRule      `db:"rate_rules" json:"rate_rules"`
+	User            User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyRateCardRow, error) {
@@ -37,17 +47,17 @@ func (q *Queries) BillingAnyRateCard(ctx context.Context, ids []pgtype.UUID) ([]
 	for rows.Next() {
 		var i BillingAnyRateCardRow
 		if err := rows.Scan(
-			&i.BillingRateCardsView.ID,
-			&i.BillingRateCardsView.Name,
-			&i.BillingRateCardsView.ServiceType,
-			&i.BillingRateCardsView.IsActive,
-			&i.BillingRateCardsView.ValidFrom,
-			&i.BillingRateCardsView.ValidTo,
-			&i.BillingRateCardsView.Description,
-			&i.BillingRateCardsView.CreatedByUserID,
-			&i.BillingRateCardsView.CreatedAt,
-			&i.BillingRateCardsView.UpdatedAt,
-			&i.BillingRateCardsView.RateRules,
+			&i.ID,
+			&i.Name,
+			&i.ServiceType,
+			&i.IsActive,
+			&i.ValidFrom,
+			&i.ValidTo,
+			&i.Description,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -82,25 +92,35 @@ where
 `
 
 type BillingFindRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
-	User                 User                 `db:"user" json:"user"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
+	RateRules       []BillingRateRule      `db:"rate_rules" json:"rate_rules"`
+	User            User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindRateCard(ctx context.Context, id pgtype.UUID) (BillingFindRateCardRow, error) {
 	row := q.db.QueryRow(ctx, billingFindRateCard, id)
 	var i BillingFindRateCardRow
 	err := row.Scan(
-		&i.BillingRateCardsView.ID,
-		&i.BillingRateCardsView.Name,
-		&i.BillingRateCardsView.ServiceType,
-		&i.BillingRateCardsView.IsActive,
-		&i.BillingRateCardsView.ValidFrom,
-		&i.BillingRateCardsView.ValidTo,
-		&i.BillingRateCardsView.Description,
-		&i.BillingRateCardsView.CreatedByUserID,
-		&i.BillingRateCardsView.CreatedAt,
-		&i.BillingRateCardsView.UpdatedAt,
-		&i.BillingRateCardsView.RateRules,
+		&i.ID,
+		&i.Name,
+		&i.ServiceType,
+		&i.IsActive,
+		&i.ValidFrom,
+		&i.ValidTo,
+		&i.Description,
+		&i.CreatedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.RateRules,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -161,39 +181,41 @@ func (q *Queries) BillingInsertRateCard(ctx context.Context, arg BillingInsertRa
 
 const billingPaginateRateCard = `-- name: BillingPaginateRateCard :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   rate_cards.id, rate_cards.name, rate_cards.service_type, rate_cards.is_active, rate_cards.valid_from, rate_cards.valid_to, rate_cards.description, rate_cards.created_by_user_id, rate_cards.created_at, rate_cards.updated_at, rate_cards.rate_rules,
   created_by_user.id, created_by_user.name, created_by_user.email, created_by_user.email_verified, created_by_user.image, created_by_user.created_at, created_by_user.updated_at, created_by_user.role, created_by_user.banned, created_by_user.ban_reason, created_by_user.ban_expires
 from
   "billing"."rate_cards_view" as rate_cards
   left join "public"."user" as created_by_user on rate_cards.created_by_user_id = created_by_user.id
-where (rate_cards.name ilike $3::text
-  or rate_cards.service_type::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (rate_cards.name ilike $1::text
+  or rate_cards.service_type::text ilike $1::text
+  or created_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateCardParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateRateCardRow struct {
-	TotalItems           int64                `db:"total_items" json:"total_items"`
-	TotalPages           float64              `db:"total_pages" json:"total_pages"`
-	Page                 int32                `db:"page" json:"page"`
-	PerPage              int32                `db:"per_page" json:"per_page"`
-	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
-	User                 User                 `db:"user" json:"user"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
+	RateRules       []BillingRateRule      `db:"rate_rules" json:"rate_rules"`
+	User            User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPaginateRateCardParams) ([]BillingPaginateRateCardRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateRateCard, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateRateCard, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -202,21 +224,17 @@ func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPagina
 	for rows.Next() {
 		var i BillingPaginateRateCardRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingRateCardsView.ID,
-			&i.BillingRateCardsView.Name,
-			&i.BillingRateCardsView.ServiceType,
-			&i.BillingRateCardsView.IsActive,
-			&i.BillingRateCardsView.ValidFrom,
-			&i.BillingRateCardsView.ValidTo,
-			&i.BillingRateCardsView.Description,
-			&i.BillingRateCardsView.CreatedByUserID,
-			&i.BillingRateCardsView.CreatedAt,
-			&i.BillingRateCardsView.UpdatedAt,
-			&i.BillingRateCardsView.RateRules,
+			&i.ID,
+			&i.Name,
+			&i.ServiceType,
+			&i.IsActive,
+			&i.ValidFrom,
+			&i.ValidTo,
+			&i.Description,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -237,6 +255,40 @@ func (q *Queries) BillingPaginateRateCard(ctx context.Context, arg BillingPagina
 		return nil, err
 	}
 	return items, nil
+}
+
+const billingPaginateRateCardMetadata = `-- name: BillingPaginateRateCardMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."rate_cards_view" as rate_cards
+`
+
+type BillingPaginateRateCardMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateRateCardMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateRateCardMetadata(ctx context.Context, arg BillingPaginateRateCardMetadataParams) (BillingPaginateRateCardMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateRateCardMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateRateCardMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const billingRangeRateCard = `-- name: BillingRangeRateCard :many
@@ -262,8 +314,18 @@ type BillingRangeRateCardParams struct {
 }
 
 type BillingRangeRateCardRow struct {
-	BillingRateCardsView BillingRateCardsView `db:"billing_rate_cards_view" json:"billing_rate_cards_view"`
-	User                 User                 `db:"user" json:"user"`
+	ID              pgtype.UUID            `db:"id" json:"id"`
+	Name            string                 `db:"name" json:"name"`
+	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
+	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" json:"description"`
+	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
+	RateRules       []BillingRateRule      `db:"rate_rules" json:"rate_rules"`
+	User            User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRateCardParams) ([]BillingRangeRateCardRow, error) {
@@ -276,17 +338,17 @@ func (q *Queries) BillingRangeRateCard(ctx context.Context, arg BillingRangeRate
 	for rows.Next() {
 		var i BillingRangeRateCardRow
 		if err := rows.Scan(
-			&i.BillingRateCardsView.ID,
-			&i.BillingRateCardsView.Name,
-			&i.BillingRateCardsView.ServiceType,
-			&i.BillingRateCardsView.IsActive,
-			&i.BillingRateCardsView.ValidFrom,
-			&i.BillingRateCardsView.ValidTo,
-			&i.BillingRateCardsView.Description,
-			&i.BillingRateCardsView.CreatedByUserID,
-			&i.BillingRateCardsView.CreatedAt,
-			&i.BillingRateCardsView.UpdatedAt,
-			&i.BillingRateCardsView.RateRules,
+			&i.ID,
+			&i.Name,
+			&i.ServiceType,
+			&i.IsActive,
+			&i.ValidFrom,
+			&i.ValidTo,
+			&i.Description,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.RateRules,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

@@ -27,10 +27,33 @@ where
 `
 
 type BillingAnyInvoiceRow struct {
-	BillingInvoicesView BillingInvoicesView `db:"billing_invoices_view" json:"billing_invoices_view"`
-	CrmCompany          CrmCompany          `db:"crm_company" json:"crm_company"`
-	BillingQuote        BillingQuote        `db:"billing_quote" json:"billing_quote"`
-	User                User                `db:"user" json:"user"`
+	ID                pgtype.UUID                   `db:"id" json:"id"`
+	ClientID          pgtype.UUID                   `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                   `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                        `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum  `db:"status" json:"status"`
+	IssueDate         pgtype.Date                   `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                   `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric                `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric                `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric                `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                   `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric                `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric                `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric                `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                   `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                   `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp              `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp              `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                   `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp              `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []BillingInvoiceLineItemsView `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []BillingPayment              `db:"payments" json:"payments"`
+	CreditNotes       []BillingCreditNote           `db:"credit_notes" json:"credit_notes"`
+	CrmCompany        CrmCompany                    `db:"crm_company" json:"crm_company"`
+	BillingQuote      BillingQuote                  `db:"billing_quote" json:"billing_quote"`
+	User              User                          `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyInvoiceRow, error) {
@@ -43,30 +66,30 @@ func (q *Queries) BillingAnyInvoice(ctx context.Context, ids []pgtype.UUID) ([]B
 	for rows.Next() {
 		var i BillingAnyInvoiceRow
 		if err := rows.Scan(
-			&i.BillingInvoicesView.ID,
-			&i.BillingInvoicesView.ClientID,
-			&i.BillingInvoicesView.QuoteID,
-			&i.BillingInvoicesView.InvoiceNumber,
-			&i.BillingInvoicesView.Status,
-			&i.BillingInvoicesView.IssueDate,
-			&i.BillingInvoicesView.DueDate,
-			&i.BillingInvoicesView.TotalAmount,
-			&i.BillingInvoicesView.AmountPaid,
-			&i.BillingInvoicesView.AmountOutstanding,
-			&i.BillingInvoicesView.Currency,
-			&i.BillingInvoicesView.TaxAmount,
-			&i.BillingInvoicesView.DiscountAmount,
-			&i.BillingInvoicesView.Subtotal,
-			&i.BillingInvoicesView.PaymentTerms,
-			&i.BillingInvoicesView.Notes,
-			&i.BillingInvoicesView.SentAt,
-			&i.BillingInvoicesView.PaidAt,
-			&i.BillingInvoicesView.CreatedByUserID,
-			&i.BillingInvoicesView.CreatedAt,
-			&i.BillingInvoicesView.UpdatedAt,
-			&i.BillingInvoicesView.InvoiceLineItems,
-			&i.BillingInvoicesView.Payments,
-			&i.BillingInvoicesView.CreditNotes,
+			&i.ID,
+			&i.ClientID,
+			&i.QuoteID,
+			&i.InvoiceNumber,
+			&i.Status,
+			&i.IssueDate,
+			&i.DueDate,
+			&i.TotalAmount,
+			&i.AmountPaid,
+			&i.AmountOutstanding,
+			&i.Currency,
+			&i.TaxAmount,
+			&i.DiscountAmount,
+			&i.Subtotal,
+			&i.PaymentTerms,
+			&i.Notes,
+			&i.SentAt,
+			&i.PaidAt,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.InvoiceLineItems,
+			&i.Payments,
+			&i.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -137,40 +160,63 @@ where
 `
 
 type BillingFindInvoiceRow struct {
-	BillingInvoicesView BillingInvoicesView `db:"billing_invoices_view" json:"billing_invoices_view"`
-	CrmCompany          CrmCompany          `db:"crm_company" json:"crm_company"`
-	BillingQuote        BillingQuote        `db:"billing_quote" json:"billing_quote"`
-	User                User                `db:"user" json:"user"`
+	ID                pgtype.UUID                   `db:"id" json:"id"`
+	ClientID          pgtype.UUID                   `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                   `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                        `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum  `db:"status" json:"status"`
+	IssueDate         pgtype.Date                   `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                   `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric                `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric                `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric                `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                   `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric                `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric                `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric                `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                   `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                   `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp              `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp              `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                   `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp              `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []BillingInvoiceLineItemsView `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []BillingPayment              `db:"payments" json:"payments"`
+	CreditNotes       []BillingCreditNote           `db:"credit_notes" json:"credit_notes"`
+	CrmCompany        CrmCompany                    `db:"crm_company" json:"crm_company"`
+	BillingQuote      BillingQuote                  `db:"billing_quote" json:"billing_quote"`
+	User              User                          `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindInvoice(ctx context.Context, id pgtype.UUID) (BillingFindInvoiceRow, error) {
 	row := q.db.QueryRow(ctx, billingFindInvoice, id)
 	var i BillingFindInvoiceRow
 	err := row.Scan(
-		&i.BillingInvoicesView.ID,
-		&i.BillingInvoicesView.ClientID,
-		&i.BillingInvoicesView.QuoteID,
-		&i.BillingInvoicesView.InvoiceNumber,
-		&i.BillingInvoicesView.Status,
-		&i.BillingInvoicesView.IssueDate,
-		&i.BillingInvoicesView.DueDate,
-		&i.BillingInvoicesView.TotalAmount,
-		&i.BillingInvoicesView.AmountPaid,
-		&i.BillingInvoicesView.AmountOutstanding,
-		&i.BillingInvoicesView.Currency,
-		&i.BillingInvoicesView.TaxAmount,
-		&i.BillingInvoicesView.DiscountAmount,
-		&i.BillingInvoicesView.Subtotal,
-		&i.BillingInvoicesView.PaymentTerms,
-		&i.BillingInvoicesView.Notes,
-		&i.BillingInvoicesView.SentAt,
-		&i.BillingInvoicesView.PaidAt,
-		&i.BillingInvoicesView.CreatedByUserID,
-		&i.BillingInvoicesView.CreatedAt,
-		&i.BillingInvoicesView.UpdatedAt,
-		&i.BillingInvoicesView.InvoiceLineItems,
-		&i.BillingInvoicesView.Payments,
-		&i.BillingInvoicesView.CreditNotes,
+		&i.ID,
+		&i.ClientID,
+		&i.QuoteID,
+		&i.InvoiceNumber,
+		&i.Status,
+		&i.IssueDate,
+		&i.DueDate,
+		&i.TotalAmount,
+		&i.AmountPaid,
+		&i.AmountOutstanding,
+		&i.Currency,
+		&i.TaxAmount,
+		&i.DiscountAmount,
+		&i.Subtotal,
+		&i.PaymentTerms,
+		&i.Notes,
+		&i.SentAt,
+		&i.PaidAt,
+		&i.CreatedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.InvoiceLineItems,
+		&i.Payments,
+		&i.CreditNotes,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -294,10 +340,6 @@ func (q *Queries) BillingInsertInvoice(ctx context.Context, arg BillingInsertInv
 
 const billingPaginateInvoice = `-- name: BillingPaginateInvoice :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
@@ -307,34 +349,53 @@ from
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
-where (client.name ilike $3::text
-  or quote.quote_number ilike $3::text
-  or invoices.invoice_number ilike $3::text
-  or invoices.status::text ilike $3::text
-  or created_by_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (client.name ilike $1::text
+  or quote.quote_number ilike $1::text
+  or invoices.invoice_number ilike $1::text
+  or invoices.status::text ilike $1::text
+  or created_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateInvoiceParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateInvoiceRow struct {
-	TotalItems          int64               `db:"total_items" json:"total_items"`
-	TotalPages          float64             `db:"total_pages" json:"total_pages"`
-	Page                int32               `db:"page" json:"page"`
-	PerPage             int32               `db:"per_page" json:"per_page"`
-	BillingInvoicesView BillingInvoicesView `db:"billing_invoices_view" json:"billing_invoices_view"`
-	CrmCompany          CrmCompany          `db:"crm_company" json:"crm_company"`
-	BillingQuote        BillingQuote        `db:"billing_quote" json:"billing_quote"`
-	User                User                `db:"user" json:"user"`
+	ID                pgtype.UUID                   `db:"id" json:"id"`
+	ClientID          pgtype.UUID                   `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                   `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                        `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum  `db:"status" json:"status"`
+	IssueDate         pgtype.Date                   `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                   `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric                `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric                `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric                `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                   `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric                `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric                `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric                `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                   `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                   `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp              `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp              `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                   `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp              `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []BillingInvoiceLineItemsView `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []BillingPayment              `db:"payments" json:"payments"`
+	CreditNotes       []BillingCreditNote           `db:"credit_notes" json:"credit_notes"`
+	CrmCompany        CrmCompany                    `db:"crm_company" json:"crm_company"`
+	BillingQuote      BillingQuote                  `db:"billing_quote" json:"billing_quote"`
+	User              User                          `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginateInvoiceParams) ([]BillingPaginateInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -343,34 +404,30 @@ func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginat
 	for rows.Next() {
 		var i BillingPaginateInvoiceRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingInvoicesView.ID,
-			&i.BillingInvoicesView.ClientID,
-			&i.BillingInvoicesView.QuoteID,
-			&i.BillingInvoicesView.InvoiceNumber,
-			&i.BillingInvoicesView.Status,
-			&i.BillingInvoicesView.IssueDate,
-			&i.BillingInvoicesView.DueDate,
-			&i.BillingInvoicesView.TotalAmount,
-			&i.BillingInvoicesView.AmountPaid,
-			&i.BillingInvoicesView.AmountOutstanding,
-			&i.BillingInvoicesView.Currency,
-			&i.BillingInvoicesView.TaxAmount,
-			&i.BillingInvoicesView.DiscountAmount,
-			&i.BillingInvoicesView.Subtotal,
-			&i.BillingInvoicesView.PaymentTerms,
-			&i.BillingInvoicesView.Notes,
-			&i.BillingInvoicesView.SentAt,
-			&i.BillingInvoicesView.PaidAt,
-			&i.BillingInvoicesView.CreatedByUserID,
-			&i.BillingInvoicesView.CreatedAt,
-			&i.BillingInvoicesView.UpdatedAt,
-			&i.BillingInvoicesView.InvoiceLineItems,
-			&i.BillingInvoicesView.Payments,
-			&i.BillingInvoicesView.CreditNotes,
+			&i.ID,
+			&i.ClientID,
+			&i.QuoteID,
+			&i.InvoiceNumber,
+			&i.Status,
+			&i.IssueDate,
+			&i.DueDate,
+			&i.TotalAmount,
+			&i.AmountPaid,
+			&i.AmountOutstanding,
+			&i.Currency,
+			&i.TaxAmount,
+			&i.DiscountAmount,
+			&i.Subtotal,
+			&i.PaymentTerms,
+			&i.Notes,
+			&i.SentAt,
+			&i.PaidAt,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.InvoiceLineItems,
+			&i.Payments,
+			&i.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -425,6 +482,40 @@ func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginat
 	return items, nil
 }
 
+const billingPaginateInvoiceMetadata = `-- name: BillingPaginateInvoiceMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."invoices_view" as invoices
+`
+
+type BillingPaginateInvoiceMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateInvoiceMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateInvoiceMetadata(ctx context.Context, arg BillingPaginateInvoiceMetadataParams) (BillingPaginateInvoiceMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateInvoiceMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateInvoiceMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeInvoice = `-- name: BillingRangeInvoice :many
 select
   invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
@@ -454,10 +545,33 @@ type BillingRangeInvoiceParams struct {
 }
 
 type BillingRangeInvoiceRow struct {
-	BillingInvoicesView BillingInvoicesView `db:"billing_invoices_view" json:"billing_invoices_view"`
-	CrmCompany          CrmCompany          `db:"crm_company" json:"crm_company"`
-	BillingQuote        BillingQuote        `db:"billing_quote" json:"billing_quote"`
-	User                User                `db:"user" json:"user"`
+	ID                pgtype.UUID                   `db:"id" json:"id"`
+	ClientID          pgtype.UUID                   `db:"client_id" json:"client_id"`
+	QuoteID           pgtype.UUID                   `db:"quote_id" json:"quote_id"`
+	InvoiceNumber     string                        `db:"invoice_number" json:"invoice_number"`
+	Status            NullBillingInvoiceStatusEnum  `db:"status" json:"status"`
+	IssueDate         pgtype.Date                   `db:"issue_date" json:"issue_date"`
+	DueDate           pgtype.Date                   `db:"due_date" json:"due_date"`
+	TotalAmount       pgtype.Numeric                `db:"total_amount" json:"total_amount"`
+	AmountPaid        pgtype.Numeric                `db:"amount_paid" json:"amount_paid"`
+	AmountOutstanding pgtype.Numeric                `db:"amount_outstanding" json:"amount_outstanding"`
+	Currency          pgtype.Text                   `db:"currency" json:"currency"`
+	TaxAmount         pgtype.Numeric                `db:"tax_amount" json:"tax_amount"`
+	DiscountAmount    pgtype.Numeric                `db:"discount_amount" json:"discount_amount"`
+	Subtotal          pgtype.Numeric                `db:"subtotal" json:"subtotal"`
+	PaymentTerms      pgtype.Text                   `db:"payment_terms" json:"payment_terms"`
+	Notes             pgtype.Text                   `db:"notes" json:"notes"`
+	SentAt            pgtype.Timestamp              `db:"sent_at" json:"sent_at"`
+	PaidAt            pgtype.Timestamp              `db:"paid_at" json:"paid_at"`
+	CreatedByUserID   pgtype.Text                   `db:"created_by_user_id" json:"created_by_user_id"`
+	CreatedAt         pgtype.Timestamp              `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
+	InvoiceLineItems  []BillingInvoiceLineItemsView `db:"invoice_line_items" json:"invoice_line_items"`
+	Payments          []BillingPayment              `db:"payments" json:"payments"`
+	CreditNotes       []BillingCreditNote           `db:"credit_notes" json:"credit_notes"`
+	CrmCompany        CrmCompany                    `db:"crm_company" json:"crm_company"`
+	BillingQuote      BillingQuote                  `db:"billing_quote" json:"billing_quote"`
+	User              User                          `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangeInvoice(ctx context.Context, arg BillingRangeInvoiceParams) ([]BillingRangeInvoiceRow, error) {
@@ -470,30 +584,30 @@ func (q *Queries) BillingRangeInvoice(ctx context.Context, arg BillingRangeInvoi
 	for rows.Next() {
 		var i BillingRangeInvoiceRow
 		if err := rows.Scan(
-			&i.BillingInvoicesView.ID,
-			&i.BillingInvoicesView.ClientID,
-			&i.BillingInvoicesView.QuoteID,
-			&i.BillingInvoicesView.InvoiceNumber,
-			&i.BillingInvoicesView.Status,
-			&i.BillingInvoicesView.IssueDate,
-			&i.BillingInvoicesView.DueDate,
-			&i.BillingInvoicesView.TotalAmount,
-			&i.BillingInvoicesView.AmountPaid,
-			&i.BillingInvoicesView.AmountOutstanding,
-			&i.BillingInvoicesView.Currency,
-			&i.BillingInvoicesView.TaxAmount,
-			&i.BillingInvoicesView.DiscountAmount,
-			&i.BillingInvoicesView.Subtotal,
-			&i.BillingInvoicesView.PaymentTerms,
-			&i.BillingInvoicesView.Notes,
-			&i.BillingInvoicesView.SentAt,
-			&i.BillingInvoicesView.PaidAt,
-			&i.BillingInvoicesView.CreatedByUserID,
-			&i.BillingInvoicesView.CreatedAt,
-			&i.BillingInvoicesView.UpdatedAt,
-			&i.BillingInvoicesView.InvoiceLineItems,
-			&i.BillingInvoicesView.Payments,
-			&i.BillingInvoicesView.CreditNotes,
+			&i.ID,
+			&i.ClientID,
+			&i.QuoteID,
+			&i.InvoiceNumber,
+			&i.Status,
+			&i.IssueDate,
+			&i.DueDate,
+			&i.TotalAmount,
+			&i.AmountPaid,
+			&i.AmountOutstanding,
+			&i.Currency,
+			&i.TaxAmount,
+			&i.DiscountAmount,
+			&i.Subtotal,
+			&i.PaymentTerms,
+			&i.Notes,
+			&i.SentAt,
+			&i.PaidAt,
+			&i.CreatedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.InvoiceLineItems,
+			&i.Payments,
+			&i.CreditNotes,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

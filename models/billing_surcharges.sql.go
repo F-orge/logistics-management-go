@@ -128,58 +128,42 @@ func (q *Queries) BillingInsertSurcharge(ctx context.Context, arg BillingInsertS
 
 const billingPaginateSurcharge = `-- name: BillingPaginateSurcharge :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   surcharges.id, surcharges.name, surcharges.type, surcharges.amount, surcharges.calculation_method, surcharges.is_active, surcharges.valid_from, surcharges.valid_to, surcharges.description, surcharges.created_at, surcharges.updated_at
 from
   "billing"."surcharges" as surcharges
-where (name ilike $3::text
-  or type ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (name ilike $1::text
+  or type ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateSurchargeParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
-type BillingPaginateSurchargeRow struct {
-	TotalItems       int64            `db:"total_items" json:"total_items"`
-	TotalPages       float64          `db:"total_pages" json:"total_pages"`
-	Page             int32            `db:"page" json:"page"`
-	PerPage          int32            `db:"per_page" json:"per_page"`
-	BillingSurcharge BillingSurcharge `db:"billing_surcharge" json:"billing_surcharge"`
-}
-
-func (q *Queries) BillingPaginateSurcharge(ctx context.Context, arg BillingPaginateSurchargeParams) ([]BillingPaginateSurchargeRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateSurcharge, arg.PerPage, arg.Page, arg.Search)
+func (q *Queries) BillingPaginateSurcharge(ctx context.Context, arg BillingPaginateSurchargeParams) ([]BillingSurcharge, error) {
+	rows, err := q.db.Query(ctx, billingPaginateSurcharge, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []BillingPaginateSurchargeRow
+	var items []BillingSurcharge
 	for rows.Next() {
-		var i BillingPaginateSurchargeRow
+		var i BillingSurcharge
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingSurcharge.ID,
-			&i.BillingSurcharge.Name,
-			&i.BillingSurcharge.Type,
-			&i.BillingSurcharge.Amount,
-			&i.BillingSurcharge.CalculationMethod,
-			&i.BillingSurcharge.IsActive,
-			&i.BillingSurcharge.ValidFrom,
-			&i.BillingSurcharge.ValidTo,
-			&i.BillingSurcharge.Description,
-			&i.BillingSurcharge.CreatedAt,
-			&i.BillingSurcharge.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Type,
+			&i.Amount,
+			&i.CalculationMethod,
+			&i.IsActive,
+			&i.ValidFrom,
+			&i.ValidTo,
+			&i.Description,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -189,6 +173,40 @@ func (q *Queries) BillingPaginateSurcharge(ctx context.Context, arg BillingPagin
 		return nil, err
 	}
 	return items, nil
+}
+
+const billingPaginateSurchargeMetadata = `-- name: BillingPaginateSurchargeMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."surcharges" as surcharges
+`
+
+type BillingPaginateSurchargeMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateSurchargeMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateSurchargeMetadata(ctx context.Context, arg BillingPaginateSurchargeMetadataParams) (BillingPaginateSurchargeMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateSurchargeMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateSurchargeMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const billingRangeSurcharge = `-- name: BillingRangeSurcharge :many

@@ -1,10 +1,15 @@
--- name: BillingPaginateSurcharge :many
+-- name: BillingPaginateSurchargeMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(surcharges)
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."surcharges" as surcharges;
+
+-- name: BillingPaginateSurcharge :many
+select
+  *
 from
   "billing"."surcharges" as surcharges
 where (name ilike sqlc.narg(search)::text

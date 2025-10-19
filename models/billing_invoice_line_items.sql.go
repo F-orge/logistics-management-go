@@ -23,8 +23,22 @@ where
 `
 
 type BillingAnyInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
-	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
+	Description      string           `db:"description" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
+	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingAnyInvoiceLineItem(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyInvoiceLineItemRow, error) {
@@ -37,21 +51,21 @@ func (q *Queries) BillingAnyInvoiceLineItem(ctx context.Context, ids []pgtype.UU
 	for rows.Next() {
 		var i BillingAnyInvoiceLineItemRow
 		if err := rows.Scan(
-			&i.BillingInvoiceLineItem.ID,
-			&i.BillingInvoiceLineItem.InvoiceID,
-			&i.BillingInvoiceLineItem.SourceRecordID,
-			&i.BillingInvoiceLineItem.SourceRecordType,
-			&i.BillingInvoiceLineItem.Description,
-			&i.BillingInvoiceLineItem.Quantity,
-			&i.BillingInvoiceLineItem.UnitPrice,
-			&i.BillingInvoiceLineItem.TotalPrice,
-			&i.BillingInvoiceLineItem.TaxRate,
-			&i.BillingInvoiceLineItem.TaxAmount,
-			&i.BillingInvoiceLineItem.DiscountRate,
-			&i.BillingInvoiceLineItem.DiscountAmount,
-			&i.BillingInvoiceLineItem.LineTotal,
-			&i.BillingInvoiceLineItem.CreatedAt,
-			&i.BillingInvoiceLineItem.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.Quantity,
+			&i.UnitPrice,
+			&i.TotalPrice,
+			&i.TaxRate,
+			&i.TaxAmount,
+			&i.DiscountRate,
+			&i.DiscountAmount,
+			&i.LineTotal,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -96,29 +110,43 @@ where
 `
 
 type BillingFindInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
-	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
+	Description      string           `db:"description" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
+	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingFindInvoiceLineItem(ctx context.Context, id pgtype.UUID) (BillingFindInvoiceLineItemRow, error) {
 	row := q.db.QueryRow(ctx, billingFindInvoiceLineItem, id)
 	var i BillingFindInvoiceLineItemRow
 	err := row.Scan(
-		&i.BillingInvoiceLineItem.ID,
-		&i.BillingInvoiceLineItem.InvoiceID,
-		&i.BillingInvoiceLineItem.SourceRecordID,
-		&i.BillingInvoiceLineItem.SourceRecordType,
-		&i.BillingInvoiceLineItem.Description,
-		&i.BillingInvoiceLineItem.Quantity,
-		&i.BillingInvoiceLineItem.UnitPrice,
-		&i.BillingInvoiceLineItem.TotalPrice,
-		&i.BillingInvoiceLineItem.TaxRate,
-		&i.BillingInvoiceLineItem.TaxAmount,
-		&i.BillingInvoiceLineItem.DiscountRate,
-		&i.BillingInvoiceLineItem.DiscountAmount,
-		&i.BillingInvoiceLineItem.LineTotal,
-		&i.BillingInvoiceLineItem.CreatedAt,
-		&i.BillingInvoiceLineItem.UpdatedAt,
+		&i.ID,
+		&i.InvoiceID,
+		&i.SourceRecordID,
+		&i.SourceRecordType,
+		&i.Description,
+		&i.Quantity,
+		&i.UnitPrice,
+		&i.TotalPrice,
+		&i.TaxRate,
+		&i.TaxAmount,
+		&i.DiscountRate,
+		&i.DiscountAmount,
+		&i.LineTotal,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.BillingInvoice.ID,
 		&i.BillingInvoice.ClientID,
 		&i.BillingInvoice.QuoteID,
@@ -196,38 +224,44 @@ func (q *Queries) BillingInsertInvoiceLineItem(ctx context.Context, arg BillingI
 
 const billingPaginateInvoiceLineItem = `-- name: BillingPaginateInvoiceLineItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   invoice_line_items.id, invoice_line_items.invoice_id, invoice_line_items.source_record_id, invoice_line_items.source_record_type, invoice_line_items.description, invoice_line_items.quantity, invoice_line_items.unit_price, invoice_line_items.total_price, invoice_line_items.tax_rate, invoice_line_items.tax_amount, invoice_line_items.discount_rate, invoice_line_items.discount_amount, invoice_line_items.line_total, invoice_line_items.created_at, invoice_line_items.updated_at,
   invoice.id, invoice.client_id, invoice.quote_id, invoice.invoice_number, invoice.status, invoice.issue_date, invoice.due_date, invoice.total_amount, invoice.amount_paid, invoice.amount_outstanding, invoice.currency, invoice.tax_amount, invoice.discount_amount, invoice.subtotal, invoice.payment_terms, invoice.notes, invoice.sent_at, invoice.paid_at, invoice.created_by_user_id, invoice.created_at, invoice.updated_at
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
-where (invoice.invoice_number ilike $3::text
-  or invoice_line_items.description ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (invoice.invoice_number ilike $1::text
+  or invoice_line_items.description ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateInvoiceLineItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateInvoiceLineItemRow struct {
-	TotalItems             int64                  `db:"total_items" json:"total_items"`
-	TotalPages             float64                `db:"total_pages" json:"total_pages"`
-	Page                   int32                  `db:"page" json:"page"`
-	PerPage                int32                  `db:"per_page" json:"per_page"`
-	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
-	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
+	Description      string           `db:"description" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
+	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg BillingPaginateInvoiceLineItemParams) ([]BillingPaginateInvoiceLineItemRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -236,25 +270,21 @@ func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg Billin
 	for rows.Next() {
 		var i BillingPaginateInvoiceLineItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingInvoiceLineItem.ID,
-			&i.BillingInvoiceLineItem.InvoiceID,
-			&i.BillingInvoiceLineItem.SourceRecordID,
-			&i.BillingInvoiceLineItem.SourceRecordType,
-			&i.BillingInvoiceLineItem.Description,
-			&i.BillingInvoiceLineItem.Quantity,
-			&i.BillingInvoiceLineItem.UnitPrice,
-			&i.BillingInvoiceLineItem.TotalPrice,
-			&i.BillingInvoiceLineItem.TaxRate,
-			&i.BillingInvoiceLineItem.TaxAmount,
-			&i.BillingInvoiceLineItem.DiscountRate,
-			&i.BillingInvoiceLineItem.DiscountAmount,
-			&i.BillingInvoiceLineItem.LineTotal,
-			&i.BillingInvoiceLineItem.CreatedAt,
-			&i.BillingInvoiceLineItem.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.Quantity,
+			&i.UnitPrice,
+			&i.TotalPrice,
+			&i.TaxRate,
+			&i.TaxAmount,
+			&i.DiscountRate,
+			&i.DiscountAmount,
+			&i.LineTotal,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -287,6 +317,40 @@ func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg Billin
 	return items, nil
 }
 
+const billingPaginateInvoiceLineItemMetadata = `-- name: BillingPaginateInvoiceLineItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."invoice_line_items" as invoice_line_items
+`
+
+type BillingPaginateInvoiceLineItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateInvoiceLineItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateInvoiceLineItemMetadata(ctx context.Context, arg BillingPaginateInvoiceLineItemMetadataParams) (BillingPaginateInvoiceLineItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateInvoiceLineItemMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateInvoiceLineItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeInvoiceLineItem = `-- name: BillingRangeInvoiceLineItem :many
 select
   invoice_line_items.id, invoice_line_items.invoice_id, invoice_line_items.source_record_id, invoice_line_items.source_record_type, invoice_line_items.description, invoice_line_items.quantity, invoice_line_items.unit_price, invoice_line_items.total_price, invoice_line_items.tax_rate, invoice_line_items.tax_amount, invoice_line_items.discount_rate, invoice_line_items.discount_amount, invoice_line_items.line_total, invoice_line_items.created_at, invoice_line_items.updated_at,
@@ -309,8 +373,22 @@ type BillingRangeInvoiceLineItemParams struct {
 }
 
 type BillingRangeInvoiceLineItemRow struct {
-	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
-	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
+	ID               pgtype.UUID      `db:"id" json:"id"`
+	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
+	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
+	Description      string           `db:"description" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
+	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
+	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	BillingInvoice   BillingInvoice   `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingRangeInvoiceLineItem(ctx context.Context, arg BillingRangeInvoiceLineItemParams) ([]BillingRangeInvoiceLineItemRow, error) {
@@ -323,21 +401,21 @@ func (q *Queries) BillingRangeInvoiceLineItem(ctx context.Context, arg BillingRa
 	for rows.Next() {
 		var i BillingRangeInvoiceLineItemRow
 		if err := rows.Scan(
-			&i.BillingInvoiceLineItem.ID,
-			&i.BillingInvoiceLineItem.InvoiceID,
-			&i.BillingInvoiceLineItem.SourceRecordID,
-			&i.BillingInvoiceLineItem.SourceRecordType,
-			&i.BillingInvoiceLineItem.Description,
-			&i.BillingInvoiceLineItem.Quantity,
-			&i.BillingInvoiceLineItem.UnitPrice,
-			&i.BillingInvoiceLineItem.TotalPrice,
-			&i.BillingInvoiceLineItem.TaxRate,
-			&i.BillingInvoiceLineItem.TaxAmount,
-			&i.BillingInvoiceLineItem.DiscountRate,
-			&i.BillingInvoiceLineItem.DiscountAmount,
-			&i.BillingInvoiceLineItem.LineTotal,
-			&i.BillingInvoiceLineItem.CreatedAt,
-			&i.BillingInvoiceLineItem.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.SourceRecordID,
+			&i.SourceRecordType,
+			&i.Description,
+			&i.Quantity,
+			&i.UnitPrice,
+			&i.TotalPrice,
+			&i.TaxRate,
+			&i.TaxAmount,
+			&i.DiscountRate,
+			&i.DiscountAmount,
+			&i.LineTotal,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,

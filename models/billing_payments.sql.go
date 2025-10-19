@@ -25,9 +25,25 @@ where
 `
 
 type BillingAnyPaymentRow struct {
-	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
-	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	BillingInvoice    BillingInvoice               `db:"billing_invoice" json:"billing_invoice"`
+	User              User                         `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingAnyPayment(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyPaymentRow, error) {
@@ -40,23 +56,23 @@ func (q *Queries) BillingAnyPayment(ctx context.Context, ids []pgtype.UUID) ([]B
 	for rows.Next() {
 		var i BillingAnyPaymentRow
 		if err := rows.Scan(
-			&i.BillingPayment.ID,
-			&i.BillingPayment.InvoiceID,
-			&i.BillingPayment.Amount,
-			&i.BillingPayment.PaymentMethod,
-			&i.BillingPayment.TransactionID,
-			&i.BillingPayment.GatewayReference,
-			&i.BillingPayment.Status,
-			&i.BillingPayment.PaymentDate,
-			&i.BillingPayment.ProcessedAt,
-			&i.BillingPayment.Currency,
-			&i.BillingPayment.ExchangeRate,
-			&i.BillingPayment.Fees,
-			&i.BillingPayment.NetAmount,
-			&i.BillingPayment.Notes,
-			&i.BillingPayment.ProcessedByUserID,
-			&i.BillingPayment.CreatedAt,
-			&i.BillingPayment.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.Amount,
+			&i.PaymentMethod,
+			&i.TransactionID,
+			&i.GatewayReference,
+			&i.Status,
+			&i.PaymentDate,
+			&i.ProcessedAt,
+			&i.Currency,
+			&i.ExchangeRate,
+			&i.Fees,
+			&i.NetAmount,
+			&i.Notes,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -114,32 +130,48 @@ where
 `
 
 type BillingFindPaymentRow struct {
-	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
-	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	BillingInvoice    BillingInvoice               `db:"billing_invoice" json:"billing_invoice"`
+	User              User                         `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingFindPayment(ctx context.Context, id pgtype.UUID) (BillingFindPaymentRow, error) {
 	row := q.db.QueryRow(ctx, billingFindPayment, id)
 	var i BillingFindPaymentRow
 	err := row.Scan(
-		&i.BillingPayment.ID,
-		&i.BillingPayment.InvoiceID,
-		&i.BillingPayment.Amount,
-		&i.BillingPayment.PaymentMethod,
-		&i.BillingPayment.TransactionID,
-		&i.BillingPayment.GatewayReference,
-		&i.BillingPayment.Status,
-		&i.BillingPayment.PaymentDate,
-		&i.BillingPayment.ProcessedAt,
-		&i.BillingPayment.Currency,
-		&i.BillingPayment.ExchangeRate,
-		&i.BillingPayment.Fees,
-		&i.BillingPayment.NetAmount,
-		&i.BillingPayment.Notes,
-		&i.BillingPayment.ProcessedByUserID,
-		&i.BillingPayment.CreatedAt,
-		&i.BillingPayment.UpdatedAt,
+		&i.ID,
+		&i.InvoiceID,
+		&i.Amount,
+		&i.PaymentMethod,
+		&i.TransactionID,
+		&i.GatewayReference,
+		&i.Status,
+		&i.PaymentDate,
+		&i.ProcessedAt,
+		&i.Currency,
+		&i.ExchangeRate,
+		&i.Fees,
+		&i.NetAmount,
+		&i.Notes,
+		&i.ProcessedByUserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.BillingInvoice.ID,
 		&i.BillingInvoice.ClientID,
 		&i.BillingInvoice.QuoteID,
@@ -240,10 +272,6 @@ func (q *Queries) BillingInsertPayment(ctx context.Context, arg BillingInsertPay
 
 const billingPaginatePayment = `-- name: BillingPaginatePayment :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   payments.id, payments.invoice_id, payments.amount, payments.payment_method, payments.transaction_id, payments.gateway_reference, payments.status, payments.payment_date, payments.processed_at, payments.currency, payments.exchange_rate, payments.fees, payments.net_amount, payments.notes, payments.processed_by_user_id, payments.created_at, payments.updated_at,
   invoice.id, invoice.client_id, invoice.quote_id, invoice.invoice_number, invoice.status, invoice.issue_date, invoice.due_date, invoice.total_amount, invoice.amount_paid, invoice.amount_outstanding, invoice.currency, invoice.tax_amount, invoice.discount_amount, invoice.subtotal, invoice.payment_terms, invoice.notes, invoice.sent_at, invoice.paid_at, invoice.created_by_user_id, invoice.created_at, invoice.updated_at,
   processed_by_user.id, processed_by_user.name, processed_by_user.email, processed_by_user.email_verified, processed_by_user.image, processed_by_user.created_at, processed_by_user.updated_at, processed_by_user.role, processed_by_user.banned, processed_by_user.ban_reason, processed_by_user.ban_expires
@@ -251,32 +279,44 @@ from
   "billing"."payments" as payments
   inner join "billing"."invoices" as invoice on payments.invoice_id = invoice.id
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
-where (invoice.invoice_number ilike $3::text
-  or payments.payment_method::text ilike $3::text
-  or payments.status::text ilike $3::text
-  or processed_by_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (invoice.invoice_number ilike $1::text
+  or payments.payment_method::text ilike $1::text
+  or payments.status::text ilike $1::text
+  or processed_by_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginatePaymentParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginatePaymentRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
-	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	BillingInvoice    BillingInvoice               `db:"billing_invoice" json:"billing_invoice"`
+	User              User                         `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginatePaymentParams) ([]BillingPaginatePaymentRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -285,27 +325,23 @@ func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginat
 	for rows.Next() {
 		var i BillingPaginatePaymentRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingPayment.ID,
-			&i.BillingPayment.InvoiceID,
-			&i.BillingPayment.Amount,
-			&i.BillingPayment.PaymentMethod,
-			&i.BillingPayment.TransactionID,
-			&i.BillingPayment.GatewayReference,
-			&i.BillingPayment.Status,
-			&i.BillingPayment.PaymentDate,
-			&i.BillingPayment.ProcessedAt,
-			&i.BillingPayment.Currency,
-			&i.BillingPayment.ExchangeRate,
-			&i.BillingPayment.Fees,
-			&i.BillingPayment.NetAmount,
-			&i.BillingPayment.Notes,
-			&i.BillingPayment.ProcessedByUserID,
-			&i.BillingPayment.CreatedAt,
-			&i.BillingPayment.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.Amount,
+			&i.PaymentMethod,
+			&i.TransactionID,
+			&i.GatewayReference,
+			&i.Status,
+			&i.PaymentDate,
+			&i.ProcessedAt,
+			&i.Currency,
+			&i.ExchangeRate,
+			&i.Fees,
+			&i.NetAmount,
+			&i.Notes,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,
@@ -349,6 +385,40 @@ func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginat
 	return items, nil
 }
 
+const billingPaginatePaymentMetadata = `-- name: BillingPaginatePaymentMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."payments" as payments
+`
+
+type BillingPaginatePaymentMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginatePaymentMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginatePaymentMetadata(ctx context.Context, arg BillingPaginatePaymentMetadataParams) (BillingPaginatePaymentMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginatePaymentMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginatePaymentMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangePayment = `-- name: BillingRangePayment :many
 select
   payments.id, payments.invoice_id, payments.amount, payments.payment_method, payments.transaction_id, payments.gateway_reference, payments.status, payments.payment_date, payments.processed_at, payments.currency, payments.exchange_rate, payments.fees, payments.net_amount, payments.notes, payments.processed_by_user_id, payments.created_at, payments.updated_at,
@@ -375,9 +445,25 @@ type BillingRangePaymentParams struct {
 }
 
 type BillingRangePaymentRow struct {
-	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
-	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID                  `db:"id" json:"id"`
+	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
+	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
+	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
+	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
+	BillingInvoice    BillingInvoice               `db:"billing_invoice" json:"billing_invoice"`
+	User              User                         `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingRangePayment(ctx context.Context, arg BillingRangePaymentParams) ([]BillingRangePaymentRow, error) {
@@ -390,23 +476,23 @@ func (q *Queries) BillingRangePayment(ctx context.Context, arg BillingRangePayme
 	for rows.Next() {
 		var i BillingRangePaymentRow
 		if err := rows.Scan(
-			&i.BillingPayment.ID,
-			&i.BillingPayment.InvoiceID,
-			&i.BillingPayment.Amount,
-			&i.BillingPayment.PaymentMethod,
-			&i.BillingPayment.TransactionID,
-			&i.BillingPayment.GatewayReference,
-			&i.BillingPayment.Status,
-			&i.BillingPayment.PaymentDate,
-			&i.BillingPayment.ProcessedAt,
-			&i.BillingPayment.Currency,
-			&i.BillingPayment.ExchangeRate,
-			&i.BillingPayment.Fees,
-			&i.BillingPayment.NetAmount,
-			&i.BillingPayment.Notes,
-			&i.BillingPayment.ProcessedByUserID,
-			&i.BillingPayment.CreatedAt,
-			&i.BillingPayment.UpdatedAt,
+			&i.ID,
+			&i.InvoiceID,
+			&i.Amount,
+			&i.PaymentMethod,
+			&i.TransactionID,
+			&i.GatewayReference,
+			&i.Status,
+			&i.PaymentDate,
+			&i.ProcessedAt,
+			&i.Currency,
+			&i.ExchangeRate,
+			&i.Fees,
+			&i.NetAmount,
+			&i.Notes,
+			&i.ProcessedByUserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingInvoice.ID,
 			&i.BillingInvoice.ClientID,
 			&i.BillingInvoice.QuoteID,

@@ -167,40 +167,43 @@ func (q *Queries) BillingInsertRateRule(ctx context.Context, arg BillingInsertRa
 
 const billingPaginateRateRule = `-- name: BillingPaginateRateRule :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   rate_rules.id, rate_rules.rate_card_id, rate_rules.condition, rate_rules.value, rate_rules.price, rate_rules.pricing_model, rate_rules.min_value, rate_rules.max_value, rate_rules.priority, rate_rules.is_active, rate_rules.created_at, rate_rules.updated_at,
   rate_card.id, rate_card.name, rate_card.service_type, rate_card.is_active, rate_card.valid_from, rate_card.valid_to, rate_card.description, rate_card.created_by_user_id, rate_card.created_at, rate_card.updated_at
 from
   "billing"."rate_rules" as rate_rules
   inner join "billing"."rate_cards" as rate_card on rate_rules.rate_card_id = rate_card.id
-where (rate_card.name ilike $3::text
-  or rate_rules.condition ilike $3::text
-  or rate_rules.value ilike $3::text
-  or rate_rules.pricing_model::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (rate_card.name ilike $1::text
+  or rate_rules.condition ilike $1::text
+  or rate_rules.value ilike $1::text
+  or rate_rules.pricing_model::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateRateRuleParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateRateRuleRow struct {
-	TotalItems      int64           `db:"total_items" json:"total_items"`
-	TotalPages      float64         `db:"total_pages" json:"total_pages"`
-	Page            int32           `db:"page" json:"page"`
-	PerPage         int32           `db:"per_page" json:"per_page"`
-	BillingRateRule BillingRateRule `db:"billing_rate_rule" json:"billing_rate_rule"`
-	BillingRateCard BillingRateCard `db:"billing_rate_card" json:"billing_rate_card"`
+	ID              pgtype.UUID             `db:"id" json:"id"`
+	RateCardID      pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
+	Condition       string                  `db:"condition" json:"condition"`
+	Value           string                  `db:"value" json:"value"`
+	Price           pgtype.Numeric          `db:"price" json:"price"`
+	PricingModel    BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
+	MinValue        pgtype.Numeric          `db:"min_value" json:"min_value"`
+	MaxValue        pgtype.Numeric          `db:"max_value" json:"max_value"`
+	Priority        pgtype.Int4             `db:"priority" json:"priority"`
+	IsActive        pgtype.Bool             `db:"is_active" json:"is_active"`
+	CreatedAt       pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	BillingRateCard BillingRateCard         `db:"billing_rate_card" json:"billing_rate_card"`
 }
 
 func (q *Queries) BillingPaginateRateRule(ctx context.Context, arg BillingPaginateRateRuleParams) ([]BillingPaginateRateRuleRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateRateRule, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateRateRule, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -209,22 +212,18 @@ func (q *Queries) BillingPaginateRateRule(ctx context.Context, arg BillingPagina
 	for rows.Next() {
 		var i BillingPaginateRateRuleRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingRateRule.ID,
-			&i.BillingRateRule.RateCardID,
-			&i.BillingRateRule.Condition,
-			&i.BillingRateRule.Value,
-			&i.BillingRateRule.Price,
-			&i.BillingRateRule.PricingModel,
-			&i.BillingRateRule.MinValue,
-			&i.BillingRateRule.MaxValue,
-			&i.BillingRateRule.Priority,
-			&i.BillingRateRule.IsActive,
-			&i.BillingRateRule.CreatedAt,
-			&i.BillingRateRule.UpdatedAt,
+			&i.ID,
+			&i.RateCardID,
+			&i.Condition,
+			&i.Value,
+			&i.Price,
+			&i.PricingModel,
+			&i.MinValue,
+			&i.MaxValue,
+			&i.Priority,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.BillingRateCard.ID,
 			&i.BillingRateCard.Name,
 			&i.BillingRateCard.ServiceType,
@@ -244,6 +243,47 @@ func (q *Queries) BillingPaginateRateRule(ctx context.Context, arg BillingPagina
 		return nil, err
 	}
 	return items, nil
+}
+
+const billingPaginateRateRuleMetadata = `-- name: BillingPaginateRateRuleMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."rate_rules" as rate_rules
+  inner join "billing"."rate_cards" as rate_card on rate_rules.rate_card_id = rate_card.id
+where (rate_card.name ilike $3::text
+  or rate_rules.condition ilike $3::text
+  or rate_rules.value ilike $3::text
+  or rate_rules.pricing_model::text ilike $3::text
+  or $3::text is null)
+`
+
+type BillingPaginateRateRuleMetadataParams struct {
+	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
+}
+
+type BillingPaginateRateRuleMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateRateRuleMetadata(ctx context.Context, arg BillingPaginateRateRuleMetadataParams) (BillingPaginateRateRuleMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateRateRuleMetadata, arg.PerPage, arg.Page, arg.Search)
+	var i BillingPaginateRateRuleMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const billingRangeRateRule = `-- name: BillingRangeRateRule :many

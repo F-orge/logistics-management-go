@@ -1,10 +1,15 @@
--- name: BillingPaginatePayment :many
+-- name: BillingPaginatePaymentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(payments),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."payments" as payments;
+
+-- name: BillingPaginatePayment :many
+select
+  payments.*,
   sqlc.embed(invoice),
   sqlc.embed(processed_by_user)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindPayment :one
 select
-  sqlc.embed(payments),
+  payments.*,
   sqlc.embed(invoice),
   sqlc.embed(processed_by_user)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: BillingAnyPayment :many
 select
-  sqlc.embed(payments),
+  payments.*,
   sqlc.embed(invoice),
   sqlc.embed(processed_by_user)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: BillingRangePayment :many
 select
-  sqlc.embed(payments),
+  payments.*,
   sqlc.embed(invoice),
   sqlc.embed(processed_by_user)
 from

@@ -23,8 +23,19 @@ where
 `
 
 type BillingAnyClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
-	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
+	ID                  pgtype.UUID                 `db:"id" json:"id"`
+	ClientID            pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric              `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric              `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric              `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text                 `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4                 `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool                 `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date                 `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	AccountTransactions []BillingAccountTransaction `db:"account_transactions" json:"account_transactions"`
+	CrmCompany          CrmCompany                  `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID) ([]BillingAnyClientAccountRow, error) {
@@ -37,18 +48,18 @@ func (q *Queries) BillingAnyClientAccount(ctx context.Context, ids []pgtype.UUID
 	for rows.Next() {
 		var i BillingAnyClientAccountRow
 		if err := rows.Scan(
-			&i.BillingClientAccountsView.ID,
-			&i.BillingClientAccountsView.ClientID,
-			&i.BillingClientAccountsView.CreditLimit,
-			&i.BillingClientAccountsView.AvailableCredit,
-			&i.BillingClientAccountsView.WalletBalance,
-			&i.BillingClientAccountsView.Currency,
-			&i.BillingClientAccountsView.PaymentTermsDays,
-			&i.BillingClientAccountsView.IsCreditApproved,
-			&i.BillingClientAccountsView.LastPaymentDate,
-			&i.BillingClientAccountsView.CreatedAt,
-			&i.BillingClientAccountsView.UpdatedAt,
-			&i.BillingClientAccountsView.AccountTransactions,
+			&i.ID,
+			&i.ClientID,
+			&i.CreditLimit,
+			&i.AvailableCredit,
+			&i.WalletBalance,
+			&i.Currency,
+			&i.PaymentTermsDays,
+			&i.IsCreditApproved,
+			&i.LastPaymentDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -86,26 +97,37 @@ where
 `
 
 type BillingFindClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
-	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
+	ID                  pgtype.UUID                 `db:"id" json:"id"`
+	ClientID            pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric              `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric              `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric              `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text                 `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4                 `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool                 `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date                 `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	AccountTransactions []BillingAccountTransaction `db:"account_transactions" json:"account_transactions"`
+	CrmCompany          CrmCompany                  `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingFindClientAccount(ctx context.Context, id pgtype.UUID) (BillingFindClientAccountRow, error) {
 	row := q.db.QueryRow(ctx, billingFindClientAccount, id)
 	var i BillingFindClientAccountRow
 	err := row.Scan(
-		&i.BillingClientAccountsView.ID,
-		&i.BillingClientAccountsView.ClientID,
-		&i.BillingClientAccountsView.CreditLimit,
-		&i.BillingClientAccountsView.AvailableCredit,
-		&i.BillingClientAccountsView.WalletBalance,
-		&i.BillingClientAccountsView.Currency,
-		&i.BillingClientAccountsView.PaymentTermsDays,
-		&i.BillingClientAccountsView.IsCreditApproved,
-		&i.BillingClientAccountsView.LastPaymentDate,
-		&i.BillingClientAccountsView.CreatedAt,
-		&i.BillingClientAccountsView.UpdatedAt,
-		&i.BillingClientAccountsView.AccountTransactions,
+		&i.ID,
+		&i.ClientID,
+		&i.CreditLimit,
+		&i.AvailableCredit,
+		&i.WalletBalance,
+		&i.Currency,
+		&i.PaymentTermsDays,
+		&i.IsCreditApproved,
+		&i.LastPaymentDate,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.AccountTransactions,
 		&i.CrmCompany.ID,
 		&i.CrmCompany.Name,
 		&i.CrmCompany.Street,
@@ -172,37 +194,40 @@ func (q *Queries) BillingInsertClientAccount(ctx context.Context, arg BillingIns
 
 const billingPaginateClientAccount = `-- name: BillingPaginateClientAccount :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
   "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
-where (client.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (client.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type BillingPaginateClientAccountParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type BillingPaginateClientAccountRow struct {
-	TotalItems                int64                     `db:"total_items" json:"total_items"`
-	TotalPages                float64                   `db:"total_pages" json:"total_pages"`
-	Page                      int32                     `db:"page" json:"page"`
-	PerPage                   int32                     `db:"per_page" json:"per_page"`
-	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
-	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
+	ID                  pgtype.UUID                 `db:"id" json:"id"`
+	ClientID            pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric              `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric              `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric              `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text                 `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4                 `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool                 `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date                 `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	AccountTransactions []BillingAccountTransaction `db:"account_transactions" json:"account_transactions"`
+	CrmCompany          CrmCompany                  `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingPaginateClientAccountParams) ([]BillingPaginateClientAccountRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -211,22 +236,18 @@ func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingP
 	for rows.Next() {
 		var i BillingPaginateClientAccountRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.BillingClientAccountsView.ID,
-			&i.BillingClientAccountsView.ClientID,
-			&i.BillingClientAccountsView.CreditLimit,
-			&i.BillingClientAccountsView.AvailableCredit,
-			&i.BillingClientAccountsView.WalletBalance,
-			&i.BillingClientAccountsView.Currency,
-			&i.BillingClientAccountsView.PaymentTermsDays,
-			&i.BillingClientAccountsView.IsCreditApproved,
-			&i.BillingClientAccountsView.LastPaymentDate,
-			&i.BillingClientAccountsView.CreatedAt,
-			&i.BillingClientAccountsView.UpdatedAt,
-			&i.BillingClientAccountsView.AccountTransactions,
+			&i.ID,
+			&i.ClientID,
+			&i.CreditLimit,
+			&i.AvailableCredit,
+			&i.WalletBalance,
+			&i.Currency,
+			&i.PaymentTermsDays,
+			&i.IsCreditApproved,
+			&i.LastPaymentDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,
@@ -252,6 +273,40 @@ func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingP
 	return items, nil
 }
 
+const billingPaginateClientAccountMetadata = `-- name: BillingPaginateClientAccountMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "billing"."client_accounts_view" as client_accounts
+`
+
+type BillingPaginateClientAccountMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type BillingPaginateClientAccountMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) BillingPaginateClientAccountMetadata(ctx context.Context, arg BillingPaginateClientAccountMetadataParams) (BillingPaginateClientAccountMetadataRow, error) {
+	row := q.db.QueryRow(ctx, billingPaginateClientAccountMetadata, arg.PerPage, arg.Page)
+	var i BillingPaginateClientAccountMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const billingRangeClientAccount = `-- name: BillingRangeClientAccount :many
 select
   client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
@@ -273,8 +328,19 @@ type BillingRangeClientAccountParams struct {
 }
 
 type BillingRangeClientAccountRow struct {
-	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
-	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
+	ID                  pgtype.UUID                 `db:"id" json:"id"`
+	ClientID            pgtype.UUID                 `db:"client_id" json:"client_id"`
+	CreditLimit         pgtype.Numeric              `db:"credit_limit" json:"credit_limit"`
+	AvailableCredit     pgtype.Numeric              `db:"available_credit" json:"available_credit"`
+	WalletBalance       pgtype.Numeric              `db:"wallet_balance" json:"wallet_balance"`
+	Currency            pgtype.Text                 `db:"currency" json:"currency"`
+	PaymentTermsDays    pgtype.Int4                 `db:"payment_terms_days" json:"payment_terms_days"`
+	IsCreditApproved    pgtype.Bool                 `db:"is_credit_approved" json:"is_credit_approved"`
+	LastPaymentDate     pgtype.Date                 `db:"last_payment_date" json:"last_payment_date"`
+	CreatedAt           pgtype.Timestamp            `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp            `db:"updated_at" json:"updated_at"`
+	AccountTransactions []BillingAccountTransaction `db:"account_transactions" json:"account_transactions"`
+	CrmCompany          CrmCompany                  `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRangeClientAccountParams) ([]BillingRangeClientAccountRow, error) {
@@ -287,18 +353,18 @@ func (q *Queries) BillingRangeClientAccount(ctx context.Context, arg BillingRang
 	for rows.Next() {
 		var i BillingRangeClientAccountRow
 		if err := rows.Scan(
-			&i.BillingClientAccountsView.ID,
-			&i.BillingClientAccountsView.ClientID,
-			&i.BillingClientAccountsView.CreditLimit,
-			&i.BillingClientAccountsView.AvailableCredit,
-			&i.BillingClientAccountsView.WalletBalance,
-			&i.BillingClientAccountsView.Currency,
-			&i.BillingClientAccountsView.PaymentTermsDays,
-			&i.BillingClientAccountsView.IsCreditApproved,
-			&i.BillingClientAccountsView.LastPaymentDate,
-			&i.BillingClientAccountsView.CreatedAt,
-			&i.BillingClientAccountsView.UpdatedAt,
-			&i.BillingClientAccountsView.AccountTransactions,
+			&i.ID,
+			&i.ClientID,
+			&i.CreditLimit,
+			&i.AvailableCredit,
+			&i.WalletBalance,
+			&i.Currency,
+			&i.PaymentTermsDays,
+			&i.IsCreditApproved,
+			&i.LastPaymentDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.AccountTransactions,
 			&i.CrmCompany.ID,
 			&i.CrmCompany.Name,
 			&i.CrmCompany.Street,

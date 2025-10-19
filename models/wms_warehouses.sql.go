@@ -155,7 +155,7 @@ func (q *Queries) WmsInsertWarehouse(ctx context.Context, arg WmsInsertWarehouse
 
 const wmsPaginateWarehouse = `-- name: WmsPaginateWarehouse :many
 select
-  warehouses.id, warehouses.name, warehouses.address, warehouses.city, warehouses.state, warehouses.postal_code, warehouses.country, warehouses.timezone, warehouses.contact_person, warehouses.contact_email, warehouses.contact_phone, warehouses.is_active, warehouses.created_at, warehouses.updated_at, warehouses.inbound_shipments, warehouses.outbound_shipments, warehouses.locations, warehouses.putaway_rules, warehouses.pick_batches, warehouses.tasks
+  id, name, address, city, state, postal_code, country, timezone, contact_person, contact_email, contact_phone, is_active, created_at, updated_at, inbound_shipments, outbound_shipments, locations, putaway_rules, pick_batches, tasks
 from
   "wms"."warehouses_view" as warehouses
 where (name ilike $1::text
@@ -221,17 +221,11 @@ select
   $1::int as per_page
 from
   "wms"."warehouses_view" as warehouses
-where (name ilike $3::text
-  or city ilike $3::text
-  or state ilike $3::text
-  or country ilike $3::text
-  or $3::text is null)
 `
 
 type WmsPaginateWarehouseMetadataParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
-	Search  pgtype.Text `db:"search" json:"search"`
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
 }
 
 type WmsPaginateWarehouseMetadataRow struct {
@@ -242,7 +236,7 @@ type WmsPaginateWarehouseMetadataRow struct {
 }
 
 func (q *Queries) WmsPaginateWarehouseMetadata(ctx context.Context, arg WmsPaginateWarehouseMetadataParams) (WmsPaginateWarehouseMetadataRow, error) {
-	row := q.db.QueryRow(ctx, wmsPaginateWarehouseMetadata, arg.PerPage, arg.Page, arg.Search)
+	row := q.db.QueryRow(ctx, wmsPaginateWarehouseMetadata, arg.PerPage, arg.Page)
 	var i WmsPaginateWarehouseMetadataRow
 	err := row.Scan(
 		&i.TotalItems,

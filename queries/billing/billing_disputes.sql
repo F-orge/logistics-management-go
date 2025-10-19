@@ -1,10 +1,15 @@
--- name: BillingPaginateDispute :many
+-- name: BillingPaginateDisputeMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(disputes),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."disputes" as disputes;
+
+-- name: BillingPaginateDispute :many
+select
+  disputes.*,
   sqlc.embed(line_item),
   sqlc.embed(client),
   sqlc.embed(resolved_by_user)
@@ -22,7 +27,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: BillingFindDispute :one
 select
-  sqlc.embed(disputes),
+  disputes.*,
   sqlc.embed(line_item),
   sqlc.embed(client),
   sqlc.embed(resolved_by_user)
@@ -36,7 +41,7 @@ where
 
 -- name: BillingAnyDispute :many
 select
-  sqlc.embed(disputes),
+  disputes.*,
   sqlc.embed(line_item),
   sqlc.embed(client),
   sqlc.embed(resolved_by_user)
@@ -50,7 +55,7 @@ where
 
 -- name: BillingRangeDispute :many
 select
-  sqlc.embed(disputes),
+  disputes.*,
   sqlc.embed(line_item),
   sqlc.embed(client),
   sqlc.embed(resolved_by_user)

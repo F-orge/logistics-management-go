@@ -1,10 +1,15 @@
--- name: BillingPaginateAccountingSyncLog :many
+-- name: BillingPaginateAccountingSyncLogMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(accounting_sync_log)
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."accounting_sync_log" as accounting_sync_log;
+
+-- name: BillingPaginateAccountingSyncLog :many
+select
+  *
 from
   "billing"."accounting_sync_log" as accounting_sync_log
 where (record_type ilike sqlc.narg(search)::text

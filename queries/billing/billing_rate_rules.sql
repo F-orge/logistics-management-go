@@ -1,10 +1,21 @@
--- name: BillingPaginateRateRule :many
+-- name: BillingPaginateRateRuleMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(rate_rules),
+  sqlc.arg(per_page)::int as per_page
+from
+  "billing"."rate_rules" as rate_rules
+  inner join "billing"."rate_cards" as rate_card on rate_rules.rate_card_id = rate_card.id
+where (rate_card.name ilike sqlc.narg(search)::text
+  or rate_rules.condition ilike sqlc.narg(search)::text
+  or rate_rules.value ilike sqlc.narg(search)::text
+  or rate_rules.pricing_model::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
+
+-- name: BillingPaginateRateRule :many
+select
+  rate_rules.*,
   sqlc.embed(rate_card)
 from
   "billing"."rate_rules" as rate_rules
