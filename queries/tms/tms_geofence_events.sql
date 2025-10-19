@@ -1,10 +1,15 @@
--- name: TmsPaginateGeofenceEvent :many
+-- name: TmsPaginateGeofenceEventMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(geofence_events),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."geofence_events" as geofence_events;
+
+-- name: TmsPaginateGeofenceEvent :many
+select
+  geofence_events.*,
   sqlc.embed(vehicle),
   sqlc.embed(geofence)
 from
@@ -19,7 +24,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindGeofenceEvent :one
 select
-  sqlc.embed(geofence_events),
+  geofence_events.*,
   sqlc.embed(vehicle),
   sqlc.embed(geofence)
 from
@@ -31,7 +36,7 @@ where
 
 -- name: TmsAnyGeofenceEvent :many
 select
-  sqlc.embed(geofence_events),
+  geofence_events.*,
   sqlc.embed(vehicle),
   sqlc.embed(geofence)
 from
@@ -43,7 +48,7 @@ where
 
 -- name: TmsRangeGeofenceEvent :many
 select
-  sqlc.embed(geofence_events),
+  geofence_events.*,
   sqlc.embed(vehicle),
   sqlc.embed(geofence)
 from

@@ -1,10 +1,15 @@
--- name: WmsPaginatePutawayRule :many
+-- name: WmsPaginatePutawayRuleMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(putaway_rules),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."putaway_rules" as putaway_rules;
+
+-- name: WmsPaginatePutawayRule :many
+select
+  putaway_rules.*,
   sqlc.embed(product),
   sqlc.embed(client),
   sqlc.embed(warehouse),
@@ -25,7 +30,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindPutawayRule :one
 select
-  sqlc.embed(putaway_rules),
+  putaway_rules.*,
   sqlc.embed(product),
   sqlc.embed(client),
   sqlc.embed(warehouse),
@@ -41,7 +46,7 @@ where
 
 -- name: WmsAnyPutawayRule :many
 select
-  sqlc.embed(putaway_rules),
+  putaway_rules.*,
   sqlc.embed(product),
   sqlc.embed(client),
   sqlc.embed(warehouse),
@@ -57,7 +62,7 @@ where
 
 -- name: WmsRangePutawayRule :many
 select
-  sqlc.embed(putaway_rules),
+  putaway_rules.*,
   sqlc.embed(product),
   sqlc.embed(client),
   sqlc.embed(warehouse),

@@ -1,10 +1,21 @@
--- name: WmsPaginateLocation :many
+-- name: WmsPaginateLocationMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(locations),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."locations_view" as locations
+  inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
+where (warehouse.name ilike sqlc.narg(search)::text
+  or locations.name ilike sqlc.narg(search)::text
+  or locations.barcode ilike sqlc.narg(search)::text
+  or locations.type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
+
+-- name: WmsPaginateLocation :many
+select
+  locations.*,
   sqlc.embed(warehouse)
 from
   "wms"."locations_view" as locations

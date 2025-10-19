@@ -1,10 +1,15 @@
--- name: WmsPaginateReturn :many
+-- name: WmsPaginateReturnMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(wms_returns),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."returns_view" as wms_returns;
+
+-- name: WmsPaginateReturn :many
+select
+  wms_returns.*,
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset ((sqlc.arg(page)::int - 1) * sqlc.arg(per_p
 
 -- name: WmsFindReturn :one
 select
-  sqlc.embed(wms_returns),
+  wms_returns.*,
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: WmsAnyReturn :many
 select
-  sqlc.embed(wms_returns),
+  wms_returns.*,
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: WmsRangeReturn :many
 select
-  sqlc.embed(wms_returns),
+  wms_returns.*,
   sqlc.embed(sales_order),
   sqlc.embed(client)
 from

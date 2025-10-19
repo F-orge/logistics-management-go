@@ -1,10 +1,15 @@
--- name: TmsPaginateDriver :many
+-- name: TmsPaginateDriverMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(drivers),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."drivers_view" as drivers;
+
+-- name: TmsPaginateDriver :many
+select
+  drivers.*,
   sqlc.embed(users)
 from
   "tms"."drivers_view" as drivers
@@ -17,7 +22,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindDriver :one
 select
-  sqlc.embed(drivers),
+  drivers.*,
   sqlc.embed(users)
 from
   "tms"."drivers_view" as drivers
@@ -27,7 +32,7 @@ where
 
 -- name: TmsAnyDriver :many
 select
-  sqlc.embed(drivers),
+  drivers.*,
   sqlc.embed(users)
 from
   "tms"."drivers_view" as drivers
@@ -37,7 +42,7 @@ where
 
 -- name: TmsRangeDriver :many
 select
-  sqlc.embed(drivers),
+  drivers.*,
   sqlc.embed(users)
 from
   "tms"."drivers_view" as drivers

@@ -25,9 +25,26 @@ where
 `
 
 type WmsAnyPickBatchRow struct {
-	WmsPickBatchesView WmsPickBatchesView `db:"wms_pick_batches_view" json:"wms_pick_batches_view"`
-	WmsWarehouse       WmsWarehouse       `db:"wms_warehouse" json:"wms_warehouse"`
-	User               User               `db:"user" json:"user"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
+	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
+	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
+	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
+	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	PickBatchItems    []WmsPickBatchItem         `db:"pick_batch_items" json:"pick_batch_items"`
+	WmsWarehouse      WmsWarehouse               `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsAnyPickBatch(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPickBatchRow, error) {
@@ -40,24 +57,24 @@ func (q *Queries) WmsAnyPickBatch(ctx context.Context, ids []pgtype.UUID) ([]Wms
 	for rows.Next() {
 		var i WmsAnyPickBatchRow
 		if err := rows.Scan(
-			&i.WmsPickBatchesView.ID,
-			&i.WmsPickBatchesView.BatchNumber,
-			&i.WmsPickBatchesView.WarehouseID,
-			&i.WmsPickBatchesView.Status,
-			&i.WmsPickBatchesView.Strategy,
-			&i.WmsPickBatchesView.Priority,
-			&i.WmsPickBatchesView.AssignedUserID,
-			&i.WmsPickBatchesView.WaveID,
-			&i.WmsPickBatchesView.ZoneRestrictions,
-			&i.WmsPickBatchesView.EstimatedDuration,
-			&i.WmsPickBatchesView.ActualDuration,
-			&i.WmsPickBatchesView.TotalItems,
-			&i.WmsPickBatchesView.CompletedItems,
-			&i.WmsPickBatchesView.StartedAt,
-			&i.WmsPickBatchesView.CompletedAt,
-			&i.WmsPickBatchesView.CreatedAt,
-			&i.WmsPickBatchesView.UpdatedAt,
-			&i.WmsPickBatchesView.PickBatchItems,
+			&i.ID,
+			&i.BatchNumber,
+			&i.WarehouseID,
+			&i.Status,
+			&i.Strategy,
+			&i.Priority,
+			&i.AssignedUserID,
+			&i.WaveID,
+			&i.ZoneRestrictions,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
+			&i.TotalItems,
+			&i.CompletedItems,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -108,33 +125,50 @@ where
 `
 
 type WmsFindPickBatchRow struct {
-	WmsPickBatchesView WmsPickBatchesView `db:"wms_pick_batches_view" json:"wms_pick_batches_view"`
-	WmsWarehouse       WmsWarehouse       `db:"wms_warehouse" json:"wms_warehouse"`
-	User               User               `db:"user" json:"user"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
+	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
+	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
+	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
+	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	PickBatchItems    []WmsPickBatchItem         `db:"pick_batch_items" json:"pick_batch_items"`
+	WmsWarehouse      WmsWarehouse               `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsFindPickBatch(ctx context.Context, id pgtype.UUID) (WmsFindPickBatchRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindPickBatch, id)
 	var i WmsFindPickBatchRow
 	err := row.Scan(
-		&i.WmsPickBatchesView.ID,
-		&i.WmsPickBatchesView.BatchNumber,
-		&i.WmsPickBatchesView.WarehouseID,
-		&i.WmsPickBatchesView.Status,
-		&i.WmsPickBatchesView.Strategy,
-		&i.WmsPickBatchesView.Priority,
-		&i.WmsPickBatchesView.AssignedUserID,
-		&i.WmsPickBatchesView.WaveID,
-		&i.WmsPickBatchesView.ZoneRestrictions,
-		&i.WmsPickBatchesView.EstimatedDuration,
-		&i.WmsPickBatchesView.ActualDuration,
-		&i.WmsPickBatchesView.TotalItems,
-		&i.WmsPickBatchesView.CompletedItems,
-		&i.WmsPickBatchesView.StartedAt,
-		&i.WmsPickBatchesView.CompletedAt,
-		&i.WmsPickBatchesView.CreatedAt,
-		&i.WmsPickBatchesView.UpdatedAt,
-		&i.WmsPickBatchesView.PickBatchItems,
+		&i.ID,
+		&i.BatchNumber,
+		&i.WarehouseID,
+		&i.Status,
+		&i.Strategy,
+		&i.Priority,
+		&i.AssignedUserID,
+		&i.WaveID,
+		&i.ZoneRestrictions,
+		&i.EstimatedDuration,
+		&i.ActualDuration,
+		&i.TotalItems,
+		&i.CompletedItems,
+		&i.StartedAt,
+		&i.CompletedAt,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.PickBatchItems,
 		&i.WmsWarehouse.ID,
 		&i.WmsWarehouse.Name,
 		&i.WmsWarehouse.Address,
@@ -230,10 +264,6 @@ func (q *Queries) WmsInsertPickBatch(ctx context.Context, arg WmsInsertPickBatch
 
 const wmsPaginatePickBatch = `-- name: WmsPaginatePickBatch :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
@@ -241,32 +271,45 @@ from
   "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
-where (warehouse.name ilike $3::text
-  or pick_batches.batch_number ilike $3::text
-  or pick_batches.status::text ilike $3::text
-  or assigned_user.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (warehouse.name ilike $1::text
+  or pick_batches.batch_number ilike $1::text
+  or pick_batches.status::text ilike $1::text
+  or assigned_user.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePickBatchParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginatePickBatchRow struct {
-	TotalItems         int64              `db:"total_items" json:"total_items"`
-	TotalPages         float64            `db:"total_pages" json:"total_pages"`
-	Page               int32              `db:"page" json:"page"`
-	PerPage            int32              `db:"per_page" json:"per_page"`
-	WmsPickBatchesView WmsPickBatchesView `db:"wms_pick_batches_view" json:"wms_pick_batches_view"`
-	WmsWarehouse       WmsWarehouse       `db:"wms_warehouse" json:"wms_warehouse"`
-	User               User               `db:"user" json:"user"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
+	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
+	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
+	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
+	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	PickBatchItems    []WmsPickBatchItem         `db:"pick_batch_items" json:"pick_batch_items"`
+	WmsWarehouse      WmsWarehouse               `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickBatchParams) ([]WmsPaginatePickBatchRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePickBatch, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginatePickBatch, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -275,28 +318,24 @@ func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickB
 	for rows.Next() {
 		var i WmsPaginatePickBatchRow
 		if err := rows.Scan(
+			&i.ID,
+			&i.BatchNumber,
+			&i.WarehouseID,
+			&i.Status,
+			&i.Strategy,
+			&i.Priority,
+			&i.AssignedUserID,
+			&i.WaveID,
+			&i.ZoneRestrictions,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
 			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsPickBatchesView.ID,
-			&i.WmsPickBatchesView.BatchNumber,
-			&i.WmsPickBatchesView.WarehouseID,
-			&i.WmsPickBatchesView.Status,
-			&i.WmsPickBatchesView.Strategy,
-			&i.WmsPickBatchesView.Priority,
-			&i.WmsPickBatchesView.AssignedUserID,
-			&i.WmsPickBatchesView.WaveID,
-			&i.WmsPickBatchesView.ZoneRestrictions,
-			&i.WmsPickBatchesView.EstimatedDuration,
-			&i.WmsPickBatchesView.ActualDuration,
-			&i.WmsPickBatchesView.TotalItems,
-			&i.WmsPickBatchesView.CompletedItems,
-			&i.WmsPickBatchesView.StartedAt,
-			&i.WmsPickBatchesView.CompletedAt,
-			&i.WmsPickBatchesView.CreatedAt,
-			&i.WmsPickBatchesView.UpdatedAt,
-			&i.WmsPickBatchesView.PickBatchItems,
+			&i.CompletedItems,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -333,6 +372,40 @@ func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickB
 	return items, nil
 }
 
+const wmsPaginatePickBatchMetadata = `-- name: WmsPaginatePickBatchMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."pick_batches_view" as pick_batches
+`
+
+type WmsPaginatePickBatchMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginatePickBatchMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginatePickBatchMetadata(ctx context.Context, arg WmsPaginatePickBatchMetadataParams) (WmsPaginatePickBatchMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginatePickBatchMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginatePickBatchMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangePickBatch = `-- name: WmsRangePickBatch :many
 select
   pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
@@ -359,9 +432,26 @@ type WmsRangePickBatchParams struct {
 }
 
 type WmsRangePickBatchRow struct {
-	WmsPickBatchesView WmsPickBatchesView `db:"wms_pick_batches_view" json:"wms_pick_batches_view"`
-	WmsWarehouse       WmsWarehouse       `db:"wms_warehouse" json:"wms_warehouse"`
-	User               User               `db:"user" json:"user"`
+	ID                pgtype.UUID                `db:"id" json:"id"`
+	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
+	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
+	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
+	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
+	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	CreatedAt         pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	PickBatchItems    []WmsPickBatchItem         `db:"pick_batch_items" json:"pick_batch_items"`
+	WmsWarehouse      WmsWarehouse               `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                       `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsRangePickBatch(ctx context.Context, arg WmsRangePickBatchParams) ([]WmsRangePickBatchRow, error) {
@@ -374,24 +464,24 @@ func (q *Queries) WmsRangePickBatch(ctx context.Context, arg WmsRangePickBatchPa
 	for rows.Next() {
 		var i WmsRangePickBatchRow
 		if err := rows.Scan(
-			&i.WmsPickBatchesView.ID,
-			&i.WmsPickBatchesView.BatchNumber,
-			&i.WmsPickBatchesView.WarehouseID,
-			&i.WmsPickBatchesView.Status,
-			&i.WmsPickBatchesView.Strategy,
-			&i.WmsPickBatchesView.Priority,
-			&i.WmsPickBatchesView.AssignedUserID,
-			&i.WmsPickBatchesView.WaveID,
-			&i.WmsPickBatchesView.ZoneRestrictions,
-			&i.WmsPickBatchesView.EstimatedDuration,
-			&i.WmsPickBatchesView.ActualDuration,
-			&i.WmsPickBatchesView.TotalItems,
-			&i.WmsPickBatchesView.CompletedItems,
-			&i.WmsPickBatchesView.StartedAt,
-			&i.WmsPickBatchesView.CompletedAt,
-			&i.WmsPickBatchesView.CreatedAt,
-			&i.WmsPickBatchesView.UpdatedAt,
-			&i.WmsPickBatchesView.PickBatchItems,
+			&i.ID,
+			&i.BatchNumber,
+			&i.WarehouseID,
+			&i.Status,
+			&i.Strategy,
+			&i.Priority,
+			&i.AssignedUserID,
+			&i.WaveID,
+			&i.ZoneRestrictions,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
+			&i.TotalItems,
+			&i.CompletedItems,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.PickBatchItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,

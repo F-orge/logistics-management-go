@@ -25,9 +25,12 @@ where
 `
 
 type TmsAnyPartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
-	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
-	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsAnyPartnerInvoiceItem(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyPartnerInvoiceItemRow, error) {
@@ -40,10 +43,10 @@ func (q *Queries) TmsAnyPartnerInvoiceItem(ctx context.Context, ids []pgtype.UUI
 	for rows.Next() {
 		var i TmsAnyPartnerInvoiceItemRow
 		if err := rows.Scan(
-			&i.TmsPartnerInvoiceItem.ID,
-			&i.TmsPartnerInvoiceItem.PartnerInvoiceID,
-			&i.TmsPartnerInvoiceItem.ShipmentLegID,
-			&i.TmsPartnerInvoiceItem.Amount,
+			&i.ID,
+			&i.PartnerInvoiceID,
+			&i.ShipmentLegID,
+			&i.Amount,
 			&i.TmsPartnerInvoice.ID,
 			&i.TmsPartnerInvoice.CarrierID,
 			&i.TmsPartnerInvoice.InvoiceNumber,
@@ -87,19 +90,22 @@ where
 `
 
 type TmsFindPartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
-	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
-	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsFindPartnerInvoiceItem(ctx context.Context, id pgtype.UUID) (TmsFindPartnerInvoiceItemRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindPartnerInvoiceItem, id)
 	var i TmsFindPartnerInvoiceItemRow
 	err := row.Scan(
-		&i.TmsPartnerInvoiceItem.ID,
-		&i.TmsPartnerInvoiceItem.PartnerInvoiceID,
-		&i.TmsPartnerInvoiceItem.ShipmentLegID,
-		&i.TmsPartnerInvoiceItem.Amount,
+		&i.ID,
+		&i.PartnerInvoiceID,
+		&i.ShipmentLegID,
+		&i.Amount,
 		&i.TmsPartnerInvoice.ID,
 		&i.TmsPartnerInvoice.CarrierID,
 		&i.TmsPartnerInvoice.InvoiceNumber,
@@ -149,10 +155,6 @@ func (q *Queries) TmsInsertPartnerInvoiceItem(ctx context.Context, arg TmsInsert
 
 const tmsPaginatePartnerInvoiceItem = `-- name: TmsPaginatePartnerInvoiceItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   partner_invoice_items.id, partner_invoice_items.partner_invoice_id, partner_invoice_items.shipment_leg_id, partner_invoice_items.amount,
   partner_invoice.id, partner_invoice.carrier_id, partner_invoice.invoice_number, partner_invoice.invoice_date, partner_invoice.total_amount, partner_invoice.status, partner_invoice.created_at, partner_invoice.updated_at,
   shipment_leg.id, shipment_leg.shipment_id, shipment_leg.leg_sequence, shipment_leg.start_location, shipment_leg.end_location, shipment_leg.carrier_id, shipment_leg.internal_trip_id, shipment_leg.status, shipment_leg.created_at, shipment_leg.updated_at
@@ -160,30 +162,29 @@ from
   "tms"."partner_invoice_items" as partner_invoice_items
   inner join "tms"."partner_invoices" as partner_invoice on partner_invoice_items.partner_invoice_id = partner_invoice.id
   inner join "tms"."shipment_legs" as shipment_leg on partner_invoice_items.shipment_leg_id = shipment_leg.id
-where (partner_invoice.invoice_number ilike $3::text
-  or shipment_leg.start_location ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (partner_invoice.invoice_number ilike $1::text
+  or shipment_leg.start_location ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginatePartnerInvoiceItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginatePartnerInvoiceItemRow struct {
-	TotalItems            int64                 `db:"total_items" json:"total_items"`
-	TotalPages            float64               `db:"total_pages" json:"total_pages"`
-	Page                  int32                 `db:"page" json:"page"`
-	PerPage               int32                 `db:"per_page" json:"per_page"`
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
-	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
-	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsPaginatePartnerInvoiceItem(ctx context.Context, arg TmsPaginatePartnerInvoiceItemParams) ([]TmsPaginatePartnerInvoiceItemRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginatePartnerInvoiceItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginatePartnerInvoiceItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -192,14 +193,10 @@ func (q *Queries) TmsPaginatePartnerInvoiceItem(ctx context.Context, arg TmsPagi
 	for rows.Next() {
 		var i TmsPaginatePartnerInvoiceItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsPartnerInvoiceItem.ID,
-			&i.TmsPartnerInvoiceItem.PartnerInvoiceID,
-			&i.TmsPartnerInvoiceItem.ShipmentLegID,
-			&i.TmsPartnerInvoiceItem.Amount,
+			&i.ID,
+			&i.PartnerInvoiceID,
+			&i.ShipmentLegID,
+			&i.Amount,
 			&i.TmsPartnerInvoice.ID,
 			&i.TmsPartnerInvoice.CarrierID,
 			&i.TmsPartnerInvoice.InvoiceNumber,
@@ -229,6 +226,40 @@ func (q *Queries) TmsPaginatePartnerInvoiceItem(ctx context.Context, arg TmsPagi
 	return items, nil
 }
 
+const tmsPaginatePartnerInvoiceItemMetadata = `-- name: TmsPaginatePartnerInvoiceItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."partner_invoice_items" as partner_invoice_items
+`
+
+type TmsPaginatePartnerInvoiceItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginatePartnerInvoiceItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginatePartnerInvoiceItemMetadata(ctx context.Context, arg TmsPaginatePartnerInvoiceItemMetadataParams) (TmsPaginatePartnerInvoiceItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginatePartnerInvoiceItemMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginatePartnerInvoiceItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const tmsRangePartnerInvoiceItem = `-- name: TmsRangePartnerInvoiceItem :many
 select
   partner_invoice_items.id, partner_invoice_items.partner_invoice_id, partner_invoice_items.shipment_leg_id, partner_invoice_items.amount,
@@ -253,9 +284,12 @@ type TmsRangePartnerInvoiceItemParams struct {
 }
 
 type TmsRangePartnerInvoiceItemRow struct {
-	TmsPartnerInvoiceItem TmsPartnerInvoiceItem `db:"tms_partner_invoice_item" json:"tms_partner_invoice_item"`
-	TmsPartnerInvoice     TmsPartnerInvoice     `db:"tms_partner_invoice" json:"tms_partner_invoice"`
-	TmsShipmentLeg        TmsShipmentLeg        `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
+	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
+	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
+	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsRangePartnerInvoiceItem(ctx context.Context, arg TmsRangePartnerInvoiceItemParams) ([]TmsRangePartnerInvoiceItemRow, error) {
@@ -268,10 +302,10 @@ func (q *Queries) TmsRangePartnerInvoiceItem(ctx context.Context, arg TmsRangePa
 	for rows.Next() {
 		var i TmsRangePartnerInvoiceItemRow
 		if err := rows.Scan(
-			&i.TmsPartnerInvoiceItem.ID,
-			&i.TmsPartnerInvoiceItem.PartnerInvoiceID,
-			&i.TmsPartnerInvoiceItem.ShipmentLegID,
-			&i.TmsPartnerInvoiceItem.Amount,
+			&i.ID,
+			&i.PartnerInvoiceID,
+			&i.ShipmentLegID,
+			&i.Amount,
 			&i.TmsPartnerInvoice.ID,
 			&i.TmsPartnerInvoice.CarrierID,
 			&i.TmsPartnerInvoice.InvoiceNumber,

@@ -1,10 +1,15 @@
--- name: WmsPaginateInboundShipment :many
+-- name: WmsPaginateInboundShipmentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(inbound_shipments),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."inbound_shipments_view" as inbound_shipments;
+
+-- name: WmsPaginateInboundShipment :many
+select
+  inbound_shipments.*,
   sqlc.embed(client)
 from
   "wms"."inbound_shipments_view" as inbound_shipments
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindInboundShipment :one
 select
-  sqlc.embed(inbound_shipments),
+  inbound_shipments.*,
   sqlc.embed(client)
 from
   "wms"."inbound_shipments_view" as inbound_shipments
@@ -26,7 +31,7 @@ where
 
 -- name: WmsAnyInboundShipment :many
 select
-  sqlc.embed(inbound_shipments),
+  inbound_shipments.*,
   sqlc.embed(client)
 from
   "wms"."inbound_shipments_view" as inbound_shipments
@@ -36,7 +41,7 @@ where
 
 -- name: WmsRangeInboundShipment :many
 select
-  sqlc.embed(inbound_shipments),
+  inbound_shipments.*,
   sqlc.embed(client)
 from
   "wms"."inbound_shipments_view" as inbound_shipments

@@ -23,8 +23,16 @@ where
 `
 
 type TmsAnyProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
-	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
+	ID          pgtype.UUID          `db:"id" json:"id"`
+	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
+	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsAnyProofOfDelivery(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyProofOfDeliveryRow, error) {
@@ -37,15 +45,15 @@ func (q *Queries) TmsAnyProofOfDelivery(ctx context.Context, ids []pgtype.UUID) 
 	for rows.Next() {
 		var i TmsAnyProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.TmsProofOfDelivery.ID,
-			&i.TmsProofOfDelivery.TripStopID,
-			&i.TmsProofOfDelivery.Type,
-			&i.TmsProofOfDelivery.FilePath,
-			&i.TmsProofOfDelivery.Timestamp,
-			&i.TmsProofOfDelivery.Latitude,
-			&i.TmsProofOfDelivery.Longitude,
-			&i.TmsProofOfDelivery.CreatedAt,
-			&i.TmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.TripStopID,
+			&i.Type,
+			&i.FilePath,
+			&i.Timestamp,
+			&i.Latitude,
+			&i.Longitude,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTripStop.ID,
 			&i.TmsTripStop.TripID,
 			&i.TmsTripStop.ShipmentID,
@@ -81,23 +89,31 @@ where
 `
 
 type TmsFindProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
-	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
+	ID          pgtype.UUID          `db:"id" json:"id"`
+	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
+	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsFindProofOfDelivery(ctx context.Context, id pgtype.UUID) (TmsFindProofOfDeliveryRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindProofOfDelivery, id)
 	var i TmsFindProofOfDeliveryRow
 	err := row.Scan(
-		&i.TmsProofOfDelivery.ID,
-		&i.TmsProofOfDelivery.TripStopID,
-		&i.TmsProofOfDelivery.Type,
-		&i.TmsProofOfDelivery.FilePath,
-		&i.TmsProofOfDelivery.Timestamp,
-		&i.TmsProofOfDelivery.Latitude,
-		&i.TmsProofOfDelivery.Longitude,
-		&i.TmsProofOfDelivery.CreatedAt,
-		&i.TmsProofOfDelivery.UpdatedAt,
+		&i.ID,
+		&i.TripStopID,
+		&i.Type,
+		&i.FilePath,
+		&i.Timestamp,
+		&i.Latitude,
+		&i.Longitude,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.TmsTripStop.ID,
 		&i.TmsTripStop.TripID,
 		&i.TmsTripStop.ShipmentID,
@@ -156,38 +172,38 @@ func (q *Queries) TmsInsertProofOfDelivery(ctx context.Context, arg TmsInsertPro
 
 const tmsPaginateProofOfDelivery = `-- name: TmsPaginateProofOfDelivery :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   proof_of_deliveries.id, proof_of_deliveries.trip_stop_id, proof_of_deliveries.type, proof_of_deliveries.file_path, proof_of_deliveries.timestamp, proof_of_deliveries.latitude, proof_of_deliveries.longitude, proof_of_deliveries.created_at, proof_of_deliveries.updated_at,
   trip_stop.id, trip_stop.trip_id, trip_stop.shipment_id, trip_stop.sequence, trip_stop.address, trip_stop.status, trip_stop.estimated_arrival_time, trip_stop.actual_arrival_time, trip_stop.estimated_departure_time, trip_stop.actual_departure_time, trip_stop.created_at, trip_stop.updated_at
 from
   "tms"."proof_of_deliveries" as proof_of_deliveries
   inner join "tms"."trip_stops" as trip_stop on proof_of_deliveries.trip_stop_id = trip_stop.id
-where (trip_stop.address ilike $3::text
-  or proof_of_deliveries.type::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (trip_stop.address ilike $1::text
+  or proof_of_deliveries.type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateProofOfDeliveryParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateProofOfDeliveryRow struct {
-	TotalItems         int64              `db:"total_items" json:"total_items"`
-	TotalPages         float64            `db:"total_pages" json:"total_pages"`
-	Page               int32              `db:"page" json:"page"`
-	PerPage            int32              `db:"per_page" json:"per_page"`
-	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
-	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
+	ID          pgtype.UUID          `db:"id" json:"id"`
+	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
+	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsPaginateProofOfDelivery(ctx context.Context, arg TmsPaginateProofOfDeliveryParams) ([]TmsPaginateProofOfDeliveryRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateProofOfDelivery, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateProofOfDelivery, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -196,19 +212,15 @@ func (q *Queries) TmsPaginateProofOfDelivery(ctx context.Context, arg TmsPaginat
 	for rows.Next() {
 		var i TmsPaginateProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsProofOfDelivery.ID,
-			&i.TmsProofOfDelivery.TripStopID,
-			&i.TmsProofOfDelivery.Type,
-			&i.TmsProofOfDelivery.FilePath,
-			&i.TmsProofOfDelivery.Timestamp,
-			&i.TmsProofOfDelivery.Latitude,
-			&i.TmsProofOfDelivery.Longitude,
-			&i.TmsProofOfDelivery.CreatedAt,
-			&i.TmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.TripStopID,
+			&i.Type,
+			&i.FilePath,
+			&i.Timestamp,
+			&i.Latitude,
+			&i.Longitude,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTripStop.ID,
 			&i.TmsTripStop.TripID,
 			&i.TmsTripStop.ShipmentID,
@@ -230,6 +242,40 @@ func (q *Queries) TmsPaginateProofOfDelivery(ctx context.Context, arg TmsPaginat
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateProofOfDeliveryMetadata = `-- name: TmsPaginateProofOfDeliveryMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."proof_of_deliveries" as proof_of_deliveries
+`
+
+type TmsPaginateProofOfDeliveryMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateProofOfDeliveryMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateProofOfDeliveryMetadata(ctx context.Context, arg TmsPaginateProofOfDeliveryMetadataParams) (TmsPaginateProofOfDeliveryMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateProofOfDeliveryMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateProofOfDeliveryMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeProofOfDelivery = `-- name: TmsRangeProofOfDelivery :many
@@ -254,8 +300,16 @@ type TmsRangeProofOfDeliveryParams struct {
 }
 
 type TmsRangeProofOfDeliveryRow struct {
-	TmsProofOfDelivery TmsProofOfDelivery `db:"tms_proof_of_delivery" json:"tms_proof_of_delivery"`
-	TmsTripStop        TmsTripStop        `db:"tms_trip_stop" json:"tms_trip_stop"`
+	ID          pgtype.UUID          `db:"id" json:"id"`
+	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
+	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
+	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
+	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
 }
 
 func (q *Queries) TmsRangeProofOfDelivery(ctx context.Context, arg TmsRangeProofOfDeliveryParams) ([]TmsRangeProofOfDeliveryRow, error) {
@@ -268,15 +322,15 @@ func (q *Queries) TmsRangeProofOfDelivery(ctx context.Context, arg TmsRangeProof
 	for rows.Next() {
 		var i TmsRangeProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.TmsProofOfDelivery.ID,
-			&i.TmsProofOfDelivery.TripStopID,
-			&i.TmsProofOfDelivery.Type,
-			&i.TmsProofOfDelivery.FilePath,
-			&i.TmsProofOfDelivery.Timestamp,
-			&i.TmsProofOfDelivery.Latitude,
-			&i.TmsProofOfDelivery.Longitude,
-			&i.TmsProofOfDelivery.CreatedAt,
-			&i.TmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.TripStopID,
+			&i.Type,
+			&i.FilePath,
+			&i.Timestamp,
+			&i.Latitude,
+			&i.Longitude,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTripStop.ID,
 			&i.TmsTripStop.TripID,
 			&i.TmsTripStop.ShipmentID,

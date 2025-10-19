@@ -1,10 +1,15 @@
--- name: WmsPaginateSalesOrder :many
+-- name: WmsPaginateSalesOrderMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(sales_orders),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."sales_orders_view" as sales_orders;
+
+-- name: WmsPaginateSalesOrder :many
+select
+  sales_orders.*,
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindSalesOrder :one
 select
-  sqlc.embed(sales_orders),
+  sales_orders.*,
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: WmsAnySalesOrder :many
 select
-  sqlc.embed(sales_orders),
+  sales_orders.*,
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: WmsRangeSalesOrder :many
 select
-  sqlc.embed(sales_orders),
+  sales_orders.*,
   sqlc.embed(client),
   sqlc.embed(crm_opportunity)
 from

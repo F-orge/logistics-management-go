@@ -23,8 +23,12 @@ where
 `
 
 type TmsAnyShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
-	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsAnyShipmentLegEvent(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyShipmentLegEventRow, error) {
@@ -37,11 +41,11 @@ func (q *Queries) TmsAnyShipmentLegEvent(ctx context.Context, ids []pgtype.UUID)
 	for rows.Next() {
 		var i TmsAnyShipmentLegEventRow
 		if err := rows.Scan(
-			&i.TmsShipmentLegEvent.ID,
-			&i.TmsShipmentLegEvent.ShipmentLegID,
-			&i.TmsShipmentLegEvent.StatusMessage,
-			&i.TmsShipmentLegEvent.Location,
-			&i.TmsShipmentLegEvent.EventTimestamp,
+			&i.ID,
+			&i.ShipmentLegID,
+			&i.StatusMessage,
+			&i.Location,
+			&i.EventTimestamp,
 			&i.TmsShipmentLeg.ID,
 			&i.TmsShipmentLeg.ShipmentID,
 			&i.TmsShipmentLeg.LegSequence,
@@ -75,19 +79,23 @@ where
 `
 
 type TmsFindShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
-	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsFindShipmentLegEvent(ctx context.Context, id pgtype.UUID) (TmsFindShipmentLegEventRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindShipmentLegEvent, id)
 	var i TmsFindShipmentLegEventRow
 	err := row.Scan(
-		&i.TmsShipmentLegEvent.ID,
-		&i.TmsShipmentLegEvent.ShipmentLegID,
-		&i.TmsShipmentLegEvent.StatusMessage,
-		&i.TmsShipmentLegEvent.Location,
-		&i.TmsShipmentLegEvent.EventTimestamp,
+		&i.ID,
+		&i.ShipmentLegID,
+		&i.StatusMessage,
+		&i.Location,
+		&i.EventTimestamp,
 		&i.TmsShipmentLeg.ID,
 		&i.TmsShipmentLeg.ShipmentID,
 		&i.TmsShipmentLeg.LegSequence,
@@ -136,38 +144,34 @@ func (q *Queries) TmsInsertShipmentLegEvent(ctx context.Context, arg TmsInsertSh
 
 const tmsPaginateShipmentLegEvent = `-- name: TmsPaginateShipmentLegEvent :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   shipment_leg_events.id, shipment_leg_events.shipment_leg_id, shipment_leg_events.status_message, shipment_leg_events.location, shipment_leg_events.event_timestamp,
   shipment_leg.id, shipment_leg.shipment_id, shipment_leg.leg_sequence, shipment_leg.start_location, shipment_leg.end_location, shipment_leg.carrier_id, shipment_leg.internal_trip_id, shipment_leg.status, shipment_leg.created_at, shipment_leg.updated_at
 from
   "tms"."shipment_leg_events" as shipment_leg_events
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
-where (shipment_leg.start_location ilike $3::text
-  or shipment_leg_events.status_message ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (shipment_leg.start_location ilike $1::text
+  or shipment_leg_events.status_message ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateShipmentLegEventParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateShipmentLegEventRow struct {
-	TotalItems          int64               `db:"total_items" json:"total_items"`
-	TotalPages          float64             `db:"total_pages" json:"total_pages"`
-	Page                int32               `db:"page" json:"page"`
-	PerPage             int32               `db:"per_page" json:"per_page"`
-	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
-	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPaginateShipmentLegEventParams) ([]TmsPaginateShipmentLegEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -176,15 +180,11 @@ func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPagina
 	for rows.Next() {
 		var i TmsPaginateShipmentLegEventRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsShipmentLegEvent.ID,
-			&i.TmsShipmentLegEvent.ShipmentLegID,
-			&i.TmsShipmentLegEvent.StatusMessage,
-			&i.TmsShipmentLegEvent.Location,
-			&i.TmsShipmentLegEvent.EventTimestamp,
+			&i.ID,
+			&i.ShipmentLegID,
+			&i.StatusMessage,
+			&i.Location,
+			&i.EventTimestamp,
 			&i.TmsShipmentLeg.ID,
 			&i.TmsShipmentLeg.ShipmentID,
 			&i.TmsShipmentLeg.LegSequence,
@@ -204,6 +204,40 @@ func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPagina
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateShipmentLegEventMetadata = `-- name: TmsPaginateShipmentLegEventMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."shipment_leg_events" as shipment_leg_events
+`
+
+type TmsPaginateShipmentLegEventMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateShipmentLegEventMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateShipmentLegEventMetadata(ctx context.Context, arg TmsPaginateShipmentLegEventMetadataParams) (TmsPaginateShipmentLegEventMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateShipmentLegEventMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateShipmentLegEventMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeShipmentLegEvent = `-- name: TmsRangeShipmentLegEvent :many
@@ -228,8 +262,12 @@ type TmsRangeShipmentLegEventParams struct {
 }
 
 type TmsRangeShipmentLegEventRow struct {
-	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
-	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
+	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
+	Location       pgtype.Text      `db:"location" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsRangeShipmentLegEvent(ctx context.Context, arg TmsRangeShipmentLegEventParams) ([]TmsRangeShipmentLegEventRow, error) {
@@ -242,11 +280,11 @@ func (q *Queries) TmsRangeShipmentLegEvent(ctx context.Context, arg TmsRangeShip
 	for rows.Next() {
 		var i TmsRangeShipmentLegEventRow
 		if err := rows.Scan(
-			&i.TmsShipmentLegEvent.ID,
-			&i.TmsShipmentLegEvent.ShipmentLegID,
-			&i.TmsShipmentLegEvent.StatusMessage,
-			&i.TmsShipmentLegEvent.Location,
-			&i.TmsShipmentLegEvent.EventTimestamp,
+			&i.ID,
+			&i.ShipmentLegID,
+			&i.StatusMessage,
+			&i.Location,
+			&i.EventTimestamp,
 			&i.TmsShipmentLeg.ID,
 			&i.TmsShipmentLeg.ShipmentID,
 			&i.TmsShipmentLeg.LegSequence,

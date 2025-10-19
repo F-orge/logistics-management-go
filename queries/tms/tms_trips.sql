@@ -1,10 +1,15 @@
--- name: TmsPaginateTrip :many
+-- name: TmsPaginateTripMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(trips),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."trips_view" as trips;
+
+-- name: TmsPaginateTrip :many
+select
+  trips.*,
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
@@ -19,7 +24,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindTrip :one
 select
-  sqlc.embed(trips),
+  trips.*,
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
@@ -31,7 +36,7 @@ where
 
 -- name: TmsAnyTrip :many
 select
-  sqlc.embed(trips),
+  trips.*,
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from
@@ -43,7 +48,7 @@ where
 
 -- name: TmsRangeTrip :many
 select
-  sqlc.embed(trips),
+  trips.*,
   sqlc.embed(driver),
   sqlc.embed(vehicle)
 from

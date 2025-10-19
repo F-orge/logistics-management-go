@@ -1,10 +1,15 @@
--- name: TmsPaginateRoute :many
+-- name: TmsPaginateRouteMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(routes),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."routes" as routes;
+
+-- name: TmsPaginateRoute :many
+select
+  routes.*,
   sqlc.embed(trip)
 from
   "tms"."routes" as routes
@@ -15,7 +20,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindRoute :one
 select
-  sqlc.embed(routes),
+  routes.*,
   sqlc.embed(trip)
 from
   "tms"."routes" as routes
@@ -25,7 +30,7 @@ where
 
 -- name: TmsAnyRoute :many
 select
-  sqlc.embed(routes),
+  routes.*,
   sqlc.embed(trip)
 from
   "tms"."routes" as routes
@@ -35,7 +40,7 @@ where
 
 -- name: TmsRangeRoute :many
 select
-  sqlc.embed(routes),
+  routes.*,
   sqlc.embed(trip)
 from
   "tms"."routes" as routes

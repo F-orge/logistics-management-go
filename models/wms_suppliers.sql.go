@@ -110,55 +110,39 @@ func (q *Queries) WmsInsertSupplier(ctx context.Context, arg WmsInsertSupplierPa
 
 const wmsPaginateSupplier = `-- name: WmsPaginateSupplier :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
-  suppliers.id, suppliers.name, suppliers.contact_person, suppliers.email, suppliers.phone_number, suppliers.created_at, suppliers.updated_at, suppliers.products
+  id, name, contact_person, email, phone_number, created_at, updated_at, products
 from
   "wms"."suppliers_view" as suppliers
-where (name ilike $3::text
-  or email ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (name ilike $1::text
+  or email ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateSupplierParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
-type WmsPaginateSupplierRow struct {
-	TotalItems       int64            `db:"total_items" json:"total_items"`
-	TotalPages       float64          `db:"total_pages" json:"total_pages"`
-	Page             int32            `db:"page" json:"page"`
-	PerPage          int32            `db:"per_page" json:"per_page"`
-	WmsSuppliersView WmsSuppliersView `db:"wms_suppliers_view" json:"wms_suppliers_view"`
-}
-
-func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsPaginateSupplierRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.PerPage, arg.Page, arg.Search)
+func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSuppliersView, error) {
+	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsPaginateSupplierRow
+	var items []WmsSuppliersView
 	for rows.Next() {
-		var i WmsPaginateSupplierRow
+		var i WmsSuppliersView
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsSuppliersView.ID,
-			&i.WmsSuppliersView.Name,
-			&i.WmsSuppliersView.ContactPerson,
-			&i.WmsSuppliersView.Email,
-			&i.WmsSuppliersView.PhoneNumber,
-			&i.WmsSuppliersView.CreatedAt,
-			&i.WmsSuppliersView.UpdatedAt,
-			&i.WmsSuppliersView.Products,
+			&i.ID,
+			&i.Name,
+			&i.ContactPerson,
+			&i.Email,
+			&i.PhoneNumber,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Products,
 		); err != nil {
 			return nil, err
 		}
@@ -168,6 +152,40 @@ func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSuppli
 		return nil, err
 	}
 	return items, nil
+}
+
+const wmsPaginateSupplierMetadata = `-- name: WmsPaginateSupplierMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."suppliers_view" as suppliers
+`
+
+type WmsPaginateSupplierMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateSupplierMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateSupplierMetadata(ctx context.Context, arg WmsPaginateSupplierMetadataParams) (WmsPaginateSupplierMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateSupplierMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateSupplierMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const wmsRangeSupplier = `-- name: WmsRangeSupplier :many

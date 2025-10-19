@@ -1,10 +1,15 @@
--- name: WmsPaginatePackage :many
+-- name: WmsPaginatePackageMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(packages),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."packages_view" as packages;
+
+-- name: WmsPaginatePackage :many
+select
+  packages.*,
   sqlc.embed(sales_order),
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
@@ -24,7 +29,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindPackage :one
 select
-  sqlc.embed(packages),
+  packages.*,
   sqlc.embed(sales_order),
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
@@ -38,7 +43,7 @@ where
 
 -- name: WmsAnyPackage :many
 select
-  sqlc.embed(packages),
+  packages.*,
   sqlc.embed(sales_order),
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)
@@ -52,7 +57,7 @@ where
 
 -- name: WmsRangePackage :many
 select
-  sqlc.embed(packages),
+  packages.*,
   sqlc.embed(sales_order),
   sqlc.embed(warehouse),
   sqlc.embed(packed_by_user)

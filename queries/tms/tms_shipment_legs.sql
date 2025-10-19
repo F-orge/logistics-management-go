@@ -1,10 +1,15 @@
--- name: TmsPaginateShipmentLeg :many
+-- name: TmsPaginateShipmentLegMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(shipment_legs),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."shipment_legs_view" as shipment_legs;
+
+-- name: TmsPaginateShipmentLeg :many
+select
+  shipment_legs.*,
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
@@ -21,7 +26,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindShipmentLeg :one
 select
-  sqlc.embed(shipment_legs),
+  shipment_legs.*,
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
@@ -33,7 +38,7 @@ where
 
 -- name: TmsAnyShipmentLeg :many
 select
-  sqlc.embed(shipment_legs),
+  shipment_legs.*,
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from
@@ -45,7 +50,7 @@ where
 
 -- name: TmsRangeShipmentLeg :many
 select
-  sqlc.embed(shipment_legs),
+  shipment_legs.*,
   sqlc.embed(carrier),
   sqlc.embed(internal_trip)
 from

@@ -23,8 +23,14 @@ where
 `
 
 type TmsAnyDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID                     `db:"id" json:"id"`
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
+	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver                       `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsAnyDriverSchedule(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyDriverScheduleRow, error) {
@@ -37,13 +43,13 @@ func (q *Queries) TmsAnyDriverSchedule(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i TmsAnyDriverScheduleRow
 		if err := rows.Scan(
-			&i.TmsDriverSchedule.ID,
-			&i.TmsDriverSchedule.DriverID,
-			&i.TmsDriverSchedule.StartDate,
-			&i.TmsDriverSchedule.EndDate,
-			&i.TmsDriverSchedule.Reason,
-			&i.TmsDriverSchedule.CreatedAt,
-			&i.TmsDriverSchedule.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -75,21 +81,27 @@ where
 `
 
 type TmsFindDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID                     `db:"id" json:"id"`
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
+	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver                       `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsFindDriverSchedule(ctx context.Context, id pgtype.UUID) (TmsFindDriverScheduleRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindDriverSchedule, id)
 	var i TmsFindDriverScheduleRow
 	err := row.Scan(
-		&i.TmsDriverSchedule.ID,
-		&i.TmsDriverSchedule.DriverID,
-		&i.TmsDriverSchedule.StartDate,
-		&i.TmsDriverSchedule.EndDate,
-		&i.TmsDriverSchedule.Reason,
-		&i.TmsDriverSchedule.CreatedAt,
-		&i.TmsDriverSchedule.UpdatedAt,
+		&i.ID,
+		&i.DriverID,
+		&i.StartDate,
+		&i.EndDate,
+		&i.Reason,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -138,38 +150,36 @@ func (q *Queries) TmsInsertDriverSchedule(ctx context.Context, arg TmsInsertDriv
 
 const tmsPaginateDriverSchedule = `-- name: TmsPaginateDriverSchedule :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   driver_schedules.id, driver_schedules.driver_id, driver_schedules.start_date, driver_schedules.end_date, driver_schedules.reason, driver_schedules.created_at, driver_schedules.updated_at,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "tms"."driver_schedules" as driver_schedules
   inner join "tms"."drivers" as driver on driver_schedules.driver_id = driver.id
-where (driver.name ilike $3::text
-  or driver_schedules.reason::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (driver.name ilike $1::text
+  or driver_schedules.reason::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateDriverScheduleParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateDriverScheduleRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID                     `db:"id" json:"id"`
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
+	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver                       `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginateDriverScheduleParams) ([]TmsPaginateDriverScheduleRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateDriverSchedule, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateDriverSchedule, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -178,17 +188,13 @@ func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginate
 	for rows.Next() {
 		var i TmsPaginateDriverScheduleRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsDriverSchedule.ID,
-			&i.TmsDriverSchedule.DriverID,
-			&i.TmsDriverSchedule.StartDate,
-			&i.TmsDriverSchedule.EndDate,
-			&i.TmsDriverSchedule.Reason,
-			&i.TmsDriverSchedule.CreatedAt,
-			&i.TmsDriverSchedule.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -206,6 +212,40 @@ func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginate
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateDriverScheduleMetadata = `-- name: TmsPaginateDriverScheduleMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."driver_schedules" as driver_schedules
+`
+
+type TmsPaginateDriverScheduleMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateDriverScheduleMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateDriverScheduleMetadata(ctx context.Context, arg TmsPaginateDriverScheduleMetadataParams) (TmsPaginateDriverScheduleMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateDriverScheduleMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateDriverScheduleMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeDriverSchedule = `-- name: TmsRangeDriverSchedule :many
@@ -230,8 +270,14 @@ type TmsRangeDriverScheduleParams struct {
 }
 
 type TmsRangeDriverScheduleRow struct {
-	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID                     `db:"id" json:"id"`
+	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
+	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
+	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver                       `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsRangeDriverSchedule(ctx context.Context, arg TmsRangeDriverScheduleParams) ([]TmsRangeDriverScheduleRow, error) {
@@ -244,13 +290,13 @@ func (q *Queries) TmsRangeDriverSchedule(ctx context.Context, arg TmsRangeDriver
 	for rows.Next() {
 		var i TmsRangeDriverScheduleRow
 		if err := rows.Scan(
-			&i.TmsDriverSchedule.ID,
-			&i.TmsDriverSchedule.DriverID,
-			&i.TmsDriverSchedule.StartDate,
-			&i.TmsDriverSchedule.EndDate,
-			&i.TmsDriverSchedule.Reason,
-			&i.TmsDriverSchedule.CreatedAt,
-			&i.TmsDriverSchedule.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.StartDate,
+			&i.EndDate,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

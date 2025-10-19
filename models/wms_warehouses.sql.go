@@ -155,69 +155,53 @@ func (q *Queries) WmsInsertWarehouse(ctx context.Context, arg WmsInsertWarehouse
 
 const wmsPaginateWarehouse = `-- name: WmsPaginateWarehouse :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   warehouses.id, warehouses.name, warehouses.address, warehouses.city, warehouses.state, warehouses.postal_code, warehouses.country, warehouses.timezone, warehouses.contact_person, warehouses.contact_email, warehouses.contact_phone, warehouses.is_active, warehouses.created_at, warehouses.updated_at, warehouses.inbound_shipments, warehouses.outbound_shipments, warehouses.locations, warehouses.putaway_rules, warehouses.pick_batches, warehouses.tasks
 from
   "wms"."warehouses_view" as warehouses
-where (name ilike $3::text
-  or city ilike $3::text
-  or state ilike $3::text
-  or country ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (name ilike $1::text
+  or city ilike $1::text
+  or state ilike $1::text
+  or country ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateWarehouseParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
-type WmsPaginateWarehouseRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	WmsWarehousesView WmsWarehousesView `db:"wms_warehouses_view" json:"wms_warehouses_view"`
-}
-
-func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsPaginateWarehouseRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateWarehouse, arg.PerPage, arg.Page, arg.Search)
+func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWarehouseParams) ([]WmsWarehousesView, error) {
+	rows, err := q.db.Query(ctx, wmsPaginateWarehouse, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsPaginateWarehouseRow
+	var items []WmsWarehousesView
 	for rows.Next() {
-		var i WmsPaginateWarehouseRow
+		var i WmsWarehousesView
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsWarehousesView.ID,
-			&i.WmsWarehousesView.Name,
-			&i.WmsWarehousesView.Address,
-			&i.WmsWarehousesView.City,
-			&i.WmsWarehousesView.State,
-			&i.WmsWarehousesView.PostalCode,
-			&i.WmsWarehousesView.Country,
-			&i.WmsWarehousesView.Timezone,
-			&i.WmsWarehousesView.ContactPerson,
-			&i.WmsWarehousesView.ContactEmail,
-			&i.WmsWarehousesView.ContactPhone,
-			&i.WmsWarehousesView.IsActive,
-			&i.WmsWarehousesView.CreatedAt,
-			&i.WmsWarehousesView.UpdatedAt,
-			&i.WmsWarehousesView.InboundShipments,
-			&i.WmsWarehousesView.OutboundShipments,
-			&i.WmsWarehousesView.Locations,
-			&i.WmsWarehousesView.PutawayRules,
-			&i.WmsWarehousesView.PickBatches,
-			&i.WmsWarehousesView.Tasks,
+			&i.ID,
+			&i.Name,
+			&i.Address,
+			&i.City,
+			&i.State,
+			&i.PostalCode,
+			&i.Country,
+			&i.Timezone,
+			&i.ContactPerson,
+			&i.ContactEmail,
+			&i.ContactPhone,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.InboundShipments,
+			&i.OutboundShipments,
+			&i.Locations,
+			&i.PutawayRules,
+			&i.PickBatches,
+			&i.Tasks,
 		); err != nil {
 			return nil, err
 		}
@@ -227,6 +211,46 @@ func (q *Queries) WmsPaginateWarehouse(ctx context.Context, arg WmsPaginateWareh
 		return nil, err
 	}
 	return items, nil
+}
+
+const wmsPaginateWarehouseMetadata = `-- name: WmsPaginateWarehouseMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."warehouses_view" as warehouses
+where (name ilike $3::text
+  or city ilike $3::text
+  or state ilike $3::text
+  or country ilike $3::text
+  or $3::text is null)
+`
+
+type WmsPaginateWarehouseMetadataParams struct {
+	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
+}
+
+type WmsPaginateWarehouseMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateWarehouseMetadata(ctx context.Context, arg WmsPaginateWarehouseMetadataParams) (WmsPaginateWarehouseMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateWarehouseMetadata, arg.PerPage, arg.Page, arg.Search)
+	var i WmsPaginateWarehouseMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const wmsRangeWarehouse = `-- name: WmsRangeWarehouse :many

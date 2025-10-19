@@ -25,9 +25,21 @@ where
 `
 
 type TmsAnyTripRow struct {
-	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
-	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
-	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
+	ID            pgtype.UUID           `db:"id" json:"id"`
+	DriverID      pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID     pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status        NullTmsTripStatusEnum `db:"status" json:"status"`
+	CreatedAt     pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text           `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
+	TripStops     []TmsTripStop         `db:"trip_stops" json:"trip_stops"`
+	Routes        []TmsRoute            `db:"routes" json:"routes"`
+	Expenses      []TmsExpense          `db:"expenses" json:"expenses"`
+	TmsDriver     TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle    TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTripRow, error) {
@@ -40,19 +52,19 @@ func (q *Queries) TmsAnyTrip(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTr
 	for rows.Next() {
 		var i TmsAnyTripRow
 		if err := rows.Scan(
-			&i.TmsTripsView.ID,
-			&i.TmsTripsView.DriverID,
-			&i.TmsTripsView.VehicleID,
-			&i.TmsTripsView.Status,
-			&i.TmsTripsView.CreatedAt,
-			&i.TmsTripsView.UpdatedAt,
-			&i.TmsTripsView.EndLocation,
-			&i.TmsTripsView.EndTime,
-			&i.TmsTripsView.StartLocation,
-			&i.TmsTripsView.StartTime,
-			&i.TmsTripsView.TripStops,
-			&i.TmsTripsView.Routes,
-			&i.TmsTripsView.Expenses,
+			&i.ID,
+			&i.DriverID,
+			&i.VehicleID,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.EndLocation,
+			&i.EndTime,
+			&i.StartLocation,
+			&i.StartTime,
+			&i.TripStops,
+			&i.Routes,
+			&i.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -99,28 +111,40 @@ where
 `
 
 type TmsFindTripRow struct {
-	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
-	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
-	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
+	ID            pgtype.UUID           `db:"id" json:"id"`
+	DriverID      pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID     pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status        NullTmsTripStatusEnum `db:"status" json:"status"`
+	CreatedAt     pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text           `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
+	TripStops     []TmsTripStop         `db:"trip_stops" json:"trip_stops"`
+	Routes        []TmsRoute            `db:"routes" json:"routes"`
+	Expenses      []TmsExpense          `db:"expenses" json:"expenses"`
+	TmsDriver     TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle    TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsFindTrip(ctx context.Context, id pgtype.UUID) (TmsFindTripRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindTrip, id)
 	var i TmsFindTripRow
 	err := row.Scan(
-		&i.TmsTripsView.ID,
-		&i.TmsTripsView.DriverID,
-		&i.TmsTripsView.VehicleID,
-		&i.TmsTripsView.Status,
-		&i.TmsTripsView.CreatedAt,
-		&i.TmsTripsView.UpdatedAt,
-		&i.TmsTripsView.EndLocation,
-		&i.TmsTripsView.EndTime,
-		&i.TmsTripsView.StartLocation,
-		&i.TmsTripsView.StartTime,
-		&i.TmsTripsView.TripStops,
-		&i.TmsTripsView.Routes,
-		&i.TmsTripsView.Expenses,
+		&i.ID,
+		&i.DriverID,
+		&i.VehicleID,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.EndLocation,
+		&i.EndTime,
+		&i.StartLocation,
+		&i.StartTime,
+		&i.TripStops,
+		&i.Routes,
+		&i.Expenses,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -179,10 +203,6 @@ func (q *Queries) TmsInsertTrip(ctx context.Context, arg TmsInsertTripParams) (T
 
 const tmsPaginateTrip = `-- name: TmsPaginateTrip :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
@@ -190,31 +210,39 @@ from
   "tms"."trips_view" as trips
   left join "tms"."drivers" as driver on trips.driver_id = driver.id
   left join "tms"."vehicles" as vehicle on trips.vehicle_id = vehicle.id
-where (driver.name ilike $3::text
-  or vehicle.registration_number ilike $3::text
-  or trips.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (driver.name ilike $1::text
+  or vehicle.registration_number ilike $1::text
+  or trips.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateTripParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateTripRow struct {
-	TotalItems   int64        `db:"total_items" json:"total_items"`
-	TotalPages   float64      `db:"total_pages" json:"total_pages"`
-	Page         int32        `db:"page" json:"page"`
-	PerPage      int32        `db:"per_page" json:"per_page"`
-	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
-	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
-	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
+	ID            pgtype.UUID           `db:"id" json:"id"`
+	DriverID      pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID     pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status        NullTmsTripStatusEnum `db:"status" json:"status"`
+	CreatedAt     pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text           `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
+	TripStops     []TmsTripStop         `db:"trip_stops" json:"trip_stops"`
+	Routes        []TmsRoute            `db:"routes" json:"routes"`
+	Expenses      []TmsExpense          `db:"expenses" json:"expenses"`
+	TmsDriver     TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle    TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams) ([]TmsPaginateTripRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateTrip, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateTrip, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -223,23 +251,19 @@ func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams
 	for rows.Next() {
 		var i TmsPaginateTripRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsTripsView.ID,
-			&i.TmsTripsView.DriverID,
-			&i.TmsTripsView.VehicleID,
-			&i.TmsTripsView.Status,
-			&i.TmsTripsView.CreatedAt,
-			&i.TmsTripsView.UpdatedAt,
-			&i.TmsTripsView.EndLocation,
-			&i.TmsTripsView.EndTime,
-			&i.TmsTripsView.StartLocation,
-			&i.TmsTripsView.StartTime,
-			&i.TmsTripsView.TripStops,
-			&i.TmsTripsView.Routes,
-			&i.TmsTripsView.Expenses,
+			&i.ID,
+			&i.DriverID,
+			&i.VehicleID,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.EndLocation,
+			&i.EndTime,
+			&i.StartLocation,
+			&i.StartTime,
+			&i.TripStops,
+			&i.Routes,
+			&i.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -272,6 +296,40 @@ func (q *Queries) TmsPaginateTrip(ctx context.Context, arg TmsPaginateTripParams
 	return items, nil
 }
 
+const tmsPaginateTripMetadata = `-- name: TmsPaginateTripMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."trips_view" as trips
+`
+
+type TmsPaginateTripMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateTripMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateTripMetadata(ctx context.Context, arg TmsPaginateTripMetadataParams) (TmsPaginateTripMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateTripMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateTripMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const tmsRangeTrip = `-- name: TmsRangeTrip :many
 select
   trips.id, trips.driver_id, trips.vehicle_id, trips.status, trips.created_at, trips.updated_at, trips.end_location, trips.end_time, trips.start_location, trips.start_time, trips.trip_stops, trips.routes, trips.expenses,
@@ -297,9 +355,21 @@ type TmsRangeTripParams struct {
 }
 
 type TmsRangeTripRow struct {
-	TmsTripsView TmsTripsView `db:"tms_trips_view" json:"tms_trips_view"`
-	TmsDriver    TmsDriver    `db:"tms_driver" json:"tms_driver"`
-	TmsVehicle   TmsVehicle   `db:"tms_vehicle" json:"tms_vehicle"`
+	ID            pgtype.UUID           `db:"id" json:"id"`
+	DriverID      pgtype.UUID           `db:"driver_id" json:"driver_id"`
+	VehicleID     pgtype.UUID           `db:"vehicle_id" json:"vehicle_id"`
+	Status        NullTmsTripStatusEnum `db:"status" json:"status"`
+	CreatedAt     pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	EndLocation   pgtype.Text           `db:"end_location" json:"end_location"`
+	EndTime       pgtype.Timestamptz    `db:"end_time" json:"end_time"`
+	StartLocation pgtype.Text           `db:"start_location" json:"start_location"`
+	StartTime     pgtype.Timestamptz    `db:"start_time" json:"start_time"`
+	TripStops     []TmsTripStop         `db:"trip_stops" json:"trip_stops"`
+	Routes        []TmsRoute            `db:"routes" json:"routes"`
+	Expenses      []TmsExpense          `db:"expenses" json:"expenses"`
+	TmsDriver     TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	TmsVehicle    TmsVehicle            `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsRangeTrip(ctx context.Context, arg TmsRangeTripParams) ([]TmsRangeTripRow, error) {
@@ -312,19 +382,19 @@ func (q *Queries) TmsRangeTrip(ctx context.Context, arg TmsRangeTripParams) ([]T
 	for rows.Next() {
 		var i TmsRangeTripRow
 		if err := rows.Scan(
-			&i.TmsTripsView.ID,
-			&i.TmsTripsView.DriverID,
-			&i.TmsTripsView.VehicleID,
-			&i.TmsTripsView.Status,
-			&i.TmsTripsView.CreatedAt,
-			&i.TmsTripsView.UpdatedAt,
-			&i.TmsTripsView.EndLocation,
-			&i.TmsTripsView.EndTime,
-			&i.TmsTripsView.StartLocation,
-			&i.TmsTripsView.StartTime,
-			&i.TmsTripsView.TripStops,
-			&i.TmsTripsView.Routes,
-			&i.TmsTripsView.Expenses,
+			&i.ID,
+			&i.DriverID,
+			&i.VehicleID,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.EndLocation,
+			&i.EndTime,
+			&i.StartLocation,
+			&i.StartTime,
+			&i.TripStops,
+			&i.Routes,
+			&i.Expenses,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

@@ -1,10 +1,15 @@
--- name: WmsPaginateInventoryStock :many
+-- name: WmsPaginateInventoryStockMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(inventory_stock),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."inventory_stock" as inventory_stock;
+
+-- name: WmsPaginateInventoryStock :many
+select
+  inventory_stock.*,
   sqlc.embed(location),
   sqlc.embed(product),
   sqlc.embed(batch)
@@ -22,7 +27,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindInventoryStock :one
 select
-  sqlc.embed(inventory_stock),
+  inventory_stock.*,
   sqlc.embed(location),
   sqlc.embed(product),
   sqlc.embed(batch)
@@ -36,7 +41,7 @@ where
 
 -- name: WmsAnyInventoryStock :many
 select
-  sqlc.embed(inventory_stock),
+  inventory_stock.*,
   sqlc.embed(location),
   sqlc.embed(product),
   sqlc.embed(batch)
@@ -50,7 +55,7 @@ where
 
 -- name: WmsRangeInventoryStock :many
 select
-  sqlc.embed(inventory_stock),
+  inventory_stock.*,
   sqlc.embed(location),
   sqlc.embed(product),
   sqlc.embed(batch)

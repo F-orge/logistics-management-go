@@ -23,8 +23,13 @@ where
 `
 
 type WmsAnyInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
+	BatchNumber    string           `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyInventoryBatch(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInventoryBatchRow, error) {
@@ -37,12 +42,12 @@ func (q *Queries) WmsAnyInventoryBatch(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i WmsAnyInventoryBatchRow
 		if err := rows.Scan(
-			&i.WmsInventoryBatch.ID,
-			&i.WmsInventoryBatch.ProductID,
-			&i.WmsInventoryBatch.BatchNumber,
-			&i.WmsInventoryBatch.ExpirationDate,
-			&i.WmsInventoryBatch.CreatedAt,
-			&i.WmsInventoryBatch.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.BatchNumber,
+			&i.ExpirationDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -82,20 +87,25 @@ where
 `
 
 type WmsFindInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
+	BatchNumber    string           `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindInventoryBatch(ctx context.Context, id pgtype.UUID) (WmsFindInventoryBatchRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindInventoryBatch, id)
 	var i WmsFindInventoryBatchRow
 	err := row.Scan(
-		&i.WmsInventoryBatch.ID,
-		&i.WmsInventoryBatch.ProductID,
-		&i.WmsInventoryBatch.BatchNumber,
-		&i.WmsInventoryBatch.ExpirationDate,
-		&i.WmsInventoryBatch.CreatedAt,
-		&i.WmsInventoryBatch.UpdatedAt,
+		&i.ID,
+		&i.ProductID,
+		&i.BatchNumber,
+		&i.ExpirationDate,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsProduct.ID,
 		&i.WmsProduct.Name,
 		&i.WmsProduct.Sku,
@@ -145,38 +155,35 @@ func (q *Queries) WmsInsertInventoryBatch(ctx context.Context, arg WmsInsertInve
 
 const wmsPaginateInventoryBatch = `-- name: WmsPaginateInventoryBatch :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   inventory_batches.id, inventory_batches.product_id, inventory_batches.batch_number, inventory_batches.expiration_date, inventory_batches.created_at, inventory_batches.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
 from
   "wms"."inventory_batches" as inventory_batches
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
-where (product.name ilike $3::text
-  or inventory_batches.batch_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (product.name ilike $1::text
+  or inventory_batches.batch_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryBatchParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateInventoryBatchRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
+	BatchNumber    string           `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginateInventoryBatchParams) ([]WmsPaginateInventoryBatchRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryBatch, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryBatch, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -185,16 +192,12 @@ func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginate
 	for rows.Next() {
 		var i WmsPaginateInventoryBatchRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsInventoryBatch.ID,
-			&i.WmsInventoryBatch.ProductID,
-			&i.WmsInventoryBatch.BatchNumber,
-			&i.WmsInventoryBatch.ExpirationDate,
-			&i.WmsInventoryBatch.CreatedAt,
-			&i.WmsInventoryBatch.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.BatchNumber,
+			&i.ExpirationDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -222,6 +225,40 @@ func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginate
 	return items, nil
 }
 
+const wmsPaginateInventoryBatchMetadata = `-- name: WmsPaginateInventoryBatchMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."inventory_batches" as inventory_batches
+`
+
+type WmsPaginateInventoryBatchMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateInventoryBatchMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateInventoryBatchMetadata(ctx context.Context, arg WmsPaginateInventoryBatchMetadataParams) (WmsPaginateInventoryBatchMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateInventoryBatchMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateInventoryBatchMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeInventoryBatch = `-- name: WmsRangeInventoryBatch :many
 select
   inventory_batches.id, inventory_batches.product_id, inventory_batches.batch_number, inventory_batches.expiration_date, inventory_batches.created_at, inventory_batches.updated_at,
@@ -244,8 +281,13 @@ type WmsRangeInventoryBatchParams struct {
 }
 
 type WmsRangeInventoryBatchRow struct {
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
+	ID             pgtype.UUID      `db:"id" json:"id"`
+	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
+	BatchNumber    string           `db:"batch_number" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeInventoryBatch(ctx context.Context, arg WmsRangeInventoryBatchParams) ([]WmsRangeInventoryBatchRow, error) {
@@ -258,12 +300,12 @@ func (q *Queries) WmsRangeInventoryBatch(ctx context.Context, arg WmsRangeInvent
 	for rows.Next() {
 		var i WmsRangeInventoryBatchRow
 		if err := rows.Scan(
-			&i.WmsInventoryBatch.ID,
-			&i.WmsInventoryBatch.ProductID,
-			&i.WmsInventoryBatch.BatchNumber,
-			&i.WmsInventoryBatch.ExpirationDate,
-			&i.WmsInventoryBatch.CreatedAt,
-			&i.WmsInventoryBatch.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.BatchNumber,
+			&i.ExpirationDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,

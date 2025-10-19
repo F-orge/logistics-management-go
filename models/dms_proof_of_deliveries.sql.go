@@ -23,8 +23,19 @@ where
 `
 
 type DmsAnyProofOfDeliveryRow struct {
-	DmsProofOfDelivery DmsProofOfDelivery `db:"dms_proof_of_delivery" json:"dms_proof_of_delivery"`
-	DmsDeliveryTask    DmsDeliveryTask    `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID               pgtype.UUID                `db:"id" json:"id"`
+	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
+	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
+	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsAnyProofOfDelivery(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyProofOfDeliveryRow, error) {
@@ -37,18 +48,18 @@ func (q *Queries) DmsAnyProofOfDelivery(ctx context.Context, ids []pgtype.UUID) 
 	for rows.Next() {
 		var i DmsAnyProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.DmsProofOfDelivery.ID,
-			&i.DmsProofOfDelivery.DeliveryTaskID,
-			&i.DmsProofOfDelivery.Type,
-			&i.DmsProofOfDelivery.FilePath,
-			&i.DmsProofOfDelivery.SignatureData,
-			&i.DmsProofOfDelivery.RecipientName,
-			&i.DmsProofOfDelivery.VerificationCode,
-			&i.DmsProofOfDelivery.Latitude,
-			&i.DmsProofOfDelivery.Longitude,
-			&i.DmsProofOfDelivery.Timestamp,
-			&i.DmsProofOfDelivery.CreatedAt,
-			&i.DmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.Type,
+			&i.FilePath,
+			&i.SignatureData,
+			&i.RecipientName,
+			&i.VerificationCode,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,
@@ -88,26 +99,37 @@ where
 `
 
 type DmsFindProofOfDeliveryRow struct {
-	DmsProofOfDelivery DmsProofOfDelivery `db:"dms_proof_of_delivery" json:"dms_proof_of_delivery"`
-	DmsDeliveryTask    DmsDeliveryTask    `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID               pgtype.UUID                `db:"id" json:"id"`
+	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
+	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
+	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsFindProofOfDelivery(ctx context.Context, id pgtype.UUID) (DmsFindProofOfDeliveryRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindProofOfDelivery, id)
 	var i DmsFindProofOfDeliveryRow
 	err := row.Scan(
-		&i.DmsProofOfDelivery.ID,
-		&i.DmsProofOfDelivery.DeliveryTaskID,
-		&i.DmsProofOfDelivery.Type,
-		&i.DmsProofOfDelivery.FilePath,
-		&i.DmsProofOfDelivery.SignatureData,
-		&i.DmsProofOfDelivery.RecipientName,
-		&i.DmsProofOfDelivery.VerificationCode,
-		&i.DmsProofOfDelivery.Latitude,
-		&i.DmsProofOfDelivery.Longitude,
-		&i.DmsProofOfDelivery.Timestamp,
-		&i.DmsProofOfDelivery.CreatedAt,
-		&i.DmsProofOfDelivery.UpdatedAt,
+		&i.ID,
+		&i.DeliveryTaskID,
+		&i.Type,
+		&i.FilePath,
+		&i.SignatureData,
+		&i.RecipientName,
+		&i.VerificationCode,
+		&i.Latitude,
+		&i.Longitude,
+		&i.Timestamp,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.DmsDeliveryTask.ID,
 		&i.DmsDeliveryTask.PackageID,
 		&i.DmsDeliveryTask.DeliveryRouteID,
@@ -179,38 +201,41 @@ func (q *Queries) DmsInsertProofOfDelivery(ctx context.Context, arg DmsInsertPro
 
 const dmsPaginateProofOfDelivery = `-- name: DmsPaginateProofOfDelivery :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   proof_of_deliveries.id, proof_of_deliveries.delivery_task_id, proof_of_deliveries.type, proof_of_deliveries.file_path, proof_of_deliveries.signature_data, proof_of_deliveries.recipient_name, proof_of_deliveries.verification_code, proof_of_deliveries.latitude, proof_of_deliveries.longitude, proof_of_deliveries.timestamp, proof_of_deliveries.created_at, proof_of_deliveries.updated_at,
   delivery_task.id, delivery_task.package_id, delivery_task.delivery_route_id, delivery_task.route_sequence, delivery_task.delivery_address, delivery_task.recipient_name, delivery_task.recipient_phone, delivery_task.delivery_instructions, delivery_task.estimated_arrival_time, delivery_task.actual_arrival_time, delivery_task.delivery_time, delivery_task.status, delivery_task.failure_reason, delivery_task.attempt_count, delivery_task.created_at, delivery_task.updated_at
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
   inner join "dms"."delivery_tasks" as delivery_task on proof_of_deliveries.delivery_task_id = delivery_task.id
-where (proof_of_deliveries.recipient_name ilike $3::text
-  or proof_of_deliveries.type::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (proof_of_deliveries.recipient_name ilike $1::text
+  or proof_of_deliveries.type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateProofOfDeliveryParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type DmsPaginateProofOfDeliveryRow struct {
-	TotalItems         int64              `db:"total_items" json:"total_items"`
-	TotalPages         float64            `db:"total_pages" json:"total_pages"`
-	Page               int32              `db:"page" json:"page"`
-	PerPage            int32              `db:"per_page" json:"per_page"`
-	DmsProofOfDelivery DmsProofOfDelivery `db:"dms_proof_of_delivery" json:"dms_proof_of_delivery"`
-	DmsDeliveryTask    DmsDeliveryTask    `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID               pgtype.UUID                `db:"id" json:"id"`
+	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
+	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
+	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateProofOfDelivery(ctx context.Context, arg DmsPaginateProofOfDeliveryParams) ([]DmsPaginateProofOfDeliveryRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateProofOfDelivery, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, dmsPaginateProofOfDelivery, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -219,22 +244,18 @@ func (q *Queries) DmsPaginateProofOfDelivery(ctx context.Context, arg DmsPaginat
 	for rows.Next() {
 		var i DmsPaginateProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.DmsProofOfDelivery.ID,
-			&i.DmsProofOfDelivery.DeliveryTaskID,
-			&i.DmsProofOfDelivery.Type,
-			&i.DmsProofOfDelivery.FilePath,
-			&i.DmsProofOfDelivery.SignatureData,
-			&i.DmsProofOfDelivery.RecipientName,
-			&i.DmsProofOfDelivery.VerificationCode,
-			&i.DmsProofOfDelivery.Latitude,
-			&i.DmsProofOfDelivery.Longitude,
-			&i.DmsProofOfDelivery.Timestamp,
-			&i.DmsProofOfDelivery.CreatedAt,
-			&i.DmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.Type,
+			&i.FilePath,
+			&i.SignatureData,
+			&i.RecipientName,
+			&i.VerificationCode,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,
@@ -262,6 +283,40 @@ func (q *Queries) DmsPaginateProofOfDelivery(ctx context.Context, arg DmsPaginat
 	return items, nil
 }
 
+const dmsPaginateProofOfDeliveryMetadata = `-- name: DmsPaginateProofOfDeliveryMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "dms"."proof_of_deliveries" as proof_of_deliveries
+`
+
+type DmsPaginateProofOfDeliveryMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type DmsPaginateProofOfDeliveryMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) DmsPaginateProofOfDeliveryMetadata(ctx context.Context, arg DmsPaginateProofOfDeliveryMetadataParams) (DmsPaginateProofOfDeliveryMetadataRow, error) {
+	row := q.db.QueryRow(ctx, dmsPaginateProofOfDeliveryMetadata, arg.PerPage, arg.Page)
+	var i DmsPaginateProofOfDeliveryMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const dmsRangeProofOfDelivery = `-- name: DmsRangeProofOfDelivery :many
 select
   proof_of_deliveries.id, proof_of_deliveries.delivery_task_id, proof_of_deliveries.type, proof_of_deliveries.file_path, proof_of_deliveries.signature_data, proof_of_deliveries.recipient_name, proof_of_deliveries.verification_code, proof_of_deliveries.latitude, proof_of_deliveries.longitude, proof_of_deliveries.timestamp, proof_of_deliveries.created_at, proof_of_deliveries.updated_at,
@@ -284,8 +339,19 @@ type DmsRangeProofOfDeliveryParams struct {
 }
 
 type DmsRangeProofOfDeliveryRow struct {
-	DmsProofOfDelivery DmsProofOfDelivery `db:"dms_proof_of_delivery" json:"dms_proof_of_delivery"`
-	DmsDeliveryTask    DmsDeliveryTask    `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID               pgtype.UUID                `db:"id" json:"id"`
+	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
+	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
+	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsRangeProofOfDelivery(ctx context.Context, arg DmsRangeProofOfDeliveryParams) ([]DmsRangeProofOfDeliveryRow, error) {
@@ -298,18 +364,18 @@ func (q *Queries) DmsRangeProofOfDelivery(ctx context.Context, arg DmsRangeProof
 	for rows.Next() {
 		var i DmsRangeProofOfDeliveryRow
 		if err := rows.Scan(
-			&i.DmsProofOfDelivery.ID,
-			&i.DmsProofOfDelivery.DeliveryTaskID,
-			&i.DmsProofOfDelivery.Type,
-			&i.DmsProofOfDelivery.FilePath,
-			&i.DmsProofOfDelivery.SignatureData,
-			&i.DmsProofOfDelivery.RecipientName,
-			&i.DmsProofOfDelivery.VerificationCode,
-			&i.DmsProofOfDelivery.Latitude,
-			&i.DmsProofOfDelivery.Longitude,
-			&i.DmsProofOfDelivery.Timestamp,
-			&i.DmsProofOfDelivery.CreatedAt,
-			&i.DmsProofOfDelivery.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.Type,
+			&i.FilePath,
+			&i.SignatureData,
+			&i.RecipientName,
+			&i.VerificationCode,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,

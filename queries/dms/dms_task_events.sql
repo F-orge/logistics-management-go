@@ -1,10 +1,15 @@
--- name: DmsPaginateTaskEvent :many
+-- name: DmsPaginateTaskEventMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(task_events),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."task_events" as task_events;
+
+-- name: DmsPaginateTaskEvent :many
+select
+  task_events.*,
   sqlc.embed(delivery_task)
 from
   "dms"."task_events" as task_events
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindTaskEvent :one
 select
-  sqlc.embed(task_events),
+  task_events.*,
   sqlc.embed(delivery_task)
 from
   "dms"."task_events" as task_events
@@ -26,7 +31,7 @@ where
 
 -- name: DmsAnyTaskEvent :many
 select
-  sqlc.embed(task_events),
+  task_events.*,
   sqlc.embed(delivery_task)
 from
   "dms"."task_events" as task_events
@@ -36,7 +41,7 @@ where
 
 -- name: DmsRangeTaskEvent :many
 select
-  sqlc.embed(task_events),
+  task_events.*,
   sqlc.embed(delivery_task)
 from
   "dms"."task_events" as task_events

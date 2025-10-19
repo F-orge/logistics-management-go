@@ -23,8 +23,18 @@ where
 `
 
 type DmsAnyDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsAnyDriverLocation(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDriverLocationRow, error) {
@@ -37,17 +47,17 @@ func (q *Queries) DmsAnyDriverLocation(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i DmsAnyDriverLocationRow
 		if err := rows.Scan(
-			&i.DmsDriverLocation.ID,
-			&i.DmsDriverLocation.DriverID,
-			&i.DmsDriverLocation.Latitude,
-			&i.DmsDriverLocation.Longitude,
-			&i.DmsDriverLocation.Altitude,
-			&i.DmsDriverLocation.Accuracy,
-			&i.DmsDriverLocation.SpeedKmh,
-			&i.DmsDriverLocation.Heading,
-			&i.DmsDriverLocation.Timestamp,
-			&i.DmsDriverLocation.CreatedAt,
-			&i.DmsDriverLocation.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Altitude,
+			&i.Accuracy,
+			&i.SpeedKmh,
+			&i.Heading,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -79,25 +89,35 @@ where
 `
 
 type DmsFindDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsFindDriverLocation(ctx context.Context, id pgtype.UUID) (DmsFindDriverLocationRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindDriverLocation, id)
 	var i DmsFindDriverLocationRow
 	err := row.Scan(
-		&i.DmsDriverLocation.ID,
-		&i.DmsDriverLocation.DriverID,
-		&i.DmsDriverLocation.Latitude,
-		&i.DmsDriverLocation.Longitude,
-		&i.DmsDriverLocation.Altitude,
-		&i.DmsDriverLocation.Accuracy,
-		&i.DmsDriverLocation.SpeedKmh,
-		&i.DmsDriverLocation.Heading,
-		&i.DmsDriverLocation.Timestamp,
-		&i.DmsDriverLocation.CreatedAt,
-		&i.DmsDriverLocation.UpdatedAt,
+		&i.ID,
+		&i.DriverID,
+		&i.Latitude,
+		&i.Longitude,
+		&i.Altitude,
+		&i.Accuracy,
+		&i.SpeedKmh,
+		&i.Heading,
+		&i.Timestamp,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -158,37 +178,39 @@ func (q *Queries) DmsInsertDriverLocation(ctx context.Context, arg DmsInsertDriv
 
 const dmsPaginateDriverLocation = `-- name: DmsPaginateDriverLocation :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   driver_locations.id, driver_locations.driver_id, driver_locations.latitude, driver_locations.longitude, driver_locations.altitude, driver_locations.accuracy, driver_locations.speed_kmh, driver_locations.heading, driver_locations.timestamp, driver_locations.created_at, driver_locations.updated_at,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
-where (driver.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (driver.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateDriverLocationParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type DmsPaginateDriverLocationRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginateDriverLocationParams) ([]DmsPaginateDriverLocationRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -197,21 +219,17 @@ func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginate
 	for rows.Next() {
 		var i DmsPaginateDriverLocationRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.DmsDriverLocation.ID,
-			&i.DmsDriverLocation.DriverID,
-			&i.DmsDriverLocation.Latitude,
-			&i.DmsDriverLocation.Longitude,
-			&i.DmsDriverLocation.Altitude,
-			&i.DmsDriverLocation.Accuracy,
-			&i.DmsDriverLocation.SpeedKmh,
-			&i.DmsDriverLocation.Heading,
-			&i.DmsDriverLocation.Timestamp,
-			&i.DmsDriverLocation.CreatedAt,
-			&i.DmsDriverLocation.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Altitude,
+			&i.Accuracy,
+			&i.SpeedKmh,
+			&i.Heading,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -229,6 +247,40 @@ func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginate
 		return nil, err
 	}
 	return items, nil
+}
+
+const dmsPaginateDriverLocationMetadata = `-- name: DmsPaginateDriverLocationMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "dms"."driver_locations" as driver_locations
+`
+
+type DmsPaginateDriverLocationMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type DmsPaginateDriverLocationMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) DmsPaginateDriverLocationMetadata(ctx context.Context, arg DmsPaginateDriverLocationMetadataParams) (DmsPaginateDriverLocationMetadataRow, error) {
+	row := q.db.QueryRow(ctx, dmsPaginateDriverLocationMetadata, arg.PerPage, arg.Page)
+	var i DmsPaginateDriverLocationMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const dmsRangeDriverLocation = `-- name: DmsRangeDriverLocation :many
@@ -252,8 +304,18 @@ type DmsRangeDriverLocationParams struct {
 }
 
 type DmsRangeDriverLocationRow struct {
-	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
-	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
+	ID        pgtype.UUID      `db:"id" json:"id"`
+	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
+	Latitude  float32          `db:"latitude" json:"latitude"`
+	Longitude float32          `db:"longitude" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsRangeDriverLocation(ctx context.Context, arg DmsRangeDriverLocationParams) ([]DmsRangeDriverLocationRow, error) {
@@ -266,17 +328,17 @@ func (q *Queries) DmsRangeDriverLocation(ctx context.Context, arg DmsRangeDriver
 	for rows.Next() {
 		var i DmsRangeDriverLocationRow
 		if err := rows.Scan(
-			&i.DmsDriverLocation.ID,
-			&i.DmsDriverLocation.DriverID,
-			&i.DmsDriverLocation.Latitude,
-			&i.DmsDriverLocation.Longitude,
-			&i.DmsDriverLocation.Altitude,
-			&i.DmsDriverLocation.Accuracy,
-			&i.DmsDriverLocation.SpeedKmh,
-			&i.DmsDriverLocation.Heading,
-			&i.DmsDriverLocation.Timestamp,
-			&i.DmsDriverLocation.CreatedAt,
-			&i.DmsDriverLocation.UpdatedAt,
+			&i.ID,
+			&i.DriverID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Altitude,
+			&i.Accuracy,
+			&i.SpeedKmh,
+			&i.Heading,
+			&i.Timestamp,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

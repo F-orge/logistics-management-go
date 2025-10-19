@@ -23,8 +23,14 @@ where
 `
 
 type TmsAnyRouteRow struct {
-	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
-	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
+	ID                 pgtype.UUID      `db:"id" json:"id"`
+	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsAnyRoute(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyRouteRow, error) {
@@ -37,13 +43,13 @@ func (q *Queries) TmsAnyRoute(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyR
 	for rows.Next() {
 		var i TmsAnyRouteRow
 		if err := rows.Scan(
-			&i.TmsRoute.ID,
-			&i.TmsRoute.TripID,
-			&i.TmsRoute.OptimizedRouteData,
-			&i.TmsRoute.TotalDistance,
-			&i.TmsRoute.TotalDuration,
-			&i.TmsRoute.CreatedAt,
-			&i.TmsRoute.UpdatedAt,
+			&i.ID,
+			&i.TripID,
+			&i.OptimizedRouteData,
+			&i.TotalDistance,
+			&i.TotalDuration,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -77,21 +83,27 @@ where
 `
 
 type TmsFindRouteRow struct {
-	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
-	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
+	ID                 pgtype.UUID      `db:"id" json:"id"`
+	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsFindRoute(ctx context.Context, id pgtype.UUID) (TmsFindRouteRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindRoute, id)
 	var i TmsFindRouteRow
 	err := row.Scan(
-		&i.TmsRoute.ID,
-		&i.TmsRoute.TripID,
-		&i.TmsRoute.OptimizedRouteData,
-		&i.TmsRoute.TotalDistance,
-		&i.TmsRoute.TotalDuration,
-		&i.TmsRoute.CreatedAt,
-		&i.TmsRoute.UpdatedAt,
+		&i.ID,
+		&i.TripID,
+		&i.OptimizedRouteData,
+		&i.TotalDistance,
+		&i.TotalDuration,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.TmsTrip.ID,
 		&i.TmsTrip.DriverID,
 		&i.TmsTrip.VehicleID,
@@ -142,37 +154,35 @@ func (q *Queries) TmsInsertRoute(ctx context.Context, arg TmsInsertRouteParams) 
 
 const tmsPaginateRoute = `-- name: TmsPaginateRoute :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   routes.id, routes.trip_id, routes.optimized_route_data, routes.total_distance, routes.total_duration, routes.created_at, routes.updated_at,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
   "tms"."routes" as routes
   inner join "tms"."trips" as trip on routes.trip_id = trip.id
-where (trip.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (trip.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateRouteParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateRouteRow struct {
-	TotalItems int64    `db:"total_items" json:"total_items"`
-	TotalPages float64  `db:"total_pages" json:"total_pages"`
-	Page       int32    `db:"page" json:"page"`
-	PerPage    int32    `db:"per_page" json:"per_page"`
-	TmsRoute   TmsRoute `db:"tms_route" json:"tms_route"`
-	TmsTrip    TmsTrip  `db:"tms_trip" json:"tms_trip"`
+	ID                 pgtype.UUID      `db:"id" json:"id"`
+	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsPaginateRoute(ctx context.Context, arg TmsPaginateRouteParams) ([]TmsPaginateRouteRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateRoute, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateRoute, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -181,17 +191,13 @@ func (q *Queries) TmsPaginateRoute(ctx context.Context, arg TmsPaginateRoutePara
 	for rows.Next() {
 		var i TmsPaginateRouteRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsRoute.ID,
-			&i.TmsRoute.TripID,
-			&i.TmsRoute.OptimizedRouteData,
-			&i.TmsRoute.TotalDistance,
-			&i.TmsRoute.TotalDuration,
-			&i.TmsRoute.CreatedAt,
-			&i.TmsRoute.UpdatedAt,
+			&i.ID,
+			&i.TripID,
+			&i.OptimizedRouteData,
+			&i.TotalDistance,
+			&i.TotalDuration,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -211,6 +217,40 @@ func (q *Queries) TmsPaginateRoute(ctx context.Context, arg TmsPaginateRoutePara
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateRouteMetadata = `-- name: TmsPaginateRouteMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."routes" as routes
+`
+
+type TmsPaginateRouteMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateRouteMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateRouteMetadata(ctx context.Context, arg TmsPaginateRouteMetadataParams) (TmsPaginateRouteMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateRouteMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateRouteMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeRoute = `-- name: TmsRangeRoute :many
@@ -234,8 +274,14 @@ type TmsRangeRouteParams struct {
 }
 
 type TmsRangeRouteRow struct {
-	TmsRoute TmsRoute `db:"tms_route" json:"tms_route"`
-	TmsTrip  TmsTrip  `db:"tms_trip" json:"tms_trip"`
+	ID                 pgtype.UUID      `db:"id" json:"id"`
+	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsRangeRoute(ctx context.Context, arg TmsRangeRouteParams) ([]TmsRangeRouteRow, error) {
@@ -248,13 +294,13 @@ func (q *Queries) TmsRangeRoute(ctx context.Context, arg TmsRangeRouteParams) ([
 	for rows.Next() {
 		var i TmsRangeRouteRow
 		if err := rows.Scan(
-			&i.TmsRoute.ID,
-			&i.TmsRoute.TripID,
-			&i.TmsRoute.OptimizedRouteData,
-			&i.TmsRoute.TotalDistance,
-			&i.TmsRoute.TotalDuration,
-			&i.TmsRoute.CreatedAt,
-			&i.TmsRoute.UpdatedAt,
+			&i.ID,
+			&i.TripID,
+			&i.OptimizedRouteData,
+			&i.TotalDistance,
+			&i.TotalDuration,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,

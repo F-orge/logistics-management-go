@@ -1,10 +1,15 @@
--- name: WmsPaginateStockTransfer :many
+-- name: WmsPaginateStockTransferMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(stock_transfers),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."stock_transfers" as stock_transfers;
+
+-- name: WmsPaginateStockTransfer :many
+select
+  stock_transfers.*,
   sqlc.embed(product)
 from
   "wms"."stock_transfers" as stock_transfers
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindStockTransfer :one
 select
-  sqlc.embed(stock_transfers),
+  stock_transfers.*,
   sqlc.embed(product)
 from
   "wms"."stock_transfers" as stock_transfers
@@ -26,7 +31,7 @@ where
 
 -- name: WmsAnyStockTransfer :many
 select
-  sqlc.embed(stock_transfers),
+  stock_transfers.*,
   sqlc.embed(product)
 from
   "wms"."stock_transfers" as stock_transfers
@@ -36,7 +41,7 @@ where
 
 -- name: WmsRangeStockTransfer :many
 select
-  sqlc.embed(stock_transfers),
+  stock_transfers.*,
   sqlc.embed(product)
 from
   "wms"."stock_transfers" as stock_transfers

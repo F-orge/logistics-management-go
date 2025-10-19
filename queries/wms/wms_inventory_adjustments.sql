@@ -1,10 +1,15 @@
--- name: WmsPaginateInventoryAdjustment :many
+-- name: WmsPaginateInventoryAdjustmentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(inventory_adjustments),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."inventory_adjustments" as inventory_adjustments;
+
+-- name: WmsPaginateInventoryAdjustment :many
+select
+  inventory_adjustments.*,
   sqlc.embed(product),
   sqlc.embed(users)
 from
@@ -19,7 +24,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindInventoryAdjustment :one
 select
-  sqlc.embed(inventory_adjustments),
+  inventory_adjustments.*,
   sqlc.embed(product),
   sqlc.embed(users)
 from
@@ -31,7 +36,7 @@ where
 
 -- name: WmsAnyInventoryAdjustment :many
 select
-  sqlc.embed(inventory_adjustments),
+  inventory_adjustments.*,
   sqlc.embed(product),
   sqlc.embed(users)
 from
@@ -43,7 +48,7 @@ where
 
 -- name: WmsRangeInventoryAdjustment :many
 select
-  sqlc.embed(inventory_adjustments),
+  inventory_adjustments.*,
   sqlc.embed(product),
   sqlc.embed(users)
 from

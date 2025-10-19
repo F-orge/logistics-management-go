@@ -1,10 +1,19 @@
--- name: TmsPaginateVehicleMaintenance :many
+-- name: TmsPaginateVehicleMaintenanceMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(vehicle_maintenance),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."vehicle_maintenance" as vehicle_maintenance
+  inner join "tms"."vehicles" as vehicle on vehicle_maintenance.vehicle_id = vehicle.id
+where (vehicle.registration_number ilike sqlc.narg(search)::text
+  or vehicle_maintenance.service_type::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
+
+-- name: TmsPaginateVehicleMaintenance :many
+select
+  vehicle_maintenance.*,
   sqlc.embed(vehicle)
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
@@ -16,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindVehicleMaintenance :one
 select
-  sqlc.embed(vehicle_maintenance),
+  vehicle_maintenance.*,
   sqlc.embed(vehicle)
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
@@ -26,7 +35,7 @@ where
 
 -- name: TmsAnyVehicleMaintenance :many
 select
-  sqlc.embed(vehicle_maintenance),
+  vehicle_maintenance.*,
   sqlc.embed(vehicle)
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance
@@ -36,7 +45,7 @@ where
 
 -- name: TmsRangeVehicleMaintenance :many
 select
-  sqlc.embed(vehicle_maintenance),
+  vehicle_maintenance.*,
   sqlc.embed(vehicle)
 from
   "tms"."vehicle_maintenance" as vehicle_maintenance

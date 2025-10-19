@@ -1,10 +1,21 @@
--- name: WmsPaginateOutboundShipment :many
+-- name: WmsPaginateOutboundShipmentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(outbound_shipments),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."outbound_shipments_view" as outbound_shipments
+  inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
+where (sales_order.order_number ilike sqlc.narg(search)::text
+  or outbound_shipments.tracking_number ilike sqlc.narg(search)::text
+  or outbound_shipments.carrier ilike sqlc.narg(search)::text
+  or outbound_shipments.status::text ilike sqlc.narg(search)::text
+  or sqlc.narg(search)::text is null);
+
+-- name: WmsPaginateOutboundShipment :many
+select
+  outbound_shipments.*,
   sqlc.embed(sales_order)
 from
   "wms"."outbound_shipments_view" as outbound_shipments

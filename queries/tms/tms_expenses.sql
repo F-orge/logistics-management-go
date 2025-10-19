@@ -1,10 +1,15 @@
--- name: TmsPaginateExpense :many
+-- name: TmsPaginateExpenseMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(expenses),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."expenses" as expenses;
+
+-- name: TmsPaginateExpense :many
+select
+  expenses.*,
   sqlc.embed(trip),
   sqlc.embed(driver)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindExpense :one
 select
-  sqlc.embed(expenses),
+  expenses.*,
   sqlc.embed(trip),
   sqlc.embed(driver)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: TmsAnyExpense :many
 select
-  sqlc.embed(expenses),
+  expenses.*,
   sqlc.embed(trip),
   sqlc.embed(driver)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: TmsRangeExpense :many
 select
-  sqlc.embed(expenses),
+  expenses.*,
   sqlc.embed(trip),
   sqlc.embed(driver)
 from

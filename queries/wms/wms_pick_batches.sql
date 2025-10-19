@@ -1,10 +1,15 @@
--- name: WmsPaginatePickBatch :many
+-- name: WmsPaginatePickBatchMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(pick_batches),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."pick_batches_view" as pick_batches;
+
+-- name: WmsPaginatePickBatch :many
+select
+  pick_batches.*,
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindPickBatch :one
 select
-  sqlc.embed(pick_batches),
+  pick_batches.*,
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: WmsAnyPickBatch :many
 select
-  sqlc.embed(pick_batches),
+  pick_batches.*,
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: WmsRangePickBatch :many
 select
-  sqlc.embed(pick_batches),
+  pick_batches.*,
   sqlc.embed(warehouse),
   sqlc.embed(assigned_user)
 from

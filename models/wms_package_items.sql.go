@@ -27,7 +27,18 @@ where
 `
 
 type WmsAnyPackageItemRow struct {
-	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
+	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
+	Quantity          int32             `db:"quantity" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
+	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
 	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
@@ -43,18 +54,18 @@ func (q *Queries) WmsAnyPackageItem(ctx context.Context, ids []pgtype.UUID) ([]W
 	for rows.Next() {
 		var i WmsAnyPackageItemRow
 		if err := rows.Scan(
-			&i.WmsPackageItem.ID,
-			&i.WmsPackageItem.PackageID,
-			&i.WmsPackageItem.ProductID,
-			&i.WmsPackageItem.BatchID,
-			&i.WmsPackageItem.Quantity,
-			&i.WmsPackageItem.LotNumber,
-			&i.WmsPackageItem.SerialNumbers,
-			&i.WmsPackageItem.ExpiryDate,
-			&i.WmsPackageItem.UnitWeight,
-			&i.WmsPackageItem.TotalWeight,
-			&i.WmsPackageItem.CreatedAt,
-			&i.WmsPackageItem.UpdatedAt,
+			&i.ID,
+			&i.PackageID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.UnitWeight,
+			&i.TotalWeight,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPackage.ID,
 			&i.WmsPackage.SalesOrderID,
 			&i.WmsPackage.PackageNumber,
@@ -126,7 +137,18 @@ where
 `
 
 type WmsFindPackageItemRow struct {
-	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
+	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
+	Quantity          int32             `db:"quantity" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
+	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
 	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
@@ -136,18 +158,18 @@ func (q *Queries) WmsFindPackageItem(ctx context.Context, id pgtype.UUID) (WmsFi
 	row := q.db.QueryRow(ctx, wmsFindPackageItem, id)
 	var i WmsFindPackageItemRow
 	err := row.Scan(
-		&i.WmsPackageItem.ID,
-		&i.WmsPackageItem.PackageID,
-		&i.WmsPackageItem.ProductID,
-		&i.WmsPackageItem.BatchID,
-		&i.WmsPackageItem.Quantity,
-		&i.WmsPackageItem.LotNumber,
-		&i.WmsPackageItem.SerialNumbers,
-		&i.WmsPackageItem.ExpiryDate,
-		&i.WmsPackageItem.UnitWeight,
-		&i.WmsPackageItem.TotalWeight,
-		&i.WmsPackageItem.CreatedAt,
-		&i.WmsPackageItem.UpdatedAt,
+		&i.ID,
+		&i.PackageID,
+		&i.ProductID,
+		&i.BatchID,
+		&i.Quantity,
+		&i.LotNumber,
+		&i.SerialNumbers,
+		&i.ExpiryDate,
+		&i.UnitWeight,
+		&i.TotalWeight,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsPackage.ID,
 		&i.WmsPackage.SalesOrderID,
 		&i.WmsPackage.PackageNumber,
@@ -245,10 +267,6 @@ func (q *Queries) WmsInsertPackageItem(ctx context.Context, arg WmsInsertPackage
 
 const wmsPaginatePackageItem = `-- name: WmsPaginatePackageItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   package_items.id, package_items.package_id, package_items.product_id, package_items.batch_id, package_items.quantity, package_items.lot_number, package_items.serial_numbers, package_items.expiry_date, package_items.unit_weight, package_items.total_weight, package_items.created_at, package_items.updated_at,
   package.id, package.sales_order_id, package.package_number, package.warehouse_id, package.package_type, package.weight, package.length, package.width, package.height, package.volume, package.tracking_number, package.carrier, package.service_level, package.packed_by_user_id, package.packed_at, package.shipped_at, package.is_fragile, package.is_hazmat, package.requires_signature, package.insurance_value, package.created_at, package.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -258,31 +276,38 @@ from
   inner join "wms"."packages" as package on package_items.package_id = package.id
   inner join "wms"."products" as product on package_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
-where (package.package_number ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (package.package_number ilike $1::text
+  or product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePackageItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginatePackageItemRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
+	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
+	Quantity          int32             `db:"quantity" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
+	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
 	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePackageItemParams) ([]WmsPaginatePackageItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -291,22 +316,18 @@ func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePac
 	for rows.Next() {
 		var i WmsPaginatePackageItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsPackageItem.ID,
-			&i.WmsPackageItem.PackageID,
-			&i.WmsPackageItem.ProductID,
-			&i.WmsPackageItem.BatchID,
-			&i.WmsPackageItem.Quantity,
-			&i.WmsPackageItem.LotNumber,
-			&i.WmsPackageItem.SerialNumbers,
-			&i.WmsPackageItem.ExpiryDate,
-			&i.WmsPackageItem.UnitWeight,
-			&i.WmsPackageItem.TotalWeight,
-			&i.WmsPackageItem.CreatedAt,
-			&i.WmsPackageItem.UpdatedAt,
+			&i.ID,
+			&i.PackageID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.UnitWeight,
+			&i.TotalWeight,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPackage.ID,
 			&i.WmsPackage.SalesOrderID,
 			&i.WmsPackage.PackageNumber,
@@ -362,6 +383,40 @@ func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePac
 	return items, nil
 }
 
+const wmsPaginatePackageItemMetadata = `-- name: WmsPaginatePackageItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."package_items" as package_items
+`
+
+type WmsPaginatePackageItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginatePackageItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginatePackageItemMetadata(ctx context.Context, arg WmsPaginatePackageItemMetadataParams) (WmsPaginatePackageItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginatePackageItemMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginatePackageItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangePackageItem = `-- name: WmsRangePackageItem :many
 select
   package_items.id, package_items.package_id, package_items.product_id, package_items.batch_id, package_items.quantity, package_items.lot_number, package_items.serial_numbers, package_items.expiry_date, package_items.unit_weight, package_items.total_weight, package_items.created_at, package_items.updated_at,
@@ -388,7 +443,18 @@ type WmsRangePackageItemParams struct {
 }
 
 type WmsRangePackageItemRow struct {
-	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
+	ID                pgtype.UUID       `db:"id" json:"id"`
+	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
+	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
+	Quantity          int32             `db:"quantity" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
+	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
 	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
@@ -404,18 +470,18 @@ func (q *Queries) WmsRangePackageItem(ctx context.Context, arg WmsRangePackageIt
 	for rows.Next() {
 		var i WmsRangePackageItemRow
 		if err := rows.Scan(
-			&i.WmsPackageItem.ID,
-			&i.WmsPackageItem.PackageID,
-			&i.WmsPackageItem.ProductID,
-			&i.WmsPackageItem.BatchID,
-			&i.WmsPackageItem.Quantity,
-			&i.WmsPackageItem.LotNumber,
-			&i.WmsPackageItem.SerialNumbers,
-			&i.WmsPackageItem.ExpiryDate,
-			&i.WmsPackageItem.UnitWeight,
-			&i.WmsPackageItem.TotalWeight,
-			&i.WmsPackageItem.CreatedAt,
-			&i.WmsPackageItem.UpdatedAt,
+			&i.ID,
+			&i.PackageID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.UnitWeight,
+			&i.TotalWeight,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPackage.ID,
 			&i.WmsPackage.SalesOrderID,
 			&i.WmsPackage.PackageNumber,

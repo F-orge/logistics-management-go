@@ -1,10 +1,15 @@
--- name: TmsPaginateCarrierRate :many
+-- name: TmsPaginateCarrierRateMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(carrier_rates),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."carrier_rates" as carrier_rates;
+
+-- name: TmsPaginateCarrierRate :many
+select
+  carrier_rates.*,
   sqlc.embed(carrier)
 from
   "tms"."carrier_rates" as carrier_rates
@@ -18,7 +23,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindCarrierRate :one
 select
-  sqlc.embed(carrier_rates),
+  carrier_rates.*,
   sqlc.embed(carrier)
 from
   "tms"."carrier_rates" as carrier_rates
@@ -28,7 +33,7 @@ where
 
 -- name: TmsAnyCarrierRate :many
 select
-  sqlc.embed(carrier_rates),
+  carrier_rates.*,
   sqlc.embed(carrier)
 from
   "tms"."carrier_rates" as carrier_rates
@@ -38,7 +43,7 @@ where
 
 -- name: TmsRangeCarrierRate :many
 select
-  sqlc.embed(carrier_rates),
+  carrier_rates.*,
   sqlc.embed(carrier)
 from
   "tms"."carrier_rates" as carrier_rates

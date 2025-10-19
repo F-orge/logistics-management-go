@@ -1,10 +1,15 @@
--- name: WmsPaginateBinThreshold :many
+-- name: WmsPaginateBinThresholdMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(bin_thresholds),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."bin_thresholds" as bin_thresholds;
+
+-- name: WmsPaginateBinThreshold :many
+select
+  bin_thresholds.*,
   sqlc.embed(location),
   sqlc.embed(product)
 from
@@ -18,7 +23,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindBinThreshold :one
 select
-  sqlc.embed(bin_thresholds),
+  bin_thresholds.*,
   sqlc.embed(location),
   sqlc.embed(product)
 from
@@ -30,7 +35,7 @@ where
 
 -- name: WmsAnyBinThreshold :many
 select
-  sqlc.embed(bin_thresholds),
+  bin_thresholds.*,
   sqlc.embed(location),
   sqlc.embed(product)
 from
@@ -42,7 +47,7 @@ where
 
 -- name: WmsRangeBinThreshold :many
 select
-  sqlc.embed(bin_thresholds),
+  bin_thresholds.*,
   sqlc.embed(location),
   sqlc.embed(product)
 from

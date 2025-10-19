@@ -23,8 +23,15 @@ where
 `
 
 type WmsAnyStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
-	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
+	ID                     pgtype.UUID                    `db:"id" json:"id"`
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
+	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	WmsProduct             WmsProduct                     `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyStockTransfer(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyStockTransferRow, error) {
@@ -37,14 +44,14 @@ func (q *Queries) WmsAnyStockTransfer(ctx context.Context, ids []pgtype.UUID) ([
 	for rows.Next() {
 		var i WmsAnyStockTransferRow
 		if err := rows.Scan(
-			&i.WmsStockTransfer.ID,
-			&i.WmsStockTransfer.ProductID,
-			&i.WmsStockTransfer.SourceWarehouseID,
-			&i.WmsStockTransfer.DestinationWarehouseID,
-			&i.WmsStockTransfer.Quantity,
-			&i.WmsStockTransfer.Status,
-			&i.WmsStockTransfer.CreatedAt,
-			&i.WmsStockTransfer.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.SourceWarehouseID,
+			&i.DestinationWarehouseID,
+			&i.Quantity,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -84,22 +91,29 @@ where
 `
 
 type WmsFindStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
-	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
+	ID                     pgtype.UUID                    `db:"id" json:"id"`
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
+	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	WmsProduct             WmsProduct                     `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindStockTransfer(ctx context.Context, id pgtype.UUID) (WmsFindStockTransferRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindStockTransfer, id)
 	var i WmsFindStockTransferRow
 	err := row.Scan(
-		&i.WmsStockTransfer.ID,
-		&i.WmsStockTransfer.ProductID,
-		&i.WmsStockTransfer.SourceWarehouseID,
-		&i.WmsStockTransfer.DestinationWarehouseID,
-		&i.WmsStockTransfer.Quantity,
-		&i.WmsStockTransfer.Status,
-		&i.WmsStockTransfer.CreatedAt,
-		&i.WmsStockTransfer.UpdatedAt,
+		&i.ID,
+		&i.ProductID,
+		&i.SourceWarehouseID,
+		&i.DestinationWarehouseID,
+		&i.Quantity,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsProduct.ID,
 		&i.WmsProduct.Name,
 		&i.WmsProduct.Sku,
@@ -159,38 +173,37 @@ func (q *Queries) WmsInsertStockTransfer(ctx context.Context, arg WmsInsertStock
 
 const wmsPaginateStockTransfer = `-- name: WmsPaginateStockTransfer :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   stock_transfers.id, stock_transfers.product_id, stock_transfers.source_warehouse_id, stock_transfers.destination_warehouse_id, stock_transfers.quantity, stock_transfers.status, stock_transfers.created_at, stock_transfers.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
 from
   "wms"."stock_transfers" as stock_transfers
   inner join "wms"."products" as product on stock_transfers.product_id = product.id
-where (product.name ilike $3::text
-  or stock_transfers.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (product.name ilike $1::text
+  or stock_transfers.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateStockTransferParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateStockTransferRow struct {
-	TotalItems       int64            `db:"total_items" json:"total_items"`
-	TotalPages       float64          `db:"total_pages" json:"total_pages"`
-	Page             int32            `db:"page" json:"page"`
-	PerPage          int32            `db:"per_page" json:"per_page"`
-	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
-	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
+	ID                     pgtype.UUID                    `db:"id" json:"id"`
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
+	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	WmsProduct             WmsProduct                     `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateStockTransferParams) ([]WmsPaginateStockTransferRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateStockTransfer, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateStockTransfer, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -199,18 +212,14 @@ func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateS
 	for rows.Next() {
 		var i WmsPaginateStockTransferRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsStockTransfer.ID,
-			&i.WmsStockTransfer.ProductID,
-			&i.WmsStockTransfer.SourceWarehouseID,
-			&i.WmsStockTransfer.DestinationWarehouseID,
-			&i.WmsStockTransfer.Quantity,
-			&i.WmsStockTransfer.Status,
-			&i.WmsStockTransfer.CreatedAt,
-			&i.WmsStockTransfer.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.SourceWarehouseID,
+			&i.DestinationWarehouseID,
+			&i.Quantity,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -238,6 +247,40 @@ func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateS
 	return items, nil
 }
 
+const wmsPaginateStockTransferMetadata = `-- name: WmsPaginateStockTransferMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."stock_transfers" as stock_transfers
+`
+
+type WmsPaginateStockTransferMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateStockTransferMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateStockTransferMetadata(ctx context.Context, arg WmsPaginateStockTransferMetadataParams) (WmsPaginateStockTransferMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateStockTransferMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateStockTransferMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeStockTransfer = `-- name: WmsRangeStockTransfer :many
 select
   stock_transfers.id, stock_transfers.product_id, stock_transfers.source_warehouse_id, stock_transfers.destination_warehouse_id, stock_transfers.quantity, stock_transfers.status, stock_transfers.created_at, stock_transfers.updated_at,
@@ -260,8 +303,15 @@ type WmsRangeStockTransferParams struct {
 }
 
 type WmsRangeStockTransferRow struct {
-	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
-	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
+	ID                     pgtype.UUID                    `db:"id" json:"id"`
+	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
+	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
+	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
+	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
+	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	WmsProduct             WmsProduct                     `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeStockTransfer(ctx context.Context, arg WmsRangeStockTransferParams) ([]WmsRangeStockTransferRow, error) {
@@ -274,14 +324,14 @@ func (q *Queries) WmsRangeStockTransfer(ctx context.Context, arg WmsRangeStockTr
 	for rows.Next() {
 		var i WmsRangeStockTransferRow
 		if err := rows.Scan(
-			&i.WmsStockTransfer.ID,
-			&i.WmsStockTransfer.ProductID,
-			&i.WmsStockTransfer.SourceWarehouseID,
-			&i.WmsStockTransfer.DestinationWarehouseID,
-			&i.WmsStockTransfer.Quantity,
-			&i.WmsStockTransfer.Status,
-			&i.WmsStockTransfer.CreatedAt,
-			&i.WmsStockTransfer.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.SourceWarehouseID,
+			&i.DestinationWarehouseID,
+			&i.Quantity,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,

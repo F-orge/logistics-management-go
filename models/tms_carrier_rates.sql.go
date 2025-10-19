@@ -23,8 +23,16 @@ where
 `
 
 type TmsAnyCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
-	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
+	ID          pgtype.UUID                `db:"id" json:"id"`
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
+	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	TmsCarrier  TmsCarrier                 `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsAnyCarrierRate(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyCarrierRateRow, error) {
@@ -37,15 +45,15 @@ func (q *Queries) TmsAnyCarrierRate(ctx context.Context, ids []pgtype.UUID) ([]T
 	for rows.Next() {
 		var i TmsAnyCarrierRateRow
 		if err := rows.Scan(
-			&i.TmsCarrierRate.ID,
-			&i.TmsCarrierRate.CarrierID,
-			&i.TmsCarrierRate.ServiceType,
-			&i.TmsCarrierRate.Origin,
-			&i.TmsCarrierRate.Destination,
-			&i.TmsCarrierRate.Rate,
-			&i.TmsCarrierRate.Unit,
-			&i.TmsCarrierRate.CreatedAt,
-			&i.TmsCarrierRate.UpdatedAt,
+			&i.ID,
+			&i.CarrierID,
+			&i.ServiceType,
+			&i.Origin,
+			&i.Destination,
+			&i.Rate,
+			&i.Unit,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -78,23 +86,31 @@ where
 `
 
 type TmsFindCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
-	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
+	ID          pgtype.UUID                `db:"id" json:"id"`
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
+	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	TmsCarrier  TmsCarrier                 `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsFindCarrierRate(ctx context.Context, id pgtype.UUID) (TmsFindCarrierRateRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindCarrierRate, id)
 	var i TmsFindCarrierRateRow
 	err := row.Scan(
-		&i.TmsCarrierRate.ID,
-		&i.TmsCarrierRate.CarrierID,
-		&i.TmsCarrierRate.ServiceType,
-		&i.TmsCarrierRate.Origin,
-		&i.TmsCarrierRate.Destination,
-		&i.TmsCarrierRate.Rate,
-		&i.TmsCarrierRate.Unit,
-		&i.TmsCarrierRate.CreatedAt,
-		&i.TmsCarrierRate.UpdatedAt,
+		&i.ID,
+		&i.CarrierID,
+		&i.ServiceType,
+		&i.Origin,
+		&i.Destination,
+		&i.Rate,
+		&i.Unit,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.TmsCarrier.ID,
 		&i.TmsCarrier.Name,
 		&i.TmsCarrier.ContactDetails,
@@ -150,40 +166,40 @@ func (q *Queries) TmsInsertCarrierRate(ctx context.Context, arg TmsInsertCarrier
 
 const tmsPaginateCarrierRate = `-- name: TmsPaginateCarrierRate :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   carrier_rates.id, carrier_rates.carrier_id, carrier_rates.service_type, carrier_rates.origin, carrier_rates.destination, carrier_rates.rate, carrier_rates.unit, carrier_rates.created_at, carrier_rates.updated_at,
   carrier.id, carrier.name, carrier.contact_details, carrier.services_offered, carrier.created_at, carrier.updated_at, carrier.contact_person, carrier.contact_email, carrier.contact_phone
 from
   "tms"."carrier_rates" as carrier_rates
   inner join "tms"."carriers" as carrier on carrier_rates.carrier_id = carrier.id
-where (carrier.name ilike $3::text
-  or carrier_rates.service_type ilike $3::text
-  or carrier_rates.origin ilike $3::text
-  or carrier_rates.destination ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (carrier.name ilike $1::text
+  or carrier_rates.service_type ilike $1::text
+  or carrier_rates.origin ilike $1::text
+  or carrier_rates.destination ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateCarrierRateParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateCarrierRateRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
-	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
+	ID          pgtype.UUID                `db:"id" json:"id"`
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
+	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	TmsCarrier  TmsCarrier                 `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsPaginateCarrierRate(ctx context.Context, arg TmsPaginateCarrierRateParams) ([]TmsPaginateCarrierRateRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateCarrierRate, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateCarrierRate, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -192,19 +208,15 @@ func (q *Queries) TmsPaginateCarrierRate(ctx context.Context, arg TmsPaginateCar
 	for rows.Next() {
 		var i TmsPaginateCarrierRateRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsCarrierRate.ID,
-			&i.TmsCarrierRate.CarrierID,
-			&i.TmsCarrierRate.ServiceType,
-			&i.TmsCarrierRate.Origin,
-			&i.TmsCarrierRate.Destination,
-			&i.TmsCarrierRate.Rate,
-			&i.TmsCarrierRate.Unit,
-			&i.TmsCarrierRate.CreatedAt,
-			&i.TmsCarrierRate.UpdatedAt,
+			&i.ID,
+			&i.CarrierID,
+			&i.ServiceType,
+			&i.Origin,
+			&i.Destination,
+			&i.Rate,
+			&i.Unit,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,
@@ -223,6 +235,40 @@ func (q *Queries) TmsPaginateCarrierRate(ctx context.Context, arg TmsPaginateCar
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateCarrierRateMetadata = `-- name: TmsPaginateCarrierRateMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."carrier_rates" as carrier_rates
+`
+
+type TmsPaginateCarrierRateMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateCarrierRateMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateCarrierRateMetadata(ctx context.Context, arg TmsPaginateCarrierRateMetadataParams) (TmsPaginateCarrierRateMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateCarrierRateMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateCarrierRateMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeCarrierRate = `-- name: TmsRangeCarrierRate :many
@@ -249,8 +295,16 @@ type TmsRangeCarrierRateParams struct {
 }
 
 type TmsRangeCarrierRateRow struct {
-	TmsCarrierRate TmsCarrierRate `db:"tms_carrier_rate" json:"tms_carrier_rate"`
-	TmsCarrier     TmsCarrier     `db:"tms_carrier" json:"tms_carrier"`
+	ID          pgtype.UUID                `db:"id" json:"id"`
+	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
+	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" json:"origin"`
+	Destination pgtype.Text                `db:"destination" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
+	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
+	TmsCarrier  TmsCarrier                 `db:"tms_carrier" json:"tms_carrier"`
 }
 
 func (q *Queries) TmsRangeCarrierRate(ctx context.Context, arg TmsRangeCarrierRateParams) ([]TmsRangeCarrierRateRow, error) {
@@ -263,15 +317,15 @@ func (q *Queries) TmsRangeCarrierRate(ctx context.Context, arg TmsRangeCarrierRa
 	for rows.Next() {
 		var i TmsRangeCarrierRateRow
 		if err := rows.Scan(
-			&i.TmsCarrierRate.ID,
-			&i.TmsCarrierRate.CarrierID,
-			&i.TmsCarrierRate.ServiceType,
-			&i.TmsCarrierRate.Origin,
-			&i.TmsCarrierRate.Destination,
-			&i.TmsCarrierRate.Rate,
-			&i.TmsCarrierRate.Unit,
-			&i.TmsCarrierRate.CreatedAt,
-			&i.TmsCarrierRate.UpdatedAt,
+			&i.ID,
+			&i.CarrierID,
+			&i.ServiceType,
+			&i.Origin,
+			&i.Destination,
+			&i.Rate,
+			&i.Unit,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.TmsCarrier.ID,
 			&i.TmsCarrier.Name,
 			&i.TmsCarrier.ContactDetails,

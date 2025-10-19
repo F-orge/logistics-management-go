@@ -23,8 +23,18 @@ where
 `
 
 type TmsAnyDriverRow struct {
-	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID             `db:"id" json:"id"`
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
+	DriverSchedules   []TmsDriverSchedule     `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []TmsExpense            `db:"expenses" json:"expenses"`
+	Trips             []TmsTrip               `db:"trips" json:"trips"`
+	User              User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyDriverRow, error) {
@@ -37,17 +47,17 @@ func (q *Queries) TmsAnyDriver(ctx context.Context, ids []pgtype.UUID) ([]TmsAny
 	for rows.Next() {
 		var i TmsAnyDriverRow
 		if err := rows.Scan(
-			&i.TmsDriversView.ID,
-			&i.TmsDriversView.UserID,
-			&i.TmsDriversView.LicenseNumber,
-			&i.TmsDriversView.LicenseExpiryDate,
-			&i.TmsDriversView.Status,
-			&i.TmsDriversView.CreatedAt,
-			&i.TmsDriversView.UpdatedAt,
-			&i.TmsDriversView.ContactPhone,
-			&i.TmsDriversView.DriverSchedules,
-			&i.TmsDriversView.Expenses,
-			&i.TmsDriversView.Trips,
+			&i.ID,
+			&i.UserID,
+			&i.LicenseNumber,
+			&i.LicenseExpiryDate,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ContactPhone,
+			&i.DriverSchedules,
+			&i.Expenses,
+			&i.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -82,25 +92,35 @@ where
 `
 
 type TmsFindDriverRow struct {
-	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID             `db:"id" json:"id"`
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
+	DriverSchedules   []TmsDriverSchedule     `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []TmsExpense            `db:"expenses" json:"expenses"`
+	Trips             []TmsTrip               `db:"trips" json:"trips"`
+	User              User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsFindDriver(ctx context.Context, id pgtype.UUID) (TmsFindDriverRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindDriver, id)
 	var i TmsFindDriverRow
 	err := row.Scan(
-		&i.TmsDriversView.ID,
-		&i.TmsDriversView.UserID,
-		&i.TmsDriversView.LicenseNumber,
-		&i.TmsDriversView.LicenseExpiryDate,
-		&i.TmsDriversView.Status,
-		&i.TmsDriversView.CreatedAt,
-		&i.TmsDriversView.UpdatedAt,
-		&i.TmsDriversView.ContactPhone,
-		&i.TmsDriversView.DriverSchedules,
-		&i.TmsDriversView.Expenses,
-		&i.TmsDriversView.Trips,
+		&i.ID,
+		&i.UserID,
+		&i.LicenseNumber,
+		&i.LicenseExpiryDate,
+		&i.Status,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.ContactPhone,
+		&i.DriverSchedules,
+		&i.Expenses,
+		&i.Trips,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -153,39 +173,41 @@ func (q *Queries) TmsInsertDriver(ctx context.Context, arg TmsInsertDriverParams
 
 const tmsPaginateDriver = `-- name: TmsPaginateDriver :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
   "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
-where (users.name ilike $3::text
-  or drivers.license_number ilike $3::text
-  or drivers.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (users.name ilike $1::text
+  or drivers.license_number ilike $1::text
+  or drivers.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateDriverParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateDriverRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID             `db:"id" json:"id"`
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
+	DriverSchedules   []TmsDriverSchedule     `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []TmsExpense            `db:"expenses" json:"expenses"`
+	Trips             []TmsTrip               `db:"trips" json:"trips"`
+	User              User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverParams) ([]TmsPaginateDriverRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateDriver, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateDriver, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -194,21 +216,17 @@ func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverPa
 	for rows.Next() {
 		var i TmsPaginateDriverRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsDriversView.ID,
-			&i.TmsDriversView.UserID,
-			&i.TmsDriversView.LicenseNumber,
-			&i.TmsDriversView.LicenseExpiryDate,
-			&i.TmsDriversView.Status,
-			&i.TmsDriversView.CreatedAt,
-			&i.TmsDriversView.UpdatedAt,
-			&i.TmsDriversView.ContactPhone,
-			&i.TmsDriversView.DriverSchedules,
-			&i.TmsDriversView.Expenses,
-			&i.TmsDriversView.Trips,
+			&i.ID,
+			&i.UserID,
+			&i.LicenseNumber,
+			&i.LicenseExpiryDate,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ContactPhone,
+			&i.DriverSchedules,
+			&i.Expenses,
+			&i.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -229,6 +247,40 @@ func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverPa
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateDriverMetadata = `-- name: TmsPaginateDriverMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."drivers_view" as drivers
+`
+
+type TmsPaginateDriverMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateDriverMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateDriverMetadata(ctx context.Context, arg TmsPaginateDriverMetadataParams) (TmsPaginateDriverMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateDriverMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateDriverMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeDriver = `-- name: TmsRangeDriver :many
@@ -254,8 +306,18 @@ type TmsRangeDriverParams struct {
 }
 
 type TmsRangeDriverRow struct {
-	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
-	User           User           `db:"user" json:"user"`
+	ID                pgtype.UUID             `db:"id" json:"id"`
+	UserID            string                  `db:"user_id" json:"user_id"`
+	LicenseNumber     string                  `db:"license_number" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
+	CreatedAt         pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ContactPhone      pgtype.Text             `db:"contact_phone" json:"contact_phone"`
+	DriverSchedules   []TmsDriverSchedule     `db:"driver_schedules" json:"driver_schedules"`
+	Expenses          []TmsExpense            `db:"expenses" json:"expenses"`
+	Trips             []TmsTrip               `db:"trips" json:"trips"`
+	User              User                    `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsRangeDriver(ctx context.Context, arg TmsRangeDriverParams) ([]TmsRangeDriverRow, error) {
@@ -268,17 +330,17 @@ func (q *Queries) TmsRangeDriver(ctx context.Context, arg TmsRangeDriverParams) 
 	for rows.Next() {
 		var i TmsRangeDriverRow
 		if err := rows.Scan(
-			&i.TmsDriversView.ID,
-			&i.TmsDriversView.UserID,
-			&i.TmsDriversView.LicenseNumber,
-			&i.TmsDriversView.LicenseExpiryDate,
-			&i.TmsDriversView.Status,
-			&i.TmsDriversView.CreatedAt,
-			&i.TmsDriversView.UpdatedAt,
-			&i.TmsDriversView.ContactPhone,
-			&i.TmsDriversView.DriverSchedules,
-			&i.TmsDriversView.Expenses,
-			&i.TmsDriversView.Trips,
+			&i.ID,
+			&i.UserID,
+			&i.LicenseNumber,
+			&i.LicenseExpiryDate,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ContactPhone,
+			&i.DriverSchedules,
+			&i.Expenses,
+			&i.Trips,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

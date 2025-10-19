@@ -1,10 +1,15 @@
--- name: TmsPaginateGeofence :many
+-- name: TmsPaginateGeofenceMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(geofences)
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."geofences_view" as geofences;
+
+-- name: TmsPaginateGeofence :many
+select
+  *
 from
   "tms"."geofences_view" as geofences
 where (name ilike sqlc.narg(search)::text

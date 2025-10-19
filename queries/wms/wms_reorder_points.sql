@@ -1,10 +1,15 @@
--- name: WmsPaginateReorderPoint :many
+-- name: WmsPaginateReorderPointMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(reorder_points),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."reorder_points" as reorder_points;
+
+-- name: WmsPaginateReorderPoint :many
+select
+  reorder_points.*,
   sqlc.embed(product)
 from
   "wms"."reorder_points" as reorder_points
@@ -15,7 +20,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindReorderPoint :one
 select
-  sqlc.embed(reorder_points),
+  reorder_points.*,
   sqlc.embed(product)
 from
   "wms"."reorder_points" as reorder_points
@@ -25,7 +30,7 @@ where
 
 -- name: WmsAnyReorderPoint :many
 select
-  sqlc.embed(reorder_points),
+  reorder_points.*,
   sqlc.embed(product)
 from
   "wms"."reorder_points" as reorder_points
@@ -35,7 +40,7 @@ where
 
 -- name: WmsRangeReorderPoint :many
 select
-  sqlc.embed(reorder_points),
+  reorder_points.*,
   sqlc.embed(product)
 from
   "wms"."reorder_points" as reorder_points

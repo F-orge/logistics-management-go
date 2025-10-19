@@ -31,12 +31,28 @@ where
 `
 
 type WmsAnyTaskItemRow struct {
-	WmsTaskItem       WmsTaskItem       `db:"wms_task_item" json:"wms_task_item"`
-	WmsTask           WmsTask           `db:"wms_task" json:"wms_task"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsLocation_2     WmsLocation       `db:"wms_location_2" json:"wms_location_2"`
+	ID                    pgtype.UUID               `db:"id" json:"id"`
+	TaskID                pgtype.UUID               `db:"task_id" json:"task_id"`
+	ProductID             pgtype.UUID               `db:"product_id" json:"product_id"`
+	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
+	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
+	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
+	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
+	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
+	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
+	WmsProduct            WmsProduct                `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch     WmsInventoryBatch         `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsLocation           WmsLocation               `db:"wms_location" json:"wms_location"`
+	WmsLocation_2         WmsLocation               `db:"wms_location_2" json:"wms_location_2"`
 }
 
 func (q *Queries) WmsAnyTaskItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTaskItemRow, error) {
@@ -49,23 +65,23 @@ func (q *Queries) WmsAnyTaskItem(ctx context.Context, ids []pgtype.UUID) ([]WmsA
 	for rows.Next() {
 		var i WmsAnyTaskItemRow
 		if err := rows.Scan(
-			&i.WmsTaskItem.ID,
-			&i.WmsTaskItem.TaskID,
-			&i.WmsTaskItem.ProductID,
-			&i.WmsTaskItem.BatchID,
-			&i.WmsTaskItem.SourceLocationID,
-			&i.WmsTaskItem.DestinationLocationID,
-			&i.WmsTaskItem.QuantityRequired,
-			&i.WmsTaskItem.QuantityCompleted,
-			&i.WmsTaskItem.QuantityRemaining,
-			&i.WmsTaskItem.Status,
-			&i.WmsTaskItem.LotNumber,
-			&i.WmsTaskItem.SerialNumbers,
-			&i.WmsTaskItem.ExpiryDate,
-			&i.WmsTaskItem.Notes,
-			&i.WmsTaskItem.CompletedAt,
-			&i.WmsTaskItem.CreatedAt,
-			&i.WmsTaskItem.UpdatedAt,
+			&i.ID,
+			&i.TaskID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.SourceLocationID,
+			&i.DestinationLocationID,
+			&i.QuantityRequired,
+			&i.QuantityCompleted,
+			&i.QuantityRemaining,
+			&i.Status,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.Notes,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsTask.ID,
 			&i.WmsTask.TaskNumber,
 			&i.WmsTask.WarehouseID,
@@ -180,35 +196,51 @@ where
 `
 
 type WmsFindTaskItemRow struct {
-	WmsTaskItem       WmsTaskItem       `db:"wms_task_item" json:"wms_task_item"`
-	WmsTask           WmsTask           `db:"wms_task" json:"wms_task"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsLocation_2     WmsLocation       `db:"wms_location_2" json:"wms_location_2"`
+	ID                    pgtype.UUID               `db:"id" json:"id"`
+	TaskID                pgtype.UUID               `db:"task_id" json:"task_id"`
+	ProductID             pgtype.UUID               `db:"product_id" json:"product_id"`
+	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
+	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
+	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
+	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
+	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
+	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
+	WmsProduct            WmsProduct                `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch     WmsInventoryBatch         `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsLocation           WmsLocation               `db:"wms_location" json:"wms_location"`
+	WmsLocation_2         WmsLocation               `db:"wms_location_2" json:"wms_location_2"`
 }
 
 func (q *Queries) WmsFindTaskItem(ctx context.Context, id pgtype.UUID) (WmsFindTaskItemRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindTaskItem, id)
 	var i WmsFindTaskItemRow
 	err := row.Scan(
-		&i.WmsTaskItem.ID,
-		&i.WmsTaskItem.TaskID,
-		&i.WmsTaskItem.ProductID,
-		&i.WmsTaskItem.BatchID,
-		&i.WmsTaskItem.SourceLocationID,
-		&i.WmsTaskItem.DestinationLocationID,
-		&i.WmsTaskItem.QuantityRequired,
-		&i.WmsTaskItem.QuantityCompleted,
-		&i.WmsTaskItem.QuantityRemaining,
-		&i.WmsTaskItem.Status,
-		&i.WmsTaskItem.LotNumber,
-		&i.WmsTaskItem.SerialNumbers,
-		&i.WmsTaskItem.ExpiryDate,
-		&i.WmsTaskItem.Notes,
-		&i.WmsTaskItem.CompletedAt,
-		&i.WmsTaskItem.CreatedAt,
-		&i.WmsTaskItem.UpdatedAt,
+		&i.ID,
+		&i.TaskID,
+		&i.ProductID,
+		&i.BatchID,
+		&i.SourceLocationID,
+		&i.DestinationLocationID,
+		&i.QuantityRequired,
+		&i.QuantityCompleted,
+		&i.QuantityRemaining,
+		&i.Status,
+		&i.LotNumber,
+		&i.SerialNumbers,
+		&i.ExpiryDate,
+		&i.Notes,
+		&i.CompletedAt,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsTask.ID,
 		&i.WmsTask.TaskNumber,
 		&i.WmsTask.WarehouseID,
@@ -360,10 +392,6 @@ func (q *Queries) WmsInsertTaskItem(ctx context.Context, arg WmsInsertTaskItemPa
 
 const wmsPaginateTaskItem = `-- name: WmsPaginateTaskItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   task_items.id, task_items.task_id, task_items.product_id, task_items.batch_id, task_items.source_location_id, task_items.destination_location_id, task_items.quantity_required, task_items.quantity_completed, task_items.quantity_remaining, task_items.status, task_items.lot_number, task_items.serial_numbers, task_items.expiry_date, task_items.notes, task_items.completed_at, task_items.created_at, task_items.updated_at,
   task.id, task.task_number, task.warehouse_id, task.user_id, task.type, task.status, task.priority, task.source_entity_id, task.source_entity_type, task.pick_batch_id, task.estimated_duration, task.actual_duration, task.instructions, task.notes, task.start_time, task.end_time, task.duration_seconds, task.created_at, task.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -377,37 +405,49 @@ from
   left join "wms"."inventory_batches" as batch on task_items.batch_id = batch.id
   left join "wms"."locations" as source_location on task_items.source_location_id = source_location.id
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
-where (task.task_number ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or source_location.name ilike $3::text
-  or destination_location.name ilike $3::text
-  or task_items.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (task.task_number ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or source_location.name ilike $1::text
+  or destination_location.name ilike $1::text
+  or task_items.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateTaskItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateTaskItemRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	WmsTaskItem       WmsTaskItem       `db:"wms_task_item" json:"wms_task_item"`
-	WmsTask           WmsTask           `db:"wms_task" json:"wms_task"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsLocation_2     WmsLocation       `db:"wms_location_2" json:"wms_location_2"`
+	ID                    pgtype.UUID               `db:"id" json:"id"`
+	TaskID                pgtype.UUID               `db:"task_id" json:"task_id"`
+	ProductID             pgtype.UUID               `db:"product_id" json:"product_id"`
+	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
+	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
+	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
+	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
+	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
+	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
+	WmsProduct            WmsProduct                `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch     WmsInventoryBatch         `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsLocation           WmsLocation               `db:"wms_location" json:"wms_location"`
+	WmsLocation_2         WmsLocation               `db:"wms_location_2" json:"wms_location_2"`
 }
 
 func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskItemParams) ([]WmsPaginateTaskItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -416,27 +456,23 @@ func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskIt
 	for rows.Next() {
 		var i WmsPaginateTaskItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsTaskItem.ID,
-			&i.WmsTaskItem.TaskID,
-			&i.WmsTaskItem.ProductID,
-			&i.WmsTaskItem.BatchID,
-			&i.WmsTaskItem.SourceLocationID,
-			&i.WmsTaskItem.DestinationLocationID,
-			&i.WmsTaskItem.QuantityRequired,
-			&i.WmsTaskItem.QuantityCompleted,
-			&i.WmsTaskItem.QuantityRemaining,
-			&i.WmsTaskItem.Status,
-			&i.WmsTaskItem.LotNumber,
-			&i.WmsTaskItem.SerialNumbers,
-			&i.WmsTaskItem.ExpiryDate,
-			&i.WmsTaskItem.Notes,
-			&i.WmsTaskItem.CompletedAt,
-			&i.WmsTaskItem.CreatedAt,
-			&i.WmsTaskItem.UpdatedAt,
+			&i.ID,
+			&i.TaskID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.SourceLocationID,
+			&i.DestinationLocationID,
+			&i.QuantityRequired,
+			&i.QuantityCompleted,
+			&i.QuantityRemaining,
+			&i.Status,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.Notes,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsTask.ID,
 			&i.WmsTask.TaskNumber,
 			&i.WmsTask.WarehouseID,
@@ -531,6 +567,40 @@ func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskIt
 	return items, nil
 }
 
+const wmsPaginateTaskItemMetadata = `-- name: WmsPaginateTaskItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."task_items" as task_items
+`
+
+type WmsPaginateTaskItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateTaskItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateTaskItemMetadata(ctx context.Context, arg WmsPaginateTaskItemMetadataParams) (WmsPaginateTaskItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateTaskItemMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateTaskItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeTaskItem = `-- name: WmsRangeTaskItem :many
 select
   task_items.id, task_items.task_id, task_items.product_id, task_items.batch_id, task_items.source_location_id, task_items.destination_location_id, task_items.quantity_required, task_items.quantity_completed, task_items.quantity_remaining, task_items.status, task_items.lot_number, task_items.serial_numbers, task_items.expiry_date, task_items.notes, task_items.completed_at, task_items.created_at, task_items.updated_at,
@@ -565,12 +635,28 @@ type WmsRangeTaskItemParams struct {
 }
 
 type WmsRangeTaskItemRow struct {
-	WmsTaskItem       WmsTaskItem       `db:"wms_task_item" json:"wms_task_item"`
-	WmsTask           WmsTask           `db:"wms_task" json:"wms_task"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsLocation_2     WmsLocation       `db:"wms_location_2" json:"wms_location_2"`
+	ID                    pgtype.UUID               `db:"id" json:"id"`
+	TaskID                pgtype.UUID               `db:"task_id" json:"task_id"`
+	ProductID             pgtype.UUID               `db:"product_id" json:"product_id"`
+	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
+	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
+	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
+	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
+	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
+	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
+	WmsProduct            WmsProduct                `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch     WmsInventoryBatch         `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	WmsLocation           WmsLocation               `db:"wms_location" json:"wms_location"`
+	WmsLocation_2         WmsLocation               `db:"wms_location_2" json:"wms_location_2"`
 }
 
 func (q *Queries) WmsRangeTaskItem(ctx context.Context, arg WmsRangeTaskItemParams) ([]WmsRangeTaskItemRow, error) {
@@ -583,23 +669,23 @@ func (q *Queries) WmsRangeTaskItem(ctx context.Context, arg WmsRangeTaskItemPara
 	for rows.Next() {
 		var i WmsRangeTaskItemRow
 		if err := rows.Scan(
-			&i.WmsTaskItem.ID,
-			&i.WmsTaskItem.TaskID,
-			&i.WmsTaskItem.ProductID,
-			&i.WmsTaskItem.BatchID,
-			&i.WmsTaskItem.SourceLocationID,
-			&i.WmsTaskItem.DestinationLocationID,
-			&i.WmsTaskItem.QuantityRequired,
-			&i.WmsTaskItem.QuantityCompleted,
-			&i.WmsTaskItem.QuantityRemaining,
-			&i.WmsTaskItem.Status,
-			&i.WmsTaskItem.LotNumber,
-			&i.WmsTaskItem.SerialNumbers,
-			&i.WmsTaskItem.ExpiryDate,
-			&i.WmsTaskItem.Notes,
-			&i.WmsTaskItem.CompletedAt,
-			&i.WmsTaskItem.CreatedAt,
-			&i.WmsTaskItem.UpdatedAt,
+			&i.ID,
+			&i.TaskID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.SourceLocationID,
+			&i.DestinationLocationID,
+			&i.QuantityRequired,
+			&i.QuantityCompleted,
+			&i.QuantityRemaining,
+			&i.Status,
+			&i.LotNumber,
+			&i.SerialNumbers,
+			&i.ExpiryDate,
+			&i.Notes,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsTask.ID,
 			&i.WmsTask.TaskNumber,
 			&i.WmsTask.WarehouseID,

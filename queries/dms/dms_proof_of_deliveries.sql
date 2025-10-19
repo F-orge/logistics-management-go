@@ -1,10 +1,15 @@
--- name: DmsPaginateProofOfDelivery :many
+-- name: DmsPaginateProofOfDeliveryMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(proof_of_deliveries),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."proof_of_deliveries" as proof_of_deliveries;
+
+-- name: DmsPaginateProofOfDelivery :many
+select
+  proof_of_deliveries.*,
   sqlc.embed(delivery_task)
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindProofOfDelivery :one
 select
-  sqlc.embed(proof_of_deliveries),
+  proof_of_deliveries.*,
   sqlc.embed(delivery_task)
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
@@ -26,7 +31,7 @@ where
 
 -- name: DmsAnyProofOfDelivery :many
 select
-  sqlc.embed(proof_of_deliveries),
+  proof_of_deliveries.*,
   sqlc.embed(delivery_task)
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
@@ -36,7 +41,7 @@ where
 
 -- name: DmsRangeProofOfDelivery :many
 select
-  sqlc.embed(proof_of_deliveries),
+  proof_of_deliveries.*,
   sqlc.embed(delivery_task)
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries

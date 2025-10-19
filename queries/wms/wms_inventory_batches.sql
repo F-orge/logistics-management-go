@@ -1,10 +1,15 @@
--- name: WmsPaginateInventoryBatch :many
+-- name: WmsPaginateInventoryBatchMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(inventory_batches),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."inventory_batches" as inventory_batches;
+
+-- name: WmsPaginateInventoryBatch :many
+select
+  inventory_batches.*,
   sqlc.embed(product)
 from
   "wms"."inventory_batches" as inventory_batches
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindInventoryBatch :one
 select
-  sqlc.embed(inventory_batches),
+  inventory_batches.*,
   sqlc.embed(product)
 from
   "wms"."inventory_batches" as inventory_batches
@@ -26,7 +31,7 @@ where
 
 -- name: WmsAnyInventoryBatch :many
 select
-  sqlc.embed(inventory_batches),
+  inventory_batches.*,
   sqlc.embed(product)
 from
   "wms"."inventory_batches" as inventory_batches
@@ -36,7 +41,7 @@ where
 
 -- name: WmsRangeInventoryBatch :many
 select
-  sqlc.embed(inventory_batches),
+  inventory_batches.*,
   sqlc.embed(product)
 from
   "wms"."inventory_batches" as inventory_batches

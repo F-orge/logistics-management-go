@@ -23,8 +23,20 @@ where
 `
 
 type DmsAnyDeliveryRouteRow struct {
-	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
-	TmsDriver             TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	ID                       pgtype.UUID                    `db:"id" json:"id"`
+	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
+	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	ActualDurationMinutes    pgtype.Int4                    `db:"actual_duration_minutes" json:"actual_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	DeliveryTasks            []DmsDeliveryTasksView         `db:"delivery_tasks" json:"delivery_tasks"`
+	TmsDriver                TmsDriver                      `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsAnyDeliveryRoute(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyDeliveryRouteRow, error) {
@@ -37,19 +49,19 @@ func (q *Queries) DmsAnyDeliveryRoute(ctx context.Context, ids []pgtype.UUID) ([
 	for rows.Next() {
 		var i DmsAnyDeliveryRouteRow
 		if err := rows.Scan(
-			&i.DmsDeliveryRoutesView.ID,
-			&i.DmsDeliveryRoutesView.DriverID,
-			&i.DmsDeliveryRoutesView.RouteDate,
-			&i.DmsDeliveryRoutesView.Status,
-			&i.DmsDeliveryRoutesView.OptimizedRouteData,
-			&i.DmsDeliveryRoutesView.TotalDistanceKm,
-			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
-			&i.DmsDeliveryRoutesView.StartedAt,
-			&i.DmsDeliveryRoutesView.CompletedAt,
-			&i.DmsDeliveryRoutesView.CreatedAt,
-			&i.DmsDeliveryRoutesView.UpdatedAt,
-			&i.DmsDeliveryRoutesView.DeliveryTasks,
+			&i.ID,
+			&i.DriverID,
+			&i.RouteDate,
+			&i.Status,
+			&i.OptimizedRouteData,
+			&i.TotalDistanceKm,
+			&i.EstimatedDurationMinutes,
+			&i.ActualDurationMinutes,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -81,27 +93,39 @@ where
 `
 
 type DmsFindDeliveryRouteRow struct {
-	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
-	TmsDriver             TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	ID                       pgtype.UUID                    `db:"id" json:"id"`
+	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
+	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	ActualDurationMinutes    pgtype.Int4                    `db:"actual_duration_minutes" json:"actual_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	DeliveryTasks            []DmsDeliveryTasksView         `db:"delivery_tasks" json:"delivery_tasks"`
+	TmsDriver                TmsDriver                      `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsFindDeliveryRoute(ctx context.Context, id pgtype.UUID) (DmsFindDeliveryRouteRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindDeliveryRoute, id)
 	var i DmsFindDeliveryRouteRow
 	err := row.Scan(
-		&i.DmsDeliveryRoutesView.ID,
-		&i.DmsDeliveryRoutesView.DriverID,
-		&i.DmsDeliveryRoutesView.RouteDate,
-		&i.DmsDeliveryRoutesView.Status,
-		&i.DmsDeliveryRoutesView.OptimizedRouteData,
-		&i.DmsDeliveryRoutesView.TotalDistanceKm,
-		&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
-		&i.DmsDeliveryRoutesView.ActualDurationMinutes,
-		&i.DmsDeliveryRoutesView.StartedAt,
-		&i.DmsDeliveryRoutesView.CompletedAt,
-		&i.DmsDeliveryRoutesView.CreatedAt,
-		&i.DmsDeliveryRoutesView.UpdatedAt,
-		&i.DmsDeliveryRoutesView.DeliveryTasks,
+		&i.ID,
+		&i.DriverID,
+		&i.RouteDate,
+		&i.Status,
+		&i.OptimizedRouteData,
+		&i.TotalDistanceKm,
+		&i.EstimatedDurationMinutes,
+		&i.ActualDurationMinutes,
+		&i.StartedAt,
+		&i.CompletedAt,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.DeliveryTasks,
 		&i.TmsDriver.ID,
 		&i.TmsDriver.UserID,
 		&i.TmsDriver.LicenseNumber,
@@ -163,38 +187,42 @@ func (q *Queries) DmsInsertDeliveryRoute(ctx context.Context, arg DmsInsertDeliv
 
 const dmsPaginateDeliveryRoute = `-- name: DmsPaginateDeliveryRoute :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
-where (driver.name ilike $3::text
-  or delivery_routes.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (driver.name ilike $1::text
+  or delivery_routes.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateDeliveryRouteParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type DmsPaginateDeliveryRouteRow struct {
-	TotalItems            int64                 `db:"total_items" json:"total_items"`
-	TotalPages            float64               `db:"total_pages" json:"total_pages"`
-	Page                  int32                 `db:"page" json:"page"`
-	PerPage               int32                 `db:"per_page" json:"per_page"`
-	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
-	TmsDriver             TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	ID                       pgtype.UUID                    `db:"id" json:"id"`
+	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
+	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	ActualDurationMinutes    pgtype.Int4                    `db:"actual_duration_minutes" json:"actual_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	DeliveryTasks            []DmsDeliveryTasksView         `db:"delivery_tasks" json:"delivery_tasks"`
+	TmsDriver                TmsDriver                      `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateDeliveryRouteParams) ([]DmsPaginateDeliveryRouteRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDeliveryRoute, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, dmsPaginateDeliveryRoute, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -203,23 +231,19 @@ func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateD
 	for rows.Next() {
 		var i DmsPaginateDeliveryRouteRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.DmsDeliveryRoutesView.ID,
-			&i.DmsDeliveryRoutesView.DriverID,
-			&i.DmsDeliveryRoutesView.RouteDate,
-			&i.DmsDeliveryRoutesView.Status,
-			&i.DmsDeliveryRoutesView.OptimizedRouteData,
-			&i.DmsDeliveryRoutesView.TotalDistanceKm,
-			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
-			&i.DmsDeliveryRoutesView.StartedAt,
-			&i.DmsDeliveryRoutesView.CompletedAt,
-			&i.DmsDeliveryRoutesView.CreatedAt,
-			&i.DmsDeliveryRoutesView.UpdatedAt,
-			&i.DmsDeliveryRoutesView.DeliveryTasks,
+			&i.ID,
+			&i.DriverID,
+			&i.RouteDate,
+			&i.Status,
+			&i.OptimizedRouteData,
+			&i.TotalDistanceKm,
+			&i.EstimatedDurationMinutes,
+			&i.ActualDurationMinutes,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,
@@ -237,6 +261,40 @@ func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateD
 		return nil, err
 	}
 	return items, nil
+}
+
+const dmsPaginateDeliveryRouteMetadata = `-- name: DmsPaginateDeliveryRouteMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "dms"."delivery_routes_view" as delivery_routes
+`
+
+type DmsPaginateDeliveryRouteMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type DmsPaginateDeliveryRouteMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) DmsPaginateDeliveryRouteMetadata(ctx context.Context, arg DmsPaginateDeliveryRouteMetadataParams) (DmsPaginateDeliveryRouteMetadataRow, error) {
+	row := q.db.QueryRow(ctx, dmsPaginateDeliveryRouteMetadata, arg.PerPage, arg.Page)
+	var i DmsPaginateDeliveryRouteMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const dmsRangeDeliveryRoute = `-- name: DmsRangeDeliveryRoute :many
@@ -261,8 +319,20 @@ type DmsRangeDeliveryRouteParams struct {
 }
 
 type DmsRangeDeliveryRouteRow struct {
-	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
-	TmsDriver             TmsDriver             `db:"tms_driver" json:"tms_driver"`
+	ID                       pgtype.UUID                    `db:"id" json:"id"`
+	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
+	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	ActualDurationMinutes    pgtype.Int4                    `db:"actual_duration_minutes" json:"actual_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	CreatedAt                pgtype.Timestamp               `db:"created_at" json:"created_at"`
+	UpdatedAt                pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
+	DeliveryTasks            []DmsDeliveryTasksView         `db:"delivery_tasks" json:"delivery_tasks"`
+	TmsDriver                TmsDriver                      `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsRangeDeliveryRoute(ctx context.Context, arg DmsRangeDeliveryRouteParams) ([]DmsRangeDeliveryRouteRow, error) {
@@ -275,19 +345,19 @@ func (q *Queries) DmsRangeDeliveryRoute(ctx context.Context, arg DmsRangeDeliver
 	for rows.Next() {
 		var i DmsRangeDeliveryRouteRow
 		if err := rows.Scan(
-			&i.DmsDeliveryRoutesView.ID,
-			&i.DmsDeliveryRoutesView.DriverID,
-			&i.DmsDeliveryRoutesView.RouteDate,
-			&i.DmsDeliveryRoutesView.Status,
-			&i.DmsDeliveryRoutesView.OptimizedRouteData,
-			&i.DmsDeliveryRoutesView.TotalDistanceKm,
-			&i.DmsDeliveryRoutesView.EstimatedDurationMinutes,
-			&i.DmsDeliveryRoutesView.ActualDurationMinutes,
-			&i.DmsDeliveryRoutesView.StartedAt,
-			&i.DmsDeliveryRoutesView.CompletedAt,
-			&i.DmsDeliveryRoutesView.CreatedAt,
-			&i.DmsDeliveryRoutesView.UpdatedAt,
-			&i.DmsDeliveryRoutesView.DeliveryTasks,
+			&i.ID,
+			&i.DriverID,
+			&i.RouteDate,
+			&i.Status,
+			&i.OptimizedRouteData,
+			&i.TotalDistanceKm,
+			&i.EstimatedDurationMinutes,
+			&i.ActualDurationMinutes,
+			&i.StartedAt,
+			&i.CompletedAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.DeliveryTasks,
 			&i.TmsDriver.ID,
 			&i.TmsDriver.UserID,
 			&i.TmsDriver.LicenseNumber,

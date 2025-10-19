@@ -1,10 +1,15 @@
--- name: WmsPaginateWarehouse :many
+-- name: WmsPaginateWarehouseMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(warehouses)
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."warehouses_view" as warehouses;
+
+-- name: WmsPaginateWarehouse :many
+select
+  *
 from
   "wms"."warehouses_view" as warehouses
 where (name ilike sqlc.narg(search)::text

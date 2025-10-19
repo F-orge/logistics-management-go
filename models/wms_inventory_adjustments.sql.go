@@ -25,9 +25,17 @@ where
 `
 
 type WmsAnyInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
-	User                   User                   `db:"user" json:"user"`
+	ID             pgtype.UUID                          `db:"id" json:"id"`
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
+	User           User                                 `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsAnyInventoryAdjustment(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInventoryAdjustmentRow, error) {
@@ -40,15 +48,15 @@ func (q *Queries) WmsAnyInventoryAdjustment(ctx context.Context, ids []pgtype.UU
 	for rows.Next() {
 		var i WmsAnyInventoryAdjustmentRow
 		if err := rows.Scan(
-			&i.WmsInventoryAdjustment.ID,
-			&i.WmsInventoryAdjustment.ProductID,
-			&i.WmsInventoryAdjustment.WarehouseID,
-			&i.WmsInventoryAdjustment.UserID,
-			&i.WmsInventoryAdjustment.QuantityChange,
-			&i.WmsInventoryAdjustment.Reason,
-			&i.WmsInventoryAdjustment.Notes,
-			&i.WmsInventoryAdjustment.CreatedAt,
-			&i.WmsInventoryAdjustment.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.QuantityChange,
+			&i.Reason,
+			&i.Notes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -101,24 +109,32 @@ where
 `
 
 type WmsFindInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
-	User                   User                   `db:"user" json:"user"`
+	ID             pgtype.UUID                          `db:"id" json:"id"`
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
+	User           User                                 `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsFindInventoryAdjustment(ctx context.Context, id pgtype.UUID) (WmsFindInventoryAdjustmentRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindInventoryAdjustment, id)
 	var i WmsFindInventoryAdjustmentRow
 	err := row.Scan(
-		&i.WmsInventoryAdjustment.ID,
-		&i.WmsInventoryAdjustment.ProductID,
-		&i.WmsInventoryAdjustment.WarehouseID,
-		&i.WmsInventoryAdjustment.UserID,
-		&i.WmsInventoryAdjustment.QuantityChange,
-		&i.WmsInventoryAdjustment.Reason,
-		&i.WmsInventoryAdjustment.Notes,
-		&i.WmsInventoryAdjustment.CreatedAt,
-		&i.WmsInventoryAdjustment.UpdatedAt,
+		&i.ID,
+		&i.ProductID,
+		&i.WarehouseID,
+		&i.UserID,
+		&i.QuantityChange,
+		&i.Reason,
+		&i.Notes,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsProduct.ID,
 		&i.WmsProduct.Name,
 		&i.WmsProduct.Sku,
@@ -192,10 +208,6 @@ func (q *Queries) WmsInsertInventoryAdjustment(ctx context.Context, arg WmsInser
 
 const wmsPaginateInventoryAdjustment = `-- name: WmsPaginateInventoryAdjustment :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   inventory_adjustments.id, inventory_adjustments.product_id, inventory_adjustments.warehouse_id, inventory_adjustments.user_id, inventory_adjustments.quantity_change, inventory_adjustments.reason, inventory_adjustments.notes, inventory_adjustments.created_at, inventory_adjustments.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
@@ -203,31 +215,35 @@ from
   "wms"."inventory_adjustments" as inventory_adjustments
   inner join "wms"."products" as product on inventory_adjustments.product_id = product.id
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
-where (product.name ilike $3::text
-  or users.name ilike $3::text
-  or inventory_adjustments.reason::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (product.name ilike $1::text
+  or users.name ilike $1::text
+  or inventory_adjustments.reason::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryAdjustmentParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateInventoryAdjustmentRow struct {
-	TotalItems             int64                  `db:"total_items" json:"total_items"`
-	TotalPages             float64                `db:"total_pages" json:"total_pages"`
-	Page                   int32                  `db:"page" json:"page"`
-	PerPage                int32                  `db:"per_page" json:"per_page"`
-	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
-	User                   User                   `db:"user" json:"user"`
+	ID             pgtype.UUID                          `db:"id" json:"id"`
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
+	User           User                                 `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPaginateInventoryAdjustmentParams) ([]WmsPaginateInventoryAdjustmentRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryAdjustment, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryAdjustment, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -236,19 +252,15 @@ func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPag
 	for rows.Next() {
 		var i WmsPaginateInventoryAdjustmentRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsInventoryAdjustment.ID,
-			&i.WmsInventoryAdjustment.ProductID,
-			&i.WmsInventoryAdjustment.WarehouseID,
-			&i.WmsInventoryAdjustment.UserID,
-			&i.WmsInventoryAdjustment.QuantityChange,
-			&i.WmsInventoryAdjustment.Reason,
-			&i.WmsInventoryAdjustment.Notes,
-			&i.WmsInventoryAdjustment.CreatedAt,
-			&i.WmsInventoryAdjustment.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.QuantityChange,
+			&i.Reason,
+			&i.Notes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -287,6 +299,40 @@ func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPag
 	return items, nil
 }
 
+const wmsPaginateInventoryAdjustmentMetadata = `-- name: WmsPaginateInventoryAdjustmentMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."inventory_adjustments" as inventory_adjustments
+`
+
+type WmsPaginateInventoryAdjustmentMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateInventoryAdjustmentMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateInventoryAdjustmentMetadata(ctx context.Context, arg WmsPaginateInventoryAdjustmentMetadataParams) (WmsPaginateInventoryAdjustmentMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateInventoryAdjustmentMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateInventoryAdjustmentMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeInventoryAdjustment = `-- name: WmsRangeInventoryAdjustment :many
 select
   inventory_adjustments.id, inventory_adjustments.product_id, inventory_adjustments.warehouse_id, inventory_adjustments.user_id, inventory_adjustments.quantity_change, inventory_adjustments.reason, inventory_adjustments.notes, inventory_adjustments.created_at, inventory_adjustments.updated_at,
@@ -312,9 +358,17 @@ type WmsRangeInventoryAdjustmentParams struct {
 }
 
 type WmsRangeInventoryAdjustmentRow struct {
-	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
-	User                   User                   `db:"user" json:"user"`
+	ID             pgtype.UUID                          `db:"id" json:"id"`
+	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
+	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
+	UserID         string                               `db:"user_id" json:"user_id"`
+	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
+	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
+	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
+	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
+	User           User                                 `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsRangeInventoryAdjustment(ctx context.Context, arg WmsRangeInventoryAdjustmentParams) ([]WmsRangeInventoryAdjustmentRow, error) {
@@ -327,15 +381,15 @@ func (q *Queries) WmsRangeInventoryAdjustment(ctx context.Context, arg WmsRangeI
 	for rows.Next() {
 		var i WmsRangeInventoryAdjustmentRow
 		if err := rows.Scan(
-			&i.WmsInventoryAdjustment.ID,
-			&i.WmsInventoryAdjustment.ProductID,
-			&i.WmsInventoryAdjustment.WarehouseID,
-			&i.WmsInventoryAdjustment.UserID,
-			&i.WmsInventoryAdjustment.QuantityChange,
-			&i.WmsInventoryAdjustment.Reason,
-			&i.WmsInventoryAdjustment.Notes,
-			&i.WmsInventoryAdjustment.CreatedAt,
-			&i.WmsInventoryAdjustment.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.QuantityChange,
+			&i.Reason,
+			&i.Notes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,

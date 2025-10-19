@@ -1,10 +1,15 @@
--- name: DmsPaginateCustomerTrackingLink :many
+-- name: DmsPaginateCustomerTrackingLinkMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(customer_tracking_links),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."customer_tracking_links" as customer_tracking_links;
+
+-- name: DmsPaginateCustomerTrackingLink :many
+select
+  customer_tracking_links.*,
   sqlc.embed(delivery_task)
 from
   "dms"."customer_tracking_links" as customer_tracking_links
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindCustomerTrackingLink :one
 select
-  sqlc.embed(customer_tracking_links),
+  customer_tracking_links.*,
   sqlc.embed(delivery_task)
 from
   "dms"."customer_tracking_links" as customer_tracking_links
@@ -26,7 +31,7 @@ where
 
 -- name: DmsAnyCustomerTrackingLink :many
 select
-  sqlc.embed(customer_tracking_links),
+  customer_tracking_links.*,
   sqlc.embed(delivery_task)
 from
   "dms"."customer_tracking_links" as customer_tracking_links
@@ -36,7 +41,7 @@ where
 
 -- name: DmsRangeCustomerTrackingLink :many
 select
-  sqlc.embed(customer_tracking_links),
+  customer_tracking_links.*,
   sqlc.embed(delivery_task)
 from
   "dms"."customer_tracking_links" as customer_tracking_links

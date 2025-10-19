@@ -25,9 +25,16 @@ where
 `
 
 type WmsAnyPickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
-	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
-	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder     WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsAnyPickBatchItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPickBatchItemRow, error) {
@@ -40,14 +47,14 @@ func (q *Queries) WmsAnyPickBatchItem(ctx context.Context, ids []pgtype.UUID) ([
 	for rows.Next() {
 		var i WmsAnyPickBatchItemRow
 		if err := rows.Scan(
-			&i.WmsPickBatchItem.ID,
-			&i.WmsPickBatchItem.PickBatchID,
-			&i.WmsPickBatchItem.SalesOrderID,
-			&i.WmsPickBatchItem.OrderPriority,
-			&i.WmsPickBatchItem.EstimatedPickTime,
-			&i.WmsPickBatchItem.ActualPickTime,
-			&i.WmsPickBatchItem.CreatedAt,
-			&i.WmsPickBatchItem.UpdatedAt,
+			&i.ID,
+			&i.PickBatchID,
+			&i.SalesOrderID,
+			&i.OrderPriority,
+			&i.EstimatedPickTime,
+			&i.ActualPickTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPickBatch.ID,
 			&i.WmsPickBatch.BatchNumber,
 			&i.WmsPickBatch.WarehouseID,
@@ -98,23 +105,30 @@ where
 `
 
 type WmsFindPickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
-	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
-	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder     WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsFindPickBatchItem(ctx context.Context, id pgtype.UUID) (WmsFindPickBatchItemRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindPickBatchItem, id)
 	var i WmsFindPickBatchItemRow
 	err := row.Scan(
-		&i.WmsPickBatchItem.ID,
-		&i.WmsPickBatchItem.PickBatchID,
-		&i.WmsPickBatchItem.SalesOrderID,
-		&i.WmsPickBatchItem.OrderPriority,
-		&i.WmsPickBatchItem.EstimatedPickTime,
-		&i.WmsPickBatchItem.ActualPickTime,
-		&i.WmsPickBatchItem.CreatedAt,
-		&i.WmsPickBatchItem.UpdatedAt,
+		&i.ID,
+		&i.PickBatchID,
+		&i.SalesOrderID,
+		&i.OrderPriority,
+		&i.EstimatedPickTime,
+		&i.ActualPickTime,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsPickBatch.ID,
 		&i.WmsPickBatch.BatchNumber,
 		&i.WmsPickBatch.WarehouseID,
@@ -183,10 +197,6 @@ func (q *Queries) WmsInsertPickBatchItem(ctx context.Context, arg WmsInsertPickB
 
 const wmsPaginatePickBatchItem = `-- name: WmsPaginatePickBatchItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   pick_batch_items.id, pick_batch_items.pick_batch_id, pick_batch_items.sales_order_id, pick_batch_items.order_priority, pick_batch_items.estimated_pick_time, pick_batch_items.actual_pick_time, pick_batch_items.created_at, pick_batch_items.updated_at,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
@@ -194,30 +204,33 @@ from
   "wms"."pick_batch_items" as pick_batch_items
   inner join "wms"."pick_batches" as pick_batch on pick_batch_items.pick_batch_id = pick_batch.id
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
-where (pick_batch.batch_number ilike $3::text
-  or sales_order.order_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (pick_batch.batch_number ilike $1::text
+  or sales_order.order_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePickBatchItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginatePickBatchItemRow struct {
-	TotalItems       int64            `db:"total_items" json:"total_items"`
-	TotalPages       float64          `db:"total_pages" json:"total_pages"`
-	Page             int32            `db:"page" json:"page"`
-	PerPage          int32            `db:"per_page" json:"per_page"`
-	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
-	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
-	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder     WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginatePickBatchItemParams) ([]WmsPaginatePickBatchItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -226,18 +239,14 @@ func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginateP
 	for rows.Next() {
 		var i WmsPaginatePickBatchItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsPickBatchItem.ID,
-			&i.WmsPickBatchItem.PickBatchID,
-			&i.WmsPickBatchItem.SalesOrderID,
-			&i.WmsPickBatchItem.OrderPriority,
-			&i.WmsPickBatchItem.EstimatedPickTime,
-			&i.WmsPickBatchItem.ActualPickTime,
-			&i.WmsPickBatchItem.CreatedAt,
-			&i.WmsPickBatchItem.UpdatedAt,
+			&i.ID,
+			&i.PickBatchID,
+			&i.SalesOrderID,
+			&i.OrderPriority,
+			&i.EstimatedPickTime,
+			&i.ActualPickTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPickBatch.ID,
 			&i.WmsPickBatch.BatchNumber,
 			&i.WmsPickBatch.WarehouseID,
@@ -274,6 +283,40 @@ func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginateP
 	return items, nil
 }
 
+const wmsPaginatePickBatchItemMetadata = `-- name: WmsPaginatePickBatchItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."pick_batch_items" as pick_batch_items
+`
+
+type WmsPaginatePickBatchItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginatePickBatchItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginatePickBatchItemMetadata(ctx context.Context, arg WmsPaginatePickBatchItemMetadataParams) (WmsPaginatePickBatchItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginatePickBatchItemMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginatePickBatchItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangePickBatchItem = `-- name: WmsRangePickBatchItem :many
 select
   pick_batch_items.id, pick_batch_items.pick_batch_id, pick_batch_items.sales_order_id, pick_batch_items.order_priority, pick_batch_items.estimated_pick_time, pick_batch_items.actual_pick_time, pick_batch_items.created_at, pick_batch_items.updated_at,
@@ -298,9 +341,16 @@ type WmsRangePickBatchItemParams struct {
 }
 
 type WmsRangePickBatchItemRow struct {
-	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
-	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
-	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
+	ID                pgtype.UUID      `db:"id" json:"id"`
+	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
+	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
+	WmsSalesOrder     WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsRangePickBatchItem(ctx context.Context, arg WmsRangePickBatchItemParams) ([]WmsRangePickBatchItemRow, error) {
@@ -313,14 +363,14 @@ func (q *Queries) WmsRangePickBatchItem(ctx context.Context, arg WmsRangePickBat
 	for rows.Next() {
 		var i WmsRangePickBatchItemRow
 		if err := rows.Scan(
-			&i.WmsPickBatchItem.ID,
-			&i.WmsPickBatchItem.PickBatchID,
-			&i.WmsPickBatchItem.SalesOrderID,
-			&i.WmsPickBatchItem.OrderPriority,
-			&i.WmsPickBatchItem.EstimatedPickTime,
-			&i.WmsPickBatchItem.ActualPickTime,
-			&i.WmsPickBatchItem.CreatedAt,
-			&i.WmsPickBatchItem.UpdatedAt,
+			&i.ID,
+			&i.PickBatchID,
+			&i.SalesOrderID,
+			&i.OrderPriority,
+			&i.EstimatedPickTime,
+			&i.ActualPickTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsPickBatch.ID,
 			&i.WmsPickBatch.BatchNumber,
 			&i.WmsPickBatch.WarehouseID,

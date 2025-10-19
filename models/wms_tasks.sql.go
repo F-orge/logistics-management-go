@@ -27,10 +27,29 @@ where
 `
 
 type WmsAnyTaskRow struct {
-	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
-	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
-	User         User         `db:"user" json:"user"`
-	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
+	ID                pgtype.UUID           `db:"id" json:"id"`
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
+	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	TaskItems         []WmsTaskItem         `db:"task_items" json:"task_items"`
+	WmsWarehouse      WmsWarehouse          `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                  `db:"user" json:"user"`
+	WmsPickBatch      WmsPickBatch          `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsAnyTask(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTaskRow, error) {
@@ -43,26 +62,26 @@ func (q *Queries) WmsAnyTask(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyTa
 	for rows.Next() {
 		var i WmsAnyTaskRow
 		if err := rows.Scan(
-			&i.WmsTasksView.ID,
-			&i.WmsTasksView.TaskNumber,
-			&i.WmsTasksView.WarehouseID,
-			&i.WmsTasksView.UserID,
-			&i.WmsTasksView.Type,
-			&i.WmsTasksView.Status,
-			&i.WmsTasksView.Priority,
-			&i.WmsTasksView.SourceEntityID,
-			&i.WmsTasksView.SourceEntityType,
-			&i.WmsTasksView.PickBatchID,
-			&i.WmsTasksView.EstimatedDuration,
-			&i.WmsTasksView.ActualDuration,
-			&i.WmsTasksView.Instructions,
-			&i.WmsTasksView.Notes,
-			&i.WmsTasksView.StartTime,
-			&i.WmsTasksView.EndTime,
-			&i.WmsTasksView.DurationSeconds,
-			&i.WmsTasksView.CreatedAt,
-			&i.WmsTasksView.UpdatedAt,
-			&i.WmsTasksView.TaskItems,
+			&i.ID,
+			&i.TaskNumber,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.Type,
+			&i.Status,
+			&i.Priority,
+			&i.SourceEntityID,
+			&i.SourceEntityType,
+			&i.PickBatchID,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
+			&i.Instructions,
+			&i.Notes,
+			&i.StartTime,
+			&i.EndTime,
+			&i.DurationSeconds,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -132,36 +151,55 @@ where
 `
 
 type WmsFindTaskRow struct {
-	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
-	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
-	User         User         `db:"user" json:"user"`
-	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
+	ID                pgtype.UUID           `db:"id" json:"id"`
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
+	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	TaskItems         []WmsTaskItem         `db:"task_items" json:"task_items"`
+	WmsWarehouse      WmsWarehouse          `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                  `db:"user" json:"user"`
+	WmsPickBatch      WmsPickBatch          `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsFindTask(ctx context.Context, id pgtype.UUID) (WmsFindTaskRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindTask, id)
 	var i WmsFindTaskRow
 	err := row.Scan(
-		&i.WmsTasksView.ID,
-		&i.WmsTasksView.TaskNumber,
-		&i.WmsTasksView.WarehouseID,
-		&i.WmsTasksView.UserID,
-		&i.WmsTasksView.Type,
-		&i.WmsTasksView.Status,
-		&i.WmsTasksView.Priority,
-		&i.WmsTasksView.SourceEntityID,
-		&i.WmsTasksView.SourceEntityType,
-		&i.WmsTasksView.PickBatchID,
-		&i.WmsTasksView.EstimatedDuration,
-		&i.WmsTasksView.ActualDuration,
-		&i.WmsTasksView.Instructions,
-		&i.WmsTasksView.Notes,
-		&i.WmsTasksView.StartTime,
-		&i.WmsTasksView.EndTime,
-		&i.WmsTasksView.DurationSeconds,
-		&i.WmsTasksView.CreatedAt,
-		&i.WmsTasksView.UpdatedAt,
-		&i.WmsTasksView.TaskItems,
+		&i.ID,
+		&i.TaskNumber,
+		&i.WarehouseID,
+		&i.UserID,
+		&i.Type,
+		&i.Status,
+		&i.Priority,
+		&i.SourceEntityID,
+		&i.SourceEntityType,
+		&i.PickBatchID,
+		&i.EstimatedDuration,
+		&i.ActualDuration,
+		&i.Instructions,
+		&i.Notes,
+		&i.StartTime,
+		&i.EndTime,
+		&i.DurationSeconds,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.TaskItems,
 		&i.WmsWarehouse.ID,
 		&i.WmsWarehouse.Name,
 		&i.WmsWarehouse.Address,
@@ -278,10 +316,6 @@ func (q *Queries) WmsInsertTask(ctx context.Context, arg WmsInsertTaskParams) (W
 
 const wmsPaginateTask = `-- name: WmsPaginateTask :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
@@ -291,35 +325,50 @@ from
   inner join "wms"."warehouses" as warehouse on tasks.warehouse_id = warehouse.id
   left join "public"."user" as users on tasks.user_id = users.id
   left join "wms"."pick_batches" as pick_batch on tasks.pick_batch_id = pick_batch.id
-where (tasks.task_number ilike $3::text
-  or warehouse.name ilike $3::text
-  or users.name ilike $3::text
-  or tasks.type::text ilike $3::text
-  or tasks.status::text ilike $3::text
-  or pick_batch.batch_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (tasks.task_number ilike $1::text
+  or warehouse.name ilike $1::text
+  or users.name ilike $1::text
+  or tasks.type::text ilike $1::text
+  or tasks.status::text ilike $1::text
+  or pick_batch.batch_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateTaskParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateTaskRow struct {
-	TotalItems   int64        `db:"total_items" json:"total_items"`
-	TotalPages   float64      `db:"total_pages" json:"total_pages"`
-	Page         int32        `db:"page" json:"page"`
-	PerPage      int32        `db:"per_page" json:"per_page"`
-	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
-	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
-	User         User         `db:"user" json:"user"`
-	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
+	ID                pgtype.UUID           `db:"id" json:"id"`
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
+	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	TaskItems         []WmsTaskItem         `db:"task_items" json:"task_items"`
+	WmsWarehouse      WmsWarehouse          `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                  `db:"user" json:"user"`
+	WmsPickBatch      WmsPickBatch          `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams) ([]WmsPaginateTaskRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateTask, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateTask, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -328,30 +377,26 @@ func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams
 	for rows.Next() {
 		var i WmsPaginateTaskRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsTasksView.ID,
-			&i.WmsTasksView.TaskNumber,
-			&i.WmsTasksView.WarehouseID,
-			&i.WmsTasksView.UserID,
-			&i.WmsTasksView.Type,
-			&i.WmsTasksView.Status,
-			&i.WmsTasksView.Priority,
-			&i.WmsTasksView.SourceEntityID,
-			&i.WmsTasksView.SourceEntityType,
-			&i.WmsTasksView.PickBatchID,
-			&i.WmsTasksView.EstimatedDuration,
-			&i.WmsTasksView.ActualDuration,
-			&i.WmsTasksView.Instructions,
-			&i.WmsTasksView.Notes,
-			&i.WmsTasksView.StartTime,
-			&i.WmsTasksView.EndTime,
-			&i.WmsTasksView.DurationSeconds,
-			&i.WmsTasksView.CreatedAt,
-			&i.WmsTasksView.UpdatedAt,
-			&i.WmsTasksView.TaskItems,
+			&i.ID,
+			&i.TaskNumber,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.Type,
+			&i.Status,
+			&i.Priority,
+			&i.SourceEntityID,
+			&i.SourceEntityType,
+			&i.PickBatchID,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
+			&i.Instructions,
+			&i.Notes,
+			&i.StartTime,
+			&i.EndTime,
+			&i.DurationSeconds,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,
@@ -405,6 +450,40 @@ func (q *Queries) WmsPaginateTask(ctx context.Context, arg WmsPaginateTaskParams
 	return items, nil
 }
 
+const wmsPaginateTaskMetadata = `-- name: WmsPaginateTaskMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."tasks_view" as tasks
+`
+
+type WmsPaginateTaskMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateTaskMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateTaskMetadata(ctx context.Context, arg WmsPaginateTaskMetadataParams) (WmsPaginateTaskMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateTaskMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateTaskMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeTask = `-- name: WmsRangeTask :many
 select
   tasks.id, tasks.task_number, tasks.warehouse_id, tasks.user_id, tasks.type, tasks.status, tasks.priority, tasks.source_entity_id, tasks.source_entity_type, tasks.pick_batch_id, tasks.estimated_duration, tasks.actual_duration, tasks.instructions, tasks.notes, tasks.start_time, tasks.end_time, tasks.duration_seconds, tasks.created_at, tasks.updated_at, tasks.task_items,
@@ -435,10 +514,29 @@ type WmsRangeTaskParams struct {
 }
 
 type WmsRangeTaskRow struct {
-	WmsTasksView WmsTasksView `db:"wms_tasks_view" json:"wms_tasks_view"`
-	WmsWarehouse WmsWarehouse `db:"wms_warehouse" json:"wms_warehouse"`
-	User         User         `db:"user" json:"user"`
-	WmsPickBatch WmsPickBatch `db:"wms_pick_batch" json:"wms_pick_batch"`
+	ID                pgtype.UUID           `db:"id" json:"id"`
+	TaskNumber        string                `db:"task_number" json:"task_number"`
+	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
+	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
+	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
+	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
+	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	DurationSeconds   pgtype.Int4           `db:"duration_seconds" json:"duration_seconds"`
+	CreatedAt         pgtype.Timestamp      `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp      `db:"updated_at" json:"updated_at"`
+	TaskItems         []WmsTaskItem         `db:"task_items" json:"task_items"`
+	WmsWarehouse      WmsWarehouse          `db:"wms_warehouse" json:"wms_warehouse"`
+	User              User                  `db:"user" json:"user"`
+	WmsPickBatch      WmsPickBatch          `db:"wms_pick_batch" json:"wms_pick_batch"`
 }
 
 func (q *Queries) WmsRangeTask(ctx context.Context, arg WmsRangeTaskParams) ([]WmsRangeTaskRow, error) {
@@ -451,26 +549,26 @@ func (q *Queries) WmsRangeTask(ctx context.Context, arg WmsRangeTaskParams) ([]W
 	for rows.Next() {
 		var i WmsRangeTaskRow
 		if err := rows.Scan(
-			&i.WmsTasksView.ID,
-			&i.WmsTasksView.TaskNumber,
-			&i.WmsTasksView.WarehouseID,
-			&i.WmsTasksView.UserID,
-			&i.WmsTasksView.Type,
-			&i.WmsTasksView.Status,
-			&i.WmsTasksView.Priority,
-			&i.WmsTasksView.SourceEntityID,
-			&i.WmsTasksView.SourceEntityType,
-			&i.WmsTasksView.PickBatchID,
-			&i.WmsTasksView.EstimatedDuration,
-			&i.WmsTasksView.ActualDuration,
-			&i.WmsTasksView.Instructions,
-			&i.WmsTasksView.Notes,
-			&i.WmsTasksView.StartTime,
-			&i.WmsTasksView.EndTime,
-			&i.WmsTasksView.DurationSeconds,
-			&i.WmsTasksView.CreatedAt,
-			&i.WmsTasksView.UpdatedAt,
-			&i.WmsTasksView.TaskItems,
+			&i.ID,
+			&i.TaskNumber,
+			&i.WarehouseID,
+			&i.UserID,
+			&i.Type,
+			&i.Status,
+			&i.Priority,
+			&i.SourceEntityID,
+			&i.SourceEntityType,
+			&i.PickBatchID,
+			&i.EstimatedDuration,
+			&i.ActualDuration,
+			&i.Instructions,
+			&i.Notes,
+			&i.StartTime,
+			&i.EndTime,
+			&i.DurationSeconds,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.TaskItems,
 			&i.WmsWarehouse.ID,
 			&i.WmsWarehouse.Name,
 			&i.WmsWarehouse.Address,

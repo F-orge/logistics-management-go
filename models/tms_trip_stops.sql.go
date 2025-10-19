@@ -23,8 +23,20 @@ where
 `
 
 type TmsAnyTripStopRow struct {
-	TmsTripStopsView TmsTripStopsView `db:"tms_trip_stops_view" json:"tms_trip_stops_view"`
-	TmsTrip          TmsTrip          `db:"tms_trip" json:"tms_trip"`
+	ID                     pgtype.UUID               `db:"id" json:"id"`
+	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
+	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
+	Sequence               int32                     `db:"sequence" json:"sequence"`
+	Address                pgtype.Text               `db:"address" json:"address"`
+	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	ProofOfDeliveries      []TmsProofOfDelivery      `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	TmsTrip                TmsTrip                   `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsAnyTripStop(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyTripStopRow, error) {
@@ -37,19 +49,19 @@ func (q *Queries) TmsAnyTripStop(ctx context.Context, ids []pgtype.UUID) ([]TmsA
 	for rows.Next() {
 		var i TmsAnyTripStopRow
 		if err := rows.Scan(
-			&i.TmsTripStopsView.ID,
-			&i.TmsTripStopsView.TripID,
-			&i.TmsTripStopsView.ShipmentID,
-			&i.TmsTripStopsView.Sequence,
-			&i.TmsTripStopsView.Address,
-			&i.TmsTripStopsView.Status,
-			&i.TmsTripStopsView.EstimatedArrivalTime,
-			&i.TmsTripStopsView.ActualArrivalTime,
-			&i.TmsTripStopsView.EstimatedDepartureTime,
-			&i.TmsTripStopsView.ActualDepartureTime,
-			&i.TmsTripStopsView.CreatedAt,
-			&i.TmsTripStopsView.UpdatedAt,
-			&i.TmsTripStopsView.ProofOfDeliveries,
+			&i.ID,
+			&i.TripID,
+			&i.ShipmentID,
+			&i.Sequence,
+			&i.Address,
+			&i.Status,
+			&i.EstimatedArrivalTime,
+			&i.ActualArrivalTime,
+			&i.EstimatedDepartureTime,
+			&i.ActualDepartureTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -83,27 +95,39 @@ where
 `
 
 type TmsFindTripStopRow struct {
-	TmsTripStopsView TmsTripStopsView `db:"tms_trip_stops_view" json:"tms_trip_stops_view"`
-	TmsTrip          TmsTrip          `db:"tms_trip" json:"tms_trip"`
+	ID                     pgtype.UUID               `db:"id" json:"id"`
+	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
+	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
+	Sequence               int32                     `db:"sequence" json:"sequence"`
+	Address                pgtype.Text               `db:"address" json:"address"`
+	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	ProofOfDeliveries      []TmsProofOfDelivery      `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	TmsTrip                TmsTrip                   `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsFindTripStop(ctx context.Context, id pgtype.UUID) (TmsFindTripStopRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindTripStop, id)
 	var i TmsFindTripStopRow
 	err := row.Scan(
-		&i.TmsTripStopsView.ID,
-		&i.TmsTripStopsView.TripID,
-		&i.TmsTripStopsView.ShipmentID,
-		&i.TmsTripStopsView.Sequence,
-		&i.TmsTripStopsView.Address,
-		&i.TmsTripStopsView.Status,
-		&i.TmsTripStopsView.EstimatedArrivalTime,
-		&i.TmsTripStopsView.ActualArrivalTime,
-		&i.TmsTripStopsView.EstimatedDepartureTime,
-		&i.TmsTripStopsView.ActualDepartureTime,
-		&i.TmsTripStopsView.CreatedAt,
-		&i.TmsTripStopsView.UpdatedAt,
-		&i.TmsTripStopsView.ProofOfDeliveries,
+		&i.ID,
+		&i.TripID,
+		&i.ShipmentID,
+		&i.Sequence,
+		&i.Address,
+		&i.Status,
+		&i.EstimatedArrivalTime,
+		&i.ActualArrivalTime,
+		&i.EstimatedDepartureTime,
+		&i.ActualDepartureTime,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.ProofOfDeliveries,
 		&i.TmsTrip.ID,
 		&i.TmsTrip.DriverID,
 		&i.TmsTrip.VehicleID,
@@ -183,39 +207,43 @@ func (q *Queries) TmsInsertTripStop(ctx context.Context, arg TmsInsertTripStopPa
 
 const tmsPaginateTripStop = `-- name: TmsPaginateTripStop :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
   "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
-where (trip.status::text ilike $3::text
-  or trip_stops.address ilike $3::text
-  or trip_stops.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (trip.status::text ilike $1::text
+  or trip_stops.address ilike $1::text
+  or trip_stops.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateTripStopParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateTripStopRow struct {
-	TotalItems       int64            `db:"total_items" json:"total_items"`
-	TotalPages       float64          `db:"total_pages" json:"total_pages"`
-	Page             int32            `db:"page" json:"page"`
-	PerPage          int32            `db:"per_page" json:"per_page"`
-	TmsTripStopsView TmsTripStopsView `db:"tms_trip_stops_view" json:"tms_trip_stops_view"`
-	TmsTrip          TmsTrip          `db:"tms_trip" json:"tms_trip"`
+	ID                     pgtype.UUID               `db:"id" json:"id"`
+	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
+	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
+	Sequence               int32                     `db:"sequence" json:"sequence"`
+	Address                pgtype.Text               `db:"address" json:"address"`
+	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	ProofOfDeliveries      []TmsProofOfDelivery      `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	TmsTrip                TmsTrip                   `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripStopParams) ([]TmsPaginateTripStopRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -224,23 +252,19 @@ func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripSt
 	for rows.Next() {
 		var i TmsPaginateTripStopRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsTripStopsView.ID,
-			&i.TmsTripStopsView.TripID,
-			&i.TmsTripStopsView.ShipmentID,
-			&i.TmsTripStopsView.Sequence,
-			&i.TmsTripStopsView.Address,
-			&i.TmsTripStopsView.Status,
-			&i.TmsTripStopsView.EstimatedArrivalTime,
-			&i.TmsTripStopsView.ActualArrivalTime,
-			&i.TmsTripStopsView.EstimatedDepartureTime,
-			&i.TmsTripStopsView.ActualDepartureTime,
-			&i.TmsTripStopsView.CreatedAt,
-			&i.TmsTripStopsView.UpdatedAt,
-			&i.TmsTripStopsView.ProofOfDeliveries,
+			&i.ID,
+			&i.TripID,
+			&i.ShipmentID,
+			&i.Sequence,
+			&i.Address,
+			&i.Status,
+			&i.EstimatedArrivalTime,
+			&i.ActualArrivalTime,
+			&i.EstimatedDepartureTime,
+			&i.ActualDepartureTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,
@@ -260,6 +284,40 @@ func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripSt
 		return nil, err
 	}
 	return items, nil
+}
+
+const tmsPaginateTripStopMetadata = `-- name: TmsPaginateTripStopMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."trip_stops_view" as trip_stops
+`
+
+type TmsPaginateTripStopMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateTripStopMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateTripStopMetadata(ctx context.Context, arg TmsPaginateTripStopMetadataParams) (TmsPaginateTripStopMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateTripStopMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateTripStopMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const tmsRangeTripStop = `-- name: TmsRangeTripStop :many
@@ -285,8 +343,20 @@ type TmsRangeTripStopParams struct {
 }
 
 type TmsRangeTripStopRow struct {
-	TmsTripStopsView TmsTripStopsView `db:"tms_trip_stops_view" json:"tms_trip_stops_view"`
-	TmsTrip          TmsTrip          `db:"tms_trip" json:"tms_trip"`
+	ID                     pgtype.UUID               `db:"id" json:"id"`
+	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
+	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
+	Sequence               int32                     `db:"sequence" json:"sequence"`
+	Address                pgtype.Text               `db:"address" json:"address"`
+	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	CreatedAt              pgtype.Timestamp          `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
+	ProofOfDeliveries      []TmsProofOfDelivery      `db:"proof_of_deliveries" json:"proof_of_deliveries"`
+	TmsTrip                TmsTrip                   `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsRangeTripStop(ctx context.Context, arg TmsRangeTripStopParams) ([]TmsRangeTripStopRow, error) {
@@ -299,19 +369,19 @@ func (q *Queries) TmsRangeTripStop(ctx context.Context, arg TmsRangeTripStopPara
 	for rows.Next() {
 		var i TmsRangeTripStopRow
 		if err := rows.Scan(
-			&i.TmsTripStopsView.ID,
-			&i.TmsTripStopsView.TripID,
-			&i.TmsTripStopsView.ShipmentID,
-			&i.TmsTripStopsView.Sequence,
-			&i.TmsTripStopsView.Address,
-			&i.TmsTripStopsView.Status,
-			&i.TmsTripStopsView.EstimatedArrivalTime,
-			&i.TmsTripStopsView.ActualArrivalTime,
-			&i.TmsTripStopsView.EstimatedDepartureTime,
-			&i.TmsTripStopsView.ActualDepartureTime,
-			&i.TmsTripStopsView.CreatedAt,
-			&i.TmsTripStopsView.UpdatedAt,
-			&i.TmsTripStopsView.ProofOfDeliveries,
+			&i.ID,
+			&i.TripID,
+			&i.ShipmentID,
+			&i.Sequence,
+			&i.Address,
+			&i.Status,
+			&i.EstimatedArrivalTime,
+			&i.ActualArrivalTime,
+			&i.EstimatedDepartureTime,
+			&i.ActualDepartureTime,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ProofOfDeliveries,
 			&i.TmsTrip.ID,
 			&i.TmsTrip.DriverID,
 			&i.TmsTrip.VehicleID,

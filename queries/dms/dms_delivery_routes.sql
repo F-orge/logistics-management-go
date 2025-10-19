@@ -1,10 +1,15 @@
--- name: DmsPaginateDeliveryRoute :many
+-- name: DmsPaginateDeliveryRouteMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(delivery_routes),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."delivery_routes_view" as delivery_routes;
+
+-- name: DmsPaginateDeliveryRoute :many
+select
+  delivery_routes.*,
   sqlc.embed(driver)
 from
   "dms"."delivery_routes_view" as delivery_routes
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindDeliveryRoute :one
 select
-  sqlc.embed(delivery_routes),
+  delivery_routes.*,
   sqlc.embed(driver)
 from
   "dms"."delivery_routes_view" as delivery_routes
@@ -26,7 +31,7 @@ where
 
 -- name: DmsAnyDeliveryRoute :many
 select
-  sqlc.embed(delivery_routes),
+  delivery_routes.*,
   sqlc.embed(driver)
 from
   "dms"."delivery_routes_view" as delivery_routes
@@ -36,7 +41,7 @@ where
 
 -- name: DmsRangeDeliveryRoute :many
 select
-  sqlc.embed(delivery_routes),
+  delivery_routes.*,
   sqlc.embed(driver)
 from
   "dms"."delivery_routes_view" as delivery_routes

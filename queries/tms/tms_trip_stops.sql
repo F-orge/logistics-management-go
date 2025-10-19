@@ -1,10 +1,15 @@
--- name: TmsPaginateTripStop :many
+-- name: TmsPaginateTripStopMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(trip_stops),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."trip_stops_view" as trip_stops;
+
+-- name: TmsPaginateTripStop :many
+select
+  trip_stops.*,
   sqlc.embed(trip)
 from
   "tms"."trip_stops_view" as trip_stops
@@ -17,7 +22,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindTripStop :one
 select
-  sqlc.embed(trip_stops),
+  trip_stops.*,
   sqlc.embed(trip)
 from
   "tms"."trip_stops_view" as trip_stops
@@ -27,7 +32,7 @@ where
 
 -- name: TmsAnyTripStop :many
 select
-  sqlc.embed(trip_stops),
+  trip_stops.*,
   sqlc.embed(trip)
 from
   "tms"."trip_stops_view" as trip_stops
@@ -37,7 +42,7 @@ where
 
 -- name: TmsRangeTripStop :many
 select
-  sqlc.embed(trip_stops),
+  trip_stops.*,
   sqlc.embed(trip)
 from
   "tms"."trip_stops_view" as trip_stops

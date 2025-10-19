@@ -23,8 +23,12 @@ where
 `
 
 type TmsAnyGpsPingRow struct {
-	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
-	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
+	ID         pgtype.UUID      `db:"id" json:"id"`
+	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude   float32          `db:"latitude" json:"latitude"`
+	Longitude  float32          `db:"longitude" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsAnyGpsPing(ctx context.Context, ids []pgtype.UUID) ([]TmsAnyGpsPingRow, error) {
@@ -37,11 +41,11 @@ func (q *Queries) TmsAnyGpsPing(ctx context.Context, ids []pgtype.UUID) ([]TmsAn
 	for rows.Next() {
 		var i TmsAnyGpsPingRow
 		if err := rows.Scan(
-			&i.TmsGpsPing.ID,
-			&i.TmsGpsPing.VehicleID,
-			&i.TmsGpsPing.Latitude,
-			&i.TmsGpsPing.Longitude,
-			&i.TmsGpsPing.Timestamp,
+			&i.ID,
+			&i.VehicleID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
 			&i.TmsVehicle.ID,
 			&i.TmsVehicle.RegistrationNumber,
 			&i.TmsVehicle.Model,
@@ -78,19 +82,23 @@ where
 `
 
 type TmsFindGpsPingRow struct {
-	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
-	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
+	ID         pgtype.UUID      `db:"id" json:"id"`
+	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude   float32          `db:"latitude" json:"latitude"`
+	Longitude  float32          `db:"longitude" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsFindGpsPing(ctx context.Context, id pgtype.UUID) (TmsFindGpsPingRow, error) {
 	row := q.db.QueryRow(ctx, tmsFindGpsPing, id)
 	var i TmsFindGpsPingRow
 	err := row.Scan(
-		&i.TmsGpsPing.ID,
-		&i.TmsGpsPing.VehicleID,
-		&i.TmsGpsPing.Latitude,
-		&i.TmsGpsPing.Longitude,
-		&i.TmsGpsPing.Timestamp,
+		&i.ID,
+		&i.VehicleID,
+		&i.Latitude,
+		&i.Longitude,
+		&i.Timestamp,
 		&i.TmsVehicle.ID,
 		&i.TmsVehicle.RegistrationNumber,
 		&i.TmsVehicle.Model,
@@ -142,37 +150,33 @@ func (q *Queries) TmsInsertGpsPing(ctx context.Context, arg TmsInsertGpsPingPara
 
 const tmsPaginateGpsPing = `-- name: TmsPaginateGpsPing :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   gps_pings.id, gps_pings.vehicle_id, gps_pings.latitude, gps_pings.longitude, gps_pings.timestamp,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
   "tms"."gps_pings" as gps_pings
   inner join "tms"."vehicles" as vehicle on gps_pings.vehicle_id = vehicle.id
-where (vehicle.registration_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (vehicle.registration_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type TmsPaginateGpsPingParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type TmsPaginateGpsPingRow struct {
-	TotalItems int64      `db:"total_items" json:"total_items"`
-	TotalPages float64    `db:"total_pages" json:"total_pages"`
-	Page       int32      `db:"page" json:"page"`
-	PerPage    int32      `db:"per_page" json:"per_page"`
-	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
-	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
+	ID         pgtype.UUID      `db:"id" json:"id"`
+	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude   float32          `db:"latitude" json:"latitude"`
+	Longitude  float32          `db:"longitude" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPingParams) ([]TmsPaginateGpsPingRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateGpsPing, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, tmsPaginateGpsPing, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -181,15 +185,11 @@ func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPing
 	for rows.Next() {
 		var i TmsPaginateGpsPingRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.TmsGpsPing.ID,
-			&i.TmsGpsPing.VehicleID,
-			&i.TmsGpsPing.Latitude,
-			&i.TmsGpsPing.Longitude,
-			&i.TmsGpsPing.Timestamp,
+			&i.ID,
+			&i.VehicleID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
 			&i.TmsVehicle.ID,
 			&i.TmsVehicle.RegistrationNumber,
 			&i.TmsVehicle.Model,
@@ -214,6 +214,40 @@ func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPing
 	return items, nil
 }
 
+const tmsPaginateGpsPingMetadata = `-- name: TmsPaginateGpsPingMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "tms"."gps_pings" as gps_pings
+`
+
+type TmsPaginateGpsPingMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type TmsPaginateGpsPingMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) TmsPaginateGpsPingMetadata(ctx context.Context, arg TmsPaginateGpsPingMetadataParams) (TmsPaginateGpsPingMetadataRow, error) {
+	row := q.db.QueryRow(ctx, tmsPaginateGpsPingMetadata, arg.PerPage, arg.Page)
+	var i TmsPaginateGpsPingMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const tmsRangeGpsPing = `-- name: TmsRangeGpsPing :many
 select
   gps_pings.id, gps_pings.vehicle_id, gps_pings.latitude, gps_pings.longitude, gps_pings.timestamp,
@@ -235,8 +269,12 @@ type TmsRangeGpsPingParams struct {
 }
 
 type TmsRangeGpsPingRow struct {
-	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
-	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
+	ID         pgtype.UUID      `db:"id" json:"id"`
+	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
+	Latitude   float32          `db:"latitude" json:"latitude"`
+	Longitude  float32          `db:"longitude" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsRangeGpsPing(ctx context.Context, arg TmsRangeGpsPingParams) ([]TmsRangeGpsPingRow, error) {
@@ -249,11 +287,11 @@ func (q *Queries) TmsRangeGpsPing(ctx context.Context, arg TmsRangeGpsPingParams
 	for rows.Next() {
 		var i TmsRangeGpsPingRow
 		if err := rows.Scan(
-			&i.TmsGpsPing.ID,
-			&i.TmsGpsPing.VehicleID,
-			&i.TmsGpsPing.Latitude,
-			&i.TmsGpsPing.Longitude,
-			&i.TmsGpsPing.Timestamp,
+			&i.ID,
+			&i.VehicleID,
+			&i.Latitude,
+			&i.Longitude,
+			&i.Timestamp,
 			&i.TmsVehicle.ID,
 			&i.TmsVehicle.RegistrationNumber,
 			&i.TmsVehicle.Model,

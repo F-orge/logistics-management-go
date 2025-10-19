@@ -27,10 +27,21 @@ where
 `
 
 type WmsAnyInventoryStockRow struct {
-	WmsInventoryStock WmsInventoryStock `db:"wms_inventory_stock" json:"wms_inventory_stock"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                pgtype.UUID                     `db:"id" json:"id"`
+	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
+	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
+	Quantity          int32                           `db:"quantity" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
+	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
+	WmsProduct        WmsProduct                      `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch               `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsAnyInventoryStock(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInventoryStockRow, error) {
@@ -43,18 +54,18 @@ func (q *Queries) WmsAnyInventoryStock(ctx context.Context, ids []pgtype.UUID) (
 	for rows.Next() {
 		var i WmsAnyInventoryStockRow
 		if err := rows.Scan(
-			&i.WmsInventoryStock.ID,
-			&i.WmsInventoryStock.LocationID,
-			&i.WmsInventoryStock.ProductID,
-			&i.WmsInventoryStock.BatchID,
-			&i.WmsInventoryStock.Quantity,
-			&i.WmsInventoryStock.ReservedQuantity,
-			&i.WmsInventoryStock.AvailableQuantity,
-			&i.WmsInventoryStock.Status,
-			&i.WmsInventoryStock.LastCountedAt,
-			&i.WmsInventoryStock.LastMovementAt,
-			&i.WmsInventoryStock.CreatedAt,
-			&i.WmsInventoryStock.UpdatedAt,
+			&i.ID,
+			&i.LocationID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.ReservedQuantity,
+			&i.AvailableQuantity,
+			&i.Status,
+			&i.LastCountedAt,
+			&i.LastMovementAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsLocation.ID,
 			&i.WmsLocation.WarehouseID,
 			&i.WmsLocation.ParentLocationID,
@@ -125,28 +136,39 @@ where
 `
 
 type WmsFindInventoryStockRow struct {
-	WmsInventoryStock WmsInventoryStock `db:"wms_inventory_stock" json:"wms_inventory_stock"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                pgtype.UUID                     `db:"id" json:"id"`
+	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
+	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
+	Quantity          int32                           `db:"quantity" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
+	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
+	WmsProduct        WmsProduct                      `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch               `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsFindInventoryStock(ctx context.Context, id pgtype.UUID) (WmsFindInventoryStockRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindInventoryStock, id)
 	var i WmsFindInventoryStockRow
 	err := row.Scan(
-		&i.WmsInventoryStock.ID,
-		&i.WmsInventoryStock.LocationID,
-		&i.WmsInventoryStock.ProductID,
-		&i.WmsInventoryStock.BatchID,
-		&i.WmsInventoryStock.Quantity,
-		&i.WmsInventoryStock.ReservedQuantity,
-		&i.WmsInventoryStock.AvailableQuantity,
-		&i.WmsInventoryStock.Status,
-		&i.WmsInventoryStock.LastCountedAt,
-		&i.WmsInventoryStock.LastMovementAt,
-		&i.WmsInventoryStock.CreatedAt,
-		&i.WmsInventoryStock.UpdatedAt,
+		&i.ID,
+		&i.LocationID,
+		&i.ProductID,
+		&i.BatchID,
+		&i.Quantity,
+		&i.ReservedQuantity,
+		&i.AvailableQuantity,
+		&i.Status,
+		&i.LastCountedAt,
+		&i.LastMovementAt,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsLocation.ID,
 		&i.WmsLocation.WarehouseID,
 		&i.WmsLocation.ParentLocationID,
@@ -243,10 +265,6 @@ func (q *Queries) WmsInsertInventoryStock(ctx context.Context, arg WmsInsertInve
 
 const wmsPaginateInventoryStock = `-- name: WmsPaginateInventoryStock :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   inventory_stock.id, inventory_stock.location_id, inventory_stock.product_id, inventory_stock.batch_id, inventory_stock.quantity, inventory_stock.reserved_quantity, inventory_stock.available_quantity, inventory_stock.status, inventory_stock.last_counted_at, inventory_stock.last_movement_at, inventory_stock.created_at, inventory_stock.updated_at,
   location.id, location.warehouse_id, location.parent_location_id, location.name, location.barcode, location.type, location.level, location.path, location.max_weight, location.max_volume, location.max_pallets, location.x_coordinate, location.y_coordinate, location.z_coordinate, location.is_pickable, location.is_receivable, location.temperature_controlled, location.hazmat_approved, location.is_active, location.created_at, location.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -256,33 +274,40 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
-where (location.name ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or inventory_stock.status::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (location.name ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or inventory_stock.status::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInventoryStockParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateInventoryStockRow struct {
-	TotalItems        int64             `db:"total_items" json:"total_items"`
-	TotalPages        float64           `db:"total_pages" json:"total_pages"`
-	Page              int32             `db:"page" json:"page"`
-	PerPage           int32             `db:"per_page" json:"per_page"`
-	WmsInventoryStock WmsInventoryStock `db:"wms_inventory_stock" json:"wms_inventory_stock"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                pgtype.UUID                     `db:"id" json:"id"`
+	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
+	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
+	Quantity          int32                           `db:"quantity" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
+	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
+	WmsProduct        WmsProduct                      `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch               `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginateInventoryStockParams) ([]WmsPaginateInventoryStockRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -291,22 +316,18 @@ func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginate
 	for rows.Next() {
 		var i WmsPaginateInventoryStockRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsInventoryStock.ID,
-			&i.WmsInventoryStock.LocationID,
-			&i.WmsInventoryStock.ProductID,
-			&i.WmsInventoryStock.BatchID,
-			&i.WmsInventoryStock.Quantity,
-			&i.WmsInventoryStock.ReservedQuantity,
-			&i.WmsInventoryStock.AvailableQuantity,
-			&i.WmsInventoryStock.Status,
-			&i.WmsInventoryStock.LastCountedAt,
-			&i.WmsInventoryStock.LastMovementAt,
-			&i.WmsInventoryStock.CreatedAt,
-			&i.WmsInventoryStock.UpdatedAt,
+			&i.ID,
+			&i.LocationID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.ReservedQuantity,
+			&i.AvailableQuantity,
+			&i.Status,
+			&i.LastCountedAt,
+			&i.LastMovementAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsLocation.ID,
 			&i.WmsLocation.WarehouseID,
 			&i.WmsLocation.ParentLocationID,
@@ -361,6 +382,40 @@ func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginate
 	return items, nil
 }
 
+const wmsPaginateInventoryStockMetadata = `-- name: WmsPaginateInventoryStockMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."inventory_stock" as inventory_stock
+`
+
+type WmsPaginateInventoryStockMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateInventoryStockMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateInventoryStockMetadata(ctx context.Context, arg WmsPaginateInventoryStockMetadataParams) (WmsPaginateInventoryStockMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateInventoryStockMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateInventoryStockMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeInventoryStock = `-- name: WmsRangeInventoryStock :many
 select
   inventory_stock.id, inventory_stock.location_id, inventory_stock.product_id, inventory_stock.batch_id, inventory_stock.quantity, inventory_stock.reserved_quantity, inventory_stock.available_quantity, inventory_stock.status, inventory_stock.last_counted_at, inventory_stock.last_movement_at, inventory_stock.created_at, inventory_stock.updated_at,
@@ -389,10 +444,21 @@ type WmsRangeInventoryStockParams struct {
 }
 
 type WmsRangeInventoryStockRow struct {
-	WmsInventoryStock WmsInventoryStock `db:"wms_inventory_stock" json:"wms_inventory_stock"`
-	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
-	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                pgtype.UUID                     `db:"id" json:"id"`
+	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
+	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
+	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
+	Quantity          int32                           `db:"quantity" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
+	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
+	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
+	WmsProduct        WmsProduct                      `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch WmsInventoryBatch               `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsRangeInventoryStock(ctx context.Context, arg WmsRangeInventoryStockParams) ([]WmsRangeInventoryStockRow, error) {
@@ -405,18 +471,18 @@ func (q *Queries) WmsRangeInventoryStock(ctx context.Context, arg WmsRangeInvent
 	for rows.Next() {
 		var i WmsRangeInventoryStockRow
 		if err := rows.Scan(
-			&i.WmsInventoryStock.ID,
-			&i.WmsInventoryStock.LocationID,
-			&i.WmsInventoryStock.ProductID,
-			&i.WmsInventoryStock.BatchID,
-			&i.WmsInventoryStock.Quantity,
-			&i.WmsInventoryStock.ReservedQuantity,
-			&i.WmsInventoryStock.AvailableQuantity,
-			&i.WmsInventoryStock.Status,
-			&i.WmsInventoryStock.LastCountedAt,
-			&i.WmsInventoryStock.LastMovementAt,
-			&i.WmsInventoryStock.CreatedAt,
-			&i.WmsInventoryStock.UpdatedAt,
+			&i.ID,
+			&i.LocationID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.Quantity,
+			&i.ReservedQuantity,
+			&i.AvailableQuantity,
+			&i.Status,
+			&i.LastCountedAt,
+			&i.LastMovementAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsLocation.ID,
 			&i.WmsLocation.WarehouseID,
 			&i.WmsLocation.ParentLocationID,

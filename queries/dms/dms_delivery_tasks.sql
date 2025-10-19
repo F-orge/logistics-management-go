@@ -1,10 +1,15 @@
--- name: DmsPaginateDeliveryTask :many
+-- name: DmsPaginateDeliveryTaskMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(delivery_tasks),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."delivery_tasks_view" as delivery_tasks;
+
+-- name: DmsPaginateDeliveryTask :many
+select
+  delivery_tasks.*,
   sqlc.embed(delivery_route)
 from
   "dms"."delivery_tasks_view" as delivery_tasks
@@ -19,7 +24,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindDeliveryTask :one
 select
-  sqlc.embed(delivery_tasks),
+  delivery_tasks.*,
   sqlc.embed(delivery_route)
 from
   "dms"."delivery_tasks_view" as delivery_tasks
@@ -29,7 +34,7 @@ where
 
 -- name: DmsAnyDeliveryTask :many
 select
-  sqlc.embed(delivery_tasks),
+  delivery_tasks.*,
   sqlc.embed(delivery_route)
 from
   "dms"."delivery_tasks_view" as delivery_tasks
@@ -39,7 +44,7 @@ where
 
 -- name: DmsRangeDeliveryTask :many
 select
-  sqlc.embed(delivery_tasks),
+  delivery_tasks.*,
   sqlc.embed(delivery_route)
 from
   "dms"."delivery_tasks_view" as delivery_tasks

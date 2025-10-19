@@ -23,8 +23,16 @@ where
 `
 
 type DmsAnyCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
-	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID              pgtype.UUID      `db:"id" json:"id"`
+	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsAnyCustomerTrackingLink(ctx context.Context, ids []pgtype.UUID) ([]DmsAnyCustomerTrackingLinkRow, error) {
@@ -37,15 +45,15 @@ func (q *Queries) DmsAnyCustomerTrackingLink(ctx context.Context, ids []pgtype.U
 	for rows.Next() {
 		var i DmsAnyCustomerTrackingLinkRow
 		if err := rows.Scan(
-			&i.DmsCustomerTrackingLink.ID,
-			&i.DmsCustomerTrackingLink.DeliveryTaskID,
-			&i.DmsCustomerTrackingLink.TrackingToken,
-			&i.DmsCustomerTrackingLink.IsActive,
-			&i.DmsCustomerTrackingLink.AccessCount,
-			&i.DmsCustomerTrackingLink.LastAccessedAt,
-			&i.DmsCustomerTrackingLink.ExpiresAt,
-			&i.DmsCustomerTrackingLink.CreatedAt,
-			&i.DmsCustomerTrackingLink.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.TrackingToken,
+			&i.IsActive,
+			&i.AccessCount,
+			&i.LastAccessedAt,
+			&i.ExpiresAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,
@@ -85,23 +93,31 @@ where
 `
 
 type DmsFindCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
-	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID              pgtype.UUID      `db:"id" json:"id"`
+	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsFindCustomerTrackingLink(ctx context.Context, id pgtype.UUID) (DmsFindCustomerTrackingLinkRow, error) {
 	row := q.db.QueryRow(ctx, dmsFindCustomerTrackingLink, id)
 	var i DmsFindCustomerTrackingLinkRow
 	err := row.Scan(
-		&i.DmsCustomerTrackingLink.ID,
-		&i.DmsCustomerTrackingLink.DeliveryTaskID,
-		&i.DmsCustomerTrackingLink.TrackingToken,
-		&i.DmsCustomerTrackingLink.IsActive,
-		&i.DmsCustomerTrackingLink.AccessCount,
-		&i.DmsCustomerTrackingLink.LastAccessedAt,
-		&i.DmsCustomerTrackingLink.ExpiresAt,
-		&i.DmsCustomerTrackingLink.CreatedAt,
-		&i.DmsCustomerTrackingLink.UpdatedAt,
+		&i.ID,
+		&i.DeliveryTaskID,
+		&i.TrackingToken,
+		&i.IsActive,
+		&i.AccessCount,
+		&i.LastAccessedAt,
+		&i.ExpiresAt,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.DmsDeliveryTask.ID,
 		&i.DmsDeliveryTask.PackageID,
 		&i.DmsDeliveryTask.DeliveryRouteID,
@@ -164,38 +180,38 @@ func (q *Queries) DmsInsertCustomerTrackingLink(ctx context.Context, arg DmsInse
 
 const dmsPaginateCustomerTrackingLink = `-- name: DmsPaginateCustomerTrackingLink :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   customer_tracking_links.id, customer_tracking_links.delivery_task_id, customer_tracking_links.tracking_token, customer_tracking_links.is_active, customer_tracking_links.access_count, customer_tracking_links.last_accessed_at, customer_tracking_links.expires_at, customer_tracking_links.created_at, customer_tracking_links.updated_at,
   delivery_task.id, delivery_task.package_id, delivery_task.delivery_route_id, delivery_task.route_sequence, delivery_task.delivery_address, delivery_task.recipient_name, delivery_task.recipient_phone, delivery_task.delivery_instructions, delivery_task.estimated_arrival_time, delivery_task.actual_arrival_time, delivery_task.delivery_time, delivery_task.status, delivery_task.failure_reason, delivery_task.attempt_count, delivery_task.created_at, delivery_task.updated_at
 from
   "dms"."customer_tracking_links" as customer_tracking_links
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
-where (customer_tracking_links.tracking_token ilike $3::text
-  or delivery_task.recipient_name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (customer_tracking_links.tracking_token ilike $1::text
+  or delivery_task.recipient_name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type DmsPaginateCustomerTrackingLinkParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type DmsPaginateCustomerTrackingLinkRow struct {
-	TotalItems              int64                   `db:"total_items" json:"total_items"`
-	TotalPages              float64                 `db:"total_pages" json:"total_pages"`
-	Page                    int32                   `db:"page" json:"page"`
-	PerPage                 int32                   `db:"per_page" json:"per_page"`
-	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
-	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID              pgtype.UUID      `db:"id" json:"id"`
+	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPaginateCustomerTrackingLinkParams) ([]DmsPaginateCustomerTrackingLinkRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -204,19 +220,15 @@ func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPa
 	for rows.Next() {
 		var i DmsPaginateCustomerTrackingLinkRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.DmsCustomerTrackingLink.ID,
-			&i.DmsCustomerTrackingLink.DeliveryTaskID,
-			&i.DmsCustomerTrackingLink.TrackingToken,
-			&i.DmsCustomerTrackingLink.IsActive,
-			&i.DmsCustomerTrackingLink.AccessCount,
-			&i.DmsCustomerTrackingLink.LastAccessedAt,
-			&i.DmsCustomerTrackingLink.ExpiresAt,
-			&i.DmsCustomerTrackingLink.CreatedAt,
-			&i.DmsCustomerTrackingLink.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.TrackingToken,
+			&i.IsActive,
+			&i.AccessCount,
+			&i.LastAccessedAt,
+			&i.ExpiresAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,
@@ -244,6 +256,40 @@ func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPa
 	return items, nil
 }
 
+const dmsPaginateCustomerTrackingLinkMetadata = `-- name: DmsPaginateCustomerTrackingLinkMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "dms"."customer_tracking_links" as customer_tracking_links
+`
+
+type DmsPaginateCustomerTrackingLinkMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type DmsPaginateCustomerTrackingLinkMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) DmsPaginateCustomerTrackingLinkMetadata(ctx context.Context, arg DmsPaginateCustomerTrackingLinkMetadataParams) (DmsPaginateCustomerTrackingLinkMetadataRow, error) {
+	row := q.db.QueryRow(ctx, dmsPaginateCustomerTrackingLinkMetadata, arg.PerPage, arg.Page)
+	var i DmsPaginateCustomerTrackingLinkMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const dmsRangeCustomerTrackingLink = `-- name: DmsRangeCustomerTrackingLink :many
 select
   customer_tracking_links.id, customer_tracking_links.delivery_task_id, customer_tracking_links.tracking_token, customer_tracking_links.is_active, customer_tracking_links.access_count, customer_tracking_links.last_accessed_at, customer_tracking_links.expires_at, customer_tracking_links.created_at, customer_tracking_links.updated_at,
@@ -266,8 +312,16 @@ type DmsRangeCustomerTrackingLinkParams struct {
 }
 
 type DmsRangeCustomerTrackingLinkRow struct {
-	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
-	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
+	ID              pgtype.UUID      `db:"id" json:"id"`
+	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
+	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
+	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
+	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsRangeCustomerTrackingLink(ctx context.Context, arg DmsRangeCustomerTrackingLinkParams) ([]DmsRangeCustomerTrackingLinkRow, error) {
@@ -280,15 +334,15 @@ func (q *Queries) DmsRangeCustomerTrackingLink(ctx context.Context, arg DmsRange
 	for rows.Next() {
 		var i DmsRangeCustomerTrackingLinkRow
 		if err := rows.Scan(
-			&i.DmsCustomerTrackingLink.ID,
-			&i.DmsCustomerTrackingLink.DeliveryTaskID,
-			&i.DmsCustomerTrackingLink.TrackingToken,
-			&i.DmsCustomerTrackingLink.IsActive,
-			&i.DmsCustomerTrackingLink.AccessCount,
-			&i.DmsCustomerTrackingLink.LastAccessedAt,
-			&i.DmsCustomerTrackingLink.ExpiresAt,
-			&i.DmsCustomerTrackingLink.CreatedAt,
-			&i.DmsCustomerTrackingLink.UpdatedAt,
+			&i.ID,
+			&i.DeliveryTaskID,
+			&i.TrackingToken,
+			&i.IsActive,
+			&i.AccessCount,
+			&i.LastAccessedAt,
+			&i.ExpiresAt,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.DmsDeliveryTask.ID,
 			&i.DmsDeliveryTask.PackageID,
 			&i.DmsDeliveryTask.DeliveryRouteID,

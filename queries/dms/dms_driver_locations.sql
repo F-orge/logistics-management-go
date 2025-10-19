@@ -1,10 +1,15 @@
--- name: DmsPaginateDriverLocation :many
+-- name: DmsPaginateDriverLocationMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(driver_locations),
+  sqlc.arg(per_page)::int as per_page
+from
+  "dms"."driver_locations" as driver_locations;
+
+-- name: DmsPaginateDriverLocation :many
+select
+  driver_locations.*,
   sqlc.embed(driver)
 from
   "dms"."driver_locations" as driver_locations
@@ -15,7 +20,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: DmsFindDriverLocation :one
 select
-  sqlc.embed(driver_locations),
+  driver_locations.*,
   sqlc.embed(driver)
 from
   "dms"."driver_locations" as driver_locations
@@ -25,7 +30,7 @@ where
 
 -- name: DmsAnyDriverLocation :many
 select
-  sqlc.embed(driver_locations),
+  driver_locations.*,
   sqlc.embed(driver)
 from
   "dms"."driver_locations" as driver_locations
@@ -35,7 +40,7 @@ where
 
 -- name: DmsRangeDriverLocation :many
 select
-  sqlc.embed(driver_locations),
+  driver_locations.*,
   sqlc.embed(driver)
 from
   "dms"."driver_locations" as driver_locations

@@ -29,11 +29,26 @@ where
 `
 
 type WmsAnyPutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
-	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
-	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
+	ID                         pgtype.UUID             `db:"id" json:"id"`
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
+	CrmCompany                 CrmCompany              `db:"crm_company" json:"crm_company"`
+	WmsWarehouse               WmsWarehouse            `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation                WmsLocation             `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsAnyPutawayRule(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyPutawayRuleRow, error) {
@@ -46,22 +61,22 @@ func (q *Queries) WmsAnyPutawayRule(ctx context.Context, ids []pgtype.UUID) ([]W
 	for rows.Next() {
 		var i WmsAnyPutawayRuleRow
 		if err := rows.Scan(
-			&i.WmsPutawayRule.ID,
-			&i.WmsPutawayRule.ProductID,
-			&i.WmsPutawayRule.ClientID,
-			&i.WmsPutawayRule.WarehouseID,
-			&i.WmsPutawayRule.PreferredLocationID,
-			&i.WmsPutawayRule.LocationType,
-			&i.WmsPutawayRule.Priority,
-			&i.WmsPutawayRule.MinQuantity,
-			&i.WmsPutawayRule.MaxQuantity,
-			&i.WmsPutawayRule.WeightThreshold,
-			&i.WmsPutawayRule.VolumeThreshold,
-			&i.WmsPutawayRule.RequiresTemperatureControl,
-			&i.WmsPutawayRule.RequiresHazmatApproval,
-			&i.WmsPutawayRule.IsActive,
-			&i.WmsPutawayRule.CreatedAt,
-			&i.WmsPutawayRule.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.ClientID,
+			&i.WarehouseID,
+			&i.PreferredLocationID,
+			&i.LocationType,
+			&i.Priority,
+			&i.MinQuantity,
+			&i.MaxQuantity,
+			&i.WeightThreshold,
+			&i.VolumeThreshold,
+			&i.RequiresTemperatureControl,
+			&i.RequiresHazmatApproval,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -156,33 +171,48 @@ where
 `
 
 type WmsFindPutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
-	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
-	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
+	ID                         pgtype.UUID             `db:"id" json:"id"`
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
+	CrmCompany                 CrmCompany              `db:"crm_company" json:"crm_company"`
+	WmsWarehouse               WmsWarehouse            `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation                WmsLocation             `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsFindPutawayRule(ctx context.Context, id pgtype.UUID) (WmsFindPutawayRuleRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindPutawayRule, id)
 	var i WmsFindPutawayRuleRow
 	err := row.Scan(
-		&i.WmsPutawayRule.ID,
-		&i.WmsPutawayRule.ProductID,
-		&i.WmsPutawayRule.ClientID,
-		&i.WmsPutawayRule.WarehouseID,
-		&i.WmsPutawayRule.PreferredLocationID,
-		&i.WmsPutawayRule.LocationType,
-		&i.WmsPutawayRule.Priority,
-		&i.WmsPutawayRule.MinQuantity,
-		&i.WmsPutawayRule.MaxQuantity,
-		&i.WmsPutawayRule.WeightThreshold,
-		&i.WmsPutawayRule.VolumeThreshold,
-		&i.WmsPutawayRule.RequiresTemperatureControl,
-		&i.WmsPutawayRule.RequiresHazmatApproval,
-		&i.WmsPutawayRule.IsActive,
-		&i.WmsPutawayRule.CreatedAt,
-		&i.WmsPutawayRule.UpdatedAt,
+		&i.ID,
+		&i.ProductID,
+		&i.ClientID,
+		&i.WarehouseID,
+		&i.PreferredLocationID,
+		&i.LocationType,
+		&i.Priority,
+		&i.MinQuantity,
+		&i.MaxQuantity,
+		&i.WeightThreshold,
+		&i.VolumeThreshold,
+		&i.RequiresTemperatureControl,
+		&i.RequiresHazmatApproval,
+		&i.IsActive,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsProduct.ID,
 		&i.WmsProduct.Name,
 		&i.WmsProduct.Sku,
@@ -315,10 +345,6 @@ func (q *Queries) WmsInsertPutawayRule(ctx context.Context, arg WmsInsertPutaway
 
 const wmsPaginatePutawayRule = `-- name: WmsPaginatePutawayRule :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   putaway_rules.id, putaway_rules.product_id, putaway_rules.client_id, putaway_rules.warehouse_id, putaway_rules.preferred_location_id, putaway_rules.location_type, putaway_rules.priority, putaway_rules.min_quantity, putaway_rules.max_quantity, putaway_rules.weight_threshold, putaway_rules.volume_threshold, putaway_rules.requires_temperature_control, putaway_rules.requires_hazmat_approval, putaway_rules.is_active, putaway_rules.created_at, putaway_rules.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
@@ -330,35 +356,46 @@ from
   left join "crm"."companies" as client on putaway_rules.client_id = client.id
   inner join "wms"."warehouses" as warehouse on putaway_rules.warehouse_id = warehouse.id
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
-where (product.name ilike $3::text
-  or client.name ilike $3::text
-  or warehouse.name ilike $3::text
-  or preferred_location.name ilike $3::text
-  or putaway_rules.location_type::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (product.name ilike $1::text
+  or client.name ilike $1::text
+  or warehouse.name ilike $1::text
+  or preferred_location.name ilike $1::text
+  or putaway_rules.location_type::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginatePutawayRuleParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginatePutawayRuleRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
-	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
-	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
+	ID                         pgtype.UUID             `db:"id" json:"id"`
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
+	CrmCompany                 CrmCompany              `db:"crm_company" json:"crm_company"`
+	WmsWarehouse               WmsWarehouse            `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation                WmsLocation             `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePutawayRuleParams) ([]WmsPaginatePutawayRuleRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -367,26 +404,22 @@ func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePut
 	for rows.Next() {
 		var i WmsPaginatePutawayRuleRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsPutawayRule.ID,
-			&i.WmsPutawayRule.ProductID,
-			&i.WmsPutawayRule.ClientID,
-			&i.WmsPutawayRule.WarehouseID,
-			&i.WmsPutawayRule.PreferredLocationID,
-			&i.WmsPutawayRule.LocationType,
-			&i.WmsPutawayRule.Priority,
-			&i.WmsPutawayRule.MinQuantity,
-			&i.WmsPutawayRule.MaxQuantity,
-			&i.WmsPutawayRule.WeightThreshold,
-			&i.WmsPutawayRule.VolumeThreshold,
-			&i.WmsPutawayRule.RequiresTemperatureControl,
-			&i.WmsPutawayRule.RequiresHazmatApproval,
-			&i.WmsPutawayRule.IsActive,
-			&i.WmsPutawayRule.CreatedAt,
-			&i.WmsPutawayRule.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.ClientID,
+			&i.WarehouseID,
+			&i.PreferredLocationID,
+			&i.LocationType,
+			&i.Priority,
+			&i.MinQuantity,
+			&i.MaxQuantity,
+			&i.WeightThreshold,
+			&i.VolumeThreshold,
+			&i.RequiresTemperatureControl,
+			&i.RequiresHazmatApproval,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,
@@ -463,6 +496,40 @@ func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePut
 	return items, nil
 }
 
+const wmsPaginatePutawayRuleMetadata = `-- name: WmsPaginatePutawayRuleMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."putaway_rules" as putaway_rules
+`
+
+type WmsPaginatePutawayRuleMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginatePutawayRuleMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginatePutawayRuleMetadata(ctx context.Context, arg WmsPaginatePutawayRuleMetadataParams) (WmsPaginatePutawayRuleMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginatePutawayRuleMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginatePutawayRuleMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangePutawayRule = `-- name: WmsRangePutawayRule :many
 select
   putaway_rules.id, putaway_rules.product_id, putaway_rules.client_id, putaway_rules.warehouse_id, putaway_rules.preferred_location_id, putaway_rules.location_type, putaway_rules.priority, putaway_rules.min_quantity, putaway_rules.max_quantity, putaway_rules.weight_threshold, putaway_rules.volume_threshold, putaway_rules.requires_temperature_control, putaway_rules.requires_hazmat_approval, putaway_rules.is_active, putaway_rules.created_at, putaway_rules.updated_at,
@@ -494,11 +561,26 @@ type WmsRangePutawayRuleParams struct {
 }
 
 type WmsRangePutawayRuleRow struct {
-	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
-	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	WmsWarehouse   WmsWarehouse   `db:"wms_warehouse" json:"wms_warehouse"`
-	WmsLocation    WmsLocation    `db:"wms_location" json:"wms_location"`
+	ID                         pgtype.UUID             `db:"id" json:"id"`
+	ProductID                  pgtype.UUID             `db:"product_id" json:"product_id"`
+	ClientID                   pgtype.UUID             `db:"client_id" json:"client_id"`
+	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
+	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
+	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
+	Priority                   int32                   `db:"priority" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
+	CrmCompany                 CrmCompany              `db:"crm_company" json:"crm_company"`
+	WmsWarehouse               WmsWarehouse            `db:"wms_warehouse" json:"wms_warehouse"`
+	WmsLocation                WmsLocation             `db:"wms_location" json:"wms_location"`
 }
 
 func (q *Queries) WmsRangePutawayRule(ctx context.Context, arg WmsRangePutawayRuleParams) ([]WmsRangePutawayRuleRow, error) {
@@ -511,22 +593,22 @@ func (q *Queries) WmsRangePutawayRule(ctx context.Context, arg WmsRangePutawayRu
 	for rows.Next() {
 		var i WmsRangePutawayRuleRow
 		if err := rows.Scan(
-			&i.WmsPutawayRule.ID,
-			&i.WmsPutawayRule.ProductID,
-			&i.WmsPutawayRule.ClientID,
-			&i.WmsPutawayRule.WarehouseID,
-			&i.WmsPutawayRule.PreferredLocationID,
-			&i.WmsPutawayRule.LocationType,
-			&i.WmsPutawayRule.Priority,
-			&i.WmsPutawayRule.MinQuantity,
-			&i.WmsPutawayRule.MaxQuantity,
-			&i.WmsPutawayRule.WeightThreshold,
-			&i.WmsPutawayRule.VolumeThreshold,
-			&i.WmsPutawayRule.RequiresTemperatureControl,
-			&i.WmsPutawayRule.RequiresHazmatApproval,
-			&i.WmsPutawayRule.IsActive,
-			&i.WmsPutawayRule.CreatedAt,
-			&i.WmsPutawayRule.UpdatedAt,
+			&i.ID,
+			&i.ProductID,
+			&i.ClientID,
+			&i.WarehouseID,
+			&i.PreferredLocationID,
+			&i.LocationType,
+			&i.Priority,
+			&i.MinQuantity,
+			&i.MaxQuantity,
+			&i.WeightThreshold,
+			&i.VolumeThreshold,
+			&i.RequiresTemperatureControl,
+			&i.RequiresHazmatApproval,
+			&i.IsActive,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsProduct.ID,
 			&i.WmsProduct.Name,
 			&i.WmsProduct.Sku,

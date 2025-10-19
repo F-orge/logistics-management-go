@@ -1,10 +1,15 @@
--- name: TmsPaginateGpsPing :many
+-- name: TmsPaginateGpsPingMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(gps_pings),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."gps_pings" as gps_pings;
+
+-- name: TmsPaginateGpsPing :many
+select
+  gps_pings.*,
   sqlc.embed(vehicle)
 from
   "tms"."gps_pings" as gps_pings
@@ -15,7 +20,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindGpsPing :one
 select
-  sqlc.embed(gps_pings),
+  gps_pings.*,
   sqlc.embed(vehicle)
 from
   "tms"."gps_pings" as gps_pings
@@ -25,7 +30,7 @@ where
 
 -- name: TmsAnyGpsPing :many
 select
-  sqlc.embed(gps_pings),
+  gps_pings.*,
   sqlc.embed(vehicle)
 from
   "tms"."gps_pings" as gps_pings
@@ -35,7 +40,7 @@ where
 
 -- name: TmsRangeGpsPing :many
 select
-  sqlc.embed(gps_pings),
+  gps_pings.*,
   sqlc.embed(vehicle)
 from
   "tms"."gps_pings" as gps_pings

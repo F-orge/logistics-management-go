@@ -29,11 +29,18 @@ where
 `
 
 type WmsAnyOutboundShipmentItemRow struct {
-	WmsOutboundShipmentItem WmsOutboundShipmentItem `db:"wms_outbound_shipment_item" json:"wms_outbound_shipment_item"`
-	WmsOutboundShipment     WmsOutboundShipment     `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
-	WmsSalesOrderItem       WmsSalesOrderItem       `db:"wms_sales_order_item" json:"wms_sales_order_item"`
-	WmsProduct              WmsProduct              `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch       WmsInventoryBatch       `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                  pgtype.UUID         `db:"id" json:"id"`
+	OutboundShipmentID  pgtype.UUID         `db:"outbound_shipment_id" json:"outbound_shipment_id"`
+	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
+	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
+	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
+	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
+	WmsSalesOrderItem   WmsSalesOrderItem   `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsProduct          WmsProduct          `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch   WmsInventoryBatch   `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsAnyOutboundShipmentItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyOutboundShipmentItemRow, error) {
@@ -46,14 +53,14 @@ func (q *Queries) WmsAnyOutboundShipmentItem(ctx context.Context, ids []pgtype.U
 	for rows.Next() {
 		var i WmsAnyOutboundShipmentItemRow
 		if err := rows.Scan(
-			&i.WmsOutboundShipmentItem.ID,
-			&i.WmsOutboundShipmentItem.OutboundShipmentID,
-			&i.WmsOutboundShipmentItem.SalesOrderItemID,
-			&i.WmsOutboundShipmentItem.ProductID,
-			&i.WmsOutboundShipmentItem.BatchID,
-			&i.WmsOutboundShipmentItem.QuantityShipped,
-			&i.WmsOutboundShipmentItem.CreatedAt,
-			&i.WmsOutboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.OutboundShipmentID,
+			&i.SalesOrderItemID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.QuantityShipped,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsOutboundShipment.ID,
 			&i.WmsOutboundShipment.SalesOrderID,
 			&i.WmsOutboundShipment.WarehouseID,
@@ -119,25 +126,32 @@ where
 `
 
 type WmsFindOutboundShipmentItemRow struct {
-	WmsOutboundShipmentItem WmsOutboundShipmentItem `db:"wms_outbound_shipment_item" json:"wms_outbound_shipment_item"`
-	WmsOutboundShipment     WmsOutboundShipment     `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
-	WmsSalesOrderItem       WmsSalesOrderItem       `db:"wms_sales_order_item" json:"wms_sales_order_item"`
-	WmsProduct              WmsProduct              `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch       WmsInventoryBatch       `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                  pgtype.UUID         `db:"id" json:"id"`
+	OutboundShipmentID  pgtype.UUID         `db:"outbound_shipment_id" json:"outbound_shipment_id"`
+	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
+	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
+	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
+	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
+	WmsSalesOrderItem   WmsSalesOrderItem   `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsProduct          WmsProduct          `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch   WmsInventoryBatch   `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsFindOutboundShipmentItem(ctx context.Context, id pgtype.UUID) (WmsFindOutboundShipmentItemRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindOutboundShipmentItem, id)
 	var i WmsFindOutboundShipmentItemRow
 	err := row.Scan(
-		&i.WmsOutboundShipmentItem.ID,
-		&i.WmsOutboundShipmentItem.OutboundShipmentID,
-		&i.WmsOutboundShipmentItem.SalesOrderItemID,
-		&i.WmsOutboundShipmentItem.ProductID,
-		&i.WmsOutboundShipmentItem.BatchID,
-		&i.WmsOutboundShipmentItem.QuantityShipped,
-		&i.WmsOutboundShipmentItem.CreatedAt,
-		&i.WmsOutboundShipmentItem.UpdatedAt,
+		&i.ID,
+		&i.OutboundShipmentID,
+		&i.SalesOrderItemID,
+		&i.ProductID,
+		&i.BatchID,
+		&i.QuantityShipped,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsOutboundShipment.ID,
 		&i.WmsOutboundShipment.SalesOrderID,
 		&i.WmsOutboundShipment.WarehouseID,
@@ -217,10 +231,6 @@ func (q *Queries) WmsInsertOutboundShipmentItem(ctx context.Context, arg WmsInse
 
 const wmsPaginateOutboundShipmentItem = `-- name: WmsPaginateOutboundShipmentItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   outbound_shipment_items.id, outbound_shipment_items.outbound_shipment_id, outbound_shipment_items.sales_order_item_id, outbound_shipment_items.product_id, outbound_shipment_items.batch_id, outbound_shipment_items.quantity_shipped, outbound_shipment_items.created_at, outbound_shipment_items.updated_at,
   outbound_shipment.id, outbound_shipment.sales_order_id, outbound_shipment.warehouse_id, outbound_shipment.status, outbound_shipment.tracking_number, outbound_shipment.carrier, outbound_shipment.created_at, outbound_shipment.updated_at,
   sales_order_item.id, sales_order_item.sales_order_id, sales_order_item.product_id, sales_order_item.quantity_ordered, sales_order_item.created_at, sales_order_item.updated_at,
@@ -232,33 +242,36 @@ from
   inner join "wms"."sales_order_items" as sales_order_item on outbound_shipment_items.sales_order_item_id = sales_order_item.id
   inner join "wms"."products" as product on outbound_shipment_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on outbound_shipment_items.batch_id = batch.id
-where (outbound_shipment.tracking_number ilike $3::text
-  or product.name ilike $3::text
-  or batch.batch_number ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (outbound_shipment.tracking_number ilike $1::text
+  or product.name ilike $1::text
+  or batch.batch_number ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateOutboundShipmentItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateOutboundShipmentItemRow struct {
-	TotalItems              int64                   `db:"total_items" json:"total_items"`
-	TotalPages              float64                 `db:"total_pages" json:"total_pages"`
-	Page                    int32                   `db:"page" json:"page"`
-	PerPage                 int32                   `db:"per_page" json:"per_page"`
-	WmsOutboundShipmentItem WmsOutboundShipmentItem `db:"wms_outbound_shipment_item" json:"wms_outbound_shipment_item"`
-	WmsOutboundShipment     WmsOutboundShipment     `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
-	WmsSalesOrderItem       WmsSalesOrderItem       `db:"wms_sales_order_item" json:"wms_sales_order_item"`
-	WmsProduct              WmsProduct              `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch       WmsInventoryBatch       `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                  pgtype.UUID         `db:"id" json:"id"`
+	OutboundShipmentID  pgtype.UUID         `db:"outbound_shipment_id" json:"outbound_shipment_id"`
+	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
+	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
+	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
+	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
+	WmsSalesOrderItem   WmsSalesOrderItem   `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsProduct          WmsProduct          `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch   WmsInventoryBatch   `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsPaginateOutboundShipmentItem(ctx context.Context, arg WmsPaginateOutboundShipmentItemParams) ([]WmsPaginateOutboundShipmentItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipmentItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipmentItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -267,18 +280,14 @@ func (q *Queries) WmsPaginateOutboundShipmentItem(ctx context.Context, arg WmsPa
 	for rows.Next() {
 		var i WmsPaginateOutboundShipmentItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsOutboundShipmentItem.ID,
-			&i.WmsOutboundShipmentItem.OutboundShipmentID,
-			&i.WmsOutboundShipmentItem.SalesOrderItemID,
-			&i.WmsOutboundShipmentItem.ProductID,
-			&i.WmsOutboundShipmentItem.BatchID,
-			&i.WmsOutboundShipmentItem.QuantityShipped,
-			&i.WmsOutboundShipmentItem.CreatedAt,
-			&i.WmsOutboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.OutboundShipmentID,
+			&i.SalesOrderItemID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.QuantityShipped,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsOutboundShipment.ID,
 			&i.WmsOutboundShipment.SalesOrderID,
 			&i.WmsOutboundShipment.WarehouseID,
@@ -326,6 +335,40 @@ func (q *Queries) WmsPaginateOutboundShipmentItem(ctx context.Context, arg WmsPa
 	return items, nil
 }
 
+const wmsPaginateOutboundShipmentItemMetadata = `-- name: WmsPaginateOutboundShipmentItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."outbound_shipment_items" as outbound_shipment_items
+`
+
+type WmsPaginateOutboundShipmentItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateOutboundShipmentItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateOutboundShipmentItemMetadata(ctx context.Context, arg WmsPaginateOutboundShipmentItemMetadataParams) (WmsPaginateOutboundShipmentItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateOutboundShipmentItemMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateOutboundShipmentItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeOutboundShipmentItem = `-- name: WmsRangeOutboundShipmentItem :many
 select
   outbound_shipment_items.id, outbound_shipment_items.outbound_shipment_id, outbound_shipment_items.sales_order_item_id, outbound_shipment_items.product_id, outbound_shipment_items.batch_id, outbound_shipment_items.quantity_shipped, outbound_shipment_items.created_at, outbound_shipment_items.updated_at,
@@ -355,11 +398,18 @@ type WmsRangeOutboundShipmentItemParams struct {
 }
 
 type WmsRangeOutboundShipmentItemRow struct {
-	WmsOutboundShipmentItem WmsOutboundShipmentItem `db:"wms_outbound_shipment_item" json:"wms_outbound_shipment_item"`
-	WmsOutboundShipment     WmsOutboundShipment     `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
-	WmsSalesOrderItem       WmsSalesOrderItem       `db:"wms_sales_order_item" json:"wms_sales_order_item"`
-	WmsProduct              WmsProduct              `db:"wms_product" json:"wms_product"`
-	WmsInventoryBatch       WmsInventoryBatch       `db:"wms_inventory_batch" json:"wms_inventory_batch"`
+	ID                  pgtype.UUID         `db:"id" json:"id"`
+	OutboundShipmentID  pgtype.UUID         `db:"outbound_shipment_id" json:"outbound_shipment_id"`
+	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
+	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
+	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
+	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
+	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
+	WmsSalesOrderItem   WmsSalesOrderItem   `db:"wms_sales_order_item" json:"wms_sales_order_item"`
+	WmsProduct          WmsProduct          `db:"wms_product" json:"wms_product"`
+	WmsInventoryBatch   WmsInventoryBatch   `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 }
 
 func (q *Queries) WmsRangeOutboundShipmentItem(ctx context.Context, arg WmsRangeOutboundShipmentItemParams) ([]WmsRangeOutboundShipmentItemRow, error) {
@@ -372,14 +422,14 @@ func (q *Queries) WmsRangeOutboundShipmentItem(ctx context.Context, arg WmsRange
 	for rows.Next() {
 		var i WmsRangeOutboundShipmentItemRow
 		if err := rows.Scan(
-			&i.WmsOutboundShipmentItem.ID,
-			&i.WmsOutboundShipmentItem.OutboundShipmentID,
-			&i.WmsOutboundShipmentItem.SalesOrderItemID,
-			&i.WmsOutboundShipmentItem.ProductID,
-			&i.WmsOutboundShipmentItem.BatchID,
-			&i.WmsOutboundShipmentItem.QuantityShipped,
-			&i.WmsOutboundShipmentItem.CreatedAt,
-			&i.WmsOutboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.OutboundShipmentID,
+			&i.SalesOrderItemID,
+			&i.ProductID,
+			&i.BatchID,
+			&i.QuantityShipped,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsOutboundShipment.ID,
 			&i.WmsOutboundShipment.SalesOrderID,
 			&i.WmsOutboundShipment.WarehouseID,

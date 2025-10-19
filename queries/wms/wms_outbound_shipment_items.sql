@@ -1,10 +1,15 @@
--- name: WmsPaginateOutboundShipmentItem :many
+-- name: WmsPaginateOutboundShipmentItemMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(outbound_shipment_items),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."outbound_shipment_items" as outbound_shipment_items;
+
+-- name: WmsPaginateOutboundShipmentItem :many
+select
+  outbound_shipment_items.*,
   sqlc.embed(outbound_shipment),
   sqlc.embed(sales_order_item),
   sqlc.embed(product),
@@ -23,7 +28,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindOutboundShipmentItem :one
 select
-  sqlc.embed(outbound_shipment_items),
+  outbound_shipment_items.*,
   sqlc.embed(outbound_shipment),
   sqlc.embed(sales_order_item),
   sqlc.embed(product),
@@ -39,7 +44,7 @@ where
 
 -- name: WmsAnyOutboundShipmentItem :many
 select
-  sqlc.embed(outbound_shipment_items),
+  outbound_shipment_items.*,
   sqlc.embed(outbound_shipment),
   sqlc.embed(sales_order_item),
   sqlc.embed(product),
@@ -55,7 +60,7 @@ where
 
 -- name: WmsRangeOutboundShipmentItem :many
 select
-  sqlc.embed(outbound_shipment_items),
+  outbound_shipment_items.*,
   sqlc.embed(outbound_shipment),
   sqlc.embed(sales_order_item),
   sqlc.embed(product),

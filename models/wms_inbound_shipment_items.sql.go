@@ -25,9 +25,17 @@ where
 `
 
 type WmsAnyInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
-	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	ID                  pgtype.UUID        `db:"id" json:"id"`
+	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
+	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
+	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct          WmsProduct         `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsAnyInboundShipmentItem(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyInboundShipmentItemRow, error) {
@@ -40,15 +48,15 @@ func (q *Queries) WmsAnyInboundShipmentItem(ctx context.Context, ids []pgtype.UU
 	for rows.Next() {
 		var i WmsAnyInboundShipmentItemRow
 		if err := rows.Scan(
-			&i.WmsInboundShipmentItem.ID,
-			&i.WmsInboundShipmentItem.InboundShipmentID,
-			&i.WmsInboundShipmentItem.ProductID,
-			&i.WmsInboundShipmentItem.ExpectedQuantity,
-			&i.WmsInboundShipmentItem.ReceivedQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyNotes,
-			&i.WmsInboundShipmentItem.CreatedAt,
-			&i.WmsInboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.InboundShipmentID,
+			&i.ProductID,
+			&i.ExpectedQuantity,
+			&i.ReceivedQuantity,
+			&i.DiscrepancyQuantity,
+			&i.DiscrepancyNotes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsInboundShipment.ID,
 			&i.WmsInboundShipment.ClientID,
 			&i.WmsInboundShipment.WarehouseID,
@@ -98,24 +106,32 @@ where
 `
 
 type WmsFindInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
-	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	ID                  pgtype.UUID        `db:"id" json:"id"`
+	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
+	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
+	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct          WmsProduct         `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsFindInboundShipmentItem(ctx context.Context, id pgtype.UUID) (WmsFindInboundShipmentItemRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindInboundShipmentItem, id)
 	var i WmsFindInboundShipmentItemRow
 	err := row.Scan(
-		&i.WmsInboundShipmentItem.ID,
-		&i.WmsInboundShipmentItem.InboundShipmentID,
-		&i.WmsInboundShipmentItem.ProductID,
-		&i.WmsInboundShipmentItem.ExpectedQuantity,
-		&i.WmsInboundShipmentItem.ReceivedQuantity,
-		&i.WmsInboundShipmentItem.DiscrepancyQuantity,
-		&i.WmsInboundShipmentItem.DiscrepancyNotes,
-		&i.WmsInboundShipmentItem.CreatedAt,
-		&i.WmsInboundShipmentItem.UpdatedAt,
+		&i.ID,
+		&i.InboundShipmentID,
+		&i.ProductID,
+		&i.ExpectedQuantity,
+		&i.ReceivedQuantity,
+		&i.DiscrepancyQuantity,
+		&i.DiscrepancyNotes,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.WmsInboundShipment.ID,
 		&i.WmsInboundShipment.ClientID,
 		&i.WmsInboundShipment.WarehouseID,
@@ -184,10 +200,6 @@ func (q *Queries) WmsInsertInboundShipmentItem(ctx context.Context, arg WmsInser
 
 const wmsPaginateInboundShipmentItem = `-- name: WmsPaginateInboundShipmentItem :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   inbound_shipment_items.id, inbound_shipment_items.inbound_shipment_id, inbound_shipment_items.product_id, inbound_shipment_items.expected_quantity, inbound_shipment_items.received_quantity, inbound_shipment_items.discrepancy_quantity, inbound_shipment_items.discrepancy_notes, inbound_shipment_items.created_at, inbound_shipment_items.updated_at,
   inbound_shipment.id, inbound_shipment.client_id, inbound_shipment.warehouse_id, inbound_shipment.status, inbound_shipment.expected_arrival_date, inbound_shipment.actual_arrival_date, inbound_shipment.created_at, inbound_shipment.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
@@ -195,30 +207,34 @@ from
   "wms"."inbound_shipment_items" as inbound_shipment_items
   inner join "wms"."inbound_shipments" as inbound_shipment on inbound_shipment_items.inbound_shipment_id = inbound_shipment.id
   inner join "wms"."products" as product on inbound_shipment_items.product_id = product.id
-where (inbound_shipment.status::text ilike $3::text
-  or product.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (inbound_shipment.status::text ilike $1::text
+  or product.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type WmsPaginateInboundShipmentItemParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateInboundShipmentItemRow struct {
-	TotalItems             int64                  `db:"total_items" json:"total_items"`
-	TotalPages             float64                `db:"total_pages" json:"total_pages"`
-	Page                   int32                  `db:"page" json:"page"`
-	PerPage                int32                  `db:"per_page" json:"per_page"`
-	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
-	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	ID                  pgtype.UUID        `db:"id" json:"id"`
+	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
+	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
+	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct          WmsProduct         `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPaginateInboundShipmentItemParams) ([]WmsPaginateInboundShipmentItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInboundShipmentItem, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateInboundShipmentItem, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -227,19 +243,15 @@ func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPag
 	for rows.Next() {
 		var i WmsPaginateInboundShipmentItemRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsInboundShipmentItem.ID,
-			&i.WmsInboundShipmentItem.InboundShipmentID,
-			&i.WmsInboundShipmentItem.ProductID,
-			&i.WmsInboundShipmentItem.ExpectedQuantity,
-			&i.WmsInboundShipmentItem.ReceivedQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyNotes,
-			&i.WmsInboundShipmentItem.CreatedAt,
-			&i.WmsInboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.InboundShipmentID,
+			&i.ProductID,
+			&i.ExpectedQuantity,
+			&i.ReceivedQuantity,
+			&i.DiscrepancyQuantity,
+			&i.DiscrepancyNotes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsInboundShipment.ID,
 			&i.WmsInboundShipment.ClientID,
 			&i.WmsInboundShipment.WarehouseID,
@@ -275,6 +287,40 @@ func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPag
 	return items, nil
 }
 
+const wmsPaginateInboundShipmentItemMetadata = `-- name: WmsPaginateInboundShipmentItemMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."inbound_shipment_items" as inbound_shipment_items
+`
+
+type WmsPaginateInboundShipmentItemMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateInboundShipmentItemMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateInboundShipmentItemMetadata(ctx context.Context, arg WmsPaginateInboundShipmentItemMetadataParams) (WmsPaginateInboundShipmentItemMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateInboundShipmentItemMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateInboundShipmentItemMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeInboundShipmentItem = `-- name: WmsRangeInboundShipmentItem :many
 select
   inbound_shipment_items.id, inbound_shipment_items.inbound_shipment_id, inbound_shipment_items.product_id, inbound_shipment_items.expected_quantity, inbound_shipment_items.received_quantity, inbound_shipment_items.discrepancy_quantity, inbound_shipment_items.discrepancy_notes, inbound_shipment_items.created_at, inbound_shipment_items.updated_at,
@@ -299,9 +345,17 @@ type WmsRangeInboundShipmentItemParams struct {
 }
 
 type WmsRangeInboundShipmentItemRow struct {
-	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
-	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
-	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
+	ID                  pgtype.UUID        `db:"id" json:"id"`
+	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
+	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
+	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
+	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
+	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
+	WmsProduct          WmsProduct         `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsRangeInboundShipmentItem(ctx context.Context, arg WmsRangeInboundShipmentItemParams) ([]WmsRangeInboundShipmentItemRow, error) {
@@ -314,15 +368,15 @@ func (q *Queries) WmsRangeInboundShipmentItem(ctx context.Context, arg WmsRangeI
 	for rows.Next() {
 		var i WmsRangeInboundShipmentItemRow
 		if err := rows.Scan(
-			&i.WmsInboundShipmentItem.ID,
-			&i.WmsInboundShipmentItem.InboundShipmentID,
-			&i.WmsInboundShipmentItem.ProductID,
-			&i.WmsInboundShipmentItem.ExpectedQuantity,
-			&i.WmsInboundShipmentItem.ReceivedQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyQuantity,
-			&i.WmsInboundShipmentItem.DiscrepancyNotes,
-			&i.WmsInboundShipmentItem.CreatedAt,
-			&i.WmsInboundShipmentItem.UpdatedAt,
+			&i.ID,
+			&i.InboundShipmentID,
+			&i.ProductID,
+			&i.ExpectedQuantity,
+			&i.ReceivedQuantity,
+			&i.DiscrepancyQuantity,
+			&i.DiscrepancyNotes,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.WmsInboundShipment.ID,
 			&i.WmsInboundShipment.ClientID,
 			&i.WmsInboundShipment.WarehouseID,

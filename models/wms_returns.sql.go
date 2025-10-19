@@ -25,9 +25,17 @@ where
 `
 
 type WmsAnyReturnRow struct {
-	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
-	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	ID            pgtype.UUID             `db:"id" json:"id"`
+	ReturnNumber  string                  `db:"return_number" json:"return_number"`
+	SalesOrderID  pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID      pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status        NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason        pgtype.Text             `db:"reason" json:"reason"`
+	CreatedAt     pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ReturnItems   []WmsReturnItem         `db:"return_items" json:"return_items"`
+	WmsSalesOrder WmsSalesOrder           `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany    CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAnyReturnRow, error) {
@@ -40,15 +48,15 @@ func (q *Queries) WmsAnyReturn(ctx context.Context, ids []pgtype.UUID) ([]WmsAny
 	for rows.Next() {
 		var i WmsAnyReturnRow
 		if err := rows.Scan(
-			&i.WmsReturnsView.ID,
-			&i.WmsReturnsView.ReturnNumber,
-			&i.WmsReturnsView.SalesOrderID,
-			&i.WmsReturnsView.ClientID,
-			&i.WmsReturnsView.Status,
-			&i.WmsReturnsView.Reason,
-			&i.WmsReturnsView.CreatedAt,
-			&i.WmsReturnsView.UpdatedAt,
-			&i.WmsReturnsView.ReturnItems,
+			&i.ID,
+			&i.ReturnNumber,
+			&i.SalesOrderID,
+			&i.ClientID,
+			&i.Status,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -96,24 +104,32 @@ where
 `
 
 type WmsFindReturnRow struct {
-	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
-	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	ID            pgtype.UUID             `db:"id" json:"id"`
+	ReturnNumber  string                  `db:"return_number" json:"return_number"`
+	SalesOrderID  pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID      pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status        NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason        pgtype.Text             `db:"reason" json:"reason"`
+	CreatedAt     pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ReturnItems   []WmsReturnItem         `db:"return_items" json:"return_items"`
+	WmsSalesOrder WmsSalesOrder           `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany    CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsFindReturn(ctx context.Context, id pgtype.UUID) (WmsFindReturnRow, error) {
 	row := q.db.QueryRow(ctx, wmsFindReturn, id)
 	var i WmsFindReturnRow
 	err := row.Scan(
-		&i.WmsReturnsView.ID,
-		&i.WmsReturnsView.ReturnNumber,
-		&i.WmsReturnsView.SalesOrderID,
-		&i.WmsReturnsView.ClientID,
-		&i.WmsReturnsView.Status,
-		&i.WmsReturnsView.Reason,
-		&i.WmsReturnsView.CreatedAt,
-		&i.WmsReturnsView.UpdatedAt,
-		&i.WmsReturnsView.ReturnItems,
+		&i.ID,
+		&i.ReturnNumber,
+		&i.SalesOrderID,
+		&i.ClientID,
+		&i.Status,
+		&i.Reason,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.ReturnItems,
 		&i.WmsSalesOrder.ID,
 		&i.WmsSalesOrder.OrderNumber,
 		&i.WmsSalesOrder.ClientID,
@@ -179,10 +195,6 @@ func (q *Queries) WmsInsertReturn(ctx context.Context, arg WmsInsertReturnParams
 
 const wmsPaginateReturn = `-- name: WmsPaginateReturn :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
@@ -190,32 +202,36 @@ from
   "wms"."returns_view" as wms_returns
   left join "wms"."sales_orders" as sales_order on wms_returns.sales_order_id = sales_order.id
   inner join "crm"."companies" as client on wms_returns.client_id = client.id
-where (wms_returns.return_number ilike ($3)::text
-  or sales_order.order_number ilike ($3)::text
-  or client.name ilike ($3)::text
-  or wms_returns.status::text ilike ($3)::text
-  or ($3)::text is null)
-limit $1::int offset (($2::int - 1) * $1::int)
+where (wms_returns.return_number ilike ($1)::text
+  or sales_order.order_number ilike ($1)::text
+  or client.name ilike ($1)::text
+  or wms_returns.status::text ilike ($1)::text
+  or ($1)::text is null)
+limit $3::int offset (($2::int - 1) * $3::int)
 `
 
 type WmsPaginateReturnParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type WmsPaginateReturnRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
-	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	ID            pgtype.UUID             `db:"id" json:"id"`
+	ReturnNumber  string                  `db:"return_number" json:"return_number"`
+	SalesOrderID  pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID      pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status        NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason        pgtype.Text             `db:"reason" json:"reason"`
+	CreatedAt     pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ReturnItems   []WmsReturnItem         `db:"return_items" json:"return_items"`
+	WmsSalesOrder WmsSalesOrder           `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany    CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnParams) ([]WmsPaginateReturnRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateReturn, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, wmsPaginateReturn, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -224,19 +240,15 @@ func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnPa
 	for rows.Next() {
 		var i WmsPaginateReturnRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.WmsReturnsView.ID,
-			&i.WmsReturnsView.ReturnNumber,
-			&i.WmsReturnsView.SalesOrderID,
-			&i.WmsReturnsView.ClientID,
-			&i.WmsReturnsView.Status,
-			&i.WmsReturnsView.Reason,
-			&i.WmsReturnsView.CreatedAt,
-			&i.WmsReturnsView.UpdatedAt,
-			&i.WmsReturnsView.ReturnItems,
+			&i.ID,
+			&i.ReturnNumber,
+			&i.SalesOrderID,
+			&i.ClientID,
+			&i.Status,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,
@@ -270,6 +282,40 @@ func (q *Queries) WmsPaginateReturn(ctx context.Context, arg WmsPaginateReturnPa
 	return items, nil
 }
 
+const wmsPaginateReturnMetadata = `-- name: WmsPaginateReturnMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "wms"."returns_view" as wms_returns
+`
+
+type WmsPaginateReturnMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type WmsPaginateReturnMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) WmsPaginateReturnMetadata(ctx context.Context, arg WmsPaginateReturnMetadataParams) (WmsPaginateReturnMetadataRow, error) {
+	row := q.db.QueryRow(ctx, wmsPaginateReturnMetadata, arg.PerPage, arg.Page)
+	var i WmsPaginateReturnMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const wmsRangeReturn = `-- name: WmsRangeReturn :many
 select
   wms_returns.id, wms_returns.return_number, wms_returns.sales_order_id, wms_returns.client_id, wms_returns.status, wms_returns.reason, wms_returns.created_at, wms_returns.updated_at, wms_returns.return_items,
@@ -296,9 +342,17 @@ type WmsRangeReturnParams struct {
 }
 
 type WmsRangeReturnRow struct {
-	WmsReturnsView WmsReturnsView `db:"wms_returns_view" json:"wms_returns_view"`
-	WmsSalesOrder  WmsSalesOrder  `db:"wms_sales_order" json:"wms_sales_order"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
+	ID            pgtype.UUID             `db:"id" json:"id"`
+	ReturnNumber  string                  `db:"return_number" json:"return_number"`
+	SalesOrderID  pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
+	ClientID      pgtype.UUID             `db:"client_id" json:"client_id"`
+	Status        NullWmsReturnStatusEnum `db:"status" json:"status"`
+	Reason        pgtype.Text             `db:"reason" json:"reason"`
+	CreatedAt     pgtype.Timestamp        `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
+	ReturnItems   []WmsReturnItem         `db:"return_items" json:"return_items"`
+	WmsSalesOrder WmsSalesOrder           `db:"wms_sales_order" json:"wms_sales_order"`
+	CrmCompany    CrmCompany              `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) WmsRangeReturn(ctx context.Context, arg WmsRangeReturnParams) ([]WmsRangeReturnRow, error) {
@@ -311,15 +365,15 @@ func (q *Queries) WmsRangeReturn(ctx context.Context, arg WmsRangeReturnParams) 
 	for rows.Next() {
 		var i WmsRangeReturnRow
 		if err := rows.Scan(
-			&i.WmsReturnsView.ID,
-			&i.WmsReturnsView.ReturnNumber,
-			&i.WmsReturnsView.SalesOrderID,
-			&i.WmsReturnsView.ClientID,
-			&i.WmsReturnsView.Status,
-			&i.WmsReturnsView.Reason,
-			&i.WmsReturnsView.CreatedAt,
-			&i.WmsReturnsView.UpdatedAt,
-			&i.WmsReturnsView.ReturnItems,
+			&i.ID,
+			&i.ReturnNumber,
+			&i.SalesOrderID,
+			&i.ClientID,
+			&i.Status,
+			&i.Reason,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ReturnItems,
 			&i.WmsSalesOrder.ID,
 			&i.WmsSalesOrder.OrderNumber,
 			&i.WmsSalesOrder.ClientID,

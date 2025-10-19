@@ -1,10 +1,15 @@
--- name: WmsPaginateTask :many
+-- name: WmsPaginateTaskMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(tasks),
+  sqlc.arg(per_page)::int as per_page
+from
+  "wms"."tasks_view" as tasks;
+
+-- name: WmsPaginateTask :many
+select
+  tasks.*,
   sqlc.embed(warehouse),
   sqlc.embed(users),
   sqlc.embed(pick_batch)
@@ -24,7 +29,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: WmsFindTask :one
 select
-  sqlc.embed(tasks),
+  tasks.*,
   sqlc.embed(warehouse),
   sqlc.embed(users),
   sqlc.embed(pick_batch)
@@ -38,7 +43,7 @@ where
 
 -- name: WmsAnyTask :many
 select
-  sqlc.embed(tasks),
+  tasks.*,
   sqlc.embed(warehouse),
   sqlc.embed(users),
   sqlc.embed(pick_batch)
@@ -52,7 +57,7 @@ where
 
 -- name: WmsRangeTask :many
 select
-  sqlc.embed(tasks),
+  tasks.*,
   sqlc.embed(warehouse),
   sqlc.embed(users),
   sqlc.embed(pick_batch)

@@ -1,10 +1,15 @@
--- name: TmsPaginatePartnerInvoiceItem :many
+-- name: TmsPaginatePartnerInvoiceItemMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(partner_invoice_items),
+  sqlc.arg(per_page)::int as per_page
+from
+  "tms"."partner_invoice_items" as partner_invoice_items;
+
+-- name: TmsPaginatePartnerInvoiceItem :many
+select
+  partner_invoice_items.*,
   sqlc.embed(partner_invoice),
   sqlc.embed(shipment_leg)
 from
@@ -18,7 +23,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: TmsFindPartnerInvoiceItem :one
 select
-  sqlc.embed(partner_invoice_items),
+  partner_invoice_items.*,
   sqlc.embed(partner_invoice),
   sqlc.embed(shipment_leg)
 from
@@ -30,7 +35,7 @@ where
 
 -- name: TmsAnyPartnerInvoiceItem :many
 select
-  sqlc.embed(partner_invoice_items),
+  partner_invoice_items.*,
   sqlc.embed(partner_invoice),
   sqlc.embed(shipment_leg)
 from
@@ -42,7 +47,7 @@ where
 
 -- name: TmsRangePartnerInvoiceItem :many
 select
-  sqlc.embed(partner_invoice_items),
+  partner_invoice_items.*,
   sqlc.embed(partner_invoice),
   sqlc.embed(shipment_leg)
 from
