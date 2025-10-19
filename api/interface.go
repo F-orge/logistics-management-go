@@ -16,8 +16,27 @@ func NewGenericHandler[PageT any, FindT any, AnyT any, RangeT any, InsertT any, 
 	}
 }
 
-func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) Paginate(ctx echo.Context) error {
+func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) GetMany(ctx echo.Context) error {
 	return ctx.String(200, "hello world")
+}
+
+func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) GetOne(ctx echo.Context) error {
+
+	id := ctx.Param("id")
+
+	return ctx.String(200, "get "+id)
+}
+
+func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) Post(ctx echo.Context) error {
+	return ctx.String(201, "hello world")
+}
+
+func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) Patch(ctx echo.Context) error {
+	return ctx.String(200, "hello world")
+}
+
+func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) Delete(ctx echo.Context) error {
+	return ctx.String(204, "hello world")
 }
 
 // RegisterRepository wires the repository to HTTP routes.
@@ -28,5 +47,11 @@ func RegisterRepository[PageT any, FindT any, AnyT any, RangeT any, InsertT any,
 ) {
 	handler := NewGenericHandler(repo)
 
-	router.GET(path, handler.Paginate)
+	group := router.Group(path)
+
+	group.GET("/", handler.GetMany)
+	group.GET("/:id", handler.GetOne)
+	group.POST("/", handler.Post)
+	group.PATCH("/:id", handler.Patch)
+	group.DELETE("/:id", handler.Delete)
 }
