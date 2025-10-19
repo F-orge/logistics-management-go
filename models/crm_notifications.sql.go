@@ -23,8 +23,14 @@ where
 `
 
 type CrmAnyNotificationRow struct {
-	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
-	User            User            `db:"user" json:"user"`
+	ID        pgtype.UUID        `db:"id" json:"id"`
+	UserID    string             `db:"user_id" json:"user_id"`
+	Message   string             `db:"message" json:"message"`
+	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	Link      pgtype.Text        `db:"link" json:"link"`
+	User      User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmAnyNotification(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyNotificationRow, error) {
@@ -37,13 +43,13 @@ func (q *Queries) CrmAnyNotification(ctx context.Context, ids []pgtype.UUID) ([]
 	for rows.Next() {
 		var i CrmAnyNotificationRow
 		if err := rows.Scan(
-			&i.CrmNotification.ID,
-			&i.CrmNotification.UserID,
-			&i.CrmNotification.Message,
-			&i.CrmNotification.IsRead,
-			&i.CrmNotification.CreatedAt,
-			&i.CrmNotification.UpdatedAt,
-			&i.CrmNotification.Link,
+			&i.ID,
+			&i.UserID,
+			&i.Message,
+			&i.IsRead,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Link,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -78,21 +84,27 @@ where
 `
 
 type CrmFindNotificationRow struct {
-	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
-	User            User            `db:"user" json:"user"`
+	ID        pgtype.UUID        `db:"id" json:"id"`
+	UserID    string             `db:"user_id" json:"user_id"`
+	Message   string             `db:"message" json:"message"`
+	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	Link      pgtype.Text        `db:"link" json:"link"`
+	User      User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmFindNotification(ctx context.Context, id pgtype.UUID) (CrmFindNotificationRow, error) {
 	row := q.db.QueryRow(ctx, crmFindNotification, id)
 	var i CrmFindNotificationRow
 	err := row.Scan(
-		&i.CrmNotification.ID,
-		&i.CrmNotification.UserID,
-		&i.CrmNotification.Message,
-		&i.CrmNotification.IsRead,
-		&i.CrmNotification.CreatedAt,
-		&i.CrmNotification.UpdatedAt,
-		&i.CrmNotification.Link,
+		&i.ID,
+		&i.UserID,
+		&i.Message,
+		&i.IsRead,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Link,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -144,38 +156,36 @@ func (q *Queries) CrmInsertNotification(ctx context.Context, arg CrmInsertNotifi
 
 const crmPaginateNotification = `-- name: CrmPaginateNotification :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   notifications.id, notifications.user_id, notifications.message, notifications.is_read, notifications.created_at, notifications.updated_at, notifications.link,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
   "crm"."notifications" as notifications
   inner join "public"."user" as users on notifications.user_id = users.id
-where (users.name ilike $3::text
-  or notifications.message ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (users.name ilike $1::text
+  or notifications.message ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateNotificationParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type CrmPaginateNotificationRow struct {
-	TotalItems      int64           `db:"total_items" json:"total_items"`
-	TotalPages      float64         `db:"total_pages" json:"total_pages"`
-	Page            int32           `db:"page" json:"page"`
-	PerPage         int32           `db:"per_page" json:"per_page"`
-	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
-	User            User            `db:"user" json:"user"`
+	ID        pgtype.UUID        `db:"id" json:"id"`
+	UserID    string             `db:"user_id" json:"user_id"`
+	Message   string             `db:"message" json:"message"`
+	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	Link      pgtype.Text        `db:"link" json:"link"`
+	User      User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNotificationParams) ([]CrmPaginateNotificationRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -184,17 +194,13 @@ func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNo
 	for rows.Next() {
 		var i CrmPaginateNotificationRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmNotification.ID,
-			&i.CrmNotification.UserID,
-			&i.CrmNotification.Message,
-			&i.CrmNotification.IsRead,
-			&i.CrmNotification.CreatedAt,
-			&i.CrmNotification.UpdatedAt,
-			&i.CrmNotification.Link,
+			&i.ID,
+			&i.UserID,
+			&i.Message,
+			&i.IsRead,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Link,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -215,6 +221,40 @@ func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNo
 		return nil, err
 	}
 	return items, nil
+}
+
+const crmPaginateNotificationMetadata = `-- name: CrmPaginateNotificationMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "crm"."notifications" as notifications
+`
+
+type CrmPaginateNotificationMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateNotificationMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateNotificationMetadata(ctx context.Context, arg CrmPaginateNotificationMetadataParams) (CrmPaginateNotificationMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateNotificationMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateNotificationMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const crmRangeNotification = `-- name: CrmRangeNotification :many
@@ -239,8 +279,14 @@ type CrmRangeNotificationParams struct {
 }
 
 type CrmRangeNotificationRow struct {
-	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
-	User            User            `db:"user" json:"user"`
+	ID        pgtype.UUID        `db:"id" json:"id"`
+	UserID    string             `db:"user_id" json:"user_id"`
+	Message   string             `db:"message" json:"message"`
+	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
+	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	Link      pgtype.Text        `db:"link" json:"link"`
+	User      User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmRangeNotification(ctx context.Context, arg CrmRangeNotificationParams) ([]CrmRangeNotificationRow, error) {
@@ -253,13 +299,13 @@ func (q *Queries) CrmRangeNotification(ctx context.Context, arg CrmRangeNotifica
 	for rows.Next() {
 		var i CrmRangeNotificationRow
 		if err := rows.Scan(
-			&i.CrmNotification.ID,
-			&i.CrmNotification.UserID,
-			&i.CrmNotification.Message,
-			&i.CrmNotification.IsRead,
-			&i.CrmNotification.CreatedAt,
-			&i.CrmNotification.UpdatedAt,
-			&i.CrmNotification.Link,
+			&i.ID,
+			&i.UserID,
+			&i.Message,
+			&i.IsRead,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Link,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

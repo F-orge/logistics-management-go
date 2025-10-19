@@ -1,10 +1,15 @@
--- name: CrmPaginateOpportunity :many
+-- name: CrmPaginateOpportunityMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(opportunities),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."opportunities_view" as opportunities;
+
+-- name: CrmPaginateOpportunity :many
+select
+  opportunities.*,
   sqlc.embed(owner),
   sqlc.embed(contact),
   sqlc.embed(company),
@@ -27,7 +32,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindOpportunity :one
 select
-  sqlc.embed(opportunities),
+  opportunities.*,
   sqlc.embed(owner),
   sqlc.embed(contact),
   sqlc.embed(company),
@@ -43,7 +48,7 @@ where
 
 -- name: CrmAnyOpportunity :many
 select
-  sqlc.embed(opportunities),
+  opportunities.*,
   sqlc.embed(owner),
   sqlc.embed(contact),
   sqlc.embed(company),
@@ -59,7 +64,7 @@ where
 
 -- name: CrmRangeOpportunity :many
 select
-  sqlc.embed(opportunities),
+  opportunities.*,
   sqlc.embed(owner),
   sqlc.embed(contact),
   sqlc.embed(company),

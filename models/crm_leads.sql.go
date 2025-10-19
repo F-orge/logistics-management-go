@@ -31,12 +31,25 @@ where
 `
 
 type CrmAnyLeadRow struct {
-	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
-	User           User           `db:"user" json:"user"`
-	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
-	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
+	ID                     pgtype.UUID        `db:"id" json:"id"`
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
+	CreatedAt              pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User                   User               `db:"user" json:"user"`
+	CrmCampaign            CrmCampaign        `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact             CrmContact         `db:"crm_contact" json:"crm_contact"`
+	CrmCompany             CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity         CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmAnyLead(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyLeadRow, error) {
@@ -49,20 +62,20 @@ func (q *Queries) CrmAnyLead(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyLe
 	for rows.Next() {
 		var i CrmAnyLeadRow
 		if err := rows.Scan(
-			&i.CrmLead.ID,
-			&i.CrmLead.Name,
-			&i.CrmLead.Email,
-			&i.CrmLead.LeadSource,
-			&i.CrmLead.Status,
-			&i.CrmLead.LeadScore,
-			&i.CrmLead.OwnerID,
-			&i.CrmLead.CampaignID,
-			&i.CrmLead.ConvertedAt,
-			&i.CrmLead.ConvertedContactID,
-			&i.CrmLead.ConvertedCompanyID,
-			&i.CrmLead.ConvertedOpportunityID,
-			&i.CrmLead.CreatedAt,
-			&i.CrmLead.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.LeadSource,
+			&i.Status,
+			&i.LeadScore,
+			&i.OwnerID,
+			&i.CampaignID,
+			&i.ConvertedAt,
+			&i.ConvertedContactID,
+			&i.ConvertedCompanyID,
+			&i.ConvertedOpportunityID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -149,32 +162,45 @@ where
 `
 
 type CrmFindLeadRow struct {
-	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
-	User           User           `db:"user" json:"user"`
-	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
-	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
+	ID                     pgtype.UUID        `db:"id" json:"id"`
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
+	CreatedAt              pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User                   User               `db:"user" json:"user"`
+	CrmCampaign            CrmCampaign        `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact             CrmContact         `db:"crm_contact" json:"crm_contact"`
+	CrmCompany             CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity         CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmFindLead(ctx context.Context, id pgtype.UUID) (CrmFindLeadRow, error) {
 	row := q.db.QueryRow(ctx, crmFindLead, id)
 	var i CrmFindLeadRow
 	err := row.Scan(
-		&i.CrmLead.ID,
-		&i.CrmLead.Name,
-		&i.CrmLead.Email,
-		&i.CrmLead.LeadSource,
-		&i.CrmLead.Status,
-		&i.CrmLead.LeadScore,
-		&i.CrmLead.OwnerID,
-		&i.CrmLead.CampaignID,
-		&i.CrmLead.ConvertedAt,
-		&i.CrmLead.ConvertedContactID,
-		&i.CrmLead.ConvertedCompanyID,
-		&i.CrmLead.ConvertedOpportunityID,
-		&i.CrmLead.CreatedAt,
-		&i.CrmLead.UpdatedAt,
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.LeadSource,
+		&i.Status,
+		&i.LeadScore,
+		&i.OwnerID,
+		&i.CampaignID,
+		&i.ConvertedAt,
+		&i.ConvertedContactID,
+		&i.ConvertedCompanyID,
+		&i.ConvertedOpportunityID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -291,10 +317,6 @@ func (q *Queries) CrmInsertLead(ctx context.Context, arg CrmInsertLeadParams) (C
 
 const crmPaginateLead = `-- name: CrmPaginateLead :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   leads.id, leads.name, leads.email, leads.lead_source, leads.status, leads.lead_score, leads.owner_id, leads.campaign_id, leads.converted_at, leads.converted_contact_id, leads.converted_company_id, leads.converted_opportunity_id, leads.created_at, leads.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at,
@@ -308,37 +330,46 @@ from
   left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
   left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
   left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
-where (leads.name ilike $3::text
-  or leads.email ilike $3::text
-  or leads.status::text ilike $3::text
-  or leads.lead_source::text ilike $3::text
-  or owner.name ilike $3::text
-  or campaign.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (leads.name ilike $1::text
+  or leads.email ilike $1::text
+  or leads.status::text ilike $1::text
+  or leads.lead_source::text ilike $1::text
+  or owner.name ilike $1::text
+  or campaign.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateLeadParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type CrmPaginateLeadRow struct {
-	TotalItems     int64          `db:"total_items" json:"total_items"`
-	TotalPages     float64        `db:"total_pages" json:"total_pages"`
-	Page           int32          `db:"page" json:"page"`
-	PerPage        int32          `db:"per_page" json:"per_page"`
-	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
-	User           User           `db:"user" json:"user"`
-	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
-	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
+	ID                     pgtype.UUID        `db:"id" json:"id"`
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
+	CreatedAt              pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User                   User               `db:"user" json:"user"`
+	CrmCampaign            CrmCampaign        `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact             CrmContact         `db:"crm_contact" json:"crm_contact"`
+	CrmCompany             CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity         CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams) ([]CrmPaginateLeadRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateLead, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, crmPaginateLead, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -347,24 +378,20 @@ func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams
 	for rows.Next() {
 		var i CrmPaginateLeadRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmLead.ID,
-			&i.CrmLead.Name,
-			&i.CrmLead.Email,
-			&i.CrmLead.LeadSource,
-			&i.CrmLead.Status,
-			&i.CrmLead.LeadScore,
-			&i.CrmLead.OwnerID,
-			&i.CrmLead.CampaignID,
-			&i.CrmLead.ConvertedAt,
-			&i.CrmLead.ConvertedContactID,
-			&i.CrmLead.ConvertedCompanyID,
-			&i.CrmLead.ConvertedOpportunityID,
-			&i.CrmLead.CreatedAt,
-			&i.CrmLead.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.LeadSource,
+			&i.Status,
+			&i.LeadScore,
+			&i.OwnerID,
+			&i.CampaignID,
+			&i.ConvertedAt,
+			&i.ConvertedContactID,
+			&i.ConvertedCompanyID,
+			&i.ConvertedOpportunityID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -431,6 +458,40 @@ func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams
 	return items, nil
 }
 
+const crmPaginateLeadMetadata = `-- name: CrmPaginateLeadMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "crm"."leads" as leads
+`
+
+type CrmPaginateLeadMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateLeadMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateLeadMetadata(ctx context.Context, arg CrmPaginateLeadMetadataParams) (CrmPaginateLeadMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateLeadMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateLeadMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const crmRangeLead = `-- name: CrmRangeLead :many
 select
   leads.id, leads.name, leads.email, leads.lead_source, leads.status, leads.lead_score, leads.owner_id, leads.campaign_id, leads.converted_at, leads.converted_contact_id, leads.converted_company_id, leads.converted_opportunity_id, leads.created_at, leads.updated_at,
@@ -465,12 +526,25 @@ type CrmRangeLeadParams struct {
 }
 
 type CrmRangeLeadRow struct {
-	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
-	User           User           `db:"user" json:"user"`
-	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
-	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
-	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
-	CrmOpportunity CrmOpportunity `db:"crm_opportunity" json:"crm_opportunity"`
+	ID                     pgtype.UUID        `db:"id" json:"id"`
+	Name                   string             `db:"name" json:"name"`
+	Email                  string             `db:"email" json:"email"`
+	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
+	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
+	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	OwnerID                string             `db:"owner_id" json:"owner_id"`
+	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
+	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
+	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
+	CreatedAt              pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt              pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User                   User               `db:"user" json:"user"`
+	CrmCampaign            CrmCampaign        `db:"crm_campaign" json:"crm_campaign"`
+	CrmContact             CrmContact         `db:"crm_contact" json:"crm_contact"`
+	CrmCompany             CrmCompany         `db:"crm_company" json:"crm_company"`
+	CrmOpportunity         CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) CrmRangeLead(ctx context.Context, arg CrmRangeLeadParams) ([]CrmRangeLeadRow, error) {
@@ -483,20 +557,20 @@ func (q *Queries) CrmRangeLead(ctx context.Context, arg CrmRangeLeadParams) ([]C
 	for rows.Next() {
 		var i CrmRangeLeadRow
 		if err := rows.Scan(
-			&i.CrmLead.ID,
-			&i.CrmLead.Name,
-			&i.CrmLead.Email,
-			&i.CrmLead.LeadSource,
-			&i.CrmLead.Status,
-			&i.CrmLead.LeadScore,
-			&i.CrmLead.OwnerID,
-			&i.CrmLead.CampaignID,
-			&i.CrmLead.ConvertedAt,
-			&i.CrmLead.ConvertedContactID,
-			&i.CrmLead.ConvertedCompanyID,
-			&i.CrmLead.ConvertedOpportunityID,
-			&i.CrmLead.CreatedAt,
-			&i.CrmLead.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.LeadSource,
+			&i.Status,
+			&i.LeadScore,
+			&i.OwnerID,
+			&i.CampaignID,
+			&i.ConvertedAt,
+			&i.ConvertedContactID,
+			&i.ConvertedCompanyID,
+			&i.ConvertedOpportunityID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

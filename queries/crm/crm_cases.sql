@@ -1,10 +1,15 @@
--- name: CrmPaginateCase :many
+-- name: CrmPaginateCaseMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(cases),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."cases" as cases;
+
+-- name: CrmPaginateCase :many
+select
+  cases.*,
   sqlc.embed(owner),
   sqlc.embed(contact)
 from
@@ -22,7 +27,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindCase :one
 select
-  sqlc.embed(cases),
+  cases.*,
   sqlc.embed(owner),
   sqlc.embed(contact)
 from
@@ -34,7 +39,7 @@ where
 
 -- name: CrmAnyCase :many
 select
-  sqlc.embed(cases),
+  cases.*,
   sqlc.embed(owner),
   sqlc.embed(contact)
 from
@@ -46,7 +51,7 @@ where
 
 -- name: CrmRangeCase :many
 select
-  sqlc.embed(cases),
+  cases.*,
   sqlc.embed(owner),
   sqlc.embed(contact)
 from

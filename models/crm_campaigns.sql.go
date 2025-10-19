@@ -108,53 +108,37 @@ func (q *Queries) CrmInsertCampaign(ctx context.Context, arg CrmInsertCampaignPa
 
 const crmPaginateCampaign = `-- name: CrmPaginateCampaign :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   campaigns.id, campaigns.name, campaigns.budget, campaigns.start_date, campaigns.end_date, campaigns.created_at, campaigns.updated_at
 from
   "crm"."campaigns" as campaigns
-where (name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCampaignParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
-type CrmPaginateCampaignRow struct {
-	TotalItems  int64       `db:"total_items" json:"total_items"`
-	TotalPages  float64     `db:"total_pages" json:"total_pages"`
-	Page        int32       `db:"page" json:"page"`
-	PerPage     int32       `db:"per_page" json:"per_page"`
-	CrmCampaign CrmCampaign `db:"crm_campaign" json:"crm_campaign"`
-}
-
-func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmPaginateCampaignRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.PerPage, arg.Page, arg.Search)
+func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmCampaign, error) {
+	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CrmPaginateCampaignRow
+	var items []CrmCampaign
 	for rows.Next() {
-		var i CrmPaginateCampaignRow
+		var i CrmCampaign
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmCampaign.ID,
-			&i.CrmCampaign.Name,
-			&i.CrmCampaign.Budget,
-			&i.CrmCampaign.StartDate,
-			&i.CrmCampaign.EndDate,
-			&i.CrmCampaign.CreatedAt,
-			&i.CrmCampaign.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Budget,
+			&i.StartDate,
+			&i.EndDate,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -164,6 +148,40 @@ func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampai
 		return nil, err
 	}
 	return items, nil
+}
+
+const crmPaginateCampaignMetadata = `-- name: CrmPaginateCampaignMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "crm"."campaigns" as campaigns
+`
+
+type CrmPaginateCampaignMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateCampaignMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateCampaignMetadata(ctx context.Context, arg CrmPaginateCampaignMetadataParams) (CrmPaginateCampaignMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateCampaignMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateCampaignMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const crmRangeCampaign = `-- name: CrmRangeCampaign :many

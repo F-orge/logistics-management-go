@@ -1,6 +1,8 @@
 package api
 
 import (
+	"strconv"
+
 	"github.com/F-orge/logistics-management-go/repositories"
 	"github.com/labstack/echo"
 )
@@ -17,7 +19,32 @@ func NewGenericHandler[PageT any, FindT any, AnyT any, RangeT any, InsertT any, 
 }
 
 func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) GetMany(ctx echo.Context) error {
-	return ctx.String(200, "hello world")
+
+	page, err := strconv.ParseInt(ctx.QueryParam("page"), 10, 32)
+
+	if err != nil {
+		return ctx.String(400, "page search param required")
+	}
+
+	perPage, err := strconv.Atoi(ctx.QueryParam("perPage"))
+
+	if err != nil {
+		return ctx.String(400, "perPage search query required")
+	}
+
+	searchQuery := ctx.QueryParam("search")
+
+	result, err := h.Repo.Paginate(int32(page), int32(perPage), searchQuery)
+
+	if err != nil {
+		return err
+	}
+
+	if result == nil {
+		return ctx.JSON(200, []PageT{})
+	}
+
+	return ctx.JSON(200, result)
 }
 
 func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT]) GetOne(ctx echo.Context) error {
@@ -41,7 +68,7 @@ func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, Mutati
 
 // RegisterRepository wires the repository to HTTP routes.
 func RegisterRepository[PageT any, FindT any, AnyT any, RangeT any, InsertT any, UpdateT any, MutationT any](
-	router *echo.Echo,
+	router *echo.Group,
 	path string,
 	repo repositories.GenericRepository[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, MutationT],
 ) {

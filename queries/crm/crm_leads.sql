@@ -1,10 +1,15 @@
--- name: CrmPaginateLead :many
+-- name: CrmPaginateLeadMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(leads),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."leads" as leads;
+
+-- name: CrmPaginateLead :many
+select
+  leads.*,
   sqlc.embed(owner),
   sqlc.embed(campaign),
   sqlc.embed(converted_contact),
@@ -28,7 +33,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindLead :one
 select
-  sqlc.embed(leads),
+  leads.*,
   sqlc.embed(owner),
   sqlc.embed(campaign),
   sqlc.embed(converted_contact),
@@ -46,7 +51,7 @@ where
 
 -- name: CrmAnyLead :many
 select
-  sqlc.embed(leads),
+  leads.*,
   sqlc.embed(owner),
   sqlc.embed(campaign),
   sqlc.embed(converted_contact),
@@ -64,7 +69,7 @@ where
 
 -- name: CrmRangeLead :many
 select
-  sqlc.embed(leads),
+  leads.*,
   sqlc.embed(owner),
   sqlc.embed(campaign),
   sqlc.embed(converted_contact),

@@ -1,10 +1,15 @@
--- name: CrmPaginateContact :many
+-- name: CrmPaginateContactMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(contacts),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."contacts" as contacts;
+
+-- name: CrmPaginateContact :many
+select
+  contacts.*,
   sqlc.embed(owner),
   sqlc.embed(company)
 from
@@ -20,7 +25,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindContact :one
 select
-  sqlc.embed(contacts),
+  contacts.*,
   sqlc.embed(owner),
   sqlc.embed(company)
 from
@@ -32,7 +37,7 @@ where
 
 -- name: CrmAnyContact :many
 select
-  sqlc.embed(contacts),
+  contacts.*,
   sqlc.embed(owner),
   sqlc.embed(company)
 from
@@ -44,7 +49,7 @@ where
 
 -- name: CrmRangeContact :many
 select
-  sqlc.embed(contacts),
+  contacts.*,
   sqlc.embed(owner),
   sqlc.embed(company)
 from

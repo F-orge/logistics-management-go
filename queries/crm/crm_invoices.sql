@@ -1,10 +1,15 @@
--- name: CrmPaginateInvoice :many
+-- name: CrmPaginateInvoiceMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(invoices),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."invoices_view" as invoices;
+
+-- name: CrmPaginateInvoice :many
+select
+  invoices.*,
   sqlc.embed(opportunity)
 from
   "crm"."invoices_view" as invoices
@@ -16,7 +21,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindInvoice :one
 select
-  sqlc.embed(invoices),
+  invoices.*,
   sqlc.embed(opportunity)
 from
   "crm"."invoices_view" as invoices
@@ -26,7 +31,7 @@ where
 
 -- name: CrmAnyInvoice :many
 select
-  sqlc.embed(invoices),
+  invoices.*,
   sqlc.embed(opportunity)
 from
   "crm"."invoices_view" as invoices
@@ -36,7 +41,7 @@ where
 
 -- name: CrmRangeInvoice :many
 select
-  sqlc.embed(invoices),
+  invoices.*,
   sqlc.embed(opportunity)
 from
   "crm"."invoices_view" as invoices

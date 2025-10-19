@@ -1,10 +1,15 @@
--- name: CrmPaginateInteraction :many
+-- name: CrmPaginateInteractionMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(interactions),
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."interactions" as interactions;
+
+-- name: CrmPaginateInteraction :many
+select
+  interactions.*,
   sqlc.embed(contact),
   sqlc.embed(users),
   sqlc.embed(cases)
@@ -22,7 +27,7 @@ limit sqlc.arg(per_page)::int offset (sqlc.arg(page)::int - 1) * sqlc.arg(per_pa
 
 -- name: CrmFindInteraction :one
 select
-  sqlc.embed(interactions),
+  interactions.*,
   sqlc.embed(contact),
   sqlc.embed(users),
   sqlc.embed(cases)
@@ -36,7 +41,7 @@ where
 
 -- name: CrmAnyInteraction :many
 select
-  sqlc.embed(interactions),
+  interactions.*,
   sqlc.embed(contact),
   sqlc.embed(users),
   sqlc.embed(cases)
@@ -50,7 +55,7 @@ where
 
 -- name: CrmRangeInteraction :many
 select
-  sqlc.embed(interactions),
+  interactions.*,
   sqlc.embed(contact),
   sqlc.embed(users),
   sqlc.embed(cases)

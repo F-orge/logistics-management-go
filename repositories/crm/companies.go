@@ -1,10 +1,11 @@
-package repositories
+package crm
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/F-orge/logistics-management-go/models"
+	"github.com/F-orge/logistics-management-go/repositories"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -12,9 +13,18 @@ type CrmCompanyRepository struct {
 	Query models.Queries
 }
 
-func (r *CrmCompanyRepository) Paginate(page int32, perPage int32, search string) ([]models.CrmPaginateCompanyRow, error) {
+func (r *CrmCompanyRepository) Paginate(page int32, perPage int32, search string) (repositories.PaginateResponse[models.CrmPaginateCompanyRow], error) {
 
 	searchQuery := fmt.Sprintf("%%%s%%", search)
+
+	metadata, err := r.Query.CrmPaginateCompanyMetadata(context.Background(), models.CrmPaginateCompanyMetadataParams{
+		PerPage: perPage,
+		Page:    page,
+	})
+
+	if err != nil {
+		return repositories.PaginateResponse[models.CrmPaginateCompanyRow]{}, err
+	}
 
 	result, err := r.Query.CrmPaginateCompany(context.Background(), models.CrmPaginateCompanyParams{
 		Page:    page,
@@ -23,10 +33,14 @@ func (r *CrmCompanyRepository) Paginate(page int32, perPage int32, search string
 	})
 
 	if err != nil {
-		return nil, err
+		return repositories.PaginateResponse[models.CrmPaginateCompanyRow]{}, err
 	}
 
-	return result, nil
+	return repositories.PaginateResponse[models.CrmPaginateCompanyRow]{
+		TotalItems: int32(metadata.TotalItems),
+		TotalPages: int32(metadata.TotalPages),
+		Items:      result,
+	}, nil
 }
 
 func (r *CrmCompanyRepository) Find(id pgtype.UUID) (models.CrmFindCompanyRow, error) {

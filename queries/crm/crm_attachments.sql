@@ -1,10 +1,15 @@
--- name: CrmPaginateAttachment :many
+-- name: CrmPaginateAttachmentMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(attachments)
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."attachments" as attachments;
+
+-- name: CrmPaginateAttachment :many
+select
+  attachments.*
 from
   "crm"."attachments" as attachments
 where (record_type::text ilike sqlc.narg(search)::text

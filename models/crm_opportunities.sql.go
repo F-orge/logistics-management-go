@@ -29,11 +29,25 @@ where
 `
 
 type CrmAnyOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
-	User                 User                 `db:"user" json:"user"`
-	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
-	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
-	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
+	ID                pgtype.UUID              `db:"id" json:"id"`
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
+	Products          []CrmOpportunityProduct  `db:"products" json:"products"`
+	User              User                     `db:"user" json:"user"`
+	CrmContact        CrmContact               `db:"crm_contact" json:"crm_contact"`
+	CrmCompany        CrmCompany               `db:"crm_company" json:"crm_company"`
+	CrmCampaign       CrmCampaign              `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyOpportunityRow, error) {
@@ -46,21 +60,21 @@ func (q *Queries) CrmAnyOpportunity(ctx context.Context, ids []pgtype.UUID) ([]C
 	for rows.Next() {
 		var i CrmAnyOpportunityRow
 		if err := rows.Scan(
-			&i.CrmOpportunitiesView.ID,
-			&i.CrmOpportunitiesView.Name,
-			&i.CrmOpportunitiesView.Stage,
-			&i.CrmOpportunitiesView.DealValue,
-			&i.CrmOpportunitiesView.Probability,
-			&i.CrmOpportunitiesView.ExpectedCloseDate,
-			&i.CrmOpportunitiesView.LostReason,
-			&i.CrmOpportunitiesView.Source,
-			&i.CrmOpportunitiesView.OwnerID,
-			&i.CrmOpportunitiesView.ContactID,
-			&i.CrmOpportunitiesView.CompanyID,
-			&i.CrmOpportunitiesView.CampaignID,
-			&i.CrmOpportunitiesView.CreatedAt,
-			&i.CrmOpportunitiesView.UpdatedAt,
-			&i.CrmOpportunitiesView.Products,
+			&i.ID,
+			&i.Name,
+			&i.Stage,
+			&i.DealValue,
+			&i.Probability,
+			&i.ExpectedCloseDate,
+			&i.LostReason,
+			&i.Source,
+			&i.OwnerID,
+			&i.ContactID,
+			&i.CompanyID,
+			&i.CampaignID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -131,32 +145,46 @@ where
 `
 
 type CrmFindOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
-	User                 User                 `db:"user" json:"user"`
-	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
-	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
-	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
+	ID                pgtype.UUID              `db:"id" json:"id"`
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
+	Products          []CrmOpportunityProduct  `db:"products" json:"products"`
+	User              User                     `db:"user" json:"user"`
+	CrmContact        CrmContact               `db:"crm_contact" json:"crm_contact"`
+	CrmCompany        CrmCompany               `db:"crm_company" json:"crm_company"`
+	CrmCampaign       CrmCampaign              `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmFindOpportunity(ctx context.Context, id pgtype.UUID) (CrmFindOpportunityRow, error) {
 	row := q.db.QueryRow(ctx, crmFindOpportunity, id)
 	var i CrmFindOpportunityRow
 	err := row.Scan(
-		&i.CrmOpportunitiesView.ID,
-		&i.CrmOpportunitiesView.Name,
-		&i.CrmOpportunitiesView.Stage,
-		&i.CrmOpportunitiesView.DealValue,
-		&i.CrmOpportunitiesView.Probability,
-		&i.CrmOpportunitiesView.ExpectedCloseDate,
-		&i.CrmOpportunitiesView.LostReason,
-		&i.CrmOpportunitiesView.Source,
-		&i.CrmOpportunitiesView.OwnerID,
-		&i.CrmOpportunitiesView.ContactID,
-		&i.CrmOpportunitiesView.CompanyID,
-		&i.CrmOpportunitiesView.CampaignID,
-		&i.CrmOpportunitiesView.CreatedAt,
-		&i.CrmOpportunitiesView.UpdatedAt,
-		&i.CrmOpportunitiesView.Products,
+		&i.ID,
+		&i.Name,
+		&i.Stage,
+		&i.DealValue,
+		&i.Probability,
+		&i.ExpectedCloseDate,
+		&i.LostReason,
+		&i.Source,
+		&i.OwnerID,
+		&i.ContactID,
+		&i.CompanyID,
+		&i.CampaignID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Products,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -260,10 +288,6 @@ func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportu
 
 const crmPaginateOpportunity = `-- name: CrmPaginateOpportunity :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
@@ -275,37 +299,47 @@ from
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
   left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
-where (opportunities.name ilike $3::text
-  or opportunities.stage::text ilike $3::text
-  or owner.name ilike $3::text
-  or company.name ilike $3::text
-  or contact.name ilike $3::text
-  or campaign.name ilike $3::text
-  or opportunities.source::text ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (opportunities.name ilike $1::text
+  or opportunities.stage::text ilike $1::text
+  or owner.name ilike $1::text
+  or company.name ilike $1::text
+  or contact.name ilike $1::text
+  or campaign.name ilike $1::text
+  or opportunities.source::text ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateOpportunityParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type CrmPaginateOpportunityRow struct {
-	TotalItems           int64                `db:"total_items" json:"total_items"`
-	TotalPages           float64              `db:"total_pages" json:"total_pages"`
-	Page                 int32                `db:"page" json:"page"`
-	PerPage              int32                `db:"per_page" json:"per_page"`
-	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
-	User                 User                 `db:"user" json:"user"`
-	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
-	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
-	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
+	ID                pgtype.UUID              `db:"id" json:"id"`
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
+	Products          []CrmOpportunityProduct  `db:"products" json:"products"`
+	User              User                     `db:"user" json:"user"`
+	CrmContact        CrmContact               `db:"crm_contact" json:"crm_contact"`
+	CrmCompany        CrmCompany               `db:"crm_company" json:"crm_company"`
+	CrmCampaign       CrmCampaign              `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpportunityParams) ([]CrmPaginateOpportunityRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -314,25 +348,21 @@ func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpp
 	for rows.Next() {
 		var i CrmPaginateOpportunityRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmOpportunitiesView.ID,
-			&i.CrmOpportunitiesView.Name,
-			&i.CrmOpportunitiesView.Stage,
-			&i.CrmOpportunitiesView.DealValue,
-			&i.CrmOpportunitiesView.Probability,
-			&i.CrmOpportunitiesView.ExpectedCloseDate,
-			&i.CrmOpportunitiesView.LostReason,
-			&i.CrmOpportunitiesView.Source,
-			&i.CrmOpportunitiesView.OwnerID,
-			&i.CrmOpportunitiesView.ContactID,
-			&i.CrmOpportunitiesView.CompanyID,
-			&i.CrmOpportunitiesView.CampaignID,
-			&i.CrmOpportunitiesView.CreatedAt,
-			&i.CrmOpportunitiesView.UpdatedAt,
-			&i.CrmOpportunitiesView.Products,
+			&i.ID,
+			&i.Name,
+			&i.Stage,
+			&i.DealValue,
+			&i.Probability,
+			&i.ExpectedCloseDate,
+			&i.LostReason,
+			&i.Source,
+			&i.OwnerID,
+			&i.ContactID,
+			&i.CompanyID,
+			&i.CampaignID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -385,6 +415,40 @@ func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpp
 	return items, nil
 }
 
+const crmPaginateOpportunityMetadata = `-- name: CrmPaginateOpportunityMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "crm"."opportunities_view" as opportunities
+`
+
+type CrmPaginateOpportunityMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateOpportunityMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateOpportunityMetadata(ctx context.Context, arg CrmPaginateOpportunityMetadataParams) (CrmPaginateOpportunityMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateOpportunityMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateOpportunityMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const crmRangeOpportunity = `-- name: CrmRangeOpportunity :many
 select
   opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
@@ -418,11 +482,25 @@ type CrmRangeOpportunityParams struct {
 }
 
 type CrmRangeOpportunityRow struct {
-	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
-	User                 User                 `db:"user" json:"user"`
-	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
-	CrmCompany           CrmCompany           `db:"crm_company" json:"crm_company"`
-	CrmCampaign          CrmCampaign          `db:"crm_campaign" json:"crm_campaign"`
+	ID                pgtype.UUID              `db:"id" json:"id"`
+	Name              string                   `db:"name" json:"name"`
+	Stage             NullCrmOpportunityStage  `db:"stage" json:"stage"`
+	DealValue         pgtype.Numeric           `db:"deal_value" json:"deal_value"`
+	Probability       pgtype.Float4            `db:"probability" json:"probability"`
+	ExpectedCloseDate pgtype.Date              `db:"expected_close_date" json:"expected_close_date"`
+	LostReason        pgtype.Text              `db:"lost_reason" json:"lost_reason"`
+	Source            NullCrmOpportunitySource `db:"source" json:"source"`
+	OwnerID           string                   `db:"owner_id" json:"owner_id"`
+	ContactID         pgtype.UUID              `db:"contact_id" json:"contact_id"`
+	CompanyID         pgtype.UUID              `db:"company_id" json:"company_id"`
+	CampaignID        pgtype.UUID              `db:"campaign_id" json:"campaign_id"`
+	CreatedAt         pgtype.Timestamptz       `db:"created_at" json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz       `db:"updated_at" json:"updated_at"`
+	Products          []CrmOpportunityProduct  `db:"products" json:"products"`
+	User              User                     `db:"user" json:"user"`
+	CrmContact        CrmContact               `db:"crm_contact" json:"crm_contact"`
+	CrmCompany        CrmCompany               `db:"crm_company" json:"crm_company"`
+	CrmCampaign       CrmCampaign              `db:"crm_campaign" json:"crm_campaign"`
 }
 
 func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportunityParams) ([]CrmRangeOpportunityRow, error) {
@@ -435,21 +513,21 @@ func (q *Queries) CrmRangeOpportunity(ctx context.Context, arg CrmRangeOpportuni
 	for rows.Next() {
 		var i CrmRangeOpportunityRow
 		if err := rows.Scan(
-			&i.CrmOpportunitiesView.ID,
-			&i.CrmOpportunitiesView.Name,
-			&i.CrmOpportunitiesView.Stage,
-			&i.CrmOpportunitiesView.DealValue,
-			&i.CrmOpportunitiesView.Probability,
-			&i.CrmOpportunitiesView.ExpectedCloseDate,
-			&i.CrmOpportunitiesView.LostReason,
-			&i.CrmOpportunitiesView.Source,
-			&i.CrmOpportunitiesView.OwnerID,
-			&i.CrmOpportunitiesView.ContactID,
-			&i.CrmOpportunitiesView.CompanyID,
-			&i.CrmOpportunitiesView.CampaignID,
-			&i.CrmOpportunitiesView.CreatedAt,
-			&i.CrmOpportunitiesView.UpdatedAt,
-			&i.CrmOpportunitiesView.Products,
+			&i.ID,
+			&i.Name,
+			&i.Stage,
+			&i.DealValue,
+			&i.Probability,
+			&i.ExpectedCloseDate,
+			&i.LostReason,
+			&i.Source,
+			&i.OwnerID,
+			&i.ContactID,
+			&i.CompanyID,
+			&i.CampaignID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Products,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

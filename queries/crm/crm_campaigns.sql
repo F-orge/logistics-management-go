@@ -1,10 +1,15 @@
--- name: CrmPaginateCampaign :many
+-- name: CrmPaginateCampaignMetadata :one
 select
   count(*) over () as total_items,
   ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
   sqlc.arg(page)::int as page,
-  sqlc.arg(per_page)::int as per_page,
-  sqlc.embed(campaigns)
+  sqlc.arg(per_page)::int as per_page
+from
+  "crm"."campaigns" as campaigns;
+
+-- name: CrmPaginateCampaign :many
+select
+  campaigns.*
 from
   "crm"."campaigns" as campaigns
 where (name ilike sqlc.narg(search)::text

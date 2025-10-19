@@ -23,8 +23,21 @@ where
 `
 
 type CrmAnyCompanyRow struct {
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
-	User       User       `db:"user" json:"user"`
+	ID            pgtype.UUID        `db:"id" json:"id"`
+	Name          string             `db:"name" json:"name"`
+	Street        pgtype.Text        `db:"street" json:"street"`
+	City          pgtype.Text        `db:"city" json:"city"`
+	State         pgtype.Text        `db:"state" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" json:"industry"`
+	Website       pgtype.Text        `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
+	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User          User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmAnyCompany(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyCompanyRow, error) {
@@ -37,20 +50,20 @@ func (q *Queries) CrmAnyCompany(ctx context.Context, ids []pgtype.UUID) ([]CrmAn
 	for rows.Next() {
 		var i CrmAnyCompanyRow
 		if err := rows.Scan(
-			&i.CrmCompany.ID,
-			&i.CrmCompany.Name,
-			&i.CrmCompany.Street,
-			&i.CrmCompany.City,
-			&i.CrmCompany.State,
-			&i.CrmCompany.PostalCode,
-			&i.CrmCompany.Country,
-			&i.CrmCompany.PhoneNumber,
-			&i.CrmCompany.Industry,
-			&i.CrmCompany.Website,
-			&i.CrmCompany.AnnualRevenue,
-			&i.CrmCompany.OwnerID,
-			&i.CrmCompany.CreatedAt,
-			&i.CrmCompany.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Street,
+			&i.City,
+			&i.State,
+			&i.PostalCode,
+			&i.Country,
+			&i.PhoneNumber,
+			&i.Industry,
+			&i.Website,
+			&i.AnnualRevenue,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -85,28 +98,41 @@ where
 `
 
 type CrmFindCompanyRow struct {
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
-	User       User       `db:"user" json:"user"`
+	ID            pgtype.UUID        `db:"id" json:"id"`
+	Name          string             `db:"name" json:"name"`
+	Street        pgtype.Text        `db:"street" json:"street"`
+	City          pgtype.Text        `db:"city" json:"city"`
+	State         pgtype.Text        `db:"state" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" json:"industry"`
+	Website       pgtype.Text        `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
+	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User          User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmFindCompany(ctx context.Context, id pgtype.UUID) (CrmFindCompanyRow, error) {
 	row := q.db.QueryRow(ctx, crmFindCompany, id)
 	var i CrmFindCompanyRow
 	err := row.Scan(
-		&i.CrmCompany.ID,
-		&i.CrmCompany.Name,
-		&i.CrmCompany.Street,
-		&i.CrmCompany.City,
-		&i.CrmCompany.State,
-		&i.CrmCompany.PostalCode,
-		&i.CrmCompany.Country,
-		&i.CrmCompany.PhoneNumber,
-		&i.CrmCompany.Industry,
-		&i.CrmCompany.Website,
-		&i.CrmCompany.AnnualRevenue,
-		&i.CrmCompany.OwnerID,
-		&i.CrmCompany.CreatedAt,
-		&i.CrmCompany.UpdatedAt,
+		&i.ID,
+		&i.Name,
+		&i.Street,
+		&i.City,
+		&i.State,
+		&i.PostalCode,
+		&i.Country,
+		&i.PhoneNumber,
+		&i.Industry,
+		&i.Website,
+		&i.AnnualRevenue,
+		&i.OwnerID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -177,40 +203,45 @@ func (q *Queries) CrmInsertCompany(ctx context.Context, arg CrmInsertCompanyPara
 
 const crmPaginateCompany = `-- name: CrmPaginateCompany :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int - 1 as page,
-  $1::int as per_page,
   companies.id, companies.name, companies.street, companies.city, companies.state, companies.postal_code, companies.country, companies.phone_number, companies.industry, companies.website, companies.annual_revenue, companies.owner_id, companies.created_at, companies.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires
 from
   "crm"."companies" as companies
   inner join "public"."user" as owner on companies.owner_id = owner.id
-where (companies.name ilike $3::text
-  or companies.industry ilike $3::text
-  or owner.name ilike $3::text
-  or companies.country ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (companies.name ilike $1::text
+  or companies.industry ilike $1::text
+  or owner.name ilike $1::text
+  or companies.country ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateCompanyParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type CrmPaginateCompanyRow struct {
-	TotalItems int64      `db:"total_items" json:"total_items"`
-	TotalPages float64    `db:"total_pages" json:"total_pages"`
-	Page       int32      `db:"page" json:"page"`
-	PerPage    int32      `db:"per_page" json:"per_page"`
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
-	User       User       `db:"user" json:"user"`
+	ID            pgtype.UUID        `db:"id" json:"id"`
+	Name          string             `db:"name" json:"name"`
+	Street        pgtype.Text        `db:"street" json:"street"`
+	City          pgtype.Text        `db:"city" json:"city"`
+	State         pgtype.Text        `db:"state" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" json:"industry"`
+	Website       pgtype.Text        `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
+	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User          User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompanyParams) ([]CrmPaginateCompanyRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, crmPaginateCompany, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -219,24 +250,20 @@ func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompany
 	for rows.Next() {
 		var i CrmPaginateCompanyRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmCompany.ID,
-			&i.CrmCompany.Name,
-			&i.CrmCompany.Street,
-			&i.CrmCompany.City,
-			&i.CrmCompany.State,
-			&i.CrmCompany.PostalCode,
-			&i.CrmCompany.Country,
-			&i.CrmCompany.PhoneNumber,
-			&i.CrmCompany.Industry,
-			&i.CrmCompany.Website,
-			&i.CrmCompany.AnnualRevenue,
-			&i.CrmCompany.OwnerID,
-			&i.CrmCompany.CreatedAt,
-			&i.CrmCompany.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Street,
+			&i.City,
+			&i.State,
+			&i.PostalCode,
+			&i.Country,
+			&i.PhoneNumber,
+			&i.Industry,
+			&i.Website,
+			&i.AnnualRevenue,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -257,6 +284,38 @@ func (q *Queries) CrmPaginateCompany(ctx context.Context, arg CrmPaginateCompany
 		return nil, err
 	}
 	return items, nil
+}
+
+const crmPaginateCompanyMetadata = `-- name: CrmPaginateCompanyMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int - 1 as page,
+  $1::int as per_page
+`
+
+type CrmPaginateCompanyMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateCompanyMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateCompanyMetadata(ctx context.Context, arg CrmPaginateCompanyMetadataParams) (CrmPaginateCompanyMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateCompanyMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateCompanyMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
 }
 
 const crmRangeCompany = `-- name: CrmRangeCompany :many
@@ -283,8 +342,21 @@ type CrmRangeCompanyParams struct {
 }
 
 type CrmRangeCompanyRow struct {
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
-	User       User       `db:"user" json:"user"`
+	ID            pgtype.UUID        `db:"id" json:"id"`
+	Name          string             `db:"name" json:"name"`
+	Street        pgtype.Text        `db:"street" json:"street"`
+	City          pgtype.Text        `db:"city" json:"city"`
+	State         pgtype.Text        `db:"state" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" json:"industry"`
+	Website       pgtype.Text        `db:"website" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
+	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User          User               `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmRangeCompany(ctx context.Context, arg CrmRangeCompanyParams) ([]CrmRangeCompanyRow, error) {
@@ -297,20 +369,20 @@ func (q *Queries) CrmRangeCompany(ctx context.Context, arg CrmRangeCompanyParams
 	for rows.Next() {
 		var i CrmRangeCompanyRow
 		if err := rows.Scan(
-			&i.CrmCompany.ID,
-			&i.CrmCompany.Name,
-			&i.CrmCompany.Street,
-			&i.CrmCompany.City,
-			&i.CrmCompany.State,
-			&i.CrmCompany.PostalCode,
-			&i.CrmCompany.Country,
-			&i.CrmCompany.PhoneNumber,
-			&i.CrmCompany.Industry,
-			&i.CrmCompany.Website,
-			&i.CrmCompany.AnnualRevenue,
-			&i.CrmCompany.OwnerID,
-			&i.CrmCompany.CreatedAt,
-			&i.CrmCompany.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Street,
+			&i.City,
+			&i.State,
+			&i.PostalCode,
+			&i.Country,
+			&i.PhoneNumber,
+			&i.Industry,
+			&i.Website,
+			&i.AnnualRevenue,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,

@@ -25,9 +25,17 @@ where
 `
 
 type CrmAnyContactRow struct {
-	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
-	User       User       `db:"user" json:"user"`
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	ID          pgtype.UUID        `db:"id" json:"id"`
+	Name        string             `db:"name" json:"name"`
+	Email       string             `db:"email" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
+	OwnerID     string             `db:"owner_id" json:"owner_id"`
+	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User        User               `db:"user" json:"user"`
+	CrmCompany  CrmCompany         `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmAnyContact(ctx context.Context, ids []pgtype.UUID) ([]CrmAnyContactRow, error) {
@@ -40,15 +48,15 @@ func (q *Queries) CrmAnyContact(ctx context.Context, ids []pgtype.UUID) ([]CrmAn
 	for rows.Next() {
 		var i CrmAnyContactRow
 		if err := rows.Scan(
-			&i.CrmContact.ID,
-			&i.CrmContact.Name,
-			&i.CrmContact.Email,
-			&i.CrmContact.PhoneNumber,
-			&i.CrmContact.JobTitle,
-			&i.CrmContact.CompanyID,
-			&i.CrmContact.OwnerID,
-			&i.CrmContact.CreatedAt,
-			&i.CrmContact.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.PhoneNumber,
+			&i.JobTitle,
+			&i.CompanyID,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -99,24 +107,32 @@ where
 `
 
 type CrmFindContactRow struct {
-	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
-	User       User       `db:"user" json:"user"`
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	ID          pgtype.UUID        `db:"id" json:"id"`
+	Name        string             `db:"name" json:"name"`
+	Email       string             `db:"email" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
+	OwnerID     string             `db:"owner_id" json:"owner_id"`
+	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User        User               `db:"user" json:"user"`
+	CrmCompany  CrmCompany         `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmFindContact(ctx context.Context, id pgtype.UUID) (CrmFindContactRow, error) {
 	row := q.db.QueryRow(ctx, crmFindContact, id)
 	var i CrmFindContactRow
 	err := row.Scan(
-		&i.CrmContact.ID,
-		&i.CrmContact.Name,
-		&i.CrmContact.Email,
-		&i.CrmContact.PhoneNumber,
-		&i.CrmContact.JobTitle,
-		&i.CrmContact.CompanyID,
-		&i.CrmContact.OwnerID,
-		&i.CrmContact.CreatedAt,
-		&i.CrmContact.UpdatedAt,
+		&i.ID,
+		&i.Name,
+		&i.Email,
+		&i.PhoneNumber,
+		&i.JobTitle,
+		&i.CompanyID,
+		&i.OwnerID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
 		&i.User.ID,
 		&i.User.Name,
 		&i.User.Email,
@@ -188,10 +204,6 @@ func (q *Queries) CrmInsertContact(ctx context.Context, arg CrmInsertContactPara
 
 const crmPaginateContact = `-- name: CrmPaginateContact :many
 select
-  count(*) over () as total_items,
-  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
-  $2::int as page,
-  $1::int as per_page,
   contacts.id, contacts.name, contacts.email, contacts.phone_number, contacts.job_title, contacts.company_id, contacts.owner_id, contacts.created_at, contacts.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at
@@ -199,32 +211,36 @@ from
   "crm"."contacts" as contacts
   inner join "public"."user" as owner on contacts.owner_id = owner.id
   left join "crm"."companies" as company on contacts.company_id = company.id
-where (contacts.name ilike $3::text
-  or contacts.email ilike $3::text
-  or company.name ilike $3::text
-  or owner.name ilike $3::text
-  or $3::text is null)
-limit $1::int offset ($2::int - 1) * $1::int
+where (contacts.name ilike $1::text
+  or contacts.email ilike $1::text
+  or company.name ilike $1::text
+  or owner.name ilike $1::text
+  or $1::text is null)
+limit $3::int offset ($2::int - 1) * $3::int
 `
 
 type CrmPaginateContactParams struct {
-	PerPage int32       `db:"per_page" json:"per_page"`
-	Page    int32       `db:"page" json:"page"`
 	Search  pgtype.Text `db:"search" json:"search"`
+	Page    int32       `db:"page" json:"page"`
+	PerPage int32       `db:"per_page" json:"per_page"`
 }
 
 type CrmPaginateContactRow struct {
-	TotalItems int64      `db:"total_items" json:"total_items"`
-	TotalPages float64    `db:"total_pages" json:"total_pages"`
-	Page       int32      `db:"page" json:"page"`
-	PerPage    int32      `db:"per_page" json:"per_page"`
-	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
-	User       User       `db:"user" json:"user"`
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	ID          pgtype.UUID        `db:"id" json:"id"`
+	Name        string             `db:"name" json:"name"`
+	Email       string             `db:"email" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
+	OwnerID     string             `db:"owner_id" json:"owner_id"`
+	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User        User               `db:"user" json:"user"`
+	CrmCompany  CrmCompany         `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContactParams) ([]CrmPaginateContactRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateContact, arg.PerPage, arg.Page, arg.Search)
+	rows, err := q.db.Query(ctx, crmPaginateContact, arg.Search, arg.Page, arg.PerPage)
 	if err != nil {
 		return nil, err
 	}
@@ -233,19 +249,15 @@ func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContact
 	for rows.Next() {
 		var i CrmPaginateContactRow
 		if err := rows.Scan(
-			&i.TotalItems,
-			&i.TotalPages,
-			&i.Page,
-			&i.PerPage,
-			&i.CrmContact.ID,
-			&i.CrmContact.Name,
-			&i.CrmContact.Email,
-			&i.CrmContact.PhoneNumber,
-			&i.CrmContact.JobTitle,
-			&i.CrmContact.CompanyID,
-			&i.CrmContact.OwnerID,
-			&i.CrmContact.CreatedAt,
-			&i.CrmContact.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.PhoneNumber,
+			&i.JobTitle,
+			&i.CompanyID,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
@@ -282,6 +294,40 @@ func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContact
 	return items, nil
 }
 
+const crmPaginateContactMetadata = `-- name: CrmPaginateContactMetadata :one
+select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page
+from
+  "crm"."contacts" as contacts
+`
+
+type CrmPaginateContactMetadataParams struct {
+	PerPage int32 `db:"per_page" json:"per_page"`
+	Page    int32 `db:"page" json:"page"`
+}
+
+type CrmPaginateContactMetadataRow struct {
+	TotalItems int64   `db:"total_items" json:"total_items"`
+	TotalPages float64 `db:"total_pages" json:"total_pages"`
+	Page       int32   `db:"page" json:"page"`
+	PerPage    int32   `db:"per_page" json:"per_page"`
+}
+
+func (q *Queries) CrmPaginateContactMetadata(ctx context.Context, arg CrmPaginateContactMetadataParams) (CrmPaginateContactMetadataRow, error) {
+	row := q.db.QueryRow(ctx, crmPaginateContactMetadata, arg.PerPage, arg.Page)
+	var i CrmPaginateContactMetadataRow
+	err := row.Scan(
+		&i.TotalItems,
+		&i.TotalPages,
+		&i.Page,
+		&i.PerPage,
+	)
+	return i, err
+}
+
 const crmRangeContact = `-- name: CrmRangeContact :many
 select
   contacts.id, contacts.name, contacts.email, contacts.phone_number, contacts.job_title, contacts.company_id, contacts.owner_id, contacts.created_at, contacts.updated_at,
@@ -308,9 +354,17 @@ type CrmRangeContactParams struct {
 }
 
 type CrmRangeContactRow struct {
-	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
-	User       User       `db:"user" json:"user"`
-	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
+	ID          pgtype.UUID        `db:"id" json:"id"`
+	Name        string             `db:"name" json:"name"`
+	Email       string             `db:"email" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
+	OwnerID     string             `db:"owner_id" json:"owner_id"`
+	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
+	User        User               `db:"user" json:"user"`
+	CrmCompany  CrmCompany         `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmRangeContact(ctx context.Context, arg CrmRangeContactParams) ([]CrmRangeContactRow, error) {
@@ -323,15 +377,15 @@ func (q *Queries) CrmRangeContact(ctx context.Context, arg CrmRangeContactParams
 	for rows.Next() {
 		var i CrmRangeContactRow
 		if err := rows.Scan(
-			&i.CrmContact.ID,
-			&i.CrmContact.Name,
-			&i.CrmContact.Email,
-			&i.CrmContact.PhoneNumber,
-			&i.CrmContact.JobTitle,
-			&i.CrmContact.CompanyID,
-			&i.CrmContact.OwnerID,
-			&i.CrmContact.CreatedAt,
-			&i.CrmContact.UpdatedAt,
+			&i.ID,
+			&i.Name,
+			&i.Email,
+			&i.PhoneNumber,
+			&i.JobTitle,
+			&i.CompanyID,
+			&i.OwnerID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.Email,
