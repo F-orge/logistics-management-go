@@ -25,12 +25,12 @@ where
 type BillingAnyDocumentRow struct {
 	ID               pgtype.UUID             `db:"id" json:"id"`
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
@@ -94,12 +94,12 @@ where
 type BillingFindDocumentRow struct {
 	ID               pgtype.UUID             `db:"id" json:"id"`
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
@@ -145,12 +145,12 @@ returning
 
 type BillingInsertDocumentParams struct {
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 }
 
@@ -206,12 +206,12 @@ type BillingPaginateDocumentParams struct {
 type BillingPaginateDocumentRow struct {
 	ID               pgtype.UUID             `db:"id" json:"id"`
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
@@ -321,12 +321,12 @@ type BillingRangeDocumentParams struct {
 type BillingRangeDocumentRow struct {
 	ID               pgtype.UUID             `db:"id" json:"id"`
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	CreatedAt        pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
@@ -439,12 +439,12 @@ returning
 
 type BillingUpdateDocumentParams struct {
 	RecordID         pgtype.UUID             `db:"record_id" json:"record_id"`
-	RecordType       string                  `db:"record_type" json:"record_type"`
+	RecordType       string                  `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	DocumentType     BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
-	FilePath         string                  `db:"file_path" json:"file_path"`
-	FileName         string                  `db:"file_name" json:"file_name"`
-	FileSize         pgtype.Int4             `db:"file_size" json:"file_size"`
-	MimeType         pgtype.Text             `db:"mime_type" json:"mime_type"`
+	FilePath         string                  `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	FileName         string                  `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FileSize         pgtype.Int4             `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
+	MimeType         pgtype.Text             `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	UploadedByUserID pgtype.Text             `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	ID               pgtype.UUID             `db:"id" json:"id"`
 }

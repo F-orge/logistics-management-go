@@ -30,13 +30,13 @@ type BillingAnyCreditNoteRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
@@ -142,13 +142,13 @@ type BillingFindCreditNoteRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
@@ -232,13 +232,13 @@ returning
 type BillingInsertCreditNoteParams struct {
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
@@ -303,13 +303,13 @@ type BillingPaginateCreditNoteRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
@@ -461,13 +461,13 @@ type BillingRangeCreditNoteRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `db:"updated_at" json:"updated_at"`
@@ -628,13 +628,13 @@ returning
 type BillingUpdateCreditNoteParams struct {
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	DisputeID        pgtype.UUID      `db:"dispute_id" json:"dispute_id"`
-	CreditNoteNumber string           `db:"credit_note_number" json:"credit_note_number"`
-	Amount           pgtype.Numeric   `db:"amount" json:"amount"`
-	Reason           string           `db:"reason" json:"reason"`
-	IssueDate        pgtype.Date      `db:"issue_date" json:"issue_date"`
-	AppliedAt        pgtype.Timestamp `db:"applied_at" json:"applied_at"`
-	Currency         pgtype.Text      `db:"currency" json:"currency"`
-	Notes            pgtype.Text      `db:"notes" json:"notes"`
+	CreditNoteNumber string           `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
+	Amount           pgtype.Numeric   `db:"amount" fake:"{price:20,500}" json:"amount"`
+	Reason           string           `db:"reason" fake:"{sentence}" json:"reason"`
+	IssueDate        pgtype.Date      `db:"issue_date" fake:"{date}" json:"issue_date"`
+	AppliedAt        pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
+	Currency         pgtype.Text      `db:"currency" fake:"{currencyshort}" json:"currency"`
+	Notes            pgtype.Text      `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID  pgtype.Text      `db:"created_by_user_id" json:"created_by_user_id"`
 	ID               pgtype.UUID      `db:"id" json:"id"`
 }

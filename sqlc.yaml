@@ -216,6 +216,8 @@ sql:
             go_struct_tag: 'fake:"{uuid}"'
           - column: "tms.drivers.license_expiry_date"
             go_struct_tag: 'fake:"{date}"'
+          - column: "tms.drivers.contact_phone"
+            go_struct_tag: 'fake:"{phone}"'
           ## driver_schedules
           - column: "tms.driver_schedules.start_date"
             go_struct_tag: 'fake:"{date}"'
@@ -230,6 +232,16 @@ sql:
             go_struct_tag: 'fake:"{float64range:10,100}"'
           - column: "tms.vehicles.capacity_weight"
             go_struct_tag: 'fake:"{float64range:1000,5000}"'
+          - column: "tms.vehicles.make"
+            go_struct_tag: 'fake:"{carmaker}"'
+          - column: "tms.vehicles.year"
+            go_struct_tag: 'fake:"{year}"'
+          - column: "tms.vehicles.vin"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "tms.vehicles.current_mileage"
+            go_struct_tag: 'fake:"{number:10000,200000}"'
+          - column: "tms.vehicles.last_maintenance_date"
+            go_struct_tag: 'fake:"{date}"'
           ## vehicle_maintenance
           - column: "tms.vehicle_maintenance.service_date"
             go_struct_tag: 'fake:"{date}"'
@@ -237,6 +249,15 @@ sql:
             go_struct_tag: 'fake:"{price:100,2000}"'
           - column: "tms.vehicle_maintenance.notes"
             go_struct_tag: 'fake:"{sentence}"'
+          ## trips
+          - column: "tms.trips.end_location"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.trips.end_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.trips.start_location"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.trips.start_time"
+            go_struct_tag: 'fake:"{date}"'
           ## trip_stops
           - column: "tms.trip_stops.sequence"
             go_struct_tag: 'fake:"{number:1,10}"'
@@ -282,21 +303,31 @@ sql:
             go_struct_tag: 'fake:"{float64range:10,100}"'
           - column: "tms.expenses.odometer_reading"
             go_struct_tag: 'fake:"{number:10000,200000}"'
+          - column: "tms.expenses.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "tms.expenses.expense_date"
+            go_struct_tag: 'fake:"{date}"'
           ## geofences
           - column: "tms.geofences.name"
             go_struct_tag: 'fake:"{city}"'
-          - column: "tms.geofences.coordinates"
-            go_struct_tag: 'fake:"{sentence}"'
+          - column: "tms.geofences.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          - column: "tms.geofences.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
           ## geofence_events
           - column: "tms.geofence_events.timestamp"
             go_struct_tag: 'fake:"{date}"'
           ## carriers
           - column: "tms.carriers.name"
             go_struct_tag: 'fake:"{company}"'
-          - column: "tms.carriers.contact_details"
-            go_struct_tag: 'fake:"{phone}"'
           - column: "tms.carriers.services_offered"
             go_struct_tag: 'fake:"{bs}"'
+          - column: "tms.carriers.contact_person"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "tms.carriers.contact_email"
+            go_struct_tag: 'fake:"{email}"'
+          - column: "tms.carriers.contact_phone"
+            go_struct_tag: 'fake:"{phone}"'
           ## carrier_rates
           - column: "tms.carrier_rates.service_type"
             go_struct_tag: 'fake:"{jobtitle}"'
@@ -603,6 +634,215 @@ sql:
             go_struct_tag: 'fake:"{date}"'
           - column: "wms.package_items.unit_weight"
             go_struct_tag: 'fake:"{float64range:0.1,5}"'
+
+          # billing schema fake data
+          ## rate_cards
+          - column: "billing.rate_cards.name"
+            go_struct_tag: 'fake:"{bs}"'
+          - column: "billing.rate_cards.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "billing.rate_cards.valid_from"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.rate_cards.valid_to"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.rate_cards.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## rate_rules
+          - column: "billing.rate_rules.condition"
+            go_struct_tag: 'fake:"{randomstring:[weight_gt,zone_eq]}"'
+          - column: "billing.rate_rules.value"
+            go_struct_tag: 'fake:"{randomstring:[5kg,Zone A]}"'
+          - column: "billing.rate_rules.price"
+            go_struct_tag: 'fake:"{price:10,200}"'
+          - column: "billing.rate_rules.min_value"
+            go_struct_tag: 'fake:"{price:1,10}"'
+          - column: "billing.rate_rules.max_value"
+            go_struct_tag: 'fake:"{price:100,500}"'
+          - column: "billing.rate_rules.priority"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "billing.rate_rules.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          ## surcharges
+          - column: "billing.surcharges.name"
+            go_struct_tag: 'fake:"{bs}"'
+          - column: "billing.surcharges.type"
+            go_struct_tag: 'fake:"{randomstring:[fuel,seasonal,handling]}"'
+          - column: "billing.surcharges.amount"
+            go_struct_tag: 'fake:"{price:5,50}"'
+          - column: "billing.surcharges.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "billing.surcharges.valid_from"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.surcharges.valid_to"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.surcharges.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## quotes
+          - column: "billing.quotes.origin_details"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          - column: "billing.quotes.destination_details"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          - column: "billing.quotes.weight"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "billing.quotes.length"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "billing.quotes.width"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "billing.quotes.height"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "billing.quotes.quoted_price"
+            go_struct_tag: 'fake:"{price:50,1000}"'
+          - column: "billing.quotes.service_level"
+            go_struct_tag: 'fake:"{randomstring:[standard,express]}"'
+          - column: "billing.quotes.expires_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.quotes.quote_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.quotes.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## client_accounts
+          - column: "billing.client_accounts.credit_limit"
+            go_struct_tag: 'fake:"{price:1000,10000}"'
+          - column: "billing.client_accounts.available_credit"
+            go_struct_tag: 'fake:"{price:0,10000}"'
+          - column: "billing.client_accounts.wallet_balance"
+            go_struct_tag: 'fake:"{price:0,5000}"'
+          - column: "billing.client_accounts.currency"
+            go_struct_tag: 'fake:"{currencyshort}"'
+          - column: "billing.client_accounts.payment_terms_days"
+            go_struct_tag: 'fake:"{number:15,90}"'
+          - column: "billing.client_accounts.is_credit_approved"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "billing.client_accounts.last_payment_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## account_transactions
+          - column: "billing.account_transactions.amount"
+            go_struct_tag: 'fake:"{price:-1000,1000}"'
+          - column: "billing.account_transactions.running_balance"
+            go_struct_tag: 'fake:"{price:0,20000}"'
+          - column: "billing.account_transactions.source_record_type"
+            go_struct_tag: 'fake:"{randomstring:[invoice,payment]}"'
+          - column: "billing.account_transactions.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.account_transactions.reference_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.account_transactions.transaction_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## invoices
+          - column: "billing.invoices.invoice_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.invoices.issue_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.invoices.due_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.invoices.total_amount"
+            go_struct_tag: 'fake:"{price:100,5000}"'
+          - column: "billing.invoices.amount_paid"
+            go_struct_tag: 'fake:"{price:0,5000}"'
+          - column: "billing.invoices.currency"
+            go_struct_tag: 'fake:"{currencyshort}"'
+          - column: "billing.invoices.tax_amount"
+            go_struct_tag: 'fake:"{price:10,500}"'
+          - column: "billing.invoices.discount_amount"
+            go_struct_tag: 'fake:"{price:0,200}"'
+          - column: "billing.invoices.subtotal"
+            go_struct_tag: 'fake:"{price:100,4800}"'
+          - column: "billing.invoices.payment_terms"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.invoices.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.invoices.sent_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.invoices.paid_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## invoice_line_items
+          - column: "billing.invoice_line_items.source_record_type"
+            go_struct_tag: 'fake:"{randomstring:[shipment,storage]}"'
+          - column: "billing.invoice_line_items.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.invoice_line_items.quantity"
+            go_struct_tag: 'fake:"{float64range:1,20}"'
+          - column: "billing.invoice_line_items.unit_price"
+            go_struct_tag: 'fake:"{price:10,500}"'
+          - column: "billing.invoice_line_items.tax_rate"
+            go_struct_tag: 'fake:"{float64range:0,0.2}"'
+          - column: "billing.invoice_line_items.discount_rate"
+            go_struct_tag: 'fake:"{float64range:0,0.1}"'
+          ## payments
+          - column: "billing.payments.amount"
+            go_struct_tag: 'fake:"{price:50,4000}"'
+          - column: "billing.payments.transaction_id"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.payments.gateway_reference"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.payments.payment_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.payments.processed_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.payments.currency"
+            go_struct_tag: 'fake:"{currencyshort}"'
+          - column: "billing.payments.exchange_rate"
+            go_struct_tag: 'fake:"{float64range:0.5,1.5}"'
+          - column: "billing.payments.fees"
+            go_struct_tag: 'fake:"{price:1,50}"'
+          - column: "billing.payments.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## disputes
+          - column: "billing.disputes.reason"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.disputes.disputed_amount"
+            go_struct_tag: 'fake:"{price:10,1000}"'
+          - column: "billing.disputes.resolution_notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.disputes.submitted_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.disputes.resolved_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## credit_notes
+          - column: "billing.credit_notes.credit_note_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.credit_notes.amount"
+            go_struct_tag: 'fake:"{price:20,500}"'
+          - column: "billing.credit_notes.reason"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.credit_notes.issue_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.credit_notes.applied_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.credit_notes.currency"
+            go_struct_tag: 'fake:"{currencyshort}"'
+          - column: "billing.credit_notes.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## documents
+          - column: "billing.documents.record_type"
+            go_struct_tag: 'fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}"'
+          - column: "billing.documents.file_path"
+            go_struct_tag: 'fake:"/{hackerphrase}"'
+          - column: "billing.documents.file_name"
+            go_struct_tag: 'fake:"{word}.{fileextension}"'
+          - column: "billing.documents.file_size"
+            go_struct_tag: 'fake:"{number:1000,1000000}"'
+          - column: "billing.documents.mime_type"
+            go_struct_tag: 'fake:"{filemimetype}"'
+          ## accounting_sync_log
+          - column: "billing.accounting_sync_log.record_type"
+            go_struct_tag: 'fake:"{randomstring:[invoice,payment]}"'
+          - column: "billing.accounting_sync_log.external_system"
+            go_struct_tag: 'fake:"{randomstring:[quickbooks,xero]}"'
+          - column: "billing.accounting_sync_log.external_id"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "billing.accounting_sync_log.error_message"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.accounting_sync_log.request_payload"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.accounting_sync_log.response_payload"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "billing.accounting_sync_log.last_sync_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "billing.accounting_sync_log.retry_count"
+            go_struct_tag: 'fake:"{number:0,5}"'
+          - column: "billing.accounting_sync_log.next_retry_at"
+            go_struct_tag: 'fake:"{date}"'
 
           # crm schema
           - column: "crm.invoices_view.items"

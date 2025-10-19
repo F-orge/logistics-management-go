@@ -95,16 +95,16 @@ returning
 
 type BillingInsertAccountingSyncLogParams struct {
 	RecordID        pgtype.UUID               `db:"record_id" json:"record_id"`
-	RecordType      string                    `db:"record_type" json:"record_type"`
-	ExternalSystem  string                    `db:"external_system" json:"external_system"`
-	ExternalID      pgtype.Text               `db:"external_id" json:"external_id"`
+	RecordType      string                    `db:"record_type" fake:"{randomstring:[invoice,payment]}" json:"record_type"`
+	ExternalSystem  string                    `db:"external_system" fake:"{randomstring:[quickbooks,xero]}" json:"external_system"`
+	ExternalID      pgtype.Text               `db:"external_id" fake:"{uuid}" json:"external_id"`
 	Status          NullBillingSyncStatusEnum `db:"status" json:"status"`
-	ErrorMessage    pgtype.Text               `db:"error_message" json:"error_message"`
-	RequestPayload  pgtype.Text               `db:"request_payload" json:"request_payload"`
-	ResponsePayload pgtype.Text               `db:"response_payload" json:"response_payload"`
-	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" json:"last_sync_at"`
-	RetryCount      pgtype.Int4               `db:"retry_count" json:"retry_count"`
-	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" json:"next_retry_at"`
+	ErrorMessage    pgtype.Text               `db:"error_message" fake:"{sentence}" json:"error_message"`
+	RequestPayload  pgtype.Text               `db:"request_payload" fake:"{sentence}" json:"request_payload"`
+	ResponsePayload pgtype.Text               `db:"response_payload" fake:"{sentence}" json:"response_payload"`
+	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" fake:"{date}" json:"last_sync_at"`
+	RetryCount      pgtype.Int4               `db:"retry_count" fake:"{number:0,5}" json:"retry_count"`
+	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" fake:"{date}" json:"next_retry_at"`
 }
 
 func (q *Queries) BillingInsertAccountingSyncLog(ctx context.Context, arg BillingInsertAccountingSyncLogParams) (BillingAccountingSyncLog, error) {
@@ -361,16 +361,16 @@ returning
 
 type BillingUpdateAccountingSyncLogParams struct {
 	RecordID        pgtype.UUID               `db:"record_id" json:"record_id"`
-	RecordType      string                    `db:"record_type" json:"record_type"`
-	ExternalSystem  string                    `db:"external_system" json:"external_system"`
-	ExternalID      pgtype.Text               `db:"external_id" json:"external_id"`
+	RecordType      string                    `db:"record_type" fake:"{randomstring:[invoice,payment]}" json:"record_type"`
+	ExternalSystem  string                    `db:"external_system" fake:"{randomstring:[quickbooks,xero]}" json:"external_system"`
+	ExternalID      pgtype.Text               `db:"external_id" fake:"{uuid}" json:"external_id"`
 	Status          NullBillingSyncStatusEnum `db:"status" json:"status"`
-	ErrorMessage    pgtype.Text               `db:"error_message" json:"error_message"`
-	RequestPayload  pgtype.Text               `db:"request_payload" json:"request_payload"`
-	ResponsePayload pgtype.Text               `db:"response_payload" json:"response_payload"`
-	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" json:"last_sync_at"`
-	RetryCount      pgtype.Int4               `db:"retry_count" json:"retry_count"`
-	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" json:"next_retry_at"`
+	ErrorMessage    pgtype.Text               `db:"error_message" fake:"{sentence}" json:"error_message"`
+	RequestPayload  pgtype.Text               `db:"request_payload" fake:"{sentence}" json:"request_payload"`
+	ResponsePayload pgtype.Text               `db:"response_payload" fake:"{sentence}" json:"response_payload"`
+	LastSyncAt      pgtype.Timestamp          `db:"last_sync_at" fake:"{date}" json:"last_sync_at"`
+	RetryCount      pgtype.Int4               `db:"retry_count" fake:"{number:0,5}" json:"retry_count"`
+	NextRetryAt     pgtype.Timestamp          `db:"next_retry_at" fake:"{date}" json:"next_retry_at"`
 	ID              pgtype.UUID               `db:"id" json:"id"`
 }
 

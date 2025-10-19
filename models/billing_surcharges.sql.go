@@ -88,14 +88,14 @@ returning
 `
 
 type BillingInsertSurchargeParams struct {
-	Name              string                                `db:"name" json:"name"`
-	Type              string                                `db:"type" json:"type"`
-	Amount            pgtype.Numeric                        `db:"amount" json:"amount"`
+	Name              string                                `db:"name" fake:"{bs}" json:"name"`
+	Type              string                                `db:"type" fake:"{randomstring:[fuel,seasonal,handling]}" json:"type"`
+	Amount            pgtype.Numeric                        `db:"amount" fake:"{price:5,50}" json:"amount"`
 	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
-	IsActive          pgtype.Bool                           `db:"is_active" json:"is_active"`
-	ValidFrom         pgtype.Date                           `db:"valid_from" json:"valid_from"`
-	ValidTo           pgtype.Date                           `db:"valid_to" json:"valid_to"`
-	Description       pgtype.Text                           `db:"description" json:"description"`
+	IsActive          pgtype.Bool                           `db:"is_active" fake:"{bool}" json:"is_active"`
+	ValidFrom         pgtype.Date                           `db:"valid_from" fake:"{date}" json:"valid_from"`
+	ValidTo           pgtype.Date                           `db:"valid_to" fake:"{date}" json:"valid_to"`
+	Description       pgtype.Text                           `db:"description" fake:"{sentence}" json:"description"`
 }
 
 func (q *Queries) BillingInsertSurcharge(ctx context.Context, arg BillingInsertSurchargeParams) (BillingSurcharge, error) {
@@ -322,14 +322,14 @@ returning
 `
 
 type BillingUpdateSurchargeParams struct {
-	Name              string                                `db:"name" json:"name"`
-	Type              string                                `db:"type" json:"type"`
-	Amount            pgtype.Numeric                        `db:"amount" json:"amount"`
+	Name              string                                `db:"name" fake:"{bs}" json:"name"`
+	Type              string                                `db:"type" fake:"{randomstring:[fuel,seasonal,handling]}" json:"type"`
+	Amount            pgtype.Numeric                        `db:"amount" fake:"{price:5,50}" json:"amount"`
 	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
-	IsActive          pgtype.Bool                           `db:"is_active" json:"is_active"`
-	ValidFrom         pgtype.Date                           `db:"valid_from" json:"valid_from"`
-	ValidTo           pgtype.Date                           `db:"valid_to" json:"valid_to"`
-	Description       pgtype.Text                           `db:"description" json:"description"`
+	IsActive          pgtype.Bool                           `db:"is_active" fake:"{bool}" json:"is_active"`
+	ValidFrom         pgtype.Date                           `db:"valid_from" fake:"{date}" json:"valid_from"`
+	ValidTo           pgtype.Date                           `db:"valid_to" fake:"{date}" json:"valid_to"`
+	Description       pgtype.Text                           `db:"description" fake:"{sentence}" json:"description"`
 	ID                pgtype.UUID                           `db:"id" json:"id"`
 }
 

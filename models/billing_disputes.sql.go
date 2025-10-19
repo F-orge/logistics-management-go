@@ -30,12 +30,12 @@ type BillingAnyDisputeRow struct {
 	ID                     pgtype.UUID                  `db:"id" json:"id"`
 	LineItemID             pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID               pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason                 string                       `db:"reason" json:"reason"`
+	Reason                 string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status                 NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID       pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	CreatedAt              pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -136,12 +136,12 @@ type BillingFindDisputeRow struct {
 	ID                     pgtype.UUID                  `db:"id" json:"id"`
 	LineItemID             pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID               pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason                 string                       `db:"reason" json:"reason"`
+	Reason                 string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status                 NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID       pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	CreatedAt              pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -220,12 +220,12 @@ returning
 type BillingInsertDisputeParams struct {
 	LineItemID       pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID         pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason           string                       `db:"reason" json:"reason"`
+	Reason           string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status           NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 }
 
@@ -288,12 +288,12 @@ type BillingPaginateDisputeRow struct {
 	ID                     pgtype.UUID                  `db:"id" json:"id"`
 	LineItemID             pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID               pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason                 string                       `db:"reason" json:"reason"`
+	Reason                 string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status                 NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID       pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	CreatedAt              pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -440,12 +440,12 @@ type BillingRangeDisputeRow struct {
 	ID                     pgtype.UUID                  `db:"id" json:"id"`
 	LineItemID             pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID               pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason                 string                       `db:"reason" json:"reason"`
+	Reason                 string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status                 NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount         pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes        pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt            pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt             pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID       pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	CreatedAt              pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -596,12 +596,12 @@ returning
 type BillingUpdateDisputeParams struct {
 	LineItemID       pgtype.UUID                  `db:"line_item_id" json:"line_item_id"`
 	ClientID         pgtype.UUID                  `db:"client_id" json:"client_id"`
-	Reason           string                       `db:"reason" json:"reason"`
+	Reason           string                       `db:"reason" fake:"{sentence}" json:"reason"`
 	Status           NullBillingDisputeStatusEnum `db:"status" json:"status"`
-	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" json:"disputed_amount"`
-	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" json:"resolution_notes"`
-	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" json:"submitted_at"`
-	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" json:"resolved_at"`
+	DisputedAmount   pgtype.Numeric               `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
+	ResolutionNotes  pgtype.Text                  `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
+	SubmittedAt      pgtype.Timestamp             `db:"submitted_at" fake:"{date}" json:"submitted_at"`
+	ResolvedAt       pgtype.Timestamp             `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	ResolvedByUserID pgtype.Text                  `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	ID               pgtype.UUID                  `db:"id" json:"id"`
 }

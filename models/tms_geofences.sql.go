@@ -81,8 +81,8 @@ returning
 
 type TmsInsertGeofenceParams struct {
 	Name      string        `db:"name" fake:"{city}" json:"name"`
-	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
-	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
+	Longitude pgtype.Float4 `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Latitude  pgtype.Float4 `db:"latitude" fake:"{latitude}" json:"latitude"`
 }
 
 func (q *Queries) TmsInsertGeofence(ctx context.Context, arg TmsInsertGeofenceParams) (TmsGeofence, error) {
@@ -261,8 +261,8 @@ returning
 
 type TmsUpdateGeofenceParams struct {
 	Name      string        `db:"name" fake:"{city}" json:"name"`
-	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
-	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
+	Longitude pgtype.Float4 `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Latitude  pgtype.Float4 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	ID        pgtype.UUID   `db:"id" json:"id"`
 }
 

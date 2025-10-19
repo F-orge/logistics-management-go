@@ -27,18 +27,18 @@ where
 type BillingAnyPaymentRow struct {
 	ID                pgtype.UUID                  `db:"id" json:"id"`
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
 	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -132,18 +132,18 @@ where
 type BillingFindPaymentRow struct {
 	ID                pgtype.UUID                  `db:"id" json:"id"`
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
 	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -217,17 +217,17 @@ returning
 
 type BillingInsertPaymentParams struct {
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 }
 
@@ -296,18 +296,18 @@ type BillingPaginatePaymentParams struct {
 type BillingPaginatePaymentRow struct {
 	ID                pgtype.UUID                  `db:"id" json:"id"`
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
 	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -447,18 +447,18 @@ type BillingRangePaymentParams struct {
 type BillingRangePaymentRow struct {
 	ID                pgtype.UUID                  `db:"id" json:"id"`
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
 	NetAmount         pgtype.Numeric               `db:"net_amount" json:"net_amount"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt         pgtype.Timestamp             `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp             `db:"updated_at" json:"updated_at"`
@@ -624,17 +624,17 @@ returning
 
 type BillingUpdatePaymentParams struct {
 	InvoiceID         pgtype.UUID                  `db:"invoice_id" json:"invoice_id"`
-	Amount            pgtype.Numeric               `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric               `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	PaymentMethod     BillingPaymentMethodEnum     `db:"payment_method" json:"payment_method"`
-	TransactionID     pgtype.Text                  `db:"transaction_id" json:"transaction_id"`
-	GatewayReference  pgtype.Text                  `db:"gateway_reference" json:"gateway_reference"`
+	TransactionID     pgtype.Text                  `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
+	GatewayReference  pgtype.Text                  `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	Status            NullBillingPaymentStatusEnum `db:"status" json:"status"`
-	PaymentDate       pgtype.Timestamp             `db:"payment_date" json:"payment_date"`
-	ProcessedAt       pgtype.Timestamp             `db:"processed_at" json:"processed_at"`
-	Currency          pgtype.Text                  `db:"currency" json:"currency"`
-	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" json:"exchange_rate"`
-	Fees              pgtype.Numeric               `db:"fees" json:"fees"`
-	Notes             pgtype.Text                  `db:"notes" json:"notes"`
+	PaymentDate       pgtype.Timestamp             `db:"payment_date" fake:"{date}" json:"payment_date"`
+	ProcessedAt       pgtype.Timestamp             `db:"processed_at" fake:"{date}" json:"processed_at"`
+	Currency          pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	ExchangeRate      pgtype.Numeric               `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
+	Fees              pgtype.Numeric               `db:"fees" fake:"{price:1,50}" json:"fees"`
+	Notes             pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
 	ProcessedByUserID pgtype.Text                  `db:"processed_by_user_id" json:"processed_by_user_id"`
 	ID                pgtype.UUID                  `db:"id" json:"id"`
 }

@@ -37,8 +37,8 @@ type TmsAnyExpenseRow struct {
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
-	Description     pgtype.Text              `db:"description" json:"description"`
-	ExpenseDate     pgtype.Date              `db:"expense_date" json:"expense_date"`
+	Description     pgtype.Text              `db:"description" fake:"{sentence}" json:"description"`
+	ExpenseDate     pgtype.Date              `db:"expense_date" fake:"{date}" json:"expense_date"`
 	TmsTrip         TmsTrip                  `db:"tms_trip" json:"tms_trip"`
 	TmsDriver       TmsDriver                `db:"tms_driver" json:"tms_driver"`
 }
@@ -122,8 +122,8 @@ type TmsFindExpenseRow struct {
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
-	Description     pgtype.Text              `db:"description" json:"description"`
-	ExpenseDate     pgtype.Date              `db:"expense_date" json:"expense_date"`
+	Description     pgtype.Text              `db:"description" fake:"{sentence}" json:"description"`
+	ExpenseDate     pgtype.Date              `db:"expense_date" fake:"{date}" json:"expense_date"`
 	TmsTrip         TmsTrip                  `db:"tms_trip" json:"tms_trip"`
 	TmsDriver       TmsDriver                `db:"tms_driver" json:"tms_driver"`
 }
@@ -255,8 +255,8 @@ type TmsPaginateExpenseRow struct {
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
-	Description     pgtype.Text              `db:"description" json:"description"`
-	ExpenseDate     pgtype.Date              `db:"expense_date" json:"expense_date"`
+	Description     pgtype.Text              `db:"description" fake:"{sentence}" json:"description"`
+	ExpenseDate     pgtype.Date              `db:"expense_date" fake:"{date}" json:"expense_date"`
 	TmsTrip         TmsTrip                  `db:"tms_trip" json:"tms_trip"`
 	TmsDriver       TmsDriver                `db:"tms_driver" json:"tms_driver"`
 }
@@ -386,8 +386,8 @@ type TmsRangeExpenseRow struct {
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
-	Description     pgtype.Text              `db:"description" json:"description"`
-	ExpenseDate     pgtype.Date              `db:"expense_date" json:"expense_date"`
+	Description     pgtype.Text              `db:"description" fake:"{sentence}" json:"description"`
+	ExpenseDate     pgtype.Date              `db:"expense_date" fake:"{date}" json:"expense_date"`
 	TmsTrip         TmsTrip                  `db:"tms_trip" json:"tms_trip"`
 	TmsDriver       TmsDriver                `db:"tms_driver" json:"tms_driver"`
 }

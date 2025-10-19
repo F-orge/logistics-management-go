@@ -125,14 +125,14 @@ returning
 
 type BillingInsertRateRuleParams struct {
 	RateCardID   pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
-	Condition    string                  `db:"condition" json:"condition"`
-	Value        string                  `db:"value" json:"value"`
-	Price        pgtype.Numeric          `db:"price" json:"price"`
+	Condition    string                  `db:"condition" fake:"{randomstring:[weight_gt,zone_eq]}" json:"condition"`
+	Value        string                  `db:"value" fake:"{randomstring:[5kg,Zone A]}" json:"value"`
+	Price        pgtype.Numeric          `db:"price" fake:"{price:10,200}" json:"price"`
 	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
-	MinValue     pgtype.Numeric          `db:"min_value" json:"min_value"`
-	MaxValue     pgtype.Numeric          `db:"max_value" json:"max_value"`
-	Priority     pgtype.Int4             `db:"priority" json:"priority"`
-	IsActive     pgtype.Bool             `db:"is_active" json:"is_active"`
+	MinValue     pgtype.Numeric          `db:"min_value" fake:"{price:1,10}" json:"min_value"`
+	MaxValue     pgtype.Numeric          `db:"max_value" fake:"{price:100,500}" json:"max_value"`
+	Priority     pgtype.Int4             `db:"priority" fake:"{number:1,100}" json:"priority"`
+	IsActive     pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 }
 
 func (q *Queries) BillingInsertRateRule(ctx context.Context, arg BillingInsertRateRuleParams) (BillingRateRule, error) {
@@ -189,14 +189,14 @@ type BillingPaginateRateRuleParams struct {
 type BillingPaginateRateRuleRow struct {
 	ID              pgtype.UUID             `db:"id" json:"id"`
 	RateCardID      pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
-	Condition       string                  `db:"condition" json:"condition"`
-	Value           string                  `db:"value" json:"value"`
-	Price           pgtype.Numeric          `db:"price" json:"price"`
+	Condition       string                  `db:"condition" fake:"{randomstring:[weight_gt,zone_eq]}" json:"condition"`
+	Value           string                  `db:"value" fake:"{randomstring:[5kg,Zone A]}" json:"value"`
+	Price           pgtype.Numeric          `db:"price" fake:"{price:10,200}" json:"price"`
 	PricingModel    BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
-	MinValue        pgtype.Numeric          `db:"min_value" json:"min_value"`
-	MaxValue        pgtype.Numeric          `db:"max_value" json:"max_value"`
-	Priority        pgtype.Int4             `db:"priority" json:"priority"`
-	IsActive        pgtype.Bool             `db:"is_active" json:"is_active"`
+	MinValue        pgtype.Numeric          `db:"min_value" fake:"{price:1,10}" json:"min_value"`
+	MaxValue        pgtype.Numeric          `db:"max_value" fake:"{price:100,500}" json:"max_value"`
+	Priority        pgtype.Int4             `db:"priority" fake:"{number:1,100}" json:"priority"`
+	IsActive        pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt       pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	BillingRateCard BillingRateCard         `db:"billing_rate_card" json:"billing_rate_card"`
@@ -425,14 +425,14 @@ returning
 
 type BillingUpdateRateRuleParams struct {
 	RateCardID   pgtype.UUID             `db:"rate_card_id" json:"rate_card_id"`
-	Condition    string                  `db:"condition" json:"condition"`
-	Value        string                  `db:"value" json:"value"`
-	Price        pgtype.Numeric          `db:"price" json:"price"`
+	Condition    string                  `db:"condition" fake:"{randomstring:[weight_gt,zone_eq]}" json:"condition"`
+	Value        string                  `db:"value" fake:"{randomstring:[5kg,Zone A]}" json:"value"`
+	Price        pgtype.Numeric          `db:"price" fake:"{price:10,200}" json:"price"`
 	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
-	MinValue     pgtype.Numeric          `db:"min_value" json:"min_value"`
-	MaxValue     pgtype.Numeric          `db:"max_value" json:"max_value"`
-	Priority     pgtype.Int4             `db:"priority" json:"priority"`
-	IsActive     pgtype.Bool             `db:"is_active" json:"is_active"`
+	MinValue     pgtype.Numeric          `db:"min_value" fake:"{price:1,10}" json:"min_value"`
+	MaxValue     pgtype.Numeric          `db:"max_value" fake:"{price:100,500}" json:"max_value"`
+	Priority     pgtype.Int4             `db:"priority" fake:"{number:1,100}" json:"priority"`
+	IsActive     pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	ID           pgtype.UUID             `db:"id" json:"id"`
 }
 

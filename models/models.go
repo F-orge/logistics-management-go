@@ -2721,19 +2721,19 @@ type BillingAccountTransaction struct {
 	// Type of transaction using transaction_type_enum.
 	Type BillingTransactionTypeEnum `db:"type" json:"type"`
 	// Transaction amount (positive for credits, negative for debits).
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
 	// Account balance after this transaction.
-	RunningBalance pgtype.Numeric `db:"running_balance" json:"running_balance"`
+	RunningBalance pgtype.Numeric `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	// Reference to the source document (e.g., invoice_id, payment_id).
 	SourceRecordID pgtype.UUID `db:"source_record_id" json:"source_record_id"`
 	// Type of source document.
-	SourceRecordType pgtype.Text `db:"source_record_type" json:"source_record_type"`
+	SourceRecordType pgtype.Text `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
 	// Description of the transaction.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{sentence}" json:"description"`
 	// External reference number.
-	ReferenceNumber pgtype.Text `db:"reference_number" json:"reference_number"`
+	ReferenceNumber pgtype.Text `db:"reference_number" fake:"{uuid}" json:"reference_number"`
 	// When the transaction occurred.
-	TransactionDate pgtype.Timestamp `db:"transaction_date" json:"transaction_date"`
+	TransactionDate pgtype.Timestamp `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	// User who processed this transaction.
 	ProcessedByUserID pgtype.Text `db:"processed_by_user_id" json:"processed_by_user_id"`
 	// Timestamp when the transaction was created.
@@ -2749,25 +2749,25 @@ type BillingAccountingSyncLog struct {
 	// Reference to the record being synchronized.
 	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record being synchronized.
-	RecordType string `db:"record_type" json:"record_type"`
+	RecordType string `db:"record_type" fake:"{randomstring:[invoice,payment]}" json:"record_type"`
 	// Target accounting system (e.g., quickbooks, xero).
-	ExternalSystem string `db:"external_system" json:"external_system"`
+	ExternalSystem string `db:"external_system" fake:"{randomstring:[quickbooks,xero]}" json:"external_system"`
 	// ID assigned by the external system.
-	ExternalID pgtype.Text `db:"external_id" json:"external_id"`
+	ExternalID pgtype.Text `db:"external_id" fake:"{uuid}" json:"external_id"`
 	// Synchronization status using sync_status_enum.
 	Status NullBillingSyncStatusEnum `db:"status" json:"status"`
 	// Details of any synchronization errors.
-	ErrorMessage pgtype.Text `db:"error_message" json:"error_message"`
+	ErrorMessage pgtype.Text `db:"error_message" fake:"{sentence}" json:"error_message"`
 	// Request data sent to external system.
-	RequestPayload pgtype.Text `db:"request_payload" json:"request_payload"`
+	RequestPayload pgtype.Text `db:"request_payload" fake:"{sentence}" json:"request_payload"`
 	// Response data received from external system.
-	ResponsePayload pgtype.Text `db:"response_payload" json:"response_payload"`
+	ResponsePayload pgtype.Text `db:"response_payload" fake:"{sentence}" json:"response_payload"`
 	// Timestamp of the last synchronization attempt.
-	LastSyncAt pgtype.Timestamp `db:"last_sync_at" json:"last_sync_at"`
+	LastSyncAt pgtype.Timestamp `db:"last_sync_at" fake:"{date}" json:"last_sync_at"`
 	// Number of retry attempts made.
-	RetryCount pgtype.Int4 `db:"retry_count" json:"retry_count"`
+	RetryCount pgtype.Int4 `db:"retry_count" fake:"{number:0,5}" json:"retry_count"`
 	// When the next retry should be attempted.
-	NextRetryAt pgtype.Timestamp `db:"next_retry_at" json:"next_retry_at"`
+	NextRetryAt pgtype.Timestamp `db:"next_retry_at" fake:"{date}" json:"next_retry_at"`
 	// Timestamp when the sync log was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sync log was last updated.
@@ -2781,19 +2781,19 @@ type BillingClientAccount struct {
 	// Reference to the client company.
 	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Maximum credit amount allowed for the client.
-	CreditLimit pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
+	CreditLimit pgtype.Numeric `db:"credit_limit" fake:"{price:1000,10000}" json:"credit_limit"`
 	// Current available credit balance.
-	AvailableCredit pgtype.Numeric `db:"available_credit" json:"available_credit"`
+	AvailableCredit pgtype.Numeric `db:"available_credit" fake:"{price:0,10000}" json:"available_credit"`
 	// Prepaid balance available for services.
-	WalletBalance pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
+	WalletBalance pgtype.Numeric `db:"wallet_balance" fake:"{price:0,5000}" json:"wallet_balance"`
 	// Currency code for the account.
-	Currency pgtype.Text `db:"currency" json:"currency"`
+	Currency pgtype.Text `db:"currency" fake:"{currencyshort}" json:"currency"`
 	// Number of days for payment terms.
-	PaymentTermsDays pgtype.Int4 `db:"payment_terms_days" json:"payment_terms_days"`
+	PaymentTermsDays pgtype.Int4 `db:"payment_terms_days" fake:"{number:15,90}" json:"payment_terms_days"`
 	// Whether the client is approved for credit.
-	IsCreditApproved pgtype.Bool `db:"is_credit_approved" json:"is_credit_approved"`
+	IsCreditApproved pgtype.Bool `db:"is_credit_approved" fake:"{bool}" json:"is_credit_approved"`
 	// Date of the last payment received.
-	LastPaymentDate pgtype.Date `db:"last_payment_date" json:"last_payment_date"`
+	LastPaymentDate pgtype.Date `db:"last_payment_date" fake:"{date}" json:"last_payment_date"`
 	// Timestamp when the client account was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the client account was last updated.
@@ -2824,19 +2824,19 @@ type BillingCreditNote struct {
 	// Reference to the dispute (if applicable).
 	DisputeID pgtype.UUID `db:"dispute_id" json:"dispute_id"`
 	// Unique credit note reference number.
-	CreditNoteNumber string `db:"credit_note_number" json:"credit_note_number"`
+	CreditNoteNumber string `db:"credit_note_number" fake:"{uuid}" json:"credit_note_number"`
 	// Credit amount being issued.
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:20,500}" json:"amount"`
 	// Explanation for the credit note.
-	Reason string `db:"reason" json:"reason"`
+	Reason string `db:"reason" fake:"{sentence}" json:"reason"`
 	// Date the credit note was created.
-	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
+	IssueDate pgtype.Date `db:"issue_date" fake:"{date}" json:"issue_date"`
 	// When the credit was applied to the account.
-	AppliedAt pgtype.Timestamp `db:"applied_at" json:"applied_at"`
+	AppliedAt pgtype.Timestamp `db:"applied_at" fake:"{date}" json:"applied_at"`
 	// Currency of the credit note.
-	Currency pgtype.Text `db:"currency" json:"currency"`
+	Currency pgtype.Text `db:"currency" fake:"{currencyshort}" json:"currency"`
 	// Additional notes about the credit note.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// User who created this credit note.
 	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the credit note was created.
@@ -2854,17 +2854,17 @@ type BillingDispute struct {
 	// Reference to the client raising the dispute.
 	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Explanation of why the charge is being disputed.
-	Reason string `db:"reason" json:"reason"`
+	Reason string `db:"reason" fake:"{sentence}" json:"reason"`
 	// Current dispute status using dispute_status_enum.
 	Status NullBillingDisputeStatusEnum `db:"status" json:"status"`
 	// Amount being disputed.
-	DisputedAmount pgtype.Numeric `db:"disputed_amount" json:"disputed_amount"`
+	DisputedAmount pgtype.Numeric `db:"disputed_amount" fake:"{price:10,1000}" json:"disputed_amount"`
 	// Notes about the dispute resolution.
-	ResolutionNotes pgtype.Text `db:"resolution_notes" json:"resolution_notes"`
+	ResolutionNotes pgtype.Text `db:"resolution_notes" fake:"{sentence}" json:"resolution_notes"`
 	// When the dispute was submitted.
-	SubmittedAt pgtype.Timestamp `db:"submitted_at" json:"submitted_at"`
+	SubmittedAt pgtype.Timestamp `db:"submitted_at" fake:"{date}" json:"submitted_at"`
 	// When the dispute was resolved.
-	ResolvedAt pgtype.Timestamp `db:"resolved_at" json:"resolved_at"`
+	ResolvedAt pgtype.Timestamp `db:"resolved_at" fake:"{date}" json:"resolved_at"`
 	// User who resolved the dispute.
 	ResolvedByUserID pgtype.Text `db:"resolved_by_user_id" json:"resolved_by_user_id"`
 	// Timestamp when the dispute was created.
@@ -2880,17 +2880,17 @@ type BillingDocument struct {
 	// Reference to the record the document is attached to.
 	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record (e.g., ims_outbound_shipments, billing_invoices).
-	RecordType string `db:"record_type" json:"record_type"`
+	RecordType string `db:"record_type" fake:"{randomstring:[ims_outbound_shipments,billing_invoices]}" json:"record_type"`
 	// Type of document using document_type_enum.
 	DocumentType BillingDocumentTypeEnum `db:"document_type" json:"document_type"`
 	// Storage location of the document file.
-	FilePath string `db:"file_path" json:"file_path"`
+	FilePath string `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
 	// Original file name.
-	FileName string `db:"file_name" json:"file_name"`
+	FileName string `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
 	// File size in bytes.
-	FileSize pgtype.Int4 `db:"file_size" json:"file_size"`
+	FileSize pgtype.Int4 `db:"file_size" fake:"{number:1000,1000000}" json:"file_size"`
 	// MIME type of the file.
-	MimeType pgtype.Text `db:"mime_type" json:"mime_type"`
+	MimeType pgtype.Text `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	// User who uploaded this document.
 	UploadedByUserID pgtype.Text `db:"uploaded_by_user_id" json:"uploaded_by_user_id"`
 	// Timestamp when the document was created.
@@ -2908,35 +2908,35 @@ type BillingInvoice struct {
 	// Reference to the original quote (if applicable).
 	QuoteID pgtype.UUID `db:"quote_id" json:"quote_id"`
 	// Unique invoice reference number.
-	InvoiceNumber string `db:"invoice_number" json:"invoice_number"`
+	InvoiceNumber string `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
 	// Current invoice status using invoice_status_enum.
 	Status NullBillingInvoiceStatusEnum `db:"status" json:"status"`
 	// Date the invoice was created.
-	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
+	IssueDate pgtype.Date `db:"issue_date" fake:"{date}" json:"issue_date"`
 	// Payment due date.
-	DueDate pgtype.Date `db:"due_date" json:"due_date"`
+	DueDate pgtype.Date `db:"due_date" fake:"{date}" json:"due_date"`
 	// Total amount due on the invoice.
-	TotalAmount pgtype.Numeric `db:"total_amount" json:"total_amount"`
+	TotalAmount pgtype.Numeric `db:"total_amount" fake:"{price:100,5000}" json:"total_amount"`
 	// Amount already paid against the invoice.
-	AmountPaid pgtype.Numeric `db:"amount_paid" json:"amount_paid"`
+	AmountPaid pgtype.Numeric `db:"amount_paid" fake:"{price:0,5000}" json:"amount_paid"`
 	// Outstanding amount (automatically calculated).
 	AmountOutstanding pgtype.Numeric `db:"amount_outstanding" json:"amount_outstanding"`
 	// Currency code for the invoice.
-	Currency pgtype.Text `db:"currency" json:"currency"`
+	Currency pgtype.Text `db:"currency" fake:"{currencyshort}" json:"currency"`
 	// Total tax amount on the invoice.
-	TaxAmount pgtype.Numeric `db:"tax_amount" json:"tax_amount"`
+	TaxAmount pgtype.Numeric `db:"tax_amount" fake:"{price:10,500}" json:"tax_amount"`
 	// Total discount applied to the invoice.
-	DiscountAmount pgtype.Numeric `db:"discount_amount" json:"discount_amount"`
+	DiscountAmount pgtype.Numeric `db:"discount_amount" fake:"{price:0,200}" json:"discount_amount"`
 	// Subtotal before tax and discounts.
-	Subtotal pgtype.Numeric `db:"subtotal" json:"subtotal"`
+	Subtotal pgtype.Numeric `db:"subtotal" fake:"{price:100,4800}" json:"subtotal"`
 	// Payment terms and conditions.
-	PaymentTerms pgtype.Text `db:"payment_terms" json:"payment_terms"`
+	PaymentTerms pgtype.Text `db:"payment_terms" fake:"{sentence}" json:"payment_terms"`
 	// Additional notes on the invoice.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// When the invoice was sent to the client.
-	SentAt pgtype.Timestamp `db:"sent_at" json:"sent_at"`
+	SentAt pgtype.Timestamp `db:"sent_at" fake:"{date}" json:"sent_at"`
 	// When the invoice was fully paid.
-	PaidAt pgtype.Timestamp `db:"paid_at" json:"paid_at"`
+	PaidAt pgtype.Timestamp `db:"paid_at" fake:"{date}" json:"paid_at"`
 	// User who created this invoice.
 	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the invoice was created.
@@ -2954,21 +2954,21 @@ type BillingInvoiceLineItem struct {
 	// Reference to the source of the charge (e.g., shipment_id).
 	SourceRecordID pgtype.UUID `db:"source_record_id" json:"source_record_id"`
 	// Type of source record.
-	SourceRecordType pgtype.Text `db:"source_record_type" json:"source_record_type"`
+	SourceRecordType pgtype.Text `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
 	// Description of the service or charge.
-	Description string `db:"description" json:"description"`
+	Description string `db:"description" fake:"{sentence}" json:"description"`
 	// Number of units being charged.
-	Quantity pgtype.Numeric `db:"quantity" json:"quantity"`
+	Quantity pgtype.Numeric `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
 	// Price per unit.
-	UnitPrice pgtype.Numeric `db:"unit_price" json:"unit_price"`
+	UnitPrice pgtype.Numeric `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
 	// Total amount for this line item (automatically calculated).
 	TotalPrice pgtype.Numeric `db:"total_price" json:"total_price"`
 	// Tax rate applied to this line item.
-	TaxRate pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
+	TaxRate pgtype.Numeric `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
 	// Tax amount for this line item (automatically calculated).
 	TaxAmount pgtype.Numeric `db:"tax_amount" json:"tax_amount"`
 	// Discount rate applied to this line item.
-	DiscountRate pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
+	DiscountRate pgtype.Numeric `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	// Discount amount for this line item (automatically calculated).
 	DiscountAmount pgtype.Numeric `db:"discount_amount" json:"discount_amount"`
 	// Final total including tax and discounts (automatically calculated).
@@ -3032,29 +3032,29 @@ type BillingPayment struct {
 	// Reference to the invoice being paid.
 	InvoiceID pgtype.UUID `db:"invoice_id" json:"invoice_id"`
 	// Payment amount.
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:50,4000}" json:"amount"`
 	// How the payment was made using payment_method_enum.
 	PaymentMethod BillingPaymentMethodEnum `db:"payment_method" json:"payment_method"`
 	// Reference from payment gateway or internal system.
-	TransactionID pgtype.Text `db:"transaction_id" json:"transaction_id"`
+	TransactionID pgtype.Text `db:"transaction_id" fake:"{uuid}" json:"transaction_id"`
 	// Payment gateway transaction reference.
-	GatewayReference pgtype.Text `db:"gateway_reference" json:"gateway_reference"`
+	GatewayReference pgtype.Text `db:"gateway_reference" fake:"{uuid}" json:"gateway_reference"`
 	// Payment processing status using payment_status_enum.
 	Status NullBillingPaymentStatusEnum `db:"status" json:"status"`
 	// When the payment was initiated.
-	PaymentDate pgtype.Timestamp `db:"payment_date" json:"payment_date"`
+	PaymentDate pgtype.Timestamp `db:"payment_date" fake:"{date}" json:"payment_date"`
 	// When the payment was successfully processed.
-	ProcessedAt pgtype.Timestamp `db:"processed_at" json:"processed_at"`
+	ProcessedAt pgtype.Timestamp `db:"processed_at" fake:"{date}" json:"processed_at"`
 	// Currency of the payment.
-	Currency pgtype.Text `db:"currency" json:"currency"`
+	Currency pgtype.Text `db:"currency" fake:"{currencyshort}" json:"currency"`
 	// Exchange rate used for currency conversion.
-	ExchangeRate pgtype.Numeric `db:"exchange_rate" json:"exchange_rate"`
+	ExchangeRate pgtype.Numeric `db:"exchange_rate" fake:"{float64range:0.5,1.5}" json:"exchange_rate"`
 	// Processing fees deducted from the payment.
-	Fees pgtype.Numeric `db:"fees" json:"fees"`
+	Fees pgtype.Numeric `db:"fees" fake:"{price:1,50}" json:"fees"`
 	// Net amount after fees (automatically calculated).
 	NetAmount pgtype.Numeric `db:"net_amount" json:"net_amount"`
 	// Additional notes about the payment.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// User who processed this payment.
 	ProcessedByUserID pgtype.Text `db:"processed_by_user_id" json:"processed_by_user_id"`
 	// Timestamp when the payment was created.
@@ -3070,31 +3070,31 @@ type BillingQuote struct {
 	// Reference to the client requesting the quote (optional for anonymous quotes).
 	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// Pickup location information.
-	OriginDetails string `db:"origin_details" json:"origin_details"`
+	OriginDetails string `db:"origin_details" fake:"{streetaddress}" json:"origin_details"`
 	// Delivery location information.
-	DestinationDetails string `db:"destination_details" json:"destination_details"`
+	DestinationDetails string `db:"destination_details" fake:"{streetaddress}" json:"destination_details"`
 	// Package weight for pricing calculation.
-	Weight pgtype.Numeric `db:"weight" json:"weight"`
+	Weight pgtype.Numeric `db:"weight" fake:"{float64range:1,100}" json:"weight"`
 	// Package length dimension.
-	Length pgtype.Numeric `db:"length" json:"length"`
+	Length pgtype.Numeric `db:"length" fake:"{float64range:10,100}" json:"length"`
 	// Package width dimension.
-	Width pgtype.Numeric `db:"width" json:"width"`
+	Width pgtype.Numeric `db:"width" fake:"{float64range:10,100}" json:"width"`
 	// Package height dimension.
-	Height pgtype.Numeric `db:"height" json:"height"`
+	Height pgtype.Numeric `db:"height" fake:"{float64range:10,100}" json:"height"`
 	// Package volume (automatically calculated from dimensions).
 	Volume pgtype.Numeric `db:"volume" json:"volume"`
 	// Calculated price for the requested service.
-	QuotedPrice pgtype.Numeric `db:"quoted_price" json:"quoted_price"`
+	QuotedPrice pgtype.Numeric `db:"quoted_price" fake:"{price:50,1000}" json:"quoted_price"`
 	// Type of service quoted (e.g., standard, express).
-	ServiceLevel pgtype.Text `db:"service_level" json:"service_level"`
+	ServiceLevel pgtype.Text `db:"service_level" fake:"{randomstring:[standard,express]}" json:"service_level"`
 	// When the quote becomes invalid.
-	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	ExpiresAt pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	// Current quote status using quote_status_enum.
 	Status NullBillingQuoteStatusEnum `db:"status" json:"status"`
 	// Unique quote reference number.
-	QuoteNumber pgtype.Text `db:"quote_number" json:"quote_number"`
+	QuoteNumber pgtype.Text `db:"quote_number" fake:"{uuid}" json:"quote_number"`
 	// Additional notes about the quote.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// User who created this quote.
 	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the quote was created.
@@ -3130,17 +3130,17 @@ type BillingRateCard struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Descriptive name for the rate card (e.g., "Standard Shipping Rates 2025").
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{bs}" json:"name"`
 	// Category of service being priced using service_type_enum.
 	ServiceType BillingServiceTypeEnum `db:"service_type" json:"service_type"`
 	// Whether this rate card is currently in use.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Date when the rate card becomes effective.
-	ValidFrom pgtype.Date `db:"valid_from" json:"valid_from"`
+	ValidFrom pgtype.Date `db:"valid_from" fake:"{date}" json:"valid_from"`
 	// Date when the rate card expires.
-	ValidTo pgtype.Date `db:"valid_to" json:"valid_to"`
+	ValidTo pgtype.Date `db:"valid_to" fake:"{date}" json:"valid_to"`
 	// Additional details about the rate card.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{sentence}" json:"description"`
 	// User who created this rate card.
 	CreatedByUserID pgtype.Text `db:"created_by_user_id" json:"created_by_user_id"`
 	// Timestamp when the rate card was created.
@@ -3170,21 +3170,21 @@ type BillingRateRule struct {
 	// Reference to the parent rate card.
 	RateCardID pgtype.UUID `db:"rate_card_id" json:"rate_card_id"`
 	// Condition that must be met for this rule to apply (e.g., weight_gt, zone_eq).
-	Condition string `db:"condition" json:"condition"`
+	Condition string `db:"condition" fake:"{randomstring:[weight_gt,zone_eq]}" json:"condition"`
 	// Value for the condition (e.g., "5kg", "Zone A").
-	Value string `db:"value" json:"value"`
+	Value string `db:"value" fake:"{randomstring:[5kg,Zone A]}" json:"value"`
 	// Price amount when this rule applies.
-	Price pgtype.Numeric `db:"price" json:"price"`
+	Price pgtype.Numeric `db:"price" fake:"{price:10,200}" json:"price"`
 	// How the price is calculated using pricing_model_enum.
 	PricingModel BillingPricingModelEnum `db:"pricing_model" json:"pricing_model"`
 	// Minimum value for range-based conditions.
-	MinValue pgtype.Numeric `db:"min_value" json:"min_value"`
+	MinValue pgtype.Numeric `db:"min_value" fake:"{price:1,10}" json:"min_value"`
 	// Maximum value for range-based conditions.
-	MaxValue pgtype.Numeric `db:"max_value" json:"max_value"`
+	MaxValue pgtype.Numeric `db:"max_value" fake:"{price:100,500}" json:"max_value"`
 	// Rule precedence when multiple rules could apply (lower = higher priority).
-	Priority pgtype.Int4 `db:"priority" json:"priority"`
+	Priority pgtype.Int4 `db:"priority" fake:"{number:1,100}" json:"priority"`
 	// Whether this rule is currently active.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Timestamp when the rate rule was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rate rule was last updated.
@@ -3196,21 +3196,21 @@ type BillingSurcharge struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the surcharge (e.g., "Fuel Surcharge", "Peak Season Fee").
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{bs}" json:"name"`
 	// Category of surcharge (e.g., fuel, seasonal, handling).
-	Type string `db:"type" json:"type"`
+	Type string `db:"type" fake:"{randomstring:[fuel,seasonal,handling]}" json:"type"`
 	// Surcharge amount or percentage.
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:5,50}" json:"amount"`
 	// How the surcharge is calculated using surcharge_calculation_method_enum.
 	CalculationMethod BillingSurchargeCalculationMethodEnum `db:"calculation_method" json:"calculation_method"`
 	// Whether this surcharge is currently being applied.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Date when the surcharge becomes effective.
-	ValidFrom pgtype.Date `db:"valid_from" json:"valid_from"`
+	ValidFrom pgtype.Date `db:"valid_from" fake:"{date}" json:"valid_from"`
 	// Date when the surcharge expires.
-	ValidTo pgtype.Date `db:"valid_to" json:"valid_to"`
+	ValidTo pgtype.Date `db:"valid_to" fake:"{date}" json:"valid_to"`
 	// Additional details about the surcharge.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{sentence}" json:"description"`
 	// Timestamp when the surcharge was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the surcharge was last updated.
@@ -3768,16 +3768,16 @@ type TmsCarrier struct {
 	// Carrier company name.
 	Name string `db:"name" fake:"{company}" json:"name"`
 	// Contact information for the carrier.
-	ContactDetails pgtype.Text `db:"contact_details" fake:"{phone}" json:"contact_details"`
+	ContactDetails pgtype.Text `db:"contact_details" json:"contact_details"`
 	// Description of transportation services provided.
 	ServicesOffered pgtype.Text `db:"services_offered" fake:"{bs}" json:"services_offered"`
 	// Timestamp when the carrier was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the carrier was last updated.
 	UpdatedAt     pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	ContactPerson pgtype.Text      `db:"contact_person" json:"contact_person"`
-	ContactEmail  pgtype.Text      `db:"contact_email" json:"contact_email"`
-	ContactPhone  pgtype.Text      `db:"contact_phone" json:"contact_phone"`
+	ContactPerson pgtype.Text      `db:"contact_person" fake:"{name}" json:"contact_person"`
+	ContactEmail  pgtype.Text      `db:"contact_email" fake:"{email}" json:"contact_email"`
+	ContactPhone  pgtype.Text      `db:"contact_phone" fake:"{phone}" json:"contact_phone"`
 }
 
 // Pricing information for services provided by third-party carriers.
@@ -3833,7 +3833,7 @@ type TmsDriver struct {
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the driver was last updated.
 	UpdatedAt    pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	ContactPhone pgtype.Text      `db:"contact_phone" json:"contact_phone"`
+	ContactPhone pgtype.Text      `db:"contact_phone" fake:"{phone}" json:"contact_phone"`
 }
 
 // Tracks driver availability and planned time off for scheduling purposes.
@@ -3894,8 +3894,8 @@ type TmsExpense struct {
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the expense was last updated.
 	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Description pgtype.Text      `db:"description" json:"description"`
-	ExpenseDate pgtype.Date      `db:"expense_date" json:"expense_date"`
+	Description pgtype.Text      `db:"description" fake:"{sentence}" json:"description"`
+	ExpenseDate pgtype.Date      `db:"expense_date" fake:"{date}" json:"expense_date"`
 }
 
 // Defines geographic boundaries for monitoring vehicle movements and triggering events.
@@ -3908,8 +3908,8 @@ type TmsGeofence struct {
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the geofence was last updated.
 	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Longitude pgtype.Float4    `db:"longitude" json:"longitude"`
-	Latitude  pgtype.Float4    `db:"latitude" json:"latitude"`
+	Longitude pgtype.Float4    `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Latitude  pgtype.Float4    `db:"latitude" fake:"{latitude}" json:"latitude"`
 }
 
 // Records when vehicles enter or exit predefined geographic areas.
@@ -4100,10 +4100,10 @@ type TmsTrip struct {
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the trip was last updated.
 	UpdatedAt     pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
-	EndLocation   pgtype.Text        `db:"end_location" json:"end_location"`
-	EndTime       pgtype.Timestamptz `db:"end_time" json:"end_time"`
-	StartLocation pgtype.Text        `db:"start_location" json:"start_location"`
-	StartTime     pgtype.Timestamptz `db:"start_time" json:"start_time"`
+	EndLocation   pgtype.Text        `db:"end_location" fake:"{city}" json:"end_location"`
+	EndTime       pgtype.Timestamptz `db:"end_time" fake:"{date}" json:"end_time"`
+	StartLocation pgtype.Text        `db:"start_location" fake:"{city}" json:"start_location"`
+	StartTime     pgtype.Timestamptz `db:"start_time" fake:"{date}" json:"start_time"`
 }
 
 // Individual stops within a trip, typically for pickups or deliveries.
@@ -4184,11 +4184,11 @@ type TmsVehicle struct {
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the vehicle was last updated.
 	UpdatedAt           pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Make                pgtype.Text      `db:"make" json:"make"`
-	Year                pgtype.Int4      `db:"year" json:"year"`
-	Vin                 pgtype.Text      `db:"vin" json:"vin"`
-	CurrentMileage      pgtype.Int4      `db:"current_mileage" json:"current_mileage"`
-	LastMaintenanceDate pgtype.Date      `db:"last_maintenance_date" json:"last_maintenance_date"`
+	Make                pgtype.Text      `db:"make" fake:"{carmaker}" json:"make"`
+	Year                pgtype.Int4      `db:"year" fake:"{year}" json:"year"`
+	Vin                 pgtype.Text      `db:"vin" fake:"{uuid}" json:"vin"`
+	CurrentMileage      pgtype.Int4      `db:"current_mileage" fake:"{number:10000,200000}" json:"current_mileage"`
+	LastMaintenanceDate pgtype.Date      `db:"last_maintenance_date" fake:"{date}" json:"last_maintenance_date"`
 }
 
 // Tracks maintenance activities and service history for fleet vehicles.

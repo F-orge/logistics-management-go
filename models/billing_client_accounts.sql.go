@@ -155,13 +155,13 @@ returning
 
 type BillingInsertClientAccountParams struct {
 	ClientID         pgtype.UUID    `db:"client_id" json:"client_id"`
-	CreditLimit      pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
-	AvailableCredit  pgtype.Numeric `db:"available_credit" json:"available_credit"`
-	WalletBalance    pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
-	Currency         pgtype.Text    `db:"currency" json:"currency"`
-	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" json:"payment_terms_days"`
-	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" json:"is_credit_approved"`
-	LastPaymentDate  pgtype.Date    `db:"last_payment_date" json:"last_payment_date"`
+	CreditLimit      pgtype.Numeric `db:"credit_limit" fake:"{price:1000,10000}" json:"credit_limit"`
+	AvailableCredit  pgtype.Numeric `db:"available_credit" fake:"{price:0,10000}" json:"available_credit"`
+	WalletBalance    pgtype.Numeric `db:"wallet_balance" fake:"{price:0,5000}" json:"wallet_balance"`
+	Currency         pgtype.Text    `db:"currency" fake:"{currencyshort}" json:"currency"`
+	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" fake:"{number:15,90}" json:"payment_terms_days"`
+	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" fake:"{bool}" json:"is_credit_approved"`
+	LastPaymentDate  pgtype.Date    `db:"last_payment_date" fake:"{date}" json:"last_payment_date"`
 }
 
 func (q *Queries) BillingInsertClientAccount(ctx context.Context, arg BillingInsertClientAccountParams) (BillingClientAccount, error) {
@@ -453,13 +453,13 @@ returning
 
 type BillingUpdateClientAccountParams struct {
 	ClientID         pgtype.UUID    `db:"client_id" json:"client_id"`
-	CreditLimit      pgtype.Numeric `db:"credit_limit" json:"credit_limit"`
-	AvailableCredit  pgtype.Numeric `db:"available_credit" json:"available_credit"`
-	WalletBalance    pgtype.Numeric `db:"wallet_balance" json:"wallet_balance"`
-	Currency         pgtype.Text    `db:"currency" json:"currency"`
-	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" json:"payment_terms_days"`
-	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" json:"is_credit_approved"`
-	LastPaymentDate  pgtype.Date    `db:"last_payment_date" json:"last_payment_date"`
+	CreditLimit      pgtype.Numeric `db:"credit_limit" fake:"{price:1000,10000}" json:"credit_limit"`
+	AvailableCredit  pgtype.Numeric `db:"available_credit" fake:"{price:0,10000}" json:"available_credit"`
+	WalletBalance    pgtype.Numeric `db:"wallet_balance" fake:"{price:0,5000}" json:"wallet_balance"`
+	Currency         pgtype.Text    `db:"currency" fake:"{currencyshort}" json:"currency"`
+	PaymentTermsDays pgtype.Int4    `db:"payment_terms_days" fake:"{number:15,90}" json:"payment_terms_days"`
+	IsCreditApproved pgtype.Bool    `db:"is_credit_approved" fake:"{bool}" json:"is_credit_approved"`
+	LastPaymentDate  pgtype.Date    `db:"last_payment_date" fake:"{date}" json:"last_payment_date"`
 	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 

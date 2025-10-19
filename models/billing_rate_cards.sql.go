@@ -144,12 +144,12 @@ returning
 `
 
 type BillingInsertRateCardParams struct {
-	Name            string                 `db:"name" json:"name"`
+	Name            string                 `db:"name" fake:"{bs}" json:"name"`
 	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
-	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
-	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
-	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
-	Description     pgtype.Text            `db:"description" json:"description"`
+	IsActive        pgtype.Bool            `db:"is_active" fake:"{bool}" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" fake:"{date}" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" fake:"{date}" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" fake:"{sentence}" json:"description"`
 	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
@@ -428,12 +428,12 @@ returning
 `
 
 type BillingUpdateRateCardParams struct {
-	Name            string                 `db:"name" json:"name"`
+	Name            string                 `db:"name" fake:"{bs}" json:"name"`
 	ServiceType     BillingServiceTypeEnum `db:"service_type" json:"service_type"`
-	IsActive        pgtype.Bool            `db:"is_active" json:"is_active"`
-	ValidFrom       pgtype.Date            `db:"valid_from" json:"valid_from"`
-	ValidTo         pgtype.Date            `db:"valid_to" json:"valid_to"`
-	Description     pgtype.Text            `db:"description" json:"description"`
+	IsActive        pgtype.Bool            `db:"is_active" fake:"{bool}" json:"is_active"`
+	ValidFrom       pgtype.Date            `db:"valid_from" fake:"{date}" json:"valid_from"`
+	ValidTo         pgtype.Date            `db:"valid_to" fake:"{date}" json:"valid_to"`
+	Description     pgtype.Text            `db:"description" fake:"{sentence}" json:"description"`
 	CreatedByUserID pgtype.Text            `db:"created_by_user_id" json:"created_by_user_id"`
 	ID              pgtype.UUID            `db:"id" json:"id"`
 }

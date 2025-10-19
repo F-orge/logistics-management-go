@@ -274,20 +274,20 @@ returning
 type BillingInsertInvoiceParams struct {
 	ClientID        pgtype.UUID                  `db:"client_id" json:"client_id"`
 	QuoteID         pgtype.UUID                  `db:"quote_id" json:"quote_id"`
-	InvoiceNumber   string                       `db:"invoice_number" json:"invoice_number"`
+	InvoiceNumber   string                       `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
 	Status          NullBillingInvoiceStatusEnum `db:"status" json:"status"`
-	IssueDate       pgtype.Date                  `db:"issue_date" json:"issue_date"`
-	DueDate         pgtype.Date                  `db:"due_date" json:"due_date"`
-	TotalAmount     pgtype.Numeric               `db:"total_amount" json:"total_amount"`
-	AmountPaid      pgtype.Numeric               `db:"amount_paid" json:"amount_paid"`
-	Currency        pgtype.Text                  `db:"currency" json:"currency"`
-	TaxAmount       pgtype.Numeric               `db:"tax_amount" json:"tax_amount"`
-	DiscountAmount  pgtype.Numeric               `db:"discount_amount" json:"discount_amount"`
-	Subtotal        pgtype.Numeric               `db:"subtotal" json:"subtotal"`
-	PaymentTerms    pgtype.Text                  `db:"payment_terms" json:"payment_terms"`
-	Notes           pgtype.Text                  `db:"notes" json:"notes"`
-	SentAt          pgtype.Timestamp             `db:"sent_at" json:"sent_at"`
-	PaidAt          pgtype.Timestamp             `db:"paid_at" json:"paid_at"`
+	IssueDate       pgtype.Date                  `db:"issue_date" fake:"{date}" json:"issue_date"`
+	DueDate         pgtype.Date                  `db:"due_date" fake:"{date}" json:"due_date"`
+	TotalAmount     pgtype.Numeric               `db:"total_amount" fake:"{price:100,5000}" json:"total_amount"`
+	AmountPaid      pgtype.Numeric               `db:"amount_paid" fake:"{price:0,5000}" json:"amount_paid"`
+	Currency        pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	TaxAmount       pgtype.Numeric               `db:"tax_amount" fake:"{price:10,500}" json:"tax_amount"`
+	DiscountAmount  pgtype.Numeric               `db:"discount_amount" fake:"{price:0,200}" json:"discount_amount"`
+	Subtotal        pgtype.Numeric               `db:"subtotal" fake:"{price:100,4800}" json:"subtotal"`
+	PaymentTerms    pgtype.Text                  `db:"payment_terms" fake:"{sentence}" json:"payment_terms"`
+	Notes           pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
+	SentAt          pgtype.Timestamp             `db:"sent_at" fake:"{date}" json:"sent_at"`
+	PaidAt          pgtype.Timestamp             `db:"paid_at" fake:"{date}" json:"paid_at"`
 	CreatedByUserID pgtype.Text                  `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
@@ -771,20 +771,20 @@ returning
 type BillingUpdateInvoiceParams struct {
 	ClientID        pgtype.UUID                  `db:"client_id" json:"client_id"`
 	QuoteID         pgtype.UUID                  `db:"quote_id" json:"quote_id"`
-	InvoiceNumber   string                       `db:"invoice_number" json:"invoice_number"`
+	InvoiceNumber   string                       `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
 	Status          NullBillingInvoiceStatusEnum `db:"status" json:"status"`
-	IssueDate       pgtype.Date                  `db:"issue_date" json:"issue_date"`
-	DueDate         pgtype.Date                  `db:"due_date" json:"due_date"`
-	TotalAmount     pgtype.Numeric               `db:"total_amount" json:"total_amount"`
-	AmountPaid      pgtype.Numeric               `db:"amount_paid" json:"amount_paid"`
-	Currency        pgtype.Text                  `db:"currency" json:"currency"`
-	TaxAmount       pgtype.Numeric               `db:"tax_amount" json:"tax_amount"`
-	DiscountAmount  pgtype.Numeric               `db:"discount_amount" json:"discount_amount"`
-	Subtotal        pgtype.Numeric               `db:"subtotal" json:"subtotal"`
-	PaymentTerms    pgtype.Text                  `db:"payment_terms" json:"payment_terms"`
-	Notes           pgtype.Text                  `db:"notes" json:"notes"`
-	SentAt          pgtype.Timestamp             `db:"sent_at" json:"sent_at"`
-	PaidAt          pgtype.Timestamp             `db:"paid_at" json:"paid_at"`
+	IssueDate       pgtype.Date                  `db:"issue_date" fake:"{date}" json:"issue_date"`
+	DueDate         pgtype.Date                  `db:"due_date" fake:"{date}" json:"due_date"`
+	TotalAmount     pgtype.Numeric               `db:"total_amount" fake:"{price:100,5000}" json:"total_amount"`
+	AmountPaid      pgtype.Numeric               `db:"amount_paid" fake:"{price:0,5000}" json:"amount_paid"`
+	Currency        pgtype.Text                  `db:"currency" fake:"{currencyshort}" json:"currency"`
+	TaxAmount       pgtype.Numeric               `db:"tax_amount" fake:"{price:10,500}" json:"tax_amount"`
+	DiscountAmount  pgtype.Numeric               `db:"discount_amount" fake:"{price:0,200}" json:"discount_amount"`
+	Subtotal        pgtype.Numeric               `db:"subtotal" fake:"{price:100,4800}" json:"subtotal"`
+	PaymentTerms    pgtype.Text                  `db:"payment_terms" fake:"{sentence}" json:"payment_terms"`
+	Notes           pgtype.Text                  `db:"notes" fake:"{sentence}" json:"notes"`
+	SentAt          pgtype.Timestamp             `db:"sent_at" fake:"{date}" json:"sent_at"`
+	PaidAt          pgtype.Timestamp             `db:"paid_at" fake:"{date}" json:"paid_at"`
 	CreatedByUserID pgtype.Text                  `db:"created_by_user_id" json:"created_by_user_id"`
 	ID              pgtype.UUID                  `db:"id" json:"id"`
 }

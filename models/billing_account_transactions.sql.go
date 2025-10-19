@@ -28,13 +28,13 @@ type BillingAnyAccountTransactionRow struct {
 	ID                   pgtype.UUID                `db:"id" json:"id"`
 	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount               pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description          pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -115,13 +115,13 @@ type BillingFindAccountTransactionRow struct {
 	ID                   pgtype.UUID                `db:"id" json:"id"`
 	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount               pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description          pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -182,13 +182,13 @@ returning
 type BillingInsertAccountTransactionParams struct {
 	ClientAccountID   pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type              BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount            pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance    pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount            pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance    pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID    pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType  pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description       pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber   pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate   pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType  pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description       pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber   pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate   pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 }
 
@@ -251,13 +251,13 @@ type BillingPaginateAccountTransactionRow struct {
 	ID                   pgtype.UUID                `db:"id" json:"id"`
 	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount               pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description          pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -383,13 +383,13 @@ type BillingRangeAccountTransactionRow struct {
 	ID                   pgtype.UUID                `db:"id" json:"id"`
 	ClientAccountID      pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type                 BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount               pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance       pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount               pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance       pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID       pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType     pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description          pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber      pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate      pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType     pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description          pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber      pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate      pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID    pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 	CreatedAt            pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt            pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -527,13 +527,13 @@ returning
 type BillingUpdateAccountTransactionParams struct {
 	ClientAccountID   pgtype.UUID                `db:"client_account_id" json:"client_account_id"`
 	Type              BillingTransactionTypeEnum `db:"type" json:"type"`
-	Amount            pgtype.Numeric             `db:"amount" json:"amount"`
-	RunningBalance    pgtype.Numeric             `db:"running_balance" json:"running_balance"`
+	Amount            pgtype.Numeric             `db:"amount" fake:"{price:-1000,1000}" json:"amount"`
+	RunningBalance    pgtype.Numeric             `db:"running_balance" fake:"{price:0,20000}" json:"running_balance"`
 	SourceRecordID    pgtype.UUID                `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType  pgtype.Text                `db:"source_record_type" json:"source_record_type"`
-	Description       pgtype.Text                `db:"description" json:"description"`
-	ReferenceNumber   pgtype.Text                `db:"reference_number" json:"reference_number"`
-	TransactionDate   pgtype.Timestamp           `db:"transaction_date" json:"transaction_date"`
+	SourceRecordType  pgtype.Text                `db:"source_record_type" fake:"{randomstring:[invoice,payment]}" json:"source_record_type"`
+	Description       pgtype.Text                `db:"description" fake:"{sentence}" json:"description"`
+	ReferenceNumber   pgtype.Text                `db:"reference_number" fake:"{uuid}" json:"reference_number"`
+	TransactionDate   pgtype.Timestamp           `db:"transaction_date" fake:"{date}" json:"transaction_date"`
 	ProcessedByUserID pgtype.Text                `db:"processed_by_user_id" json:"processed_by_user_id"`
 	ID                pgtype.UUID                `db:"id" json:"id"`
 }

@@ -26,14 +26,14 @@ type BillingAnyInvoiceLineItemRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
-	Description      string           `db:"description" json:"description"`
-	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string           `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
 	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
-	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
 	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
-	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
 	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
@@ -113,14 +113,14 @@ type BillingFindInvoiceLineItemRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
-	Description      string           `db:"description" json:"description"`
-	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string           `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
 	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
-	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
 	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
-	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
 	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
@@ -182,12 +182,12 @@ returning
 type BillingInsertInvoiceLineItemParams struct {
 	InvoiceID        pgtype.UUID    `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID    `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text    `db:"source_record_type" json:"source_record_type"`
-	Description      string         `db:"description" json:"description"`
-	Quantity         pgtype.Numeric `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric `db:"unit_price" json:"unit_price"`
-	TaxRate          pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
-	DiscountRate     pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
+	SourceRecordType pgtype.Text    `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string         `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
+	TaxRate          pgtype.Numeric `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
+	DiscountRate     pgtype.Numeric `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 }
 
 func (q *Queries) BillingInsertInvoiceLineItem(ctx context.Context, arg BillingInsertInvoiceLineItemParams) (BillingInvoiceLineItem, error) {
@@ -245,14 +245,14 @@ type BillingPaginateInvoiceLineItemRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
-	Description      string           `db:"description" json:"description"`
-	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string           `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
 	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
-	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
 	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
-	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
 	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
@@ -376,14 +376,14 @@ type BillingRangeInvoiceLineItemRow struct {
 	ID               pgtype.UUID      `db:"id" json:"id"`
 	InvoiceID        pgtype.UUID      `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID      `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text      `db:"source_record_type" json:"source_record_type"`
-	Description      string           `db:"description" json:"description"`
-	Quantity         pgtype.Numeric   `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric   `db:"unit_price" json:"unit_price"`
+	SourceRecordType pgtype.Text      `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string           `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric   `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric   `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
 	TotalPrice       pgtype.Numeric   `db:"total_price" json:"total_price"`
-	TaxRate          pgtype.Numeric   `db:"tax_rate" json:"tax_rate"`
+	TaxRate          pgtype.Numeric   `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
 	TaxAmount        pgtype.Numeric   `db:"tax_amount" json:"tax_amount"`
-	DiscountRate     pgtype.Numeric   `db:"discount_rate" json:"discount_rate"`
+	DiscountRate     pgtype.Numeric   `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	DiscountAmount   pgtype.Numeric   `db:"discount_amount" json:"discount_amount"`
 	LineTotal        pgtype.Numeric   `db:"line_total" json:"line_total"`
 	CreatedAt        pgtype.Timestamp `db:"created_at" json:"created_at"`
@@ -512,12 +512,12 @@ returning
 type BillingUpdateInvoiceLineItemParams struct {
 	InvoiceID        pgtype.UUID    `db:"invoice_id" json:"invoice_id"`
 	SourceRecordID   pgtype.UUID    `db:"source_record_id" json:"source_record_id"`
-	SourceRecordType pgtype.Text    `db:"source_record_type" json:"source_record_type"`
-	Description      string         `db:"description" json:"description"`
-	Quantity         pgtype.Numeric `db:"quantity" json:"quantity"`
-	UnitPrice        pgtype.Numeric `db:"unit_price" json:"unit_price"`
-	TaxRate          pgtype.Numeric `db:"tax_rate" json:"tax_rate"`
-	DiscountRate     pgtype.Numeric `db:"discount_rate" json:"discount_rate"`
+	SourceRecordType pgtype.Text    `db:"source_record_type" fake:"{randomstring:[shipment,storage]}" json:"source_record_type"`
+	Description      string         `db:"description" fake:"{sentence}" json:"description"`
+	Quantity         pgtype.Numeric `db:"quantity" fake:"{float64range:1,20}" json:"quantity"`
+	UnitPrice        pgtype.Numeric `db:"unit_price" fake:"{price:10,500}" json:"unit_price"`
+	TaxRate          pgtype.Numeric `db:"tax_rate" fake:"{float64range:0,0.2}" json:"tax_rate"`
+	DiscountRate     pgtype.Numeric `db:"discount_rate" fake:"{float64range:0,0.1}" json:"discount_rate"`
 	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 

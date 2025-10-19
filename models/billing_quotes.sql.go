@@ -211,18 +211,18 @@ returning
 
 type BillingInsertQuoteParams struct {
 	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
-	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
-	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
-	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
-	Length             pgtype.Numeric             `db:"length" json:"length"`
-	Width              pgtype.Numeric             `db:"width" json:"width"`
-	Height             pgtype.Numeric             `db:"height" json:"height"`
-	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
-	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
-	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	OriginDetails      string                     `db:"origin_details" fake:"{streetaddress}" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" fake:"{streetaddress}" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" fake:"{float64range:1,100}" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" fake:"{float64range:10,100}" json:"length"`
+	Width              pgtype.Numeric             `db:"width" fake:"{float64range:10,100}" json:"width"`
+	Height             pgtype.Numeric             `db:"height" fake:"{float64range:10,100}" json:"height"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" fake:"{price:50,1000}" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" fake:"{randomstring:[standard,express]}" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" fake:"{date}" json:"expires_at"`
 	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
-	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
-	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" fake:"{uuid}" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
 }
 
@@ -631,18 +631,18 @@ returning
 
 type BillingUpdateQuoteParams struct {
 	ClientID           pgtype.UUID                `db:"client_id" json:"client_id"`
-	OriginDetails      string                     `db:"origin_details" json:"origin_details"`
-	DestinationDetails string                     `db:"destination_details" json:"destination_details"`
-	Weight             pgtype.Numeric             `db:"weight" json:"weight"`
-	Length             pgtype.Numeric             `db:"length" json:"length"`
-	Width              pgtype.Numeric             `db:"width" json:"width"`
-	Height             pgtype.Numeric             `db:"height" json:"height"`
-	QuotedPrice        pgtype.Numeric             `db:"quoted_price" json:"quoted_price"`
-	ServiceLevel       pgtype.Text                `db:"service_level" json:"service_level"`
-	ExpiresAt          pgtype.Timestamp           `db:"expires_at" json:"expires_at"`
+	OriginDetails      string                     `db:"origin_details" fake:"{streetaddress}" json:"origin_details"`
+	DestinationDetails string                     `db:"destination_details" fake:"{streetaddress}" json:"destination_details"`
+	Weight             pgtype.Numeric             `db:"weight" fake:"{float64range:1,100}" json:"weight"`
+	Length             pgtype.Numeric             `db:"length" fake:"{float64range:10,100}" json:"length"`
+	Width              pgtype.Numeric             `db:"width" fake:"{float64range:10,100}" json:"width"`
+	Height             pgtype.Numeric             `db:"height" fake:"{float64range:10,100}" json:"height"`
+	QuotedPrice        pgtype.Numeric             `db:"quoted_price" fake:"{price:50,1000}" json:"quoted_price"`
+	ServiceLevel       pgtype.Text                `db:"service_level" fake:"{randomstring:[standard,express]}" json:"service_level"`
+	ExpiresAt          pgtype.Timestamp           `db:"expires_at" fake:"{date}" json:"expires_at"`
 	Status             NullBillingQuoteStatusEnum `db:"status" json:"status"`
-	QuoteNumber        pgtype.Text                `db:"quote_number" json:"quote_number"`
-	Notes              pgtype.Text                `db:"notes" json:"notes"`
+	QuoteNumber        pgtype.Text                `db:"quote_number" fake:"{uuid}" json:"quote_number"`
+	Notes              pgtype.Text                `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedByUserID    pgtype.Text                `db:"created_by_user_id" json:"created_by_user_id"`
 	ID                 pgtype.UUID                `db:"id" json:"id"`
 }
