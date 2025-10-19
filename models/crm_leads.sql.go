@@ -32,14 +32,14 @@ where
 
 type CrmAnyLeadRow struct {
 	ID                     pgtype.UUID        `db:"id" json:"id"`
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
@@ -163,14 +163,14 @@ where
 
 type CrmFindLeadRow struct {
 	ID                     pgtype.UUID        `db:"id" json:"id"`
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
@@ -268,14 +268,14 @@ returning
 `
 
 type CrmInsertLeadParams struct {
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
@@ -348,14 +348,14 @@ type CrmPaginateLeadParams struct {
 
 type CrmPaginateLeadRow struct {
 	ID                     pgtype.UUID        `db:"id" json:"id"`
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
@@ -527,14 +527,14 @@ type CrmRangeLeadParams struct {
 
 type CrmRangeLeadRow struct {
 	ID                     pgtype.UUID        `db:"id" json:"id"`
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`
@@ -714,14 +714,14 @@ returning
 `
 
 type CrmUpdateLeadParams struct {
-	Name                   string             `db:"name" json:"name"`
-	Email                  string             `db:"email" json:"email"`
+	Name                   string             `db:"name" fake:"{name}" json:"name"`
+	Email                  string             `db:"email" fake:"{email}" json:"email"`
 	LeadSource             NullCrmLeadSource  `db:"lead_source" json:"lead_source"`
 	Status                 NullCrmLeadStatus  `db:"status" json:"status"`
-	LeadScore              pgtype.Int4        `db:"lead_score" json:"lead_score"`
+	LeadScore              pgtype.Int4        `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	OwnerID                string             `db:"owner_id" json:"owner_id"`
 	CampaignID             pgtype.UUID        `db:"campaign_id" json:"campaign_id"`
-	ConvertedAt            pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt            pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	ConvertedContactID     pgtype.UUID        `db:"converted_contact_id" json:"converted_contact_id"`
 	ConvertedCompanyID     pgtype.UUID        `db:"converted_company_id" json:"converted_company_id"`
 	ConvertedOpportunityID pgtype.UUID        `db:"converted_opportunity_id" json:"converted_opportunity_id"`

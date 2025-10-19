@@ -29,7 +29,7 @@ type TmsAnyGeofenceEventRow struct {
 	VehicleID   pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID  pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType   TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp   pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp   pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle  TmsVehicle               `db:"tms_vehicle" json:"tms_vehicle"`
 	TmsGeofence TmsGeofence              `db:"tms_geofence" json:"tms_geofence"`
 }
@@ -97,7 +97,7 @@ type TmsFindGeofenceEventRow struct {
 	VehicleID   pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID  pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType   TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp   pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp   pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle  TmsVehicle               `db:"tms_vehicle" json:"tms_vehicle"`
 	TmsGeofence TmsGeofence              `db:"tms_geofence" json:"tms_geofence"`
 }
@@ -145,7 +145,7 @@ type TmsInsertGeofenceEventParams struct {
 	VehicleID  pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType  TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp  pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp  pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 func (q *Queries) TmsInsertGeofenceEvent(ctx context.Context, arg TmsInsertGeofenceEventParams) (TmsGeofenceEvent, error) {
@@ -193,7 +193,7 @@ type TmsPaginateGeofenceEventRow struct {
 	VehicleID   pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID  pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType   TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp   pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp   pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle  TmsVehicle               `db:"tms_vehicle" json:"tms_vehicle"`
 	TmsGeofence TmsGeofence              `db:"tms_geofence" json:"tms_geofence"`
 }
@@ -306,7 +306,7 @@ type TmsRangeGeofenceEventRow struct {
 	VehicleID   pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID  pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType   TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp   pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp   pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle  TmsVehicle               `db:"tms_vehicle" json:"tms_vehicle"`
 	TmsGeofence TmsGeofence              `db:"tms_geofence" json:"tms_geofence"`
 }
@@ -401,7 +401,7 @@ type TmsUpdateGeofenceEventParams struct {
 	VehicleID  pgtype.UUID              `db:"vehicle_id" json:"vehicle_id"`
 	GeofenceID pgtype.UUID              `db:"geofence_id" json:"geofence_id"`
 	EventType  TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
-	Timestamp  pgtype.Timestamp         `db:"timestamp" json:"timestamp"`
+	Timestamp  pgtype.Timestamp         `db:"timestamp" fake:"{date}" json:"timestamp"`
 	ID         pgtype.UUID              `db:"id" json:"id"`
 }
 

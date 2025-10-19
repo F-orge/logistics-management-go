@@ -26,10 +26,10 @@ where
 
 type CrmAnyContactRow struct {
 	ID          pgtype.UUID        `db:"id" json:"id"`
-	Name        string             `db:"name" json:"name"`
-	Email       string             `db:"email" json:"email"`
-	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	Name        string             `db:"name" fake:"{name}" json:"name"`
+	Email       string             `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
 	OwnerID     string             `db:"owner_id" json:"owner_id"`
 	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
@@ -108,10 +108,10 @@ where
 
 type CrmFindContactRow struct {
 	ID          pgtype.UUID        `db:"id" json:"id"`
-	Name        string             `db:"name" json:"name"`
-	Email       string             `db:"email" json:"email"`
-	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	Name        string             `db:"name" fake:"{name}" json:"name"`
+	Email       string             `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
 	OwnerID     string             `db:"owner_id" json:"owner_id"`
 	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
@@ -170,10 +170,10 @@ returning
 `
 
 type CrmInsertContactParams struct {
-	Name        string      `db:"name" json:"name"`
-	Email       string      `db:"email" json:"email"`
-	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text `db:"job_title" json:"job_title"`
+	Name        string      `db:"name" fake:"{name}" json:"name"`
+	Email       string      `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID `db:"company_id" json:"company_id"`
 	OwnerID     string      `db:"owner_id" json:"owner_id"`
 }
@@ -227,10 +227,10 @@ type CrmPaginateContactParams struct {
 
 type CrmPaginateContactRow struct {
 	ID          pgtype.UUID        `db:"id" json:"id"`
-	Name        string             `db:"name" json:"name"`
-	Email       string             `db:"email" json:"email"`
-	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	Name        string             `db:"name" fake:"{name}" json:"name"`
+	Email       string             `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
 	OwnerID     string             `db:"owner_id" json:"owner_id"`
 	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
@@ -355,10 +355,10 @@ type CrmRangeContactParams struct {
 
 type CrmRangeContactRow struct {
 	ID          pgtype.UUID        `db:"id" json:"id"`
-	Name        string             `db:"name" json:"name"`
-	Email       string             `db:"email" json:"email"`
-	PhoneNumber pgtype.Text        `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text        `db:"job_title" json:"job_title"`
+	Name        string             `db:"name" fake:"{name}" json:"name"`
+	Email       string             `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text        `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID        `db:"company_id" json:"company_id"`
 	OwnerID     string             `db:"owner_id" json:"owner_id"`
 	CreatedAt   pgtype.Timestamptz `db:"created_at" json:"created_at"`
@@ -474,10 +474,10 @@ returning
 `
 
 type CrmUpdateContactParams struct {
-	Name        string      `db:"name" json:"name"`
-	Email       string      `db:"email" json:"email"`
-	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
-	JobTitle    pgtype.Text `db:"job_title" json:"job_title"`
+	Name        string      `db:"name" fake:"{name}" json:"name"`
+	Email       string      `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	JobTitle    pgtype.Text `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	CompanyID   pgtype.UUID `db:"company_id" json:"company_id"`
 	OwnerID     string      `db:"owner_id" json:"owner_id"`
 	ID          pgtype.UUID `db:"id" json:"id"`

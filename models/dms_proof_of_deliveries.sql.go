@@ -26,13 +26,13 @@ type DmsAnyProofOfDeliveryRow struct {
 	ID               pgtype.UUID                `db:"id" json:"id"`
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -102,13 +102,13 @@ type DmsFindProofOfDeliveryRow struct {
 	ID               pgtype.UUID                `db:"id" json:"id"`
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -160,13 +160,13 @@ returning
 type DmsInsertProofOfDeliveryParams struct {
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 func (q *Queries) DmsInsertProofOfDelivery(ctx context.Context, arg DmsInsertProofOfDeliveryParams) (DmsProofOfDelivery, error) {
@@ -222,13 +222,13 @@ type DmsPaginateProofOfDeliveryRow struct {
 	ID               pgtype.UUID                `db:"id" json:"id"`
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -342,13 +342,13 @@ type DmsRangeProofOfDeliveryRow struct {
 	ID               pgtype.UUID                `db:"id" json:"id"`
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt        pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt        pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask  DmsDeliveryTask            `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -472,13 +472,13 @@ returning
 type DmsUpdateProofOfDeliveryParams struct {
 	DeliveryTaskID   pgtype.UUID                `db:"delivery_task_id" json:"delivery_task_id"`
 	Type             DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
-	FilePath         pgtype.Text                `db:"file_path" json:"file_path"`
-	SignatureData    pgtype.Text                `db:"signature_data" json:"signature_data"`
-	RecipientName    pgtype.Text                `db:"recipient_name" json:"recipient_name"`
-	VerificationCode pgtype.Text                `db:"verification_code" json:"verification_code"`
-	Latitude         pgtype.Float4              `db:"latitude" json:"latitude"`
-	Longitude        pgtype.Float4              `db:"longitude" json:"longitude"`
-	Timestamp        pgtype.Timestamp           `db:"timestamp" json:"timestamp"`
+	FilePath         pgtype.Text                `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	SignatureData    pgtype.Text                `db:"signature_data" fake:"{sentence}" json:"signature_data"`
+	RecipientName    pgtype.Text                `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	VerificationCode pgtype.Text                `db:"verification_code" fake:"{uuid}" json:"verification_code"`
+	Latitude         pgtype.Float4              `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude        pgtype.Float4              `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp        pgtype.Timestamp           `db:"timestamp" fake:"{date}" json:"timestamp"`
 	ID               pgtype.UUID                `db:"id" json:"id"`
 }
 

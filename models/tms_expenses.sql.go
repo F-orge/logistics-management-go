@@ -29,11 +29,11 @@ type TmsAnyExpenseRow struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
@@ -114,11 +114,11 @@ type TmsFindExpenseRow struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
@@ -179,11 +179,11 @@ type TmsInsertExpenseParams struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 }
 
@@ -247,11 +247,11 @@ type TmsPaginateExpenseRow struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
@@ -378,11 +378,11 @@ type TmsRangeExpenseRow struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	CreatedAt       pgtype.Timestamp         `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp         `db:"updated_at" json:"updated_at"`
@@ -515,11 +515,11 @@ type TmsUpdateExpenseParams struct {
 	TripID          pgtype.UUID              `db:"trip_id" json:"trip_id"`
 	DriverID        pgtype.UUID              `db:"driver_id" json:"driver_id"`
 	Type            NullTmsExpenseTypeEnum   `db:"type" json:"type"`
-	Amount          pgtype.Numeric           `db:"amount" json:"amount"`
+	Amount          pgtype.Numeric           `db:"amount" fake:"{price:10,500}" json:"amount"`
 	Currency        NullTmsCurrencyEnum      `db:"currency" json:"currency"`
-	ReceiptUrl      pgtype.Text              `db:"receipt_url" json:"receipt_url"`
-	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" json:"fuel_quantity"`
-	OdometerReading pgtype.Int4              `db:"odometer_reading" json:"odometer_reading"`
+	ReceiptUrl      pgtype.Text              `db:"receipt_url" fake:"{url}" json:"receipt_url"`
+	FuelQuantity    pgtype.Float4            `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
+	OdometerReading pgtype.Int4              `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	Status          NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	ID              pgtype.UUID              `db:"id" json:"id"`
 }

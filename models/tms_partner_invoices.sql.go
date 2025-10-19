@@ -133,9 +133,9 @@ returning
 
 type TmsInsertPartnerInvoiceParams struct {
 	CarrierID     pgtype.UUID                     `db:"carrier_id" json:"carrier_id"`
-	InvoiceNumber string                          `db:"invoice_number" json:"invoice_number"`
-	InvoiceDate   pgtype.Date                     `db:"invoice_date" json:"invoice_date"`
-	TotalAmount   pgtype.Numeric                  `db:"total_amount" json:"total_amount"`
+	InvoiceNumber string                          `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
+	InvoiceDate   pgtype.Date                     `db:"invoice_date" fake:"{date}" json:"invoice_date"`
+	TotalAmount   pgtype.Numeric                  `db:"total_amount" fake:"{price:1000,50000}" json:"total_amount"`
 	Status        NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 }
 
@@ -389,9 +389,9 @@ returning
 
 type TmsUpdatePartnerInvoiceParams struct {
 	CarrierID     pgtype.UUID                     `db:"carrier_id" json:"carrier_id"`
-	InvoiceNumber string                          `db:"invoice_number" json:"invoice_number"`
-	InvoiceDate   pgtype.Date                     `db:"invoice_date" json:"invoice_date"`
-	TotalAmount   pgtype.Numeric                  `db:"total_amount" json:"total_amount"`
+	InvoiceNumber string                          `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
+	InvoiceDate   pgtype.Date                     `db:"invoice_date" fake:"{date}" json:"invoice_date"`
+	TotalAmount   pgtype.Numeric                  `db:"total_amount" fake:"{price:1000,50000}" json:"total_amount"`
 	Status        NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 	ID            pgtype.UUID                     `db:"id" json:"id"`
 }

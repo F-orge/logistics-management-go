@@ -3222,11 +3222,11 @@ type CrmAttachment struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the attached file.
-	FileName string `db:"file_name" json:"file_name"`
+	FileName string `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
 	// Storage path for the file.
-	FilePath string `db:"file_path" json:"file_path"`
+	FilePath string `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
 	// File MIME type (e.g., image/png, application/pdf).
-	MimeType pgtype.Text `db:"mime_type" json:"mime_type"`
+	MimeType pgtype.Text `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	// Identifier for the record the attachment is associated with.
 	RecordID pgtype.UUID `db:"record_id" json:"record_id"`
 	// Type of record (polymorphic).
@@ -3242,13 +3242,13 @@ type CrmCampaign struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Campaign title.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{hackerphrase}" json:"name"`
 	// Allocated budget for the campaign.
-	Budget pgtype.Numeric `db:"budget" json:"budget"`
+	Budget pgtype.Numeric `db:"budget" fake:"{price:1000,100000}" json:"budget"`
 	// Campaign start date.
-	StartDate pgtype.Date `db:"start_date" json:"start_date"`
+	StartDate pgtype.Date `db:"start_date" fake:"{date}" json:"start_date"`
 	// Campaign end date.
-	EndDate pgtype.Date `db:"end_date" json:"end_date"`
+	EndDate pgtype.Date `db:"end_date" fake:"{date}" json:"end_date"`
 	// timestamptz when the campaign was created.
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the campaign was last updated.
@@ -3260,7 +3260,7 @@ type CrmCase struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique number assigned to the case.
-	CaseNumber string `db:"case_number" json:"case_number"`
+	CaseNumber string `db:"case_number" fake:"{uuid}" json:"case_number"`
 	// Current case status.
 	Status NullCrmCaseStatus `db:"status" json:"status"`
 	// Level of urgency (e.g., low, medium, high).
@@ -3272,7 +3272,7 @@ type CrmCase struct {
 	// Linked contact for context.
 	ContactID pgtype.UUID `db:"contact_id" json:"contact_id"`
 	// Detailed description of the issue.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{sentence}" json:"description"`
 	// timestamptz when the case was created.
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the case was last updated.
@@ -3284,25 +3284,25 @@ type CrmCompany struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Company name.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{company}" json:"name"`
 	// Street address.
-	Street pgtype.Text `db:"street" json:"street"`
+	Street pgtype.Text `db:"street" fake:"{street}" json:"street"`
 	// City location.
-	City pgtype.Text `db:"city" json:"city"`
+	City pgtype.Text `db:"city" fake:"{city}" json:"city"`
 	// State or province.
-	State pgtype.Text `db:"state" json:"state"`
+	State pgtype.Text `db:"state" fake:"{state}" json:"state"`
 	// Postal or ZIP code.
-	PostalCode pgtype.Text `db:"postal_code" json:"postal_code"`
+	PostalCode pgtype.Text `db:"postal_code" fake:"{zip}" json:"postal_code"`
 	// Country of operation.
-	Country pgtype.Text `db:"country" json:"country"`
+	Country pgtype.Text `db:"country" fake:"{country}" json:"country"`
 	// Company contact number.
-	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
+	PhoneNumber pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
 	// Sector or industry type.
-	Industry pgtype.Text `db:"industry" json:"industry"`
+	Industry pgtype.Text `db:"industry" fake:"{jobdescriptor}" json:"industry"`
 	// Company website URL.
-	Website pgtype.Text `db:"website" json:"website"`
+	Website pgtype.Text `db:"website" fake:"{url}" json:"website"`
 	// Yearly revenue figure.
-	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	// Reference to the user who owns the company record.
 	OwnerID pgtype.Text `db:"owner_id" json:"owner_id"`
 	// timestamptz when the company was created.
@@ -3316,13 +3316,13 @@ type CrmContact struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Full name of the contact.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{name}" json:"name"`
 	// Contact's email address.
-	Email string `db:"email" json:"email"`
+	Email string `db:"email" fake:"{email}" json:"email"`
 	// Contact's telephone number.
-	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
+	PhoneNumber pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
 	// Job designation or position.
-	JobTitle pgtype.Text `db:"job_title" json:"job_title"`
+	JobTitle pgtype.Text `db:"job_title" fake:"{jobtitle}" json:"job_title"`
 	// Identifier linking to the associated company.
 	CompanyID pgtype.UUID `db:"company_id" json:"company_id"`
 	// Reference to the user responsible for the contact.
@@ -3346,11 +3346,11 @@ type CrmInteraction struct {
 	// Type of interaction (e.g., call, meeting, email).
 	Type NullCrmInteractionType `db:"type" json:"type"`
 	// Result of the interaction (e.g., meeting scheduled).
-	Outcome pgtype.Text `db:"outcome" json:"outcome"`
+	Outcome pgtype.Text `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
 	// Additional details or comments.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{paragraph}" json:"notes"`
 	// Date and time of the interaction.
-	InteractionDate pgtype.Timestamptz `db:"interaction_date" json:"interaction_date"`
+	InteractionDate pgtype.Timestamptz `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	// timestamptz when the interaction was created.
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the interaction was last updated.
@@ -3366,15 +3366,15 @@ type CrmInvoice struct {
 	// Current status of the invoice (e.g., draft, sent, paid).
 	Status NullCrmInvoiceStatus `db:"status" json:"status"`
 	// Total amount billed.
-	Total pgtype.Numeric `db:"total" json:"total"`
+	Total pgtype.Numeric `db:"total" fake:"{price:100,10000}" json:"total"`
 	// Date on which the invoice was issued.
-	IssueDate pgtype.Date `db:"issue_date" json:"issue_date"`
+	IssueDate pgtype.Date `db:"issue_date" fake:"{date}" json:"issue_date"`
 	// Payment due date.
-	DueDate pgtype.Date `db:"due_date" json:"due_date"`
+	DueDate pgtype.Date `db:"due_date" fake:"{date}" json:"due_date"`
 	// timestamptz when the invoice was sent.
-	SentAt pgtype.Timestamptz `db:"sent_at" json:"sent_at"`
+	SentAt pgtype.Timestamptz `db:"sent_at" fake:"{date}" json:"sent_at"`
 	// timestamptz when payment was received.
-	PaidAt pgtype.Timestamptz `db:"paid_at" json:"paid_at"`
+	PaidAt pgtype.Timestamptz `db:"paid_at" fake:"{date}" json:"paid_at"`
 	// Method used for payment.
 	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
 	// timestamptz when the invoice was created.
@@ -3392,9 +3392,9 @@ type CrmInvoiceItem struct {
 	// Associated product for the line item.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Quantity of the product.
-	Quantity int32 `db:"quantity" json:"quantity"`
+	Quantity int32 `db:"quantity" fake:"{number:1,20}" json:"quantity"`
 	// Price per unit for the product.
-	Price pgtype.Numeric `db:"price" json:"price"`
+	Price pgtype.Numeric `db:"price" fake:"{price:10,500}" json:"price"`
 	// timestamptz when the invoice item was created.
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the invoice item was last updated.
@@ -3421,21 +3421,21 @@ type CrmLead struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Lead's full name.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{name}" json:"name"`
 	// Lead's email address.
-	Email string `db:"email" json:"email"`
+	Email string `db:"email" fake:"{email}" json:"email"`
 	// Origin of the lead information.
 	LeadSource NullCrmLeadSource `db:"lead_source" json:"lead_source"`
 	// Current qualification status.
 	Status NullCrmLeadStatus `db:"status" json:"status"`
 	// Numerical score reflecting lead quality.
-	LeadScore pgtype.Int4 `db:"lead_score" json:"lead_score"`
+	LeadScore pgtype.Int4 `db:"lead_score" fake:"{number:1,100}" json:"lead_score"`
 	// User responsible for the lead.
 	OwnerID string `db:"owner_id" json:"owner_id"`
 	// Associated marketing campaign.
 	CampaignID pgtype.UUID `db:"campaign_id" json:"campaign_id"`
 	// timestamptz when the lead was converted.
-	ConvertedAt pgtype.Timestamptz `db:"converted_at" json:"converted_at"`
+	ConvertedAt pgtype.Timestamptz `db:"converted_at" fake:"{date}" json:"converted_at"`
 	// Reference to the created contact upon conversion.
 	ConvertedContactID pgtype.UUID `db:"converted_contact_id" json:"converted_contact_id"`
 	// Reference to the company record created upon conversion.
@@ -3455,7 +3455,7 @@ type CrmNotification struct {
 	// User receiving the notification.
 	UserID string `db:"user_id" json:"user_id"`
 	// Notification content.
-	Message string `db:"message" json:"message"`
+	Message string `db:"message" fake:"{sentence}" json:"message"`
 	// Boolean indicating if the notification has been read.
 	IsRead pgtype.Bool `db:"is_read" json:"is_read"`
 	// timestamptz when the notification was created.
@@ -3463,7 +3463,7 @@ type CrmNotification struct {
 	// timestamptz when the notification was last updated.
 	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
 	// URL or path for further action/reference.
-	Link pgtype.Text `db:"link" json:"link"`
+	Link pgtype.Text `db:"link" fake:"{url}" json:"link"`
 }
 
 type CrmOpportunitiesView struct {
@@ -3489,17 +3489,17 @@ type CrmOpportunity struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Opportunity title.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{bs}" json:"name"`
 	// Current stage in the sales pipeline.
 	Stage NullCrmOpportunityStage `db:"stage" json:"stage"`
 	// Potential deal amount.
-	DealValue pgtype.Numeric `db:"deal_value" json:"deal_value"`
+	DealValue pgtype.Numeric `db:"deal_value" fake:"{price:1000,500000}" json:"deal_value"`
 	// Likelihood of closing, represented as a fraction or percentage.
-	Probability pgtype.Float4 `db:"probability" json:"probability"`
+	Probability pgtype.Float4 `db:"probability" fake:"{float32range:0,1}" json:"probability"`
 	// Anticipated date for closing the opportunity.
-	ExpectedCloseDate pgtype.Date `db:"expected_close_date" json:"expected_close_date"`
+	ExpectedCloseDate pgtype.Date `db:"expected_close_date" fake:"{date}" json:"expected_close_date"`
 	// Explanation for why the opportunity was lost.
-	LostReason pgtype.Text `db:"lost_reason" json:"lost_reason"`
+	LostReason pgtype.Text `db:"lost_reason" fake:"{sentence}" json:"lost_reason"`
 	// Origin of the opportunity (e.g., website, referral).
 	Source NullCrmOpportunitySource `db:"source" json:"source"`
 	// User responsible for the opportunity.
@@ -3523,7 +3523,7 @@ type CrmOpportunityProduct struct {
 	// Identifier linking to the product.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Number of units associated with the opportunity.
-	Quantity int32       `db:"quantity" json:"quantity"`
+	Quantity int32       `db:"quantity" fake:"{number:1,10}" json:"quantity"`
 	ID       pgtype.UUID `db:"id" json:"id"`
 }
 
@@ -3532,15 +3532,15 @@ type CrmProduct struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Name of the product or service.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{productname}" json:"name"`
 	// Stock keeping unit identifier.
-	Sku pgtype.Text `db:"sku" json:"sku"`
+	Sku pgtype.Text `db:"sku" fake:"{productupc}" json:"sku"`
 	// Cost of the product.
-	Price pgtype.Numeric `db:"price" json:"price"`
+	Price pgtype.Numeric `db:"price" fake:"{price:1,1000}" json:"price"`
 	// Type of offering (e.g., service, good).
 	Type NullCrmProductType `db:"type" json:"type"`
 	// Description or details about the product.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{productdescription}" json:"description"`
 	// timestamptz when the product was created.
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	// timestamptz when the product was last updated.
@@ -3554,15 +3554,15 @@ type DmsCustomerTrackingLink struct {
 	// Reference to the delivery task being tracked.
 	DeliveryTaskID pgtype.UUID `db:"delivery_task_id" json:"delivery_task_id"`
 	// Unique, unguessable identifier for secure access.
-	TrackingToken string `db:"tracking_token" json:"tracking_token"`
+	TrackingToken string `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
 	// Whether the tracking link is currently valid.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Number of times the tracking link has been accessed.
-	AccessCount pgtype.Int4 `db:"access_count" json:"access_count"`
+	AccessCount pgtype.Int4 `db:"access_count" fake:"{number:0,100}" json:"access_count"`
 	// When the tracking link was last accessed.
-	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
 	// When the tracking link will expire.
-	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	ExpiresAt pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	// Timestamp when the customer tracking link was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the customer tracking link was last updated.
@@ -3576,21 +3576,21 @@ type DmsDeliveryRoute struct {
 	// Reference to the assigned driver from the TMS.
 	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Scheduled date for the delivery route.
-	RouteDate pgtype.Date `db:"route_date" json:"route_date"`
+	RouteDate pgtype.Date `db:"route_date" fake:"{date}" json:"route_date"`
 	// Current state of the route using delivery_route_status_enum.
 	Status NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
 	// Stored route optimization data such as polylines and turn-by-turn directions.
-	OptimizedRouteData pgtype.Text `db:"optimized_route_data" json:"optimized_route_data"`
+	OptimizedRouteData pgtype.Text `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
 	// Total distance of the route in kilometers.
-	TotalDistanceKm pgtype.Float4 `db:"total_distance_km" json:"total_distance_km"`
+	TotalDistanceKm pgtype.Float4 `db:"total_distance_km" fake:"{float64range:5,100}" json:"total_distance_km"`
 	// Estimated time to complete the entire route in minutes.
-	EstimatedDurationMinutes pgtype.Int4 `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
+	EstimatedDurationMinutes pgtype.Int4 `db:"estimated_duration_minutes" fake:"{number:30,240}" json:"estimated_duration_minutes"`
 	// Actual time taken to complete the route in minutes (automatically calculated from start and completion times).
 	ActualDurationMinutes pgtype.Int4 `db:"actual_duration_minutes" json:"actual_duration_minutes"`
 	// When the route was started.
-	StartedAt pgtype.Timestamp `db:"started_at" json:"started_at"`
+	StartedAt pgtype.Timestamp `db:"started_at" fake:"{date}" json:"started_at"`
 	// When the route was completed.
-	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
+	CompletedAt pgtype.Timestamp `db:"completed_at" fake:"{date}" json:"completed_at"`
 	// Timestamp when the delivery route was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the delivery route was last updated.
@@ -3622,27 +3622,27 @@ type DmsDeliveryTask struct {
 	// Reference to the delivery route this task belongs to.
 	DeliveryRouteID pgtype.UUID `db:"delivery_route_id" json:"delivery_route_id"`
 	// Order of this delivery within the route.
-	RouteSequence int32 `db:"route_sequence" json:"route_sequence"`
+	RouteSequence int32 `db:"route_sequence" fake:"{number:1,20}" json:"route_sequence"`
 	// The address where the package should be delivered.
-	DeliveryAddress string `db:"delivery_address" json:"delivery_address"`
+	DeliveryAddress string `db:"delivery_address" fake:"{streetaddress}" json:"delivery_address"`
 	// Name of the person receiving the package.
-	RecipientName pgtype.Text `db:"recipient_name" json:"recipient_name"`
+	RecipientName pgtype.Text `db:"recipient_name" fake:"{name}" json:"recipient_name"`
 	// Phone number of the recipient.
-	RecipientPhone pgtype.Text `db:"recipient_phone" json:"recipient_phone"`
+	RecipientPhone pgtype.Text `db:"recipient_phone" fake:"{phone}" json:"recipient_phone"`
 	// Special instructions for the delivery.
-	DeliveryInstructions pgtype.Text `db:"delivery_instructions" json:"delivery_instructions"`
+	DeliveryInstructions pgtype.Text `db:"delivery_instructions" fake:"{sentence}" json:"delivery_instructions"`
 	// Calculated time when the delivery is expected.
-	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
 	// When the driver actually arrived at the delivery location.
-	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" json:"actual_arrival_time"`
+	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
 	// When the package was successfully delivered.
-	DeliveryTime pgtype.Timestamp `db:"delivery_time" json:"delivery_time"`
+	DeliveryTime pgtype.Timestamp `db:"delivery_time" fake:"{date}" json:"delivery_time"`
 	// Current status of the delivery task using delivery_task_status_enum.
 	Status NullDmsDeliveryTaskStatusEnum `db:"status" json:"status"`
 	// Reason for delivery failure using delivery_failure_reason_enum.
 	FailureReason NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
 	// Number of delivery attempts made.
-	AttemptCount pgtype.Int4 `db:"attempt_count" json:"attempt_count"`
+	AttemptCount pgtype.Int4 `db:"attempt_count" fake:"{number:0,3}" json:"attempt_count"`
 	// Timestamp when the delivery task was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the delivery task was last updated.
@@ -3678,19 +3678,19 @@ type DmsDriverLocation struct {
 	// Reference to the driver from the TMS.
 	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Geographic latitude coordinate.
-	Latitude float32 `db:"latitude" json:"latitude"`
+	Latitude float32 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	// Geographic longitude coordinate.
-	Longitude float32 `db:"longitude" json:"longitude"`
+	Longitude float32 `db:"longitude" fake:"{longitude}" json:"longitude"`
 	// Altitude in meters above sea level.
-	Altitude pgtype.Float4 `db:"altitude" json:"altitude"`
+	Altitude pgtype.Float4 `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
 	// GPS accuracy in meters.
-	Accuracy pgtype.Float4 `db:"accuracy" json:"accuracy"`
+	Accuracy pgtype.Float4 `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
 	// Current speed in kilometers per hour.
-	SpeedKmh pgtype.Float4 `db:"speed_kmh" json:"speed_kmh"`
+	SpeedKmh pgtype.Float4 `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
 	// Direction of travel in degrees (0-359).
-	Heading pgtype.Float4 `db:"heading" json:"heading"`
+	Heading pgtype.Float4 `db:"heading" fake:"{float64range:0,360}" json:"heading"`
 	// When the location was recorded.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	// Timestamp when the driver location was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the driver location was last updated.
@@ -3706,19 +3706,19 @@ type DmsProofOfDelivery struct {
 	// Type of proof collected using proof_of_delivery_type_enum.
 	Type DmsProofOfDeliveryTypeEnum `db:"type" json:"type"`
 	// Storage location of the proof file (for photos).
-	FilePath pgtype.Text `db:"file_path" json:"file_path"`
+	FilePath pgtype.Text `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
 	// Digital signature data (for signature proofs).
-	SignatureData pgtype.Text `db:"signature_data" json:"signature_data"`
+	SignatureData pgtype.Text `db:"signature_data" fake:"{sentence}" json:"signature_data"`
 	// Name of the person who received the package.
-	RecipientName pgtype.Text `db:"recipient_name" json:"recipient_name"`
+	RecipientName pgtype.Text `db:"recipient_name" fake:"{name}" json:"recipient_name"`
 	// Code used for verification deliveries.
-	VerificationCode pgtype.Text `db:"verification_code" json:"verification_code"`
+	VerificationCode pgtype.Text `db:"verification_code" fake:"{uuid}" json:"verification_code"`
 	// Geographic latitude where proof was collected.
-	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
+	Latitude pgtype.Float4 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	// Geographic longitude where proof was collected.
-	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
+	Longitude pgtype.Float4 `db:"longitude" fake:"{longitude}" json:"longitude"`
 	// When the proof was collected.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	// Timestamp when the proof of delivery was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the proof of delivery was last updated.
@@ -3734,15 +3734,15 @@ type DmsTaskEvent struct {
 	// The event status being recorded using task_event_status_enum.
 	Status DmsTaskEventStatusEnum `db:"status" json:"status"`
 	// Additional context for the status change (e.g., "recipient not home").
-	Reason pgtype.Text `db:"reason" json:"reason"`
+	Reason pgtype.Text `db:"reason" fake:"{sentence}" json:"reason"`
 	// Additional notes about the event.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{paragraph}" json:"notes"`
 	// Geographic latitude where the event occurred.
-	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
+	Latitude pgtype.Float4 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	// Geographic longitude where the event occurred.
-	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
+	Longitude pgtype.Float4 `db:"longitude" fake:"{longitude}" json:"longitude"`
 	// When the event occurred.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	// Timestamp when the task event was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the task event was last updated.
@@ -3766,11 +3766,11 @@ type TmsCarrier struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Carrier company name.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{company}" json:"name"`
 	// Contact information for the carrier.
-	ContactDetails pgtype.Text `db:"contact_details" json:"contact_details"`
+	ContactDetails pgtype.Text `db:"contact_details" fake:"{phone}" json:"contact_details"`
 	// Description of transportation services provided.
-	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
+	ServicesOffered pgtype.Text `db:"services_offered" fake:"{bs}" json:"services_offered"`
 	// Timestamp when the carrier was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the carrier was last updated.
@@ -3787,13 +3787,13 @@ type TmsCarrierRate struct {
 	// Reference to the carrier providing the service.
 	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Type of transportation service.
-	ServiceType pgtype.Text `db:"service_type" json:"service_type"`
+	ServiceType pgtype.Text `db:"service_type" fake:"{jobtitle}" json:"service_type"`
 	// Starting location for the service.
-	Origin pgtype.Text `db:"origin" json:"origin"`
+	Origin pgtype.Text `db:"origin" fake:"{city}" json:"origin"`
 	// Ending location for the service.
-	Destination pgtype.Text `db:"destination" json:"destination"`
+	Destination pgtype.Text `db:"destination" fake:"{city}" json:"destination"`
 	// Cost for the service.
-	Rate pgtype.Numeric `db:"rate" json:"rate"`
+	Rate pgtype.Numeric `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	// Pricing unit using carrier_rate_unit_enum.
 	Unit NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	// Timestamp when the rate was created.
@@ -3824,9 +3824,9 @@ type TmsDriver struct {
 	// Reference to the user account in the system.
 	UserID string `db:"user_id" json:"user_id"`
 	// Driver's license identification number.
-	LicenseNumber string `db:"license_number" json:"license_number"`
+	LicenseNumber string `db:"license_number" fake:"{uuid}" json:"license_number"`
 	// When the driver's license expires.
-	LicenseExpiryDate pgtype.Date `db:"license_expiry_date" json:"license_expiry_date"`
+	LicenseExpiryDate pgtype.Date `db:"license_expiry_date" fake:"{date}" json:"license_expiry_date"`
 	// Current availability status using driver_status_enum.
 	Status NullTmsDriverStatusEnum `db:"status" json:"status"`
 	// Timestamp when the driver was created.
@@ -3843,9 +3843,9 @@ type TmsDriverSchedule struct {
 	// Reference to the associated driver.
 	DriverID pgtype.UUID `db:"driver_id" json:"driver_id"`
 	// Beginning of the schedule period.
-	StartDate pgtype.Date `db:"start_date" json:"start_date"`
+	StartDate pgtype.Date `db:"start_date" fake:"{date}" json:"start_date"`
 	// End of the schedule period.
-	EndDate pgtype.Date `db:"end_date" json:"end_date"`
+	EndDate pgtype.Date `db:"end_date" fake:"{date}" json:"end_date"`
 	// Purpose of the schedule entry using driver_schedule_reason_enum.
 	Reason NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	// Timestamp when the schedule was created.
@@ -3879,15 +3879,15 @@ type TmsExpense struct {
 	// Category of expense using expense_type_enum.
 	Type NullTmsExpenseTypeEnum `db:"type" json:"type"`
 	// Financial amount of the expense.
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:10,500}" json:"amount"`
 	// Currency denomination using currency_enum.
 	Currency NullTmsCurrencyEnum `db:"currency" json:"currency"`
 	// Link to receipt or proof of purchase.
-	ReceiptUrl pgtype.Text `db:"receipt_url" json:"receipt_url"`
+	ReceiptUrl pgtype.Text `db:"receipt_url" fake:"{url}" json:"receipt_url"`
 	// Amount of fuel purchased (if applicable).
-	FuelQuantity pgtype.Float4 `db:"fuel_quantity" json:"fuel_quantity"`
+	FuelQuantity pgtype.Float4 `db:"fuel_quantity" fake:"{float64range:10,100}" json:"fuel_quantity"`
 	// Vehicle odometer reading at time of expense.
-	OdometerReading pgtype.Int4 `db:"odometer_reading" json:"odometer_reading"`
+	OdometerReading pgtype.Int4 `db:"odometer_reading" fake:"{number:10000,200000}" json:"odometer_reading"`
 	// Approval status using expense_status_enum.
 	Status NullTmsExpenseStatusEnum `db:"status" json:"status"`
 	// Timestamp when the expense was created.
@@ -3903,7 +3903,7 @@ type TmsGeofence struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Descriptive name for the geofenced area.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{city}" json:"name"`
 	// Timestamp when the geofence was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the geofence was last updated.
@@ -3923,7 +3923,7 @@ type TmsGeofenceEvent struct {
 	// Type of boundary event using geofence_event_type_enum.
 	EventType TmsGeofenceEventTypeEnum `db:"event_type" json:"event_type"`
 	// When the event occurred.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 type TmsGeofencesView struct {
@@ -3943,11 +3943,11 @@ type TmsGpsPing struct {
 	// Reference to the vehicle sending the location data.
 	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Geographic latitude coordinate.
-	Latitude float32 `db:"latitude" json:"latitude"`
+	Latitude float32 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	// Geographic longitude coordinate.
-	Longitude float32 `db:"longitude" json:"longitude"`
+	Longitude float32 `db:"longitude" fake:"{longitude}" json:"longitude"`
 	// When the location was recorded.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 // Billing records from third-party carriers for transportation services.
@@ -3957,11 +3957,11 @@ type TmsPartnerInvoice struct {
 	// Reference to the carrier sending the invoice.
 	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Carrier's invoice identifier.
-	InvoiceNumber string `db:"invoice_number" json:"invoice_number"`
+	InvoiceNumber string `db:"invoice_number" fake:"{uuid}" json:"invoice_number"`
 	// Date the invoice was issued.
-	InvoiceDate pgtype.Date `db:"invoice_date" json:"invoice_date"`
+	InvoiceDate pgtype.Date `db:"invoice_date" fake:"{date}" json:"invoice_date"`
 	// Total amount billed on the invoice.
-	TotalAmount pgtype.Numeric `db:"total_amount" json:"total_amount"`
+	TotalAmount pgtype.Numeric `db:"total_amount" fake:"{price:1000,50000}" json:"total_amount"`
 	// Payment status using partner_invoice_status_enum.
 	Status NullTmsPartnerInvoiceStatusEnum `db:"status" json:"status"`
 	// Timestamp when the invoice was created.
@@ -3979,7 +3979,7 @@ type TmsPartnerInvoiceItem struct {
 	// Reference to the specific shipment leg being billed.
 	ShipmentLegID pgtype.UUID `db:"shipment_leg_id" json:"shipment_leg_id"`
 	// Amount charged for this specific shipment leg.
-	Amount pgtype.Numeric `db:"amount" json:"amount"`
+	Amount pgtype.Numeric `db:"amount" fake:"{price:100,5000}" json:"amount"`
 }
 
 type TmsPartnerInvoicesView struct {
@@ -4003,13 +4003,13 @@ type TmsProofOfDelivery struct {
 	// Type of proof collected using proof_type_enum.
 	Type NullTmsProofTypeEnum `db:"type" json:"type"`
 	// Storage location of the proof file.
-	FilePath pgtype.Text `db:"file_path" json:"file_path"`
+	FilePath pgtype.Text `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
 	// When the proof was collected.
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	// Geographic latitude where proof was collected.
-	Latitude pgtype.Float4 `db:"latitude" json:"latitude"`
+	Latitude pgtype.Float4 `db:"latitude" fake:"{latitude}" json:"latitude"`
 	// Geographic longitude where proof was collected.
-	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
+	Longitude pgtype.Float4 `db:"longitude" fake:"{longitude}" json:"longitude"`
 	// Timestamp when the proof was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the proof was last updated.
@@ -4023,11 +4023,11 @@ type TmsRoute struct {
 	// Reference to the associated trip.
 	TripID pgtype.UUID `db:"trip_id" json:"trip_id"`
 	// Route optimization data such as polylines and turn-by-turn directions.
-	OptimizedRouteData pgtype.Text `db:"optimized_route_data" json:"optimized_route_data"`
+	OptimizedRouteData pgtype.Text `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
 	// Calculated total distance of the route.
-	TotalDistance pgtype.Float4 `db:"total_distance" json:"total_distance"`
+	TotalDistance pgtype.Float4 `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
 	// Estimated total time for the route.
-	TotalDuration pgtype.Float4 `db:"total_duration" json:"total_duration"`
+	TotalDuration pgtype.Float4 `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	// Timestamp when the route was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the route was last updated.
@@ -4041,11 +4041,11 @@ type TmsShipmentLeg struct {
 	// Reference to the overall shipment.
 	ShipmentID pgtype.UUID `db:"shipment_id" json:"shipment_id"`
 	// Order of this leg within the shipment journey.
-	LegSequence int32 `db:"leg_sequence" json:"leg_sequence"`
+	LegSequence int32 `db:"leg_sequence" fake:"{number:1,5}" json:"leg_sequence"`
 	// Starting point of this leg.
-	StartLocation pgtype.Text `db:"start_location" json:"start_location"`
+	StartLocation pgtype.Text `db:"start_location" fake:"{city}" json:"start_location"`
 	// Ending point of this leg.
-	EndLocation pgtype.Text `db:"end_location" json:"end_location"`
+	EndLocation pgtype.Text `db:"end_location" fake:"{city}" json:"end_location"`
 	// Reference to third-party carrier (if external).
 	CarrierID pgtype.UUID `db:"carrier_id" json:"carrier_id"`
 	// Reference to internal trip (if using own fleet).
@@ -4065,11 +4065,11 @@ type TmsShipmentLegEvent struct {
 	// Reference to the associated shipment leg.
 	ShipmentLegID pgtype.UUID `db:"shipment_leg_id" json:"shipment_leg_id"`
 	// Description of the status or event.
-	StatusMessage pgtype.Text `db:"status_message" json:"status_message"`
+	StatusMessage pgtype.Text `db:"status_message" fake:"{sentence}" json:"status_message"`
 	// Geographic location where the event occurred.
-	Location pgtype.Text `db:"location" json:"location"`
+	Location pgtype.Text `db:"location" fake:"{city}" json:"location"`
 	// When the event was recorded.
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 }
 
 type TmsShipmentLegsView struct {
@@ -4115,19 +4115,19 @@ type TmsTripStop struct {
 	// Reference to the shipment being handled at this stop.
 	ShipmentID pgtype.UUID `db:"shipment_id" json:"shipment_id"`
 	// Order of this stop within the trip.
-	Sequence int32 `db:"sequence" json:"sequence"`
+	Sequence int32 `db:"sequence" fake:"{number:1,10}" json:"sequence"`
 	// Physical location of the stop.
-	Address pgtype.Text `db:"address" json:"address"`
+	Address pgtype.Text `db:"address" fake:"{streetaddress}" json:"address"`
 	// Current stop status using trip_stop_status_enum.
 	Status NullTmsTripStopStatusEnum `db:"status" json:"status"`
 	// Planned arrival time at the stop.
-	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" json:"estimated_arrival_time"`
+	EstimatedArrivalTime pgtype.Timestamp `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
 	// Actual recorded arrival time.
-	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" json:"actual_arrival_time"`
+	ActualArrivalTime pgtype.Timestamp `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
 	// Planned departure time from the stop.
-	EstimatedDepartureTime pgtype.Timestamp `db:"estimated_departure_time" json:"estimated_departure_time"`
+	EstimatedDepartureTime pgtype.Timestamp `db:"estimated_departure_time" fake:"{date}" json:"estimated_departure_time"`
 	// Actual recorded departure time.
-	ActualDepartureTime pgtype.Timestamp `db:"actual_departure_time" json:"actual_departure_time"`
+	ActualDepartureTime pgtype.Timestamp `db:"actual_departure_time" fake:"{date}" json:"actual_departure_time"`
 	// Timestamp when the trip stop was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the trip stop was last updated.
@@ -4171,13 +4171,13 @@ type TmsVehicle struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Vehicle's license plate or registration identifier.
-	RegistrationNumber string `db:"registration_number" json:"registration_number"`
+	RegistrationNumber string `db:"registration_number" fake:"{uuid}" json:"registration_number"`
 	// Vehicle make and model information.
-	Model pgtype.Text `db:"model" json:"model"`
+	Model pgtype.Text `db:"model" fake:"{carmodel}" json:"model"`
 	// Maximum cargo volume the vehicle can carry.
-	CapacityVolume pgtype.Float4 `db:"capacity_volume" json:"capacity_volume"`
+	CapacityVolume pgtype.Float4 `db:"capacity_volume" fake:"{float64range:10,100}" json:"capacity_volume"`
 	// Maximum weight capacity of the vehicle.
-	CapacityWeight pgtype.Float4 `db:"capacity_weight" json:"capacity_weight"`
+	CapacityWeight pgtype.Float4 `db:"capacity_weight" fake:"{float64range:1000,5000}" json:"capacity_weight"`
 	// Current vehicle status using vehicle_status_enum.
 	Status NullTmsVehicleStatusEnum `db:"status" json:"status"`
 	// Timestamp when the vehicle was created.
@@ -4198,13 +4198,13 @@ type TmsVehicleMaintenance struct {
 	// Reference to the vehicle being serviced.
 	VehicleID pgtype.UUID `db:"vehicle_id" json:"vehicle_id"`
 	// Date when maintenance was performed.
-	ServiceDate pgtype.Date `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date `db:"service_date" fake:"{date}" json:"service_date"`
 	// Type of maintenance or repair work using vehicle_service_type_enum.
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
 	// Financial cost of the maintenance service.
-	Cost pgtype.Numeric `db:"cost" json:"cost"`
+	Cost pgtype.Numeric `db:"cost" fake:"{price:100,2000}" json:"cost"`
 	// Additional details about the maintenance work.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// Timestamp when the maintenance record was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the maintenance record was last updated.

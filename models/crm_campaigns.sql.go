@@ -80,10 +80,10 @@ returning
 `
 
 type CrmInsertCampaignParams struct {
-	Name      string         `db:"name" json:"name"`
-	Budget    pgtype.Numeric `db:"budget" json:"budget"`
-	StartDate pgtype.Date    `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date    `db:"end_date" json:"end_date"`
+	Name      string         `db:"name" fake:"{hackerphrase}" json:"name"`
+	Budget    pgtype.Numeric `db:"budget" fake:"{price:1000,100000}" json:"budget"`
+	StartDate pgtype.Date    `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date    `db:"end_date" fake:"{date}" json:"end_date"`
 }
 
 func (q *Queries) CrmInsertCampaign(ctx context.Context, arg CrmInsertCampaignParams) (CrmCampaign, error) {
@@ -272,10 +272,10 @@ returning
 `
 
 type CrmUpdateCampaignParams struct {
-	Name      string         `db:"name" json:"name"`
-	Budget    pgtype.Numeric `db:"budget" json:"budget"`
-	StartDate pgtype.Date    `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date    `db:"end_date" json:"end_date"`
+	Name      string         `db:"name" fake:"{hackerphrase}" json:"name"`
+	Budget    pgtype.Numeric `db:"budget" fake:"{price:1000,100000}" json:"budget"`
+	StartDate pgtype.Date    `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date    `db:"end_date" fake:"{date}" json:"end_date"`
 	ID        pgtype.UUID    `db:"id" json:"id"`
 }
 

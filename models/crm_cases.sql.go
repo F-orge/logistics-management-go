@@ -26,13 +26,13 @@ where
 
 type CrmAnyCaseRow struct {
 	ID          pgtype.UUID         `db:"id" json:"id"`
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 	CreatedAt   pgtype.Timestamptz  `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz  `db:"updated_at" json:"updated_at"`
 	User        User                `db:"user" json:"user"`
@@ -105,13 +105,13 @@ where
 
 type CrmFindCaseRow struct {
 	ID          pgtype.UUID         `db:"id" json:"id"`
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 	CreatedAt   pgtype.Timestamptz  `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz  `db:"updated_at" json:"updated_at"`
 	User        User                `db:"user" json:"user"`
@@ -164,13 +164,13 @@ returning
 `
 
 type CrmInsertCaseParams struct {
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 }
 
 func (q *Queries) CrmInsertCase(ctx context.Context, arg CrmInsertCaseParams) (CrmCase, error) {
@@ -226,13 +226,13 @@ type CrmPaginateCaseParams struct {
 
 type CrmPaginateCaseRow struct {
 	ID          pgtype.UUID         `db:"id" json:"id"`
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 	CreatedAt   pgtype.Timestamptz  `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz  `db:"updated_at" json:"updated_at"`
 	User        User                `db:"user" json:"user"`
@@ -353,13 +353,13 @@ type CrmRangeCaseParams struct {
 
 type CrmRangeCaseRow struct {
 	ID          pgtype.UUID         `db:"id" json:"id"`
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 	CreatedAt   pgtype.Timestamptz  `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamptz  `db:"updated_at" json:"updated_at"`
 	User        User                `db:"user" json:"user"`
@@ -474,13 +474,13 @@ returning
 `
 
 type CrmUpdateCaseParams struct {
-	CaseNumber  string              `db:"case_number" json:"case_number"`
+	CaseNumber  string              `db:"case_number" fake:"{uuid}" json:"case_number"`
 	Status      NullCrmCaseStatus   `db:"status" json:"status"`
 	Priority    NullCrmCasePriority `db:"priority" json:"priority"`
 	Type        NullCrmCaseType     `db:"type" json:"type"`
 	OwnerID     string              `db:"owner_id" json:"owner_id"`
 	ContactID   pgtype.UUID         `db:"contact_id" json:"contact_id"`
-	Description pgtype.Text         `db:"description" json:"description"`
+	Description pgtype.Text         `db:"description" fake:"{sentence}" json:"description"`
 	ID          pgtype.UUID         `db:"id" json:"id"`
 }
 

@@ -32,9 +32,9 @@ type CrmAnyInteractionRow struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	CreatedAt       pgtype.Timestamptz     `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamptz     `db:"updated_at" json:"updated_at"`
 	CrmContact      CrmContact             `db:"crm_contact" json:"crm_contact"`
@@ -124,9 +124,9 @@ type CrmFindInteractionRow struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	CreatedAt       pgtype.Timestamptz     `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamptz     `db:"updated_at" json:"updated_at"`
 	CrmContact      CrmContact             `db:"crm_contact" json:"crm_contact"`
@@ -194,9 +194,9 @@ type CrmInsertInteractionParams struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 }
 
 func (q *Queries) CrmInsertInteraction(ctx context.Context, arg CrmInsertInteractionParams) (CrmInteraction, error) {
@@ -256,9 +256,9 @@ type CrmPaginateInteractionRow struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	CreatedAt       pgtype.Timestamptz     `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamptz     `db:"updated_at" json:"updated_at"`
 	CrmContact      CrmContact             `db:"crm_contact" json:"crm_contact"`
@@ -394,9 +394,9 @@ type CrmRangeInteractionRow struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	CreatedAt       pgtype.Timestamptz     `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamptz     `db:"updated_at" json:"updated_at"`
 	CrmContact      CrmContact             `db:"crm_contact" json:"crm_contact"`
@@ -526,9 +526,9 @@ type CrmUpdateInteractionParams struct {
 	UserID          string                 `db:"user_id" json:"user_id"`
 	CaseID          pgtype.UUID            `db:"case_id" json:"case_id"`
 	Type            NullCrmInteractionType `db:"type" json:"type"`
-	Outcome         pgtype.Text            `db:"outcome" json:"outcome"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	InteractionDate pgtype.Timestamptz     `db:"interaction_date" json:"interaction_date"`
+	Outcome         pgtype.Text            `db:"outcome" fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}" json:"outcome"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	InteractionDate pgtype.Timestamptz     `db:"interaction_date" fake:"{date}" json:"interaction_date"`
 	ID              pgtype.UUID            `db:"id" json:"id"`
 }
 

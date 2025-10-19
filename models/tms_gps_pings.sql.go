@@ -25,9 +25,9 @@ where
 type TmsAnyGpsPingRow struct {
 	ID         pgtype.UUID      `db:"id" json:"id"`
 	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude   float32          `db:"latitude" json:"latitude"`
-	Longitude  float32          `db:"longitude" json:"longitude"`
-	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude   float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
@@ -84,9 +84,9 @@ where
 type TmsFindGpsPingRow struct {
 	ID         pgtype.UUID      `db:"id" json:"id"`
 	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude   float32          `db:"latitude" json:"latitude"`
-	Longitude  float32          `db:"longitude" json:"longitude"`
-	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude   float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
@@ -125,9 +125,9 @@ returning
 
 type TmsInsertGpsPingParams struct {
 	VehicleID pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 func (q *Queries) TmsInsertGpsPing(ctx context.Context, arg TmsInsertGpsPingParams) (TmsGpsPing, error) {
@@ -169,9 +169,9 @@ type TmsPaginateGpsPingParams struct {
 type TmsPaginateGpsPingRow struct {
 	ID         pgtype.UUID      `db:"id" json:"id"`
 	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude   float32          `db:"latitude" json:"latitude"`
-	Longitude  float32          `db:"longitude" json:"longitude"`
-	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude   float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
@@ -271,9 +271,9 @@ type TmsRangeGpsPingParams struct {
 type TmsRangeGpsPingRow struct {
 	ID         pgtype.UUID      `db:"id" json:"id"`
 	VehicleID  pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude   float32          `db:"latitude" json:"latitude"`
-	Longitude  float32          `db:"longitude" json:"longitude"`
-	Timestamp  pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude   float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp  pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	TmsVehicle TmsVehicle       `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
@@ -359,9 +359,9 @@ returning
 
 type TmsUpdateGpsPingParams struct {
 	VehicleID pgtype.UUID      `db:"vehicle_id" json:"vehicle_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	ID        pgtype.UUID      `db:"id" json:"id"`
 }
 

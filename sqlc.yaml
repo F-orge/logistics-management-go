@@ -11,6 +11,326 @@ sql:
         emit_json_tags: true
         emit_db_tags: true
         overrides:
+          # crm schema fake data
+          ## campaign
+          - column: "crm.campaigns.name"
+            go_struct_tag: 'fake:"{hackerphrase}"'
+          - column: "crm.campaigns.budget"
+            go_struct_tag: 'fake:"{price:1000,100000}"'
+          - column: "crm.campaigns.start_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "crm.campaigns.end_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## products
+          - column: "crm.products.name"
+            go_struct_tag: 'fake:"{productname}"'
+          - column: "crm.products.sku"
+            go_struct_tag: 'fake:"{productupc}"'
+          - column: "crm.products.price"
+            go_struct_tag: 'fake:"{price:1,1000}"'
+          - column: "crm.products.description"
+            go_struct_tag: 'fake:"{productdescription}"'
+          ## companies
+          - column: "crm.companies.name"
+            go_struct_tag: 'fake:"{company}"'
+          - column: "crm.companies.street"
+            go_struct_tag: 'fake:"{street}"'
+          - column: "crm.companies.city"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "crm.companies.state"
+            go_struct_tag: 'fake:"{state}"'
+          - column: "crm.companies.postal_code"
+            go_struct_tag: 'fake:"{zip}"'
+          - column: "crm.companies.country"
+            go_struct_tag: 'fake:"{country}"'
+          - column: "crm.companies.phone_number"
+            go_struct_tag: 'fake:"{phone}"'
+          - column: "crm.companies.industry"
+            go_struct_tag: 'fake:"{jobdescriptor}"'
+          - column: "crm.companies.website"
+            go_struct_tag: 'fake:"{url}"'
+          - column: "crm.companies.annual_revenue"
+            go_struct_tag: 'fake:"{price:100000,100000000}"'
+          ## contacts
+          - column: "crm.contacts.name"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "crm.contacts.email"
+            go_struct_tag: 'fake:"{email}"'
+          - column: "crm.contacts.phone_number"
+            go_struct_tag: 'fake:"{phone}"'
+          - column: "crm.contacts.job_title"
+            go_struct_tag: 'fake:"{jobtitle}"'
+          ## opportunities
+          - column: "crm.opportunities.name"
+            go_struct_tag: 'fake:"{bs}"'
+          - column: "crm.opportunities.deal_value"
+            go_struct_tag: 'fake:"{price:1000,500000}"'
+          - column: "crm.opportunities.probability"
+            go_struct_tag: 'fake:"{float32range:0,1}"'
+          - column: "crm.opportunities.expected_close_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "crm.opportunities.lost_reason"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## leads
+          - column: "crm.leads.name"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "crm.leads.email"
+            go_struct_tag: 'fake:"{email}"'
+          - column: "crm.leads.lead_score"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "crm.leads.converted_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## cases
+          - column: "crm.cases.case_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "crm.cases.description"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## interactions
+          - column: "crm.interactions.outcome"
+            go_struct_tag: 'fake:"{randomstring:[meeting scheduled,call back later,deal closed,deal lost]}"'
+          - column: "crm.interactions.notes"
+            go_struct_tag: 'fake:"{paragraph}"'
+          - column: "crm.interactions.interaction_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## opportunity_products
+          - column: "crm.opportunity_products.quantity"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          ## invoices
+          - column: "crm.invoices.total"
+            go_struct_tag: 'fake:"{price:100,10000}"'
+          - column: "crm.invoices.issue_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "crm.invoices.due_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "crm.invoices.sent_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "crm.invoices.paid_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## invoice_items
+          - column: "crm.invoice_items.quantity"
+            go_struct_tag: 'fake:"{number:1,20}"'
+          - column: "crm.invoice_items.price"
+            go_struct_tag: 'fake:"{price:10,500}"'
+          ## notifications
+          - column: "crm.notifications.message"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "crm.notifications.link"
+            go_struct_tag: 'fake:"{url}"'
+          ## attachments
+          - column: "crm.attachments.file_name"
+            go_struct_tag: 'fake:"{word}.{fileextension}"'
+          - column: "crm.attachments.file_path"
+            go_struct_tag: 'fake:"/{hackerphrase}"'
+          - column: "crm.attachments.mime_type"
+            go_struct_tag: 'fake:"{filemimetype}"'
+
+          # dms schema fake data
+          ## delivery_routes
+          - column: "dms.delivery_routes.route_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.delivery_routes.optimized_route_data"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "dms.delivery_routes.total_distance_km"
+            go_struct_tag: 'fake:"{float64range:5,100}"'
+          - column: "dms.delivery_routes.estimated_duration_minutes"
+            go_struct_tag: 'fake:"{number:30,240}"'
+          - column: "dms.delivery_routes.started_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.delivery_routes.completed_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## delivery_tasks
+          - column: "dms.delivery_tasks.route_sequence"
+            go_struct_tag: 'fake:"{number:1,20}"'
+          - column: "dms.delivery_tasks.delivery_address"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          - column: "dms.delivery_tasks.recipient_name"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "dms.delivery_tasks.recipient_phone"
+            go_struct_tag: 'fake:"{phone}"'
+          - column: "dms.delivery_tasks.delivery_instructions"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "dms.delivery_tasks.estimated_arrival_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.delivery_tasks.actual_arrival_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.delivery_tasks.delivery_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.delivery_tasks.attempt_count"
+            go_struct_tag: 'fake:"{number:0,3}"'
+          ## task_events
+          - column: "dms.task_events.reason"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "dms.task_events.notes"
+            go_struct_tag: 'fake:"{paragraph}"'
+          - column: "dms.task_events.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
+          - column: "dms.task_events.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          - column: "dms.task_events.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## proof_of_deliveries
+          - column: "dms.proof_of_deliveries.file_path"
+            go_struct_tag: 'fake:"/{hackerphrase}"'
+          - column: "dms.proof_of_deliveries.signature_data"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "dms.proof_of_deliveries.recipient_name"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "dms.proof_of_deliveries.verification_code"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "dms.proof_of_deliveries.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
+          - column: "dms.proof_of_deliveries.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          - column: "dms.proof_of_deliveries.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## driver_locations
+          - column: "dms.driver_locations.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
+          - column: "dms.driver_locations.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          - column: "dms.driver_locations.altitude"
+            go_struct_tag: 'fake:"{float64range:0,1000}"'
+          - column: "dms.driver_locations.accuracy"
+            go_struct_tag: 'fake:"{float64range:0,100}"'
+          - column: "dms.driver_locations.speed_kmh"
+            go_struct_tag: 'fake:"{float64range:0,120}"'
+          - column: "dms.driver_locations.heading"
+            go_struct_tag: 'fake:"{float64range:0,360}"'
+          - column: "dms.driver_locations.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## customer_tracking_links
+          - column: "dms.customer_tracking_links.tracking_token"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "dms.customer_tracking_links.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "dms.customer_tracking_links.access_count"
+            go_struct_tag: 'fake:"{number:0,100}"'
+          - column: "dms.customer_tracking_links.last_accessed_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "dms.customer_tracking_links.expires_at"
+            go_struct_tag: 'fake:"{date}"'
+
+          # tms schema fake data
+          ## drivers
+          - column: "tms.drivers.license_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "tms.drivers.license_expiry_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## driver_schedules
+          - column: "tms.driver_schedules.start_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.driver_schedules.end_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## vehicles
+          - column: "tms.vehicles.registration_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "tms.vehicles.model"
+            go_struct_tag: 'fake:"{carmodel}"'
+          - column: "tms.vehicles.capacity_volume"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "tms.vehicles.capacity_weight"
+            go_struct_tag: 'fake:"{float64range:1000,5000}"'
+          ## vehicle_maintenance
+          - column: "tms.vehicle_maintenance.service_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.vehicle_maintenance.cost"
+            go_struct_tag: 'fake:"{price:100,2000}"'
+          - column: "tms.vehicle_maintenance.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## trip_stops
+          - column: "tms.trip_stops.sequence"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          - column: "tms.trip_stops.address"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          - column: "tms.trip_stops.estimated_arrival_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.trip_stops.actual_arrival_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.trip_stops.estimated_departure_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.trip_stops.actual_departure_time"
+            go_struct_tag: 'fake:"{date}"'
+          ## gps_pings
+          - column: "tms.gps_pings.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
+          - column: "tms.gps_pings.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          - column: "tms.gps_pings.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## routes
+          - column: "tms.routes.optimized_route_data"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "tms.routes.total_distance"
+            go_struct_tag: 'fake:"{float64range:10,500}"'
+          - column: "tms.routes.total_duration"
+            go_struct_tag: 'fake:"{float64range:30,600}"'
+          ## proof_of_deliveries
+          - column: "tms.proof_of_deliveries.file_path"
+            go_struct_tag: 'fake:"/{hackerphrase}"'
+          - column: "tms.proof_of_deliveries.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.proof_of_deliveries.latitude"
+            go_struct_tag: 'fake:"{latitude}"'
+          - column: "tms.proof_of_deliveries.longitude"
+            go_struct_tag: 'fake:"{longitude}"'
+          ## expenses
+          - column: "tms.expenses.amount"
+            go_struct_tag: 'fake:"{price:10,500}"'
+          - column: "tms.expenses.receipt_url"
+            go_struct_tag: 'fake:"{url}"'
+          - column: "tms.expenses.fuel_quantity"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "tms.expenses.odometer_reading"
+            go_struct_tag: 'fake:"{number:10000,200000}"'
+          ## geofences
+          - column: "tms.geofences.name"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.geofences.coordinates"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## geofence_events
+          - column: "tms.geofence_events.timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## carriers
+          - column: "tms.carriers.name"
+            go_struct_tag: 'fake:"{company}"'
+          - column: "tms.carriers.contact_details"
+            go_struct_tag: 'fake:"{phone}"'
+          - column: "tms.carriers.services_offered"
+            go_struct_tag: 'fake:"{bs}"'
+          ## carrier_rates
+          - column: "tms.carrier_rates.service_type"
+            go_struct_tag: 'fake:"{jobtitle}"'
+          - column: "tms.carrier_rates.origin"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.carrier_rates.destination"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.carrier_rates.rate"
+            go_struct_tag: 'fake:"{price:100,5000}"'
+          ## shipment_legs
+          - column: "tms.shipment_legs.leg_sequence"
+            go_struct_tag: 'fake:"{number:1,5}"'
+          - column: "tms.shipment_legs.start_location"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.shipment_legs.end_location"
+            go_struct_tag: 'fake:"{city}"'
+          ## shipment_leg_events
+          - column: "tms.shipment_leg_events.status_message"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "tms.shipment_leg_events.location"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "tms.shipment_leg_events.event_timestamp"
+            go_struct_tag: 'fake:"{date}"'
+          ## partner_invoices
+          - column: "tms.partner_invoices.invoice_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "tms.partner_invoices.invoice_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "tms.partner_invoices.total_amount"
+            go_struct_tag: 'fake:"{price:1000,50000}"'
+          ## partner_invoice_items
+          - column: "tms.partner_invoice_items.amount"
+            go_struct_tag: 'fake:"{price:100,5000}"'
+
           # crm schema
           - column: "crm.invoices_view.items"
             go_type:
@@ -251,6 +571,126 @@ sql:
           - column: "billing.quotes_view.invoices"
             go_type:
               type: "BillingInvoicesView"
+              slice: true
+          - column: "wms.inbound_shipments_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.sales_orders_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.outbound_shipments_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.returns_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.packages_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.pick_batches_view.pick_batch_items"
+            go_type:
+              type: "WmsPickBatchItem"
+              slice: true
+          - column: "wms.tasks_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.locations_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.locations_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.locations_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.inventory_batches"
+            go_type:
+              type: "WmsInventoryBatch"
+              slice: true
+          - column: "wms.products_view.inventory_adjustments"
+            go_type:
+              type: "WmsInventoryAdjustment"
+              slice: true
+          - column: "wms.products_view.reorder_points"
+            go_type:
+              type: "WmsReorderPoint"
+              slice: true
+          - column: "wms.products_view.inbound_shipment_items"
+            go_type:
+              type: "WmsInboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.stock_transfers"
+            go_type:
+              type: "WmsStockTransfer"
+              slice: true
+          - column: "wms.products_view.sales_order_items"
+            go_type:
+              type: "WmsSalesOrderItem"
+              slice: true
+          - column: "wms.products_view.outbound_shipment_items"
+            go_type:
+              type: "WmsOutboundShipmentItem"
+              slice: true
+          - column: "wms.products_view.return_items"
+            go_type:
+              type: "WmsReturnItem"
+              slice: true
+          - column: "wms.products_view.inventory_stock"
+            go_type:
+              type: "WmsInventoryStock"
+              slice: true
+          - column: "wms.products_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.products_view.bin_thresholds"
+            go_type:
+              type: "WmsBinThreshold"
+              slice: true
+          - column: "wms.products_view.task_items"
+            go_type:
+              type: "WmsTaskItem"
+              slice: true
+          - column: "wms.products_view.package_items"
+            go_type:
+              type: "WmsPackageItem"
+              slice: true
+          - column: "wms.warehouses_view.inbound_shipments"
+            go_type:
+              type: "WmsInboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.outbound_shipments"
+            go_type:
+              type: "WmsOutboundShipmentsView"
+              slice: true
+          - column: "wms.warehouses_view.locations"
+            go_type:
+              type: "WmsLocationsView"
+              slice: true
+          - column: "wms.warehouses_view.putaway_rules"
+            go_type:
+              type: "WmsPutawayRule"
+              slice: true
+          - column: "wms.warehouses_view.pick_batches"
+            go_type:
+              type: "WmsPickBatchesView"
+              slice: true
+          - column: "wms.warehouses_view.tasks"
+            go_type:
+              type: "WmsTasksView"
+              slice: true
+          - column: "wms.suppliers_view.products"
+            go_type:
+              type: "WmsProductsView"
               slice: true
           - column: "wms.inbound_shipments_view.inbound_shipment_items"
             go_type:

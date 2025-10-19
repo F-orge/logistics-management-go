@@ -56,7 +56,7 @@ to quickly create a Cobra application.`,
 		api.RegisterRepository(crmRouter, "/cases", casesRepo)
 
 		if err := router.Start(":8080"); err != nil {
-			return
+			log.Fatal(err)
 		}
 	},
 }

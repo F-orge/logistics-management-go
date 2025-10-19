@@ -24,16 +24,16 @@ where
 
 type CrmAnyCompanyRow struct {
 	ID            pgtype.UUID        `db:"id" json:"id"`
-	Name          string             `db:"name" json:"name"`
-	Street        pgtype.Text        `db:"street" json:"street"`
-	City          pgtype.Text        `db:"city" json:"city"`
-	State         pgtype.Text        `db:"state" json:"state"`
-	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text        `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text        `db:"industry" json:"industry"`
-	Website       pgtype.Text        `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	Name          string             `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text        `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text        `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text        `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text        `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
 	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
@@ -99,16 +99,16 @@ where
 
 type CrmFindCompanyRow struct {
 	ID            pgtype.UUID        `db:"id" json:"id"`
-	Name          string             `db:"name" json:"name"`
-	Street        pgtype.Text        `db:"street" json:"street"`
-	City          pgtype.Text        `db:"city" json:"city"`
-	State         pgtype.Text        `db:"state" json:"state"`
-	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text        `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text        `db:"industry" json:"industry"`
-	Website       pgtype.Text        `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	Name          string             `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text        `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text        `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text        `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text        `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
 	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
@@ -156,15 +156,15 @@ returning
 `
 
 type CrmInsertCompanyParams struct {
-	Name          string         `db:"name" json:"name"`
-	Street        pgtype.Text    `db:"street" json:"street"`
-	City          pgtype.Text    `db:"city" json:"city"`
-	State         pgtype.Text    `db:"state" json:"state"`
-	Country       pgtype.Text    `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text    `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text    `db:"industry" json:"industry"`
-	Website       pgtype.Text    `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
+	Name          string         `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text    `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text    `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text    `db:"state" fake:"{state}" json:"state"`
+	Country       pgtype.Text    `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text    `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text    `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text    `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text    `db:"owner_id" json:"owner_id"`
 }
 
@@ -224,16 +224,16 @@ type CrmPaginateCompanyParams struct {
 
 type CrmPaginateCompanyRow struct {
 	ID            pgtype.UUID        `db:"id" json:"id"`
-	Name          string             `db:"name" json:"name"`
-	Street        pgtype.Text        `db:"street" json:"street"`
-	City          pgtype.Text        `db:"city" json:"city"`
-	State         pgtype.Text        `db:"state" json:"state"`
-	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text        `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text        `db:"industry" json:"industry"`
-	Website       pgtype.Text        `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	Name          string             `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text        `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text        `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text        `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text        `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
 	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
@@ -343,16 +343,16 @@ type CrmRangeCompanyParams struct {
 
 type CrmRangeCompanyRow struct {
 	ID            pgtype.UUID        `db:"id" json:"id"`
-	Name          string             `db:"name" json:"name"`
-	Street        pgtype.Text        `db:"street" json:"street"`
-	City          pgtype.Text        `db:"city" json:"city"`
-	State         pgtype.Text        `db:"state" json:"state"`
-	PostalCode    pgtype.Text        `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text        `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text        `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text        `db:"industry" json:"industry"`
-	Website       pgtype.Text        `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" json:"annual_revenue"`
+	Name          string             `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text        `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text        `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text        `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text        `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text        `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text        `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text        `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text        `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric     `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text        `db:"owner_id" json:"owner_id"`
 	CreatedAt     pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt     pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
@@ -482,16 +482,16 @@ returning
 `
 
 type CrmUpdateCompanyParams struct {
-	Name          string         `db:"name" json:"name"`
-	Street        pgtype.Text    `db:"street" json:"street"`
-	City          pgtype.Text    `db:"city" json:"city"`
-	State         pgtype.Text    `db:"state" json:"state"`
-	PostalCode    pgtype.Text    `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text    `db:"country" json:"country"`
-	PhoneNumber   pgtype.Text    `db:"phone_number" json:"phone_number"`
-	Industry      pgtype.Text    `db:"industry" json:"industry"`
-	Website       pgtype.Text    `db:"website" json:"website"`
-	AnnualRevenue pgtype.Numeric `db:"annual_revenue" json:"annual_revenue"`
+	Name          string         `db:"name" fake:"{company}" json:"name"`
+	Street        pgtype.Text    `db:"street" fake:"{street}" json:"street"`
+	City          pgtype.Text    `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text    `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text    `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text    `db:"country" fake:"{country}" json:"country"`
+	PhoneNumber   pgtype.Text    `db:"phone_number" fake:"{phone}" json:"phone_number"`
+	Industry      pgtype.Text    `db:"industry" fake:"{jobdescriptor}" json:"industry"`
+	Website       pgtype.Text    `db:"website" fake:"{url}" json:"website"`
+	AnnualRevenue pgtype.Numeric `db:"annual_revenue" fake:"{price:100000,100000000}" json:"annual_revenue"`
 	OwnerID       pgtype.Text    `db:"owner_id" json:"owner_id"`
 	ID            pgtype.UUID    `db:"id" json:"id"`
 }

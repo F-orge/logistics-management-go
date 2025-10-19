@@ -25,8 +25,8 @@ where
 type TmsAnyDriverScheduleRow struct {
 	ID        pgtype.UUID                     `db:"id" json:"id"`
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
@@ -83,8 +83,8 @@ where
 type TmsFindDriverScheduleRow struct {
 	ID        pgtype.UUID                     `db:"id" json:"id"`
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
@@ -123,8 +123,8 @@ returning
 
 type TmsInsertDriverScheduleParams struct {
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 }
 
@@ -170,8 +170,8 @@ type TmsPaginateDriverScheduleParams struct {
 type TmsPaginateDriverScheduleRow struct {
 	ID        pgtype.UUID                     `db:"id" json:"id"`
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
@@ -272,8 +272,8 @@ type TmsRangeDriverScheduleParams struct {
 type TmsRangeDriverScheduleRow struct {
 	ID        pgtype.UUID                     `db:"id" json:"id"`
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	CreatedAt pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
@@ -359,8 +359,8 @@ returning
 
 type TmsUpdateDriverScheduleParams struct {
 	DriverID  pgtype.UUID                     `db:"driver_id" json:"driver_id"`
-	StartDate pgtype.Date                     `db:"start_date" json:"start_date"`
-	EndDate   pgtype.Date                     `db:"end_date" json:"end_date"`
+	StartDate pgtype.Date                     `db:"start_date" fake:"{date}" json:"start_date"`
+	EndDate   pgtype.Date                     `db:"end_date" fake:"{date}" json:"end_date"`
 	Reason    NullTmsDriverScheduleReasonEnum `db:"reason" json:"reason"`
 	ID        pgtype.UUID                     `db:"id" json:"id"`
 }

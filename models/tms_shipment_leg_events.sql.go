@@ -25,9 +25,9 @@ where
 type TmsAnyShipmentLegEventRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
@@ -81,9 +81,9 @@ where
 type TmsFindShipmentLegEventRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
@@ -119,9 +119,9 @@ returning
 
 type TmsInsertShipmentLegEventParams struct {
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 }
 
 func (q *Queries) TmsInsertShipmentLegEvent(ctx context.Context, arg TmsInsertShipmentLegEventParams) (TmsShipmentLegEvent, error) {
@@ -164,9 +164,9 @@ type TmsPaginateShipmentLegEventParams struct {
 type TmsPaginateShipmentLegEventRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
@@ -264,9 +264,9 @@ type TmsRangeShipmentLegEventParams struct {
 type TmsRangeShipmentLegEventRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 	TmsShipmentLeg TmsShipmentLeg   `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
@@ -349,9 +349,9 @@ returning
 
 type TmsUpdateShipmentLegEventParams struct {
 	ShipmentLegID  pgtype.UUID      `db:"shipment_leg_id" json:"shipment_leg_id"`
-	StatusMessage  pgtype.Text      `db:"status_message" json:"status_message"`
-	Location       pgtype.Text      `db:"location" json:"location"`
-	EventTimestamp pgtype.Timestamp `db:"event_timestamp" json:"event_timestamp"`
+	StatusMessage  pgtype.Text      `db:"status_message" fake:"{sentence}" json:"status_message"`
+	Location       pgtype.Text      `db:"location" fake:"{city}" json:"location"`
+	EventTimestamp pgtype.Timestamp `db:"event_timestamp" fake:"{date}" json:"event_timestamp"`
 	ID             pgtype.UUID      `db:"id" json:"id"`
 }
 

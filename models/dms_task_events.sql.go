@@ -26,11 +26,11 @@ type DmsAnyTaskEventRow struct {
 	ID              pgtype.UUID            `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status          DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason          pgtype.Text            `db:"reason" json:"reason"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	Latitude        pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude       pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp       pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason          pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude        pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude       pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp       pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask        `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -98,11 +98,11 @@ type DmsFindTaskEventRow struct {
 	ID              pgtype.UUID            `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status          DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason          pgtype.Text            `db:"reason" json:"reason"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	Latitude        pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude       pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp       pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason          pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude        pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude       pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp       pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask        `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -152,11 +152,11 @@ returning
 type DmsInsertTaskEventParams struct {
 	DeliveryTaskID pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status         DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason         pgtype.Text            `db:"reason" json:"reason"`
-	Notes          pgtype.Text            `db:"notes" json:"notes"`
-	Latitude       pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude      pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp      pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason         pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes          pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude       pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude      pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp      pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 func (q *Queries) DmsInsertTaskEvent(ctx context.Context, arg DmsInsertTaskEventParams) (DmsTaskEvent, error) {
@@ -208,11 +208,11 @@ type DmsPaginateTaskEventRow struct {
 	ID              pgtype.UUID            `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status          DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason          pgtype.Text            `db:"reason" json:"reason"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	Latitude        pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude       pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp       pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason          pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude        pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude       pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp       pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask        `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -324,11 +324,11 @@ type DmsRangeTaskEventRow struct {
 	ID              pgtype.UUID            `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status          DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason          pgtype.Text            `db:"reason" json:"reason"`
-	Notes           pgtype.Text            `db:"notes" json:"notes"`
-	Latitude        pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude       pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp       pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason          pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes           pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude        pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude       pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp       pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt       pgtype.Timestamp       `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp       `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask        `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -440,11 +440,11 @@ returning
 type DmsUpdateTaskEventParams struct {
 	DeliveryTaskID pgtype.UUID            `db:"delivery_task_id" json:"delivery_task_id"`
 	Status         DmsTaskEventStatusEnum `db:"status" json:"status"`
-	Reason         pgtype.Text            `db:"reason" json:"reason"`
-	Notes          pgtype.Text            `db:"notes" json:"notes"`
-	Latitude       pgtype.Float4          `db:"latitude" json:"latitude"`
-	Longitude      pgtype.Float4          `db:"longitude" json:"longitude"`
-	Timestamp      pgtype.Timestamp       `db:"timestamp" json:"timestamp"`
+	Reason         pgtype.Text            `db:"reason" fake:"{sentence}" json:"reason"`
+	Notes          pgtype.Text            `db:"notes" fake:"{paragraph}" json:"notes"`
+	Latitude       pgtype.Float4          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude      pgtype.Float4          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Timestamp      pgtype.Timestamp       `db:"timestamp" fake:"{date}" json:"timestamp"`
 	ID             pgtype.UUID            `db:"id" json:"id"`
 }
 

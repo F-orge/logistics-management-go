@@ -25,10 +25,10 @@ where
 type TmsAnyCarrierRateRow struct {
 	ID          pgtype.UUID                `db:"id" json:"id"`
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -88,10 +88,10 @@ where
 type TmsFindCarrierRateRow struct {
 	ID          pgtype.UUID                `db:"id" json:"id"`
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -133,10 +133,10 @@ returning
 
 type TmsInsertCarrierRateParams struct {
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 }
 
@@ -188,10 +188,10 @@ type TmsPaginateCarrierRateParams struct {
 type TmsPaginateCarrierRateRow struct {
 	ID          pgtype.UUID                `db:"id" json:"id"`
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -297,10 +297,10 @@ type TmsRangeCarrierRateParams struct {
 type TmsRangeCarrierRateRow struct {
 	ID          pgtype.UUID                `db:"id" json:"id"`
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	CreatedAt   pgtype.Timestamp           `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp           `db:"updated_at" json:"updated_at"`
@@ -399,10 +399,10 @@ returning
 
 type TmsUpdateCarrierRateParams struct {
 	CarrierID   pgtype.UUID                `db:"carrier_id" json:"carrier_id"`
-	ServiceType pgtype.Text                `db:"service_type" json:"service_type"`
-	Origin      pgtype.Text                `db:"origin" json:"origin"`
-	Destination pgtype.Text                `db:"destination" json:"destination"`
-	Rate        pgtype.Numeric             `db:"rate" json:"rate"`
+	ServiceType pgtype.Text                `db:"service_type" fake:"{jobtitle}" json:"service_type"`
+	Origin      pgtype.Text                `db:"origin" fake:"{city}" json:"origin"`
+	Destination pgtype.Text                `db:"destination" fake:"{city}" json:"destination"`
+	Rate        pgtype.Numeric             `db:"rate" fake:"{price:100,5000}" json:"rate"`
 	Unit        NullTmsCarrierRateUnitEnum `db:"unit" json:"unit"`
 	ID          pgtype.UUID                `db:"id" json:"id"`
 }

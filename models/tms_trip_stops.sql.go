@@ -166,13 +166,13 @@ returning
 type TmsInsertTripStopParams struct {
 	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
 	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
-	Sequence               int32                     `db:"sequence" json:"sequence"`
-	Address                pgtype.Text               `db:"address" json:"address"`
+	Sequence               int32                     `db:"sequence" fake:"{number:1,10}" json:"sequence"`
+	Address                pgtype.Text               `db:"address" fake:"{streetaddress}" json:"address"`
 	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
-	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
-	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
-	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
-	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" fake:"{date}" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" fake:"{date}" json:"actual_departure_time"`
 }
 
 func (q *Queries) TmsInsertTripStop(ctx context.Context, arg TmsInsertTripStopParams) (TmsTripStop, error) {
@@ -473,13 +473,13 @@ set
 type TmsUpdateTripStopParams struct {
 	TripID                 pgtype.UUID               `db:"trip_id" json:"trip_id"`
 	ShipmentID             pgtype.UUID               `db:"shipment_id" json:"shipment_id"`
-	Sequence               int32                     `db:"sequence" json:"sequence"`
-	Address                pgtype.Text               `db:"address" json:"address"`
+	Sequence               int32                     `db:"sequence" fake:"{number:1,10}" json:"sequence"`
+	Address                pgtype.Text               `db:"address" fake:"{streetaddress}" json:"address"`
 	Status                 NullTmsTripStopStatusEnum `db:"status" json:"status"`
-	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" json:"estimated_arrival_time"`
-	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" json:"actual_arrival_time"`
-	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" json:"estimated_departure_time"`
-	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" json:"actual_departure_time"`
+	EstimatedArrivalTime   pgtype.Timestamp          `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
+	ActualArrivalTime      pgtype.Timestamp          `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
+	EstimatedDepartureTime pgtype.Timestamp          `db:"estimated_departure_time" fake:"{date}" json:"estimated_departure_time"`
+	ActualDepartureTime    pgtype.Timestamp          `db:"actual_departure_time" fake:"{date}" json:"actual_departure_time"`
 	ID                     pgtype.UUID               `db:"id" json:"id"`
 }
 

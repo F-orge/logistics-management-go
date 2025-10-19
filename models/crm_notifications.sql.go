@@ -25,11 +25,11 @@ where
 type CrmAnyNotificationRow struct {
 	ID        pgtype.UUID        `db:"id" json:"id"`
 	UserID    string             `db:"user_id" json:"user_id"`
-	Message   string             `db:"message" json:"message"`
+	Message   string             `db:"message" fake:"{sentence}" json:"message"`
 	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
-	Link      pgtype.Text        `db:"link" json:"link"`
+	Link      pgtype.Text        `db:"link" fake:"{url}" json:"link"`
 	User      User               `db:"user" json:"user"`
 }
 
@@ -86,11 +86,11 @@ where
 type CrmFindNotificationRow struct {
 	ID        pgtype.UUID        `db:"id" json:"id"`
 	UserID    string             `db:"user_id" json:"user_id"`
-	Message   string             `db:"message" json:"message"`
+	Message   string             `db:"message" fake:"{sentence}" json:"message"`
 	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
-	Link      pgtype.Text        `db:"link" json:"link"`
+	Link      pgtype.Text        `db:"link" fake:"{url}" json:"link"`
 	User      User               `db:"user" json:"user"`
 }
 
@@ -129,9 +129,9 @@ returning
 
 type CrmInsertNotificationParams struct {
 	UserID  string      `db:"user_id" json:"user_id"`
-	Message string      `db:"message" json:"message"`
+	Message string      `db:"message" fake:"{sentence}" json:"message"`
 	IsRead  pgtype.Bool `db:"is_read" json:"is_read"`
-	Link    pgtype.Text `db:"link" json:"link"`
+	Link    pgtype.Text `db:"link" fake:"{url}" json:"link"`
 }
 
 func (q *Queries) CrmInsertNotification(ctx context.Context, arg CrmInsertNotificationParams) (CrmNotification, error) {
@@ -176,11 +176,11 @@ type CrmPaginateNotificationParams struct {
 type CrmPaginateNotificationRow struct {
 	ID        pgtype.UUID        `db:"id" json:"id"`
 	UserID    string             `db:"user_id" json:"user_id"`
-	Message   string             `db:"message" json:"message"`
+	Message   string             `db:"message" fake:"{sentence}" json:"message"`
 	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
-	Link      pgtype.Text        `db:"link" json:"link"`
+	Link      pgtype.Text        `db:"link" fake:"{url}" json:"link"`
 	User      User               `db:"user" json:"user"`
 }
 
@@ -281,11 +281,11 @@ type CrmRangeNotificationParams struct {
 type CrmRangeNotificationRow struct {
 	ID        pgtype.UUID        `db:"id" json:"id"`
 	UserID    string             `db:"user_id" json:"user_id"`
-	Message   string             `db:"message" json:"message"`
+	Message   string             `db:"message" fake:"{sentence}" json:"message"`
 	IsRead    pgtype.Bool        `db:"is_read" json:"is_read"`
 	CreatedAt pgtype.Timestamptz `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamptz `db:"updated_at" json:"updated_at"`
-	Link      pgtype.Text        `db:"link" json:"link"`
+	Link      pgtype.Text        `db:"link" fake:"{url}" json:"link"`
 	User      User               `db:"user" json:"user"`
 }
 
@@ -371,9 +371,9 @@ returning
 
 type CrmUpdateNotificationParams struct {
 	UserID  string      `db:"user_id" json:"user_id"`
-	Message string      `db:"message" json:"message"`
+	Message string      `db:"message" fake:"{sentence}" json:"message"`
 	IsRead  pgtype.Bool `db:"is_read" json:"is_read"`
-	Link    pgtype.Text `db:"link" json:"link"`
+	Link    pgtype.Text `db:"link" fake:"{url}" json:"link"`
 	ID      pgtype.UUID `db:"id" json:"id"`
 }
 

@@ -82,9 +82,9 @@ returning
 `
 
 type CrmInsertAttachmentParams struct {
-	FileName   string            `db:"file_name" json:"file_name"`
-	FilePath   string            `db:"file_path" json:"file_path"`
-	MimeType   pgtype.Text       `db:"mime_type" json:"mime_type"`
+	FileName   string            `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FilePath   string            `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	MimeType   pgtype.Text       `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	RecordID   pgtype.UUID       `db:"record_id" json:"record_id"`
 	RecordType NullCrmRecordType `db:"record_type" json:"record_type"`
 }
@@ -286,9 +286,9 @@ returning
 `
 
 type CrmUpdateAttachmentParams struct {
-	FileName   string            `db:"file_name" json:"file_name"`
-	FilePath   string            `db:"file_path" json:"file_path"`
-	MimeType   pgtype.Text       `db:"mime_type" json:"mime_type"`
+	FileName   string            `db:"file_name" fake:"{word}.{fileextension}" json:"file_name"`
+	FilePath   string            `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	MimeType   pgtype.Text       `db:"mime_type" fake:"{filemimetype}" json:"mime_type"`
 	RecordID   pgtype.UUID       `db:"record_id" json:"record_id"`
 	RecordType NullCrmRecordType `db:"record_type" json:"record_type"`
 	ID         pgtype.UUID       `db:"id" json:"id"`

@@ -25,9 +25,9 @@ where
 type TmsAnyRouteRow struct {
 	ID                 pgtype.UUID      `db:"id" json:"id"`
 	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
@@ -85,9 +85,9 @@ where
 type TmsFindRouteRow struct {
 	ID                 pgtype.UUID      `db:"id" json:"id"`
 	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
@@ -127,9 +127,9 @@ returning
 
 type TmsInsertRouteParams struct {
 	TripID             pgtype.UUID   `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4 `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4 `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4 `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4 `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 }
 
 func (q *Queries) TmsInsertRoute(ctx context.Context, arg TmsInsertRouteParams) (TmsRoute, error) {
@@ -173,9 +173,9 @@ type TmsPaginateRouteParams struct {
 type TmsPaginateRouteRow struct {
 	ID                 pgtype.UUID      `db:"id" json:"id"`
 	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
@@ -276,9 +276,9 @@ type TmsRangeRouteParams struct {
 type TmsRangeRouteRow struct {
 	ID                 pgtype.UUID      `db:"id" json:"id"`
 	TripID             pgtype.UUID      `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4    `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4    `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text      `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4    `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4    `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	CreatedAt          pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt          pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsTrip            TmsTrip          `db:"tms_trip" json:"tms_trip"`
@@ -365,9 +365,9 @@ returning
 
 type TmsUpdateRouteParams struct {
 	TripID             pgtype.UUID   `db:"trip_id" json:"trip_id"`
-	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistance      pgtype.Float4 `db:"total_distance" json:"total_distance"`
-	TotalDuration      pgtype.Float4 `db:"total_duration" json:"total_duration"`
+	OptimizedRouteData pgtype.Text   `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistance      pgtype.Float4 `db:"total_distance" fake:"{float64range:10,500}" json:"total_distance"`
+	TotalDuration      pgtype.Float4 `db:"total_duration" fake:"{float64range:30,600}" json:"total_duration"`
 	ID                 pgtype.UUID   `db:"id" json:"id"`
 }
 

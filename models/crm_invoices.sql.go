@@ -156,11 +156,11 @@ returning
 type CrmInsertInvoiceParams struct {
 	OpportunityID pgtype.UUID          `db:"opportunity_id" json:"opportunity_id"`
 	Status        NullCrmInvoiceStatus `db:"status" json:"status"`
-	Total         pgtype.Numeric       `db:"total" json:"total"`
-	IssueDate     pgtype.Date          `db:"issue_date" json:"issue_date"`
-	DueDate       pgtype.Date          `db:"due_date" json:"due_date"`
-	SentAt        pgtype.Timestamptz   `db:"sent_at" json:"sent_at"`
-	PaidAt        pgtype.Timestamptz   `db:"paid_at" json:"paid_at"`
+	Total         pgtype.Numeric       `db:"total" fake:"{price:100,10000}" json:"total"`
+	IssueDate     pgtype.Date          `db:"issue_date" fake:"{date}" json:"issue_date"`
+	DueDate       pgtype.Date          `db:"due_date" fake:"{date}" json:"due_date"`
+	SentAt        pgtype.Timestamptz   `db:"sent_at" fake:"{date}" json:"sent_at"`
+	PaidAt        pgtype.Timestamptz   `db:"paid_at" fake:"{date}" json:"paid_at"`
 	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
 }
 
@@ -456,11 +456,11 @@ returning
 type CrmUpdateInvoiceParams struct {
 	OpportunityID pgtype.UUID          `db:"opportunity_id" json:"opportunity_id"`
 	Status        NullCrmInvoiceStatus `db:"status" json:"status"`
-	Total         pgtype.Numeric       `db:"total" json:"total"`
-	IssueDate     pgtype.Date          `db:"issue_date" json:"issue_date"`
-	DueDate       pgtype.Date          `db:"due_date" json:"due_date"`
-	SentAt        pgtype.Timestamptz   `db:"sent_at" json:"sent_at"`
-	PaidAt        pgtype.Timestamptz   `db:"paid_at" json:"paid_at"`
+	Total         pgtype.Numeric       `db:"total" fake:"{price:100,10000}" json:"total"`
+	IssueDate     pgtype.Date          `db:"issue_date" fake:"{date}" json:"issue_date"`
+	DueDate       pgtype.Date          `db:"due_date" fake:"{date}" json:"due_date"`
+	SentAt        pgtype.Timestamptz   `db:"sent_at" fake:"{date}" json:"sent_at"`
+	PaidAt        pgtype.Timestamptz   `db:"paid_at" fake:"{date}" json:"paid_at"`
 	PaymentMethod NullCrmPaymentMethod `db:"payment_method" json:"payment_method"`
 	ID            pgtype.UUID          `db:"id" json:"id"`
 }

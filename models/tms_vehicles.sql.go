@@ -98,10 +98,10 @@ returning
 `
 
 type TmsInsertVehicleParams struct {
-	RegistrationNumber string                   `db:"registration_number" json:"registration_number"`
-	Model              pgtype.Text              `db:"model" json:"model"`
-	CapacityVolume     pgtype.Float4            `db:"capacity_volume" json:"capacity_volume"`
-	CapacityWeight     pgtype.Float4            `db:"capacity_weight" json:"capacity_weight"`
+	RegistrationNumber string                   `db:"registration_number" fake:"{uuid}" json:"registration_number"`
+	Model              pgtype.Text              `db:"model" fake:"{carmodel}" json:"model"`
+	CapacityVolume     pgtype.Float4            `db:"capacity_volume" fake:"{float64range:10,100}" json:"capacity_volume"`
+	CapacityWeight     pgtype.Float4            `db:"capacity_weight" fake:"{float64range:1000,5000}" json:"capacity_weight"`
 	Status             NullTmsVehicleStatusEnum `db:"status" json:"status"`
 }
 
@@ -330,10 +330,10 @@ returning
 `
 
 type TmsUpdateVehicleParams struct {
-	RegistrationNumber string                   `db:"registration_number" json:"registration_number"`
-	Model              pgtype.Text              `db:"model" json:"model"`
-	CapacityVolume     pgtype.Float4            `db:"capacity_volume" json:"capacity_volume"`
-	CapacityWeight     pgtype.Float4            `db:"capacity_weight" json:"capacity_weight"`
+	RegistrationNumber string                   `db:"registration_number" fake:"{uuid}" json:"registration_number"`
+	Model              pgtype.Text              `db:"model" fake:"{carmodel}" json:"model"`
+	CapacityVolume     pgtype.Float4            `db:"capacity_volume" fake:"{float64range:10,100}" json:"capacity_volume"`
+	CapacityWeight     pgtype.Float4            `db:"capacity_weight" fake:"{float64range:1000,5000}" json:"capacity_weight"`
 	Status             NullTmsVehicleStatusEnum `db:"status" json:"status"`
 	ID                 pgtype.UUID              `db:"id" json:"id"`
 }

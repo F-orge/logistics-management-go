@@ -25,10 +25,10 @@ where
 type TmsAnyVehicleMaintenanceRow struct {
 	ID          pgtype.UUID                   `db:"id" json:"id"`
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt   pgtype.Timestamp              `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
 	TmsVehicle  TmsVehicle                    `db:"tms_vehicle" json:"tms_vehicle"`
@@ -90,10 +90,10 @@ where
 type TmsFindVehicleMaintenanceRow struct {
 	ID          pgtype.UUID                   `db:"id" json:"id"`
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt   pgtype.Timestamp              `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
 	TmsVehicle  TmsVehicle                    `db:"tms_vehicle" json:"tms_vehicle"`
@@ -137,10 +137,10 @@ returning
 
 type TmsInsertVehicleMaintenanceParams struct {
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 }
 
 func (q *Queries) TmsInsertVehicleMaintenance(ctx context.Context, arg TmsInsertVehicleMaintenanceParams) (TmsVehicleMaintenance, error) {
@@ -187,10 +187,10 @@ type TmsPaginateVehicleMaintenanceParams struct {
 type TmsPaginateVehicleMaintenanceRow struct {
 	ID          pgtype.UUID                   `db:"id" json:"id"`
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt   pgtype.Timestamp              `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
 	TmsVehicle  TmsVehicle                    `db:"tms_vehicle" json:"tms_vehicle"`
@@ -301,10 +301,10 @@ type TmsRangeVehicleMaintenanceParams struct {
 type TmsRangeVehicleMaintenanceRow struct {
 	ID          pgtype.UUID                   `db:"id" json:"id"`
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt   pgtype.Timestamp              `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp              `db:"updated_at" json:"updated_at"`
 	TmsVehicle  TmsVehicle                    `db:"tms_vehicle" json:"tms_vehicle"`
@@ -400,10 +400,10 @@ returning
 
 type TmsUpdateVehicleMaintenanceParams struct {
 	VehicleID   pgtype.UUID                   `db:"vehicle_id" json:"vehicle_id"`
-	ServiceDate pgtype.Date                   `db:"service_date" json:"service_date"`
+	ServiceDate pgtype.Date                   `db:"service_date" fake:"{date}" json:"service_date"`
 	ServiceType NullTmsVehicleServiceTypeEnum `db:"service_type" json:"service_type"`
-	Cost        pgtype.Numeric                `db:"cost" json:"cost"`
-	Notes       pgtype.Text                   `db:"notes" json:"notes"`
+	Cost        pgtype.Numeric                `db:"cost" fake:"{price:100,2000}" json:"cost"`
+	Notes       pgtype.Text                   `db:"notes" fake:"{sentence}" json:"notes"`
 	ID          pgtype.UUID                   `db:"id" json:"id"`
 }
 

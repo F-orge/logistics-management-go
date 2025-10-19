@@ -82,11 +82,11 @@ returning
 `
 
 type CrmInsertProductParams struct {
-	Name        string             `db:"name" json:"name"`
-	Sku         pgtype.Text        `db:"sku" json:"sku"`
-	Price       pgtype.Numeric     `db:"price" json:"price"`
+	Name        string             `db:"name" fake:"{productname}" json:"name"`
+	Sku         pgtype.Text        `db:"sku" fake:"{productupc}" json:"sku"`
+	Price       pgtype.Numeric     `db:"price" fake:"{price:1,1000}" json:"price"`
 	Type        NullCrmProductType `db:"type" json:"type"`
-	Description pgtype.Text        `db:"description" json:"description"`
+	Description pgtype.Text        `db:"description" fake:"{productdescription}" json:"description"`
 }
 
 func (q *Queries) CrmInsertProduct(ctx context.Context, arg CrmInsertProductParams) (CrmProduct, error) {
@@ -293,11 +293,11 @@ returning
 `
 
 type CrmUpdateProductParams struct {
-	Name        string             `db:"name" json:"name"`
-	Sku         pgtype.Text        `db:"sku" json:"sku"`
-	Price       pgtype.Numeric     `db:"price" json:"price"`
+	Name        string             `db:"name" fake:"{productname}" json:"name"`
+	Sku         pgtype.Text        `db:"sku" fake:"{productupc}" json:"sku"`
+	Price       pgtype.Numeric     `db:"price" fake:"{price:1,1000}" json:"price"`
 	Type        NullCrmProductType `db:"type" json:"type"`
-	Description pgtype.Text        `db:"description" json:"description"`
+	Description pgtype.Text        `db:"description" fake:"{productdescription}" json:"description"`
 	ID          pgtype.UUID        `db:"id" json:"id"`
 }
 

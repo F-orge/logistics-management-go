@@ -25,13 +25,13 @@ where
 type DmsAnyDriverLocationRow struct {
 	ID        pgtype.UUID      `db:"id" json:"id"`
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
@@ -91,13 +91,13 @@ where
 type DmsFindDriverLocationRow struct {
 	ID        pgtype.UUID      `db:"id" json:"id"`
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
@@ -139,13 +139,13 @@ returning
 
 type DmsInsertDriverLocationParams struct {
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 }
 
 func (q *Queries) DmsInsertDriverLocation(ctx context.Context, arg DmsInsertDriverLocationParams) (DmsDriverLocation, error) {
@@ -197,13 +197,13 @@ type DmsPaginateDriverLocationParams struct {
 type DmsPaginateDriverLocationRow struct {
 	ID        pgtype.UUID      `db:"id" json:"id"`
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
@@ -306,13 +306,13 @@ type DmsRangeDriverLocationParams struct {
 type DmsRangeDriverLocationRow struct {
 	ID        pgtype.UUID      `db:"id" json:"id"`
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	TmsDriver TmsDriver        `db:"tms_driver" json:"tms_driver"`
@@ -421,13 +421,13 @@ returning
 
 type DmsUpdateDriverLocationParams struct {
 	DriverID  pgtype.UUID      `db:"driver_id" json:"driver_id"`
-	Latitude  float32          `db:"latitude" json:"latitude"`
-	Longitude float32          `db:"longitude" json:"longitude"`
-	Altitude  pgtype.Float4    `db:"altitude" json:"altitude"`
-	Accuracy  pgtype.Float4    `db:"accuracy" json:"accuracy"`
-	SpeedKmh  pgtype.Float4    `db:"speed_kmh" json:"speed_kmh"`
-	Heading   pgtype.Float4    `db:"heading" json:"heading"`
-	Timestamp pgtype.Timestamp `db:"timestamp" json:"timestamp"`
+	Latitude  float32          `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude float32          `db:"longitude" fake:"{longitude}" json:"longitude"`
+	Altitude  pgtype.Float4    `db:"altitude" fake:"{float64range:0,1000}" json:"altitude"`
+	Accuracy  pgtype.Float4    `db:"accuracy" fake:"{float64range:0,100}" json:"accuracy"`
+	SpeedKmh  pgtype.Float4    `db:"speed_kmh" fake:"{float64range:0,120}" json:"speed_kmh"`
+	Heading   pgtype.Float4    `db:"heading" fake:"{float64range:0,360}" json:"heading"`
+	Timestamp pgtype.Timestamp `db:"timestamp" fake:"{date}" json:"timestamp"`
 	ID        pgtype.UUID      `db:"id" json:"id"`
 }
 

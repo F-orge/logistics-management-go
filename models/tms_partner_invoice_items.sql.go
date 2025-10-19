@@ -28,7 +28,7 @@ type TmsAnyPartnerInvoiceItemRow struct {
 	ID                pgtype.UUID       `db:"id" json:"id"`
 	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric    `db:"amount" fake:"{price:100,5000}" json:"amount"`
 	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
 	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
@@ -93,7 +93,7 @@ type TmsFindPartnerInvoiceItemRow struct {
 	ID                pgtype.UUID       `db:"id" json:"id"`
 	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric    `db:"amount" fake:"{price:100,5000}" json:"amount"`
 	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
 	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
@@ -138,7 +138,7 @@ returning
 type TmsInsertPartnerInvoiceItemParams struct {
 	PartnerInvoiceID pgtype.UUID    `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID    pgtype.UUID    `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount           pgtype.Numeric `db:"amount" json:"amount"`
+	Amount           pgtype.Numeric `db:"amount" fake:"{price:100,5000}" json:"amount"`
 }
 
 func (q *Queries) TmsInsertPartnerInvoiceItem(ctx context.Context, arg TmsInsertPartnerInvoiceItemParams) (TmsPartnerInvoiceItem, error) {
@@ -178,7 +178,7 @@ type TmsPaginatePartnerInvoiceItemRow struct {
 	ID                pgtype.UUID       `db:"id" json:"id"`
 	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric    `db:"amount" fake:"{price:100,5000}" json:"amount"`
 	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
 	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
@@ -287,7 +287,7 @@ type TmsRangePartnerInvoiceItemRow struct {
 	ID                pgtype.UUID       `db:"id" json:"id"`
 	PartnerInvoiceID  pgtype.UUID       `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID     pgtype.UUID       `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount            pgtype.Numeric    `db:"amount" json:"amount"`
+	Amount            pgtype.Numeric    `db:"amount" fake:"{price:100,5000}" json:"amount"`
 	TmsPartnerInvoice TmsPartnerInvoice `db:"tms_partner_invoice" json:"tms_partner_invoice"`
 	TmsShipmentLeg    TmsShipmentLeg    `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
@@ -374,7 +374,7 @@ returning
 type TmsUpdatePartnerInvoiceItemParams struct {
 	PartnerInvoiceID pgtype.UUID    `db:"partner_invoice_id" json:"partner_invoice_id"`
 	ShipmentLegID    pgtype.UUID    `db:"shipment_leg_id" json:"shipment_leg_id"`
-	Amount           pgtype.Numeric `db:"amount" json:"amount"`
+	Amount           pgtype.Numeric `db:"amount" fake:"{price:100,5000}" json:"amount"`
 	ID               pgtype.UUID    `db:"id" json:"id"`
 }
 

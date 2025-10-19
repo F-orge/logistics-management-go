@@ -26,10 +26,10 @@ type TmsAnyProofOfDeliveryRow struct {
 	ID          pgtype.UUID          `db:"id" json:"id"`
 	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath    pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
 	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
@@ -92,10 +92,10 @@ type TmsFindProofOfDeliveryRow struct {
 	ID          pgtype.UUID          `db:"id" json:"id"`
 	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath    pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
 	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
@@ -140,10 +140,10 @@ returning
 type TmsInsertProofOfDeliveryParams struct {
 	TripStopID pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type       NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath   pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp  pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude   pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude  pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath   pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp  pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude   pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 }
 
 func (q *Queries) TmsInsertProofOfDelivery(ctx context.Context, arg TmsInsertProofOfDeliveryParams) (TmsProofOfDelivery, error) {
@@ -193,10 +193,10 @@ type TmsPaginateProofOfDeliveryRow struct {
 	ID          pgtype.UUID          `db:"id" json:"id"`
 	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath    pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
 	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
@@ -303,10 +303,10 @@ type TmsRangeProofOfDeliveryRow struct {
 	ID          pgtype.UUID          `db:"id" json:"id"`
 	TripStopID  pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type        NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath    pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp   pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude    pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude   pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath    pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp   pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude    pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude   pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 	CreatedAt   pgtype.Timestamp     `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp     `db:"updated_at" json:"updated_at"`
 	TmsTripStop TmsTripStop          `db:"tms_trip_stop" json:"tms_trip_stop"`
@@ -408,10 +408,10 @@ returning
 type TmsUpdateProofOfDeliveryParams struct {
 	TripStopID pgtype.UUID          `db:"trip_stop_id" json:"trip_stop_id"`
 	Type       NullTmsProofTypeEnum `db:"type" json:"type"`
-	FilePath   pgtype.Text          `db:"file_path" json:"file_path"`
-	Timestamp  pgtype.Timestamp     `db:"timestamp" json:"timestamp"`
-	Latitude   pgtype.Float4        `db:"latitude" json:"latitude"`
-	Longitude  pgtype.Float4        `db:"longitude" json:"longitude"`
+	FilePath   pgtype.Text          `db:"file_path" fake:"/{hackerphrase}" json:"file_path"`
+	Timestamp  pgtype.Timestamp     `db:"timestamp" fake:"{date}" json:"timestamp"`
+	Latitude   pgtype.Float4        `db:"latitude" fake:"{latitude}" json:"latitude"`
+	Longitude  pgtype.Float4        `db:"longitude" fake:"{longitude}" json:"longitude"`
 	ID         pgtype.UUID          `db:"id" json:"id"`
 }
 

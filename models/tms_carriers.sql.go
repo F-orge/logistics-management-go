@@ -90,9 +90,9 @@ returning
 `
 
 type TmsInsertCarrierParams struct {
-	Name            string      `db:"name" json:"name"`
-	ContactDetails  pgtype.Text `db:"contact_details" json:"contact_details"`
-	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
+	Name            string      `db:"name" fake:"{company}" json:"name"`
+	ContactDetails  pgtype.Text `db:"contact_details" fake:"{phone}" json:"contact_details"`
+	ServicesOffered pgtype.Text `db:"services_offered" fake:"{bs}" json:"services_offered"`
 }
 
 func (q *Queries) TmsInsertCarrier(ctx context.Context, arg TmsInsertCarrierParams) (TmsCarrier, error) {
@@ -283,9 +283,9 @@ returning
 `
 
 type TmsUpdateCarrierParams struct {
-	Name            string      `db:"name" json:"name"`
-	ContactDetails  pgtype.Text `db:"contact_details" json:"contact_details"`
-	ServicesOffered pgtype.Text `db:"services_offered" json:"services_offered"`
+	Name            string      `db:"name" fake:"{company}" json:"name"`
+	ContactDetails  pgtype.Text `db:"contact_details" fake:"{phone}" json:"contact_details"`
+	ServicesOffered pgtype.Text `db:"services_offered" fake:"{bs}" json:"services_offered"`
 	ID              pgtype.UUID `db:"id" json:"id"`
 }
 

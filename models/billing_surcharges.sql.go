@@ -128,7 +128,7 @@ func (q *Queries) BillingInsertSurcharge(ctx context.Context, arg BillingInsertS
 
 const billingPaginateSurcharge = `-- name: BillingPaginateSurcharge :many
 select
-  surcharges.id, surcharges.name, surcharges.type, surcharges.amount, surcharges.calculation_method, surcharges.is_active, surcharges.valid_from, surcharges.valid_to, surcharges.description, surcharges.created_at, surcharges.updated_at
+  id, name, type, amount, calculation_method, is_active, valid_from, valid_to, description, created_at, updated_at
 from
   "billing"."surcharges" as surcharges
 where (name ilike $1::text

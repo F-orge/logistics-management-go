@@ -145,8 +145,8 @@ returning
 
 type TmsInsertDriverParams struct {
 	UserID            string                  `db:"user_id" json:"user_id"`
-	LicenseNumber     string                  `db:"license_number" json:"license_number"`
-	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	LicenseNumber     string                  `db:"license_number" fake:"{uuid}" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" fake:"{date}" json:"license_expiry_date"`
 	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
 }
 
@@ -406,8 +406,8 @@ returning
 
 type TmsUpdateDriverParams struct {
 	UserID            string                  `db:"user_id" json:"user_id"`
-	LicenseNumber     string                  `db:"license_number" json:"license_number"`
-	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" json:"license_expiry_date"`
+	LicenseNumber     string                  `db:"license_number" fake:"{uuid}" json:"license_number"`
+	LicenseExpiryDate pgtype.Date             `db:"license_expiry_date" fake:"{date}" json:"license_expiry_date"`
 	Status            NullTmsDriverStatusEnum `db:"status" json:"status"`
 	ID                pgtype.UUID             `db:"id" json:"id"`
 }

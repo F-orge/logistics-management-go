@@ -25,11 +25,11 @@ where
 type DmsAnyCustomerTrackingLinkRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken   string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -95,11 +95,11 @@ where
 type DmsFindCustomerTrackingLinkRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken   string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -147,11 +147,11 @@ returning
 
 type DmsInsertCustomerTrackingLinkParams struct {
 	DeliveryTaskID pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken  string           `db:"tracking_token" json:"tracking_token"`
-	IsActive       pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount    pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt      pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken  string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive       pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount    pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt      pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 }
 
 func (q *Queries) DmsInsertCustomerTrackingLink(ctx context.Context, arg DmsInsertCustomerTrackingLinkParams) (DmsCustomerTrackingLink, error) {
@@ -200,11 +200,11 @@ type DmsPaginateCustomerTrackingLinkParams struct {
 type DmsPaginateCustomerTrackingLinkRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken   string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -314,11 +314,11 @@ type DmsRangeCustomerTrackingLinkParams struct {
 type DmsRangeCustomerTrackingLinkRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	DeliveryTaskID  pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken   string           `db:"tracking_token" json:"tracking_token"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount     pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt       pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken   string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount     pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt  pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt       pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	DmsDeliveryTask DmsDeliveryTask  `db:"dms_delivery_task" json:"dms_delivery_task"`
@@ -423,11 +423,11 @@ returning
 
 type DmsUpdateCustomerTrackingLinkParams struct {
 	DeliveryTaskID pgtype.UUID      `db:"delivery_task_id" json:"delivery_task_id"`
-	TrackingToken  string           `db:"tracking_token" json:"tracking_token"`
-	IsActive       pgtype.Bool      `db:"is_active" json:"is_active"`
-	AccessCount    pgtype.Int4      `db:"access_count" json:"access_count"`
-	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" json:"last_accessed_at"`
-	ExpiresAt      pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	TrackingToken  string           `db:"tracking_token" fake:"{uuid}" json:"tracking_token"`
+	IsActive       pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
+	AccessCount    pgtype.Int4      `db:"access_count" fake:"{number:0,100}" json:"access_count"`
+	LastAccessedAt pgtype.Timestamp `db:"last_accessed_at" fake:"{date}" json:"last_accessed_at"`
+	ExpiresAt      pgtype.Timestamp `db:"expires_at" fake:"{date}" json:"expires_at"`
 	ID             pgtype.UUID      `db:"id" json:"id"`
 }
 

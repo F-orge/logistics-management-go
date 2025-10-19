@@ -80,7 +80,7 @@ returning
 `
 
 type TmsInsertGeofenceParams struct {
-	Name      string        `db:"name" json:"name"`
+	Name      string        `db:"name" fake:"{city}" json:"name"`
 	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
 	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
 }
@@ -260,7 +260,7 @@ returning
 `
 
 type TmsUpdateGeofenceParams struct {
-	Name      string        `db:"name" json:"name"`
+	Name      string        `db:"name" fake:"{city}" json:"name"`
 	Longitude pgtype.Float4 `db:"longitude" json:"longitude"`
 	Latitude  pgtype.Float4 `db:"latitude" json:"latitude"`
 	ID        pgtype.UUID   `db:"id" json:"id"`

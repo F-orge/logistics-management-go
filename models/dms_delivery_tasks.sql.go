@@ -180,17 +180,17 @@ returning
 type DmsInsertDeliveryTaskParams struct {
 	PackageID            pgtype.UUID                      `db:"package_id" json:"package_id"`
 	DeliveryRouteID      pgtype.UUID                      `db:"delivery_route_id" json:"delivery_route_id"`
-	RouteSequence        int32                            `db:"route_sequence" json:"route_sequence"`
-	DeliveryAddress      string                           `db:"delivery_address" json:"delivery_address"`
-	RecipientName        pgtype.Text                      `db:"recipient_name" json:"recipient_name"`
-	RecipientPhone       pgtype.Text                      `db:"recipient_phone" json:"recipient_phone"`
-	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" json:"delivery_instructions"`
-	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" json:"estimated_arrival_time"`
-	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" json:"actual_arrival_time"`
-	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" json:"delivery_time"`
+	RouteSequence        int32                            `db:"route_sequence" fake:"{number:1,20}" json:"route_sequence"`
+	DeliveryAddress      string                           `db:"delivery_address" fake:"{streetaddress}" json:"delivery_address"`
+	RecipientName        pgtype.Text                      `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	RecipientPhone       pgtype.Text                      `db:"recipient_phone" fake:"{phone}" json:"recipient_phone"`
+	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" fake:"{sentence}" json:"delivery_instructions"`
+	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
+	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
+	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" fake:"{date}" json:"delivery_time"`
 	Status               NullDmsDeliveryTaskStatusEnum    `db:"status" json:"status"`
 	FailureReason        NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
-	AttemptCount         pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
+	AttemptCount         pgtype.Int4                      `db:"attempt_count" fake:"{number:0,3}" json:"attempt_count"`
 }
 
 func (q *Queries) DmsInsertDeliveryTask(ctx context.Context, arg DmsInsertDeliveryTaskParams) (DmsDeliveryTask, error) {
@@ -550,17 +550,17 @@ returning
 type DmsUpdateDeliveryTaskParams struct {
 	PackageID            pgtype.UUID                      `db:"package_id" json:"package_id"`
 	DeliveryRouteID      pgtype.UUID                      `db:"delivery_route_id" json:"delivery_route_id"`
-	RouteSequence        int32                            `db:"route_sequence" json:"route_sequence"`
-	DeliveryAddress      string                           `db:"delivery_address" json:"delivery_address"`
-	RecipientName        pgtype.Text                      `db:"recipient_name" json:"recipient_name"`
-	RecipientPhone       pgtype.Text                      `db:"recipient_phone" json:"recipient_phone"`
-	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" json:"delivery_instructions"`
-	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" json:"estimated_arrival_time"`
-	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" json:"actual_arrival_time"`
-	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" json:"delivery_time"`
+	RouteSequence        int32                            `db:"route_sequence" fake:"{number:1,20}" json:"route_sequence"`
+	DeliveryAddress      string                           `db:"delivery_address" fake:"{streetaddress}" json:"delivery_address"`
+	RecipientName        pgtype.Text                      `db:"recipient_name" fake:"{name}" json:"recipient_name"`
+	RecipientPhone       pgtype.Text                      `db:"recipient_phone" fake:"{phone}" json:"recipient_phone"`
+	DeliveryInstructions pgtype.Text                      `db:"delivery_instructions" fake:"{sentence}" json:"delivery_instructions"`
+	EstimatedArrivalTime pgtype.Timestamp                 `db:"estimated_arrival_time" fake:"{date}" json:"estimated_arrival_time"`
+	ActualArrivalTime    pgtype.Timestamp                 `db:"actual_arrival_time" fake:"{date}" json:"actual_arrival_time"`
+	DeliveryTime         pgtype.Timestamp                 `db:"delivery_time" fake:"{date}" json:"delivery_time"`
 	Status               NullDmsDeliveryTaskStatusEnum    `db:"status" json:"status"`
 	FailureReason        NullDmsDeliveryFailureReasonEnum `db:"failure_reason" json:"failure_reason"`
-	AttemptCount         pgtype.Int4                      `db:"attempt_count" json:"attempt_count"`
+	AttemptCount         pgtype.Int4                      `db:"attempt_count" fake:"{number:0,3}" json:"attempt_count"`
 	ID                   pgtype.UUID                      `db:"id" json:"id"`
 }
 

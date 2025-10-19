@@ -147,13 +147,13 @@ returning
 
 type DmsInsertDeliveryRouteParams struct {
 	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
-	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	RouteDate                pgtype.Date                    `db:"route_date" fake:"{date}" json:"route_date"`
 	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
-	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
-	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
-	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
-	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" fake:"{float64range:5,100}" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" fake:"{number:30,240}" json:"estimated_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" fake:"{date}" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" fake:"{date}" json:"completed_at"`
 }
 
 func (q *Queries) DmsInsertDeliveryRoute(ctx context.Context, arg DmsInsertDeliveryRouteParams) (DmsDeliveryRoute, error) {
@@ -440,13 +440,13 @@ returning
 
 type DmsUpdateDeliveryRouteParams struct {
 	DriverID                 pgtype.UUID                    `db:"driver_id" json:"driver_id"`
-	RouteDate                pgtype.Date                    `db:"route_date" json:"route_date"`
+	RouteDate                pgtype.Date                    `db:"route_date" fake:"{date}" json:"route_date"`
 	Status                   NullDmsDeliveryRouteStatusEnum `db:"status" json:"status"`
-	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" json:"optimized_route_data"`
-	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" json:"total_distance_km"`
-	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" json:"estimated_duration_minutes"`
-	StartedAt                pgtype.Timestamp               `db:"started_at" json:"started_at"`
-	CompletedAt              pgtype.Timestamp               `db:"completed_at" json:"completed_at"`
+	OptimizedRouteData       pgtype.Text                    `db:"optimized_route_data" fake:"{sentence}" json:"optimized_route_data"`
+	TotalDistanceKm          pgtype.Float4                  `db:"total_distance_km" fake:"{float64range:5,100}" json:"total_distance_km"`
+	EstimatedDurationMinutes pgtype.Int4                    `db:"estimated_duration_minutes" fake:"{number:30,240}" json:"estimated_duration_minutes"`
+	StartedAt                pgtype.Timestamp               `db:"started_at" fake:"{date}" json:"started_at"`
+	CompletedAt              pgtype.Timestamp               `db:"completed_at" fake:"{date}" json:"completed_at"`
 	ID                       pgtype.UUID                    `db:"id" json:"id"`
 }
 

@@ -167,9 +167,9 @@ returning
 
 type TmsInsertShipmentLegParams struct {
 	ShipmentID     pgtype.UUID                  `db:"shipment_id" json:"shipment_id"`
-	LegSequence    int32                        `db:"leg_sequence" json:"leg_sequence"`
-	StartLocation  pgtype.Text                  `db:"start_location" json:"start_location"`
-	EndLocation    pgtype.Text                  `db:"end_location" json:"end_location"`
+	LegSequence    int32                        `db:"leg_sequence" fake:"{number:1,5}" json:"leg_sequence"`
+	StartLocation  pgtype.Text                  `db:"start_location" fake:"{city}" json:"start_location"`
+	EndLocation    pgtype.Text                  `db:"end_location" fake:"{city}" json:"end_location"`
 	CarrierID      pgtype.UUID                  `db:"carrier_id" json:"carrier_id"`
 	InternalTripID pgtype.UUID                  `db:"internal_trip_id" json:"internal_trip_id"`
 	Status         NullTmsShipmentLegStatusEnum `db:"status" json:"status"`
@@ -477,9 +477,9 @@ returning
 
 type TmsUpdateShipmentLegParams struct {
 	ShipmentID     pgtype.UUID                  `db:"shipment_id" json:"shipment_id"`
-	LegSequence    int32                        `db:"leg_sequence" json:"leg_sequence"`
-	StartLocation  pgtype.Text                  `db:"start_location" json:"start_location"`
-	EndLocation    pgtype.Text                  `db:"end_location" json:"end_location"`
+	LegSequence    int32                        `db:"leg_sequence" fake:"{number:1,5}" json:"leg_sequence"`
+	StartLocation  pgtype.Text                  `db:"start_location" fake:"{city}" json:"start_location"`
+	EndLocation    pgtype.Text                  `db:"end_location" fake:"{city}" json:"end_location"`
 	CarrierID      pgtype.UUID                  `db:"carrier_id" json:"carrier_id"`
 	InternalTripID pgtype.UUID                  `db:"internal_trip_id" json:"internal_trip_id"`
 	Status         NullTmsShipmentLegStatusEnum `db:"status" json:"status"`
