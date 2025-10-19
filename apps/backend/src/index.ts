@@ -1,6 +1,3 @@
-import { ORPCError, onError } from "@orpc/client";
-import { RPCHandler } from "@orpc/server/fetch";
-import { BatchHandlerPlugin } from "@orpc/server/plugins";
 import sgMail from "@sendgrid/mail";
 import { promises as fs } from "fs";
 import { Hono } from "hono";
@@ -20,10 +17,9 @@ import nodemailer from "nodemailer";
 import * as path from "path";
 import { Pool } from "pg";
 import type { ZodError } from "zod";
-import type { DB } from "@packages/db/db.types";
 import { authFactory } from "./auth";
-import { handlers as orpcRouter } from "@packages/rpc";
 import { BunStorageRepository } from "./storage";
+import handler from "./api/handler";
 
 type ServerFactory = {
   pool: Pool;
@@ -34,7 +30,7 @@ export type HonoVariables = {
   session:
     | ReturnType<typeof authFactory>["$Infer"]["Session"]["session"]
     | null;
-  kysely: Kysely<DB>;
+  kysely: Kysely<any>;
   storage: BunStorageRepository;
   mailer: ReturnType<typeof nodemailer.createTransport> | sgMail.MailService;
 };
@@ -43,7 +39,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   const router = new Hono<{ Variables: HonoVariables }>();
 
   // kysely
-  const kysely = new Kysely<DB>({
+  const kysely = new Kysely<any>({
     dialect: new PostgresDialect({ pool }),
     plugins: [new CamelCasePlugin()],
   });
@@ -127,6 +123,9 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
     return auth.handler(c.req.raw);
   });
 
+  // generic api handler
+  router.route("/api", handler);
+
   // frontend mounting
   if (process.env.NODE_ENV === "production") {
     router.get(
@@ -160,39 +159,6 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   });
 
   // orpc
-  const handler = new RPCHandler(orpcRouter, {
-    plugins: [new BatchHandlerPlugin()],
-    interceptors: [
-      onError((error) => {
-        if (error instanceof ORPCError) {
-          const zodError = error.cause as ZodError;
-          console.error(zodError.issues);
-        }
-      }),
-      onError((error) => {
-        console.error(error);
-      }),
-    ],
-  });
-
-  router.use("/api/orpc/*", async (c, next) => {
-    const { matched, response } = await handler.handle(c.req.raw, {
-      prefix: "/api/orpc",
-      context: {
-        kysely: c.get("kysely"),
-        // user: c.get("user"),
-        // session: c.get("session"),
-        // storage: c.get("storage"),
-        // mailer: c.get("mailer"),
-      },
-    });
-
-    if (matched) {
-      return c.newResponse(response.body, response);
-    }
-
-    return next();
-  });
 
   return router;
 };

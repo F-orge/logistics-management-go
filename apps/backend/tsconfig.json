@@ -11,10 +11,6 @@
     "composite": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/db": ["../../packages/db/src"],
-      "@packages/db/*": ["../../packages/db/src/*"],
-      "@packages/rpc": ["../../packages/rpc/src"],
-      "@packages/rpc/*": ["../../packages/rpc/src/*"]
     }
   },
   "include": ["src/**/*"],

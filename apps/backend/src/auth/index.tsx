@@ -4,8 +4,8 @@ import { admin as adminPlugin } from "better-auth/plugins";
 import type nodemailer from "nodemailer";
 import type { Pool } from "pg";
 import ReactDOMServer from "react-dom/server";
-import ResetPassword from "@/emails/reset-password";
-import VerifyEmail from "@/emails/verify-email";
+import ResetPassword from "../emails/reset-password";
+import VerifyEmail from "../emails/verify-email";
 import {
   ac,
   accountant,
@@ -40,7 +40,7 @@ import {
   user,
   warehouseManager,
   warehouseOperator,
-} from "@/auth/permissions";
+} from "./permissions";
 
 export const authFactory = (
   dbClient: Pool,

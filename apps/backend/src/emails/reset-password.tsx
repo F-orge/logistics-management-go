@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ResetPassword = ({ url, token }: { url: string; token: string }) => {
   return (
     <html lang="en">
@@ -11,7 +9,7 @@ const ResetPassword = ({ url, token }: { url: string; token: string }) => {
         <a href={`${url}?token=${token}`}>Click here to reset your password</a>
       </body>
     </html>
-  )
-}
+  );
+};
 
-export default ResetPassword
+export default ResetPassword;
