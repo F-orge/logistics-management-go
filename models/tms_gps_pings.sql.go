@@ -142,29 +142,37 @@ func (q *Queries) TmsInsertGpsPing(ctx context.Context, arg TmsInsertGpsPingPara
 
 const tmsPaginateGpsPing = `-- name: TmsPaginateGpsPing :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   gps_pings.id, gps_pings.vehicle_id, gps_pings.latitude, gps_pings.longitude, gps_pings.timestamp,
   vehicle.id, vehicle.registration_number, vehicle.model, vehicle.capacity_volume, vehicle.capacity_weight, vehicle.status, vehicle.created_at, vehicle.updated_at, vehicle.make, vehicle.year, vehicle.vin, vehicle.current_mileage, vehicle.last_maintenance_date
 from
   "tms"."gps_pings" as gps_pings
   inner join "tms"."vehicles" as vehicle on gps_pings.vehicle_id = vehicle.id
-where (vehicle.registration_number ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (vehicle.registration_number ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateGpsPingParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateGpsPingRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
 	TmsGpsPing TmsGpsPing `db:"tms_gps_ping" json:"tms_gps_ping"`
 	TmsVehicle TmsVehicle `db:"tms_vehicle" json:"tms_vehicle"`
 }
 
 func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPingParams) ([]TmsPaginateGpsPingRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateGpsPing, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateGpsPing, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -173,6 +181,10 @@ func (q *Queries) TmsPaginateGpsPing(ctx context.Context, arg TmsPaginateGpsPing
 	for rows.Next() {
 		var i TmsPaginateGpsPingRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsGpsPing.ID,
 			&i.TmsGpsPing.VehicleID,
 			&i.TmsGpsPing.Latitude,

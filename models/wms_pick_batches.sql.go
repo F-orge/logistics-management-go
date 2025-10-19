@@ -230,6 +230,10 @@ func (q *Queries) WmsInsertPickBatch(ctx context.Context, arg WmsInsertPickBatch
 
 const wmsPaginatePickBatch = `-- name: WmsPaginatePickBatch :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   pick_batches.id, pick_batches.batch_number, pick_batches.warehouse_id, pick_batches.status, pick_batches.strategy, pick_batches.priority, pick_batches.assigned_user_id, pick_batches.wave_id, pick_batches.zone_restrictions, pick_batches.estimated_duration, pick_batches.actual_duration, pick_batches.total_items, pick_batches.completed_items, pick_batches.started_at, pick_batches.completed_at, pick_batches.created_at, pick_batches.updated_at, pick_batches.pick_batch_items,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
   assigned_user.id, assigned_user.name, assigned_user.email, assigned_user.email_verified, assigned_user.image, assigned_user.created_at, assigned_user.updated_at, assigned_user.role, assigned_user.banned, assigned_user.ban_reason, assigned_user.ban_expires
@@ -237,28 +241,32 @@ from
   "wms"."pick_batches_view" as pick_batches
   inner join "wms"."warehouses" as warehouse on pick_batches.warehouse_id = warehouse.id
   left join "public"."user" as assigned_user on pick_batches.assigned_user_id = assigned_user.id
-where (warehouse.name ilike $1::text
-  or pick_batches.batch_number ilike $1::text
-  or pick_batches.status::text ilike $1::text
-  or assigned_user.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (warehouse.name ilike $3::text
+  or pick_batches.batch_number ilike $3::text
+  or pick_batches.status::text ilike $3::text
+  or assigned_user.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginatePickBatchParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginatePickBatchRow struct {
+	TotalItems         int64              `db:"total_items" json:"total_items"`
+	TotalPages         float64            `db:"total_pages" json:"total_pages"`
+	Page               int32              `db:"page" json:"page"`
+	PerPage            int32              `db:"per_page" json:"per_page"`
 	WmsPickBatchesView WmsPickBatchesView `db:"wms_pick_batches_view" json:"wms_pick_batches_view"`
 	WmsWarehouse       WmsWarehouse       `db:"wms_warehouse" json:"wms_warehouse"`
 	User               User               `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickBatchParams) ([]WmsPaginatePickBatchRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePickBatch, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginatePickBatch, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -267,6 +275,10 @@ func (q *Queries) WmsPaginatePickBatch(ctx context.Context, arg WmsPaginatePickB
 	for rows.Next() {
 		var i WmsPaginatePickBatchRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsPickBatchesView.ID,
 			&i.WmsPickBatchesView.BatchNumber,
 			&i.WmsPickBatchesView.WarehouseID,

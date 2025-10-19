@@ -18,7 +18,7 @@ func (r *CrmCompanyRepository) Paginate(page int32, perPage int32, search string
 
 	result, err := r.Query.CrmPaginateCompany(context.Background(), models.CrmPaginateCompanyParams{
 		Page:    page,
-		Perpage: perPage,
+		PerPage: perPage,
 		Search:  pgtype.Text{String: searchQuery},
 	})
 

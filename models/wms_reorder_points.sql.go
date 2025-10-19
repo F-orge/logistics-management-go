@@ -145,29 +145,37 @@ func (q *Queries) WmsInsertReorderPoint(ctx context.Context, arg WmsInsertReorde
 
 const wmsPaginateReorderPoint = `-- name: WmsPaginateReorderPoint :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   reorder_points.id, reorder_points.product_id, reorder_points.warehouse_id, reorder_points.threshold, reorder_points.created_at, reorder_points.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
 from
   "wms"."reorder_points" as reorder_points
   inner join "wms"."products" as product on reorder_points.product_id = product.id
-where (product.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (product.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateReorderPointParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateReorderPointRow struct {
+	TotalItems      int64           `db:"total_items" json:"total_items"`
+	TotalPages      float64         `db:"total_pages" json:"total_pages"`
+	Page            int32           `db:"page" json:"page"`
+	PerPage         int32           `db:"per_page" json:"per_page"`
 	WmsReorderPoint WmsReorderPoint `db:"wms_reorder_point" json:"wms_reorder_point"`
 	WmsProduct      WmsProduct      `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateReorderPoint(ctx context.Context, arg WmsPaginateReorderPointParams) ([]WmsPaginateReorderPointRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateReorderPoint, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateReorderPoint, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -176,6 +184,10 @@ func (q *Queries) WmsPaginateReorderPoint(ctx context.Context, arg WmsPaginateRe
 	for rows.Next() {
 		var i WmsPaginateReorderPointRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsReorderPoint.ID,
 			&i.WmsReorderPoint.ProductID,
 			&i.WmsReorderPoint.WarehouseID,

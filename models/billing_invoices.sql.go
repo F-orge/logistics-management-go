@@ -294,6 +294,10 @@ func (q *Queries) BillingInsertInvoice(ctx context.Context, arg BillingInsertInv
 
 const billingPaginateInvoice = `-- name: BillingPaginateInvoice :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   invoices.id, invoices.client_id, invoices.quote_id, invoices.invoice_number, invoices.status, invoices.issue_date, invoices.due_date, invoices.total_amount, invoices.amount_paid, invoices.amount_outstanding, invoices.currency, invoices.tax_amount, invoices.discount_amount, invoices.subtotal, invoices.payment_terms, invoices.notes, invoices.sent_at, invoices.paid_at, invoices.created_by_user_id, invoices.created_at, invoices.updated_at, invoices.invoice_line_items, invoices.payments, invoices.credit_notes,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   quote.id, quote.client_id, quote.origin_details, quote.destination_details, quote.weight, quote.length, quote.width, quote.height, quote.volume, quote.quoted_price, quote.service_level, quote.expires_at, quote.status, quote.quote_number, quote.notes, quote.created_by_user_id, quote.created_at, quote.updated_at,
@@ -303,22 +307,26 @@ from
   inner join "crm"."companies" as client on invoices.client_id = client.id
   left join "billing"."quotes" as quote on invoices.quote_id = quote.id
   left join "public"."user" as created_by_user on invoices.created_by_user_id = created_by_user.id
-where (client.name ilike $1::text
-  or quote.quote_number ilike $1::text
-  or invoices.invoice_number ilike $1::text
-  or invoices.status::text ilike $1::text
-  or created_by_user.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (client.name ilike $3::text
+  or quote.quote_number ilike $3::text
+  or invoices.invoice_number ilike $3::text
+  or invoices.status::text ilike $3::text
+  or created_by_user.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateInvoiceParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginateInvoiceRow struct {
+	TotalItems          int64               `db:"total_items" json:"total_items"`
+	TotalPages          float64             `db:"total_pages" json:"total_pages"`
+	Page                int32               `db:"page" json:"page"`
+	PerPage             int32               `db:"per_page" json:"per_page"`
 	BillingInvoicesView BillingInvoicesView `db:"billing_invoices_view" json:"billing_invoices_view"`
 	CrmCompany          CrmCompany          `db:"crm_company" json:"crm_company"`
 	BillingQuote        BillingQuote        `db:"billing_quote" json:"billing_quote"`
@@ -326,7 +334,7 @@ type BillingPaginateInvoiceRow struct {
 }
 
 func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginateInvoiceParams) ([]BillingPaginateInvoiceRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginateInvoice, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -335,6 +343,10 @@ func (q *Queries) BillingPaginateInvoice(ctx context.Context, arg BillingPaginat
 	for rows.Next() {
 		var i BillingPaginateInvoiceRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingInvoicesView.ID,
 			&i.BillingInvoicesView.ClientID,
 			&i.BillingInvoicesView.QuoteID,

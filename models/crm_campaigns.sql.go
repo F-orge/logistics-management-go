@@ -108,37 +108,53 @@ func (q *Queries) CrmInsertCampaign(ctx context.Context, arg CrmInsertCampaignPa
 
 const crmPaginateCampaign = `-- name: CrmPaginateCampaign :many
 select
-  id, name, budget, start_date, end_date, created_at, updated_at
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  campaigns.id, campaigns.name, campaigns.budget, campaigns.start_date, campaigns.end_date, campaigns.created_at, campaigns.updated_at
 from
-  "crm"."campaigns"
-where (name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "crm"."campaigns" as campaigns
+where (name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateCampaignParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmCampaign, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.Search, arg.Page, arg.PerPage)
+type CrmPaginateCampaignRow struct {
+	TotalItems  int64       `db:"total_items" json:"total_items"`
+	TotalPages  float64     `db:"total_pages" json:"total_pages"`
+	Page        int32       `db:"page" json:"page"`
+	PerPage     int32       `db:"per_page" json:"per_page"`
+	CrmCampaign CrmCampaign `db:"crm_campaign" json:"crm_campaign"`
+}
+
+func (q *Queries) CrmPaginateCampaign(ctx context.Context, arg CrmPaginateCampaignParams) ([]CrmPaginateCampaignRow, error) {
+	rows, err := q.db.Query(ctx, crmPaginateCampaign, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CrmCampaign
+	var items []CrmPaginateCampaignRow
 	for rows.Next() {
-		var i CrmCampaign
+		var i CrmPaginateCampaignRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Budget,
-			&i.StartDate,
-			&i.EndDate,
-			&i.CreatedAt,
-			&i.UpdatedAt,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.CrmCampaign.ID,
+			&i.CrmCampaign.Name,
+			&i.CrmCampaign.Budget,
+			&i.CrmCampaign.StartDate,
+			&i.CrmCampaign.EndDate,
+			&i.CrmCampaign.CreatedAt,
+			&i.CrmCampaign.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}

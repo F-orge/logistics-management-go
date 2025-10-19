@@ -291,6 +291,10 @@ func (q *Queries) CrmInsertLead(ctx context.Context, arg CrmInsertLeadParams) (C
 
 const crmPaginateLead = `-- name: CrmPaginateLead :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   leads.id, leads.name, leads.email, leads.lead_source, leads.status, leads.lead_score, leads.owner_id, leads.campaign_id, leads.converted_at, leads.converted_contact_id, leads.converted_company_id, leads.converted_opportunity_id, leads.created_at, leads.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   campaign.id, campaign.name, campaign.budget, campaign.start_date, campaign.end_date, campaign.created_at, campaign.updated_at,
@@ -304,23 +308,27 @@ from
   left join "crm"."contacts" as converted_contact on leads.converted_contact_id = converted_contact.id
   left join "crm"."companies" as converted_company on leads.converted_company_id = converted_company.id
   left join "crm"."opportunities" as converted_opportunity on leads.converted_opportunity_id = converted_opportunity.id
-where (leads.name ilike $1::text
-  or leads.email ilike $1::text
-  or leads.status::text ilike $1::text
-  or leads.lead_source::text ilike $1::text
-  or owner.name ilike $1::text
-  or campaign.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (leads.name ilike $3::text
+  or leads.email ilike $3::text
+  or leads.status::text ilike $3::text
+  or leads.lead_source::text ilike $3::text
+  or owner.name ilike $3::text
+  or campaign.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateLeadParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateLeadRow struct {
+	TotalItems     int64          `db:"total_items" json:"total_items"`
+	TotalPages     float64        `db:"total_pages" json:"total_pages"`
+	Page           int32          `db:"page" json:"page"`
+	PerPage        int32          `db:"per_page" json:"per_page"`
 	CrmLead        CrmLead        `db:"crm_lead" json:"crm_lead"`
 	User           User           `db:"user" json:"user"`
 	CrmCampaign    CrmCampaign    `db:"crm_campaign" json:"crm_campaign"`
@@ -330,7 +338,7 @@ type CrmPaginateLeadRow struct {
 }
 
 func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams) ([]CrmPaginateLeadRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateLead, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateLead, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -339,6 +347,10 @@ func (q *Queries) CrmPaginateLead(ctx context.Context, arg CrmPaginateLeadParams
 	for rows.Next() {
 		var i CrmPaginateLeadRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmLead.ID,
 			&i.CrmLead.Name,
 			&i.CrmLead.Email,

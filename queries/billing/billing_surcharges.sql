@@ -1,8 +1,12 @@
 -- name: BillingPaginateSurcharge :many
 select
-  *
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
+  sqlc.embed(surcharges)
 from
-  "billing"."surcharges"
+  "billing"."surcharges" as surcharges
 where (name ilike sqlc.narg(search)::text
   or type ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)

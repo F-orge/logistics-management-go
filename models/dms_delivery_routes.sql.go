@@ -163,30 +163,38 @@ func (q *Queries) DmsInsertDeliveryRoute(ctx context.Context, arg DmsInsertDeliv
 
 const dmsPaginateDeliveryRoute = `-- name: DmsPaginateDeliveryRoute :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   delivery_routes.id, delivery_routes.driver_id, delivery_routes.route_date, delivery_routes.status, delivery_routes.optimized_route_data, delivery_routes.total_distance_km, delivery_routes.estimated_duration_minutes, delivery_routes.actual_duration_minutes, delivery_routes.started_at, delivery_routes.completed_at, delivery_routes.created_at, delivery_routes.updated_at, delivery_routes.delivery_tasks,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "dms"."delivery_routes_view" as delivery_routes
   inner join "tms"."drivers" as driver on delivery_routes.driver_id = driver.id
-where (driver.name ilike $1::text
-  or delivery_routes.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (driver.name ilike $3::text
+  or delivery_routes.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type DmsPaginateDeliveryRouteParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsPaginateDeliveryRouteRow struct {
+	TotalItems            int64                 `db:"total_items" json:"total_items"`
+	TotalPages            float64               `db:"total_pages" json:"total_pages"`
+	Page                  int32                 `db:"page" json:"page"`
+	PerPage               int32                 `db:"per_page" json:"per_page"`
 	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
 	TmsDriver             TmsDriver             `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateDeliveryRouteParams) ([]DmsPaginateDeliveryRouteRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDeliveryRoute, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, dmsPaginateDeliveryRoute, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -195,6 +203,10 @@ func (q *Queries) DmsPaginateDeliveryRoute(ctx context.Context, arg DmsPaginateD
 	for rows.Next() {
 		var i DmsPaginateDeliveryRouteRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.DmsDeliveryRoutesView.ID,
 			&i.DmsDeliveryRoutesView.DriverID,
 			&i.DmsDeliveryRoutesView.RouteDate,

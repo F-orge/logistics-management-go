@@ -243,6 +243,10 @@ func (q *Queries) WmsInsertInventoryStock(ctx context.Context, arg WmsInsertInve
 
 const wmsPaginateInventoryStock = `-- name: WmsPaginateInventoryStock :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   inventory_stock.id, inventory_stock.location_id, inventory_stock.product_id, inventory_stock.batch_id, inventory_stock.quantity, inventory_stock.reserved_quantity, inventory_stock.available_quantity, inventory_stock.status, inventory_stock.last_counted_at, inventory_stock.last_movement_at, inventory_stock.created_at, inventory_stock.updated_at,
   location.id, location.warehouse_id, location.parent_location_id, location.name, location.barcode, location.type, location.level, location.path, location.max_weight, location.max_volume, location.max_pallets, location.x_coordinate, location.y_coordinate, location.z_coordinate, location.is_pickable, location.is_receivable, location.temperature_controlled, location.hazmat_approved, location.is_active, location.created_at, location.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -252,21 +256,25 @@ from
   inner join "wms"."locations" as location on inventory_stock.location_id = location.id
   inner join "wms"."products" as product on inventory_stock.product_id = product.id
   left join "wms"."inventory_batches" as batch on inventory_stock.batch_id = batch.id
-where (location.name ilike $1::text
-  or product.name ilike $1::text
-  or batch.batch_number ilike $1::text
-  or inventory_stock.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (location.name ilike $3::text
+  or product.name ilike $3::text
+  or batch.batch_number ilike $3::text
+  or inventory_stock.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateInventoryStockParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateInventoryStockRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	WmsInventoryStock WmsInventoryStock `db:"wms_inventory_stock" json:"wms_inventory_stock"`
 	WmsLocation       WmsLocation       `db:"wms_location" json:"wms_location"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
@@ -274,7 +282,7 @@ type WmsPaginateInventoryStockRow struct {
 }
 
 func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginateInventoryStockParams) ([]WmsPaginateInventoryStockRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryStock, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -283,6 +291,10 @@ func (q *Queries) WmsPaginateInventoryStock(ctx context.Context, arg WmsPaginate
 	for rows.Next() {
 		var i WmsPaginateInventoryStockRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsInventoryStock.ID,
 			&i.WmsInventoryStock.LocationID,
 			&i.WmsInventoryStock.ProductID,

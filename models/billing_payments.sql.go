@@ -240,6 +240,10 @@ func (q *Queries) BillingInsertPayment(ctx context.Context, arg BillingInsertPay
 
 const billingPaginatePayment = `-- name: BillingPaginatePayment :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   payments.id, payments.invoice_id, payments.amount, payments.payment_method, payments.transaction_id, payments.gateway_reference, payments.status, payments.payment_date, payments.processed_at, payments.currency, payments.exchange_rate, payments.fees, payments.net_amount, payments.notes, payments.processed_by_user_id, payments.created_at, payments.updated_at,
   invoice.id, invoice.client_id, invoice.quote_id, invoice.invoice_number, invoice.status, invoice.issue_date, invoice.due_date, invoice.total_amount, invoice.amount_paid, invoice.amount_outstanding, invoice.currency, invoice.tax_amount, invoice.discount_amount, invoice.subtotal, invoice.payment_terms, invoice.notes, invoice.sent_at, invoice.paid_at, invoice.created_by_user_id, invoice.created_at, invoice.updated_at,
   processed_by_user.id, processed_by_user.name, processed_by_user.email, processed_by_user.email_verified, processed_by_user.image, processed_by_user.created_at, processed_by_user.updated_at, processed_by_user.role, processed_by_user.banned, processed_by_user.ban_reason, processed_by_user.ban_expires
@@ -247,28 +251,32 @@ from
   "billing"."payments" as payments
   inner join "billing"."invoices" as invoice on payments.invoice_id = invoice.id
   left join "public"."user" as processed_by_user on payments.processed_by_user_id = processed_by_user.id
-where (invoice.invoice_number ilike $1::text
-  or payments.payment_method::text ilike $1::text
-  or payments.status::text ilike $1::text
-  or processed_by_user.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (invoice.invoice_number ilike $3::text
+  or payments.payment_method::text ilike $3::text
+  or payments.status::text ilike $3::text
+  or processed_by_user.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginatePaymentParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginatePaymentRow struct {
+	TotalItems     int64          `db:"total_items" json:"total_items"`
+	TotalPages     float64        `db:"total_pages" json:"total_pages"`
+	Page           int32          `db:"page" json:"page"`
+	PerPage        int32          `db:"per_page" json:"per_page"`
 	BillingPayment BillingPayment `db:"billing_payment" json:"billing_payment"`
 	BillingInvoice BillingInvoice `db:"billing_invoice" json:"billing_invoice"`
 	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginatePaymentParams) ([]BillingPaginatePaymentRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginatePayment, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -277,6 +285,10 @@ func (q *Queries) BillingPaginatePayment(ctx context.Context, arg BillingPaginat
 	for rows.Next() {
 		var i BillingPaginatePaymentRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingPayment.ID,
 			&i.BillingPayment.InvoiceID,
 			&i.BillingPayment.Amount,

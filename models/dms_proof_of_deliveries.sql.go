@@ -179,30 +179,38 @@ func (q *Queries) DmsInsertProofOfDelivery(ctx context.Context, arg DmsInsertPro
 
 const dmsPaginateProofOfDelivery = `-- name: DmsPaginateProofOfDelivery :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   proof_of_deliveries.id, proof_of_deliveries.delivery_task_id, proof_of_deliveries.type, proof_of_deliveries.file_path, proof_of_deliveries.signature_data, proof_of_deliveries.recipient_name, proof_of_deliveries.verification_code, proof_of_deliveries.latitude, proof_of_deliveries.longitude, proof_of_deliveries.timestamp, proof_of_deliveries.created_at, proof_of_deliveries.updated_at,
   delivery_task.id, delivery_task.package_id, delivery_task.delivery_route_id, delivery_task.route_sequence, delivery_task.delivery_address, delivery_task.recipient_name, delivery_task.recipient_phone, delivery_task.delivery_instructions, delivery_task.estimated_arrival_time, delivery_task.actual_arrival_time, delivery_task.delivery_time, delivery_task.status, delivery_task.failure_reason, delivery_task.attempt_count, delivery_task.created_at, delivery_task.updated_at
 from
   "dms"."proof_of_deliveries" as proof_of_deliveries
   inner join "dms"."delivery_tasks" as delivery_task on proof_of_deliveries.delivery_task_id = delivery_task.id
-where (proof_of_deliveries.recipient_name ilike $1::text
-  or proof_of_deliveries.type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (proof_of_deliveries.recipient_name ilike $3::text
+  or proof_of_deliveries.type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type DmsPaginateProofOfDeliveryParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsPaginateProofOfDeliveryRow struct {
+	TotalItems         int64              `db:"total_items" json:"total_items"`
+	TotalPages         float64            `db:"total_pages" json:"total_pages"`
+	Page               int32              `db:"page" json:"page"`
+	PerPage            int32              `db:"per_page" json:"per_page"`
 	DmsProofOfDelivery DmsProofOfDelivery `db:"dms_proof_of_delivery" json:"dms_proof_of_delivery"`
 	DmsDeliveryTask    DmsDeliveryTask    `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateProofOfDelivery(ctx context.Context, arg DmsPaginateProofOfDeliveryParams) ([]DmsPaginateProofOfDeliveryRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateProofOfDelivery, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, dmsPaginateProofOfDelivery, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -211,6 +219,10 @@ func (q *Queries) DmsPaginateProofOfDelivery(ctx context.Context, arg DmsPaginat
 	for rows.Next() {
 		var i DmsPaginateProofOfDeliveryRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.DmsProofOfDelivery.ID,
 			&i.DmsProofOfDelivery.DeliveryTaskID,
 			&i.DmsProofOfDelivery.Type,

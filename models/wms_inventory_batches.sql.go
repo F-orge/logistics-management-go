@@ -145,30 +145,38 @@ func (q *Queries) WmsInsertInventoryBatch(ctx context.Context, arg WmsInsertInve
 
 const wmsPaginateInventoryBatch = `-- name: WmsPaginateInventoryBatch :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   inventory_batches.id, inventory_batches.product_id, inventory_batches.batch_number, inventory_batches.expiration_date, inventory_batches.created_at, inventory_batches.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
 from
   "wms"."inventory_batches" as inventory_batches
   inner join "wms"."products" as product on inventory_batches.product_id = product.id
-where (product.name ilike $1::text
-  or inventory_batches.batch_number ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (product.name ilike $3::text
+  or inventory_batches.batch_number ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateInventoryBatchParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateInventoryBatchRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	WmsInventoryBatch WmsInventoryBatch `db:"wms_inventory_batch" json:"wms_inventory_batch"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginateInventoryBatchParams) ([]WmsPaginateInventoryBatchRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryBatch, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryBatch, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -177,6 +185,10 @@ func (q *Queries) WmsPaginateInventoryBatch(ctx context.Context, arg WmsPaginate
 	for rows.Next() {
 		var i WmsPaginateInventoryBatchRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsInventoryBatch.ID,
 			&i.WmsInventoryBatch.ProductID,
 			&i.WmsInventoryBatch.BatchNumber,

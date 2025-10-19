@@ -110,39 +110,55 @@ func (q *Queries) WmsInsertSupplier(ctx context.Context, arg WmsInsertSupplierPa
 
 const wmsPaginateSupplier = `-- name: WmsPaginateSupplier :many
 select
-  id, name, contact_person, email, phone_number, created_at, updated_at, products
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  suppliers.id, suppliers.name, suppliers.contact_person, suppliers.email, suppliers.phone_number, suppliers.created_at, suppliers.updated_at, suppliers.products
 from
-  "wms"."suppliers_view"
-where (name ilike $1::text
-  or email ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "wms"."suppliers_view" as suppliers
+where (name ilike $3::text
+  or email ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateSupplierParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsSuppliersView, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.Search, arg.Page, arg.PerPage)
+type WmsPaginateSupplierRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
+	WmsSuppliersView WmsSuppliersView `db:"wms_suppliers_view" json:"wms_suppliers_view"`
+}
+
+func (q *Queries) WmsPaginateSupplier(ctx context.Context, arg WmsPaginateSupplierParams) ([]WmsPaginateSupplierRow, error) {
+	rows, err := q.db.Query(ctx, wmsPaginateSupplier, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []WmsSuppliersView
+	var items []WmsPaginateSupplierRow
 	for rows.Next() {
-		var i WmsSuppliersView
+		var i WmsPaginateSupplierRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.ContactPerson,
-			&i.Email,
-			&i.PhoneNumber,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.Products,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.WmsSuppliersView.ID,
+			&i.WmsSuppliersView.Name,
+			&i.WmsSuppliersView.ContactPerson,
+			&i.WmsSuppliersView.Email,
+			&i.WmsSuppliersView.PhoneNumber,
+			&i.WmsSuppliersView.CreatedAt,
+			&i.WmsSuppliersView.UpdatedAt,
+			&i.WmsSuppliersView.Products,
 		); err != nil {
 			return nil, err
 		}

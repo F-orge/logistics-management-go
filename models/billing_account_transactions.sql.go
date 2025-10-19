@@ -202,6 +202,10 @@ func (q *Queries) BillingInsertAccountTransaction(ctx context.Context, arg Billi
 
 const billingPaginateAccountTransaction = `-- name: BillingPaginateAccountTransaction :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   account_transactions.id, account_transactions.client_account_id, account_transactions.type, account_transactions.amount, account_transactions.running_balance, account_transactions.source_record_id, account_transactions.source_record_type, account_transactions.description, account_transactions.reference_number, account_transactions.transaction_date, account_transactions.processed_by_user_id, account_transactions.created_at, account_transactions.updated_at,
   client_account.id, client_account.client_id, client_account.credit_limit, client_account.available_credit, client_account.wallet_balance, client_account.currency, client_account.payment_terms_days, client_account.is_credit_approved, client_account.last_payment_date, client_account.created_at, client_account.updated_at,
   processed_by_user.id, processed_by_user.name, processed_by_user.email, processed_by_user.email_verified, processed_by_user.image, processed_by_user.created_at, processed_by_user.updated_at, processed_by_user.role, processed_by_user.banned, processed_by_user.ban_reason, processed_by_user.ban_expires
@@ -210,27 +214,31 @@ from
   inner join "billing"."client_accounts" as client_account on account_transactions.client_account_id = client_account.id
   inner join "crm"."companies" as client on client_account.client_id = client.id
   left join "public"."user" as processed_by_user on account_transactions.processed_by_user_id = processed_by_user.id
-where (client.name ilike $1::text
-  or processed_by_user.name ilike $1::text
-  or account_transactions.type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (client.name ilike $3::text
+  or processed_by_user.name ilike $3::text
+  or account_transactions.type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateAccountTransactionParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginateAccountTransactionRow struct {
+	TotalItems                int64                     `db:"total_items" json:"total_items"`
+	TotalPages                float64                   `db:"total_pages" json:"total_pages"`
+	Page                      int32                     `db:"page" json:"page"`
+	PerPage                   int32                     `db:"per_page" json:"per_page"`
 	BillingAccountTransaction BillingAccountTransaction `db:"billing_account_transaction" json:"billing_account_transaction"`
 	BillingClientAccount      BillingClientAccount      `db:"billing_client_account" json:"billing_client_account"`
 	User                      User                      `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg BillingPaginateAccountTransactionParams) ([]BillingPaginateAccountTransactionRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateAccountTransaction, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginateAccountTransaction, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -239,6 +247,10 @@ func (q *Queries) BillingPaginateAccountTransaction(ctx context.Context, arg Bil
 	for rows.Next() {
 		var i BillingPaginateAccountTransactionRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingAccountTransaction.ID,
 			&i.BillingAccountTransaction.ClientAccountID,
 			&i.BillingAccountTransaction.Type,

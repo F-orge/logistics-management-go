@@ -1,8 +1,12 @@
 -- name: TmsPaginateVehicle :many
 select
-  *
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
+  sqlc.embed(vehicles)
 from
-  "tms"."vehicles_view"
+  "tms"."vehicles_view" as vehicles
 where (registration_number ilike sqlc.narg(search)::text
   or model ilike sqlc.narg(search)::text
   or status::text ilike sqlc.narg(search)::text

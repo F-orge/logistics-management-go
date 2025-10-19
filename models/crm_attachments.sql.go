@@ -113,39 +113,55 @@ func (q *Queries) CrmInsertAttachment(ctx context.Context, arg CrmInsertAttachme
 
 const crmPaginateAttachment = `-- name: CrmPaginateAttachment :many
 select
-  id, file_name, file_path, mime_type, record_id, record_type, created_at, updated_at
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  attachments.id, attachments.file_name, attachments.file_path, attachments.mime_type, attachments.record_id, attachments.record_type, attachments.created_at, attachments.updated_at
 from
-  "crm"."attachments"
-where (record_type::text ilike $1::text
-  or mime_type ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "crm"."attachments" as attachments
+where (record_type::text ilike $3::text
+  or mime_type ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateAttachmentParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) CrmPaginateAttachment(ctx context.Context, arg CrmPaginateAttachmentParams) ([]CrmAttachment, error) {
-	rows, err := q.db.Query(ctx, crmPaginateAttachment, arg.Search, arg.Page, arg.PerPage)
+type CrmPaginateAttachmentRow struct {
+	TotalItems    int64         `db:"total_items" json:"total_items"`
+	TotalPages    float64       `db:"total_pages" json:"total_pages"`
+	Page          int32         `db:"page" json:"page"`
+	PerPage       int32         `db:"per_page" json:"per_page"`
+	CrmAttachment CrmAttachment `db:"crm_attachment" json:"crm_attachment"`
+}
+
+func (q *Queries) CrmPaginateAttachment(ctx context.Context, arg CrmPaginateAttachmentParams) ([]CrmPaginateAttachmentRow, error) {
+	rows, err := q.db.Query(ctx, crmPaginateAttachment, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CrmAttachment
+	var items []CrmPaginateAttachmentRow
 	for rows.Next() {
-		var i CrmAttachment
+		var i CrmPaginateAttachmentRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.FileName,
-			&i.FilePath,
-			&i.MimeType,
-			&i.RecordID,
-			&i.RecordType,
-			&i.CreatedAt,
-			&i.UpdatedAt,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.CrmAttachment.ID,
+			&i.CrmAttachment.FileName,
+			&i.CrmAttachment.FilePath,
+			&i.CrmAttachment.MimeType,
+			&i.CrmAttachment.RecordID,
+			&i.CrmAttachment.RecordType,
+			&i.CrmAttachment.CreatedAt,
+			&i.CrmAttachment.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}

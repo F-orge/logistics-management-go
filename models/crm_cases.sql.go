@@ -183,6 +183,10 @@ func (q *Queries) CrmInsertCase(ctx context.Context, arg CrmInsertCaseParams) (C
 
 const crmPaginateCase = `-- name: CrmPaginateCase :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   cases.id, cases.case_number, cases.status, cases.priority, cases.type, cases.owner_id, cases.contact_id, cases.description, cases.created_at, cases.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at
@@ -190,30 +194,34 @@ from
   "crm"."cases" as cases
   inner join "public"."user" as owner on cases.owner_id = owner.id
   left join "crm"."contacts" as contact on cases.contact_id = contact.id
-where (cases.case_number ilike $1::text
-  or cases.status::text ilike $1::text
-  or cases.priority::text ilike $1::text
-  or cases.type::text ilike $1::text
-  or owner.name ilike $1::text
-  or contact.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (cases.case_number ilike $3::text
+  or cases.status::text ilike $3::text
+  or cases.priority::text ilike $3::text
+  or cases.type::text ilike $3::text
+  or owner.name ilike $3::text
+  or contact.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateCaseParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateCaseRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
 	CrmCase    CrmCase    `db:"crm_case" json:"crm_case"`
 	User       User       `db:"user" json:"user"`
 	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 }
 
 func (q *Queries) CrmPaginateCase(ctx context.Context, arg CrmPaginateCaseParams) ([]CrmPaginateCaseRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateCase, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateCase, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -222,6 +230,10 @@ func (q *Queries) CrmPaginateCase(ctx context.Context, arg CrmPaginateCaseParams
 	for rows.Next() {
 		var i CrmPaginateCaseRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmCase.ID,
 			&i.CrmCase.CaseNumber,
 			&i.CrmCase.Status,

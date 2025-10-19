@@ -101,37 +101,53 @@ func (q *Queries) TmsInsertGeofence(ctx context.Context, arg TmsInsertGeofencePa
 
 const tmsPaginateGeofence = `-- name: TmsPaginateGeofence :many
 select
-  id, name, created_at, updated_at, longitude, latitude, geofence_events
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  geofences.id, geofences.name, geofences.created_at, geofences.updated_at, geofences.longitude, geofences.latitude, geofences.geofence_events
 from
-  "tms"."geofences_view"
-where (name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "tms"."geofences_view" as geofences
+where (name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateGeofenceParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofenceParams) ([]TmsGeofencesView, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateGeofence, arg.Search, arg.Page, arg.PerPage)
+type TmsPaginateGeofenceRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
+	TmsGeofencesView TmsGeofencesView `db:"tms_geofences_view" json:"tms_geofences_view"`
+}
+
+func (q *Queries) TmsPaginateGeofence(ctx context.Context, arg TmsPaginateGeofenceParams) ([]TmsPaginateGeofenceRow, error) {
+	rows, err := q.db.Query(ctx, tmsPaginateGeofence, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsGeofencesView
+	var items []TmsPaginateGeofenceRow
 	for rows.Next() {
-		var i TmsGeofencesView
+		var i TmsPaginateGeofenceRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.Longitude,
-			&i.Latitude,
-			&i.GeofenceEvents,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.TmsGeofencesView.ID,
+			&i.TmsGeofencesView.Name,
+			&i.TmsGeofencesView.CreatedAt,
+			&i.TmsGeofencesView.UpdatedAt,
+			&i.TmsGeofencesView.Longitude,
+			&i.TmsGeofencesView.Latitude,
+			&i.TmsGeofencesView.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}

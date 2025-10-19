@@ -136,30 +136,38 @@ func (q *Queries) TmsInsertShipmentLegEvent(ctx context.Context, arg TmsInsertSh
 
 const tmsPaginateShipmentLegEvent = `-- name: TmsPaginateShipmentLegEvent :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   shipment_leg_events.id, shipment_leg_events.shipment_leg_id, shipment_leg_events.status_message, shipment_leg_events.location, shipment_leg_events.event_timestamp,
   shipment_leg.id, shipment_leg.shipment_id, shipment_leg.leg_sequence, shipment_leg.start_location, shipment_leg.end_location, shipment_leg.carrier_id, shipment_leg.internal_trip_id, shipment_leg.status, shipment_leg.created_at, shipment_leg.updated_at
 from
   "tms"."shipment_leg_events" as shipment_leg_events
   inner join "tms"."shipment_legs" as shipment_leg on shipment_leg_events.shipment_leg_id = shipment_leg.id
-where (shipment_leg.start_location ilike $1::text
-  or shipment_leg_events.status_message ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (shipment_leg.start_location ilike $3::text
+  or shipment_leg_events.status_message ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateShipmentLegEventParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateShipmentLegEventRow struct {
+	TotalItems          int64               `db:"total_items" json:"total_items"`
+	TotalPages          float64             `db:"total_pages" json:"total_pages"`
+	Page                int32               `db:"page" json:"page"`
+	PerPage             int32               `db:"per_page" json:"per_page"`
 	TmsShipmentLegEvent TmsShipmentLegEvent `db:"tms_shipment_leg_event" json:"tms_shipment_leg_event"`
 	TmsShipmentLeg      TmsShipmentLeg      `db:"tms_shipment_leg" json:"tms_shipment_leg"`
 }
 
 func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPaginateShipmentLegEventParams) ([]TmsPaginateShipmentLegEventRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateShipmentLegEvent, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -168,6 +176,10 @@ func (q *Queries) TmsPaginateShipmentLegEvent(ctx context.Context, arg TmsPagina
 	for rows.Next() {
 		var i TmsPaginateShipmentLegEventRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsShipmentLegEvent.ID,
 			&i.TmsShipmentLegEvent.ShipmentLegID,
 			&i.TmsShipmentLegEvent.StatusMessage,

@@ -159,30 +159,38 @@ func (q *Queries) WmsInsertStockTransfer(ctx context.Context, arg WmsInsertStock
 
 const wmsPaginateStockTransfer = `-- name: WmsPaginateStockTransfer :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   stock_transfers.id, stock_transfers.product_id, stock_transfers.source_warehouse_id, stock_transfers.destination_warehouse_id, stock_transfers.quantity, stock_transfers.status, stock_transfers.created_at, stock_transfers.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
 from
   "wms"."stock_transfers" as stock_transfers
   inner join "wms"."products" as product on stock_transfers.product_id = product.id
-where (product.name ilike $1::text
-  or stock_transfers.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (product.name ilike $3::text
+  or stock_transfers.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateStockTransferParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateStockTransferRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
 	WmsStockTransfer WmsStockTransfer `db:"wms_stock_transfer" json:"wms_stock_transfer"`
 	WmsProduct       WmsProduct       `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateStockTransferParams) ([]WmsPaginateStockTransferRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateStockTransfer, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateStockTransfer, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -191,6 +199,10 @@ func (q *Queries) WmsPaginateStockTransfer(ctx context.Context, arg WmsPaginateS
 	for rows.Next() {
 		var i WmsPaginateStockTransferRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsStockTransfer.ID,
 			&i.WmsStockTransfer.ProductID,
 			&i.WmsStockTransfer.SourceWarehouseID,

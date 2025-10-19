@@ -209,6 +209,10 @@ func (q *Queries) CrmInsertInteraction(ctx context.Context, arg CrmInsertInterac
 
 const crmPaginateInteraction = `-- name: CrmPaginateInteraction :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   interactions.id, interactions.contact_id, interactions.user_id, interactions.case_id, interactions.type, interactions.outcome, interactions.notes, interactions.interaction_date, interactions.created_at, interactions.updated_at,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires,
@@ -218,21 +222,25 @@ from
   inner join "crm"."contacts" as contact on interactions.contact_id = contact.id
   inner join "public"."user" as users on interactions.user_id = users.id
   left join "crm"."cases" as cases on interactions.case_id = cases.id
-where (contact.name ilike $1::text
-  or users.name ilike $1::text
-  or cases.case_number ilike $1::text
-  or interactions.type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (contact.name ilike $3::text
+  or users.name ilike $3::text
+  or cases.case_number ilike $3::text
+  or interactions.type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateInteractionParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateInteractionRow struct {
+	TotalItems     int64          `db:"total_items" json:"total_items"`
+	TotalPages     float64        `db:"total_pages" json:"total_pages"`
+	Page           int32          `db:"page" json:"page"`
+	PerPage        int32          `db:"per_page" json:"per_page"`
 	CrmInteraction CrmInteraction `db:"crm_interaction" json:"crm_interaction"`
 	CrmContact     CrmContact     `db:"crm_contact" json:"crm_contact"`
 	User           User           `db:"user" json:"user"`
@@ -240,7 +248,7 @@ type CrmPaginateInteractionRow struct {
 }
 
 func (q *Queries) CrmPaginateInteraction(ctx context.Context, arg CrmPaginateInteractionParams) ([]CrmPaginateInteractionRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateInteraction, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateInteraction, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -249,6 +257,10 @@ func (q *Queries) CrmPaginateInteraction(ctx context.Context, arg CrmPaginateInt
 	for rows.Next() {
 		var i CrmPaginateInteractionRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmInteraction.ID,
 			&i.CrmInteraction.ContactID,
 			&i.CrmInteraction.UserID,

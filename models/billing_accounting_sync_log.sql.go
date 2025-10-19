@@ -143,46 +143,62 @@ func (q *Queries) BillingInsertAccountingSyncLog(ctx context.Context, arg Billin
 
 const billingPaginateAccountingSyncLog = `-- name: BillingPaginateAccountingSyncLog :many
 select
-  id, record_id, record_type, external_system, external_id, status, error_message, request_payload, response_payload, last_sync_at, retry_count, next_retry_at, created_at, updated_at
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  accounting_sync_log.id, accounting_sync_log.record_id, accounting_sync_log.record_type, accounting_sync_log.external_system, accounting_sync_log.external_id, accounting_sync_log.status, accounting_sync_log.error_message, accounting_sync_log.request_payload, accounting_sync_log.response_payload, accounting_sync_log.last_sync_at, accounting_sync_log.retry_count, accounting_sync_log.next_retry_at, accounting_sync_log.created_at, accounting_sync_log.updated_at
 from
-  "billing"."accounting_sync_log"
-where (record_type ilike $1::text
-  or external_system ilike $1::text
-  or status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "billing"."accounting_sync_log" as accounting_sync_log
+where (record_type ilike $3::text
+  or external_system ilike $3::text
+  or status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateAccountingSyncLogParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) BillingPaginateAccountingSyncLog(ctx context.Context, arg BillingPaginateAccountingSyncLogParams) ([]BillingAccountingSyncLog, error) {
-	rows, err := q.db.Query(ctx, billingPaginateAccountingSyncLog, arg.Search, arg.Page, arg.PerPage)
+type BillingPaginateAccountingSyncLogRow struct {
+	TotalItems               int64                    `db:"total_items" json:"total_items"`
+	TotalPages               float64                  `db:"total_pages" json:"total_pages"`
+	Page                     int32                    `db:"page" json:"page"`
+	PerPage                  int32                    `db:"per_page" json:"per_page"`
+	BillingAccountingSyncLog BillingAccountingSyncLog `db:"billing_accounting_sync_log" json:"billing_accounting_sync_log"`
+}
+
+func (q *Queries) BillingPaginateAccountingSyncLog(ctx context.Context, arg BillingPaginateAccountingSyncLogParams) ([]BillingPaginateAccountingSyncLogRow, error) {
+	rows, err := q.db.Query(ctx, billingPaginateAccountingSyncLog, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []BillingAccountingSyncLog
+	var items []BillingPaginateAccountingSyncLogRow
 	for rows.Next() {
-		var i BillingAccountingSyncLog
+		var i BillingPaginateAccountingSyncLogRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.RecordID,
-			&i.RecordType,
-			&i.ExternalSystem,
-			&i.ExternalID,
-			&i.Status,
-			&i.ErrorMessage,
-			&i.RequestPayload,
-			&i.ResponsePayload,
-			&i.LastSyncAt,
-			&i.RetryCount,
-			&i.NextRetryAt,
-			&i.CreatedAt,
-			&i.UpdatedAt,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.BillingAccountingSyncLog.ID,
+			&i.BillingAccountingSyncLog.RecordID,
+			&i.BillingAccountingSyncLog.RecordType,
+			&i.BillingAccountingSyncLog.ExternalSystem,
+			&i.BillingAccountingSyncLog.ExternalID,
+			&i.BillingAccountingSyncLog.Status,
+			&i.BillingAccountingSyncLog.ErrorMessage,
+			&i.BillingAccountingSyncLog.RequestPayload,
+			&i.BillingAccountingSyncLog.ResponsePayload,
+			&i.BillingAccountingSyncLog.LastSyncAt,
+			&i.BillingAccountingSyncLog.RetryCount,
+			&i.BillingAccountingSyncLog.NextRetryAt,
+			&i.BillingAccountingSyncLog.CreatedAt,
+			&i.BillingAccountingSyncLog.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}

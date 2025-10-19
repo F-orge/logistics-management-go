@@ -226,32 +226,40 @@ func (q *Queries) WmsInsertLocation(ctx context.Context, arg WmsInsertLocationPa
 
 const wmsPaginateLocation = `-- name: WmsPaginateLocation :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   locations.id, locations.warehouse_id, locations.parent_location_id, locations.name, locations.barcode, locations.type, locations.level, locations.path, locations.max_weight, locations.max_volume, locations.max_pallets, locations.x_coordinate, locations.y_coordinate, locations.z_coordinate, locations.is_pickable, locations.is_receivable, locations.temperature_controlled, locations.hazmat_approved, locations.is_active, locations.created_at, locations.updated_at, locations.inventory_stock, locations.putaway_rules, locations.bin_thresholds,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at
 from
   "wms"."locations_view" as locations
   inner join "wms"."warehouses" as warehouse on locations.warehouse_id = warehouse.id
-where (warehouse.name ilike $1::text
-  or locations.name ilike $1::text
-  or locations.barcode ilike $1::text
-  or locations.type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (warehouse.name ilike $3::text
+  or locations.name ilike $3::text
+  or locations.barcode ilike $3::text
+  or locations.type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateLocationParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateLocationRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
 	WmsLocationsView WmsLocationsView `db:"wms_locations_view" json:"wms_locations_view"`
 	WmsWarehouse     WmsWarehouse     `db:"wms_warehouse" json:"wms_warehouse"`
 }
 
 func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocationParams) ([]WmsPaginateLocationRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateLocation, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateLocation, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -260,6 +268,10 @@ func (q *Queries) WmsPaginateLocation(ctx context.Context, arg WmsPaginateLocati
 	for rows.Next() {
 		var i WmsPaginateLocationRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsLocationsView.ID,
 			&i.WmsLocationsView.WarehouseID,
 			&i.WmsLocationsView.ParentLocationID,

@@ -153,31 +153,39 @@ func (q *Queries) TmsInsertDriver(ctx context.Context, arg TmsInsertDriverParams
 
 const tmsPaginateDriver = `-- name: TmsPaginateDriver :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   drivers.id, drivers.user_id, drivers.license_number, drivers.license_expiry_date, drivers.status, drivers.created_at, drivers.updated_at, drivers.contact_phone, drivers.driver_schedules, drivers.expenses, drivers.trips,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
   "tms"."drivers_view" as drivers
   inner join "public"."user" as users on drivers.user_id = users.id
-where (users.name ilike $1::text
-  or drivers.license_number ilike $1::text
-  or drivers.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (users.name ilike $3::text
+  or drivers.license_number ilike $3::text
+  or drivers.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateDriverParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateDriverRow struct {
+	TotalItems     int64          `db:"total_items" json:"total_items"`
+	TotalPages     float64        `db:"total_pages" json:"total_pages"`
+	Page           int32          `db:"page" json:"page"`
+	PerPage        int32          `db:"per_page" json:"per_page"`
 	TmsDriversView TmsDriversView `db:"tms_drivers_view" json:"tms_drivers_view"`
 	User           User           `db:"user" json:"user"`
 }
 
 func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverParams) ([]TmsPaginateDriverRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateDriver, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateDriver, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -186,6 +194,10 @@ func (q *Queries) TmsPaginateDriver(ctx context.Context, arg TmsPaginateDriverPa
 	for rows.Next() {
 		var i TmsPaginateDriverRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsDriversView.ID,
 			&i.TmsDriversView.UserID,
 			&i.TmsDriversView.LicenseNumber,

@@ -192,6 +192,10 @@ func (q *Queries) WmsInsertInventoryAdjustment(ctx context.Context, arg WmsInser
 
 const wmsPaginateInventoryAdjustment = `-- name: WmsPaginateInventoryAdjustment :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   inventory_adjustments.id, inventory_adjustments.product_id, inventory_adjustments.warehouse_id, inventory_adjustments.user_id, inventory_adjustments.quantity_change, inventory_adjustments.reason, inventory_adjustments.notes, inventory_adjustments.created_at, inventory_adjustments.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
@@ -199,27 +203,31 @@ from
   "wms"."inventory_adjustments" as inventory_adjustments
   inner join "wms"."products" as product on inventory_adjustments.product_id = product.id
   inner join "public"."user" as users on inventory_adjustments.user_id = users.id
-where (product.name ilike $1::text
-  or users.name ilike $1::text
-  or inventory_adjustments.reason::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (product.name ilike $3::text
+  or users.name ilike $3::text
+  or inventory_adjustments.reason::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateInventoryAdjustmentParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateInventoryAdjustmentRow struct {
+	TotalItems             int64                  `db:"total_items" json:"total_items"`
+	TotalPages             float64                `db:"total_pages" json:"total_pages"`
+	Page                   int32                  `db:"page" json:"page"`
+	PerPage                int32                  `db:"per_page" json:"per_page"`
 	WmsInventoryAdjustment WmsInventoryAdjustment `db:"wms_inventory_adjustment" json:"wms_inventory_adjustment"`
 	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 	User                   User                   `db:"user" json:"user"`
 }
 
 func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPaginateInventoryAdjustmentParams) ([]WmsPaginateInventoryAdjustmentRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInventoryAdjustment, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateInventoryAdjustment, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -228,6 +236,10 @@ func (q *Queries) WmsPaginateInventoryAdjustment(ctx context.Context, arg WmsPag
 	for rows.Next() {
 		var i WmsPaginateInventoryAdjustmentRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsInventoryAdjustment.ID,
 			&i.WmsInventoryAdjustment.ProductID,
 			&i.WmsInventoryAdjustment.WarehouseID,

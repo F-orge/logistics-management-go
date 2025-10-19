@@ -1,8 +1,12 @@
 -- name: BillingPaginateAccountingSyncLog :many
 select
-  *
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
+  sqlc.embed(accounting_sync_log)
 from
-  "billing"."accounting_sync_log"
+  "billing"."accounting_sync_log" as accounting_sync_log
 where (record_type ilike sqlc.narg(search)::text
   or external_system ilike sqlc.narg(search)::text
   or status::text ilike sqlc.narg(search)::text

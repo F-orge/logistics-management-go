@@ -188,6 +188,10 @@ func (q *Queries) CrmInsertContact(ctx context.Context, arg CrmInsertContactPara
 
 const crmPaginateContact = `-- name: CrmPaginateContact :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   contacts.id, contacts.name, contacts.email, contacts.phone_number, contacts.job_title, contacts.company_id, contacts.owner_id, contacts.created_at, contacts.updated_at,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   company.id, company.name, company.street, company.city, company.state, company.postal_code, company.country, company.phone_number, company.industry, company.website, company.annual_revenue, company.owner_id, company.created_at, company.updated_at
@@ -195,28 +199,32 @@ from
   "crm"."contacts" as contacts
   inner join "public"."user" as owner on contacts.owner_id = owner.id
   left join "crm"."companies" as company on contacts.company_id = company.id
-where (contacts.name ilike $1::text
-  or contacts.email ilike $1::text
-  or company.name ilike $1::text
-  or owner.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (contacts.name ilike $3::text
+  or contacts.email ilike $3::text
+  or company.name ilike $3::text
+  or owner.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateContactParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateContactRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
 	CrmContact CrmContact `db:"crm_contact" json:"crm_contact"`
 	User       User       `db:"user" json:"user"`
 	CrmCompany CrmCompany `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContactParams) ([]CrmPaginateContactRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateContact, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateContact, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -225,6 +233,10 @@ func (q *Queries) CrmPaginateContact(ctx context.Context, arg CrmPaginateContact
 	for rows.Next() {
 		var i CrmPaginateContactRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmContact.ID,
 			&i.CrmContact.Name,
 			&i.CrmContact.Email,

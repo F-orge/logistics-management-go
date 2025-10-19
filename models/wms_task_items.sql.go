@@ -360,6 +360,10 @@ func (q *Queries) WmsInsertTaskItem(ctx context.Context, arg WmsInsertTaskItemPa
 
 const wmsPaginateTaskItem = `-- name: WmsPaginateTaskItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   task_items.id, task_items.task_id, task_items.product_id, task_items.batch_id, task_items.source_location_id, task_items.destination_location_id, task_items.quantity_required, task_items.quantity_completed, task_items.quantity_remaining, task_items.status, task_items.lot_number, task_items.serial_numbers, task_items.expiry_date, task_items.notes, task_items.completed_at, task_items.created_at, task_items.updated_at,
   task.id, task.task_number, task.warehouse_id, task.user_id, task.type, task.status, task.priority, task.source_entity_id, task.source_entity_type, task.pick_batch_id, task.estimated_duration, task.actual_duration, task.instructions, task.notes, task.start_time, task.end_time, task.duration_seconds, task.created_at, task.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -373,23 +377,27 @@ from
   left join "wms"."inventory_batches" as batch on task_items.batch_id = batch.id
   left join "wms"."locations" as source_location on task_items.source_location_id = source_location.id
   left join "wms"."locations" as destination_location on task_items.destination_location_id = destination_location.id
-where (task.task_number ilike $1::text
-  or product.name ilike $1::text
-  or batch.batch_number ilike $1::text
-  or source_location.name ilike $1::text
-  or destination_location.name ilike $1::text
-  or task_items.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (task.task_number ilike $3::text
+  or product.name ilike $3::text
+  or batch.batch_number ilike $3::text
+  or source_location.name ilike $3::text
+  or destination_location.name ilike $3::text
+  or task_items.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateTaskItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateTaskItemRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	WmsTaskItem       WmsTaskItem       `db:"wms_task_item" json:"wms_task_item"`
 	WmsTask           WmsTask           `db:"wms_task" json:"wms_task"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
@@ -399,7 +407,7 @@ type WmsPaginateTaskItemRow struct {
 }
 
 func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskItemParams) ([]WmsPaginateTaskItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateTaskItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -408,6 +416,10 @@ func (q *Queries) WmsPaginateTaskItem(ctx context.Context, arg WmsPaginateTaskIt
 	for rows.Next() {
 		var i WmsPaginateTaskItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsTaskItem.ID,
 			&i.WmsTaskItem.TaskID,
 			&i.WmsTaskItem.ProductID,

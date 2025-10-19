@@ -113,40 +113,56 @@ func (q *Queries) CrmInsertProduct(ctx context.Context, arg CrmInsertProductPara
 
 const crmPaginateProduct = `-- name: CrmPaginateProduct :many
 select
-  id, name, sku, price, type, description, created_at, updated_at
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  products.id, products.name, products.sku, products.price, products.type, products.description, products.created_at, products.updated_at
 from
-  "crm"."products"
-where (name ilike $1::text
-  or sku ilike $1::text
-  or type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "crm"."products" as products
+where (name ilike $3::text
+  or sku ilike $3::text
+  or type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateProductParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) CrmPaginateProduct(ctx context.Context, arg CrmPaginateProductParams) ([]CrmProduct, error) {
-	rows, err := q.db.Query(ctx, crmPaginateProduct, arg.Search, arg.Page, arg.PerPage)
+type CrmPaginateProductRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
+	CrmProduct CrmProduct `db:"crm_product" json:"crm_product"`
+}
+
+func (q *Queries) CrmPaginateProduct(ctx context.Context, arg CrmPaginateProductParams) ([]CrmPaginateProductRow, error) {
+	rows, err := q.db.Query(ctx, crmPaginateProduct, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []CrmProduct
+	var items []CrmPaginateProductRow
 	for rows.Next() {
-		var i CrmProduct
+		var i CrmPaginateProductRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.Name,
-			&i.Sku,
-			&i.Price,
-			&i.Type,
-			&i.Description,
-			&i.CreatedAt,
-			&i.UpdatedAt,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.CrmProduct.ID,
+			&i.CrmProduct.Name,
+			&i.CrmProduct.Sku,
+			&i.CrmProduct.Price,
+			&i.CrmProduct.Type,
+			&i.CrmProduct.Description,
+			&i.CrmProduct.CreatedAt,
+			&i.CrmProduct.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}

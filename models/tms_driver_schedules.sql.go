@@ -138,30 +138,38 @@ func (q *Queries) TmsInsertDriverSchedule(ctx context.Context, arg TmsInsertDriv
 
 const tmsPaginateDriverSchedule = `-- name: TmsPaginateDriverSchedule :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   driver_schedules.id, driver_schedules.driver_id, driver_schedules.start_date, driver_schedules.end_date, driver_schedules.reason, driver_schedules.created_at, driver_schedules.updated_at,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "tms"."driver_schedules" as driver_schedules
   inner join "tms"."drivers" as driver on driver_schedules.driver_id = driver.id
-where (driver.name ilike $1::text
-  or driver_schedules.reason::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (driver.name ilike $3::text
+  or driver_schedules.reason::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateDriverScheduleParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateDriverScheduleRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	TmsDriverSchedule TmsDriverSchedule `db:"tms_driver_schedule" json:"tms_driver_schedule"`
 	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginateDriverScheduleParams) ([]TmsPaginateDriverScheduleRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateDriverSchedule, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateDriverSchedule, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +178,10 @@ func (q *Queries) TmsPaginateDriverSchedule(ctx context.Context, arg TmsPaginate
 	for rows.Next() {
 		var i TmsPaginateDriverScheduleRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsDriverSchedule.ID,
 			&i.TmsDriverSchedule.DriverID,
 			&i.TmsDriverSchedule.StartDate,

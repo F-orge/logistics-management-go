@@ -1,8 +1,12 @@
 -- name: WmsPaginateSupplier :many
 select
-  *
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
+  sqlc.embed(suppliers)
 from
-  "wms"."suppliers_view"
+  "wms"."suppliers_view" as suppliers
 where (name ilike sqlc.narg(search)::text
   or email ilike sqlc.narg(search)::text
   or sqlc.narg(search)::text is null)

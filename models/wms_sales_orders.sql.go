@@ -191,6 +191,10 @@ func (q *Queries) WmsInsertSalesOrder(ctx context.Context, arg WmsInsertSalesOrd
 
 const wmsPaginateSalesOrder = `-- name: WmsPaginateSalesOrder :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   sales_orders.id, sales_orders.order_number, sales_orders.client_id, sales_orders.crm_opportunity_id, sales_orders.status, sales_orders.shipping_address, sales_orders.created_at, sales_orders.updated_at, sales_orders.sales_order_items,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
   crm_opportunity.id, crm_opportunity.name, crm_opportunity.stage, crm_opportunity.deal_value, crm_opportunity.probability, crm_opportunity.expected_close_date, crm_opportunity.lost_reason, crm_opportunity.source, crm_opportunity.owner_id, crm_opportunity.contact_id, crm_opportunity.company_id, crm_opportunity.campaign_id, crm_opportunity.created_at, crm_opportunity.updated_at
@@ -198,28 +202,32 @@ from
   "wms"."sales_orders_view" as sales_orders
   inner join "crm"."companies" as client on sales_orders.client_id = client.id
   left join "crm"."opportunities" as crm_opportunity on sales_orders.crm_opportunity_id = crm_opportunity.id
-where (sales_orders.order_number ilike $1::text
-  or client.name ilike $1::text
-  or crm_opportunity.name ilike $1::text
-  or sales_orders.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (sales_orders.order_number ilike $3::text
+  or client.name ilike $3::text
+  or crm_opportunity.name ilike $3::text
+  or sales_orders.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateSalesOrderParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateSalesOrderRow struct {
+	TotalItems         int64              `db:"total_items" json:"total_items"`
+	TotalPages         float64            `db:"total_pages" json:"total_pages"`
+	Page               int32              `db:"page" json:"page"`
+	PerPage            int32              `db:"per_page" json:"per_page"`
 	WmsSalesOrdersView WmsSalesOrdersView `db:"wms_sales_orders_view" json:"wms_sales_orders_view"`
 	CrmCompany         CrmCompany         `db:"crm_company" json:"crm_company"`
 	CrmOpportunity     CrmOpportunity     `db:"crm_opportunity" json:"crm_opportunity"`
 }
 
 func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSalesOrderParams) ([]WmsPaginateSalesOrderRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSalesOrder, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateSalesOrder, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -228,6 +236,10 @@ func (q *Queries) WmsPaginateSalesOrder(ctx context.Context, arg WmsPaginateSale
 	for rows.Next() {
 		var i WmsPaginateSalesOrderRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsSalesOrdersView.ID,
 			&i.WmsSalesOrdersView.OrderNumber,
 			&i.WmsSalesOrdersView.ClientID,

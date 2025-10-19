@@ -1,5 +1,9 @@
 -- name: BillingPaginateDocument :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
   sqlc.embed(documents),
   sqlc.embed(uploaded_by_user)
 from

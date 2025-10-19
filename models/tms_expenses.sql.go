@@ -195,6 +195,10 @@ func (q *Queries) TmsInsertExpense(ctx context.Context, arg TmsInsertExpensePara
 
 const tmsPaginateExpense = `-- name: TmsPaginateExpense :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   expenses.id, expenses.trip_id, expenses.driver_id, expenses.type, expenses.amount, expenses.currency, expenses.receipt_url, expenses.fuel_quantity, expenses.odometer_reading, expenses.status, expenses.created_at, expenses.updated_at, expenses.description, expenses.expense_date,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
@@ -202,28 +206,32 @@ from
   "tms"."expenses" as expenses
   left join "tms"."trips" as trip on expenses.trip_id = trip.id
   left join "tms"."drivers" as driver on expenses.driver_id = driver.id
-where (trip.status::text ilike $1::text
-  or driver.name ilike $1::text
-  or expenses.type::text ilike $1::text
-  or expenses.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (trip.status::text ilike $3::text
+  or driver.name ilike $3::text
+  or expenses.type::text ilike $3::text
+  or expenses.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateExpenseParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateExpenseRow struct {
+	TotalItems int64      `db:"total_items" json:"total_items"`
+	TotalPages float64    `db:"total_pages" json:"total_pages"`
+	Page       int32      `db:"page" json:"page"`
+	PerPage    int32      `db:"per_page" json:"per_page"`
 	TmsExpense TmsExpense `db:"tms_expense" json:"tms_expense"`
 	TmsTrip    TmsTrip    `db:"tms_trip" json:"tms_trip"`
 	TmsDriver  TmsDriver  `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) TmsPaginateExpense(ctx context.Context, arg TmsPaginateExpenseParams) ([]TmsPaginateExpenseRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateExpense, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateExpense, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -232,6 +240,10 @@ func (q *Queries) TmsPaginateExpense(ctx context.Context, arg TmsPaginateExpense
 	for rows.Next() {
 		var i TmsPaginateExpenseRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsExpense.ID,
 			&i.TmsExpense.TripID,
 			&i.TmsExpense.DriverID,

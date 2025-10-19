@@ -275,6 +275,10 @@ func (q *Queries) WmsInsertPackage(ctx context.Context, arg WmsInsertPackagePara
 
 const wmsPaginatePackage = `-- name: WmsPaginatePackage :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   packages.id, packages.sales_order_id, packages.package_number, packages.warehouse_id, packages.package_type, packages.weight, packages.length, packages.width, packages.height, packages.volume, packages.tracking_number, packages.carrier, packages.service_level, packages.packed_by_user_id, packages.packed_at, packages.shipped_at, packages.is_fragile, packages.is_hazmat, packages.requires_signature, packages.insurance_value, packages.created_at, packages.updated_at, packages.package_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   warehouse.id, warehouse.name, warehouse.address, warehouse.city, warehouse.state, warehouse.postal_code, warehouse.country, warehouse.timezone, warehouse.contact_person, warehouse.contact_email, warehouse.contact_phone, warehouse.is_active, warehouse.created_at, warehouse.updated_at,
@@ -284,23 +288,27 @@ from
   inner join "wms"."sales_orders" as sales_order on packages.sales_order_id = sales_order.id
   inner join "wms"."warehouses" as warehouse on packages.warehouse_id = warehouse.id
   left join "public"."user" as packed_by_user on packages.packed_by_user_id = packed_by_user.id
-where (sales_order.order_number ilike $1::text
-  or warehouse.name ilike $1::text
-  or packages.package_number ilike $1::text
-  or packages.tracking_number ilike $1::text
-  or packages.carrier ilike $1::text
-  or packed_by_user.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (sales_order.order_number ilike $3::text
+  or warehouse.name ilike $3::text
+  or packages.package_number ilike $3::text
+  or packages.tracking_number ilike $3::text
+  or packages.carrier ilike $3::text
+  or packed_by_user.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginatePackageParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginatePackageRow struct {
+	TotalItems      int64           `db:"total_items" json:"total_items"`
+	TotalPages      float64         `db:"total_pages" json:"total_pages"`
+	Page            int32           `db:"page" json:"page"`
+	PerPage         int32           `db:"per_page" json:"per_page"`
 	WmsPackagesView WmsPackagesView `db:"wms_packages_view" json:"wms_packages_view"`
 	WmsSalesOrder   WmsSalesOrder   `db:"wms_sales_order" json:"wms_sales_order"`
 	WmsWarehouse    WmsWarehouse    `db:"wms_warehouse" json:"wms_warehouse"`
@@ -308,7 +316,7 @@ type WmsPaginatePackageRow struct {
 }
 
 func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackageParams) ([]WmsPaginatePackageRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePackage, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginatePackage, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -317,6 +325,10 @@ func (q *Queries) WmsPaginatePackage(ctx context.Context, arg WmsPaginatePackage
 	for rows.Next() {
 		var i WmsPaginatePackageRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsPackagesView.ID,
 			&i.WmsPackagesView.SalesOrderID,
 			&i.WmsPackagesView.PackageNumber,

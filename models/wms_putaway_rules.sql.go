@@ -315,6 +315,10 @@ func (q *Queries) WmsInsertPutawayRule(ctx context.Context, arg WmsInsertPutaway
 
 const wmsPaginatePutawayRule = `-- name: WmsPaginatePutawayRule :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   putaway_rules.id, putaway_rules.product_id, putaway_rules.client_id, putaway_rules.warehouse_id, putaway_rules.preferred_location_id, putaway_rules.location_type, putaway_rules.priority, putaway_rules.min_quantity, putaway_rules.max_quantity, putaway_rules.weight_threshold, putaway_rules.volume_threshold, putaway_rules.requires_temperature_control, putaway_rules.requires_hazmat_approval, putaway_rules.is_active, putaway_rules.created_at, putaway_rules.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at,
@@ -326,22 +330,26 @@ from
   left join "crm"."companies" as client on putaway_rules.client_id = client.id
   inner join "wms"."warehouses" as warehouse on putaway_rules.warehouse_id = warehouse.id
   left join "wms"."locations" as preferred_location on putaway_rules.preferred_location_id = preferred_location.id
-where (product.name ilike $1::text
-  or client.name ilike $1::text
-  or warehouse.name ilike $1::text
-  or preferred_location.name ilike $1::text
-  or putaway_rules.location_type::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (product.name ilike $3::text
+  or client.name ilike $3::text
+  or warehouse.name ilike $3::text
+  or preferred_location.name ilike $3::text
+  or putaway_rules.location_type::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginatePutawayRuleParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginatePutawayRuleRow struct {
+	TotalItems     int64          `db:"total_items" json:"total_items"`
+	TotalPages     float64        `db:"total_pages" json:"total_pages"`
+	Page           int32          `db:"page" json:"page"`
+	PerPage        int32          `db:"per_page" json:"per_page"`
 	WmsPutawayRule WmsPutawayRule `db:"wms_putaway_rule" json:"wms_putaway_rule"`
 	WmsProduct     WmsProduct     `db:"wms_product" json:"wms_product"`
 	CrmCompany     CrmCompany     `db:"crm_company" json:"crm_company"`
@@ -350,7 +358,7 @@ type WmsPaginatePutawayRuleRow struct {
 }
 
 func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePutawayRuleParams) ([]WmsPaginatePutawayRuleRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginatePutawayRule, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -359,6 +367,10 @@ func (q *Queries) WmsPaginatePutawayRule(ctx context.Context, arg WmsPaginatePut
 	for rows.Next() {
 		var i WmsPaginatePutawayRuleRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsPutawayRule.ID,
 			&i.WmsPutawayRule.ProductID,
 			&i.WmsPutawayRule.ClientID,

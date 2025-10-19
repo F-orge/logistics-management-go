@@ -172,29 +172,37 @@ func (q *Queries) BillingInsertClientAccount(ctx context.Context, arg BillingIns
 
 const billingPaginateClientAccount = `-- name: BillingPaginateClientAccount :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   client_accounts.id, client_accounts.client_id, client_accounts.credit_limit, client_accounts.available_credit, client_accounts.wallet_balance, client_accounts.currency, client_accounts.payment_terms_days, client_accounts.is_credit_approved, client_accounts.last_payment_date, client_accounts.created_at, client_accounts.updated_at, client_accounts.account_transactions,
   client.id, client.name, client.street, client.city, client.state, client.postal_code, client.country, client.phone_number, client.industry, client.website, client.annual_revenue, client.owner_id, client.created_at, client.updated_at
 from
   "billing"."client_accounts_view" as client_accounts
   inner join "crm"."companies" as client on client_accounts.client_id = client.id
-where (client.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (client.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateClientAccountParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginateClientAccountRow struct {
+	TotalItems                int64                     `db:"total_items" json:"total_items"`
+	TotalPages                float64                   `db:"total_pages" json:"total_pages"`
+	Page                      int32                     `db:"page" json:"page"`
+	PerPage                   int32                     `db:"per_page" json:"per_page"`
 	BillingClientAccountsView BillingClientAccountsView `db:"billing_client_accounts_view" json:"billing_client_accounts_view"`
 	CrmCompany                CrmCompany                `db:"crm_company" json:"crm_company"`
 }
 
 func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingPaginateClientAccountParams) ([]BillingPaginateClientAccountRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginateClientAccount, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -203,6 +211,10 @@ func (q *Queries) BillingPaginateClientAccount(ctx context.Context, arg BillingP
 	for rows.Next() {
 		var i BillingPaginateClientAccountRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingClientAccountsView.ID,
 			&i.BillingClientAccountsView.ClientID,
 			&i.BillingClientAccountsView.CreditLimit,

@@ -164,30 +164,38 @@ func (q *Queries) DmsInsertCustomerTrackingLink(ctx context.Context, arg DmsInse
 
 const dmsPaginateCustomerTrackingLink = `-- name: DmsPaginateCustomerTrackingLink :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   customer_tracking_links.id, customer_tracking_links.delivery_task_id, customer_tracking_links.tracking_token, customer_tracking_links.is_active, customer_tracking_links.access_count, customer_tracking_links.last_accessed_at, customer_tracking_links.expires_at, customer_tracking_links.created_at, customer_tracking_links.updated_at,
   delivery_task.id, delivery_task.package_id, delivery_task.delivery_route_id, delivery_task.route_sequence, delivery_task.delivery_address, delivery_task.recipient_name, delivery_task.recipient_phone, delivery_task.delivery_instructions, delivery_task.estimated_arrival_time, delivery_task.actual_arrival_time, delivery_task.delivery_time, delivery_task.status, delivery_task.failure_reason, delivery_task.attempt_count, delivery_task.created_at, delivery_task.updated_at
 from
   "dms"."customer_tracking_links" as customer_tracking_links
   inner join "dms"."delivery_tasks" as delivery_task on customer_tracking_links.delivery_task_id = delivery_task.id
-where (customer_tracking_links.tracking_token ilike $1::text
-  or delivery_task.recipient_name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (customer_tracking_links.tracking_token ilike $3::text
+  or delivery_task.recipient_name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type DmsPaginateCustomerTrackingLinkParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsPaginateCustomerTrackingLinkRow struct {
+	TotalItems              int64                   `db:"total_items" json:"total_items"`
+	TotalPages              float64                 `db:"total_pages" json:"total_pages"`
+	Page                    int32                   `db:"page" json:"page"`
+	PerPage                 int32                   `db:"per_page" json:"per_page"`
 	DmsCustomerTrackingLink DmsCustomerTrackingLink `db:"dms_customer_tracking_link" json:"dms_customer_tracking_link"`
 	DmsDeliveryTask         DmsDeliveryTask         `db:"dms_delivery_task" json:"dms_delivery_task"`
 }
 
 func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPaginateCustomerTrackingLinkParams) ([]DmsPaginateCustomerTrackingLinkRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, dmsPaginateCustomerTrackingLink, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -196,6 +204,10 @@ func (q *Queries) DmsPaginateCustomerTrackingLink(ctx context.Context, arg DmsPa
 	for rows.Next() {
 		var i DmsPaginateCustomerTrackingLinkRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.DmsCustomerTrackingLink.ID,
 			&i.DmsCustomerTrackingLink.DeliveryTaskID,
 			&i.DmsCustomerTrackingLink.TrackingToken,

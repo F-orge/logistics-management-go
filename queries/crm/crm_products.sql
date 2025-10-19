@@ -1,8 +1,12 @@
 -- name: CrmPaginateProduct :many
 select
-  *
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
+  sqlc.embed(products)
 from
-  "crm"."products"
+  "crm"."products" as products
 where (name ilike sqlc.narg(search)::text
   or sku ilike sqlc.narg(search)::text
   or type::text ilike sqlc.narg(search)::text

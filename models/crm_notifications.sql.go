@@ -144,30 +144,38 @@ func (q *Queries) CrmInsertNotification(ctx context.Context, arg CrmInsertNotifi
 
 const crmPaginateNotification = `-- name: CrmPaginateNotification :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   notifications.id, notifications.user_id, notifications.message, notifications.is_read, notifications.created_at, notifications.updated_at, notifications.link,
   users.id, users.name, users.email, users.email_verified, users.image, users.created_at, users.updated_at, users.role, users.banned, users.ban_reason, users.ban_expires
 from
   "crm"."notifications" as notifications
   inner join "public"."user" as users on notifications.user_id = users.id
-where (users.name ilike $1::text
-  or notifications.message ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (users.name ilike $3::text
+  or notifications.message ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateNotificationParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateNotificationRow struct {
+	TotalItems      int64           `db:"total_items" json:"total_items"`
+	TotalPages      float64         `db:"total_pages" json:"total_pages"`
+	Page            int32           `db:"page" json:"page"`
+	PerPage         int32           `db:"per_page" json:"per_page"`
 	CrmNotification CrmNotification `db:"crm_notification" json:"crm_notification"`
 	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNotificationParams) ([]CrmPaginateNotificationRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateNotification, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -176,6 +184,10 @@ func (q *Queries) CrmPaginateNotification(ctx context.Context, arg CrmPaginateNo
 	for rows.Next() {
 		var i CrmPaginateNotificationRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmNotification.ID,
 			&i.CrmNotification.UserID,
 			&i.CrmNotification.Message,

@@ -245,6 +245,10 @@ func (q *Queries) WmsInsertPackageItem(ctx context.Context, arg WmsInsertPackage
 
 const wmsPaginatePackageItem = `-- name: WmsPaginatePackageItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   package_items.id, package_items.package_id, package_items.product_id, package_items.batch_id, package_items.quantity, package_items.lot_number, package_items.serial_numbers, package_items.expiry_date, package_items.unit_weight, package_items.total_weight, package_items.created_at, package_items.updated_at,
   package.id, package.sales_order_id, package.package_number, package.warehouse_id, package.package_type, package.weight, package.length, package.width, package.height, package.volume, package.tracking_number, package.carrier, package.service_level, package.packed_by_user_id, package.packed_at, package.shipped_at, package.is_fragile, package.is_hazmat, package.requires_signature, package.insurance_value, package.created_at, package.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at,
@@ -254,19 +258,23 @@ from
   inner join "wms"."packages" as package on package_items.package_id = package.id
   inner join "wms"."products" as product on package_items.product_id = product.id
   left join "wms"."inventory_batches" as batch on package_items.batch_id = batch.id
-where (package.package_number ilike $1::text
-  or product.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (package.package_number ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginatePackageItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginatePackageItemRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	WmsPackageItem    WmsPackageItem    `db:"wms_package_item" json:"wms_package_item"`
 	WmsPackage        WmsPackage        `db:"wms_package" json:"wms_package"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
@@ -274,7 +282,7 @@ type WmsPaginatePackageItemRow struct {
 }
 
 func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePackageItemParams) ([]WmsPaginatePackageItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginatePackageItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -283,6 +291,10 @@ func (q *Queries) WmsPaginatePackageItem(ctx context.Context, arg WmsPaginatePac
 	for rows.Next() {
 		var i WmsPaginatePackageItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsPackageItem.ID,
 			&i.WmsPackageItem.PackageID,
 			&i.WmsPackageItem.ProductID,

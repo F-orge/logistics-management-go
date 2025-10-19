@@ -184,6 +184,10 @@ func (q *Queries) WmsInsertReturnItem(ctx context.Context, arg WmsInsertReturnIt
 
 const wmsPaginateReturnItem = `-- name: WmsPaginateReturnItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   return_items.id, return_items.return_id, return_items.product_id, return_items.quantity_expected, return_items.quantity_received, return_items.quantity_variance, return_items.condition, return_items.created_at, return_items.updated_at,
   return.id, return.return_number, return.sales_order_id, return.client_id, return.status, return.reason, return.created_at, return.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
@@ -191,27 +195,31 @@ from
   "wms"."return_items" as return_items
   inner join "wms"."returns" as return on return_items.return_id = return.id
   inner join "wms"."products" as product on return_items.product_id = product.id
-where (return.return_number ilike $1::text
-  or product.name ilike $1::text
-  or return_items.condition::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (return.return_number ilike $3::text
+  or product.name ilike $3::text
+  or return_items.condition::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateReturnItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateReturnItemRow struct {
+	TotalItems    int64         `db:"total_items" json:"total_items"`
+	TotalPages    float64       `db:"total_pages" json:"total_pages"`
+	Page          int32         `db:"page" json:"page"`
+	PerPage       int32         `db:"per_page" json:"per_page"`
 	WmsReturnItem WmsReturnItem `db:"wms_return_item" json:"wms_return_item"`
 	WmsReturn     WmsReturn     `db:"wms_return" json:"wms_return"`
 	WmsProduct    WmsProduct    `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateReturnItem(ctx context.Context, arg WmsPaginateReturnItemParams) ([]WmsPaginateReturnItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateReturnItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateReturnItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -220,6 +228,10 @@ func (q *Queries) WmsPaginateReturnItem(ctx context.Context, arg WmsPaginateRetu
 	for rows.Next() {
 		var i WmsPaginateReturnItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsReturnItem.ID,
 			&i.WmsReturnItem.ReturnID,
 			&i.WmsReturnItem.ProductID,

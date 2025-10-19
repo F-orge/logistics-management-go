@@ -197,33 +197,41 @@ func (q *Queries) DmsInsertDeliveryTask(ctx context.Context, arg DmsInsertDelive
 
 const dmsPaginateDeliveryTask = `-- name: DmsPaginateDeliveryTask :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   delivery_tasks.id, delivery_tasks.package_id, delivery_tasks.delivery_route_id, delivery_tasks.route_sequence, delivery_tasks.delivery_address, delivery_tasks.recipient_name, delivery_tasks.recipient_phone, delivery_tasks.delivery_instructions, delivery_tasks.estimated_arrival_time, delivery_tasks.actual_arrival_time, delivery_tasks.delivery_time, delivery_tasks.status, delivery_tasks.failure_reason, delivery_tasks.attempt_count, delivery_tasks.created_at, delivery_tasks.updated_at, delivery_tasks.task_events, delivery_tasks.proof_of_deliveries, delivery_tasks.customer_tracking_links,
   delivery_route.id, delivery_route.driver_id, delivery_route.route_date, delivery_route.status, delivery_route.optimized_route_data, delivery_route.total_distance_km, delivery_route.estimated_duration_minutes, delivery_route.actual_duration_minutes, delivery_route.started_at, delivery_route.completed_at, delivery_route.created_at, delivery_route.updated_at, delivery_route.delivery_tasks
 from
   "dms"."delivery_tasks_view" as delivery_tasks
   inner join "dms"."delivery_routes_view" as delivery_route on delivery_tasks.delivery_route_id = delivery_route.id
   -- Assuming wms.packages is in a different schema and cannot be joined directly for sqlc.embed
-where (delivery_tasks.recipient_name ilike $1::text
-  or delivery_tasks.delivery_address ilike $1::text
-  or delivery_tasks.status::text ilike $1::text
-  or delivery_route.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (delivery_tasks.recipient_name ilike $3::text
+  or delivery_tasks.delivery_address ilike $3::text
+  or delivery_tasks.status::text ilike $3::text
+  or delivery_route.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type DmsPaginateDeliveryTaskParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsPaginateDeliveryTaskRow struct {
+	TotalItems            int64                 `db:"total_items" json:"total_items"`
+	TotalPages            float64               `db:"total_pages" json:"total_pages"`
+	Page                  int32                 `db:"page" json:"page"`
+	PerPage               int32                 `db:"per_page" json:"per_page"`
 	DmsDeliveryTasksView  DmsDeliveryTasksView  `db:"dms_delivery_tasks_view" json:"dms_delivery_tasks_view"`
 	DmsDeliveryRoutesView DmsDeliveryRoutesView `db:"dms_delivery_routes_view" json:"dms_delivery_routes_view"`
 }
 
 func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDeliveryTaskParams) ([]DmsPaginateDeliveryTaskRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDeliveryTask, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, dmsPaginateDeliveryTask, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -232,6 +240,10 @@ func (q *Queries) DmsPaginateDeliveryTask(ctx context.Context, arg DmsPaginateDe
 	for rows.Next() {
 		var i DmsPaginateDeliveryTaskRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.DmsDeliveryTasksView.ID,
 			&i.DmsDeliveryTasksView.PackageID,
 			&i.DmsDeliveryTasksView.DeliveryRouteID,

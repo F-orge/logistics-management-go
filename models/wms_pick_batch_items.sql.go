@@ -183,6 +183,10 @@ func (q *Queries) WmsInsertPickBatchItem(ctx context.Context, arg WmsInsertPickB
 
 const wmsPaginatePickBatchItem = `-- name: WmsPaginatePickBatchItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   pick_batch_items.id, pick_batch_items.pick_batch_id, pick_batch_items.sales_order_id, pick_batch_items.order_priority, pick_batch_items.estimated_pick_time, pick_batch_items.actual_pick_time, pick_batch_items.created_at, pick_batch_items.updated_at,
   pick_batch.id, pick_batch.batch_number, pick_batch.warehouse_id, pick_batch.status, pick_batch.strategy, pick_batch.priority, pick_batch.assigned_user_id, pick_batch.wave_id, pick_batch.zone_restrictions, pick_batch.estimated_duration, pick_batch.actual_duration, pick_batch.total_items, pick_batch.completed_items, pick_batch.started_at, pick_batch.completed_at, pick_batch.created_at, pick_batch.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
@@ -190,26 +194,30 @@ from
   "wms"."pick_batch_items" as pick_batch_items
   inner join "wms"."pick_batches" as pick_batch on pick_batch_items.pick_batch_id = pick_batch.id
   inner join "wms"."sales_orders" as sales_order on pick_batch_items.sales_order_id = sales_order.id
-where (pick_batch.batch_number ilike $1::text
-  or sales_order.order_number ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (pick_batch.batch_number ilike $3::text
+  or sales_order.order_number ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginatePickBatchItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginatePickBatchItemRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
 	WmsPickBatchItem WmsPickBatchItem `db:"wms_pick_batch_item" json:"wms_pick_batch_item"`
 	WmsPickBatch     WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
 	WmsSalesOrder    WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginatePickBatchItemParams) ([]WmsPaginatePickBatchItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginatePickBatchItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -218,6 +226,10 @@ func (q *Queries) WmsPaginatePickBatchItem(ctx context.Context, arg WmsPaginateP
 	for rows.Next() {
 		var i WmsPaginatePickBatchItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsPickBatchItem.ID,
 			&i.WmsPickBatchItem.PickBatchID,
 			&i.WmsPickBatchItem.SalesOrderID,

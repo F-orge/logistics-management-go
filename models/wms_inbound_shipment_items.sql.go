@@ -184,6 +184,10 @@ func (q *Queries) WmsInsertInboundShipmentItem(ctx context.Context, arg WmsInser
 
 const wmsPaginateInboundShipmentItem = `-- name: WmsPaginateInboundShipmentItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   inbound_shipment_items.id, inbound_shipment_items.inbound_shipment_id, inbound_shipment_items.product_id, inbound_shipment_items.expected_quantity, inbound_shipment_items.received_quantity, inbound_shipment_items.discrepancy_quantity, inbound_shipment_items.discrepancy_notes, inbound_shipment_items.created_at, inbound_shipment_items.updated_at,
   inbound_shipment.id, inbound_shipment.client_id, inbound_shipment.warehouse_id, inbound_shipment.status, inbound_shipment.expected_arrival_date, inbound_shipment.actual_arrival_date, inbound_shipment.created_at, inbound_shipment.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
@@ -191,26 +195,30 @@ from
   "wms"."inbound_shipment_items" as inbound_shipment_items
   inner join "wms"."inbound_shipments" as inbound_shipment on inbound_shipment_items.inbound_shipment_id = inbound_shipment.id
   inner join "wms"."products" as product on inbound_shipment_items.product_id = product.id
-where (inbound_shipment.status::text ilike $1::text
-  or product.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (inbound_shipment.status::text ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateInboundShipmentItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateInboundShipmentItemRow struct {
+	TotalItems             int64                  `db:"total_items" json:"total_items"`
+	TotalPages             float64                `db:"total_pages" json:"total_pages"`
+	Page                   int32                  `db:"page" json:"page"`
+	PerPage                int32                  `db:"per_page" json:"per_page"`
 	WmsInboundShipmentItem WmsInboundShipmentItem `db:"wms_inbound_shipment_item" json:"wms_inbound_shipment_item"`
 	WmsInboundShipment     WmsInboundShipment     `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
 	WmsProduct             WmsProduct             `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPaginateInboundShipmentItemParams) ([]WmsPaginateInboundShipmentItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateInboundShipmentItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateInboundShipmentItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -219,6 +227,10 @@ func (q *Queries) WmsPaginateInboundShipmentItem(ctx context.Context, arg WmsPag
 	for rows.Next() {
 		var i WmsPaginateInboundShipmentItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsInboundShipmentItem.ID,
 			&i.WmsInboundShipmentItem.InboundShipmentID,
 			&i.WmsInboundShipmentItem.ProductID,

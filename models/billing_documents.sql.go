@@ -164,32 +164,40 @@ func (q *Queries) BillingInsertDocument(ctx context.Context, arg BillingInsertDo
 
 const billingPaginateDocument = `-- name: BillingPaginateDocument :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   documents.id, documents.record_id, documents.record_type, documents.document_type, documents.file_path, documents.file_name, documents.file_size, documents.mime_type, documents.uploaded_by_user_id, documents.created_at, documents.updated_at,
   uploaded_by_user.id, uploaded_by_user.name, uploaded_by_user.email, uploaded_by_user.email_verified, uploaded_by_user.image, uploaded_by_user.created_at, uploaded_by_user.updated_at, uploaded_by_user.role, uploaded_by_user.banned, uploaded_by_user.ban_reason, uploaded_by_user.ban_expires
 from
   "billing"."documents" as documents
   left join "public"."user" as uploaded_by_user on documents.uploaded_by_user_id = uploaded_by_user.id
-where (documents.file_name ilike $1::text
-  or documents.record_type ilike $1::text
-  or documents.document_type::text ilike $1::text
-  or uploaded_by_user.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (documents.file_name ilike $3::text
+  or documents.record_type ilike $3::text
+  or documents.document_type::text ilike $3::text
+  or uploaded_by_user.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateDocumentParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginateDocumentRow struct {
+	TotalItems      int64           `db:"total_items" json:"total_items"`
+	TotalPages      float64         `db:"total_pages" json:"total_pages"`
+	Page            int32           `db:"page" json:"page"`
+	PerPage         int32           `db:"per_page" json:"per_page"`
 	BillingDocument BillingDocument `db:"billing_document" json:"billing_document"`
 	User            User            `db:"user" json:"user"`
 }
 
 func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPaginateDocumentParams) ([]BillingPaginateDocumentRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateDocument, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginateDocument, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -198,6 +206,10 @@ func (q *Queries) BillingPaginateDocument(ctx context.Context, arg BillingPagina
 	for rows.Next() {
 		var i BillingPaginateDocumentRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingDocument.ID,
 			&i.BillingDocument.RecordID,
 			&i.BillingDocument.RecordType,

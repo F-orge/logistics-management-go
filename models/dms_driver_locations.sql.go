@@ -158,29 +158,37 @@ func (q *Queries) DmsInsertDriverLocation(ctx context.Context, arg DmsInsertDriv
 
 const dmsPaginateDriverLocation = `-- name: DmsPaginateDriverLocation :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   driver_locations.id, driver_locations.driver_id, driver_locations.latitude, driver_locations.longitude, driver_locations.altitude, driver_locations.accuracy, driver_locations.speed_kmh, driver_locations.heading, driver_locations.timestamp, driver_locations.created_at, driver_locations.updated_at,
   driver.id, driver.user_id, driver.license_number, driver.license_expiry_date, driver.status, driver.created_at, driver.updated_at, driver.contact_phone
 from
   "dms"."driver_locations" as driver_locations
   inner join "tms"."drivers" as driver on driver_locations.driver_id = driver.id
-where (driver.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (driver.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type DmsPaginateDriverLocationParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type DmsPaginateDriverLocationRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	DmsDriverLocation DmsDriverLocation `db:"dms_driver_location" json:"dms_driver_location"`
 	TmsDriver         TmsDriver         `db:"tms_driver" json:"tms_driver"`
 }
 
 func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginateDriverLocationParams) ([]DmsPaginateDriverLocationRow, error) {
-	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, dmsPaginateDriverLocation, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -189,6 +197,10 @@ func (q *Queries) DmsPaginateDriverLocation(ctx context.Context, arg DmsPaginate
 	for rows.Next() {
 		var i DmsPaginateDriverLocationRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.DmsDriverLocation.ID,
 			&i.DmsDriverLocation.DriverID,
 			&i.DmsDriverLocation.Latitude,

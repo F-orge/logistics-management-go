@@ -134,48 +134,64 @@ func (q *Queries) TmsInsertVehicle(ctx context.Context, arg TmsInsertVehiclePara
 
 const tmsPaginateVehicle = `-- name: TmsPaginateVehicle :many
 select
-  id, registration_number, model, capacity_volume, capacity_weight, status, created_at, updated_at, make, year, vin, current_mileage, last_maintenance_date, vehicle_maintenance, gps_pings, geofence_events
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
+  vehicles.id, vehicles.registration_number, vehicles.model, vehicles.capacity_volume, vehicles.capacity_weight, vehicles.status, vehicles.created_at, vehicles.updated_at, vehicles.make, vehicles.year, vehicles.vin, vehicles.current_mileage, vehicles.last_maintenance_date, vehicles.vehicle_maintenance, vehicles.gps_pings, vehicles.geofence_events
 from
-  "tms"."vehicles_view"
-where (registration_number ilike $1::text
-  or model ilike $1::text
-  or status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+  "tms"."vehicles_view" as vehicles
+where (registration_number ilike $3::text
+  or model ilike $3::text
+  or status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateVehicleParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
-func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicleParams) ([]TmsVehiclesView, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateVehicle, arg.Search, arg.Page, arg.PerPage)
+type TmsPaginateVehicleRow struct {
+	TotalItems      int64           `db:"total_items" json:"total_items"`
+	TotalPages      float64         `db:"total_pages" json:"total_pages"`
+	Page            int32           `db:"page" json:"page"`
+	PerPage         int32           `db:"per_page" json:"per_page"`
+	TmsVehiclesView TmsVehiclesView `db:"tms_vehicles_view" json:"tms_vehicles_view"`
+}
+
+func (q *Queries) TmsPaginateVehicle(ctx context.Context, arg TmsPaginateVehicleParams) ([]TmsPaginateVehicleRow, error) {
+	rows, err := q.db.Query(ctx, tmsPaginateVehicle, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []TmsVehiclesView
+	var items []TmsPaginateVehicleRow
 	for rows.Next() {
-		var i TmsVehiclesView
+		var i TmsPaginateVehicleRow
 		if err := rows.Scan(
-			&i.ID,
-			&i.RegistrationNumber,
-			&i.Model,
-			&i.CapacityVolume,
-			&i.CapacityWeight,
-			&i.Status,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.Make,
-			&i.Year,
-			&i.Vin,
-			&i.CurrentMileage,
-			&i.LastMaintenanceDate,
-			&i.VehicleMaintenance,
-			&i.GpsPings,
-			&i.GeofenceEvents,
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
+			&i.TmsVehiclesView.ID,
+			&i.TmsVehiclesView.RegistrationNumber,
+			&i.TmsVehiclesView.Model,
+			&i.TmsVehiclesView.CapacityVolume,
+			&i.TmsVehiclesView.CapacityWeight,
+			&i.TmsVehiclesView.Status,
+			&i.TmsVehiclesView.CreatedAt,
+			&i.TmsVehiclesView.UpdatedAt,
+			&i.TmsVehiclesView.Make,
+			&i.TmsVehiclesView.Year,
+			&i.TmsVehiclesView.Vin,
+			&i.TmsVehiclesView.CurrentMileage,
+			&i.TmsVehiclesView.LastMaintenanceDate,
+			&i.TmsVehiclesView.VehicleMaintenance,
+			&i.TmsVehiclesView.GpsPings,
+			&i.TmsVehiclesView.GeofenceEvents,
 		); err != nil {
 			return nil, err
 		}

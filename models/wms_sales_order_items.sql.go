@@ -167,6 +167,10 @@ func (q *Queries) WmsInsertSalesOrderItem(ctx context.Context, arg WmsInsertSale
 
 const wmsPaginateSalesOrderItem = `-- name: WmsPaginateSalesOrderItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   sales_order_items.id, sales_order_items.sales_order_id, sales_order_items.product_id, sales_order_items.quantity_ordered, sales_order_items.created_at, sales_order_items.updated_at,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at,
   product.id, product.name, product.sku, product.barcode, product.description, product.cost_price, product.length, product.width, product.height, product.volume, product.weight, product.status, product.supplier_id, product.client_id, product.created_at, product.updated_at
@@ -174,26 +178,30 @@ from
   "wms"."sales_order_items" as sales_order_items
   inner join "wms"."sales_orders" as sales_order on sales_order_items.sales_order_id = sales_order.id
   inner join "wms"."products" as product on sales_order_items.product_id = product.id
-where (sales_order.order_number ilike $1::text
-  or product.name ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (sales_order.order_number ilike $3::text
+  or product.name ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateSalesOrderItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateSalesOrderItemRow struct {
+	TotalItems        int64             `db:"total_items" json:"total_items"`
+	TotalPages        float64           `db:"total_pages" json:"total_pages"`
+	Page              int32             `db:"page" json:"page"`
+	PerPage           int32             `db:"per_page" json:"per_page"`
 	WmsSalesOrderItem WmsSalesOrderItem `db:"wms_sales_order_item" json:"wms_sales_order_item"`
 	WmsSalesOrder     WmsSalesOrder     `db:"wms_sales_order" json:"wms_sales_order"`
 	WmsProduct        WmsProduct        `db:"wms_product" json:"wms_product"`
 }
 
 func (q *Queries) WmsPaginateSalesOrderItem(ctx context.Context, arg WmsPaginateSalesOrderItemParams) ([]WmsPaginateSalesOrderItemRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateSalesOrderItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateSalesOrderItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -202,6 +210,10 @@ func (q *Queries) WmsPaginateSalesOrderItem(ctx context.Context, arg WmsPaginate
 	for rows.Next() {
 		var i WmsPaginateSalesOrderItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsSalesOrderItem.ID,
 			&i.WmsSalesOrderItem.SalesOrderID,
 			&i.WmsSalesOrderItem.ProductID,

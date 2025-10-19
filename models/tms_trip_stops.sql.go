@@ -183,31 +183,39 @@ func (q *Queries) TmsInsertTripStop(ctx context.Context, arg TmsInsertTripStopPa
 
 const tmsPaginateTripStop = `-- name: TmsPaginateTripStop :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   trip_stops.id, trip_stops.trip_id, trip_stops.shipment_id, trip_stops.sequence, trip_stops.address, trip_stops.status, trip_stops.estimated_arrival_time, trip_stops.actual_arrival_time, trip_stops.estimated_departure_time, trip_stops.actual_departure_time, trip_stops.created_at, trip_stops.updated_at, trip_stops.proof_of_deliveries,
   trip.id, trip.driver_id, trip.vehicle_id, trip.status, trip.created_at, trip.updated_at, trip.end_location, trip.end_time, trip.start_location, trip.start_time
 from
   "tms"."trip_stops_view" as trip_stops
   inner join "tms"."trips" as trip on trip_stops.trip_id = trip.id
-where (trip.status::text ilike $1::text
-  or trip_stops.address ilike $1::text
-  or trip_stops.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (trip.status::text ilike $3::text
+  or trip_stops.address ilike $3::text
+  or trip_stops.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type TmsPaginateTripStopParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type TmsPaginateTripStopRow struct {
+	TotalItems       int64            `db:"total_items" json:"total_items"`
+	TotalPages       float64          `db:"total_pages" json:"total_pages"`
+	Page             int32            `db:"page" json:"page"`
+	PerPage          int32            `db:"per_page" json:"per_page"`
 	TmsTripStopsView TmsTripStopsView `db:"tms_trip_stops_view" json:"tms_trip_stops_view"`
 	TmsTrip          TmsTrip          `db:"tms_trip" json:"tms_trip"`
 }
 
 func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripStopParams) ([]TmsPaginateTripStopRow, error) {
-	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, tmsPaginateTripStop, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -216,6 +224,10 @@ func (q *Queries) TmsPaginateTripStop(ctx context.Context, arg TmsPaginateTripSt
 	for rows.Next() {
 		var i TmsPaginateTripStopRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.TmsTripStopsView.ID,
 			&i.TmsTripStopsView.TripID,
 			&i.TmsTripStopsView.ShipmentID,

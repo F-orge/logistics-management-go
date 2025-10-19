@@ -260,6 +260,10 @@ func (q *Queries) CrmInsertOpportunity(ctx context.Context, arg CrmInsertOpportu
 
 const crmPaginateOpportunity = `-- name: CrmPaginateOpportunity :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   opportunities.id, opportunities.name, opportunities.stage, opportunities.deal_value, opportunities.probability, opportunities.expected_close_date, opportunities.lost_reason, opportunities.source, opportunities.owner_id, opportunities.contact_id, opportunities.company_id, opportunities.campaign_id, opportunities.created_at, opportunities.updated_at, opportunities.products,
   owner.id, owner.name, owner.email, owner.email_verified, owner.image, owner.created_at, owner.updated_at, owner.role, owner.banned, owner.ban_reason, owner.ban_expires,
   contact.id, contact.name, contact.email, contact.phone_number, contact.job_title, contact.company_id, contact.owner_id, contact.created_at, contact.updated_at,
@@ -271,24 +275,28 @@ from
   left join "crm"."contacts" as contact on opportunities.contact_id = contact.id
   left join "crm"."companies" as company on opportunities.company_id = company.id
   left join "crm"."campaigns" as campaign on opportunities.campaign_id = campaign.id
-where (opportunities.name ilike $1::text
-  or opportunities.stage::text ilike $1::text
-  or owner.name ilike $1::text
-  or company.name ilike $1::text
-  or contact.name ilike $1::text
-  or campaign.name ilike $1::text
-  or opportunities.source::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (opportunities.name ilike $3::text
+  or opportunities.stage::text ilike $3::text
+  or owner.name ilike $3::text
+  or company.name ilike $3::text
+  or contact.name ilike $3::text
+  or campaign.name ilike $3::text
+  or opportunities.source::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type CrmPaginateOpportunityParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type CrmPaginateOpportunityRow struct {
+	TotalItems           int64                `db:"total_items" json:"total_items"`
+	TotalPages           float64              `db:"total_pages" json:"total_pages"`
+	Page                 int32                `db:"page" json:"page"`
+	PerPage              int32                `db:"per_page" json:"per_page"`
 	CrmOpportunitiesView CrmOpportunitiesView `db:"crm_opportunities_view" json:"crm_opportunities_view"`
 	User                 User                 `db:"user" json:"user"`
 	CrmContact           CrmContact           `db:"crm_contact" json:"crm_contact"`
@@ -297,7 +305,7 @@ type CrmPaginateOpportunityRow struct {
 }
 
 func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpportunityParams) ([]CrmPaginateOpportunityRow, error) {
-	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, crmPaginateOpportunity, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -306,6 +314,10 @@ func (q *Queries) CrmPaginateOpportunity(ctx context.Context, arg CrmPaginateOpp
 	for rows.Next() {
 		var i CrmPaginateOpportunityRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.CrmOpportunitiesView.ID,
 			&i.CrmOpportunitiesView.Name,
 			&i.CrmOpportunitiesView.Stage,

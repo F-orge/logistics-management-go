@@ -1,5 +1,9 @@
 -- name: WmsPaginateInventoryAdjustment :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF(sqlc.arg(per_page)::int, 0)) as total_pages,
+  sqlc.arg(page)::int as page,
+  sqlc.arg(per_page)::int as per_page,
   sqlc.embed(inventory_adjustments),
   sqlc.embed(product),
   sqlc.embed(users)

@@ -196,30 +196,38 @@ func (q *Queries) BillingInsertInvoiceLineItem(ctx context.Context, arg BillingI
 
 const billingPaginateInvoiceLineItem = `-- name: BillingPaginateInvoiceLineItem :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   invoice_line_items.id, invoice_line_items.invoice_id, invoice_line_items.source_record_id, invoice_line_items.source_record_type, invoice_line_items.description, invoice_line_items.quantity, invoice_line_items.unit_price, invoice_line_items.total_price, invoice_line_items.tax_rate, invoice_line_items.tax_amount, invoice_line_items.discount_rate, invoice_line_items.discount_amount, invoice_line_items.line_total, invoice_line_items.created_at, invoice_line_items.updated_at,
   invoice.id, invoice.client_id, invoice.quote_id, invoice.invoice_number, invoice.status, invoice.issue_date, invoice.due_date, invoice.total_amount, invoice.amount_paid, invoice.amount_outstanding, invoice.currency, invoice.tax_amount, invoice.discount_amount, invoice.subtotal, invoice.payment_terms, invoice.notes, invoice.sent_at, invoice.paid_at, invoice.created_by_user_id, invoice.created_at, invoice.updated_at
 from
   "billing"."invoice_line_items" as invoice_line_items
   inner join "billing"."invoices" as invoice on invoice_line_items.invoice_id = invoice.id
-where (invoice.invoice_number ilike $1::text
-  or invoice_line_items.description ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (invoice.invoice_number ilike $3::text
+  or invoice_line_items.description ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type BillingPaginateInvoiceLineItemParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type BillingPaginateInvoiceLineItemRow struct {
+	TotalItems             int64                  `db:"total_items" json:"total_items"`
+	TotalPages             float64                `db:"total_pages" json:"total_pages"`
+	Page                   int32                  `db:"page" json:"page"`
+	PerPage                int32                  `db:"per_page" json:"per_page"`
 	BillingInvoiceLineItem BillingInvoiceLineItem `db:"billing_invoice_line_item" json:"billing_invoice_line_item"`
 	BillingInvoice         BillingInvoice         `db:"billing_invoice" json:"billing_invoice"`
 }
 
 func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg BillingPaginateInvoiceLineItemParams) ([]BillingPaginateInvoiceLineItemRow, error) {
-	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, billingPaginateInvoiceLineItem, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -228,6 +236,10 @@ func (q *Queries) BillingPaginateInvoiceLineItem(ctx context.Context, arg Billin
 	for rows.Next() {
 		var i BillingPaginateInvoiceLineItemRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.BillingInvoiceLineItem.ID,
 			&i.BillingInvoiceLineItem.InvoiceID,
 			&i.BillingInvoiceLineItem.SourceRecordID,

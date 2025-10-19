@@ -145,32 +145,40 @@ func (q *Queries) WmsInsertOutboundShipment(ctx context.Context, arg WmsInsertOu
 
 const wmsPaginateOutboundShipment = `-- name: WmsPaginateOutboundShipment :many
 select
+  count(*) over () as total_items,
+  ceil(count(*) over ()::numeric / NULLIF($1::int, 0)) as total_pages,
+  $2::int as page,
+  $1::int as per_page,
   outbound_shipments.id, outbound_shipments.sales_order_id, outbound_shipments.warehouse_id, outbound_shipments.status, outbound_shipments.tracking_number, outbound_shipments.carrier, outbound_shipments.created_at, outbound_shipments.updated_at, outbound_shipments.outbound_shipment_items,
   sales_order.id, sales_order.order_number, sales_order.client_id, sales_order.crm_opportunity_id, sales_order.status, sales_order.shipping_address, sales_order.created_at, sales_order.updated_at
 from
   "wms"."outbound_shipments_view" as outbound_shipments
   inner join "wms"."sales_orders" as sales_order on outbound_shipments.sales_order_id = sales_order.id
-where (sales_order.order_number ilike $1::text
-  or outbound_shipments.tracking_number ilike $1::text
-  or outbound_shipments.carrier ilike $1::text
-  or outbound_shipments.status::text ilike $1::text
-  or $1::text is null)
-limit $3::int offset ($2::int - 1) * $3::int
+where (sales_order.order_number ilike $3::text
+  or outbound_shipments.tracking_number ilike $3::text
+  or outbound_shipments.carrier ilike $3::text
+  or outbound_shipments.status::text ilike $3::text
+  or $3::text is null)
+limit $1::int offset ($2::int - 1) * $1::int
 `
 
 type WmsPaginateOutboundShipmentParams struct {
-	Search  pgtype.Text `db:"search" json:"search"`
-	Page    int32       `db:"page" json:"page"`
 	PerPage int32       `db:"per_page" json:"per_page"`
+	Page    int32       `db:"page" json:"page"`
+	Search  pgtype.Text `db:"search" json:"search"`
 }
 
 type WmsPaginateOutboundShipmentRow struct {
+	TotalItems               int64                    `db:"total_items" json:"total_items"`
+	TotalPages               float64                  `db:"total_pages" json:"total_pages"`
+	Page                     int32                    `db:"page" json:"page"`
+	PerPage                  int32                    `db:"per_page" json:"per_page"`
 	WmsOutboundShipmentsView WmsOutboundShipmentsView `db:"wms_outbound_shipments_view" json:"wms_outbound_shipments_view"`
 	WmsSalesOrder            WmsSalesOrder            `db:"wms_sales_order" json:"wms_sales_order"`
 }
 
 func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPaginateOutboundShipmentParams) ([]WmsPaginateOutboundShipmentRow, error) {
-	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipment, arg.Search, arg.Page, arg.PerPage)
+	rows, err := q.db.Query(ctx, wmsPaginateOutboundShipment, arg.PerPage, arg.Page, arg.Search)
 	if err != nil {
 		return nil, err
 	}
@@ -179,6 +187,10 @@ func (q *Queries) WmsPaginateOutboundShipment(ctx context.Context, arg WmsPagina
 	for rows.Next() {
 		var i WmsPaginateOutboundShipmentRow
 		if err := rows.Scan(
+			&i.TotalItems,
+			&i.TotalPages,
+			&i.Page,
+			&i.PerPage,
 			&i.WmsOutboundShipmentsView.ID,
 			&i.WmsOutboundShipmentsView.SalesOrderID,
 			&i.WmsOutboundShipmentsView.WarehouseID,
