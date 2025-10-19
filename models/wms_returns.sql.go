@@ -164,11 +164,11 @@ returning
 `
 
 type WmsInsertReturnParams struct {
-	ReturnNumber string                  `db:"return_number" json:"return_number"`
+	ReturnNumber string                  `db:"return_number" fake:"{uuid}" json:"return_number"`
 	SalesOrderID pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
 	ClientID     pgtype.UUID             `db:"client_id" json:"client_id"`
 	Status       NullWmsReturnStatusEnum `db:"status" json:"status"`
-	Reason       pgtype.Text             `db:"reason" json:"reason"`
+	Reason       pgtype.Text             `db:"reason" fake:"{sentence}" json:"reason"`
 }
 
 func (q *Queries) WmsInsertReturn(ctx context.Context, arg WmsInsertReturnParams) (WmsReturn, error) {
@@ -454,11 +454,11 @@ returning
 `
 
 type WmsUpdateReturnParams struct {
-	ReturnNumber string                  `db:"return_number" json:"return_number"`
+	ReturnNumber string                  `db:"return_number" fake:"{uuid}" json:"return_number"`
 	SalesOrderID pgtype.UUID             `db:"sales_order_id" json:"sales_order_id"`
 	ClientID     pgtype.UUID             `db:"client_id" json:"client_id"`
 	Status       NullWmsReturnStatusEnum `db:"status" json:"status"`
-	Reason       pgtype.Text             `db:"reason" json:"reason"`
+	Reason       pgtype.Text             `db:"reason" fake:"{sentence}" json:"reason"`
 	ID           pgtype.UUID             `db:"id" json:"id"`
 }
 

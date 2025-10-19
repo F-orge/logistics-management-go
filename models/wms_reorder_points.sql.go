@@ -26,7 +26,7 @@ type WmsAnyReorderPointRow struct {
 	ID          pgtype.UUID      `db:"id" json:"id"`
 	ProductID   pgtype.UUID      `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32            `db:"threshold" json:"threshold"`
+	Threshold   int32            `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	CreatedAt   pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct  WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -90,7 +90,7 @@ type WmsFindReorderPointRow struct {
 	ID          pgtype.UUID      `db:"id" json:"id"`
 	ProductID   pgtype.UUID      `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32            `db:"threshold" json:"threshold"`
+	Threshold   int32            `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	CreatedAt   pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct  WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -136,7 +136,7 @@ returning
 type WmsInsertReorderPointParams struct {
 	ProductID   pgtype.UUID `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32       `db:"threshold" json:"threshold"`
+	Threshold   int32       `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 }
 
 func (q *Queries) WmsInsertReorderPoint(ctx context.Context, arg WmsInsertReorderPointParams) (WmsReorderPoint, error) {
@@ -175,7 +175,7 @@ type WmsPaginateReorderPointRow struct {
 	ID          pgtype.UUID      `db:"id" json:"id"`
 	ProductID   pgtype.UUID      `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32            `db:"threshold" json:"threshold"`
+	Threshold   int32            `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	CreatedAt   pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct  WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -282,7 +282,7 @@ type WmsRangeReorderPointRow struct {
 	ID          pgtype.UUID      `db:"id" json:"id"`
 	ProductID   pgtype.UUID      `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32            `db:"threshold" json:"threshold"`
+	Threshold   int32            `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	CreatedAt   pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt   pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct  WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -370,7 +370,7 @@ returning
 type WmsUpdateReorderPointParams struct {
 	ProductID   pgtype.UUID `db:"product_id" json:"product_id"`
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
-	Threshold   int32       `db:"threshold" json:"threshold"`
+	Threshold   int32       `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	ID          pgtype.UUID `db:"id" json:"id"`
 }
 

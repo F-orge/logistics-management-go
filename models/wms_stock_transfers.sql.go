@@ -27,7 +27,7 @@ type WmsAnyStockTransferRow struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
@@ -95,7 +95,7 @@ type WmsFindStockTransferRow struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
@@ -145,7 +145,7 @@ type WmsInsertStockTransferParams struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 }
 
@@ -195,7 +195,7 @@ type WmsPaginateStockTransferRow struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
@@ -307,7 +307,7 @@ type WmsRangeStockTransferRow struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	CreatedAt              pgtype.Timestamp               `db:"created_at" json:"created_at"`
 	UpdatedAt              pgtype.Timestamp               `db:"updated_at" json:"updated_at"`
@@ -409,7 +409,7 @@ type WmsUpdateStockTransferParams struct {
 	ProductID              pgtype.UUID                    `db:"product_id" json:"product_id"`
 	SourceWarehouseID      pgtype.UUID                    `db:"source_warehouse_id" json:"source_warehouse_id"`
 	DestinationWarehouseID pgtype.UUID                    `db:"destination_warehouse_id" json:"destination_warehouse_id"`
-	Quantity               int32                          `db:"quantity" json:"quantity"`
+	Quantity               int32                          `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	Status                 NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	ID                     pgtype.UUID                    `db:"id" json:"id"`
 }

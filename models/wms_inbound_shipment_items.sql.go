@@ -28,10 +28,10 @@ type WmsAnyInboundShipmentItemRow struct {
 	ID                  pgtype.UUID        `db:"id" json:"id"`
 	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
-	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	ExpectedQuantity    int32              `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
 	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
-	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
 	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
@@ -109,10 +109,10 @@ type WmsFindInboundShipmentItemRow struct {
 	ID                  pgtype.UUID        `db:"id" json:"id"`
 	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
-	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	ExpectedQuantity    int32              `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
 	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
-	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
 	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
@@ -170,9 +170,9 @@ returning
 type WmsInsertInboundShipmentItemParams struct {
 	InboundShipmentID pgtype.UUID `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID         pgtype.UUID `db:"product_id" json:"product_id"`
-	ExpectedQuantity  int32       `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
-	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
+	ExpectedQuantity  int32       `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
+	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 }
 
 func (q *Queries) WmsInsertInboundShipmentItem(ctx context.Context, arg WmsInsertInboundShipmentItemParams) (WmsInboundShipmentItem, error) {
@@ -223,10 +223,10 @@ type WmsPaginateInboundShipmentItemRow struct {
 	ID                  pgtype.UUID        `db:"id" json:"id"`
 	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
-	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	ExpectedQuantity    int32              `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
 	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
-	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
 	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
@@ -348,10 +348,10 @@ type WmsRangeInboundShipmentItemRow struct {
 	ID                  pgtype.UUID        `db:"id" json:"id"`
 	InboundShipmentID   pgtype.UUID        `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID           pgtype.UUID        `db:"product_id" json:"product_id"`
-	ExpectedQuantity    int32              `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" json:"received_quantity"`
+	ExpectedQuantity    int32              `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity    pgtype.Int4        `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
 	DiscrepancyQuantity pgtype.Int4        `db:"discrepancy_quantity" json:"discrepancy_quantity"`
-	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" json:"discrepancy_notes"`
+	DiscrepancyNotes    pgtype.Text        `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	CreatedAt           pgtype.Timestamp   `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp   `db:"updated_at" json:"updated_at"`
 	WmsInboundShipment  WmsInboundShipment `db:"wms_inbound_shipment" json:"wms_inbound_shipment"`
@@ -461,9 +461,9 @@ returning
 type WmsUpdateInboundShipmentItemParams struct {
 	InboundShipmentID pgtype.UUID `db:"inbound_shipment_id" json:"inbound_shipment_id"`
 	ProductID         pgtype.UUID `db:"product_id" json:"product_id"`
-	ExpectedQuantity  int32       `db:"expected_quantity" json:"expected_quantity"`
-	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
-	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
+	ExpectedQuantity  int32       `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
+	ReceivedQuantity  pgtype.Int4 `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
+	DiscrepancyNotes  pgtype.Text `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	ID                pgtype.UUID `db:"id" json:"id"`
 }
 

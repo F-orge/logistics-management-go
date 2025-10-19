@@ -34,7 +34,7 @@ type WmsAnyOutboundShipmentItemRow struct {
 	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
 	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
-	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped     int32               `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
 	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
@@ -131,7 +131,7 @@ type WmsFindOutboundShipmentItemRow struct {
 	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
 	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
-	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped     int32               `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
 	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
@@ -204,7 +204,7 @@ type WmsInsertOutboundShipmentItemParams struct {
 	SalesOrderItemID   pgtype.UUID `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID          pgtype.UUID `db:"product_id" json:"product_id"`
 	BatchID            pgtype.UUID `db:"batch_id" json:"batch_id"`
-	QuantityShipped    int32       `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped    int32       `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 }
 
 func (q *Queries) WmsInsertOutboundShipmentItem(ctx context.Context, arg WmsInsertOutboundShipmentItemParams) (WmsOutboundShipmentItem, error) {
@@ -261,7 +261,7 @@ type WmsPaginateOutboundShipmentItemRow struct {
 	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
 	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
-	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped     int32               `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
 	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
@@ -403,7 +403,7 @@ type WmsRangeOutboundShipmentItemRow struct {
 	SalesOrderItemID    pgtype.UUID         `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID           pgtype.UUID         `db:"product_id" json:"product_id"`
 	BatchID             pgtype.UUID         `db:"batch_id" json:"batch_id"`
-	QuantityShipped     int32               `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped     int32               `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	CreatedAt           pgtype.Timestamp    `db:"created_at" json:"created_at"`
 	UpdatedAt           pgtype.Timestamp    `db:"updated_at" json:"updated_at"`
 	WmsOutboundShipment WmsOutboundShipment `db:"wms_outbound_shipment" json:"wms_outbound_shipment"`
@@ -528,7 +528,7 @@ type WmsUpdateOutboundShipmentItemParams struct {
 	SalesOrderItemID   pgtype.UUID `db:"sales_order_item_id" json:"sales_order_item_id"`
 	ProductID          pgtype.UUID `db:"product_id" json:"product_id"`
 	BatchID            pgtype.UUID `db:"batch_id" json:"batch_id"`
-	QuantityShipped    int32       `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped    int32       `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	ID                 pgtype.UUID `db:"id" json:"id"`
 }
 

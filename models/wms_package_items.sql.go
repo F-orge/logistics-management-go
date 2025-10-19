@@ -31,11 +31,11 @@ type WmsAnyPackageItemRow struct {
 	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
 	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
-	Quantity          int32             `db:"quantity" json:"quantity"`
-	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	Quantity          int32             `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
-	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
 	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
@@ -141,11 +141,11 @@ type WmsFindPackageItemRow struct {
 	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
 	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
-	Quantity          int32             `db:"quantity" json:"quantity"`
-	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	Quantity          int32             `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
-	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
 	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
@@ -229,11 +229,11 @@ type WmsInsertPackageItemParams struct {
 	PackageID     pgtype.UUID   `db:"package_id" json:"package_id"`
 	ProductID     pgtype.UUID   `db:"product_id" json:"product_id"`
 	BatchID       pgtype.UUID   `db:"batch_id" json:"batch_id"`
-	Quantity      int32         `db:"quantity" json:"quantity"`
-	LotNumber     pgtype.Text   `db:"lot_number" json:"lot_number"`
+	Quantity      int32         `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber     pgtype.Text   `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers []string      `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate    pgtype.Date   `db:"expiry_date" json:"expiry_date"`
-	UnitWeight    pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate    pgtype.Date   `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight    pgtype.Float4 `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 }
 
 func (q *Queries) WmsInsertPackageItem(ctx context.Context, arg WmsInsertPackageItemParams) (WmsPackageItem, error) {
@@ -293,11 +293,11 @@ type WmsPaginatePackageItemRow struct {
 	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
 	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
-	Quantity          int32             `db:"quantity" json:"quantity"`
-	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	Quantity          int32             `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
-	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
 	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
@@ -447,11 +447,11 @@ type WmsRangePackageItemRow struct {
 	PackageID         pgtype.UUID       `db:"package_id" json:"package_id"`
 	ProductID         pgtype.UUID       `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID       `db:"batch_id" json:"batch_id"`
-	Quantity          int32             `db:"quantity" json:"quantity"`
-	LotNumber         pgtype.Text       `db:"lot_number" json:"lot_number"`
+	Quantity          int32             `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber         pgtype.Text       `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers     []string          `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate        pgtype.Date       `db:"expiry_date" json:"expiry_date"`
-	UnitWeight        pgtype.Float4     `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate        pgtype.Date       `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight        pgtype.Float4     `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	TotalWeight       pgtype.Float4     `db:"total_weight" json:"total_weight"`
 	CreatedAt         pgtype.Timestamp  `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp  `db:"updated_at" json:"updated_at"`
@@ -602,11 +602,11 @@ type WmsUpdatePackageItemParams struct {
 	PackageID     pgtype.UUID   `db:"package_id" json:"package_id"`
 	ProductID     pgtype.UUID   `db:"product_id" json:"product_id"`
 	BatchID       pgtype.UUID   `db:"batch_id" json:"batch_id"`
-	Quantity      int32         `db:"quantity" json:"quantity"`
-	LotNumber     pgtype.Text   `db:"lot_number" json:"lot_number"`
+	Quantity      int32         `db:"quantity" fake:"{number:1,10}" json:"quantity"`
+	LotNumber     pgtype.Text   `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers []string      `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate    pgtype.Date   `db:"expiry_date" json:"expiry_date"`
-	UnitWeight    pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
+	ExpiryDate    pgtype.Date   `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	UnitWeight    pgtype.Float4 `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	ID            pgtype.UUID   `db:"id" json:"id"`
 }
 

@@ -28,9 +28,9 @@ type WmsAnyPickBatchItemRow struct {
 	ID                pgtype.UUID      `db:"id" json:"id"`
 	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
@@ -108,9 +108,9 @@ type WmsFindPickBatchItemRow struct {
 	ID                pgtype.UUID      `db:"id" json:"id"`
 	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
@@ -168,9 +168,9 @@ returning
 type WmsInsertPickBatchItemParams struct {
 	PickBatchID       pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4 `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4 `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 }
 
 func (q *Queries) WmsInsertPickBatchItem(ctx context.Context, arg WmsInsertPickBatchItemParams) (WmsPickBatchItem, error) {
@@ -220,9 +220,9 @@ type WmsPaginatePickBatchItemRow struct {
 	ID                pgtype.UUID      `db:"id" json:"id"`
 	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
@@ -344,9 +344,9 @@ type WmsRangePickBatchItemRow struct {
 	ID                pgtype.UUID      `db:"id" json:"id"`
 	PickBatchID       pgtype.UUID      `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4      `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4      `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4      `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4      `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	CreatedAt         pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsPickBatch      WmsPickBatch     `db:"wms_pick_batch" json:"wms_pick_batch"`
@@ -456,9 +456,9 @@ returning
 type WmsUpdatePickBatchItemParams struct {
 	PickBatchID       pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
 	SalesOrderID      pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
-	OrderPriority     pgtype.Int4 `db:"order_priority" json:"order_priority"`
-	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
-	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
+	OrderPriority     pgtype.Int4 `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
+	ActualPickTime    pgtype.Int4 `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	ID                pgtype.UUID `db:"id" json:"id"`
 }
 

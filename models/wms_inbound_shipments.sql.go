@@ -145,8 +145,8 @@ type WmsInsertInboundShipmentParams struct {
 	ClientID            pgtype.UUID                      `db:"client_id" json:"client_id"`
 	WarehouseID         pgtype.UUID                      `db:"warehouse_id" json:"warehouse_id"`
 	Status              NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
-	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" json:"expected_arrival_date"`
-	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
+	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" fake:"{date}" json:"expected_arrival_date"`
+	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" fake:"{date}" json:"actual_arrival_date"`
 }
 
 func (q *Queries) WmsInsertInboundShipment(ctx context.Context, arg WmsInsertInboundShipmentParams) (WmsInboundShipment, error) {
@@ -409,8 +409,8 @@ type WmsUpdateInboundShipmentParams struct {
 	ClientID            pgtype.UUID                      `db:"client_id" json:"client_id"`
 	WarehouseID         pgtype.UUID                      `db:"warehouse_id" json:"warehouse_id"`
 	Status              NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
-	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" json:"expected_arrival_date"`
-	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" json:"actual_arrival_date"`
+	ExpectedArrivalDate pgtype.Date                      `db:"expected_arrival_date" fake:"{date}" json:"expected_arrival_date"`
+	ActualArrivalDate   pgtype.Date                      `db:"actual_arrival_date" fake:"{date}" json:"actual_arrival_date"`
 	ID                  pgtype.UUID                      `db:"id" json:"id"`
 }
 

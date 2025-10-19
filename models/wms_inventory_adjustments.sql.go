@@ -29,9 +29,9 @@ type WmsAnyInventoryAdjustmentRow struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
@@ -113,9 +113,9 @@ type WmsFindInventoryAdjustmentRow struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
@@ -177,9 +177,9 @@ type WmsInsertInventoryAdjustmentParams struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 }
 
 func (q *Queries) WmsInsertInventoryAdjustment(ctx context.Context, arg WmsInsertInventoryAdjustmentParams) (WmsInventoryAdjustment, error) {
@@ -233,9 +233,9 @@ type WmsPaginateInventoryAdjustmentRow struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
@@ -362,9 +362,9 @@ type WmsRangeInventoryAdjustmentRow struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 	CreatedAt      pgtype.Timestamp                     `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp                     `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct                           `db:"wms_product" json:"wms_product"`
@@ -483,9 +483,9 @@ type WmsUpdateInventoryAdjustmentParams struct {
 	ProductID      pgtype.UUID                          `db:"product_id" json:"product_id"`
 	WarehouseID    pgtype.UUID                          `db:"warehouse_id" json:"warehouse_id"`
 	UserID         string                               `db:"user_id" json:"user_id"`
-	QuantityChange int32                                `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32                                `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	Reason         NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
-	Notes          pgtype.Text                          `db:"notes" json:"notes"`
+	Notes          pgtype.Text                          `db:"notes" fake:"{sentence}" json:"notes"`
 	ID             pgtype.UUID                          `db:"id" json:"id"`
 }
 

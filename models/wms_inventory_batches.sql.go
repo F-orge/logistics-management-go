@@ -25,8 +25,8 @@ where
 type WmsAnyInventoryBatchRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
-	BatchNumber    string           `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string           `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -89,8 +89,8 @@ where
 type WmsFindInventoryBatchRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
-	BatchNumber    string           `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string           `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -135,8 +135,8 @@ returning
 
 type WmsInsertInventoryBatchParams struct {
 	ProductID      pgtype.UUID `db:"product_id" json:"product_id"`
-	BatchNumber    string      `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string      `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 }
 
 func (q *Queries) WmsInsertInventoryBatch(ctx context.Context, arg WmsInsertInventoryBatchParams) (WmsInventoryBatch, error) {
@@ -175,8 +175,8 @@ type WmsPaginateInventoryBatchParams struct {
 type WmsPaginateInventoryBatchRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
-	BatchNumber    string           `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string           `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -283,8 +283,8 @@ type WmsRangeInventoryBatchParams struct {
 type WmsRangeInventoryBatchRow struct {
 	ID             pgtype.UUID      `db:"id" json:"id"`
 	ProductID      pgtype.UUID      `db:"product_id" json:"product_id"`
-	BatchNumber    string           `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date      `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string           `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date      `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	CreatedAt      pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt      pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsProduct     WmsProduct       `db:"wms_product" json:"wms_product"`
@@ -371,8 +371,8 @@ returning
 
 type WmsUpdateInventoryBatchParams struct {
 	ProductID      pgtype.UUID `db:"product_id" json:"product_id"`
-	BatchNumber    string      `db:"batch_number" json:"batch_number"`
-	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
+	BatchNumber    string      `db:"batch_number" fake:"{uuid}" json:"batch_number"`
+	ExpirationDate pgtype.Date `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	ID             pgtype.UUID `db:"id" json:"id"`
 }
 

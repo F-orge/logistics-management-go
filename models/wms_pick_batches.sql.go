@@ -206,20 +206,20 @@ returning
 `
 
 type WmsInsertPickBatchParams struct {
-	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	BatchNumber       string                     `db:"batch_number" fake:"{uuid}" json:"batch_number"`
 	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
 	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
 	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
-	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	Priority          pgtype.Int4                `db:"priority" fake:"{number:1,100}" json:"priority"`
 	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
-	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	WaveID            pgtype.Text                `db:"wave_id" fake:"{uuid}" json:"wave_id"`
 	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
-	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
-	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
-	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
-	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
-	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
-	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" fake:"{number:30,120}" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" fake:"{number:30,120}" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" fake:"{number:10,100}" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" fake:"{number:0,10}" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" fake:"{date}" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" fake:"{date}" json:"completed_at"`
 }
 
 func (q *Queries) WmsInsertPickBatch(ctx context.Context, arg WmsInsertPickBatchParams) (WmsPickBatch, error) {
@@ -610,20 +610,20 @@ returning
 `
 
 type WmsUpdatePickBatchParams struct {
-	BatchNumber       string                     `db:"batch_number" json:"batch_number"`
+	BatchNumber       string                     `db:"batch_number" fake:"{uuid}" json:"batch_number"`
 	WarehouseID       pgtype.UUID                `db:"warehouse_id" json:"warehouse_id"`
 	Status            NullWmsPickBatchStatusEnum `db:"status" json:"status"`
 	Strategy          WmsPickStrategyEnum        `db:"strategy" json:"strategy"`
-	Priority          pgtype.Int4                `db:"priority" json:"priority"`
+	Priority          pgtype.Int4                `db:"priority" fake:"{number:1,100}" json:"priority"`
 	AssignedUserID    pgtype.Text                `db:"assigned_user_id" json:"assigned_user_id"`
-	WaveID            pgtype.Text                `db:"wave_id" json:"wave_id"`
+	WaveID            pgtype.Text                `db:"wave_id" fake:"{uuid}" json:"wave_id"`
 	ZoneRestrictions  []string                   `db:"zone_restrictions" json:"zone_restrictions"`
-	EstimatedDuration pgtype.Int4                `db:"estimated_duration" json:"estimated_duration"`
-	ActualDuration    pgtype.Int4                `db:"actual_duration" json:"actual_duration"`
-	TotalItems        pgtype.Int4                `db:"total_items" json:"total_items"`
-	CompletedItems    pgtype.Int4                `db:"completed_items" json:"completed_items"`
-	StartedAt         pgtype.Timestamp           `db:"started_at" json:"started_at"`
-	CompletedAt       pgtype.Timestamp           `db:"completed_at" json:"completed_at"`
+	EstimatedDuration pgtype.Int4                `db:"estimated_duration" fake:"{number:30,120}" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4                `db:"actual_duration" fake:"{number:30,120}" json:"actual_duration"`
+	TotalItems        pgtype.Int4                `db:"total_items" fake:"{number:10,100}" json:"total_items"`
+	CompletedItems    pgtype.Int4                `db:"completed_items" fake:"{number:0,10}" json:"completed_items"`
+	StartedAt         pgtype.Timestamp           `db:"started_at" fake:"{date}" json:"started_at"`
+	CompletedAt       pgtype.Timestamp           `db:"completed_at" fake:"{date}" json:"completed_at"`
 	ID                pgtype.UUID                `db:"id" json:"id"`
 }
 

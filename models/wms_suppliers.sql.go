@@ -82,10 +82,10 @@ returning
 `
 
 type WmsInsertSupplierParams struct {
-	Name          string      `db:"name" json:"name"`
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
-	Email         pgtype.Text `db:"email" json:"email"`
-	PhoneNumber   pgtype.Text `db:"phone_number" json:"phone_number"`
+	Name          string      `db:"name" fake:"{company}" json:"name"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
+	Email         pgtype.Text `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber   pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
 }
 
 func (q *Queries) WmsInsertSupplier(ctx context.Context, arg WmsInsertSupplierParams) (WmsSupplier, error) {
@@ -278,10 +278,10 @@ returning
 `
 
 type WmsUpdateSupplierParams struct {
-	Name          string      `db:"name" json:"name"`
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
-	Email         pgtype.Text `db:"email" json:"email"`
-	PhoneNumber   pgtype.Text `db:"phone_number" json:"phone_number"`
+	Name          string      `db:"name" fake:"{company}" json:"name"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
+	Email         pgtype.Text `db:"email" fake:"{email}" json:"email"`
+	PhoneNumber   pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
 	ID            pgtype.UUID `db:"id" json:"id"`
 }
 

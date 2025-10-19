@@ -106,17 +106,17 @@ returning
 `
 
 type WmsInsertWarehouseParams struct {
-	Name          string      `db:"name" json:"name"`
-	Address       pgtype.Text `db:"address" json:"address"`
-	City          pgtype.Text `db:"city" json:"city"`
-	State         pgtype.Text `db:"state" json:"state"`
-	PostalCode    pgtype.Text `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text `db:"country" json:"country"`
-	Timezone      pgtype.Text `db:"timezone" json:"timezone"`
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
-	ContactEmail  pgtype.Text `db:"contact_email" json:"contact_email"`
-	ContactPhone  pgtype.Text `db:"contact_phone" json:"contact_phone"`
-	IsActive      pgtype.Bool `db:"is_active" json:"is_active"`
+	Name          string      `db:"name" fake:"{company} Warehouse" json:"name"`
+	Address       pgtype.Text `db:"address" fake:"{streetaddress}" json:"address"`
+	City          pgtype.Text `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text `db:"country" fake:"{country}" json:"country"`
+	Timezone      pgtype.Text `db:"timezone" fake:"{timezone}" json:"timezone"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
+	ContactEmail  pgtype.Text `db:"contact_email" fake:"{email}" json:"contact_email"`
+	ContactPhone  pgtype.Text `db:"contact_phone" fake:"{phone}" json:"contact_phone"`
+	IsActive      pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertWarehouse(ctx context.Context, arg WmsInsertWarehouseParams) (WmsWarehouse, error) {
@@ -386,17 +386,17 @@ returning
 `
 
 type WmsUpdateWarehouseParams struct {
-	Name          string      `db:"name" json:"name"`
-	Address       pgtype.Text `db:"address" json:"address"`
-	City          pgtype.Text `db:"city" json:"city"`
-	State         pgtype.Text `db:"state" json:"state"`
-	PostalCode    pgtype.Text `db:"postal_code" json:"postal_code"`
-	Country       pgtype.Text `db:"country" json:"country"`
-	Timezone      pgtype.Text `db:"timezone" json:"timezone"`
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
-	ContactEmail  pgtype.Text `db:"contact_email" json:"contact_email"`
-	ContactPhone  pgtype.Text `db:"contact_phone" json:"contact_phone"`
-	IsActive      pgtype.Bool `db:"is_active" json:"is_active"`
+	Name          string      `db:"name" fake:"{company} Warehouse" json:"name"`
+	Address       pgtype.Text `db:"address" fake:"{streetaddress}" json:"address"`
+	City          pgtype.Text `db:"city" fake:"{city}" json:"city"`
+	State         pgtype.Text `db:"state" fake:"{state}" json:"state"`
+	PostalCode    pgtype.Text `db:"postal_code" fake:"{zip}" json:"postal_code"`
+	Country       pgtype.Text `db:"country" fake:"{country}" json:"country"`
+	Timezone      pgtype.Text `db:"timezone" fake:"{timezone}" json:"timezone"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
+	ContactEmail  pgtype.Text `db:"contact_email" fake:"{email}" json:"contact_email"`
+	ContactPhone  pgtype.Text `db:"contact_phone" fake:"{phone}" json:"contact_phone"`
+	IsActive      pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	ID            pgtype.UUID `db:"id" json:"id"`
 }
 

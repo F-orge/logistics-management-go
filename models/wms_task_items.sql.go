@@ -37,15 +37,15 @@ type WmsAnyTaskItemRow struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
 	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
@@ -202,15 +202,15 @@ type WmsFindTaskItemRow struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
 	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
@@ -341,14 +341,14 @@ type WmsInsertTaskItemParams struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 }
 
 func (q *Queries) WmsInsertTaskItem(ctx context.Context, arg WmsInsertTaskItemParams) (WmsTaskItem, error) {
@@ -428,15 +428,15 @@ type WmsPaginateTaskItemRow struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
 	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
@@ -641,15 +641,15 @@ type WmsRangeTaskItemRow struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	QuantityRemaining     pgtype.Int4               `db:"quantity_remaining" json:"quantity_remaining"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 	CreatedAt             pgtype.Timestamp          `db:"created_at" json:"created_at"`
 	UpdatedAt             pgtype.Timestamp          `db:"updated_at" json:"updated_at"`
 	WmsTask               WmsTask                   `db:"wms_task" json:"wms_task"`
@@ -872,14 +872,14 @@ type WmsUpdateTaskItemParams struct {
 	BatchID               pgtype.UUID               `db:"batch_id" json:"batch_id"`
 	SourceLocationID      pgtype.UUID               `db:"source_location_id" json:"source_location_id"`
 	DestinationLocationID pgtype.UUID               `db:"destination_location_id" json:"destination_location_id"`
-	QuantityRequired      int32                     `db:"quantity_required" json:"quantity_required"`
-	QuantityCompleted     int32                     `db:"quantity_completed" json:"quantity_completed"`
+	QuantityRequired      int32                     `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
+	QuantityCompleted     int32                     `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	Status                NullWmsTaskItemStatusEnum `db:"status" json:"status"`
-	LotNumber             pgtype.Text               `db:"lot_number" json:"lot_number"`
+	LotNumber             pgtype.Text               `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	SerialNumbers         []string                  `db:"serial_numbers" json:"serial_numbers"`
-	ExpiryDate            pgtype.Date               `db:"expiry_date" json:"expiry_date"`
-	Notes                 pgtype.Text               `db:"notes" json:"notes"`
-	CompletedAt           pgtype.Timestamp          `db:"completed_at" json:"completed_at"`
+	ExpiryDate            pgtype.Date               `db:"expiry_date" fake:"{date}" json:"expiry_date"`
+	Notes                 pgtype.Text               `db:"notes" fake:"{sentence}" json:"notes"`
+	CompletedAt           pgtype.Timestamp          `db:"completed_at" fake:"{date}" json:"completed_at"`
 	ID                    pgtype.UUID               `db:"id" json:"id"`
 }
 

@@ -331,6 +331,279 @@ sql:
           - column: "tms.partner_invoice_items.amount"
             go_struct_tag: 'fake:"{price:100,5000}"'
 
+          # wms schema fake data
+          ## suppliers
+          - column: "wms.suppliers.name"
+            go_struct_tag: 'fake:"{company}"'
+          - column: "wms.suppliers.contact_person"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "wms.suppliers.email"
+            go_struct_tag: 'fake:"{email}"'
+          - column: "wms.suppliers.phone_number"
+            go_struct_tag: 'fake:"{phone}"'
+          ## products
+          - column: "wms.products.name"
+            go_struct_tag: 'fake:"{productname}"'
+          - column: "wms.products.sku"
+            go_struct_tag: 'fake:"{productupc}"'
+          - column: "wms.products.barcode"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.products.description"
+            go_struct_tag: 'fake:"{productdescription}"'
+          - column: "wms.products.cost_price"
+            go_struct_tag: 'fake:"{price:1,1000}"'
+          - column: "wms.products.length"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.products.width"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.products.height"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.products.weight"
+            go_struct_tag: 'fake:"{float64range:0.1,50}"'
+          ## inventory_batches
+          - column: "wms.inventory_batches.batch_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.inventory_batches.expiration_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## inventory_adjustments
+          - column: "wms.inventory_adjustments.quantity_change"
+            go_struct_tag: 'fake:"{number:-100,100}"'
+          - column: "wms.inventory_adjustments.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## reorder_points
+          - column: "wms.reorder_points.threshold"
+            go_struct_tag: 'fake:"{number:10,50}"'
+          ## inbound_shipments
+          - column: "wms.inbound_shipments.expected_arrival_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.inbound_shipments.actual_arrival_date"
+            go_struct_tag: 'fake:"{date}"'
+          ## inbound_shipment_items
+          - column: "wms.inbound_shipment_items.expected_quantity"
+            go_struct_tag: 'fake:"{number:100,1000}"'
+          - column: "wms.inbound_shipment_items.received_quantity"
+            go_struct_tag: 'fake:"{number:100,1000}"'
+          - column: "wms.inbound_shipment_items.discrepancy_notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## stock_transfers
+          - column: "wms.stock_transfers.quantity"
+            go_struct_tag: 'fake:"{number:10,200}"'
+          ## sales_orders
+          - column: "wms.sales_orders.order_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.sales_orders.shipping_address"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          ## sales_order_items
+          - column: "wms.sales_order_items.quantity_ordered"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          ## outbound_shipments
+          - column: "wms.outbound_shipments.tracking_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.outbound_shipments.carrier"
+            go_struct_tag: 'fake:"{company}"'
+          ## outbound_shipment_items
+          - column: "wms.outbound_shipment_items.quantity_shipped"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          ## returns
+          - column: "wms.returns.return_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.returns.reason"
+            go_struct_tag: 'fake:"{sentence}"'
+          ## return_items
+          - column: "wms.return_items.quantity_expected"
+            go_struct_tag: 'fake:"{number:1,5}"'
+          - column: "wms.return_items.quantity_received"
+            go_struct_tag: 'fake:"{number:1,5}"'
+          ## warehouses
+          - column: "wms.warehouses.name"
+            go_struct_tag: 'fake:"{company} Warehouse"'
+          - column: "wms.warehouses.address"
+            go_struct_tag: 'fake:"{streetaddress}"'
+          - column: "wms.warehouses.city"
+            go_struct_tag: 'fake:"{city}"'
+          - column: "wms.warehouses.state"
+            go_struct_tag: 'fake:"{state}"'
+          - column: "wms.warehouses.postal_code"
+            go_struct_tag: 'fake:"{zip}"'
+          - column: "wms.warehouses.country"
+            go_struct_tag: 'fake:"{country}"'
+          - column: "wms.warehouses.timezone"
+            go_struct_tag: 'fake:"{timezone}"'
+          - column: "wms.warehouses.contact_person"
+            go_struct_tag: 'fake:"{name}"'
+          - column: "wms.warehouses.contact_email"
+            go_struct_tag: 'fake:"{email}"'
+          - column: "wms.warehouses.contact_phone"
+            go_struct_tag: 'fake:"{phone}"'
+          - column: "wms.warehouses.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          ## locations
+          - column: "wms.locations.name"
+            go_struct_tag: 'fake:"A-{number:1,10}-B-{number:1,100}"'
+          - column: "wms.locations.barcode"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.locations.level"
+            go_struct_tag: 'fake:"{number:0,3}"'
+          - column: "wms.locations.path"
+            go_struct_tag: 'fake:"Zone A/Aisle {number:1,10}/Shelf B/Bin {number:1,100}"'
+          - column: "wms.locations.max_weight"
+            go_struct_tag: 'fake:"{float64range:100,1000}"'
+          - column: "wms.locations.max_volume"
+            go_struct_tag: 'fake:"{float64range:100,1000}"'
+          - column: "wms.locations.max_pallets"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          - column: "wms.locations.x_coordinate"
+            go_struct_tag: 'fake:"{float64range:0,100}"'
+          - column: "wms.locations.y_coordinate"
+            go_struct_tag: 'fake:"{float64range:0,100}"'
+          - column: "wms.locations.z_coordinate"
+            go_struct_tag: 'fake:"{float64range:0,10}"'
+          - column: "wms.locations.is_pickable"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.locations.is_receivable"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.locations.temperature_controlled"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.locations.hazmat_approved"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.locations.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          ## inventory_stock
+          - column: "wms.inventory_stock.quantity"
+            go_struct_tag: 'fake:"{number:0,1000}"'
+          - column: "wms.inventory_stock.reserved_quantity"
+            go_struct_tag: 'fake:"{number:0,100}"'
+          - column: "wms.inventory_stock.last_counted_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.inventory_stock.last_movement_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## putaway_rules
+          - column: "wms.putaway_rules.priority"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "wms.putaway_rules.min_quantity"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          - column: "wms.putaway_rules.max_quantity"
+            go_struct_tag: 'fake:"{number:100,1000}"'
+          - column: "wms.putaway_rules.weight_threshold"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "wms.putaway_rules.volume_threshold"
+            go_struct_tag: 'fake:"{float64range:10,100}"'
+          - column: "wms.putaway_rules.requires_temperature_control"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.putaway_rules.requires_hazmat_approval"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.putaway_rules.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          ## bin_thresholds
+          - column: "wms.bin_thresholds.min_quantity"
+            go_struct_tag: 'fake:"{number:10,50}"'
+          - column: "wms.bin_thresholds.max_quantity"
+            go_struct_tag: 'fake:"{number:100,500}"'
+          - column: "wms.bin_thresholds.reorder_quantity"
+            go_struct_tag: 'fake:"{number:50,200}"'
+          - column: "wms.bin_thresholds.alert_threshold"
+            go_struct_tag: 'fake:"{number:20,60}"'
+          - column: "wms.bin_thresholds.is_active"
+            go_struct_tag: 'fake:"{bool}"'
+          ## pick_batches
+          - column: "wms.pick_batches.batch_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.pick_batches.priority"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "wms.pick_batches.wave_id"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.pick_batches.estimated_duration"
+            go_struct_tag: 'fake:"{number:30,120}"'
+          - column: "wms.pick_batches.actual_duration"
+            go_struct_tag: 'fake:"{number:30,120}"'
+          - column: "wms.pick_batches.total_items"
+            go_struct_tag: 'fake:"{number:10,100}"'
+          - column: "wms.pick_batches.completed_items"
+            go_struct_tag: 'fake:"{number:0,10}"'
+          - column: "wms.pick_batches.started_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.pick_batches.completed_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## pick_batch_items
+          - column: "wms.pick_batch_items.order_priority"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "wms.pick_batch_items.estimated_pick_time"
+            go_struct_tag: 'fake:"{number:5,30}"'
+          - column: "wms.pick_batch_items.actual_pick_time"
+            go_struct_tag: 'fake:"{number:5,30}"'
+          ## tasks
+          - column: "wms.tasks.task_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.tasks.priority"
+            go_struct_tag: 'fake:"{number:1,100}"'
+          - column: "wms.tasks.source_entity_type"
+            go_struct_tag: 'fake:"{randomstring:[inbound_shipment,pick_batch,return]}"'
+          - column: "wms.tasks.estimated_duration"
+            go_struct_tag: 'fake:"{number:10,60}"'
+          - column: "wms.tasks.actual_duration"
+            go_struct_tag: 'fake:"{number:10,60}"'
+          - column: "wms.tasks.instructions"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "wms.tasks.notes"
+            go_struct_tag: 'fake:"{paragraph}"'
+          - column: "wms.tasks.start_time"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.tasks.end_time"
+            go_struct_tag: 'fake:"{date}"'
+          ## task_items
+          - column: "wms.task_items.quantity_required"
+            go_struct_tag: 'fake:"{number:1,20}"'
+          - column: "wms.task_items.quantity_completed"
+            go_struct_tag: 'fake:"{number:0,20}"'
+          - column: "wms.task_items.lot_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.task_items.expiry_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.task_items.notes"
+            go_struct_tag: 'fake:"{sentence}"'
+          - column: "wms.task_items.completed_at"
+            go_struct_tag: 'fake:"{date}"'
+          ## packages
+          - column: "wms.packages.package_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.packages.package_type"
+            go_struct_tag: 'fake:"{randomstring:[box,envelope,pallet]}"'
+          - column: "wms.packages.weight"
+            go_struct_tag: 'fake:"{float64range:1,50}"'
+          - column: "wms.packages.length"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.packages.width"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.packages.height"
+            go_struct_tag: 'fake:"{float64range:1,100}"'
+          - column: "wms.packages.tracking_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.packages.carrier"
+            go_struct_tag: 'fake:"{company}"'
+          - column: "wms.packages.service_level"
+            go_struct_tag: 'fake:"{randomstring:[Ground,Express,Overnight]}"'
+          - column: "wms.packages.packed_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.packages.shipped_at"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.packages.is_fragile"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.packages.is_hazmat"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.packages.requires_signature"
+            go_struct_tag: 'fake:"{bool}"'
+          - column: "wms.packages.insurance_value"
+            go_struct_tag: 'fake:"{price:50,500}"'
+          ## package_items
+          - column: "wms.package_items.quantity"
+            go_struct_tag: 'fake:"{number:1,10}"'
+          - column: "wms.package_items.lot_number"
+            go_struct_tag: 'fake:"{uuid}"'
+          - column: "wms.package_items.expiry_date"
+            go_struct_tag: 'fake:"{date}"'
+          - column: "wms.package_items.unit_weight"
+            go_struct_tag: 'fake:"{float64range:0.1,5}"'
+
           # crm schema
           - column: "crm.invoices_view.items"
             go_type:

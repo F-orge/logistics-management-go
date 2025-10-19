@@ -28,11 +28,11 @@ type WmsAnyBinThresholdRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	LocationID      pgtype.UUID      `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	MinQuantity     int32            `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32            `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4      `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	MinQuantity     int32            `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32            `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4      `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsLocation     WmsLocation      `db:"wms_location" json:"wms_location"`
@@ -124,11 +124,11 @@ type WmsFindBinThresholdRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	LocationID      pgtype.UUID      `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	MinQuantity     int32            `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32            `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4      `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	MinQuantity     int32            `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32            `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4      `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsLocation     WmsLocation      `db:"wms_location" json:"wms_location"`
@@ -200,11 +200,11 @@ returning
 type WmsInsertBinThresholdParams struct {
 	LocationID      pgtype.UUID `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
-	MinQuantity     int32       `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32       `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool `db:"is_active" json:"is_active"`
+	MinQuantity     int32       `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32       `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4 `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertBinThreshold(ctx context.Context, arg WmsInsertBinThresholdParams) (WmsBinThreshold, error) {
@@ -258,11 +258,11 @@ type WmsPaginateBinThresholdRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	LocationID      pgtype.UUID      `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	MinQuantity     int32            `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32            `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4      `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	MinQuantity     int32            `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32            `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4      `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsLocation     WmsLocation      `db:"wms_location" json:"wms_location"`
@@ -398,11 +398,11 @@ type WmsRangeBinThresholdRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	LocationID      pgtype.UUID      `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	MinQuantity     int32            `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32            `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4      `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool      `db:"is_active" json:"is_active"`
+	MinQuantity     int32            `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32            `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4      `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4      `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool      `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsLocation     WmsLocation      `db:"wms_location" json:"wms_location"`
@@ -536,11 +536,11 @@ returning
 type WmsUpdateBinThresholdParams struct {
 	LocationID      pgtype.UUID `db:"location_id" json:"location_id"`
 	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
-	MinQuantity     int32       `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity     int32       `db:"max_quantity" json:"max_quantity"`
-	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
-	AlertThreshold  pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
-	IsActive        pgtype.Bool `db:"is_active" json:"is_active"`
+	MinQuantity     int32       `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
+	MaxQuantity     int32       `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
+	AlertThreshold  pgtype.Int4 `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
+	IsActive        pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	ID              pgtype.UUID `db:"id" json:"id"`
 }
 

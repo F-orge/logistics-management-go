@@ -176,11 +176,11 @@ returning
 `
 
 type WmsInsertSalesOrderParams struct {
-	OrderNumber      string                      `db:"order_number" json:"order_number"`
+	OrderNumber      string                      `db:"order_number" fake:"{uuid}" json:"order_number"`
 	ClientID         pgtype.UUID                 `db:"client_id" json:"client_id"`
 	CrmOpportunityID pgtype.UUID                 `db:"crm_opportunity_id" json:"crm_opportunity_id"`
 	Status           NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
-	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
+	ShippingAddress  pgtype.Text                 `db:"shipping_address" fake:"{streetaddress}" json:"shipping_address"`
 }
 
 func (q *Queries) WmsInsertSalesOrder(ctx context.Context, arg WmsInsertSalesOrderParams) (WmsSalesOrder, error) {
@@ -478,11 +478,11 @@ returning
 `
 
 type WmsUpdateSalesOrderParams struct {
-	OrderNumber      string                      `db:"order_number" json:"order_number"`
+	OrderNumber      string                      `db:"order_number" fake:"{uuid}" json:"order_number"`
 	ClientID         pgtype.UUID                 `db:"client_id" json:"client_id"`
 	CrmOpportunityID pgtype.UUID                 `db:"crm_opportunity_id" json:"crm_opportunity_id"`
 	Status           NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
-	ShippingAddress  pgtype.Text                 `db:"shipping_address" json:"shipping_address"`
+	ShippingAddress  pgtype.Text                 `db:"shipping_address" fake:"{streetaddress}" json:"shipping_address"`
 	ID               pgtype.UUID                 `db:"id" json:"id"`
 }
 

@@ -4262,15 +4262,15 @@ type WmsBinThreshold struct {
 	// Reference to the product being monitored (from IMS).
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// Minimum stock level that triggers replenishment.
-	MinQuantity int32 `db:"min_quantity" json:"min_quantity"`
+	MinQuantity int32 `db:"min_quantity" fake:"{number:10,50}" json:"min_quantity"`
 	// Maximum stock level for the location.
-	MaxQuantity int32 `db:"max_quantity" json:"max_quantity"`
+	MaxQuantity int32 `db:"max_quantity" fake:"{number:100,500}" json:"max_quantity"`
 	// Suggested quantity to reorder when minimum is reached.
-	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" json:"reorder_quantity"`
+	ReorderQuantity pgtype.Int4 `db:"reorder_quantity" fake:"{number:50,200}" json:"reorder_quantity"`
 	// Quantity that triggers low stock alerts.
-	AlertThreshold pgtype.Int4 `db:"alert_threshold" json:"alert_threshold"`
+	AlertThreshold pgtype.Int4 `db:"alert_threshold" fake:"{number:20,60}" json:"alert_threshold"`
 	// Whether this threshold monitoring is active.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Timestamp when the threshold was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the threshold was last updated.
@@ -4288,9 +4288,9 @@ type WmsInboundShipment struct {
 	// The current status of the shipment using inbound_shipment_status_enum.
 	Status NullWmsInboundShipmentStatusEnum `db:"status" json:"status"`
 	// The planned arrival date.
-	ExpectedArrivalDate pgtype.Date `db:"expected_arrival_date" json:"expected_arrival_date"`
+	ExpectedArrivalDate pgtype.Date `db:"expected_arrival_date" fake:"{date}" json:"expected_arrival_date"`
 	// The date the shipment actually arrived.
-	ActualArrivalDate pgtype.Date `db:"actual_arrival_date" json:"actual_arrival_date"`
+	ActualArrivalDate pgtype.Date `db:"actual_arrival_date" fake:"{date}" json:"actual_arrival_date"`
 	// Timestamp when the inbound shipment was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inbound shipment was last updated.
@@ -4306,13 +4306,13 @@ type WmsInboundShipmentItem struct {
 	// The product included in the shipment.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity declared on the ASN.
-	ExpectedQuantity int32 `db:"expected_quantity" json:"expected_quantity"`
+	ExpectedQuantity int32 `db:"expected_quantity" fake:"{number:100,1000}" json:"expected_quantity"`
 	// The actual quantity counted upon receipt.
-	ReceivedQuantity pgtype.Int4 `db:"received_quantity" json:"received_quantity"`
+	ReceivedQuantity pgtype.Int4 `db:"received_quantity" fake:"{number:100,1000}" json:"received_quantity"`
 	// The difference between received and expected quantities (automatically calculated).
 	DiscrepancyQuantity pgtype.Int4 `db:"discrepancy_quantity" json:"discrepancy_quantity"`
 	// Notes detailing any differences between expected and received quantities.
-	DiscrepancyNotes pgtype.Text `db:"discrepancy_notes" json:"discrepancy_notes"`
+	DiscrepancyNotes pgtype.Text `db:"discrepancy_notes" fake:"{sentence}" json:"discrepancy_notes"`
 	// Timestamp when the inbound shipment item was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inbound shipment item was last updated.
@@ -4342,11 +4342,11 @@ type WmsInventoryAdjustment struct {
 	// The user who performed the adjustment.
 	UserID string `db:"user_id" json:"user_id"`
 	// The amount by which the quantity was changed (can be positive or negative).
-	QuantityChange int32 `db:"quantity_change" json:"quantity_change"`
+	QuantityChange int32 `db:"quantity_change" fake:"{number:-100,100}" json:"quantity_change"`
 	// The reason for the adjustment using inventory_adjustment_reason_enum.
 	Reason NullWmsInventoryAdjustmentReasonEnum `db:"reason" json:"reason"`
 	// Additional details about the adjustment.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// Timestamp when the adjustment was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the adjustment was last updated.
@@ -4360,9 +4360,9 @@ type WmsInventoryBatch struct {
 	// The product associated with this batch.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The unique identifier for the batch/lot.
-	BatchNumber string `db:"batch_number" json:"batch_number"`
+	BatchNumber string `db:"batch_number" fake:"{uuid}" json:"batch_number"`
 	// The expiration date of the products in this batch.
-	ExpirationDate pgtype.Date `db:"expiration_date" json:"expiration_date"`
+	ExpirationDate pgtype.Date `db:"expiration_date" fake:"{date}" json:"expiration_date"`
 	// Timestamp when the batch was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch was last updated.
@@ -4380,17 +4380,17 @@ type WmsInventoryStock struct {
 	// Reference to the inventory batch (if applicable for lot tracking).
 	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// Current total quantity of product at this location.
-	Quantity int32 `db:"quantity" json:"quantity"`
+	Quantity int32 `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
 	// Quantity reserved for pending orders or tasks.
-	ReservedQuantity int32 `db:"reserved_quantity" json:"reserved_quantity"`
+	ReservedQuantity int32 `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	// Available quantity (quantity - reserved_quantity, automatically calculated).
 	AvailableQuantity pgtype.Int4 `db:"available_quantity" json:"available_quantity"`
 	// Current state of the inventory using inventory_stock_status_enum.
 	Status NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
 	// When this inventory was last physically counted.
-	LastCountedAt pgtype.Timestamp `db:"last_counted_at" json:"last_counted_at"`
+	LastCountedAt pgtype.Timestamp `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
 	// When inventory was last moved in/out of this location.
-	LastMovementAt pgtype.Timestamp `db:"last_movement_at" json:"last_movement_at"`
+	LastMovementAt pgtype.Timestamp `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	// Timestamp when the inventory record was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the inventory record was last updated.
@@ -4406,37 +4406,37 @@ type WmsLocation struct {
 	// Reference to parent location for hierarchical organization (e.g., zone > aisle > shelf > bin).
 	ParentLocationID pgtype.UUID `db:"parent_location_id" json:"parent_location_id"`
 	// Human-readable location identifier (e.g., A-01-B-101).
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"A-{number:1,10}-B-{number:1,100}" json:"name"`
 	// Machine-readable location identifier for scanning operations.
-	Barcode pgtype.Text `db:"barcode" json:"barcode"`
+	Barcode pgtype.Text `db:"barcode" fake:"{uuid}" json:"barcode"`
 	// Classification of location purpose using location_type_enum.
 	Type WmsLocationTypeEnum `db:"type" json:"type"`
 	// The hierarchy level (0=zone, 1=aisle, 2=shelf, 3=bin, etc.).
-	Level pgtype.Int4 `db:"level" json:"level"`
+	Level pgtype.Int4 `db:"level" fake:"{number:0,3}" json:"level"`
 	// Full hierarchical path for quick lookups (e.g., "Zone A/Aisle 01/Shelf B/Bin 101").
-	Path pgtype.Text `db:"path" json:"path"`
+	Path pgtype.Text `db:"path" fake:"Zone A/Aisle {number:1,10}/Shelf B/Bin {number:1,100}" json:"path"`
 	// Maximum weight capacity for the location.
-	MaxWeight pgtype.Float4 `db:"max_weight" json:"max_weight"`
+	MaxWeight pgtype.Float4 `db:"max_weight" fake:"{float64range:100,1000}" json:"max_weight"`
 	// Maximum volume capacity for the location.
-	MaxVolume pgtype.Float4 `db:"max_volume" json:"max_volume"`
+	MaxVolume pgtype.Float4 `db:"max_volume" fake:"{float64range:100,1000}" json:"max_volume"`
 	// Maximum number of pallets the location can hold.
-	MaxPallets pgtype.Int4 `db:"max_pallets" json:"max_pallets"`
+	MaxPallets pgtype.Int4 `db:"max_pallets" fake:"{number:1,10}" json:"max_pallets"`
 	// X coordinate for warehouse mapping and optimization.
-	XCoordinate pgtype.Float4 `db:"x_coordinate" json:"x_coordinate"`
+	XCoordinate pgtype.Float4 `db:"x_coordinate" fake:"{float64range:0,100}" json:"x_coordinate"`
 	// Y coordinate for warehouse mapping and optimization.
-	YCoordinate pgtype.Float4 `db:"y_coordinate" json:"y_coordinate"`
+	YCoordinate pgtype.Float4 `db:"y_coordinate" fake:"{float64range:0,100}" json:"y_coordinate"`
 	// Z coordinate for warehouse mapping and optimization.
-	ZCoordinate pgtype.Float4 `db:"z_coordinate" json:"z_coordinate"`
+	ZCoordinate pgtype.Float4 `db:"z_coordinate" fake:"{float64range:0,10}" json:"z_coordinate"`
 	// Whether items can be picked from this location.
-	IsPickable pgtype.Bool `db:"is_pickable" json:"is_pickable"`
+	IsPickable pgtype.Bool `db:"is_pickable" fake:"{bool}" json:"is_pickable"`
 	// Whether items can be received into this location.
-	IsReceivable pgtype.Bool `db:"is_receivable" json:"is_receivable"`
+	IsReceivable pgtype.Bool `db:"is_receivable" fake:"{bool}" json:"is_receivable"`
 	// Whether this location has temperature control.
-	TemperatureControlled pgtype.Bool `db:"temperature_controlled" json:"temperature_controlled"`
+	TemperatureControlled pgtype.Bool `db:"temperature_controlled" fake:"{bool}" json:"temperature_controlled"`
 	// Whether this location is approved for hazardous materials.
-	HazmatApproved pgtype.Bool `db:"hazmat_approved" json:"hazmat_approved"`
+	HazmatApproved pgtype.Bool `db:"hazmat_approved" fake:"{bool}" json:"hazmat_approved"`
 	// Whether the location is currently active and available for use.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Timestamp when the location was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the location was last updated.
@@ -4481,9 +4481,9 @@ type WmsOutboundShipment struct {
 	// The status of the outbound shipment using outbound_shipment_status_enum.
 	Status NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
 	// The carrier tracking number for the shipment.
-	TrackingNumber pgtype.Text `db:"tracking_number" json:"tracking_number"`
+	TrackingNumber pgtype.Text `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
 	// The shipping carrier (e.g., FedEx, UPS).
-	Carrier pgtype.Text `db:"carrier" json:"carrier"`
+	Carrier pgtype.Text `db:"carrier" fake:"{company}" json:"carrier"`
 	// Timestamp when the outbound shipment was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the outbound shipment was last updated.
@@ -4503,7 +4503,7 @@ type WmsOutboundShipmentItem struct {
 	// The specific batch the item was picked from (if applicable).
 	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// The quantity of the product included in this shipment.
-	QuantityShipped int32 `db:"quantity_shipped" json:"quantity_shipped"`
+	QuantityShipped int32 `db:"quantity_shipped" fake:"{number:1,10}" json:"quantity_shipped"`
 	// Timestamp when the outbound shipment item was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the outbound shipment item was last updated.
@@ -4529,41 +4529,41 @@ type WmsPackage struct {
 	// Reference to the sales order being packaged (from IMS).
 	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// Unique identifier for tracking the package.
-	PackageNumber string `db:"package_number" json:"package_number"`
+	PackageNumber string `db:"package_number" fake:"{uuid}" json:"package_number"`
 	// Reference to the warehouse where the package was created.
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Type of package (e.g., "box", "envelope", "pallet").
-	PackageType pgtype.Text `db:"package_type" json:"package_type"`
+	PackageType pgtype.Text `db:"package_type" fake:"{randomstring:[box,envelope,pallet]}" json:"package_type"`
 	// Total weight of the packed package.
-	Weight pgtype.Float4 `db:"weight" json:"weight"`
+	Weight pgtype.Float4 `db:"weight" fake:"{float64range:1,50}" json:"weight"`
 	// Package length dimension.
-	Length pgtype.Float4 `db:"length" json:"length"`
+	Length pgtype.Float4 `db:"length" fake:"{float64range:1,100}" json:"length"`
 	// Package width dimension.
-	Width pgtype.Float4 `db:"width" json:"width"`
+	Width pgtype.Float4 `db:"width" fake:"{float64range:1,100}" json:"width"`
 	// Package height dimension.
-	Height pgtype.Float4 `db:"height" json:"height"`
+	Height pgtype.Float4 `db:"height" fake:"{float64range:1,100}" json:"height"`
 	// Package volume (automatically calculated from length * width * height).
 	Volume pgtype.Float4 `db:"volume" json:"volume"`
 	// Carrier tracking number for the package.
-	TrackingNumber pgtype.Text `db:"tracking_number" json:"tracking_number"`
+	TrackingNumber pgtype.Text `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
 	// Shipping carrier (e.g., "FedEx", "UPS", "DHL").
-	Carrier pgtype.Text `db:"carrier" json:"carrier"`
+	Carrier pgtype.Text `db:"carrier" fake:"{company}" json:"carrier"`
 	// Shipping service level (e.g., "Ground", "Express", "Overnight").
-	ServiceLevel pgtype.Text `db:"service_level" json:"service_level"`
+	ServiceLevel pgtype.Text `db:"service_level" fake:"{randomstring:[Ground,Express,Overnight]}" json:"service_level"`
 	// Reference to the user who packed the package.
 	PackedByUserID pgtype.Text `db:"packed_by_user_id" json:"packed_by_user_id"`
 	// When the package was packed.
-	PackedAt pgtype.Timestamp `db:"packed_at" json:"packed_at"`
+	PackedAt pgtype.Timestamp `db:"packed_at" fake:"{date}" json:"packed_at"`
 	// When the package was shipped.
-	ShippedAt pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
+	ShippedAt pgtype.Timestamp `db:"shipped_at" fake:"{date}" json:"shipped_at"`
 	// Whether the package contains fragile items.
-	IsFragile pgtype.Bool `db:"is_fragile" json:"is_fragile"`
+	IsFragile pgtype.Bool `db:"is_fragile" fake:"{bool}" json:"is_fragile"`
 	// Whether the package contains hazardous materials.
-	IsHazmat pgtype.Bool `db:"is_hazmat" json:"is_hazmat"`
+	IsHazmat pgtype.Bool `db:"is_hazmat" fake:"{bool}" json:"is_hazmat"`
 	// Whether delivery requires signature.
-	RequiresSignature pgtype.Bool `db:"requires_signature" json:"requires_signature"`
+	RequiresSignature pgtype.Bool `db:"requires_signature" fake:"{bool}" json:"requires_signature"`
 	// Declared insurance value for the package.
-	InsuranceValue pgtype.Numeric `db:"insurance_value" json:"insurance_value"`
+	InsuranceValue pgtype.Numeric `db:"insurance_value" fake:"{price:50,500}" json:"insurance_value"`
 	// Timestamp when the package was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the package was last updated.
@@ -4581,15 +4581,15 @@ type WmsPackageItem struct {
 	// Reference to the batch of the product (from IMS).
 	BatchID pgtype.UUID `db:"batch_id" json:"batch_id"`
 	// Number of units of the product in the package.
-	Quantity int32 `db:"quantity" json:"quantity"`
+	Quantity int32 `db:"quantity" fake:"{number:1,10}" json:"quantity"`
 	// Lot number for traceability.
-	LotNumber pgtype.Text `db:"lot_number" json:"lot_number"`
+	LotNumber pgtype.Text `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	// Array of serial numbers for serialized items.
 	SerialNumbers []string `db:"serial_numbers" json:"serial_numbers"`
 	// Expiry date of the packaged items.
-	ExpiryDate pgtype.Date `db:"expiry_date" json:"expiry_date"`
+	ExpiryDate pgtype.Date `db:"expiry_date" fake:"{date}" json:"expiry_date"`
 	// Weight per unit of the product.
-	UnitWeight pgtype.Float4 `db:"unit_weight" json:"unit_weight"`
+	UnitWeight pgtype.Float4 `db:"unit_weight" fake:"{float64range:0.1,5}" json:"unit_weight"`
 	// Total weight of this line item (automatically calculated from quantity * unit_weight).
 	TotalWeight pgtype.Float4 `db:"total_weight" json:"total_weight"`
 	// Timestamp when the package item was created.
@@ -4629,7 +4629,7 @@ type WmsPickBatch struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique identifier for the pick batch.
-	BatchNumber string `db:"batch_number" json:"batch_number"`
+	BatchNumber string `db:"batch_number" fake:"{uuid}" json:"batch_number"`
 	// Reference to the warehouse where picking occurs.
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Current batch status using pick_batch_status_enum.
@@ -4637,25 +4637,25 @@ type WmsPickBatch struct {
 	// Picking strategy employed using pick_strategy_enum.
 	Strategy WmsPickStrategyEnum `db:"strategy" json:"strategy"`
 	// Batch priority for execution order (lower = higher priority).
-	Priority pgtype.Int4 `db:"priority" json:"priority"`
+	Priority pgtype.Int4 `db:"priority" fake:"{number:1,100}" json:"priority"`
 	// Reference to the user assigned to this pick batch.
 	AssignedUserID pgtype.Text `db:"assigned_user_id" json:"assigned_user_id"`
 	// Wave identifier for grouping batches.
-	WaveID pgtype.Text `db:"wave_id" json:"wave_id"`
+	WaveID pgtype.Text `db:"wave_id" fake:"{uuid}" json:"wave_id"`
 	// Array of zone restrictions for this batch.
 	ZoneRestrictions []string `db:"zone_restrictions" json:"zone_restrictions"`
 	// Estimated time to complete the batch (in minutes).
-	EstimatedDuration pgtype.Int4 `db:"estimated_duration" json:"estimated_duration"`
+	EstimatedDuration pgtype.Int4 `db:"estimated_duration" fake:"{number:30,120}" json:"estimated_duration"`
 	// Actual time taken to complete the batch (in minutes).
-	ActualDuration pgtype.Int4 `db:"actual_duration" json:"actual_duration"`
+	ActualDuration pgtype.Int4 `db:"actual_duration" fake:"{number:30,120}" json:"actual_duration"`
 	// Total number of items in the batch.
-	TotalItems pgtype.Int4 `db:"total_items" json:"total_items"`
+	TotalItems pgtype.Int4 `db:"total_items" fake:"{number:10,100}" json:"total_items"`
 	// Number of completed items in the batch.
-	CompletedItems pgtype.Int4 `db:"completed_items" json:"completed_items"`
+	CompletedItems pgtype.Int4 `db:"completed_items" fake:"{number:0,10}" json:"completed_items"`
 	// When the batch picking was started.
-	StartedAt pgtype.Timestamp `db:"started_at" json:"started_at"`
+	StartedAt pgtype.Timestamp `db:"started_at" fake:"{date}" json:"started_at"`
 	// When the batch picking was completed.
-	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
+	CompletedAt pgtype.Timestamp `db:"completed_at" fake:"{date}" json:"completed_at"`
 	// Timestamp when the batch was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch was last updated.
@@ -4671,11 +4671,11 @@ type WmsPickBatchItem struct {
 	// Reference to the sales order included in the batch (from IMS).
 	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// Priority of this order within the batch.
-	OrderPriority pgtype.Int4 `db:"order_priority" json:"order_priority"`
+	OrderPriority pgtype.Int4 `db:"order_priority" fake:"{number:1,100}" json:"order_priority"`
 	// Estimated time to pick this order (in minutes).
-	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" json:"estimated_pick_time"`
+	EstimatedPickTime pgtype.Int4 `db:"estimated_pick_time" fake:"{number:5,30}" json:"estimated_pick_time"`
 	// Actual time taken to pick this order (in minutes).
-	ActualPickTime pgtype.Int4 `db:"actual_pick_time" json:"actual_pick_time"`
+	ActualPickTime pgtype.Int4 `db:"actual_pick_time" fake:"{number:5,30}" json:"actual_pick_time"`
 	// Timestamp when the batch item was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the batch item was last updated.
@@ -4708,25 +4708,25 @@ type WmsProduct struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// The common name of the product.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{productname}" json:"name"`
 	// The unique Stock Keeping Unit identifier.
-	Sku string `db:"sku" json:"sku"`
+	Sku string `db:"sku" fake:"{productupc}" json:"sku"`
 	// The product's barcode (e.g., UPC, EAN) for scanning.
-	Barcode pgtype.Text `db:"barcode" json:"barcode"`
+	Barcode pgtype.Text `db:"barcode" fake:"{uuid}" json:"barcode"`
 	// Detailed information about the product.
-	Description pgtype.Text `db:"description" json:"description"`
+	Description pgtype.Text `db:"description" fake:"{productdescription}" json:"description"`
 	// The purchase price or cost of the product.
-	CostPrice pgtype.Numeric `db:"cost_price" json:"cost_price"`
+	CostPrice pgtype.Numeric `db:"cost_price" fake:"{price:1,1000}" json:"cost_price"`
 	// Physical length dimension.
-	Length pgtype.Float4 `db:"length" json:"length"`
+	Length pgtype.Float4 `db:"length" fake:"{float64range:1,100}" json:"length"`
 	// Physical width dimension.
-	Width pgtype.Float4 `db:"width" json:"width"`
+	Width pgtype.Float4 `db:"width" fake:"{float64range:1,100}" json:"width"`
 	// Physical height dimension.
-	Height pgtype.Float4 `db:"height" json:"height"`
+	Height pgtype.Float4 `db:"height" fake:"{float64range:1,100}" json:"height"`
 	// Product volume (automatically calculated from length * width * height).
 	Volume pgtype.Float4 `db:"volume" json:"volume"`
 	// Physical weight.
-	Weight pgtype.Float4 `db:"weight" json:"weight"`
+	Weight pgtype.Float4 `db:"weight" fake:"{float64range:0.1,50}" json:"weight"`
 	// The product's lifecycle status using product_status_enum.
 	Status NullWmsProductStatusEnum `db:"status" json:"status"`
 	// A reference to the product's supplier.
@@ -4786,21 +4786,21 @@ type WmsPutawayRule struct {
 	// Preferred location type for this product.
 	LocationType NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
 	// Rule precedence when multiple rules could apply (lower = higher priority).
-	Priority int32 `db:"priority" json:"priority"`
+	Priority int32 `db:"priority" fake:"{number:1,100}" json:"priority"`
 	// Minimum quantity threshold for this rule to apply.
-	MinQuantity pgtype.Int4 `db:"min_quantity" json:"min_quantity"`
+	MinQuantity pgtype.Int4 `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
 	// Maximum quantity threshold for this rule to apply.
-	MaxQuantity pgtype.Int4 `db:"max_quantity" json:"max_quantity"`
+	MaxQuantity pgtype.Int4 `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
 	// Weight threshold for this rule to apply.
-	WeightThreshold pgtype.Float4 `db:"weight_threshold" json:"weight_threshold"`
+	WeightThreshold pgtype.Float4 `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
 	// Volume threshold for this rule to apply.
-	VolumeThreshold pgtype.Float4 `db:"volume_threshold" json:"volume_threshold"`
+	VolumeThreshold pgtype.Float4 `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
 	// Whether this rule requires temperature controlled locations.
-	RequiresTemperatureControl pgtype.Bool `db:"requires_temperature_control" json:"requires_temperature_control"`
+	RequiresTemperatureControl pgtype.Bool `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
 	// Whether this rule requires hazmat approved locations.
-	RequiresHazmatApproval pgtype.Bool `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
+	RequiresHazmatApproval pgtype.Bool `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
 	// Whether this rule is currently active.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Timestamp when the rule was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the rule was last updated.
@@ -4816,7 +4816,7 @@ type WmsReorderPoint struct {
 	// The specific warehouse to monitor the stock level in.
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// The minimum quantity that triggers the alert.
-	Threshold int32 `db:"threshold" json:"threshold"`
+	Threshold int32 `db:"threshold" fake:"{number:10,50}" json:"threshold"`
 	// Timestamp when the reorder point was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the reorder point was last updated.
@@ -4828,7 +4828,7 @@ type WmsReturn struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// A unique identifier for the return.
-	ReturnNumber string `db:"return_number" json:"return_number"`
+	ReturnNumber string `db:"return_number" fake:"{uuid}" json:"return_number"`
 	// A reference to the original sales order being returned.
 	SalesOrderID pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	// The client initiating the return.
@@ -4836,7 +4836,7 @@ type WmsReturn struct {
 	// The status of the return using return_status_enum.
 	Status NullWmsReturnStatusEnum `db:"status" json:"status"`
 	// The reason for the return.
-	Reason pgtype.Text `db:"reason" json:"reason"`
+	Reason pgtype.Text `db:"reason" fake:"{sentence}" json:"reason"`
 	// Timestamp when the return was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the return was last updated.
@@ -4852,9 +4852,9 @@ type WmsReturnItem struct {
 	// The product being returned.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity the client stated they would return.
-	QuantityExpected int32 `db:"quantity_expected" json:"quantity_expected"`
+	QuantityExpected int32 `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
 	// The actual quantity received at the warehouse.
-	QuantityReceived pgtype.Int4 `db:"quantity_received" json:"quantity_received"`
+	QuantityReceived pgtype.Int4 `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	// The difference between received and expected return quantities (automatically calculated).
 	QuantityVariance pgtype.Int4 `db:"quantity_variance" json:"quantity_variance"`
 	// The condition of the returned item using return_item_condition_enum.
@@ -4882,7 +4882,7 @@ type WmsSalesOrder struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// A unique identifier for the sales order.
-	OrderNumber string `db:"order_number" json:"order_number"`
+	OrderNumber string `db:"order_number" fake:"{uuid}" json:"order_number"`
 	// The client company that placed the order.
 	ClientID pgtype.UUID `db:"client_id" json:"client_id"`
 	// A link back to the original opportunity in the CRM.
@@ -4890,7 +4890,7 @@ type WmsSalesOrder struct {
 	// The fulfillment status of the order using sales_order_status_enum.
 	Status NullWmsSalesOrderStatusEnum `db:"status" json:"status"`
 	// The address where the order should be shipped.
-	ShippingAddress pgtype.Text `db:"shipping_address" json:"shipping_address"`
+	ShippingAddress pgtype.Text `db:"shipping_address" fake:"{streetaddress}" json:"shipping_address"`
 	// Timestamp when the sales order was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sales order was last updated.
@@ -4906,7 +4906,7 @@ type WmsSalesOrderItem struct {
 	// The product being ordered.
 	ProductID pgtype.UUID `db:"product_id" json:"product_id"`
 	// The quantity of the product requested by the customer.
-	QuantityOrdered int32 `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32 `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	// Timestamp when the sales order item was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the sales order item was last updated.
@@ -4936,7 +4936,7 @@ type WmsStockTransfer struct {
 	// The warehouse the stock is moving to.
 	DestinationWarehouseID pgtype.UUID `db:"destination_warehouse_id" json:"destination_warehouse_id"`
 	// The amount of stock being transferred.
-	Quantity int32 `db:"quantity" json:"quantity"`
+	Quantity int32 `db:"quantity" fake:"{number:10,200}" json:"quantity"`
 	// The status of the transfer using stock_transfer_status_enum.
 	Status NullWmsStockTransferStatusEnum `db:"status" json:"status"`
 	// Timestamp when the stock transfer was created.
@@ -4950,13 +4950,13 @@ type WmsSupplier struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// The name of the supplier company.
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{company}" json:"name"`
 	// The primary contact at the supplier.
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
 	// The supplier's contact email.
-	Email pgtype.Text `db:"email" json:"email"`
+	Email pgtype.Text `db:"email" fake:"{email}" json:"email"`
 	// The supplier's contact phone number.
-	PhoneNumber pgtype.Text `db:"phone_number" json:"phone_number"`
+	PhoneNumber pgtype.Text `db:"phone_number" fake:"{phone}" json:"phone_number"`
 	// Timestamp when the supplier was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the supplier was last updated.
@@ -4979,7 +4979,7 @@ type WmsTask struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// Unique identifier for the task.
-	TaskNumber string `db:"task_number" json:"task_number"`
+	TaskNumber string `db:"task_number" fake:"{uuid}" json:"task_number"`
 	// Reference to the warehouse where the task is performed.
 	WarehouseID pgtype.UUID `db:"warehouse_id" json:"warehouse_id"`
 	// Reference to the assigned warehouse worker.
@@ -4989,25 +4989,25 @@ type WmsTask struct {
 	// Current task status using task_status_enum.
 	Status NullWmsTaskStatusEnum `db:"status" json:"status"`
 	// Task priority for execution order (lower = higher priority).
-	Priority pgtype.Int4 `db:"priority" json:"priority"`
+	Priority pgtype.Int4 `db:"priority" fake:"{number:1,100}" json:"priority"`
 	// Reference to the entity that triggered the task (e.g., inbound_shipment_id, pick_batch_id).
 	SourceEntityID pgtype.UUID `db:"source_entity_id" json:"source_entity_id"`
 	// Type of the source entity (e.g., "inbound_shipment", "pick_batch", "return").
-	SourceEntityType pgtype.Text `db:"source_entity_type" json:"source_entity_type"`
+	SourceEntityType pgtype.Text `db:"source_entity_type" fake:"{randomstring:[inbound_shipment,pick_batch,return]}" json:"source_entity_type"`
 	// Reference to associated pick batch if applicable.
 	PickBatchID pgtype.UUID `db:"pick_batch_id" json:"pick_batch_id"`
 	// Estimated time to complete the task (in minutes).
-	EstimatedDuration pgtype.Int4 `db:"estimated_duration" json:"estimated_duration"`
+	EstimatedDuration pgtype.Int4 `db:"estimated_duration" fake:"{number:10,60}" json:"estimated_duration"`
 	// Actual time taken to complete the task (in minutes).
-	ActualDuration pgtype.Int4 `db:"actual_duration" json:"actual_duration"`
+	ActualDuration pgtype.Int4 `db:"actual_duration" fake:"{number:10,60}" json:"actual_duration"`
 	// Detailed instructions for completing the task.
-	Instructions pgtype.Text `db:"instructions" json:"instructions"`
+	Instructions pgtype.Text `db:"instructions" fake:"{sentence}" json:"instructions"`
 	// Additional notes or comments about the task.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{paragraph}" json:"notes"`
 	// When the task was started.
-	StartTime pgtype.Timestamp `db:"start_time" json:"start_time"`
+	StartTime pgtype.Timestamp `db:"start_time" fake:"{date}" json:"start_time"`
 	// When the task was completed.
-	EndTime pgtype.Timestamp `db:"end_time" json:"end_time"`
+	EndTime pgtype.Timestamp `db:"end_time" fake:"{date}" json:"end_time"`
 	// Total time taken to complete the task in seconds (automatically calculated from start_time and end_time).
 	DurationSeconds pgtype.Int4 `db:"duration_seconds" json:"duration_seconds"`
 	// Timestamp when the task was created.
@@ -5031,23 +5031,23 @@ type WmsTaskItem struct {
 	// Reference to where the product should be moved to.
 	DestinationLocationID pgtype.UUID `db:"destination_location_id" json:"destination_location_id"`
 	// Amount of product that needs to be handled.
-	QuantityRequired int32 `db:"quantity_required" json:"quantity_required"`
+	QuantityRequired int32 `db:"quantity_required" fake:"{number:1,20}" json:"quantity_required"`
 	// Amount of product actually handled.
-	QuantityCompleted int32 `db:"quantity_completed" json:"quantity_completed"`
+	QuantityCompleted int32 `db:"quantity_completed" fake:"{number:0,20}" json:"quantity_completed"`
 	// Remaining quantity to be handled (automatically calculated from quantity_required - quantity_completed).
 	QuantityRemaining pgtype.Int4 `db:"quantity_remaining" json:"quantity_remaining"`
 	// Completion status of this specific item using task_item_status_enum.
 	Status NullWmsTaskItemStatusEnum `db:"status" json:"status"`
 	// Lot number for traceability.
-	LotNumber pgtype.Text `db:"lot_number" json:"lot_number"`
+	LotNumber pgtype.Text `db:"lot_number" fake:"{uuid}" json:"lot_number"`
 	// Array of serial numbers for serialized items.
 	SerialNumbers []string `db:"serial_numbers" json:"serial_numbers"`
 	// Expiry date of the items being handled.
-	ExpiryDate pgtype.Date `db:"expiry_date" json:"expiry_date"`
+	ExpiryDate pgtype.Date `db:"expiry_date" fake:"{date}" json:"expiry_date"`
 	// Additional notes about this task item.
-	Notes pgtype.Text `db:"notes" json:"notes"`
+	Notes pgtype.Text `db:"notes" fake:"{sentence}" json:"notes"`
 	// When this task item was completed.
-	CompletedAt pgtype.Timestamp `db:"completed_at" json:"completed_at"`
+	CompletedAt pgtype.Timestamp `db:"completed_at" fake:"{date}" json:"completed_at"`
 	// Timestamp when the task item was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the task item was last updated.
@@ -5082,27 +5082,27 @@ type WmsWarehouse struct {
 	// Primary key
 	ID pgtype.UUID `db:"id" json:"id"`
 	// The name of the warehouse (e.g., "West Coast Distribution Center").
-	Name string `db:"name" json:"name"`
+	Name string `db:"name" fake:"{company} Warehouse" json:"name"`
 	// The physical street address of the warehouse.
-	Address pgtype.Text `db:"address" json:"address"`
+	Address pgtype.Text `db:"address" fake:"{streetaddress}" json:"address"`
 	// The city where the warehouse is located.
-	City pgtype.Text `db:"city" json:"city"`
+	City pgtype.Text `db:"city" fake:"{city}" json:"city"`
 	// The state or province where the warehouse is located.
-	State pgtype.Text `db:"state" json:"state"`
+	State pgtype.Text `db:"state" fake:"{state}" json:"state"`
 	// The postal code or ZIP code of the warehouse.
-	PostalCode pgtype.Text `db:"postal_code" json:"postal_code"`
+	PostalCode pgtype.Text `db:"postal_code" fake:"{zip}" json:"postal_code"`
 	// The country where the warehouse is located.
-	Country pgtype.Text `db:"country" json:"country"`
+	Country pgtype.Text `db:"country" fake:"{country}" json:"country"`
 	// The timezone of the warehouse for scheduling operations.
-	Timezone pgtype.Text `db:"timezone" json:"timezone"`
+	Timezone pgtype.Text `db:"timezone" fake:"{timezone}" json:"timezone"`
 	// The primary contact person at the warehouse.
-	ContactPerson pgtype.Text `db:"contact_person" json:"contact_person"`
+	ContactPerson pgtype.Text `db:"contact_person" fake:"{name}" json:"contact_person"`
 	// The contact email for the warehouse.
-	ContactEmail pgtype.Text `db:"contact_email" json:"contact_email"`
+	ContactEmail pgtype.Text `db:"contact_email" fake:"{email}" json:"contact_email"`
 	// The contact phone number for the warehouse.
-	ContactPhone pgtype.Text `db:"contact_phone" json:"contact_phone"`
+	ContactPhone pgtype.Text `db:"contact_phone" fake:"{phone}" json:"contact_phone"`
 	// Whether the warehouse is currently active and operational.
-	IsActive pgtype.Bool `db:"is_active" json:"is_active"`
+	IsActive pgtype.Bool `db:"is_active" fake:"{bool}" json:"is_active"`
 	// Timestamp when the warehouse was created.
 	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
 	// Timestamp when the warehouse was last updated.

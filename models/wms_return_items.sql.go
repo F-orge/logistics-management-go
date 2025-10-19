@@ -28,8 +28,8 @@ type WmsAnyReturnItemRow struct {
 	ID               pgtype.UUID                    `db:"id" json:"id"`
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	QuantityVariance pgtype.Int4                    `db:"quantity_variance" json:"quantity_variance"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	CreatedAt        pgtype.Timestamp               `db:"created_at" json:"created_at"`
@@ -109,8 +109,8 @@ type WmsFindReturnItemRow struct {
 	ID               pgtype.UUID                    `db:"id" json:"id"`
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	QuantityVariance pgtype.Int4                    `db:"quantity_variance" json:"quantity_variance"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	CreatedAt        pgtype.Timestamp               `db:"created_at" json:"created_at"`
@@ -170,8 +170,8 @@ returning
 type WmsInsertReturnItemParams struct {
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 }
 
@@ -224,8 +224,8 @@ type WmsPaginateReturnItemRow struct {
 	ID               pgtype.UUID                    `db:"id" json:"id"`
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	QuantityVariance pgtype.Int4                    `db:"quantity_variance" json:"quantity_variance"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	CreatedAt        pgtype.Timestamp               `db:"created_at" json:"created_at"`
@@ -350,8 +350,8 @@ type WmsRangeReturnItemRow struct {
 	ID               pgtype.UUID                    `db:"id" json:"id"`
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	QuantityVariance pgtype.Int4                    `db:"quantity_variance" json:"quantity_variance"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	CreatedAt        pgtype.Timestamp               `db:"created_at" json:"created_at"`
@@ -463,8 +463,8 @@ returning
 type WmsUpdateReturnItemParams struct {
 	ReturnID         pgtype.UUID                    `db:"return_id" json:"return_id"`
 	ProductID        pgtype.UUID                    `db:"product_id" json:"product_id"`
-	QuantityExpected int32                          `db:"quantity_expected" json:"quantity_expected"`
-	QuantityReceived pgtype.Int4                    `db:"quantity_received" json:"quantity_received"`
+	QuantityExpected int32                          `db:"quantity_expected" fake:"{number:1,5}" json:"quantity_expected"`
+	QuantityReceived pgtype.Int4                    `db:"quantity_received" fake:"{number:1,5}" json:"quantity_received"`
 	Condition        NullWmsReturnItemConditionEnum `db:"condition" json:"condition"`
 	ID               pgtype.UUID                    `db:"id" json:"id"`
 }

@@ -254,21 +254,21 @@ returning
 `
 
 type WmsInsertTaskParams struct {
-	TaskNumber        string                `db:"task_number" json:"task_number"`
+	TaskNumber        string                `db:"task_number" fake:"{uuid}" json:"task_number"`
 	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
 	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
 	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
 	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
-	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	Priority          pgtype.Int4           `db:"priority" fake:"{number:1,100}" json:"priority"`
 	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
-	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" fake:"{randomstring:[inbound_shipment,pick_batch,return]}" json:"source_entity_type"`
 	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
-	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
-	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
-	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
-	Notes             pgtype.Text           `db:"notes" json:"notes"`
-	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
-	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" fake:"{number:10,60}" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" fake:"{number:10,60}" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" fake:"{sentence}" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" fake:"{paragraph}" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" fake:"{date}" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" fake:"{date}" json:"end_time"`
 }
 
 func (q *Queries) WmsInsertTask(ctx context.Context, arg WmsInsertTaskParams) (WmsTask, error) {
@@ -719,21 +719,21 @@ returning
 `
 
 type WmsUpdateTaskParams struct {
-	TaskNumber        string                `db:"task_number" json:"task_number"`
+	TaskNumber        string                `db:"task_number" fake:"{uuid}" json:"task_number"`
 	WarehouseID       pgtype.UUID           `db:"warehouse_id" json:"warehouse_id"`
 	UserID            pgtype.Text           `db:"user_id" json:"user_id"`
 	Type              WmsTaskTypeEnum       `db:"type" json:"type"`
 	Status            NullWmsTaskStatusEnum `db:"status" json:"status"`
-	Priority          pgtype.Int4           `db:"priority" json:"priority"`
+	Priority          pgtype.Int4           `db:"priority" fake:"{number:1,100}" json:"priority"`
 	SourceEntityID    pgtype.UUID           `db:"source_entity_id" json:"source_entity_id"`
-	SourceEntityType  pgtype.Text           `db:"source_entity_type" json:"source_entity_type"`
+	SourceEntityType  pgtype.Text           `db:"source_entity_type" fake:"{randomstring:[inbound_shipment,pick_batch,return]}" json:"source_entity_type"`
 	PickBatchID       pgtype.UUID           `db:"pick_batch_id" json:"pick_batch_id"`
-	EstimatedDuration pgtype.Int4           `db:"estimated_duration" json:"estimated_duration"`
-	ActualDuration    pgtype.Int4           `db:"actual_duration" json:"actual_duration"`
-	Instructions      pgtype.Text           `db:"instructions" json:"instructions"`
-	Notes             pgtype.Text           `db:"notes" json:"notes"`
-	StartTime         pgtype.Timestamp      `db:"start_time" json:"start_time"`
-	EndTime           pgtype.Timestamp      `db:"end_time" json:"end_time"`
+	EstimatedDuration pgtype.Int4           `db:"estimated_duration" fake:"{number:10,60}" json:"estimated_duration"`
+	ActualDuration    pgtype.Int4           `db:"actual_duration" fake:"{number:10,60}" json:"actual_duration"`
+	Instructions      pgtype.Text           `db:"instructions" fake:"{sentence}" json:"instructions"`
+	Notes             pgtype.Text           `db:"notes" fake:"{paragraph}" json:"notes"`
+	StartTime         pgtype.Timestamp      `db:"start_time" fake:"{date}" json:"start_time"`
+	EndTime           pgtype.Timestamp      `db:"end_time" fake:"{date}" json:"end_time"`
 	ID                pgtype.UUID           `db:"id" json:"id"`
 }
 

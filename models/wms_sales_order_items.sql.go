@@ -28,7 +28,7 @@ type WmsAnySalesOrderItemRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	SalesOrderID    pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	QuantityOrdered int32            `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32            `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsSalesOrder   WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
@@ -103,7 +103,7 @@ type WmsFindSalesOrderItemRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	SalesOrderID    pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	QuantityOrdered int32            `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32            `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsSalesOrder   WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
@@ -158,7 +158,7 @@ returning
 type WmsInsertSalesOrderItemParams struct {
 	SalesOrderID    pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
-	QuantityOrdered int32       `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32       `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 }
 
 func (q *Queries) WmsInsertSalesOrderItem(ctx context.Context, arg WmsInsertSalesOrderItemParams) (WmsSalesOrderItem, error) {
@@ -200,7 +200,7 @@ type WmsPaginateSalesOrderItemRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	SalesOrderID    pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	QuantityOrdered int32            `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32            `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsSalesOrder   WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
@@ -319,7 +319,7 @@ type WmsRangeSalesOrderItemRow struct {
 	ID              pgtype.UUID      `db:"id" json:"id"`
 	SalesOrderID    pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID      `db:"product_id" json:"product_id"`
-	QuantityOrdered int32            `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32            `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	CreatedAt       pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt       pgtype.Timestamp `db:"updated_at" json:"updated_at"`
 	WmsSalesOrder   WmsSalesOrder    `db:"wms_sales_order" json:"wms_sales_order"`
@@ -416,7 +416,7 @@ returning
 type WmsUpdateSalesOrderItemParams struct {
 	SalesOrderID    pgtype.UUID `db:"sales_order_id" json:"sales_order_id"`
 	ProductID       pgtype.UUID `db:"product_id" json:"product_id"`
-	QuantityOrdered int32       `db:"quantity_ordered" json:"quantity_ordered"`
+	QuantityOrdered int32       `db:"quantity_ordered" fake:"{number:1,10}" json:"quantity_ordered"`
 	ID              pgtype.UUID `db:"id" json:"id"`
 }
 

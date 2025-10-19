@@ -158,22 +158,22 @@ returning
 type WmsInsertLocationParams struct {
 	WarehouseID           pgtype.UUID         `db:"warehouse_id" json:"warehouse_id"`
 	ParentLocationID      pgtype.UUID         `db:"parent_location_id" json:"parent_location_id"`
-	Name                  string              `db:"name" json:"name"`
-	Barcode               pgtype.Text         `db:"barcode" json:"barcode"`
+	Name                  string              `db:"name" fake:"A-{number:1,10}-B-{number:1,100}" json:"name"`
+	Barcode               pgtype.Text         `db:"barcode" fake:"{uuid}" json:"barcode"`
 	Type                  WmsLocationTypeEnum `db:"type" json:"type"`
-	Level                 pgtype.Int4         `db:"level" json:"level"`
-	Path                  pgtype.Text         `db:"path" json:"path"`
-	MaxWeight             pgtype.Float4       `db:"max_weight" json:"max_weight"`
-	MaxVolume             pgtype.Float4       `db:"max_volume" json:"max_volume"`
-	MaxPallets            pgtype.Int4         `db:"max_pallets" json:"max_pallets"`
-	XCoordinate           pgtype.Float4       `db:"x_coordinate" json:"x_coordinate"`
-	YCoordinate           pgtype.Float4       `db:"y_coordinate" json:"y_coordinate"`
-	ZCoordinate           pgtype.Float4       `db:"z_coordinate" json:"z_coordinate"`
-	IsPickable            pgtype.Bool         `db:"is_pickable" json:"is_pickable"`
-	IsReceivable          pgtype.Bool         `db:"is_receivable" json:"is_receivable"`
-	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" json:"temperature_controlled"`
-	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" json:"hazmat_approved"`
-	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
+	Level                 pgtype.Int4         `db:"level" fake:"{number:0,3}" json:"level"`
+	Path                  pgtype.Text         `db:"path" fake:"Zone A/Aisle {number:1,10}/Shelf B/Bin {number:1,100}" json:"path"`
+	MaxWeight             pgtype.Float4       `db:"max_weight" fake:"{float64range:100,1000}" json:"max_weight"`
+	MaxVolume             pgtype.Float4       `db:"max_volume" fake:"{float64range:100,1000}" json:"max_volume"`
+	MaxPallets            pgtype.Int4         `db:"max_pallets" fake:"{number:1,10}" json:"max_pallets"`
+	XCoordinate           pgtype.Float4       `db:"x_coordinate" fake:"{float64range:0,100}" json:"x_coordinate"`
+	YCoordinate           pgtype.Float4       `db:"y_coordinate" fake:"{float64range:0,100}" json:"y_coordinate"`
+	ZCoordinate           pgtype.Float4       `db:"z_coordinate" fake:"{float64range:0,10}" json:"z_coordinate"`
+	IsPickable            pgtype.Bool         `db:"is_pickable" fake:"{bool}" json:"is_pickable"`
+	IsReceivable          pgtype.Bool         `db:"is_receivable" fake:"{bool}" json:"is_receivable"`
+	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" fake:"{bool}" json:"temperature_controlled"`
+	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" fake:"{bool}" json:"hazmat_approved"`
+	IsActive              pgtype.Bool         `db:"is_active" fake:"{bool}" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertLocation(ctx context.Context, arg WmsInsertLocationParams) (WmsLocation, error) {
@@ -574,22 +574,22 @@ returning
 type WmsUpdateLocationParams struct {
 	WarehouseID           pgtype.UUID         `db:"warehouse_id" json:"warehouse_id"`
 	ParentLocationID      pgtype.UUID         `db:"parent_location_id" json:"parent_location_id"`
-	Name                  string              `db:"name" json:"name"`
-	Barcode               pgtype.Text         `db:"barcode" json:"barcode"`
+	Name                  string              `db:"name" fake:"A-{number:1,10}-B-{number:1,100}" json:"name"`
+	Barcode               pgtype.Text         `db:"barcode" fake:"{uuid}" json:"barcode"`
 	Type                  WmsLocationTypeEnum `db:"type" json:"type"`
-	Level                 pgtype.Int4         `db:"level" json:"level"`
-	Path                  pgtype.Text         `db:"path" json:"path"`
-	MaxWeight             pgtype.Float4       `db:"max_weight" json:"max_weight"`
-	MaxVolume             pgtype.Float4       `db:"max_volume" json:"max_volume"`
-	MaxPallets            pgtype.Int4         `db:"max_pallets" json:"max_pallets"`
-	XCoordinate           pgtype.Float4       `db:"x_coordinate" json:"x_coordinate"`
-	YCoordinate           pgtype.Float4       `db:"y_coordinate" json:"y_coordinate"`
-	ZCoordinate           pgtype.Float4       `db:"z_coordinate" json:"z_coordinate"`
-	IsPickable            pgtype.Bool         `db:"is_pickable" json:"is_pickable"`
-	IsReceivable          pgtype.Bool         `db:"is_receivable" json:"is_receivable"`
-	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" json:"temperature_controlled"`
-	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" json:"hazmat_approved"`
-	IsActive              pgtype.Bool         `db:"is_active" json:"is_active"`
+	Level                 pgtype.Int4         `db:"level" fake:"{number:0,3}" json:"level"`
+	Path                  pgtype.Text         `db:"path" fake:"Zone A/Aisle {number:1,10}/Shelf B/Bin {number:1,100}" json:"path"`
+	MaxWeight             pgtype.Float4       `db:"max_weight" fake:"{float64range:100,1000}" json:"max_weight"`
+	MaxVolume             pgtype.Float4       `db:"max_volume" fake:"{float64range:100,1000}" json:"max_volume"`
+	MaxPallets            pgtype.Int4         `db:"max_pallets" fake:"{number:1,10}" json:"max_pallets"`
+	XCoordinate           pgtype.Float4       `db:"x_coordinate" fake:"{float64range:0,100}" json:"x_coordinate"`
+	YCoordinate           pgtype.Float4       `db:"y_coordinate" fake:"{float64range:0,100}" json:"y_coordinate"`
+	ZCoordinate           pgtype.Float4       `db:"z_coordinate" fake:"{float64range:0,10}" json:"z_coordinate"`
+	IsPickable            pgtype.Bool         `db:"is_pickable" fake:"{bool}" json:"is_pickable"`
+	IsReceivable          pgtype.Bool         `db:"is_receivable" fake:"{bool}" json:"is_receivable"`
+	TemperatureControlled pgtype.Bool         `db:"temperature_controlled" fake:"{bool}" json:"temperature_controlled"`
+	HazmatApproved        pgtype.Bool         `db:"hazmat_approved" fake:"{bool}" json:"hazmat_approved"`
+	IsActive              pgtype.Bool         `db:"is_active" fake:"{bool}" json:"is_active"`
 	ID                    pgtype.UUID         `db:"id" json:"id"`
 }
 

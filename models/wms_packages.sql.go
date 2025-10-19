@@ -249,23 +249,23 @@ returning
 
 type WmsInsertPackageParams struct {
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	PackageNumber     string           `db:"package_number" json:"package_number"`
+	PackageNumber     string           `db:"package_number" fake:"{uuid}" json:"package_number"`
 	WarehouseID       pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	PackageType       pgtype.Text      `db:"package_type" json:"package_type"`
-	Weight            pgtype.Float4    `db:"weight" json:"weight"`
-	Length            pgtype.Float4    `db:"length" json:"length"`
-	Width             pgtype.Float4    `db:"width" json:"width"`
-	Height            pgtype.Float4    `db:"height" json:"height"`
-	TrackingNumber    pgtype.Text      `db:"tracking_number" json:"tracking_number"`
-	Carrier           pgtype.Text      `db:"carrier" json:"carrier"`
-	ServiceLevel      pgtype.Text      `db:"service_level" json:"service_level"`
+	PackageType       pgtype.Text      `db:"package_type" fake:"{randomstring:[box,envelope,pallet]}" json:"package_type"`
+	Weight            pgtype.Float4    `db:"weight" fake:"{float64range:1,50}" json:"weight"`
+	Length            pgtype.Float4    `db:"length" fake:"{float64range:1,100}" json:"length"`
+	Width             pgtype.Float4    `db:"width" fake:"{float64range:1,100}" json:"width"`
+	Height            pgtype.Float4    `db:"height" fake:"{float64range:1,100}" json:"height"`
+	TrackingNumber    pgtype.Text      `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
+	Carrier           pgtype.Text      `db:"carrier" fake:"{company}" json:"carrier"`
+	ServiceLevel      pgtype.Text      `db:"service_level" fake:"{randomstring:[Ground,Express,Overnight]}" json:"service_level"`
 	PackedByUserID    pgtype.Text      `db:"packed_by_user_id" json:"packed_by_user_id"`
-	PackedAt          pgtype.Timestamp `db:"packed_at" json:"packed_at"`
-	ShippedAt         pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
-	IsFragile         pgtype.Bool      `db:"is_fragile" json:"is_fragile"`
-	IsHazmat          pgtype.Bool      `db:"is_hazmat" json:"is_hazmat"`
-	RequiresSignature pgtype.Bool      `db:"requires_signature" json:"requires_signature"`
-	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
+	PackedAt          pgtype.Timestamp `db:"packed_at" fake:"{date}" json:"packed_at"`
+	ShippedAt         pgtype.Timestamp `db:"shipped_at" fake:"{date}" json:"shipped_at"`
+	IsFragile         pgtype.Bool      `db:"is_fragile" fake:"{bool}" json:"is_fragile"`
+	IsHazmat          pgtype.Bool      `db:"is_hazmat" fake:"{bool}" json:"is_hazmat"`
+	RequiresSignature pgtype.Bool      `db:"requires_signature" fake:"{bool}" json:"requires_signature"`
+	InsuranceValue    pgtype.Numeric   `db:"insurance_value" fake:"{price:50,500}" json:"insurance_value"`
 }
 
 func (q *Queries) WmsInsertPackage(ctx context.Context, arg WmsInsertPackageParams) (WmsPackage, error) {
@@ -732,23 +732,23 @@ returning
 
 type WmsUpdatePackageParams struct {
 	SalesOrderID      pgtype.UUID      `db:"sales_order_id" json:"sales_order_id"`
-	PackageNumber     string           `db:"package_number" json:"package_number"`
+	PackageNumber     string           `db:"package_number" fake:"{uuid}" json:"package_number"`
 	WarehouseID       pgtype.UUID      `db:"warehouse_id" json:"warehouse_id"`
-	PackageType       pgtype.Text      `db:"package_type" json:"package_type"`
-	Weight            pgtype.Float4    `db:"weight" json:"weight"`
-	Length            pgtype.Float4    `db:"length" json:"length"`
-	Width             pgtype.Float4    `db:"width" json:"width"`
-	Height            pgtype.Float4    `db:"height" json:"height"`
-	TrackingNumber    pgtype.Text      `db:"tracking_number" json:"tracking_number"`
-	Carrier           pgtype.Text      `db:"carrier" json:"carrier"`
-	ServiceLevel      pgtype.Text      `db:"service_level" json:"service_level"`
+	PackageType       pgtype.Text      `db:"package_type" fake:"{randomstring:[box,envelope,pallet]}" json:"package_type"`
+	Weight            pgtype.Float4    `db:"weight" fake:"{float64range:1,50}" json:"weight"`
+	Length            pgtype.Float4    `db:"length" fake:"{float64range:1,100}" json:"length"`
+	Width             pgtype.Float4    `db:"width" fake:"{float64range:1,100}" json:"width"`
+	Height            pgtype.Float4    `db:"height" fake:"{float64range:1,100}" json:"height"`
+	TrackingNumber    pgtype.Text      `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
+	Carrier           pgtype.Text      `db:"carrier" fake:"{company}" json:"carrier"`
+	ServiceLevel      pgtype.Text      `db:"service_level" fake:"{randomstring:[Ground,Express,Overnight]}" json:"service_level"`
 	PackedByUserID    pgtype.Text      `db:"packed_by_user_id" json:"packed_by_user_id"`
-	PackedAt          pgtype.Timestamp `db:"packed_at" json:"packed_at"`
-	ShippedAt         pgtype.Timestamp `db:"shipped_at" json:"shipped_at"`
-	IsFragile         pgtype.Bool      `db:"is_fragile" json:"is_fragile"`
-	IsHazmat          pgtype.Bool      `db:"is_hazmat" json:"is_hazmat"`
-	RequiresSignature pgtype.Bool      `db:"requires_signature" json:"requires_signature"`
-	InsuranceValue    pgtype.Numeric   `db:"insurance_value" json:"insurance_value"`
+	PackedAt          pgtype.Timestamp `db:"packed_at" fake:"{date}" json:"packed_at"`
+	ShippedAt         pgtype.Timestamp `db:"shipped_at" fake:"{date}" json:"shipped_at"`
+	IsFragile         pgtype.Bool      `db:"is_fragile" fake:"{bool}" json:"is_fragile"`
+	IsHazmat          pgtype.Bool      `db:"is_hazmat" fake:"{bool}" json:"is_hazmat"`
+	RequiresSignature pgtype.Bool      `db:"requires_signature" fake:"{bool}" json:"requires_signature"`
+	InsuranceValue    pgtype.Numeric   `db:"insurance_value" fake:"{price:50,500}" json:"insurance_value"`
 	ID                pgtype.UUID      `db:"id" json:"id"`
 }
 

@@ -35,14 +35,14 @@ type WmsAnyPutawayRuleRow struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
@@ -177,14 +177,14 @@ type WmsFindPutawayRuleRow struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
@@ -295,14 +295,14 @@ type WmsInsertPutawayRuleParams struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 }
 
 func (q *Queries) WmsInsertPutawayRule(ctx context.Context, arg WmsInsertPutawayRuleParams) (WmsPutawayRule, error) {
@@ -378,14 +378,14 @@ type WmsPaginatePutawayRuleRow struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
@@ -567,14 +567,14 @@ type WmsRangePutawayRuleRow struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	CreatedAt                  pgtype.Timestamp        `db:"created_at" json:"created_at"`
 	UpdatedAt                  pgtype.Timestamp        `db:"updated_at" json:"updated_at"`
 	WmsProduct                 WmsProduct              `db:"wms_product" json:"wms_product"`
@@ -777,14 +777,14 @@ type WmsUpdatePutawayRuleParams struct {
 	WarehouseID                pgtype.UUID             `db:"warehouse_id" json:"warehouse_id"`
 	PreferredLocationID        pgtype.UUID             `db:"preferred_location_id" json:"preferred_location_id"`
 	LocationType               NullWmsLocationTypeEnum `db:"location_type" json:"location_type"`
-	Priority                   int32                   `db:"priority" json:"priority"`
-	MinQuantity                pgtype.Int4             `db:"min_quantity" json:"min_quantity"`
-	MaxQuantity                pgtype.Int4             `db:"max_quantity" json:"max_quantity"`
-	WeightThreshold            pgtype.Float4           `db:"weight_threshold" json:"weight_threshold"`
-	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" json:"volume_threshold"`
-	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" json:"requires_temperature_control"`
-	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" json:"requires_hazmat_approval"`
-	IsActive                   pgtype.Bool             `db:"is_active" json:"is_active"`
+	Priority                   int32                   `db:"priority" fake:"{number:1,100}" json:"priority"`
+	MinQuantity                pgtype.Int4             `db:"min_quantity" fake:"{number:1,10}" json:"min_quantity"`
+	MaxQuantity                pgtype.Int4             `db:"max_quantity" fake:"{number:100,1000}" json:"max_quantity"`
+	WeightThreshold            pgtype.Float4           `db:"weight_threshold" fake:"{float64range:10,100}" json:"weight_threshold"`
+	VolumeThreshold            pgtype.Float4           `db:"volume_threshold" fake:"{float64range:10,100}" json:"volume_threshold"`
+	RequiresTemperatureControl pgtype.Bool             `db:"requires_temperature_control" fake:"{bool}" json:"requires_temperature_control"`
+	RequiresHazmatApproval     pgtype.Bool             `db:"requires_hazmat_approval" fake:"{bool}" json:"requires_hazmat_approval"`
+	IsActive                   pgtype.Bool             `db:"is_active" fake:"{bool}" json:"is_active"`
 	ID                         pgtype.UUID             `db:"id" json:"id"`
 }
 

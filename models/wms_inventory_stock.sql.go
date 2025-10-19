@@ -31,12 +31,12 @@ type WmsAnyInventoryStockRow struct {
 	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity          int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity          int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
 	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
 	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
@@ -140,12 +140,12 @@ type WmsFindInventoryStockRow struct {
 	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity          int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity          int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
 	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
 	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
@@ -227,11 +227,11 @@ type WmsInsertInventoryStockParams struct {
 	LocationID       pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID        pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID          pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity         int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity         int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	Status           NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt    pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt   pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt    pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt   pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 }
 
 func (q *Queries) WmsInsertInventoryStock(ctx context.Context, arg WmsInsertInventoryStockParams) (WmsInventoryStock, error) {
@@ -293,12 +293,12 @@ type WmsPaginateInventoryStockRow struct {
 	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity          int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity          int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
 	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
 	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
@@ -448,12 +448,12 @@ type WmsRangeInventoryStockRow struct {
 	LocationID        pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID         pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID           pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity          int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity  int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity          int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity  int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	AvailableQuantity pgtype.Int4                     `db:"available_quantity" json:"available_quantity"`
 	Status            NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt     pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt    pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	CreatedAt         pgtype.Timestamp                `db:"created_at" json:"created_at"`
 	UpdatedAt         pgtype.Timestamp                `db:"updated_at" json:"updated_at"`
 	WmsLocation       WmsLocation                     `db:"wms_location" json:"wms_location"`
@@ -602,11 +602,11 @@ type WmsUpdateInventoryStockParams struct {
 	LocationID       pgtype.UUID                     `db:"location_id" json:"location_id"`
 	ProductID        pgtype.UUID                     `db:"product_id" json:"product_id"`
 	BatchID          pgtype.UUID                     `db:"batch_id" json:"batch_id"`
-	Quantity         int32                           `db:"quantity" json:"quantity"`
-	ReservedQuantity int32                           `db:"reserved_quantity" json:"reserved_quantity"`
+	Quantity         int32                           `db:"quantity" fake:"{number:0,1000}" json:"quantity"`
+	ReservedQuantity int32                           `db:"reserved_quantity" fake:"{number:0,100}" json:"reserved_quantity"`
 	Status           NullWmsInventoryStockStatusEnum `db:"status" json:"status"`
-	LastCountedAt    pgtype.Timestamp                `db:"last_counted_at" json:"last_counted_at"`
-	LastMovementAt   pgtype.Timestamp                `db:"last_movement_at" json:"last_movement_at"`
+	LastCountedAt    pgtype.Timestamp                `db:"last_counted_at" fake:"{date}" json:"last_counted_at"`
+	LastMovementAt   pgtype.Timestamp                `db:"last_movement_at" fake:"{date}" json:"last_movement_at"`
 	ID               pgtype.UUID                     `db:"id" json:"id"`
 }
 

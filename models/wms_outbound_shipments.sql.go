@@ -117,8 +117,8 @@ type WmsInsertOutboundShipmentParams struct {
 	SalesOrderID   pgtype.UUID                       `db:"sales_order_id" json:"sales_order_id"`
 	WarehouseID    pgtype.UUID                       `db:"warehouse_id" json:"warehouse_id"`
 	Status         NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
-	TrackingNumber pgtype.Text                       `db:"tracking_number" json:"tracking_number"`
-	Carrier        pgtype.Text                       `db:"carrier" json:"carrier"`
+	TrackingNumber pgtype.Text                       `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
+	Carrier        pgtype.Text                       `db:"carrier" fake:"{company}" json:"carrier"`
 }
 
 func (q *Queries) WmsInsertOutboundShipment(ctx context.Context, arg WmsInsertOutboundShipmentParams) (WmsOutboundShipment, error) {
@@ -372,8 +372,8 @@ type WmsUpdateOutboundShipmentParams struct {
 	SalesOrderID   pgtype.UUID                       `db:"sales_order_id" json:"sales_order_id"`
 	WarehouseID    pgtype.UUID                       `db:"warehouse_id" json:"warehouse_id"`
 	Status         NullWmsOutboundShipmentStatusEnum `db:"status" json:"status"`
-	TrackingNumber pgtype.Text                       `db:"tracking_number" json:"tracking_number"`
-	Carrier        pgtype.Text                       `db:"carrier" json:"carrier"`
+	TrackingNumber pgtype.Text                       `db:"tracking_number" fake:"{uuid}" json:"tracking_number"`
+	Carrier        pgtype.Text                       `db:"carrier" fake:"{company}" json:"carrier"`
 	ID             pgtype.UUID                       `db:"id" json:"id"`
 }
 

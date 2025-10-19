@@ -242,15 +242,15 @@ returning
 `
 
 type WmsInsertProductParams struct {
-	Name        string                   `db:"name" json:"name"`
-	Sku         string                   `db:"sku" json:"sku"`
-	Barcode     pgtype.Text              `db:"barcode" json:"barcode"`
-	Description pgtype.Text              `db:"description" json:"description"`
-	CostPrice   pgtype.Numeric           `db:"cost_price" json:"cost_price"`
-	Length      pgtype.Float4            `db:"length" json:"length"`
-	Width       pgtype.Float4            `db:"width" json:"width"`
-	Height      pgtype.Float4            `db:"height" json:"height"`
-	Weight      pgtype.Float4            `db:"weight" json:"weight"`
+	Name        string                   `db:"name" fake:"{productname}" json:"name"`
+	Sku         string                   `db:"sku" fake:"{productupc}" json:"sku"`
+	Barcode     pgtype.Text              `db:"barcode" fake:"{uuid}" json:"barcode"`
+	Description pgtype.Text              `db:"description" fake:"{productdescription}" json:"description"`
+	CostPrice   pgtype.Numeric           `db:"cost_price" fake:"{price:1,1000}" json:"cost_price"`
+	Length      pgtype.Float4            `db:"length" fake:"{float64range:1,100}" json:"length"`
+	Width       pgtype.Float4            `db:"width" fake:"{float64range:1,100}" json:"width"`
+	Height      pgtype.Float4            `db:"height" fake:"{float64range:1,100}" json:"height"`
+	Weight      pgtype.Float4            `db:"weight" fake:"{float64range:0.1,50}" json:"weight"`
 	Status      NullWmsProductStatusEnum `db:"status" json:"status"`
 	SupplierID  pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
 	ClientID    pgtype.UUID              `db:"client_id" json:"client_id"`
@@ -671,15 +671,15 @@ returning
 `
 
 type WmsUpdateProductParams struct {
-	Name        string                   `db:"name" json:"name"`
-	Sku         string                   `db:"sku" json:"sku"`
-	Barcode     pgtype.Text              `db:"barcode" json:"barcode"`
-	Description pgtype.Text              `db:"description" json:"description"`
-	CostPrice   pgtype.Numeric           `db:"cost_price" json:"cost_price"`
-	Length      pgtype.Float4            `db:"length" json:"length"`
-	Width       pgtype.Float4            `db:"width" json:"width"`
-	Height      pgtype.Float4            `db:"height" json:"height"`
-	Weight      pgtype.Float4            `db:"weight" json:"weight"`
+	Name        string                   `db:"name" fake:"{productname}" json:"name"`
+	Sku         string                   `db:"sku" fake:"{productupc}" json:"sku"`
+	Barcode     pgtype.Text              `db:"barcode" fake:"{uuid}" json:"barcode"`
+	Description pgtype.Text              `db:"description" fake:"{productdescription}" json:"description"`
+	CostPrice   pgtype.Numeric           `db:"cost_price" fake:"{price:1,1000}" json:"cost_price"`
+	Length      pgtype.Float4            `db:"length" fake:"{float64range:1,100}" json:"length"`
+	Width       pgtype.Float4            `db:"width" fake:"{float64range:1,100}" json:"width"`
+	Height      pgtype.Float4            `db:"height" fake:"{float64range:1,100}" json:"height"`
+	Weight      pgtype.Float4            `db:"weight" fake:"{float64range:0.1,50}" json:"weight"`
 	Status      NullWmsProductStatusEnum `db:"status" json:"status"`
 	SupplierID  pgtype.UUID              `db:"supplier_id" json:"supplier_id"`
 	ClientID    pgtype.UUID              `db:"client_id" json:"client_id"`
