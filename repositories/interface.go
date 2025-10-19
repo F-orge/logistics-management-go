@@ -11,7 +11,7 @@ type PaginateResponse[T any] struct {
 }
 
 type GenericRepository[PageT any, FindT any, AnyT any, RangeT any, InsertT any, UpdateT any, MutationT any] interface {
-	Paginate(page int32, perPage int32, search string) ([]PaginateResponse[PageT], error)
+	Paginate(page int32, perPage int32, search string) (PaginateResponse[PageT], error)
 	Find(id pgtype.UUID) (FindT, error)
 	Any(ids []pgtype.UUID) ([]AnyT, error)
 	Range(from pgtype.Date, to pgtype.Date, search string) ([]RangeT, error)

@@ -40,10 +40,6 @@ func (h *GenericEchoHandler[PageT, FindT, AnyT, RangeT, InsertT, UpdateT, Mutati
 		return err
 	}
 
-	if result == nil {
-		return ctx.JSON(200, []PageT{})
-	}
-
 	return ctx.JSON(200, result)
 }
 
