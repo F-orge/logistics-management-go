@@ -2,14 +2,20 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { DbSchema } from "@packages/db";
 import { z, type ZodObject } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
-import type { ColumnDef } from "@tanstack/react-table";
+import type {
+  ColumnDef,
+  PaginationState,
+  SortingState,
+} from "@tanstack/react-table";
+import { DataTable, Input } from "@packages/ui";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/dashboard/$schema/$table")({
   component: RouteComponent,
   validateSearch: zodValidator(
     z.object({
-      page: z.number().nonnegative().catch(1).default(1),
-      perPage: z.number().nonnegative().max(100).catch(10).default(10),
+      page: z.number().nonnegative().min(1).catch(1).default(1),
+      perPage: z.number().nonnegative().max(50).catch(10).default(10),
       sort: z
         .record(z.string(), z.enum(["asc", "desc"]))
         .array()
@@ -19,7 +25,7 @@ export const Route = createFileRoute("/dashboard/$schema/$table")({
         .object({
           column: z.string(),
           operator: z.enum(["<", ">", "=", "!=", "like"]),
-          value: z.any().refine((arg) => arg === undefined, {
+          value: z.any().refine((arg) => arg !== undefined, {
             message: "value cannot be undefined",
           }),
         })
@@ -58,7 +64,9 @@ export const Route = createFileRoute("/dashboard/$schema/$table")({
     const { columns } = context.tableColDef;
 
     const result = await fetch(
-      `/api/${context.params.schema}/${context.params.table}/`,
+      `/api/${context.params.schema}/${
+        context.params.table
+      }/?${new URLSearchParams(context.search as any).toString()}`,
       {
         method: "GET",
       }
@@ -67,18 +75,62 @@ export const Route = createFileRoute("/dashboard/$schema/$table")({
     if (result.status === 404) throw notFound({ routeId: "/dashboard" });
 
     return {
-      data: await result.json(),
+      data: (await result.json()) as any[],
       columns: columns as ColumnDef<any>[],
+      tableDef: context.tableDef,
     };
   },
 });
 
 function RouteComponent() {
   const pathParams = Route.useParams();
+  const navigate = Route.useNavigate();
+  const searchQuery = Route.useSearch();
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: searchQuery.page,
+    pageSize: searchQuery.perPage,
+  });
+
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "createdAt", desc: true },
+  ]);
+
+  useEffect(() => {
+    if (
+      searchQuery.page !== pagination.pageIndex ||
+      searchQuery.perPage !== pagination.pageSize
+    ) {
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          page: pagination.pageIndex,
+          perPage: pagination.pageSize,
+        }),
+      });
+    }
+  }, [pagination]);
+
+  const { columns, data, tableDef } = Route.useLoaderData();
 
   return (
-    <div>
-      Hello "/dashboard/{pathParams.schema}/{pathParams.table}"!
-    </div>
+    <article className="grid grid-cols-12 gap-5">
+      <section className="border-b col-span-full pb-2">
+        <h1 className="text-2xl font-bold">{pathParams.table}</h1>
+      </section>
+      <section className="col-span-full flex justify-between">
+        <Input placeholder="Search" className="w-1/4" />
+      </section>
+      <section className="col-span-full">
+        <DataTable
+          columns={columns}
+          data={data}
+          paginationState={pagination}
+          onPaginationChange={setPagination}
+          onSortingChange={setSorting}
+          sortingState={sorting}
+        />
+      </section>
+    </article>
   );
 }

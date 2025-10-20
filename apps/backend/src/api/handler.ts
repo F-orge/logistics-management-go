@@ -73,7 +73,7 @@ export default new Hono<{ Variables: HonoVariables }>()
           .object({
             column: z.string(),
             operator: z.enum(["<", ">", "=", "!=", "like"]),
-            value: z.any().refine((arg) => arg === undefined, {
+            value: z.any().refine((arg) => arg !== undefined, {
               message: "value cannot be undefined",
             }),
           })
