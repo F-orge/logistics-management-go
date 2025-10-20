@@ -156,9 +156,7 @@ export default new Hono<{ Variables: HonoVariables }>()
 
     const tableDef = validateSchemaAndTable(schema, table);
 
-    if (!tableDef) {
-      return ctx.notFound();
-    }
+    if (!tableDef) return ctx.notFound();
 
     const db = ctx.get("kysely");
 
@@ -184,9 +182,7 @@ export default new Hono<{ Variables: HonoVariables }>()
 
       const tableDef = validateSchemaAndTable(schema, table);
 
-      if (!tableDef) {
-        return ctx.notFound();
-      }
+      if (!tableDef) return ctx.notFound();
 
       const db = ctx.get("kysely");
 
