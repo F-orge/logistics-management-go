@@ -7,5 +7,58 @@ export const columns: ColumnDef<
 >[] = [
   {
     accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "ownerId",
+    header: "Owner ID",
+  },
+  {
+    accessorKey: "annualRevenue",
+    header: "Annual Revenue",
+  },
+  {
+    accessorKey: "city",
+    header: "City",
+  },
+  {
+    accessorKey: "country",
+    header: "Country",
+  },
+  {
+    accessorKey: "industry",
+    header: "Industry",
+  },
+  {
+    accessorKey: "phoneNumber",
+    header: "Phone Number",
+  },
+  {
+    accessorKey: "postalCode",
+    header: "Postal Code",
+  },
+  {
+    accessorKey: "state",
+    header: "State",
+  },
+  {
+    accessorKey: "street",
+    header: "Street",
+  },
+  {
+    accessorKey: "website",
+    header: "Website",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated At",
   },
 ];

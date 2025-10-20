@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   AudioWaveform,
@@ -25,440 +25,440 @@ import {
   TrendingUp,
   User2,
   UserPlus,
-} from 'lucide-react'
-import type * as React from 'react'
+} from "lucide-react";
+import type * as React from "react";
 
-import { NavMain } from '@/components/nav-main'
-import { SubSystemSwitcher } from '@/components/subsystem-switcher'
+import { NavMain } from "@/components/nav-main";
+import { SubSystemSwitcher } from "@/components/subsystem-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from '@packages/ui/components/ui/sidebar'
-import { NavUser } from './nav-user'
+} from "@packages/ui/components/ui/sidebar";
+import { NavUser } from "./nav-user";
 
 export type SidebarType = {
   subSystems: {
-    name: string
-    logo: React.ElementType
-    urlToMatch: string
-    href: string
-  }[]
+    name: string;
+    logo: React.ElementType;
+    urlToMatch: string;
+    href: string;
+  }[];
   navMain: {
-    subSystemUrl: string
+    subSystemUrl: string;
     navigation: {
-      title: string
+      title: string;
       items: {
-        title: string
-        url: string
-        icon: React.ElementType
+        title: string;
+        url: string;
+        icon: React.ElementType;
         items?: {
-          title: string
-          url: string
-        }[]
-      }[]
-    }[]
-  }[]
-}
+          title: string;
+          url: string;
+        }[];
+      }[];
+    }[];
+  }[];
+};
 
 const data: SidebarType = {
   subSystems: [
     {
-      name: 'Customer Relation',
+      name: "Customer Relation",
       logo: GalleryVerticalEnd,
-      urlToMatch: '/dashboard/crm',
-      href: '/dashboard/crm/companies',
+      urlToMatch: "/dashboard/crm",
+      href: "/dashboard/crm/companies",
     },
     {
-      name: 'Warehouse Management',
+      name: "Warehouse Management",
       logo: GalleryVerticalEnd,
-      urlToMatch: '/dashboard/wms',
-      href: '/dashboard/wms/product',
+      urlToMatch: "/dashboard/wms",
+      href: "/dashboard/wms/product",
     },
     {
-      name: 'Billing Management',
+      name: "Billing Management",
       logo: GalleryVerticalEnd,
-      urlToMatch: '/dashboard/billing',
-      href: '/dashboard/billing/invoice',
+      urlToMatch: "/dashboard/billing",
+      href: "/dashboard/billing/invoice",
     },
     {
-      name: 'Transport Management',
+      name: "Transport Management",
       logo: GalleryVerticalEnd,
-      urlToMatch: '/dashboard/tms',
-      href: '/dashboard/tms/trip',
+      urlToMatch: "/dashboard/tms",
+      href: "/dashboard/tms/trip",
     },
     {
-      name: 'Delivery Management',
+      name: "Delivery Management",
       logo: GalleryVerticalEnd,
-      urlToMatch: '/dashboard/dms',
-      href: '/dashboard/dms/delivery-task',
+      urlToMatch: "/dashboard/dms",
+      href: "/dashboard/dms/deliveryTasks",
     },
   ],
   navMain: [
     {
-      subSystemUrl: '/dashboard/crm',
+      subSystemUrl: "/dashboard/crm",
       navigation: [
         {
-          title: 'Core',
+          title: "Core",
           items: [
             {
-              title: 'Companies',
+              title: "Companies",
               icon: Building,
-              url: '/dashboard/crm/companies',
+              url: "/dashboard/crm/companies",
             },
             {
-              title: 'Contacts',
+              title: "Contacts",
               icon: User2,
-              url: '/dashboard/crm/contacts',
+              url: "/dashboard/crm/contacts",
             },
             {
-              title: 'Leads',
+              title: "Leads",
               icon: UserPlus,
-              url: '/dashboard/crm/leads',
+              url: "/dashboard/crm/leads",
             },
             {
-              title: 'Opportunities',
+              title: "Opportunities",
               icon: TrendingUp,
-              url: '/dashboard/crm/opportunities',
+              url: "/dashboard/crm/opportunities",
             },
           ],
         },
         {
-          title: 'Sales',
+          title: "Sales",
           items: [
             {
-              title: 'Campaigns',
+              title: "Campaigns",
               icon: Megaphone,
-              url: '/dashboard/crm/campaigns',
+              url: "/dashboard/crm/campaigns",
             },
             {
-              title: 'Products',
+              title: "Products",
               icon: Package,
-              url: '/dashboard/crm/products',
+              url: "/dashboard/crm/products",
             },
           ],
         },
         {
-          title: 'Billing',
+          title: "Billing",
           items: [
             {
-              title: 'Invoices',
+              title: "Invoices",
               icon: FileText,
-              url: '/dashboard/crm/invoices',
+              url: "/dashboard/crm/invoices",
             },
           ],
         },
         {
-          title: 'Support',
+          title: "Support",
           items: [
             {
-              title: 'Cases',
+              title: "Cases",
               icon: LifeBuoy,
-              url: '/dashboard/crm/cases',
+              url: "/dashboard/crm/cases",
             },
             {
-              title: 'Interactions',
+              title: "Interactions",
               icon: MessageCircle,
-              url: '/dashboard/crm/interactions',
+              url: "/dashboard/crm/interactions",
             },
             {
-              title: 'Notifications',
+              title: "Notifications",
               icon: Bell,
-              url: '/dashboard/crm/notifications',
+              url: "/dashboard/crm/notifications",
             },
           ],
         },
       ],
     },
     {
-      subSystemUrl: '/dashboard/wms',
+      subSystemUrl: "/dashboard/wms",
       navigation: [
         {
-          title: 'Inventory',
+          title: "Inventory",
           items: [
             {
-              title: 'Products',
+              title: "Products",
               icon: Package,
-              url: '/dashboard/wms/product',
+              url: "/dashboard/wms/products",
             },
             {
-              title: 'Inventory Stock',
+              title: "Inventory Stock",
               icon: ListOrdered,
-              url: '/dashboard/wms/inventory-stock',
+              url: "/dashboard/wms/inventoryStocks",
             },
             {
-              title: 'Inventory Batch',
+              title: "Inventory Batch",
               icon: Bot,
-              url: '/dashboard/wms/inventory-batch',
+              url: "/dashboard/wms/inventoryBatches",
             },
             {
-              title: 'Inventory Adjustment',
+              title: "Inventory Adjustment",
               icon: Settings2,
-              url: '/dashboard/wms/inventory-adjustment',
+              url: "/dashboard/wms/inventoryAdjustments",
             },
           ],
         },
         {
-          title: 'Warehouse Operations',
+          title: "Warehouse Operations",
           items: [
             {
-              title: 'Warehouses',
+              title: "Warehouses",
               icon: Building,
-              url: '/dashboard/wms/warehouse',
+              url: "/dashboard/wms/warehouse",
             },
             {
-              title: 'Locations',
+              title: "Locations",
               icon: Map,
-              url: '/dashboard/wms/location',
+              url: "/dashboard/wms/locations",
             },
             {
-              title: 'Tasks',
+              title: "Tasks",
               icon: Command,
-              url: '/dashboard/wms/task',
+              url: "/dashboard/wms/tasks",
             },
             {
-              title: 'Pick Batches',
+              title: "Pick Batches",
               icon: PackageSearch,
-              url: '/dashboard/wms/pick-batch',
+              url: "/dashboard/wms/pickBatches",
             },
             {
-              title: 'Stock Transfers',
+              title: "Stock Transfers",
               icon: SquareTerminal,
-              url: '/dashboard/wms/stock-transfer',
+              url: "/dashboard/wms/stockTransfers",
             },
             {
-              title: 'Returns',
+              title: "Returns",
               icon: BookOpen,
-              url: '/dashboard/wms/return',
+              url: "/dashboard/wms/returns",
             },
           ],
         },
         {
-          title: 'Suppliers & Orders',
+          title: "Suppliers & Orders",
           items: [
             {
-              title: 'Suppliers',
+              title: "Suppliers",
               icon: User2,
-              url: '/dashboard/wms/supplier',
+              url: "/dashboard/wms/suppliers",
             },
             {
-              title: 'Sales Orders',
+              title: "Sales Orders",
               icon: FileText,
-              url: '/dashboard/wms/sales-order',
+              url: "/dashboard/wms/salesOrders",
             },
             {
-              title: 'Inbound Shipments',
+              title: "Inbound Shipments",
               icon: TrendingUp,
-              url: '/dashboard/wms/inbound-shipment',
+              url: "/dashboard/wms/inboundShipments",
             },
             {
-              title: 'Outbound Shipments',
+              title: "Outbound Shipments",
               icon: TrendingUp,
-              url: '/dashboard/wms/outbound-shipment',
+              url: "/dashboard/wms/outboundShipments",
             },
           ],
         },
         {
-          title: 'Rules & Thresholds',
+          title: "Rules & Thresholds",
           items: [
             {
-              title: 'Reorder Points',
+              title: "Reorder Points",
               icon: AudioWaveform,
-              url: '/dashboard/wms/reorder-point',
+              url: "/dashboard/wms/reorderPoints",
             },
             {
-              title: 'Bin Thresholds',
+              title: "Bin Thresholds",
               icon: Frame,
-              url: '/dashboard/wms/bin-threshold',
+              url: "/dashboard/wms/binThresholds",
             },
             {
-              title: 'Putaway Rules',
+              title: "Putaway Rules",
               icon: Command,
-              url: '/dashboard/wms/putaway-rule',
+              url: "/dashboard/wms/putawayRules",
             },
           ],
         },
       ],
     },
     {
-      subSystemUrl: '/dashboard/billing',
+      subSystemUrl: "/dashboard/billing",
       navigation: [
         {
-          title: 'Financials',
+          title: "Financials",
           items: [
             {
-              title: 'Invoices',
+              title: "Invoices",
               icon: FileText,
-              url: '/dashboard/billing/invoice',
+              url: "/dashboard/billing/invoices",
             },
             {
-              title: 'Payments',
+              title: "Payments",
               icon: FileText,
-              url: '/dashboard/billing/payment',
+              url: "/dashboard/billing/payments",
             },
             {
-              title: 'Credit Notes',
+              title: "Credit Notes",
               icon: FileText,
-              url: '/dashboard/billing/credit-note',
+              url: "/dashboard/billing/creditNotes",
             },
             {
-              title: 'Quotes',
+              title: "Quotes",
               icon: FileText,
-              url: '/dashboard/billing/quote',
+              url: "/dashboard/billing/quotes",
             },
           ],
         },
         {
-          title: 'Accounts & Disputes',
+          title: "Accounts & Disputes",
           items: [
             {
-              title: 'Client Accounts',
+              title: "Client Accounts",
               icon: User2,
-              url: '/dashboard/billing/client-account',
+              url: "/dashboard/billing/clientAccount",
             },
             {
-              title: 'Disputes',
+              title: "Disputes",
               icon: LifeBuoy,
-              url: '/dashboard/billing/dispute',
+              url: "/dashboard/billing/disputes",
             },
           ],
         },
         {
-          title: 'Rates & Sync',
+          title: "Rates & Sync",
           items: [
             {
-              title: 'Rate Cards',
+              title: "Rate Cards",
               icon: FileText,
-              url: '/dashboard/billing/rate-card',
+              url: "/dashboard/billing/rateCard",
             },
             {
-              title: 'Rate Rules',
+              title: "Rate Rules",
               icon: FileText,
-              url: '/dashboard/billing/rate-rule',
+              url: "/dashboard/billing/rateRule",
             },
             {
-              title: 'Surcharges',
+              title: "Surcharges",
               icon: FileText,
-              url: '/dashboard/billing/surcharge',
+              url: "/dashboard/billing/surcharge",
             },
             {
-              title: 'Accounting Sync Logs',
+              title: "Accounting Sync Logs",
               icon: FileText,
-              url: '/dashboard/billing/accounting-sync-log',
+              url: "/dashboard/billing/accountingSyncLog",
             },
           ],
         },
       ],
     },
     {
-      subSystemUrl: '/dashboard/tms',
+      subSystemUrl: "/dashboard/tms",
       navigation: [
         {
-          title: 'Operations',
+          title: "Operations",
           items: [
             {
-              title: 'Trips',
+              title: "Trips",
               icon: Map,
-              url: '/dashboard/tms/trip',
+              url: "/dashboard/tms/trips",
             },
             {
-              title: 'Routes',
+              title: "Routes",
               icon: Map,
-              url: '/dashboard/tms/route',
+              url: "/dashboard/tms/routes",
             },
             {
-              title: 'Shipment Legs',
+              title: "Shipment Legs",
               icon: SquareTerminal,
-              url: '/dashboard/tms/shipment-leg',
+              url: "/dashboard/tms/shipmentLegs",
             },
             {
-              title: 'Proof of Delivery',
+              title: "Proof of Delivery",
               icon: Check,
-              url: '/dashboard/tms/proof-of-delivery',
+              url: "/dashboard/tms/proofOfDeliveries",
             },
           ],
         },
         {
-          title: 'Fleet & Drivers',
+          title: "Fleet & Drivers",
           items: [
             {
-              title: 'Drivers',
+              title: "Drivers",
               icon: User2,
-              url: '/dashboard/tms/driver',
+              url: "/dashboard/tms/driver",
             },
             {
-              title: 'Vehicles',
+              title: "Vehicles",
               icon: Building,
-              url: '/dashboard/tms/vehicle',
+              url: "/dashboard/tms/vehicle",
             },
             {
-              title: 'GPS Pings',
+              title: "GPS Pings",
               icon: Map,
-              url: '/dashboard/tms/gps-ping',
+              url: "/dashboard/tms/gpsPings",
             },
             {
-              title: 'Geofences',
+              title: "Geofences",
               icon: Frame,
-              url: '/dashboard/tms/geofence',
+              url: "/dashboard/tms/geofence",
             },
           ],
         },
         {
-          title: 'Financials',
+          title: "Financials",
           items: [
             {
-              title: 'Expenses',
+              title: "Expenses",
               icon: FileText,
-              url: '/dashboard/tms/expense',
+              url: "/dashboard/tms/expense",
             },
             {
-              title: 'Partner Invoices',
+              title: "Partner Invoices",
               icon: FileText,
-              url: '/dashboard/tms/partner-invoice',
+              url: "/dashboard/tms/partnerInvoices",
             },
           ],
         },
       ],
     },
     {
-      subSystemUrl: '/dashboard/dms',
+      subSystemUrl: "/dashboard/dms",
       navigation: [
         {
-          title: 'Deliveries',
+          title: "Deliveries",
           items: [
             {
-              title: 'Delivery Tasks',
+              title: "Delivery Tasks",
               icon: Command,
-              url: '/dashboard/dms/delivery-task',
+              url: "/dashboard/dms/deliveryTasks",
             },
             {
-              title: 'Delivery Routes',
+              title: "Delivery Routes",
               icon: Map,
-              url: '/dashboard/dms/delivery-route',
+              url: "/dashboard/dms/deliveryRoutes",
             },
             {
-              title: 'Proof of Delivery',
+              title: "Proof of Delivery",
               icon: Check,
-              url: '/dashboard/dms/proof-of-delivery',
+              url: "/dashboard/dms/proofOfDeliveries",
             },
             {
-              title: 'Task Events',
+              title: "Task Events",
               icon: ListOrdered,
-              url: '/dashboard/dms/task-event',
+              url: "/dashboard/dms/taskEvents",
             },
             {
-              title: 'Customer Tracking Links',
+              title: "Customer Tracking Links",
               icon: Link,
-              url: '/dashboard/dms/customer-tracking-link',
+              url: "/dashboard/dms/customerTrackingLinks",
             },
           ],
         },
       ],
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -474,5 +474,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
