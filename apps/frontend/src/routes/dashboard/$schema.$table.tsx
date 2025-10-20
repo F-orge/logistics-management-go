@@ -38,9 +38,15 @@ export const Route = createFileRoute("/dashboard/$schema/$table")({
       DbSchema.shape[params.schema as keyof typeof DbSchema.shape] as ZodObject
     ).shape[params.table] as ZodObject;
 
-    const tableColDef = await import(
-      `../../components/tables/${params.schema}/${params.table}`
-    );
+    let tableColDef;
+
+    try {
+      tableColDef = await import(
+        `../../components/tables/${params.schema}/${params.table}`
+      );
+    } catch (e) {
+      console.error(e);
+    }
 
     return { params, tableDef, search, tableColDef };
   },
