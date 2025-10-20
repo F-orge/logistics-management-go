@@ -15,7 +15,6 @@
   "dependencies": {
     "@hono/zod-validator": "^0.7.4",
     "@packages/db": "workspace:*",
-    "@packages/rpc": "workspace:*",
     "@sendgrid/mail": "^8.1.6",
     "better-auth": "^1.3.27",
     "dotenv": "^17.2.3",
