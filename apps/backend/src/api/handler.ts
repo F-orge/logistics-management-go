@@ -69,6 +69,18 @@ export default new Hono<{ Variables: HonoVariables }>()
           .array()
           .optional(),
         any: z.uuid().array().optional(),
+        filter: z
+          .object({
+            column: z.string(),
+            operator: z.enum(["<", ">", "=", "!=", "like"]),
+            value: z.any().refine((arg) => arg === undefined, {
+              message: "value cannot be undefined",
+            }),
+          })
+          .array()
+          .optional(),
+        from: z.date().optional(),
+        to: z.date().optional(),
       })
     ),
     async (ctx) => {
@@ -106,8 +118,31 @@ export default new Hono<{ Variables: HonoVariables }>()
         }
       }
 
+      if (payload.filter) {
+        for (const filter of payload.filter) {
+          if (!tableDef.keyof().safeParse(filter.column).success) {
+            return ctx.json({
+              code: "BAD_REQUEST",
+              message: "unknown column for filtering",
+            });
+          }
+
+          query = query.where(
+            filter.column as any,
+            filter.operator,
+            filter.value
+          );
+        }
+      }
+
       if (payload.any) {
         query = query.where("id", "in", payload.any);
+      }
+
+      if (payload.from && payload.to) {
+        query = query
+          .where("createdAt", ">=", payload.from)
+          .where("createdAt", "<=", payload.to);
       }
 
       const result = await query.execute();
@@ -116,11 +151,84 @@ export default new Hono<{ Variables: HonoVariables }>()
     }
   )
   .get(":schema/:table/:id", async (ctx) => {
-    return ctx.text("hello");
+    const schema = ctx.req.param("schema");
+    const table = ctx.req.param("table");
+
+    const tableDef = validateSchemaAndTable(schema, table);
+
+    if (!tableDef) {
+      return ctx.notFound();
+    }
+
+    const db = ctx.get("kysely");
+
+    const payload = ctx.req.param("id");
+
+    let result = await db
+      .withSchema(schema)
+      .selectFrom(table)
+      .selectAll()
+      .where("id", "=", payload)
+      .executeTakeFirst();
+
+    if (!result) return ctx.notFound();
+
+    return ctx.json(result);
   })
-  .patch(":schema/:table/:id", async (ctx) => {
-    return ctx.text("hello");
-  })
+  .patch(
+    ":schema/:table/:id",
+    zValidator("json", z.record(z.string(), z.any())),
+    async (ctx) => {
+      const schema = ctx.req.param("schema");
+      const table = ctx.req.param("table");
+
+      const tableDef = validateSchemaAndTable(schema, table);
+
+      if (!tableDef) {
+        return ctx.notFound();
+      }
+
+      const db = ctx.get("kysely");
+
+      const id = ctx.req.param("id");
+      const payload = ctx.req.valid("json");
+
+      const result = await db
+        .withSchema(schema)
+        .updateTable(table)
+        .set(payload)
+        .where("id", "=", id)
+        .returningAll()
+        .executeTakeFirst();
+
+      if (!result) return ctx.notFound();
+
+      return ctx.json(result);
+    }
+  )
   .delete(":schema/:table/:id", async (ctx) => {
-    return ctx.text("hello");
+    const schema = ctx.req.param("schema");
+    const table = ctx.req.param("table");
+
+    const tableDef = validateSchemaAndTable(schema, table);
+
+    if (!tableDef) {
+      return ctx.notFound();
+    }
+
+    const db = ctx.get("kysely");
+
+    const id = ctx.req.param("id");
+
+    const result = await db
+      .withSchema(schema)
+      .deleteFrom(table)
+      .where("id", "=", id)
+      .executeTakeFirst();
+
+    return ctx.json({
+      code: "OK",
+      message: "Successfully deleted a record",
+      data: { recordId: id, numDeletedRows: result.numDeletedRows },
+    });
   });
