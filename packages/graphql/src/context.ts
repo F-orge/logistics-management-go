@@ -1,3 +1,5 @@
+import { Kysely } from "kysely";
+
 export interface GraphQLContext {
-  test: string;
+  db: Kysely<any>;
 }

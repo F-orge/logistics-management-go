@@ -91,8 +91,11 @@
     },
     "packages/graphql": {
       "name": "@packages/graphql",
+      "version": "0.0.1",
       "dependencies": {
+        "@packages/graphql": ".",
         "graphql": "^16.11.0",
+        "kysely": "^0.28.8",
       },
       "devDependencies": {
         "@eddeee888/gcg-typescript-resolver-files": "^0.14.0",
