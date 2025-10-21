@@ -33,6 +33,11 @@
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
       "outputs": ["dist/**"]
     },
+    "@packages/graphql#build": {
+      "dependsOn": ["@packages/db#build"],
+      "inputs": ["src/**/*.ts", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
     "@apps/frontend#build": {
       "dependsOn": ["@packages/db#build", "@packages/ui#build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "rsbuild.config.ts", "tsconfig.json"],

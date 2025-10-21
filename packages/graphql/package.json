@@ -1,0 +1,39 @@
+{
+  "name": "@packages/graphql",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun run codegen && bun run compile",
+    "compile": "tsc -p tsconfig.build.json",
+    "codegen": "bun graphql-codegen",
+    "codegen:watch": "bun graphql-codegen --watch",
+    "dev": "bun run codegen:watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "bun run clean && bun run build"
+  },
+  "devDependencies": {
+    "@eddeee888/gcg-typescript-resolver-files": "^0.14.0",
+    "@graphql-codegen/cli": "^6.0.1",
+    "@graphql-codegen/typescript-resolvers": "^5.1.0",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "graphql": "^16.11.0"
+  }
+}

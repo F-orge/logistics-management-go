@@ -1,0 +1,12 @@
+
+type Companies {
+  name: String!
+}
+
+type CompanyQueries {
+  paginate(page:Int,perPage:Int): [Companies!]!
+}
+
+extend type CrmQuery {
+  companies:CompanyQueries!
+}

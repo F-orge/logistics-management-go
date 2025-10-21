@@ -1,0 +1,21 @@
+type Companies {
+  name: String!
+}
+
+type CompanyQueries {
+  paginate(page: Int, perPage: Int): [Companies!]!
+}
+
+type CrmMutation
+
+type CrmQuery {
+  companies: CompanyQueries!
+}
+
+type Mutation {
+  crm: CrmMutation
+}
+
+type Query {
+  crm: CrmQuery
+}
