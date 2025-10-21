@@ -9,6 +9,12 @@ const config: CodegenConfig = {
         contextType: "../context#GraphQLContext",
       },
     }),
+    "src/zod.schema.ts": {
+      plugins: ["typescript", "typescript-validation-schema"],
+      config: {
+        schema: "zodv4",
+      },
+    },
   },
 };
 export default config;

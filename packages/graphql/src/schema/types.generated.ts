@@ -644,7 +644,7 @@ export type ClientAccounts = {
 
 export type Companies = {
   __typename?: 'Companies';
-  annualRevenue?: Maybe<Scalars['Float']['output']>;
+  annualRevenue?: Maybe<Scalars['String']['output']>;
   billingInvoices?: Maybe<Array<BillingInvoices>>;
   city?: Maybe<Scalars['String']['output']>;
   clientAccount?: Maybe<ClientAccounts>;
@@ -6561,7 +6561,7 @@ export type ClientAccountsResolvers<ContextType = GraphQLContext, ParentType ext
 };
 
 export type CompaniesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Companies'] = ResolversParentTypes['Companies']> = {
-  annualRevenue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  annualRevenue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   billingInvoices?: Resolver<Maybe<Array<ResolversTypes['BillingInvoices']>>, ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   clientAccount?: Resolver<Maybe<ResolversTypes['ClientAccounts']>, ParentType, ContextType>;

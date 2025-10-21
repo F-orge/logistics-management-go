@@ -9,7 +9,7 @@ type Companies {
   phoneNumber: String
   industry: String
   website: String
-  annualRevenue: Float
+  annualRevenue: String
   createdAt: String
   updatedAt: String
   owner: User
