@@ -1327,7 +1327,7 @@ export type CreateShipmentLegInput = {
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence: Scalars['Int']['input'];
-  shipment?: InputMaybe<OutboundShipments>;
+  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -1419,7 +1419,7 @@ export type CreateTripStopInput = {
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
   sequence: Scalars['Int']['input'];
-  shipment?: InputMaybe<OutboundShipments>;
+  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TripStopStatus>;
   tripId: Scalars['ID']['input'];
 };
@@ -4639,7 +4639,7 @@ export type UpdateShipmentLegInput = {
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence?: InputMaybe<Scalars['Int']['input']>;
-  shipment?: InputMaybe<OutboundShipments>;
+  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -4731,7 +4731,7 @@ export type UpdateTripStopInput = {
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
   sequence?: InputMaybe<Scalars['Int']['input']>;
-  shipment?: InputMaybe<OutboundShipments>;
+  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TripStopStatus>;
   tripId?: InputMaybe<Scalars['ID']['input']>;
 };

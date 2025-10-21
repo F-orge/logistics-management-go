@@ -28,7 +28,7 @@ extend type TmsQuery {
 
 input CreateTripStopInput {
   tripId: ID!
-  shipment: OutboundShipments
+  shipmentId: ID
   sequence: Int!
   address: String
   status: TripStopStatus
@@ -40,7 +40,7 @@ input CreateTripStopInput {
 
 input UpdateTripStopInput {
   tripId: ID
-  shipment: OutboundShipments
+  shipmentId: ID
   sequence: Int
   address: String
   status: TripStopStatus

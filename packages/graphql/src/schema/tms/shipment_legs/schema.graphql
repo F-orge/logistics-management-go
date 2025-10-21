@@ -27,7 +27,7 @@ extend type TmsQuery {
 }
 
 input CreateShipmentLegInput {
-  shipment: OutboundShipments
+  shipmentId: ID
   legSequence: Int!
   startLocation: String
   endLocation: String
@@ -37,7 +37,7 @@ input CreateShipmentLegInput {
 }
 
 input UpdateShipmentLegInput {
-  shipment: OutboundShipments
+  shipmentId: ID
   legSequence: Int
   startLocation: String
   endLocation: String

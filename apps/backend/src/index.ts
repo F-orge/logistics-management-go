@@ -20,6 +20,8 @@ import type { ZodError } from "zod";
 import { authFactory } from "./auth";
 import { BunStorageRepository } from "./storage";
 import handler from "./api/handler";
+import { createYoga, createSchema } from "graphql-yoga";
+import { typeDefs, resolvers } from "@packages/graphql";
 
 type ServerFactory = {
   pool: Pool;
@@ -123,8 +125,14 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
     return auth.handler(c.req.raw);
   });
 
-  // generic api handler
-  router.route("/api", handler);
+  const graphqlSchema = createSchema({ typeDefs, resolvers });
+
+  const yoga = createYoga({ schema: graphqlSchema });
+
+  // graphql yoga handler
+  router.use("/api/graphql/*", async (ctx) =>
+    yoga.fetch(ctx.req.raw, { db: ctx.get("kysely") })
+  );
 
   // frontend mounting
   if (process.env.NODE_ENV === "production") {
