@@ -1,50 +1,54 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { toast } from 'sonner'
-import { AutoForm } from '@packages/ui/components/ui/autoform'
-import { Button } from '@packages/ui/components/ui/button'
-import { Field, FieldDescription, FieldGroup, FieldLabel } from '@packages/ui/components/ui/field'
-import { Input } from '@packages/ui/components/ui/input'
-import { cn } from '@packages/ui/lib/utils'
-import z, { email } from 'zod'
-import { fieldConfig } from '@autoform/zod'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { AutoForm } from "@packages/ui/components/ui/autoform/index";
+import { Button } from "@packages/ui/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@packages/ui/components/ui/field";
+import z from "zod";
+import { fieldConfig } from "@autoform/zod";
 
 export const ResetPasswordComponent = () => {
   return (
     <div className="flex gap-2.5 justify-between w-full">
       <FieldLabel>Password</FieldLabel>
-      <Button variant={'link'} size={'sm'} className="p-0" asChild>
+      <Button variant={"link"} size={"sm"} className="p-0" asChild>
         <Link to="/auth/forgot-password">Forgot password?</Link>
       </Button>
     </div>
-  )
-}
+  );
+};
 
 export const LoginFormSchema = z.object({
-  email: z
-    .email()
-    .check(fieldConfig({ label: 'Email address', description: 'Enter your email address' })),
-  password: z
-    .string()
-    .check(
-      fieldConfig({
-        label: <ResetPasswordComponent />,
-        description: 'Enter your password',
-        inputProps: { type: 'password' },
-      }),
-    ),
+  email: z.email().check(
+    fieldConfig({
+      label: "Email address",
+      description: "Enter your email address",
+    })
+  ),
+  password: z.string().check(
+    fieldConfig({
+      label: <ResetPasswordComponent />,
+      description: "Enter your password",
+      inputProps: { type: "password" },
+    })
+  ),
   rememberMe: z
     .boolean()
     .optional()
-    .check(fieldConfig({ label: 'Remember Me' })),
-})
+    .check(fieldConfig({ label: "Remember Me" })),
+});
 
-export const Route = createFileRoute('/auth/login/')({
+export const Route = createFileRoute("/auth/login/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const navigate = Route.useNavigate()
-  const { authClient } = Route.useRouteContext()
+  const navigate = Route.useNavigate();
+  const { authClient } = Route.useRouteContext();
 
   return (
     <FieldGroup>
@@ -66,26 +70,29 @@ function RouteComponent() {
             {
               success: ({ data, error }) => {
                 if (error) {
-                  toast.error(error.message)
-                  if (error.message === 'Email not verified') {
+                  toast.error(error.message);
+                  if (error.message === "Email not verified") {
                     navigate({
-                      to: '/auth/verify-email',
+                      to: "/auth/verify-email",
                       search: { email: value.email },
-                    })
+                    });
                   }
                 }
 
                 if (data !== null && data?.redirect) {
-                  navigate({ to: data.url })
+                  navigate({ to: data.url });
                 }
 
                 if (data !== null && data.user) {
-                  navigate({ to: '/dashboard/crm' })
-                  return 'Successfully logged in'
+                  navigate({
+                    to: "/dashboard/$schema/$table",
+                    params: { schema: "crm", table: "leads" },
+                  });
+                  return "Successfully logged in";
                 }
               },
-            },
-          )
+            }
+          );
         }}
       >
         <Field>
@@ -93,7 +100,7 @@ function RouteComponent() {
         </Field>
         <Field>
           <FieldDescription className="text-center">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{" "}
             <Link to="/auth/signup" className="underline underline-offset-4">
               Sign up
             </Link>
@@ -101,5 +108,5 @@ function RouteComponent() {
         </Field>
       </AutoForm>
     </FieldGroup>
-  )
+  );
 }

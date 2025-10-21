@@ -3,14 +3,45 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        ".output/**",
+        "build/**"
+      ]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": ["^build", "^typecheck"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "persistent": true,
       "cache": false
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"]
+    },
+    "@packages/db#build": {
+      "inputs": ["src/**/*.ts", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
+    "@packages/ui#build": {
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
+    "@apps/frontend#build": {
+      "dependsOn": ["@packages/db#build", "@packages/ui#build"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "rsbuild.config.ts", "tsconfig.json"],
+      "outputs": [".output/**"]
+    },
+    "@apps/backend#build": {
+      "dependsOn": ["@packages/db#build"],
+      "inputs": ["src/**/*.ts", "tsconfig.json"],
+      "outputs": [".output/**", "dist/**"]
     }
   }
 }

@@ -1,17 +1,17 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { zodValidator } from '@tanstack/zod-adapter'
-import { toast } from 'sonner'
-import z from 'zod'
-import { AutoForm } from '@packages/ui/components/ui/autoform'
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import { toast } from "sonner";
+import z from "zod";
+import { AutoForm } from "@packages/ui/components/ui/autoform/index";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLegend,
   FieldTitle,
-} from '@packages/ui/components/ui/field'
-import { authClient } from '@/lib/auth'
-import { Button } from '@packages/ui/components/ui/button'
+} from "@packages/ui/components/ui/field";
+import { authClient } from "@/lib/auth";
+import { Button } from "@packages/ui/components/ui/button";
 
 const ResetPasswordForm = z
   .object({
@@ -19,23 +19,24 @@ const ResetPasswordForm = z
     confirmPassword: z.string(),
   })
   .refine((args) => args.newPassword === args.confirmPassword, {
-    error: 'Password does not match',
-    path: ['confirmPassword', 'newPassword'],
-  })
+    error: "Password does not match",
+    path: ["confirmPassword", "newPassword"],
+  });
 
-export const Route = createFileRoute('/auth/reset-password/')({
+export const Route = createFileRoute("/auth/reset-password/")({
   component: RouteComponent,
   validateSearch: zodValidator(
-    z.object({ token: z.string().optional(), email: z.email().optional() }),
+    z.object({ token: z.string().optional(), email: z.email().optional() })
   ),
   beforeLoad: (ctx) => {
-    if (!ctx.search.token && !ctx.search.email) throw redirect({ to: '/auth/login' })
+    if (!ctx.search.token && !ctx.search.email)
+      throw redirect({ to: "/auth/login" });
   },
-})
+});
 
 function RouteComponent() {
-  const searchQuery = Route.useSearch()
-  const navigate = Route.useNavigate()
+  const searchQuery = Route.useSearch();
+  const navigate = Route.useNavigate();
 
   if (!searchQuery.token && searchQuery.email) {
     return (
@@ -47,7 +48,7 @@ function RouteComponent() {
           </FieldDescription>
         </FieldLegend>
       </FieldGroup>
-    )
+    );
   }
 
   return (
@@ -69,14 +70,14 @@ function RouteComponent() {
             {
               success: ({ data }) => {
                 if (data?.status) {
-                  navigate({ to: '/auth/login' })
-                  return 'Successfully changed password'
+                  navigate({ to: "/auth/login" });
+                  return "Successfully changed password";
                 } else {
-                  return 'Unable to update your password'
+                  return "Unable to update your password";
                 }
               },
-              error: 'Unable to update your password',
-            },
+              error: "Unable to update your password",
+            }
           )
         }
       >
@@ -85,5 +86,5 @@ function RouteComponent() {
         </Field>
       </AutoForm>
     </FieldGroup>
-  )
+  );
 }

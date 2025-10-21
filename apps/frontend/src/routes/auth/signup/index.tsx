@@ -1,57 +1,62 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { toast } from 'sonner'
-import z from 'zod'
-import { AutoForm } from '@packages/ui/components/ui/autoform'
-import { Field, FieldDescription, FieldGroup } from '@packages/ui/components/ui/field'
-import { authClient } from '@/lib/auth'
-import { fieldConfig } from '@autoform/zod'
-import { Button } from '@packages/ui/components/ui/button'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
+import z from "zod";
+import { AutoForm } from "@packages/ui/components/ui/autoform/index";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+} from "@packages/ui/components/ui/field";
+import { authClient } from "@/lib/auth";
+import { fieldConfig } from "@autoform/zod";
+import { Button } from "@packages/ui/components/ui/button";
 
 export const RegisterFormSchema = z
   .object({
-    name: z
-      .string()
-      .check(fieldConfig({ label: 'Full name', inputProps: { placeholder: 'John doe' } })),
-    email: z
-      .email()
-      .check(
-        fieldConfig({
-          label: 'Email',
-          inputProps: { placeholder: 'm@example.com' },
-          description:
-            "We'll use this to contact you. We will not share your email with anyone else.",
-        }),
-      ),
+    name: z.string().check(
+      fieldConfig({
+        label: "Full name",
+        inputProps: { placeholder: "John doe" },
+      })
+    ),
+    email: z.email().check(
+      fieldConfig({
+        label: "Email",
+        inputProps: { placeholder: "m@example.com" },
+        description:
+          "We'll use this to contact you. We will not share your email with anyone else.",
+      })
+    ),
     password: z
       .string()
-      .min(8, 'Must be at least 8 characters long')
+      .min(8, "Must be at least 8 characters long")
       .check(
         fieldConfig({
-          label: 'Password',
-          inputProps: { placeholder: '**********', type: 'password' },
-        }),
+          label: "Password",
+          inputProps: { placeholder: "**********", type: "password" },
+        })
       ),
     confirmPassword: z
       .string()
-      .min(8, 'Must be at least 8 characters long')
+      .min(8, "Must be at least 8 characters long")
       .check(
         fieldConfig({
-          label: 'Confirm Password',
-          inputProps: { placeholder: '**********', type: 'password' },
-        }),
+          label: "Confirm Password",
+          inputProps: { placeholder: "**********", type: "password" },
+        })
       ),
   })
   .refine((args) => args.password === args.confirmPassword, {
-    error: 'Password does not match',
-    path: ['confirmPassword'],
-  })
+    error: "Password does not match",
+    path: ["confirmPassword"],
+  });
 
-export const Route = createFileRoute('/auth/signup/')({
+export const Route = createFileRoute("/auth/signup/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const navigate = Route.useNavigate()
+  const navigate = Route.useNavigate();
 
   return (
     <FieldGroup>
@@ -74,12 +79,12 @@ function RouteComponent() {
                 navigate({
                   to: `/auth/verify-email`,
                   search: { email: data!.user.email },
-                })
-                return 'Success registration'
+                });
+                return "Success registration";
               },
-              error: 'Unable to register',
-            },
-          )
+              error: "Unable to register",
+            }
+          );
         }}
       >
         <Field>
@@ -92,5 +97,5 @@ function RouteComponent() {
         </FieldDescription>
       </Field>
     </FieldGroup>
-  )
+  );
 }

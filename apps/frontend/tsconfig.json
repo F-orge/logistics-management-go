@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "target": "ESNext",
@@ -8,18 +7,13 @@
     "jsx": "react-jsx",
     "noEmit": true,
     "composite": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/ui": ["../../packages/ui"],
-      "@packages/ui/*": ["../../packages/ui/*"],
-      "@packages/db": ["../../packages/db/src"],
-      "@packages/db/*": ["../../packages/db/src/*"],
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*","src/routeTree.gen.ts"],
   "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "../../packages/ui" },
-    { "path": "../../packages/db" },
-  ]
 }
