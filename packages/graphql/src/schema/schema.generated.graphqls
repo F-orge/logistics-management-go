@@ -3386,8 +3386,8 @@ input UpdateWmsProductInput {
 
 type User {
   email: String!
-  emailVerified: String!
-  image: String!
+  emailVerified: Boolean!
+  image: String
   name: String!
 }
 

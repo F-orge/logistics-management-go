@@ -4789,8 +4789,8 @@ export type UpdateWmsProductInput = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
-  emailVerified: Scalars['String']['output'];
-  image: Scalars['String']['output'];
+  emailVerified: Scalars['Boolean']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
 
@@ -7763,8 +7763,8 @@ export type TripsResolvers<ContextType = GraphQLContext, ParentType extends Reso
 
 export type UserResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  emailVerified?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  image?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 

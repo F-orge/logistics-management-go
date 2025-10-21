@@ -9,6 +9,6 @@ type DeleteResult {
 type User {
   name: String!
   email: String!
-  emailVerified: String!
-  image: String!
+  emailVerified: Boolean!
+  image: String
 }

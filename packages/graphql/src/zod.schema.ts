@@ -4839,8 +4839,8 @@ export type UpdateWmsProductInput = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
-  emailVerified: Scalars['String']['output'];
-  image: Scalars['String']['output'];
+  emailVerified: Scalars['Boolean']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
 
