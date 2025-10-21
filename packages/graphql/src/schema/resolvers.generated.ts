@@ -1,9 +1,11 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
     import    { crm as Query_crm } from './crm/resolvers/Query/crm';
+import    { dms as Query_dms } from './dms/resolvers/Query/dms';
 import    { tms as Query_tms } from './tms/resolvers/Query/tms';
 import    { wms as Query_wms } from './wms/resolvers/Query/wms';
 import    { crm as Mutation_crm } from './crm/resolvers/Mutation/crm';
+import    { dms as Mutation_dms } from './dms/resolvers/Mutation/dms';
 import    { tms as Mutation_tms } from './tms/resolvers/Mutation/tms';
 import    { wms as Mutation_wms } from './wms/resolvers/Mutation/wms';
 import    { Attachments } from './crm/attachments/resolvers/Attachments';
@@ -40,7 +42,24 @@ import    { CrmQuery as notifications_CrmQuery } from './crm/notifications/resol
 import    { CrmQuery as opportunities_CrmQuery } from './crm/opportunities/resolvers/CrmQuery';
 import    { CrmQuery as opportunity_products_CrmQuery } from './crm/opportunity_products/resolvers/CrmQuery';
 import    { CrmQuery as products_CrmQuery } from './crm/products/resolvers/CrmQuery';
+import    { CustomerTrackingLinks } from './dms/customer_tracking_links/resolvers/CustomerTrackingLinks';
 import    { DeleteResult } from './base/resolvers/DeleteResult';
+import    { DeliveryRoutes } from './dms/delivery_routes/resolvers/DeliveryRoutes';
+import    { DeliveryTasks } from './dms/delivery_tasks/resolvers/DeliveryTasks';
+import    { DmsMutation as customer_tracking_links_DmsMutation } from './dms/customer_tracking_links/resolvers/DmsMutation';
+import    { DmsMutation as delivery_routes_DmsMutation } from './dms/delivery_routes/resolvers/DmsMutation';
+import    { DmsMutation as delivery_tasks_DmsMutation } from './dms/delivery_tasks/resolvers/DmsMutation';
+import    { DmsMutation as proof_of_deliveries_DmsMutation } from './dms/proof_of_deliveries/resolvers/DmsMutation';
+import    { DmsMutation as driver_locations_DmsMutation } from './dms/driver_locations/resolvers/DmsMutation';
+import    { DmsMutation as task_events_DmsMutation } from './dms/task_events/resolvers/DmsMutation';
+import    { DmsProofOfDeliveries } from './dms/proof_of_deliveries/resolvers/DmsProofOfDeliveries';
+import    { DmsQuery as customer_tracking_links_DmsQuery } from './dms/customer_tracking_links/resolvers/DmsQuery';
+import    { DmsQuery as delivery_routes_DmsQuery } from './dms/delivery_routes/resolvers/DmsQuery';
+import    { DmsQuery as delivery_tasks_DmsQuery } from './dms/delivery_tasks/resolvers/DmsQuery';
+import    { DmsQuery as proof_of_deliveries_DmsQuery } from './dms/proof_of_deliveries/resolvers/DmsQuery';
+import    { DmsQuery as driver_locations_DmsQuery } from './dms/driver_locations/resolvers/DmsQuery';
+import    { DmsQuery as task_events_DmsQuery } from './dms/task_events/resolvers/DmsQuery';
+import    { DriverLocations } from './dms/driver_locations/resolvers/DriverLocations';
 import    { DriverSchedules } from './tms/driver_schedules/resolvers/DriverSchedules';
 import    { Drivers } from './tms/drivers/resolvers/Drivers';
 import    { Expenses } from './tms/expenses/resolvers/Expenses';
@@ -81,6 +100,7 @@ import    { ShipmentLegEvents } from './tms/shipment_leg_events/resolvers/Shipme
 import    { ShipmentLegs } from './tms/shipment_legs/resolvers/ShipmentLegs';
 import    { StockTransfers } from './wms/stock_transfers/resolvers/StockTransfers';
 import    { Suppliers } from './wms/suppliers/resolvers/Suppliers';
+import    { TaskEvents } from './dms/task_events/resolvers/TaskEvents';
 import    { TaskItems } from './wms/task_items/resolvers/TaskItems';
 import    { Tasks } from './wms/tasks/resolvers/Tasks';
 import    { TmsMutation as carriers_TmsMutation } from './tms/carriers/resolvers/TmsMutation';
@@ -177,8 +197,8 @@ import    { WmsQuery as task_items_WmsQuery } from './wms/task_items/resolvers/W
 import    { WmsQuery as warehouses_WmsQuery } from './wms/warehouses/resolvers/WmsQuery';
 import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQuery';
     export const resolvers: Resolvers = {
-      Query: { crm: Query_crm,tms: Query_tms,wms: Query_wms },
-      Mutation: { crm: Mutation_crm,tms: Mutation_tms,wms: Mutation_wms },
+      Query: { crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
+      Mutation: { crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
       
       Attachments: Attachments,
 BinThresholds: BinThresholds,
@@ -190,7 +210,14 @@ Companies: Companies,
 Contacts: Contacts,
 CrmMutation: { ...attachments_CrmMutation,...campaigns_CrmMutation,...cases_CrmMutation,...companies_CrmMutation,...contacts_CrmMutation,...interactions_CrmMutation,...invoices_CrmMutation,...invoice_items_CrmMutation,...leads_CrmMutation,...notifications_CrmMutation,...opportunities_CrmMutation,...opportunity_products_CrmMutation,...products_CrmMutation },
 CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...invoice_items_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...opportunity_products_CrmQuery,...products_CrmQuery },
+CustomerTrackingLinks: CustomerTrackingLinks,
 DeleteResult: DeleteResult,
+DeliveryRoutes: DeliveryRoutes,
+DeliveryTasks: DeliveryTasks,
+DmsMutation: { ...customer_tracking_links_DmsMutation,...delivery_routes_DmsMutation,...delivery_tasks_DmsMutation,...proof_of_deliveries_DmsMutation,...driver_locations_DmsMutation,...task_events_DmsMutation },
+DmsProofOfDeliveries: DmsProofOfDeliveries,
+DmsQuery: { ...customer_tracking_links_DmsQuery,...delivery_routes_DmsQuery,...delivery_tasks_DmsQuery,...proof_of_deliveries_DmsQuery,...driver_locations_DmsQuery,...task_events_DmsQuery },
+DriverLocations: DriverLocations,
 DriverSchedules: DriverSchedules,
 Drivers: Drivers,
 Expenses: Expenses,
@@ -231,6 +258,7 @@ ShipmentLegEvents: ShipmentLegEvents,
 ShipmentLegs: ShipmentLegs,
 StockTransfers: StockTransfers,
 Suppliers: Suppliers,
+TaskEvents: TaskEvents,
 TaskItems: TaskItems,
 Tasks: Tasks,
 TmsMutation: { ...carriers_TmsMutation,...carrier_rates_TmsMutation,...drivers_TmsMutation,...driver_schedules_TmsMutation,...expenses_TmsMutation,...geofences_TmsMutation,...geofence_events_TmsMutation,...gps_pings_TmsMutation,...partner_invoices_TmsMutation,...partner_invoice_items_TmsMutation,...proof_of_deliveries_TmsMutation,...routes_TmsMutation,...shipment_legs_TmsMutation,...shipment_leg_events_TmsMutation,...trips_TmsMutation,...trip_stops_TmsMutation,...vehicles_TmsMutation,...vehicle_maintenance_TmsMutation },

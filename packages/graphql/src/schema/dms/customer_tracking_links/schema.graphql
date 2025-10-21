@@ -1,0 +1,40 @@
+type CustomerTrackingLinks {
+  id: ID!
+  deliveryTask: DeliveryTasks!
+  trackingToken: String!
+  isActive: Boolean
+  accessCount: Int
+  lastAccessedAt: String
+  expiresAt: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type DmsQuery {
+  customerTrackingLinks(page: Int, perPage: Int): [CustomerTrackingLinks!]!
+  customerTrackingLink(id: ID!): CustomerTrackingLinks!
+}
+
+input CreateCustomerTrackingLinkInput {
+  deliveryTaskId: ID!
+  trackingToken: String!
+  isActive: Boolean
+  accessCount: Int
+  lastAccessedAt: String
+  expiresAt: String
+}
+
+input UpdateCustomerTrackingLinkInput {
+  deliveryTaskId: ID
+  trackingToken: String
+  isActive: Boolean
+  accessCount: Int
+  lastAccessedAt: String
+  expiresAt: String
+}
+
+extend type DmsMutation {
+  createCustomerTrackingLink(value: CreateCustomerTrackingLinkInput!): CustomerTrackingLinks!
+  updateCustomerTrackingLink(id: ID!, value: UpdateCustomerTrackingLinkInput): CustomerTrackingLinks!
+  removeCustomerTrackingLink(id: ID!): DeleteResult!
+}

@@ -1,0 +1,46 @@
+type DriverLocations {
+  id: ID!
+  driver: Drivers!
+  latitude: Float!
+  longitude: Float!
+  altitude: Float
+  accuracy: Float
+  speedKmh: Float
+  heading: Float
+  timestamp: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type DmsQuery {
+  driverLocations(page: Int, perPage: Int): [DriverLocations!]!
+  driverLocation(id: ID!): DriverLocations!
+}
+
+input CreateDriverLocationInput {
+  driverId: ID!
+  latitude: Float!
+  longitude: Float!
+  altitude: Float
+  accuracy: Float
+  speedKmh: Float
+  heading: Float
+  timestamp: String
+}
+
+input UpdateDriverLocationInput {
+  driverId: ID
+  latitude: Float
+  longitude: Float
+  altitude: Float
+  accuracy: Float
+  speedKmh: Float
+  heading: Float
+  timestamp: String
+}
+
+extend type DmsMutation {
+  createDriverLocation(value: CreateDriverLocationInput!): DriverLocations!
+  updateDriverLocation(id: ID!, value: UpdateDriverLocationInput): DriverLocations!
+  removeDriverLocation(id: ID!): DeleteResult!
+}

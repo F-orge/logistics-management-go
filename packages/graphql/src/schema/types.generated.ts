@@ -235,11 +235,70 @@ export type CreateContactInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CreateCustomerTrackingLinkInput = {
+  accessCount?: InputMaybe<Scalars['Int']['input']>;
+  deliveryTaskId: Scalars['ID']['input'];
+  expiresAt?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
+  trackingToken: Scalars['String']['input'];
+};
+
+export type CreateDeliveryRouteInput = {
+  completedAt?: InputMaybe<Scalars['String']['input']>;
+  driverId: Scalars['ID']['input'];
+  estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+  optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
+  routeDate: Scalars['String']['input'];
+  startedAt?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryRouteStatus>;
+  totalDistanceKm?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreateDeliveryTaskInput = {
+  actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
+  attemptCount?: InputMaybe<Scalars['Int']['input']>;
+  deliveryAddress: Scalars['String']['input'];
+  deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
+  deliveryRouteId: Scalars['ID']['input'];
+  deliveryTime?: InputMaybe<Scalars['String']['input']>;
+  estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
+  failureReason?: InputMaybe<DeliveryFailureReason>;
+  packageId: Scalars['ID']['input'];
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+  recipientPhone?: InputMaybe<Scalars['String']['input']>;
+  routeSequence: Scalars['Int']['input'];
+  status?: InputMaybe<DeliveryTaskStatus>;
+};
+
+export type CreateDmsProofOfDeliveryInput = {
+  deliveryTaskId: Scalars['ID']['input'];
+  filePath?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+  signatureData?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+  type: ProofOfDeliveryType;
+  verificationCode?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateDriverInput = {
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber: Scalars['String']['input'];
   status?: InputMaybe<DriverStatus>;
   userId: Scalars['ID']['input'];
+};
+
+export type CreateDriverLocationInput = {
+  accuracy?: InputMaybe<Scalars['Float']['input']>;
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+  driverId: Scalars['ID']['input'];
+  heading?: InputMaybe<Scalars['Float']['input']>;
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  speedKmh?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDriverScheduleInput = {
@@ -601,6 +660,16 @@ export type CreateSupplierInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateTaskEventInput = {
+  deliveryTaskId: Scalars['ID']['input'];
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  reason?: InputMaybe<Scalars['String']['input']>;
+  status: TaskEventStatus;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateTaskInput = {
@@ -1136,10 +1205,320 @@ export type Currency =
   | 'PHP'
   | 'USD';
 
+export type CustomerTrackingLinks = {
+  __typename?: 'CustomerTrackingLinks';
+  accessCount?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  deliveryTask: DeliveryTasks;
+  expiresAt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  lastAccessedAt?: Maybe<Scalars['String']['output']>;
+  trackingToken: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
 export type DeleteResult = {
   __typename?: 'DeleteResult';
   numDeletedRows: Scalars['Int']['output'];
   success: Scalars['Boolean']['output'];
+};
+
+export type DeliveryFailureReason =
+  | 'ACCESS_DENIED'
+  | 'ADDRESS_NOT_FOUND'
+  | 'DAMAGED_PACKAGE'
+  | 'OTHER'
+  | 'RECIPIENT_NOT_HOME'
+  | 'REFUSED_DELIVERY'
+  | 'VEHICLE_BREAKDOWN'
+  | 'WEATHER_CONDITIONS';
+
+export type DeliveryRouteStatus =
+  | 'CANCELLED'
+  | 'COMPLETED'
+  | 'IN_PROGRESS'
+  | 'PAUSED'
+  | 'PLANNED';
+
+export type DeliveryRoutes = {
+  __typename?: 'DeliveryRoutes';
+  actualDurationMinutes?: Maybe<Scalars['Int']['output']>;
+  completedAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  driver: Drivers;
+  estimatedDurationMinutes?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  optimizedRouteData?: Maybe<Scalars['String']['output']>;
+  routeDate: Scalars['String']['output'];
+  startedAt?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<DeliveryRouteStatus>;
+  tasks?: Maybe<Array<DeliveryTasks>>;
+  totalDistanceKm?: Maybe<Scalars['Float']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type DeliveryTaskStatus =
+  | 'ASSIGNED'
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'FAILED'
+  | 'OUT_FOR_DELIVERY'
+  | 'PENDING'
+  | 'RESCHEDULED';
+
+export type DeliveryTasks = {
+  __typename?: 'DeliveryTasks';
+  actualArrivalTime?: Maybe<Scalars['String']['output']>;
+  attemptCount?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  customerTrackingLinks?: Maybe<Array<CustomerTrackingLinks>>;
+  deliveryAddress: Scalars['String']['output'];
+  deliveryInstructions?: Maybe<Scalars['String']['output']>;
+  deliveryRoute: DeliveryRoutes;
+  deliveryTime?: Maybe<Scalars['String']['output']>;
+  estimatedArrivalTime?: Maybe<Scalars['String']['output']>;
+  events?: Maybe<Array<TaskEvents>>;
+  failureReason?: Maybe<DeliveryFailureReason>;
+  id: Scalars['ID']['output'];
+  package: Packages;
+  proofOfDeliveries?: Maybe<Array<DmsProofOfDeliveries>>;
+  recipientName?: Maybe<Scalars['String']['output']>;
+  recipientPhone?: Maybe<Scalars['String']['output']>;
+  routeSequence: Scalars['Int']['output'];
+  status?: Maybe<DeliveryTaskStatus>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type DmsMutation = {
+  __typename?: 'DmsMutation';
+  createCustomerTrackingLink: CustomerTrackingLinks;
+  createDeliveryRoute: DeliveryRoutes;
+  createDeliveryTask: DeliveryTasks;
+  createDmsProofOfDelivery: DmsProofOfDeliveries;
+  createDriverLocation: DriverLocations;
+  createTaskEvent: TaskEvents;
+  removeCustomerTrackingLink: DeleteResult;
+  removeDeliveryRoute: DeleteResult;
+  removeDeliveryTask: DeleteResult;
+  removeDmsProofOfDelivery: DeleteResult;
+  removeDriverLocation: DeleteResult;
+  removeTaskEvent: DeleteResult;
+  updateCustomerTrackingLink: CustomerTrackingLinks;
+  updateDeliveryRoute: DeliveryRoutes;
+  updateDeliveryTask: DeliveryTasks;
+  updateDmsProofOfDelivery: DmsProofOfDeliveries;
+  updateDriverLocation: DriverLocations;
+  updateTaskEvent: TaskEvents;
+};
+
+
+export type DmsMutationcreateCustomerTrackingLinkArgs = {
+  value: CreateCustomerTrackingLinkInput;
+};
+
+
+export type DmsMutationcreateDeliveryRouteArgs = {
+  value: CreateDeliveryRouteInput;
+};
+
+
+export type DmsMutationcreateDeliveryTaskArgs = {
+  value: CreateDeliveryTaskInput;
+};
+
+
+export type DmsMutationcreateDmsProofOfDeliveryArgs = {
+  value: CreateDmsProofOfDeliveryInput;
+};
+
+
+export type DmsMutationcreateDriverLocationArgs = {
+  value: CreateDriverLocationInput;
+};
+
+
+export type DmsMutationcreateTaskEventArgs = {
+  value: CreateTaskEventInput;
+};
+
+
+export type DmsMutationremoveCustomerTrackingLinkArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationremoveDeliveryRouteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationremoveDeliveryTaskArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationremoveDmsProofOfDeliveryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationremoveDriverLocationArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationremoveTaskEventArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsMutationupdateCustomerTrackingLinkArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateCustomerTrackingLinkInput>;
+};
+
+
+export type DmsMutationupdateDeliveryRouteArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDeliveryRouteInput>;
+};
+
+
+export type DmsMutationupdateDeliveryTaskArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDeliveryTaskInput>;
+};
+
+
+export type DmsMutationupdateDmsProofOfDeliveryArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDmsProofOfDeliveryInput>;
+};
+
+
+export type DmsMutationupdateDriverLocationArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDriverLocationInput>;
+};
+
+
+export type DmsMutationupdateTaskEventArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateTaskEventInput>;
+};
+
+export type DmsProofOfDeliveries = {
+  __typename?: 'DmsProofOfDeliveries';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  deliveryTask: DeliveryTasks;
+  filePath?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
+  recipientName?: Maybe<Scalars['String']['output']>;
+  signatureData?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
+  type: ProofOfDeliveryType;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  verificationCode?: Maybe<Scalars['String']['output']>;
+};
+
+export type DmsQuery = {
+  __typename?: 'DmsQuery';
+  customerTrackingLink: CustomerTrackingLinks;
+  customerTrackingLinks: Array<CustomerTrackingLinks>;
+  deliveryRoute: DeliveryRoutes;
+  deliveryRoutes: Array<DeliveryRoutes>;
+  deliveryTask: DeliveryTasks;
+  deliveryTasks: Array<DeliveryTasks>;
+  dmsProofOfDeliveries: Array<DmsProofOfDeliveries>;
+  dmsProofOfDelivery: DmsProofOfDeliveries;
+  driverLocation: DriverLocations;
+  driverLocations: Array<DriverLocations>;
+  taskEvent: TaskEvents;
+  taskEvents: Array<TaskEvents>;
+};
+
+
+export type DmsQuerycustomerTrackingLinkArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerycustomerTrackingLinksArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type DmsQuerydeliveryRouteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerydeliveryRoutesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type DmsQuerydeliveryTaskArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerydeliveryTasksArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type DmsQuerydmsProofOfDeliveriesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type DmsQuerydmsProofOfDeliveryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerydriverLocationArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerydriverLocationsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type DmsQuerytaskEventArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type DmsQuerytaskEventsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type DriverLocations = {
+  __typename?: 'DriverLocations';
+  accuracy?: Maybe<Scalars['Float']['output']>;
+  altitude?: Maybe<Scalars['Float']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  driver: Drivers;
+  heading?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  speedKmh?: Maybe<Scalars['Float']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type DriverScheduleReason =
@@ -1167,6 +1546,8 @@ export type DriverStatus =
 export type Drivers = {
   __typename?: 'Drivers';
   createdAt?: Maybe<Scalars['String']['output']>;
+  deliveryRoutes?: Maybe<Array<DeliveryRoutes>>;
+  driverLocations?: Maybe<Array<DriverLocations>>;
   expenses?: Maybe<Array<Expenses>>;
   id: Scalars['ID']['output'];
   licenseExpiryDate?: Maybe<Scalars['String']['output']>;
@@ -1468,6 +1849,7 @@ export type Locations = {
 export type Mutation = {
   __typename?: 'Mutation';
   crm?: Maybe<CrmMutation>;
+  dms?: Maybe<DmsMutation>;
   tms?: Maybe<TmsMutation>;
   wms?: Maybe<WmsMutation>;
 };
@@ -1584,6 +1966,7 @@ export type Packages = {
   __typename?: 'Packages';
   carrier?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
+  deliveryTasks?: Maybe<Array<DeliveryTasks>>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
   insuranceValue?: Maybe<Scalars['Float']['output']>;
@@ -1729,6 +2112,13 @@ export type ProofOfDeliveries = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type ProofOfDeliveryType =
+  | 'CODE_VERIFICATION'
+  | 'CONTACTLESS_DELIVERY'
+  | 'LEFT_AT_DOOR'
+  | 'PHOTO'
+  | 'SIGNATURE';
+
 export type ProofType =
   | 'BARCODE_SCAN'
   | 'PHOTO'
@@ -1758,6 +2148,7 @@ export type PutawayRules = {
 export type Query = {
   __typename?: 'Query';
   crm?: Maybe<CrmQuery>;
+  dms?: Maybe<DmsQuery>;
   tms?: Maybe<TmsQuery>;
   wms?: Maybe<WmsQuery>;
 };
@@ -1928,6 +2319,30 @@ export type Suppliers = {
   name: Scalars['String']['output'];
   phoneNumber?: Maybe<Scalars['String']['output']>;
   products?: Maybe<Array<WmsProducts>>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type TaskEventStatus =
+  | 'ARRIVED'
+  | 'ASSIGNED'
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'EXCEPTION'
+  | 'FAILED'
+  | 'RESCHEDULED'
+  | 'STARTED';
+
+export type TaskEvents = {
+  __typename?: 'TaskEvents';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  deliveryTask: DeliveryTasks;
+  id: Scalars['ID']['output'];
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
+  notes?: Maybe<Scalars['String']['output']>;
+  reason?: Maybe<Scalars['String']['output']>;
+  status: TaskEventStatus;
+  timestamp?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2703,11 +3118,70 @@ export type UpdateContactInput = {
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateCustomerTrackingLinkInput = {
+  accessCount?: InputMaybe<Scalars['Int']['input']>;
+  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
+  expiresAt?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
+  trackingToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateDeliveryRouteInput = {
+  completedAt?: InputMaybe<Scalars['String']['input']>;
+  driverId?: InputMaybe<Scalars['ID']['input']>;
+  estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
+  optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
+  routeDate?: InputMaybe<Scalars['String']['input']>;
+  startedAt?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryRouteStatus>;
+  totalDistanceKm?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type UpdateDeliveryTaskInput = {
+  actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
+  attemptCount?: InputMaybe<Scalars['Int']['input']>;
+  deliveryAddress?: InputMaybe<Scalars['String']['input']>;
+  deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
+  deliveryRouteId?: InputMaybe<Scalars['ID']['input']>;
+  deliveryTime?: InputMaybe<Scalars['String']['input']>;
+  estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
+  failureReason?: InputMaybe<DeliveryFailureReason>;
+  packageId?: InputMaybe<Scalars['ID']['input']>;
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+  recipientPhone?: InputMaybe<Scalars['String']['input']>;
+  routeSequence?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<DeliveryTaskStatus>;
+};
+
+export type UpdateDmsProofOfDeliveryInput = {
+  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
+  filePath?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  recipientName?: InputMaybe<Scalars['String']['input']>;
+  signatureData?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ProofOfDeliveryType>;
+  verificationCode?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateDriverInput = {
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<DriverStatus>;
   userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type UpdateDriverLocationInput = {
+  accuracy?: InputMaybe<Scalars['Float']['input']>;
+  altitude?: InputMaybe<Scalars['Float']['input']>;
+  driverId?: InputMaybe<Scalars['ID']['input']>;
+  heading?: InputMaybe<Scalars['Float']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  speedKmh?: InputMaybe<Scalars['Float']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDriverScheduleInput = {
@@ -3067,6 +3541,16 @@ export type UpdateSupplierInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateTaskEventInput = {
+  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  reason?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskEventStatus>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateTaskInput = {
@@ -4182,7 +4666,12 @@ export type ResolversTypes = {
   CreateCaseInput: CreateCaseInput;
   CreateCompanyInput: CreateCompanyInput;
   CreateContactInput: CreateContactInput;
+  CreateCustomerTrackingLinkInput: CreateCustomerTrackingLinkInput;
+  CreateDeliveryRouteInput: CreateDeliveryRouteInput;
+  CreateDeliveryTaskInput: CreateDeliveryTaskInput;
+  CreateDmsProofOfDeliveryInput: CreateDmsProofOfDeliveryInput;
   CreateDriverInput: CreateDriverInput;
+  CreateDriverLocationInput: CreateDriverLocationInput;
   CreateDriverScheduleInput: CreateDriverScheduleInput;
   CreateExpenseInput: CreateExpenseInput;
   CreateGeofenceEventInput: CreateGeofenceEventInput;
@@ -4222,6 +4711,7 @@ export type ResolversTypes = {
   CreateShipmentLegInput: CreateShipmentLegInput;
   CreateStockTransferInput: CreateStockTransferInput;
   CreateSupplierInput: CreateSupplierInput;
+  CreateTaskEventInput: CreateTaskEventInput;
   CreateTaskInput: CreateTaskInput;
   CreateTaskItemInput: CreateTaskItemInput;
   CreateTripInput: CreateTripInput;
@@ -4233,11 +4723,21 @@ export type ResolversTypes = {
   CrmMutation: ResolverTypeWrapper<Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversTypes['Attachments'], createCase: ResolversTypes['Cases'], createCompany: ResolversTypes['Companies'], createContact: ResolversTypes['Contacts'], createInteraction: ResolversTypes['Interactions'], createInvoice: ResolversTypes['Invoices'], createInvoiceItem: ResolversTypes['InvoiceItems'], createLead: ResolversTypes['Leads'], createOpportunity: ResolversTypes['Opportunities'], createOpportunityProduct: ResolversTypes['OpportunityProducts'], createProduct: ResolversTypes['Products'], updateAttachment: ResolversTypes['Attachments'], updateCase: ResolversTypes['Cases'], updateCompany: ResolversTypes['Companies'], updateContact: ResolversTypes['Contacts'], updateInteraction: ResolversTypes['Interactions'], updateInvoice: ResolversTypes['Invoices'], updateInvoiceItem: ResolversTypes['InvoiceItems'], updateLead: ResolversTypes['Leads'], updateOpportunity: ResolversTypes['Opportunities'], updateOpportunityProduct: ResolversTypes['OpportunityProducts'], updateProduct: ResolversTypes['Products'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoiceItem: ResolversTypes['InvoiceItems'], invoiceItems: Array<ResolversTypes['InvoiceItems']>, invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], opportunityProduct: ResolversTypes['OpportunityProducts'], opportunityProducts: Array<ResolversTypes['OpportunityProducts']>, product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
+  CustomerTrackingLinks: ResolverTypeWrapper<Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversTypes['DeliveryTasks'] }>;
   DeleteResult: ResolverTypeWrapper<DeleteResult>;
+  DeliveryFailureReason: ResolverTypeWrapper<'RECIPIENT_NOT_HOME' | 'ADDRESS_NOT_FOUND' | 'REFUSED_DELIVERY' | 'DAMAGED_PACKAGE' | 'ACCESS_DENIED' | 'WEATHER_CONDITIONS' | 'VEHICLE_BREAKDOWN' | 'OTHER'>;
+  DeliveryRouteStatus: ResolverTypeWrapper<'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'PAUSED'>;
+  DeliveryRoutes: ResolverTypeWrapper<Omit<DeliveryRoutes, 'driver' | 'status' | 'tasks'> & { driver: ResolversTypes['Drivers'], status?: Maybe<ResolversTypes['DeliveryRouteStatus']>, tasks?: Maybe<Array<ResolversTypes['DeliveryTasks']>> }>;
+  DeliveryTaskStatus: ResolverTypeWrapper<'PENDING' | 'ASSIGNED' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'FAILED' | 'CANCELLED' | 'RESCHEDULED'>;
+  DeliveryTasks: ResolverTypeWrapper<Omit<DeliveryTasks, 'customerTrackingLinks' | 'deliveryRoute' | 'events' | 'failureReason' | 'package' | 'proofOfDeliveries' | 'status'> & { customerTrackingLinks?: Maybe<Array<ResolversTypes['CustomerTrackingLinks']>>, deliveryRoute: ResolversTypes['DeliveryRoutes'], events?: Maybe<Array<ResolversTypes['TaskEvents']>>, failureReason?: Maybe<ResolversTypes['DeliveryFailureReason']>, package: ResolversTypes['Packages'], proofOfDeliveries?: Maybe<Array<ResolversTypes['DmsProofOfDeliveries']>>, status?: Maybe<ResolversTypes['DeliveryTaskStatus']> }>;
+  DmsMutation: ResolverTypeWrapper<Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDmsProofOfDelivery' | 'updateDriverLocation' | 'updateTaskEvent'> & { createCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversTypes['DeliveryRoutes'], createDeliveryTask: ResolversTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversTypes['DriverLocations'], createTaskEvent: ResolversTypes['TaskEvents'], updateCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversTypes['DeliveryRoutes'], updateDeliveryTask: ResolversTypes['DeliveryTasks'], updateDmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], updateDriverLocation: ResolversTypes['DriverLocations'], updateTaskEvent: ResolversTypes['TaskEvents'] }>;
+  DmsProofOfDeliveries: ResolverTypeWrapper<Omit<DmsProofOfDeliveries, 'deliveryTask' | 'type'> & { deliveryTask: ResolversTypes['DeliveryTasks'], type: ResolversTypes['ProofOfDeliveryType'] }>;
+  DmsQuery: ResolverTypeWrapper<Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversTypes['DeliveryRoutes']>, deliveryTask: ResolversTypes['DeliveryTasks'], deliveryTasks: Array<ResolversTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], driverLocation: ResolversTypes['DriverLocations'], driverLocations: Array<ResolversTypes['DriverLocations']>, taskEvent: ResolversTypes['TaskEvents'], taskEvents: Array<ResolversTypes['TaskEvents']> }>;
+  DriverLocations: ResolverTypeWrapper<Omit<DriverLocations, 'driver'> & { driver: ResolversTypes['Drivers'] }>;
   DriverScheduleReason: ResolverTypeWrapper<'VACATION' | 'SICK_LEAVE' | 'TRAINING' | 'PERSONAL_LEAVE'>;
   DriverSchedules: ResolverTypeWrapper<Omit<DriverSchedules, 'driver' | 'reason'> & { driver: ResolversTypes['Drivers'], reason?: Maybe<ResolversTypes['DriverScheduleReason']> }>;
   DriverStatus: ResolverTypeWrapper<'ACTIVE' | 'INACTIVE' | 'ON_LEAVE'>;
-  Drivers: ResolverTypeWrapper<Omit<Drivers, 'expenses' | 'schedules' | 'status' | 'trips'> & { expenses?: Maybe<Array<ResolversTypes['Expenses']>>, schedules?: Maybe<Array<ResolversTypes['DriverSchedules']>>, status?: Maybe<ResolversTypes['DriverStatus']>, trips?: Maybe<Array<ResolversTypes['Trips']>> }>;
+  Drivers: ResolverTypeWrapper<Omit<Drivers, 'deliveryRoutes' | 'driverLocations' | 'expenses' | 'schedules' | 'status' | 'trips'> & { deliveryRoutes?: Maybe<Array<ResolversTypes['DeliveryRoutes']>>, driverLocations?: Maybe<Array<ResolversTypes['DriverLocations']>>, expenses?: Maybe<Array<ResolversTypes['Expenses']>>, schedules?: Maybe<Array<ResolversTypes['DriverSchedules']>>, status?: Maybe<ResolversTypes['DriverStatus']>, trips?: Maybe<Array<ResolversTypes['Trips']>> }>;
   ExpenseStatus: ResolverTypeWrapper<'PENDING' | 'APPROVED' | 'REJECTED' | 'REIMBURSED'>;
   ExpenseType: ResolverTypeWrapper<'FUEL' | 'TOLLS' | 'MAINTENANCE' | 'PARKING' | 'MEALS' | 'ACCOMMODATION'>;
   Expenses: ResolverTypeWrapper<Omit<Expenses, 'currency' | 'driver' | 'status' | 'trip' | 'type'> & { currency?: Maybe<ResolversTypes['Currency']>, driver?: Maybe<ResolversTypes['Drivers']>, status?: Maybe<ResolversTypes['ExpenseStatus']>, trip?: Maybe<ResolversTypes['Trips']>, type?: Maybe<ResolversTypes['ExpenseType']> }>;
@@ -4273,7 +4773,7 @@ export type ResolversTypes = {
   OutboundShipmentStatus: ResolverTypeWrapper<'PICKING' | 'PACKED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED'>;
   OutboundShipments: ResolverTypeWrapper<Omit<OutboundShipments, 'items' | 'salesOrder' | 'status'> & { items?: Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, salesOrder: ResolversTypes['SalesOrders'], status?: Maybe<ResolversTypes['OutboundShipmentStatus']> }>;
   PackageItems: ResolverTypeWrapper<Omit<PackageItems, 'batch' | 'package' | 'product'> & { batch?: Maybe<ResolversTypes['InventoryBatches']>, package: ResolversTypes['Packages'], product: ResolversTypes['WmsProducts'] }>;
-  Packages: ResolverTypeWrapper<Omit<Packages, 'items' | 'salesOrder' | 'warehouse'> & { items?: Maybe<Array<ResolversTypes['PackageItems']>>, salesOrder: ResolversTypes['SalesOrders'], warehouse: ResolversTypes['Warehouses'] }>;
+  Packages: ResolverTypeWrapper<Omit<Packages, 'deliveryTasks' | 'items' | 'salesOrder' | 'warehouse'> & { deliveryTasks?: Maybe<Array<ResolversTypes['DeliveryTasks']>>, items?: Maybe<Array<ResolversTypes['PackageItems']>>, salesOrder: ResolversTypes['SalesOrders'], warehouse: ResolversTypes['Warehouses'] }>;
   PartnerInvoiceItems: ResolverTypeWrapper<Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversTypes['PartnerInvoices'], shipmentLeg: ResolversTypes['ShipmentLegs'] }>;
   PartnerInvoiceStatus: ResolverTypeWrapper<'PENDING' | 'PAID' | 'DISPUTED' | 'OVERDUE' | 'CANCELLED'>;
   PartnerInvoices: ResolverTypeWrapper<Omit<PartnerInvoices, 'carrier' | 'items' | 'status'> & { carrier: ResolversTypes['Carriers'], items?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, status?: Maybe<ResolversTypes['PartnerInvoiceStatus']> }>;
@@ -4286,6 +4786,7 @@ export type ResolversTypes = {
   ProductType: ResolverTypeWrapper<'SERVICE' | 'GOOD' | 'DIGITAL' | 'SUBSCRIPTION'>;
   Products: ResolverTypeWrapper<Omit<Products, 'type'> & { type?: Maybe<ResolversTypes['ProductType']> }>;
   ProofOfDeliveries: ResolverTypeWrapper<Omit<ProofOfDeliveries, 'tripStop' | 'type'> & { tripStop: ResolversTypes['TripStops'], type?: Maybe<ResolversTypes['ProofType']> }>;
+  ProofOfDeliveryType: ResolverTypeWrapper<'SIGNATURE' | 'PHOTO' | 'CODE_VERIFICATION' | 'CONTACTLESS_DELIVERY' | 'LEFT_AT_DOOR'>;
   ProofType: ResolverTypeWrapper<'SIGNATURE' | 'PHOTO' | 'BARCODE_SCAN' | 'PIN_VERIFICATION'>;
   PutawayRules: ResolverTypeWrapper<Omit<PutawayRules, 'client' | 'locationType' | 'preferredLocation' | 'product' | 'warehouse'> & { client?: Maybe<ResolversTypes['Companies']>, locationType?: Maybe<ResolversTypes['LocationType']>, preferredLocation?: Maybe<ResolversTypes['Locations']>, product: ResolversTypes['WmsProducts'], warehouse: ResolversTypes['Warehouses'] }>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
@@ -4305,6 +4806,8 @@ export type ResolversTypes = {
   StockTransferStatus: ResolverTypeWrapper<'PENDING' | 'IN_TRANSIT' | 'RECEIVED' | 'CANCELLED'>;
   StockTransfers: ResolverTypeWrapper<Omit<StockTransfers, 'product' | 'status'> & { product: ResolversTypes['WmsProducts'], status?: Maybe<ResolversTypes['StockTransferStatus']> }>;
   Suppliers: ResolverTypeWrapper<Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversTypes['WmsProducts']>> }>;
+  TaskEventStatus: ResolverTypeWrapper<'ASSIGNED' | 'STARTED' | 'ARRIVED' | 'DELIVERED' | 'FAILED' | 'EXCEPTION' | 'CANCELLED' | 'RESCHEDULED'>;
+  TaskEvents: ResolverTypeWrapper<Omit<TaskEvents, 'deliveryTask' | 'status'> & { deliveryTask: ResolversTypes['DeliveryTasks'], status: ResolversTypes['TaskEventStatus'] }>;
   TaskItemStatus: ResolverTypeWrapper<'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'SHORT_PICKED' | 'DAMAGED' | 'NOT_FOUND'>;
   TaskItems: ResolverTypeWrapper<Omit<TaskItems, 'batch' | 'destinationLocation' | 'product' | 'sourceLocation' | 'status' | 'task'> & { batch?: Maybe<ResolversTypes['InventoryBatches']>, destinationLocation?: Maybe<ResolversTypes['Locations']>, product: ResolversTypes['WmsProducts'], sourceLocation?: Maybe<ResolversTypes['Locations']>, status?: Maybe<ResolversTypes['TaskItemStatus']>, task: ResolversTypes['Tasks'] }>;
   TaskStatus: ResolverTypeWrapper<'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'ERROR'>;
@@ -4324,7 +4827,12 @@ export type ResolversTypes = {
   UpdateCaseInput: UpdateCaseInput;
   UpdateCompanyInput: UpdateCompanyInput;
   UpdateContactInput: UpdateContactInput;
+  UpdateCustomerTrackingLinkInput: UpdateCustomerTrackingLinkInput;
+  UpdateDeliveryRouteInput: UpdateDeliveryRouteInput;
+  UpdateDeliveryTaskInput: UpdateDeliveryTaskInput;
+  UpdateDmsProofOfDeliveryInput: UpdateDmsProofOfDeliveryInput;
   UpdateDriverInput: UpdateDriverInput;
+  UpdateDriverLocationInput: UpdateDriverLocationInput;
   UpdateDriverScheduleInput: UpdateDriverScheduleInput;
   UpdateExpenseInput: UpdateExpenseInput;
   UpdateGeofenceEventInput: UpdateGeofenceEventInput;
@@ -4364,6 +4872,7 @@ export type ResolversTypes = {
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
+  UpdateTaskEventInput: UpdateTaskEventInput;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskItemInput: UpdateTaskItemInput;
   UpdateTripInput: UpdateTripInput;
@@ -4406,7 +4915,12 @@ export type ResolversParentTypes = {
   CreateCaseInput: CreateCaseInput;
   CreateCompanyInput: CreateCompanyInput;
   CreateContactInput: CreateContactInput;
+  CreateCustomerTrackingLinkInput: CreateCustomerTrackingLinkInput;
+  CreateDeliveryRouteInput: CreateDeliveryRouteInput;
+  CreateDeliveryTaskInput: CreateDeliveryTaskInput;
+  CreateDmsProofOfDeliveryInput: CreateDmsProofOfDeliveryInput;
   CreateDriverInput: CreateDriverInput;
+  CreateDriverLocationInput: CreateDriverLocationInput;
   CreateDriverScheduleInput: CreateDriverScheduleInput;
   CreateExpenseInput: CreateExpenseInput;
   CreateGeofenceEventInput: CreateGeofenceEventInput;
@@ -4446,6 +4960,7 @@ export type ResolversParentTypes = {
   CreateShipmentLegInput: CreateShipmentLegInput;
   CreateStockTransferInput: CreateStockTransferInput;
   CreateSupplierInput: CreateSupplierInput;
+  CreateTaskEventInput: CreateTaskEventInput;
   CreateTaskInput: CreateTaskInput;
   CreateTaskItemInput: CreateTaskItemInput;
   CreateTripInput: CreateTripInput;
@@ -4456,9 +4971,16 @@ export type ResolversParentTypes = {
   CreateWmsProductInput: CreateWmsProductInput;
   CrmMutation: Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversParentTypes['Attachments'], createCase: ResolversParentTypes['Cases'], createCompany: ResolversParentTypes['Companies'], createContact: ResolversParentTypes['Contacts'], createInteraction: ResolversParentTypes['Interactions'], createInvoice: ResolversParentTypes['Invoices'], createInvoiceItem: ResolversParentTypes['InvoiceItems'], createLead: ResolversParentTypes['Leads'], createOpportunity: ResolversParentTypes['Opportunities'], createOpportunityProduct: ResolversParentTypes['OpportunityProducts'], createProduct: ResolversParentTypes['Products'], updateAttachment: ResolversParentTypes['Attachments'], updateCase: ResolversParentTypes['Cases'], updateCompany: ResolversParentTypes['Companies'], updateContact: ResolversParentTypes['Contacts'], updateInteraction: ResolversParentTypes['Interactions'], updateInvoice: ResolversParentTypes['Invoices'], updateInvoiceItem: ResolversParentTypes['InvoiceItems'], updateLead: ResolversParentTypes['Leads'], updateOpportunity: ResolversParentTypes['Opportunities'], updateOpportunityProduct: ResolversParentTypes['OpportunityProducts'], updateProduct: ResolversParentTypes['Products'] };
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoiceItem: ResolversParentTypes['InvoiceItems'], invoiceItems: Array<ResolversParentTypes['InvoiceItems']>, invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], opportunityProduct: ResolversParentTypes['OpportunityProducts'], opportunityProducts: Array<ResolversParentTypes['OpportunityProducts']>, product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
+  CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   DeleteResult: DeleteResult;
+  DeliveryRoutes: Omit<DeliveryRoutes, 'driver' | 'tasks'> & { driver: ResolversParentTypes['Drivers'], tasks?: Maybe<Array<ResolversParentTypes['DeliveryTasks']>> };
+  DeliveryTasks: Omit<DeliveryTasks, 'customerTrackingLinks' | 'deliveryRoute' | 'events' | 'package' | 'proofOfDeliveries'> & { customerTrackingLinks?: Maybe<Array<ResolversParentTypes['CustomerTrackingLinks']>>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], events?: Maybe<Array<ResolversParentTypes['TaskEvents']>>, package: ResolversParentTypes['Packages'], proofOfDeliveries?: Maybe<Array<ResolversParentTypes['DmsProofOfDeliveries']>> };
+  DmsMutation: Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDmsProofOfDelivery' | 'updateDriverLocation' | 'updateTaskEvent'> & { createCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], createDeliveryTask: ResolversParentTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversParentTypes['DriverLocations'], createTaskEvent: ResolversParentTypes['TaskEvents'], updateCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], updateDeliveryTask: ResolversParentTypes['DeliveryTasks'], updateDmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], updateDriverLocation: ResolversParentTypes['DriverLocations'], updateTaskEvent: ResolversParentTypes['TaskEvents'] };
+  DmsProofOfDeliveries: Omit<DmsProofOfDeliveries, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
+  DmsQuery: Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversParentTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversParentTypes['DeliveryRoutes']>, deliveryTask: ResolversParentTypes['DeliveryTasks'], deliveryTasks: Array<ResolversParentTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversParentTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], driverLocation: ResolversParentTypes['DriverLocations'], driverLocations: Array<ResolversParentTypes['DriverLocations']>, taskEvent: ResolversParentTypes['TaskEvents'], taskEvents: Array<ResolversParentTypes['TaskEvents']> };
+  DriverLocations: Omit<DriverLocations, 'driver'> & { driver: ResolversParentTypes['Drivers'] };
   DriverSchedules: Omit<DriverSchedules, 'driver'> & { driver: ResolversParentTypes['Drivers'] };
-  Drivers: Omit<Drivers, 'expenses' | 'schedules' | 'trips'> & { expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, schedules?: Maybe<Array<ResolversParentTypes['DriverSchedules']>>, trips?: Maybe<Array<ResolversParentTypes['Trips']>> };
+  Drivers: Omit<Drivers, 'deliveryRoutes' | 'driverLocations' | 'expenses' | 'schedules' | 'trips'> & { deliveryRoutes?: Maybe<Array<ResolversParentTypes['DeliveryRoutes']>>, driverLocations?: Maybe<Array<ResolversParentTypes['DriverLocations']>>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, schedules?: Maybe<Array<ResolversParentTypes['DriverSchedules']>>, trips?: Maybe<Array<ResolversParentTypes['Trips']>> };
   Expenses: Omit<Expenses, 'driver' | 'trip'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, trip?: Maybe<ResolversParentTypes['Trips']> };
   GeofenceEvents: Omit<GeofenceEvents, 'geofence' | 'vehicle'> & { geofence: ResolversParentTypes['Geofences'], vehicle: ResolversParentTypes['Vehicles'] };
   Geofences: Omit<Geofences, 'events'> & { events?: Maybe<Array<ResolversParentTypes['GeofenceEvents']>> };
@@ -4480,7 +5002,7 @@ export type ResolversParentTypes = {
   OutboundShipmentItems: Omit<OutboundShipmentItems, 'batch' | 'outboundShipment' | 'product' | 'salesOrderItem'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, outboundShipment: ResolversParentTypes['OutboundShipments'], product: ResolversParentTypes['WmsProducts'], salesOrderItem: ResolversParentTypes['SalesOrderItems'] };
   OutboundShipments: Omit<OutboundShipments, 'items' | 'salesOrder'> & { items?: Maybe<Array<ResolversParentTypes['OutboundShipmentItems']>>, salesOrder: ResolversParentTypes['SalesOrders'] };
   PackageItems: Omit<PackageItems, 'batch' | 'package' | 'product'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, package: ResolversParentTypes['Packages'], product: ResolversParentTypes['WmsProducts'] };
-  Packages: Omit<Packages, 'items' | 'salesOrder' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['PackageItems']>>, salesOrder: ResolversParentTypes['SalesOrders'], warehouse: ResolversParentTypes['Warehouses'] };
+  Packages: Omit<Packages, 'deliveryTasks' | 'items' | 'salesOrder' | 'warehouse'> & { deliveryTasks?: Maybe<Array<ResolversParentTypes['DeliveryTasks']>>, items?: Maybe<Array<ResolversParentTypes['PackageItems']>>, salesOrder: ResolversParentTypes['SalesOrders'], warehouse: ResolversParentTypes['Warehouses'] };
   PartnerInvoiceItems: Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversParentTypes['PartnerInvoices'], shipmentLeg: ResolversParentTypes['ShipmentLegs'] };
   PartnerInvoices: Omit<PartnerInvoices, 'carrier' | 'items'> & { carrier: ResolversParentTypes['Carriers'], items?: Maybe<Array<ResolversParentTypes['PartnerInvoiceItems']>> };
   PickBatchItems: Omit<PickBatchItems, 'pickBatch' | 'salesOrder'> & { pickBatch: ResolversParentTypes['PickBatches'], salesOrder: ResolversParentTypes['SalesOrders'] };
@@ -4499,6 +5021,7 @@ export type ResolversParentTypes = {
   ShipmentLegs: Omit<ShipmentLegs, 'carrier' | 'events' | 'internalTrip' | 'partnerInvoiceItems' | 'shipment'> & { carrier?: Maybe<ResolversParentTypes['Carriers']>, events?: Maybe<Array<ResolversParentTypes['ShipmentLegEvents']>>, internalTrip?: Maybe<ResolversParentTypes['Trips']>, partnerInvoiceItems?: Maybe<Array<ResolversParentTypes['PartnerInvoiceItems']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']> };
   StockTransfers: Omit<StockTransfers, 'product'> & { product: ResolversParentTypes['WmsProducts'] };
   Suppliers: Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversParentTypes['WmsProducts']>> };
+  TaskEvents: Omit<TaskEvents, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   TaskItems: Omit<TaskItems, 'batch' | 'destinationLocation' | 'product' | 'sourceLocation' | 'task'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, destinationLocation?: Maybe<ResolversParentTypes['Locations']>, product: ResolversParentTypes['WmsProducts'], sourceLocation?: Maybe<ResolversParentTypes['Locations']>, task: ResolversParentTypes['Tasks'] };
   Tasks: Omit<Tasks, 'items' | 'pickBatch' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['TaskItems']>>, pickBatch?: Maybe<ResolversParentTypes['PickBatches']>, warehouse: ResolversParentTypes['Warehouses'] };
   TmsMutation: Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversParentTypes['Carriers'], createCarrierRate: ResolversParentTypes['CarrierRates'], createDriver: ResolversParentTypes['Drivers'], createDriverSchedule: ResolversParentTypes['DriverSchedules'], createExpense: ResolversParentTypes['Expenses'], createGeofence: ResolversParentTypes['Geofences'], createGeofenceEvent: ResolversParentTypes['GeofenceEvents'], createGpsPing: ResolversParentTypes['GpsPings'], createPartnerInvoice: ResolversParentTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], createRoute: ResolversParentTypes['Routes'], createShipmentLeg: ResolversParentTypes['ShipmentLegs'], createShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], createTrip: ResolversParentTypes['Trips'], createTripStop: ResolversParentTypes['TripStops'], createVehicle: ResolversParentTypes['Vehicles'], createVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], updateCarrier: ResolversParentTypes['Carriers'], updateCarrierRate: ResolversParentTypes['CarrierRates'], updateDriver: ResolversParentTypes['Drivers'], updateDriverSchedule: ResolversParentTypes['DriverSchedules'], updateExpense: ResolversParentTypes['Expenses'], updateGeofence: ResolversParentTypes['Geofences'], updateGeofenceEvent: ResolversParentTypes['GeofenceEvents'], updateGpsPing: ResolversParentTypes['GpsPings'], updatePartnerInvoice: ResolversParentTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], updateRoute: ResolversParentTypes['Routes'], updateShipmentLeg: ResolversParentTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], updateTrip: ResolversParentTypes['Trips'], updateTripStop: ResolversParentTypes['TripStops'], updateVehicle: ResolversParentTypes['Vehicles'], updateVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'] };
@@ -4513,7 +5036,12 @@ export type ResolversParentTypes = {
   UpdateCaseInput: UpdateCaseInput;
   UpdateCompanyInput: UpdateCompanyInput;
   UpdateContactInput: UpdateContactInput;
+  UpdateCustomerTrackingLinkInput: UpdateCustomerTrackingLinkInput;
+  UpdateDeliveryRouteInput: UpdateDeliveryRouteInput;
+  UpdateDeliveryTaskInput: UpdateDeliveryTaskInput;
+  UpdateDmsProofOfDeliveryInput: UpdateDmsProofOfDeliveryInput;
   UpdateDriverInput: UpdateDriverInput;
+  UpdateDriverLocationInput: UpdateDriverLocationInput;
   UpdateDriverScheduleInput: UpdateDriverScheduleInput;
   UpdateExpenseInput: UpdateExpenseInput;
   UpdateGeofenceEventInput: UpdateGeofenceEventInput;
@@ -4553,6 +5081,7 @@ export type ResolversParentTypes = {
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
+  UpdateTaskEventInput: UpdateTaskEventInput;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskItemInput: UpdateTaskItemInput;
   UpdateTripInput: UpdateTripInput;
@@ -4755,9 +5284,130 @@ export type CrmQueryResolvers<ContextType = GraphQLContext, ParentType extends R
 
 export type CurrencyResolvers = EnumResolverSignature<{ AUD?: any, CAD?: any, EUR?: any, GBP?: any, JPY?: any, PHP?: any, USD?: any }, ResolversTypes['Currency']>;
 
+export type CustomerTrackingLinksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CustomerTrackingLinks'] = ResolversParentTypes['CustomerTrackingLinks']> = {
+  accessCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
+  expiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  lastAccessedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  trackingToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type DeleteResultResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeleteResult'] = ResolversParentTypes['DeleteResult']> = {
   numDeletedRows?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+};
+
+export type DeliveryFailureReasonResolvers = EnumResolverSignature<{ ACCESS_DENIED?: any, ADDRESS_NOT_FOUND?: any, DAMAGED_PACKAGE?: any, OTHER?: any, RECIPIENT_NOT_HOME?: any, REFUSED_DELIVERY?: any, VEHICLE_BREAKDOWN?: any, WEATHER_CONDITIONS?: any }, ResolversTypes['DeliveryFailureReason']>;
+
+export type DeliveryRouteStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, COMPLETED?: any, IN_PROGRESS?: any, PAUSED?: any, PLANNED?: any }, ResolversTypes['DeliveryRouteStatus']>;
+
+export type DeliveryRoutesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeliveryRoutes'] = ResolversParentTypes['DeliveryRoutes']> = {
+  actualDurationMinutes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  completedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType>;
+  estimatedDurationMinutes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  optimizedRouteData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  routeDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  startedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['DeliveryRouteStatus']>, ParentType, ContextType>;
+  tasks?: Resolver<Maybe<Array<ResolversTypes['DeliveryTasks']>>, ParentType, ContextType>;
+  totalDistanceKm?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type DeliveryTaskStatusResolvers = EnumResolverSignature<{ ASSIGNED?: any, CANCELLED?: any, DELIVERED?: any, FAILED?: any, OUT_FOR_DELIVERY?: any, PENDING?: any, RESCHEDULED?: any }, ResolversTypes['DeliveryTaskStatus']>;
+
+export type DeliveryTasksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeliveryTasks'] = ResolversParentTypes['DeliveryTasks']> = {
+  actualArrivalTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  attemptCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  customerTrackingLinks?: Resolver<Maybe<Array<ResolversTypes['CustomerTrackingLinks']>>, ParentType, ContextType>;
+  deliveryAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  deliveryInstructions?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType>;
+  deliveryTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  estimatedArrivalTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  events?: Resolver<Maybe<Array<ResolversTypes['TaskEvents']>>, ParentType, ContextType>;
+  failureReason?: Resolver<Maybe<ResolversTypes['DeliveryFailureReason']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  package?: Resolver<ResolversTypes['Packages'], ParentType, ContextType>;
+  proofOfDeliveries?: Resolver<Maybe<Array<ResolversTypes['DmsProofOfDeliveries']>>, ParentType, ContextType>;
+  recipientName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  recipientPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  routeSequence?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['DeliveryTaskStatus']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type DmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsMutation'] = ResolversParentTypes['DmsMutation']> = {
+  createCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationcreateCustomerTrackingLinkArgs, 'value'>>;
+  createDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationcreateDeliveryRouteArgs, 'value'>>;
+  createDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationcreateDeliveryTaskArgs, 'value'>>;
+  createDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationcreateDmsProofOfDeliveryArgs, 'value'>>;
+  createDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationcreateDriverLocationArgs, 'value'>>;
+  createTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationcreateTaskEventArgs, 'value'>>;
+  removeCustomerTrackingLink?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveCustomerTrackingLinkArgs, 'id'>>;
+  removeDeliveryRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDeliveryRouteArgs, 'id'>>;
+  removeDeliveryTask?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDeliveryTaskArgs, 'id'>>;
+  removeDmsProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDmsProofOfDeliveryArgs, 'id'>>;
+  removeDriverLocation?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDriverLocationArgs, 'id'>>;
+  removeTaskEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveTaskEventArgs, 'id'>>;
+  updateCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationupdateCustomerTrackingLinkArgs, 'id'>>;
+  updateDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationupdateDeliveryRouteArgs, 'id'>>;
+  updateDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationupdateDeliveryTaskArgs, 'id'>>;
+  updateDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationupdateDmsProofOfDeliveryArgs, 'id'>>;
+  updateDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationupdateDriverLocationArgs, 'id'>>;
+  updateTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationupdateTaskEventArgs, 'id'>>;
+};
+
+export type DmsProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsProofOfDeliveries'] = ResolversParentTypes['DmsProofOfDeliveries']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
+  filePath?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  recipientName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  signatureData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['ProofOfDeliveryType'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  verificationCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type DmsQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsQuery'] = ResolversParentTypes['DmsQuery']> = {
+  customerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsQuerycustomerTrackingLinkArgs, 'id'>>;
+  customerTrackingLinks?: Resolver<Array<ResolversTypes['CustomerTrackingLinks']>, ParentType, ContextType, Partial<DmsQuerycustomerTrackingLinksArgs>>;
+  deliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsQuerydeliveryRouteArgs, 'id'>>;
+  deliveryRoutes?: Resolver<Array<ResolversTypes['DeliveryRoutes']>, ParentType, ContextType, Partial<DmsQuerydeliveryRoutesArgs>>;
+  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsQuerydeliveryTaskArgs, 'id'>>;
+  deliveryTasks?: Resolver<Array<ResolversTypes['DeliveryTasks']>, ParentType, ContextType, Partial<DmsQuerydeliveryTasksArgs>>;
+  dmsProofOfDeliveries?: Resolver<Array<ResolversTypes['DmsProofOfDeliveries']>, ParentType, ContextType, Partial<DmsQuerydmsProofOfDeliveriesArgs>>;
+  dmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsQuerydmsProofOfDeliveryArgs, 'id'>>;
+  driverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsQuerydriverLocationArgs, 'id'>>;
+  driverLocations?: Resolver<Array<ResolversTypes['DriverLocations']>, ParentType, ContextType, Partial<DmsQuerydriverLocationsArgs>>;
+  taskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsQuerytaskEventArgs, 'id'>>;
+  taskEvents?: Resolver<Array<ResolversTypes['TaskEvents']>, ParentType, ContextType, Partial<DmsQuerytaskEventsArgs>>;
+};
+
+export type DriverLocationsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DriverLocations'] = ResolversParentTypes['DriverLocations']> = {
+  accuracy?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  altitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType>;
+  heading?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  speedKmh?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type DriverScheduleReasonResolvers = EnumResolverSignature<{ PERSONAL_LEAVE?: any, SICK_LEAVE?: any, TRAINING?: any, VACATION?: any }, ResolversTypes['DriverScheduleReason']>;
@@ -4776,6 +5426,8 @@ export type DriverStatusResolvers = EnumResolverSignature<{ ACTIVE?: any, INACTI
 
 export type DriversResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Drivers'] = ResolversParentTypes['Drivers']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryRoutes?: Resolver<Maybe<Array<ResolversTypes['DeliveryRoutes']>>, ParentType, ContextType>;
+  driverLocations?: Resolver<Maybe<Array<ResolversTypes['DriverLocations']>>, ParentType, ContextType>;
   expenses?: Resolver<Maybe<Array<ResolversTypes['Expenses']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   licenseExpiryDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -4999,6 +5651,7 @@ export type LocationsResolvers<ContextType = GraphQLContext, ParentType extends 
 
 export type MutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   crm?: Resolver<Maybe<ResolversTypes['CrmMutation']>, ParentType, ContextType>;
+  dms?: Resolver<Maybe<ResolversTypes['DmsMutation']>, ParentType, ContextType>;
   tms?: Resolver<Maybe<ResolversTypes['TmsMutation']>, ParentType, ContextType>;
   wms?: Resolver<Maybe<ResolversTypes['WmsMutation']>, ParentType, ContextType>;
 };
@@ -5085,6 +5738,7 @@ export type PackageItemsResolvers<ContextType = GraphQLContext, ParentType exten
 export type PackagesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Packages'] = ResolversParentTypes['Packages']> = {
   carrier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryTasks?: Resolver<Maybe<Array<ResolversTypes['DeliveryTasks']>>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   insuranceValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -5195,6 +5849,8 @@ export type ProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType 
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type ProofOfDeliveryTypeResolvers = EnumResolverSignature<{ CODE_VERIFICATION?: any, CONTACTLESS_DELIVERY?: any, LEFT_AT_DOOR?: any, PHOTO?: any, SIGNATURE?: any }, ResolversTypes['ProofOfDeliveryType']>;
+
 export type ProofTypeResolvers = EnumResolverSignature<{ BARCODE_SCAN?: any, PHOTO?: any, PIN_VERIFICATION?: any, SIGNATURE?: any }, ResolversTypes['ProofType']>;
 
 export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PutawayRules'] = ResolversParentTypes['PutawayRules']> = {
@@ -5218,6 +5874,7 @@ export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType exten
 
 export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   crm?: Resolver<Maybe<ResolversTypes['CrmQuery']>, ParentType, ContextType>;
+  dms?: Resolver<Maybe<ResolversTypes['DmsQuery']>, ParentType, ContextType>;
   tms?: Resolver<Maybe<ResolversTypes['TmsQuery']>, ParentType, ContextType>;
   wms?: Resolver<Maybe<ResolversTypes['WmsQuery']>, ParentType, ContextType>;
 };
@@ -5345,6 +6002,21 @@ export type SuppliersResolvers<ContextType = GraphQLContext, ParentType extends 
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   products?: Resolver<Maybe<Array<ResolversTypes['WmsProducts']>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type TaskEventStatusResolvers = EnumResolverSignature<{ ARRIVED?: any, ASSIGNED?: any, CANCELLED?: any, DELIVERED?: any, EXCEPTION?: any, FAILED?: any, RESCHEDULED?: any, STARTED?: any }, ResolversTypes['TaskEventStatus']>;
+
+export type TaskEventsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TaskEvents'] = ResolversParentTypes['TaskEvents']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['TaskEventStatus'], ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
@@ -5768,7 +6440,17 @@ export type Resolvers<ContextType = GraphQLContext> = {
   CrmMutation?: CrmMutationResolvers<ContextType>;
   CrmQuery?: CrmQueryResolvers<ContextType>;
   Currency?: CurrencyResolvers;
+  CustomerTrackingLinks?: CustomerTrackingLinksResolvers<ContextType>;
   DeleteResult?: DeleteResultResolvers<ContextType>;
+  DeliveryFailureReason?: DeliveryFailureReasonResolvers;
+  DeliveryRouteStatus?: DeliveryRouteStatusResolvers;
+  DeliveryRoutes?: DeliveryRoutesResolvers<ContextType>;
+  DeliveryTaskStatus?: DeliveryTaskStatusResolvers;
+  DeliveryTasks?: DeliveryTasksResolvers<ContextType>;
+  DmsMutation?: DmsMutationResolvers<ContextType>;
+  DmsProofOfDeliveries?: DmsProofOfDeliveriesResolvers<ContextType>;
+  DmsQuery?: DmsQueryResolvers<ContextType>;
+  DriverLocations?: DriverLocationsResolvers<ContextType>;
   DriverScheduleReason?: DriverScheduleReasonResolvers;
   DriverSchedules?: DriverSchedulesResolvers<ContextType>;
   DriverStatus?: DriverStatusResolvers;
@@ -5821,6 +6503,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   ProductType?: ProductTypeResolvers;
   Products?: ProductsResolvers<ContextType>;
   ProofOfDeliveries?: ProofOfDeliveriesResolvers<ContextType>;
+  ProofOfDeliveryType?: ProofOfDeliveryTypeResolvers;
   ProofType?: ProofTypeResolvers;
   PutawayRules?: PutawayRulesResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -5840,6 +6523,8 @@ export type Resolvers<ContextType = GraphQLContext> = {
   StockTransferStatus?: StockTransferStatusResolvers;
   StockTransfers?: StockTransfersResolvers<ContextType>;
   Suppliers?: SuppliersResolvers<ContextType>;
+  TaskEventStatus?: TaskEventStatusResolvers;
+  TaskEvents?: TaskEventsResolvers<ContextType>;
   TaskItemStatus?: TaskItemStatusResolvers;
   TaskItems?: TaskItemsResolvers<ContextType>;
   TaskStatus?: TaskStatusResolvers;

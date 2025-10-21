@@ -1,0 +1,56 @@
+enum DeliveryRouteStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  PAUSED
+}
+
+type DeliveryRoutes {
+  id: ID!
+  driver: Drivers!
+  routeDate: String!
+  status: DeliveryRouteStatus
+  optimizedRouteData: String
+  totalDistanceKm: Float
+  estimatedDurationMinutes: Int
+  actualDurationMinutes: Int
+  startedAt: String
+  completedAt: String
+  createdAt: String
+  updatedAt: String
+  tasks: [DeliveryTasks!]
+}
+
+extend type DmsQuery {
+  deliveryRoutes(page: Int, perPage: Int): [DeliveryRoutes!]!
+  deliveryRoute(id: ID!): DeliveryRoutes!
+}
+
+input CreateDeliveryRouteInput {
+  driverId: ID!
+  routeDate: String!
+  status: DeliveryRouteStatus
+  optimizedRouteData: String
+  totalDistanceKm: Float
+  estimatedDurationMinutes: Int
+  startedAt: String
+  completedAt: String
+}
+
+input UpdateDeliveryRouteInput {
+  driverId: ID
+  routeDate: String
+  status: DeliveryRouteStatus
+  optimizedRouteData: String
+  totalDistanceKm: Float
+  estimatedDurationMinutes: Int
+  startedAt: String
+  completedAt: String
+}
+
+extend type DmsMutation {
+  createDeliveryRoute(value: CreateDeliveryRouteInput!): DeliveryRoutes!
+  updateDeliveryRoute(id: ID!, value: UpdateDeliveryRouteInput): DeliveryRoutes!
+  removeDeliveryRoute(id: ID!): DeleteResult!
+}

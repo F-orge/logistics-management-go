@@ -1,0 +1,54 @@
+enum TaskEventStatus {
+  ASSIGNED
+  STARTED
+  ARRIVED
+  DELIVERED
+  FAILED
+  EXCEPTION
+  CANCELLED
+  RESCHEDULED
+}
+
+type TaskEvents {
+  id: ID!
+  deliveryTask: DeliveryTasks!
+  status: TaskEventStatus!
+  reason: String
+  notes: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type DmsQuery {
+  taskEvents(page: Int, perPage: Int): [TaskEvents!]!
+  taskEvent(id: ID!): TaskEvents!
+}
+
+input CreateTaskEventInput {
+  deliveryTaskId: ID!
+  status: TaskEventStatus!
+  reason: String
+  notes: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+input UpdateTaskEventInput {
+  deliveryTaskId: ID
+  status: TaskEventStatus
+  reason: String
+  notes: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+extend type DmsMutation {
+  createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
+  updateTaskEvent(id: ID!, value: UpdateTaskEventInput): TaskEvents!
+  removeTaskEvent(id: ID!): DeleteResult!
+}

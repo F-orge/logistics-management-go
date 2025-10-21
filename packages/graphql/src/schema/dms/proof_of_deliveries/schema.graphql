@@ -1,0 +1,57 @@
+enum ProofOfDeliveryType {
+  SIGNATURE
+  PHOTO
+  CODE_VERIFICATION
+  CONTACTLESS_DELIVERY
+  LEFT_AT_DOOR
+}
+
+type DmsProofOfDeliveries {
+  id: ID!
+  deliveryTask: DeliveryTasks!
+  type: ProofOfDeliveryType!
+  filePath: String
+  signatureData: String
+  recipientName: String
+  verificationCode: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type DmsQuery {
+  dmsProofOfDeliveries(page: Int, perPage: Int): [DmsProofOfDeliveries!]!
+  dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
+}
+
+input CreateDmsProofOfDeliveryInput {
+  deliveryTaskId: ID!
+  type: ProofOfDeliveryType!
+  filePath: String
+  signatureData: String
+  recipientName: String
+  verificationCode: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+input UpdateDmsProofOfDeliveryInput {
+  deliveryTaskId: ID
+  type: ProofOfDeliveryType
+  filePath: String
+  signatureData: String
+  recipientName: String
+  verificationCode: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+extend type DmsMutation {
+  createDmsProofOfDelivery(value: CreateDmsProofOfDeliveryInput!): DmsProofOfDeliveries!
+  updateDmsProofOfDelivery(id: ID!, value: UpdateDmsProofOfDeliveryInput): DmsProofOfDeliveries!
+  removeDmsProofOfDelivery(id: ID!): DeleteResult!
+}

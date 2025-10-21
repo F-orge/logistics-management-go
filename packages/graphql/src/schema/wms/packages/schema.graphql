@@ -22,6 +22,7 @@ type Packages {
   createdAt: String
   updatedAt: String
   items: [PackageItems!]
+  deliveryTasks: [DeliveryTasks!]
 }
 
 extend type WmsQuery {

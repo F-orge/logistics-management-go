@@ -210,11 +210,70 @@ input CreateContactInput {
   phoneNumber: String
 }
 
+input CreateCustomerTrackingLinkInput {
+  accessCount: Int
+  deliveryTaskId: ID!
+  expiresAt: String
+  isActive: Boolean
+  lastAccessedAt: String
+  trackingToken: String!
+}
+
+input CreateDeliveryRouteInput {
+  completedAt: String
+  driverId: ID!
+  estimatedDurationMinutes: Int
+  optimizedRouteData: String
+  routeDate: String!
+  startedAt: String
+  status: DeliveryRouteStatus
+  totalDistanceKm: Float
+}
+
+input CreateDeliveryTaskInput {
+  actualArrivalTime: String
+  attemptCount: Int
+  deliveryAddress: String!
+  deliveryInstructions: String
+  deliveryRouteId: ID!
+  deliveryTime: String
+  estimatedArrivalTime: String
+  failureReason: DeliveryFailureReason
+  packageId: ID!
+  recipientName: String
+  recipientPhone: String
+  routeSequence: Int!
+  status: DeliveryTaskStatus
+}
+
+input CreateDmsProofOfDeliveryInput {
+  deliveryTaskId: ID!
+  filePath: String
+  latitude: Float
+  longitude: Float
+  recipientName: String
+  signatureData: String
+  timestamp: String
+  type: ProofOfDeliveryType!
+  verificationCode: String
+}
+
 input CreateDriverInput {
   licenseExpiryDate: String
   licenseNumber: String!
   status: DriverStatus
   userId: ID!
+}
+
+input CreateDriverLocationInput {
+  accuracy: Float
+  altitude: Float
+  driverId: ID!
+  heading: Float
+  latitude: Float!
+  longitude: Float!
+  speedKmh: Float
+  timestamp: String
 }
 
 input CreateDriverScheduleInput {
@@ -578,6 +637,16 @@ input CreateSupplierInput {
   phoneNumber: String
 }
 
+input CreateTaskEventInput {
+  deliveryTaskId: ID!
+  latitude: Float
+  longitude: Float
+  notes: String
+  reason: String
+  status: TaskEventStatus!
+  timestamp: String
+}
+
 input CreateTaskInput {
   actualDuration: Int
   endTime: String
@@ -756,9 +825,153 @@ enum Currency {
   USD
 }
 
+type CustomerTrackingLinks {
+  accessCount: Int
+  createdAt: String
+  deliveryTask: DeliveryTasks!
+  expiresAt: String
+  id: ID!
+  isActive: Boolean
+  lastAccessedAt: String
+  trackingToken: String!
+  updatedAt: String
+}
+
 type DeleteResult {
   numDeletedRows: Int!
   success: Boolean!
+}
+
+enum DeliveryFailureReason {
+  ACCESS_DENIED
+  ADDRESS_NOT_FOUND
+  DAMAGED_PACKAGE
+  OTHER
+  RECIPIENT_NOT_HOME
+  REFUSED_DELIVERY
+  VEHICLE_BREAKDOWN
+  WEATHER_CONDITIONS
+}
+
+enum DeliveryRouteStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
+  PAUSED
+  PLANNED
+}
+
+type DeliveryRoutes {
+  actualDurationMinutes: Int
+  completedAt: String
+  createdAt: String
+  driver: Drivers!
+  estimatedDurationMinutes: Int
+  id: ID!
+  optimizedRouteData: String
+  routeDate: String!
+  startedAt: String
+  status: DeliveryRouteStatus
+  tasks: [DeliveryTasks!]
+  totalDistanceKm: Float
+  updatedAt: String
+}
+
+enum DeliveryTaskStatus {
+  ASSIGNED
+  CANCELLED
+  DELIVERED
+  FAILED
+  OUT_FOR_DELIVERY
+  PENDING
+  RESCHEDULED
+}
+
+type DeliveryTasks {
+  actualArrivalTime: String
+  attemptCount: Int
+  createdAt: String
+  customerTrackingLinks: [CustomerTrackingLinks!]
+  deliveryAddress: String!
+  deliveryInstructions: String
+  deliveryRoute: DeliveryRoutes!
+  deliveryTime: String
+  estimatedArrivalTime: String
+  events: [TaskEvents!]
+  failureReason: DeliveryFailureReason
+  id: ID!
+  package: Packages!
+  proofOfDeliveries: [DmsProofOfDeliveries!]
+  recipientName: String
+  recipientPhone: String
+  routeSequence: Int!
+  status: DeliveryTaskStatus
+  updatedAt: String
+}
+
+type DmsMutation {
+  createCustomerTrackingLink(value: CreateCustomerTrackingLinkInput!): CustomerTrackingLinks!
+  createDeliveryRoute(value: CreateDeliveryRouteInput!): DeliveryRoutes!
+  createDeliveryTask(value: CreateDeliveryTaskInput!): DeliveryTasks!
+  createDmsProofOfDelivery(value: CreateDmsProofOfDeliveryInput!): DmsProofOfDeliveries!
+  createDriverLocation(value: CreateDriverLocationInput!): DriverLocations!
+  createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
+  removeCustomerTrackingLink(id: ID!): DeleteResult!
+  removeDeliveryRoute(id: ID!): DeleteResult!
+  removeDeliveryTask(id: ID!): DeleteResult!
+  removeDmsProofOfDelivery(id: ID!): DeleteResult!
+  removeDriverLocation(id: ID!): DeleteResult!
+  removeTaskEvent(id: ID!): DeleteResult!
+  updateCustomerTrackingLink(id: ID!, value: UpdateCustomerTrackingLinkInput): CustomerTrackingLinks!
+  updateDeliveryRoute(id: ID!, value: UpdateDeliveryRouteInput): DeliveryRoutes!
+  updateDeliveryTask(id: ID!, value: UpdateDeliveryTaskInput): DeliveryTasks!
+  updateDmsProofOfDelivery(id: ID!, value: UpdateDmsProofOfDeliveryInput): DmsProofOfDeliveries!
+  updateDriverLocation(id: ID!, value: UpdateDriverLocationInput): DriverLocations!
+  updateTaskEvent(id: ID!, value: UpdateTaskEventInput): TaskEvents!
+}
+
+type DmsProofOfDeliveries {
+  createdAt: String
+  deliveryTask: DeliveryTasks!
+  filePath: String
+  id: ID!
+  latitude: Float
+  longitude: Float
+  recipientName: String
+  signatureData: String
+  timestamp: String
+  type: ProofOfDeliveryType!
+  updatedAt: String
+  verificationCode: String
+}
+
+type DmsQuery {
+  customerTrackingLink(id: ID!): CustomerTrackingLinks!
+  customerTrackingLinks(page: Int, perPage: Int): [CustomerTrackingLinks!]!
+  deliveryRoute(id: ID!): DeliveryRoutes!
+  deliveryRoutes(page: Int, perPage: Int): [DeliveryRoutes!]!
+  deliveryTask(id: ID!): DeliveryTasks!
+  deliveryTasks(page: Int, perPage: Int): [DeliveryTasks!]!
+  dmsProofOfDeliveries(page: Int, perPage: Int): [DmsProofOfDeliveries!]!
+  dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
+  driverLocation(id: ID!): DriverLocations!
+  driverLocations(page: Int, perPage: Int): [DriverLocations!]!
+  taskEvent(id: ID!): TaskEvents!
+  taskEvents(page: Int, perPage: Int): [TaskEvents!]!
+}
+
+type DriverLocations {
+  accuracy: Float
+  altitude: Float
+  createdAt: String
+  driver: Drivers!
+  heading: Float
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  speedKmh: Float
+  timestamp: String
+  updatedAt: String
 }
 
 enum DriverScheduleReason {
@@ -786,6 +999,8 @@ enum DriverStatus {
 
 type Drivers {
   createdAt: String
+  deliveryRoutes: [DeliveryRoutes!]
+  driverLocations: [DriverLocations!]
   expenses: [Expenses!]
   id: ID!
   licenseExpiryDate: String
@@ -1083,6 +1298,7 @@ type Locations {
 
 type Mutation {
   crm: CrmMutation
+  dms: DmsMutation
   tms: TmsMutation
   wms: WmsMutation
 }
@@ -1195,6 +1411,7 @@ type PackageItems {
 type Packages {
   carrier: String
   createdAt: String
+  deliveryTasks: [DeliveryTasks!]
   height: Float
   id: ID!
   insuranceValue: Float
@@ -1340,6 +1557,14 @@ type ProofOfDeliveries {
   updatedAt: String
 }
 
+enum ProofOfDeliveryType {
+  CODE_VERIFICATION
+  CONTACTLESS_DELIVERY
+  LEFT_AT_DOOR
+  PHOTO
+  SIGNATURE
+}
+
 enum ProofType {
   BARCODE_SCAN
   PHOTO
@@ -1368,6 +1593,7 @@ type PutawayRules {
 
 type Query {
   crm: CrmQuery
+  dms: DmsQuery
   tms: TmsQuery
   wms: WmsQuery
 }
@@ -1534,6 +1760,30 @@ type Suppliers {
   name: String!
   phoneNumber: String
   products: [WmsProducts!]
+  updatedAt: String
+}
+
+enum TaskEventStatus {
+  ARRIVED
+  ASSIGNED
+  CANCELLED
+  DELIVERED
+  EXCEPTION
+  FAILED
+  RESCHEDULED
+  STARTED
+}
+
+type TaskEvents {
+  createdAt: String
+  deliveryTask: DeliveryTasks!
+  id: ID!
+  latitude: Float
+  longitude: Float
+  notes: String
+  reason: String
+  status: TaskEventStatus!
+  timestamp: String
   updatedAt: String
 }
 
@@ -1822,11 +2072,70 @@ input UpdateContactInput {
   phoneNumber: String
 }
 
+input UpdateCustomerTrackingLinkInput {
+  accessCount: Int
+  deliveryTaskId: ID
+  expiresAt: String
+  isActive: Boolean
+  lastAccessedAt: String
+  trackingToken: String
+}
+
+input UpdateDeliveryRouteInput {
+  completedAt: String
+  driverId: ID
+  estimatedDurationMinutes: Int
+  optimizedRouteData: String
+  routeDate: String
+  startedAt: String
+  status: DeliveryRouteStatus
+  totalDistanceKm: Float
+}
+
+input UpdateDeliveryTaskInput {
+  actualArrivalTime: String
+  attemptCount: Int
+  deliveryAddress: String
+  deliveryInstructions: String
+  deliveryRouteId: ID
+  deliveryTime: String
+  estimatedArrivalTime: String
+  failureReason: DeliveryFailureReason
+  packageId: ID
+  recipientName: String
+  recipientPhone: String
+  routeSequence: Int
+  status: DeliveryTaskStatus
+}
+
+input UpdateDmsProofOfDeliveryInput {
+  deliveryTaskId: ID
+  filePath: String
+  latitude: Float
+  longitude: Float
+  recipientName: String
+  signatureData: String
+  timestamp: String
+  type: ProofOfDeliveryType
+  verificationCode: String
+}
+
 input UpdateDriverInput {
   licenseExpiryDate: String
   licenseNumber: String
   status: DriverStatus
   userId: ID
+}
+
+input UpdateDriverLocationInput {
+  accuracy: Float
+  altitude: Float
+  driverId: ID
+  heading: Float
+  latitude: Float
+  longitude: Float
+  speedKmh: Float
+  timestamp: String
 }
 
 input UpdateDriverScheduleInput {
@@ -2186,6 +2495,16 @@ input UpdateSupplierInput {
   email: String
   name: String
   phoneNumber: String
+}
+
+input UpdateTaskEventInput {
+  deliveryTaskId: ID
+  latitude: Float
+  longitude: Float
+  notes: String
+  reason: String
+  status: TaskEventStatus
+  timestamp: String
 }
 
 input UpdateTaskInput {
