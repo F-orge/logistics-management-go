@@ -1,0 +1,29 @@
+type PartnerInvoiceItems {
+  id: ID!
+  partnerInvoice: PartnerInvoices!
+  shipmentLeg: ShipmentLegs!
+  amount: Float!
+}
+
+extend type TmsQuery {
+  partnerInvoiceItems(page: Int, perPage: Int): [PartnerInvoiceItems!]!
+  partnerInvoiceItem(id: ID!): PartnerInvoiceItems!
+}
+
+input CreatePartnerInvoiceItemInput {
+  partnerInvoiceId: ID!
+  shipmentLegId: ID!
+  amount: Float!
+}
+
+input UpdatePartnerInvoiceItemInput {
+  partnerInvoiceId: ID
+  shipmentLegId: ID
+  amount: Float
+}
+
+extend type TmsMutation {
+  createPartnerInvoiceItem(value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
+  updatePartnerInvoiceItem(id: ID!, value: UpdatePartnerInvoiceItemInput): PartnerInvoiceItems!
+  removePartnerInvoiceItem(id: ID!): DeleteResult!
+}

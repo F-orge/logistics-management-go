@@ -1,0 +1,50 @@
+enum InteractionType {
+  CALL
+  MEETING
+  TEXT
+  EMAIL
+}
+
+type Interactions {
+  id: ID!
+  contact: Contacts!
+  user: User!
+  case: Cases
+  type: InteractionType
+  outcome: String
+  notes: String
+  interactionDate: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  interactions(page: Int, perPage: Int): [Interactions!]!
+  interaction(id: ID!): Interactions!
+}
+
+input CreateInteractionInput {
+  contactId: ID!
+  userId: ID!
+  caseId: ID
+  type: InteractionType
+  outcome: String
+  notes: String
+  interactionDate: String
+}
+
+input UpdateInteractionInput {
+  contactId: ID
+  userId: ID
+  caseId: ID
+  type: InteractionType
+  outcome: String
+  notes: String
+  interactionDate: String
+}
+
+extend type CrmMutation {
+  createInteraction(value: CreateInteractionInput!): Interactions!
+  updateInteraction(id: ID!, value: UpdateInteractionInput): Interactions!
+  removeInteraction(id: ID!): DeleteResult!
+}

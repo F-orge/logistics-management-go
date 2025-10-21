@@ -1,0 +1,37 @@
+enum GeofenceEventType {
+  ENTER
+  EXIT
+}
+
+type GeofenceEvents {
+  id: ID!
+  vehicle: Vehicles!
+  geofence: Geofences!
+  eventType: GeofenceEventType!
+  timestamp: String!
+}
+
+extend type TmsQuery {
+  geofenceEvents(page: Int, perPage: Int): [GeofenceEvents!]!
+  geofenceEvent(id: ID!): GeofenceEvents!
+}
+
+input CreateGeofenceEventInput {
+  vehicleId: ID!
+  geofenceId: ID!
+  eventType: GeofenceEventType!
+  timestamp: String!
+}
+
+input UpdateGeofenceEventInput {
+  vehicleId: ID
+  geofenceId: ID
+  eventType: GeofenceEventType
+  timestamp: String
+}
+
+extend type TmsMutation {
+  createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
+  updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
+  removeGeofenceEvent(id: ID!): DeleteResult!
+}

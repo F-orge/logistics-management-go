@@ -1,0 +1,67 @@
+enum LeadSource {
+  WEBSITE
+  REFERRAL
+  SOCIAL_MEDIA
+  EMAIL_CAMPAIGN
+  COLD_CALL
+  EVENT
+  ADVERTISEMENT
+  PARTNER
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  UNQUALIFIED
+  CONVERTED
+}
+
+type Leads {
+  id: ID!
+  name: String!
+  email: String!
+  leadSource: LeadSource
+  status: LeadStatus
+  leadScore: Int
+  owner: User!
+  campaign: Campaigns
+  convertedAt: String
+  convertedContact: Contacts
+  convertedCompany: Companies
+  convertedOpportunity: Opportunities
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  leads(page: Int, perPage: Int): [Leads!]!
+  lead(id: ID!): Leads!
+}
+
+input CreateLeadInput {
+  name: String!
+  email: String!
+  leadSource: LeadSource
+  status: LeadStatus
+  leadScore: Int
+  ownerId: ID!
+  campaignId: ID
+}
+
+input UpdateLeadInput {
+  name: String
+  email: String
+  leadSource: LeadSource
+  status: LeadStatus
+  leadScore: Int
+  ownerId: ID
+  campaignId: ID
+}
+
+extend type CrmMutation {
+  createLead(value: CreateLeadInput!): Leads!
+  updateLead(id: ID!, value: UpdateLeadInput): Leads!
+  removeLead(id: ID!): DeleteResult!
+}

@@ -1,0 +1,46 @@
+enum PartnerInvoiceStatus {
+  PENDING
+  PAID
+  DISPUTED
+  OVERDUE
+  CANCELLED
+}
+
+type PartnerInvoices {
+  id: ID!
+  carrier: Carriers!
+  invoiceNumber: String!
+  invoiceDate: String!
+  totalAmount: Float!
+  status: PartnerInvoiceStatus
+  createdAt: String
+  updatedAt: String
+  items: [PartnerInvoiceItems!]
+}
+
+extend type TmsQuery {
+  partnerInvoices(page: Int, perPage: Int): [PartnerInvoices!]!
+  partnerInvoice(id: ID!): PartnerInvoices!
+}
+
+input CreatePartnerInvoiceInput {
+  carrierId: ID!
+  invoiceNumber: String!
+  invoiceDate: String!
+  totalAmount: Float!
+  status: PartnerInvoiceStatus
+}
+
+input UpdatePartnerInvoiceInput {
+  carrierId: ID
+  invoiceNumber: String
+  invoiceDate: String
+  totalAmount: Float
+  status: PartnerInvoiceStatus
+}
+
+extend type TmsMutation {
+  createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
+  updatePartnerInvoice(id: ID!, value: UpdatePartnerInvoiceInput): PartnerInvoices!
+  removePartnerInvoice(id: ID!): DeleteResult!
+}

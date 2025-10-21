@@ -1,0 +1,4 @@
+import type   { TmsQueryResolvers } from './../../../types.generated';
+    export const TmsQuery: Pick<TmsQueryResolvers, 'geofenceEvent'|'geofenceEvents'> = {
+    /* Implement TmsQuery resolver logic here */
+  };

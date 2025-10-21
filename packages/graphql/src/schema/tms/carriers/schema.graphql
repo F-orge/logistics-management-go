@@ -1,0 +1,34 @@
+type Carriers {
+  id: ID!
+  name: String!
+  contactDetails: String
+  servicesOffered: String
+  createdAt: String
+  updatedAt: String
+  rates: [CarrierRates!]
+  shipmentLegs: [ShipmentLegs!]
+  partnerInvoices: [PartnerInvoices!]
+}
+
+extend type TmsQuery {
+  carriers(page: Int, perPage: Int): [Carriers!]!
+  carrier(id: ID!): Carriers!
+}
+
+input CreateCarrierInput {
+  name: String!
+  contactDetails: String
+  servicesOffered: String
+}
+
+input UpdateCarrierInput {
+  name: String
+  contactDetails: String
+  servicesOffered: String
+}
+
+extend type TmsMutation {
+  createCarrier(value: CreateCarrierInput!): Carriers!
+  updateCarrier(id: ID!, value: UpdateCarrierInput): Carriers!
+  removeCarrier(id: ID!): DeleteResult!
+}

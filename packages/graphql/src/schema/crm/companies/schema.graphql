@@ -1,12 +1,55 @@
-
 type Companies {
+  id: ID!
   name: String!
-}
-
-type CompanyQueries {
-  paginate(page:Int,perPage:Int): [Companies!]!
+  street: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+  phoneNumber: String
+  industry: String
+  website: String
+  annualRevenue: Float
+  createdAt: String
+  updatedAt: String
+  owner: User
 }
 
 extend type CrmQuery {
-  companies:CompanyQueries!
+  companies(page: Int, perPage: Int): [Companies!]!
+  company(id: ID!): Companies!
+}
+
+input CreateCompanyInput {
+  name: String!
+  street: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+  phoneNumber: String
+  industry: String
+  website: String
+  annualRevenue: Float
+  ownerId: ID
+}
+
+input UpdateCompanyInput {
+  name: String
+  street: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+  phoneNumber: String
+  industry: String
+  website: String
+  annualRevenue: Float
+  ownerId: ID
+}
+
+extend type CrmMutation {
+  createCompany(value: CreateCompanyInput!): Companies!
+  updateCompany(id: ID!, value: UpdateCompanyInput): Companies!
+  removeCompany(id: ID!): DeleteResult!
 }

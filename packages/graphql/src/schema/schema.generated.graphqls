@@ -1,21 +1,1299 @@
+type Attachments {
+  createdAt: String
+  fileName: String!
+  filePath: String!
+  id: ID!
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+  updatedAt: String
+}
+
+type Campaigns {
+  budget: Float
+  createdAt: String
+  endDate: String
+  id: ID!
+  name: String!
+  startDate: String
+  updatedAt: String
+}
+
+enum CarrierRateUnit {
+  FLAT_RATE
+  PER_CONTAINER
+  PER_KG
+  PER_KM
+  PER_MILE
+}
+
+type CarrierRates {
+  carrier: Carriers!
+  createdAt: String
+  destination: String
+  id: ID!
+  origin: String
+  rate: Float!
+  serviceType: String
+  unit: CarrierRateUnit
+  updatedAt: String
+}
+
+type Carriers {
+  contactDetails: String
+  createdAt: String
+  id: ID!
+  name: String!
+  partnerInvoices: [PartnerInvoices!]
+  rates: [CarrierRates!]
+  servicesOffered: String
+  shipmentLegs: [ShipmentLegs!]
+  updatedAt: String
+}
+
+enum CasePriority {
+  CRITICAL
+  HIGH
+  LOW
+  MEDIUM
+}
+
+enum CaseStatus {
+  CANCELLED
+  CLOSED
+  ESCALATED
+  IN_PROGRESS
+  NEW
+  RESOLVED
+  WAITING_FOR_CUSTOMER
+  WAITING_FOR_INTERNAL
+}
+
+enum CaseType {
+  BUG_REPORT
+  COMPLAINT
+  FEATURE_REQUEST
+  PROBLEM
+  QUESTION
+  TECHNICAL_SUPPORT
+}
+
+type Cases {
+  caseNumber: String!
+  contact: Contacts
+  createdAt: String
+  description: String
+  id: ID!
+  owner: User!
+  priority: CasePriority
+  status: CaseStatus
+  type: CaseType
+  updatedAt: String
+}
+
 type Companies {
+  annualRevenue: Float
+  city: String
+  country: String
+  createdAt: String
+  id: ID!
+  industry: String
+  name: String!
+  owner: User
+  phoneNumber: String
+  postalCode: String
+  state: String
+  street: String
+  updatedAt: String
+  website: String
+}
+
+type Contacts {
+  company: Companies
+  createdAt: String
+  email: String!
+  id: ID!
+  jobTitle: String
+  name: String!
+  owner: User!
+  phoneNumber: String
+  updatedAt: String
+}
+
+input CreateAttachmentInput {
+  fileName: String!
+  filePath: String!
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+}
+
+input CreateCampaignInput {
+  budget: Float
+  endDate: String
+  name: String!
+  startDate: String
+}
+
+input CreateCarrierInput {
+  contactDetails: String
+  name: String!
+  servicesOffered: String
+}
+
+input CreateCarrierRateInput {
+  carrierId: ID!
+  destination: String
+  origin: String
+  rate: Float!
+  serviceType: String
+  unit: CarrierRateUnit
+}
+
+input CreateCaseInput {
+  caseNumber: String!
+  contactId: ID
+  description: String
+  ownerId: ID!
+  priority: CasePriority
+  status: CaseStatus
+  type: CaseType
+}
+
+input CreateCompanyInput {
+  annualRevenue: Float
+  city: String
+  country: String
+  industry: String
+  name: String!
+  ownerId: ID
+  phoneNumber: String
+  postalCode: String
+  state: String
+  street: String
+  website: String
+}
+
+input CreateContactInput {
+  companyId: ID
+  email: String!
+  jobTitle: String
+  name: String!
+  ownerId: ID!
+  phoneNumber: String
+}
+
+input CreateDriverInput {
+  licenseExpiryDate: String
+  licenseNumber: String!
+  status: DriverStatus
+  userId: ID!
+}
+
+input CreateDriverScheduleInput {
+  driverId: ID!
+  endDate: String!
+  reason: DriverScheduleReason
+  startDate: String!
+}
+
+input CreateExpenseInput {
+  amount: Float!
+  currency: Currency
+  driverId: ID
+  fuelQuantity: Float
+  odometerReading: Int
+  receiptUrl: String
+  status: ExpenseStatus
+  tripId: ID
+  type: ExpenseType
+}
+
+input CreateGeofenceEventInput {
+  eventType: GeofenceEventType!
+  geofenceId: ID!
+  timestamp: String!
+  vehicleId: ID!
+}
+
+input CreateGeofenceInput {
+  coordinates: String
   name: String!
 }
 
-type CompanyQueries {
-  paginate(page: Int, perPage: Int): [Companies!]!
+input CreateGpsPingInput {
+  latitude: Float!
+  longitude: Float!
+  timestamp: String!
+  vehicleId: ID!
 }
 
-type CrmMutation
+input CreateInteractionInput {
+  caseId: ID
+  contactId: ID!
+  interactionDate: String
+  notes: String
+  outcome: String
+  type: InteractionType
+  userId: ID!
+}
+
+input CreateInvoiceInput {
+  dueDate: String
+  issueDate: String
+  opportunityId: ID
+  paidAt: String
+  paymentMethod: PaymentMethod
+  sentAt: String
+  status: InvoiceStatus
+  total: Float
+}
+
+input CreateInvoiceItemInput {
+  invoiceId: ID!
+  price: Float!
+  productId: ID!
+  quantity: Int!
+}
+
+input CreateLeadInput {
+  campaignId: ID
+  email: String!
+  leadScore: Int
+  leadSource: LeadSource
+  name: String!
+  ownerId: ID!
+  status: LeadStatus
+}
+
+input CreateNotificationInput {
+  isRead: Boolean
+  link: String
+  message: String!
+  userId: ID!
+}
+
+input CreateOpportunityInput {
+  campaignId: ID
+  companyId: ID
+  contactId: ID
+  dealValue: Float
+  expectedCloseDate: String
+  lostReason: String
+  name: String!
+  ownerId: ID!
+  probability: Float
+  source: OpportunitySource
+  stage: OpportunityStage
+}
+
+input CreateOpportunityProductInput {
+  opportunityId: ID!
+  productId: ID!
+  quantity: Int!
+}
+
+input CreatePartnerInvoiceInput {
+  carrierId: ID!
+  invoiceDate: String!
+  invoiceNumber: String!
+  status: PartnerInvoiceStatus
+  totalAmount: Float!
+}
+
+input CreatePartnerInvoiceItemInput {
+  amount: Float!
+  partnerInvoiceId: ID!
+  shipmentLegId: ID!
+}
+
+input CreateProductInput {
+  description: String
+  name: String!
+  price: Float!
+  sku: String
+  type: ProductType
+}
+
+input CreateProofOfDeliveryInput {
+  filePath: String
+  latitude: Float
+  longitude: Float
+  timestamp: String!
+  tripStopId: ID!
+  type: ProofType
+}
+
+input CreateRouteInput {
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+  tripId: ID!
+}
+
+input CreateShipmentLegEventInput {
+  eventTimestamp: String!
+  location: String
+  shipmentLegId: ID!
+  statusMessage: String
+}
+
+input CreateShipmentLegInput {
+  carrierId: ID
+  endLocation: String
+  internalTripId: ID
+  legSequence: Int!
+  shipmentId: ID
+  startLocation: String
+  status: ShipmentLegStatus
+}
+
+input CreateTripInput {
+  driverId: ID
+  status: TripStatus
+  vehicleId: ID
+}
+
+input CreateTripStopInput {
+  actualArrivalTime: String
+  actualDepartureTime: String
+  address: String
+  estimatedArrivalTime: String
+  estimatedDepartureTime: String
+  sequence: Int!
+  shipmentId: ID
+  status: TripStopStatus
+  tripId: ID!
+}
+
+input CreateVehicleInput {
+  capacityVolume: Float
+  capacityWeight: Float
+  model: String
+  registrationNumber: String!
+  status: VehicleStatus
+}
+
+input CreateVehicleMaintenanceInput {
+  cost: Float
+  notes: String
+  serviceDate: String!
+  serviceType: VehicleServiceType
+  vehicleId: ID!
+}
+
+type CrmMutation {
+  createAttachment(value: CreateAttachmentInput!): Attachments!
+  createCampaign(value: CreateCampaignInput!): Campaigns!
+  createCase(value: CreateCaseInput!): Cases!
+  createCompany(value: CreateCompanyInput!): Companies!
+  createContact(value: CreateContactInput!): Contacts!
+  createInteraction(value: CreateInteractionInput!): Interactions!
+  createInvoice(value: CreateInvoiceInput!): Invoices!
+  createInvoiceItem(value: CreateInvoiceItemInput!): InvoiceItems!
+  createLead(value: CreateLeadInput!): Leads!
+  createNotification(value: CreateNotificationInput!): Notifications!
+  createOpportunity(value: CreateOpportunityInput!): Opportunities!
+  createOpportunityProduct(value: CreateOpportunityProductInput!): OpportunityProducts!
+  createProduct(value: CreateProductInput!): Products!
+  removeAttachment(id: ID!): DeleteResult!
+  removeCampaign(id: ID!): DeleteResult!
+  removeCase(id: ID!): DeleteResult!
+  removeCompany(id: ID!): DeleteResult!
+  removeContact(id: ID!): DeleteResult!
+  removeInteraction(id: ID!): DeleteResult!
+  removeInvoice(id: ID!): DeleteResult!
+  removeInvoiceItem(id: ID!): DeleteResult!
+  removeLead(id: ID!): DeleteResult!
+  removeNotification(id: ID!): DeleteResult!
+  removeOpportunity(id: ID!): DeleteResult!
+  removeOpportunityProduct(opportunityId: ID!, productId: ID!): DeleteResult!
+  removeProduct(id: ID!): DeleteResult!
+  updateAttachment(id: ID!, value: UpdateAttachmentInput): Attachments!
+  updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
+  updateCase(id: ID!, value: UpdateCaseInput): Cases!
+  updateCompany(id: ID!, value: UpdateCompanyInput): Companies!
+  updateContact(id: ID!, value: UpdateContactInput): Contacts!
+  updateInteraction(id: ID!, value: UpdateInteractionInput): Interactions!
+  updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
+  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput): InvoiceItems!
+  updateLead(id: ID!, value: UpdateLeadInput): Leads!
+  updateNotification(id: ID!, value: UpdateNotificationInput): Notifications!
+  updateOpportunity(id: ID!, value: UpdateOpportunityInput): Opportunities!
+  updateOpportunityProduct(opportunityId: ID!, productId: ID!, value: UpdateOpportunityProductInput): OpportunityProducts!
+  updateProduct(id: ID!, value: UpdateProductInput): Products!
+}
 
 type CrmQuery {
-  companies: CompanyQueries!
+  attachment(id: ID!): Attachments!
+  attachments(page: Int, perPage: Int): [Attachments!]!
+  campaign(id: ID!): Campaigns!
+  campaigns(page: Int, perPage: Int): [Campaigns!]!
+  case(id: ID!): Cases!
+  cases(page: Int, perPage: Int): [Cases!]!
+  companies(page: Int, perPage: Int): [Companies!]!
+  company(id: ID!): Companies!
+  contact(id: ID!): Contacts!
+  contacts(page: Int, perPage: Int): [Contacts!]!
+  interaction(id: ID!): Interactions!
+  interactions(page: Int, perPage: Int): [Interactions!]!
+  invoice(id: ID!): Invoices!
+  invoiceItem(id: ID!): InvoiceItems!
+  invoiceItems(page: Int, perPage: Int): [InvoiceItems!]!
+  invoices(page: Int, perPage: Int): [Invoices!]!
+  lead(id: ID!): Leads!
+  leads(page: Int, perPage: Int): [Leads!]!
+  notification(id: ID!): Notifications!
+  notifications(page: Int, perPage: Int): [Notifications!]!
+  opportunities(page: Int, perPage: Int): [Opportunities!]!
+  opportunity(id: ID!): Opportunities!
+  opportunityProduct(opportunityId: ID!, productId: ID!): OpportunityProducts!
+  opportunityProducts(page: Int, perPage: Int): [OpportunityProducts!]!
+  product(id: ID!): Products!
+  products(page: Int, perPage: Int): [Products!]!
+}
+
+enum Currency {
+  AUD
+  CAD
+  EUR
+  GBP
+  JPY
+  PHP
+  USD
+}
+
+type DeleteResult {
+  numDeletedRows: Int!
+  success: Boolean!
+}
+
+enum DriverScheduleReason {
+  PERSONAL_LEAVE
+  SICK_LEAVE
+  TRAINING
+  VACATION
+}
+
+type DriverSchedules {
+  createdAt: String
+  driver: Drivers!
+  endDate: String!
+  id: ID!
+  reason: DriverScheduleReason
+  startDate: String!
+  updatedAt: String
+}
+
+enum DriverStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+}
+
+type Drivers {
+  createdAt: String
+  expenses: [Expenses!]
+  id: ID!
+  licenseExpiryDate: String
+  licenseNumber: String!
+  schedules: [DriverSchedules!]
+  status: DriverStatus
+  trips: [Trips!]
+  updatedAt: String
+  user: User!
+}
+
+enum ExpenseStatus {
+  APPROVED
+  PENDING
+  REIMBURSED
+  REJECTED
+}
+
+enum ExpenseType {
+  ACCOMMODATION
+  FUEL
+  MAINTENANCE
+  MEALS
+  PARKING
+  TOLLS
+}
+
+type Expenses {
+  amount: Float!
+  createdAt: String
+  currency: Currency
+  driver: Drivers
+  fuelQuantity: Float
+  id: ID!
+  odometerReading: Int
+  receiptUrl: String
+  status: ExpenseStatus
+  trip: Trips
+  type: ExpenseType
+  updatedAt: String
+}
+
+enum GeofenceEventType {
+  ENTER
+  EXIT
+}
+
+type GeofenceEvents {
+  eventType: GeofenceEventType!
+  geofence: Geofences!
+  id: ID!
+  timestamp: String!
+  vehicle: Vehicles!
+}
+
+type Geofences {
+  coordinates: String
+  createdAt: String
+  events: [GeofenceEvents!]
+  id: ID!
+  name: String!
+  updatedAt: String
+}
+
+type GpsPings {
+  id: ID!
+  latitude: Float!
+  longitude: Float!
+  timestamp: String!
+  vehicle: Vehicles!
+}
+
+enum InteractionType {
+  CALL
+  EMAIL
+  MEETING
+  TEXT
+}
+
+type Interactions {
+  case: Cases
+  contact: Contacts!
+  createdAt: String
+  id: ID!
+  interactionDate: String
+  notes: String
+  outcome: String
+  type: InteractionType
+  updatedAt: String
+  user: User!
+}
+
+type InvoiceItems {
+  createdAt: String
+  id: ID!
+  invoice: Invoices!
+  price: Float!
+  product: Products!
+  quantity: Int!
+  updatedAt: String
+}
+
+enum InvoiceStatus {
+  CANCELLED
+  DRAFT
+  OVERDUE
+  PAID
+  SENT
+}
+
+type Invoices {
+  createdAt: String
+  dueDate: String
+  id: ID!
+  issueDate: String
+  items: [InvoiceItems!]
+  opportunity: Opportunities
+  paidAt: String
+  paymentMethod: PaymentMethod
+  sentAt: String
+  status: InvoiceStatus
+  total: Float
+  updatedAt: String
+}
+
+enum LeadSource {
+  ADVERTISEMENT
+  COLD_CALL
+  EMAIL_CAMPAIGN
+  EVENT
+  OTHER
+  PARTNER
+  REFERRAL
+  SOCIAL_MEDIA
+  WEBSITE
+}
+
+enum LeadStatus {
+  CONTACTED
+  CONVERTED
+  NEW
+  QUALIFIED
+  UNQUALIFIED
+}
+
+type Leads {
+  campaign: Campaigns
+  convertedAt: String
+  convertedCompany: Companies
+  convertedContact: Contacts
+  convertedOpportunity: Opportunities
+  createdAt: String
+  email: String!
+  id: ID!
+  leadScore: Int
+  leadSource: LeadSource
+  name: String!
+  owner: User!
+  status: LeadStatus
+  updatedAt: String
 }
 
 type Mutation {
   crm: CrmMutation
+  tms: TmsMutation
+}
+
+type Notifications {
+  createdAt: String
+  id: ID!
+  isRead: Boolean
+  link: String
+  message: String!
+  updatedAt: String
+  user: User!
+}
+
+type Opportunities {
+  campaign: Campaigns
+  company: Companies
+  contact: Contacts
+  createdAt: String
+  dealValue: Float
+  expectedCloseDate: String
+  id: ID!
+  lostReason: String
+  name: String!
+  owner: User!
+  probability: Float
+  products: [OpportunityProducts!]
+  source: OpportunitySource
+  stage: OpportunityStage
+  updatedAt: String
+}
+
+type OpportunityProducts {
+  opportunity: Opportunities!
+  product: Products!
+  quantity: Int!
+}
+
+enum OpportunitySource {
+  ADVERTISEMENT
+  COLD_CALL
+  EMAIL_CAMPAIGN
+  EVENT
+  EXISTING_CUSTOMER
+  OTHER
+  PARTNER
+  REFERRAL
+  SOCIAL_MEDIA
+  WEBSITE
+}
+
+enum OpportunityStage {
+  CLOSED_LOST
+  CLOSED_WON
+  DEMO
+  NEED_ANALYSIS
+  NEGOTIATION
+  PROPOSAL
+  PROSPECTING
+  QUALIFICATION
+}
+
+type PartnerInvoiceItems {
+  amount: Float!
+  id: ID!
+  partnerInvoice: PartnerInvoices!
+  shipmentLeg: ShipmentLegs!
+}
+
+enum PartnerInvoiceStatus {
+  CANCELLED
+  DISPUTED
+  OVERDUE
+  PAID
+  PENDING
+}
+
+type PartnerInvoices {
+  carrier: Carriers!
+  createdAt: String
+  id: ID!
+  invoiceDate: String!
+  invoiceNumber: String!
+  items: [PartnerInvoiceItems!]
+  status: PartnerInvoiceStatus
+  totalAmount: Float!
+  updatedAt: String
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CASH
+  CHECK
+  CREDIT_CARD
+  PAYPAL
+  STRIPE
+  WIRE_TRANSFER
+}
+
+enum ProductType {
+  DIGITAL
+  GOOD
+  SERVICE
+  SUBSCRIPTION
+}
+
+type Products {
+  createdAt: String
+  description: String
+  id: ID!
+  name: String!
+  price: Float!
+  sku: String
+  type: ProductType
+  updatedAt: String
+}
+
+type ProofOfDeliveries {
+  createdAt: String
+  filePath: String
+  id: ID!
+  latitude: Float
+  longitude: Float
+  timestamp: String!
+  tripStop: TripStops!
+  type: ProofType
+  updatedAt: String
+}
+
+enum ProofType {
+  BARCODE_SCAN
+  PHOTO
+  PIN_VERIFICATION
+  SIGNATURE
 }
 
 type Query {
   crm: CrmQuery
+  tms: TmsQuery
+}
+
+enum RecordType {
+  CAMPAIGNS
+  CASES
+  COMPANIES
+  CONTACTS
+  INTERACTIONS
+  INVOICES
+  LEADS
+  OPPORTUNITIES
+  PRODUCTS
+}
+
+type Routes {
+  createdAt: String
+  id: ID!
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+  trip: Trips!
+  updatedAt: String
+}
+
+type ShipmentLegEvents {
+  eventTimestamp: String!
+  id: ID!
+  location: String
+  shipmentLeg: ShipmentLegs!
+  statusMessage: String
+}
+
+enum ShipmentLegStatus {
+  CANCELLED
+  DELIVERED
+  FAILED
+  IN_TRANSIT
+  PENDING
+}
+
+type ShipmentLegs {
+  carrier: Carriers
+  createdAt: String
+  endLocation: String
+  events: [ShipmentLegEvents!]
+  id: ID!
+  internalTrip: Trips
+  legSequence: Int!
+  partnerInvoiceItems: [PartnerInvoiceItems!]
+  shipmentId: ID
+  startLocation: String
+  status: ShipmentLegStatus
+  updatedAt: String
+}
+
+type TmsMutation {
+  createCarrier(value: CreateCarrierInput!): Carriers!
+  createCarrierRate(value: CreateCarrierRateInput!): CarrierRates!
+  createDriver(value: CreateDriverInput!): Drivers!
+  createDriverSchedule(value: CreateDriverScheduleInput!): DriverSchedules!
+  createExpense(value: CreateExpenseInput!): Expenses!
+  createGeofence(value: CreateGeofenceInput!): Geofences!
+  createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
+  createGpsPing(value: CreateGpsPingInput!): GpsPings!
+  createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
+  createPartnerInvoiceItem(value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
+  createProofOfDelivery(value: CreateProofOfDeliveryInput!): ProofOfDeliveries!
+  createRoute(value: CreateRouteInput!): Routes!
+  createShipmentLeg(value: CreateShipmentLegInput!): ShipmentLegs!
+  createShipmentLegEvent(value: CreateShipmentLegEventInput!): ShipmentLegEvents!
+  createTrip(value: CreateTripInput!): Trips!
+  createTripStop(value: CreateTripStopInput!): TripStops!
+  createVehicle(value: CreateVehicleInput!): Vehicles!
+  createVehicleMaintenance(value: CreateVehicleMaintenanceInput!): VehicleMaintenance!
+  removeCarrier(id: ID!): DeleteResult!
+  removeCarrierRate(id: ID!): DeleteResult!
+  removeDriver(id: ID!): DeleteResult!
+  removeDriverSchedule(id: ID!): DeleteResult!
+  removeExpense(id: ID!): DeleteResult!
+  removeGeofence(id: ID!): DeleteResult!
+  removeGeofenceEvent(id: ID!): DeleteResult!
+  removeGpsPing(id: ID!): DeleteResult!
+  removePartnerInvoice(id: ID!): DeleteResult!
+  removePartnerInvoiceItem(id: ID!): DeleteResult!
+  removeProofOfDelivery(id: ID!): DeleteResult!
+  removeRoute(id: ID!): DeleteResult!
+  removeShipmentLeg(id: ID!): DeleteResult!
+  removeShipmentLegEvent(id: ID!): DeleteResult!
+  removeTrip(id: ID!): DeleteResult!
+  removeTripStop(id: ID!): DeleteResult!
+  removeVehicle(id: ID!): DeleteResult!
+  removeVehicleMaintenance(id: ID!): DeleteResult!
+  updateCarrier(id: ID!, value: UpdateCarrierInput): Carriers!
+  updateCarrierRate(id: ID!, value: UpdateCarrierRateInput): CarrierRates!
+  updateDriver(id: ID!, value: UpdateDriverInput): Drivers!
+  updateDriverSchedule(id: ID!, value: UpdateDriverScheduleInput): DriverSchedules!
+  updateExpense(id: ID!, value: UpdateExpenseInput): Expenses!
+  updateGeofence(id: ID!, value: UpdateGeofenceInput): Geofences!
+  updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
+  updateGpsPing(id: ID!, value: UpdateGpsPingInput): GpsPings!
+  updatePartnerInvoice(id: ID!, value: UpdatePartnerInvoiceInput): PartnerInvoices!
+  updatePartnerInvoiceItem(id: ID!, value: UpdatePartnerInvoiceItemInput): PartnerInvoiceItems!
+  updateProofOfDelivery(id: ID!, value: UpdateProofOfDeliveryInput): ProofOfDeliveries!
+  updateRoute(id: ID!, value: UpdateRouteInput): Routes!
+  updateShipmentLeg(id: ID!, value: UpdateShipmentLegInput): ShipmentLegs!
+  updateShipmentLegEvent(id: ID!, value: UpdateShipmentLegEventInput): ShipmentLegEvents!
+  updateTrip(id: ID!, value: UpdateTripInput): Trips!
+  updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
+  updateVehicle(id: ID!, value: UpdateVehicleInput): Vehicles!
+  updateVehicleMaintenance(id: ID!, value: UpdateVehicleMaintenanceInput): VehicleMaintenance!
+}
+
+type TmsQuery {
+  carrier(id: ID!): Carriers!
+  carrierRate(id: ID!): CarrierRates!
+  carrierRates(page: Int, perPage: Int): [CarrierRates!]!
+  carriers(page: Int, perPage: Int): [Carriers!]!
+  driver(id: ID!): Drivers!
+  driverSchedule(id: ID!): DriverSchedules!
+  driverSchedules(page: Int, perPage: Int): [DriverSchedules!]!
+  drivers(page: Int, perPage: Int): [Drivers!]!
+  expense(id: ID!): Expenses!
+  expenses(page: Int, perPage: Int): [Expenses!]!
+  geofence(id: ID!): Geofences!
+  geofenceEvent(id: ID!): GeofenceEvents!
+  geofenceEvents(page: Int, perPage: Int): [GeofenceEvents!]!
+  geofences(page: Int, perPage: Int): [Geofences!]!
+  gpsPing(id: ID!): GpsPings!
+  gpsPings(page: Int, perPage: Int): [GpsPings!]!
+  partnerInvoice(id: ID!): PartnerInvoices!
+  partnerInvoiceItem(id: ID!): PartnerInvoiceItems!
+  partnerInvoiceItems(page: Int, perPage: Int): [PartnerInvoiceItems!]!
+  partnerInvoices(page: Int, perPage: Int): [PartnerInvoices!]!
+  proofOfDeliveries(page: Int, perPage: Int): [ProofOfDeliveries!]!
+  proofOfDelivery(id: ID!): ProofOfDeliveries!
+  route(id: ID!): Routes!
+  routes(page: Int, perPage: Int): [Routes!]!
+  shipmentLeg(id: ID!): ShipmentLegs!
+  shipmentLegEvent(id: ID!): ShipmentLegEvents!
+  shipmentLegEvents(page: Int, perPage: Int): [ShipmentLegEvents!]!
+  shipmentLegs(page: Int, perPage: Int): [ShipmentLegs!]!
+  trip(id: ID!): Trips!
+  tripStop(id: ID!): TripStops!
+  tripStops(page: Int, perPage: Int): [TripStops!]!
+  trips(page: Int, perPage: Int): [Trips!]!
+  vehicle(id: ID!): Vehicles!
+  vehicleMaintenance(id: ID!): VehicleMaintenance!
+  vehicleMaintenances(page: Int, perPage: Int): [VehicleMaintenance!]!
+  vehicles(page: Int, perPage: Int): [Vehicles!]!
+}
+
+enum TripStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
+  PLANNED
+}
+
+enum TripStopStatus {
+  ARRIVED
+  COMPLETED
+  PENDING
+  SKIPPED
+}
+
+type TripStops {
+  actualArrivalTime: String
+  actualDepartureTime: String
+  address: String
+  createdAt: String
+  estimatedArrivalTime: String
+  estimatedDepartureTime: String
+  id: ID!
+  proofOfDeliveries: [ProofOfDeliveries!]
+  sequence: Int!
+  shipmentId: ID
+  status: TripStopStatus
+  trip: Trips!
+  updatedAt: String
+}
+
+type Trips {
+  createdAt: String
+  driver: Drivers
+  expenses: [Expenses!]
+  id: ID!
+  routes: [Routes!]
+  shipmentLegs: [ShipmentLegs!]
+  status: TripStatus
+  stops: [TripStops!]
+  updatedAt: String
+  vehicle: Vehicles
+}
+
+input UpdateAttachmentInput {
+  fileName: String
+  filePath: String
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+}
+
+input UpdateCampaignInput {
+  budget: Float
+  endDate: String
+  name: String
+  startDate: String
+}
+
+input UpdateCarrierInput {
+  contactDetails: String
+  name: String
+  servicesOffered: String
+}
+
+input UpdateCarrierRateInput {
+  carrierId: ID
+  destination: String
+  origin: String
+  rate: Float
+  serviceType: String
+  unit: CarrierRateUnit
+}
+
+input UpdateCaseInput {
+  caseNumber: String
+  contactId: ID
+  description: String
+  ownerId: ID
+  priority: CasePriority
+  status: CaseStatus
+  type: CaseType
+}
+
+input UpdateCompanyInput {
+  annualRevenue: Float
+  city: String
+  country: String
+  industry: String
+  name: String
+  ownerId: ID
+  phoneNumber: String
+  postalCode: String
+  state: String
+  street: String
+  website: String
+}
+
+input UpdateContactInput {
+  companyId: ID
+  email: String
+  jobTitle: String
+  name: String
+  ownerId: ID
+  phoneNumber: String
+}
+
+input UpdateDriverInput {
+  licenseExpiryDate: String
+  licenseNumber: String
+  status: DriverStatus
+  userId: ID
+}
+
+input UpdateDriverScheduleInput {
+  driverId: ID
+  endDate: String
+  reason: DriverScheduleReason
+  startDate: String
+}
+
+input UpdateExpenseInput {
+  amount: Float
+  currency: Currency
+  driverId: ID
+  fuelQuantity: Float
+  odometerReading: Int
+  receiptUrl: String
+  status: ExpenseStatus
+  tripId: ID
+  type: ExpenseType
+}
+
+input UpdateGeofenceEventInput {
+  eventType: GeofenceEventType
+  geofenceId: ID
+  timestamp: String
+  vehicleId: ID
+}
+
+input UpdateGeofenceInput {
+  coordinates: String
+  name: String
+}
+
+input UpdateGpsPingInput {
+  latitude: Float
+  longitude: Float
+  timestamp: String
+  vehicleId: ID
+}
+
+input UpdateInteractionInput {
+  caseId: ID
+  contactId: ID
+  interactionDate: String
+  notes: String
+  outcome: String
+  type: InteractionType
+  userId: ID
+}
+
+input UpdateInvoiceInput {
+  dueDate: String
+  issueDate: String
+  opportunityId: ID
+  paidAt: String
+  paymentMethod: PaymentMethod
+  sentAt: String
+  status: InvoiceStatus
+  total: Float
+}
+
+input UpdateInvoiceItemInput {
+  invoiceId: ID
+  price: Float
+  productId: ID
+  quantity: Int
+}
+
+input UpdateLeadInput {
+  campaignId: ID
+  email: String
+  leadScore: Int
+  leadSource: LeadSource
+  name: String
+  ownerId: ID
+  status: LeadStatus
+}
+
+input UpdateNotificationInput {
+  isRead: Boolean
+  link: String
+  message: String
+  userId: ID
+}
+
+input UpdateOpportunityInput {
+  campaignId: ID
+  companyId: ID
+  contactId: ID
+  dealValue: Float
+  expectedCloseDate: String
+  lostReason: String
+  name: String
+  ownerId: ID
+  probability: Float
+  source: OpportunitySource
+  stage: OpportunityStage
+}
+
+input UpdateOpportunityProductInput {
+  quantity: Int
+}
+
+input UpdatePartnerInvoiceInput {
+  carrierId: ID
+  invoiceDate: String
+  invoiceNumber: String
+  status: PartnerInvoiceStatus
+  totalAmount: Float
+}
+
+input UpdatePartnerInvoiceItemInput {
+  amount: Float
+  partnerInvoiceId: ID
+  shipmentLegId: ID
+}
+
+input UpdateProductInput {
+  description: String
+  name: String
+  price: Float
+  sku: String
+  type: ProductType
+}
+
+input UpdateProofOfDeliveryInput {
+  filePath: String
+  latitude: Float
+  longitude: Float
+  timestamp: String
+  tripStopId: ID
+  type: ProofType
+}
+
+input UpdateRouteInput {
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+  tripId: ID
+}
+
+input UpdateShipmentLegEventInput {
+  eventTimestamp: String
+  location: String
+  shipmentLegId: ID
+  statusMessage: String
+}
+
+input UpdateShipmentLegInput {
+  carrierId: ID
+  endLocation: String
+  internalTripId: ID
+  legSequence: Int
+  shipmentId: ID
+  startLocation: String
+  status: ShipmentLegStatus
+}
+
+input UpdateTripInput {
+  driverId: ID
+  status: TripStatus
+  vehicleId: ID
+}
+
+input UpdateTripStopInput {
+  actualArrivalTime: String
+  actualDepartureTime: String
+  address: String
+  estimatedArrivalTime: String
+  estimatedDepartureTime: String
+  sequence: Int
+  shipmentId: ID
+  status: TripStopStatus
+  tripId: ID
+}
+
+input UpdateVehicleInput {
+  capacityVolume: Float
+  capacityWeight: Float
+  model: String
+  registrationNumber: String
+  status: VehicleStatus
+}
+
+input UpdateVehicleMaintenanceInput {
+  cost: Float
+  notes: String
+  serviceDate: String
+  serviceType: VehicleServiceType
+  vehicleId: ID
+}
+
+type User {
+  email: String!
+  emailVerified: String!
+  image: String!
+  name: String!
+}
+
+type VehicleMaintenance {
+  cost: Float
+  createdAt: String
+  id: ID!
+  notes: String
+  serviceDate: String!
+  serviceType: VehicleServiceType
+  updatedAt: String
+  vehicle: Vehicles!
+}
+
+enum VehicleServiceType {
+  BRAKE_SERVICE
+  INSPECTION
+  OIL_CHANGE
+  REPAIR
+  ROUTINE_MAINTENANCE
+  TIRE_REPLACEMENT
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  IN_MAINTENANCE
+  ON_TRIP
+  OUT_OF_SERVICE
+}
+
+type Vehicles {
+  capacityVolume: Float
+  capacityWeight: Float
+  createdAt: String
+  geofenceEvents: [GeofenceEvents!]
+  gpsPings: [GpsPings!]
+  id: ID!
+  maintenances: [VehicleMaintenance!]
+  model: String
+  registrationNumber: String!
+  status: VehicleStatus
+  trips: [Trips!]
+  updatedAt: String
 }

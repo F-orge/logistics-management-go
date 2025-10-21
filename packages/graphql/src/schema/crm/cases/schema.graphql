@@ -1,0 +1,70 @@
+enum CaseStatus {
+  NEW
+  IN_PROGRESS
+  WAITING_FOR_CUSTOMER
+  WAITING_FOR_INTERNAL
+  ESCALATED
+  RESOLVED
+  CLOSED
+  CANCELLED
+}
+
+enum CasePriority {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum CaseType {
+  QUESTION
+  PROBLEM
+  COMPLAINT
+  FEATURE_REQUEST
+  BUG_REPORT
+  TECHNICAL_SUPPORT
+}
+
+type Cases {
+  id: ID!
+  caseNumber: String!
+  status: CaseStatus
+  priority: CasePriority
+  type: CaseType
+  owner: User!
+  contact: Contacts
+  description: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  cases(page: Int, perPage: Int): [Cases!]!
+  case(id: ID!): Cases!
+}
+
+input CreateCaseInput {
+  caseNumber: String!
+  status: CaseStatus
+  priority: CasePriority
+  type: CaseType
+  ownerId: ID!
+  contactId: ID
+  description: String
+}
+
+input UpdateCaseInput {
+  caseNumber: String
+  status: CaseStatus
+  priority: CasePriority
+  type: CaseType
+  ownerId: ID
+  contactId: ID
+  description: String
+}
+
+extend type CrmMutation {
+  createCase(value: CreateCaseInput!): Cases!
+  updateCase(id: ID!, value: UpdateCaseInput): Cases!
+  removeCase(id: ID!): DeleteResult!
+}

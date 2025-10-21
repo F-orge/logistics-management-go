@@ -1,0 +1,29 @@
+type Geofences {
+  id: ID!
+  name: String!
+  coordinates: String
+  createdAt: String
+  updatedAt: String
+  events: [GeofenceEvents!]
+}
+
+extend type TmsQuery {
+  geofences(page: Int, perPage: Int): [Geofences!]!
+  geofence(id: ID!): Geofences!
+}
+
+input CreateGeofenceInput {
+  name: String!
+  coordinates: String
+}
+
+input UpdateGeofenceInput {
+  name: String
+  coordinates: String
+}
+
+extend type TmsMutation {
+  createGeofence(value: CreateGeofenceInput!): Geofences!
+  updateGeofence(id: ID!, value: UpdateGeofenceInput): Geofences!
+  removeGeofence(id: ID!): DeleteResult!
+}

@@ -1,0 +1,34 @@
+type Campaigns {
+  id: ID!
+  name: String!
+  budget: Float
+  startDate: String
+  endDate: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  campaigns(page: Int, perPage: Int): [Campaigns!]!
+  campaign(id: ID!): Campaigns!
+}
+
+input CreateCampaignInput {
+  name: String!
+  budget: Float
+  startDate: String
+  endDate: String
+}
+
+input UpdateCampaignInput {
+  name: String
+  budget: Float
+  startDate: String
+  endDate: String
+}
+
+extend type CrmMutation {
+  createCampaign(value: CreateCampaignInput!): Campaigns!
+  updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
+  removeCampaign(id: ID!): DeleteResult!
+}

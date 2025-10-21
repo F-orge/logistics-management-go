@@ -1,0 +1,57 @@
+enum TripStopStatus {
+  PENDING
+  ARRIVED
+  COMPLETED
+  SKIPPED
+}
+
+type TripStops {
+  id: ID!
+  trip: Trips!
+  shipmentId: ID
+  sequence: Int!
+  address: String
+  status: TripStopStatus
+  estimatedArrivalTime: String
+  actualArrivalTime: String
+  estimatedDepartureTime: String
+  actualDepartureTime: String
+  createdAt: String
+  updatedAt: String
+  proofOfDeliveries: [ProofOfDeliveries!]
+}
+
+extend type TmsQuery {
+  tripStops(page: Int, perPage: Int): [TripStops!]!
+  tripStop(id: ID!): TripStops!
+}
+
+input CreateTripStopInput {
+  tripId: ID!
+  shipmentId: ID
+  sequence: Int!
+  address: String
+  status: TripStopStatus
+  estimatedArrivalTime: String
+  actualArrivalTime: String
+  estimatedDepartureTime: String
+  actualDepartureTime: String
+}
+
+input UpdateTripStopInput {
+  tripId: ID
+  shipmentId: ID
+  sequence: Int
+  address: String
+  status: TripStopStatus
+  estimatedArrivalTime: String
+  actualArrivalTime: String
+  estimatedDepartureTime: String
+  actualDepartureTime: String
+}
+
+extend type TmsMutation {
+  createTripStop(value: CreateTripStopInput!): TripStops!
+  updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
+  removeTripStop(id: ID!): DeleteResult!
+}

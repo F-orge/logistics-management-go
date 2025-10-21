@@ -1,0 +1,49 @@
+enum RecordType {
+  COMPANIES
+  CONTACTS
+  LEADS
+  OPPORTUNITIES
+  CASES
+  INTERACTIONS
+  CAMPAIGNS
+  PRODUCTS
+  INVOICES
+}
+
+type Attachments {
+  id: ID!
+  fileName: String!
+  filePath: String!
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  attachments(page: Int, perPage: Int): [Attachments!]!
+  attachment(id: ID!): Attachments!
+}
+
+input CreateAttachmentInput {
+  fileName: String!
+  filePath: String!
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+}
+
+input UpdateAttachmentInput {
+  fileName: String
+  filePath: String
+  mimeType: String
+  recordId: ID
+  recordType: RecordType
+}
+
+extend type CrmMutation {
+  createAttachment(value: CreateAttachmentInput!): Attachments!
+  updateAttachment(id: ID!, value: UpdateAttachmentInput): Attachments!
+  removeAttachment(id: ID!): DeleteResult!
+}

@@ -1,0 +1,80 @@
+enum OpportunityStage {
+  PROSPECTING
+  QUALIFICATION
+  NEED_ANALYSIS
+  DEMO
+  PROPOSAL
+  NEGOTIATION
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+enum OpportunitySource {
+  WEBSITE
+  REFERRAL
+  SOCIAL_MEDIA
+  EMAIL_CAMPAIGN
+  COLD_CALL
+  EVENT
+  ADVERTISEMENT
+  PARTNER
+  EXISTING_CUSTOMER
+  OTHER
+}
+
+type Opportunities {
+  id: ID!
+  name: String!
+  stage: OpportunityStage
+  dealValue: Float
+  probability: Float
+  expectedCloseDate: String
+  lostReason: String
+  source: OpportunitySource
+  owner: User!
+  contact: Contacts
+  company: Companies
+  campaign: Campaigns
+  createdAt: String
+  updatedAt: String
+  products: [OpportunityProducts!]
+}
+
+extend type CrmQuery {
+  opportunities(page: Int, perPage: Int): [Opportunities!]!
+  opportunity(id: ID!): Opportunities!
+}
+
+input CreateOpportunityInput {
+  name: String!
+  stage: OpportunityStage
+  dealValue: Float
+  probability: Float
+  expectedCloseDate: String
+  lostReason: String
+  source: OpportunitySource
+  ownerId: ID!
+  contactId: ID
+  companyId: ID
+  campaignId: ID
+}
+
+input UpdateOpportunityInput {
+  name: String
+  stage: OpportunityStage
+  dealValue: Float
+  probability: Float
+  expectedCloseDate: String
+  lostReason: String
+  source: OpportunitySource
+  ownerId: ID
+  contactId: ID
+  companyId: ID
+  campaignId: ID
+}
+
+extend type CrmMutation {
+  createOpportunity(value: CreateOpportunityInput!): Opportunities!
+  updateOpportunity(id: ID!, value: UpdateOpportunityInput): Opportunities!
+  removeOpportunity(id: ID!): DeleteResult!
+}

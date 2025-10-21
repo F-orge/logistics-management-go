@@ -1,0 +1,34 @@
+type Routes {
+  id: ID!
+  trip: Trips!
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+  createdAt: String
+  updatedAt: String
+}
+
+extend type TmsQuery {
+  routes(page: Int, perPage: Int): [Routes!]!
+  route(id: ID!): Routes!
+}
+
+input CreateRouteInput {
+  tripId: ID!
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+}
+
+input UpdateRouteInput {
+  tripId: ID
+  optimizedRouteData: String
+  totalDistance: Float
+  totalDuration: Float
+}
+
+extend type TmsMutation {
+  createRoute(value: CreateRouteInput!): Routes!
+  updateRoute(id: ID!, value: UpdateRouteInput): Routes!
+  removeRoute(id: ID!): DeleteResult!
+}

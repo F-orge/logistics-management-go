@@ -1,0 +1,32 @@
+type GpsPings {
+  id: ID!
+  vehicle: Vehicles!
+  latitude: Float!
+  longitude: Float!
+  timestamp: String!
+}
+
+extend type TmsQuery {
+  gpsPings(page: Int, perPage: Int): [GpsPings!]!
+  gpsPing(id: ID!): GpsPings!
+}
+
+input CreateGpsPingInput {
+  vehicleId: ID!
+  latitude: Float!
+  longitude: Float!
+  timestamp: String!
+}
+
+input UpdateGpsPingInput {
+  vehicleId: ID
+  latitude: Float
+  longitude: Float
+  timestamp: String
+}
+
+extend type TmsMutation {
+  createGpsPing(value: CreateGpsPingInput!): GpsPings!
+  updateGpsPing(id: ID!, value: UpdateGpsPingInput): GpsPings!
+  removeGpsPing(id: ID!): DeleteResult!
+}

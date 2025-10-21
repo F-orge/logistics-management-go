@@ -1,0 +1,42 @@
+enum TripStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+type Trips {
+  id: ID!
+  driver: Drivers
+  vehicle: Vehicles
+  status: TripStatus
+  createdAt: String
+  updatedAt: String
+  stops: [TripStops!]
+  routes: [Routes!]
+  expenses: [Expenses!]
+  shipmentLegs: [ShipmentLegs!]
+}
+
+extend type TmsQuery {
+  trips(page: Int, perPage: Int): [Trips!]!
+  trip(id: ID!): Trips!
+}
+
+input CreateTripInput {
+  driverId: ID
+  vehicleId: ID
+  status: TripStatus
+}
+
+input UpdateTripInput {
+  driverId: ID
+  vehicleId: ID
+  status: TripStatus
+}
+
+extend type TmsMutation {
+  createTrip(value: CreateTripInput!): Trips!
+  updateTrip(id: ID!, value: UpdateTripInput): Trips!
+  removeTrip(id: ID!): DeleteResult!
+}

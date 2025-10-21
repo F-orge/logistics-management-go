@@ -1,0 +1,65 @@
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  BANK_TRANSFER
+  CASH
+  CHECK
+  PAYPAL
+  STRIPE
+  WIRE_TRANSFER
+}
+
+type Invoices {
+  id: ID!
+  opportunity: Opportunities
+  status: InvoiceStatus
+  total: Float
+  issueDate: String
+  dueDate: String
+  sentAt: String
+  paidAt: String
+  paymentMethod: PaymentMethod
+  createdAt: String
+  updatedAt: String
+  items: [InvoiceItems!]
+}
+
+extend type CrmQuery {
+  invoices(page: Int, perPage: Int): [Invoices!]!
+  invoice(id: ID!): Invoices!
+}
+
+input CreateInvoiceInput {
+  opportunityId: ID
+  status: InvoiceStatus
+  total: Float
+  issueDate: String
+  dueDate: String
+  sentAt: String
+  paidAt: String
+  paymentMethod: PaymentMethod
+}
+
+input UpdateInvoiceInput {
+  opportunityId: ID
+  status: InvoiceStatus
+  total: Float
+  issueDate: String
+  dueDate: String
+  sentAt: String
+  paidAt: String
+  paymentMethod: PaymentMethod
+}
+
+extend type CrmMutation {
+  createInvoice(value: CreateInvoiceInput!): Invoices!
+  updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
+  removeInvoice(id: ID!): DeleteResult!
+}

@@ -1,0 +1,48 @@
+enum CarrierRateUnit {
+  PER_KG
+  PER_CONTAINER
+  PER_MILE
+  PER_KM
+  FLAT_RATE
+}
+
+type CarrierRates {
+  id: ID!
+  carrier: Carriers!
+  serviceType: String
+  origin: String
+  destination: String
+  rate: Float!
+  unit: CarrierRateUnit
+  createdAt: String
+  updatedAt: String
+}
+
+extend type TmsQuery {
+  carrierRates(page: Int, perPage: Int): [CarrierRates!]!
+  carrierRate(id: ID!): CarrierRates!
+}
+
+input CreateCarrierRateInput {
+  carrierId: ID!
+  serviceType: String
+  origin: String
+  destination: String
+  rate: Float!
+  unit: CarrierRateUnit
+}
+
+input UpdateCarrierRateInput {
+  carrierId: ID
+  serviceType: String
+  origin: String
+  destination: String
+  rate: Float
+  unit: CarrierRateUnit
+}
+
+extend type TmsMutation {
+  createCarrierRate(value: CreateCarrierRateInput!): CarrierRates!
+  updateCarrierRate(id: ID!, value: UpdateCarrierRateInput): CarrierRates!
+  removeCarrierRate(id: ID!): DeleteResult!
+}

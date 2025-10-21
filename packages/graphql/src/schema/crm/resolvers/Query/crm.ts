@@ -1,4 +1,3 @@
-import { CompanyQueries } from "../../companies/resolvers/CompanyQueries";
 import type { QueryResolvers } from "./../../../types.generated";
 export const crm: NonNullable<QueryResolvers['crm']> = async (
   _parent,

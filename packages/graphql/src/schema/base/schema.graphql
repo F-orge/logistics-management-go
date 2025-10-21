@@ -1,2 +1,14 @@
 type Query
 type Mutation
+
+type DeleteResult {
+  success: Boolean!
+  numDeletedRows: Int!
+}
+
+type User {
+  name: String!
+  email: String!
+  emailVerified: String!
+  image: String!
+}

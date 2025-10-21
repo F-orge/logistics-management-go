@@ -1,0 +1,44 @@
+enum ProductType {
+  SERVICE
+  GOOD
+  DIGITAL
+  SUBSCRIPTION
+}
+
+type Products {
+  id: ID!
+  name: String!
+  sku: String
+  price: Float!
+  type: ProductType
+  description: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  products(page: Int, perPage: Int): [Products!]!
+  product(id: ID!): Products!
+}
+
+input CreateProductInput {
+  name: String!
+  sku: String
+  price: Float!
+  type: ProductType
+  description: String
+}
+
+input UpdateProductInput {
+  name: String
+  sku: String
+  price: Float
+  type: ProductType
+  description: String
+}
+
+extend type CrmMutation {
+  createProduct(value: CreateProductInput!): Products!
+  updateProduct(id: ID!, value: UpdateProductInput): Products!
+  removeProduct(id: ID!): DeleteResult!
+}

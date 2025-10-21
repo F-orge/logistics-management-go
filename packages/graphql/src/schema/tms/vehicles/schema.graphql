@@ -1,0 +1,48 @@
+enum VehicleStatus {
+  AVAILABLE
+  IN_MAINTENANCE
+  ON_TRIP
+  OUT_OF_SERVICE
+}
+
+type Vehicles {
+  id: ID!
+  registrationNumber: String!
+  model: String
+  capacityVolume: Float
+  capacityWeight: Float
+  status: VehicleStatus
+  createdAt: String
+  updatedAt: String
+  maintenances: [VehicleMaintenance!]
+  trips: [Trips!]
+  gpsPings: [GpsPings!]
+  geofenceEvents: [GeofenceEvents!]
+}
+
+extend type TmsQuery {
+  vehicles(page: Int, perPage: Int): [Vehicles!]!
+  vehicle(id: ID!): Vehicles!
+}
+
+input CreateVehicleInput {
+  registrationNumber: String!
+  model: String
+  capacityVolume: Float
+  capacityWeight: Float
+  status: VehicleStatus
+}
+
+input UpdateVehicleInput {
+  registrationNumber: String
+  model: String
+  capacityVolume: Float
+  capacityWeight: Float
+  status: VehicleStatus
+}
+
+extend type TmsMutation {
+  createVehicle(value: CreateVehicleInput!): Vehicles!
+  updateVehicle(id: ID!, value: UpdateVehicleInput): Vehicles!
+  removeVehicle(id: ID!): DeleteResult!
+}

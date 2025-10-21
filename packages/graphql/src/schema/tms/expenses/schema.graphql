@@ -1,0 +1,75 @@
+enum ExpenseType {
+  FUEL
+  TOLLS
+  MAINTENANCE
+  PARKING
+  MEALS
+  ACCOMMODATION
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  CAD
+  AUD
+  JPY
+  PHP
+}
+
+enum ExpenseStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REIMBURSED
+}
+
+type Expenses {
+  id: ID!
+  trip: Trips
+  driver: Drivers
+  type: ExpenseType
+  amount: Float!
+  currency: Currency
+  receiptUrl: String
+  fuelQuantity: Float
+  odometerReading: Int
+  status: ExpenseStatus
+  createdAt: String
+  updatedAt: String
+}
+
+extend type TmsQuery {
+  expenses(page: Int, perPage: Int): [Expenses!]!
+  expense(id: ID!): Expenses!
+}
+
+input CreateExpenseInput {
+  tripId: ID
+  driverId: ID
+  type: ExpenseType
+  amount: Float!
+  currency: Currency
+  receiptUrl: String
+  fuelQuantity: Float
+  odometerReading: Int
+  status: ExpenseStatus
+}
+
+input UpdateExpenseInput {
+  tripId: ID
+  driverId: ID
+  type: ExpenseType
+  amount: Float
+  currency: Currency
+  receiptUrl: String
+  fuelQuantity: Float
+  odometerReading: Int
+  status: ExpenseStatus
+}
+
+extend type TmsMutation {
+  createExpense(value: CreateExpenseInput!): Expenses!
+  updateExpense(id: ID!, value: UpdateExpenseInput): Expenses!
+  removeExpense(id: ID!): DeleteResult!
+}

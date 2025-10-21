@@ -1,0 +1,53 @@
+enum ShipmentLegStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+  FAILED
+}
+
+type ShipmentLegs {
+  id: ID!
+  shipmentId: ID
+  legSequence: Int!
+  startLocation: String
+  endLocation: String
+  carrier: Carriers
+  internalTrip: Trips
+  status: ShipmentLegStatus
+  createdAt: String
+  updatedAt: String
+  events: [ShipmentLegEvents!]
+  partnerInvoiceItems: [PartnerInvoiceItems!]
+}
+
+extend type TmsQuery {
+  shipmentLegs(page: Int, perPage: Int): [ShipmentLegs!]!
+  shipmentLeg(id: ID!): ShipmentLegs!
+}
+
+input CreateShipmentLegInput {
+  shipmentId: ID
+  legSequence: Int!
+  startLocation: String
+  endLocation: String
+  carrierId: ID
+  internalTripId: ID
+  status: ShipmentLegStatus
+}
+
+input UpdateShipmentLegInput {
+  shipmentId: ID
+  legSequence: Int
+  startLocation: String
+  endLocation: String
+  carrierId: ID
+  internalTripId: ID
+  status: ShipmentLegStatus
+}
+
+extend type TmsMutation {
+  createShipmentLeg(value: CreateShipmentLegInput!): ShipmentLegs!
+  updateShipmentLeg(id: ID!, value: UpdateShipmentLegInput): ShipmentLegs!
+  removeShipmentLeg(id: ID!): DeleteResult!
+}

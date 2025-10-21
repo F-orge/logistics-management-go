@@ -1,0 +1,43 @@
+enum DriverStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+}
+
+type Drivers {
+  id: ID!
+  user: User!
+  licenseNumber: String!
+  licenseExpiryDate: String
+  status: DriverStatus
+  createdAt: String
+  updatedAt: String
+  schedules: [DriverSchedules!]
+  trips: [Trips!]
+  expenses: [Expenses!]
+}
+
+extend type TmsQuery {
+  drivers(page: Int, perPage: Int): [Drivers!]!
+  driver(id: ID!): Drivers!
+}
+
+input CreateDriverInput {
+  userId: ID!
+  licenseNumber: String!
+  licenseExpiryDate: String
+  status: DriverStatus
+}
+
+input UpdateDriverInput {
+  userId: ID
+  licenseNumber: String
+  licenseExpiryDate: String
+  status: DriverStatus
+}
+
+extend type TmsMutation {
+  createDriver(value: CreateDriverInput!): Drivers!
+  updateDriver(id: ID!, value: UpdateDriverInput): Drivers!
+  removeDriver(id: ID!): DeleteResult!
+}

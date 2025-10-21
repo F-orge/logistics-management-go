@@ -1,0 +1,32 @@
+type ShipmentLegEvents {
+  id: ID!
+  shipmentLeg: ShipmentLegs!
+  statusMessage: String
+  location: String
+  eventTimestamp: String!
+}
+
+extend type TmsQuery {
+  shipmentLegEvents(page: Int, perPage: Int): [ShipmentLegEvents!]!
+  shipmentLegEvent(id: ID!): ShipmentLegEvents!
+}
+
+input CreateShipmentLegEventInput {
+  shipmentLegId: ID!
+  statusMessage: String
+  location: String
+  eventTimestamp: String!
+}
+
+input UpdateShipmentLegEventInput {
+  shipmentLegId: ID
+  statusMessage: String
+  location: String
+  eventTimestamp: String
+}
+
+extend type TmsMutation {
+  createShipmentLegEvent(value: CreateShipmentLegEventInput!): ShipmentLegEvents!
+  updateShipmentLegEvent(id: ID!, value: UpdateShipmentLegEventInput): ShipmentLegEvents!
+  removeShipmentLegEvent(id: ID!): DeleteResult!
+}

@@ -1,0 +1,47 @@
+enum ProofType {
+  SIGNATURE
+  PHOTO
+  BARCODE_SCAN
+  PIN_VERIFICATION
+}
+
+type ProofOfDeliveries {
+  id: ID!
+  tripStop: TripStops!
+  type: ProofType
+  filePath: String
+  timestamp: String!
+  latitude: Float
+  longitude: Float
+  createdAt: String
+  updatedAt: String
+}
+
+extend type TmsQuery {
+  proofOfDeliveries(page: Int, perPage: Int): [ProofOfDeliveries!]!
+  proofOfDelivery(id: ID!): ProofOfDeliveries!
+}
+
+input CreateProofOfDeliveryInput {
+  tripStopId: ID!
+  type: ProofType
+  filePath: String
+  timestamp: String!
+  latitude: Float
+  longitude: Float
+}
+
+input UpdateProofOfDeliveryInput {
+  tripStopId: ID
+  type: ProofType
+  filePath: String
+  timestamp: String
+  latitude: Float
+  longitude: Float
+}
+
+extend type TmsMutation {
+  createProofOfDelivery(value: CreateProofOfDeliveryInput!): ProofOfDeliveries!
+  updateProofOfDelivery(id: ID!, value: UpdateProofOfDeliveryInput): ProofOfDeliveries!
+  removeProofOfDelivery(id: ID!): DeleteResult!
+}

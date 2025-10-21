@@ -1,0 +1,34 @@
+type InvoiceItems {
+  id: ID!
+  invoice: Invoices!
+  product: Products!
+  quantity: Int!
+  price: Float!
+  createdAt: String
+  updatedAt: String
+}
+
+extend type CrmQuery {
+  invoiceItems(page: Int, perPage: Int): [InvoiceItems!]!
+  invoiceItem(id: ID!): InvoiceItems!
+}
+
+input CreateInvoiceItemInput {
+  invoiceId: ID!
+  productId: ID!
+  quantity: Int!
+  price: Float!
+}
+
+input UpdateInvoiceItemInput {
+  invoiceId: ID
+  productId: ID
+  quantity: Int
+  price: Float
+}
+
+extend type CrmMutation {
+  createInvoiceItem(value: CreateInvoiceItemInput!): InvoiceItems!
+  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput): InvoiceItems!
+  removeInvoiceItem(id: ID!): DeleteResult!
+}

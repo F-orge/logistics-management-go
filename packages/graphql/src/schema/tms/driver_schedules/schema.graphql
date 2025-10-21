@@ -1,0 +1,41 @@
+enum DriverScheduleReason {
+  VACATION
+  SICK_LEAVE
+  TRAINING
+  PERSONAL_LEAVE
+}
+
+type DriverSchedules {
+  id: ID!
+  driver: Drivers!
+  startDate: String!
+  endDate: String!
+  reason: DriverScheduleReason
+  createdAt: String
+  updatedAt: String
+}
+
+extend type TmsQuery {
+  driverSchedules(page: Int, perPage: Int): [DriverSchedules!]!
+  driverSchedule(id: ID!): DriverSchedules!
+}
+
+input CreateDriverScheduleInput {
+  driverId: ID!
+  startDate: String!
+  endDate: String!
+  reason: DriverScheduleReason
+}
+
+input UpdateDriverScheduleInput {
+  driverId: ID
+  startDate: String
+  endDate: String
+  reason: DriverScheduleReason
+}
+
+extend type TmsMutation {
+  createDriverSchedule(value: CreateDriverScheduleInput!): DriverSchedules!
+  updateDriverSchedule(id: ID!, value: UpdateDriverScheduleInput): DriverSchedules!
+  removeDriverSchedule(id: ID!): DeleteResult!
+}
