@@ -1,0 +1,35 @@
+type InventoryBatches {
+  id: ID!
+  product: WmsProducts!
+  batchNumber: String!
+  expirationDate: String
+  createdAt: String
+  updatedAt: String
+  outboundShipmentItems: [OutboundShipmentItems!]
+  inventoryStock: [InventoryStock!]
+  taskItems: [TaskItems!]
+  packageItems: [PackageItems!]
+}
+
+extend type WmsQuery {
+  inventoryBatches(page: Int, perPage: Int): [InventoryBatches!]!
+  inventoryBatch(id: ID!): InventoryBatches!
+}
+
+input CreateInventoryBatchInput {
+  productId: ID!
+  batchNumber: String!
+  expirationDate: String
+}
+
+input UpdateInventoryBatchInput {
+  productId: ID
+  batchNumber: String
+  expirationDate: String
+}
+
+extend type WmsMutation {
+  createInventoryBatch(value: CreateInventoryBatchInput!): InventoryBatches!
+  updateInventoryBatch(id: ID!, value: UpdateInventoryBatchInput): InventoryBatches!
+  removeInventoryBatch(id: ID!): DeleteResult!
+}

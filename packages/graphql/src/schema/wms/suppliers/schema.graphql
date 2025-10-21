@@ -1,0 +1,35 @@
+type Suppliers {
+  id: ID!
+  name: String!
+  contactPerson: String
+  email: String
+  phoneNumber: String
+  createdAt: String
+  updatedAt: String
+  products: [WmsProducts!]
+}
+
+extend type WmsQuery {
+  suppliers(page: Int, perPage: Int): [Suppliers!]!
+  supplier(id: ID!): Suppliers!
+}
+
+input CreateSupplierInput {
+  name: String!
+  contactPerson: String
+  email: String
+  phoneNumber: String
+}
+
+input UpdateSupplierInput {
+  name: String
+  contactPerson: String
+  email: String
+  phoneNumber: String
+}
+
+extend type WmsMutation {
+  createSupplier(value: CreateSupplierInput!): Suppliers!
+  updateSupplier(id: ID!, value: UpdateSupplierInput): Suppliers!
+  removeSupplier(id: ID!): DeleteResult!
+}

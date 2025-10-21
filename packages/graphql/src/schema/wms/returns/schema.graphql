@@ -1,0 +1,46 @@
+enum ReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  RECEIVED
+  PROCESSED
+}
+
+type Returns {
+  id: ID!
+  returnNumber: String!
+  salesOrder: SalesOrders
+  client: Companies!
+  status: ReturnStatus
+  reason: String
+  createdAt: String
+  updatedAt: String
+  items: [ReturnItems!]
+}
+
+extend type WmsQuery {
+  returns(page: Int, perPage: Int): [Returns!]!
+  return(id: ID!): Returns!
+}
+
+input CreateReturnInput {
+  returnNumber: String!
+  salesOrderId: ID
+  clientId: ID!
+  status: ReturnStatus
+  reason: String
+}
+
+input UpdateReturnInput {
+  returnNumber: String
+  salesOrderId: ID
+  clientId: ID
+  status: ReturnStatus
+  reason: String
+}
+
+extend type WmsMutation {
+  createReturn(value: CreateReturnInput!): Returns!
+  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
+  removeReturn(id: ID!): DeleteResult!
+}

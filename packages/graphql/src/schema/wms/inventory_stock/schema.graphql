@@ -1,0 +1,57 @@
+enum InventoryStockStatus {
+  AVAILABLE
+  ALLOCATED
+  DAMAGED
+  QUARANTINE
+  HOLD
+  SHIPPED
+  EXPIRED
+}
+
+type InventoryStock {
+  id: ID!
+  location: Locations!
+  product: WmsProducts!
+  batch: InventoryBatches
+  quantity: Int!
+  reservedQuantity: Int!
+  availableQuantity: Int
+  status: InventoryStockStatus
+  lastCountedAt: String
+  lastMovementAt: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  inventoryStocks(page: Int, perPage: Int): [InventoryStock!]!
+  inventoryStock(id: ID!): InventoryStock!
+}
+
+input CreateInventoryStockInput {
+  locationId: ID!
+  productId: ID!
+  batchId: ID
+  quantity: Int!
+  reservedQuantity: Int!
+  status: InventoryStockStatus
+  lastCountedAt: String
+  lastMovementAt: String
+}
+
+input UpdateInventoryStockInput {
+  locationId: ID
+  productId: ID
+  batchId: ID
+  quantity: Int
+  reservedQuantity: Int
+  status: InventoryStockStatus
+  lastCountedAt: String
+  lastMovementAt: String
+}
+
+extend type WmsMutation {
+  createInventoryStock(value: CreateInventoryStockInput!): InventoryStock!
+  updateInventoryStock(id: ID!, value: UpdateInventoryStockInput): InventoryStock!
+  removeInventoryStock(id: ID!): DeleteResult!
+}

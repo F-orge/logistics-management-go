@@ -1,0 +1,37 @@
+type OutboundShipmentItems {
+  id: ID!
+  outboundShipment: OutboundShipments!
+  salesOrderItem: SalesOrderItems!
+  product: WmsProducts!
+  batch: InventoryBatches
+  quantityShipped: Int!
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  outboundShipmentItems(page: Int, perPage: Int): [OutboundShipmentItems!]!
+  outboundShipmentItem(id: ID!): OutboundShipmentItems!
+}
+
+input CreateOutboundShipmentItemInput {
+  outboundShipmentId: ID!
+  salesOrderItemId: ID!
+  productId: ID!
+  batchId: ID
+  quantityShipped: Int!
+}
+
+input UpdateOutboundShipmentItemInput {
+  outboundShipmentId: ID
+  salesOrderItemId: ID
+  productId: ID
+  batchId: ID
+  quantityShipped: Int
+}
+
+extend type WmsMutation {
+  createOutboundShipmentItem(value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
+  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput): OutboundShipmentItems!
+  removeOutboundShipmentItem(id: ID!): DeleteResult!
+}

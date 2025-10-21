@@ -1,0 +1,32 @@
+type SalesOrderItems {
+  id: ID!
+  salesOrder: SalesOrders!
+  product: WmsProducts!
+  quantityOrdered: Int!
+  createdAt: String
+  updatedAt: String
+  outboundShipmentItems: [OutboundShipmentItems!]
+}
+
+extend type WmsQuery {
+  salesOrderItems(page: Int, perPage: Int): [SalesOrderItems!]!
+  salesOrderItem(id: ID!): SalesOrderItems!
+}
+
+input CreateSalesOrderItemInput {
+  salesOrderId: ID!
+  productId: ID!
+  quantityOrdered: Int!
+}
+
+input UpdateSalesOrderItemInput {
+  salesOrderId: ID
+  productId: ID
+  quantityOrdered: Int
+}
+
+extend type WmsMutation {
+  createSalesOrderItem(value: CreateSalesOrderItemInput!): SalesOrderItems!
+  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput): SalesOrderItems!
+  removeSalesOrderItem(id: ID!): DeleteResult!
+}

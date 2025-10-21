@@ -1,0 +1,90 @@
+enum TaskType {
+  PUTAWAY
+  PICK
+  PACK
+  REPLENISHMENT
+  CYCLE_COUNT
+  CROSS_DOCK
+  RETURNS_PROCESSING
+  DAMAGE_INSPECTION
+  QUALITY_CHECK
+}
+
+enum TaskStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  ERROR
+}
+
+type Tasks {
+  id: ID!
+  taskNumber: String!
+  warehouse: Warehouses!
+  user: User
+  type: TaskType!
+  status: TaskStatus
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  pickBatch: PickBatches
+  estimatedDuration: Int
+  actualDuration: Int
+  instructions: String
+  notes: String
+  startTime: String
+  endTime: String
+  durationSeconds: Int
+  createdAt: String
+  updatedAt: String
+  items: [TaskItems!]
+}
+
+extend type WmsQuery {
+  tasks(page: Int, perPage: Int): [Tasks!]!
+  task(id: ID!): Tasks!
+}
+
+input CreateTaskInput {
+  taskNumber: String!
+  warehouseId: ID!
+  userId: ID
+  type: TaskType!
+  status: TaskStatus
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  pickBatchId: ID
+  estimatedDuration: Int
+  actualDuration: Int
+  instructions: String
+  notes: String
+  startTime: String
+  endTime: String
+}
+
+input UpdateTaskInput {
+  taskNumber: String
+  warehouseId: ID
+  userId: ID
+  type: TaskType
+  status: TaskStatus
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  pickBatchId: ID
+  estimatedDuration: Int
+  actualDuration: Int
+  instructions: String
+  notes: String
+  startTime: String
+  endTime: String
+}
+
+extend type WmsMutation {
+  createTask(value: CreateTaskInput!): Tasks!
+  updateTask(id: ID!, value: UpdateTaskInput): Tasks!
+  removeTask(id: ID!): DeleteResult!
+}

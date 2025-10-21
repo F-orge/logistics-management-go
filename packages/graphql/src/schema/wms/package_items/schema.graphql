@@ -1,0 +1,47 @@
+type PackageItems {
+  id: ID!
+  package: Packages!
+  product: WmsProducts!
+  batch: InventoryBatches
+  quantity: Int!
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  unitWeight: Float
+  totalWeight: Float
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  packageItems(page: Int, perPage: Int): [PackageItems!]!
+  packageItem(id: ID!): PackageItems!
+}
+
+input CreatePackageItemInput {
+  packageId: ID!
+  productId: ID!
+  batchId: ID
+  quantity: Int!
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  unitWeight: Float
+}
+
+input UpdatePackageItemInput {
+  packageId: ID
+  productId: ID
+  batchId: ID
+  quantity: Int
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  unitWeight: Float
+}
+
+extend type WmsMutation {
+  createPackageItem(value: CreatePackageItemInput!): PackageItems!
+  updatePackageItem(id: ID!, value: UpdatePackageItemInput): PackageItems!
+  removePackageItem(id: ID!): DeleteResult!
+}

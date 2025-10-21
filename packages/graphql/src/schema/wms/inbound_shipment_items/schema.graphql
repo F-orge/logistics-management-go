@@ -1,0 +1,38 @@
+type InboundShipmentItems {
+  id: ID!
+  inboundShipment: InboundShipments!
+  product: WmsProducts!
+  expectedQuantity: Int!
+  receivedQuantity: Int
+  discrepancyQuantity: Int
+  discrepancyNotes: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  inboundShipmentItems(page: Int, perPage: Int): [InboundShipmentItems!]!
+  inboundShipmentItem(id: ID!): InboundShipmentItems!
+}
+
+input CreateInboundShipmentItemInput {
+  inboundShipmentId: ID!
+  productId: ID!
+  expectedQuantity: Int!
+  receivedQuantity: Int
+  discrepancyNotes: String
+}
+
+input UpdateInboundShipmentItemInput {
+  inboundShipmentId: ID
+  productId: ID
+  expectedQuantity: Int
+  receivedQuantity: Int
+  discrepancyNotes: String
+}
+
+extend type WmsMutation {
+  createInboundShipmentItem(value: CreateInboundShipmentItemInput!): InboundShipmentItems!
+  updateInboundShipmentItem(id: ID!, value: UpdateInboundShipmentItemInput): InboundShipmentItems!
+  removeInboundShipmentItem(id: ID!): DeleteResult!
+}

@@ -1,0 +1,31 @@
+type ReorderPoints {
+  id: ID!
+  product: WmsProducts!
+  warehouseId: ID!
+  threshold: Int!
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  reorderPoints(page: Int, perPage: Int): [ReorderPoints!]!
+  reorderPoint(id: ID!): ReorderPoints!
+}
+
+input CreateReorderPointInput {
+  productId: ID!
+  warehouseId: ID!
+  threshold: Int!
+}
+
+input UpdateReorderPointInput {
+  productId: ID
+  warehouseId: ID
+  threshold: Int
+}
+
+extend type WmsMutation {
+  createReorderPoint(value: CreateReorderPointInput!): ReorderPoints!
+  updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
+  removeReorderPoint(id: ID!): DeleteResult!
+}

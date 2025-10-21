@@ -8,7 +8,7 @@ enum TripStopStatus {
 type TripStops {
   id: ID!
   trip: Trips!
-  shipmentId: ID
+  shipment: OutboundShipments
   sequence: Int!
   address: String
   status: TripStopStatus
@@ -28,7 +28,7 @@ extend type TmsQuery {
 
 input CreateTripStopInput {
   tripId: ID!
-  shipmentId: ID
+  shipment: OutboundShipments
   sequence: Int!
   address: String
   status: TripStopStatus
@@ -40,7 +40,7 @@ input CreateTripStopInput {
 
 input UpdateTripStopInput {
   tripId: ID
-  shipmentId: ID
+  shipment: OutboundShipments
   sequence: Int
   address: String
   status: TripStopStatus

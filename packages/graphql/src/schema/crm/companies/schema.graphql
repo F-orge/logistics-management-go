@@ -13,6 +13,10 @@ type Companies {
   createdAt: String
   updatedAt: String
   owner: User
+  inboundShipments: [InboundShipments!]
+  salesOrders: [SalesOrders!]
+  returns: [Returns!]
+  putawayRules: [PutawayRules!]
 }
 
 extend type CrmQuery {

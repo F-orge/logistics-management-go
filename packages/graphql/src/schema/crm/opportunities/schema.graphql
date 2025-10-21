@@ -38,6 +38,7 @@ type Opportunities {
   createdAt: String
   updatedAt: String
   products: [OpportunityProducts!]
+  salesOrders: [SalesOrders!]
 }
 
 extend type CrmQuery {

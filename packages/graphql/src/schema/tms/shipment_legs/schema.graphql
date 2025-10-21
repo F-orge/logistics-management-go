@@ -8,7 +8,7 @@ enum ShipmentLegStatus {
 
 type ShipmentLegs {
   id: ID!
-  shipmentId: ID
+  shipment: OutboundShipments
   legSequence: Int!
   startLocation: String
   endLocation: String
@@ -27,7 +27,7 @@ extend type TmsQuery {
 }
 
 input CreateShipmentLegInput {
-  shipmentId: ID
+  shipment: OutboundShipments
   legSequence: Int!
   startLocation: String
   endLocation: String
@@ -37,7 +37,7 @@ input CreateShipmentLegInput {
 }
 
 input UpdateShipmentLegInput {
-  shipmentId: ID
+  shipment: OutboundShipments
   legSequence: Int
   startLocation: String
   endLocation: String

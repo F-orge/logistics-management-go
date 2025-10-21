@@ -9,6 +9,19 @@ type Attachments {
   updatedAt: String
 }
 
+type BinThresholds {
+  alertThreshold: Int
+  createdAt: String
+  id: ID!
+  isActive: Boolean
+  location: Locations!
+  maxQuantity: Int!
+  minQuantity: Int!
+  product: WmsProducts!
+  reorderQuantity: Int
+  updatedAt: String
+}
+
 type Campaigns {
   budget: Float
   createdAt: String
@@ -97,11 +110,15 @@ type Companies {
   country: String
   createdAt: String
   id: ID!
+  inboundShipments: [InboundShipments!]
   industry: String
   name: String!
   owner: User
   phoneNumber: String
   postalCode: String
+  putawayRules: [PutawayRules!]
+  returns: [Returns!]
+  salesOrders: [SalesOrders!]
   state: String
   street: String
   updatedAt: String
@@ -126,6 +143,16 @@ input CreateAttachmentInput {
   mimeType: String
   recordId: ID
   recordType: RecordType
+}
+
+input CreateBinThresholdInput {
+  alertThreshold: Int
+  isActive: Boolean
+  locationId: ID!
+  maxQuantity: Int!
+  minQuantity: Int!
+  productId: ID!
+  reorderQuantity: Int
 }
 
 input CreateCampaignInput {
@@ -228,6 +255,22 @@ input CreateGpsPingInput {
   vehicleId: ID!
 }
 
+input CreateInboundShipmentInput {
+  actualArrivalDate: String
+  clientId: ID
+  expectedArrivalDate: String
+  status: InboundShipmentStatus
+  warehouseId: ID!
+}
+
+input CreateInboundShipmentItemInput {
+  discrepancyNotes: String
+  expectedQuantity: Int!
+  inboundShipmentId: ID!
+  productId: ID!
+  receivedQuantity: Int
+}
+
 input CreateInteractionInput {
   caseId: ID
   contactId: ID!
@@ -236,6 +279,32 @@ input CreateInteractionInput {
   outcome: String
   type: InteractionType
   userId: ID!
+}
+
+input CreateInventoryAdjustmentInput {
+  notes: String
+  productId: ID!
+  quantityChange: Int!
+  reason: InventoryAdjustmentReason
+  userId: ID!
+  warehouseId: ID!
+}
+
+input CreateInventoryBatchInput {
+  batchNumber: String!
+  expirationDate: String
+  productId: ID!
+}
+
+input CreateInventoryStockInput {
+  batchId: ID
+  lastCountedAt: String
+  lastMovementAt: String
+  locationId: ID!
+  productId: ID!
+  quantity: Int!
+  reservedQuantity: Int!
+  status: InventoryStockStatus
 }
 
 input CreateInvoiceInput {
@@ -266,6 +335,27 @@ input CreateLeadInput {
   status: LeadStatus
 }
 
+input CreateLocationInput {
+  barcode: String
+  hazmatApproved: Boolean
+  isActive: Boolean
+  isPickable: Boolean
+  isReceivable: Boolean
+  level: Int
+  maxPallets: Int
+  maxVolume: Float
+  maxWeight: Float
+  name: String!
+  parentLocationId: ID
+  path: String
+  temperatureControlled: Boolean
+  type: LocationType!
+  warehouseId: ID!
+  xCoordinate: Float
+  yCoordinate: Float
+  zCoordinate: Float
+}
+
 input CreateNotificationInput {
   isRead: Boolean
   link: String
@@ -293,6 +383,54 @@ input CreateOpportunityProductInput {
   quantity: Int!
 }
 
+input CreateOutboundShipmentInput {
+  carrier: String
+  salesOrderId: ID!
+  status: OutboundShipmentStatus
+  trackingNumber: String
+  warehouseId: ID!
+}
+
+input CreateOutboundShipmentItemInput {
+  batchId: ID
+  outboundShipmentId: ID!
+  productId: ID!
+  quantityShipped: Int!
+  salesOrderItemId: ID!
+}
+
+input CreatePackageInput {
+  carrier: String
+  height: Float
+  insuranceValue: Float
+  isFragile: Boolean
+  isHazmat: Boolean
+  length: Float
+  packageNumber: String!
+  packageType: String
+  packedAt: String
+  packedByUserId: ID
+  requiresSignature: Boolean
+  salesOrderId: ID!
+  serviceLevel: String
+  shippedAt: String
+  trackingNumber: String
+  warehouseId: ID!
+  weight: Float
+  width: Float
+}
+
+input CreatePackageItemInput {
+  batchId: ID
+  expiryDate: String
+  lotNumber: String
+  packageId: ID!
+  productId: ID!
+  quantity: Int!
+  serialNumbers: [String]
+  unitWeight: Float
+}
+
 input CreatePartnerInvoiceInput {
   carrierId: ID!
   invoiceDate: String!
@@ -305,6 +443,31 @@ input CreatePartnerInvoiceItemInput {
   amount: Float!
   partnerInvoiceId: ID!
   shipmentLegId: ID!
+}
+
+input CreatePickBatchInput {
+  actualDuration: Int
+  assignedUserId: ID
+  batchNumber: String!
+  completedAt: String
+  completedItems: Int
+  estimatedDuration: Int
+  priority: Int
+  startedAt: String
+  status: PickBatchStatus
+  strategy: PickStrategy!
+  totalItems: Int
+  warehouseId: ID!
+  waveId: String
+  zoneRestrictions: [String]
+}
+
+input CreatePickBatchItemInput {
+  actualPickTime: Int
+  estimatedPickTime: Int
+  orderPriority: Int
+  pickBatchId: ID!
+  salesOrderId: ID!
 }
 
 input CreateProductInput {
@@ -324,11 +487,63 @@ input CreateProofOfDeliveryInput {
   type: ProofType
 }
 
+input CreatePutawayRuleInput {
+  clientId: ID
+  isActive: Boolean
+  locationType: LocationType
+  maxQuantity: Int
+  minQuantity: Int
+  preferredLocationId: ID
+  priority: Int!
+  productId: ID!
+  requiresHazmatApproval: Boolean
+  requiresTemperatureControl: Boolean
+  volumeThreshold: Float
+  warehouseId: ID!
+  weightThreshold: Float
+}
+
+input CreateReorderPointInput {
+  productId: ID!
+  threshold: Int!
+  warehouseId: ID!
+}
+
+input CreateReturnInput {
+  clientId: ID!
+  reason: String
+  returnNumber: String!
+  salesOrderId: ID
+  status: ReturnStatus
+}
+
+input CreateReturnItemInput {
+  condition: ReturnItemCondition
+  productId: ID!
+  quantityExpected: Int!
+  quantityReceived: Int
+  returnId: ID!
+}
+
 input CreateRouteInput {
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float
   tripId: ID!
+}
+
+input CreateSalesOrderInput {
+  clientId: ID!
+  crmOpportunityId: ID
+  orderNumber: String!
+  shippingAddress: String
+  status: SalesOrderStatus
+}
+
+input CreateSalesOrderItemInput {
+  productId: ID!
+  quantityOrdered: Int!
+  salesOrderId: ID!
 }
 
 input CreateShipmentLegEventInput {
@@ -343,9 +558,58 @@ input CreateShipmentLegInput {
   endLocation: String
   internalTripId: ID
   legSequence: Int!
-  shipmentId: ID
+  shipment: OutboundShipments
   startLocation: String
   status: ShipmentLegStatus
+}
+
+input CreateStockTransferInput {
+  destinationWarehouseId: ID!
+  productId: ID!
+  quantity: Int!
+  sourceWarehouseId: ID!
+  status: StockTransferStatus
+}
+
+input CreateSupplierInput {
+  contactPerson: String
+  email: String
+  name: String!
+  phoneNumber: String
+}
+
+input CreateTaskInput {
+  actualDuration: Int
+  endTime: String
+  estimatedDuration: Int
+  instructions: String
+  notes: String
+  pickBatchId: ID
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  startTime: String
+  status: TaskStatus
+  taskNumber: String!
+  type: TaskType!
+  userId: ID
+  warehouseId: ID!
+}
+
+input CreateTaskItemInput {
+  batchId: ID
+  completedAt: String
+  destinationLocationId: ID
+  expiryDate: String
+  lotNumber: String
+  notes: String
+  productId: ID!
+  quantityCompleted: Int!
+  quantityRequired: Int!
+  serialNumbers: [String]
+  sourceLocationId: ID
+  status: TaskItemStatus
+  taskId: ID!
 }
 
 input CreateTripInput {
@@ -361,7 +625,7 @@ input CreateTripStopInput {
   estimatedArrivalTime: String
   estimatedDepartureTime: String
   sequence: Int!
-  shipmentId: ID
+  shipment: OutboundShipments
   status: TripStopStatus
   tripId: ID!
 }
@@ -380,6 +644,35 @@ input CreateVehicleMaintenanceInput {
   serviceDate: String!
   serviceType: VehicleServiceType
   vehicleId: ID!
+}
+
+input CreateWarehouseInput {
+  address: String
+  city: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
+  country: String
+  isActive: Boolean
+  name: String!
+  postalCode: String
+  state: String
+  timezone: String
+}
+
+input CreateWmsProductInput {
+  barcode: String
+  clientId: ID
+  costPrice: Float
+  description: String
+  height: Float
+  length: Float
+  name: String!
+  sku: String!
+  status: ProductStatus
+  supplierId: ID
+  weight: Float
+  width: Float
 }
 
 type CrmMutation {
@@ -565,6 +858,38 @@ type GpsPings {
   vehicle: Vehicles!
 }
 
+type InboundShipmentItems {
+  createdAt: String
+  discrepancyNotes: String
+  discrepancyQuantity: Int
+  expectedQuantity: Int!
+  id: ID!
+  inboundShipment: InboundShipments!
+  product: WmsProducts!
+  receivedQuantity: Int
+  updatedAt: String
+}
+
+enum InboundShipmentStatus {
+  ARRIVED
+  CANCELLED
+  COMPLETED
+  PENDING
+  PROCESSING
+}
+
+type InboundShipments {
+  actualArrivalDate: String
+  client: Companies
+  createdAt: String
+  expectedArrivalDate: String
+  id: ID!
+  items: [InboundShipmentItems!]
+  status: InboundShipmentStatus
+  updatedAt: String
+  warehouseId: ID!
+}
+
 enum InteractionType {
   CALL
   EMAIL
@@ -583,6 +908,65 @@ type Interactions {
   type: InteractionType
   updatedAt: String
   user: User!
+}
+
+enum InventoryAdjustmentReason {
+  CYCLE_COUNT
+  DAMAGED_GOODS
+  EXPIRED
+  MANUAL_CORRECTION
+  RETURN_TO_VENDOR
+  THEFT
+}
+
+type InventoryAdjustments {
+  createdAt: String
+  id: ID!
+  notes: String
+  product: WmsProducts!
+  quantityChange: Int!
+  reason: InventoryAdjustmentReason
+  updatedAt: String
+  user: User!
+  warehouseId: ID!
+}
+
+type InventoryBatches {
+  batchNumber: String!
+  createdAt: String
+  expirationDate: String
+  id: ID!
+  inventoryStock: [InventoryStock!]
+  outboundShipmentItems: [OutboundShipmentItems!]
+  packageItems: [PackageItems!]
+  product: WmsProducts!
+  taskItems: [TaskItems!]
+  updatedAt: String
+}
+
+type InventoryStock {
+  availableQuantity: Int
+  batch: InventoryBatches
+  createdAt: String
+  id: ID!
+  lastCountedAt: String
+  lastMovementAt: String
+  location: Locations!
+  product: WmsProducts!
+  quantity: Int!
+  reservedQuantity: Int!
+  status: InventoryStockStatus
+  updatedAt: String
+}
+
+enum InventoryStockStatus {
+  ALLOCATED
+  AVAILABLE
+  DAMAGED
+  EXPIRED
+  HOLD
+  QUARANTINE
+  SHIPPED
 }
 
 type InvoiceItems {
@@ -655,9 +1039,52 @@ type Leads {
   updatedAt: String
 }
 
+enum LocationType {
+  BULK_STORAGE
+  CROSS_DOCK_AREA
+  DAMAGED_GOODS
+  PACKING_STATION
+  PICK_BIN
+  QUALITY_CONTROL
+  RECEIVING_DOCK
+  RESERVE_STORAGE
+  RETURNS_AREA
+  STAGING_AREA
+}
+
+type Locations {
+  barcode: String
+  binThresholds: [BinThresholds!]
+  createdAt: String
+  destinationTaskItems: [TaskItems!]
+  hazmatApproved: Boolean
+  id: ID!
+  inventoryStock: [InventoryStock!]
+  isActive: Boolean
+  isPickable: Boolean
+  isReceivable: Boolean
+  level: Int
+  maxPallets: Int
+  maxVolume: Float
+  maxWeight: Float
+  name: String!
+  parentLocation: Locations
+  path: String
+  putawayRules: [PutawayRules!]
+  sourceTaskItems: [TaskItems!]
+  temperatureControlled: Boolean
+  type: LocationType!
+  updatedAt: String
+  warehouse: Warehouses!
+  xCoordinate: Float
+  yCoordinate: Float
+  zCoordinate: Float
+}
+
 type Mutation {
   crm: CrmMutation
   tms: TmsMutation
+  wms: WmsMutation
 }
 
 type Notifications {
@@ -683,6 +1110,7 @@ type Opportunities {
   owner: User!
   probability: Float
   products: [OpportunityProducts!]
+  salesOrders: [SalesOrders!]
   source: OpportunitySource
   stage: OpportunityStage
   updatedAt: String
@@ -716,6 +1144,78 @@ enum OpportunityStage {
   PROPOSAL
   PROSPECTING
   QUALIFICATION
+}
+
+type OutboundShipmentItems {
+  batch: InventoryBatches
+  createdAt: String
+  id: ID!
+  outboundShipment: OutboundShipments!
+  product: WmsProducts!
+  quantityShipped: Int!
+  salesOrderItem: SalesOrderItems!
+  updatedAt: String
+}
+
+enum OutboundShipmentStatus {
+  CANCELLED
+  DELIVERED
+  PACKED
+  PICKING
+  SHIPPED
+}
+
+type OutboundShipments {
+  carrier: String
+  createdAt: String
+  id: ID!
+  items: [OutboundShipmentItems!]
+  salesOrder: SalesOrders!
+  status: OutboundShipmentStatus
+  trackingNumber: String
+  updatedAt: String
+  warehouseId: ID!
+}
+
+type PackageItems {
+  batch: InventoryBatches
+  createdAt: String
+  expiryDate: String
+  id: ID!
+  lotNumber: String
+  package: Packages!
+  product: WmsProducts!
+  quantity: Int!
+  serialNumbers: [String]
+  totalWeight: Float
+  unitWeight: Float
+  updatedAt: String
+}
+
+type Packages {
+  carrier: String
+  createdAt: String
+  height: Float
+  id: ID!
+  insuranceValue: Float
+  isFragile: Boolean
+  isHazmat: Boolean
+  items: [PackageItems!]
+  length: Float
+  packageNumber: String!
+  packageType: String
+  packedAt: String
+  packedByUser: User
+  requiresSignature: Boolean
+  salesOrder: SalesOrders!
+  serviceLevel: String
+  shippedAt: String
+  trackingNumber: String
+  updatedAt: String
+  volume: Float
+  warehouse: Warehouses!
+  weight: Float
+  width: Float
 }
 
 type PartnerInvoiceItems {
@@ -755,6 +1255,61 @@ enum PaymentMethod {
   WIRE_TRANSFER
 }
 
+type PickBatchItems {
+  actualPickTime: Int
+  createdAt: String
+  estimatedPickTime: Int
+  id: ID!
+  orderPriority: Int
+  pickBatch: PickBatches!
+  salesOrder: SalesOrders!
+  updatedAt: String
+}
+
+enum PickBatchStatus {
+  CANCELLED
+  COMPLETED
+  IN_PROGRESS
+  OPEN
+}
+
+type PickBatches {
+  actualDuration: Int
+  assignedUser: User
+  batchNumber: String!
+  completedAt: String
+  completedItems: Int
+  createdAt: String
+  estimatedDuration: Int
+  id: ID!
+  items: [PickBatchItems!]
+  priority: Int
+  startedAt: String
+  status: PickBatchStatus
+  strategy: PickStrategy!
+  tasks: [Tasks!]
+  totalItems: Int
+  updatedAt: String
+  warehouse: Warehouses!
+  waveId: String
+  zoneRestrictions: [String]
+}
+
+enum PickStrategy {
+  BATCH_PICKING
+  CLUSTER_PICKING
+  SINGLE_ORDER_PICKING
+  WAVE_PICKING
+  ZONE_PICKING
+}
+
+enum ProductStatus {
+  ACTIVE
+  DISCONTINUED
+  INACTIVE
+  OBSOLETE
+}
+
 enum ProductType {
   DIGITAL
   GOOD
@@ -792,9 +1347,29 @@ enum ProofType {
   SIGNATURE
 }
 
+type PutawayRules {
+  client: Companies
+  createdAt: String
+  id: ID!
+  isActive: Boolean
+  locationType: LocationType
+  maxQuantity: Int
+  minQuantity: Int
+  preferredLocation: Locations
+  priority: Int!
+  product: WmsProducts!
+  requiresHazmatApproval: Boolean
+  requiresTemperatureControl: Boolean
+  updatedAt: String
+  volumeThreshold: Float
+  warehouse: Warehouses!
+  weightThreshold: Float
+}
+
 type Query {
   crm: CrmQuery
   tms: TmsQuery
+  wms: WmsQuery
 }
 
 enum RecordType {
@@ -809,6 +1384,55 @@ enum RecordType {
   PRODUCTS
 }
 
+type ReorderPoints {
+  createdAt: String
+  id: ID!
+  product: WmsProducts!
+  threshold: Int!
+  updatedAt: String
+  warehouseId: ID!
+}
+
+enum ReturnItemCondition {
+  DAMAGED
+  DEFECTIVE
+  EXPIRED
+  SELLABLE
+  UNSELLABLE
+}
+
+type ReturnItems {
+  condition: ReturnItemCondition
+  createdAt: String
+  id: ID!
+  product: WmsProducts!
+  quantityExpected: Int!
+  quantityReceived: Int
+  quantityVariance: Int
+  return: Returns!
+  updatedAt: String
+}
+
+enum ReturnStatus {
+  APPROVED
+  PROCESSED
+  RECEIVED
+  REJECTED
+  REQUESTED
+}
+
+type Returns {
+  client: Companies!
+  createdAt: String
+  id: ID!
+  items: [ReturnItems!]
+  reason: String
+  returnNumber: String!
+  salesOrder: SalesOrders
+  status: ReturnStatus
+  updatedAt: String
+}
+
 type Routes {
   createdAt: String
   id: ID!
@@ -816,6 +1440,40 @@ type Routes {
   totalDistance: Float
   totalDuration: Float
   trip: Trips!
+  updatedAt: String
+}
+
+type SalesOrderItems {
+  createdAt: String
+  id: ID!
+  outboundShipmentItems: [OutboundShipmentItems!]
+  product: WmsProducts!
+  quantityOrdered: Int!
+  salesOrder: SalesOrders!
+  updatedAt: String
+}
+
+enum SalesOrderStatus {
+  CANCELLED
+  COMPLETED
+  PENDING
+  PROCESSING
+  SHIPPED
+}
+
+type SalesOrders {
+  client: Companies!
+  createdAt: String
+  crmOpportunity: Opportunities
+  id: ID!
+  items: [SalesOrderItems!]
+  orderNumber: String!
+  outboundShipments: [OutboundShipments!]
+  packages: [Packages!]
+  pickBatchItems: [PickBatchItems!]
+  returns: [Returns!]
+  shippingAddress: String
+  status: SalesOrderStatus
   updatedAt: String
 }
 
@@ -844,10 +1502,112 @@ type ShipmentLegs {
   internalTrip: Trips
   legSequence: Int!
   partnerInvoiceItems: [PartnerInvoiceItems!]
-  shipmentId: ID
+  shipment: OutboundShipments
   startLocation: String
   status: ShipmentLegStatus
   updatedAt: String
+}
+
+enum StockTransferStatus {
+  CANCELLED
+  IN_TRANSIT
+  PENDING
+  RECEIVED
+}
+
+type StockTransfers {
+  createdAt: String
+  destinationWarehouseId: ID!
+  id: ID!
+  product: WmsProducts!
+  quantity: Int!
+  sourceWarehouseId: ID!
+  status: StockTransferStatus
+  updatedAt: String
+}
+
+type Suppliers {
+  contactPerson: String
+  createdAt: String
+  email: String
+  id: ID!
+  name: String!
+  phoneNumber: String
+  products: [WmsProducts!]
+  updatedAt: String
+}
+
+enum TaskItemStatus {
+  COMPLETED
+  DAMAGED
+  IN_PROGRESS
+  NOT_FOUND
+  PENDING
+  SHORT_PICKED
+}
+
+type TaskItems {
+  batch: InventoryBatches
+  completedAt: String
+  createdAt: String
+  destinationLocation: Locations
+  expiryDate: String
+  id: ID!
+  lotNumber: String
+  notes: String
+  product: WmsProducts!
+  quantityCompleted: Int!
+  quantityRemaining: Int
+  quantityRequired: Int!
+  serialNumbers: [String]
+  sourceLocation: Locations
+  status: TaskItemStatus
+  task: Tasks!
+  updatedAt: String
+}
+
+enum TaskStatus {
+  ASSIGNED
+  CANCELLED
+  COMPLETED
+  ERROR
+  IN_PROGRESS
+  PENDING
+}
+
+enum TaskType {
+  CROSS_DOCK
+  CYCLE_COUNT
+  DAMAGE_INSPECTION
+  PACK
+  PICK
+  PUTAWAY
+  QUALITY_CHECK
+  REPLENISHMENT
+  RETURNS_PROCESSING
+}
+
+type Tasks {
+  actualDuration: Int
+  createdAt: String
+  durationSeconds: Int
+  endTime: String
+  estimatedDuration: Int
+  id: ID!
+  instructions: String
+  items: [TaskItems!]
+  notes: String
+  pickBatch: PickBatches
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  startTime: String
+  status: TaskStatus
+  taskNumber: String!
+  type: TaskType!
+  updatedAt: String
+  user: User
+  warehouse: Warehouses!
 }
 
 type TmsMutation {
@@ -970,7 +1730,7 @@ type TripStops {
   id: ID!
   proofOfDeliveries: [ProofOfDeliveries!]
   sequence: Int!
-  shipmentId: ID
+  shipment: OutboundShipments
   status: TripStopStatus
   trip: Trips!
   updatedAt: String
@@ -995,6 +1755,16 @@ input UpdateAttachmentInput {
   mimeType: String
   recordId: ID
   recordType: RecordType
+}
+
+input UpdateBinThresholdInput {
+  alertThreshold: Int
+  isActive: Boolean
+  locationId: ID
+  maxQuantity: Int
+  minQuantity: Int
+  productId: ID
+  reorderQuantity: Int
 }
 
 input UpdateCampaignInput {
@@ -1097,6 +1867,22 @@ input UpdateGpsPingInput {
   vehicleId: ID
 }
 
+input UpdateInboundShipmentInput {
+  actualArrivalDate: String
+  clientId: ID
+  expectedArrivalDate: String
+  status: InboundShipmentStatus
+  warehouseId: ID
+}
+
+input UpdateInboundShipmentItemInput {
+  discrepancyNotes: String
+  expectedQuantity: Int
+  inboundShipmentId: ID
+  productId: ID
+  receivedQuantity: Int
+}
+
 input UpdateInteractionInput {
   caseId: ID
   contactId: ID
@@ -1105,6 +1891,32 @@ input UpdateInteractionInput {
   outcome: String
   type: InteractionType
   userId: ID
+}
+
+input UpdateInventoryAdjustmentInput {
+  notes: String
+  productId: ID
+  quantityChange: Int
+  reason: InventoryAdjustmentReason
+  userId: ID
+  warehouseId: ID
+}
+
+input UpdateInventoryBatchInput {
+  batchNumber: String
+  expirationDate: String
+  productId: ID
+}
+
+input UpdateInventoryStockInput {
+  batchId: ID
+  lastCountedAt: String
+  lastMovementAt: String
+  locationId: ID
+  productId: ID
+  quantity: Int
+  reservedQuantity: Int
+  status: InventoryStockStatus
 }
 
 input UpdateInvoiceInput {
@@ -1135,6 +1947,27 @@ input UpdateLeadInput {
   status: LeadStatus
 }
 
+input UpdateLocationInput {
+  barcode: String
+  hazmatApproved: Boolean
+  isActive: Boolean
+  isPickable: Boolean
+  isReceivable: Boolean
+  level: Int
+  maxPallets: Int
+  maxVolume: Float
+  maxWeight: Float
+  name: String
+  parentLocationId: ID
+  path: String
+  temperatureControlled: Boolean
+  type: LocationType
+  warehouseId: ID
+  xCoordinate: Float
+  yCoordinate: Float
+  zCoordinate: Float
+}
+
 input UpdateNotificationInput {
   isRead: Boolean
   link: String
@@ -1160,6 +1993,54 @@ input UpdateOpportunityProductInput {
   quantity: Int
 }
 
+input UpdateOutboundShipmentInput {
+  carrier: String
+  salesOrderId: ID
+  status: OutboundShipmentStatus
+  trackingNumber: String
+  warehouseId: ID
+}
+
+input UpdateOutboundShipmentItemInput {
+  batchId: ID
+  outboundShipmentId: ID
+  productId: ID
+  quantityShipped: Int
+  salesOrderItemId: ID
+}
+
+input UpdatePackageInput {
+  carrier: String
+  height: Float
+  insuranceValue: Float
+  isFragile: Boolean
+  isHazmat: Boolean
+  length: Float
+  packageNumber: String
+  packageType: String
+  packedAt: String
+  packedByUserId: ID
+  requiresSignature: Boolean
+  salesOrderId: ID
+  serviceLevel: String
+  shippedAt: String
+  trackingNumber: String
+  warehouseId: ID
+  weight: Float
+  width: Float
+}
+
+input UpdatePackageItemInput {
+  batchId: ID
+  expiryDate: String
+  lotNumber: String
+  packageId: ID
+  productId: ID
+  quantity: Int
+  serialNumbers: [String]
+  unitWeight: Float
+}
+
 input UpdatePartnerInvoiceInput {
   carrierId: ID
   invoiceDate: String
@@ -1172,6 +2053,31 @@ input UpdatePartnerInvoiceItemInput {
   amount: Float
   partnerInvoiceId: ID
   shipmentLegId: ID
+}
+
+input UpdatePickBatchInput {
+  actualDuration: Int
+  assignedUserId: ID
+  batchNumber: String
+  completedAt: String
+  completedItems: Int
+  estimatedDuration: Int
+  priority: Int
+  startedAt: String
+  status: PickBatchStatus
+  strategy: PickStrategy
+  totalItems: Int
+  warehouseId: ID
+  waveId: String
+  zoneRestrictions: [String]
+}
+
+input UpdatePickBatchItemInput {
+  actualPickTime: Int
+  estimatedPickTime: Int
+  orderPriority: Int
+  pickBatchId: ID
+  salesOrderId: ID
 }
 
 input UpdateProductInput {
@@ -1191,11 +2097,63 @@ input UpdateProofOfDeliveryInput {
   type: ProofType
 }
 
+input UpdatePutawayRuleInput {
+  clientId: ID
+  isActive: Boolean
+  locationType: LocationType
+  maxQuantity: Int
+  minQuantity: Int
+  preferredLocationId: ID
+  priority: Int
+  productId: ID
+  requiresHazmatApproval: Boolean
+  requiresTemperatureControl: Boolean
+  volumeThreshold: Float
+  warehouseId: ID
+  weightThreshold: Float
+}
+
+input UpdateReorderPointInput {
+  productId: ID
+  threshold: Int
+  warehouseId: ID
+}
+
+input UpdateReturnInput {
+  clientId: ID
+  reason: String
+  returnNumber: String
+  salesOrderId: ID
+  status: ReturnStatus
+}
+
+input UpdateReturnItemInput {
+  condition: ReturnItemCondition
+  productId: ID
+  quantityExpected: Int
+  quantityReceived: Int
+  returnId: ID
+}
+
 input UpdateRouteInput {
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float
   tripId: ID
+}
+
+input UpdateSalesOrderInput {
+  clientId: ID
+  crmOpportunityId: ID
+  orderNumber: String
+  shippingAddress: String
+  status: SalesOrderStatus
+}
+
+input UpdateSalesOrderItemInput {
+  productId: ID
+  quantityOrdered: Int
+  salesOrderId: ID
 }
 
 input UpdateShipmentLegEventInput {
@@ -1210,9 +2168,58 @@ input UpdateShipmentLegInput {
   endLocation: String
   internalTripId: ID
   legSequence: Int
-  shipmentId: ID
+  shipment: OutboundShipments
   startLocation: String
   status: ShipmentLegStatus
+}
+
+input UpdateStockTransferInput {
+  destinationWarehouseId: ID
+  productId: ID
+  quantity: Int
+  sourceWarehouseId: ID
+  status: StockTransferStatus
+}
+
+input UpdateSupplierInput {
+  contactPerson: String
+  email: String
+  name: String
+  phoneNumber: String
+}
+
+input UpdateTaskInput {
+  actualDuration: Int
+  endTime: String
+  estimatedDuration: Int
+  instructions: String
+  notes: String
+  pickBatchId: ID
+  priority: Int
+  sourceEntityId: ID
+  sourceEntityType: String
+  startTime: String
+  status: TaskStatus
+  taskNumber: String
+  type: TaskType
+  userId: ID
+  warehouseId: ID
+}
+
+input UpdateTaskItemInput {
+  batchId: ID
+  completedAt: String
+  destinationLocationId: ID
+  expiryDate: String
+  lotNumber: String
+  notes: String
+  productId: ID
+  quantityCompleted: Int
+  quantityRequired: Int
+  serialNumbers: [String]
+  sourceLocationId: ID
+  status: TaskItemStatus
+  taskId: ID
 }
 
 input UpdateTripInput {
@@ -1228,7 +2235,7 @@ input UpdateTripStopInput {
   estimatedArrivalTime: String
   estimatedDepartureTime: String
   sequence: Int
-  shipmentId: ID
+  shipment: OutboundShipments
   status: TripStopStatus
   tripId: ID
 }
@@ -1247,6 +2254,35 @@ input UpdateVehicleMaintenanceInput {
   serviceDate: String
   serviceType: VehicleServiceType
   vehicleId: ID
+}
+
+input UpdateWarehouseInput {
+  address: String
+  city: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
+  country: String
+  isActive: Boolean
+  name: String
+  postalCode: String
+  state: String
+  timezone: String
+}
+
+input UpdateWmsProductInput {
+  barcode: String
+  clientId: ID
+  costPrice: Float
+  description: String
+  height: Float
+  length: Float
+  name: String
+  sku: String
+  status: ProductStatus
+  supplierId: ID
+  weight: Float
+  width: Float
 }
 
 type User {
@@ -1296,4 +2332,193 @@ type Vehicles {
   status: VehicleStatus
   trips: [Trips!]
   updatedAt: String
+}
+
+type Warehouses {
+  address: String
+  city: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
+  country: String
+  createdAt: String
+  destinationStockTransfers: [StockTransfers!]
+  id: ID!
+  inboundShipments: [InboundShipments!]
+  isActive: Boolean
+  locations: [Locations!]
+  name: String!
+  outboundShipments: [OutboundShipments!]
+  packages: [Packages!]
+  pickBatches: [PickBatches!]
+  postalCode: String
+  putawayRules: [PutawayRules!]
+  sourceStockTransfers: [StockTransfers!]
+  state: String
+  tasks: [Tasks!]
+  timezone: String
+  updatedAt: String
+}
+
+type WmsMutation {
+  createBinThreshold(value: CreateBinThresholdInput!): BinThresholds!
+  createInboundShipment(value: CreateInboundShipmentInput!): InboundShipments!
+  createInboundShipmentItem(value: CreateInboundShipmentItemInput!): InboundShipmentItems!
+  createInventoryAdjustment(value: CreateInventoryAdjustmentInput!): InventoryAdjustments!
+  createInventoryBatch(value: CreateInventoryBatchInput!): InventoryBatches!
+  createInventoryStock(value: CreateInventoryStockInput!): InventoryStock!
+  createLocation(value: CreateLocationInput!): Locations!
+  createOutboundShipment(value: CreateOutboundShipmentInput!): OutboundShipments!
+  createOutboundShipmentItem(value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
+  createPackage(value: CreatePackageInput!): Packages!
+  createPackageItem(value: CreatePackageItemInput!): PackageItems!
+  createPickBatch(value: CreatePickBatchInput!): PickBatches!
+  createPickBatchItem(value: CreatePickBatchItemInput!): PickBatchItems!
+  createPutawayRule(value: CreatePutawayRuleInput!): PutawayRules!
+  createReorderPoint(value: CreateReorderPointInput!): ReorderPoints!
+  createReturn(value: CreateReturnInput!): Returns!
+  createReturnItem(value: CreateReturnItemInput!): ReturnItems!
+  createSalesOrder(value: CreateSalesOrderInput!): SalesOrders!
+  createSalesOrderItem(value: CreateSalesOrderItemInput!): SalesOrderItems!
+  createStockTransfer(value: CreateStockTransferInput!): StockTransfers!
+  createSupplier(value: CreateSupplierInput!): Suppliers!
+  createTask(value: CreateTaskInput!): Tasks!
+  createTaskItem(value: CreateTaskItemInput!): TaskItems!
+  createWarehouse(value: CreateWarehouseInput!): Warehouses!
+  createWmsProduct(value: CreateWmsProductInput!): WmsProducts!
+  removeBinThreshold(id: ID!): DeleteResult!
+  removeInboundShipment(id: ID!): DeleteResult!
+  removeInboundShipmentItem(id: ID!): DeleteResult!
+  removeInventoryAdjustment(id: ID!): DeleteResult!
+  removeInventoryBatch(id: ID!): DeleteResult!
+  removeInventoryStock(id: ID!): DeleteResult!
+  removeLocation(id: ID!): DeleteResult!
+  removeOutboundShipment(id: ID!): DeleteResult!
+  removeOutboundShipmentItem(id: ID!): DeleteResult!
+  removePackage(id: ID!): DeleteResult!
+  removePackageItem(id: ID!): DeleteResult!
+  removePickBatch(id: ID!): DeleteResult!
+  removePickBatchItem(id: ID!): DeleteResult!
+  removePutawayRule(id: ID!): DeleteResult!
+  removeReorderPoint(id: ID!): DeleteResult!
+  removeReturn(id: ID!): DeleteResult!
+  removeReturnItem(id: ID!): DeleteResult!
+  removeSalesOrder(id: ID!): DeleteResult!
+  removeSalesOrderItem(id: ID!): DeleteResult!
+  removeStockTransfer(id: ID!): DeleteResult!
+  removeSupplier(id: ID!): DeleteResult!
+  removeTask(id: ID!): DeleteResult!
+  removeTaskItem(id: ID!): DeleteResult!
+  removeWarehouse(id: ID!): DeleteResult!
+  removeWmsProduct(id: ID!): DeleteResult!
+  updateBinThreshold(id: ID!, value: UpdateBinThresholdInput): BinThresholds!
+  updateInboundShipment(id: ID!, value: UpdateInboundShipmentInput): InboundShipments!
+  updateInboundShipmentItem(id: ID!, value: UpdateInboundShipmentItemInput): InboundShipmentItems!
+  updateInventoryAdjustment(id: ID!, value: UpdateInventoryAdjustmentInput): InventoryAdjustments!
+  updateInventoryBatch(id: ID!, value: UpdateInventoryBatchInput): InventoryBatches!
+  updateInventoryStock(id: ID!, value: UpdateInventoryStockInput): InventoryStock!
+  updateLocation(id: ID!, value: UpdateLocationInput): Locations!
+  updateOutboundShipment(id: ID!, value: UpdateOutboundShipmentInput): OutboundShipments!
+  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput): OutboundShipmentItems!
+  updatePackage(id: ID!, value: UpdatePackageInput): Packages!
+  updatePackageItem(id: ID!, value: UpdatePackageItemInput): PackageItems!
+  updatePickBatch(id: ID!, value: UpdatePickBatchInput): PickBatches!
+  updatePickBatchItem(id: ID!, value: UpdatePickBatchItemInput): PickBatchItems!
+  updatePutawayRule(id: ID!, value: UpdatePutawayRuleInput): PutawayRules!
+  updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
+  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
+  updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
+  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput): SalesOrderItems!
+  updateStockTransfer(id: ID!, value: UpdateStockTransferInput): StockTransfers!
+  updateSupplier(id: ID!, value: UpdateSupplierInput): Suppliers!
+  updateTask(id: ID!, value: UpdateTaskInput): Tasks!
+  updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!
+  updateWarehouse(id: ID!, value: UpdateWarehouseInput): Warehouses!
+  updateWmsProduct(id: ID!, value: UpdateWmsProductInput): WmsProducts!
+}
+
+type WmsProducts {
+  adjustments: [InventoryAdjustments!]
+  barcode: String
+  batches: [InventoryBatches!]
+  binThresholds: [BinThresholds!]
+  client: Companies
+  costPrice: Float
+  createdAt: String
+  description: String
+  height: Float
+  id: ID!
+  inboundShipmentItems: [InboundShipmentItems!]
+  inventoryStock: [InventoryStock!]
+  length: Float
+  name: String!
+  outboundShipmentItems: [OutboundShipmentItems!]
+  packageItems: [PackageItems!]
+  putawayRules: [PutawayRules!]
+  reorderPoints: [ReorderPoints!]
+  returnItems: [ReturnItems!]
+  salesOrderItems: [SalesOrderItems!]
+  sku: String!
+  status: ProductStatus
+  stockTransfers: [StockTransfers!]
+  supplier: Suppliers
+  taskItems: [TaskItems!]
+  updatedAt: String
+  volume: Float
+  weight: Float
+  width: Float
+}
+
+type WmsQuery {
+  binThreshold(id: ID!): BinThresholds!
+  binThresholds(page: Int, perPage: Int): [BinThresholds!]!
+  inboundShipment(id: ID!): InboundShipments!
+  inboundShipmentItem(id: ID!): InboundShipmentItems!
+  inboundShipmentItems(page: Int, perPage: Int): [InboundShipmentItems!]!
+  inboundShipments(page: Int, perPage: Int): [InboundShipments!]!
+  inventoryAdjustment(id: ID!): InventoryAdjustments!
+  inventoryAdjustments(page: Int, perPage: Int): [InventoryAdjustments!]!
+  inventoryBatch(id: ID!): InventoryBatches!
+  inventoryBatches(page: Int, perPage: Int): [InventoryBatches!]!
+  inventoryStock(id: ID!): InventoryStock!
+  inventoryStocks(page: Int, perPage: Int): [InventoryStock!]!
+  location(id: ID!): Locations!
+  locations(page: Int, perPage: Int): [Locations!]!
+  outboundShipment(id: ID!): OutboundShipments!
+  outboundShipmentItem(id: ID!): OutboundShipmentItems!
+  outboundShipmentItems(page: Int, perPage: Int): [OutboundShipmentItems!]!
+  outboundShipments(page: Int, perPage: Int): [OutboundShipments!]!
+  package(id: ID!): Packages!
+  packageItem(id: ID!): PackageItems!
+  packageItems(page: Int, perPage: Int): [PackageItems!]!
+  packages(page: Int, perPage: Int): [Packages!]!
+  pickBatch(id: ID!): PickBatches!
+  pickBatchItem(id: ID!): PickBatchItems!
+  pickBatchItems(page: Int, perPage: Int): [PickBatchItems!]!
+  pickBatches(page: Int, perPage: Int): [PickBatches!]!
+  putawayRule(id: ID!): PutawayRules!
+  putawayRules(page: Int, perPage: Int): [PutawayRules!]!
+  reorderPoint(id: ID!): ReorderPoints!
+  reorderPoints(page: Int, perPage: Int): [ReorderPoints!]!
+  return(id: ID!): Returns!
+  returnItem(id: ID!): ReturnItems!
+  returnItems(page: Int, perPage: Int): [ReturnItems!]!
+  returns(page: Int, perPage: Int): [Returns!]!
+  salesOrder(id: ID!): SalesOrders!
+  salesOrderItem(id: ID!): SalesOrderItems!
+  salesOrderItems(page: Int, perPage: Int): [SalesOrderItems!]!
+  salesOrders(page: Int, perPage: Int): [SalesOrders!]!
+  stockTransfer(id: ID!): StockTransfers!
+  stockTransfers(page: Int, perPage: Int): [StockTransfers!]!
+  supplier(id: ID!): Suppliers!
+  suppliers(page: Int, perPage: Int): [Suppliers!]!
+  task(id: ID!): Tasks!
+  taskItem(id: ID!): TaskItems!
+  taskItems(page: Int, perPage: Int): [TaskItems!]!
+  tasks(page: Int, perPage: Int): [Tasks!]!
+  warehouse(id: ID!): Warehouses!
+  warehouses(page: Int, perPage: Int): [Warehouses!]!
+  wmsProduct(id: ID!): WmsProducts!
+  wmsProducts(page: Int, perPage: Int): [WmsProducts!]!
 }

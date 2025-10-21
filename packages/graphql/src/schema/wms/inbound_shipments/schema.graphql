@@ -1,0 +1,46 @@
+enum InboundShipmentStatus {
+  PENDING
+  ARRIVED
+  PROCESSING
+  COMPLETED
+  CANCELLED
+}
+
+type InboundShipments {
+  id: ID!
+  client: Companies
+  warehouseId: ID!
+  status: InboundShipmentStatus
+  expectedArrivalDate: String
+  actualArrivalDate: String
+  createdAt: String
+  updatedAt: String
+  items: [InboundShipmentItems!]
+}
+
+extend type WmsQuery {
+  inboundShipments(page: Int, perPage: Int): [InboundShipments!]!
+  inboundShipment(id: ID!): InboundShipments!
+}
+
+input CreateInboundShipmentInput {
+  clientId: ID
+  warehouseId: ID!
+  status: InboundShipmentStatus
+  expectedArrivalDate: String
+  actualArrivalDate: String
+}
+
+input UpdateInboundShipmentInput {
+  clientId: ID
+  warehouseId: ID
+  status: InboundShipmentStatus
+  expectedArrivalDate: String
+  actualArrivalDate: String
+}
+
+extend type WmsMutation {
+  createInboundShipment(value: CreateInboundShipmentInput!): InboundShipments!
+  updateInboundShipment(id: ID!, value: UpdateInboundShipmentInput): InboundShipments!
+  removeInboundShipment(id: ID!): DeleteResult!
+}

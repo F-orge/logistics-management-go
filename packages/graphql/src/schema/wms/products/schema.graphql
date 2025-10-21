@@ -1,0 +1,79 @@
+enum ProductStatus {
+  ACTIVE
+  DISCONTINUED
+  OBSOLETE
+  INACTIVE
+}
+
+type WmsProducts {
+  id: ID!
+  name: String!
+  sku: String!
+  barcode: String
+  description: String
+  costPrice: Float
+  length: Float
+  width: Float
+  height: Float
+  volume: Float
+  weight: Float
+  status: ProductStatus
+  supplier: Suppliers
+  client: Companies
+  createdAt: String
+  updatedAt: String
+  batches: [InventoryBatches!]
+  adjustments: [InventoryAdjustments!]
+  reorderPoints: [ReorderPoints!]
+  inboundShipmentItems: [InboundShipmentItems!]
+  stockTransfers: [StockTransfers!]
+  salesOrderItems: [SalesOrderItems!]
+  outboundShipmentItems: [OutboundShipmentItems!]
+  returnItems: [ReturnItems!]
+  inventoryStock: [InventoryStock!]
+  putawayRules: [PutawayRules!]
+  binThresholds: [BinThresholds!]
+  taskItems: [TaskItems!]
+  packageItems: [PackageItems!]
+}
+
+extend type WmsQuery {
+  wmsProducts(page: Int, perPage: Int): [WmsProducts!]!
+  wmsProduct(id: ID!): WmsProducts!
+}
+
+input CreateWmsProductInput {
+  name: String!
+  sku: String!
+  barcode: String
+  description: String
+  costPrice: Float
+  length: Float
+  width: Float
+  height: Float
+  weight: Float
+  status: ProductStatus
+  supplierId: ID
+  clientId: ID
+}
+
+input UpdateWmsProductInput {
+  name: String
+  sku: String
+  barcode: String
+  description: String
+  costPrice: Float
+  length: Float
+  width: Float
+  height: Float
+  weight: Float
+  status: ProductStatus
+  supplierId: ID
+  clientId: ID
+}
+
+extend type WmsMutation {
+  createWmsProduct(value: CreateWmsProductInput!): WmsProducts!
+  updateWmsProduct(id: ID!, value: UpdateWmsProductInput): WmsProducts!
+  removeWmsProduct(id: ID!): DeleteResult!
+}

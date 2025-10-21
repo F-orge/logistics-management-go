@@ -1,0 +1,46 @@
+enum ReturnItemCondition {
+  SELLABLE
+  DAMAGED
+  DEFECTIVE
+  EXPIRED
+  UNSELLABLE
+}
+
+type ReturnItems {
+  id: ID!
+  return: Returns!
+  product: WmsProducts!
+  quantityExpected: Int!
+  quantityReceived: Int
+  quantityVariance: Int
+  condition: ReturnItemCondition
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  returnItems(page: Int, perPage: Int): [ReturnItems!]!
+  returnItem(id: ID!): ReturnItems!
+}
+
+input CreateReturnItemInput {
+  returnId: ID!
+  productId: ID!
+  quantityExpected: Int!
+  quantityReceived: Int
+  condition: ReturnItemCondition
+}
+
+input UpdateReturnItemInput {
+  returnId: ID
+  productId: ID
+  quantityExpected: Int
+  quantityReceived: Int
+  condition: ReturnItemCondition
+}
+
+extend type WmsMutation {
+  createReturnItem(value: CreateReturnItemInput!): ReturnItems!
+  updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
+  removeReturnItem(id: ID!): DeleteResult!
+}

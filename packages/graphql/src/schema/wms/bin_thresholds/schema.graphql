@@ -1,0 +1,43 @@
+type BinThresholds {
+  id: ID!
+  location: Locations!
+  product: WmsProducts!
+  minQuantity: Int!
+  maxQuantity: Int!
+  reorderQuantity: Int
+  alertThreshold: Int
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  binThresholds(page: Int, perPage: Int): [BinThresholds!]!
+  binThreshold(id: ID!): BinThresholds!
+}
+
+input CreateBinThresholdInput {
+  locationId: ID!
+  productId: ID!
+  minQuantity: Int!
+  maxQuantity: Int!
+  reorderQuantity: Int
+  alertThreshold: Int
+  isActive: Boolean
+}
+
+input UpdateBinThresholdInput {
+  locationId: ID
+  productId: ID
+  minQuantity: Int
+  maxQuantity: Int
+  reorderQuantity: Int
+  alertThreshold: Int
+  isActive: Boolean
+}
+
+extend type WmsMutation {
+  createBinThreshold(value: CreateBinThresholdInput!): BinThresholds!
+  updateBinThreshold(id: ID!, value: UpdateBinThresholdInput): BinThresholds!
+  removeBinThreshold(id: ID!): DeleteResult!
+}

@@ -1,0 +1,50 @@
+enum SalesOrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  COMPLETED
+  CANCELLED
+}
+
+type SalesOrders {
+  id: ID!
+  orderNumber: String!
+  client: Companies!
+  crmOpportunity: Opportunities
+  status: SalesOrderStatus
+  shippingAddress: String
+  createdAt: String
+  updatedAt: String
+  items: [SalesOrderItems!]
+  outboundShipments: [OutboundShipments!]
+  returns: [Returns!]
+  pickBatchItems: [PickBatchItems!]
+  packages: [Packages!]
+}
+
+extend type WmsQuery {
+  salesOrders(page: Int, perPage: Int): [SalesOrders!]!
+  salesOrder(id: ID!): SalesOrders!
+}
+
+input CreateSalesOrderInput {
+  orderNumber: String!
+  clientId: ID!
+  crmOpportunityId: ID
+  status: SalesOrderStatus
+  shippingAddress: String
+}
+
+input UpdateSalesOrderInput {
+  orderNumber: String
+  clientId: ID
+  crmOpportunityId: ID
+  status: SalesOrderStatus
+  shippingAddress: String
+}
+
+extend type WmsMutation {
+  createSalesOrder(value: CreateSalesOrderInput!): SalesOrders!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
+  removeSalesOrder(id: ID!): DeleteResult!
+}

@@ -1,0 +1,71 @@
+enum TaskItemStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  SHORT_PICKED
+  DAMAGED
+  NOT_FOUND
+}
+
+type TaskItems {
+  id: ID!
+  task: Tasks!
+  product: WmsProducts!
+  batch: InventoryBatches
+  sourceLocation: Locations
+  destinationLocation: Locations
+  quantityRequired: Int!
+  quantityCompleted: Int!
+  quantityRemaining: Int
+  status: TaskItemStatus
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  notes: String
+  completedAt: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  taskItems(page: Int, perPage: Int): [TaskItems!]!
+  taskItem(id: ID!): TaskItems!
+}
+
+input CreateTaskItemInput {
+  taskId: ID!
+  productId: ID!
+  batchId: ID
+  sourceLocationId: ID
+  destinationLocationId: ID
+  quantityRequired: Int!
+  quantityCompleted: Int!
+  status: TaskItemStatus
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  notes: String
+  completedAt: String
+}
+
+input UpdateTaskItemInput {
+  taskId: ID
+  productId: ID
+  batchId: ID
+  sourceLocationId: ID
+  destinationLocationId: ID
+  quantityRequired: Int
+  quantityCompleted: Int
+  status: TaskItemStatus
+  lotNumber: String
+  serialNumbers: [String]
+  expiryDate: String
+  notes: String
+  completedAt: String
+}
+
+extend type WmsMutation {
+  createTaskItem(value: CreateTaskItemInput!): TaskItems!
+  updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!
+  removeTaskItem(id: ID!): DeleteResult!
+}

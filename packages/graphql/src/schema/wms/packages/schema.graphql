@@ -1,0 +1,78 @@
+type Packages {
+  id: ID!
+  salesOrder: SalesOrders!
+  packageNumber: String!
+  warehouse: Warehouses!
+  packageType: String
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  volume: Float
+  trackingNumber: String
+  carrier: String
+  serviceLevel: String
+  packedByUser: User
+  packedAt: String
+  shippedAt: String
+  isFragile: Boolean
+  isHazmat: Boolean
+  requiresSignature: Boolean
+  insuranceValue: Float
+  createdAt: String
+  updatedAt: String
+  items: [PackageItems!]
+}
+
+extend type WmsQuery {
+  packages(page: Int, perPage: Int): [Packages!]!
+  package(id: ID!): Packages!
+}
+
+input CreatePackageInput {
+  salesOrderId: ID!
+  packageNumber: String!
+  warehouseId: ID!
+  packageType: String
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  trackingNumber: String
+  carrier: String
+  serviceLevel: String
+  packedByUserId: ID
+  packedAt: String
+  shippedAt: String
+  isFragile: Boolean
+  isHazmat: Boolean
+  requiresSignature: Boolean
+  insuranceValue: Float
+}
+
+input UpdatePackageInput {
+  salesOrderId: ID
+  packageNumber: String
+  warehouseId: ID
+  packageType: String
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  trackingNumber: String
+  carrier: String
+  serviceLevel: String
+  packedByUserId: ID
+  packedAt: String
+  shippedAt: String
+  isFragile: Boolean
+  isHazmat: Boolean
+  requiresSignature: Boolean
+  insuranceValue: Float
+}
+
+extend type WmsMutation {
+  createPackage(value: CreatePackageInput!): Packages!
+  updatePackage(id: ID!, value: UpdatePackageInput): Packages!
+  removePackage(id: ID!): DeleteResult!
+}

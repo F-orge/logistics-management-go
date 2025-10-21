@@ -1,0 +1,37 @@
+type PickBatchItems {
+  id: ID!
+  pickBatch: PickBatches!
+  salesOrder: SalesOrders!
+  orderPriority: Int
+  estimatedPickTime: Int
+  actualPickTime: Int
+  createdAt: String
+  updatedAt: String
+}
+
+extend type WmsQuery {
+  pickBatchItems(page: Int, perPage: Int): [PickBatchItems!]!
+  pickBatchItem(id: ID!): PickBatchItems!
+}
+
+input CreatePickBatchItemInput {
+  pickBatchId: ID!
+  salesOrderId: ID!
+  orderPriority: Int
+  estimatedPickTime: Int
+  actualPickTime: Int
+}
+
+input UpdatePickBatchItemInput {
+  pickBatchId: ID
+  salesOrderId: ID
+  orderPriority: Int
+  estimatedPickTime: Int
+  actualPickTime: Int
+}
+
+extend type WmsMutation {
+  createPickBatchItem(value: CreatePickBatchItemInput!): PickBatchItems!
+  updatePickBatchItem(id: ID!, value: UpdatePickBatchItemInput): PickBatchItems!
+  removePickBatchItem(id: ID!): DeleteResult!
+}
