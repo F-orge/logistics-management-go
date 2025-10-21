@@ -19,6 +19,41 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AccountTransactions = {
+  __typename?: 'AccountTransactions';
+  amount: Scalars['Float']['output'];
+  clientAccount: ClientAccounts;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  processedByUser?: Maybe<User>;
+  referenceNumber?: Maybe<Scalars['String']['output']>;
+  runningBalance?: Maybe<Scalars['Float']['output']>;
+  sourceRecordId?: Maybe<Scalars['ID']['output']>;
+  sourceRecordType?: Maybe<Scalars['String']['output']>;
+  transactionDate?: Maybe<Scalars['String']['output']>;
+  type: TransactionType;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type AccountingSyncLogs = {
+  __typename?: 'AccountingSyncLogs';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  externalId?: Maybe<Scalars['String']['output']>;
+  externalSystem: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  lastSyncAt?: Maybe<Scalars['String']['output']>;
+  nextRetryAt?: Maybe<Scalars['String']['output']>;
+  recordId: Scalars['ID']['output'];
+  recordType: Scalars['String']['output'];
+  requestPayload?: Maybe<Scalars['String']['output']>;
+  responsePayload?: Maybe<Scalars['String']['output']>;
+  retryCount?: Maybe<Scalars['Int']['output']>;
+  status?: Maybe<SyncStatus>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
 export type Attachments = {
   __typename?: 'Attachments';
   createdAt?: Maybe<Scalars['String']['output']>;
@@ -29,6 +64,469 @@ export type Attachments = {
   recordId?: Maybe<Scalars['ID']['output']>;
   recordType?: Maybe<RecordType>;
   updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type BillingInvoiceStatus =
+  | 'CANCELLED'
+  | 'DISPUTED'
+  | 'DRAFT'
+  | 'PAID'
+  | 'PARTIAL_PAID'
+  | 'PAST_DUE'
+  | 'SENT'
+  | 'VIEWED'
+  | 'VOID';
+
+export type BillingInvoices = {
+  __typename?: 'BillingInvoices';
+  amountOutstanding?: Maybe<Scalars['Float']['output']>;
+  amountPaid?: Maybe<Scalars['Float']['output']>;
+  client: Companies;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdByUser?: Maybe<User>;
+  creditNotes?: Maybe<Array<CreditNotes>>;
+  currency?: Maybe<Scalars['String']['output']>;
+  discountAmount?: Maybe<Scalars['Float']['output']>;
+  dueDate: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  invoiceNumber: Scalars['String']['output'];
+  issueDate: Scalars['String']['output'];
+  lineItems?: Maybe<Array<InvoiceLineItems>>;
+  notes?: Maybe<Scalars['String']['output']>;
+  paidAt?: Maybe<Scalars['String']['output']>;
+  paymentTerms?: Maybe<Scalars['String']['output']>;
+  payments?: Maybe<Array<Payments>>;
+  quote?: Maybe<Quotes>;
+  sentAt?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<BillingInvoiceStatus>;
+  subtotal?: Maybe<Scalars['Float']['output']>;
+  taxAmount?: Maybe<Scalars['Float']['output']>;
+  totalAmount: Scalars['Float']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type BillingMutation = {
+  __typename?: 'BillingMutation';
+  createAccountTransaction: AccountTransactions;
+  createAccountingSyncLog: AccountingSyncLogs;
+  createBillingInvoice: BillingInvoices;
+  createClientAccount: ClientAccounts;
+  createCreditNote: CreditNotes;
+  createDispute: Disputes;
+  createDocument: Documents;
+  createInvoiceLineItem: InvoiceLineItems;
+  createPayment: Payments;
+  createQuote: Quotes;
+  createRateCard: RateCards;
+  createRateRule: RateRules;
+  createSurcharge: Surcharges;
+  removeAccountTransaction: DeleteResult;
+  removeAccountingSyncLog: DeleteResult;
+  removeBillingInvoice: DeleteResult;
+  removeClientAccount: DeleteResult;
+  removeCreditNote: DeleteResult;
+  removeDispute: DeleteResult;
+  removeDocument: DeleteResult;
+  removeInvoiceLineItem: DeleteResult;
+  removePayment: DeleteResult;
+  removeQuote: DeleteResult;
+  removeRateCard: DeleteResult;
+  removeRateRule: DeleteResult;
+  removeSurcharge: DeleteResult;
+  updateAccountTransaction: AccountTransactions;
+  updateAccountingSyncLog: AccountingSyncLogs;
+  updateBillingInvoice: BillingInvoices;
+  updateClientAccount: ClientAccounts;
+  updateCreditNote: CreditNotes;
+  updateDispute: Disputes;
+  updateDocument: Documents;
+  updateInvoiceLineItem: InvoiceLineItems;
+  updatePayment: Payments;
+  updateQuote: Quotes;
+  updateRateCard: RateCards;
+  updateRateRule: RateRules;
+  updateSurcharge: Surcharges;
+};
+
+
+export type BillingMutationcreateAccountTransactionArgs = {
+  value: CreateAccountTransactionInput;
+};
+
+
+export type BillingMutationcreateAccountingSyncLogArgs = {
+  value: CreateAccountingSyncLogInput;
+};
+
+
+export type BillingMutationcreateBillingInvoiceArgs = {
+  value: CreateBillingInvoiceInput;
+};
+
+
+export type BillingMutationcreateClientAccountArgs = {
+  value: CreateClientAccountInput;
+};
+
+
+export type BillingMutationcreateCreditNoteArgs = {
+  value: CreateCreditNoteInput;
+};
+
+
+export type BillingMutationcreateDisputeArgs = {
+  value: CreateDisputeInput;
+};
+
+
+export type BillingMutationcreateDocumentArgs = {
+  value: CreateDocumentInput;
+};
+
+
+export type BillingMutationcreateInvoiceLineItemArgs = {
+  value: CreateInvoiceLineItemInput;
+};
+
+
+export type BillingMutationcreatePaymentArgs = {
+  value: CreatePaymentInput;
+};
+
+
+export type BillingMutationcreateQuoteArgs = {
+  value: CreateQuoteInput;
+};
+
+
+export type BillingMutationcreateRateCardArgs = {
+  value: CreateRateCardInput;
+};
+
+
+export type BillingMutationcreateRateRuleArgs = {
+  value: CreateRateRuleInput;
+};
+
+
+export type BillingMutationcreateSurchargeArgs = {
+  value: CreateSurchargeInput;
+};
+
+
+export type BillingMutationremoveAccountTransactionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveAccountingSyncLogArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveBillingInvoiceArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveClientAccountArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveCreditNoteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveDisputeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveDocumentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveInvoiceLineItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremovePaymentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveQuoteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveRateCardArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveRateRuleArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationremoveSurchargeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingMutationupdateAccountTransactionArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateAccountTransactionInput>;
+};
+
+
+export type BillingMutationupdateAccountingSyncLogArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateAccountingSyncLogInput>;
+};
+
+
+export type BillingMutationupdateBillingInvoiceArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateBillingInvoiceInput>;
+};
+
+
+export type BillingMutationupdateClientAccountArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateClientAccountInput>;
+};
+
+
+export type BillingMutationupdateCreditNoteArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateCreditNoteInput>;
+};
+
+
+export type BillingMutationupdateDisputeArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDisputeInput>;
+};
+
+
+export type BillingMutationupdateDocumentArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateDocumentInput>;
+};
+
+
+export type BillingMutationupdateInvoiceLineItemArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateInvoiceLineItemInput>;
+};
+
+
+export type BillingMutationupdatePaymentArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdatePaymentInput>;
+};
+
+
+export type BillingMutationupdateQuoteArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateQuoteInput>;
+};
+
+
+export type BillingMutationupdateRateCardArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateRateCardInput>;
+};
+
+
+export type BillingMutationupdateRateRuleArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateRateRuleInput>;
+};
+
+
+export type BillingMutationupdateSurchargeArgs = {
+  id: Scalars['ID']['input'];
+  value?: InputMaybe<UpdateSurchargeInput>;
+};
+
+export type BillingQuery = {
+  __typename?: 'BillingQuery';
+  accountTransaction: AccountTransactions;
+  accountTransactions: Array<AccountTransactions>;
+  accountingSyncLog: AccountingSyncLogs;
+  accountingSyncLogs: Array<AccountingSyncLogs>;
+  billingInvoice: BillingInvoices;
+  billingInvoices: Array<BillingInvoices>;
+  clientAccount: ClientAccounts;
+  clientAccounts: Array<ClientAccounts>;
+  creditNote: CreditNotes;
+  creditNotes: Array<CreditNotes>;
+  dispute: Disputes;
+  disputes: Array<Disputes>;
+  document: Documents;
+  documents: Array<Documents>;
+  invoiceLineItem: InvoiceLineItems;
+  invoiceLineItems: Array<InvoiceLineItems>;
+  payment: Payments;
+  payments: Array<Payments>;
+  quote: Quotes;
+  quotes: Array<Quotes>;
+  rateCard: RateCards;
+  rateCards: Array<RateCards>;
+  rateRule: RateRules;
+  rateRules: Array<RateRules>;
+  surcharge: Surcharges;
+  surcharges: Array<Surcharges>;
+};
+
+
+export type BillingQueryaccountTransactionArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryaccountTransactionsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryaccountingSyncLogArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryaccountingSyncLogsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerybillingInvoiceArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerybillingInvoicesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryclientAccountArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryclientAccountsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerycreditNoteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerycreditNotesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerydisputeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerydisputesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerydocumentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerydocumentsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryinvoiceLineItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryinvoiceLineItemsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerypaymentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerypaymentsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryquoteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryquotesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryrateCardArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryrateCardsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQueryrateRuleArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQueryrateRulesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type BillingQuerysurchargeArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type BillingQuerysurchargesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type BinThresholds = {
@@ -127,12 +625,31 @@ export type Cases = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type ClientAccounts = {
+  __typename?: 'ClientAccounts';
+  availableCredit?: Maybe<Scalars['Float']['output']>;
+  client: Companies;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  creditLimit?: Maybe<Scalars['Float']['output']>;
+  currency?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isCreditApproved?: Maybe<Scalars['Boolean']['output']>;
+  lastPaymentDate?: Maybe<Scalars['String']['output']>;
+  paymentTermsDays?: Maybe<Scalars['Int']['output']>;
+  transactions?: Maybe<Array<AccountTransactions>>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  walletBalance?: Maybe<Scalars['Float']['output']>;
+};
+
 export type Companies = {
   __typename?: 'Companies';
   annualRevenue?: Maybe<Scalars['Float']['output']>;
+  billingInvoices?: Maybe<Array<BillingInvoices>>;
   city?: Maybe<Scalars['String']['output']>;
+  clientAccount?: Maybe<ClientAccounts>;
   country?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
+  disputes?: Maybe<Array<Disputes>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
   industry?: Maybe<Scalars['String']['output']>;
@@ -141,6 +658,7 @@ export type Companies = {
   phoneNumber?: Maybe<Scalars['String']['output']>;
   postalCode?: Maybe<Scalars['String']['output']>;
   putawayRules?: Maybe<Array<PutawayRules>>;
+  quotes?: Maybe<Array<Quotes>>;
   returns?: Maybe<Array<Returns>>;
   salesOrders?: Maybe<Array<SalesOrders>>;
   state?: Maybe<Scalars['String']['output']>;
@@ -162,12 +680,59 @@ export type Contacts = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type CreateAccountTransactionInput = {
+  amount: Scalars['Float']['input'];
+  clientAccountId: Scalars['ID']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  referenceNumber?: InputMaybe<Scalars['String']['input']>;
+  runningBalance?: InputMaybe<Scalars['Float']['input']>;
+  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+  transactionDate?: InputMaybe<Scalars['String']['input']>;
+  type: TransactionType;
+};
+
+export type CreateAccountingSyncLogInput = {
+  errorMessage?: InputMaybe<Scalars['String']['input']>;
+  externalId?: InputMaybe<Scalars['String']['input']>;
+  externalSystem: Scalars['String']['input'];
+  lastSyncAt?: InputMaybe<Scalars['String']['input']>;
+  nextRetryAt?: InputMaybe<Scalars['String']['input']>;
+  recordId: Scalars['ID']['input'];
+  recordType: Scalars['String']['input'];
+  requestPayload?: InputMaybe<Scalars['String']['input']>;
+  responsePayload?: InputMaybe<Scalars['String']['input']>;
+  retryCount?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<SyncStatus>;
+};
+
 export type CreateAttachmentInput = {
   fileName: Scalars['String']['input'];
   filePath: Scalars['String']['input'];
   mimeType?: InputMaybe<Scalars['String']['input']>;
   recordId?: InputMaybe<Scalars['ID']['input']>;
   recordType?: InputMaybe<RecordType>;
+};
+
+export type CreateBillingInvoiceInput = {
+  amountPaid?: InputMaybe<Scalars['Float']['input']>;
+  clientId: Scalars['ID']['input'];
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  discountAmount?: InputMaybe<Scalars['Float']['input']>;
+  dueDate: Scalars['String']['input'];
+  invoiceNumber: Scalars['String']['input'];
+  issueDate: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  paidAt?: InputMaybe<Scalars['String']['input']>;
+  paymentTerms?: InputMaybe<Scalars['String']['input']>;
+  quoteId?: InputMaybe<Scalars['ID']['input']>;
+  sentAt?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<BillingInvoiceStatus>;
+  subtotal?: InputMaybe<Scalars['Float']['input']>;
+  taxAmount?: InputMaybe<Scalars['Float']['input']>;
+  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreateBinThresholdInput = {
@@ -212,6 +777,17 @@ export type CreateCaseInput = {
   type?: InputMaybe<CaseType>;
 };
 
+export type CreateClientAccountInput = {
+  availableCredit?: InputMaybe<Scalars['Float']['input']>;
+  clientId: Scalars['ID']['input'];
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
+  lastPaymentDate?: InputMaybe<Scalars['String']['input']>;
+  paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
+  walletBalance?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type CreateCompanyInput = {
   annualRevenue?: InputMaybe<Scalars['Float']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
@@ -233,6 +809,19 @@ export type CreateContactInput = {
   name: Scalars['String']['input'];
   ownerId: Scalars['ID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateCreditNoteInput = {
+  amount: Scalars['Float']['input'];
+  appliedAt?: InputMaybe<Scalars['String']['input']>;
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  creditNoteNumber: Scalars['String']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+  disputeId?: InputMaybe<Scalars['ID']['input']>;
+  invoiceId: Scalars['ID']['input'];
+  issueDate: Scalars['String']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  reason: Scalars['String']['input'];
 };
 
 export type CreateCustomerTrackingLinkInput = {
@@ -271,6 +860,18 @@ export type CreateDeliveryTaskInput = {
   status?: InputMaybe<DeliveryTaskStatus>;
 };
 
+export type CreateDisputeInput = {
+  clientId: Scalars['ID']['input'];
+  disputedAmount?: InputMaybe<Scalars['Float']['input']>;
+  lineItemId: Scalars['ID']['input'];
+  reason: Scalars['String']['input'];
+  resolutionNotes?: InputMaybe<Scalars['String']['input']>;
+  resolvedAt?: InputMaybe<Scalars['String']['input']>;
+  resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  status?: InputMaybe<DisputeStatus>;
+  submittedAt?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateDmsProofOfDeliveryInput = {
   deliveryTaskId: Scalars['ID']['input'];
   filePath?: InputMaybe<Scalars['String']['input']>;
@@ -281,6 +882,17 @@ export type CreateDmsProofOfDeliveryInput = {
   timestamp?: InputMaybe<Scalars['String']['input']>;
   type: ProofOfDeliveryType;
   verificationCode?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateDocumentInput = {
+  documentType: DocumentType;
+  fileName: Scalars['String']['input'];
+  filePath: Scalars['String']['input'];
+  fileSize?: InputMaybe<Scalars['Int']['input']>;
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+  recordId: Scalars['ID']['input'];
+  recordType: Scalars['String']['input'];
+  uploadedByUserId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type CreateDriverInput = {
@@ -409,6 +1021,17 @@ export type CreateInvoiceItemInput = {
   quantity: Scalars['Int']['input'];
 };
 
+export type CreateInvoiceLineItemInput = {
+  description: Scalars['String']['input'];
+  discountRate?: InputMaybe<Scalars['Float']['input']>;
+  invoiceId: Scalars['ID']['input'];
+  quantity: Scalars['Float']['input'];
+  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+  taxRate?: InputMaybe<Scalars['Float']['input']>;
+  unitPrice: Scalars['Float']['input'];
+};
+
 export type CreateLeadInput = {
   campaignId?: InputMaybe<Scalars['ID']['input']>;
   email: Scalars['String']['input'];
@@ -529,6 +1152,22 @@ export type CreatePartnerInvoiceItemInput = {
   shipmentLegId: Scalars['ID']['input'];
 };
 
+export type CreatePaymentInput = {
+  amount: Scalars['Float']['input'];
+  currency?: InputMaybe<Scalars['String']['input']>;
+  exchangeRate?: InputMaybe<Scalars['Float']['input']>;
+  fees?: InputMaybe<Scalars['Float']['input']>;
+  gatewayReference?: InputMaybe<Scalars['String']['input']>;
+  invoiceId: Scalars['ID']['input'];
+  notes?: InputMaybe<Scalars['String']['input']>;
+  paymentDate?: InputMaybe<Scalars['String']['input']>;
+  paymentMethod: PaymentMethod;
+  processedAt?: InputMaybe<Scalars['String']['input']>;
+  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  status?: InputMaybe<PaymentStatus>;
+  transactionId?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreatePickBatchInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
@@ -585,6 +1224,45 @@ export type CreatePutawayRuleInput = {
   volumeThreshold?: InputMaybe<Scalars['Float']['input']>;
   warehouseId: Scalars['ID']['input'];
   weightThreshold?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreateQuoteInput = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  destinationDetails: Scalars['String']['input'];
+  expiresAt?: InputMaybe<Scalars['String']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  length?: InputMaybe<Scalars['Float']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  originDetails: Scalars['String']['input'];
+  quoteNumber?: InputMaybe<Scalars['String']['input']>;
+  quotedPrice: Scalars['Float']['input'];
+  serviceLevel?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<QuoteStatus>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreateRateCardInput = {
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name: Scalars['String']['input'];
+  serviceType: ServiceType;
+  validFrom: Scalars['String']['input'];
+  validTo?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateRateRuleInput = {
+  condition: Scalars['String']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  maxValue?: InputMaybe<Scalars['Float']['input']>;
+  minValue?: InputMaybe<Scalars['Float']['input']>;
+  price: Scalars['Float']['input'];
+  pricingModel: PricingModel;
+  priority?: InputMaybe<Scalars['Int']['input']>;
+  rateCardId: Scalars['ID']['input'];
+  value: Scalars['String']['input'];
 };
 
 export type CreateReorderPointInput = {
@@ -660,6 +1338,17 @@ export type CreateSupplierInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateSurchargeInput = {
+  amount: Scalars['Float']['input'];
+  calculationMethod: SurchargeCalculationMethod;
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  validFrom?: InputMaybe<Scalars['String']['input']>;
+  validTo?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateTaskEventInput = {
@@ -767,6 +1456,23 @@ export type CreateWmsProductInput = {
   supplierId?: InputMaybe<Scalars['ID']['input']>;
   weight?: InputMaybe<Scalars['Float']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type CreditNotes = {
+  __typename?: 'CreditNotes';
+  amount: Scalars['Float']['output'];
+  appliedAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdByUser?: Maybe<User>;
+  creditNoteNumber: Scalars['String']['output'];
+  currency?: Maybe<Scalars['String']['output']>;
+  dispute?: Maybe<Disputes>;
+  id: Scalars['ID']['output'];
+  invoice: BillingInvoices;
+  issueDate: Scalars['String']['output'];
+  notes?: Maybe<Scalars['String']['output']>;
+  reason: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type CrmMutation = {
@@ -1290,6 +1996,31 @@ export type DeliveryTasks = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type DisputeStatus =
+  | 'APPROVED'
+  | 'CLOSED'
+  | 'DENIED'
+  | 'ESCALATED'
+  | 'OPEN'
+  | 'UNDER_REVIEW';
+
+export type Disputes = {
+  __typename?: 'Disputes';
+  client: Companies;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  creditNotes?: Maybe<Array<CreditNotes>>;
+  disputedAmount?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  lineItem: InvoiceLineItems;
+  reason: Scalars['String']['output'];
+  resolutionNotes?: Maybe<Scalars['String']['output']>;
+  resolvedAt?: Maybe<Scalars['String']['output']>;
+  resolvedByUser?: Maybe<User>;
+  status?: Maybe<DisputeStatus>;
+  submittedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
 export type DmsMutation = {
   __typename?: 'DmsMutation';
   createCustomerTrackingLink: CustomerTrackingLinks;
@@ -1504,6 +2235,31 @@ export type DmsQuerytaskEventArgs = {
 export type DmsQuerytaskEventsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type DocumentType =
+  | 'BOL'
+  | 'COMMERCIAL_INVOICE'
+  | 'CREDIT_NOTE'
+  | 'CUSTOMS_DECLARATION'
+  | 'PACKING_LIST'
+  | 'PROOF_OF_DELIVERY'
+  | 'RECEIPT'
+  | 'SHIPPING_LABEL';
+
+export type Documents = {
+  __typename?: 'Documents';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  documentType: DocumentType;
+  fileName: Scalars['String']['output'];
+  filePath: Scalars['String']['output'];
+  fileSize?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  mimeType?: Maybe<Scalars['String']['output']>;
+  recordId: Scalars['ID']['output'];
+  recordType: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  uploadedByUser?: Maybe<User>;
 };
 
 export type DriverLocations = {
@@ -1745,6 +2501,26 @@ export type InvoiceItems = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type InvoiceLineItems = {
+  __typename?: 'InvoiceLineItems';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description: Scalars['String']['output'];
+  discountAmount?: Maybe<Scalars['Float']['output']>;
+  discountRate?: Maybe<Scalars['Float']['output']>;
+  disputes?: Maybe<Array<Disputes>>;
+  id: Scalars['ID']['output'];
+  invoice: BillingInvoices;
+  lineTotal?: Maybe<Scalars['Float']['output']>;
+  quantity: Scalars['Float']['output'];
+  sourceRecordId?: Maybe<Scalars['ID']['output']>;
+  sourceRecordType?: Maybe<Scalars['String']['output']>;
+  taxAmount?: Maybe<Scalars['Float']['output']>;
+  taxRate?: Maybe<Scalars['Float']['output']>;
+  totalPrice?: Maybe<Scalars['Float']['output']>;
+  unitPrice: Scalars['Float']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
 export type InvoiceStatus =
   | 'CANCELLED'
   | 'DRAFT'
@@ -1848,6 +2624,7 @@ export type Locations = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  billing?: Maybe<BillingMutation>;
   crm?: Maybe<CrmMutation>;
   dms?: Maybe<DmsMutation>;
   tms?: Maybe<TmsMutation>;
@@ -2022,10 +2799,43 @@ export type PaymentMethod =
   | 'BANK_TRANSFER'
   | 'CASH'
   | 'CHECK'
+  | 'CLIENT_CREDIT'
   | 'CREDIT_CARD'
+  | 'DEBIT_CARD'
   | 'PAYPAL'
+  | 'QR_PH'
   | 'STRIPE'
+  | 'WALLET'
   | 'WIRE_TRANSFER';
+
+export type PaymentStatus =
+  | 'CANCELLED'
+  | 'FAILED'
+  | 'PENDING'
+  | 'PROCESSING'
+  | 'REFUNDED'
+  | 'SUCCESSFUL';
+
+export type Payments = {
+  __typename?: 'Payments';
+  amount: Scalars['Float']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  currency?: Maybe<Scalars['String']['output']>;
+  exchangeRate?: Maybe<Scalars['Float']['output']>;
+  fees?: Maybe<Scalars['Float']['output']>;
+  gatewayReference?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  invoice: BillingInvoices;
+  netAmount?: Maybe<Scalars['Float']['output']>;
+  notes?: Maybe<Scalars['String']['output']>;
+  paymentDate?: Maybe<Scalars['String']['output']>;
+  paymentMethod: PaymentMethod;
+  processedAt?: Maybe<Scalars['String']['output']>;
+  processedByUser?: Maybe<User>;
+  status?: Maybe<PaymentStatus>;
+  transactionId?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
 
 export type PickBatchItems = {
   __typename?: 'PickBatchItems';
@@ -2074,6 +2884,15 @@ export type PickStrategy =
   | 'SINGLE_ORDER_PICKING'
   | 'WAVE_PICKING'
   | 'ZONE_PICKING';
+
+export type PricingModel =
+  | 'FLAT_RATE'
+  | 'PERCENTAGE'
+  | 'PER_CUBIC_METER'
+  | 'PER_ITEM'
+  | 'PER_KG'
+  | 'PER_ZONE'
+  | 'TIERED';
 
 export type ProductStatus =
   | 'ACTIVE'
@@ -2147,10 +2966,72 @@ export type PutawayRules = {
 
 export type Query = {
   __typename?: 'Query';
+  billing?: Maybe<BillingQuery>;
   crm?: Maybe<CrmQuery>;
   dms?: Maybe<DmsQuery>;
   tms?: Maybe<TmsQuery>;
   wms?: Maybe<WmsQuery>;
+};
+
+export type QuoteStatus =
+  | 'ACCEPTED'
+  | 'CANCELLED'
+  | 'CONVERTED'
+  | 'EXPIRED'
+  | 'PENDING';
+
+export type Quotes = {
+  __typename?: 'Quotes';
+  billingInvoices?: Maybe<Array<BillingInvoices>>;
+  client?: Maybe<Companies>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdByUser?: Maybe<User>;
+  destinationDetails: Scalars['String']['output'];
+  expiresAt?: Maybe<Scalars['String']['output']>;
+  height?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  length?: Maybe<Scalars['Float']['output']>;
+  notes?: Maybe<Scalars['String']['output']>;
+  originDetails: Scalars['String']['output'];
+  quoteNumber?: Maybe<Scalars['String']['output']>;
+  quotedPrice: Scalars['Float']['output'];
+  serviceLevel?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<QuoteStatus>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  volume?: Maybe<Scalars['Float']['output']>;
+  weight?: Maybe<Scalars['Float']['output']>;
+  width?: Maybe<Scalars['Float']['output']>;
+};
+
+export type RateCards = {
+  __typename?: 'RateCards';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdByUser?: Maybe<User>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  name: Scalars['String']['output'];
+  rules?: Maybe<Array<RateRules>>;
+  serviceType: ServiceType;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  validFrom: Scalars['String']['output'];
+  validTo?: Maybe<Scalars['String']['output']>;
+};
+
+export type RateRules = {
+  __typename?: 'RateRules';
+  condition: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  maxValue?: Maybe<Scalars['Float']['output']>;
+  minValue?: Maybe<Scalars['Float']['output']>;
+  price: Scalars['Float']['output'];
+  pricingModel: PricingModel;
+  priority?: Maybe<Scalars['Int']['output']>;
+  rateCard: RateCards;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  value: Scalars['String']['output'];
 };
 
 export type RecordType =
@@ -2260,6 +3141,16 @@ export type SalesOrders = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type ServiceType =
+  | 'CUSTOMS'
+  | 'FULFILLMENT'
+  | 'HANDLING'
+  | 'INSURANCE'
+  | 'PACKAGING'
+  | 'RETURNS'
+  | 'SHIPPING'
+  | 'STORAGE';
+
 export type ShipmentLegEvents = {
   __typename?: 'ShipmentLegEvents';
   eventTimestamp: Scalars['String']['output'];
@@ -2321,6 +3212,34 @@ export type Suppliers = {
   products?: Maybe<Array<WmsProducts>>;
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
+
+export type SurchargeCalculationMethod =
+  | 'FIXED'
+  | 'PERCENTAGE'
+  | 'PER_UNIT'
+  | 'SLIDING_SCALE';
+
+export type Surcharges = {
+  __typename?: 'Surcharges';
+  amount: Scalars['Float']['output'];
+  calculationMethod: SurchargeCalculationMethod;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  validFrom?: Maybe<Scalars['String']['output']>;
+  validTo?: Maybe<Scalars['String']['output']>;
+};
+
+export type SyncStatus =
+  | 'FAILED'
+  | 'IN_PROGRESS'
+  | 'PENDING'
+  | 'RETRY'
+  | 'SUCCESS';
 
 export type TaskEventStatus =
   | 'ARRIVED'
@@ -3002,6 +3921,14 @@ export type TmsQueryvehiclesArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type TransactionType =
+  | 'ADJUSTMENT'
+  | 'CREDIT'
+  | 'DEBIT'
+  | 'FEE'
+  | 'REFUND'
+  | 'TOP_UP';
+
 export type TripStatus =
   | 'CANCELLED'
   | 'COMPLETED'
@@ -3045,12 +3972,59 @@ export type Trips = {
   vehicle?: Maybe<Vehicles>;
 };
 
+export type UpdateAccountTransactionInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  clientAccountId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  referenceNumber?: InputMaybe<Scalars['String']['input']>;
+  runningBalance?: InputMaybe<Scalars['Float']['input']>;
+  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+  transactionDate?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<TransactionType>;
+};
+
+export type UpdateAccountingSyncLogInput = {
+  errorMessage?: InputMaybe<Scalars['String']['input']>;
+  externalId?: InputMaybe<Scalars['String']['input']>;
+  externalSystem?: InputMaybe<Scalars['String']['input']>;
+  lastSyncAt?: InputMaybe<Scalars['String']['input']>;
+  nextRetryAt?: InputMaybe<Scalars['String']['input']>;
+  recordId?: InputMaybe<Scalars['ID']['input']>;
+  recordType?: InputMaybe<Scalars['String']['input']>;
+  requestPayload?: InputMaybe<Scalars['String']['input']>;
+  responsePayload?: InputMaybe<Scalars['String']['input']>;
+  retryCount?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<SyncStatus>;
+};
+
 export type UpdateAttachmentInput = {
   fileName?: InputMaybe<Scalars['String']['input']>;
   filePath?: InputMaybe<Scalars['String']['input']>;
   mimeType?: InputMaybe<Scalars['String']['input']>;
   recordId?: InputMaybe<Scalars['ID']['input']>;
   recordType?: InputMaybe<RecordType>;
+};
+
+export type UpdateBillingInvoiceInput = {
+  amountPaid?: InputMaybe<Scalars['Float']['input']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  discountAmount?: InputMaybe<Scalars['Float']['input']>;
+  dueDate?: InputMaybe<Scalars['String']['input']>;
+  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
+  issueDate?: InputMaybe<Scalars['String']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  paidAt?: InputMaybe<Scalars['String']['input']>;
+  paymentTerms?: InputMaybe<Scalars['String']['input']>;
+  quoteId?: InputMaybe<Scalars['ID']['input']>;
+  sentAt?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<BillingInvoiceStatus>;
+  subtotal?: InputMaybe<Scalars['Float']['input']>;
+  taxAmount?: InputMaybe<Scalars['Float']['input']>;
+  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateBinThresholdInput = {
@@ -3095,6 +4069,17 @@ export type UpdateCaseInput = {
   type?: InputMaybe<CaseType>;
 };
 
+export type UpdateClientAccountInput = {
+  availableCredit?: InputMaybe<Scalars['Float']['input']>;
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
+  lastPaymentDate?: InputMaybe<Scalars['String']['input']>;
+  paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
+  walletBalance?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type UpdateCompanyInput = {
   annualRevenue?: InputMaybe<Scalars['Float']['input']>;
   city?: InputMaybe<Scalars['String']['input']>;
@@ -3116,6 +4101,19 @@ export type UpdateContactInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateCreditNoteInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  appliedAt?: InputMaybe<Scalars['String']['input']>;
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  creditNoteNumber?: InputMaybe<Scalars['String']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  disputeId?: InputMaybe<Scalars['ID']['input']>;
+  invoiceId?: InputMaybe<Scalars['ID']['input']>;
+  issueDate?: InputMaybe<Scalars['String']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  reason?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateCustomerTrackingLinkInput = {
@@ -3154,6 +4152,18 @@ export type UpdateDeliveryTaskInput = {
   status?: InputMaybe<DeliveryTaskStatus>;
 };
 
+export type UpdateDisputeInput = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  disputedAmount?: InputMaybe<Scalars['Float']['input']>;
+  lineItemId?: InputMaybe<Scalars['ID']['input']>;
+  reason?: InputMaybe<Scalars['String']['input']>;
+  resolutionNotes?: InputMaybe<Scalars['String']['input']>;
+  resolvedAt?: InputMaybe<Scalars['String']['input']>;
+  resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  status?: InputMaybe<DisputeStatus>;
+  submittedAt?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateDmsProofOfDeliveryInput = {
   deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
   filePath?: InputMaybe<Scalars['String']['input']>;
@@ -3164,6 +4174,17 @@ export type UpdateDmsProofOfDeliveryInput = {
   timestamp?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<ProofOfDeliveryType>;
   verificationCode?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateDocumentInput = {
+  documentType?: InputMaybe<DocumentType>;
+  fileName?: InputMaybe<Scalars['String']['input']>;
+  filePath?: InputMaybe<Scalars['String']['input']>;
+  fileSize?: InputMaybe<Scalars['Int']['input']>;
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+  recordId?: InputMaybe<Scalars['ID']['input']>;
+  recordType?: InputMaybe<Scalars['String']['input']>;
+  uploadedByUserId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateDriverInput = {
@@ -3292,6 +4313,17 @@ export type UpdateInvoiceItemInput = {
   quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type UpdateInvoiceLineItemInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  discountRate?: InputMaybe<Scalars['Float']['input']>;
+  invoiceId?: InputMaybe<Scalars['ID']['input']>;
+  quantity?: InputMaybe<Scalars['Float']['input']>;
+  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
+  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
+  taxRate?: InputMaybe<Scalars['Float']['input']>;
+  unitPrice?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type UpdateLeadInput = {
   campaignId?: InputMaybe<Scalars['ID']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -3410,6 +4442,22 @@ export type UpdatePartnerInvoiceItemInput = {
   shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type UpdatePaymentInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  exchangeRate?: InputMaybe<Scalars['Float']['input']>;
+  fees?: InputMaybe<Scalars['Float']['input']>;
+  gatewayReference?: InputMaybe<Scalars['String']['input']>;
+  invoiceId?: InputMaybe<Scalars['ID']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  paymentDate?: InputMaybe<Scalars['String']['input']>;
+  paymentMethod?: InputMaybe<PaymentMethod>;
+  processedAt?: InputMaybe<Scalars['String']['input']>;
+  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  status?: InputMaybe<PaymentStatus>;
+  transactionId?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdatePickBatchInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
@@ -3466,6 +4514,45 @@ export type UpdatePutawayRuleInput = {
   volumeThreshold?: InputMaybe<Scalars['Float']['input']>;
   warehouseId?: InputMaybe<Scalars['ID']['input']>;
   weightThreshold?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type UpdateQuoteInput = {
+  clientId?: InputMaybe<Scalars['ID']['input']>;
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  destinationDetails?: InputMaybe<Scalars['String']['input']>;
+  expiresAt?: InputMaybe<Scalars['String']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  length?: InputMaybe<Scalars['Float']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+  originDetails?: InputMaybe<Scalars['String']['input']>;
+  quoteNumber?: InputMaybe<Scalars['String']['input']>;
+  quotedPrice?: InputMaybe<Scalars['Float']['input']>;
+  serviceLevel?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<QuoteStatus>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type UpdateRateCardInput = {
+  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  serviceType?: InputMaybe<ServiceType>;
+  validFrom?: InputMaybe<Scalars['String']['input']>;
+  validTo?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateRateRuleInput = {
+  condition?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  maxValue?: InputMaybe<Scalars['Float']['input']>;
+  minValue?: InputMaybe<Scalars['Float']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  pricingModel?: InputMaybe<PricingModel>;
+  priority?: InputMaybe<Scalars['Int']['input']>;
+  rateCardId?: InputMaybe<Scalars['ID']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateReorderPointInput = {
@@ -3541,6 +4628,17 @@ export type UpdateSupplierInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateSurchargeInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  calculationMethod?: InputMaybe<SurchargeCalculationMethod>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  validFrom?: InputMaybe<Scalars['String']['input']>;
+  validTo?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateTaskEventInput = {
@@ -4641,14 +5739,20 @@ export type DirectiveResolverFn<TResult = Record<PropertyKey, never>, TParent = 
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Attachments: ResolverTypeWrapper<Omit<Attachments, 'recordType'> & { recordType?: Maybe<ResolversTypes['RecordType']> }>;
+  AccountTransactions: ResolverTypeWrapper<Omit<AccountTransactions, 'clientAccount' | 'type'> & { clientAccount: ResolversTypes['ClientAccounts'], type: ResolversTypes['TransactionType'] }>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  BinThresholds: ResolverTypeWrapper<Omit<BinThresholds, 'location' | 'product'> & { location: ResolversTypes['Locations'], product: ResolversTypes['WmsProducts'] }>;
+  AccountingSyncLogs: ResolverTypeWrapper<Omit<AccountingSyncLogs, 'status'> & { status?: Maybe<ResolversTypes['SyncStatus']> }>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Attachments: ResolverTypeWrapper<Omit<Attachments, 'recordType'> & { recordType?: Maybe<ResolversTypes['RecordType']> }>;
+  BillingInvoiceStatus: ResolverTypeWrapper<'DRAFT' | 'SENT' | 'VIEWED' | 'PAID' | 'PARTIAL_PAID' | 'PAST_DUE' | 'DISPUTED' | 'CANCELLED' | 'VOID'>;
+  BillingInvoices: ResolverTypeWrapper<Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote' | 'status'> & { client: ResolversTypes['Companies'], creditNotes?: Maybe<Array<ResolversTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversTypes['Payments']>>, quote?: Maybe<ResolversTypes['Quotes']>, status?: Maybe<ResolversTypes['BillingInvoiceStatus']> }>;
+  BillingMutation: ResolverTypeWrapper<Omit<BillingMutation, 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createInvoiceLineItem' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { createAccountTransaction: ResolversTypes['AccountTransactions'], createAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], createBillingInvoice: ResolversTypes['BillingInvoices'], createClientAccount: ResolversTypes['ClientAccounts'], createCreditNote: ResolversTypes['CreditNotes'], createDispute: ResolversTypes['Disputes'], createDocument: ResolversTypes['Documents'], createInvoiceLineItem: ResolversTypes['InvoiceLineItems'], createPayment: ResolversTypes['Payments'], createQuote: ResolversTypes['Quotes'], createRateCard: ResolversTypes['RateCards'], createRateRule: ResolversTypes['RateRules'], createSurcharge: ResolversTypes['Surcharges'], updateAccountTransaction: ResolversTypes['AccountTransactions'], updateAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversTypes['BillingInvoices'], updateClientAccount: ResolversTypes['ClientAccounts'], updateCreditNote: ResolversTypes['CreditNotes'], updateDispute: ResolversTypes['Disputes'], updateDocument: ResolversTypes['Documents'], updateInvoiceLineItem: ResolversTypes['InvoiceLineItems'], updatePayment: ResolversTypes['Payments'], updateQuote: ResolversTypes['Quotes'], updateRateCard: ResolversTypes['RateCards'], updateRateRule: ResolversTypes['RateRules'], updateSurcharge: ResolversTypes['Surcharges'] }>;
+  BillingQuery: ResolverTypeWrapper<Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'invoiceLineItem' | 'invoiceLineItems' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversTypes['AccountTransactions'], accountTransactions: Array<ResolversTypes['AccountTransactions']>, accountingSyncLog: ResolversTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversTypes['AccountingSyncLogs']>, billingInvoice: ResolversTypes['BillingInvoices'], billingInvoices: Array<ResolversTypes['BillingInvoices']>, clientAccount: ResolversTypes['ClientAccounts'], clientAccounts: Array<ResolversTypes['ClientAccounts']>, creditNote: ResolversTypes['CreditNotes'], creditNotes: Array<ResolversTypes['CreditNotes']>, dispute: ResolversTypes['Disputes'], disputes: Array<ResolversTypes['Disputes']>, document: ResolversTypes['Documents'], documents: Array<ResolversTypes['Documents']>, invoiceLineItem: ResolversTypes['InvoiceLineItems'], invoiceLineItems: Array<ResolversTypes['InvoiceLineItems']>, payment: ResolversTypes['Payments'], payments: Array<ResolversTypes['Payments']>, quote: ResolversTypes['Quotes'], quotes: Array<ResolversTypes['Quotes']>, rateCard: ResolversTypes['RateCards'], rateCards: Array<ResolversTypes['RateCards']>, rateRule: ResolversTypes['RateRules'], rateRules: Array<ResolversTypes['RateRules']>, surcharge: ResolversTypes['Surcharges'], surcharges: Array<ResolversTypes['Surcharges']> }>;
+  BinThresholds: ResolverTypeWrapper<Omit<BinThresholds, 'location' | 'product'> & { location: ResolversTypes['Locations'], product: ResolversTypes['WmsProducts'] }>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Campaigns: ResolverTypeWrapper<Campaigns>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   CarrierRateUnit: ResolverTypeWrapper<'PER_KG' | 'PER_CONTAINER' | 'PER_MILE' | 'PER_KM' | 'FLAT_RATE'>;
   CarrierRates: ResolverTypeWrapper<Omit<CarrierRates, 'carrier' | 'unit'> & { carrier: ResolversTypes['Carriers'], unit?: Maybe<ResolversTypes['CarrierRateUnit']> }>;
   Carriers: ResolverTypeWrapper<Omit<Carriers, 'partnerInvoices' | 'rates' | 'shipmentLegs'> & { partnerInvoices?: Maybe<Array<ResolversTypes['PartnerInvoices']>>, rates?: Maybe<Array<ResolversTypes['CarrierRates']>>, shipmentLegs?: Maybe<Array<ResolversTypes['ShipmentLegs']>> }>;
@@ -4656,20 +5760,28 @@ export type ResolversTypes = {
   CaseStatus: ResolverTypeWrapper<'NEW' | 'IN_PROGRESS' | 'WAITING_FOR_CUSTOMER' | 'WAITING_FOR_INTERNAL' | 'ESCALATED' | 'RESOLVED' | 'CLOSED' | 'CANCELLED'>;
   CaseType: ResolverTypeWrapper<'QUESTION' | 'PROBLEM' | 'COMPLAINT' | 'FEATURE_REQUEST' | 'BUG_REPORT' | 'TECHNICAL_SUPPORT'>;
   Cases: ResolverTypeWrapper<Omit<Cases, 'contact' | 'priority' | 'status' | 'type'> & { contact?: Maybe<ResolversTypes['Contacts']>, priority?: Maybe<ResolversTypes['CasePriority']>, status?: Maybe<ResolversTypes['CaseStatus']>, type?: Maybe<ResolversTypes['CaseType']> }>;
-  Companies: ResolverTypeWrapper<Omit<Companies, 'inboundShipments' | 'putawayRules' | 'returns' | 'salesOrders'> & { inboundShipments?: Maybe<Array<ResolversTypes['InboundShipments']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, returns?: Maybe<Array<ResolversTypes['Returns']>>, salesOrders?: Maybe<Array<ResolversTypes['SalesOrders']>> }>;
+  ClientAccounts: ResolverTypeWrapper<Omit<ClientAccounts, 'client' | 'transactions'> & { client: ResolversTypes['Companies'], transactions?: Maybe<Array<ResolversTypes['AccountTransactions']>> }>;
+  Companies: ResolverTypeWrapper<Omit<Companies, 'billingInvoices' | 'clientAccount' | 'disputes' | 'inboundShipments' | 'putawayRules' | 'quotes' | 'returns' | 'salesOrders'> & { billingInvoices?: Maybe<Array<ResolversTypes['BillingInvoices']>>, clientAccount?: Maybe<ResolversTypes['ClientAccounts']>, disputes?: Maybe<Array<ResolversTypes['Disputes']>>, inboundShipments?: Maybe<Array<ResolversTypes['InboundShipments']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, quotes?: Maybe<Array<ResolversTypes['Quotes']>>, returns?: Maybe<Array<ResolversTypes['Returns']>>, salesOrders?: Maybe<Array<ResolversTypes['SalesOrders']>> }>;
   Contacts: ResolverTypeWrapper<Omit<Contacts, 'company'> & { company?: Maybe<ResolversTypes['Companies']> }>;
+  CreateAccountTransactionInput: CreateAccountTransactionInput;
+  CreateAccountingSyncLogInput: CreateAccountingSyncLogInput;
   CreateAttachmentInput: CreateAttachmentInput;
+  CreateBillingInvoiceInput: CreateBillingInvoiceInput;
   CreateBinThresholdInput: CreateBinThresholdInput;
   CreateCampaignInput: CreateCampaignInput;
   CreateCarrierInput: CreateCarrierInput;
   CreateCarrierRateInput: CreateCarrierRateInput;
   CreateCaseInput: CreateCaseInput;
+  CreateClientAccountInput: CreateClientAccountInput;
   CreateCompanyInput: CreateCompanyInput;
   CreateContactInput: CreateContactInput;
+  CreateCreditNoteInput: CreateCreditNoteInput;
   CreateCustomerTrackingLinkInput: CreateCustomerTrackingLinkInput;
   CreateDeliveryRouteInput: CreateDeliveryRouteInput;
   CreateDeliveryTaskInput: CreateDeliveryTaskInput;
+  CreateDisputeInput: CreateDisputeInput;
   CreateDmsProofOfDeliveryInput: CreateDmsProofOfDeliveryInput;
+  CreateDocumentInput: CreateDocumentInput;
   CreateDriverInput: CreateDriverInput;
   CreateDriverLocationInput: CreateDriverLocationInput;
   CreateDriverScheduleInput: CreateDriverScheduleInput;
@@ -4685,6 +5797,7 @@ export type ResolversTypes = {
   CreateInventoryStockInput: CreateInventoryStockInput;
   CreateInvoiceInput: CreateInvoiceInput;
   CreateInvoiceItemInput: CreateInvoiceItemInput;
+  CreateInvoiceLineItemInput: CreateInvoiceLineItemInput;
   CreateLeadInput: CreateLeadInput;
   CreateLocationInput: CreateLocationInput;
   CreateNotificationInput: CreateNotificationInput;
@@ -4696,11 +5809,15 @@ export type ResolversTypes = {
   CreatePackageItemInput: CreatePackageItemInput;
   CreatePartnerInvoiceInput: CreatePartnerInvoiceInput;
   CreatePartnerInvoiceItemInput: CreatePartnerInvoiceItemInput;
+  CreatePaymentInput: CreatePaymentInput;
   CreatePickBatchInput: CreatePickBatchInput;
   CreatePickBatchItemInput: CreatePickBatchItemInput;
   CreateProductInput: CreateProductInput;
   CreateProofOfDeliveryInput: CreateProofOfDeliveryInput;
   CreatePutawayRuleInput: CreatePutawayRuleInput;
+  CreateQuoteInput: CreateQuoteInput;
+  CreateRateCardInput: CreateRateCardInput;
+  CreateRateRuleInput: CreateRateRuleInput;
   CreateReorderPointInput: CreateReorderPointInput;
   CreateReturnInput: CreateReturnInput;
   CreateReturnItemInput: CreateReturnItemInput;
@@ -4711,6 +5828,7 @@ export type ResolversTypes = {
   CreateShipmentLegInput: CreateShipmentLegInput;
   CreateStockTransferInput: CreateStockTransferInput;
   CreateSupplierInput: CreateSupplierInput;
+  CreateSurchargeInput: CreateSurchargeInput;
   CreateTaskEventInput: CreateTaskEventInput;
   CreateTaskInput: CreateTaskInput;
   CreateTaskItemInput: CreateTaskItemInput;
@@ -4720,6 +5838,7 @@ export type ResolversTypes = {
   CreateVehicleMaintenanceInput: CreateVehicleMaintenanceInput;
   CreateWarehouseInput: CreateWarehouseInput;
   CreateWmsProductInput: CreateWmsProductInput;
+  CreditNotes: ResolverTypeWrapper<Omit<CreditNotes, 'dispute' | 'invoice'> & { dispute?: Maybe<ResolversTypes['Disputes']>, invoice: ResolversTypes['BillingInvoices'] }>;
   CrmMutation: ResolverTypeWrapper<Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversTypes['Attachments'], createCase: ResolversTypes['Cases'], createCompany: ResolversTypes['Companies'], createContact: ResolversTypes['Contacts'], createInteraction: ResolversTypes['Interactions'], createInvoice: ResolversTypes['Invoices'], createInvoiceItem: ResolversTypes['InvoiceItems'], createLead: ResolversTypes['Leads'], createOpportunity: ResolversTypes['Opportunities'], createOpportunityProduct: ResolversTypes['OpportunityProducts'], createProduct: ResolversTypes['Products'], updateAttachment: ResolversTypes['Attachments'], updateCase: ResolversTypes['Cases'], updateCompany: ResolversTypes['Companies'], updateContact: ResolversTypes['Contacts'], updateInteraction: ResolversTypes['Interactions'], updateInvoice: ResolversTypes['Invoices'], updateInvoiceItem: ResolversTypes['InvoiceItems'], updateLead: ResolversTypes['Leads'], updateOpportunity: ResolversTypes['Opportunities'], updateOpportunityProduct: ResolversTypes['OpportunityProducts'], updateProduct: ResolversTypes['Products'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoiceItem: ResolversTypes['InvoiceItems'], invoiceItems: Array<ResolversTypes['InvoiceItems']>, invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], opportunityProduct: ResolversTypes['OpportunityProducts'], opportunityProducts: Array<ResolversTypes['OpportunityProducts']>, product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
@@ -4730,9 +5849,13 @@ export type ResolversTypes = {
   DeliveryRoutes: ResolverTypeWrapper<Omit<DeliveryRoutes, 'driver' | 'status' | 'tasks'> & { driver: ResolversTypes['Drivers'], status?: Maybe<ResolversTypes['DeliveryRouteStatus']>, tasks?: Maybe<Array<ResolversTypes['DeliveryTasks']>> }>;
   DeliveryTaskStatus: ResolverTypeWrapper<'PENDING' | 'ASSIGNED' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'FAILED' | 'CANCELLED' | 'RESCHEDULED'>;
   DeliveryTasks: ResolverTypeWrapper<Omit<DeliveryTasks, 'customerTrackingLinks' | 'deliveryRoute' | 'events' | 'failureReason' | 'package' | 'proofOfDeliveries' | 'status'> & { customerTrackingLinks?: Maybe<Array<ResolversTypes['CustomerTrackingLinks']>>, deliveryRoute: ResolversTypes['DeliveryRoutes'], events?: Maybe<Array<ResolversTypes['TaskEvents']>>, failureReason?: Maybe<ResolversTypes['DeliveryFailureReason']>, package: ResolversTypes['Packages'], proofOfDeliveries?: Maybe<Array<ResolversTypes['DmsProofOfDeliveries']>>, status?: Maybe<ResolversTypes['DeliveryTaskStatus']> }>;
+  DisputeStatus: ResolverTypeWrapper<'OPEN' | 'UNDER_REVIEW' | 'APPROVED' | 'DENIED' | 'ESCALATED' | 'CLOSED'>;
+  Disputes: ResolverTypeWrapper<Omit<Disputes, 'client' | 'creditNotes' | 'lineItem' | 'status'> & { client: ResolversTypes['Companies'], creditNotes?: Maybe<Array<ResolversTypes['CreditNotes']>>, lineItem: ResolversTypes['InvoiceLineItems'], status?: Maybe<ResolversTypes['DisputeStatus']> }>;
   DmsMutation: ResolverTypeWrapper<Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDmsProofOfDelivery' | 'updateDriverLocation' | 'updateTaskEvent'> & { createCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversTypes['DeliveryRoutes'], createDeliveryTask: ResolversTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversTypes['DriverLocations'], createTaskEvent: ResolversTypes['TaskEvents'], updateCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversTypes['DeliveryRoutes'], updateDeliveryTask: ResolversTypes['DeliveryTasks'], updateDmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], updateDriverLocation: ResolversTypes['DriverLocations'], updateTaskEvent: ResolversTypes['TaskEvents'] }>;
   DmsProofOfDeliveries: ResolverTypeWrapper<Omit<DmsProofOfDeliveries, 'deliveryTask' | 'type'> & { deliveryTask: ResolversTypes['DeliveryTasks'], type: ResolversTypes['ProofOfDeliveryType'] }>;
   DmsQuery: ResolverTypeWrapper<Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversTypes['DeliveryRoutes']>, deliveryTask: ResolversTypes['DeliveryTasks'], deliveryTasks: Array<ResolversTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], driverLocation: ResolversTypes['DriverLocations'], driverLocations: Array<ResolversTypes['DriverLocations']>, taskEvent: ResolversTypes['TaskEvents'], taskEvents: Array<ResolversTypes['TaskEvents']> }>;
+  DocumentType: ResolverTypeWrapper<'BOL' | 'COMMERCIAL_INVOICE' | 'PACKING_LIST' | 'RECEIPT' | 'CREDIT_NOTE' | 'SHIPPING_LABEL' | 'CUSTOMS_DECLARATION' | 'PROOF_OF_DELIVERY'>;
+  Documents: ResolverTypeWrapper<Omit<Documents, 'documentType'> & { documentType: ResolversTypes['DocumentType'] }>;
   DriverLocations: ResolverTypeWrapper<Omit<DriverLocations, 'driver'> & { driver: ResolversTypes['Drivers'] }>;
   DriverScheduleReason: ResolverTypeWrapper<'VACATION' | 'SICK_LEAVE' | 'TRAINING' | 'PERSONAL_LEAVE'>;
   DriverSchedules: ResolverTypeWrapper<Omit<DriverSchedules, 'driver' | 'reason'> & { driver: ResolversTypes['Drivers'], reason?: Maybe<ResolversTypes['DriverScheduleReason']> }>;
@@ -4756,6 +5879,7 @@ export type ResolversTypes = {
   InventoryStock: ResolverTypeWrapper<Omit<InventoryStock, 'batch' | 'location' | 'product' | 'status'> & { batch?: Maybe<ResolversTypes['InventoryBatches']>, location: ResolversTypes['Locations'], product: ResolversTypes['WmsProducts'], status?: Maybe<ResolversTypes['InventoryStockStatus']> }>;
   InventoryStockStatus: ResolverTypeWrapper<'AVAILABLE' | 'ALLOCATED' | 'DAMAGED' | 'QUARANTINE' | 'HOLD' | 'SHIPPED' | 'EXPIRED'>;
   InvoiceItems: ResolverTypeWrapper<Omit<InvoiceItems, 'invoice' | 'product'> & { invoice: ResolversTypes['Invoices'], product: ResolversTypes['Products'] }>;
+  InvoiceLineItems: ResolverTypeWrapper<Omit<InvoiceLineItems, 'disputes' | 'invoice'> & { disputes?: Maybe<Array<ResolversTypes['Disputes']>>, invoice: ResolversTypes['BillingInvoices'] }>;
   InvoiceStatus: ResolverTypeWrapper<'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE' | 'CANCELLED'>;
   Invoices: ResolverTypeWrapper<Omit<Invoices, 'items' | 'opportunity' | 'paymentMethod' | 'status'> & { items?: Maybe<Array<ResolversTypes['InvoiceItems']>>, opportunity?: Maybe<ResolversTypes['Opportunities']>, paymentMethod?: Maybe<ResolversTypes['PaymentMethod']>, status?: Maybe<ResolversTypes['InvoiceStatus']> }>;
   LeadSource: ResolverTypeWrapper<'WEBSITE' | 'REFERRAL' | 'SOCIAL_MEDIA' | 'EMAIL_CAMPAIGN' | 'COLD_CALL' | 'EVENT' | 'ADVERTISEMENT' | 'PARTNER' | 'OTHER'>;
@@ -4777,11 +5901,14 @@ export type ResolversTypes = {
   PartnerInvoiceItems: ResolverTypeWrapper<Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversTypes['PartnerInvoices'], shipmentLeg: ResolversTypes['ShipmentLegs'] }>;
   PartnerInvoiceStatus: ResolverTypeWrapper<'PENDING' | 'PAID' | 'DISPUTED' | 'OVERDUE' | 'CANCELLED'>;
   PartnerInvoices: ResolverTypeWrapper<Omit<PartnerInvoices, 'carrier' | 'items' | 'status'> & { carrier: ResolversTypes['Carriers'], items?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, status?: Maybe<ResolversTypes['PartnerInvoiceStatus']> }>;
-  PaymentMethod: ResolverTypeWrapper<'CREDIT_CARD' | 'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'PAYPAL' | 'STRIPE' | 'WIRE_TRANSFER'>;
+  PaymentMethod: ResolverTypeWrapper<'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'CLIENT_CREDIT' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'PAYPAL' | 'QR_PH' | 'STRIPE' | 'WALLET' | 'WIRE_TRANSFER'>;
+  PaymentStatus: ResolverTypeWrapper<'PENDING' | 'PROCESSING' | 'SUCCESSFUL' | 'FAILED' | 'CANCELLED' | 'REFUNDED'>;
+  Payments: ResolverTypeWrapper<Omit<Payments, 'invoice' | 'paymentMethod' | 'status'> & { invoice: ResolversTypes['BillingInvoices'], paymentMethod: ResolversTypes['PaymentMethod'], status?: Maybe<ResolversTypes['PaymentStatus']> }>;
   PickBatchItems: ResolverTypeWrapper<Omit<PickBatchItems, 'pickBatch' | 'salesOrder'> & { pickBatch: ResolversTypes['PickBatches'], salesOrder: ResolversTypes['SalesOrders'] }>;
   PickBatchStatus: ResolverTypeWrapper<'OPEN' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'>;
   PickBatches: ResolverTypeWrapper<Omit<PickBatches, 'items' | 'status' | 'strategy' | 'tasks' | 'warehouse'> & { items?: Maybe<Array<ResolversTypes['PickBatchItems']>>, status?: Maybe<ResolversTypes['PickBatchStatus']>, strategy: ResolversTypes['PickStrategy'], tasks?: Maybe<Array<ResolversTypes['Tasks']>>, warehouse: ResolversTypes['Warehouses'] }>;
   PickStrategy: ResolverTypeWrapper<'BATCH_PICKING' | 'ZONE_PICKING' | 'WAVE_PICKING' | 'SINGLE_ORDER_PICKING' | 'CLUSTER_PICKING'>;
+  PricingModel: ResolverTypeWrapper<'PER_KG' | 'PER_ITEM' | 'FLAT_RATE' | 'PER_CUBIC_METER' | 'PER_ZONE' | 'PERCENTAGE' | 'TIERED'>;
   ProductStatus: ResolverTypeWrapper<'ACTIVE' | 'DISCONTINUED' | 'OBSOLETE' | 'INACTIVE'>;
   ProductType: ResolverTypeWrapper<'SERVICE' | 'GOOD' | 'DIGITAL' | 'SUBSCRIPTION'>;
   Products: ResolverTypeWrapper<Omit<Products, 'type'> & { type?: Maybe<ResolversTypes['ProductType']> }>;
@@ -4790,6 +5917,10 @@ export type ResolversTypes = {
   ProofType: ResolverTypeWrapper<'SIGNATURE' | 'PHOTO' | 'BARCODE_SCAN' | 'PIN_VERIFICATION'>;
   PutawayRules: ResolverTypeWrapper<Omit<PutawayRules, 'client' | 'locationType' | 'preferredLocation' | 'product' | 'warehouse'> & { client?: Maybe<ResolversTypes['Companies']>, locationType?: Maybe<ResolversTypes['LocationType']>, preferredLocation?: Maybe<ResolversTypes['Locations']>, product: ResolversTypes['WmsProducts'], warehouse: ResolversTypes['Warehouses'] }>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
+  QuoteStatus: ResolverTypeWrapper<'PENDING' | 'ACCEPTED' | 'EXPIRED' | 'CANCELLED' | 'CONVERTED'>;
+  Quotes: ResolverTypeWrapper<Omit<Quotes, 'billingInvoices' | 'client' | 'status'> & { billingInvoices?: Maybe<Array<ResolversTypes['BillingInvoices']>>, client?: Maybe<ResolversTypes['Companies']>, status?: Maybe<ResolversTypes['QuoteStatus']> }>;
+  RateCards: ResolverTypeWrapper<Omit<RateCards, 'rules' | 'serviceType'> & { rules?: Maybe<Array<ResolversTypes['RateRules']>>, serviceType: ResolversTypes['ServiceType'] }>;
+  RateRules: ResolverTypeWrapper<Omit<RateRules, 'pricingModel' | 'rateCard'> & { pricingModel: ResolversTypes['PricingModel'], rateCard: ResolversTypes['RateCards'] }>;
   RecordType: ResolverTypeWrapper<'COMPANIES' | 'CONTACTS' | 'LEADS' | 'OPPORTUNITIES' | 'CASES' | 'INTERACTIONS' | 'CAMPAIGNS' | 'PRODUCTS' | 'INVOICES'>;
   ReorderPoints: ResolverTypeWrapper<Omit<ReorderPoints, 'product'> & { product: ResolversTypes['WmsProducts'] }>;
   ReturnItemCondition: ResolverTypeWrapper<'SELLABLE' | 'DAMAGED' | 'DEFECTIVE' | 'EXPIRED' | 'UNSELLABLE'>;
@@ -4800,12 +5931,16 @@ export type ResolversTypes = {
   SalesOrderItems: ResolverTypeWrapper<Omit<SalesOrderItems, 'outboundShipmentItems' | 'product' | 'salesOrder'> & { outboundShipmentItems?: Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, product: ResolversTypes['WmsProducts'], salesOrder: ResolversTypes['SalesOrders'] }>;
   SalesOrderStatus: ResolverTypeWrapper<'PENDING' | 'PROCESSING' | 'SHIPPED' | 'COMPLETED' | 'CANCELLED'>;
   SalesOrders: ResolverTypeWrapper<Omit<SalesOrders, 'client' | 'crmOpportunity' | 'items' | 'outboundShipments' | 'packages' | 'pickBatchItems' | 'returns' | 'status'> & { client: ResolversTypes['Companies'], crmOpportunity?: Maybe<ResolversTypes['Opportunities']>, items?: Maybe<Array<ResolversTypes['SalesOrderItems']>>, outboundShipments?: Maybe<Array<ResolversTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversTypes['Packages']>>, pickBatchItems?: Maybe<Array<ResolversTypes['PickBatchItems']>>, returns?: Maybe<Array<ResolversTypes['Returns']>>, status?: Maybe<ResolversTypes['SalesOrderStatus']> }>;
+  ServiceType: ResolverTypeWrapper<'SHIPPING' | 'STORAGE' | 'FULFILLMENT' | 'HANDLING' | 'INSURANCE' | 'CUSTOMS' | 'PACKAGING' | 'RETURNS'>;
   ShipmentLegEvents: ResolverTypeWrapper<Omit<ShipmentLegEvents, 'shipmentLeg'> & { shipmentLeg: ResolversTypes['ShipmentLegs'] }>;
   ShipmentLegStatus: ResolverTypeWrapper<'PENDING' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED' | 'FAILED'>;
   ShipmentLegs: ResolverTypeWrapper<Omit<ShipmentLegs, 'carrier' | 'events' | 'internalTrip' | 'partnerInvoiceItems' | 'shipment' | 'status'> & { carrier?: Maybe<ResolversTypes['Carriers']>, events?: Maybe<Array<ResolversTypes['ShipmentLegEvents']>>, internalTrip?: Maybe<ResolversTypes['Trips']>, partnerInvoiceItems?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, shipment?: Maybe<ResolversTypes['OutboundShipments']>, status?: Maybe<ResolversTypes['ShipmentLegStatus']> }>;
   StockTransferStatus: ResolverTypeWrapper<'PENDING' | 'IN_TRANSIT' | 'RECEIVED' | 'CANCELLED'>;
   StockTransfers: ResolverTypeWrapper<Omit<StockTransfers, 'product' | 'status'> & { product: ResolversTypes['WmsProducts'], status?: Maybe<ResolversTypes['StockTransferStatus']> }>;
   Suppliers: ResolverTypeWrapper<Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversTypes['WmsProducts']>> }>;
+  SurchargeCalculationMethod: ResolverTypeWrapper<'PERCENTAGE' | 'FIXED' | 'PER_UNIT' | 'SLIDING_SCALE'>;
+  Surcharges: ResolverTypeWrapper<Omit<Surcharges, 'calculationMethod'> & { calculationMethod: ResolversTypes['SurchargeCalculationMethod'] }>;
+  SyncStatus: ResolverTypeWrapper<'PENDING' | 'IN_PROGRESS' | 'SUCCESS' | 'FAILED' | 'RETRY'>;
   TaskEventStatus: ResolverTypeWrapper<'ASSIGNED' | 'STARTED' | 'ARRIVED' | 'DELIVERED' | 'FAILED' | 'EXCEPTION' | 'CANCELLED' | 'RESCHEDULED'>;
   TaskEvents: ResolverTypeWrapper<Omit<TaskEvents, 'deliveryTask' | 'status'> & { deliveryTask: ResolversTypes['DeliveryTasks'], status: ResolversTypes['TaskEventStatus'] }>;
   TaskItemStatus: ResolverTypeWrapper<'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'SHORT_PICKED' | 'DAMAGED' | 'NOT_FOUND'>;
@@ -4815,22 +5950,30 @@ export type ResolversTypes = {
   Tasks: ResolverTypeWrapper<Omit<Tasks, 'items' | 'pickBatch' | 'status' | 'type' | 'warehouse'> & { items?: Maybe<Array<ResolversTypes['TaskItems']>>, pickBatch?: Maybe<ResolversTypes['PickBatches']>, status?: Maybe<ResolversTypes['TaskStatus']>, type: ResolversTypes['TaskType'], warehouse: ResolversTypes['Warehouses'] }>;
   TmsMutation: ResolverTypeWrapper<Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversTypes['Carriers'], createCarrierRate: ResolversTypes['CarrierRates'], createDriver: ResolversTypes['Drivers'], createDriverSchedule: ResolversTypes['DriverSchedules'], createExpense: ResolversTypes['Expenses'], createGeofence: ResolversTypes['Geofences'], createGeofenceEvent: ResolversTypes['GeofenceEvents'], createGpsPing: ResolversTypes['GpsPings'], createPartnerInvoice: ResolversTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversTypes['ProofOfDeliveries'], createRoute: ResolversTypes['Routes'], createShipmentLeg: ResolversTypes['ShipmentLegs'], createShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], createTrip: ResolversTypes['Trips'], createTripStop: ResolversTypes['TripStops'], createVehicle: ResolversTypes['Vehicles'], createVehicleMaintenance: ResolversTypes['VehicleMaintenance'], updateCarrier: ResolversTypes['Carriers'], updateCarrierRate: ResolversTypes['CarrierRates'], updateDriver: ResolversTypes['Drivers'], updateDriverSchedule: ResolversTypes['DriverSchedules'], updateExpense: ResolversTypes['Expenses'], updateGeofence: ResolversTypes['Geofences'], updateGeofenceEvent: ResolversTypes['GeofenceEvents'], updateGpsPing: ResolversTypes['GpsPings'], updatePartnerInvoice: ResolversTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversTypes['ProofOfDeliveries'], updateRoute: ResolversTypes['Routes'], updateShipmentLeg: ResolversTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], updateTrip: ResolversTypes['Trips'], updateTripStop: ResolversTypes['TripStops'], updateVehicle: ResolversTypes['Vehicles'], updateVehicleMaintenance: ResolversTypes['VehicleMaintenance'] }>;
   TmsQuery: ResolverTypeWrapper<Omit<TmsQuery, 'carrier' | 'carrierRate' | 'carrierRates' | 'carriers' | 'driver' | 'driverSchedule' | 'driverSchedules' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofenceEvent' | 'geofenceEvents' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoiceItem' | 'partnerInvoiceItems' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegEvent' | 'shipmentLegEvents' | 'shipmentLegs' | 'trip' | 'tripStop' | 'tripStops' | 'trips' | 'vehicle' | 'vehicleMaintenance' | 'vehicleMaintenances' | 'vehicles'> & { carrier: ResolversTypes['Carriers'], carrierRate: ResolversTypes['CarrierRates'], carrierRates: Array<ResolversTypes['CarrierRates']>, carriers: Array<ResolversTypes['Carriers']>, driver: ResolversTypes['Drivers'], driverSchedule: ResolversTypes['DriverSchedules'], driverSchedules: Array<ResolversTypes['DriverSchedules']>, drivers: Array<ResolversTypes['Drivers']>, expense: ResolversTypes['Expenses'], expenses: Array<ResolversTypes['Expenses']>, geofence: ResolversTypes['Geofences'], geofenceEvent: ResolversTypes['GeofenceEvents'], geofenceEvents: Array<ResolversTypes['GeofenceEvents']>, geofences: Array<ResolversTypes['Geofences']>, gpsPing: ResolversTypes['GpsPings'], gpsPings: Array<ResolversTypes['GpsPings']>, partnerInvoice: ResolversTypes['PartnerInvoices'], partnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], partnerInvoiceItems: Array<ResolversTypes['PartnerInvoiceItems']>, partnerInvoices: Array<ResolversTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversTypes['ProofOfDeliveries'], route: ResolversTypes['Routes'], routes: Array<ResolversTypes['Routes']>, shipmentLeg: ResolversTypes['ShipmentLegs'], shipmentLegEvent: ResolversTypes['ShipmentLegEvents'], shipmentLegEvents: Array<ResolversTypes['ShipmentLegEvents']>, shipmentLegs: Array<ResolversTypes['ShipmentLegs']>, trip: ResolversTypes['Trips'], tripStop: ResolversTypes['TripStops'], tripStops: Array<ResolversTypes['TripStops']>, trips: Array<ResolversTypes['Trips']>, vehicle: ResolversTypes['Vehicles'], vehicleMaintenance: ResolversTypes['VehicleMaintenance'], vehicleMaintenances: Array<ResolversTypes['VehicleMaintenance']>, vehicles: Array<ResolversTypes['Vehicles']> }>;
+  TransactionType: ResolverTypeWrapper<'CREDIT' | 'DEBIT' | 'TOP_UP' | 'REFUND' | 'ADJUSTMENT' | 'FEE'>;
   TripStatus: ResolverTypeWrapper<'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'>;
   TripStopStatus: ResolverTypeWrapper<'PENDING' | 'ARRIVED' | 'COMPLETED' | 'SKIPPED'>;
   TripStops: ResolverTypeWrapper<Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'status' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversTypes['OutboundShipments']>, status?: Maybe<ResolversTypes['TripStopStatus']>, trip: ResolversTypes['Trips'] }>;
   Trips: ResolverTypeWrapper<Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'status' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversTypes['Drivers']>, expenses?: Maybe<Array<ResolversTypes['Expenses']>>, routes?: Maybe<Array<ResolversTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversTypes['ShipmentLegs']>>, status?: Maybe<ResolversTypes['TripStatus']>, stops?: Maybe<Array<ResolversTypes['TripStops']>>, vehicle?: Maybe<ResolversTypes['Vehicles']> }>;
+  UpdateAccountTransactionInput: UpdateAccountTransactionInput;
+  UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
   UpdateAttachmentInput: UpdateAttachmentInput;
+  UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
   UpdateCarrierInput: UpdateCarrierInput;
   UpdateCarrierRateInput: UpdateCarrierRateInput;
   UpdateCaseInput: UpdateCaseInput;
+  UpdateClientAccountInput: UpdateClientAccountInput;
   UpdateCompanyInput: UpdateCompanyInput;
   UpdateContactInput: UpdateContactInput;
+  UpdateCreditNoteInput: UpdateCreditNoteInput;
   UpdateCustomerTrackingLinkInput: UpdateCustomerTrackingLinkInput;
   UpdateDeliveryRouteInput: UpdateDeliveryRouteInput;
   UpdateDeliveryTaskInput: UpdateDeliveryTaskInput;
+  UpdateDisputeInput: UpdateDisputeInput;
   UpdateDmsProofOfDeliveryInput: UpdateDmsProofOfDeliveryInput;
+  UpdateDocumentInput: UpdateDocumentInput;
   UpdateDriverInput: UpdateDriverInput;
   UpdateDriverLocationInput: UpdateDriverLocationInput;
   UpdateDriverScheduleInput: UpdateDriverScheduleInput;
@@ -4846,6 +5989,7 @@ export type ResolversTypes = {
   UpdateInventoryStockInput: UpdateInventoryStockInput;
   UpdateInvoiceInput: UpdateInvoiceInput;
   UpdateInvoiceItemInput: UpdateInvoiceItemInput;
+  UpdateInvoiceLineItemInput: UpdateInvoiceLineItemInput;
   UpdateLeadInput: UpdateLeadInput;
   UpdateLocationInput: UpdateLocationInput;
   UpdateNotificationInput: UpdateNotificationInput;
@@ -4857,11 +6001,15 @@ export type ResolversTypes = {
   UpdatePackageItemInput: UpdatePackageItemInput;
   UpdatePartnerInvoiceInput: UpdatePartnerInvoiceInput;
   UpdatePartnerInvoiceItemInput: UpdatePartnerInvoiceItemInput;
+  UpdatePaymentInput: UpdatePaymentInput;
   UpdatePickBatchInput: UpdatePickBatchInput;
   UpdatePickBatchItemInput: UpdatePickBatchItemInput;
   UpdateProductInput: UpdateProductInput;
   UpdateProofOfDeliveryInput: UpdateProofOfDeliveryInput;
   UpdatePutawayRuleInput: UpdatePutawayRuleInput;
+  UpdateQuoteInput: UpdateQuoteInput;
+  UpdateRateCardInput: UpdateRateCardInput;
+  UpdateRateRuleInput: UpdateRateRuleInput;
   UpdateReorderPointInput: UpdateReorderPointInput;
   UpdateReturnInput: UpdateReturnInput;
   UpdateReturnItemInput: UpdateReturnItemInput;
@@ -4872,6 +6020,7 @@ export type ResolversTypes = {
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
+  UpdateSurchargeInput: UpdateSurchargeInput;
   UpdateTaskEventInput: UpdateTaskEventInput;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskItemInput: UpdateTaskItemInput;
@@ -4894,31 +6043,44 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Attachments: Attachments;
+  AccountTransactions: Omit<AccountTransactions, 'clientAccount'> & { clientAccount: ResolversParentTypes['ClientAccounts'] };
+  Float: Scalars['Float']['output'];
   String: Scalars['String']['output'];
   ID: Scalars['ID']['output'];
-  BinThresholds: Omit<BinThresholds, 'location' | 'product'> & { location: ResolversParentTypes['Locations'], product: ResolversParentTypes['WmsProducts'] };
+  AccountingSyncLogs: AccountingSyncLogs;
   Int: Scalars['Int']['output'];
+  Attachments: Attachments;
+  BillingInvoices: Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote'> & { client: ResolversParentTypes['Companies'], creditNotes?: Maybe<Array<ResolversParentTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversParentTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversParentTypes['Payments']>>, quote?: Maybe<ResolversParentTypes['Quotes']> };
+  BillingMutation: Omit<BillingMutation, 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createInvoiceLineItem' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { createAccountTransaction: ResolversParentTypes['AccountTransactions'], createAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], createBillingInvoice: ResolversParentTypes['BillingInvoices'], createClientAccount: ResolversParentTypes['ClientAccounts'], createCreditNote: ResolversParentTypes['CreditNotes'], createDispute: ResolversParentTypes['Disputes'], createDocument: ResolversParentTypes['Documents'], createInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], createPayment: ResolversParentTypes['Payments'], createQuote: ResolversParentTypes['Quotes'], createRateCard: ResolversParentTypes['RateCards'], createRateRule: ResolversParentTypes['RateRules'], createSurcharge: ResolversParentTypes['Surcharges'], updateAccountTransaction: ResolversParentTypes['AccountTransactions'], updateAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversParentTypes['BillingInvoices'], updateClientAccount: ResolversParentTypes['ClientAccounts'], updateCreditNote: ResolversParentTypes['CreditNotes'], updateDispute: ResolversParentTypes['Disputes'], updateDocument: ResolversParentTypes['Documents'], updateInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], updatePayment: ResolversParentTypes['Payments'], updateQuote: ResolversParentTypes['Quotes'], updateRateCard: ResolversParentTypes['RateCards'], updateRateRule: ResolversParentTypes['RateRules'], updateSurcharge: ResolversParentTypes['Surcharges'] };
+  BillingQuery: Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'invoiceLineItem' | 'invoiceLineItems' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversParentTypes['AccountTransactions'], accountTransactions: Array<ResolversParentTypes['AccountTransactions']>, accountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversParentTypes['AccountingSyncLogs']>, billingInvoice: ResolversParentTypes['BillingInvoices'], billingInvoices: Array<ResolversParentTypes['BillingInvoices']>, clientAccount: ResolversParentTypes['ClientAccounts'], clientAccounts: Array<ResolversParentTypes['ClientAccounts']>, creditNote: ResolversParentTypes['CreditNotes'], creditNotes: Array<ResolversParentTypes['CreditNotes']>, dispute: ResolversParentTypes['Disputes'], disputes: Array<ResolversParentTypes['Disputes']>, document: ResolversParentTypes['Documents'], documents: Array<ResolversParentTypes['Documents']>, invoiceLineItem: ResolversParentTypes['InvoiceLineItems'], invoiceLineItems: Array<ResolversParentTypes['InvoiceLineItems']>, payment: ResolversParentTypes['Payments'], payments: Array<ResolversParentTypes['Payments']>, quote: ResolversParentTypes['Quotes'], quotes: Array<ResolversParentTypes['Quotes']>, rateCard: ResolversParentTypes['RateCards'], rateCards: Array<ResolversParentTypes['RateCards']>, rateRule: ResolversParentTypes['RateRules'], rateRules: Array<ResolversParentTypes['RateRules']>, surcharge: ResolversParentTypes['Surcharges'], surcharges: Array<ResolversParentTypes['Surcharges']> };
+  BinThresholds: Omit<BinThresholds, 'location' | 'product'> & { location: ResolversParentTypes['Locations'], product: ResolversParentTypes['WmsProducts'] };
   Boolean: Scalars['Boolean']['output'];
   Campaigns: Campaigns;
-  Float: Scalars['Float']['output'];
   CarrierRates: Omit<CarrierRates, 'carrier'> & { carrier: ResolversParentTypes['Carriers'] };
   Carriers: Omit<Carriers, 'partnerInvoices' | 'rates' | 'shipmentLegs'> & { partnerInvoices?: Maybe<Array<ResolversParentTypes['PartnerInvoices']>>, rates?: Maybe<Array<ResolversParentTypes['CarrierRates']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>> };
   Cases: Omit<Cases, 'contact'> & { contact?: Maybe<ResolversParentTypes['Contacts']> };
-  Companies: Omit<Companies, 'inboundShipments' | 'putawayRules' | 'returns' | 'salesOrders'> & { inboundShipments?: Maybe<Array<ResolversParentTypes['InboundShipments']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, returns?: Maybe<Array<ResolversParentTypes['Returns']>>, salesOrders?: Maybe<Array<ResolversParentTypes['SalesOrders']>> };
+  ClientAccounts: Omit<ClientAccounts, 'client' | 'transactions'> & { client: ResolversParentTypes['Companies'], transactions?: Maybe<Array<ResolversParentTypes['AccountTransactions']>> };
+  Companies: Omit<Companies, 'billingInvoices' | 'clientAccount' | 'disputes' | 'inboundShipments' | 'putawayRules' | 'quotes' | 'returns' | 'salesOrders'> & { billingInvoices?: Maybe<Array<ResolversParentTypes['BillingInvoices']>>, clientAccount?: Maybe<ResolversParentTypes['ClientAccounts']>, disputes?: Maybe<Array<ResolversParentTypes['Disputes']>>, inboundShipments?: Maybe<Array<ResolversParentTypes['InboundShipments']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, quotes?: Maybe<Array<ResolversParentTypes['Quotes']>>, returns?: Maybe<Array<ResolversParentTypes['Returns']>>, salesOrders?: Maybe<Array<ResolversParentTypes['SalesOrders']>> };
   Contacts: Omit<Contacts, 'company'> & { company?: Maybe<ResolversParentTypes['Companies']> };
+  CreateAccountTransactionInput: CreateAccountTransactionInput;
+  CreateAccountingSyncLogInput: CreateAccountingSyncLogInput;
   CreateAttachmentInput: CreateAttachmentInput;
+  CreateBillingInvoiceInput: CreateBillingInvoiceInput;
   CreateBinThresholdInput: CreateBinThresholdInput;
   CreateCampaignInput: CreateCampaignInput;
   CreateCarrierInput: CreateCarrierInput;
   CreateCarrierRateInput: CreateCarrierRateInput;
   CreateCaseInput: CreateCaseInput;
+  CreateClientAccountInput: CreateClientAccountInput;
   CreateCompanyInput: CreateCompanyInput;
   CreateContactInput: CreateContactInput;
+  CreateCreditNoteInput: CreateCreditNoteInput;
   CreateCustomerTrackingLinkInput: CreateCustomerTrackingLinkInput;
   CreateDeliveryRouteInput: CreateDeliveryRouteInput;
   CreateDeliveryTaskInput: CreateDeliveryTaskInput;
+  CreateDisputeInput: CreateDisputeInput;
   CreateDmsProofOfDeliveryInput: CreateDmsProofOfDeliveryInput;
+  CreateDocumentInput: CreateDocumentInput;
   CreateDriverInput: CreateDriverInput;
   CreateDriverLocationInput: CreateDriverLocationInput;
   CreateDriverScheduleInput: CreateDriverScheduleInput;
@@ -4934,6 +6096,7 @@ export type ResolversParentTypes = {
   CreateInventoryStockInput: CreateInventoryStockInput;
   CreateInvoiceInput: CreateInvoiceInput;
   CreateInvoiceItemInput: CreateInvoiceItemInput;
+  CreateInvoiceLineItemInput: CreateInvoiceLineItemInput;
   CreateLeadInput: CreateLeadInput;
   CreateLocationInput: CreateLocationInput;
   CreateNotificationInput: CreateNotificationInput;
@@ -4945,11 +6108,15 @@ export type ResolversParentTypes = {
   CreatePackageItemInput: CreatePackageItemInput;
   CreatePartnerInvoiceInput: CreatePartnerInvoiceInput;
   CreatePartnerInvoiceItemInput: CreatePartnerInvoiceItemInput;
+  CreatePaymentInput: CreatePaymentInput;
   CreatePickBatchInput: CreatePickBatchInput;
   CreatePickBatchItemInput: CreatePickBatchItemInput;
   CreateProductInput: CreateProductInput;
   CreateProofOfDeliveryInput: CreateProofOfDeliveryInput;
   CreatePutawayRuleInput: CreatePutawayRuleInput;
+  CreateQuoteInput: CreateQuoteInput;
+  CreateRateCardInput: CreateRateCardInput;
+  CreateRateRuleInput: CreateRateRuleInput;
   CreateReorderPointInput: CreateReorderPointInput;
   CreateReturnInput: CreateReturnInput;
   CreateReturnItemInput: CreateReturnItemInput;
@@ -4960,6 +6127,7 @@ export type ResolversParentTypes = {
   CreateShipmentLegInput: CreateShipmentLegInput;
   CreateStockTransferInput: CreateStockTransferInput;
   CreateSupplierInput: CreateSupplierInput;
+  CreateSurchargeInput: CreateSurchargeInput;
   CreateTaskEventInput: CreateTaskEventInput;
   CreateTaskInput: CreateTaskInput;
   CreateTaskItemInput: CreateTaskItemInput;
@@ -4969,15 +6137,18 @@ export type ResolversParentTypes = {
   CreateVehicleMaintenanceInput: CreateVehicleMaintenanceInput;
   CreateWarehouseInput: CreateWarehouseInput;
   CreateWmsProductInput: CreateWmsProductInput;
+  CreditNotes: Omit<CreditNotes, 'dispute' | 'invoice'> & { dispute?: Maybe<ResolversParentTypes['Disputes']>, invoice: ResolversParentTypes['BillingInvoices'] };
   CrmMutation: Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversParentTypes['Attachments'], createCase: ResolversParentTypes['Cases'], createCompany: ResolversParentTypes['Companies'], createContact: ResolversParentTypes['Contacts'], createInteraction: ResolversParentTypes['Interactions'], createInvoice: ResolversParentTypes['Invoices'], createInvoiceItem: ResolversParentTypes['InvoiceItems'], createLead: ResolversParentTypes['Leads'], createOpportunity: ResolversParentTypes['Opportunities'], createOpportunityProduct: ResolversParentTypes['OpportunityProducts'], createProduct: ResolversParentTypes['Products'], updateAttachment: ResolversParentTypes['Attachments'], updateCase: ResolversParentTypes['Cases'], updateCompany: ResolversParentTypes['Companies'], updateContact: ResolversParentTypes['Contacts'], updateInteraction: ResolversParentTypes['Interactions'], updateInvoice: ResolversParentTypes['Invoices'], updateInvoiceItem: ResolversParentTypes['InvoiceItems'], updateLead: ResolversParentTypes['Leads'], updateOpportunity: ResolversParentTypes['Opportunities'], updateOpportunityProduct: ResolversParentTypes['OpportunityProducts'], updateProduct: ResolversParentTypes['Products'] };
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoiceItem: ResolversParentTypes['InvoiceItems'], invoiceItems: Array<ResolversParentTypes['InvoiceItems']>, invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], opportunityProduct: ResolversParentTypes['OpportunityProducts'], opportunityProducts: Array<ResolversParentTypes['OpportunityProducts']>, product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
   CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   DeleteResult: DeleteResult;
   DeliveryRoutes: Omit<DeliveryRoutes, 'driver' | 'tasks'> & { driver: ResolversParentTypes['Drivers'], tasks?: Maybe<Array<ResolversParentTypes['DeliveryTasks']>> };
   DeliveryTasks: Omit<DeliveryTasks, 'customerTrackingLinks' | 'deliveryRoute' | 'events' | 'package' | 'proofOfDeliveries'> & { customerTrackingLinks?: Maybe<Array<ResolversParentTypes['CustomerTrackingLinks']>>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], events?: Maybe<Array<ResolversParentTypes['TaskEvents']>>, package: ResolversParentTypes['Packages'], proofOfDeliveries?: Maybe<Array<ResolversParentTypes['DmsProofOfDeliveries']>> };
+  Disputes: Omit<Disputes, 'client' | 'creditNotes' | 'lineItem'> & { client: ResolversParentTypes['Companies'], creditNotes?: Maybe<Array<ResolversParentTypes['CreditNotes']>>, lineItem: ResolversParentTypes['InvoiceLineItems'] };
   DmsMutation: Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDmsProofOfDelivery' | 'updateDriverLocation' | 'updateTaskEvent'> & { createCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], createDeliveryTask: ResolversParentTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversParentTypes['DriverLocations'], createTaskEvent: ResolversParentTypes['TaskEvents'], updateCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], updateDeliveryTask: ResolversParentTypes['DeliveryTasks'], updateDmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], updateDriverLocation: ResolversParentTypes['DriverLocations'], updateTaskEvent: ResolversParentTypes['TaskEvents'] };
   DmsProofOfDeliveries: Omit<DmsProofOfDeliveries, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   DmsQuery: Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversParentTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversParentTypes['DeliveryRoutes']>, deliveryTask: ResolversParentTypes['DeliveryTasks'], deliveryTasks: Array<ResolversParentTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversParentTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], driverLocation: ResolversParentTypes['DriverLocations'], driverLocations: Array<ResolversParentTypes['DriverLocations']>, taskEvent: ResolversParentTypes['TaskEvents'], taskEvents: Array<ResolversParentTypes['TaskEvents']> };
+  Documents: Documents;
   DriverLocations: Omit<DriverLocations, 'driver'> & { driver: ResolversParentTypes['Drivers'] };
   DriverSchedules: Omit<DriverSchedules, 'driver'> & { driver: ResolversParentTypes['Drivers'] };
   Drivers: Omit<Drivers, 'deliveryRoutes' | 'driverLocations' | 'expenses' | 'schedules' | 'trips'> & { deliveryRoutes?: Maybe<Array<ResolversParentTypes['DeliveryRoutes']>>, driverLocations?: Maybe<Array<ResolversParentTypes['DriverLocations']>>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, schedules?: Maybe<Array<ResolversParentTypes['DriverSchedules']>>, trips?: Maybe<Array<ResolversParentTypes['Trips']>> };
@@ -4992,6 +6163,7 @@ export type ResolversParentTypes = {
   InventoryBatches: Omit<InventoryBatches, 'inventoryStock' | 'outboundShipmentItems' | 'packageItems' | 'product' | 'taskItems'> & { inventoryStock?: Maybe<Array<ResolversParentTypes['InventoryStock']>>, outboundShipmentItems?: Maybe<Array<ResolversParentTypes['OutboundShipmentItems']>>, packageItems?: Maybe<Array<ResolversParentTypes['PackageItems']>>, product: ResolversParentTypes['WmsProducts'], taskItems?: Maybe<Array<ResolversParentTypes['TaskItems']>> };
   InventoryStock: Omit<InventoryStock, 'batch' | 'location' | 'product'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, location: ResolversParentTypes['Locations'], product: ResolversParentTypes['WmsProducts'] };
   InvoiceItems: Omit<InvoiceItems, 'invoice' | 'product'> & { invoice: ResolversParentTypes['Invoices'], product: ResolversParentTypes['Products'] };
+  InvoiceLineItems: Omit<InvoiceLineItems, 'disputes' | 'invoice'> & { disputes?: Maybe<Array<ResolversParentTypes['Disputes']>>, invoice: ResolversParentTypes['BillingInvoices'] };
   Invoices: Omit<Invoices, 'items' | 'opportunity'> & { items?: Maybe<Array<ResolversParentTypes['InvoiceItems']>>, opportunity?: Maybe<ResolversParentTypes['Opportunities']> };
   Leads: Omit<Leads, 'convertedCompany' | 'convertedContact' | 'convertedOpportunity'> & { convertedCompany?: Maybe<ResolversParentTypes['Companies']>, convertedContact?: Maybe<ResolversParentTypes['Contacts']>, convertedOpportunity?: Maybe<ResolversParentTypes['Opportunities']> };
   Locations: Omit<Locations, 'binThresholds' | 'destinationTaskItems' | 'inventoryStock' | 'parentLocation' | 'putawayRules' | 'sourceTaskItems' | 'warehouse'> & { binThresholds?: Maybe<Array<ResolversParentTypes['BinThresholds']>>, destinationTaskItems?: Maybe<Array<ResolversParentTypes['TaskItems']>>, inventoryStock?: Maybe<Array<ResolversParentTypes['InventoryStock']>>, parentLocation?: Maybe<ResolversParentTypes['Locations']>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, sourceTaskItems?: Maybe<Array<ResolversParentTypes['TaskItems']>>, warehouse: ResolversParentTypes['Warehouses'] };
@@ -5005,12 +6177,16 @@ export type ResolversParentTypes = {
   Packages: Omit<Packages, 'deliveryTasks' | 'items' | 'salesOrder' | 'warehouse'> & { deliveryTasks?: Maybe<Array<ResolversParentTypes['DeliveryTasks']>>, items?: Maybe<Array<ResolversParentTypes['PackageItems']>>, salesOrder: ResolversParentTypes['SalesOrders'], warehouse: ResolversParentTypes['Warehouses'] };
   PartnerInvoiceItems: Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversParentTypes['PartnerInvoices'], shipmentLeg: ResolversParentTypes['ShipmentLegs'] };
   PartnerInvoices: Omit<PartnerInvoices, 'carrier' | 'items'> & { carrier: ResolversParentTypes['Carriers'], items?: Maybe<Array<ResolversParentTypes['PartnerInvoiceItems']>> };
+  Payments: Omit<Payments, 'invoice'> & { invoice: ResolversParentTypes['BillingInvoices'] };
   PickBatchItems: Omit<PickBatchItems, 'pickBatch' | 'salesOrder'> & { pickBatch: ResolversParentTypes['PickBatches'], salesOrder: ResolversParentTypes['SalesOrders'] };
   PickBatches: Omit<PickBatches, 'items' | 'tasks' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['PickBatchItems']>>, tasks?: Maybe<Array<ResolversParentTypes['Tasks']>>, warehouse: ResolversParentTypes['Warehouses'] };
   Products: Products;
   ProofOfDeliveries: Omit<ProofOfDeliveries, 'tripStop'> & { tripStop: ResolversParentTypes['TripStops'] };
   PutawayRules: Omit<PutawayRules, 'client' | 'preferredLocation' | 'product' | 'warehouse'> & { client?: Maybe<ResolversParentTypes['Companies']>, preferredLocation?: Maybe<ResolversParentTypes['Locations']>, product: ResolversParentTypes['WmsProducts'], warehouse: ResolversParentTypes['Warehouses'] };
   Query: Record<PropertyKey, never>;
+  Quotes: Omit<Quotes, 'billingInvoices' | 'client'> & { billingInvoices?: Maybe<Array<ResolversParentTypes['BillingInvoices']>>, client?: Maybe<ResolversParentTypes['Companies']> };
+  RateCards: Omit<RateCards, 'rules'> & { rules?: Maybe<Array<ResolversParentTypes['RateRules']>> };
+  RateRules: Omit<RateRules, 'rateCard'> & { rateCard: ResolversParentTypes['RateCards'] };
   ReorderPoints: Omit<ReorderPoints, 'product'> & { product: ResolversParentTypes['WmsProducts'] };
   ReturnItems: Omit<ReturnItems, 'product' | 'return'> & { product: ResolversParentTypes['WmsProducts'], return: ResolversParentTypes['Returns'] };
   Returns: Omit<Returns, 'client' | 'items' | 'salesOrder'> & { client: ResolversParentTypes['Companies'], items?: Maybe<Array<ResolversParentTypes['ReturnItems']>>, salesOrder?: Maybe<ResolversParentTypes['SalesOrders']> };
@@ -5021,6 +6197,7 @@ export type ResolversParentTypes = {
   ShipmentLegs: Omit<ShipmentLegs, 'carrier' | 'events' | 'internalTrip' | 'partnerInvoiceItems' | 'shipment'> & { carrier?: Maybe<ResolversParentTypes['Carriers']>, events?: Maybe<Array<ResolversParentTypes['ShipmentLegEvents']>>, internalTrip?: Maybe<ResolversParentTypes['Trips']>, partnerInvoiceItems?: Maybe<Array<ResolversParentTypes['PartnerInvoiceItems']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']> };
   StockTransfers: Omit<StockTransfers, 'product'> & { product: ResolversParentTypes['WmsProducts'] };
   Suppliers: Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversParentTypes['WmsProducts']>> };
+  Surcharges: Surcharges;
   TaskEvents: Omit<TaskEvents, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   TaskItems: Omit<TaskItems, 'batch' | 'destinationLocation' | 'product' | 'sourceLocation' | 'task'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, destinationLocation?: Maybe<ResolversParentTypes['Locations']>, product: ResolversParentTypes['WmsProducts'], sourceLocation?: Maybe<ResolversParentTypes['Locations']>, task: ResolversParentTypes['Tasks'] };
   Tasks: Omit<Tasks, 'items' | 'pickBatch' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['TaskItems']>>, pickBatch?: Maybe<ResolversParentTypes['PickBatches']>, warehouse: ResolversParentTypes['Warehouses'] };
@@ -5028,18 +6205,25 @@ export type ResolversParentTypes = {
   TmsQuery: Omit<TmsQuery, 'carrier' | 'carrierRate' | 'carrierRates' | 'carriers' | 'driver' | 'driverSchedule' | 'driverSchedules' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofenceEvent' | 'geofenceEvents' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoiceItem' | 'partnerInvoiceItems' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegEvent' | 'shipmentLegEvents' | 'shipmentLegs' | 'trip' | 'tripStop' | 'tripStops' | 'trips' | 'vehicle' | 'vehicleMaintenance' | 'vehicleMaintenances' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carrierRate: ResolversParentTypes['CarrierRates'], carrierRates: Array<ResolversParentTypes['CarrierRates']>, carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], driverSchedule: ResolversParentTypes['DriverSchedules'], driverSchedules: Array<ResolversParentTypes['DriverSchedules']>, drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofenceEvent: ResolversParentTypes['GeofenceEvents'], geofenceEvents: Array<ResolversParentTypes['GeofenceEvents']>, geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], partnerInvoiceItems: Array<ResolversParentTypes['PartnerInvoiceItems']>, partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], shipmentLegEvents: Array<ResolversParentTypes['ShipmentLegEvents']>, shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], tripStop: ResolversParentTypes['TripStops'], tripStops: Array<ResolversParentTypes['TripStops']>, trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], vehicleMaintenances: Array<ResolversParentTypes['VehicleMaintenance']>, vehicles: Array<ResolversParentTypes['Vehicles']> };
   TripStops: Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversParentTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']>, trip: ResolversParentTypes['Trips'] };
   Trips: Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, routes?: Maybe<Array<ResolversParentTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>>, stops?: Maybe<Array<ResolversParentTypes['TripStops']>>, vehicle?: Maybe<ResolversParentTypes['Vehicles']> };
+  UpdateAccountTransactionInput: UpdateAccountTransactionInput;
+  UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
   UpdateAttachmentInput: UpdateAttachmentInput;
+  UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
   UpdateCarrierInput: UpdateCarrierInput;
   UpdateCarrierRateInput: UpdateCarrierRateInput;
   UpdateCaseInput: UpdateCaseInput;
+  UpdateClientAccountInput: UpdateClientAccountInput;
   UpdateCompanyInput: UpdateCompanyInput;
   UpdateContactInput: UpdateContactInput;
+  UpdateCreditNoteInput: UpdateCreditNoteInput;
   UpdateCustomerTrackingLinkInput: UpdateCustomerTrackingLinkInput;
   UpdateDeliveryRouteInput: UpdateDeliveryRouteInput;
   UpdateDeliveryTaskInput: UpdateDeliveryTaskInput;
+  UpdateDisputeInput: UpdateDisputeInput;
   UpdateDmsProofOfDeliveryInput: UpdateDmsProofOfDeliveryInput;
+  UpdateDocumentInput: UpdateDocumentInput;
   UpdateDriverInput: UpdateDriverInput;
   UpdateDriverLocationInput: UpdateDriverLocationInput;
   UpdateDriverScheduleInput: UpdateDriverScheduleInput;
@@ -5055,6 +6239,7 @@ export type ResolversParentTypes = {
   UpdateInventoryStockInput: UpdateInventoryStockInput;
   UpdateInvoiceInput: UpdateInvoiceInput;
   UpdateInvoiceItemInput: UpdateInvoiceItemInput;
+  UpdateInvoiceLineItemInput: UpdateInvoiceLineItemInput;
   UpdateLeadInput: UpdateLeadInput;
   UpdateLocationInput: UpdateLocationInput;
   UpdateNotificationInput: UpdateNotificationInput;
@@ -5066,11 +6251,15 @@ export type ResolversParentTypes = {
   UpdatePackageItemInput: UpdatePackageItemInput;
   UpdatePartnerInvoiceInput: UpdatePartnerInvoiceInput;
   UpdatePartnerInvoiceItemInput: UpdatePartnerInvoiceItemInput;
+  UpdatePaymentInput: UpdatePaymentInput;
   UpdatePickBatchInput: UpdatePickBatchInput;
   UpdatePickBatchItemInput: UpdatePickBatchItemInput;
   UpdateProductInput: UpdateProductInput;
   UpdateProofOfDeliveryInput: UpdateProofOfDeliveryInput;
   UpdatePutawayRuleInput: UpdatePutawayRuleInput;
+  UpdateQuoteInput: UpdateQuoteInput;
+  UpdateRateCardInput: UpdateRateCardInput;
+  UpdateRateRuleInput: UpdateRateRuleInput;
   UpdateReorderPointInput: UpdateReorderPointInput;
   UpdateReturnInput: UpdateReturnInput;
   UpdateReturnItemInput: UpdateReturnItemInput;
@@ -5081,6 +6270,7 @@ export type ResolversParentTypes = {
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
+  UpdateSurchargeInput: UpdateSurchargeInput;
   UpdateTaskEventInput: UpdateTaskEventInput;
   UpdateTaskInput: UpdateTaskInput;
   UpdateTaskItemInput: UpdateTaskItemInput;
@@ -5099,6 +6289,39 @@ export type ResolversParentTypes = {
   WmsQuery: Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipmentItem' | 'inboundShipmentItems' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipmentItem' | 'outboundShipmentItems' | 'outboundShipments' | 'package' | 'packageItem' | 'packageItems' | 'packages' | 'pickBatch' | 'pickBatchItem' | 'pickBatchItems' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returnItem' | 'returnItems' | 'returns' | 'salesOrder' | 'salesOrderItem' | 'salesOrderItems' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'taskItem' | 'taskItems' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversParentTypes['BinThresholds'], binThresholds: Array<ResolversParentTypes['BinThresholds']>, inboundShipment: ResolversParentTypes['InboundShipments'], inboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], inboundShipmentItems: Array<ResolversParentTypes['InboundShipmentItems']>, inboundShipments: Array<ResolversParentTypes['InboundShipments']>, inventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversParentTypes['InventoryAdjustments']>, inventoryBatch: ResolversParentTypes['InventoryBatches'], inventoryBatches: Array<ResolversParentTypes['InventoryBatches']>, inventoryStock: ResolversParentTypes['InventoryStock'], inventoryStocks: Array<ResolversParentTypes['InventoryStock']>, location: ResolversParentTypes['Locations'], locations: Array<ResolversParentTypes['Locations']>, outboundShipment: ResolversParentTypes['OutboundShipments'], outboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], outboundShipmentItems: Array<ResolversParentTypes['OutboundShipmentItems']>, outboundShipments: Array<ResolversParentTypes['OutboundShipments']>, package: ResolversParentTypes['Packages'], packageItem: ResolversParentTypes['PackageItems'], packageItems: Array<ResolversParentTypes['PackageItems']>, packages: Array<ResolversParentTypes['Packages']>, pickBatch: ResolversParentTypes['PickBatches'], pickBatchItem: ResolversParentTypes['PickBatchItems'], pickBatchItems: Array<ResolversParentTypes['PickBatchItems']>, pickBatches: Array<ResolversParentTypes['PickBatches']>, putawayRule: ResolversParentTypes['PutawayRules'], putawayRules: Array<ResolversParentTypes['PutawayRules']>, reorderPoint: ResolversParentTypes['ReorderPoints'], reorderPoints: Array<ResolversParentTypes['ReorderPoints']>, return: ResolversParentTypes['Returns'], returnItem: ResolversParentTypes['ReturnItems'], returnItems: Array<ResolversParentTypes['ReturnItems']>, returns: Array<ResolversParentTypes['Returns']>, salesOrder: ResolversParentTypes['SalesOrders'], salesOrderItem: ResolversParentTypes['SalesOrderItems'], salesOrderItems: Array<ResolversParentTypes['SalesOrderItems']>, salesOrders: Array<ResolversParentTypes['SalesOrders']>, stockTransfer: ResolversParentTypes['StockTransfers'], stockTransfers: Array<ResolversParentTypes['StockTransfers']>, supplier: ResolversParentTypes['Suppliers'], suppliers: Array<ResolversParentTypes['Suppliers']>, task: ResolversParentTypes['Tasks'], taskItem: ResolversParentTypes['TaskItems'], taskItems: Array<ResolversParentTypes['TaskItems']>, tasks: Array<ResolversParentTypes['Tasks']>, warehouse: ResolversParentTypes['Warehouses'], warehouses: Array<ResolversParentTypes['Warehouses']>, wmsProduct: ResolversParentTypes['WmsProducts'], wmsProducts: Array<ResolversParentTypes['WmsProducts']> };
 };
 
+export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountTransactions'] = ResolversParentTypes['AccountTransactions']> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  processedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  referenceNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  runningBalance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  sourceRecordId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  sourceRecordType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  transactionDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['TransactionType'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type AccountingSyncLogsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountingSyncLogs'] = ResolversParentTypes['AccountingSyncLogs']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  errorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  externalSystem?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastSyncAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nextRetryAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  recordId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  recordType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  requestPayload?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  responsePayload?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  retryCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['SyncStatus']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type AttachmentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Attachments'] = ResolversParentTypes['Attachments']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -5108,6 +6331,106 @@ export type AttachmentsResolvers<ContextType = GraphQLContext, ParentType extend
   recordId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   recordType?: Resolver<Maybe<ResolversTypes['RecordType']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type BillingInvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DISPUTED?: any, DRAFT?: any, PAID?: any, PARTIAL_PAID?: any, PAST_DUE?: any, SENT?: any, VIEWED?: any, VOID?: any }, ResolversTypes['BillingInvoiceStatus']>;
+
+export type BillingInvoicesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingInvoices'] = ResolversParentTypes['BillingInvoices']> = {
+  amountOutstanding?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  amountPaid?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  creditNotes?: Resolver<Maybe<Array<ResolversTypes['CreditNotes']>>, ParentType, ContextType>;
+  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  discountAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  dueDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  invoiceNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  issueDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lineItems?: Resolver<Maybe<Array<ResolversTypes['InvoiceLineItems']>>, ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  paidAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  paymentTerms?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  payments?: Resolver<Maybe<Array<ResolversTypes['Payments']>>, ParentType, ContextType>;
+  quote?: Resolver<Maybe<ResolversTypes['Quotes']>, ParentType, ContextType>;
+  sentAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['BillingInvoiceStatus']>, ParentType, ContextType>;
+  subtotal?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  taxAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  totalAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type BillingMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingMutation'] = ResolversParentTypes['BillingMutation']> = {
+  createAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationcreateAccountTransactionArgs, 'value'>>;
+  createAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationcreateAccountingSyncLogArgs, 'value'>>;
+  createBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationcreateBillingInvoiceArgs, 'value'>>;
+  createClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationcreateClientAccountArgs, 'value'>>;
+  createCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationcreateCreditNoteArgs, 'value'>>;
+  createDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationcreateDisputeArgs, 'value'>>;
+  createDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationcreateDocumentArgs, 'value'>>;
+  createInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationcreateInvoiceLineItemArgs, 'value'>>;
+  createPayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationcreatePaymentArgs, 'value'>>;
+  createQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationcreateQuoteArgs, 'value'>>;
+  createRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationcreateRateCardArgs, 'value'>>;
+  createRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationcreateRateRuleArgs, 'value'>>;
+  createSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationcreateSurchargeArgs, 'value'>>;
+  removeAccountTransaction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountTransactionArgs, 'id'>>;
+  removeAccountingSyncLog?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountingSyncLogArgs, 'id'>>;
+  removeBillingInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveBillingInvoiceArgs, 'id'>>;
+  removeClientAccount?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveClientAccountArgs, 'id'>>;
+  removeCreditNote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveCreditNoteArgs, 'id'>>;
+  removeDispute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDisputeArgs, 'id'>>;
+  removeDocument?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDocumentArgs, 'id'>>;
+  removeInvoiceLineItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveInvoiceLineItemArgs, 'id'>>;
+  removePayment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremovePaymentArgs, 'id'>>;
+  removeQuote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveQuoteArgs, 'id'>>;
+  removeRateCard?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateCardArgs, 'id'>>;
+  removeRateRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateRuleArgs, 'id'>>;
+  removeSurcharge?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveSurchargeArgs, 'id'>>;
+  updateAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountTransactionArgs, 'id'>>;
+  updateAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountingSyncLogArgs, 'id'>>;
+  updateBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationupdateBillingInvoiceArgs, 'id'>>;
+  updateClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationupdateClientAccountArgs, 'id'>>;
+  updateCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationupdateCreditNoteArgs, 'id'>>;
+  updateDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationupdateDisputeArgs, 'id'>>;
+  updateDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationupdateDocumentArgs, 'id'>>;
+  updateInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationupdateInvoiceLineItemArgs, 'id'>>;
+  updatePayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationupdatePaymentArgs, 'id'>>;
+  updateQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationupdateQuoteArgs, 'id'>>;
+  updateRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationupdateRateCardArgs, 'id'>>;
+  updateRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationupdateRateRuleArgs, 'id'>>;
+  updateSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationupdateSurchargeArgs, 'id'>>;
+};
+
+export type BillingQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingQuery'] = ResolversParentTypes['BillingQuery']> = {
+  accountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingQueryaccountTransactionArgs, 'id'>>;
+  accountTransactions?: Resolver<Array<ResolversTypes['AccountTransactions']>, ParentType, ContextType, Partial<BillingQueryaccountTransactionsArgs>>;
+  accountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingQueryaccountingSyncLogArgs, 'id'>>;
+  accountingSyncLogs?: Resolver<Array<ResolversTypes['AccountingSyncLogs']>, ParentType, ContextType, Partial<BillingQueryaccountingSyncLogsArgs>>;
+  billingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingQuerybillingInvoiceArgs, 'id'>>;
+  billingInvoices?: Resolver<Array<ResolversTypes['BillingInvoices']>, ParentType, ContextType, Partial<BillingQuerybillingInvoicesArgs>>;
+  clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingQueryclientAccountArgs, 'id'>>;
+  clientAccounts?: Resolver<Array<ResolversTypes['ClientAccounts']>, ParentType, ContextType, Partial<BillingQueryclientAccountsArgs>>;
+  creditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingQuerycreditNoteArgs, 'id'>>;
+  creditNotes?: Resolver<Array<ResolversTypes['CreditNotes']>, ParentType, ContextType, Partial<BillingQuerycreditNotesArgs>>;
+  dispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingQuerydisputeArgs, 'id'>>;
+  disputes?: Resolver<Array<ResolversTypes['Disputes']>, ParentType, ContextType, Partial<BillingQuerydisputesArgs>>;
+  document?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingQuerydocumentArgs, 'id'>>;
+  documents?: Resolver<Array<ResolversTypes['Documents']>, ParentType, ContextType, Partial<BillingQuerydocumentsArgs>>;
+  invoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingQueryinvoiceLineItemArgs, 'id'>>;
+  invoiceLineItems?: Resolver<Array<ResolversTypes['InvoiceLineItems']>, ParentType, ContextType, Partial<BillingQueryinvoiceLineItemsArgs>>;
+  payment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingQuerypaymentArgs, 'id'>>;
+  payments?: Resolver<Array<ResolversTypes['Payments']>, ParentType, ContextType, Partial<BillingQuerypaymentsArgs>>;
+  quote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingQueryquoteArgs, 'id'>>;
+  quotes?: Resolver<Array<ResolversTypes['Quotes']>, ParentType, ContextType, Partial<BillingQueryquotesArgs>>;
+  rateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingQueryrateCardArgs, 'id'>>;
+  rateCards?: Resolver<Array<ResolversTypes['RateCards']>, ParentType, ContextType, Partial<BillingQueryrateCardsArgs>>;
+  rateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingQueryrateRuleArgs, 'id'>>;
+  rateRules?: Resolver<Array<ResolversTypes['RateRules']>, ParentType, ContextType, Partial<BillingQueryrateRulesArgs>>;
+  surcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingQuerysurchargeArgs, 'id'>>;
+  surcharges?: Resolver<Array<ResolversTypes['Surcharges']>, ParentType, ContextType, Partial<BillingQuerysurchargesArgs>>;
 };
 
 export type BinThresholdsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BinThresholds'] = ResolversParentTypes['BinThresholds']> = {
@@ -5178,11 +6501,29 @@ export type CasesResolvers<ContextType = GraphQLContext, ParentType extends Reso
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type ClientAccountsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ClientAccounts'] = ResolversParentTypes['ClientAccounts']> = {
+  availableCredit?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creditLimit?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isCreditApproved?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  lastPaymentDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  paymentTermsDays?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  transactions?: Resolver<Maybe<Array<ResolversTypes['AccountTransactions']>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  walletBalance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+};
+
 export type CompaniesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Companies'] = ResolversParentTypes['Companies']> = {
   annualRevenue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  billingInvoices?: Resolver<Maybe<Array<ResolversTypes['BillingInvoices']>>, ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  clientAccount?: Resolver<Maybe<ResolversTypes['ClientAccounts']>, ParentType, ContextType>;
   country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  disputes?: Resolver<Maybe<Array<ResolversTypes['Disputes']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   inboundShipments?: Resolver<Maybe<Array<ResolversTypes['InboundShipments']>>, ParentType, ContextType>;
   industry?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -5191,6 +6532,7 @@ export type CompaniesResolvers<ContextType = GraphQLContext, ParentType extends 
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   postalCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   putawayRules?: Resolver<Maybe<Array<ResolversTypes['PutawayRules']>>, ParentType, ContextType>;
+  quotes?: Resolver<Maybe<Array<ResolversTypes['Quotes']>>, ParentType, ContextType>;
   returns?: Resolver<Maybe<Array<ResolversTypes['Returns']>>, ParentType, ContextType>;
   salesOrders?: Resolver<Maybe<Array<ResolversTypes['SalesOrders']>>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -5208,6 +6550,22 @@ export type ContactsResolvers<ContextType = GraphQLContext, ParentType extends R
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type CreditNotesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CreditNotes'] = ResolversParentTypes['CreditNotes']> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  appliedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  creditNoteNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dispute?: Resolver<Maybe<ResolversTypes['Disputes']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  invoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
+  issueDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
@@ -5345,6 +6703,24 @@ export type DeliveryTasksResolvers<ContextType = GraphQLContext, ParentType exte
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type DisputeStatusResolvers = EnumResolverSignature<{ APPROVED?: any, CLOSED?: any, DENIED?: any, ESCALATED?: any, OPEN?: any, UNDER_REVIEW?: any }, ResolversTypes['DisputeStatus']>;
+
+export type DisputesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Disputes'] = ResolversParentTypes['Disputes']> = {
+  client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  creditNotes?: Resolver<Maybe<Array<ResolversTypes['CreditNotes']>>, ParentType, ContextType>;
+  disputedAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType>;
+  reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  resolutionNotes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  resolvedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  resolvedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['DisputeStatus']>, ParentType, ContextType>;
+  submittedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type DmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsMutation'] = ResolversParentTypes['DmsMutation']> = {
   createCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationcreateCustomerTrackingLinkArgs, 'value'>>;
   createDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationcreateDeliveryRouteArgs, 'value'>>;
@@ -5394,6 +6770,22 @@ export type DmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   driverLocations?: Resolver<Array<ResolversTypes['DriverLocations']>, ParentType, ContextType, Partial<DmsQuerydriverLocationsArgs>>;
   taskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsQuerytaskEventArgs, 'id'>>;
   taskEvents?: Resolver<Array<ResolversTypes['TaskEvents']>, ParentType, ContextType, Partial<DmsQuerytaskEventsArgs>>;
+};
+
+export type DocumentTypeResolvers = EnumResolverSignature<{ BOL?: any, COMMERCIAL_INVOICE?: any, CREDIT_NOTE?: any, CUSTOMS_DECLARATION?: any, PACKING_LIST?: any, PROOF_OF_DELIVERY?: any, RECEIPT?: any, SHIPPING_LABEL?: any }, ResolversTypes['DocumentType']>;
+
+export type DocumentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Documents'] = ResolversParentTypes['Documents']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  documentType?: Resolver<ResolversTypes['DocumentType'], ParentType, ContextType>;
+  fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  filePath?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  fileSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  recordId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  recordType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  uploadedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type DriverLocationsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DriverLocations'] = ResolversParentTypes['DriverLocations']> = {
@@ -5580,6 +6972,25 @@ export type InvoiceItemsResolvers<ContextType = GraphQLContext, ParentType exten
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type InvoiceLineItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InvoiceLineItems'] = ResolversParentTypes['InvoiceLineItems']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  discountAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  discountRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  disputes?: Resolver<Maybe<Array<ResolversTypes['Disputes']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  invoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
+  lineTotal?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  quantity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  sourceRecordId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  sourceRecordType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  taxAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  taxRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  totalPrice?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  unitPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
 export type InvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DRAFT?: any, OVERDUE?: any, PAID?: any, SENT?: any }, ResolversTypes['InvoiceStatus']>;
 
 export type InvoicesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Invoices'] = ResolversParentTypes['Invoices']> = {
@@ -5650,6 +7061,7 @@ export type LocationsResolvers<ContextType = GraphQLContext, ParentType extends 
 };
 
 export type MutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  billing?: Resolver<Maybe<ResolversTypes['BillingMutation']>, ParentType, ContextType>;
   crm?: Resolver<Maybe<ResolversTypes['CrmMutation']>, ParentType, ContextType>;
   dms?: Resolver<Maybe<ResolversTypes['DmsMutation']>, ParentType, ContextType>;
   tms?: Resolver<Maybe<ResolversTypes['TmsMutation']>, ParentType, ContextType>;
@@ -5783,7 +7195,29 @@ export type PartnerInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
-export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CREDIT_CARD?: any, PAYPAL?: any, STRIPE?: any, WIRE_TRANSFER?: any }, ResolversTypes['PaymentMethod']>;
+export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, PAYPAL?: any, QR_PH?: any, STRIPE?: any, WALLET?: any, WIRE_TRANSFER?: any }, ResolversTypes['PaymentMethod']>;
+
+export type PaymentStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, FAILED?: any, PENDING?: any, PROCESSING?: any, REFUNDED?: any, SUCCESSFUL?: any }, ResolversTypes['PaymentStatus']>;
+
+export type PaymentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Payments'] = ResolversParentTypes['Payments']> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  exchangeRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  fees?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  gatewayReference?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  invoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
+  netAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  paymentDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  paymentMethod?: Resolver<ResolversTypes['PaymentMethod'], ParentType, ContextType>;
+  processedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  processedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['PaymentStatus']>, ParentType, ContextType>;
+  transactionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
 
 export type PickBatchItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PickBatchItems'] = ResolversParentTypes['PickBatchItems']> = {
   actualPickTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -5821,6 +7255,8 @@ export type PickBatchesResolvers<ContextType = GraphQLContext, ParentType extend
 };
 
 export type PickStrategyResolvers = EnumResolverSignature<{ BATCH_PICKING?: any, CLUSTER_PICKING?: any, SINGLE_ORDER_PICKING?: any, WAVE_PICKING?: any, ZONE_PICKING?: any }, ResolversTypes['PickStrategy']>;
+
+export type PricingModelResolvers = EnumResolverSignature<{ FLAT_RATE?: any, PERCENTAGE?: any, PER_CUBIC_METER?: any, PER_ITEM?: any, PER_KG?: any, PER_ZONE?: any, TIERED?: any }, ResolversTypes['PricingModel']>;
 
 export type ProductStatusResolvers = EnumResolverSignature<{ ACTIVE?: any, DISCONTINUED?: any, INACTIVE?: any, OBSOLETE?: any }, ResolversTypes['ProductStatus']>;
 
@@ -5873,10 +7309,64 @@ export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType exten
 };
 
 export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  billing?: Resolver<Maybe<ResolversTypes['BillingQuery']>, ParentType, ContextType>;
   crm?: Resolver<Maybe<ResolversTypes['CrmQuery']>, ParentType, ContextType>;
   dms?: Resolver<Maybe<ResolversTypes['DmsQuery']>, ParentType, ContextType>;
   tms?: Resolver<Maybe<ResolversTypes['TmsQuery']>, ParentType, ContextType>;
   wms?: Resolver<Maybe<ResolversTypes['WmsQuery']>, ParentType, ContextType>;
+};
+
+export type QuoteStatusResolvers = EnumResolverSignature<{ ACCEPTED?: any, CANCELLED?: any, CONVERTED?: any, EXPIRED?: any, PENDING?: any }, ResolversTypes['QuoteStatus']>;
+
+export type QuotesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Quotes'] = ResolversParentTypes['Quotes']> = {
+  billingInvoices?: Resolver<Maybe<Array<ResolversTypes['BillingInvoices']>>, ParentType, ContextType>;
+  client?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  destinationDetails?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  length?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  originDetails?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  quoteNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  quotedPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  serviceLevel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['QuoteStatus']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  volume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+};
+
+export type RateCardsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['RateCards'] = ResolversParentTypes['RateCards']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rules?: Resolver<Maybe<Array<ResolversTypes['RateRules']>>, ParentType, ContextType>;
+  serviceType?: Resolver<ResolversTypes['ServiceType'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  validFrom?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  validTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type RateRulesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['RateRules'] = ResolversParentTypes['RateRules']> = {
+  condition?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  maxValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  minValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  pricingModel?: Resolver<ResolversTypes['PricingModel'], ParentType, ContextType>;
+  priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  rateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type RecordTypeResolvers = EnumResolverSignature<{ CAMPAIGNS?: any, CASES?: any, COMPANIES?: any, CONTACTS?: any, INTERACTIONS?: any, INVOICES?: any, LEADS?: any, OPPORTUNITIES?: any, PRODUCTS?: any }, ResolversTypes['RecordType']>;
@@ -5956,6 +7446,8 @@ export type SalesOrdersResolvers<ContextType = GraphQLContext, ParentType extend
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type ServiceTypeResolvers = EnumResolverSignature<{ CUSTOMS?: any, FULFILLMENT?: any, HANDLING?: any, INSURANCE?: any, PACKAGING?: any, RETURNS?: any, SHIPPING?: any, STORAGE?: any }, ResolversTypes['ServiceType']>;
+
 export type ShipmentLegEventsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ShipmentLegEvents'] = ResolversParentTypes['ShipmentLegEvents']> = {
   eventTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6004,6 +7496,24 @@ export type SuppliersResolvers<ContextType = GraphQLContext, ParentType extends 
   products?: Resolver<Maybe<Array<ResolversTypes['WmsProducts']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
+
+export type SurchargeCalculationMethodResolvers = EnumResolverSignature<{ FIXED?: any, PERCENTAGE?: any, PER_UNIT?: any, SLIDING_SCALE?: any }, ResolversTypes['SurchargeCalculationMethod']>;
+
+export type SurchargesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Surcharges'] = ResolversParentTypes['Surcharges']> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  calculationMethod?: Resolver<ResolversTypes['SurchargeCalculationMethod'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  validFrom?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  validTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type SyncStatusResolvers = EnumResolverSignature<{ FAILED?: any, IN_PROGRESS?: any, PENDING?: any, RETRY?: any, SUCCESS?: any }, ResolversTypes['SyncStatus']>;
 
 export type TaskEventStatusResolvers = EnumResolverSignature<{ ARRIVED?: any, ASSIGNED?: any, CANCELLED?: any, DELIVERED?: any, EXCEPTION?: any, FAILED?: any, RESCHEDULED?: any, STARTED?: any }, ResolversTypes['TaskEventStatus']>;
 
@@ -6164,6 +7674,8 @@ export type TmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   vehicleMaintenances?: Resolver<Array<ResolversTypes['VehicleMaintenance']>, ParentType, ContextType, Partial<TmsQueryvehicleMaintenancesArgs>>;
   vehicles?: Resolver<Array<ResolversTypes['Vehicles']>, ParentType, ContextType, Partial<TmsQueryvehiclesArgs>>;
 };
+
+export type TransactionTypeResolvers = EnumResolverSignature<{ ADJUSTMENT?: any, CREDIT?: any, DEBIT?: any, FEE?: any, REFUND?: any, TOP_UP?: any }, ResolversTypes['TransactionType']>;
 
 export type TripStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, COMPLETED?: any, IN_PROGRESS?: any, PLANNED?: any }, ResolversTypes['TripStatus']>;
 
@@ -6425,7 +7937,13 @@ export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
 };
 
 export type Resolvers<ContextType = GraphQLContext> = {
+  AccountTransactions?: AccountTransactionsResolvers<ContextType>;
+  AccountingSyncLogs?: AccountingSyncLogsResolvers<ContextType>;
   Attachments?: AttachmentsResolvers<ContextType>;
+  BillingInvoiceStatus?: BillingInvoiceStatusResolvers;
+  BillingInvoices?: BillingInvoicesResolvers<ContextType>;
+  BillingMutation?: BillingMutationResolvers<ContextType>;
+  BillingQuery?: BillingQueryResolvers<ContextType>;
   BinThresholds?: BinThresholdsResolvers<ContextType>;
   Campaigns?: CampaignsResolvers<ContextType>;
   CarrierRateUnit?: CarrierRateUnitResolvers;
@@ -6435,8 +7953,10 @@ export type Resolvers<ContextType = GraphQLContext> = {
   CaseStatus?: CaseStatusResolvers;
   CaseType?: CaseTypeResolvers;
   Cases?: CasesResolvers<ContextType>;
+  ClientAccounts?: ClientAccountsResolvers<ContextType>;
   Companies?: CompaniesResolvers<ContextType>;
   Contacts?: ContactsResolvers<ContextType>;
+  CreditNotes?: CreditNotesResolvers<ContextType>;
   CrmMutation?: CrmMutationResolvers<ContextType>;
   CrmQuery?: CrmQueryResolvers<ContextType>;
   Currency?: CurrencyResolvers;
@@ -6447,9 +7967,13 @@ export type Resolvers<ContextType = GraphQLContext> = {
   DeliveryRoutes?: DeliveryRoutesResolvers<ContextType>;
   DeliveryTaskStatus?: DeliveryTaskStatusResolvers;
   DeliveryTasks?: DeliveryTasksResolvers<ContextType>;
+  DisputeStatus?: DisputeStatusResolvers;
+  Disputes?: DisputesResolvers<ContextType>;
   DmsMutation?: DmsMutationResolvers<ContextType>;
   DmsProofOfDeliveries?: DmsProofOfDeliveriesResolvers<ContextType>;
   DmsQuery?: DmsQueryResolvers<ContextType>;
+  DocumentType?: DocumentTypeResolvers;
+  Documents?: DocumentsResolvers<ContextType>;
   DriverLocations?: DriverLocationsResolvers<ContextType>;
   DriverScheduleReason?: DriverScheduleReasonResolvers;
   DriverSchedules?: DriverSchedulesResolvers<ContextType>;
@@ -6473,6 +7997,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   InventoryStock?: InventoryStockResolvers<ContextType>;
   InventoryStockStatus?: InventoryStockStatusResolvers;
   InvoiceItems?: InvoiceItemsResolvers<ContextType>;
+  InvoiceLineItems?: InvoiceLineItemsResolvers<ContextType>;
   InvoiceStatus?: InvoiceStatusResolvers;
   Invoices?: InvoicesResolvers<ContextType>;
   LeadSource?: LeadSourceResolvers;
@@ -6495,10 +8020,13 @@ export type Resolvers<ContextType = GraphQLContext> = {
   PartnerInvoiceStatus?: PartnerInvoiceStatusResolvers;
   PartnerInvoices?: PartnerInvoicesResolvers<ContextType>;
   PaymentMethod?: PaymentMethodResolvers;
+  PaymentStatus?: PaymentStatusResolvers;
+  Payments?: PaymentsResolvers<ContextType>;
   PickBatchItems?: PickBatchItemsResolvers<ContextType>;
   PickBatchStatus?: PickBatchStatusResolvers;
   PickBatches?: PickBatchesResolvers<ContextType>;
   PickStrategy?: PickStrategyResolvers;
+  PricingModel?: PricingModelResolvers;
   ProductStatus?: ProductStatusResolvers;
   ProductType?: ProductTypeResolvers;
   Products?: ProductsResolvers<ContextType>;
@@ -6507,6 +8035,10 @@ export type Resolvers<ContextType = GraphQLContext> = {
   ProofType?: ProofTypeResolvers;
   PutawayRules?: PutawayRulesResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  QuoteStatus?: QuoteStatusResolvers;
+  Quotes?: QuotesResolvers<ContextType>;
+  RateCards?: RateCardsResolvers<ContextType>;
+  RateRules?: RateRulesResolvers<ContextType>;
   RecordType?: RecordTypeResolvers;
   ReorderPoints?: ReorderPointsResolvers<ContextType>;
   ReturnItemCondition?: ReturnItemConditionResolvers;
@@ -6517,12 +8049,16 @@ export type Resolvers<ContextType = GraphQLContext> = {
   SalesOrderItems?: SalesOrderItemsResolvers<ContextType>;
   SalesOrderStatus?: SalesOrderStatusResolvers;
   SalesOrders?: SalesOrdersResolvers<ContextType>;
+  ServiceType?: ServiceTypeResolvers;
   ShipmentLegEvents?: ShipmentLegEventsResolvers<ContextType>;
   ShipmentLegStatus?: ShipmentLegStatusResolvers;
   ShipmentLegs?: ShipmentLegsResolvers<ContextType>;
   StockTransferStatus?: StockTransferStatusResolvers;
   StockTransfers?: StockTransfersResolvers<ContextType>;
   Suppliers?: SuppliersResolvers<ContextType>;
+  SurchargeCalculationMethod?: SurchargeCalculationMethodResolvers;
+  Surcharges?: SurchargesResolvers<ContextType>;
+  SyncStatus?: SyncStatusResolvers;
   TaskEventStatus?: TaskEventStatusResolvers;
   TaskEvents?: TaskEventsResolvers<ContextType>;
   TaskItemStatus?: TaskItemStatusResolvers;
@@ -6532,6 +8068,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   Tasks?: TasksResolvers<ContextType>;
   TmsMutation?: TmsMutationResolvers<ContextType>;
   TmsQuery?: TmsQueryResolvers<ContextType>;
+  TransactionType?: TransactionTypeResolvers;
   TripStatus?: TripStatusResolvers;
   TripStopStatus?: TripStopStatusResolvers;
   TripStops?: TripStopsResolvers<ContextType>;

@@ -1,0 +1,82 @@
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  WALLET
+  QR_PH
+  CLIENT_CREDIT
+  BANK_TRANSFER
+  CASH
+  CHECK
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCESSFUL
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+type Payments {
+  id: ID!
+  invoice: BillingInvoices!
+  amount: Float!
+  paymentMethod: PaymentMethod!
+  transactionId: String
+  gatewayReference: String
+  status: PaymentStatus
+  paymentDate: String
+  processedAt: String
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  netAmount: Float
+  notes: String
+  processedByUser: User
+  createdAt: String
+  updatedAt: String
+}
+
+extend type BillingQuery {
+  payments(page: Int, perPage: Int): [Payments!]!
+  payment(id: ID!): Payments!
+}
+
+input CreatePaymentInput {
+  invoiceId: ID!
+  amount: Float!
+  paymentMethod: PaymentMethod!
+  transactionId: String
+  gatewayReference: String
+  status: PaymentStatus
+  paymentDate: String
+  processedAt: String
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  notes: String
+  processedByUserId: ID
+}
+
+input UpdatePaymentInput {
+  invoiceId: ID
+  amount: Float
+  paymentMethod: PaymentMethod
+  transactionId: String
+  gatewayReference: String
+  status: PaymentStatus
+  paymentDate: String
+  processedAt: String
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  notes: String
+  processedByUserId: ID
+}
+
+extend type BillingMutation {
+  createPayment(value: CreatePaymentInput!): Payments!
+  updatePayment(id: ID!, value: UpdatePaymentInput): Payments!
+  removePayment(id: ID!): DeleteResult!
+}

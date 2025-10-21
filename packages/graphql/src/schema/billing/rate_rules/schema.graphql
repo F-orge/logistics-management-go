@@ -1,0 +1,59 @@
+enum PricingModel {
+  PER_KG
+  PER_ITEM
+  FLAT_RATE
+  PER_CUBIC_METER
+  PER_ZONE
+  PERCENTAGE
+  TIERED
+}
+
+type RateRules {
+  id: ID!
+  rateCard: RateCards!
+  condition: String!
+  value: String!
+  price: Float!
+  pricingModel: PricingModel!
+  minValue: Float
+  maxValue: Float
+  priority: Int
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+extend type BillingQuery {
+  rateRules(page: Int, perPage: Int): [RateRules!]!
+  rateRule(id: ID!): RateRules!
+}
+
+input CreateRateRuleInput {
+  rateCardId: ID!
+  condition: String!
+  value: String!
+  price: Float!
+  pricingModel: PricingModel!
+  minValue: Float
+  maxValue: Float
+  priority: Int
+  isActive: Boolean
+}
+
+input UpdateRateRuleInput {
+  rateCardId: ID
+  condition: String
+  value: String
+  price: Float
+  pricingModel: PricingModel
+  minValue: Float
+  maxValue: Float
+  priority: Int
+  isActive: Boolean
+}
+
+extend type BillingMutation {
+  createRateRule(value: CreateRateRuleInput!): RateRules!
+  updateRateRule(id: ID!, value: UpdateRateRuleInput): RateRules!
+  removeRateRule(id: ID!): DeleteResult!
+}

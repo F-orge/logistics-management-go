@@ -1,0 +1,59 @@
+enum DisputeStatus {
+  OPEN
+  UNDER_REVIEW
+  APPROVED
+  DENIED
+  ESCALATED
+  CLOSED
+}
+
+type Disputes {
+  id: ID!
+  lineItem: InvoiceLineItems!
+  client: Companies!
+  reason: String!
+  status: DisputeStatus
+  disputedAmount: Float
+  resolutionNotes: String
+  submittedAt: String
+  resolvedAt: String
+  resolvedByUser: User
+  createdAt: String
+  updatedAt: String
+  creditNotes: [CreditNotes!]
+}
+
+extend type BillingQuery {
+  disputes(page: Int, perPage: Int): [Disputes!]!
+  dispute(id: ID!): Disputes!
+}
+
+input CreateDisputeInput {
+  lineItemId: ID!
+  clientId: ID!
+  reason: String!
+  status: DisputeStatus
+  disputedAmount: Float
+  resolutionNotes: String
+  submittedAt: String
+  resolvedAt: String
+  resolvedByUserId: ID
+}
+
+input UpdateDisputeInput {
+  lineItemId: ID
+  clientId: ID
+  reason: String
+  status: DisputeStatus
+  disputedAmount: Float
+  resolutionNotes: String
+  submittedAt: String
+  resolvedAt: String
+  resolvedByUserId: ID
+}
+
+extend type BillingMutation {
+  createDispute(value: CreateDisputeInput!): Disputes!
+  updateDispute(id: ID!, value: UpdateDisputeInput): Disputes!
+  removeDispute(id: ID!): DeleteResult!
+}

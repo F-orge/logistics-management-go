@@ -1,0 +1,52 @@
+type CreditNotes {
+  id: ID!
+  invoice: BillingInvoices!
+  dispute: Disputes
+  creditNoteNumber: String!
+  amount: Float!
+  reason: String!
+  issueDate: String!
+  appliedAt: String
+  currency: String
+  notes: String
+  createdByUser: User
+  createdAt: String
+  updatedAt: String
+}
+
+extend type BillingQuery {
+  creditNotes(page: Int, perPage: Int): [CreditNotes!]!
+  creditNote(id: ID!): CreditNotes!
+}
+
+input CreateCreditNoteInput {
+  invoiceId: ID!
+  disputeId: ID
+  creditNoteNumber: String!
+  amount: Float!
+  reason: String!
+  issueDate: String!
+  appliedAt: String
+  currency: String
+  notes: String
+  createdByUserId: ID
+}
+
+input UpdateCreditNoteInput {
+  invoiceId: ID
+  disputeId: ID
+  creditNoteNumber: String
+  amount: Float
+  reason: String
+  issueDate: String
+  appliedAt: String
+  currency: String
+  notes: String
+  createdByUserId: ID
+}
+
+extend type BillingMutation {
+  createCreditNote(value: CreateCreditNoteInput!): CreditNotes!
+  updateCreditNote(id: ID!, value: UpdateCreditNoteInput): CreditNotes!
+  removeCreditNote(id: ID!): DeleteResult!
+}

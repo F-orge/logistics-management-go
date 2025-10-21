@@ -1,0 +1,11 @@
+type BillingQuery
+
+type BillingMutation 
+
+extend type Query {
+  billing:BillingQuery
+}
+
+extend type Mutation {
+  billing:BillingMutation
+}

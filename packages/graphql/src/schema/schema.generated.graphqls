@@ -1,3 +1,36 @@
+type AccountTransactions {
+  amount: Float!
+  clientAccount: ClientAccounts!
+  createdAt: String
+  description: String
+  id: ID!
+  processedByUser: User
+  referenceNumber: String
+  runningBalance: Float
+  sourceRecordId: ID
+  sourceRecordType: String
+  transactionDate: String
+  type: TransactionType!
+  updatedAt: String
+}
+
+type AccountingSyncLogs {
+  createdAt: String
+  errorMessage: String
+  externalId: String
+  externalSystem: String!
+  id: ID!
+  lastSyncAt: String
+  nextRetryAt: String
+  recordId: ID!
+  recordType: String!
+  requestPayload: String
+  responsePayload: String
+  retryCount: Int
+  status: SyncStatus
+  updatedAt: String
+}
+
 type Attachments {
   createdAt: String
   fileName: String!
@@ -7,6 +40,116 @@ type Attachments {
   recordId: ID
   recordType: RecordType
   updatedAt: String
+}
+
+enum BillingInvoiceStatus {
+  CANCELLED
+  DISPUTED
+  DRAFT
+  PAID
+  PARTIAL_PAID
+  PAST_DUE
+  SENT
+  VIEWED
+  VOID
+}
+
+type BillingInvoices {
+  amountOutstanding: Float
+  amountPaid: Float
+  client: Companies!
+  createdAt: String
+  createdByUser: User
+  creditNotes: [CreditNotes!]
+  currency: String
+  discountAmount: Float
+  dueDate: String!
+  id: ID!
+  invoiceNumber: String!
+  issueDate: String!
+  lineItems: [InvoiceLineItems!]
+  notes: String
+  paidAt: String
+  paymentTerms: String
+  payments: [Payments!]
+  quote: Quotes
+  sentAt: String
+  status: BillingInvoiceStatus
+  subtotal: Float
+  taxAmount: Float
+  totalAmount: Float!
+  updatedAt: String
+}
+
+type BillingMutation {
+  createAccountTransaction(value: CreateAccountTransactionInput!): AccountTransactions!
+  createAccountingSyncLog(value: CreateAccountingSyncLogInput!): AccountingSyncLogs!
+  createBillingInvoice(value: CreateBillingInvoiceInput!): BillingInvoices!
+  createClientAccount(value: CreateClientAccountInput!): ClientAccounts!
+  createCreditNote(value: CreateCreditNoteInput!): CreditNotes!
+  createDispute(value: CreateDisputeInput!): Disputes!
+  createDocument(value: CreateDocumentInput!): Documents!
+  createInvoiceLineItem(value: CreateInvoiceLineItemInput!): InvoiceLineItems!
+  createPayment(value: CreatePaymentInput!): Payments!
+  createQuote(value: CreateQuoteInput!): Quotes!
+  createRateCard(value: CreateRateCardInput!): RateCards!
+  createRateRule(value: CreateRateRuleInput!): RateRules!
+  createSurcharge(value: CreateSurchargeInput!): Surcharges!
+  removeAccountTransaction(id: ID!): DeleteResult!
+  removeAccountingSyncLog(id: ID!): DeleteResult!
+  removeBillingInvoice(id: ID!): DeleteResult!
+  removeClientAccount(id: ID!): DeleteResult!
+  removeCreditNote(id: ID!): DeleteResult!
+  removeDispute(id: ID!): DeleteResult!
+  removeDocument(id: ID!): DeleteResult!
+  removeInvoiceLineItem(id: ID!): DeleteResult!
+  removePayment(id: ID!): DeleteResult!
+  removeQuote(id: ID!): DeleteResult!
+  removeRateCard(id: ID!): DeleteResult!
+  removeRateRule(id: ID!): DeleteResult!
+  removeSurcharge(id: ID!): DeleteResult!
+  updateAccountTransaction(id: ID!, value: UpdateAccountTransactionInput): AccountTransactions!
+  updateAccountingSyncLog(id: ID!, value: UpdateAccountingSyncLogInput): AccountingSyncLogs!
+  updateBillingInvoice(id: ID!, value: UpdateBillingInvoiceInput): BillingInvoices!
+  updateClientAccount(id: ID!, value: UpdateClientAccountInput): ClientAccounts!
+  updateCreditNote(id: ID!, value: UpdateCreditNoteInput): CreditNotes!
+  updateDispute(id: ID!, value: UpdateDisputeInput): Disputes!
+  updateDocument(id: ID!, value: UpdateDocumentInput): Documents!
+  updateInvoiceLineItem(id: ID!, value: UpdateInvoiceLineItemInput): InvoiceLineItems!
+  updatePayment(id: ID!, value: UpdatePaymentInput): Payments!
+  updateQuote(id: ID!, value: UpdateQuoteInput): Quotes!
+  updateRateCard(id: ID!, value: UpdateRateCardInput): RateCards!
+  updateRateRule(id: ID!, value: UpdateRateRuleInput): RateRules!
+  updateSurcharge(id: ID!, value: UpdateSurchargeInput): Surcharges!
+}
+
+type BillingQuery {
+  accountTransaction(id: ID!): AccountTransactions!
+  accountTransactions(page: Int, perPage: Int): [AccountTransactions!]!
+  accountingSyncLog(id: ID!): AccountingSyncLogs!
+  accountingSyncLogs(page: Int, perPage: Int): [AccountingSyncLogs!]!
+  billingInvoice(id: ID!): BillingInvoices!
+  billingInvoices(page: Int, perPage: Int): [BillingInvoices!]!
+  clientAccount(id: ID!): ClientAccounts!
+  clientAccounts(page: Int, perPage: Int): [ClientAccounts!]!
+  creditNote(id: ID!): CreditNotes!
+  creditNotes(page: Int, perPage: Int): [CreditNotes!]!
+  dispute(id: ID!): Disputes!
+  disputes(page: Int, perPage: Int): [Disputes!]!
+  document(id: ID!): Documents!
+  documents(page: Int, perPage: Int): [Documents!]!
+  invoiceLineItem(id: ID!): InvoiceLineItems!
+  invoiceLineItems(page: Int, perPage: Int): [InvoiceLineItems!]!
+  payment(id: ID!): Payments!
+  payments(page: Int, perPage: Int): [Payments!]!
+  quote(id: ID!): Quotes!
+  quotes(page: Int, perPage: Int): [Quotes!]!
+  rateCard(id: ID!): RateCards!
+  rateCards(page: Int, perPage: Int): [RateCards!]!
+  rateRule(id: ID!): RateRules!
+  rateRules(page: Int, perPage: Int): [RateRules!]!
+  surcharge(id: ID!): Surcharges!
+  surcharges(page: Int, perPage: Int): [Surcharges!]!
 }
 
 type BinThresholds {
@@ -104,11 +247,29 @@ type Cases {
   updatedAt: String
 }
 
+type ClientAccounts {
+  availableCredit: Float
+  client: Companies!
+  createdAt: String
+  creditLimit: Float
+  currency: String
+  id: ID!
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+  paymentTermsDays: Int
+  transactions: [AccountTransactions!]
+  updatedAt: String
+  walletBalance: Float
+}
+
 type Companies {
   annualRevenue: Float
+  billingInvoices: [BillingInvoices!]
   city: String
+  clientAccount: ClientAccounts
   country: String
   createdAt: String
+  disputes: [Disputes!]
   id: ID!
   inboundShipments: [InboundShipments!]
   industry: String
@@ -117,6 +278,7 @@ type Companies {
   phoneNumber: String
   postalCode: String
   putawayRules: [PutawayRules!]
+  quotes: [Quotes!]
   returns: [Returns!]
   salesOrders: [SalesOrders!]
   state: String
@@ -137,12 +299,59 @@ type Contacts {
   updatedAt: String
 }
 
+input CreateAccountTransactionInput {
+  amount: Float!
+  clientAccountId: ID!
+  description: String
+  processedByUserId: ID
+  referenceNumber: String
+  runningBalance: Float
+  sourceRecordId: ID
+  sourceRecordType: String
+  transactionDate: String
+  type: TransactionType!
+}
+
+input CreateAccountingSyncLogInput {
+  errorMessage: String
+  externalId: String
+  externalSystem: String!
+  lastSyncAt: String
+  nextRetryAt: String
+  recordId: ID!
+  recordType: String!
+  requestPayload: String
+  responsePayload: String
+  retryCount: Int
+  status: SyncStatus
+}
+
 input CreateAttachmentInput {
   fileName: String!
   filePath: String!
   mimeType: String
   recordId: ID
   recordType: RecordType
+}
+
+input CreateBillingInvoiceInput {
+  amountPaid: Float
+  clientId: ID!
+  createdByUserId: ID
+  currency: String
+  discountAmount: Float
+  dueDate: String!
+  invoiceNumber: String!
+  issueDate: String!
+  notes: String
+  paidAt: String
+  paymentTerms: String
+  quoteId: ID
+  sentAt: String
+  status: BillingInvoiceStatus
+  subtotal: Float
+  taxAmount: Float
+  totalAmount: Float!
 }
 
 input CreateBinThresholdInput {
@@ -187,6 +396,17 @@ input CreateCaseInput {
   type: CaseType
 }
 
+input CreateClientAccountInput {
+  availableCredit: Float
+  clientId: ID!
+  creditLimit: Float
+  currency: String
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+  paymentTermsDays: Int
+  walletBalance: Float
+}
+
 input CreateCompanyInput {
   annualRevenue: Float
   city: String
@@ -208,6 +428,19 @@ input CreateContactInput {
   name: String!
   ownerId: ID!
   phoneNumber: String
+}
+
+input CreateCreditNoteInput {
+  amount: Float!
+  appliedAt: String
+  createdByUserId: ID
+  creditNoteNumber: String!
+  currency: String
+  disputeId: ID
+  invoiceId: ID!
+  issueDate: String!
+  notes: String
+  reason: String!
 }
 
 input CreateCustomerTrackingLinkInput {
@@ -246,6 +479,18 @@ input CreateDeliveryTaskInput {
   status: DeliveryTaskStatus
 }
 
+input CreateDisputeInput {
+  clientId: ID!
+  disputedAmount: Float
+  lineItemId: ID!
+  reason: String!
+  resolutionNotes: String
+  resolvedAt: String
+  resolvedByUserId: ID
+  status: DisputeStatus
+  submittedAt: String
+}
+
 input CreateDmsProofOfDeliveryInput {
   deliveryTaskId: ID!
   filePath: String
@@ -256,6 +501,17 @@ input CreateDmsProofOfDeliveryInput {
   timestamp: String
   type: ProofOfDeliveryType!
   verificationCode: String
+}
+
+input CreateDocumentInput {
+  documentType: DocumentType!
+  fileName: String!
+  filePath: String!
+  fileSize: Int
+  mimeType: String
+  recordId: ID!
+  recordType: String!
+  uploadedByUserId: ID
 }
 
 input CreateDriverInput {
@@ -384,6 +640,17 @@ input CreateInvoiceItemInput {
   quantity: Int!
 }
 
+input CreateInvoiceLineItemInput {
+  description: String!
+  discountRate: Float
+  invoiceId: ID!
+  quantity: Float!
+  sourceRecordId: ID
+  sourceRecordType: String
+  taxRate: Float
+  unitPrice: Float!
+}
+
 input CreateLeadInput {
   campaignId: ID
   email: String!
@@ -504,6 +771,22 @@ input CreatePartnerInvoiceItemInput {
   shipmentLegId: ID!
 }
 
+input CreatePaymentInput {
+  amount: Float!
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  gatewayReference: String
+  invoiceId: ID!
+  notes: String
+  paymentDate: String
+  paymentMethod: PaymentMethod!
+  processedAt: String
+  processedByUserId: ID
+  status: PaymentStatus
+  transactionId: String
+}
+
 input CreatePickBatchInput {
   actualDuration: Int
   assignedUserId: ID
@@ -560,6 +843,45 @@ input CreatePutawayRuleInput {
   volumeThreshold: Float
   warehouseId: ID!
   weightThreshold: Float
+}
+
+input CreateQuoteInput {
+  clientId: ID
+  createdByUserId: ID
+  destinationDetails: String!
+  expiresAt: String
+  height: Float
+  length: Float
+  notes: String
+  originDetails: String!
+  quoteNumber: String
+  quotedPrice: Float!
+  serviceLevel: String
+  status: QuoteStatus
+  weight: Float
+  width: Float
+}
+
+input CreateRateCardInput {
+  createdByUserId: ID
+  description: String
+  isActive: Boolean
+  name: String!
+  serviceType: ServiceType!
+  validFrom: String!
+  validTo: String
+}
+
+input CreateRateRuleInput {
+  condition: String!
+  isActive: Boolean
+  maxValue: Float
+  minValue: Float
+  price: Float!
+  pricingModel: PricingModel!
+  priority: Int
+  rateCardId: ID!
+  value: String!
 }
 
 input CreateReorderPointInput {
@@ -635,6 +957,17 @@ input CreateSupplierInput {
   email: String
   name: String!
   phoneNumber: String
+}
+
+input CreateSurchargeInput {
+  amount: Float!
+  calculationMethod: SurchargeCalculationMethod!
+  description: String
+  isActive: Boolean
+  name: String!
+  type: String!
+  validFrom: String
+  validTo: String
 }
 
 input CreateTaskEventInput {
@@ -742,6 +1075,22 @@ input CreateWmsProductInput {
   supplierId: ID
   weight: Float
   width: Float
+}
+
+type CreditNotes {
+  amount: Float!
+  appliedAt: String
+  createdAt: String
+  createdByUser: User
+  creditNoteNumber: String!
+  currency: String
+  dispute: Disputes
+  id: ID!
+  invoice: BillingInvoices!
+  issueDate: String!
+  notes: String
+  reason: String!
+  updatedAt: String
 }
 
 type CrmMutation {
@@ -909,6 +1258,31 @@ type DeliveryTasks {
   updatedAt: String
 }
 
+enum DisputeStatus {
+  APPROVED
+  CLOSED
+  DENIED
+  ESCALATED
+  OPEN
+  UNDER_REVIEW
+}
+
+type Disputes {
+  client: Companies!
+  createdAt: String
+  creditNotes: [CreditNotes!]
+  disputedAmount: Float
+  id: ID!
+  lineItem: InvoiceLineItems!
+  reason: String!
+  resolutionNotes: String
+  resolvedAt: String
+  resolvedByUser: User
+  status: DisputeStatus
+  submittedAt: String
+  updatedAt: String
+}
+
 type DmsMutation {
   createCustomerTrackingLink(value: CreateCustomerTrackingLinkInput!): CustomerTrackingLinks!
   createDeliveryRoute(value: CreateDeliveryRouteInput!): DeliveryRoutes!
@@ -958,6 +1332,31 @@ type DmsQuery {
   driverLocations(page: Int, perPage: Int): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
   taskEvents(page: Int, perPage: Int): [TaskEvents!]!
+}
+
+enum DocumentType {
+  BOL
+  COMMERCIAL_INVOICE
+  CREDIT_NOTE
+  CUSTOMS_DECLARATION
+  PACKING_LIST
+  PROOF_OF_DELIVERY
+  RECEIPT
+  SHIPPING_LABEL
+}
+
+type Documents {
+  createdAt: String
+  documentType: DocumentType!
+  fileName: String!
+  filePath: String!
+  fileSize: Int
+  id: ID!
+  mimeType: String
+  recordId: ID!
+  recordType: String!
+  updatedAt: String
+  uploadedByUser: User
 }
 
 type DriverLocations {
@@ -1194,6 +1593,25 @@ type InvoiceItems {
   updatedAt: String
 }
 
+type InvoiceLineItems {
+  createdAt: String
+  description: String!
+  discountAmount: Float
+  discountRate: Float
+  disputes: [Disputes!]
+  id: ID!
+  invoice: BillingInvoices!
+  lineTotal: Float
+  quantity: Float!
+  sourceRecordId: ID
+  sourceRecordType: String
+  taxAmount: Float
+  taxRate: Float
+  totalPrice: Float
+  unitPrice: Float!
+  updatedAt: String
+}
+
 enum InvoiceStatus {
   CANCELLED
   DRAFT
@@ -1297,6 +1715,7 @@ type Locations {
 }
 
 type Mutation {
+  billing: BillingMutation
   crm: CrmMutation
   dms: DmsMutation
   tms: TmsMutation
@@ -1466,10 +1885,43 @@ enum PaymentMethod {
   BANK_TRANSFER
   CASH
   CHECK
+  CLIENT_CREDIT
   CREDIT_CARD
+  DEBIT_CARD
   PAYPAL
+  QR_PH
   STRIPE
+  WALLET
   WIRE_TRANSFER
+}
+
+enum PaymentStatus {
+  CANCELLED
+  FAILED
+  PENDING
+  PROCESSING
+  REFUNDED
+  SUCCESSFUL
+}
+
+type Payments {
+  amount: Float!
+  createdAt: String
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  gatewayReference: String
+  id: ID!
+  invoice: BillingInvoices!
+  netAmount: Float
+  notes: String
+  paymentDate: String
+  paymentMethod: PaymentMethod!
+  processedAt: String
+  processedByUser: User
+  status: PaymentStatus
+  transactionId: String
+  updatedAt: String
 }
 
 type PickBatchItems {
@@ -1518,6 +1970,16 @@ enum PickStrategy {
   SINGLE_ORDER_PICKING
   WAVE_PICKING
   ZONE_PICKING
+}
+
+enum PricingModel {
+  FLAT_RATE
+  PERCENTAGE
+  PER_CUBIC_METER
+  PER_ITEM
+  PER_KG
+  PER_ZONE
+  TIERED
 }
 
 enum ProductStatus {
@@ -1592,10 +2054,70 @@ type PutawayRules {
 }
 
 type Query {
+  billing: BillingQuery
   crm: CrmQuery
   dms: DmsQuery
   tms: TmsQuery
   wms: WmsQuery
+}
+
+enum QuoteStatus {
+  ACCEPTED
+  CANCELLED
+  CONVERTED
+  EXPIRED
+  PENDING
+}
+
+type Quotes {
+  billingInvoices: [BillingInvoices!]
+  client: Companies
+  createdAt: String
+  createdByUser: User
+  destinationDetails: String!
+  expiresAt: String
+  height: Float
+  id: ID!
+  length: Float
+  notes: String
+  originDetails: String!
+  quoteNumber: String
+  quotedPrice: Float!
+  serviceLevel: String
+  status: QuoteStatus
+  updatedAt: String
+  volume: Float
+  weight: Float
+  width: Float
+}
+
+type RateCards {
+  createdAt: String
+  createdByUser: User
+  description: String
+  id: ID!
+  isActive: Boolean
+  name: String!
+  rules: [RateRules!]
+  serviceType: ServiceType!
+  updatedAt: String
+  validFrom: String!
+  validTo: String
+}
+
+type RateRules {
+  condition: String!
+  createdAt: String
+  id: ID!
+  isActive: Boolean
+  maxValue: Float
+  minValue: Float
+  price: Float!
+  pricingModel: PricingModel!
+  priority: Int
+  rateCard: RateCards!
+  updatedAt: String
+  value: String!
 }
 
 enum RecordType {
@@ -1703,6 +2225,17 @@ type SalesOrders {
   updatedAt: String
 }
 
+enum ServiceType {
+  CUSTOMS
+  FULFILLMENT
+  HANDLING
+  INSURANCE
+  PACKAGING
+  RETURNS
+  SHIPPING
+  STORAGE
+}
+
 type ShipmentLegEvents {
   eventTimestamp: String!
   id: ID!
@@ -1761,6 +2294,35 @@ type Suppliers {
   phoneNumber: String
   products: [WmsProducts!]
   updatedAt: String
+}
+
+enum SurchargeCalculationMethod {
+  FIXED
+  PERCENTAGE
+  PER_UNIT
+  SLIDING_SCALE
+}
+
+type Surcharges {
+  amount: Float!
+  calculationMethod: SurchargeCalculationMethod!
+  createdAt: String
+  description: String
+  id: ID!
+  isActive: Boolean
+  name: String!
+  type: String!
+  updatedAt: String
+  validFrom: String
+  validTo: String
+}
+
+enum SyncStatus {
+  FAILED
+  IN_PROGRESS
+  PENDING
+  RETRY
+  SUCCESS
 }
 
 enum TaskEventStatus {
@@ -1956,6 +2518,15 @@ type TmsQuery {
   vehicles(page: Int, perPage: Int): [Vehicles!]!
 }
 
+enum TransactionType {
+  ADJUSTMENT
+  CREDIT
+  DEBIT
+  FEE
+  REFUND
+  TOP_UP
+}
+
 enum TripStatus {
   CANCELLED
   COMPLETED
@@ -1999,12 +2570,59 @@ type Trips {
   vehicle: Vehicles
 }
 
+input UpdateAccountTransactionInput {
+  amount: Float
+  clientAccountId: ID
+  description: String
+  processedByUserId: ID
+  referenceNumber: String
+  runningBalance: Float
+  sourceRecordId: ID
+  sourceRecordType: String
+  transactionDate: String
+  type: TransactionType
+}
+
+input UpdateAccountingSyncLogInput {
+  errorMessage: String
+  externalId: String
+  externalSystem: String
+  lastSyncAt: String
+  nextRetryAt: String
+  recordId: ID
+  recordType: String
+  requestPayload: String
+  responsePayload: String
+  retryCount: Int
+  status: SyncStatus
+}
+
 input UpdateAttachmentInput {
   fileName: String
   filePath: String
   mimeType: String
   recordId: ID
   recordType: RecordType
+}
+
+input UpdateBillingInvoiceInput {
+  amountPaid: Float
+  clientId: ID
+  createdByUserId: ID
+  currency: String
+  discountAmount: Float
+  dueDate: String
+  invoiceNumber: String
+  issueDate: String
+  notes: String
+  paidAt: String
+  paymentTerms: String
+  quoteId: ID
+  sentAt: String
+  status: BillingInvoiceStatus
+  subtotal: Float
+  taxAmount: Float
+  totalAmount: Float
 }
 
 input UpdateBinThresholdInput {
@@ -2049,6 +2667,17 @@ input UpdateCaseInput {
   type: CaseType
 }
 
+input UpdateClientAccountInput {
+  availableCredit: Float
+  clientId: ID
+  creditLimit: Float
+  currency: String
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+  paymentTermsDays: Int
+  walletBalance: Float
+}
+
 input UpdateCompanyInput {
   annualRevenue: Float
   city: String
@@ -2070,6 +2699,19 @@ input UpdateContactInput {
   name: String
   ownerId: ID
   phoneNumber: String
+}
+
+input UpdateCreditNoteInput {
+  amount: Float
+  appliedAt: String
+  createdByUserId: ID
+  creditNoteNumber: String
+  currency: String
+  disputeId: ID
+  invoiceId: ID
+  issueDate: String
+  notes: String
+  reason: String
 }
 
 input UpdateCustomerTrackingLinkInput {
@@ -2108,6 +2750,18 @@ input UpdateDeliveryTaskInput {
   status: DeliveryTaskStatus
 }
 
+input UpdateDisputeInput {
+  clientId: ID
+  disputedAmount: Float
+  lineItemId: ID
+  reason: String
+  resolutionNotes: String
+  resolvedAt: String
+  resolvedByUserId: ID
+  status: DisputeStatus
+  submittedAt: String
+}
+
 input UpdateDmsProofOfDeliveryInput {
   deliveryTaskId: ID
   filePath: String
@@ -2118,6 +2772,17 @@ input UpdateDmsProofOfDeliveryInput {
   timestamp: String
   type: ProofOfDeliveryType
   verificationCode: String
+}
+
+input UpdateDocumentInput {
+  documentType: DocumentType
+  fileName: String
+  filePath: String
+  fileSize: Int
+  mimeType: String
+  recordId: ID
+  recordType: String
+  uploadedByUserId: ID
 }
 
 input UpdateDriverInput {
@@ -2246,6 +2911,17 @@ input UpdateInvoiceItemInput {
   quantity: Int
 }
 
+input UpdateInvoiceLineItemInput {
+  description: String
+  discountRate: Float
+  invoiceId: ID
+  quantity: Float
+  sourceRecordId: ID
+  sourceRecordType: String
+  taxRate: Float
+  unitPrice: Float
+}
+
 input UpdateLeadInput {
   campaignId: ID
   email: String
@@ -2364,6 +3040,22 @@ input UpdatePartnerInvoiceItemInput {
   shipmentLegId: ID
 }
 
+input UpdatePaymentInput {
+  amount: Float
+  currency: String
+  exchangeRate: Float
+  fees: Float
+  gatewayReference: String
+  invoiceId: ID
+  notes: String
+  paymentDate: String
+  paymentMethod: PaymentMethod
+  processedAt: String
+  processedByUserId: ID
+  status: PaymentStatus
+  transactionId: String
+}
+
 input UpdatePickBatchInput {
   actualDuration: Int
   assignedUserId: ID
@@ -2420,6 +3112,45 @@ input UpdatePutawayRuleInput {
   volumeThreshold: Float
   warehouseId: ID
   weightThreshold: Float
+}
+
+input UpdateQuoteInput {
+  clientId: ID
+  createdByUserId: ID
+  destinationDetails: String
+  expiresAt: String
+  height: Float
+  length: Float
+  notes: String
+  originDetails: String
+  quoteNumber: String
+  quotedPrice: Float
+  serviceLevel: String
+  status: QuoteStatus
+  weight: Float
+  width: Float
+}
+
+input UpdateRateCardInput {
+  createdByUserId: ID
+  description: String
+  isActive: Boolean
+  name: String
+  serviceType: ServiceType
+  validFrom: String
+  validTo: String
+}
+
+input UpdateRateRuleInput {
+  condition: String
+  isActive: Boolean
+  maxValue: Float
+  minValue: Float
+  price: Float
+  pricingModel: PricingModel
+  priority: Int
+  rateCardId: ID
+  value: String
 }
 
 input UpdateReorderPointInput {
@@ -2495,6 +3226,17 @@ input UpdateSupplierInput {
   email: String
   name: String
   phoneNumber: String
+}
+
+input UpdateSurchargeInput {
+  amount: Float
+  calculationMethod: SurchargeCalculationMethod
+  description: String
+  isActive: Boolean
+  name: String
+  type: String
+  validFrom: String
+  validTo: String
 }
 
 input UpdateTaskEventInput {

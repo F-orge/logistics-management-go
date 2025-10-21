@@ -17,6 +17,10 @@ type Companies {
   salesOrders: [SalesOrders!]
   returns: [Returns!]
   putawayRules: [PutawayRules!]
+  quotes: [Quotes!]
+  clientAccount: ClientAccounts
+  billingInvoices: [BillingInvoices!]
+  disputes: [Disputes!]
 }
 
 extend type CrmQuery {

@@ -1,0 +1,89 @@
+enum BillingInvoiceStatus {
+  DRAFT
+  SENT
+  VIEWED
+  PAID
+  PARTIAL_PAID
+  PAST_DUE
+  DISPUTED
+  CANCELLED
+  VOID
+}
+
+type BillingInvoices {
+  id: ID!
+  client: Companies!
+  quote: Quotes
+  invoiceNumber: String!
+  status: BillingInvoiceStatus
+  issueDate: String!
+  dueDate: String!
+  totalAmount: Float!
+  amountPaid: Float
+  amountOutstanding: Float
+  currency: String
+  taxAmount: Float
+  discountAmount: Float
+  subtotal: Float
+  paymentTerms: String
+  notes: String
+  sentAt: String
+  paidAt: String
+  createdByUser: User
+  createdAt: String
+  updatedAt: String
+  lineItems: [InvoiceLineItems!]
+  payments: [Payments!]
+  creditNotes: [CreditNotes!]
+}
+
+extend type BillingQuery {
+  billingInvoices(page: Int, perPage: Int): [BillingInvoices!]!
+  billingInvoice(id: ID!): BillingInvoices!
+}
+
+input CreateBillingInvoiceInput {
+  clientId: ID!
+  quoteId: ID
+  invoiceNumber: String!
+  status: BillingInvoiceStatus
+  issueDate: String!
+  dueDate: String!
+  totalAmount: Float!
+  amountPaid: Float
+  currency: String
+  taxAmount: Float
+  discountAmount: Float
+  subtotal: Float
+  paymentTerms: String
+  notes: String
+  sentAt: String
+  paidAt: String
+  createdByUserId: ID
+}
+
+input UpdateBillingInvoiceInput {
+  clientId: ID
+  quoteId: ID
+  invoiceNumber: String
+  status: BillingInvoiceStatus
+  issueDate: String
+  dueDate: String
+  totalAmount: Float
+  amountPaid: Float
+  currency: String
+  taxAmount: Float
+  discountAmount: Float
+  subtotal: Float
+  paymentTerms: String
+  notes: String
+  sentAt: String
+  paidAt: String
+  createdByUserId: ID
+}
+
+extend type BillingMutation {
+  createBillingInvoice(value: CreateBillingInvoiceInput!): BillingInvoices!
+  updateBillingInvoice(id: ID!, value: UpdateBillingInvoiceInput): BillingInvoices!
+  removeBillingInvoice(id: ID!): DeleteResult!
+}

@@ -1,0 +1,47 @@
+type ClientAccounts {
+  id: ID!
+  client: Companies!
+  creditLimit: Float
+  availableCredit: Float
+  walletBalance: Float
+  currency: String
+  paymentTermsDays: Int
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+  createdAt: String
+  updatedAt: String
+  transactions: [AccountTransactions!]
+}
+
+extend type BillingQuery {
+  clientAccounts(page: Int, perPage: Int): [ClientAccounts!]!
+  clientAccount(id: ID!): ClientAccounts!
+}
+
+input CreateClientAccountInput {
+  clientId: ID!
+  creditLimit: Float
+  availableCredit: Float
+  walletBalance: Float
+  currency: String
+  paymentTermsDays: Int
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+}
+
+input UpdateClientAccountInput {
+  clientId: ID
+  creditLimit: Float
+  availableCredit: Float
+  walletBalance: Float
+  currency: String
+  paymentTermsDays: Int
+  isCreditApproved: Boolean
+  lastPaymentDate: String
+}
+
+extend type BillingMutation {
+  createClientAccount(value: CreateClientAccountInput!): ClientAccounts!
+  updateClientAccount(id: ID!, value: UpdateClientAccountInput): ClientAccounts!
+  removeClientAccount(id: ID!): DeleteResult!
+}

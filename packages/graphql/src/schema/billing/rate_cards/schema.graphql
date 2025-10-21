@@ -1,0 +1,55 @@
+enum ServiceType {
+  SHIPPING
+  STORAGE
+  FULFILLMENT
+  HANDLING
+  INSURANCE
+  CUSTOMS
+  PACKAGING
+  RETURNS
+}
+
+type RateCards {
+  id: ID!
+  name: String!
+  serviceType: ServiceType!
+  isActive: Boolean
+  validFrom: String!
+  validTo: String
+  description: String
+  createdByUser: User
+  createdAt: String
+  updatedAt: String
+  rules: [RateRules!]
+}
+
+extend type BillingQuery {
+  rateCards(page: Int, perPage: Int): [RateCards!]!
+  rateCard(id: ID!): RateCards!
+}
+
+input CreateRateCardInput {
+  name: String!
+  serviceType: ServiceType!
+  isActive: Boolean
+  validFrom: String!
+  validTo: String
+  description: String
+  createdByUserId: ID
+}
+
+input UpdateRateCardInput {
+  name: String
+  serviceType: ServiceType
+  isActive: Boolean
+  validFrom: String
+  validTo: String
+  description: String
+  createdByUserId: ID
+}
+
+extend type BillingMutation {
+  createRateCard(value: CreateRateCardInput!): RateCards!
+  updateRateCard(id: ID!, value: UpdateRateCardInput): RateCards!
+  removeRateCard(id: ID!): DeleteResult!
+}

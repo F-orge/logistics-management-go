@@ -1,0 +1,51 @@
+type InvoiceLineItems {
+  id: ID!
+  invoice: BillingInvoices!
+  sourceRecordId: ID
+  sourceRecordType: String
+  description: String!
+  quantity: Float!
+  unitPrice: Float!
+  totalPrice: Float
+  taxRate: Float
+  taxAmount: Float
+  discountRate: Float
+  discountAmount: Float
+  lineTotal: Float
+  createdAt: String
+  updatedAt: String
+  disputes: [Disputes!]
+}
+
+extend type BillingQuery {
+  invoiceLineItems(page: Int, perPage: Int): [InvoiceLineItems!]!
+  invoiceLineItem(id: ID!): InvoiceLineItems!
+}
+
+input CreateInvoiceLineItemInput {
+  invoiceId: ID!
+  sourceRecordId: ID
+  sourceRecordType: String
+  description: String!
+  quantity: Float!
+  unitPrice: Float!
+  taxRate: Float
+  discountRate: Float
+}
+
+input UpdateInvoiceLineItemInput {
+  invoiceId: ID
+  sourceRecordId: ID
+  sourceRecordType: String
+  description: String
+  quantity: Float
+  unitPrice: Float
+  taxRate: Float
+  discountRate: Float
+}
+
+extend type BillingMutation {
+  createInvoiceLineItem(value: CreateInvoiceLineItemInput!): InvoiceLineItems!
+  updateInvoiceLineItem(id: ID!, value: UpdateInvoiceLineItemInput): InvoiceLineItems!
+  removeInvoiceLineItem(id: ID!): DeleteResult!
+}

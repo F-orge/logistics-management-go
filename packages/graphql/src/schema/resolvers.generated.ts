@@ -1,21 +1,54 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
-    import    { crm as Query_crm } from './crm/resolvers/Query/crm';
+    import    { billing as Query_billing } from './billing/resolvers/Query/billing';
+import    { crm as Query_crm } from './crm/resolvers/Query/crm';
 import    { dms as Query_dms } from './dms/resolvers/Query/dms';
 import    { tms as Query_tms } from './tms/resolvers/Query/tms';
 import    { wms as Query_wms } from './wms/resolvers/Query/wms';
+import    { billing as Mutation_billing } from './billing/resolvers/Mutation/billing';
 import    { crm as Mutation_crm } from './crm/resolvers/Mutation/crm';
 import    { dms as Mutation_dms } from './dms/resolvers/Mutation/dms';
 import    { tms as Mutation_tms } from './tms/resolvers/Mutation/tms';
 import    { wms as Mutation_wms } from './wms/resolvers/Mutation/wms';
+import    { AccountTransactions } from './billing/account_transactions/resolvers/AccountTransactions';
+import    { AccountingSyncLogs } from './billing/accounting_sync_log/resolvers/AccountingSyncLogs';
 import    { Attachments } from './crm/attachments/resolvers/Attachments';
+import    { BillingInvoices } from './billing/invoices/resolvers/BillingInvoices';
+import    { BillingMutation as account_transactions_BillingMutation } from './billing/account_transactions/resolvers/BillingMutation';
+import    { BillingMutation as accounting_sync_log_BillingMutation } from './billing/accounting_sync_log/resolvers/BillingMutation';
+import    { BillingMutation as invoices_BillingMutation } from './billing/invoices/resolvers/BillingMutation';
+import    { BillingMutation as client_accounts_BillingMutation } from './billing/client_accounts/resolvers/BillingMutation';
+import    { BillingMutation as credit_notes_BillingMutation } from './billing/credit_notes/resolvers/BillingMutation';
+import    { BillingMutation as disputes_BillingMutation } from './billing/disputes/resolvers/BillingMutation';
+import    { BillingMutation as documents_BillingMutation } from './billing/documents/resolvers/BillingMutation';
+import    { BillingMutation as invoice_line_items_BillingMutation } from './billing/invoice_line_items/resolvers/BillingMutation';
+import    { BillingMutation as payments_BillingMutation } from './billing/payments/resolvers/BillingMutation';
+import    { BillingMutation as quotes_BillingMutation } from './billing/quotes/resolvers/BillingMutation';
+import    { BillingMutation as rate_cards_BillingMutation } from './billing/rate_cards/resolvers/BillingMutation';
+import    { BillingMutation as rate_rules_BillingMutation } from './billing/rate_rules/resolvers/BillingMutation';
+import    { BillingMutation as surcharges_BillingMutation } from './billing/surcharges/resolvers/BillingMutation';
+import    { BillingQuery as account_transactions_BillingQuery } from './billing/account_transactions/resolvers/BillingQuery';
+import    { BillingQuery as accounting_sync_log_BillingQuery } from './billing/accounting_sync_log/resolvers/BillingQuery';
+import    { BillingQuery as invoices_BillingQuery } from './billing/invoices/resolvers/BillingQuery';
+import    { BillingQuery as client_accounts_BillingQuery } from './billing/client_accounts/resolvers/BillingQuery';
+import    { BillingQuery as credit_notes_BillingQuery } from './billing/credit_notes/resolvers/BillingQuery';
+import    { BillingQuery as disputes_BillingQuery } from './billing/disputes/resolvers/BillingQuery';
+import    { BillingQuery as documents_BillingQuery } from './billing/documents/resolvers/BillingQuery';
+import    { BillingQuery as invoice_line_items_BillingQuery } from './billing/invoice_line_items/resolvers/BillingQuery';
+import    { BillingQuery as payments_BillingQuery } from './billing/payments/resolvers/BillingQuery';
+import    { BillingQuery as quotes_BillingQuery } from './billing/quotes/resolvers/BillingQuery';
+import    { BillingQuery as rate_cards_BillingQuery } from './billing/rate_cards/resolvers/BillingQuery';
+import    { BillingQuery as rate_rules_BillingQuery } from './billing/rate_rules/resolvers/BillingQuery';
+import    { BillingQuery as surcharges_BillingQuery } from './billing/surcharges/resolvers/BillingQuery';
 import    { BinThresholds } from './wms/bin_thresholds/resolvers/BinThresholds';
 import    { Campaigns } from './crm/campaigns/resolvers/Campaigns';
 import    { CarrierRates } from './tms/carrier_rates/resolvers/CarrierRates';
 import    { Carriers } from './tms/carriers/resolvers/Carriers';
 import    { Cases } from './crm/cases/resolvers/Cases';
+import    { ClientAccounts } from './billing/client_accounts/resolvers/ClientAccounts';
 import    { Companies } from './crm/companies/resolvers/Companies';
 import    { Contacts } from './crm/contacts/resolvers/Contacts';
+import    { CreditNotes } from './billing/credit_notes/resolvers/CreditNotes';
 import    { CrmMutation as attachments_CrmMutation } from './crm/attachments/resolvers/CrmMutation';
 import    { CrmMutation as campaigns_CrmMutation } from './crm/campaigns/resolvers/CrmMutation';
 import    { CrmMutation as cases_CrmMutation } from './crm/cases/resolvers/CrmMutation';
@@ -46,6 +79,7 @@ import    { CustomerTrackingLinks } from './dms/customer_tracking_links/resolver
 import    { DeleteResult } from './base/resolvers/DeleteResult';
 import    { DeliveryRoutes } from './dms/delivery_routes/resolvers/DeliveryRoutes';
 import    { DeliveryTasks } from './dms/delivery_tasks/resolvers/DeliveryTasks';
+import    { Disputes } from './billing/disputes/resolvers/Disputes';
 import    { DmsMutation as customer_tracking_links_DmsMutation } from './dms/customer_tracking_links/resolvers/DmsMutation';
 import    { DmsMutation as delivery_routes_DmsMutation } from './dms/delivery_routes/resolvers/DmsMutation';
 import    { DmsMutation as delivery_tasks_DmsMutation } from './dms/delivery_tasks/resolvers/DmsMutation';
@@ -59,6 +93,7 @@ import    { DmsQuery as delivery_tasks_DmsQuery } from './dms/delivery_tasks/res
 import    { DmsQuery as proof_of_deliveries_DmsQuery } from './dms/proof_of_deliveries/resolvers/DmsQuery';
 import    { DmsQuery as driver_locations_DmsQuery } from './dms/driver_locations/resolvers/DmsQuery';
 import    { DmsQuery as task_events_DmsQuery } from './dms/task_events/resolvers/DmsQuery';
+import    { Documents } from './billing/documents/resolvers/Documents';
 import    { DriverLocations } from './dms/driver_locations/resolvers/DriverLocations';
 import    { DriverSchedules } from './tms/driver_schedules/resolvers/DriverSchedules';
 import    { Drivers } from './tms/drivers/resolvers/Drivers';
@@ -73,6 +108,7 @@ import    { InventoryAdjustments } from './wms/inventory_adjustments/resolvers/I
 import    { InventoryBatches } from './wms/inventory_batches/resolvers/InventoryBatches';
 import    { InventoryStock } from './wms/inventory_stock/resolvers/InventoryStock';
 import    { InvoiceItems } from './crm/invoice_items/resolvers/InvoiceItems';
+import    { InvoiceLineItems } from './billing/invoice_line_items/resolvers/InvoiceLineItems';
 import    { Invoices } from './crm/invoices/resolvers/Invoices';
 import    { Leads } from './crm/leads/resolvers/Leads';
 import    { Locations } from './wms/locations/resolvers/Locations';
@@ -85,11 +121,15 @@ import    { PackageItems } from './wms/package_items/resolvers/PackageItems';
 import    { Packages } from './wms/packages/resolvers/Packages';
 import    { PartnerInvoiceItems } from './tms/partner_invoice_items/resolvers/PartnerInvoiceItems';
 import    { PartnerInvoices } from './tms/partner_invoices/resolvers/PartnerInvoices';
+import    { Payments } from './billing/payments/resolvers/Payments';
 import    { PickBatchItems } from './wms/pick_batch_items/resolvers/PickBatchItems';
 import    { PickBatches } from './wms/pick_batches/resolvers/PickBatches';
 import    { Products } from './crm/products/resolvers/Products';
 import    { ProofOfDeliveries } from './tms/proof_of_deliveries/resolvers/ProofOfDeliveries';
 import    { PutawayRules } from './wms/putaway_rules/resolvers/PutawayRules';
+import    { Quotes } from './billing/quotes/resolvers/Quotes';
+import    { RateCards } from './billing/rate_cards/resolvers/RateCards';
+import    { RateRules } from './billing/rate_rules/resolvers/RateRules';
 import    { ReorderPoints } from './wms/reorder_points/resolvers/ReorderPoints';
 import    { ReturnItems } from './wms/return_items/resolvers/ReturnItems';
 import    { Returns } from './wms/returns/resolvers/Returns';
@@ -100,6 +140,7 @@ import    { ShipmentLegEvents } from './tms/shipment_leg_events/resolvers/Shipme
 import    { ShipmentLegs } from './tms/shipment_legs/resolvers/ShipmentLegs';
 import    { StockTransfers } from './wms/stock_transfers/resolvers/StockTransfers';
 import    { Suppliers } from './wms/suppliers/resolvers/Suppliers';
+import    { Surcharges } from './billing/surcharges/resolvers/Surcharges';
 import    { TaskEvents } from './dms/task_events/resolvers/TaskEvents';
 import    { TaskItems } from './wms/task_items/resolvers/TaskItems';
 import    { Tasks } from './wms/tasks/resolvers/Tasks';
@@ -197,26 +238,35 @@ import    { WmsQuery as task_items_WmsQuery } from './wms/task_items/resolvers/W
 import    { WmsQuery as warehouses_WmsQuery } from './wms/warehouses/resolvers/WmsQuery';
 import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQuery';
     export const resolvers: Resolvers = {
-      Query: { crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
-      Mutation: { crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
+      Query: { billing: Query_billing,crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
+      Mutation: { billing: Mutation_billing,crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
       
-      Attachments: Attachments,
+      AccountTransactions: AccountTransactions,
+AccountingSyncLogs: AccountingSyncLogs,
+Attachments: Attachments,
+BillingInvoices: BillingInvoices,
+BillingMutation: { ...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...invoice_line_items_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
+BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...invoice_line_items_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },
 BinThresholds: BinThresholds,
 Campaigns: Campaigns,
 CarrierRates: CarrierRates,
 Carriers: Carriers,
 Cases: Cases,
+ClientAccounts: ClientAccounts,
 Companies: Companies,
 Contacts: Contacts,
+CreditNotes: CreditNotes,
 CrmMutation: { ...attachments_CrmMutation,...campaigns_CrmMutation,...cases_CrmMutation,...companies_CrmMutation,...contacts_CrmMutation,...interactions_CrmMutation,...invoices_CrmMutation,...invoice_items_CrmMutation,...leads_CrmMutation,...notifications_CrmMutation,...opportunities_CrmMutation,...opportunity_products_CrmMutation,...products_CrmMutation },
 CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...invoice_items_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...opportunity_products_CrmQuery,...products_CrmQuery },
 CustomerTrackingLinks: CustomerTrackingLinks,
 DeleteResult: DeleteResult,
 DeliveryRoutes: DeliveryRoutes,
 DeliveryTasks: DeliveryTasks,
+Disputes: Disputes,
 DmsMutation: { ...customer_tracking_links_DmsMutation,...delivery_routes_DmsMutation,...delivery_tasks_DmsMutation,...proof_of_deliveries_DmsMutation,...driver_locations_DmsMutation,...task_events_DmsMutation },
 DmsProofOfDeliveries: DmsProofOfDeliveries,
 DmsQuery: { ...customer_tracking_links_DmsQuery,...delivery_routes_DmsQuery,...delivery_tasks_DmsQuery,...proof_of_deliveries_DmsQuery,...driver_locations_DmsQuery,...task_events_DmsQuery },
+Documents: Documents,
 DriverLocations: DriverLocations,
 DriverSchedules: DriverSchedules,
 Drivers: Drivers,
@@ -231,6 +281,7 @@ InventoryAdjustments: InventoryAdjustments,
 InventoryBatches: InventoryBatches,
 InventoryStock: InventoryStock,
 InvoiceItems: InvoiceItems,
+InvoiceLineItems: InvoiceLineItems,
 Invoices: Invoices,
 Leads: Leads,
 Locations: Locations,
@@ -243,11 +294,15 @@ PackageItems: PackageItems,
 Packages: Packages,
 PartnerInvoiceItems: PartnerInvoiceItems,
 PartnerInvoices: PartnerInvoices,
+Payments: Payments,
 PickBatchItems: PickBatchItems,
 PickBatches: PickBatches,
 Products: Products,
 ProofOfDeliveries: ProofOfDeliveries,
 PutawayRules: PutawayRules,
+Quotes: Quotes,
+RateCards: RateCards,
+RateRules: RateRules,
 ReorderPoints: ReorderPoints,
 ReturnItems: ReturnItems,
 Returns: Returns,
@@ -258,6 +313,7 @@ ShipmentLegEvents: ShipmentLegEvents,
 ShipmentLegs: ShipmentLegs,
 StockTransfers: StockTransfers,
 Suppliers: Suppliers,
+Surcharges: Surcharges,
 TaskEvents: TaskEvents,
 TaskItems: TaskItems,
 Tasks: Tasks,

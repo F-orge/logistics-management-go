@@ -1,0 +1,74 @@
+enum QuoteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+  CONVERTED
+}
+
+type Quotes {
+  id: ID!
+  client: Companies
+  originDetails: String!
+  destinationDetails: String!
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  volume: Float
+  quotedPrice: Float!
+  serviceLevel: String
+  expiresAt: String
+  status: QuoteStatus
+  quoteNumber: String
+  notes: String
+  createdByUser: User
+  createdAt: String
+  updatedAt: String
+  billingInvoices: [BillingInvoices!]
+}
+
+extend type BillingQuery {
+  quotes(page: Int, perPage: Int): [Quotes!]!
+  quote(id: ID!): Quotes!
+}
+
+input CreateQuoteInput {
+  clientId: ID
+  originDetails: String!
+  destinationDetails: String!
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  quotedPrice: Float!
+  serviceLevel: String
+  expiresAt: String
+  status: QuoteStatus
+  quoteNumber: String
+  notes: String
+  createdByUserId: ID
+}
+
+input UpdateQuoteInput {
+  clientId: ID
+  originDetails: String
+  destinationDetails: String
+  weight: Float
+  length: Float
+  width: Float
+  height: Float
+  quotedPrice: Float
+  serviceLevel: String
+  expiresAt: String
+  status: QuoteStatus
+  quoteNumber: String
+  notes: String
+  createdByUserId: ID
+}
+
+extend type BillingMutation {
+  createQuote(value: CreateQuoteInput!): Quotes!
+  updateQuote(id: ID!, value: UpdateQuoteInput): Quotes!
+  removeQuote(id: ID!): DeleteResult!
+}
