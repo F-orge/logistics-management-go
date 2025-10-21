@@ -1,7 +1,8 @@
 type Carriers {
-  id: ID!
   name: String!
-  contactDetails: String
+  contactPerson: String
+  contactEmail: String
+  contactPhone: String
   servicesOffered: String
   createdAt: String
   updatedAt: String
@@ -17,13 +18,17 @@ extend type TmsQuery {
 
 input CreateCarrierInput {
   name: String!
-  contactDetails: String
+  contactPerson: String
+  contactEmail: String
+  contactPhone: String
   servicesOffered: String
 }
 
 input UpdateCarrierInput {
   name: String
-  contactDetails: String
+  contactPerson: String
+  contactEmail: String
+  contactPhone: String
   servicesOffered: String
 }
 

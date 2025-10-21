@@ -35,6 +35,8 @@ type Expenses {
   fuelQuantity: Float
   odometerReading: Int
   status: ExpenseStatus
+  description: String
+  expenseDate: String
   createdAt: String
   updatedAt: String
 }
@@ -54,6 +56,8 @@ input CreateExpenseInput {
   fuelQuantity: Float
   odometerReading: Int
   status: ExpenseStatus
+  description: String
+  expenseDate: String
 }
 
 input UpdateExpenseInput {
@@ -66,6 +70,8 @@ input UpdateExpenseInput {
   fuelQuantity: Float
   odometerReading: Int
   status: ExpenseStatus
+  description: String
+  expenseDate: String
 }
 
 extend type TmsMutation {

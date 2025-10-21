@@ -576,9 +576,10 @@ export type CarrierRates = {
 
 export type Carriers = {
   __typename?: 'Carriers';
-  contactDetails?: Maybe<Scalars['String']['output']>;
+  contactEmail?: Maybe<Scalars['String']['output']>;
+  contactPerson?: Maybe<Scalars['String']['output']>;
+  contactPhone?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
@@ -753,7 +754,9 @@ export type CreateCampaignInput = {
 };
 
 export type CreateCarrierInput = {
-  contactDetails?: InputMaybe<Scalars['String']['input']>;
+  contactEmail?: InputMaybe<Scalars['String']['input']>;
+  contactPerson?: InputMaybe<Scalars['String']['input']>;
+  contactPhone?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   servicesOffered?: InputMaybe<Scalars['String']['input']>;
 };
@@ -896,6 +899,7 @@ export type CreateDocumentInput = {
 };
 
 export type CreateDriverInput = {
+  contactPhone?: InputMaybe<Scalars['String']['input']>;
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber: Scalars['String']['input'];
   status?: InputMaybe<DriverStatus>;
@@ -923,7 +927,9 @@ export type CreateDriverScheduleInput = {
 export type CreateExpenseInput = {
   amount: Scalars['Float']['input'];
   currency?: InputMaybe<Currency>;
+  description?: InputMaybe<Scalars['String']['input']>;
   driverId?: InputMaybe<Scalars['ID']['input']>;
+  expenseDate?: InputMaybe<Scalars['String']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
@@ -940,7 +946,8 @@ export type CreateGeofenceEventInput = {
 };
 
 export type CreateGeofenceInput = {
-  coordinates?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -1397,6 +1404,10 @@ export type CreateTaskItemInput = {
 
 export type CreateTripInput = {
   driverId?: InputMaybe<Scalars['ID']['input']>;
+  endLocation?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['String']['input']>;
+  startLocation?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TripStatus>;
   vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -1416,9 +1427,14 @@ export type CreateTripStopInput = {
 export type CreateVehicleInput = {
   capacityVolume?: InputMaybe<Scalars['Float']['input']>;
   capacityWeight?: InputMaybe<Scalars['Float']['input']>;
+  currentMileage?: InputMaybe<Scalars['Int']['input']>;
+  lastMaintenanceDate?: InputMaybe<Scalars['String']['input']>;
+  make?: InputMaybe<Scalars['String']['input']>;
   model?: InputMaybe<Scalars['String']['input']>;
   registrationNumber: Scalars['String']['input'];
   status?: InputMaybe<VehicleStatus>;
+  vin?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreateVehicleMaintenanceInput = {
@@ -2301,6 +2317,7 @@ export type DriverStatus =
 
 export type Drivers = {
   __typename?: 'Drivers';
+  contactPhone?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   deliveryRoutes?: Maybe<Array<DeliveryRoutes>>;
   driverLocations?: Maybe<Array<DriverLocations>>;
@@ -2334,7 +2351,9 @@ export type Expenses = {
   amount: Scalars['Float']['output'];
   createdAt?: Maybe<Scalars['String']['output']>;
   currency?: Maybe<Currency>;
+  description?: Maybe<Scalars['String']['output']>;
   driver?: Maybe<Drivers>;
+  expenseDate?: Maybe<Scalars['String']['output']>;
   fuelQuantity?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
   odometerReading?: Maybe<Scalars['Int']['output']>;
@@ -2360,10 +2379,10 @@ export type GeofenceEvents = {
 
 export type Geofences = {
   __typename?: 'Geofences';
-  coordinates?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
-  id: Scalars['ID']['output'];
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
@@ -3962,10 +3981,14 @@ export type Trips = {
   __typename?: 'Trips';
   createdAt?: Maybe<Scalars['String']['output']>;
   driver?: Maybe<Drivers>;
+  endLocation?: Maybe<Scalars['String']['output']>;
+  endTime?: Maybe<Scalars['String']['output']>;
   expenses?: Maybe<Array<Expenses>>;
   id: Scalars['ID']['output'];
   routes?: Maybe<Array<Routes>>;
   shipmentLegs?: Maybe<Array<ShipmentLegs>>;
+  startLocation?: Maybe<Scalars['String']['output']>;
+  startTime?: Maybe<Scalars['String']['output']>;
   status?: Maybe<TripStatus>;
   stops?: Maybe<Array<TripStops>>;
   updatedAt?: Maybe<Scalars['String']['output']>;
@@ -4045,7 +4068,9 @@ export type UpdateCampaignInput = {
 };
 
 export type UpdateCarrierInput = {
-  contactDetails?: InputMaybe<Scalars['String']['input']>;
+  contactEmail?: InputMaybe<Scalars['String']['input']>;
+  contactPerson?: InputMaybe<Scalars['String']['input']>;
+  contactPhone?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   servicesOffered?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4188,6 +4213,7 @@ export type UpdateDocumentInput = {
 };
 
 export type UpdateDriverInput = {
+  contactPhone?: InputMaybe<Scalars['String']['input']>;
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<DriverStatus>;
@@ -4215,7 +4241,9 @@ export type UpdateDriverScheduleInput = {
 export type UpdateExpenseInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Currency>;
+  description?: InputMaybe<Scalars['String']['input']>;
   driverId?: InputMaybe<Scalars['ID']['input']>;
+  expenseDate?: InputMaybe<Scalars['String']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
@@ -4232,7 +4260,8 @@ export type UpdateGeofenceEventInput = {
 };
 
 export type UpdateGeofenceInput = {
-  coordinates?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4687,6 +4716,10 @@ export type UpdateTaskItemInput = {
 
 export type UpdateTripInput = {
   driverId?: InputMaybe<Scalars['ID']['input']>;
+  endLocation?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['String']['input']>;
+  startLocation?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TripStatus>;
   vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -4706,9 +4739,14 @@ export type UpdateTripStopInput = {
 export type UpdateVehicleInput = {
   capacityVolume?: InputMaybe<Scalars['Float']['input']>;
   capacityWeight?: InputMaybe<Scalars['Float']['input']>;
+  currentMileage?: InputMaybe<Scalars['Int']['input']>;
+  lastMaintenanceDate?: InputMaybe<Scalars['String']['input']>;
+  make?: InputMaybe<Scalars['String']['input']>;
   model?: InputMaybe<Scalars['String']['input']>;
   registrationNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<VehicleStatus>;
+  vin?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpdateVehicleMaintenanceInput = {
@@ -4787,15 +4825,20 @@ export type Vehicles = {
   capacityVolume?: Maybe<Scalars['Float']['output']>;
   capacityWeight?: Maybe<Scalars['Float']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
+  currentMileage?: Maybe<Scalars['Int']['output']>;
   geofenceEvents?: Maybe<Array<GeofenceEvents>>;
   gpsPings?: Maybe<Array<GpsPings>>;
   id: Scalars['ID']['output'];
+  lastMaintenanceDate?: Maybe<Scalars['String']['output']>;
   maintenances?: Maybe<Array<VehicleMaintenance>>;
+  make?: Maybe<Scalars['String']['output']>;
   model?: Maybe<Scalars['String']['output']>;
   registrationNumber: Scalars['String']['output'];
   status?: Maybe<VehicleStatus>;
   trips?: Maybe<Array<Trips>>;
   updatedAt?: Maybe<Scalars['String']['output']>;
+  vin?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Warehouses = {
@@ -6471,9 +6514,10 @@ export type CarrierRatesResolvers<ContextType = GraphQLContext, ParentType exten
 };
 
 export type CarriersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Carriers'] = ResolversParentTypes['Carriers']> = {
-  contactDetails?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  contactEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  contactPerson?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   partnerInvoices?: Resolver<Maybe<Array<ResolversTypes['PartnerInvoices']>>, ParentType, ContextType>;
   rates?: Resolver<Maybe<Array<ResolversTypes['CarrierRates']>>, ParentType, ContextType>;
@@ -6817,6 +6861,7 @@ export type DriverSchedulesResolvers<ContextType = GraphQLContext, ParentType ex
 export type DriverStatusResolvers = EnumResolverSignature<{ ACTIVE?: any, INACTIVE?: any, ON_LEAVE?: any }, ResolversTypes['DriverStatus']>;
 
 export type DriversResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Drivers'] = ResolversParentTypes['Drivers']> = {
+  contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   deliveryRoutes?: Resolver<Maybe<Array<ResolversTypes['DeliveryRoutes']>>, ParentType, ContextType>;
   driverLocations?: Resolver<Maybe<Array<ResolversTypes['DriverLocations']>>, ParentType, ContextType>;
@@ -6839,7 +6884,9 @@ export type ExpensesResolvers<ContextType = GraphQLContext, ParentType extends R
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['Currency']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   driver?: Resolver<Maybe<ResolversTypes['Drivers']>, ParentType, ContextType>;
+  expenseDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   fuelQuantity?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   odometerReading?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -6861,10 +6908,10 @@ export type GeofenceEventsResolvers<ContextType = GraphQLContext, ParentType ext
 };
 
 export type GeofencesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Geofences'] = ResolversParentTypes['Geofences']> = {
-  coordinates?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   events?: Resolver<Maybe<Array<ResolversTypes['GeofenceEvents']>>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
@@ -7700,10 +7747,14 @@ export type TripStopsResolvers<ContextType = GraphQLContext, ParentType extends 
 export type TripsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Trips'] = ResolversParentTypes['Trips']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   driver?: Resolver<Maybe<ResolversTypes['Drivers']>, ParentType, ContextType>;
+  endLocation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  endTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   expenses?: Resolver<Maybe<Array<ResolversTypes['Expenses']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   routes?: Resolver<Maybe<Array<ResolversTypes['Routes']>>, ParentType, ContextType>;
   shipmentLegs?: Resolver<Maybe<Array<ResolversTypes['ShipmentLegs']>>, ParentType, ContextType>;
+  startLocation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  startTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['TripStatus']>, ParentType, ContextType>;
   stops?: Resolver<Maybe<Array<ResolversTypes['TripStops']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -7736,15 +7787,20 @@ export type VehiclesResolvers<ContextType = GraphQLContext, ParentType extends R
   capacityVolume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   capacityWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currentMileage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   geofenceEvents?: Resolver<Maybe<Array<ResolversTypes['GeofenceEvents']>>, ParentType, ContextType>;
   gpsPings?: Resolver<Maybe<Array<ResolversTypes['GpsPings']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastMaintenanceDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   maintenances?: Resolver<Maybe<Array<ResolversTypes['VehicleMaintenance']>>, ParentType, ContextType>;
+  make?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   model?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   registrationNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['VehicleStatus']>, ParentType, ContextType>;
   trips?: Resolver<Maybe<Array<ResolversTypes['Trips']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  vin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  year?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 };
 
 export type WarehousesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Warehouses'] = ResolversParentTypes['Warehouses']> = {

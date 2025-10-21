@@ -196,9 +196,10 @@ type CarrierRates {
 }
 
 type Carriers {
-  contactDetails: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
   createdAt: String
-  id: ID!
   name: String!
   partnerInvoices: [PartnerInvoices!]
   rates: [CarrierRates!]
@@ -372,7 +373,9 @@ input CreateCampaignInput {
 }
 
 input CreateCarrierInput {
-  contactDetails: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
   name: String!
   servicesOffered: String
 }
@@ -515,6 +518,7 @@ input CreateDocumentInput {
 }
 
 input CreateDriverInput {
+  contactPhone: String
   licenseExpiryDate: String
   licenseNumber: String!
   status: DriverStatus
@@ -542,7 +546,9 @@ input CreateDriverScheduleInput {
 input CreateExpenseInput {
   amount: Float!
   currency: Currency
+  description: String
   driverId: ID
+  expenseDate: String
   fuelQuantity: Float
   odometerReading: Int
   receiptUrl: String
@@ -559,7 +565,8 @@ input CreateGeofenceEventInput {
 }
 
 input CreateGeofenceInput {
-  coordinates: String
+  latitude: Float
+  longitude: Float
   name: String!
 }
 
@@ -1016,6 +1023,10 @@ input CreateTaskItemInput {
 
 input CreateTripInput {
   driverId: ID
+  endLocation: String
+  endTime: String
+  startLocation: String
+  startTime: String
   status: TripStatus
   vehicleId: ID
 }
@@ -1035,9 +1046,14 @@ input CreateTripStopInput {
 input CreateVehicleInput {
   capacityVolume: Float
   capacityWeight: Float
+  currentMileage: Int
+  lastMaintenanceDate: String
+  make: String
   model: String
   registrationNumber: String!
   status: VehicleStatus
+  vin: String
+  year: Int
 }
 
 input CreateVehicleMaintenanceInput {
@@ -1397,6 +1413,7 @@ enum DriverStatus {
 }
 
 type Drivers {
+  contactPhone: String
   createdAt: String
   deliveryRoutes: [DeliveryRoutes!]
   driverLocations: [DriverLocations!]
@@ -1431,7 +1448,9 @@ type Expenses {
   amount: Float!
   createdAt: String
   currency: Currency
+  description: String
   driver: Drivers
+  expenseDate: String
   fuelQuantity: Float
   id: ID!
   odometerReading: Int
@@ -1456,10 +1475,10 @@ type GeofenceEvents {
 }
 
 type Geofences {
-  coordinates: String
   createdAt: String
   events: [GeofenceEvents!]
-  id: ID!
+  latitude: Float
+  longitude: Float
   name: String!
   updatedAt: String
 }
@@ -2560,10 +2579,14 @@ type TripStops {
 type Trips {
   createdAt: String
   driver: Drivers
+  endLocation: String
+  endTime: String
   expenses: [Expenses!]
   id: ID!
   routes: [Routes!]
   shipmentLegs: [ShipmentLegs!]
+  startLocation: String
+  startTime: String
   status: TripStatus
   stops: [TripStops!]
   updatedAt: String
@@ -2643,7 +2666,9 @@ input UpdateCampaignInput {
 }
 
 input UpdateCarrierInput {
-  contactDetails: String
+  contactEmail: String
+  contactPerson: String
+  contactPhone: String
   name: String
   servicesOffered: String
 }
@@ -2786,6 +2811,7 @@ input UpdateDocumentInput {
 }
 
 input UpdateDriverInput {
+  contactPhone: String
   licenseExpiryDate: String
   licenseNumber: String
   status: DriverStatus
@@ -2813,7 +2839,9 @@ input UpdateDriverScheduleInput {
 input UpdateExpenseInput {
   amount: Float
   currency: Currency
+  description: String
   driverId: ID
+  expenseDate: String
   fuelQuantity: Float
   odometerReading: Int
   receiptUrl: String
@@ -2830,7 +2858,8 @@ input UpdateGeofenceEventInput {
 }
 
 input UpdateGeofenceInput {
-  coordinates: String
+  latitude: Float
+  longitude: Float
   name: String
 }
 
@@ -3285,6 +3314,10 @@ input UpdateTaskItemInput {
 
 input UpdateTripInput {
   driverId: ID
+  endLocation: String
+  endTime: String
+  startLocation: String
+  startTime: String
   status: TripStatus
   vehicleId: ID
 }
@@ -3304,9 +3337,14 @@ input UpdateTripStopInput {
 input UpdateVehicleInput {
   capacityVolume: Float
   capacityWeight: Float
+  currentMileage: Int
+  lastMaintenanceDate: String
+  make: String
   model: String
   registrationNumber: String
   status: VehicleStatus
+  vin: String
+  year: Int
 }
 
 input UpdateVehicleMaintenanceInput {
@@ -3384,15 +3422,20 @@ type Vehicles {
   capacityVolume: Float
   capacityWeight: Float
   createdAt: String
+  currentMileage: Int
   geofenceEvents: [GeofenceEvents!]
   gpsPings: [GpsPings!]
   id: ID!
+  lastMaintenanceDate: String
   maintenances: [VehicleMaintenance!]
+  make: String
   model: String
   registrationNumber: String!
   status: VehicleStatus
   trips: [Trips!]
   updatedAt: String
+  vin: String
+  year: Int
 }
 
 type Warehouses {

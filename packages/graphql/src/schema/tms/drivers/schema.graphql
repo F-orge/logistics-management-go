@@ -17,6 +17,7 @@ type Drivers {
   expenses: [Expenses!]
   deliveryRoutes: [DeliveryRoutes!]
   driverLocations: [DriverLocations!]
+  contactPhone: String
 }
 
 extend type TmsQuery {
@@ -29,6 +30,7 @@ input CreateDriverInput {
   licenseNumber: String!
   licenseExpiryDate: String
   status: DriverStatus
+  contactPhone: String
 }
 
 input UpdateDriverInput {
@@ -36,6 +38,7 @@ input UpdateDriverInput {
   licenseNumber: String
   licenseExpiryDate: String
   status: DriverStatus
+  contactPhone: String
 }
 
 extend type TmsMutation {

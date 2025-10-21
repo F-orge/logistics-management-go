@@ -12,6 +12,11 @@ type Vehicles {
   capacityVolume: Float
   capacityWeight: Float
   status: VehicleStatus
+  make: String
+  year: Int
+  vin: String
+  currentMileage: Int
+  lastMaintenanceDate: String
   createdAt: String
   updatedAt: String
   maintenances: [VehicleMaintenance!]
@@ -31,6 +36,11 @@ input CreateVehicleInput {
   capacityVolume: Float
   capacityWeight: Float
   status: VehicleStatus
+  make: String
+  year: Int
+  vin: String
+  currentMileage: Int
+  lastMaintenanceDate: String
 }
 
 input UpdateVehicleInput {
@@ -39,6 +49,11 @@ input UpdateVehicleInput {
   capacityVolume: Float
   capacityWeight: Float
   status: VehicleStatus
+  make: String
+  year: Int
+  vin: String
+  currentMileage: Int
+  lastMaintenanceDate: String
 }
 
 extend type TmsMutation {

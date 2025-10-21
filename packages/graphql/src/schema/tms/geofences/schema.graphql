@@ -1,7 +1,7 @@
 type Geofences {
-  id: ID!
   name: String!
-  coordinates: String
+  longitude: Float
+  latitude: Float
   createdAt: String
   updatedAt: String
   events: [GeofenceEvents!]
@@ -14,12 +14,14 @@ extend type TmsQuery {
 
 input CreateGeofenceInput {
   name: String!
-  coordinates: String
+  longitude: Float
+  latitude: Float
 }
 
 input UpdateGeofenceInput {
   name: String
-  coordinates: String
+  longitude: Float
+  latitude: Float
 }
 
 extend type TmsMutation {
