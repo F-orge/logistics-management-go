@@ -4,11 +4,6 @@ type OpportunityProducts {
   quantity: Int!
 }
 
-extend type CrmQuery {
-  opportunityProducts(page: Int, perPage: Int): [OpportunityProducts!]!
-  opportunityProduct(opportunityId: ID!, productId: ID!): OpportunityProducts!
-}
-
 input CreateOpportunityProductInput {
   opportunityId: ID!
   productId: ID!

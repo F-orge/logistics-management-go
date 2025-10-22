@@ -69,11 +69,9 @@ import    { CrmQuery as companies_CrmQuery } from './crm/companies/resolvers/Crm
 import    { CrmQuery as contacts_CrmQuery } from './crm/contacts/resolvers/CrmQuery';
 import    { CrmQuery as interactions_CrmQuery } from './crm/interactions/resolvers/CrmQuery';
 import    { CrmQuery as invoices_CrmQuery } from './crm/invoices/resolvers/CrmQuery';
-import    { CrmQuery as invoice_items_CrmQuery } from './crm/invoice_items/resolvers/CrmQuery';
 import    { CrmQuery as leads_CrmQuery } from './crm/leads/resolvers/CrmQuery';
 import    { CrmQuery as notifications_CrmQuery } from './crm/notifications/resolvers/CrmQuery';
 import    { CrmQuery as opportunities_CrmQuery } from './crm/opportunities/resolvers/CrmQuery';
-import    { CrmQuery as opportunity_products_CrmQuery } from './crm/opportunity_products/resolvers/CrmQuery';
 import    { CrmQuery as products_CrmQuery } from './crm/products/resolvers/CrmQuery';
 import    { CustomerTrackingLinks } from './dms/customer_tracking_links/resolvers/CustomerTrackingLinks';
 import    { DeleteResult } from './base/resolvers/DeleteResult';
@@ -258,7 +256,7 @@ Companies: Companies,
 Contacts: Contacts,
 CreditNotes: CreditNotes,
 CrmMutation: { ...attachments_CrmMutation,...campaigns_CrmMutation,...cases_CrmMutation,...companies_CrmMutation,...contacts_CrmMutation,...interactions_CrmMutation,...invoices_CrmMutation,...invoice_items_CrmMutation,...leads_CrmMutation,...notifications_CrmMutation,...opportunities_CrmMutation,...opportunity_products_CrmMutation,...products_CrmMutation },
-CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...invoice_items_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...opportunity_products_CrmQuery,...products_CrmQuery },
+CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...products_CrmQuery },
 CustomerTrackingLinks: CustomerTrackingLinks,
 DeleteResult: DeleteResult,
 DeliveryRoutes: DeliveryRoutes,

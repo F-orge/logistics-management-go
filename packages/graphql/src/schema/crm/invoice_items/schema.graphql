@@ -8,11 +8,6 @@ type InvoiceItems {
   updatedAt: String
 }
 
-extend type CrmQuery {
-  invoiceItems(page: Int, perPage: Int): [InvoiceItems!]!
-  invoiceItem(id: ID!): InvoiceItems!
-}
-
 input CreateInvoiceItemInput {
   invoiceId: ID!
   productId: ID!

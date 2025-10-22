@@ -1752,8 +1752,6 @@ export type CrmQuery = {
   interaction: Interactions;
   interactions: Array<Interactions>;
   invoice: Invoices;
-  invoiceItem: InvoiceItems;
-  invoiceItems: Array<InvoiceItems>;
   invoices: Array<Invoices>;
   lead: Leads;
   leads: Array<Leads>;
@@ -1761,8 +1759,6 @@ export type CrmQuery = {
   notifications: Array<Notifications>;
   opportunities: Array<Opportunities>;
   opportunity: Opportunities;
-  opportunityProduct: OpportunityProducts;
-  opportunityProducts: Array<OpportunityProducts>;
   product: Products;
   products: Array<Products>;
 };
@@ -1839,17 +1835,6 @@ export type CrmQueryInvoiceArgs = {
 };
 
 
-export type CrmQueryInvoiceItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmQueryInvoiceItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type CrmQueryInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -1886,18 +1871,6 @@ export type CrmQueryOpportunitiesArgs = {
 
 export type CrmQueryOpportunityArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type CrmQueryOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-};
-
-
-export type CrmQueryOpportunityProductsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 

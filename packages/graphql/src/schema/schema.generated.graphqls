@@ -1162,8 +1162,6 @@ type CrmQuery {
   interaction(id: ID!): Interactions!
   interactions(page: Int, perPage: Int): [Interactions!]!
   invoice(id: ID!): Invoices!
-  invoiceItem(id: ID!): InvoiceItems!
-  invoiceItems(page: Int, perPage: Int): [InvoiceItems!]!
   invoices(page: Int, perPage: Int): [Invoices!]!
   lead(id: ID!): Leads!
   leads(page: Int, perPage: Int): [Leads!]!
@@ -1171,8 +1169,6 @@ type CrmQuery {
   notifications(page: Int, perPage: Int): [Notifications!]!
   opportunities(page: Int, perPage: Int): [Opportunities!]!
   opportunity(id: ID!): Opportunities!
-  opportunityProduct(opportunityId: ID!, productId: ID!): OpportunityProducts!
-  opportunityProducts(page: Int, perPage: Int): [OpportunityProducts!]!
   product(id: ID!): Products!
   products(page: Int, perPage: Int): [Products!]!
 }
