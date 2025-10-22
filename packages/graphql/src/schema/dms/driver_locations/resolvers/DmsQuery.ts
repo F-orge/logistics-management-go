@@ -1,9 +1,6 @@
 import { DriverLocations } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
-export const DmsQuery: Pick<
-  DmsQueryResolvers,
-  "driverLocation" | "driverLocations"
-> = {
+export const DmsQuery: Pick<DmsQueryResolvers, 'driverLocation'|'driverLocations'> = {
   driverLocations: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("dms.driverLocations").selectAll();
 
