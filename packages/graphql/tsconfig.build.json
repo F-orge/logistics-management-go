@@ -10,7 +10,8 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "allowImportingTsExtensions": false,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "noImplicitOverride": true
   },
   "include": [
     "index.ts",

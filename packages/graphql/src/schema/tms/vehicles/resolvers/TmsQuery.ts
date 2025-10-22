@@ -1,4 +1,25 @@
-import type   { TmsQueryResolvers } from './../../../types.generated';
-    export const TmsQuery: Pick<TmsQueryResolvers, 'vehicle'|'vehicles'> = {
-    /* Implement TmsQuery resolver logic here */
-  };
+import { Vehicles } from "../../../../zod.schema";
+import type { TmsQueryResolvers } from "./../../../types.generated";
+export const TmsQuery: Pick<TmsQueryResolvers, "vehicle" | "vehicles"> = {
+  vehicles: async (_parent, args, ctx) => {
+    let query = ctx.db.selectFrom("tms.vehicles").selectAll();
+
+    if (args.page && args.perPage) {
+      const offset = (args.page - 1) * args.perPage;
+      query = query.offset(offset).limit(args.perPage);
+    }
+
+    const results = await query.execute();
+
+    return results as unknown as Vehicles[];
+  },
+  vehicle: async (_parent, args, ctx) => {
+    const result = await ctx.db
+      .selectFrom("tms.vehicles")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
+    return result as unknown as Vehicles;
+  },
+};
