@@ -4,10 +4,7 @@ import {
   UpdateDriverLocationInputSchema,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  "createDriverLocation" | "removeDriverLocation" | "updateDriverLocation"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createDriverLocation'|'removeDriverLocation'|'updateDriverLocation'> = {
   createDriverLocation: async (_parent, args, ctx) => {
     const payload = CreateDriverLocationInputSchema().parse(args.value);
 

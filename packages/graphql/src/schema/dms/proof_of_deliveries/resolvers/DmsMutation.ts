@@ -4,12 +4,7 @@ import {
   UpdateDmsProofOfDeliveryInputSchema,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  | "createDmsProofOfDelivery"
-  | "removeDmsProofOfDelivery"
-  | "updateDmsProofOfDelivery"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createDmsProofOfDelivery'|'removeDmsProofOfDelivery'|'updateDmsProofOfDelivery'> = {
   createDmsProofOfDelivery: async (_parent, args, ctx) => {
     const payload = CreateDmsProofOfDeliveryInputSchema().parse(args.value);
 

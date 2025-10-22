@@ -4,10 +4,7 @@ import {
   UpdateDeliveryTaskInputSchema,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  "createDeliveryTask" | "removeDeliveryTask" | "updateDeliveryTask"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'removeDeliveryTask'|'updateDeliveryTask'> = {
   createDeliveryTask: async (_parent, args, ctx) => {
     const payload = CreateDeliveryTaskInputSchema().parse(args.value);
 

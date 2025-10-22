@@ -1,9 +1,6 @@
 import { DeliveryTasks } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
-export const DmsQuery: Pick<
-  DmsQueryResolvers,
-  "deliveryTask" | "deliveryTasks"
-> = {
+export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryTask'|'deliveryTasks'> = {
   deliveryTasks: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("dms.deliveryTasks").selectAll();
 

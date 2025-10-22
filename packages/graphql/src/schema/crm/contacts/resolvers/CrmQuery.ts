@@ -1,6 +1,6 @@
 import { Contacts } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, "contact" | "contacts"> = {
+export const CrmQuery: Pick<CrmQueryResolvers, 'contact'|'contacts'> = {
   contacts: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("crm.contacts").selectAll();
 

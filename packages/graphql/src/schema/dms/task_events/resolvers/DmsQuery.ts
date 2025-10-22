@@ -1,6 +1,6 @@
 import { TaskEvents } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
-export const DmsQuery: Pick<DmsQueryResolvers, "taskEvent" | "taskEvents"> = {
+export const DmsQuery: Pick<DmsQueryResolvers, 'taskEvent'|'taskEvents'> = {
   taskEvents: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("dms.taskEvents").selectAll();
 

@@ -16,6 +16,10 @@ const config: CodegenConfig = {
         scalarSchemas: {
           File: "z.file()",
         },
+        namingConvention: {
+          typeNames: "change-case-all#pascalCase",
+          enumValues: "change-case-all#camelCase",
+        },
       },
     },
   },
