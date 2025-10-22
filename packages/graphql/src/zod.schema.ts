@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type AccountTransactions = {
@@ -710,9 +711,7 @@ export type CreateAccountingSyncLogInput = {
 };
 
 export type CreateAttachmentInput = {
-  fileName: Scalars['String']['input'];
-  filePath: Scalars['String']['input'];
-  mimeType?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['File']['input']>;
   recordId?: InputMaybe<Scalars['ID']['input']>;
   recordType?: InputMaybe<RecordType>;
 };
@@ -1520,7 +1519,6 @@ export type CrmMutation = {
   removeOpportunity: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
-  updateAttachment: Attachments;
   updateCampaign: Campaigns;
   updateCase: Cases;
   updateCompany: Companies;
@@ -1664,12 +1662,6 @@ export type CrmMutationRemoveOpportunityProductArgs = {
 
 export type CrmMutationRemoveProductArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationUpdateAttachmentArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAttachmentInput>;
 };
 
 
@@ -4072,14 +4064,6 @@ export type UpdateAccountingSyncLogInput = {
   status?: InputMaybe<SyncStatus>;
 };
 
-export type UpdateAttachmentInput = {
-  fileName?: InputMaybe<Scalars['String']['input']>;
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  mimeType?: InputMaybe<Scalars['String']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<RecordType>;
-};
-
 export type UpdateBillingInvoiceInput = {
   amountPaid?: InputMaybe<Scalars['Float']['input']>;
   clientId?: InputMaybe<Scalars['ID']['input']>;
@@ -5917,9 +5901,7 @@ export function CreateAccountingSyncLogInputSchema(): z.ZodObject<Properties<Cre
 
 export function CreateAttachmentInputSchema(): z.ZodObject<Properties<CreateAttachmentInput>> {
   return z.object({
-    fileName: z.string(),
-    filePath: z.string(),
-    mimeType: z.string().nullish(),
+    file: z.file().nullish(),
     recordId: z.string().nullish(),
     recordType: RecordTypeSchema.nullish()
   })
@@ -6855,16 +6837,6 @@ export function UpdateAccountingSyncLogInputSchema(): z.ZodObject<Properties<Upd
     responsePayload: z.string().nullish(),
     retryCount: z.number().nullish(),
     status: SyncStatusSchema.nullish()
-  })
-}
-
-export function UpdateAttachmentInputSchema(): z.ZodObject<Properties<UpdateAttachmentInput>> {
-  return z.object({
-    fileName: z.string().nullish(),
-    filePath: z.string().nullish(),
-    mimeType: z.string().nullish(),
-    recordId: z.string().nullish(),
-    recordType: RecordTypeSchema.nullish()
   })
 }
 

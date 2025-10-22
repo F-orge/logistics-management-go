@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { GraphQLContext } from '../context';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
@@ -17,6 +17,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  File: { input: any; output: any; }
 };
 
 export type AccountTransactions = {
@@ -709,9 +710,7 @@ export type CreateAccountingSyncLogInput = {
 };
 
 export type CreateAttachmentInput = {
-  fileName: Scalars['String']['input'];
-  filePath: Scalars['String']['input'];
-  mimeType?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['File']['input']>;
   recordId?: InputMaybe<Scalars['ID']['input']>;
   recordType?: InputMaybe<RecordType>;
 };
@@ -1519,7 +1518,6 @@ export type CrmMutation = {
   removeOpportunity: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
-  updateAttachment: Attachments;
   updateCampaign: Campaigns;
   updateCase: Cases;
   updateCompany: Companies;
@@ -1663,12 +1661,6 @@ export type CrmMutationremoveOpportunityProductArgs = {
 
 export type CrmMutationremoveProductArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationupdateAttachmentArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAttachmentInput>;
 };
 
 
@@ -4022,14 +4014,6 @@ export type UpdateAccountingSyncLogInput = {
   status?: InputMaybe<SyncStatus>;
 };
 
-export type UpdateAttachmentInput = {
-  fileName?: InputMaybe<Scalars['String']['input']>;
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  mimeType?: InputMaybe<Scalars['String']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<RecordType>;
-};
-
 export type UpdateBillingInvoiceInput = {
   amountPaid?: InputMaybe<Scalars['Float']['input']>;
   clientId?: InputMaybe<Scalars['ID']['input']>;
@@ -5882,7 +5866,7 @@ export type ResolversTypes = {
   CreateWarehouseInput: CreateWarehouseInput;
   CreateWmsProductInput: CreateWmsProductInput;
   CreditNotes: ResolverTypeWrapper<Omit<CreditNotes, 'dispute' | 'invoice'> & { dispute?: Maybe<ResolversTypes['Disputes']>, invoice: ResolversTypes['BillingInvoices'] }>;
-  CrmMutation: ResolverTypeWrapper<Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversTypes['Attachments'], createCase: ResolversTypes['Cases'], createCompany: ResolversTypes['Companies'], createContact: ResolversTypes['Contacts'], createInteraction: ResolversTypes['Interactions'], createInvoice: ResolversTypes['Invoices'], createInvoiceItem: ResolversTypes['InvoiceItems'], createLead: ResolversTypes['Leads'], createOpportunity: ResolversTypes['Opportunities'], createOpportunityProduct: ResolversTypes['OpportunityProducts'], createProduct: ResolversTypes['Products'], updateAttachment: ResolversTypes['Attachments'], updateCase: ResolversTypes['Cases'], updateCompany: ResolversTypes['Companies'], updateContact: ResolversTypes['Contacts'], updateInteraction: ResolversTypes['Interactions'], updateInvoice: ResolversTypes['Invoices'], updateInvoiceItem: ResolversTypes['InvoiceItems'], updateLead: ResolversTypes['Leads'], updateOpportunity: ResolversTypes['Opportunities'], updateOpportunityProduct: ResolversTypes['OpportunityProducts'], updateProduct: ResolversTypes['Products'] }>;
+  CrmMutation: ResolverTypeWrapper<Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversTypes['Attachments'], createCase: ResolversTypes['Cases'], createCompany: ResolversTypes['Companies'], createContact: ResolversTypes['Contacts'], createInteraction: ResolversTypes['Interactions'], createInvoice: ResolversTypes['Invoices'], createInvoiceItem: ResolversTypes['InvoiceItems'], createLead: ResolversTypes['Leads'], createOpportunity: ResolversTypes['Opportunities'], createOpportunityProduct: ResolversTypes['OpportunityProducts'], createProduct: ResolversTypes['Products'], updateCase: ResolversTypes['Cases'], updateCompany: ResolversTypes['Companies'], updateContact: ResolversTypes['Contacts'], updateInteraction: ResolversTypes['Interactions'], updateInvoice: ResolversTypes['Invoices'], updateInvoiceItem: ResolversTypes['InvoiceItems'], updateLead: ResolversTypes['Leads'], updateOpportunity: ResolversTypes['Opportunities'], updateOpportunityProduct: ResolversTypes['OpportunityProducts'], updateProduct: ResolversTypes['Products'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoiceItem: ResolversTypes['InvoiceItems'], invoiceItems: Array<ResolversTypes['InvoiceItems']>, invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], opportunityProduct: ResolversTypes['OpportunityProducts'], opportunityProducts: Array<ResolversTypes['OpportunityProducts']>, product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
   CustomerTrackingLinks: ResolverTypeWrapper<Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversTypes['DeliveryTasks'] }>;
@@ -5907,6 +5891,7 @@ export type ResolversTypes = {
   ExpenseStatus: ResolverTypeWrapper<'PENDING' | 'APPROVED' | 'REJECTED' | 'REIMBURSED'>;
   ExpenseType: ResolverTypeWrapper<'FUEL' | 'TOLLS' | 'MAINTENANCE' | 'PARKING' | 'MEALS' | 'ACCOMMODATION'>;
   Expenses: ResolverTypeWrapper<Omit<Expenses, 'currency' | 'driver' | 'status' | 'trip' | 'type'> & { currency?: Maybe<ResolversTypes['Currency']>, driver?: Maybe<ResolversTypes['Drivers']>, status?: Maybe<ResolversTypes['ExpenseStatus']>, trip?: Maybe<ResolversTypes['Trips']>, type?: Maybe<ResolversTypes['ExpenseType']> }>;
+  File: ResolverTypeWrapper<Scalars['File']['output']>;
   GeofenceEventType: ResolverTypeWrapper<'ENTER' | 'EXIT'>;
   GeofenceEvents: ResolverTypeWrapper<Omit<GeofenceEvents, 'eventType' | 'geofence' | 'vehicle'> & { eventType: ResolversTypes['GeofenceEventType'], geofence: ResolversTypes['Geofences'], vehicle: ResolversTypes['Vehicles'] }>;
   Geofences: ResolverTypeWrapper<Omit<Geofences, 'events'> & { events?: Maybe<Array<ResolversTypes['GeofenceEvents']>> }>;
@@ -6000,7 +5985,6 @@ export type ResolversTypes = {
   Trips: ResolverTypeWrapper<Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'status' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversTypes['Drivers']>, expenses?: Maybe<Array<ResolversTypes['Expenses']>>, routes?: Maybe<Array<ResolversTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversTypes['ShipmentLegs']>>, status?: Maybe<ResolversTypes['TripStatus']>, stops?: Maybe<Array<ResolversTypes['TripStops']>>, vehicle?: Maybe<ResolversTypes['Vehicles']> }>;
   UpdateAccountTransactionInput: UpdateAccountTransactionInput;
   UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
-  UpdateAttachmentInput: UpdateAttachmentInput;
   UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
@@ -6181,7 +6165,7 @@ export type ResolversParentTypes = {
   CreateWarehouseInput: CreateWarehouseInput;
   CreateWmsProductInput: CreateWmsProductInput;
   CreditNotes: Omit<CreditNotes, 'dispute' | 'invoice'> & { dispute?: Maybe<ResolversParentTypes['Disputes']>, invoice: ResolversParentTypes['BillingInvoices'] };
-  CrmMutation: Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateAttachment' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversParentTypes['Attachments'], createCase: ResolversParentTypes['Cases'], createCompany: ResolversParentTypes['Companies'], createContact: ResolversParentTypes['Contacts'], createInteraction: ResolversParentTypes['Interactions'], createInvoice: ResolversParentTypes['Invoices'], createInvoiceItem: ResolversParentTypes['InvoiceItems'], createLead: ResolversParentTypes['Leads'], createOpportunity: ResolversParentTypes['Opportunities'], createOpportunityProduct: ResolversParentTypes['OpportunityProducts'], createProduct: ResolversParentTypes['Products'], updateAttachment: ResolversParentTypes['Attachments'], updateCase: ResolversParentTypes['Cases'], updateCompany: ResolversParentTypes['Companies'], updateContact: ResolversParentTypes['Contacts'], updateInteraction: ResolversParentTypes['Interactions'], updateInvoice: ResolversParentTypes['Invoices'], updateInvoiceItem: ResolversParentTypes['InvoiceItems'], updateLead: ResolversParentTypes['Leads'], updateOpportunity: ResolversParentTypes['Opportunities'], updateOpportunityProduct: ResolversParentTypes['OpportunityProducts'], updateProduct: ResolversParentTypes['Products'] };
+  CrmMutation: Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversParentTypes['Attachments'], createCase: ResolversParentTypes['Cases'], createCompany: ResolversParentTypes['Companies'], createContact: ResolversParentTypes['Contacts'], createInteraction: ResolversParentTypes['Interactions'], createInvoice: ResolversParentTypes['Invoices'], createInvoiceItem: ResolversParentTypes['InvoiceItems'], createLead: ResolversParentTypes['Leads'], createOpportunity: ResolversParentTypes['Opportunities'], createOpportunityProduct: ResolversParentTypes['OpportunityProducts'], createProduct: ResolversParentTypes['Products'], updateCase: ResolversParentTypes['Cases'], updateCompany: ResolversParentTypes['Companies'], updateContact: ResolversParentTypes['Contacts'], updateInteraction: ResolversParentTypes['Interactions'], updateInvoice: ResolversParentTypes['Invoices'], updateInvoiceItem: ResolversParentTypes['InvoiceItems'], updateLead: ResolversParentTypes['Leads'], updateOpportunity: ResolversParentTypes['Opportunities'], updateOpportunityProduct: ResolversParentTypes['OpportunityProducts'], updateProduct: ResolversParentTypes['Products'] };
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoiceItem' | 'invoiceItems' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'opportunityProduct' | 'opportunityProducts' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoiceItem: ResolversParentTypes['InvoiceItems'], invoiceItems: Array<ResolversParentTypes['InvoiceItems']>, invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], opportunityProduct: ResolversParentTypes['OpportunityProducts'], opportunityProducts: Array<ResolversParentTypes['OpportunityProducts']>, product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
   CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   DeleteResult: DeleteResult;
@@ -6196,6 +6180,7 @@ export type ResolversParentTypes = {
   DriverSchedules: Omit<DriverSchedules, 'driver'> & { driver: ResolversParentTypes['Drivers'] };
   Drivers: Omit<Drivers, 'deliveryRoutes' | 'driverLocations' | 'expenses' | 'schedules' | 'trips'> & { deliveryRoutes?: Maybe<Array<ResolversParentTypes['DeliveryRoutes']>>, driverLocations?: Maybe<Array<ResolversParentTypes['DriverLocations']>>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, schedules?: Maybe<Array<ResolversParentTypes['DriverSchedules']>>, trips?: Maybe<Array<ResolversParentTypes['Trips']>> };
   Expenses: Omit<Expenses, 'driver' | 'trip'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, trip?: Maybe<ResolversParentTypes['Trips']> };
+  File: Scalars['File']['output'];
   GeofenceEvents: Omit<GeofenceEvents, 'geofence' | 'vehicle'> & { geofence: ResolversParentTypes['Geofences'], vehicle: ResolversParentTypes['Vehicles'] };
   Geofences: Omit<Geofences, 'events'> & { events?: Maybe<Array<ResolversParentTypes['GeofenceEvents']>> };
   GpsPings: Omit<GpsPings, 'vehicle'> & { vehicle: ResolversParentTypes['Vehicles'] };
@@ -6250,7 +6235,6 @@ export type ResolversParentTypes = {
   Trips: Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, routes?: Maybe<Array<ResolversParentTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>>, stops?: Maybe<Array<ResolversParentTypes['TripStops']>>, vehicle?: Maybe<ResolversParentTypes['Vehicles']> };
   UpdateAccountTransactionInput: UpdateAccountTransactionInput;
   UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
-  UpdateAttachmentInput: UpdateAttachmentInput;
   UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
@@ -6640,7 +6624,6 @@ export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extend
   removeOpportunity?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityArgs, 'id'>>;
   removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityProductArgs, 'opportunityId' | 'productId'>>;
   removeProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveProductArgs, 'id'>>;
-  updateAttachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmMutationupdateAttachmentArgs, 'id'>>;
   updateCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationupdateCampaignArgs, 'id'>>;
   updateCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationupdateCaseArgs, 'id'>>;
   updateCompany?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmMutationupdateCompanyArgs, 'id'>>;
@@ -6896,6 +6879,10 @@ export type ExpensesResolvers<ContextType = GraphQLContext, ParentType extends R
   type?: Resolver<Maybe<ResolversTypes['ExpenseType']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
+
+export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
+  name: 'File';
+}
 
 export type GeofenceEventTypeResolvers = EnumResolverSignature<{ ENTER?: any, EXIT?: any }, ResolversTypes['GeofenceEventType']>;
 
@@ -8038,6 +8025,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   ExpenseStatus?: ExpenseStatusResolvers;
   ExpenseType?: ExpenseTypeResolvers;
   Expenses?: ExpensesResolvers<ContextType>;
+  File?: GraphQLScalarType;
   GeofenceEventType?: GeofenceEventTypeResolvers;
   GeofenceEvents?: GeofenceEventsResolvers<ContextType>;
   Geofences?: GeofencesResolvers<ContextType>;

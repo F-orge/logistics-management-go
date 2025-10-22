@@ -1,3 +1,5 @@
+scalar File
+
 type Query
 type Mutation
 

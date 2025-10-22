@@ -13,6 +13,9 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-validation-schema"],
       config: {
         schema: "zodv4",
+        scalarSchemas: {
+          File: "z.file()",
+        },
       },
     },
   },

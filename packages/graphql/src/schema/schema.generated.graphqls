@@ -328,9 +328,7 @@ input CreateAccountingSyncLogInput {
 }
 
 input CreateAttachmentInput {
-  fileName: String!
-  filePath: String!
-  mimeType: String
+  file: File
   recordId: ID
   recordType: RecordType
 }
@@ -1136,7 +1134,6 @@ type CrmMutation {
   removeOpportunity(id: ID!): DeleteResult!
   removeOpportunityProduct(opportunityId: ID!, productId: ID!): DeleteResult!
   removeProduct(id: ID!): DeleteResult!
-  updateAttachment(id: ID!, value: UpdateAttachmentInput): Attachments!
   updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
   updateCase(id: ID!, value: UpdateCaseInput): Cases!
   updateCompany(id: ID!, value: UpdateCompanyInput): Companies!
@@ -1460,6 +1457,8 @@ type Expenses {
   type: ExpenseType
   updatedAt: String
 }
+
+scalar File
 
 enum GeofenceEventType {
   ENTER
@@ -2618,14 +2617,6 @@ input UpdateAccountingSyncLogInput {
   responsePayload: String
   retryCount: Int
   status: SyncStatus
-}
-
-input UpdateAttachmentInput {
-  fileName: String
-  filePath: String
-  mimeType: String
-  recordId: ID
-  recordType: RecordType
 }
 
 input UpdateBillingInvoiceInput {
