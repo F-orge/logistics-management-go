@@ -15,7 +15,7 @@ dev-packages:
 
 dev:
   docker compose -f compose.dev.yaml up -d
-  bun concurrently 'just dev-packages' 'just dev-backend' 'just dev-frontend' -n 'packages,backend,frontend'
+  bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
 
 build-packages:
   bun run build:packages
