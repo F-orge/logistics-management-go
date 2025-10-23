@@ -5,7 +5,7 @@ export const Companies: CompaniesResolvers = {
     const result = await ctx.db
       .selectFrom("user")
       .innerJoin("crm.companies", "crm.companies.id", "user.id")
-      .select(["user.email", "user.emailVerified", "user.name", "user.image"])
+      .selectAll("user")
       .where("crm.companies.id", "=", parent.id as string)
       .executeTakeFirstOrThrow();
 
