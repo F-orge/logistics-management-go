@@ -34,7 +34,6 @@ import    { BillingQuery as client_accounts_BillingQuery } from './billing/clien
 import    { BillingQuery as credit_notes_BillingQuery } from './billing/credit_notes/resolvers/BillingQuery';
 import    { BillingQuery as disputes_BillingQuery } from './billing/disputes/resolvers/BillingQuery';
 import    { BillingQuery as documents_BillingQuery } from './billing/documents/resolvers/BillingQuery';
-import    { BillingQuery as invoice_line_items_BillingQuery } from './billing/invoice_line_items/resolvers/BillingQuery';
 import    { BillingQuery as payments_BillingQuery } from './billing/payments/resolvers/BillingQuery';
 import    { BillingQuery as quotes_BillingQuery } from './billing/quotes/resolvers/BillingQuery';
 import    { BillingQuery as rate_cards_BillingQuery } from './billing/rate_cards/resolvers/BillingQuery';
@@ -231,7 +230,7 @@ AccountingSyncLogs: AccountingSyncLogs,
 Attachments: Attachments,
 BillingInvoices: BillingInvoices,
 BillingMutation: { ...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...invoice_line_items_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
-BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...invoice_line_items_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },
+BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },
 BinThresholds: BinThresholds,
 Campaigns: Campaigns,
 CarrierRates: CarrierRates,

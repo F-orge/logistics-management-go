@@ -138,8 +138,6 @@ type BillingQuery {
   disputes(page: Int, perPage: Int): [Disputes!]!
   document(id: ID!): Documents!
   documents(page: Int, perPage: Int): [Documents!]!
-  invoiceLineItem(id: ID!): InvoiceLineItems!
-  invoiceLineItems(page: Int, perPage: Int): [InvoiceLineItems!]!
   payment(id: ID!): Payments!
   payments(page: Int, perPage: Int): [Payments!]!
   quote(id: ID!): Quotes!

@@ -370,8 +370,6 @@ export type BillingQuery = {
   disputes: Array<Disputes>;
   document: Documents;
   documents: Array<Documents>;
-  invoiceLineItem: InvoiceLineItems;
-  invoiceLineItems: Array<InvoiceLineItems>;
   payment: Payments;
   payments: Array<Payments>;
   quote: Quotes;
@@ -457,17 +455,6 @@ export type BillingQueryDocumentArgs = {
 
 
 export type BillingQueryDocumentsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type BillingQueryInvoiceLineItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingQueryInvoiceLineItemsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };

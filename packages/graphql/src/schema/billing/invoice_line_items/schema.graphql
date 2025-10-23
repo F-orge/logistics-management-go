@@ -17,11 +17,6 @@ type InvoiceLineItems {
   disputes: [Disputes!]
 }
 
-extend type BillingQuery {
-  invoiceLineItems(page: Int, perPage: Int): [InvoiceLineItems!]!
-  invoiceLineItem(id: ID!): InvoiceLineItems!
-}
-
 input CreateInvoiceLineItemInput {
   invoiceId: ID!
   sourceRecordId: ID
