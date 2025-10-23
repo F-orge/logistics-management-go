@@ -39,7 +39,7 @@ type Cases {
 }
 
 extend type CrmQuery {
-  cases(page: Int, perPage: Int): [Cases!]!
+  cases(page: Int, perPage: Int, from: Date, to: Date): [Cases!]!
   case(id: ID!): Cases!
 }
 

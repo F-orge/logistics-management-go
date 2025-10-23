@@ -9,7 +9,7 @@ type Campaigns {
 }
 
 extend type CrmQuery {
-  campaigns(page: Int, perPage: Int): [Campaigns!]!
+  campaigns(page: Int, perPage: Int, from: Date, to: Date): [Campaigns!]!
   campaign(id: ID!): Campaigns!
 }
 

@@ -11,7 +11,7 @@ type CustomerTrackingLinks {
 }
 
 extend type DmsQuery {
-  customerTrackingLinks(page: Int, perPage: Int): [CustomerTrackingLinks!]!
+  customerTrackingLinks(page: Int, perPage: Int, from: Date, to: Date): [CustomerTrackingLinks!]!
   customerTrackingLink(id: ID!): CustomerTrackingLinks!
 }
 

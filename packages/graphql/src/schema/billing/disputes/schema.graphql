@@ -24,7 +24,7 @@ type Disputes {
 }
 
 extend type BillingQuery {
-  disputes(page: Int, perPage: Int): [Disputes!]!
+  disputes(page: Int, perPage: Int, from: Date, to: Date): [Disputes!]!
   dispute(id: ID!): Disputes!
 }
 

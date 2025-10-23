@@ -1,4 +1,5 @@
 scalar File
+scalar Date
 
 type Query
 type Mutation

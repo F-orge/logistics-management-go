@@ -24,7 +24,7 @@ type AccountTransactions {
 }
 
 extend type BillingQuery {
-  accountTransactions(page: Int, perPage: Int): [AccountTransactions!]!
+  accountTransactions(page: Int, perPage: Int, from: Date, to: Date): [AccountTransactions!]!
   accountTransaction(id: ID!): AccountTransactions!
 }
 

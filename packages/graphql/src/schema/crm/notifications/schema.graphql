@@ -9,7 +9,7 @@ type Notifications {
 }
 
 extend type CrmQuery {
-  notifications(page: Int, perPage: Int): [Notifications!]!
+  notifications(page: Int, perPage: Int, from: Date, to: Date): [Notifications!]!
   notification(id: ID!): Notifications!
 }
 

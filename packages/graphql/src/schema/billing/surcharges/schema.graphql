@@ -20,7 +20,7 @@ type Surcharges {
 }
 
 extend type BillingQuery {
-  surcharges(page: Int, perPage: Int): [Surcharges!]!
+  surcharges(page: Int, perPage: Int, from: Date, to: Date): [Surcharges!]!
   surcharge(id: ID!): Surcharges!
 }
 

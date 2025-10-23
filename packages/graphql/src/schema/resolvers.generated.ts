@@ -221,6 +221,7 @@ import    { WmsQuery as tasks_WmsQuery } from './wms/tasks/resolvers/WmsQuery';
 import    { WmsQuery as warehouses_WmsQuery } from './wms/warehouses/resolvers/WmsQuery';
 import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQuery';
 import    { File } from './base/resolvers/File';
+import    { DateResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { billing: Query_billing,crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
       Mutation: { billing: Mutation_billing,crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
@@ -312,5 +313,6 @@ Warehouses: Warehouses,
 WmsMutation: { ...bin_thresholds_WmsMutation,...inbound_shipments_WmsMutation,...inbound_shipment_items_WmsMutation,...inventory_adjustments_WmsMutation,...inventory_batches_WmsMutation,...inventory_stock_WmsMutation,...locations_WmsMutation,...outbound_shipments_WmsMutation,...outbound_shipment_items_WmsMutation,...packages_WmsMutation,...package_items_WmsMutation,...pick_batches_WmsMutation,...pick_batch_items_WmsMutation,...putaway_rules_WmsMutation,...reorder_points_WmsMutation,...returns_WmsMutation,...return_items_WmsMutation,...sales_orders_WmsMutation,...sales_order_items_WmsMutation,...stock_transfers_WmsMutation,...suppliers_WmsMutation,...tasks_WmsMutation,...task_items_WmsMutation,...warehouses_WmsMutation,...products_WmsMutation },
 WmsProducts: WmsProducts,
 WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...packages_WmsQuery,...pick_batches_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...sales_orders_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
-File: File
+File: File,
+Date: DateResolver
     }

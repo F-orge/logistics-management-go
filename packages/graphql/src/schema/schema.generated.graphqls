@@ -125,29 +125,29 @@ type BillingMutation {
 
 type BillingQuery {
   accountTransaction(id: ID!): AccountTransactions!
-  accountTransactions(page: Int, perPage: Int): [AccountTransactions!]!
+  accountTransactions(from: Date, page: Int, perPage: Int, to: Date): [AccountTransactions!]!
   accountingSyncLog(id: ID!): AccountingSyncLogs!
-  accountingSyncLogs(page: Int, perPage: Int): [AccountingSyncLogs!]!
+  accountingSyncLogs(from: Date, page: Int, perPage: Int, to: Date): [AccountingSyncLogs!]!
   billingInvoice(id: ID!): BillingInvoices!
-  billingInvoices(page: Int, perPage: Int): [BillingInvoices!]!
+  billingInvoices(from: Date, page: Int, perPage: Int, to: Date): [BillingInvoices!]!
   clientAccount(id: ID!): ClientAccounts!
-  clientAccounts(page: Int, perPage: Int): [ClientAccounts!]!
+  clientAccounts(from: Date, page: Int, perPage: Int, to: Date): [ClientAccounts!]!
   creditNote(id: ID!): CreditNotes!
-  creditNotes(page: Int, perPage: Int): [CreditNotes!]!
+  creditNotes(from: Date, page: Int, perPage: Int, to: Date): [CreditNotes!]!
   dispute(id: ID!): Disputes!
-  disputes(page: Int, perPage: Int): [Disputes!]!
+  disputes(from: Date, page: Int, perPage: Int, to: Date): [Disputes!]!
   document(id: ID!): Documents!
-  documents(page: Int, perPage: Int): [Documents!]!
+  documents(from: Date, page: Int, perPage: Int, to: Date): [Documents!]!
   payment(id: ID!): Payments!
-  payments(page: Int, perPage: Int): [Payments!]!
+  payments(from: Date, page: Int, perPage: Int, to: Date): [Payments!]!
   quote(id: ID!): Quotes!
-  quotes(page: Int, perPage: Int): [Quotes!]!
+  quotes(from: Date, page: Int, perPage: Int, to: Date): [Quotes!]!
   rateCard(id: ID!): RateCards!
-  rateCards(page: Int, perPage: Int): [RateCards!]!
+  rateCards(from: Date, page: Int, perPage: Int, to: Date): [RateCards!]!
   rateRule(id: ID!): RateRules!
-  rateRules(page: Int, perPage: Int): [RateRules!]!
+  rateRules(from: Date, page: Int, perPage: Int, to: Date): [RateRules!]!
   surcharge(id: ID!): Surcharges!
-  surcharges(page: Int, perPage: Int): [Surcharges!]!
+  surcharges(from: Date, page: Int, perPage: Int, to: Date): [Surcharges!]!
 }
 
 type BinThresholds {
@@ -1149,27 +1149,27 @@ type CrmMutation {
 
 type CrmQuery {
   attachment(id: ID!): Attachments!
-  attachments(page: Int, perPage: Int): [Attachments!]!
+  attachments(from: Date, page: Int, perPage: Int, to: Date): [Attachments!]!
   campaign(id: ID!): Campaigns!
-  campaigns(page: Int, perPage: Int): [Campaigns!]!
+  campaigns(from: Date, page: Int, perPage: Int, to: Date): [Campaigns!]!
   case(id: ID!): Cases!
-  cases(page: Int, perPage: Int): [Cases!]!
-  companies(page: Int, perPage: Int): [Companies!]!
+  cases(from: Date, page: Int, perPage: Int, to: Date): [Cases!]!
+  companies(from: Date, page: Int, perPage: Int, to: Date): [Companies!]!
   company(id: ID!): Companies!
   contact(id: ID!): Contacts!
-  contacts(page: Int, perPage: Int): [Contacts!]!
+  contacts(from: Date, page: Int, perPage: Int, to: Date): [Contacts!]!
   interaction(id: ID!): Interactions!
-  interactions(page: Int, perPage: Int): [Interactions!]!
+  interactions(from: Date, page: Int, perPage: Int, to: Date): [Interactions!]!
   invoice(id: ID!): Invoices!
-  invoices(page: Int, perPage: Int): [Invoices!]!
+  invoices(from: Date, page: Int, perPage: Int, to: Date): [Invoices!]!
   lead(id: ID!): Leads!
-  leads(page: Int, perPage: Int): [Leads!]!
+  leads(from: Date, page: Int, perPage: Int, to: Date): [Leads!]!
   notification(id: ID!): Notifications!
-  notifications(page: Int, perPage: Int): [Notifications!]!
-  opportunities(page: Int, perPage: Int): [Opportunities!]!
+  notifications(from: Date, page: Int, perPage: Int, to: Date): [Notifications!]!
+  opportunities(from: Date, page: Int, perPage: Int, to: Date): [Opportunities!]!
   opportunity(id: ID!): Opportunities!
   product(id: ID!): Products!
-  products(page: Int, perPage: Int): [Products!]!
+  products(from: Date, page: Int, perPage: Int, to: Date): [Products!]!
 }
 
 enum Currency {
@@ -1193,6 +1193,8 @@ type CustomerTrackingLinks {
   trackingToken: String!
   updatedAt: String
 }
+
+scalar Date
 
 type DeleteResult {
   numDeletedRows: Int!
@@ -1329,17 +1331,17 @@ type DmsProofOfDeliveries {
 
 type DmsQuery {
   customerTrackingLink(id: ID!): CustomerTrackingLinks!
-  customerTrackingLinks(page: Int, perPage: Int): [CustomerTrackingLinks!]!
+  customerTrackingLinks(from: Date, page: Int, perPage: Int, to: Date): [CustomerTrackingLinks!]!
   deliveryRoute(id: ID!): DeliveryRoutes!
-  deliveryRoutes(page: Int, perPage: Int): [DeliveryRoutes!]!
+  deliveryRoutes(from: Date, page: Int, perPage: Int, to: Date): [DeliveryRoutes!]!
   deliveryTask(id: ID!): DeliveryTasks!
-  deliveryTasks(page: Int, perPage: Int): [DeliveryTasks!]!
-  dmsProofOfDeliveries(page: Int, perPage: Int): [DmsProofOfDeliveries!]!
+  deliveryTasks(from: Date, page: Int, perPage: Int, to: Date): [DeliveryTasks!]!
+  dmsProofOfDeliveries(from: Date, page: Int, perPage: Int, to: Date): [DmsProofOfDeliveries!]!
   dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
   driverLocation(id: ID!): DriverLocations!
-  driverLocations(page: Int, perPage: Int): [DriverLocations!]!
+  driverLocations(from: Date, page: Int, perPage: Int, to: Date): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
-  taskEvents(page: Int, perPage: Int): [TaskEvents!]!
+  taskEvents(from: Date, page: Int, perPage: Int, to: Date): [TaskEvents!]!
 }
 
 enum DocumentType {
@@ -2497,13 +2499,13 @@ type TmsMutation {
 
 type TmsQuery {
   carrier(id: ID!): Carriers!
-  carriers(page: Int, perPage: Int): [Carriers!]!
+  carriers(from: Date, page: Int, perPage: Int, to: Date): [Carriers!]!
   driver(id: ID!): Drivers!
   drivers(page: Int, perPage: Int): [Drivers!]!
   expense(id: ID!): Expenses!
   expenses(page: Int, perPage: Int): [Expenses!]!
   geofence(id: ID!): Geofences!
-  geofences(page: Int, perPage: Int): [Geofences!]!
+  geofences(from: Date, page: Int, perPage: Int, to: Date): [Geofences!]!
   gpsPing(id: ID!): GpsPings!
   gpsPings(page: Int, perPage: Int): [GpsPings!]!
   partnerInvoice(id: ID!): PartnerInvoices!

@@ -17,6 +17,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: Date | string; output: Date | string; }
   File: { input: any; output: any; }
 };
 
@@ -392,8 +393,10 @@ export type BillingQueryAccountTransactionArgs = {
 
 
 export type BillingQueryAccountTransactionsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -403,8 +406,10 @@ export type BillingQueryAccountingSyncLogArgs = {
 
 
 export type BillingQueryAccountingSyncLogsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -414,8 +419,10 @@ export type BillingQueryBillingInvoiceArgs = {
 
 
 export type BillingQueryBillingInvoicesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -425,8 +432,10 @@ export type BillingQueryClientAccountArgs = {
 
 
 export type BillingQueryClientAccountsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -436,8 +445,10 @@ export type BillingQueryCreditNoteArgs = {
 
 
 export type BillingQueryCreditNotesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -447,8 +458,10 @@ export type BillingQueryDisputeArgs = {
 
 
 export type BillingQueryDisputesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -458,8 +471,10 @@ export type BillingQueryDocumentArgs = {
 
 
 export type BillingQueryDocumentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -469,8 +484,10 @@ export type BillingQueryPaymentArgs = {
 
 
 export type BillingQueryPaymentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -480,8 +497,10 @@ export type BillingQueryQuoteArgs = {
 
 
 export type BillingQueryQuotesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -491,8 +510,10 @@ export type BillingQueryRateCardArgs = {
 
 
 export type BillingQueryRateCardsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -502,8 +523,10 @@ export type BillingQueryRateRuleArgs = {
 
 
 export type BillingQueryRateRulesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -513,8 +536,10 @@ export type BillingQuerySurchargeArgs = {
 
 
 export type BillingQuerySurchargesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type BinThresholds = {
@@ -1757,8 +1782,10 @@ export type CrmQueryAttachmentArgs = {
 
 
 export type CrmQueryAttachmentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1768,8 +1795,10 @@ export type CrmQueryCampaignArgs = {
 
 
 export type CrmQueryCampaignsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1779,14 +1808,18 @@ export type CrmQueryCaseArgs = {
 
 
 export type CrmQueryCasesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type CrmQueryCompaniesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1801,8 +1834,10 @@ export type CrmQueryContactArgs = {
 
 
 export type CrmQueryContactsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1812,8 +1847,10 @@ export type CrmQueryInteractionArgs = {
 
 
 export type CrmQueryInteractionsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1823,8 +1860,10 @@ export type CrmQueryInvoiceArgs = {
 
 
 export type CrmQueryInvoicesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1834,8 +1873,10 @@ export type CrmQueryLeadArgs = {
 
 
 export type CrmQueryLeadsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1845,14 +1886,18 @@ export type CrmQueryNotificationArgs = {
 
 
 export type CrmQueryNotificationsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type CrmQueryOpportunitiesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1867,8 +1912,10 @@ export type CrmQueryProductArgs = {
 
 
 export type CrmQueryProductsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type Currency =
@@ -2147,8 +2194,10 @@ export type DmsQueryCustomerTrackingLinkArgs = {
 
 
 export type DmsQueryCustomerTrackingLinksArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2158,8 +2207,10 @@ export type DmsQueryDeliveryRouteArgs = {
 
 
 export type DmsQueryDeliveryRoutesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2169,14 +2220,18 @@ export type DmsQueryDeliveryTaskArgs = {
 
 
 export type DmsQueryDeliveryTasksArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type DmsQueryDmsProofOfDeliveriesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2191,8 +2246,10 @@ export type DmsQueryDriverLocationArgs = {
 
 
 export type DmsQueryDriverLocationsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2202,8 +2259,10 @@ export type DmsQueryTaskEventArgs = {
 
 
 export type DmsQueryTaskEventsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type DocumentType =
@@ -3691,8 +3750,10 @@ export type TmsQueryCarrierArgs = {
 
 
 export type TmsQueryCarriersArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3724,8 +3785,10 @@ export type TmsQueryGeofenceArgs = {
 
 
 export type TmsQueryGeofencesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -5652,6 +5715,7 @@ export type ResolversTypes = {
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
   CustomerTrackingLinks: ResolverTypeWrapper<Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversTypes['DeliveryTasks'] }>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DeleteResult: ResolverTypeWrapper<DeleteResult>;
   DeliveryFailureReason: ResolverTypeWrapper<'RECIPIENT_NOT_HOME' | 'ADDRESS_NOT_FOUND' | 'REFUSED_DELIVERY' | 'DAMAGED_PACKAGE' | 'ACCESS_DENIED' | 'WEATHER_CONDITIONS' | 'VEHICLE_BREAKDOWN' | 'OTHER'>;
   DeliveryRouteStatus: ResolverTypeWrapper<'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'PAUSED'>;
@@ -5950,6 +6014,7 @@ export type ResolversParentTypes = {
   CrmMutation: Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversParentTypes['Attachments'], createCase: ResolversParentTypes['Cases'], createCompany: ResolversParentTypes['Companies'], createContact: ResolversParentTypes['Contacts'], createInteraction: ResolversParentTypes['Interactions'], createInvoice: ResolversParentTypes['Invoices'], createInvoiceItem: ResolversParentTypes['InvoiceItems'], createLead: ResolversParentTypes['Leads'], createOpportunity: ResolversParentTypes['Opportunities'], createOpportunityProduct: ResolversParentTypes['OpportunityProducts'], createProduct: ResolversParentTypes['Products'], updateCase: ResolversParentTypes['Cases'], updateCompany: ResolversParentTypes['Companies'], updateContact: ResolversParentTypes['Contacts'], updateInteraction: ResolversParentTypes['Interactions'], updateInvoice: ResolversParentTypes['Invoices'], updateInvoiceItem: ResolversParentTypes['InvoiceItems'], updateLead: ResolversParentTypes['Leads'], updateOpportunity: ResolversParentTypes['Opportunities'], updateOpportunityProduct: ResolversParentTypes['OpportunityProducts'], updateProduct: ResolversParentTypes['Products'] };
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
   CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
+  Date: Scalars['Date']['output'];
   DeleteResult: DeleteResult;
   DeliveryRoutes: Omit<DeliveryRoutes, 'driver' | 'tasks'> & { driver: ResolversParentTypes['Drivers'], tasks?: Maybe<Array<ResolversParentTypes['DeliveryTasks']>> };
   DeliveryTasks: Omit<DeliveryTasks, 'customerTrackingLinks' | 'deliveryRoute' | 'events' | 'package' | 'proofOfDeliveries'> & { customerTrackingLinks?: Maybe<Array<ResolversParentTypes['CustomerTrackingLinks']>>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], events?: Maybe<Array<ResolversParentTypes['TaskEvents']>>, package: ResolversParentTypes['Packages'], proofOfDeliveries?: Maybe<Array<ResolversParentTypes['DmsProofOfDeliveries']>> };
@@ -6457,6 +6522,10 @@ export type CustomerTrackingLinksResolvers<ContextType = GraphQLContext, ParentT
   trackingToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export type DeleteResultResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeleteResult'] = ResolversParentTypes['DeleteResult']> = {
   numDeletedRows?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -7754,6 +7823,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   CrmQuery?: CrmQueryResolvers<ContextType>;
   Currency?: CurrencyResolvers;
   CustomerTrackingLinks?: CustomerTrackingLinksResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   DeleteResult?: DeleteResultResolvers<ContextType>;
   DeliveryFailureReason?: DeliveryFailureReasonResolvers;
   DeliveryRouteStatus?: DeliveryRouteStatusResolvers;

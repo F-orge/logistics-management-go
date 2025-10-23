@@ -24,7 +24,7 @@ type Documents {
 }
 
 extend type BillingQuery {
-  documents(page: Int, perPage: Int): [Documents!]!
+  documents(page: Int, perPage: Int, from: Date, to: Date): [Documents!]!
   document(id: ID!): Documents!
 }
 

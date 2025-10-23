@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   File: { input: any; output: any; }
 };
 
@@ -389,8 +390,10 @@ export type BillingQueryAccountTransactionArgs = {
 
 
 export type BillingQueryAccountTransactionsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -400,8 +403,10 @@ export type BillingQueryAccountingSyncLogArgs = {
 
 
 export type BillingQueryAccountingSyncLogsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -411,8 +416,10 @@ export type BillingQueryBillingInvoiceArgs = {
 
 
 export type BillingQueryBillingInvoicesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -422,8 +429,10 @@ export type BillingQueryClientAccountArgs = {
 
 
 export type BillingQueryClientAccountsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -433,8 +442,10 @@ export type BillingQueryCreditNoteArgs = {
 
 
 export type BillingQueryCreditNotesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -444,8 +455,10 @@ export type BillingQueryDisputeArgs = {
 
 
 export type BillingQueryDisputesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -455,8 +468,10 @@ export type BillingQueryDocumentArgs = {
 
 
 export type BillingQueryDocumentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -466,8 +481,10 @@ export type BillingQueryPaymentArgs = {
 
 
 export type BillingQueryPaymentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -477,8 +494,10 @@ export type BillingQueryQuoteArgs = {
 
 
 export type BillingQueryQuotesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -488,8 +507,10 @@ export type BillingQueryRateCardArgs = {
 
 
 export type BillingQueryRateCardsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -499,8 +520,10 @@ export type BillingQueryRateRuleArgs = {
 
 
 export type BillingQueryRateRulesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -510,8 +533,10 @@ export type BillingQuerySurchargeArgs = {
 
 
 export type BillingQuerySurchargesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type BinThresholds = {
@@ -1758,8 +1783,10 @@ export type CrmQueryAttachmentArgs = {
 
 
 export type CrmQueryAttachmentsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1769,8 +1796,10 @@ export type CrmQueryCampaignArgs = {
 
 
 export type CrmQueryCampaignsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1780,14 +1809,18 @@ export type CrmQueryCaseArgs = {
 
 
 export type CrmQueryCasesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type CrmQueryCompaniesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1802,8 +1835,10 @@ export type CrmQueryContactArgs = {
 
 
 export type CrmQueryContactsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1813,8 +1848,10 @@ export type CrmQueryInteractionArgs = {
 
 
 export type CrmQueryInteractionsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1824,8 +1861,10 @@ export type CrmQueryInvoiceArgs = {
 
 
 export type CrmQueryInvoicesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1835,8 +1874,10 @@ export type CrmQueryLeadArgs = {
 
 
 export type CrmQueryLeadsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1846,14 +1887,18 @@ export type CrmQueryNotificationArgs = {
 
 
 export type CrmQueryNotificationsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type CrmQueryOpportunitiesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -1868,8 +1913,10 @@ export type CrmQueryProductArgs = {
 
 
 export type CrmQueryProductsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export enum Currency {
@@ -2153,8 +2200,10 @@ export type DmsQueryCustomerTrackingLinkArgs = {
 
 
 export type DmsQueryCustomerTrackingLinksArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2164,8 +2213,10 @@ export type DmsQueryDeliveryRouteArgs = {
 
 
 export type DmsQueryDeliveryRoutesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2175,14 +2226,18 @@ export type DmsQueryDeliveryTaskArgs = {
 
 
 export type DmsQueryDeliveryTasksArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type DmsQueryDmsProofOfDeliveriesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2197,8 +2252,10 @@ export type DmsQueryDriverLocationArgs = {
 
 
 export type DmsQueryDriverLocationsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -2208,8 +2265,10 @@ export type DmsQueryTaskEventArgs = {
 
 
 export type DmsQueryTaskEventsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export enum DocumentType {
@@ -3738,8 +3797,10 @@ export type TmsQueryCarrierArgs = {
 
 
 export type TmsQueryCarriersArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3771,8 +3832,10 @@ export type TmsQueryGeofenceArgs = {
 
 
 export type TmsQueryGeofencesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 

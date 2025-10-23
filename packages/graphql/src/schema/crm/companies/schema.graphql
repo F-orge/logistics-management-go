@@ -24,7 +24,7 @@ type Companies {
 }
 
 extend type CrmQuery {
-  companies(page: Int, perPage: Int): [Companies!]!
+  companies(page: Int, perPage: Int, from: Date, to: Date): [Companies!]!
   company(id: ID!): Companies!
 }
 

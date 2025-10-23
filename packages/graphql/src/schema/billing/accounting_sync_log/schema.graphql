@@ -24,7 +24,7 @@ type AccountingSyncLogs {
 }
 
 extend type BillingQuery {
-  accountingSyncLogs(page: Int, perPage: Int): [AccountingSyncLogs!]!
+  accountingSyncLogs(page: Int, perPage: Int, from: Date, to: Date): [AccountingSyncLogs!]!
   accountingSyncLog(id: ID!): AccountingSyncLogs!
 }
 
