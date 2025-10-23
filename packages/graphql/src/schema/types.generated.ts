@@ -5405,7 +5405,6 @@ export type WmsQueryBinThresholdsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5419,7 +5418,6 @@ export type WmsQueryInboundShipmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5461,7 +5459,6 @@ export type WmsQueryInventoryStocksArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5531,7 +5528,6 @@ export type WmsQueryPutawayRulesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5545,7 +5541,6 @@ export type WmsQueryReorderPointsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 

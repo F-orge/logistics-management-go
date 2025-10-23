@@ -17,6 +17,17 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'task'|'tasks'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("taskNumber", "ilike", `%${args.search}%`),
+          eb("sourceEntityType", "ilike", `%${args.search}%`),
+          eb("instructions", "ilike", `%${args.search}%`),
+          eb("notes", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Tasks[];

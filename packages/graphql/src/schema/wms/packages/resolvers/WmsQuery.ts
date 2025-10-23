@@ -17,6 +17,18 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'package'|'packages'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("packageNumber", "ilike", `%${args.search}%`),
+          eb("packageType", "ilike", `%${args.search}%`),
+          eb("trackingNumber", "ilike", `%${args.search}%`),
+          eb("carrier", "ilike", `%${args.search}%`),
+          eb("serviceLevel", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Packages[];

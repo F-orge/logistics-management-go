@@ -3553,15 +3553,15 @@ type WmsProducts {
 
 type WmsQuery {
   binThreshold(id: ID!): BinThresholds!
-  binThresholds(from: Date, page: Int, perPage: Int, search: String, to: Date): [BinThresholds!]!
+  binThresholds(from: Date, page: Int, perPage: Int, to: Date): [BinThresholds!]!
   inboundShipment(id: ID!): InboundShipments!
-  inboundShipments(from: Date, page: Int, perPage: Int, search: String, to: Date): [InboundShipments!]!
+  inboundShipments(from: Date, page: Int, perPage: Int, to: Date): [InboundShipments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
   inventoryAdjustments(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryAdjustments!]!
   inventoryBatch(id: ID!): InventoryBatches!
   inventoryBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryBatches!]!
   inventoryStock(id: ID!): InventoryStock!
-  inventoryStocks(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryStock!]!
+  inventoryStocks(from: Date, page: Int, perPage: Int, to: Date): [InventoryStock!]!
   location(id: ID!): Locations!
   locations(from: Date, page: Int, perPage: Int, search: String, to: Date): [Locations!]!
   outboundShipment(id: ID!): OutboundShipments!
@@ -3571,9 +3571,9 @@ type WmsQuery {
   pickBatch(id: ID!): PickBatches!
   pickBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [PickBatches!]!
   putawayRule(id: ID!): PutawayRules!
-  putawayRules(from: Date, page: Int, perPage: Int, search: String, to: Date): [PutawayRules!]!
+  putawayRules(from: Date, page: Int, perPage: Int, to: Date): [PutawayRules!]!
   reorderPoint(id: ID!): ReorderPoints!
-  reorderPoints(from: Date, page: Int, perPage: Int, search: String, to: Date): [ReorderPoints!]!
+  reorderPoints(from: Date, page: Int, perPage: Int, to: Date): [ReorderPoints!]!
   return(id: ID!): Returns!
   returns(from: Date, page: Int, perPage: Int, search: String, to: Date): [Returns!]!
   salesOrder(id: ID!): SalesOrders!

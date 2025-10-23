@@ -12,7 +12,7 @@ type BinThresholds {
 }
 
 extend type WmsQuery {
-  binThresholds(page: Int, perPage: Int, from: Date, to: Date, search: String): [BinThresholds!]!
+  binThresholds(page: Int, perPage: Int, from: Date, to: Date): [BinThresholds!]!
   binThreshold(id: ID!): BinThresholds!
 }
 

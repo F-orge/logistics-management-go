@@ -17,6 +17,17 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'wmsProduct'|'wmsProducts'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("sku", "ilike", `%${args.search}%`),
+          eb("barcode", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as WmsProducts[];

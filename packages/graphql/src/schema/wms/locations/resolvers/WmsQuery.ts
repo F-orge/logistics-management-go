@@ -17,6 +17,16 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'location'|'locations'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("barcode", "ilike", `%${args.search}%`),
+          eb("path", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Locations[];
