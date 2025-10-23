@@ -36,7 +36,7 @@ type Leads {
 }
 
 extend type CrmQuery {
-  leads(page: Int, perPage: Int, from: Date, to: Date): [Leads!]!
+  leads(page: Int, perPage: Int, from: Date, to: Date, search: String): [Leads!]!
   lead(id: ID!): Leads!
 }
 

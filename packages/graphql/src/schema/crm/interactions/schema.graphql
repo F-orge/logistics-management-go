@@ -19,7 +19,7 @@ type Interactions {
 }
 
 extend type CrmQuery {
-  interactions(page: Int, perPage: Int, from: Date, to: Date): [Interactions!]!
+  interactions(page: Int, perPage: Int, from: Date, to: Date, search: String): [Interactions!]!
   interaction(id: ID!): Interactions!
 }
 

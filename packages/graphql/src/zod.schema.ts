@@ -1786,6 +1786,7 @@ export type CrmQueryAttachmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1799,6 +1800,7 @@ export type CrmQueryCampaignsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1812,6 +1814,7 @@ export type CrmQueryCasesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1820,6 +1823,7 @@ export type CrmQueryCompaniesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1838,6 +1842,7 @@ export type CrmQueryContactsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1851,6 +1856,7 @@ export type CrmQueryInteractionsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1864,6 +1870,7 @@ export type CrmQueryInvoicesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1877,6 +1884,7 @@ export type CrmQueryLeadsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1890,6 +1898,7 @@ export type CrmQueryNotificationsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1898,6 +1907,7 @@ export type CrmQueryOpportunitiesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1916,6 +1926,7 @@ export type CrmQueryProductsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 

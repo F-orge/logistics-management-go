@@ -1149,27 +1149,27 @@ type CrmMutation {
 
 type CrmQuery {
   attachment(id: ID!): Attachments!
-  attachments(from: Date, page: Int, perPage: Int, to: Date): [Attachments!]!
+  attachments(from: Date, page: Int, perPage: Int, search: String, to: Date): [Attachments!]!
   campaign(id: ID!): Campaigns!
-  campaigns(from: Date, page: Int, perPage: Int, to: Date): [Campaigns!]!
+  campaigns(from: Date, page: Int, perPage: Int, search: String, to: Date): [Campaigns!]!
   case(id: ID!): Cases!
-  cases(from: Date, page: Int, perPage: Int, to: Date): [Cases!]!
-  companies(from: Date, page: Int, perPage: Int, to: Date): [Companies!]!
+  cases(from: Date, page: Int, perPage: Int, search: String, to: Date): [Cases!]!
+  companies(from: Date, page: Int, perPage: Int, search: String, to: Date): [Companies!]!
   company(id: ID!): Companies!
   contact(id: ID!): Contacts!
-  contacts(from: Date, page: Int, perPage: Int, to: Date): [Contacts!]!
+  contacts(from: Date, page: Int, perPage: Int, search: String, to: Date): [Contacts!]!
   interaction(id: ID!): Interactions!
-  interactions(from: Date, page: Int, perPage: Int, to: Date): [Interactions!]!
+  interactions(from: Date, page: Int, perPage: Int, search: String, to: Date): [Interactions!]!
   invoice(id: ID!): Invoices!
-  invoices(from: Date, page: Int, perPage: Int, to: Date): [Invoices!]!
+  invoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [Invoices!]!
   lead(id: ID!): Leads!
-  leads(from: Date, page: Int, perPage: Int, to: Date): [Leads!]!
+  leads(from: Date, page: Int, perPage: Int, search: String, to: Date): [Leads!]!
   notification(id: ID!): Notifications!
-  notifications(from: Date, page: Int, perPage: Int, to: Date): [Notifications!]!
-  opportunities(from: Date, page: Int, perPage: Int, to: Date): [Opportunities!]!
+  notifications(from: Date, page: Int, perPage: Int, search: String, to: Date): [Notifications!]!
+  opportunities(from: Date, page: Int, perPage: Int, search: String, to: Date): [Opportunities!]!
   opportunity(id: ID!): Opportunities!
   product(id: ID!): Products!
-  products(from: Date, page: Int, perPage: Int, to: Date): [Products!]!
+  products(from: Date, page: Int, perPage: Int, search: String, to: Date): [Products!]!
 }
 
 enum Currency {

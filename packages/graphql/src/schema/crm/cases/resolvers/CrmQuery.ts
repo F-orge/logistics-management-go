@@ -1,6 +1,6 @@
 import { Cases } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'case'|'cases'> = {
+export const CrmQuery: Pick<CrmQueryResolvers, "case" | "cases"> = {
   cases: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("crm.cases").selectAll();
 
@@ -17,8 +17,15 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'case'|'cases'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("caseNumber", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
     const results = await query.execute();
-
     return results as unknown as Cases[];
   },
   case: async (_parent, args, ctx) => {

@@ -1,6 +1,6 @@
 import { Invoices } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'invoice'|'invoices'> = {
+export const CrmQuery: Pick<CrmQueryResolvers, "invoice" | "invoices"> = {
   invoices: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("crm.invoices").selectAll();
 
@@ -16,8 +16,16 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'invoice'|'invoices'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("id", "ilike", `%${args.search}%`),
+          eb("status", "=", args.search as any),
+          eb("paymentMethod", "=", args.search as any),
+        ])
+      );
+    }
     const results = await query.execute();
-
     return results as unknown as Invoices[];
   },
   invoice: async (_parent, args, ctx) => {

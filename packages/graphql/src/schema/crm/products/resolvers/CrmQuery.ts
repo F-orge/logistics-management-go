@@ -1,6 +1,6 @@
 import { Products } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'product'|'products'> = {
+export const CrmQuery: Pick<CrmQueryResolvers, "product" | "products"> = {
   products: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("crm.products").selectAll();
 
@@ -17,6 +17,15 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'product'|'products'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("sku", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
     const products = await query.execute();
     return products as unknown as Products[];
   },

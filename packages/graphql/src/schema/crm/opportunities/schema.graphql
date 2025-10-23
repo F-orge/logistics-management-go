@@ -42,7 +42,7 @@ type Opportunities {
 }
 
 extend type CrmQuery {
-  opportunities(page: Int, perPage: Int, from: Date, to: Date): [Opportunities!]!
+  opportunities(page: Int, perPage: Int, from: Date, to: Date, search: String): [Opportunities!]!
   opportunity(id: ID!): Opportunities!
 }
 

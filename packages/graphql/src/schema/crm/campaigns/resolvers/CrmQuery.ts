@@ -17,6 +17,10 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'campaign'|'campaigns'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where("name", "ilike", `%${args.search}%`);
+    }
+
     const results = await query.execute();
 
     return results as unknown as Campaigns[];

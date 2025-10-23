@@ -11,7 +11,7 @@ type Contacts {
 }
 
 extend type CrmQuery {
-  contacts(page: Int, perPage: Int, from: Date, to: Date): [Contacts!]!
+  contacts(page: Int, perPage: Int, from: Date, to: Date, search: String): [Contacts!]!
   contact(id: ID!): Contacts!
 }
 

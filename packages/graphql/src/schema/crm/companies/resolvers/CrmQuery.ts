@@ -1,6 +1,6 @@
 import { Companies } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'companies'|'company'> = {
+export const CrmQuery: Pick<CrmQueryResolvers, "companies" | "company"> = {
   companies: async (_root, args, ctx) => {
     let query = ctx.db.selectFrom("crm.companies").selectAll();
 
@@ -17,6 +17,21 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'companies'|'company'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("street", "ilike", `%${args.search}%`),
+          eb("city", "ilike", `%${args.search}%`),
+          eb("state", "ilike", `%${args.search}%`),
+          eb("postalCode", "ilike", `%${args.search}%`),
+          eb("country", "ilike", `%${args.search}%`),
+          eb("phoneNumber", "ilike", `%${args.search}%`),
+          eb("industry", "ilike", `%${args.search}%`),
+          eb("website", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
     return query.execute() as unknown as Companies[];
   },
 
