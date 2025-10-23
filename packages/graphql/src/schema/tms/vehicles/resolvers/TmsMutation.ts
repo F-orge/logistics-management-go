@@ -1,4 +1,8 @@
-import { CreateVehicleInputSchema, Vehicles } from "../../../../zod.schema";
+import {
+  CreateVehicleInputSchema,
+  UpdateVehicleInputSchema,
+  Vehicles,
+} from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 export const TmsMutation: Pick<
   TmsMutationResolvers,
@@ -11,12 +15,13 @@ export const TmsMutation: Pick<
       .insertInto("tms.vehicles")
       .values(payload as any)
       .returningAll()
+
       .executeTakeFirst();
 
     return result as unknown as Vehicles;
   },
   updateVehicle: async (_parent, args, ctx) => {
-    const payload = CreateVehicleInputSchema().parse(args.value);
+    const payload = UpdateVehicleInputSchema().parse(args.value);
 
     const result = await ctx.db
       .updateTable("tms.vehicles")
